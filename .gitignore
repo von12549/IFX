@@ -60,3 +60,6 @@ nunit-*.xml
 /AuthSamples/.vs/AuthSamples/CopilotIndices/17.14.1518.61961
 /AuthSamples/.vs/AuthSamples/v17/.suo
 /AuthSamples/CognitoSample/.claude/settings.local.json
+
+# Environment variables
+.env
