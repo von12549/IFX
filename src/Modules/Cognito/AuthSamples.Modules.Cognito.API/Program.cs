@@ -2,6 +2,7 @@ using AuthSamples.Modules.Cognito.API.Middleware;
 using AuthSamples.Modules.Cognito.Application;
 using AuthSamples.Modules.Cognito.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -97,6 +98,23 @@ try
     });
 
     var app = builder.Build();
+
+    // Apply EF Core migrations on startup
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<AuthSamples.Modules.Cognito.Infrastructure.Persistence.CognitoDbContext>();
+            context.Database.Migrate();
+            Log.Information("Database migrations applied successfully");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "An error occurred while migrating the database");
+            throw;
+        }
+    }
 
     // Configure the HTTP request pipeline.
     app.UseMiddleware<RequestLoggingMiddleware>();
