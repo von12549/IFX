@@ -6,14 +6,14 @@ services:
     container_name: cognito-sqlserver
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_SA_PASSWORD=123456
       - MSSQL_PID=Developer
     ports:
       - "1433:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q "SELECT 1" -b -o /dev/null
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 123456 -Q "SELECT 1" -b -o /dev/null
       interval: 10s
       timeout: 3s
       retries: 10
@@ -29,7 +29,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__CognitoDatabase=Server=sqlserver,1433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__CognitoDatabase=Server=sqlserver,1433;Database=AuthSamplesDb;User Id=sa;Password=123456;TrustServerCertificate=True;MultipleActiveResultSets=true
       - CognitoSettings__UserPoolId=${COGNITO_USER_POOL_ID}
       - CognitoSettings__ClientId=${COGNITO_CLIENT_ID}
       - CognitoSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
