@@ -36,6 +36,28 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:8080"
+      },
+      "publishAllPorts": true,
+      "useSSL": false
+    },
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://localhost:5000/swagger",
+      "environmentVariables": {},
+      "composeLaunchServiceName": "cognito-api",
+      "composeLaunchAction": "LaunchBrowser",
+      "serviceActions": {
+        "cognito-api": "StartDebugging",
+        "sqlserver": "StartWithoutDebugging"
+      }
     }
   }
 }
