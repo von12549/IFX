@@ -2,7 +2,7 @@ namespace AuthSamples.Modules.Cognito.Application.Interfaces;
 
 public interface ICognitoService
 {
-    Task<CognitoSignUpResult> SignUpAsync(string email, string password, string username, string firstName, string lastName, string? phoneNumber = null);
+    Task<CognitoSignUpResult> SignUpAsync(string email, string password, string username, string firstName, string lastName,string birthDate, string phoneNumber);
     Task<bool> ConfirmSignUpAsync(string username, string confirmationCode);
     Task<CognitoAuthResult> AuthenticateAsync(string username, string password);
     Task<bool> SignOutAsync(string accessToken);
@@ -36,7 +36,8 @@ public class CognitoUserInfo
     public string Username { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-    public string? PhoneNumber { get; set; }
+    public string BirthDate { get;set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;
     public bool EmailVerified { get; set; }
     public bool PhoneNumberVerified { get; set; }
 }

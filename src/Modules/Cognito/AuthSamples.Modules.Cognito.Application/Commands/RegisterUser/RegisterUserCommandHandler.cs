@@ -45,6 +45,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 request.Username,
                 request.FirstName,
                 request.LastName,
+                request.BirthDate,
                 request.PhoneNumber);
 
             if (!cognitoResult.Success)
@@ -60,6 +61,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 request.Username,
                 request.FirstName,
                 request.LastName,
+                request.BirthDate,
                 request.PhoneNumber);
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);

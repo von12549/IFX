@@ -4,6 +4,7 @@ using AuthSamples.Modules.Cognito.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSamples.Modules.Cognito.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CognitoDbContext))]
-    partial class CognitoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251224110859_AddBirthDateToUsers")]
+    partial class AddBirthDateToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

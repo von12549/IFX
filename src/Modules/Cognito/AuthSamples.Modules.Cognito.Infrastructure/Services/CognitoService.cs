@@ -29,7 +29,8 @@ public class CognitoService : ICognitoService
         string username,
         string firstName,
         string lastName,
-        string? phoneNumber = null)
+        string birthDate,
+        string phoneNumber)
     {
         try
         {
@@ -42,14 +43,11 @@ public class CognitoService : ICognitoService
                 {
                     new() { Name = "email", Value = email },
                     new() { Name = "given_name", Value = firstName },
-                    new() { Name = "family_name", Value = lastName }
+                    new() { Name = "family_name", Value = lastName },
+                    new() { Name = "birthdate", Value = birthDate },
+                    new() { Name = "phone_number", Value = phoneNumber },
                 }
             };
-
-            if (!string.IsNullOrEmpty(phoneNumber))
-            {
-                request.UserAttributes.Add(new AttributeType { Name = "phone_number", Value = phoneNumber });
-            }
 
             var response = await _cognitoClient.SignUpAsync(request);
 

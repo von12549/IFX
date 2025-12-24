@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace AuthSamples.Modules.Cognito.API.Models.Requests;
 
@@ -25,6 +26,11 @@ public class RegisterRequest
     [MaxLength(100)]
     public string LastName { get; set; } = string.Empty;
 
+    [Required]
+    [DataType(DataType.Date)]
+    public DateTime BirthDate { get; set; } = DateTime.MinValue;
+
+    [Required]
     [Phone]
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = string.Empty;
 }

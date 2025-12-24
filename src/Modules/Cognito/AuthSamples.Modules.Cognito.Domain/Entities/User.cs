@@ -10,7 +10,8 @@ public class User : BaseEntity, IAuditableEntity
     public string Username { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
-    public string? PhoneNumber { get; private set; }
+    public string PhoneNumber { get; private set; } = string.Empty;
+    public string BirthDate { get; private set; } = string.Empty;
     public bool EmailVerified { get; private set; }
     public bool PhoneNumberVerified { get; private set; }
     public bool IsActive { get; private set; }
@@ -29,7 +30,8 @@ public class User : BaseEntity, IAuditableEntity
         string username,
         string firstName,
         string lastName,
-        string? phoneNumber = null)
+        string birthDate,
+        string phoneNumber)
     {
         var user = new User
         {
@@ -38,6 +40,7 @@ public class User : BaseEntity, IAuditableEntity
             Username = username,
             FirstName = firstName,
             LastName = lastName,
+            BirthDate = birthDate,
             PhoneNumber = phoneNumber,
             EmailVerified = false,
             PhoneNumberVerified = false,

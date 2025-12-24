@@ -48,8 +48,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.LastName)
             .IsRequired()
             .HasMaxLength(100);
+        builder.Property(u => u.BirthDate)
+            .IsRequired()
+            .HasMaxLength(10);
 
         builder.Property(u => u.PhoneNumber)
+            .IsRequired()
             .HasMaxLength(20);
 
         builder.Property(u => u.EmailVerified)

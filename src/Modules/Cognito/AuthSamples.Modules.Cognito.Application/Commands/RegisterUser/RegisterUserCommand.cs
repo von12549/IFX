@@ -10,5 +10,6 @@ public record RegisterUserCommand(
     string Username,
     string FirstName,
     string LastName,
-    string? PhoneNumber,
+    string BirthDate,
+    string PhoneNumber,
     string IpAddress) : IRequest<Result<RegisterUserResponse>>;

@@ -34,9 +34,16 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
             .NotEmpty().WithMessage("Last name is required")
             .MaximumLength(100);
 
+        RuleFor(x => x.BirthDate)
+            .NotEmpty().WithMessage("Birth date is required")
+            .MaximumLength(10)
+            .Matches(@"^\d{4}-\d{2}-\d{2}$")
+            .WithMessage("Birth date must be in YYYY-MM-DD format");
+
         RuleFor(x => x.PhoneNumber)
+            .NotEmpty().WithMessage("Phone number is required")
+            .MaximumLength(20)
             .Matches(@"^\+[1-9]\d{1,14}$")
-            .When(x => !string.IsNullOrEmpty(x.PhoneNumber))
             .WithMessage("Phone number must be in E.164 format (+1234567890)");
     }
 }

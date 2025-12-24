@@ -34,6 +34,7 @@ public class AuthController : ControllerBase
             request.Username,
             request.FirstName,
             request.LastName,
+            request.BirthDate.ToString("yyyy-MM-dd"),
             request.PhoneNumber,
             ipAddress);
 

@@ -6,7 +6,8 @@ public record RegisterUserDto(
     string Username,
     string FirstName,
     string LastName,
-    string? PhoneNumber);
+    string PhoneNumber,
+    string BirthDate);
 
 public class RegisterUserResponse
 {
