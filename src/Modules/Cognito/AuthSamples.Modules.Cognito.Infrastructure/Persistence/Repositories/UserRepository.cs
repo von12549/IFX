@@ -22,13 +22,14 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByCognitoUserIdAsync(string cognitoUserId, CancellationToken cancellationToken = default)
     {
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.CognitoUserId.Value == cognitoUserId, cancellationToken);
+            .FirstOrDefaultAsync(u => EF.Property<string>(u, "CognitoUserId") == cognitoUserId, cancellationToken);
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
+        var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email.Value == email.ToLowerInvariant(), cancellationToken);
+            .FirstOrDefaultAsync(u => EF.Property<string>(u, "Email") == normalizedEmail, cancellationToken);
     }
 
     public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
@@ -50,7 +51,8 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
     {
+        var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
-            .AnyAsync(u => u.Email.Value == email.ToLowerInvariant(), cancellationToken);
+            .AnyAsync(u => EF.Property<string>(u, "Email") == normalizedEmail, cancellationToken);
     }
 }
