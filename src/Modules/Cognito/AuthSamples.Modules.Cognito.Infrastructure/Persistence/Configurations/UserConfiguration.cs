@@ -22,7 +22,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(100)
             .HasColumnName("CognitoUserId");
 
-        builder.HasIndex(u => u.CognitoUserId).IsUnique();
+        builder.HasIndex("CognitoUserId").IsUnique();
 
         // EmailAddress value object conversion
         builder.Property(u => u.Email)
@@ -33,13 +33,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(255)
             .HasColumnName("Email");
 
-        builder.HasIndex(u => u.Email).IsUnique();
+        builder.HasIndex("Email").IsUnique();
 
         builder.Property(u => u.Username)
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.HasIndex(u => u.Username).IsUnique();
+        builder.HasIndex("Username").IsUnique();
 
         builder.Property(u => u.FirstName)
             .IsRequired()
