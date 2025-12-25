@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using AuthSamples.Modules.Cognito.Application.Interfaces;
@@ -23,6 +25,16 @@ public class CognitoService : ICognitoService
         _logger = logger;
     }
 
+    private string ComputeSecretHash(string username)
+    {
+        var message = Encoding.UTF8.GetBytes(username + _settings.ClientId);
+        var key = Encoding.UTF8.GetBytes(_settings.ClientSecret);
+
+        using var hmac = new HMACSHA256(key);
+        var hash = hmac.ComputeHash(message);
+        return Convert.ToBase64String(hash);
+    }
+
     public async Task<CognitoSignUpResult> SignUpAsync(
         string email,
         string password,
@@ -37,11 +49,13 @@ public class CognitoService : ICognitoService
             var request = new SignUpRequest
             {
                 ClientId = _settings.ClientId,
-                Username = username,
+                SecretHash = ComputeSecretHash(email),
+                Username = email, // Use email as username since Cognito User Pool is configured with email sign-in
                 Password = password,
                 UserAttributes = new List<AttributeType>
                 {
                     new() { Name = "email", Value = email },
+                    new() { Name = "preferred_username", Value = username }, // Store username as preferred_username
                     new() { Name = "given_name", Value = firstName },
                     new() { Name = "family_name", Value = lastName },
                     new() { Name = "birthdate", Value = birthDate },
@@ -97,6 +111,7 @@ public class CognitoService : ICognitoService
             var request = new ConfirmSignUpRequest
             {
                 ClientId = _settings.ClientId,
+                SecretHash = ComputeSecretHash(username),
                 Username = username,
                 ConfirmationCode = confirmationCode
             };
@@ -135,7 +150,8 @@ public class CognitoService : ICognitoService
                 AuthParameters = new Dictionary<string, string>
                 {
                     { "USERNAME", username },
-                    { "PASSWORD", password }
+                    { "PASSWORD", password },
+                    { "SECRET_HASH", ComputeSecretHash(username) }
                 }
             };
 
@@ -307,6 +323,7 @@ public class CognitoService : ICognitoService
             var request = new ResendConfirmationCodeRequest
             {
                 ClientId = _settings.ClientId,
+                SecretHash = ComputeSecretHash(username),
                 Username = username
             };
 

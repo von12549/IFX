@@ -36,8 +36,8 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
                 return Result<ConfirmRegistrationResponse>.Failure("User not found");
             }
 
-            // Confirm in Cognito
-            var confirmed = await _cognitoService.ConfirmSignUpAsync(user.Username, request.ConfirmationCode);
+            // Confirm in Cognito (use email as username since Cognito User Pool is configured with email sign-in)
+            var confirmed = await _cognitoService.ConfirmSignUpAsync(request.Email, request.ConfirmationCode);
             if (!confirmed)
             {
                 return Result<ConfirmRegistrationResponse>.Failure("Invalid confirmation code");

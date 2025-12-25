@@ -44,8 +44,8 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
                 return Result<LoginUserResponse>.Failure("Invalid email or password");
             }
 
-            // Authenticate with Cognito
-            var authResult = await _cognitoService.AuthenticateAsync(user.Username, request.Password);
+            // Authenticate with Cognito (use email as username since Cognito User Pool is configured with email sign-in)
+            var authResult = await _cognitoService.AuthenticateAsync(request.Email, request.Password);
 
             if (!authResult.Success)
             {
