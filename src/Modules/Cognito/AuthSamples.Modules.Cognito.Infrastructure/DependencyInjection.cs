@@ -43,10 +43,8 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString, sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly(typeof(CognitoDbContext).Assembly.FullName);
-                sqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: 3,
-                    maxRetryDelay: TimeSpan.FromSeconds(5),
-                    errorNumbersToAdd: null);
+                // Note: EnableRetryOnFailure is disabled because we use manual transaction management
+                // via TransactionBehavior which wraps all commands in explicit transactions
             });
         });
 
