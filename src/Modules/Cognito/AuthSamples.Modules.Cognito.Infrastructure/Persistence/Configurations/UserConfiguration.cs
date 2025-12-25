@@ -13,23 +13,28 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasKey(u => u.Id);
 
-        // CognitoUserId - use backing field
-        builder.Property("_cognitoUserId")
+        // Ignore value object properties first
+        builder.Ignore(u => u.CognitoUserId);
+        builder.Ignore(u => u.Email);
+
+        // Configure backing fields as shadow properties
+        builder.Property<string>("_cognitoUserId")
             .HasColumnName("CognitoUserId")
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Ignore(u => u.CognitoUserId);
-        builder.HasIndex("CognitoUserId").IsUnique();
+        builder.HasIndex("_cognitoUserId")
+            .HasDatabaseName("IX_Users_CognitoUserId")
+            .IsUnique();
 
-        // Email - use backing field
-        builder.Property("_email")
+        builder.Property<string>("_email")
             .HasColumnName("Email")
             .IsRequired()
             .HasMaxLength(255);
 
-        builder.Ignore(u => u.Email);
-        builder.HasIndex("Email").IsUnique();
+        builder.HasIndex("_email")
+            .HasDatabaseName("IX_Users_Email")
+            .IsUnique();
 
         builder.Property(u => u.Username)
             .IsRequired()

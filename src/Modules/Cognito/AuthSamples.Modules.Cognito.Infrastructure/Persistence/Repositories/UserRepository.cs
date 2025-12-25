@@ -22,14 +22,14 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByCognitoUserIdAsync(string cognitoUserId, CancellationToken cancellationToken = default)
     {
         return await _context.Users
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "CognitoUserId") == cognitoUserId, cancellationToken);
+            .FirstOrDefaultAsync(u => EF.Property<string>(u, "_cognitoUserId") == cognitoUserId, cancellationToken);
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "Email") == normalizedEmail, cancellationToken);
+            .FirstOrDefaultAsync(u => EF.Property<string>(u, "_email") == normalizedEmail, cancellationToken);
     }
 
     public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
@@ -53,6 +53,6 @@ public class UserRepository : IUserRepository
     {
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
-            .AnyAsync(u => EF.Property<string>(u, "Email") == normalizedEmail, cancellationToken);
+            .AnyAsync(u => EF.Property<string>(u, "_email") == normalizedEmail, cancellationToken);
     }
 }
