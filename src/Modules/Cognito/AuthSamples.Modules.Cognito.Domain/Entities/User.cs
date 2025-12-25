@@ -5,8 +5,40 @@ namespace AuthSamples.Modules.Cognito.Domain.Entities;
 
 public class User : BaseEntity, IAuditableEntity
 {
-    public CognitoUserId CognitoUserId { get; private set; } = null!;
-    public EmailAddress Email { get; private set; } = null!;
+    private string _cognitoUserId = string.Empty;
+    private string _email = string.Empty;
+    private CognitoUserId? _cognitoUserIdCache;
+    private EmailAddress? _emailCache;
+
+    public CognitoUserId CognitoUserId
+    {
+        get
+        {
+            if (_cognitoUserIdCache == null || _cognitoUserIdCache.Value != _cognitoUserId)
+                _cognitoUserIdCache = CognitoUserId.Create(_cognitoUserId);
+            return _cognitoUserIdCache;
+        }
+        private set
+        {
+            _cognitoUserId = value.Value;
+            _cognitoUserIdCache = value;
+        }
+    }
+
+    public EmailAddress Email
+    {
+        get
+        {
+            if (_emailCache == null || _emailCache.Value != _email)
+                _emailCache = EmailAddress.Create(_email);
+            return _emailCache;
+        }
+        private set
+        {
+            _email = value.Value;
+            _emailCache = value;
+        }
+    }
     public string Username { get; private set; } = string.Empty;
     public string FirstName { get; private set; } = string.Empty;
     public string LastName { get; private set; } = string.Empty;
