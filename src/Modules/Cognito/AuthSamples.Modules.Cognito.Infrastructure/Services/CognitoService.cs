@@ -142,11 +142,10 @@ public class CognitoService : ICognitoService
     {
         try
         {
-            var request = new AdminInitiateAuthRequest
+            var request = new InitiateAuthRequest
             {
-                UserPoolId = _settings.UserPoolId,
                 ClientId = _settings.ClientId,
-                AuthFlow = AuthFlowType.ADMIN_NO_SRP_AUTH,
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
                 AuthParameters = new Dictionary<string, string>
                 {
                     { "USERNAME", username },
@@ -155,7 +154,7 @@ public class CognitoService : ICognitoService
                 }
             };
 
-            var response = await _cognitoClient.AdminInitiateAuthAsync(request);
+            var response = await _cognitoClient.InitiateAuthAsync(request);
 
             _logger.LogInformation("User {Username} authenticated successfully in Cognito", username);
 
