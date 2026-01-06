@@ -1,0 +1,11 @@
+using AuthSamples.Modules.Cognito.Domain.Entities;
+
+namespace AuthSamples.Modules.Cognito.Domain.Interfaces.Repositories;
+
+public interface IUserRoleRepository
+{
+    Task<UserRole?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<UserRole?> GetByRoleNameAsync(string roleName, CancellationToken cancellationToken = default);
+    Task<List<UserRole>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task AddAsync(UserRole role, CancellationToken cancellationToken = default);
+}

@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(
         CognitoDbContext context,
         IUserRepository users,
+        IUserRoleRepository userRoles,
         ILoginEventRepository loginEvents,
         ILogoutEventRepository logoutEvents,
         IRegistrationFlowEventRepository registrationFlowEvents,
@@ -19,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
         Users = users;
+        UserRoles = userRoles;
         LoginEvents = loginEvents;
         LogoutEvents = logoutEvents;
         RegistrationFlowEvents = registrationFlowEvents;
@@ -26,6 +28,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public IUserRepository Users { get; }
+    public IUserRoleRepository UserRoles { get; }
     public ILoginEventRepository LoginEvents { get; }
     public ILogoutEventRepository LogoutEvents { get; }
     public IRegistrationFlowEventRepository RegistrationFlowEvents { get; }

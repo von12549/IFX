@@ -12,5 +12,6 @@ public class UserProfileDto
     public string PhoneNumber { get; init; } = string.Empty;
     public bool EmailVerified { get; init; }
     public bool IsActive { get; init; }
+    public UserRoleDto? Role { get; init; }
     public DateTime CreatedAt { get; init; }
 }

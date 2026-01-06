@@ -75,6 +75,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.UpdatedAt)
             .IsRequired();
 
+        // Configure UserRole relationship
+        builder.Property(u => u.UserRoleId)
+            .IsRequired();
+
+        builder.HasOne(u => u.UserRole)
+            .WithMany()
+            .HasForeignKey(u => u.UserRoleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(u => u.UserRoleId)
+            .HasDatabaseName("IX_Users_UserRoleId");
+
         // Ignore navigation properties loaded separately
         builder.Ignore(u => u.LoginEvents);
     }

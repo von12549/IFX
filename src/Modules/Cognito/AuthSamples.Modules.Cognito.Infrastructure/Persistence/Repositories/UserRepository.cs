@@ -16,12 +16,14 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Users
+            .Include(u => u.UserRole)
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
     public async Task<User?> GetByCognitoUserIdAsync(string cognitoUserId, CancellationToken cancellationToken = default)
     {
         return await _context.Users
+            .Include(u => u.UserRole)
             .FirstOrDefaultAsync(u => EF.Property<string>(u, "_cognitoUserId") == cognitoUserId, cancellationToken);
     }
 
@@ -29,12 +31,14 @@ public class UserRepository : IUserRepository
     {
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
+            .Include(u => u.UserRole)
             .FirstOrDefaultAsync(u => EF.Property<string>(u, "_email") == normalizedEmail, cancellationToken);
     }
 
     public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
     {
         return await _context.Users
+            .Include(u => u.UserRole)
             .FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
     }
 

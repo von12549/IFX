@@ -51,12 +51,14 @@ try
         .AddJwtBearer(options =>
         {
             options.Authority = authority;
+            options.MapInboundClaims = false;
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 ValidateIssuer = true,
                 ValidateLifetime = true,
-                ValidateAudience = false
+                ValidateAudience = false,
+                NameClaimType = "sub"
             };
         });
 

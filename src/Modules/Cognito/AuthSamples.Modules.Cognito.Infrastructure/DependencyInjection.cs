@@ -50,6 +50,7 @@ public static class DependencyInjection
 
         // Register Repositories
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         services.AddScoped<ILoginEventRepository, LoginEventRepository>();
         services.AddScoped<ILogoutEventRepository, LogoutEventRepository>();
         services.AddScoped<IRegistrationFlowEventRepository, RegistrationFlowEventRepository>();

@@ -5,6 +5,7 @@ namespace AuthSamples.Modules.Cognito.Application.Interfaces;
 public interface IUnitOfWork : IDisposable
 {
     IUserRepository Users { get; }
+    IUserRoleRepository UserRoles { get; }
     ILoginEventRepository LoginEvents { get; }
     ILogoutEventRepository LogoutEvents { get; }
     IRegistrationFlowEventRepository RegistrationFlowEvents { get; }

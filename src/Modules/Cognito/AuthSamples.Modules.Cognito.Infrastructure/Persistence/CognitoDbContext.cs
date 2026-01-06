@@ -11,6 +11,7 @@ public class CognitoDbContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<LoginEvent> LoginEvents => Set<LoginEvent>();
     public DbSet<LogoutEvent> LogoutEvents => Set<LogoutEvent>();
     public DbSet<RegistrationFlowEvent> RegistrationFlowEvents => Set<RegistrationFlowEvent>();

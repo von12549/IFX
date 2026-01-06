@@ -48,6 +48,8 @@ public class User : BaseEntity, IAuditableEntity
     public bool PhoneNumberVerified { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime LastSyncedAt { get; private set; }
+    public Guid UserRoleId { get; private set; }
+    public UserRole? UserRole { get; private set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
@@ -63,7 +65,8 @@ public class User : BaseEntity, IAuditableEntity
         string firstName,
         string lastName,
         string birthDate,
-        string phoneNumber)
+        string phoneNumber,
+        Guid userRoleId)
     {
         var user = new User
         {
@@ -74,6 +77,7 @@ public class User : BaseEntity, IAuditableEntity
             LastName = lastName,
             BirthDate = birthDate,
             PhoneNumber = phoneNumber,
+            UserRoleId = userRoleId,
             EmailVerified = false,
             PhoneNumberVerified = false,
             IsActive = false, // Will be activated after confirmation
@@ -108,5 +112,10 @@ public class User : BaseEntity, IAuditableEntity
     public void Deactivate()
     {
         IsActive = false;
+    }
+
+    public void AssignRole(Guid roleId)
+    {
+        UserRoleId = roleId;
     }
 }
