@@ -1,6 +1,8 @@
+using AuthSamples.Modules.Cognito.API.Authorization;
 using AuthSamples.Modules.Cognito.API.Middleware;
 using AuthSamples.Modules.Cognito.Application;
 using AuthSamples.Modules.Cognito.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -61,6 +63,9 @@ try
                 NameClaimType = "sub"
             };
         });
+
+    // Configure Claims Transformation (adds role claims from database)
+    builder.Services.AddTransient<IClaimsTransformation, UserRoleClaimsTransformation>();
 
     // Configure Swagger/OpenAPI
     builder.Services.AddEndpointsApiExplorer();

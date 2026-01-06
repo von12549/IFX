@@ -53,6 +53,26 @@ public class UserRepository : IUserRepository
         return Task.CompletedTask;
     }
 
+    public async Task<(List<User> Users, int TotalCount)> GetAllUsersAsync(
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Users
+            .Include(u => u.UserRole)
+            .AsNoTracking();
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var users = await query
+            .OrderByDescending(u => u.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (users, totalCount);
+    }
+
     public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = email.ToLowerInvariant();
