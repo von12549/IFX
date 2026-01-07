@@ -1,5 +1,7 @@
+using AuthSamples.Modules.Cognito.API.Models.Requests;
 using AuthSamples.Modules.Cognito.API.Models.Responses;
 using AuthSamples.Modules.Cognito.Application.Commands.SyncUser;
+using AuthSamples.Modules.Cognito.Application.Commands.UpdateUserProfile;
 using AuthSamples.Modules.Cognito.Application.Queries.GetUserActivityLog;
 using AuthSamples.Modules.Cognito.Application.Queries.GetUserLoginHistory;
 using AuthSamples.Modules.Cognito.Application.Queries.GetUserProfile;
@@ -38,6 +40,35 @@ public class UserController : ControllerBase
         if (!result.IsSuccess)
         {
             return NotFound(ApiResponse<object>.FailureResponse(result.Error!));
+        }
+
+        return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    [HttpPut("profile")]
+    public async Task<ActionResult<ApiResponse<object>>> UpdateProfile(
+        [FromBody] UpdateUserProfileRequest request)
+    {
+        var cognitoUserId = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(cognitoUserId))
+        {
+            return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
+        }
+
+        _logger.LogInformation("User {CognitoUserId} updating their profile", cognitoUserId);
+
+        var command = new UpdateUserProfileCommand(
+            cognitoUserId,
+            request.Username,
+            request.FirstName,
+            request.LastName,
+            request.PhoneNumber);
+
+        var result = await _mediator.Send(command);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         }
 
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));

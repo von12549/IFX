@@ -51,7 +51,7 @@ API → Infrastructure → Application → Domain
 
 ### Build
 ```bash
-dotnet build                                    # Build entire solution
+dotnet build AuthSamples.sln                    # Build entire solution
 dotnet build -c Release                         # Production build
 ```
 
@@ -69,13 +69,18 @@ dotnet run                                      # Run API (localhost:5000)
 
 ### Database
 ```bash
-# Create migration
+# Create migration (MUST be run from Infrastructure directory)
 cd src/Modules/Cognito/AuthSamples.Modules.Cognito.Infrastructure
 dotnet ef migrations add MigrationName --startup-project ../AuthSamples.Modules.Cognito.API
 
 # Apply migrations
 dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
+
+# Remove last migration (if not yet applied)
+dotnet ef migrations remove --startup-project ../AuthSamples.Modules.Cognito.API
 ```
+
+**IMPORTANT**: Always include `--startup-project ../AuthSamples.Modules.Cognito.API` when running EF Core commands, as the DbContext is in the Infrastructure project but the startup configuration is in the API project.
 
 ## Layer Details
 
@@ -83,27 +88,27 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
 **Purpose**: Pure business logic with no external dependencies
 
 **Key Components**:
-- **Entities**: User, LoginEvent, LogoutEvent, RegistrationFlowEvent, UserActivityLog
+- **Entities**: User, UserRole, LoginEvent, LogoutEvent, RegistrationFlowEvent, UserActivityLog
 - **Value Objects**: CognitoUserId, EmailAddress, DeviceInfo (immutable, validated)
 - **Enums**: RegistrationStatus, LoginResult, ActivityType
-- **Repository Interfaces**: IUserRepository, ILoginEventRepository, etc.
+- **Repository Interfaces**: IUserRepository, IUserRoleRepository, ILoginEventRepository, etc.
 - **Domain Events**: UserRegisteredDomainEvent, UserLoggedInDomainEvent, etc.
 
 **Patterns**:
-- Aggregate roots with factory methods (User.Create, LoginEvent.CreateSuccess)
+- Aggregate roots with factory methods (User.Create, UserRole.Create, LoginEvent.CreateSuccess)
 - Value objects with validation (EmailAddress.Create throws on invalid email)
-- Rich domain model (User.Activate(), User.UpdateFromCognito())
+- Rich domain model (User.Activate(), User.UpdateProfile(), User.AssignRole(), UserRole.Update())
 
 ### Application Layer
 **Purpose**: Use case orchestration with CQRS
 
 **Key Components**:
-- **Commands**: RegisterUser, ConfirmRegistration, LoginUser, LogoutUser, SyncUser
-- **Queries**: GetUserProfile, GetUserLoginHistory, GetUserActivityLog
+- **Commands**: RegisterUser, ConfirmRegistration, LoginUser, LogoutUser, SyncUser, UpdateUserProfile, UpdateRole, AddRole
+- **Queries**: GetUserProfile, GetUserLoginHistory, GetUserActivityLog, GetAllUsers, GetAllRoles
 - **Handlers**: One handler per command/query
-- **Validators**: FluentValidation (RegisterUserCommandValidator, etc.)
+- **Validators**: FluentValidation (RegisterUserCommandValidator, UpdateUserProfileCommandValidator, etc.)
 - **Behaviors**: ValidationBehavior, LoggingBehavior, TransactionBehavior
-- **DTOs**: RegisterUserDto, LoginUserDto, UserProfileDto, etc.
+- **DTOs**: RegisterUserDto, LoginUserDto, UserProfileDto, UserRoleDto, etc.
 
 **Patterns**:
 - CQRS with MediatR (commands modify, queries read)
@@ -115,9 +120,9 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
 **Purpose**: External system integration (database, AWS)
 
 **Key Components**:
-- **DbContext**: CognitoDbContext with 5 DbSets
-- **Entity Configurations**: Fluent API (UserConfiguration, LoginEventConfiguration, etc.)
-- **Repositories**: UserRepository, LoginEventRepository, etc.
+- **DbContext**: CognitoDbContext with 6 DbSets
+- **Entity Configurations**: Fluent API (UserConfiguration, UserRoleConfiguration, LoginEventConfiguration, etc.)
+- **Repositories**: UserRepository, UserRoleRepository, LoginEventRepository, etc.
 - **UnitOfWork**: Transaction coordinator
 - **CognitoService**: AWS SDK wrapper (SignUpAsync, AuthenticateAsync, etc.)
 - **Settings**: CognitoSettings (UserPoolId, ClientId, etc.)
@@ -133,9 +138,10 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
 **Purpose**: HTTP interface and composition root
 
 **Key Components**:
-- **Controllers**: AuthController (public), UserController (authenticated)
+- **Controllers**: AuthController (public), UserController (authenticated), UserManagementController (Admin), RoleController (Admin)
 - **Middleware**: ExceptionHandlingMiddleware, RequestLoggingMiddleware
-- **Models**: RegisterRequest, LoginRequest, ApiResponse<T>
+- **Authorization**: UserRoleClaimsTransformation (adds database roles to JWT claims)
+- **Models**: RegisterRequest, LoginRequest, UpdateUserProfileRequest, UpdateRoleRequest, AddRoleRequest, ApiResponse<T>
 - **Configuration**: JWT validation, Swagger, CORS, Serilog
 
 **Patterns**:
@@ -150,22 +156,28 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
 
 ### Tables
 1. **Users** (aggregate root)
-   - Columns: Id (GUID), CognitoUserId, Email, Username, FirstName, LastName, PhoneNumber, EmailVerified, PhoneNumberVerified, IsActive, LastSyncedAt, CreatedAt, UpdatedAt
+   - Columns: Id (GUID), CognitoUserId, Email, Username, FirstName, LastName, PhoneNumber, EmailVerified, PhoneNumberVerified, IsActive, UserRoleId (FK), Issuer, LastSyncedAt, CreatedAt, UpdatedAt
    - Unique Indexes: Email, Username, CognitoUserId
+   - Foreign Key: UserRoleId → UserRoles.Id (Restrict)
 
-2. **LoginEvents**
+2. **UserRoles** (reference data)
+   - Columns: Id (GUID), RoleName, Description, CreatedAt, UpdatedAt
+   - Unique Index: RoleName
+   - Seeded Roles: Admin, User, SsoUser
+
+3. **LoginEvents**
    - Columns: Id, UserId, LoginTimestamp, Success, FailureReason, IpAddress, DeviceInfo (owned), CognitoSessionId, AccessToken, RefreshToken, TokenExpiresAt
    - Indexes: UserId, LoginTimestamp, (UserId, LoginTimestamp)
 
-3. **LogoutEvents**
+4. **LogoutEvents**
    - Columns: Id, UserId, LogoutTimestamp, SessionDuration, IpAddress, Reason
    - Indexes: UserId, LogoutTimestamp
 
-4. **RegistrationFlowEvents**
+5. **RegistrationFlowEvents**
    - Columns: Id, Email, Username, RegistrationInitiatedAt, RegistrationConfirmedAt, Status, ConfirmationCode, FailureReason, IpAddress, UserId
    - Indexes: Email, RegistrationInitiatedAt, Status
 
-5. **UserActivityLogs**
+6. **UserActivityLogs**
    - Columns: Id, UserId, ActivityType, Description, Timestamp, IpAddress, Metadata (JSON)
    - Indexes: UserId, Timestamp, (UserId, Timestamp)
 
@@ -175,7 +187,8 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
 1. Client → POST /api/v1/auth/register
 2. RegisterUserCommandHandler:
    - Creates user in Cognito (CognitoService.SignUpAsync)
-   - Creates User entity (IsActive=false)
+   - Looks up default "User" role from UserRoles table
+   - Creates User entity (IsActive=false, UserRoleId=User role)
    - Creates RegistrationFlowEvent (Status=Initiated)
    - Saves to database
 3. User receives email with confirmation code
@@ -204,6 +217,14 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
    - Signs out from Cognito (GlobalSignOutAsync)
    - Creates LogoutEvent (calculates session duration from last login)
    - Creates UserActivityLog
+
+### Role-Based Authorization
+- **JWT Claims Transformation**: UserRoleClaimsTransformation adds database role as ClaimTypes.Role claim to JWT principal
+- **Process**: On each authenticated request, the middleware:
+  1. Extracts CognitoUserId from JWT "sub" claim
+  2. Queries database for user's UserRole
+  3. Adds role claim to ClaimsPrincipal
+- **Usage**: Enables standard ASP.NET Core [Authorize(Roles = "Admin")] attribute
 
 ## Configuration
 
@@ -242,10 +263,18 @@ See `docs/AWS_COGNITO_SETUP.md` for detailed instructions.
 
 ### Authenticated Endpoints (require JWT token)
 - `POST /api/v1/auth/logout` - Logout user
-- `GET /api/v1/user/profile` - Get user profile
+- `GET /api/v1/user/profile` - Get current user profile
+- `PUT /api/v1/user/profile` - Update current user profile (partial updates)
 - `GET /api/v1/user/login-history` - Get paginated login history
 - `GET /api/v1/user/activity-log` - Get paginated activity log
 - `POST /api/v1/user/sync` - Sync user data from Cognito
+
+### Admin-Only Endpoints (require Admin role)
+- `GET /api/v1/usermanagement/users` - Get all users (paginated)
+- `PUT /api/v1/usermanagement/users/{cognitoUserId}` - Update any user profile
+- `GET /api/v1/role` - Get all roles
+- `PUT /api/v1/role/{roleId}` - Update role name and description
+- `POST /api/v1/role` - Add new role
 
 ### Swagger UI
 Available at `http://localhost:5000/swagger` with JWT Bearer authentication support.
@@ -273,6 +302,16 @@ Available at `http://localhost:5000/swagger` with JWT Bearer authentication supp
 - **Commands/Queries**: Accept CognitoUserId (string) for authenticated endpoints
 - **Handlers**: Look up User by CognitoUserId to get internal UserId (Guid)
 - **Repositories**: Work with internal UserId (Guid) for performance
+
+### User Role Management
+- **Default Roles**: Admin, User, SsoUser (seeded via migrations)
+- **Role Assignment**: All new users get "User" role by default during registration
+- **Role Enforcement**: Claims transformation adds role from database to JWT on every request
+- **Admin Access**: Only users with "Admin" role can access UserManagementController and RoleController
+- **Profile Updates**:
+  - Users can update their own profile via `PUT /api/v1/user/profile`
+  - Admins can update any user's profile via `PUT /api/v1/usermanagement/users/{cognitoUserId}`
+- **Partial Updates**: Both endpoints support partial updates (only provided fields are updated)
 
 ### Security
 - **JWT Validation**: Against Cognito JWKS (Authority: https://cognito-idp.{region}.amazonaws.com/{userPoolId})
@@ -321,8 +360,33 @@ Log levels:
 1. Create `Domain/Entities/EntityName.cs` (inherits BaseEntity)
 2. Create `Infrastructure/Persistence/Configurations/EntityNameConfiguration.cs` (IEntityTypeConfiguration)
 3. Add DbSet to CognitoDbContext
-4. Create repository interface and implementation
-5. Create migration
+4. Create repository interface in Domain/Interfaces/Repositories and implementation in Infrastructure/Persistence/Repositories
+5. Add repository to IUnitOfWork interface and UnitOfWork implementation
+6. Register repository in Infrastructure DependencyInjection.cs
+7. Create migration: `dotnet ef migrations add AddEntityName --startup-project ../AuthSamples.Modules.Cognito.API`
+
+### Seed Reference Data in Migrations
+When adding reference data (roles, statuses, etc.) that must exist before application code runs:
+1. Create migration as normal
+2. Modify the generated migration file's Up() method:
+   ```csharp
+   var roleId = Guid.NewGuid();
+   var now = DateTime.UtcNow;
+
+   migrationBuilder.InsertData(
+       schema: "cognito",
+       table: "TableName",
+       columns: new[] { "Id", "Column1", "CreatedAt", "UpdatedAt" },
+       values: new object[] { roleId, "Value1", now, now });
+   ```
+3. Add corresponding Down() method:
+   ```csharp
+   migrationBuilder.DeleteData(
+       schema: "cognito",
+       table: "TableName",
+       keyColumn: "Column1",
+       keyValue: "Value1");
+   ```
 
 ## Testing Locally
 
@@ -358,18 +422,29 @@ curl -X POST http://localhost:5000/api/v1/auth/register \
 - **Startup project not specified**: Always use `--startup-project ../AuthSamples.Modules.Cognito.API`
 - **DbContext not found**: Ensure you're in the Infrastructure project directory
 
-## Next Steps
+## Completed Features
 
-Potential enhancements:
+- [x] User role system (Admin, User, SsoUser)
+- [x] Role-based authorization with claims transformation
+- [x] User management endpoints (Admin-only)
+- [x] Role management endpoints (Admin-only)
+- [x] User profile update endpoints (self-service and admin)
+- [x] Partial update support for user profiles
+- [x] Issuer field for multi-IDP support
+
+## Future Enhancements
+
+Potential improvements:
 - [ ] Add unit and integration tests (xUnit, FluentAssertions, Testcontainers)
 - [ ] Implement refresh token endpoint
 - [ ] Add password reset flow (forgot password)
 - [ ] Implement email change functionality
 - [ ] Add account deletion (soft delete)
+- [ ] Add role assignment endpoint (change user's role)
 - [ ] Add health checks (AspNetCore.HealthChecks.SqlServer, AWS)
 - [ ] Implement rate limiting (AspNetCoreRateLimit)
 - [ ] Add API versioning (Asp.Versioning.Mvc)
-- [ ] Create admin endpoints (user management, analytics)
-- [ ] Add distributed caching (Redis)
+- [ ] Add distributed caching (Redis) for role lookups
 - [ ] Implement event sourcing for audit trail
 - [ ] Add OpenTelemetry for observability
+- [ ] Add user search and filtering in admin endpoints

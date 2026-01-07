@@ -27,4 +27,16 @@ public class UserRole : BaseEntity, IAuditableEntity
 
         return role;
     }
+
+    public void Update(string roleName, string description)
+    {
+        if (string.IsNullOrWhiteSpace(roleName))
+            throw new ArgumentException("Role name cannot be empty.", nameof(roleName));
+
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException("Description cannot be empty.", nameof(description));
+
+        RoleName = roleName.Trim();
+        Description = description.Trim();
+    }
 }

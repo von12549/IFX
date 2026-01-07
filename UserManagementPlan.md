@@ -15,3 +15,15 @@ The second part is User Management Controller and Functions
 2. Create Get Endpoint Users which will return all local users. Using UserProfileDto.
 3. Only User who has the Role:Admin can access UserManagementController.
 
+
+# User Management Function Part 2
+1. Create Endpoint in UserManagementController to Update User Profile in Local Database (Username, FirstName, LastName, PhoneNumber)
+2. Create RoleController in API project.
+3. Add a new row in Role table, RoleName:SsoUser.
+4. Add Get/Update/Add Endpoint in Role Controller to Get All Roles/Update a specific RoleName and Description/Add a new Role
+5. Only User who has the Role:Admin can access RoleController
+
+# Idp Issuer
+1. Add new Fields in User Table "Issuer". The Default value is 'https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P'
+2. Update all related models/DTOs/viewModels
+

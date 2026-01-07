@@ -118,4 +118,24 @@ public class User : BaseEntity, IAuditableEntity
     {
         UserRoleId = roleId;
     }
+
+    public void UpdateProfile(
+        string? username = null,
+        string? firstName = null,
+        string? lastName = null,
+        string? phoneNumber = null)
+    {
+        // Only update fields that are provided (not null)
+        if (username != null)
+            Username = username;
+
+        if (firstName != null)
+            FirstName = firstName;
+
+        if (lastName != null)
+            LastName = lastName;
+
+        if (phoneNumber != null)
+            PhoneNumber = phoneNumber;
+    }
 }

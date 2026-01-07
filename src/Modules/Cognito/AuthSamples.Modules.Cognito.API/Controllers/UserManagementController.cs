@@ -1,4 +1,6 @@
+using AuthSamples.Modules.Cognito.API.Models.Requests;
 using AuthSamples.Modules.Cognito.API.Models.Responses;
+using AuthSamples.Modules.Cognito.Application.Commands.UpdateUserProfile;
 using AuthSamples.Modules.Cognito.Application.Queries.GetAllUsers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +31,30 @@ public class UserManagementController : ControllerBase
 
         var query = new GetAllUsersQuery(page, pageSize);
         var result = await _mediator.Send(query);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        }
+
+        return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    [HttpPut("users/{cognitoUserId}")]
+    public async Task<ActionResult<ApiResponse<object>>> UpdateUserProfile(
+        string cognitoUserId,
+        [FromBody] UpdateUserProfileRequest request)
+    {
+        _logger.LogInformation("Admin updating profile for user: {CognitoUserId}", cognitoUserId);
+
+        var command = new UpdateUserProfileCommand(
+            cognitoUserId,
+            request.Username,
+            request.FirstName,
+            request.LastName,
+            request.PhoneNumber);
+
+        var result = await _mediator.Send(command);
 
         if (!result.IsSuccess)
         {

@@ -35,4 +35,16 @@ public class UserRoleRepository : IUserRoleRepository
     {
         await _context.UserRoles.AddAsync(role, cancellationToken);
     }
+
+    public async Task<bool> RoleNameExistsAsync(string roleName, CancellationToken cancellationToken = default)
+    {
+        return await _context.UserRoles
+            .AnyAsync(r => r.RoleName == roleName, cancellationToken);
+    }
+
+    public async Task<bool> RoleNameExistsAsync(string roleName, Guid excludeRoleId, CancellationToken cancellationToken = default)
+    {
+        return await _context.UserRoles
+            .AnyAsync(r => r.RoleName == roleName && r.Id != excludeRoleId, cancellationToken);
+    }
 }
