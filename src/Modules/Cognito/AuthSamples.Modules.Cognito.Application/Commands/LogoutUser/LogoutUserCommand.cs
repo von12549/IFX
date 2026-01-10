@@ -4,6 +4,6 @@ using MediatR;
 namespace AuthSamples.Modules.Cognito.Application.Commands.LogoutUser;
 
 public record LogoutUserCommand(
-    string CognitoUserId,
+    string Subject,
     string AccessToken,
     string IpAddress) : IRequest<Result<bool>>;

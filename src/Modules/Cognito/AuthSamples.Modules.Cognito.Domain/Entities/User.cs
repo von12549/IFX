@@ -5,23 +5,23 @@ namespace AuthSamples.Modules.Cognito.Domain.Entities;
 
 public class User : BaseEntity, IAuditableEntity
 {
-    private string _cognitoUserId = string.Empty;
+    private string _subject = string.Empty;
     private string _email = string.Empty;
-    private CognitoUserId? _cognitoUserIdCache;
+    private Subject? _subjectCache;
     private EmailAddress? _emailCache;
 
-    public CognitoUserId CognitoUserId
+    public Subject Subject
     {
         get
         {
-            if (_cognitoUserIdCache == null || _cognitoUserIdCache.Value != _cognitoUserId)
-                _cognitoUserIdCache = CognitoUserId.Create(_cognitoUserId);
-            return _cognitoUserIdCache;
+            if (_subjectCache == null || _subjectCache.Value != _subject)
+                _subjectCache = Subject.Create(_subject);
+            return _subjectCache;
         }
         private set
         {
-            _cognitoUserId = value.Value;
-            _cognitoUserIdCache = value;
+            _subject = value.Value;
+            _subjectCache = value;
         }
     }
 
@@ -50,6 +50,7 @@ public class User : BaseEntity, IAuditableEntity
     public DateTime LastSyncedAt { get; private set; }
     public Guid UserRoleId { get; private set; }
     public UserRole? UserRole { get; private set; }
+    public string Issuer { get; private set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
@@ -59,18 +60,19 @@ public class User : BaseEntity, IAuditableEntity
     private User() { } // For EF Core
 
     public static User Create(
-        CognitoUserId cognitoUserId,
+        Subject subject,
         EmailAddress email,
         string username,
         string firstName,
         string lastName,
         string birthDate,
         string phoneNumber,
-        Guid userRoleId)
+        Guid userRoleId,
+        string issuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P")
     {
         var user = new User
         {
-            CognitoUserId = cognitoUserId,
+            Subject = subject,
             Email = email,
             Username = username,
             FirstName = firstName,
@@ -78,6 +80,7 @@ public class User : BaseEntity, IAuditableEntity
             BirthDate = birthDate,
             PhoneNumber = phoneNumber,
             UserRoleId = userRoleId,
+            Issuer = issuer,
             EmailVerified = false,
             PhoneNumberVerified = false,
             IsActive = false, // Will be activated after confirmation

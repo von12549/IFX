@@ -14,17 +14,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
 
         // Ignore value object properties first
-        builder.Ignore(u => u.CognitoUserId);
+        builder.Ignore(u => u.Subject);
         builder.Ignore(u => u.Email);
 
         // Configure backing fields as shadow properties
-        builder.Property<string>("_cognitoUserId")
-            .HasColumnName("CognitoUserId")
+        builder.Property<string>("_subject")
+            .HasColumnName("Subject")
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.HasIndex("_cognitoUserId")
-            .HasDatabaseName("IX_Users_CognitoUserId")
+        builder.HasIndex("_subject")
+            .HasDatabaseName("IX_Users_Subject")
             .IsUnique();
 
         builder.Property<string>("_email")
@@ -86,6 +86,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(u => u.UserRoleId)
             .HasDatabaseName("IX_Users_UserRoleId");
+
+        // Configure Issuer
+        builder.Property(u => u.Issuer)
+            .IsRequired()
+            .HasMaxLength(500)
+            .HasDefaultValue("https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P");
 
         // Ignore navigation properties loaded separately
         builder.Ignore(u => u.LoginEvents);

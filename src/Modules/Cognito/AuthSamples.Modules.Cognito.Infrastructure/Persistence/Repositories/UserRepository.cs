@@ -20,11 +20,11 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
-    public async Task<User?> GetByCognitoUserIdAsync(string cognitoUserId, CancellationToken cancellationToken = default)
+    public async Task<User?> GetBySubjectAsync(string subject, CancellationToken cancellationToken = default)
     {
         return await _context.Users
             .Include(u => u.UserRole)
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "_cognitoUserId") == cognitoUserId, cancellationToken);
+            .FirstOrDefaultAsync(u => EF.Property<string>(u, "_subject") == subject, cancellationToken);
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)

@@ -28,13 +28,13 @@ public class UserController : ControllerBase
     [HttpGet("profile")]
     public async Task<ActionResult<ApiResponse<object>>> GetProfile()
     {
-        var cognitoUserId = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(cognitoUserId))
+        var subject = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
-        var query = new GetUserProfileQuery(cognitoUserId);
+        var query = new GetUserProfileQuery(subject);
         var result = await _mediator.Send(query);
 
         if (!result.IsSuccess)
@@ -49,16 +49,16 @@ public class UserController : ControllerBase
     public async Task<ActionResult<ApiResponse<object>>> UpdateProfile(
         [FromBody] UpdateUserProfileRequest request)
     {
-        var cognitoUserId = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(cognitoUserId))
+        var subject = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
-        _logger.LogInformation("User {CognitoUserId} updating their profile", cognitoUserId);
+        _logger.LogInformation("User {Subject} updating their profile", subject);
 
         var command = new UpdateUserProfileCommand(
-            cognitoUserId,
+            subject,
             request.Username,
             request.FirstName,
             request.LastName,
@@ -79,14 +79,14 @@ public class UserController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
     {
-        var cognitoUserId = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(cognitoUserId))
+        var subject = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
         var query = new GetUserLoginHistoryQuery(
-            cognitoUserId,
+            subject,
             page,
             pageSize);
 
@@ -105,14 +105,14 @@ public class UserController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50)
     {
-        var cognitoUserId = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(cognitoUserId))
+        var subject = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
         var query = new GetUserActivityLogQuery(
-            cognitoUserId,
+            subject,
             page,
             pageSize);
 
@@ -129,14 +129,14 @@ public class UserController : ControllerBase
     [HttpPost("sync")]
     public async Task<ActionResult<ApiResponse<object>>> SyncProfile()
     {
-        var cognitoUserId = User.FindFirst("sub")?.Value;
+        var subject = User.FindFirst("sub")?.Value;
 
-        if (string.IsNullOrEmpty(cognitoUserId))
+        if (string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
-        var command = new SyncUserCommand(cognitoUserId);
+        var command = new SyncUserCommand(subject);
 
         var result = await _mediator.Send(command);
 

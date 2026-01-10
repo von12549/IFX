@@ -4,4 +4,4 @@ using MediatR;
 
 namespace AuthSamples.Modules.Cognito.Application.Queries.GetUserProfile;
 
-public record GetUserProfileQuery(string CognitoUserId) : IRequest<Result<UserProfileDto>>;
+public record GetUserProfileQuery(string Subject) : IRequest<Result<UserProfileDto>>;

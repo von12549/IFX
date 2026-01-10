@@ -31,8 +31,8 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
     {
         try
         {
-            // Get user by CognitoUserId
-            var user = await _unitOfWork.Users.GetByCognitoUserIdAsync(request.CognitoUserId, cancellationToken);
+            // Get user by Subject
+            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");
@@ -64,8 +64,8 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(
-                "User profile updated for {CognitoUserId}. Updated fields: {Fields}",
-                request.CognitoUserId,
+                "User profile updated for {Subject}. Updated fields: {Fields}",
+                request.Subject,
                 string.Join(", ", updatedFields));
 
             var userProfile = _mapper.Map<UserProfileDto>(user);
@@ -73,7 +73,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating profile for user {CognitoUserId}", request.CognitoUserId);
+            _logger.LogError(ex, "Error updating profile for user {Subject}", request.Subject);
             return Result<UserProfileDto>.Failure("An error occurred while updating profile");
         }
     }

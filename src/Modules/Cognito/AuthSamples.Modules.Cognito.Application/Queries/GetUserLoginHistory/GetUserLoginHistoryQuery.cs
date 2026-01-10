@@ -5,6 +5,6 @@ using MediatR;
 namespace AuthSamples.Modules.Cognito.Application.Queries.GetUserLoginHistory;
 
 public record GetUserLoginHistoryQuery(
-    string CognitoUserId,
+    string Subject,
     int PageNumber = 1,
     int PageSize = 20) : IRequest<Result<PagedResult<LoginEventDto>>>;

@@ -11,8 +11,9 @@ public class MappingProfile : Profile
         CreateMap<UserRole, UserRoleDto>();
 
         CreateMap<User, UserProfileDto>()
-            .ForMember(dest => dest.CognitoUserId, opt => opt.MapFrom(src => src.CognitoUserId.Value))
+            .ForMember(dest => dest.Subject, opt => opt.MapFrom(src => src.Subject.Value))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.Value))
+            .ForMember(dest => dest.Issuer, opt => opt.MapFrom(src => src.Issuer))
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.UserRole));
 
         CreateMap<LoginEvent, LoginEventDto>()

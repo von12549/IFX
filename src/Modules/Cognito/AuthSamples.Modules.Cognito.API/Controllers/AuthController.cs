@@ -105,14 +105,14 @@ public class AuthController : ControllerBase
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
 
         // Extract user ID from claims
-        var cognitoUserId = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(cognitoUserId))
+        var subject = User.FindFirst("sub")?.Value;
+        if (string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
         var command = new LogoutUserCommand(
-            cognitoUserId,
+            subject,
             accessToken,
             ipAddress);
 

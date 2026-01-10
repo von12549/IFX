@@ -70,7 +70,7 @@ public class CognitoService : ICognitoService
             return new CognitoSignUpResult
             {
                 Success = true,
-                CognitoUserId = response.UserSub,
+                Subject = response.UserSub,
                 UserConfirmed = response.UserConfirmed,
                 ErrorMessage = null
             };
@@ -249,7 +249,7 @@ public class CognitoService : ICognitoService
 
             var userInfo = new CognitoUserInfo
             {
-                CognitoUserId = response.Username,
+                Subject = response.Username,
                 Username = response.Username
             };
 
@@ -258,7 +258,7 @@ public class CognitoService : ICognitoService
                 switch (attribute.Name)
                 {
                     case "sub":
-                        userInfo.CognitoUserId = attribute.Value;
+                        userInfo.Subject = attribute.Value;
                         break;
                     case "email":
                         userInfo.Email = attribute.Value;

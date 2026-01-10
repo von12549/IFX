@@ -29,7 +29,7 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
     {
         try
         {
-            var user = await _unitOfWork.Users.GetByCognitoUserIdAsync(request.CognitoUserId, cancellationToken);
+            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");
@@ -40,7 +40,7 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving user profile for {CognitoUserId}", request.CognitoUserId);
+            _logger.LogError(ex, "Error retrieving user profile for {Subject}", request.Subject);
             return Result<UserProfileDto>.Failure("An error occurred while retrieving user profile");
         }
     }

@@ -29,8 +29,8 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
     {
         try
         {
-            // Get user by CognitoUserId
-            var user = await _unitOfWork.Users.GetByCognitoUserIdAsync(request.CognitoUserId, cancellationToken);
+            // Get user by Subject
+            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<bool>.Failure("User not found");
@@ -40,7 +40,7 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             var signedOut = await _cognitoService.SignOutAsync(request.AccessToken);
             if (!signedOut)
             {
-                _logger.LogWarning("Failed to sign out user {CognitoUserId} from Cognito", request.CognitoUserId);
+                _logger.LogWarning("Failed to sign out user {Subject} from Cognito", request.Subject);
             }
 
             // Get the most recent successful login to calculate session duration
@@ -70,15 +70,15 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(
-                "User {CognitoUserId} logged out successfully. Session duration: {Duration}",
-                request.CognitoUserId,
+                "User {Subject} logged out successfully. Session duration: {Duration}",
+                request.Subject,
                 logoutEvent.SessionDuration);
 
             return Result<bool>.Success(true);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during logout for user {CognitoUserId}", request.CognitoUserId);
+            _logger.LogError(ex, "Error during logout for user {Subject}", request.Subject);
             return Result<bool>.Failure("An error occurred during logout");
         }
     }

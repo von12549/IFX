@@ -1,23 +1,23 @@
 namespace AuthSamples.Modules.Cognito.Domain.ValueObjects;
 
-public class CognitoUserId : IEquatable<CognitoUserId>
+public class Subject : IEquatable<Subject>
 {
     public string Value { get; private set; }
 
-    private CognitoUserId(string value)
+    private Subject(string value)
     {
         Value = value;
     }
 
-    public static CognitoUserId Create(string value)
+    public static Subject Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException("Cognito User ID cannot be empty", nameof(value));
+            throw new ArgumentException("Subject cannot be empty", nameof(value));
 
-        return new CognitoUserId(value);
+        return new Subject(value);
     }
 
-    public bool Equals(CognitoUserId? other)
+    public bool Equals(Subject? other)
     {
         if (other is null) return false;
         return Value == other.Value;
@@ -25,7 +25,7 @@ public class CognitoUserId : IEquatable<CognitoUserId>
 
     public override bool Equals(object? obj)
     {
-        return obj is CognitoUserId other && Equals(other);
+        return obj is Subject other && Equals(other);
     }
 
     public override int GetHashCode()
@@ -33,14 +33,14 @@ public class CognitoUserId : IEquatable<CognitoUserId>
         return Value.GetHashCode();
     }
 
-    public static bool operator ==(CognitoUserId? left, CognitoUserId? right)
+    public static bool operator ==(Subject? left, Subject? right)
     {
         if (left is null && right is null) return true;
         if (left is null || right is null) return false;
         return left.Equals(right);
     }
 
-    public static bool operator !=(CognitoUserId? left, CognitoUserId? right)
+    public static bool operator !=(Subject? left, Subject? right)
     {
         return !(left == right);
     }

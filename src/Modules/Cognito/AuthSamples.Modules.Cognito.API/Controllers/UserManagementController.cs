@@ -40,15 +40,15 @@ public class UserManagementController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
-    [HttpPut("users/{cognitoUserId}")]
+    [HttpPut("users/{subject}")]
     public async Task<ActionResult<ApiResponse<object>>> UpdateUserProfile(
-        string cognitoUserId,
+        string subject,
         [FromBody] UpdateUserProfileRequest request)
     {
-        _logger.LogInformation("Admin updating profile for user: {CognitoUserId}", cognitoUserId);
+        _logger.LogInformation("Admin updating profile for user: {Subject}", subject);
 
         var command = new UpdateUserProfileCommand(
-            cognitoUserId,
+            subject,
             request.Username,
             request.FirstName,
             request.LastName,

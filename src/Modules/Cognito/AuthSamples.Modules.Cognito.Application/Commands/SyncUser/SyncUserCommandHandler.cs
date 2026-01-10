@@ -34,7 +34,7 @@ public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<Us
         try
         {
             // Get user from local DB
-            var user = await _unitOfWork.Users.GetByCognitoUserIdAsync(request.CognitoUserId, cancellationToken);
+            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");
@@ -49,14 +49,14 @@ public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<Us
             await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("User {CognitoUserId} synced successfully", request.CognitoUserId);
+            _logger.LogInformation("User {Subject} synced successfully", request.Subject);
 
             var userProfile = _mapper.Map<UserProfileDto>(user);
             return Result<UserProfileDto>.Success(userProfile);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error syncing user {CognitoUserId}", request.CognitoUserId);
+            _logger.LogError(ex, "Error syncing user {Subject}", request.Subject);
             return Result<UserProfileDto>.Failure("An error occurred during user sync");
         }
     }

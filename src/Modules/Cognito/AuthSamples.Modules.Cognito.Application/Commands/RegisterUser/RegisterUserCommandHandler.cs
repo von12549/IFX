@@ -64,14 +64,15 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
 
             // Create User entity
             var user = User.Create(
-                CognitoUserId.Create(cognitoResult.CognitoUserId!),
+                Subject.Create(cognitoResult.Subject!),
                 EmailAddress.Create(request.Email),
                 request.Username,
                 request.FirstName,
                 request.LastName,
                 request.BirthDate,
                 request.PhoneNumber,
-                userRole.Id);
+                userRole.Id,
+                issuer: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P");
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
 
@@ -96,14 +97,14 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(
-                "User {Username} registered successfully with Cognito ID {CognitoUserId}",
+                "User {Username} registered successfully with Subject {Subject}",
                 request.Username,
-                cognitoResult.CognitoUserId);
+                cognitoResult.Subject);
 
             return Result<RegisterUserResponse>.Success(new RegisterUserResponse
             {
                 UserId = user.Id,
-                CognitoUserId = cognitoResult.CognitoUserId!,
+                Subject = cognitoResult.Subject!,
                 RequiresConfirmation = !cognitoResult.UserConfirmed,
                 Message = cognitoResult.UserConfirmed
                     ? "Registration successful"

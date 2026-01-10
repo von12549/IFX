@@ -12,7 +12,7 @@ public record RegisterUserDto(
 public class RegisterUserResponse
 {
     public Guid UserId { get; init; }
-    public string CognitoUserId { get; init; } = string.Empty;
+    public string Subject { get; init; } = string.Empty;
     public bool RequiresConfirmation { get; init; }
     public string Message { get; init; } = string.Empty;
     public string RoleName { get; init; } = "User";

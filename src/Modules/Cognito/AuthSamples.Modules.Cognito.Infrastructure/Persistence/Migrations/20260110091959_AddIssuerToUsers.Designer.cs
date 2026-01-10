@@ -4,6 +4,7 @@ using AuthSamples.Modules.Cognito.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSamples.Modules.Cognito.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(CognitoDbContext))]
-    partial class CognitoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260110091959_AddIssuerToUsers")]
+    partial class AddIssuerToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,17 +227,17 @@ namespace AuthSamples.Modules.Cognito.Infrastructure.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("_cognitoUserId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("CognitoUserId");
+
                     b.Property<string>("_email")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("Email");
-
-                    b.Property<string>("_subject")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("Subject");
 
                     b.HasKey("Id");
 
@@ -244,13 +247,13 @@ namespace AuthSamples.Modules.Cognito.Infrastructure.Persistence.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
+                    b.HasIndex("_cognitoUserId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Users_CognitoUserId");
+
                     b.HasIndex("_email")
                         .IsUnique()
                         .HasDatabaseName("IX_Users_Email");
-
-                    b.HasIndex("_subject")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Subject");
 
                     b.ToTable("Users", "cognito");
                 });

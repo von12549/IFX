@@ -5,7 +5,7 @@ using MediatR;
 namespace AuthSamples.Modules.Cognito.Application.Commands.UpdateUserProfile;
 
 public record UpdateUserProfileCommand(
-    string CognitoUserId,
+    string Subject,
     string? Username = null,
     string? FirstName = null,
     string? LastName = null,

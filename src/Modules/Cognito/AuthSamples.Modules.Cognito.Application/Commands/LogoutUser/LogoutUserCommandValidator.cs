@@ -6,8 +6,8 @@ public class LogoutUserCommandValidator : AbstractValidator<LogoutUserCommand>
 {
     public LogoutUserCommandValidator()
     {
-        RuleFor(x => x.CognitoUserId)
-            .NotEmpty().WithMessage("Cognito User ID is required");
+        RuleFor(x => x.Subject)
+            .NotEmpty().WithMessage("Subject is required");
 
         RuleFor(x => x.AccessToken)
             .NotEmpty().WithMessage("Access token is required");

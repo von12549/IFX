@@ -6,8 +6,8 @@ public class UpdateUserProfileCommandValidator : AbstractValidator<UpdateUserPro
 {
     public UpdateUserProfileCommandValidator()
     {
-        RuleFor(x => x.CognitoUserId)
-            .NotEmpty().WithMessage("CognitoUserId is required");
+        RuleFor(x => x.Subject)
+            .NotEmpty().WithMessage("Subject is required");
 
         // At least one field must be provided
         RuleFor(x => x)

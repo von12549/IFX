@@ -5,7 +5,7 @@ namespace AuthSamples.Modules.Cognito.Domain.Interfaces.Repositories;
 public interface IUserRepository
 {
     Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<User?> GetByCognitoUserIdAsync(string cognitoUserId, CancellationToken cancellationToken = default);
+    Task<User?> GetBySubjectAsync(string subject, CancellationToken cancellationToken = default);
     Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default);
     Task<(List<User> Users, int TotalCount)> GetAllUsersAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);

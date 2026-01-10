@@ -6,7 +6,7 @@ public class SyncUserCommandValidator : AbstractValidator<SyncUserCommand>
 {
     public SyncUserCommandValidator()
     {
-        RuleFor(x => x.CognitoUserId)
-            .NotEmpty().WithMessage("Cognito User ID is required");
+        RuleFor(x => x.Subject)
+            .NotEmpty().WithMessage("Subject is required");
     }
 }

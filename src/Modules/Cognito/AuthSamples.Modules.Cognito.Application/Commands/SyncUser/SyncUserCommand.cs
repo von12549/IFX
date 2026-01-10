@@ -4,4 +4,4 @@ using MediatR;
 
 namespace AuthSamples.Modules.Cognito.Application.Commands.SyncUser;
 
-public record SyncUserCommand(string CognitoUserId) : IRequest<Result<UserProfileDto>>;
+public record SyncUserCommand(string Subject) : IRequest<Result<UserProfileDto>>;

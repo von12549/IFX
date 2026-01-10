@@ -14,7 +14,7 @@ public interface ICognitoService
 public class CognitoSignUpResult
 {
     public bool Success { get; set; }
-    public string? CognitoUserId { get; set; }
+    public string? Subject { get; set; }
     public bool UserConfirmed { get; set; }
     public string? ErrorMessage { get; set; }
 }
@@ -31,7 +31,7 @@ public class CognitoAuthResult
 
 public class CognitoUserInfo
 {
-    public string CognitoUserId { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
