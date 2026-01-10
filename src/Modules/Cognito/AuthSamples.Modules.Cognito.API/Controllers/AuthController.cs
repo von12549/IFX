@@ -1,9 +1,12 @@
+using AuthSamples.Modules.Cognito.API.Models;
 using AuthSamples.Modules.Cognito.API.Models.Requests;
 using AuthSamples.Modules.Cognito.API.Models.Responses;
 using AuthSamples.Modules.Cognito.Application.Commands.ConfirmRegistration;
 using AuthSamples.Modules.Cognito.Application.Commands.LoginUser;
 using AuthSamples.Modules.Cognito.Application.Commands.LogoutUser;
+using AuthSamples.Modules.Cognito.Application.Commands.RefreshToken;
 using AuthSamples.Modules.Cognito.Application.Commands.RegisterUser;
+using AuthSamples.Modules.Cognito.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +19,13 @@ public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly ILogger<AuthController> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AuthController(IMediator mediator, ILogger<AuthController> logger)
+    public AuthController(IMediator mediator, ILogger<AuthController> logger, IUnitOfWork unitOfWork)
     {
         _mediator = mediator;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpPost("register")]
@@ -94,6 +99,43 @@ public class AuthController : ControllerBase
             return Unauthorized(ApiResponse<object>.FailureResponse(result.Error!));
         }
 
+        return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    /// <summary>
+    /// Refresh access token using a valid refresh token
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost("refresh")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<object>>> RefreshToken([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
+    {
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
+
+        // Query user by email to get Subject
+        var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+        if (user == null)
+        {
+            _logger.LogWarning("User not found for email {Email}", request.Email);
+            return NotFound(ApiResponse<object>.FailureResponse("User not found"));
+        }
+
+        var command = new RefreshTokenCommand(
+            request.RefreshToken,
+            Username: user.Subject.Value,
+            ipAddress);
+
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (!result.IsSuccess)
+        {
+            _logger.LogWarning("Token refresh failed for {Email}: {ErrorMessage}", request.Email, result.Error);
+            return BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        }
+
+        _logger.LogInformation("Token refreshed successfully for {Email}", request.Email);
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 

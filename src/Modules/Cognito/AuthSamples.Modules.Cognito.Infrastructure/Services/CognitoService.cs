@@ -290,7 +290,7 @@ public class CognitoService : ICognitoService
         }
     }
 
-    public async Task<bool> RefreshTokenAsync(string refreshToken)
+    public async Task<CognitoAuthResult> RefreshTokenAsync(string refreshToken, string username)
     {
         try
         {
@@ -301,17 +301,43 @@ public class CognitoService : ICognitoService
                 AuthFlow = AuthFlowType.REFRESH_TOKEN_AUTH,
                 AuthParameters = new Dictionary<string, string>
                 {
-                    { "REFRESH_TOKEN", refreshToken }
+                    { "REFRESH_TOKEN", refreshToken },
+                    { "USERNAME", username },
+                    { "SECRET_HASH", ComputeSecretHash(username) }
                 }
             };
 
-            await _cognitoClient.AdminInitiateAuthAsync(request);
-            return true;
+            var response = await _cognitoClient.AdminInitiateAuthAsync(request);
+
+            _logger.LogInformation("Token refreshed successfully in Cognito");
+
+            return new CognitoAuthResult
+            {
+                Success = true,
+                AccessToken = response.AuthenticationResult.AccessToken,
+                IdToken = response.AuthenticationResult.IdToken,
+                RefreshToken = refreshToken, // Cognito doesn't return new refresh token
+                ExpiresIn = response.AuthenticationResult.ExpiresIn,
+                TokenType = response.AuthenticationResult.TokenType
+            };
+        }
+        catch (NotAuthorizedException ex)
+        {
+            _logger.LogWarning(ex, "Refresh token is invalid or expired");
+            return new CognitoAuthResult
+            {
+                Success = false,
+                ErrorMessage = "Refresh token is invalid or expired"
+            };
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error refreshing token in Cognito");
-            return false;
+            return new CognitoAuthResult
+            {
+                Success = false,
+                ErrorMessage = "An error occurred while refreshing the token"
+            };
         }
     }
 

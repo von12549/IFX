@@ -7,7 +7,7 @@ public interface ICognitoService
     Task<CognitoAuthResult> AuthenticateAsync(string username, string password);
     Task<bool> SignOutAsync(string accessToken);
     Task<CognitoUserInfo> GetUserAsync(string accessToken);
-    Task<bool> RefreshTokenAsync(string refreshToken);
+    Task<CognitoAuthResult> RefreshTokenAsync(string refreshToken, string username);
     Task<bool> ResendConfirmationCodeAsync(string username);
 }
 
@@ -26,6 +26,7 @@ public class CognitoAuthResult
     public string? IdToken { get; set; }
     public string? RefreshToken { get; set; }
     public int ExpiresIn { get; set; }
+    public string TokenType { get; set; } = "Bearer";
     public string? ErrorMessage { get; set; }
 }
 
