@@ -10,6 +10,7 @@ public interface IUnitOfWork : IDisposable
     ILogoutEventRepository LogoutEvents { get; }
     IRegistrationFlowEventRepository RegistrationFlowEvents { get; }
     IUserActivityLogRepository UserActivityLogs { get; }
+    IIdpRepository Idps { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);

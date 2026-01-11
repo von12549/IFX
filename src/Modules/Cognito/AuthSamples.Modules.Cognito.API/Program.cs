@@ -1,13 +1,17 @@
 using AuthSamples.Modules.Cognito.API.Authorization;
+using AuthSamples.Modules.Cognito.API.HealthChecks;
 using AuthSamples.Modules.Cognito.API.Middleware;
 using AuthSamples.Modules.Cognito.Application;
 using AuthSamples.Modules.Cognito.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Text.Json;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -105,6 +109,20 @@ try
         });
     });
 
+    // Configure Health Checks
+    var connectionString = builder.Configuration.GetConnectionString("CognitoDatabase");
+    builder.Services.AddHealthChecks()
+        .AddSqlServer(
+            connectionString: connectionString!,
+            healthQuery: "SELECT 1;",
+            name: "SQL Server",
+            failureStatus: HealthStatus.Unhealthy,
+            tags: new[] { "database", "sqlserver" })
+        .AddCheck<CognitoHealthCheck>(
+            name: "AWS Cognito",
+            failureStatus: HealthStatus.Unhealthy,
+            tags: new[] { "aws", "cognito", "authentication" });
+
     var app = builder.Build();
 
     // Apply EF Core migrations on startup
@@ -142,6 +160,45 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    // Map Health Check Endpoints
+    app.MapHealthChecks("/health", new HealthCheckOptions
+    {
+        Predicate = _ => true,
+        ResponseWriter = async (context, report) =>
+        {
+            context.Response.ContentType = "application/json";
+            var result = JsonSerializer.Serialize(new
+            {
+                status = report.Status.ToString(),
+                timestamp = DateTime.UtcNow,
+                totalDuration = report.TotalDuration.TotalMilliseconds,
+                checks = report.Entries.Select(e => new
+                {
+                    name = e.Key,
+                    status = e.Value.Status.ToString(),
+                    description = e.Value.Description,
+                    duration = e.Value.Duration.TotalMilliseconds,
+                    tags = e.Value.Tags
+                })
+            }, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+            await context.Response.WriteAsync(result);
+        }
+    });
+
+    // Simple health check endpoint (ready/alive probe)
+    app.MapHealthChecks("/health/ready", new HealthCheckOptions
+    {
+        Predicate = _ => true,
+        ResponseWriter = async (context, report) =>
+        {
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync(report.Status.ToString());
+        }
+    });
 
     app.MapControllers();
 

@@ -55,6 +55,7 @@ public static class DependencyInjection
         services.AddScoped<ILogoutEventRepository, LogoutEventRepository>();
         services.AddScoped<IRegistrationFlowEventRepository, RegistrationFlowEventRepository>();
         services.AddScoped<IUserActivityLogRepository, UserActivityLogRepository>();
+        services.AddScoped<IIdpRepository, IdpRepository>();
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();

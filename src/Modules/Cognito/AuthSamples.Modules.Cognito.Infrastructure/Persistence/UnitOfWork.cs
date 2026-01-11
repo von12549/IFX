@@ -16,7 +16,8 @@ public class UnitOfWork : IUnitOfWork
         ILoginEventRepository loginEvents,
         ILogoutEventRepository logoutEvents,
         IRegistrationFlowEventRepository registrationFlowEvents,
-        IUserActivityLogRepository userActivityLogs)
+        IUserActivityLogRepository userActivityLogs,
+        IIdpRepository idps)
     {
         _context = context;
         Users = users;
@@ -25,6 +26,7 @@ public class UnitOfWork : IUnitOfWork
         LogoutEvents = logoutEvents;
         RegistrationFlowEvents = registrationFlowEvents;
         UserActivityLogs = userActivityLogs;
+        Idps = idps;
     }
 
     public IUserRepository Users { get; }
@@ -33,6 +35,7 @@ public class UnitOfWork : IUnitOfWork
     public ILogoutEventRepository LogoutEvents { get; }
     public IRegistrationFlowEventRepository RegistrationFlowEvents { get; }
     public IUserActivityLogRepository UserActivityLogs { get; }
+    public IIdpRepository Idps { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

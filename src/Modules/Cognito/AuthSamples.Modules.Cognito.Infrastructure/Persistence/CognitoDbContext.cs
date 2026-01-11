@@ -16,6 +16,7 @@ public class CognitoDbContext : DbContext
     public DbSet<LogoutEvent> LogoutEvents => Set<LogoutEvent>();
     public DbSet<RegistrationFlowEvent> RegistrationFlowEvents => Set<RegistrationFlowEvent>();
     public DbSet<UserActivityLog> UserActivityLogs => Set<UserActivityLog>();
+    public DbSet<Idp> Idps => Set<Idp>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
