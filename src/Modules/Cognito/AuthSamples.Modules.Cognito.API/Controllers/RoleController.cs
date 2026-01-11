@@ -23,7 +23,14 @@ public class RoleController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get all user roles (Admin only)
+    /// </summary>
     [HttpGet]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<object>>> GetAllRoles()
     {
         _logger.LogInformation("Admin accessing roles list");
@@ -39,7 +46,14 @@ public class RoleController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Update an existing role (Admin only)
+    /// </summary>
     [HttpPut("{roleId}")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<object>>> UpdateRole(
         Guid roleId,
         [FromBody] UpdateRoleRequest request)
@@ -57,7 +71,14 @@ public class RoleController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Add a new role (Admin only)
+    /// </summary>
     [HttpPost]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<object>>> AddRole(
         [FromBody] AddRoleRequest request)
     {

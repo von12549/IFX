@@ -22,7 +22,14 @@ public class UserManagementController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get all users (Admin only, paginated)
+    /// </summary>
     [HttpGet("users")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<object>>> GetAllUsers(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50)
@@ -40,7 +47,14 @@ public class UserManagementController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Update any user's profile (Admin only)
+    /// </summary>
     [HttpPut("users/{subject}")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<ApiResponse<object>>> UpdateUserProfile(
         string subject,
         [FromBody] UpdateUserProfileRequest request)

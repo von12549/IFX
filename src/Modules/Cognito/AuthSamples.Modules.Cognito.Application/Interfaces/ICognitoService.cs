@@ -9,6 +9,7 @@ public interface ICognitoService
     Task<CognitoUserInfo> GetUserAsync(string accessToken);
     Task<CognitoAuthResult> RefreshTokenAsync(string refreshToken, string username);
     Task<bool> ResendConfirmationCodeAsync(string username);
+    Task<bool> RevokeTokenAsync(string refreshToken);
 }
 
 public class CognitoSignUpResult

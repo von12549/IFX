@@ -25,7 +25,13 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get current user profile
+    /// </summary>
     [HttpGet("profile")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ApiResponse<object>>> GetProfile()
     {
         var subject = User.FindFirst("sub")?.Value;
@@ -45,7 +51,13 @@ public class UserController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Update current user profile
+    /// </summary>
     [HttpPut("profile")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> UpdateProfile(
         [FromBody] UpdateUserProfileRequest request)
     {
@@ -74,7 +86,13 @@ public class UserController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Get current user login history (paginated)
+    /// </summary>
     [HttpGet("login-history")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> GetLoginHistory(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
@@ -100,7 +118,13 @@ public class UserController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Get current user activity log (paginated)
+    /// </summary>
     [HttpGet("activity-log")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> GetActivityLog(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50)
@@ -126,7 +150,13 @@ public class UserController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Sync current user profile from Cognito
+    /// </summary>
     [HttpPost("sync")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> SyncProfile()
     {
         var subject = User.FindFirst("sub")?.Value;

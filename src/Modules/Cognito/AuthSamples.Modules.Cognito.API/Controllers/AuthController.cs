@@ -6,6 +6,7 @@ using AuthSamples.Modules.Cognito.Application.Commands.LoginUser;
 using AuthSamples.Modules.Cognito.Application.Commands.LogoutUser;
 using AuthSamples.Modules.Cognito.Application.Commands.RefreshToken;
 using AuthSamples.Modules.Cognito.Application.Commands.RegisterUser;
+using AuthSamples.Modules.Cognito.Application.Commands.RevokeToken;
 using AuthSamples.Modules.Cognito.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,12 @@ public class AuthController : ControllerBase
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Register a new user account
+    /// </summary>
     [HttpPost("register")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ApiResponse<object>>> Register([FromBody] RegisterRequest request)
     {
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
@@ -57,7 +63,12 @@ public class AuthController : ControllerBase
         }));
     }
 
+    /// <summary>
+    /// Confirm user email with verification code
+    /// </summary>
     [HttpPost("confirm")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ApiResponse<object>>> ConfirmRegistration([FromBody] ConfirmRegistrationRequest request)
     {
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
@@ -80,7 +91,12 @@ public class AuthController : ControllerBase
         }));
     }
 
+    /// <summary>
+    /// Authenticate user with email and password
+    /// </summary>
     [HttpPost("login")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> Login([FromBody] LoginRequest request)
     {
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
@@ -139,8 +155,42 @@ public class AuthController : ControllerBase
         return Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 
+    /// <summary>
+    /// Revoke a refresh token to invalidate it
+    /// </summary>
+    [AllowAnonymous]
+    [HttpPost("revoke")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ApiResponse<object>>> RevokeToken([FromBody] Models.RevokeTokenRequest request, CancellationToken cancellationToken)
+    {
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
+
+        var command = new Application.Commands.RevokeToken.RevokeTokenCommand(
+            request.RefreshToken,
+            Email: null, // Email is optional for revoke
+            ipAddress);
+
+        var result = await _mediator.Send(command, cancellationToken);
+
+        if (!result.IsSuccess)
+        {
+            _logger.LogWarning("Token revocation failed: {ErrorMessage}", result.Error);
+            return BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        }
+
+        _logger.LogInformation("Refresh token revoked successfully");
+        return Ok(ApiResponse<object>.SuccessResponse(new { Message = "Refresh token revoked successfully" }));
+    }
+
+    /// <summary>
+    /// Logout user and invalidate session
+    /// </summary>
     [Authorize]
     [HttpPost("logout")]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ApiResponse<object>>> Logout()
     {
         var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");

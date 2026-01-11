@@ -363,4 +363,27 @@ public class CognitoService : ICognitoService
             return false;
         }
     }
+
+    public async Task<bool> RevokeTokenAsync(string refreshToken)
+    {
+        try
+        {
+            var request = new RevokeTokenRequest
+            {
+                ClientId = _settings.ClientId,
+                ClientSecret = _settings.ClientSecret,
+                Token = refreshToken
+            };
+
+            await _cognitoClient.RevokeTokenAsync(request);
+
+            _logger.LogInformation("Refresh token revoked successfully");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error revoking refresh token");
+            return false;
+        }
+    }
 }
