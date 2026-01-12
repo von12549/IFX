@@ -1,22 +1,34 @@
-# AuthSamples - Modular Monolithic Authentication with AWS Cognito
+# AuthSamples - Multi-IdP Authentication with Clean Architecture
 
-A production-ready ASP.NET Core 8 authentication solution demonstrating Clean Architecture, CQRS pattern, and AWS Cognito integration with comprehensive audit trail tracking.
+A production-ready ASP.NET Core 8 authentication solution demonstrating Clean Architecture, CQRS pattern, multi-IdP support with AWS Cognito, and comprehensive audit trail tracking.
+
+## ✨ Latest Updates (January 2026)
+
+**🎉 Multi-IdP Architecture**: Complete migration to support multiple identity providers
+- Users can link accounts from multiple IdPs (currently Cognito, extensible to Google, Azure AD, etc.)
+- Unique identification via `(Issuer, Subject)` tuple across all IdPs
+- IdP-scoped email validation prevents duplicate emails per provider
+- See [Migration Documentation](docs/MULTI_IDP_MIGRATION_SUMMARY.md) for technical details
 
 ## Features
 
 - **Clean Architecture**: Separation of concerns with Domain, Application, Infrastructure, and API layers
 - **CQRS Pattern**: Command-Query separation using MediatR
-- **AWS Cognito Integration**: Secure user authentication and authorization
+- **Multi-IdP Support**: Extensible architecture supporting multiple identity providers
+- **AWS Cognito Integration**: Primary IdP with secure user authentication
+- **Role-Based Authorization**: Admin, User, and SsoUser roles with JWT claims transformation
 - **Full Audit Trail**: Comprehensive tracking of user activities
   - User registration flow (initiated → confirmed)
   - Login/logout events with session duration
   - Activity logs for all user actions
   - IP address and device information capture
-- **JWT Authentication**: Secure token-based authentication
+- **JWT Authentication**: Secure token-based authentication with refresh tokens
+- **OAuth 2.0 Token Management**: Refresh and revoke token endpoints
 - **FluentValidation**: Input validation with clear error messages
 - **AutoMapper**: Object-to-object mapping
 - **Serilog**: Structured logging to console and file
-- **Swagger/OpenAPI**: Interactive API documentation
+- **Swagger/OpenAPI**: Interactive API documentation with Bearer auth
+- **Health Checks**: SQL Server and AWS Cognito connectivity monitoring
 - **Docker Support**: Containerized deployment with docker-compose
 
 ## Architecture
@@ -25,15 +37,30 @@ A production-ready ASP.NET Core 8 authentication solution demonstrating Clean Ar
 AuthSamples/
 ├── src/
 │   └── Modules/
-│       └── Cognito/
+│       └── Auth/                    # Main authentication module
 │           ├── Domain/              # Business entities, value objects, interfaces
 │           ├── Application/         # Use cases, DTOs, CQRS handlers
 │           ├── Infrastructure/      # Data access, AWS Cognito service
 │           └── API/                 # Controllers, middleware, startup
 ├── docs/                           # Documentation
+│   ├── AWS_COGNITO_SETUP.md       # Cognito configuration guide
+│   └── MULTI_IDP_MIGRATION_SUMMARY.md  # Multi-IdP architecture details
 ├── docker-compose.yml              # Docker orchestration
 └── README.md                       # This file
 ```
+
+### Multi-IdP Architecture
+
+The system separates core user identity from IdP-specific data:
+- **Users** table: Core identity (DisplayName, IsActive, Role)
+- **UserIdentities** table: IdP-specific attributes (Subject, Email, Names, Phone)
+- **Idps** table: Identity Provider configurations
+- **Relationship**: One User → Many UserIdentities (one per linked IdP)
+
+Benefits:
+- Users can link multiple IdP accounts (e.g., Cognito + Google SSO)
+- Same email can exist across different IdPs
+- Add new IdPs without code changes (configuration only)
 
 ### Technology Stack
 
@@ -78,18 +105,18 @@ Quick summary:
 
 #### Option A: Using appsettings.json (Development)
 
-Update `src/Modules/Cognito/AuthSamples.Modules.Cognito.API/appsettings.json`:
+Update `src/Modules/Auth/AuthSamples.Modules.Auth.API/appsettings.json`:
 
 ```json
 {
   "ConnectionStrings": {
-    "CognitoDatabase": "Server=localhost,1433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=true"
+    "AuthDatabase": "Server=localhost,1433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=true"
   },
   "CognitoSettings": {
-    "UserPoolId": "us-east-1_XXXXXXXXX",
+    "UserPoolId": "ap-southeast-2_adW7gmF5P",
     "ClientId": "XXXXXXXXXXXXXXXXXXXXXXXXXX",
     "ClientSecret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "Region": "us-east-1"
+    "Region": "ap-southeast-2"
   }
 }
 ```
@@ -108,7 +135,7 @@ cp .env.example .env
 docker-compose up -d
 
 # Check logs
-docker-compose logs -f cognito-api
+docker-compose logs -f auth-api
 
 # Stop services
 docker-compose down
@@ -122,7 +149,7 @@ Swagger UI: `http://localhost:5000/swagger`
 #### Start SQL Server
 
 ```bash
-docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong@Passw0rd' \
+docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong@Pass123' \
   -p 1433:1433 --name sqlserver \
   -d mcr.microsoft.com/mssql/server:2022-latest
 ```
@@ -130,13 +157,14 @@ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong@Passw0rd' \
 #### Apply Database Migrations
 
 ```bash
-cd src/Modules/Cognito/AuthSamples.Modules.Cognito.API
-dotnet ef database update --context CognitoDbContext
+cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
+dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
 ```
 
 #### Run the API
 
 ```bash
+cd src/Modules/Auth/AuthSamples.Modules.Auth.API
 dotnet run
 ```
 
@@ -155,7 +183,8 @@ Content-Type: application/json
   "username": "testuser",
   "firstName": "Test",
   "lastName": "User",
-  "phoneNumber": "+1234567890" // optional
+  "birthDate": "1990-01-01",
+  "phoneNumber": "+61412345678"
 }
 ```
 
@@ -201,6 +230,27 @@ POST /api/v1/auth/logout
 Authorization: Bearer <access_token>
 ```
 
+#### Refresh Token
+```http
+POST /api/v1/auth/refresh
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "refreshToken": "eyJjdHkiOi..."
+}
+```
+
+#### Revoke Token
+```http
+POST /api/v1/auth/revoke
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJjdHkiOi..."
+}
+```
+
 ### User Endpoints (All require authentication)
 
 #### Get User Profile
@@ -227,17 +277,137 @@ POST /api/v1/user/sync
 Authorization: Bearer <access_token>
 ```
 
+#### Update User Profile
+```http
+PUT /api/v1/user/profile
+Authorization: Bearer <access_token>
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "Name",
+  "phoneNumber": "+61412345679"
+}
+```
+
+### Admin Endpoints (Require Admin role)
+
+#### Get All Users
+```http
+GET /api/v1/usermanagement/users?page=1&pageSize=20
+Authorization: Bearer <admin_access_token>
+```
+
+#### Update User Profile (Admin)
+```http
+PUT /api/v1/usermanagement/users/{userId}
+Authorization: Bearer <admin_access_token>
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "Name"
+}
+```
+
+#### Get All Roles
+```http
+GET /api/v1/role
+Authorization: Bearer <admin_access_token>
+```
+
+#### Add New Role
+```http
+POST /api/v1/role
+Authorization: Bearer <admin_access_token>
+Content-Type: application/json
+
+{
+  "roleName": "Manager",
+  "description": "Manager role with elevated permissions"
+}
+```
+
+#### Update Role
+```http
+PUT /api/v1/role/{roleId}
+Authorization: Bearer <admin_access_token>
+Content-Type: application/json
+
+{
+  "roleName": "UpdatedManager",
+  "description": "Updated description"
+}
+```
+
+#### Get All Identity Providers
+```http
+GET /api/v1/idp
+Authorization: Bearer <admin_access_token>
+```
+
+#### Create Identity Provider
+```http
+POST /api/v1/idp
+Authorization: Bearer <admin_access_token>
+Content-Type: application/json
+
+{
+  "name": "Google SSO",
+  "issuer": "https://accounts.google.com",
+  "authority": "https://accounts.google.com",
+  "description": "Google Single Sign-On",
+  "enabled": true
+}
+```
+
+#### Update Identity Provider
+```http
+PUT /api/v1/idp/{idpId}
+Authorization: Bearer <admin_access_token>
+Content-Type: application/json
+
+{
+  "name": "Google SSO Updated",
+  "enabled": false
+}
+```
+
 ## Database Schema
 
-The application creates 5 tables in the `cognito` schema:
+The application creates 8 tables in the `auth` schema:
 
-1. **Users**: Synced user profiles from Cognito
-   - Unique indexes on Email, Username, CognitoUserId
-2. **LoginEvents**: All login attempts with success/failure tracking
+### Core Tables
+
+1. **Users**: Core user identity
+   - Id, DisplayName, IsActive, UserRoleId, timestamps
+   - Separated from IdP-specific data for multi-IdP support
+
+2. **UserIdentities**: IdP-specific user attributes
+   - UserId (FK), IdpId (FK), Issuer, Subject, Email, EmailVerified
+   - FirstName, LastName, BirthDate, PhoneNumber, PhoneNumberVerified
+   - Unique constraint on (Issuer, Subject)
+   - One user can have multiple identities from different IdPs
+
+3. **UserRoles**: Role definitions
+   - Seeded roles: Admin, User, SsoUser
+   - Used for role-based authorization
+
+4. **Idps**: Identity Provider configurations
+   - Name, Issuer (unique), Authority, Enabled, AutoProvisionEnabled
+   - Configuration for JWT validation and claims mapping
+   - Seeded with IFX Cognito
+
+### Audit Tables
+
+5. **LoginEvents**: All login attempts with success/failure tracking
    - Stores access tokens, IP address, device info
-3. **LogoutEvents**: Logout events with session duration calculation
-4. **RegistrationFlowEvents**: Registration tracking from initiation to confirmation
-5. **UserActivityLogs**: Comprehensive activity tracking for all user actions
+
+6. **LogoutEvents**: Logout events with session duration calculation
+
+7. **RegistrationFlowEvents**: Registration tracking from initiation to confirmation
+
+8. **UserActivityLogs**: Comprehensive activity tracking for all user actions
 
 ## Development
 
@@ -256,43 +426,50 @@ dotnet test
 ### Create New Migration
 
 ```bash
-cd src/Modules/Cognito/AuthSamples.Modules.Cognito.Infrastructure
-dotnet ef migrations add <MigrationName> --startup-project ../AuthSamples.Modules.Cognito.API
+cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
+dotnet ef migrations add <MigrationName> --startup-project ../AuthSamples.Modules.Auth.API
 ```
 
 ### Apply Migrations
 
 ```bash
-dotnet ef database update --startup-project ../AuthSamples.Modules.Cognito.API
+cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
+dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
 ```
 
 ## Project Structure
 
-### Domain Layer (AuthSamples.Modules.Cognito.Domain)
-- **Entities**: User, LoginEvent, LogoutEvent, RegistrationFlowEvent, UserActivityLog
-- **Value Objects**: CognitoUserId, EmailAddress, DeviceInfo
+### Domain Layer (AuthSamples.Modules.Auth.Domain)
+- **Entities**: User, UserIdentity, UserRole, Idp, LoginEvent, LogoutEvent, RegistrationFlowEvent, UserActivityLog
+- **Value Objects**: Subject, EmailAddress, DeviceInfo
 - **Enums**: RegistrationStatus, LoginResult, ActivityType
-- **Interfaces**: Repository contracts
-- **Events**: Domain events for event-driven architecture
+- **Repository Interfaces**: IUserRepository, IUserIdentityRepository, IUserRoleRepository, IIdpRepository, etc.
+- **Domain Events**: UserRegisteredDomainEvent, UserLoggedInDomainEvent, etc.
 
-### Application Layer (AuthSamples.Modules.Cognito.Application)
-- **Commands**: RegisterUser, ConfirmRegistration, LoginUser, LogoutUser, SyncUser
-- **Queries**: GetUserProfile, GetUserLoginHistory, GetUserActivityLog
-- **Handlers**: Command and query handlers using MediatR
-- **Validators**: FluentValidation validators
+### Application Layer (AuthSamples.Modules.Auth.Application)
+- **Commands**: RegisterUser, ConfirmRegistration, LoginUser, LogoutUser, RefreshToken, RevokeToken, SyncUser, UpdateUserProfile, AddRole, UpdateRole, CreateIdp, UpdateIdp
+- **Queries**: GetUserProfile, GetUserLoginHistory, GetUserActivityLog, GetAllUsers, GetAllRoles, GetAllIdps
+- **Handlers**: Command and query handlers using MediatR (one per command/query)
+- **Validators**: FluentValidation validators for all commands
 - **Behaviors**: Validation, Logging, Transaction pipeline behaviors
-- **DTOs**: Data transfer objects
+- **DTOs**: UserProfileDto, LoginUserDto, UserRoleDto, IdpDto, etc.
+- **Mappings**: AutoMapper profiles
 
-### Infrastructure Layer (AuthSamples.Modules.Cognito.Infrastructure)
-- **Persistence**: EF Core DbContext, entity configurations, repositories
-- **Services**: AWS Cognito service implementation
-- **Configuration**: Settings and dependency injection
+### Infrastructure Layer (AuthSamples.Modules.Auth.Infrastructure)
+- **Persistence**:
+  - AuthDbContext (EF Core DbContext with 8 DbSets)
+  - Entity configurations (UserConfiguration, UserIdentityConfiguration, etc.)
+  - Repositories (UserRepository, UserIdentityRepository, etc.)
+  - UnitOfWork pattern for transaction management
+- **Services**: CognitoService (AWS SDK wrapper)
+- **Configuration**: CognitoSettings, dependency injection
 
-### API Layer (AuthSamples.Modules.Cognito.API)
-- **Controllers**: Auth, User
-- **Middleware**: Exception handling, request logging
-- **Models**: Request/response models
-- **Configuration**: Startup, JWT, Swagger, CORS
+### API Layer (AuthSamples.Modules.Auth.API)
+- **Controllers**: AuthController, UserController, UserManagementController (Admin), RoleController (Admin), IdpController (Admin)
+- **Authorization**: UserRoleClaimsTransformation (JWT claims enrichment)
+- **Middleware**: ExceptionHandlingMiddleware, RequestLoggingMiddleware
+- **Models**: Request/response models (RegisterRequest, LoginRequest, ApiResponse<T>, etc.)
+- **Configuration**: Program.cs with JWT validation, Swagger, CORS, Serilog, Health Checks
 
 ## Security Considerations
 
@@ -334,15 +511,38 @@ For issues and questions:
 - Review the [API documentation](http://localhost:5000/swagger)
 - Open an issue on GitHub
 
+## Completed Features
+
+- [x] **Multi-IdP Architecture** (January 2026) - User + UserIdentity table separation
+- [x] **Issuer+Subject Lookup Pattern** - All handlers use `(Issuer, Subject)` tuple
+- [x] **IdP-Scoped Email Lookup** - Prevents duplicate emails across different IdPs
+- [x] **Refresh Token Endpoint** - OAuth 2.0 token refresh
+- [x] **Revoke Token Endpoint** - Token revocation for security
+- [x] **Health Checks** - SQL Server and AWS Cognito monitoring
+- [x] **Admin Endpoints** - User, Role, and IdP management
+- [x] **Role-Based Authorization** - Admin, User, SsoUser roles
+- [x] **User Management** - Admin can view and update all users
+- [x] **Role Management** - Admin can create and update roles
+- [x] **IdP Management** - Admin can configure identity providers
+
 ## Roadmap
 
-- [ ] Add refresh token endpoint
-- [ ] Implement password reset flow
+- [ ] **Additional IdP Integration** (Google SSO, Azure AD, Okta, Auth0)
+- [ ] **Account Linking UI** - Allow users to link multiple IdP accounts
+- [ ] Implement password reset flow (forgot password)
 - [ ] Add email change functionality
-- [ ] Implement account deletion
-- [ ] Add unit and integration tests
-- [ ] Add health checks
-- [ ] Implement rate limiting
-- [ ] Add API versioning
-- [ ] Create admin endpoints
-- [ ] Add user search and filtering
+- [ ] Implement account deletion (soft delete)
+- [ ] Add role assignment endpoint (change user's role)
+- [ ] Add unit and integration tests (xUnit, FluentAssertions, Testcontainers)
+- [ ] Implement rate limiting (AspNetCoreRateLimit)
+- [ ] Add API versioning (Asp.Versioning.Mvc)
+- [ ] Add distributed caching (Redis) for role lookups
+- [ ] Implement event sourcing for audit trail
+- [ ] Add OpenTelemetry for observability
+- [ ] Add user search and filtering in admin endpoints
+
+## Documentation
+
+- **[CLAUDE.md](CLAUDE.md)** - Comprehensive guide for Claude Code with architecture details and patterns
+- **[AWS Cognito Setup](docs/AWS_COGNITO_SETUP.md)** - Step-by-step Cognito configuration guide
+- **[Multi-IdP Migration Summary](docs/MULTI_IDP_MIGRATION_SUMMARY.md)** - Complete 3-phase migration documentation (440+ lines)
