@@ -1,0 +1,34 @@
+using AuthSamples.Modules.Auth.Domain.Entities;
+using AuthSamples.Modules.Auth.Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Repositories;
+
+public class RegistrationFlowEventRepository : IRegistrationFlowEventRepository
+{
+    private readonly AuthDbContext _context;
+
+    public RegistrationFlowEventRepository(AuthDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task AddAsync(RegistrationFlowEvent registrationEvent, CancellationToken cancellationToken = default)
+    {
+        await _context.RegistrationFlowEvents.AddAsync(registrationEvent, cancellationToken);
+    }
+
+    public async Task<RegistrationFlowEvent?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return await _context.RegistrationFlowEvents
+            .Where(rfe => rfe.Email == email.ToLowerInvariant())
+            .OrderByDescending(rfe => rfe.RegistrationInitiatedAt)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task UpdateAsync(RegistrationFlowEvent registrationEvent, CancellationToken cancellationToken = default)
+    {
+        _context.RegistrationFlowEvents.Update(registrationEvent);
+        return Task.CompletedTask;
+    }
+}

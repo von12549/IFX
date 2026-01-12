@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(rename Cognito Auth)",
+      "Bash(git add:*)",
+      "Bash(find:*)"
+    ]
+  }
+}
