@@ -12,7 +12,7 @@ A production-ready ASP.NET Core 8 authentication solution demonstrating Clean Ar
 
 ## Features
 
-- **Clean Architecture**: Separation of concerns with Domain, Application, Infrastructure, and API layers
+- **Clean Architecture**: Separation of concerns with Domain, Application, Infrastructure, Presentation, and ApiHost layers
 - **CQRS Pattern**: Command-Query separation using MediatR
 - **Multi-IdP Support**: Extensible architecture supporting multiple identity providers
 - **AWS Cognito Integration**: Primary IdP with secure user authentication
@@ -36,17 +36,19 @@ A production-ready ASP.NET Core 8 authentication solution demonstrating Clean Ar
 ```
 AuthSamples/
 ├── src/
+│   ├── ApiHost/
+│   │   └── AuthSamples.ApiHost/    # Infrastructure, middleware, startup (top-level, module-agnostic)
 │   └── Modules/
-│       └── Auth/                    # Main authentication module
-│           ├── Domain/              # Business entities, value objects, interfaces
-│           ├── Application/         # Use cases, DTOs, CQRS handlers
-│           ├── Infrastructure/      # Data access, AWS Cognito service
-│           └── API/                 # Controllers, middleware, startup
-├── docs/                           # Documentation
-│   ├── AWS_COGNITO_SETUP.md       # Cognito configuration guide
+│       └── Auth/                   # Main authentication module
+│           ├── Domain/             # Business entities, value objects, interfaces
+│           ├── Application/        # Use cases, DTOs, CQRS handlers
+│           ├── Infrastructure/     # Data access, AWS Cognito service
+│           └── Presentation/       # Minimal API endpoints and models
+├── docs/                          # Documentation
+│   ├── AWS_COGNITO_SETUP.md      # Cognito configuration guide
 │   └── MULTI_IDP_MIGRATION_SUMMARY.md  # Multi-IdP architecture details
-├── docker-compose.yml              # Docker orchestration
-└── README.md                       # This file
+├── docker-compose.yml             # Docker orchestration
+└── README.md                      # This file
 ```
 
 ### Multi-IdP Architecture
@@ -105,7 +107,7 @@ Quick summary:
 
 #### Option A: Using appsettings.json (Development)
 
-Update `src/Modules/Auth/AuthSamples.Modules.Auth.API/appsettings.json`:
+Update `src/ApiHost/AuthSamples.ApiHost/appsettings.json`:
 
 ```json
 {
@@ -158,13 +160,13 @@ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong@Pass123' \
 
 ```bash
 cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
 ```
 
 #### Run the API
 
 ```bash
-cd src/Modules/Auth/AuthSamples.Modules.Auth.API
+cd src/ApiHost/AuthSamples.ApiHost
 dotnet run
 ```
 
@@ -427,14 +429,14 @@ dotnet test
 
 ```bash
 cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef migrations add <MigrationName> --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef migrations add <MigrationName> --startup-project ../../../ApiHost/AuthSamples.ApiHost
 ```
 
 ### Apply Migrations
 
 ```bash
 cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
 ```
 
 ## Project Structure
@@ -464,12 +466,21 @@ dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
 - **Services**: CognitoService (AWS SDK wrapper)
 - **Configuration**: CognitoSettings, dependency injection
 
-### API Layer (AuthSamples.Modules.Auth.API)
-- **Controllers**: AuthController, UserController, UserManagementController (Admin), RoleController (Admin), IdpController (Admin)
+### Presentation Layer (AuthSamples.Modules.Auth.Presentation)
+- **Endpoints**: Minimal API endpoint modules organized by feature (Auth, User, UserManagement, Role, Idp)
+- **Endpoint Extensions**: MapAuthEndpoints, MapUserEndpoints, MapUserManagementEndpoints, MapRoleEndpoints, MapIdpEndpoints
+- **Models**: Request/response models organized by feature (RegisterRequest, LoginRequest, ApiResponse<T>, etc.)
+- **Helper Extensions**: ClaimsPrincipalExtensions (extract issuer/subject), HttpContextExtensions (get IP address)
+- **Master Registration**: PresentationExtensions.MapAuthModuleEndpoints() for unified endpoint registration
+
+### ApiHost Layer (AuthSamples.ApiHost)
+- **Location**: Top-level `src/ApiHost/AuthSamples.ApiHost/` (module-agnostic)
+- **Configuration Modules**: AuthenticationConfiguration, SwaggerConfiguration, CorsConfiguration, HealthCheckConfiguration
 - **Authorization**: UserRoleClaimsTransformation (JWT claims enrichment)
 - **Middleware**: ExceptionHandlingMiddleware, RequestLoggingMiddleware
-- **Models**: Request/response models (RegisterRequest, LoginRequest, ApiResponse<T>, etc.)
-- **Configuration**: Program.cs with JWT validation, Swagger, CORS, Serilog, Health Checks
+- **Health Checks**: CognitoHealthCheck for AWS Cognito connectivity monitoring
+- **Program.cs**: Application startup with JWT validation, Swagger, CORS, Serilog, Health Checks, and EF Core migrations
+- **Design**: Module-agnostic composition root that can host multiple modules in the future
 
 ## Security Considerations
 
@@ -513,6 +524,7 @@ For issues and questions:
 
 ## Completed Features
 
+- [x] **Presentation + ApiHost Architecture** (January 2026) - Migrated from controller-based API to Minimal APIs with separated concerns
 - [x] **Multi-IdP Architecture** (January 2026) - User + UserIdentity table separation
 - [x] **Issuer+Subject Lookup Pattern** - All handlers use `(Issuer, Subject)` tuple
 - [x] **IdP-Scoped Email Lookup** - Prevents duplicate emails across different IdPs

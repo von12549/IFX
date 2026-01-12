@@ -95,7 +95,17 @@ Main re-design targets:
 8. Review/Update all user related methods. All requests which using Sub before should first look the Subject&Issuer from UserIdentity table and then use UserId to get the real Local User.
 
 
-
+# Presentation and API layer re-design
+In order to accept more modules in future, the current API project should not be the main entry point of the whole project. I want to Create a new ApiHost project over the Module level as the main entry of the solution. The current API project in module level will be rename to Presentation and provide endpoints register for the ApiHost project.
+Steps:
+1. Create Presentation project in Auth Module which will use minimal api as Endpoints Register Module
+2. Extract Models from Auth.API project to the Presentation project.
+3. Extract Controller Endpoints into Presentation as minimal endpoint modules, each controller will be a module.
+4. Restructure the Models folder as Models/Requests/ModuleName/reqeust.cs and Models/Responses/ModuleName/response.cs
+5. Create ApiHost project over the Modules level.
+6. Extract Middlewares/Transformations/HealthChecks/Logs/appsetting into ApiHost project.
+7. Register all endpoint module in ApiHost project.
+8. Update docker config to make ApiHost as the main entry of the solution.
 
 
 

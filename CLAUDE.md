@@ -19,23 +19,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-### Pattern: Modular Monolithic + Clean Architecture
+### Pattern: Modular Monolithic + Clean Architecture + Minimal APIs
 
 ```
 AuthSamples/
-├── src/Modules/Auth/
-│   ├── Domain/              # Pure business logic (no dependencies)
-│   ├── Application/         # Use cases with CQRS (→ Domain)
-│   ├── Infrastructure/      # Data & AWS integration (→ Application, Domain)
-│   └── API/                 # HTTP endpoints (→ all layers)
-├── docs/                    # Documentation
-├── docker-compose.yml       # SQL Server + API orchestration
+├── src/
+│   ├── ApiHost/
+│   │   └── AuthSamples.ApiHost/      # Infrastructure & composition root
+│   └── Modules/Auth/
+│       ├── Domain/                   # Pure business logic (no dependencies)
+│       ├── Application/              # Use cases with CQRS (→ Domain)
+│       ├── Infrastructure/           # Data & AWS integration (→ Application, Domain)
+│       └── Presentation/             # Minimal API endpoints & models (→ Application, Domain)
+├── docs/                            # Documentation
+├── docker-compose.yml               # SQL Server + API orchestration
 └── README.md
 ```
 
 ### Dependency Flow
 ```
-API → Infrastructure → Application → Domain
+ApiHost → Presentation → Application → Domain
+            ↓                ↓
+      Infrastructure    Infrastructure
                     ↘            ↗
                       MediatR
 ```
@@ -65,11 +70,11 @@ dotnet build -c Release                         # Production build
 ```bash
 # With Docker (recommended)
 docker-compose up -d                            # Start services
-docker-compose logs -f cognito-api              # View logs
+docker-compose logs -f auth-api                 # View logs
 docker-compose down                             # Stop services
 
 # Without Docker
-cd src/Modules/Auth/AuthSamples.Modules.Auth.API
+cd src/ApiHost/AuthSamples.ApiHost
 dotnet run                                      # Run API (localhost:5000)
 ```
 
@@ -77,16 +82,16 @@ dotnet run                                      # Run API (localhost:5000)
 ```bash
 # Create migration (MUST be run from Infrastructure directory)
 cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef migrations add MigrationName --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef migrations add MigrationName --startup-project ../../../ApiHost/AuthSamples.ApiHost
 
 # Apply migrations
-dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
 
 # Remove last migration (if not yet applied)
-dotnet ef migrations remove --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef migrations remove --startup-project ../../../ApiHost/AuthSamples.ApiHost
 ```
 
-**IMPORTANT**: Always include `--startup-project ../AuthSamples.Modules.Auth.API` when running EF Core commands, as the DbContext is in the Infrastructure project but the startup configuration is in the API project.
+**IMPORTANT**: Always include `--startup-project ../../../ApiHost/AuthSamples.ApiHost` when running EF Core commands, as the DbContext is in the Infrastructure project but the startup configuration is in the ApiHost project.
 
 ## Layer Details
 
@@ -142,21 +147,42 @@ dotnet ef migrations remove --startup-project ../AuthSamples.Modules.Auth.API
 - Auto-timestamps via IAuditableEntity in SaveChangesAsync
 - **Multi-IdP Pattern**: UserIdentity queries using `(Issuer, Subject)` tuple for unique identification
 
-### API Layer
-**Purpose**: HTTP interface and composition root
+### Presentation Layer
+**Purpose**: HTTP endpoint definitions using Minimal APIs
 
 **Key Components**:
-- **Controllers**: AuthController (public), UserController (authenticated), UserManagementController (Admin), RoleController (Admin), IdpController (Admin)
-- **Middleware**: ExceptionHandlingMiddleware, RequestLoggingMiddleware
-- **Authorization**: UserRoleClaimsTransformation (adds database roles to JWT claims)
-- **Models**: RegisterRequest, LoginRequest, RefreshTokenRequest, RevokeTokenRequest, UpdateUserProfileRequest, UpdateRoleRequest, AddRoleRequest, CreateIdpRequest, UpdateIdpRequest, ApiResponse<T>
-- **Configuration**: JWT validation, Swagger, CORS, Serilog
+- **Endpoints**: AuthEndpoints (6 public), UserEndpoints (5 authenticated), UserManagementEndpoints (2 Admin), RoleEndpoints (3 Admin), IdpEndpoints (3 Admin)
+- **Endpoint Extensions**: MapAuthEndpoints, MapUserEndpoints, MapUserManagementEndpoints, MapRoleEndpoints, MapIdpEndpoints
+- **Models**: Request/Response DTOs organized by feature (Auth, User, Role, Idp)
+- **Helper Extensions**: ClaimsPrincipalExtensions (extract issuer/subject), HttpContextExtensions (get IP address)
 
 **Patterns**:
-- Controller → MediatR handler delegation
+- Minimal API with MapGroup for route organization
+- Static endpoint methods for testability
+- Endpoint → MediatR handler delegation
 - Consistent API responses (ApiResponse<T>)
+- Role-based authorization via RequireAuthorization(policy => policy.RequireRole("Admin"))
+- Master endpoint registration via MapAuthModuleEndpoints()
+
+### ApiHost Layer (AuthSamples.ApiHost)
+**Purpose**: Infrastructure and composition root (top-level project, not module-specific)
+
+**Location**: `src/ApiHost/AuthSamples.ApiHost/`
+
+**Key Components**:
+- **Configuration Modules**: AuthenticationConfiguration, SwaggerConfiguration, CorsConfiguration, HealthCheckConfiguration
+- **Middleware**: ExceptionHandlingMiddleware, RequestLoggingMiddleware
+- **Authorization**: UserRoleClaimsTransformation (adds database roles to JWT claims)
+- **Health Checks**: CognitoHealthCheck
+- **Program.cs**: Application startup and middleware pipeline configuration
+
+**Patterns**:
+- Extension methods for service registration (AddAuthAuthentication, AddAuthSwagger, etc.)
 - JWT authentication with Cognito JWKS validation
 - Global exception handling with error standardization
+- EF Core migrations applied on startup
+- Structured logging with Serilog
+- **Module-agnostic**: Can host multiple modules in the future
 
 ## Database Schema
 
@@ -581,10 +607,10 @@ docker-compose up sqlserver -d
 
 # 2. Apply migrations (from Infrastructure directory)
 cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
 
 # 3. Run API
-cd ../AuthSamples.Modules.Auth.API
+cd ../../../ApiHost/AuthSamples.ApiHost
 dotnet run
 
 # 4. Test with curl

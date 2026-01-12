@@ -24,7 +24,7 @@ services:
   auth-api:
     build:
       context: .
-      dockerfile: src/Modules/Auth/AuthSamples.Modules.Auth.API/Dockerfile
+      dockerfile: src/ApiHost/AuthSamples.ApiHost/Dockerfile
     container_name: auth-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
