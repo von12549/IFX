@@ -16,13 +16,13 @@ using System.Text.Json;
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File("logs/cognito-api-.log", rollingInterval: RollingInterval.Day)
+    .WriteTo.File("logs/auth-api-.log", rollingInterval: RollingInterval.Day)
     .Enrich.FromLogContext()
     .CreateLogger();
 
 try
 {
-    Log.Information("Starting Cognito API");
+    Log.Information("Starting Auth API");
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -77,7 +77,7 @@ try
     {
         options.SwaggerDoc("v1", new OpenApiInfo
         {
-            Title = "Cognito Authentication API",
+            Title = "Auth Authentication API",
             Version = "v1",
             Description = "ASP.NET Core 8 API with AWS Cognito authentication and full audit trail"
         });
@@ -110,7 +110,7 @@ try
     });
 
     // Configure Health Checks
-    var connectionString = builder.Configuration.GetConnectionString("CognitoDatabase");
+    var connectionString = builder.Configuration.GetConnectionString("AuthDatabase");
     builder.Services.AddHealthChecks()
         .AddSqlServer(
             connectionString: connectionString!,
@@ -151,7 +151,7 @@ try
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Cognito API v1");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth API v1");
         });
     }
 

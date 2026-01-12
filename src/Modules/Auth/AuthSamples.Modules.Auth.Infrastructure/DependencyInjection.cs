@@ -37,7 +37,7 @@ public static class DependencyInjection
         services.AddScoped<ICognitoService, CognitoService>();
 
         // Register DbContext
-        var connectionString = configuration.GetConnectionString("CognitoDatabase");
+        var connectionString = configuration.GetConnectionString("AuthDatabase");
         services.AddDbContext<AuthDbContext>(options =>
         {
             options.UseSqlServer(connectionString, sqlOptions =>
@@ -50,6 +50,7 @@ public static class DependencyInjection
 
         // Register Repositories
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserIdentityRepository, UserIdentityRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
         services.AddScoped<ILoginEventRepository, LoginEventRepository>();
         services.AddScoped<ILogoutEventRepository, LogoutEventRepository>();

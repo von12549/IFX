@@ -29,7 +29,7 @@ public class GetUserLoginHistoryQueryHandler : IRequestHandler<GetUserLoginHisto
     {
         try
         {
-            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<PagedResult<LoginEventDto>>.Failure("User not found");
@@ -59,7 +59,7 @@ public class GetUserLoginHistoryQueryHandler : IRequestHandler<GetUserLoginHisto
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving login history for user {Subject}", request.Subject);
+            _logger.LogError(ex, "Error retrieving login history for user {Issuer}/{Subject}", request.Issuer, request.Subject);
             return Result<PagedResult<LoginEventDto>>.Failure("An error occurred while retrieving login history");
         }
     }

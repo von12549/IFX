@@ -31,8 +31,16 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     {
         try
         {
+            // Get IFX Cognito IdP
+            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
+            var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
+            if (ifxCognitoIdp == null)
+            {
+                _logger.LogError("IFX Cognito IdP not found in database");
+                return Result<RegisterUserResponse>.Failure("System configuration error. Please contact support.");
+            }
             // Check if user already exists
-            var existingUser = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+            var existingUser = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
             if (existingUser != null)
             {
                 return Result<RegisterUserResponse>.Failure("User with this email already exists");
@@ -62,19 +70,32 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 return Result<RegisterUserResponse>.Failure("System configuration error. Please contact support.");
             }
 
-            // Create User entity
+            
+
+            // Create User entity (simplified structure)
+            var displayName = $"{request.FirstName} {request.LastName}";
             var user = User.Create(
-                Subject.Create(cognitoResult.Subject!),
-                EmailAddress.Create(request.Email),
-                request.Username,
-                request.FirstName,
-                request.LastName,
-                request.BirthDate,
-                request.PhoneNumber,
-                userRole.Id,
-                issuer: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P");
+                userRoleId: userRole.Id,
+                displayName: displayName,
+                isActive: false); // Will be activated after confirmation
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
+
+            // Create UserIdentity entity (all identity data)
+            var userIdentity = UserIdentity.Create(
+                userId: user.Id,
+                idpId: ifxCognitoIdp.Id,
+                issuer: ifxCognitoIssuer,
+                subject: Subject.Create(cognitoResult.Subject!),
+                email: EmailAddress.Create(request.Email),
+                firstName: request.FirstName,
+                lastName: request.LastName,
+                birthDate: request.BirthDate,
+                phoneNumber: request.PhoneNumber,
+                emailVerified: cognitoResult.UserConfirmed,
+                phoneNumberVerified: false);
+
+            await _unitOfWork.UserIdentities.AddAsync(userIdentity, cancellationToken);
 
             // Create RegistrationFlowEvent
             var registrationEvent = RegistrationFlowEvent.Create(

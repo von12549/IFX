@@ -34,29 +34,38 @@ public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<Us
         try
         {
             // Get user from local DB
-            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");
             }
 
-            // This would need an access token in real scenario, skipping for now
-            // In production, you'd get user attributes via Admin API or pass access token
-            // For now, we'll just update the LastSyncedAt
+            // Get the specific UserIdentity for this Issuer+Subject
+            var identity = user.Identities.FirstOrDefault(i => i.Issuer == request.Issuer && i.Subject.Value == request.Subject);
+            if (identity == null)
+            {
+                return Result<UserProfileDto>.Failure("User identity not found");
+            }
+
+            // TODO: This would need an access token to fetch from Cognito
+            // In production, you'd either:
+            // 1. Pass the access token from the controller
+            // 2. Use Admin API with service credentials
+            // 3. Extract access token from Authorization header in the controller
+            // For now, we'll just return the current profile without syncing
             // var cognitoUserInfo = await _cognitoService.GetUserAsync(accessToken);
+            // identity.UpdateFromIdp(EmailAddress.Create(cognitoUserInfo.Email), ...);
+            // await _unitOfWork.UserIdentities.UpdateAsync(identity, cancellationToken);
+            // await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // user.UpdateFromCognito(...);
-            await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            _logger.LogInformation("User {Subject} synced successfully", request.Subject);
+            _logger.LogInformation("User {Issuer}/{Subject} sync requested (implementation pending)", request.Issuer, request.Subject);
 
             var userProfile = _mapper.Map<UserProfileDto>(user);
             return Result<UserProfileDto>.Success(userProfile);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error syncing user {Subject}", request.Subject);
+            _logger.LogError(ex, "Error syncing user {Issuer}/{Subject}", request.Issuer, request.Subject);
             return Result<UserProfileDto>.Failure("An error occurred during user sync");
         }
     }

@@ -54,11 +54,12 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
                 return Result<RefreshTokenResponse>.Failure("Invalid token response");
             }
 
-            // Get user from database
-            var user = await _unitOfWork.Users.GetBySubjectAsync(subject, cancellationToken);
+            // Get user from database (using IFX Cognito issuer)
+            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(ifxCognitoIssuer, subject, cancellationToken);
             if (user == null)
             {
-                _logger.LogWarning("User not found for Subject {Subject}", subject);
+                _logger.LogWarning("User not found for Issuer {Issuer} and Subject {Subject}", ifxCognitoIssuer, subject);
                 return Result<RefreshTokenResponse>.Failure("User not found");
             }
 
@@ -78,7 +79,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             var activityLog = UserActivityLog.Create(
                 user.Id,
                 ActivityType.Login,
-                $"Token refreshed for user {user.Username}",
+                $"Token refreshed for user {user.DisplayName}",
                 request.IpAddress ?? "Unknown");
 
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);

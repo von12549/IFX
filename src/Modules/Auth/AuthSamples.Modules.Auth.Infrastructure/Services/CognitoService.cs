@@ -272,6 +272,9 @@ public class CognitoService : ICognitoService
                     case "phone_number":
                         userInfo.PhoneNumber = attribute.Value;
                         break;
+                    case "birthdate":
+                        userInfo.BirthDate = attribute.Value;
+                        break;
                     case "email_verified":
                         userInfo.EmailVerified = attribute.Value == "true";
                         break;

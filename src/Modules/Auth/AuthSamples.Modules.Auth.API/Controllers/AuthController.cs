@@ -7,6 +7,8 @@ using AuthSamples.Modules.Auth.Application.Commands.LogoutUser;
 using AuthSamples.Modules.Auth.Application.Commands.RefreshToken;
 using AuthSamples.Modules.Auth.Application.Commands.RegisterUser;
 using AuthSamples.Modules.Auth.Application.Commands.RevokeToken;
+using AuthSamples.Modules.Auth.Application.Common;
+using AuthSamples.Modules.Auth.Application.DTOs;
 using AuthSamples.Modules.Auth.Application.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -130,17 +132,34 @@ public class AuthController : ControllerBase
     {
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
 
+        // Get IFX Cognito IdP
+        const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
+        var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
+        if (ifxCognitoIdp == null)
+        {
+            _logger.LogError("IFX Cognito IdP not found in database");
+            return NotFound(ApiResponse<object>.FailureResponse("System configuration error. Please contact support."));
+        }
+
         // Query user by email to get Subject
-        var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+        var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
         if (user == null)
         {
             _logger.LogWarning("User not found for email {Email}", request.Email);
             return NotFound(ApiResponse<object>.FailureResponse("User not found"));
         }
 
+        // Get the first UserIdentity to extract subject for Cognito refresh
+        var identity = user.Identities.FirstOrDefault();
+        if (identity == null)
+        {
+            _logger.LogWarning("User identity not found for email {Email}", request.Email);
+            return NotFound(ApiResponse<object>.FailureResponse("User identity not found"));
+        }
+
         var command = new RefreshTokenCommand(
             request.RefreshToken,
-            Username: user.Subject.Value,
+            Username: identity.Subject.Value,
             ipAddress);
 
         var result = await _mediator.Send(command, cancellationToken);
@@ -196,14 +215,17 @@ public class AuthController : ControllerBase
         var accessToken = HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
         var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
 
-        // Extract user ID from claims
+        // Extract issuer and subject from JWT claims
         var subject = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(subject))
+        var issuer = User.FindFirst("iss")?.Value;
+
+        if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(issuer))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
         var command = new LogoutUserCommand(
+            issuer,
             subject,
             accessToken,
             ipAddress);

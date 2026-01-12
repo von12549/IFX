@@ -1,4 +1,5 @@
 using AuthSamples.Modules.Auth.Application.Common;
+using AuthSamples.Modules.Auth.Application.DTOs;
 using AuthSamples.Modules.Auth.Application.Interfaces;
 using AuthSamples.Modules.Auth.Domain.Entities;
 using AuthSamples.Modules.Auth.Domain.Enums;
@@ -38,10 +39,19 @@ public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Res
                 return Result<bool>.Failure("Failed to revoke refresh token");
             }
 
+            // Get IFX Cognito IdP
+            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
+            var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
+            if (ifxCognitoIdp == null)
+            {
+                _logger.LogError("IFX Cognito IdP not found in database");
+                return Result<bool>.Failure("System configuration error. Please contact support.");
+            }
+
             // If email is provided, create activity log
             if (!string.IsNullOrEmpty(request.Email))
             {
-                var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+                var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
                 if (user != null)
                 {
                     // Create UserActivityLog

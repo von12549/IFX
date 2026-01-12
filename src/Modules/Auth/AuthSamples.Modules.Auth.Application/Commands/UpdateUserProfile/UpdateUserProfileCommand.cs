@@ -5,6 +5,7 @@ using MediatR;
 namespace AuthSamples.Modules.Auth.Application.Commands.UpdateUserProfile;
 
 public record UpdateUserProfileCommand(
+    string Issuer,
     string Subject,
     string? Username = null,
     string? FirstName = null,

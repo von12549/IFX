@@ -29,8 +29,16 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
     {
         try
         {
+            // Get IFX Cognito IdP
+            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
+            var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
+            if (ifxCognitoIdp == null)
+            {
+                _logger.LogError("IFX Cognito IdP not found in database");
+                return Result<ConfirmRegistrationResponse>.Failure("System configuration error. Please contact support.");
+            }
             // Get user by email
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+            var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
             if (user == null)
             {
                 return Result<ConfirmRegistrationResponse>.Failure("User not found");

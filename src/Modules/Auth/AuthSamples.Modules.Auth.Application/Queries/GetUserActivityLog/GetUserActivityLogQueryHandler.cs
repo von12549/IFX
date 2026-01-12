@@ -29,7 +29,7 @@ public class GetUserActivityLogQueryHandler : IRequestHandler<GetUserActivityLog
     {
         try
         {
-            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<PagedResult<UserActivityDto>>.Failure("User not found");
@@ -59,7 +59,7 @@ public class GetUserActivityLogQueryHandler : IRequestHandler<GetUserActivityLog
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving activity log for user {Subject}", request.Subject);
+            _logger.LogError(ex, "Error retrieving activity log for user {Issuer}/{Subject}", request.Issuer, request.Subject);
             return Result<PagedResult<UserActivityDto>>.Failure("An error occurred while retrieving activity log");
         }
     }

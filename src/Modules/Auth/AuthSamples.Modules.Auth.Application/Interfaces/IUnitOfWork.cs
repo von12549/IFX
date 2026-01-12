@@ -5,6 +5,7 @@ namespace AuthSamples.Modules.Auth.Application.Interfaces;
 public interface IUnitOfWork : IDisposable
 {
     IUserRepository Users { get; }
+    IUserIdentityRepository UserIdentities { get; }
     IUserRoleRepository UserRoles { get; }
     ILoginEventRepository LoginEvents { get; }
     ILogoutEventRepository LogoutEvents { get; }

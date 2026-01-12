@@ -3,7 +3,7 @@ version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: cognito-sqlserver
+    container_name: auth-sqlserver
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=YourStrong@Pass123
@@ -19,17 +19,17 @@ services:
       retries: 10
       start_period: 30s
     networks:
-      - cognito-network
+      - auth-network
 
-  cognito-api:
+  auth-api:
     build:
       context: .
-      dockerfile: src/Modules/Cognito/AuthSamples.Modules.Cognito.API/Dockerfile
-    container_name: cognito-api
+      dockerfile: src/Modules/Auth/AuthSamples.Modules.Auth.API/Dockerfile
+    container_name: auth-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__CognitoDatabase=Server=sqlserver,1433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True;MultipleActiveResultSets=true
       - CognitoSettings__UserPoolId=${COGNITO_USER_POOL_ID}
       - CognitoSettings__ClientId=${COGNITO_CLIENT_ID}
       - CognitoSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
@@ -45,7 +45,7 @@ services:
       sqlserver:
         condition: service_healthy
     networks:
-      - cognito-network
+      - auth-network
     restart: unless-stopped
 
 volumes:
@@ -53,5 +53,5 @@ volumes:
     driver: local
 
 networks:
-  cognito-network:
+  auth-network:
     driver: bridge

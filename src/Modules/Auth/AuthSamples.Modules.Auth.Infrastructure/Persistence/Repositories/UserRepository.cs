@@ -20,26 +20,25 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 
-    public async Task<User?> GetBySubjectAsync(string subject, CancellationToken cancellationToken = default)
+    public async Task<User?> GetByIssuerAndSubjectAsync(string issuer, string subject, CancellationToken cancellationToken = default)
     {
         return await _context.Users
             .Include(u => u.UserRole)
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "_subject") == subject, cancellationToken);
+            .Include(u => u.Identities)
+            .Where(u => u.Identities.Any(ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject))
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<User?> GetByEmailAndIdpAsync(string email, Guid idpId, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
             .Include(u => u.UserRole)
-            .FirstOrDefaultAsync(u => EF.Property<string>(u, "_email") == normalizedEmail, cancellationToken);
-    }
-
-    public async Task<User?> GetByUsernameAsync(string username, CancellationToken cancellationToken = default)
-    {
-        return await _context.Users
-            .Include(u => u.UserRole)
-            .FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
+            .Include(u => u.Identities)
+            .Where(u => u.Identities.Any(ui =>
+                EF.Property<string>(ui, "_email") == normalizedEmail &&
+                ui.IdpId == idpId))
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
@@ -77,6 +76,6 @@ public class UserRepository : IUserRepository
     {
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
-            .AnyAsync(u => EF.Property<string>(u, "_email") == normalizedEmail, cancellationToken);
+            .AnyAsync(u => u.Identities.Any(ui => EF.Property<string>(ui, "_email") == normalizedEmail), cancellationToken);
     }
 }

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace AuthSamples.Modules.Auth.Application.Queries.GetUserProfile;
 
-public record GetUserProfileQuery(string Subject) : IRequest<Result<UserProfileDto>>;
+public record GetUserProfileQuery(string Issuer, string Subject) : IRequest<Result<UserProfileDto>>;

@@ -4,6 +4,7 @@ using AuthSamples.Modules.Auth.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    partial class AuthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260111123319_DropUsersBackupTable")]
+    partial class DropUsersBackupTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +113,7 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Idps_Issuer");
 
-                    b.ToTable("Idps", "cognito");
+                    b.ToTable("Idps", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.LoginEvent", b =>
@@ -165,7 +168,7 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId", "LoginTimestamp");
 
-                    b.ToTable("LoginEvents", "cognito");
+                    b.ToTable("LoginEvents", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.LogoutEvent", b =>
@@ -199,7 +202,7 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LogoutEvents", "cognito");
+                    b.ToTable("LogoutEvents", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.RegistrationFlowEvent", b =>
@@ -253,7 +256,7 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("Status");
 
-                    b.ToTable("RegistrationFlowEvents", "cognito");
+                    b.ToTable("RegistrationFlowEvents", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.User", b =>
@@ -262,46 +265,15 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BirthDate")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("EmailVerified")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
+                    b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Issuer")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasDefaultValue("https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("LastSyncedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<bool>("PhoneNumberVerified")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -310,40 +282,12 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("UserRoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("_email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Email");
-
-                    b.Property<string>("_subject")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("Subject");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserRoleId")
                         .HasDatabaseName("IX_Users_UserRoleId");
 
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.HasIndex("_email")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Email");
-
-                    b.HasIndex("_subject")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Subject");
-
-                    b.ToTable("Users", "cognito");
+                    b.ToTable("Users", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.UserActivityLog", b =>
@@ -385,7 +329,86 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId", "Timestamp");
 
-                    b.ToTable("UserActivityLogs", "cognito");
+                    b.ToTable("UserActivityLogs", "auth");
+                });
+
+            modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.UserIdentity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BirthDate")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("IdpId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Issuer")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("LastSyncedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("PhoneNumberVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("_email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Email");
+
+                    b.Property<string>("_subject")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Subject");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdpId")
+                        .HasDatabaseName("IX_UserIdentities_IdpId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_UserIdentities_UserId");
+
+                    b.HasIndex("Issuer", "_subject")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_UserIdentity_Issuer_Subject");
+
+                    b.ToTable("UserIdentities", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.UserRole", b =>
@@ -416,7 +439,7 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_UserRoles_RoleName");
 
-                    b.ToTable("UserRoles", "cognito");
+                    b.ToTable("UserRoles", "auth");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.LoginEvent", b =>
@@ -450,7 +473,7 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("LoginEventId");
 
-                            b1.ToTable("LoginEvents", "cognito");
+                            b1.ToTable("LoginEvents", "auth");
 
                             b1.WithOwner()
                                 .HasForeignKey("LoginEventId");
@@ -469,6 +492,30 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.UserIdentity", b =>
+                {
+                    b.HasOne("AuthSamples.Modules.Auth.Domain.Entities.Idp", "Idp")
+                        .WithMany()
+                        .HasForeignKey("IdpId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AuthSamples.Modules.Auth.Domain.Entities.User", "User")
+                        .WithMany("Identities")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Idp");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Identities");
                 });
 #pragma warning restore 612, 618
         }

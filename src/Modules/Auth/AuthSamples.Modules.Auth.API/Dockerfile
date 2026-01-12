@@ -3,19 +3,19 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copy solution and project files
-COPY ["src/Modules/Cognito/AuthSamples.Modules.Auth.API/AuthSamples.Modules.Auth.API.csproj", "src/Modules/Cognito/AuthSamples.Modules.Auth.API/"]
-COPY ["src/Modules/Cognito/AuthSamples.Modules.Auth.Application/AuthSamples.Modules.Auth.Application.csproj", "src/Modules/Cognito/AuthSamples.Modules.Auth.Application/"]
-COPY ["src/Modules/Cognito/AuthSamples.Modules.Auth.Domain/AuthSamples.Modules.Auth.Domain.csproj", "src/Modules/Cognito/AuthSamples.Modules.Auth.Domain/"]
-COPY ["src/Modules/Cognito/AuthSamples.Modules.Auth.Infrastructure/AuthSamples.Modules.Auth.Infrastructure.csproj", "src/Modules/Cognito/AuthSamples.Modules.Auth.Infrastructure/"]
+COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.API/AuthSamples.Modules.Auth.API.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.API/"]
+COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Application/AuthSamples.Modules.Auth.Application.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Application/"]
+COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Domain/AuthSamples.Modules.Auth.Domain.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Domain/"]
+COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure/AuthSamples.Modules.Auth.Infrastructure.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure/"]
 
 # Restore dependencies
-RUN dotnet restore "src/Modules/Cognito/AuthSamples.Modules.Auth.API/AuthSamples.Modules.Auth.API.csproj"
+RUN dotnet restore "src/Modules/Auth/AuthSamples.Modules.Auth.API/AuthSamples.Modules.Auth.API.csproj"
 
 # Copy all source files
 COPY . .
 
 # Build the application
-WORKDIR "/src/src/Modules/Cognito/AuthSamples.Modules.Auth.API"
+WORKDIR "/src/src/Modules/Auth/AuthSamples.Modules.Auth.API"
 RUN dotnet build "AuthSamples.Modules.Auth.API.csproj" -c Release -o /app/build
 
 # Publish stage

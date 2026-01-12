@@ -1,6 +1,7 @@
 using AuthSamples.Modules.Auth.API.Models.Requests;
 using AuthSamples.Modules.Auth.API.Models.Responses;
 using AuthSamples.Modules.Auth.Application.Commands.UpdateUserProfile;
+using AuthSamples.Modules.Auth.Application.Interfaces;
 using AuthSamples.Modules.Auth.Application.Queries.GetAllUsers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,13 @@ namespace AuthSamples.Modules.Auth.API.Controllers;
 public class UserManagementController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<UserManagementController> _logger;
 
-    public UserManagementController(IMediator mediator, ILogger<UserManagementController> logger)
+    public UserManagementController(IMediator mediator, IUnitOfWork unitOfWork, ILogger<UserManagementController> logger)
     {
         _mediator = mediator;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -50,19 +53,35 @@ public class UserManagementController : ControllerBase
     /// <summary>
     /// Update any user's profile (Admin only)
     /// </summary>
-    [HttpPut("users/{subject}")]
+    [HttpPut("users/{userId}")]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ApiResponse<object>>> UpdateUserProfile(
-        string subject,
+        Guid userId,
         [FromBody] UpdateUserProfileRequest request)
     {
-        _logger.LogInformation("Admin updating profile for user: {Subject}", subject);
+        _logger.LogInformation("Admin updating profile for user: {UserId}", userId);
+
+        // Get user by internal ID
+        var user = await _unitOfWork.Users.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(ApiResponse<object>.FailureResponse("User not found"));
+        }
+
+        // Get the first UserIdentity (for now, users only have one identity from IFX Cognito)
+        var identity = user.Identities.FirstOrDefault();
+        if (identity == null)
+        {
+            return NotFound(ApiResponse<object>.FailureResponse("User identity not found"));
+        }
 
         var command = new UpdateUserProfileCommand(
-            subject,
+            identity.Issuer,
+            identity.Subject.Value,
             request.Username,
             request.FirstName,
             request.LastName,

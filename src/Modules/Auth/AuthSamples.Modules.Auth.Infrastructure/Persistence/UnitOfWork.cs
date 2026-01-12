@@ -12,6 +12,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(
         AuthDbContext context,
         IUserRepository users,
+        IUserIdentityRepository userIdentities,
         IUserRoleRepository userRoles,
         ILoginEventRepository loginEvents,
         ILogoutEventRepository logoutEvents,
@@ -21,6 +22,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
         Users = users;
+        UserIdentities = userIdentities;
         UserRoles = userRoles;
         LoginEvents = loginEvents;
         LogoutEvents = logoutEvents;
@@ -30,6 +32,7 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public IUserRepository Users { get; }
+    public IUserIdentityRepository UserIdentities { get; }
     public IUserRoleRepository UserRoles { get; }
     public ILoginEventRepository LoginEvents { get; }
     public ILogoutEventRepository LogoutEvents { get; }

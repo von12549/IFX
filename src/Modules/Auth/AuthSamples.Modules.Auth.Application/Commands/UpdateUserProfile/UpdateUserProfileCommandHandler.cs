@@ -31,26 +31,44 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
     {
         try
         {
-            // Get user by Subject
-            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
+            // Get user by Issuer and Subject
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");
             }
 
+            // Get the specific UserIdentity for this Issuer+Subject
+            var identity = user.Identities.FirstOrDefault(i => i.Issuer == request.Issuer && i.Subject.Value == request.Subject);
+            if (identity == null)
+            {
+                return Result<UserProfileDto>.Failure("User identity not found");
+            }
+
             // Track which fields were updated for activity log
             var updatedFields = new List<string>();
-            if (request.Username != null) updatedFields.Add("Username");
             if (request.FirstName != null) updatedFields.Add("FirstName");
             if (request.LastName != null) updatedFields.Add("LastName");
             if (request.PhoneNumber != null) updatedFields.Add("PhoneNumber");
 
-            // Update user profile via domain method
-            user.UpdateProfile(
-                request.Username,
+            // Update UserIdentity profile
+            identity.UpdateProfile(
                 request.FirstName,
                 request.LastName,
                 request.PhoneNumber);
+
+            // Update User DisplayName if name changed
+            if (request.FirstName != null || request.LastName != null)
+            {
+                var newDisplayName = $"{identity.FirstName} {identity.LastName}";
+                if (user.DisplayName != newDisplayName)
+                {
+                    user.UpdateDisplayName(newDisplayName);
+                }
+            }
+
+            await _unitOfWork.UserIdentities.UpdateAsync(identity, cancellationToken);
+            await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
 
             // Create activity log
             var activityLog = UserActivityLog.Create(
@@ -64,7 +82,8 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(
-                "User profile updated for {Subject}. Updated fields: {Fields}",
+                "User profile updated for {Issuer}/{Subject}. Updated fields: {Fields}",
+                request.Issuer,
                 request.Subject,
                 string.Join(", ", updatedFields));
 
@@ -73,7 +92,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating profile for user {Subject}", request.Subject);
+            _logger.LogError(ex, "Error updating profile for user {Issuer}/{Subject}", request.Issuer, request.Subject);
             return Result<UserProfileDto>.Failure("An error occurred while updating profile");
         }
     }

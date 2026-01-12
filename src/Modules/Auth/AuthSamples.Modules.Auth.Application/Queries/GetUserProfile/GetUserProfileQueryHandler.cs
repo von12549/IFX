@@ -29,7 +29,7 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
     {
         try
         {
-            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");
@@ -40,7 +40,7 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving user profile for {Subject}", request.Subject);
+            _logger.LogError(ex, "Error retrieving user profile for {Issuer}/{Subject}", request.Issuer, request.Subject);
             return Result<UserProfileDto>.Failure("An error occurred while retrieving user profile");
         }
     }

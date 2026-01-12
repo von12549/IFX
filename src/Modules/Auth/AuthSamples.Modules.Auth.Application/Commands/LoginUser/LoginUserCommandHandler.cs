@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using AuthSamples.Modules.Auth.Application.Common;
 using AuthSamples.Modules.Auth.Application.DTOs;
 using AuthSamples.Modules.Auth.Application.Interfaces;
@@ -35,8 +36,16 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
     {
         try
         {
+            // Get IFX Cognito IdP
+            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
+            var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
+            if (ifxCognitoIdp == null)
+            {
+                _logger.LogError("IFX Cognito IdP not found in database");
+                return Result<LoginUserResponse>.Failure("System configuration error. Please contact support.");
+            }
             // Get user from local DB
-            var user = await _unitOfWork.Users.GetByEmailAsync(request.Email, cancellationToken);
+            var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
             if (user == null)
             {
                 // Create failed login event for unknown user
@@ -67,19 +76,55 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
                 return Result<LoginUserResponse>.Failure(authResult.ErrorMessage ?? "Invalid email or password");
             }
 
-            // Sync user data from Cognito (optional, gets latest attributes)
+            // Extract issuer and subject from IdToken
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var idToken = jwtHandler.ReadJwtToken(authResult.IdToken!);
+            var issuer = idToken.Issuer;
+            var subject = idToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+            if (string.IsNullOrEmpty(subject))
+            {
+                _logger.LogError("Subject claim not found in IdToken for user {Email}", request.Email);
+                return Result<LoginUserResponse>.Failure("Authentication failed");
+            }
+
+            // Verify user matches the authenticated subject
+            var authenticatedUser = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(issuer, subject, cancellationToken);
+            if (authenticatedUser == null || authenticatedUser.Id != user.Id)
+            {
+                _logger.LogWarning("User mismatch: DB user {UserId} vs authenticated user {Subject}", user.Id, subject);
+                return Result<LoginUserResponse>.Failure("Authentication failed");
+            }
+
+            // Use the authenticated user for subsequent operations
+            user = authenticatedUser;
+
+            // Sync user data from Cognito (update UserIdentity)
             try
             {
                 var cognitoUserInfo = await _cognitoService.GetUserAsync(authResult.AccessToken!);
-                user.UpdateFromCognito(
-                    EmailAddress.Create(cognitoUserInfo.Email),
-                    cognitoUserInfo.FirstName,
-                    cognitoUserInfo.LastName,
-                    cognitoUserInfo.PhoneNumber,
-                    cognitoUserInfo.EmailVerified,
-                    cognitoUserInfo.PhoneNumberVerified);
+                var identity = user.Identities.FirstOrDefault(i => i.Issuer == issuer && i.Subject.Value == subject);
 
-                await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
+                if (identity != null)
+                {
+                    identity.UpdateFromIdp(
+                        EmailAddress.Create(cognitoUserInfo.Email),
+                        cognitoUserInfo.FirstName,
+                        cognitoUserInfo.LastName,
+                        cognitoUserInfo.PhoneNumber,
+                        cognitoUserInfo.EmailVerified,
+                        cognitoUserInfo.PhoneNumberVerified);
+
+                    // Update DisplayName if name changed
+                    var newDisplayName = $"{cognitoUserInfo.FirstName} {cognitoUserInfo.LastName}";
+                    if (user.DisplayName != newDisplayName)
+                    {
+                        user.UpdateDisplayName(newDisplayName);
+                    }
+
+                    await _unitOfWork.UserIdentities.UpdateAsync(identity, cancellationToken);
+                    await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
+                }
             }
             catch (Exception ex)
             {

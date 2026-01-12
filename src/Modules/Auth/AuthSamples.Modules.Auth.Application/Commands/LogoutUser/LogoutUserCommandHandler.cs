@@ -29,8 +29,8 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
     {
         try
         {
-            // Get user by Subject
-            var user = await _unitOfWork.Users.GetBySubjectAsync(request.Subject, cancellationToken);
+            // Get user by Issuer and Subject
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<bool>.Failure("User not found");
@@ -40,7 +40,7 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             var signedOut = await _cognitoService.SignOutAsync(request.AccessToken);
             if (!signedOut)
             {
-                _logger.LogWarning("Failed to sign out user {Subject} from Cognito", request.Subject);
+                _logger.LogWarning("Failed to sign out user {Issuer}/{Subject} from Cognito", request.Issuer, request.Subject);
             }
 
             // Get the most recent successful login to calculate session duration
@@ -70,7 +70,8 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation(
-                "User {Subject} logged out successfully. Session duration: {Duration}",
+                "User {Issuer}/{Subject} logged out successfully. Session duration: {Duration}",
+                request.Issuer,
                 request.Subject,
                 logoutEvent.SessionDuration);
 
@@ -78,7 +79,7 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error during logout for user {Subject}", request.Subject);
+            _logger.LogError(ex, "Error during logout for user {Issuer}/{Subject}", request.Issuer, request.Subject);
             return Result<bool>.Failure("An error occurred during logout");
         }
     }

@@ -26,6 +26,16 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
+    /// Helper method to extract issuer and subject from JWT claims
+    /// </summary>
+    private (string? Issuer, string? Subject) GetIssuerAndSubjectFromClaims()
+    {
+        var subject = User.FindFirst("sub")?.Value;
+        var issuer = User.FindFirst("iss")?.Value;
+        return (issuer, subject);
+    }
+
+    /// <summary>
     /// Get current user profile
     /// </summary>
     [HttpGet("profile")]
@@ -34,13 +44,13 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ApiResponse<object>>> GetProfile()
     {
-        var subject = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(subject))
+        var (issuer, subject) = GetIssuerAndSubjectFromClaims();
+        if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
-        var query = new GetUserProfileQuery(subject);
+        var query = new GetUserProfileQuery(issuer, subject);
         var result = await _mediator.Send(query);
 
         if (!result.IsSuccess)
@@ -61,15 +71,16 @@ public class UserController : ControllerBase
     public async Task<ActionResult<ApiResponse<object>>> UpdateProfile(
         [FromBody] UpdateUserProfileRequest request)
     {
-        var subject = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(subject))
+        var (issuer, subject) = GetIssuerAndSubjectFromClaims();
+        if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
-        _logger.LogInformation("User {Subject} updating their profile", subject);
+        _logger.LogInformation("User {Issuer}/{Subject} updating their profile", issuer, subject);
 
         var command = new UpdateUserProfileCommand(
+            issuer,
             subject,
             request.Username,
             request.FirstName,
@@ -97,13 +108,14 @@ public class UserController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 20)
     {
-        var subject = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(subject))
+        var (issuer, subject) = GetIssuerAndSubjectFromClaims();
+        if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
         var query = new GetUserLoginHistoryQuery(
+            issuer,
             subject,
             page,
             pageSize);
@@ -129,13 +141,14 @@ public class UserController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50)
     {
-        var subject = User.FindFirst("sub")?.Value;
-        if (string.IsNullOrEmpty(subject))
+        var (issuer, subject) = GetIssuerAndSubjectFromClaims();
+        if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
         var query = new GetUserActivityLogQuery(
+            issuer,
             subject,
             page,
             pageSize);
@@ -159,14 +172,13 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ApiResponse<object>>> SyncProfile()
     {
-        var subject = User.FindFirst("sub")?.Value;
-
-        if (string.IsNullOrEmpty(subject))
+        var (issuer, subject) = GetIssuerAndSubjectFromClaims();
+        if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(subject))
         {
             return Unauthorized(ApiResponse<object>.FailureResponse("Invalid token"));
         }
 
-        var command = new SyncUserCommand(subject);
+        var command = new SyncUserCommand(issuer, subject);
 
         var result = await _mediator.Send(command);
 
