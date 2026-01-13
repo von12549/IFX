@@ -4,6 +4,8 @@ WORKDIR /src
 
 # Copy solution and project files
 COPY ["src/ApiHost/AuthSamples.ApiHost/AuthSamples.ApiHost.csproj", "src/ApiHost/AuthSamples.ApiHost/"]
+COPY ["src/BuildingBlocks/App.Abstractions/App.Abstractions.csproj", "src/BuildingBlocks/App.Abstractions/"]
+COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Composition/AuthSamples.Modules.Auth.Composition.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Composition/"]
 COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Presentation/AuthSamples.Modules.Auth.Presentation.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Presentation/"]
 COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Application/AuthSamples.Modules.Auth.Application.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Application/"]
 COPY ["src/Modules/Auth/AuthSamples.Modules.Auth.Domain/AuthSamples.Modules.Auth.Domain.csproj", "src/Modules/Auth/AuthSamples.Modules.Auth.Domain/"]
