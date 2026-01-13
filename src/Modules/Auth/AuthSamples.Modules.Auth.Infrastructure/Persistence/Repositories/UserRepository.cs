@@ -59,6 +59,7 @@ public class UserRepository : IUserRepository
     {
         var query = _context.Users
             .Include(u => u.UserRole)
+            .Include(u => u.Identities)
             .AsNoTracking();
 
         var totalCount = await query.CountAsync(cancellationToken);

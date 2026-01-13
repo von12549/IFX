@@ -1,12 +1,11 @@
 using AuthSamples.ApiHost.Configuration;
 using AuthSamples.ApiHost.Middleware;
-using AuthSamples.Modules.Auth.Application;
-using AuthSamples.Modules.Auth.Infrastructure;
 using AuthSamples.Modules.Auth.Infrastructure.Persistence;
 using AuthSamples.Modules.Auth.Presentation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Serilog;
+using AuthSamples.Modules.Auth.Composition;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -25,8 +24,7 @@ try
     builder.Host.UseSerilog();
 
     // Add layer services
-    builder.Services.AddApplicationServices();
-    builder.Services.AddInfrastructureServices(builder.Configuration);
+    builder.Services.AddAuthModuleServices(builder.Configuration);
 
     // Add API infrastructure (via configuration modules)
     builder.Services.AddAuthAuthentication(builder.Configuration);
@@ -73,9 +71,8 @@ try
 
     // Map endpoints
     app.MapAuthHealthCheckEndpoints();  // /health, /health/ready
-
     // Map endpoints from modules
-    app.MapModuleEnpoints();
+    app.MapAuthModuleEndpoints();
 
     app.Run();
 }

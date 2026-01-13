@@ -19,7 +19,7 @@ public static class UserManagementEndpointExtensions
             ([AsParameters] UsersParams parameters, IServiceProvider services) =>
                 UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize,
                     services.GetRequiredService<MediatR.IMediator>(),
-                    services.GetRequiredService<ILogger>()))
+                    services.GetRequiredService<ILogger<UserManagementEndpointsLogCategory>>()))
             .WithName("GetAllUsers")
             .WithSummary("Get all users (Admin only, paginated)")
             .Produces<object>(StatusCodes.Status200OK)

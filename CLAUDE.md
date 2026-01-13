@@ -25,12 +25,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 AuthSamples/
 ├── src/
 │   ├── ApiHost/
-│   │   └── AuthSamples.ApiHost/      # Infrastructure & composition root
+│   │   └── AuthSamples.ApiHost/      # Host application (references Composition only)
 │   └── Modules/Auth/
 │       ├── Domain/                   # Pure business logic (no dependencies)
 │       ├── Application/              # Use cases with CQRS (→ Domain)
-│       ├── Infrastructure/           # Data & AWS integration (→ Application, Domain)
-│       └── Presentation/             # Minimal API endpoints & models (→ Application, Domain)
+│       ├── Infrastructure/           # Data & AWS integration (→ Application)
+│       ├── Presentation/             # Minimal API endpoints & models (→ Application)
+│       └── Composition/              # Module entry point (wires all layers)
 ├── docs/                            # Documentation
 ├── docker-compose.yml               # SQL Server + API orchestration
 └── README.md
@@ -38,12 +39,14 @@ AuthSamples/
 
 ### Dependency Flow
 ```
-ApiHost → Presentation → Application → Domain
-            ↓                ↓
-      Infrastructure    Infrastructure
+ApiHost → Composition → Presentation → Application → Domain
+              ↓              ↓              ↓
+         Infrastructure  Infrastructure  (transitive)
                     ↘            ↗
                       MediatR
 ```
+
+**Key**: ApiHost only references Composition, which orchestrates all module layers.
 
 ## Technology Stack
 
@@ -164,8 +167,32 @@ dotnet ef migrations remove --startup-project ../../../ApiHost/AuthSamples.ApiHo
 - Role-based authorization via RequireAuthorization(policy => policy.RequireRole("Admin"))
 - Master endpoint registration via MapAuthModuleEndpoints()
 
+### Composition Layer (AuthSamples.Modules.Auth.Composition)
+**Purpose**: Module entry point that wires all layers together
+
+**Location**: `src/Modules/Auth/AuthSamples.Modules.Auth.Composition/`
+
+**Key Components**:
+- **DependencyInjection.cs**: Single file containing all module registration
+  - `AddAuthModuleServices(IServiceCollection, IConfiguration)` - Registers Application + Infrastructure services
+  - `MapAuthModuleEndpoints(IEndpointRouteBuilder)` - Maps all 19 endpoints (Auth, User, UserManagement, Role, Idp)
+
+**Patterns**:
+- Single project reference from ApiHost (cleaner dependency graph)
+- Facade pattern for module services and endpoints
+- Encapsulates internal module structure from host application
+
+**Usage in Program.cs**:
+```csharp
+// Service registration
+builder.Services.AddAuthModuleServices(builder.Configuration);
+
+// Endpoint mapping
+app.MapAuthModuleEndpoints();
+```
+
 ### ApiHost Layer (AuthSamples.ApiHost)
-**Purpose**: Infrastructure and composition root (top-level project, not module-specific)
+**Purpose**: Host application with cross-cutting infrastructure (not module-specific)
 
 **Location**: `src/ApiHost/AuthSamples.ApiHost/`
 
@@ -177,8 +204,9 @@ dotnet ef migrations remove --startup-project ../../../ApiHost/AuthSamples.ApiHo
 - **Program.cs**: Application startup and middleware pipeline configuration
 
 **Patterns**:
+- Only references Composition project (single module dependency)
 - Extension methods for service registration (AddAuthAuthentication, AddAuthSwagger, etc.)
-- JWT authentication with Cognito JWKS validation
+- JWT authentication with Cognito JWKS validation (supports issuer with/without trailing slash)
 - Global exception handling with error standardization
 - EF Core migrations applied on startup
 - Structured logging with Serilog
@@ -464,7 +492,7 @@ The application implements comprehensive health checks for monitoring system hea
 - **GET /health/ready** - Simple text response (Healthy/Degraded/Unhealthy) suitable for Kubernetes readiness probes
 
 ### Health Check Implementation
-Located in `API/HealthChecks/CognitoHealthCheck.cs`. Custom health checks implement `IHealthCheck` interface and are registered in Program.cs via `AddHealthChecks()` builder method.
+Located in `src/ApiHost/AuthSamples.ApiHost/HealthChecks/CognitoHealthCheck.cs`. Custom health checks implement `IHealthCheck` interface and are registered in Program.cs via `AddHealthChecks()` builder method.
 
 ## Docker
 
@@ -499,7 +527,7 @@ Located in `API/HealthChecks/CognitoHealthCheck.cs`. Custom health checks implem
 6. Register repository in Infrastructure DependencyInjection.cs
 7. Create DTO in Application/DTOs/EntityNameDto.cs
 8. **CRITICAL**: Add AutoMapper mapping in Application/Mappings/MappingProfile.cs: `CreateMap<EntityName, EntityNameDto>();`
-9. Create migration: `dotnet ef migrations add AddEntityName --startup-project ../AuthSamples.Modules.Auth.API`
+9. Create migration: `dotnet ef migrations add AddEntityName --startup-project ../../../ApiHost/AuthSamples.ApiHost`
 
 **IMPORTANT**: Step 8 is mandatory. Forgetting to add the AutoMapper mapping will cause runtime errors when handlers try to map entities to DTOs.
 
@@ -632,14 +660,17 @@ curl -X POST http://localhost:5000/api/v1/auth/register \
 - **AutoMapper configuration errors**: Ensure all entities have corresponding DTOs and mappings in MappingProfile.cs
 
 ### Migration Errors
-- **Startup project not specified**: Always use `--startup-project ../AuthSamples.Modules.Auth.API`
+- **Startup project not specified**: Always use `--startup-project ../../../ApiHost/AuthSamples.ApiHost`
 - **DbContext not found**: Ensure you're in the Infrastructure project directory
 
 ## Completed Features
 
+- [x] **Composition Layer** (January 2026) - Module entry point for cleaner dependency management
 - [x] **Multi-IdP Architecture** (January 2026) - User + UserIdentity table separation
 - [x] **Issuer+Subject Lookup Pattern** - All handlers use `(Issuer, Subject)` tuple
 - [x] **IdP-Scoped Email Lookup** - `GetByEmailAndIdpAsync` prevents duplicate emails across IdPs
+- [x] **JWT Issuer Validation Fix** - Supports issuers with/without trailing slash
+- [x] **ILogger<T> DI Fix** - All endpoints use typed logger categories
 - [x] Module renamed from Cognito to Auth
 - [x] User role system (Admin, User, SsoUser)
 - [x] Role-based authorization with claims transformation

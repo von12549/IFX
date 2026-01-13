@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AuthSamples.Modules.Auth.Presentation.Endpoints.Auth;
 
+public sealed class AuthEndpointsLogCategory { }
+
 public static class AuthEndpoints
 {
     public static async Task<IResult> Register(
@@ -103,7 +105,7 @@ public static class AuthEndpoints
         [FromBody] RefreshTokenRequest request,
         [FromServices] IMediator mediator,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] ILogger logger,
+        [FromServices] ILogger<AuthEndpointsLogCategory> logger,
         HttpContext httpContext,
         CancellationToken cancellationToken)
     {
@@ -160,7 +162,7 @@ public static class AuthEndpoints
     public static async Task<IResult> RevokeToken(
         [FromBody] RevokeTokenRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger,
+        [FromServices] ILogger<AuthEndpointsLogCategory> logger,
         HttpContext httpContext,
         CancellationToken cancellationToken)
     {

@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthSamples.Modules.Auth.Application\AuthSamples.Modules.Auth.Application.csproj" />
-    <ProjectReference Include="..\AuthSamples.Modules.Auth.Domain\AuthSamples.Modules.Auth.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

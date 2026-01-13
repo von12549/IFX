@@ -10,11 +10,12 @@ using Microsoft.Extensions.Logging;
 
 namespace AuthSamples.Modules.Auth.Presentation.Endpoints.Idp;
 
+public sealed class IdpEndpointsLogCategory { }
 public static class IdpEndpoints
 {
     public static async Task<IResult> GetAllIdps(
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<IdpEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing Identity Providers list");
 
@@ -32,7 +33,7 @@ public static class IdpEndpoints
     public static async Task<IResult> CreateIdp(
         [FromBody] CreateIdpRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<IdpEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin creating new Identity Provider: {Name}", request.Name);
 
@@ -64,7 +65,7 @@ public static class IdpEndpoints
         Guid idpId,
         [FromBody] UpdateIdpRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<IdpEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin updating Identity Provider: {IdpId}", idpId);
 

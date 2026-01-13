@@ -17,7 +17,8 @@ public static class AuthenticationConfiguration
         var cognitoSettings = configuration.GetSection("CognitoSettings");
         var region = cognitoSettings["Region"];
         var userPoolId = cognitoSettings["UserPoolId"];
-        var authority = $"https://cognito-idp.{region}.amazonaws.com/{userPoolId}";
+        var authority = $"https://cognito-idp.{region}.amazonaws.com/{userPoolId}".Trim();            
+        var authorityNoSlash = authority.TrimEnd('/');
 
         // Configure JWT Bearer authentication
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -31,7 +32,12 @@ public static class AuthenticationConfiguration
                     ValidateIssuer = true,
                     ValidateLifetime = true,
                     ValidateAudience = false,
-                    NameClaimType = "sub"
+                    NameClaimType = "sub",
+                    ValidIssuers = new[]
+                    {
+                        authorityNoSlash,
+                        authorityNoSlash + "/"
+                    }
                 };
             });
 

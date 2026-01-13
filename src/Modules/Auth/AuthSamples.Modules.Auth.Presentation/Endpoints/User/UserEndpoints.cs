@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace AuthSamples.Modules.Auth.Presentation.Endpoints.User;
-
+public sealed class UserEndpointsLogCategory { }
 public static class UserEndpoints
 {
     public static async Task<IResult> GetProfile(
@@ -43,7 +43,7 @@ public static class UserEndpoints
     public static async Task<IResult> UpdateProfile(
         [FromBody] UpdateUserProfileRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger,
+        [FromServices] ILogger<UserEndpointsLogCategory> logger,
         HttpContext httpContext)
     {
         var (issuer, subject) = httpContext.User.GetIssuerAndSubject();

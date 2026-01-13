@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace AuthSamples.Modules.Auth.Presentation.Endpoints.Role;
-
+public sealed class RoleEndpointsLogCategory { }
 public static class RoleEndpoints
 {
     public static async Task<IResult> GetAllRoles(
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<RoleEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing roles list");
 
@@ -33,7 +33,7 @@ public static class RoleEndpoints
         Guid roleId,
         [FromBody] UpdateRoleRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<RoleEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin updating role: {RoleId}", roleId);
 
@@ -51,7 +51,7 @@ public static class RoleEndpoints
     public static async Task<IResult> AddRole(
         [FromBody] AddRoleRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<RoleEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin adding new role: {RoleName}", request.RoleName);
 

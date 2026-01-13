@@ -23,10 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Presentation\AuthSamples.Modules.Auth.Presentation.csproj" />
-    <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Infrastructure\AuthSamples.Modules.Auth.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Application\AuthSamples.Modules.Auth.Application.csproj" />
-    <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Domain\AuthSamples.Modules.Auth.Domain.csproj" />
+    <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Composition\AuthSamples.Modules.Auth.Composition.csproj" />
   </ItemGroup>
 
 </Project>

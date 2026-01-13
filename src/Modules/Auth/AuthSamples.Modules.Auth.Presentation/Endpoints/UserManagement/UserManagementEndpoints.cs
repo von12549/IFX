@@ -9,14 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace AuthSamples.Modules.Auth.Presentation.Endpoints.UserManagement;
-
+public sealed class UserManagementEndpointsLogCategory { }
 public static class UserManagementEndpoints
 {
     public static async Task<IResult> GetAllUsers(
         [FromQuery] int page,
         [FromQuery] int pageSize,
         [FromServices] IMediator mediator,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing user list. Page: {Page}, PageSize: {PageSize}", page, pageSize);
 
@@ -36,7 +36,7 @@ public static class UserManagementEndpoints
         [FromBody] UpdateUserProfileRequest request,
         [FromServices] IMediator mediator,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] ILogger logger)
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin updating profile for user: {UserId}", userId);
 
