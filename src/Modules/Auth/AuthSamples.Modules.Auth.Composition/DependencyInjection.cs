@@ -1,4 +1,5 @@
-﻿using AuthSamples.Modules.Auth.Application;
+﻿using App.Abstractions;
+using AuthSamples.Modules.Auth.Application;
 using AuthSamples.Modules.Auth.Infrastructure;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.Auth;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.Idp;
@@ -8,18 +9,23 @@ using AuthSamples.Modules.Auth.Presentation.Endpoints.UserManagement;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Serilog;
 
 namespace AuthSamples.Modules.Auth.Composition
 {
     public static class DependencyInjection
     {
         public static IServiceCollection AddAuthModuleServices(
-        this IServiceCollection services,
-        IConfiguration configuration)
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
+            Log.Information("Registering Auth module services...");
+
             services.AddApplicationServices();
             services.AddInfrastructureServices(configuration);
+            services.AddScoped<IAppMigrator, AuthMigrator>();
+
+            Log.Information("Auth module services registered successfully");
             return services;
         }
 
@@ -30,13 +36,16 @@ namespace AuthSamples.Modules.Auth.Composition
         /// <returns>The endpoint route builder for chaining</returns>
         public static IEndpointRouteBuilder MapAuthModuleEndpoints(this IEndpointRouteBuilder builder)
         {
-            builder.MapAuthEndpoints();          // 6 endpoints: register, confirm, login, refresh, revoke, logout
-            builder.MapUserEndpoints();          // 5 endpoints: profile (GET/PUT), login-history, activity-log, sync
+            Log.Information("Mapping Auth module endpoints...");
+
+            builder.MapAuthEndpoints();           // 6 endpoints: register, confirm, login, refresh, revoke, logout
+            builder.MapUserEndpoints();           // 5 endpoints: profile (GET/PUT), login-history, activity-log, sync
             builder.MapUserManagementEndpoints(); // 2 endpoints: users (GET/PUT) - Admin only
-            builder.MapRoleEndpoints();          // 3 endpoints: roles (GET/POST/PUT) - Admin only
-            builder.MapIdpEndpoints();           // 3 endpoints: idps (GET/POST/PUT) - Admin only
+            builder.MapRoleEndpoints();           // 3 endpoints: roles (GET/POST/PUT) - Admin only
+            builder.MapIdpEndpoints();            // 3 endpoints: idps (GET/POST/PUT) - Admin only
+
+            Log.Information("Auth module endpoints mapped: 19 total (6 Auth, 5 User, 2 UserManagement, 3 Role, 3 Idp)");
             return builder;
         }
-
     }
 }

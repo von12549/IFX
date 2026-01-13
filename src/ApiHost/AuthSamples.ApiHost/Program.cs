@@ -1,11 +1,8 @@
+using App.Abstractions;
 using AuthSamples.ApiHost.Configuration;
 using AuthSamples.ApiHost.Middleware;
-using AuthSamples.Modules.Auth.Infrastructure.Persistence;
-using AuthSamples.Modules.Auth.Presentation;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Serilog;
 using AuthSamples.Modules.Auth.Composition;
+using Serilog;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -37,12 +34,18 @@ try
     // Apply EF Core migrations on startup
     using (var scope = app.Services.CreateScope())
     {
-        var services = scope.ServiceProvider;
+        var sp = scope.ServiceProvider;
+
         try
         {
-            var context = services.GetRequiredService<AuthDbContext>();
-            context.Database.Migrate();
-            Log.Information("Database migrations applied successfully");
+            var migrators = sp.GetServices<IAppMigrator>();
+
+            foreach (var m in migrators)
+            {
+                Log.Information("Applying migrations for {Module}", m.Name);
+                await m.MigrateAsync(sp);
+                Log.Information("Migrations applied for {Module}", m.Name);
+            }
         }
         catch (Exception ex)
         {
