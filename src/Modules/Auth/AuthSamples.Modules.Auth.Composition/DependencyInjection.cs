@@ -1,51 +1,40 @@
-﻿using App.Abstractions;
-using AuthSamples.Modules.Auth.Application;
-using AuthSamples.Modules.Auth.Infrastructure;
-using AuthSamples.Modules.Auth.Presentation.Endpoints.Auth;
-using AuthSamples.Modules.Auth.Presentation.Endpoints.Idp;
-using AuthSamples.Modules.Auth.Presentation.Endpoints.Role;
-using AuthSamples.Modules.Auth.Presentation.Endpoints.User;
-using AuthSamples.Modules.Auth.Presentation.Endpoints.UserManagement;
+using App.Abstractions;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 
 namespace AuthSamples.Modules.Auth.Composition
 {
+    /// <summary>
+    /// Extension methods for registering the Auth module.
+    /// </summary>
     public static class DependencyInjection
     {
-        public static IServiceCollection AddAuthModuleServices(
+        private static readonly AuthModuleInstaller _installer = new();
+
+        /// <summary>
+        /// Registers all Auth module services and the module installer.
+        /// </summary>
+        public static IServiceCollection AddAuthModule(
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            Log.Information("Registering Auth module services...");
+            // Register the module installer for discovery
+            services.AddSingleton<IModuleInstaller>(_installer);
 
-            services.AddApplicationServices();
-            services.AddInfrastructureServices(configuration);
-            services.AddScoped<IAppMigrator, AuthMigrator>();
+            // Install module services
+            _installer.InstallServices(services, configuration);
 
-            Log.Information("Auth module services registered successfully");
             return services;
         }
 
         /// <summary>
-        /// Maps all Auth module endpoints (19 total: 6 Auth, 5 User, 2 UserManagement, 3 Role, 3 Idp)
+        /// Maps all Auth module endpoints (19 total: 6 Auth, 5 User, 2 UserManagement, 3 Role, 3 Idp).
+        /// Note: Prefer using IModuleInstaller.MapEndpoints() via the discovery pattern.
         /// </summary>
-        /// <param name="builder">The endpoint route builder</param>
-        /// <returns>The endpoint route builder for chaining</returns>
         public static IEndpointRouteBuilder MapAuthModuleEndpoints(this IEndpointRouteBuilder builder)
         {
-            Log.Information("Mapping Auth module endpoints...");
-
-            builder.MapAuthEndpoints();           // 6 endpoints: register, confirm, login, refresh, revoke, logout
-            builder.MapUserEndpoints();           // 5 endpoints: profile (GET/PUT), login-history, activity-log, sync
-            builder.MapUserManagementEndpoints(); // 2 endpoints: users (GET/PUT) - Admin only
-            builder.MapRoleEndpoints();           // 3 endpoints: roles (GET/POST/PUT) - Admin only
-            builder.MapIdpEndpoints();            // 3 endpoints: idps (GET/POST/PUT) - Admin only
-
-            Log.Information("Auth module endpoints mapped: 19 total (6 Auth, 5 User, 2 UserManagement, 3 Role, 3 Idp)");
-            return builder;
+            return _installer.MapEndpoints(builder);
         }
     }
 }

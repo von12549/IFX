@@ -20,8 +20,8 @@ try
     // Add Serilog
     builder.Host.UseSerilog();
 
-    // Add layer services
-    builder.Services.AddAuthModuleServices(builder.Configuration);
+    // Register modules (each module registers its own services + IModuleInstaller)
+    builder.Services.AddAuthModule(builder.Configuration);
 
     // Add API infrastructure (via configuration modules)
     builder.Services.AddAuthAuthentication(builder.Configuration);
@@ -29,9 +29,10 @@ try
     builder.Services.AddAuthCors();
     builder.Services.AddAuthHealthChecks(builder.Configuration);
     builder.Services.AddAuthorization();
+
     var app = builder.Build();
 
-    // Apply EF Core migrations on startup
+    // Apply EF Core migrations on startup (via IAppMigrator discovery)
     using (var scope = app.Services.CreateScope())
     {
         var sp = scope.ServiceProvider;
@@ -74,8 +75,14 @@ try
 
     // Map endpoints
     app.MapAuthHealthCheckEndpoints();  // /health, /health/ready
-    // Map endpoints from modules
-    app.MapAuthModuleEndpoints();
+
+    // Map module endpoints (via IModuleInstaller discovery)
+    var installers = app.Services.GetServices<IModuleInstaller>();
+    foreach (var installer in installers)
+    {
+        Log.Information("Mapping endpoints for {Module} module", installer.ModuleName);
+        installer.MapEndpoints(app);
+    }
 
     app.Run();
 }

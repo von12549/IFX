@@ -25,7 +25,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 AuthSamples/
 ├── src/
 │   ├── ApiHost/
-│   │   └── AuthSamples.ApiHost/      # Host application (references Composition only)
+│   │   └── AuthSamples.ApiHost/      # Host application (references Composition + Abstractions)
+│   ├── BuildingBlocks/
+│   │   └── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
 │   └── Modules/Auth/
 │       ├── Domain/                   # Pure business logic (no dependencies)
 │       ├── Application/              # Use cases with CQRS (→ Domain)
@@ -39,14 +41,19 @@ AuthSamples/
 
 ### Dependency Flow
 ```
-ApiHost → Composition → Presentation → Application → Domain
-              ↓              ↓              ↓
-         Infrastructure  Infrastructure  (transitive)
-                    ↘            ↗
-                      MediatR
+ApiHost → App.Abstractions (shared interfaces)
+    ↓
+Composition → Presentation → Application → Domain
+    ↓              ↓              ↓
+Infrastructure  Infrastructure  (transitive)
+            ↘            ↗
+              MediatR
 ```
 
-**Key**: ApiHost only references Composition, which orchestrates all module layers.
+**Key**:
+- ApiHost references Composition + App.Abstractions
+- Composition implements IModuleInstaller for discovery-based registration
+- App.Abstractions contains shared interfaces (IModuleInstaller, IAppMigrator)
 
 ## Technology Stack
 
@@ -167,28 +174,46 @@ dotnet ef migrations remove --startup-project ../../../ApiHost/AuthSamples.ApiHo
 - Role-based authorization via RequireAuthorization(policy => policy.RequireRole("Admin"))
 - Master endpoint registration via MapAuthModuleEndpoints()
 
+### BuildingBlocks Layer (App.Abstractions)
+**Purpose**: Shared abstractions for modular architecture
+
+**Location**: `src/BuildingBlocks/App.Abstractions/`
+
+**Key Components**:
+- **IModuleInstaller**: Interface for module service registration and endpoint mapping
+- **IAppMigrator**: Interface for module-specific database migrations
+
+**Patterns**:
+- Discovery pattern - ApiHost discovers and invokes all registered module installers/migrators
+- Enables plugin-like architecture for adding new modules without modifying Program.cs
+
 ### Composition Layer (AuthSamples.Modules.Auth.Composition)
 **Purpose**: Module entry point that wires all layers together
 
 **Location**: `src/Modules/Auth/AuthSamples.Modules.Auth.Composition/`
 
 **Key Components**:
-- **DependencyInjection.cs**: Single file containing all module registration
-  - `AddAuthModuleServices(IServiceCollection, IConfiguration)` - Registers Application + Infrastructure services
-  - `MapAuthModuleEndpoints(IEndpointRouteBuilder)` - Maps all 19 endpoints (Auth, User, UserManagement, Role, Idp)
+- **AuthModuleInstaller.cs**: Implements `IModuleInstaller` for service registration and endpoint mapping
+- **AuthMigrator.cs**: Implements `IAppMigrator` for EF Core migrations
+- **DependencyInjection.cs**: Extension methods that delegate to the installer
 
 **Patterns**:
 - Single project reference from ApiHost (cleaner dependency graph)
+- Implements `IModuleInstaller` for discovery-based registration
 - Facade pattern for module services and endpoints
 - Encapsulates internal module structure from host application
 
 **Usage in Program.cs**:
 ```csharp
-// Service registration
-builder.Services.AddAuthModuleServices(builder.Configuration);
+// Service registration (registers IModuleInstaller + installs services)
+builder.Services.AddAuthModule(builder.Configuration);
 
-// Endpoint mapping
-app.MapAuthModuleEndpoints();
+// Endpoint mapping via discovery
+var installers = app.Services.GetServices<IModuleInstaller>();
+foreach (var installer in installers)
+{
+    installer.MapEndpoints(app);
+}
 ```
 
 ### ApiHost Layer (AuthSamples.ApiHost)
@@ -665,6 +690,8 @@ curl -X POST http://localhost:5000/api/v1/auth/register \
 
 ## Completed Features
 
+- [x] **IModuleInstaller Pattern** (January 2026) - Discovery-based module registration and endpoint mapping
+- [x] **App.Abstractions BuildingBlocks** (January 2026) - Shared interfaces (IModuleInstaller, IAppMigrator)
 - [x] **Composition Layer** (January 2026) - Module entry point for cleaner dependency management
 - [x] **Multi-IdP Architecture** (January 2026) - User + UserIdentity table separation
 - [x] **Issuer+Subject Lookup Pattern** - All handlers use `(Issuer, Subject)` tuple
