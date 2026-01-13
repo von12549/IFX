@@ -41,17 +41,17 @@ public class DeviceInfo
         else
             deviceInfo.Browser = "Other";
 
-        // OS detection
-        if (userAgent.Contains("Windows"))
+        // OS detection (order matters - check mobile OS before desktop)
+        if (userAgent.Contains("iPhone") || userAgent.Contains("iPad") || userAgent.Contains("iOS"))
+            deviceInfo.OS = "iOS";
+        else if (userAgent.Contains("Android"))
+            deviceInfo.OS = "Android";
+        else if (userAgent.Contains("Windows"))
             deviceInfo.OS = "Windows";
         else if (userAgent.Contains("Mac OS") || userAgent.Contains("Macintosh"))
             deviceInfo.OS = "macOS";
         else if (userAgent.Contains("Linux"))
             deviceInfo.OS = "Linux";
-        else if (userAgent.Contains("Android"))
-            deviceInfo.OS = "Android";
-        else if (userAgent.Contains("iOS") || userAgent.Contains("iPhone") || userAgent.Contains("iPad"))
-            deviceInfo.OS = "iOS";
         else
             deviceInfo.OS = "Unknown";
 

@@ -94,3 +94,6 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+// Needed for integration tests (WebApplicationFactory requires access to Program class)
+public partial class Program { }
