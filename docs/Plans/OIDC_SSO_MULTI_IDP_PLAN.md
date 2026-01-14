@@ -9,28 +9,66 @@ Enable the AuthSamples API to accept access tokens from multiple Identity Provid
 3. Keep existing Cognito password registration flow working alongside SSO
 
 ## User Decisions
-- **Default role for auto-provisioned users**: SsoUser
+- **Default role for auto-provisioned users**: Based on IdP type
+  - **Internal IdP** → `User` role
+  - **External IdP** → `SsoUser` role
 - **Missing email claim handling**: Reject token with 401 Unauthorized
 - **Existing Cognito flow**: Keep both (Cognito registration + SSO)
 
 ---
 
-## Phase 1: IdP Configuration Service with Caching
+## Prerequisite: IdpType Column Migration
+
+A new `IdpType` column has been added to the `Idps` table to distinguish between Internal and External identity providers.
+
+**Migration:** `20260114025631_AddIdpTypeColumn`
+
+| Column | Type | Default | Description |
+|--------|------|---------|-------------|
+| `IdpType` | `nvarchar(20)` | `"Internal"` | `Internal` or `External` |
+
+**Role Assignment Rules:**
+- **Internal IdP** → Auto-provisioned users get `User` role
+- **External IdP** → Auto-provisioned users get `SsoUser` role
+
+All existing IdP records are automatically set to `Internal` via the migration default value.
+
+---
+
+## Architecture Alignment
+
+This plan follows the project's Clean Architecture + CQRS patterns:
+
+| Component | Layer | Rationale |
+|-----------|-------|-----------|
+| `IdpConfigurationService` | ApiHost | Cross-cutting auth concern |
+| `DynamicJwtBearerEvents` | ApiHost | ASP.NET Core auth middleware |
+| `ProvisionSsoUserCommand` | Auth.Application | Business logic via CQRS |
+| Repository enhancements | Auth.Domain/Infrastructure | Data access |
+
+---
+
+## Phase 1: IdP Configuration Service (ApiHost - Cross-cutting)
 
 ### New Files
-- `src/ApiHost/AuthSamples.ApiHost/Services/IIdpConfigurationService.cs`
-- `src/ApiHost/AuthSamples.ApiHost/Services/IdpConfigurationService.cs`
-- `src/ApiHost/AuthSamples.ApiHost/Services/IdpConfigurationEntry.cs`
+- `src/ApiHost/AuthSamples.ApiHost/Authentication/IdpConfigurationEntry.cs`
+- `src/ApiHost/AuthSamples.ApiHost/Authentication/IIdpConfigurationService.cs`
+- `src/ApiHost/AuthSamples.ApiHost/Authentication/IdpConfigurationService.cs`
 
 ### Implementation
 
 **IdpConfigurationEntry.cs**
 ```csharp
+using AuthSamples.Modules.Auth.Domain.Enums;
+
+namespace AuthSamples.ApiHost.Authentication;
+
 public class IdpConfigurationEntry
 {
     public Guid IdpId { get; init; }
     public string Issuer { get; init; } = string.Empty;
     public string Authority { get; init; } = string.Empty;
+    public IdpType IdpType { get; init; }
     public bool AutoProvisionEnabled { get; init; }
     public List<string> ExpectedAudiences { get; init; } = new();
     public List<string> AllowedAlgorithms { get; init; } = new();
@@ -42,6 +80,8 @@ public class IdpConfigurationEntry
 
 **IIdpConfigurationService.cs**
 ```csharp
+namespace AuthSamples.ApiHost.Authentication;
+
 public interface IIdpConfigurationService
 {
     Task<IdpConfigurationEntry?> GetByIssuerAsync(string issuer, CancellationToken ct = default);
@@ -51,14 +91,83 @@ public interface IIdpConfigurationService
 ```
 
 **IdpConfigurationService.cs**
-- Inject `IServiceScopeFactory` and `IMemoryCache`
-- Cache enabled IdPs for 5 minutes with sliding expiration
-- Lazy-load `ConfigurationManager<OpenIdConnectConfiguration>` per IdP
-- Store ConfigurationManagers in `ConcurrentDictionary<string, ConfigurationManager>`
+```csharp
+namespace AuthSamples.ApiHost.Authentication;
+
+public class IdpConfigurationService : IIdpConfigurationService
+{
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly IMemoryCache _cache;
+    private readonly ConcurrentDictionary<string, ConfigurationManager<OpenIdConnectConfiguration>> _configManagers = new();
+    private const string CacheKey = "EnabledIdpConfigurations";
+    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(5);
+
+    public IdpConfigurationService(IServiceScopeFactory scopeFactory, IMemoryCache cache)
+    {
+        _scopeFactory = scopeFactory;
+        _cache = cache;
+    }
+
+    public async Task<IdpConfigurationEntry?> GetByIssuerAsync(string issuer, CancellationToken ct = default)
+    {
+        var all = await GetAllEnabledAsync(ct);
+        var entry = all.FirstOrDefault(x => x.Issuer == issuer);
+
+        if (entry != null)
+        {
+            entry.ConfigurationManager = GetOrCreateConfigurationManager(entry);
+        }
+
+        return entry;
+    }
+
+    public async Task<IReadOnlyList<IdpConfigurationEntry>> GetAllEnabledAsync(CancellationToken ct = default)
+    {
+        if (_cache.TryGetValue(CacheKey, out IReadOnlyList<IdpConfigurationEntry>? cached) && cached != null)
+            return cached;
+
+        using var scope = _scopeFactory.CreateScope();
+        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+        var idps = await unitOfWork.Idps.GetEnabledAsync(ct);
+
+        var entries = idps.Select(idp => new IdpConfigurationEntry
+        {
+            IdpId = idp.Id,
+            Issuer = idp.Issuer,
+            Authority = idp.Authority,
+            IdpType = idp.IdpType,
+            AutoProvisionEnabled = idp.AutoProvisionEnabled,
+            ExpectedAudiences = idp.ExpectedAudiences,
+            AllowedAlgorithms = idp.AllowedAlgorithms,
+            ClockSkewSeconds = idp.ClockSkewSeconds,
+            ClaimMapping = idp.ClaimMapping
+        }).ToList();
+
+        _cache.Set(CacheKey, (IReadOnlyList<IdpConfigurationEntry>)entries,
+            new MemoryCacheEntryOptions().SetSlidingExpiration(CacheDuration));
+
+        return entries;
+    }
+
+    public void InvalidateCache()
+    {
+        _cache.Remove(CacheKey);
+    }
+
+    private ConfigurationManager<OpenIdConnectConfiguration> GetOrCreateConfigurationManager(IdpConfigurationEntry entry)
+    {
+        return _configManagers.GetOrAdd(entry.Issuer, _ =>
+            new ConfigurationManager<OpenIdConnectConfiguration>(
+                $"{entry.Authority}/.well-known/openid-configuration",
+                new OpenIdConnectConfigurationRetriever(),
+                new HttpDocumentRetriever()));
+    }
+}
+```
 
 ---
 
-## Phase 2: Dynamic JWT Bearer Events
+## Phase 2: Dynamic JWT Bearer Events (ApiHost - Cross-cutting)
 
 ### New File
 - `src/ApiHost/AuthSamples.ApiHost/Authentication/DynamicJwtBearerEvents.cs`
@@ -67,170 +176,275 @@ public interface IIdpConfigurationService
 
 **DynamicJwtBearerEvents.cs**
 ```csharp
+namespace AuthSamples.ApiHost.Authentication;
+
 public class DynamicJwtBearerEvents : JwtBearerEvents
 {
     private readonly IIdpConfigurationService _idpConfigService;
+    private readonly ILogger<DynamicJwtBearerEvents> _logger;
+
+    public DynamicJwtBearerEvents(
+        IIdpConfigurationService idpConfigService,
+        ILogger<DynamicJwtBearerEvents> logger)
+    {
+        _idpConfigService = idpConfigService;
+        _logger = logger;
+    }
 
     public override async Task MessageReceived(MessageReceivedContext context)
     {
-        // 1. Extract token from Authorization header
-        // 2. Read unvalidated JWT to get "iss" claim
-        // 3. Look up IdP by issuer via IIdpConfigurationService
-        // 4. If IdP not found or disabled, fail authentication
-        // 5. Get OpenIdConnectConfiguration from ConfigurationManager
-        // 6. Configure TokenValidationParameters dynamically:
-        //    - ValidIssuer = idp.Issuer
-        //    - ValidAudiences = idp.ExpectedAudiences
-        //    - ValidAlgorithms = idp.AllowedAlgorithms
-        //    - ClockSkew = TimeSpan.FromSeconds(idp.ClockSkewSeconds)
-        //    - IssuerSigningKeys = openIdConfig.SigningKeys
+        var token = context.Request.Headers.Authorization.FirstOrDefault()?.Replace("Bearer ", "");
+        if (string.IsNullOrEmpty(token))
+            return;
+
+        try
+        {
+            // Read unvalidated JWT to get issuer
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var issuer = jwtToken.Issuer;
+
+            // Look up IdP by issuer
+            var idpConfig = await _idpConfigService.GetByIssuerAsync(issuer, context.HttpContext.RequestAborted);
+            if (idpConfig == null)
+            {
+                _logger.LogWarning("Token from unknown or disabled issuer: {Issuer}", issuer);
+                context.Fail("Unknown or disabled identity provider");
+                return;
+            }
+
+            // Get OIDC configuration
+            var openIdConfig = await idpConfig.ConfigurationManager!.GetConfigurationAsync(context.HttpContext.RequestAborted);
+
+            // Configure dynamic validation parameters
+            context.Options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = idpConfig.Issuer,
+                ValidateAudience = idpConfig.ExpectedAudiences.Any(),
+                ValidAudiences = idpConfig.ExpectedAudiences,
+                ValidAlgorithms = idpConfig.AllowedAlgorithms.Any() ? idpConfig.AllowedAlgorithms : null,
+                ClockSkew = TimeSpan.FromSeconds(idpConfig.ClockSkewSeconds),
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKeys = openIdConfig.SigningKeys,
+                ValidateLifetime = true
+            };
+
+            // Store IdP config for later use in claims transformation
+            context.HttpContext.Items["IdpConfiguration"] = idpConfig;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing JWT token");
+            context.Fail("Invalid token format");
+        }
     }
 
     public override Task TokenValidated(TokenValidatedContext context)
     {
-        // Store IdpConfigurationEntry in HttpContext.Items for later use
-        // Key: "IdpConfiguration"
+        var issuer = context.Principal?.FindFirst("iss")?.Value;
+        var subject = context.Principal?.FindFirst("sub")?.Value;
+        _logger.LogDebug("Token validated for {Issuer}/{Subject}", issuer, subject);
+        return Task.CompletedTask;
     }
 
     public override Task AuthenticationFailed(AuthenticationFailedContext context)
     {
-        // Log authentication failures with issuer info
+        _logger.LogWarning(context.Exception, "Authentication failed");
+        return Task.CompletedTask;
     }
-}
-```
-
-### Modify AuthenticationConfiguration.cs
-```csharp
-public static IServiceCollection AddAuthAuthentication(this IServiceCollection services, IConfiguration config)
-{
-    // Register IdpConfigurationService
-    services.AddMemoryCache();
-    services.AddScoped<IIdpConfigurationService, IdpConfigurationService>();
-    services.AddScoped<DynamicJwtBearerEvents>();
-
-    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-            // Disable default issuer/audience validation (handled dynamically)
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateIssuerSigningKey = true,
-                ValidateLifetime = true
-            };
-
-            // Use custom events for dynamic validation
-            options.EventsType = typeof(DynamicJwtBearerEvents);
-        });
-
-    return services;
 }
 ```
 
 ---
 
-## Phase 3: User Auto-Provisioning Service
+## Phase 3: SSO User Provisioning Command (Auth.Application - CQRS)
 
 ### New Files
-- `src/ApiHost/AuthSamples.ApiHost/Services/IUserAutoProvisioningService.cs`
-- `src/ApiHost/AuthSamples.ApiHost/Services/UserAutoProvisioningService.cs`
+- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommand.cs`
+- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs`
+- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandValidator.cs`
+- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/DTOs/ProvisionSsoUserResponse.cs`
 
 ### Implementation
 
-**IUserAutoProvisioningService.cs**
+**ProvisionSsoUserCommand.cs**
 ```csharp
-public interface IUserAutoProvisioningService
+using AuthSamples.Modules.Auth.Application.Common;
+using AuthSamples.Modules.Auth.Application.DTOs;
+using AuthSamples.Modules.Auth.Domain.Enums;
+using MediatR;
+
+namespace AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
+
+public record ProvisionSsoUserCommand(
+    Guid IdpId,
+    string Issuer,
+    string Subject,
+    IdpType IdpType,
+    string? Email,
+    string? FirstName,
+    string? LastName,
+    bool EmailVerified,
+    string? IpAddress) : IRequest<Result<ProvisionSsoUserResponse>>;
+```
+
+**ProvisionSsoUserResponse.cs**
+```csharp
+namespace AuthSamples.Modules.Auth.Application.DTOs;
+
+public record ProvisionSsoUserResponse
 {
-    Task<User?> ProvisionUserAsync(
-        ClaimsPrincipal principal,
-        IdpConfigurationEntry idpConfig,
-        CancellationToken ct = default);
+    public Guid UserId { get; init; }
+    public string RoleName { get; init; } = string.Empty;
+    public bool WasProvisioned { get; init; }
 }
 ```
 
-**UserAutoProvisioningService.cs**
+**ProvisionSsoUserCommandValidator.cs**
 ```csharp
-public class UserAutoProvisioningService : IUserAutoProvisioningService
+using FluentValidation;
+
+namespace AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
+
+public class ProvisionSsoUserCommandValidator : AbstractValidator<ProvisionSsoUserCommand>
+{
+    public ProvisionSsoUserCommandValidator()
+    {
+        RuleFor(x => x.IdpId).NotEmpty();
+        RuleFor(x => x.Issuer).NotEmpty();
+        RuleFor(x => x.Subject).NotEmpty();
+        RuleFor(x => x.Email).NotEmpty()
+            .WithMessage("Email claim is required for SSO user provisioning");
+    }
+}
+```
+
+**ProvisionSsoUserCommandHandler.cs**
+```csharp
+using AuthSamples.Modules.Auth.Application.Common;
+using AuthSamples.Modules.Auth.Application.DTOs;
+using AuthSamples.Modules.Auth.Application.Interfaces;
+using AuthSamples.Modules.Auth.Domain.Entities;
+using AuthSamples.Modules.Auth.Domain.Enums;
+using AuthSamples.Modules.Auth.Domain.ValueObjects;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
+
+public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCommand, Result<ProvisionSsoUserResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<UserAutoProvisioningService> _logger;
+    private readonly ILogger<ProvisionSsoUserCommandHandler> _logger;
 
-    public async Task<User?> ProvisionUserAsync(
-        ClaimsPrincipal principal,
-        IdpConfigurationEntry idpConfig,
-        CancellationToken ct = default)
+    public ProvisionSsoUserCommandHandler(
+        IUnitOfWork unitOfWork,
+        ILogger<ProvisionSsoUserCommandHandler> logger)
     {
-        // 1. Check AutoProvisionEnabled flag
-        if (!idpConfig.AutoProvisionEnabled)
-            return null;
+        _unitOfWork = unitOfWork;
+        _logger = logger;
+    }
 
-        // 2. Extract claims (apply ClaimMapping if configured)
-        var issuer = principal.FindFirst("iss")?.Value;
-        var subject = principal.FindFirst("sub")?.Value;
-        var email = principal.FindFirst("email")?.Value
-                 ?? principal.FindFirst(ClaimTypes.Email)?.Value;
-
-        // 3. Reject if no email claim (per user requirement)
-        if (string.IsNullOrEmpty(email))
+    public async Task<Result<ProvisionSsoUserResponse>> Handle(
+        ProvisionSsoUserCommand request,
+        CancellationToken cancellationToken)
+    {
+        try
         {
-            _logger.LogWarning("Auto-provisioning rejected: no email claim for {Issuer}/{Subject}",
-                issuer, subject);
-            return null; // Caller should return 401
+            // Check if user already exists by issuer/subject
+            var existingUser = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(
+                request.Issuer, request.Subject, cancellationToken);
+
+            if (existingUser != null)
+            {
+                var existingRole = await _unitOfWork.UserRoles.GetByIdAsync(
+                    existingUser.UserRoleId, cancellationToken);
+
+                return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse
+                {
+                    UserId = existingUser.Id,
+                    RoleName = existingRole?.RoleName ?? "Unknown",
+                    WasProvisioned = false
+                });
+            }
+
+            // Determine role based on IdP type:
+            // - Internal IdP → "User" role
+            // - External IdP → "SsoUser" role
+            var roleName = request.IdpType == IdpType.Internal ? "User" : "SsoUser";
+            var userRole = await _unitOfWork.UserRoles.GetByRoleNameAsync(roleName, cancellationToken);
+            if (userRole == null)
+            {
+                _logger.LogError("'{RoleName}' role not found in database", roleName);
+                return Result<ProvisionSsoUserResponse>.Failure(
+                    "System configuration error. Please contact support.");
+            }
+
+            // Create display name
+            var displayName = !string.IsNullOrEmpty(request.FirstName) || !string.IsNullOrEmpty(request.LastName)
+                ? $"{request.FirstName} {request.LastName}".Trim()
+                : request.Email!;
+
+            // Create User entity
+            var user = User.Create(
+                userRoleId: userRole.Id,
+                displayName: displayName,
+                isActive: true); // SSO users are active immediately
+
+            await _unitOfWork.Users.AddAsync(user, cancellationToken);
+
+            // Create UserIdentity entity
+            var userIdentity = UserIdentity.Create(
+                userId: user.Id,
+                idpId: request.IdpId,
+                issuer: request.Issuer,
+                subject: Subject.Create(request.Subject),
+                email: EmailAddress.Create(request.Email!),
+                firstName: request.FirstName ?? string.Empty,
+                lastName: request.LastName ?? string.Empty,
+                birthDate: null,
+                phoneNumber: null,
+                emailVerified: request.EmailVerified,
+                phoneNumberVerified: false);
+
+            await _unitOfWork.UserIdentities.AddAsync(userIdentity, cancellationToken);
+
+            // Create UserActivityLog
+            var activityLog = UserActivityLog.Create(
+                user.Id,
+                ActivityType.Registration,
+                $"User auto-provisioned via SSO from {request.Issuer} (IdpType: {request.IdpType})",
+                request.IpAddress);
+
+            await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
+
+            // Save changes
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation(
+                "Auto-provisioned SSO user {UserId} from {Issuer} with subject {Subject}, assigned role {RoleName}",
+                user.Id, request.Issuer, request.Subject, userRole.RoleName);
+
+            return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse
+            {
+                UserId = user.Id,
+                RoleName = userRole.RoleName,
+                WasProvisioned = true
+            });
         }
-
-        // 4. Get SsoUser role
-        var ssoUserRole = await _unitOfWork.UserRoles.GetByNameAsync("SsoUser", ct);
-
-        // 5. Create User entity
-        var firstName = principal.FindFirst("given_name")?.Value ?? "";
-        var lastName = principal.FindFirst("family_name")?.Value ?? "";
-        var displayName = !string.IsNullOrEmpty(firstName) || !string.IsNullOrEmpty(lastName)
-            ? $"{firstName} {lastName}".Trim()
-            : email;
-
-        var user = User.Create(ssoUserRole.Id, displayName, isActive: true);
-        await _unitOfWork.Users.AddAsync(user, ct);
-
-        // 6. Create UserIdentity entity
-        var userIdentity = UserIdentity.Create(
-            userId: user.Id,
-            idpId: idpConfig.IdpId,
-            issuer: issuer,
-            subject: Subject.Create(subject),
-            email: EmailAddress.Create(email),
-            firstName: firstName,
-            lastName: lastName,
-            birthDate: null,
-            phoneNumber: null,
-            emailVerified: principal.FindFirst("email_verified")?.Value == "true",
-            phoneNumberVerified: false);
-
-        await _unitOfWork.UserIdentities.AddAsync(userIdentity, ct);
-
-        // 7. Log activity
-        var activityLog = UserActivityLog.Create(
-            user.Id,
-            ActivityType.Registration,
-            "User auto-provisioned via SSO",
-            ipAddress: null,
-            metadata: new { IdpId = idpConfig.IdpId, Issuer = issuer });
-        await _unitOfWork.UserActivityLogs.AddAsync(activityLog, ct);
-
-        await _unitOfWork.SaveChangesAsync(ct);
-
-        _logger.LogInformation(
-            "Auto-provisioned user {UserId} from {Issuer} with subject {Subject}",
-            user.Id, issuer, subject);
-
-        return user;
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error provisioning SSO user from {Issuer}", request.Issuer);
+            return Result<ProvisionSsoUserResponse>.Failure("An error occurred during SSO user provisioning");
+        }
     }
 }
 ```
 
 ---
 
-## Phase 4: Integration with Claims Transformation
+## Phase 4: Claims Transformation Integration (ApiHost)
 
 ### Modify UserRoleClaimsTransformation.cs
 
@@ -238,8 +452,21 @@ public class UserAutoProvisioningService : IUserAutoProvisioningService
 public class UserRoleClaimsTransformation : IClaimsTransformation
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserAutoProvisioningService _provisioningService;
+    private readonly IMediator _mediator;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ILogger<UserRoleClaimsTransformation> _logger;
+
+    public UserRoleClaimsTransformation(
+        IUnitOfWork unitOfWork,
+        IMediator mediator,
+        IHttpContextAccessor httpContextAccessor,
+        ILogger<UserRoleClaimsTransformation> logger)
+    {
+        _unitOfWork = unitOfWork;
+        _mediator = mediator;
+        _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
+    }
 
     public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
@@ -252,31 +479,61 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
         // Try to find existing user
         var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(issuer, subject);
 
-        // If not found, try auto-provisioning
+        // If not found, try auto-provisioning via CQRS command
         if (user == null)
         {
             var idpConfig = _httpContextAccessor.HttpContext?.Items["IdpConfiguration"]
                 as IdpConfigurationEntry;
 
-            if (idpConfig != null)
+            if (idpConfig?.AutoProvisionEnabled == true)
             {
-                user = await _provisioningService.ProvisionUserAsync(principal, idpConfig);
+                var email = principal.FindFirst("email")?.Value
+                         ?? principal.FindFirst(ClaimTypes.Email)?.Value;
 
-                // If still null (no email or auto-provision disabled), reject
-                if (user == null)
+                if (string.IsNullOrEmpty(email))
                 {
-                    // Return empty principal to trigger 401
+                    _logger.LogWarning(
+                        "SSO user from {Issuer}/{Subject} rejected: missing email claim",
+                        issuer, subject);
+                    return new ClaimsPrincipal(); // Return empty principal to trigger 401
+                }
+
+                var command = new ProvisionSsoUserCommand(
+                    IdpId: idpConfig.IdpId,
+                    Issuer: issuer,
+                    Subject: subject,
+                    IdpType: idpConfig.IdpType,
+                    Email: email,
+                    FirstName: principal.FindFirst("given_name")?.Value,
+                    LastName: principal.FindFirst("family_name")?.Value,
+                    EmailVerified: principal.FindFirst("email_verified")?.Value == "true",
+                    IpAddress: _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString());
+
+                var result = await _mediator.Send(command);
+
+                if (!result.IsSuccess)
+                {
+                    _logger.LogWarning("SSO user provisioning failed: {Error}", result.ErrorMessage);
                     return new ClaimsPrincipal();
                 }
+
+                // Add role claim from provisioning result
+                var identity = principal.Identity as ClaimsIdentity;
+                identity?.AddClaim(new Claim(ClaimTypes.Role, result.Value!.RoleName));
+                identity?.AddClaim(new Claim("user_id", result.Value.UserId.ToString()));
+
+                return principal;
             }
         }
 
         if (user == null)
             return principal;
 
-        // Add role claim
-        var identity = principal.Identity as ClaimsIdentity;
-        identity?.AddClaim(new Claim(ClaimTypes.Role, user.UserRole.RoleName));
+        // Add role claim for existing user
+        var role = await _unitOfWork.UserRoles.GetByIdAsync(user.UserRoleId);
+        var claimsIdentity = principal.Identity as ClaimsIdentity;
+        claimsIdentity?.AddClaim(new Claim(ClaimTypes.Role, role?.RoleName ?? "User"));
+        claimsIdentity?.AddClaim(new Claim("user_id", user.Id.ToString()));
 
         return principal;
     }
@@ -285,11 +542,17 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
 
 ---
 
-## Phase 5: Repository Enhancement
+## Phase 5: Repository Enhancement (Auth.Domain/Infrastructure)
 
-### Modify IdpRepository.cs
+### Modify IIdpRepository.cs (Domain)
 
-Add method for efficient enabled IdP lookup:
+Add method for enabled IdP lookup by issuer:
+
+```csharp
+Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken cancellationToken = default);
+```
+
+### Modify IdpRepository.cs (Infrastructure)
 
 ```csharp
 public async Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken ct = default)
@@ -299,43 +562,77 @@ public async Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken
         .Where(i => i.Issuer == issuer && i.Enabled)
         .FirstOrDefaultAsync(ct);
 }
-
-public async Task<IReadOnlyList<Idp>> GetAllEnabledAsync(CancellationToken ct = default)
-{
-    return await _context.Idps
-        .AsNoTracking()
-        .Where(i => i.Enabled)
-        .ToListAsync(ct);
-}
 ```
 
 ---
 
-## Phase 6: Cache Invalidation (Admin Endpoints)
+## Phase 6: DI Registration & Cache Invalidation
 
-### Modify IdpEndpoints.cs
+### Modify AuthenticationConfiguration.cs
 
-Inject `IIdpConfigurationService` and call `InvalidateCache()` after:
-- `POST /api/v1/idp` (CreateIdp)
-- `PUT /api/v1/idp/{idpId}` (UpdateIdp)
+```csharp
+public static IServiceCollection AddAuthAuthentication(this IServiceCollection services, IConfiguration config)
+{
+    // Register IdpConfigurationService (cross-cutting)
+    services.AddMemoryCache();
+    services.AddSingleton<IIdpConfigurationService, IdpConfigurationService>();
+    services.AddScoped<DynamicJwtBearerEvents>();
+
+    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            // Disable default validation (handled dynamically in events)
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true
+            };
+
+            options.EventsType = typeof(DynamicJwtBearerEvents);
+        });
+
+    return services;
+}
+```
+
+### Modify IdpEndpoints.cs (Presentation)
+
+Inject `IIdpConfigurationService` and invalidate cache after mutations:
+
+```csharp
+// In CreateIdp endpoint
+idpConfigService.InvalidateCache();
+
+// In UpdateIdp endpoint
+idpConfigService.InvalidateCache();
+```
 
 ---
 
 ## File Changes Summary
 
-### New Files (6)
-1. `src/ApiHost/AuthSamples.ApiHost/Services/IIdpConfigurationService.cs`
-2. `src/ApiHost/AuthSamples.ApiHost/Services/IdpConfigurationService.cs`
-3. `src/ApiHost/AuthSamples.ApiHost/Services/IdpConfigurationEntry.cs`
-4. `src/ApiHost/AuthSamples.ApiHost/Authentication/DynamicJwtBearerEvents.cs`
-5. `src/ApiHost/AuthSamples.ApiHost/Services/IUserAutoProvisioningService.cs`
-6. `src/ApiHost/AuthSamples.ApiHost/Services/UserAutoProvisioningService.cs`
+### New Files (7)
+| File | Layer | Purpose |
+|------|-------|---------|
+| `ApiHost/Authentication/IdpConfigurationEntry.cs` | ApiHost | DTO for cached IdP config |
+| `ApiHost/Authentication/IIdpConfigurationService.cs` | ApiHost | Interface for IdP config cache |
+| `ApiHost/Authentication/IdpConfigurationService.cs` | ApiHost | IdP config caching implementation |
+| `ApiHost/Authentication/DynamicJwtBearerEvents.cs` | ApiHost | Dynamic JWT validation |
+| `Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommand.cs` | Application | CQRS command |
+| `Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs` | Application | CQRS handler |
+| `Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandValidator.cs` | Application | Validation |
+| `Auth.Application/DTOs/ProvisionSsoUserResponse.cs` | Application | Response DTO |
 
 ### Modified Files (4)
-1. `src/ApiHost/AuthSamples.ApiHost/Configuration/AuthenticationConfiguration.cs`
-2. `src/ApiHost/AuthSamples.ApiHost/Authorization/UserRoleClaimsTransformation.cs`
-3. `src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure/Persistence/Repositories/IdpRepository.cs`
-4. `src/Modules/Auth/AuthSamples.Modules.Auth.Presentation/Endpoints/Idp/IdpEndpoints.cs`
+| File | Layer | Changes |
+|------|-------|---------|
+| `ApiHost/Configuration/AuthenticationConfiguration.cs` | ApiHost | Register new services |
+| `ApiHost/Authorization/UserRoleClaimsTransformation.cs` | ApiHost | Add auto-provisioning via MediatR |
+| `Auth.Domain/Interfaces/Repositories/IIdpRepository.cs` | Domain | Add `GetEnabledByIssuerAsync` |
+| `Auth.Infrastructure/Persistence/Repositories/IdpRepository.cs` | Infrastructure | Implement new method |
+| `Auth.Presentation/Endpoints/Idp/IdpEndpoints.cs` | Presentation | Cache invalidation |
 
 ---
 
@@ -344,31 +641,35 @@ Inject `IIdpConfigurationService` and call `InvalidateCache()` after:
 ### Unit Tests
 - [ ] IdpConfigurationService caching behavior
 - [ ] DynamicJwtBearerEvents issuer extraction
-- [ ] UserAutoProvisioningService claim mapping
-- [ ] UserAutoProvisioningService email rejection
+- [ ] ProvisionSsoUserCommandHandler creates User + UserIdentity
+- [ ] ProvisionSsoUserCommandHandler assigns "User" role for Internal IdP
+- [ ] ProvisionSsoUserCommandHandler assigns "SsoUser" role for External IdP
+- [ ] ProvisionSsoUserCommandValidator rejects missing email
 
 ### Integration Tests
 - [ ] Token from enabled IdP accepted
 - [ ] Token from disabled IdP rejected (401)
 - [ ] Token from unknown issuer rejected (401)
-- [ ] Auto-provisioning creates User + UserIdentity
-- [ ] Auto-provisioning assigns SsoUser role
+- [ ] Auto-provisioning via ProvisionSsoUserCommand works
+- [ ] Internal IdP auto-provision assigns "User" role
+- [ ] External IdP auto-provision assigns "SsoUser" role
 - [ ] Token without email rejected (401)
 - [ ] Existing Cognito registration still works
-- [ ] Cache invalidation on IdP update
+- [ ] Cache invalidation on IdP create/update
 
 ### Manual Testing
-1. Add new IdP to database with `Enabled = true`, `AutoProvisionEnabled = true`
-2. Obtain token from that IdP
-3. Call protected endpoint with token
-4. Verify user created in database with SsoUser role
-5. Verify subsequent requests use cached user
+1. Add Internal IdP: `Enabled = true`, `AutoProvisionEnabled = true`, `IdpType = Internal`
+2. Add External IdP: `Enabled = true`, `AutoProvisionEnabled = true`, `IdpType = External`
+3. Obtain token from Internal IdP → Verify user gets "User" role
+4. Obtain token from External IdP → Verify user gets "SsoUser" role
+5. Verify subsequent requests use existing user
 
 ---
 
 ## Rollback Strategy
 
 1. Revert `AuthenticationConfiguration.cs` to single Cognito authority
-2. Remove new service files
-3. Revert `UserRoleClaimsTransformation.cs` changes
-4. No database migrations required (uses existing Idps table)
+2. Remove new ApiHost authentication files
+3. Remove `ProvisionSsoUser` command files
+4. Revert `UserRoleClaimsTransformation.cs` changes
+5. No database migrations required (uses existing Idps table)

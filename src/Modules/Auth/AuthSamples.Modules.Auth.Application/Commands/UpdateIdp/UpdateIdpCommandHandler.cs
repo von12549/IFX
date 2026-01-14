@@ -57,6 +57,7 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
                 request.Authority,
                 request.Description,
                 request.LoginUrl,
+                request.IdpType,
                 request.Enabled,
                 request.AutoProvisionEnabled,
                 request.ExpectedAudiences,

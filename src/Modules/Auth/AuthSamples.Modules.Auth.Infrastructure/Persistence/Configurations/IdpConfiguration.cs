@@ -30,6 +30,12 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
         builder.Property(i => i.LoginUrl)
             .HasMaxLength(500);
 
+        builder.Property(i => i.IdpType)
+            .IsRequired()
+            .HasDefaultValue(Domain.Enums.IdpType.Internal)
+            .HasConversion<string>()
+            .HasMaxLength(20);
+
         builder.Property(i => i.Enabled)
             .IsRequired()
             .HasDefaultValue(true);

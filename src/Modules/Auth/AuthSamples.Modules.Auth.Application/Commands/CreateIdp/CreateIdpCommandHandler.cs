@@ -47,6 +47,7 @@ public class CreateIdpCommandHandler : IRequestHandler<CreateIdpCommand, Result<
                 request.Authority,
                 request.Description,
                 request.LoginUrl,
+                request.IdpType,
                 request.Enabled,
                 request.AutoProvisionEnabled,
                 request.ExpectedAudiences,

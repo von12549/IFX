@@ -22,6 +22,25 @@ Database schema, migrations, and EF Core patterns for this project.
 | RegistrationFlowEvents | Registration lifecycle | → Users (FK) |
 | UserActivityLogs | General activity log | → Users (FK) |
 
+### Idps Table Columns
+
+| Column | Type | Description |
+|--------|------|-------------|
+| Id | uniqueidentifier | Primary key |
+| Name | nvarchar(100) | Display name |
+| Issuer | nvarchar(500) | OIDC issuer URL (unique) |
+| Authority | nvarchar(500) | OIDC authority URL |
+| IdpType | nvarchar(20) | `Internal` or `External` |
+| Enabled | bit | Whether IdP accepts tokens |
+| AutoProvisionEnabled | bit | Auto-create users on first login |
+| ExpectedAudiences | nvarchar(2000) | JSON array of valid audiences |
+| AllowedAlgs | nvarchar(500) | JSON array of allowed algorithms |
+| ClockSkewSeconds | int | Token expiry tolerance (default: 300) |
+
+**IdpType Role Assignment:**
+- `Internal` → Auto-provisioned users get `User` role
+- `External` → Auto-provisioned users get `SsoUser` role
+
 ### Key Constraints
 
 - **UserIdentities**: Unique on `(Issuer, Subject)` - ensures IdP identity uniqueness

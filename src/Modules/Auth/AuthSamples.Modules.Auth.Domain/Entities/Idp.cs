@@ -1,4 +1,5 @@
 using AuthSamples.Modules.Auth.Domain.Common;
+using AuthSamples.Modules.Auth.Domain.Enums;
 
 namespace AuthSamples.Modules.Auth.Domain.Entities;
 
@@ -8,6 +9,7 @@ public class Idp : BaseEntity, IAuditableEntity
     public string Issuer { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public string LoginUrl { get; private set; } = string.Empty;
+    public IdpType IdpType { get; private set; } = IdpType.Internal;
     public bool Enabled { get; private set; } = true;
     public bool AutoProvisionEnabled { get; private set; } = true;
     public string Authority { get; private set; } = string.Empty;
@@ -27,6 +29,7 @@ public class Idp : BaseEntity, IAuditableEntity
         string authority,
         string description,
         string loginUrl,
+        IdpType idpType = IdpType.Internal,
         bool enabled = true,
         bool autoProvisionEnabled = true,
         string? expectedAudiences = null,
@@ -51,6 +54,7 @@ public class Idp : BaseEntity, IAuditableEntity
             Authority = authority.Trim(),
             Description = description?.Trim() ?? string.Empty,
             LoginUrl = loginUrl?.Trim() ?? string.Empty,
+            IdpType = idpType,
             Enabled = enabled,
             AutoProvisionEnabled = autoProvisionEnabled,
             ExpectedAudiences = expectedAudiences ?? "[]",
@@ -69,6 +73,7 @@ public class Idp : BaseEntity, IAuditableEntity
         string authority,
         string description,
         string loginUrl,
+        IdpType idpType,
         bool enabled,
         bool autoProvisionEnabled,
         string expectedAudiences,
@@ -91,6 +96,7 @@ public class Idp : BaseEntity, IAuditableEntity
         Authority = authority.Trim();
         Description = description?.Trim() ?? string.Empty;
         LoginUrl = loginUrl?.Trim() ?? string.Empty;
+        IdpType = idpType;
         Enabled = enabled;
         AutoProvisionEnabled = autoProvisionEnabled;
         ExpectedAudiences = expectedAudiences;

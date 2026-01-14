@@ -1,5 +1,6 @@
 using AuthSamples.Modules.Auth.Application.Common;
 using AuthSamples.Modules.Auth.Application.DTOs;
+using AuthSamples.Modules.Auth.Domain.Enums;
 using MediatR;
 
 namespace AuthSamples.Modules.Auth.Application.Commands.CreateIdp;
@@ -10,6 +11,7 @@ public record CreateIdpCommand(
     string Authority,
     string Description,
     string LoginUrl,
+    IdpType IdpType,
     bool Enabled,
     bool AutoProvisionEnabled,
     string ExpectedAudiences,

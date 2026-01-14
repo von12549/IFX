@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AuthSamples.Modules.Auth.Domain.Enums;
 
 namespace AuthSamples.Modules.Auth.Presentation.Models.Requests.Idp;
 
@@ -21,6 +22,8 @@ public class UpdateIdpRequest
 
     [MaxLength(500)]
     public string LoginUrl { get; set; } = string.Empty;
+
+    public IdpType IdpType { get; set; }
 
     public bool Enabled { get; set; }
 

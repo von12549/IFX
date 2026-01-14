@@ -12,6 +12,7 @@ Defines terms, abbreviations, and naming conventions used in this codebase.
 | **User** | Core identity entity, independent of IdP |
 | **UserIdentity** | IdP-specific identity data linked to a User |
 | **IdP** | Identity Provider (e.g., AWS Cognito, Google) |
+| **IdpType** | Classification of IdP: `Internal` (org-managed) or `External` (third-party SSO) |
 | **Subject** | Unique identifier assigned by IdP (the `sub` claim) |
 | **Issuer** | URL identifying the IdP (the `iss` claim) |
 
