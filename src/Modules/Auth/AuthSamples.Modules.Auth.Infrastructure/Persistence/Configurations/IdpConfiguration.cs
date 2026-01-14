@@ -30,6 +30,22 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
         builder.Property(i => i.LoginUrl)
             .HasMaxLength(500);
 
+        builder.Property(i => i.IdpType)
+            .IsRequired()
+            .HasDefaultValue(Domain.Enums.IdpType.Internal)
+            .HasConversion<string>()
+            .HasMaxLength(20);
+
+        builder.Property(i => i.IsPrimary)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        // Unique filtered index: only one IdP can be primary
+        builder.HasIndex(i => i.IsPrimary)
+            .HasDatabaseName("IX_Idps_IsPrimary")
+            .HasFilter("[IsPrimary] = 1")
+            .IsUnique();
+
         builder.Property(i => i.Enabled)
             .IsRequired()
             .HasDefaultValue(true);

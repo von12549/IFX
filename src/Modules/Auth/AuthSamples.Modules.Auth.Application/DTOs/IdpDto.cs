@@ -1,3 +1,5 @@
+using AuthSamples.Modules.Auth.Domain.Enums;
+
 namespace AuthSamples.Modules.Auth.Application.DTOs;
 
 public class IdpDto
@@ -7,6 +9,8 @@ public class IdpDto
     public string Issuer { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public string LoginUrl { get; init; } = string.Empty;
+    public IdpType IdpType { get; init; }
+    public bool IsPrimary { get; init; }
     public bool Enabled { get; init; }
     public bool AutoProvisionEnabled { get; init; }
     public string Authority { get; init; } = string.Empty;

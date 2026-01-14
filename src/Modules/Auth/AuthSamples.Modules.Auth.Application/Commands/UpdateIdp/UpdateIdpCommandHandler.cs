@@ -50,6 +50,12 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
                 }
             }
 
+            // If setting as primary and not already primary, clear existing primary flag
+            if (request.IsPrimary && !idp.IsPrimary)
+            {
+                await _unitOfWork.Idps.ClearPrimaryFlagAsync(cancellationToken);
+            }
+
             // Update via domain method
             idp.Update(
                 request.Name,
@@ -57,6 +63,8 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
                 request.Authority,
                 request.Description,
                 request.LoginUrl,
+                request.IdpType,
+                request.IsPrimary,
                 request.Enabled,
                 request.AutoProvisionEnabled,
                 request.ExpectedAudiences,

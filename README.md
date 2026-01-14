@@ -1,12 +1,12 @@
 # AuthSamples
 
-A production-ready ASP.NET Core 8 authentication solution with Clean Architecture, CQRS, multi-IdP support, and comprehensive audit trail.
+A production-ready ASP.NET Core 8 authentication solution with Clean Architecture, CQRS, dynamic multi-IdP SSO, and comprehensive audit trail.
 
 ## Features
 
 - **Clean Architecture** - Domain, Application, Infrastructure, Presentation layers
 - **CQRS Pattern** - Command/Query separation with MediatR
-- **Multi-IdP Support** - Extensible identity provider architecture (AWS Cognito)
+- **Dynamic Multi-IdP SSO** - Database-driven IdP configuration with auto-provisioning
 - **Role-Based Auth** - Admin, User, SsoUser roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **195 Tests** - Comprehensive test coverage across all layers
@@ -78,6 +78,7 @@ dotnet run
 - [API Reference](docs/api/endpoints.md)
 
 ### Setup Guides
+- [SSO Multi-IdP Authentication](docs/sso-multi-idp.md)
 - [AWS Cognito Setup](docs/AWS_COGNITO_SETUP.md)
 - [Multi-IdP Migration](docs/MULTI_IDP_MIGRATION_SUMMARY.md)
 

@@ -39,19 +39,18 @@ public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Res
                 return Result<bool>.Failure("Failed to revoke refresh token");
             }
 
-            // Get IFX Cognito IdP
-            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
-            var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
-            if (ifxCognitoIdp == null)
+            // Get primary IdP
+            var primaryIdp = await _unitOfWork.Idps.GetPrimaryIdpAsync(cancellationToken);
+            if (primaryIdp == null)
             {
-                _logger.LogError("IFX Cognito IdP not found in database");
+                _logger.LogError("Primary IdP not found or not enabled in database");
                 return Result<bool>.Failure("System configuration error. Please contact support.");
             }
 
             // If email is provided, create activity log
             if (!string.IsNullOrEmpty(request.Email))
             {
-                var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
+                var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, primaryIdp.Id, cancellationToken);
                 if (user != null)
                 {
                     // Create UserActivityLog

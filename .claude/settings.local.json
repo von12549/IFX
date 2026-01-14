@@ -4,7 +4,10 @@
       "Bash(dir:*)",
       "Bash(rename Cognito Auth)",
       "Bash(git add:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet sln add:*)"
     ]
   }
 }

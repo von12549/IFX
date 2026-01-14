@@ -1,19 +1,28 @@
 using System.Security.Claims;
-using AuthSamples.Modules.Auth.Application.Interfaces;
+using AuthSamples.ApiHost.Authentication;
+using AuthSamples.Modules.Auth.Application.Queries.GetOrProvisionUser;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 
 namespace AuthSamples.ApiHost.Authorization;
 
+/// <summary>
+/// Claims transformation that adds role claims to authenticated principals.
+/// Delegates user lookup and auto-provisioning to the Application layer via CQRS.
+/// </summary>
 public class UserRoleClaimsTransformation : IClaimsTransformation
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<UserRoleClaimsTransformation> _logger;
 
     public UserRoleClaimsTransformation(
         IServiceProvider serviceProvider,
+        IHttpContextAccessor httpContextAccessor,
         ILogger<UserRoleClaimsTransformation> logger)
     {
         _serviceProvider = serviceProvider;
+        _httpContextAccessor = httpContextAccessor;
         _logger = logger;
     }
 
@@ -25,7 +34,7 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
             return principal;
         }
 
-        // 2. Get Subject and Issuer from JWT claims
+        // 2. Extract subject and issuer from JWT claims
         var subject = principal.FindFirst("sub")?.Value;
         var issuer = principal.FindFirst("iss")?.Value;
 
@@ -37,30 +46,42 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
 
         try
         {
-            // 3. Create scope to resolve scoped services (IUnitOfWork)
-            using var scope = _serviceProvider.CreateScope();
-            var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+            // 3. Get IdP configuration from HttpContext (set by DynamicJwtBearerEvents)
+            var idpConfig = _httpContextAccessor.HttpContext?.Items["IdpConfiguration"]
+                as IdpConfigurationEntry;
 
-            // 4. Load user with role from database using Issuer + Subject
-            var user = await unitOfWork.Users.GetByIssuerAndSubjectAsync(issuer, subject);
-            if (user?.UserRole == null)
+            // 4. Build query with claims data
+            var query = new GetOrProvisionUserQuery(
+                Issuer: issuer,
+                Subject: subject,
+                AutoProvisionEnabled: idpConfig?.AutoProvisionEnabled ?? false,
+                IdpId: idpConfig?.IdpId,
+                IdpType: idpConfig?.IdpType,
+                Email: principal.FindFirst("email")?.Value
+                    ?? principal.FindFirst(ClaimTypes.Email)?.Value,
+                FirstName: principal.FindFirst("given_name")?.Value,
+                LastName: principal.FindFirst("family_name")?.Value,
+                EmailVerified: principal.FindFirst("email_verified")?.Value == "true",
+                IpAddress: _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString());
+
+            // 5. Execute query via MediatR (create scope for scoped services)
+            using var scope = _serviceProvider.CreateScope();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            var result = await mediator.Send(query);
+
+            if (!result.IsSuccess)
             {
-                _logger.LogWarning("User with Issuer {Issuer} and Subject {Subject} not found or has no role assigned", issuer, subject);
-                return principal;
+                _logger.LogWarning(
+                    "User authentication failed for {Issuer}/{Subject}: {Error}",
+                    issuer, subject, result.Error);
+                return new ClaimsPrincipal(); // Return empty principal to trigger 401
             }
 
-            // 5. Clone identity and add role claim
-            var claimsIdentity = new ClaimsIdentity();
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.UserRole.RoleName));
-
-            // 6. Add to principal
-            principal.AddIdentity(claimsIdentity);
-
-            _logger.LogDebug(
-                "Added role claim '{RoleName}' for user {Issuer}/{Subject}",
-                user.UserRole.RoleName,
-                issuer,
-                subject);
+            // 6. Add role and user_id claims from query result
+            var identity = new ClaimsIdentity();
+            identity.AddClaim(new Claim(ClaimTypes.Role, result.Value!.RoleName));
+            identity.AddClaim(new Claim("user_id", result.Value.UserId.ToString()));
+            principal.AddIdentity(identity);
 
             return principal;
         }

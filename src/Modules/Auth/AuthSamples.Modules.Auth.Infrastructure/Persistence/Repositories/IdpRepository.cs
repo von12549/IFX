@@ -40,6 +40,14 @@ public class IdpRepository : IIdpRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .AsNoTracking()
+            .Where(i => i.Issuer == issuer && i.Enabled)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task AddAsync(Idp idp, CancellationToken cancellationToken = default)
     {
         await _context.Idps.AddAsync(idp, cancellationToken);
@@ -55,5 +63,18 @@ public class IdpRepository : IIdpRepository
     {
         return await _context.Idps
             .AnyAsync(i => i.Issuer == issuer && i.Id != excludeIdpId, cancellationToken);
+    }
+
+    public async Task<Idp?> GetPrimaryIdpAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .FirstOrDefaultAsync(i => i.IsPrimary && i.Enabled, cancellationToken);
+    }
+
+    public async Task ClearPrimaryFlagAsync(CancellationToken cancellationToken = default)
+    {
+        await _context.Idps
+            .Where(i => i.IsPrimary)
+            .ExecuteUpdateAsync(s => s.SetProperty(i => i.IsPrimary, false), cancellationToken);
     }
 }

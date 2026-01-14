@@ -111,19 +111,18 @@ public static class AuthEndpoints
     {
         var ipAddress = httpContext.GetIpAddress();
 
-        // Get IFX Cognito IdP
-        const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
-        var ifxCognitoIdp = await unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
-        if (ifxCognitoIdp == null)
+        // Get primary IdP
+        var primaryIdp = await unitOfWork.Idps.GetPrimaryIdpAsync(cancellationToken);
+        if (primaryIdp == null)
         {
-            logger.LogError("IFX Cognito IdP not found in database");
+            logger.LogError("Primary IdP not found or not enabled in database");
             return Results.Json(
                 ApiResponse<object>.FailureResponse("System configuration error. Please contact support."),
                 statusCode: StatusCodes.Status404NotFound);
         }
 
         // Query user by email to get Subject
-        var user = await unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
+        var user = await unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, primaryIdp.Id, cancellationToken);
         if (user == null)
         {
             logger.LogWarning("User not found for email {Email}", request.Email);

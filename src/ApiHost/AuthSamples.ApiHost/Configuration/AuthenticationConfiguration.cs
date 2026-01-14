@@ -1,3 +1,4 @@
+using AuthSamples.ApiHost.Authentication;
 using AuthSamples.ApiHost.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,37 +9,38 @@ namespace AuthSamples.ApiHost.Configuration;
 public static class AuthenticationConfiguration
 {
     /// <summary>
-    /// Configures JWT Bearer authentication with AWS Cognito and role claims transformation
+    /// Configures JWT Bearer authentication with dynamic multi-IdP support and role claims transformation
     /// </summary>
     public static IServiceCollection AddAuthAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var cognitoSettings = configuration.GetSection("CognitoSettings");
-        var region = cognitoSettings["Region"];
-        var userPoolId = cognitoSettings["UserPoolId"];
-        var authority = $"https://cognito-idp.{region}.amazonaws.com/{userPoolId}".Trim();            
-        var authorityNoSlash = authority.TrimEnd('/');
+        // Register IdpConfigurationService (cross-cutting, singleton for caching)
+        services.AddMemoryCache();
+        services.AddSingleton<IdpConfigurationService>();
+        services.AddSingleton<IIdpConfigurationService>(sp => sp.GetRequiredService<IdpConfigurationService>());
+        services.AddSingleton<Modules.Auth.Application.Interfaces.IIdpCacheInvalidator>(sp => sp.GetRequiredService<IdpConfigurationService>());
+        services.AddScoped<DynamicJwtBearerEvents>();
 
-        // Configure JWT Bearer authentication
+        // Add HttpContextAccessor for claims transformation
+        services.AddHttpContextAccessor();
+
+        // Configure JWT Bearer authentication with dynamic validation
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = authority;
-                options.MapInboundClaims = false;
+                // Disable static validation (handled dynamically by DynamicJwtBearerEvents)
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateLifetime = true,
+                    ValidateIssuer = false,
                     ValidateAudience = false,
-                    NameClaimType = "sub",
-                    ValidIssuers = new[]
-                    {
-                        authorityNoSlash,
-                        authorityNoSlash + "/"
-                    }
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    NameClaimType = "sub"
                 };
+
+                // Use dynamic events for multi-IdP token validation
+                options.EventsType = typeof(DynamicJwtBearerEvents);
             });
 
         // Add claims transformation to inject role from database into JWT claims

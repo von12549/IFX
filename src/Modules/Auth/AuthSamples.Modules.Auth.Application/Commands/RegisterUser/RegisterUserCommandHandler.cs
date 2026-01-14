@@ -31,16 +31,15 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
     {
         try
         {
-            // Get IFX Cognito IdP
-            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
-            var ifxCognitoIdp = await _unitOfWork.Idps.GetByIssuerAsync(ifxCognitoIssuer, cancellationToken);
-            if (ifxCognitoIdp == null)
+            // Get primary IdP
+            var primaryIdp = await _unitOfWork.Idps.GetPrimaryIdpAsync(cancellationToken);
+            if (primaryIdp == null)
             {
-                _logger.LogError("IFX Cognito IdP not found in database");
+                _logger.LogError("Primary IdP not found or not enabled in database");
                 return Result<RegisterUserResponse>.Failure("System configuration error. Please contact support.");
             }
             // Check if user already exists
-            var existingUser = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, ifxCognitoIdp.Id, cancellationToken);
+            var existingUser = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, primaryIdp.Id, cancellationToken);
             if (existingUser != null)
             {
                 return Result<RegisterUserResponse>.Failure("User with this email already exists");
@@ -84,8 +83,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             // Create UserIdentity entity (all identity data)
             var userIdentity = UserIdentity.Create(
                 userId: user.Id,
-                idpId: ifxCognitoIdp.Id,
-                issuer: ifxCognitoIssuer,
+                idpId: primaryIdp.Id,
+                issuer: primaryIdp.Issuer,
                 subject: Subject.Create(cognitoResult.Subject!),
                 email: EmailAddress.Create(request.Email),
                 firstName: request.FirstName,
