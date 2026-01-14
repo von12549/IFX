@@ -40,6 +40,14 @@ public class IdpRepository : IIdpRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .AsNoTracking()
+            .Where(i => i.Issuer == issuer && i.Enabled)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task AddAsync(Idp idp, CancellationToken cancellationToken = default)
     {
         await _context.Idps.AddAsync(idp, cancellationToken);

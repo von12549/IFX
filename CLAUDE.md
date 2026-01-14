@@ -7,7 +7,7 @@ This file provides guidance to Claude Code when working with this repository.
 **AuthSamples** is a production-ready ASP.NET Core 8 authentication solution with:
 - Clean Architecture (Domain → Application → Infrastructure → Presentation)
 - CQRS pattern using MediatR
-- Multi-IdP support with AWS Cognito
+- Dynamic Multi-IdP SSO with auto-provisioning (database-driven)
 - Full audit trail
 
 ## Golden Rules
