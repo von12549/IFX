@@ -31,6 +31,7 @@ Database schema, migrations, and EF Core patterns for this project.
 | Issuer | nvarchar(500) | OIDC issuer URL (unique) |
 | Authority | nvarchar(500) | OIDC authority URL |
 | IdpType | nvarchar(20) | `Internal` or `External` |
+| IsPrimary | bit | Primary IdP for local auth (unique filtered index) |
 | Enabled | bit | Whether IdP accepts tokens |
 | AutoProvisionEnabled | bit | Auto-create users on first login |
 | ExpectedAudiences | nvarchar(2000) | JSON array of valid audiences |
@@ -46,6 +47,7 @@ Database schema, migrations, and EF Core patterns for this project.
 - **UserIdentities**: Unique on `(Issuer, Subject)` - ensures IdP identity uniqueness
 - **UserRoles**: Unique on `RoleName`
 - **Idps**: Unique on `Issuer`
+- **Idps**: Unique filtered index on `IsPrimary` where `IsPrimary = 1` (only one primary)
 
 ---
 

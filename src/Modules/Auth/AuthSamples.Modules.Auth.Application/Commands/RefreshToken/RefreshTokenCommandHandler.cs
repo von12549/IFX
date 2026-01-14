@@ -54,12 +54,18 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
                 return Result<RefreshTokenResponse>.Failure("Invalid token response");
             }
 
-            // Get user from database (using IFX Cognito issuer)
-            const string ifxCognitoIssuer = "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P";
-            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(ifxCognitoIssuer, subject, cancellationToken);
+            // Get primary IdP and user from database
+            var primaryIdp = await _unitOfWork.Idps.GetPrimaryIdpAsync(cancellationToken);
+            if (primaryIdp == null)
+            {
+                _logger.LogError("Primary IdP not found or not enabled in database");
+                return Result<RefreshTokenResponse>.Failure("System configuration error. Please contact support.");
+            }
+
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(primaryIdp.Issuer, subject, cancellationToken);
             if (user == null)
             {
-                _logger.LogWarning("User not found for Issuer {Issuer} and Subject {Subject}", ifxCognitoIssuer, subject);
+                _logger.LogWarning("User not found for Issuer {Issuer} and Subject {Subject}", primaryIdp.Issuer, subject);
                 return Result<RefreshTokenResponse>.Failure("User not found");
             }
 

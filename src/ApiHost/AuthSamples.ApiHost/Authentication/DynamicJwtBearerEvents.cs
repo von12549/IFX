@@ -43,6 +43,7 @@ public class DynamicJwtBearerEvents : JwtBearerEvents
             var openIdConfig = await idpConfig.ConfigurationManager!.GetConfigurationAsync(context.HttpContext.RequestAborted);
 
             // Configure dynamic validation parameters
+            context.Options.MapInboundClaims = false;
             context.Options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,

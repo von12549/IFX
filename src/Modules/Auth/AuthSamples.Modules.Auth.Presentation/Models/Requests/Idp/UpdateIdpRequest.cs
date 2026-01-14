@@ -25,6 +25,8 @@ public class UpdateIdpRequest
 
     public IdpType IdpType { get; set; }
 
+    public bool IsPrimary { get; set; }
+
     public bool Enabled { get; set; }
 
     public bool AutoProvisionEnabled { get; set; }

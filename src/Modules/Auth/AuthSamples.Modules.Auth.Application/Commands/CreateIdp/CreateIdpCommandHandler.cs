@@ -40,6 +40,12 @@ public class CreateIdpCommandHandler : IRequestHandler<CreateIdpCommand, Result<
                 return Result<IdpDto>.Failure($"Identity Provider with Issuer '{request.Issuer}' already exists");
             }
 
+            // If setting as primary, clear existing primary flag
+            if (request.IsPrimary)
+            {
+                await _unitOfWork.Idps.ClearPrimaryFlagAsync(cancellationToken);
+            }
+
             // Create entity via factory method
             var idp = Idp.Create(
                 request.Name,
@@ -48,6 +54,7 @@ public class CreateIdpCommandHandler : IRequestHandler<CreateIdpCommand, Result<
                 request.Description,
                 request.LoginUrl,
                 request.IdpType,
+                request.IsPrimary,
                 request.Enabled,
                 request.AutoProvisionEnabled,
                 request.ExpectedAudiences,

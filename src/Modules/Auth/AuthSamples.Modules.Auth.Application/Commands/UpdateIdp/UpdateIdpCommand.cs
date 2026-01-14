@@ -13,6 +13,7 @@ public record UpdateIdpCommand(
     string Description,
     string LoginUrl,
     IdpType IdpType,
+    bool IsPrimary,
     bool Enabled,
     bool AutoProvisionEnabled,
     string ExpectedAudiences,

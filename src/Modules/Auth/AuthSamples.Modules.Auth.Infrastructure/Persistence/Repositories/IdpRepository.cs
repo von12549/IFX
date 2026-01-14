@@ -64,4 +64,17 @@ public class IdpRepository : IIdpRepository
         return await _context.Idps
             .AnyAsync(i => i.Issuer == issuer && i.Id != excludeIdpId, cancellationToken);
     }
+
+    public async Task<Idp?> GetPrimaryIdpAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .FirstOrDefaultAsync(i => i.IsPrimary && i.Enabled, cancellationToken);
+    }
+
+    public async Task ClearPrimaryFlagAsync(CancellationToken cancellationToken = default)
+    {
+        await _context.Idps
+            .Where(i => i.IsPrimary)
+            .ExecuteUpdateAsync(s => s.SetProperty(i => i.IsPrimary, false), cancellationToken);
+    }
 }

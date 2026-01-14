@@ -25,6 +25,8 @@ public class CreateIdpRequest
 
     public IdpType IdpType { get; set; } = IdpType.Internal;
 
+    public bool IsPrimary { get; set; } = false;
+
     public bool Enabled { get; set; } = true;
 
     public bool AutoProvisionEnabled { get; set; } = true;

@@ -1,12 +1,15 @@
 using System.Security.Claims;
 using AuthSamples.ApiHost.Authentication;
-using AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
-using AuthSamples.Modules.Auth.Application.Interfaces;
+using AuthSamples.Modules.Auth.Application.Queries.GetOrProvisionUser;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 
 namespace AuthSamples.ApiHost.Authorization;
 
+/// <summary>
+/// Claims transformation that adds role claims to authenticated principals.
+/// Delegates user lookup and auto-provisioning to the Application layer via CQRS.
+/// </summary>
 public class UserRoleClaimsTransformation : IClaimsTransformation
 {
     private readonly IServiceProvider _serviceProvider;
@@ -31,7 +34,7 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
             return principal;
         }
 
-        // 2. Get Subject and Issuer from JWT claims
+        // 2. Extract subject and issuer from JWT claims
         var subject = principal.FindFirst("sub")?.Value;
         var issuer = principal.FindFirst("iss")?.Value;
 
@@ -43,89 +46,42 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
 
         try
         {
-            // 3. Create scope to resolve scoped services (IUnitOfWork, IMediator)
+            // 3. Get IdP configuration from HttpContext (set by DynamicJwtBearerEvents)
+            var idpConfig = _httpContextAccessor.HttpContext?.Items["IdpConfiguration"]
+                as IdpConfigurationEntry;
+
+            // 4. Build query with claims data
+            var query = new GetOrProvisionUserQuery(
+                Issuer: issuer,
+                Subject: subject,
+                AutoProvisionEnabled: idpConfig?.AutoProvisionEnabled ?? false,
+                IdpId: idpConfig?.IdpId,
+                IdpType: idpConfig?.IdpType,
+                Email: principal.FindFirst("email")?.Value
+                    ?? principal.FindFirst(ClaimTypes.Email)?.Value,
+                FirstName: principal.FindFirst("given_name")?.Value,
+                LastName: principal.FindFirst("family_name")?.Value,
+                EmailVerified: principal.FindFirst("email_verified")?.Value == "true",
+                IpAddress: _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString());
+
+            // 5. Execute query via MediatR (create scope for scoped services)
             using var scope = _serviceProvider.CreateScope();
-            var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            var result = await mediator.Send(query);
 
-            // 4. Try to find existing user
-            var user = await unitOfWork.Users.GetByIssuerAndSubjectAsync(issuer, subject);
-
-            // 5. If user not found, try auto-provisioning via CQRS command
-            if (user == null)
-            {
-                var idpConfig = _httpContextAccessor.HttpContext?.Items["IdpConfiguration"]
-                    as IdpConfigurationEntry;
-
-                if (idpConfig?.AutoProvisionEnabled == true)
-                {
-                    var email = principal.FindFirst("email")?.Value
-                             ?? principal.FindFirst(ClaimTypes.Email)?.Value;
-
-                    if (string.IsNullOrEmpty(email))
-                    {
-                        _logger.LogWarning(
-                            "SSO user from {Issuer}/{Subject} rejected: missing email claim",
-                            issuer, subject);
-                        return new ClaimsPrincipal(); // Return empty principal to trigger 401
-                    }
-
-                    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                    var command = new ProvisionSsoUserCommand(
-                        IdpId: idpConfig.IdpId,
-                        Issuer: issuer,
-                        Subject: subject,
-                        IdpType: idpConfig.IdpType,
-                        Email: email,
-                        FirstName: principal.FindFirst("given_name")?.Value,
-                        LastName: principal.FindFirst("family_name")?.Value,
-                        EmailVerified: principal.FindFirst("email_verified")?.Value == "true",
-                        IpAddress: _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString());
-
-                    var result = await mediator.Send(command);
-
-                    if (!result.IsSuccess)
-                    {
-                        _logger.LogWarning("SSO user provisioning failed: {Error}", result.Error);
-                        return new ClaimsPrincipal();
-                    }
-
-                    // Add role and user_id claims from provisioning result
-                    var claimsIdentity = new ClaimsIdentity();
-                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, result.Value!.RoleName));
-                    claimsIdentity.AddClaim(new Claim("user_id", result.Value.UserId.ToString()));
-                    principal.AddIdentity(claimsIdentity);
-
-                    _logger.LogInformation(
-                        "Auto-provisioned SSO user {UserId} with role '{RoleName}' for {Issuer}/{Subject}",
-                        result.Value.UserId, result.Value.RoleName, issuer, subject);
-
-                    return principal;
-                }
-
-                // No auto-provision and user not found
-                _logger.LogWarning(
-                    "User with Issuer {Issuer} and Subject {Subject} not found and auto-provision disabled",
-                    issuer, subject);
-                return principal;
-            }
-
-            // 6. User exists - add role claim
-            if (user.UserRole == null)
+            if (!result.IsSuccess)
             {
                 _logger.LogWarning(
-                    "User {Issuer}/{Subject} has no role assigned",
-                    issuer, subject);
-                return principal;
+                    "User authentication failed for {Issuer}/{Subject}: {Error}",
+                    issuer, subject, result.Error);
+                return new ClaimsPrincipal(); // Return empty principal to trigger 401
             }
 
+            // 6. Add role and user_id claims from query result
             var identity = new ClaimsIdentity();
-            identity.AddClaim(new Claim(ClaimTypes.Role, user.UserRole.RoleName));
-            identity.AddClaim(new Claim("user_id", user.Id.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.Role, result.Value!.RoleName));
+            identity.AddClaim(new Claim("user_id", result.Value.UserId.ToString()));
             principal.AddIdentity(identity);
-
-            _logger.LogDebug(
-                "Added role claim '{RoleName}' for user {Issuer}/{Subject}",
-                user.UserRole.RoleName, issuer, subject);
 
             return principal;
         }

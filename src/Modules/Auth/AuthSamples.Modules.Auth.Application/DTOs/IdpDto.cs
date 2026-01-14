@@ -10,6 +10,7 @@ public class IdpDto
     public string Description { get; init; } = string.Empty;
     public string LoginUrl { get; init; } = string.Empty;
     public IdpType IdpType { get; init; }
+    public bool IsPrimary { get; init; }
     public bool Enabled { get; init; }
     public bool AutoProvisionEnabled { get; init; }
     public string Authority { get; init; } = string.Empty;

@@ -54,6 +54,7 @@ The `Idps` table stores IdP configurations:
 | `Issuer` | string | OIDC issuer URL (unique) |
 | `Authority` | string | OIDC authority URL |
 | `IdpType` | string | `Internal` or `External` |
+| `IsPrimary` | bool | Primary IdP for local auth (unique, max one) |
 | `Enabled` | bool | Accept tokens from this IdP |
 | `AutoProvisionEnabled` | bool | Auto-create users |
 | `ExpectedAudiences` | JSON | Valid audience values |
@@ -79,8 +80,9 @@ When a user authenticates via SSO for the first time:
 |-----------|-------|---------|
 | `IdpConfigurationService` | ApiHost | Cache IdP configs, manage OIDC ConfigurationManagers |
 | `DynamicJwtBearerEvents` | ApiHost | Dynamic token validation per issuer |
+| `GetOrProvisionUserQuery` | Application | User lookup + auto-provisioning orchestration |
 | `ProvisionSsoUserCommand` | Application | CQRS command for user auto-provisioning |
-| `UserRoleClaimsTransformation` | ApiHost | Add role claims, trigger auto-provisioning |
+| `UserRoleClaimsTransformation` | ApiHost | Extract JWT claims, delegate to Application layer |
 
 ## See Also
 
