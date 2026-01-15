@@ -44,14 +44,23 @@ public static class DependencyInjection
         // Register Memory Cache for OAuth state/PKCE storage
         services.AddMemoryCache();
 
-        // Register HttpClient for OIDC service
+        // Register HttpClient for OIDC services
         services.AddHttpClient("CognitoOidc", client =>
         {
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
 
+        services.AddHttpClient("OidcDiscovery", client =>
+        {
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
+
         // Register OIDC Auth Service (Managed Login flow)
         services.AddScoped<IOidcAuthService, CognitoOidcService>();
+
+        // Register OIDC Discovery Service (for fetching well-known configuration)
+        services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();
 
         // Register DbContext
         var connectionString = configuration.GetConnectionString("AuthDatabase");
