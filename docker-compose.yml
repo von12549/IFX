@@ -34,6 +34,12 @@ services:
       - CognitoSettings__ClientId=${COGNITO_CLIENT_ID}
       - CognitoSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
       - CognitoSettings__Region=${COGNITO_REGION}
+      - CognitoOidcSettings__Domain=${COGNITO_OIDC_DOMAIN}
+      - CognitoOidcSettings__ClientId=${COGNITO_CLIENT_ID}
+      - CognitoOidcSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
+      - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL}
+      - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL}
+      - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}

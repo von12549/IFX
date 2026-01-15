@@ -9,6 +9,7 @@ using AuthSamples.Modules.Auth.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AuthSamples.Modules.Auth.Infrastructure;
 
@@ -33,8 +34,33 @@ public static class DependencyInjection
             return new AmazonCognitoIdentityProviderClient(region);
         });
 
-        // Register Cognito Service
+        // Register Cognito Service (SDK-based - for backward compatibility)
         services.AddScoped<ICognitoService, CognitoService>();
+
+        // Configure CognitoOidcSettings (OAuth/OIDC flow)
+        services.Configure<CognitoOidcSettings>(options =>
+            configuration.GetSection(CognitoOidcSettings.SectionName).Bind(options));
+
+        // Register Memory Cache for OAuth state/PKCE storage
+        services.AddMemoryCache();
+
+        // Register HttpClient for OIDC services
+        services.AddHttpClient("CognitoOidc", client =>
+        {
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        services.AddHttpClient("OidcDiscovery", client =>
+        {
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
+
+        // Register OIDC Auth Service (Managed Login flow)
+        services.AddScoped<IOidcAuthService, CognitoOidcService>();
+
+        // Register OIDC Discovery Service (for fetching well-known configuration)
+        services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();
 
         // Register DbContext
         var connectionString = configuration.GetConnectionString("AuthDatabase");

@@ -7,7 +7,9 @@ This file provides guidance to Claude Code when working with this repository.
 **AuthSamples** is a production-ready ASP.NET Core 8 authentication solution with:
 - Clean Architecture (Domain → Application → Infrastructure → Presentation)
 - CQRS pattern using MediatR
+- OAuth 2.0 Authorization Code flow with PKCE (Cognito Managed Login)
 - Dynamic Multi-IdP SSO with auto-provisioning (database-driven)
+- OIDC Discovery for dynamic IdP configuration
 - Full audit trail
 
 ## Golden Rules
@@ -31,6 +33,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/dotnet/ef-core.md` | Database schema, migrations |
 | `/.claude/dotnet/testing.md` | Test structure, patterns |
 | `/.claude/dotnet/aws-cognito.md` | Cognito configuration, auth flows |
+| `/docs/Plans/cognito-managed-login.md` | OAuth 2.0 / Cognito Managed Login implementation |
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 
@@ -51,7 +54,8 @@ dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
 ```
 
 ### API Endpoints
-- Public: `POST /api/v1/auth/{register,confirm,login}`
+- OAuth: `GET /api/v1/auth/oauth/{authorize,callback,userinfo,logout}`
+- Public: `POST /api/v1/auth/{register,confirm,login}` (login deprecated, use OAuth)
 - Authenticated: `POST /api/v1/auth/{logout,refresh,revoke}`, `GET/PUT /api/v1/user/profile`
 - Admin: `GET/PUT /api/v1/usermanagement/users`, `GET/POST/PUT /api/v1/role`, `/api/v1/idp`
 - Health: `GET /health`, `GET /health/ready`
