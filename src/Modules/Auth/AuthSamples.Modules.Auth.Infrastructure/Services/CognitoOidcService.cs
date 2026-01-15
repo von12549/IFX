@@ -54,7 +54,7 @@ public class CognitoOidcService : IOidcAuthService
 
         // Build authorization URL
         var callbackUrl = redirectUri ?? _settings.CallbackUrl;
-        var scopes = string.Join(" ", _settings.Scopes);
+        var scopes = string.Join(" ", _settings.Scopes.Distinct());
 
         var queryParams = new Dictionary<string, string>
         {

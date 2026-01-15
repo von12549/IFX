@@ -6,8 +6,17 @@ public class CognitoOidcSettings
 
     /// <summary>
     /// Cognito domain (e.g., myapp.auth.ap-southeast-2.amazoncognito.com)
+    /// Do not include https:// prefix
     /// </summary>
     public string Domain { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the normalized domain (strips https:// if accidentally included)
+    /// </summary>
+    private string NormalizedDomain => Domain
+        .Replace("https://", "")
+        .Replace("http://", "")
+        .TrimEnd('/');
 
     /// <summary>
     /// OAuth Client ID
@@ -46,22 +55,22 @@ public class CognitoOidcSettings
     public int StateCacheDurationSeconds { get; set; } = 300;
 
     /// <summary>
-    /// Gets the authorization endpoint URL
+    /// Gets the authorization endpoint URL (Cognito Hosted UI login page)
     /// </summary>
-    public string AuthorizationEndpoint => $"https://{Domain}/oauth2/authorize";
+    public string AuthorizationEndpoint => $"https://{NormalizedDomain}/login";
 
     /// <summary>
     /// Gets the token endpoint URL
     /// </summary>
-    public string TokenEndpoint => $"https://{Domain}/oauth2/token";
+    public string TokenEndpoint => $"https://{NormalizedDomain}/oauth2/token";
 
     /// <summary>
     /// Gets the userinfo endpoint URL
     /// </summary>
-    public string UserInfoEndpoint => $"https://{Domain}/oauth2/userInfo";
+    public string UserInfoEndpoint => $"https://{NormalizedDomain}/oauth2/userInfo";
 
     /// <summary>
     /// Gets the logout endpoint URL
     /// </summary>
-    public string LogoutEndpoint => $"https://{Domain}/logout";
+    public string LogoutEndpoint => $"https://{NormalizedDomain}/logout";
 }
