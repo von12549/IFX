@@ -75,6 +75,10 @@ public static class AuthEndpoints
         }));
     }
 
+    /// <summary>
+    /// [Deprecated] Use OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize instead.
+    /// </summary>
+    [Obsolete("Use OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize instead.")]
     public static async Task<IResult> Login(
         [FromBody] LoginRequest request,
         [FromServices] IMediator mediator,

@@ -26,7 +26,8 @@ public static class AuthEndpointExtensions
 
         group.MapPost("/login", AuthEndpoints.Login)
             .WithName("Login")
-            .WithSummary("Authenticate user with email and password")
+            .WithSummary("[Deprecated] Authenticate user with email and password. Use /api/v1/auth/oauth/authorize for new integrations.")
+            .WithDescription("This endpoint is deprecated. For new integrations, use the OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize which provides better security with PKCE and access to /userinfo endpoint.")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 

@@ -46,13 +46,44 @@ Client → GET /api/v1/auth/authorize
 ### Phase 1: AWS Cognito Configuration
 
 **Prerequisites (Manual AWS Console / Terraform):**
-1. Configure User Pool domain (e.g., `myapp.auth.ap-southeast-2.amazoncognito.com`)
-2. Configure App Client:
-   - Enable OAuth flows: Authorization Code Grant
-   - Set callback URLs: `https://api.example.com/api/v1/auth/callback`
-   - Set logout URLs: `https://api.example.com/api/v1/auth/logout-callback`
-   - Allowed OAuth scopes: `openid`, `email`, `profile`
-3. Configure federated IdPs (if needed)
+
+#### 1. Configure User Pool Domain
+```
+AWS Console → Cognito → User Pools → [Your Pool] → App Integration → Domain
+
+Option A: Cognito domain
+  - Domain prefix: myapp
+  - Full URL: https://myapp.auth.ap-southeast-2.amazoncognito.com
+
+Option B: Custom domain (requires ACM certificate)
+  - Domain: auth.yourdomain.com
+```
+
+#### 2. Configure App Client OAuth Settings
+```
+AWS Console → Cognito → User Pools → [Your Pool] → App Integration → App clients → [Your Client]
+
+Hosted UI Settings:
+  - Allowed callback URLs:
+    - https://localhost:5001/api/v1/auth/oauth/callback (development)
+    - https://api.yourdomain.com/api/v1/auth/oauth/callback (production)
+
+  - Allowed sign-out URLs:
+    - https://localhost:5001/api/v1/auth/oauth/logout-callback (development)
+    - https://api.yourdomain.com/api/v1/auth/oauth/logout-callback (production)
+
+  - OAuth 2.0 grant types: ✓ Authorization code grant
+  - OpenID Connect scopes: ✓ openid, ✓ email, ✓ profile
+```
+
+#### 3. Note Your Configuration Values
+```
+Domain:       myapp.auth.ap-southeast-2.amazoncognito.com
+ClientId:     (from App client settings)
+ClientSecret: (from App client settings - if confidential client)
+Region:       ap-southeast-2
+UserPoolId:   ap-southeast-2_XXXXXXXX
+```
 
 ### Phase 2: Backend Implementation
 

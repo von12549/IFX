@@ -3,6 +3,7 @@ using AuthSamples.Modules.Auth.Application;
 using AuthSamples.Modules.Auth.Infrastructure;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.Auth;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.Idp;
+using AuthSamples.Modules.Auth.Presentation.Endpoints.OAuth;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.Role;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.User;
 using AuthSamples.Modules.Auth.Presentation.Endpoints.UserManagement;
@@ -37,12 +38,13 @@ namespace AuthSamples.Modules.Auth.Composition
             Log.Information("[{Module}] Mapping module endpoints...", ModuleName);
 
             builder.MapAuthEndpoints();           // 6 endpoints: register, confirm, login, refresh, revoke, logout
+            builder.MapOAuthEndpoints();          // 5 endpoints: authorize, callback, userinfo, logout, logout-callback
             builder.MapUserEndpoints();           // 5 endpoints: profile (GET/PUT), login-history, activity-log, sync
             builder.MapUserManagementEndpoints(); // 2 endpoints: users (GET/PUT) - Admin only
             builder.MapRoleEndpoints();           // 3 endpoints: roles (GET/POST/PUT) - Admin only
             builder.MapIdpEndpoints();            // 3 endpoints: idps (GET/POST/PUT) - Admin only
 
-            Log.Information("[{Module}] Module endpoints mapped: 19 total (6 Auth, 5 User, 2 UserManagement, 3 Role, 3 Idp)", ModuleName);
+            Log.Information("[{Module}] Module endpoints mapped: 24 total (6 Auth, 5 OAuth, 5 User, 2 UserManagement, 3 Role, 3 Idp)", ModuleName);
             return builder;
         }
     }
