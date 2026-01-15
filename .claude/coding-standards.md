@@ -4,26 +4,12 @@
 General conventions for code style, error handling, and logging.
 
 ## Scope
-- Naming conventions
 - Error handling patterns
 - Logging standards
 - Security practices
+- Async/await patterns
 
----
-
-## Naming Conventions
-
-**Rule:** Use PascalCase for public members, camelCase for private fields with underscore prefix.
-
-**Rule:** Commands: `{Action}{Entity}Command` (e.g., `RegisterUserCommand`)
-
-**Rule:** Queries: `Get{Entity}{Details}Query` (e.g., `GetUserProfileQuery`)
-
-**Rule:** Handlers: `{Command/Query}Handler`
-
-**Rule:** Validators: `{Command}Validator`
-
-**Rule:** Endpoints: `{Feature}Endpoints` with static methods
+**Note:** For naming conventions, see `/.claude/playbooks/naming-conventions.md`.
 
 ---
 

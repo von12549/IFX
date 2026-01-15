@@ -32,6 +32,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/dotnet/testing.md` | Test structure, patterns |
 | `/.claude/dotnet/aws-cognito.md` | Cognito configuration, auth flows |
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
+| `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 
 ## Quick Reference
 
@@ -71,3 +72,4 @@ Load the most relevant `/.claude/*` document before making changes.
 - CLAUDE.md maintenance must follow `/.claude/playbooks/claude-splitting-playbook.md`
 - README.md maintenance must follow `/.claude/playbooks/readme-playbook.md`
 - Git operations must follow `/.claude/playbooks/git-workflow.md`
+- Naming conventions must follow `/.claude/playbooks/naming-conventions.md`
