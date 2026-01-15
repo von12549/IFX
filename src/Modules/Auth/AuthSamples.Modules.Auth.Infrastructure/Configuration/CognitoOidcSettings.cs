@@ -30,6 +30,12 @@ public class CognitoOidcSettings
     public string LogoutCallbackUrl { get; set; } = string.Empty;
 
     /// <summary>
+    /// Frontend callback URL for SPA flows (optional).
+    /// If set, the OAuth callback will redirect to this URL with tokens in URL fragment.
+    /// </summary>
+    public string? FrontendCallbackUrl { get; set; }
+
+    /// <summary>
     /// OAuth scopes to request
     /// </summary>
     public string[] Scopes { get; set; } = ["openid", "email", "profile"];

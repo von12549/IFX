@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthSamples - OAuth Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AuthSamples</h1>
+            <p class="subtitle">OAuth 2.0 Authorization Code Flow Demo</p>
+        </header>
+
+        <!-- Login Section (shown when not authenticated) -->
+        <section id="login-section" class="card">
+            <h2>Welcome</h2>
+            <p>Sign in with Cognito Managed Login to continue.</p>
+            <button id="login-btn" class="btn btn-primary">
+                <span class="btn-icon">&#128274;</span>
+                Sign in with Cognito
+            </button>
+            <div id="login-error" class="error hidden"></div>
+        </section>
+
+        <!-- Loading Section -->
+        <section id="loading-section" class="card hidden">
+            <div class="spinner"></div>
+            <p>Processing authentication...</p>
+        </section>
+
+        <!-- User Section (shown when authenticated) -->
+        <section id="user-section" class="card hidden">
+            <h2>Welcome!</h2>
+            <div id="user-info">
+                <div class="user-avatar" id="user-avatar">?</div>
+                <div class="user-details">
+                    <p class="user-name" id="user-name">Loading...</p>
+                    <p class="user-email" id="user-email">Loading...</p>
+                </div>
+            </div>
+
+            <div class="token-section">
+                <h3>Tokens</h3>
+                <div class="token-item">
+                    <label>Access Token</label>
+                    <div class="token-value">
+                        <code id="access-token-preview">Loading...</code>
+                        <button class="btn btn-small" onclick="copyToken('access')">Copy</button>
+                    </div>
+                </div>
+                <div class="token-item">
+                    <label>ID Token</label>
+                    <div class="token-value">
+                        <code id="id-token-preview">Loading...</code>
+                        <button class="btn btn-small" onclick="copyToken('id')">Copy</button>
+                    </div>
+                </div>
+                <div class="token-item">
+                    <label>Refresh Token</label>
+                    <div class="token-value">
+                        <code id="refresh-token-preview">Loading...</code>
+                        <button class="btn btn-small" onclick="copyToken('refresh')">Copy</button>
+                    </div>
+                </div>
+                <div class="token-item">
+                    <label>Expires In</label>
+                    <code id="expires-in">Loading...</code>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="userinfo-btn" class="btn btn-secondary">Get User Info</button>
+                <button id="logout-btn" class="btn btn-danger">Sign Out</button>
+            </div>
+        </section>
+
+        <!-- User Info Modal -->
+        <section id="userinfo-section" class="card hidden">
+            <h3>User Info from /oauth/userinfo</h3>
+            <pre id="userinfo-json"></pre>
+            <button class="btn btn-secondary" onclick="hideUserInfo()">Close</button>
+        </section>
+
+        <!-- Debug Console -->
+        <section class="card debug-section">
+            <h3>Debug Console</h3>
+            <div id="debug-log" class="debug-log"></div>
+            <button class="btn btn-small" onclick="clearLog()">Clear Log</button>
+        </section>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

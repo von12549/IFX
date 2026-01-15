@@ -2,6 +2,7 @@ using AuthSamples.Modules.Auth.Application.Interfaces;
 using AuthSamples.Modules.Auth.Presentation.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace AuthSamples.Modules.Auth.Presentation.Endpoints.OAuth;
@@ -55,18 +56,31 @@ public static class OAuthEndpoints
     /// <summary>
     /// Handles OAuth callback from Cognito, exchanges code for tokens
     /// </summary>
+    /// <param name="redirect_to">Optional frontend URL to redirect with tokens (overrides FrontendCallbackUrl config)</param>
     public static async Task<IResult> Callback(
         [FromServices] IOidcAuthService oidcService,
+        [FromServices] IConfiguration configuration,
         [FromServices] ILogger<OAuthEndpointsLogCategory> logger,
         [FromQuery] string? code = null,
         [FromQuery] string? state = null,
         [FromQuery] string? error = null,
-        [FromQuery] string? error_description = null)
+        [FromQuery] string? error_description = null,
+        [FromQuery] string? redirect_to = null)
     {
+        // Get frontend callback URL from config if not provided
+        var frontendUrl = redirect_to ?? configuration["CognitoOidcSettings:FrontendCallbackUrl"];
+
         // Handle error response from IdP
         if (!string.IsNullOrEmpty(error))
         {
             logger.LogWarning("OAuth callback received error: {Error} - {Description}", error, error_description);
+
+            if (!string.IsNullOrEmpty(frontendUrl))
+            {
+                var errorRedirect = $"{frontendUrl}#error={Uri.EscapeDataString(error)}&error_description={Uri.EscapeDataString(error_description ?? "")}";
+                return Results.Redirect(errorRedirect);
+            }
+
             return Results.Json(
                 ApiResponse<object>.FailureResponse(error_description ?? error),
                 statusCode: StatusCodes.Status400BadRequest);
@@ -77,6 +91,13 @@ public static class OAuthEndpoints
         {
             logger.LogWarning("OAuth callback missing required parameters: code={HasCode}, state={HasState}",
                 !string.IsNullOrEmpty(code), !string.IsNullOrEmpty(state));
+
+            if (!string.IsNullOrEmpty(frontendUrl))
+            {
+                var errorRedirect = $"{frontendUrl}#error=missing_parameters";
+                return Results.Redirect(errorRedirect);
+            }
+
             return Results.Json(
                 ApiResponse<object>.FailureResponse("Missing required parameters"),
                 statusCode: StatusCodes.Status400BadRequest);
@@ -91,12 +112,30 @@ public static class OAuthEndpoints
             {
                 logger.LogWarning("Token exchange failed: {Error} - {Description}",
                     tokenResult.Error, tokenResult.ErrorDescription);
+
+                if (!string.IsNullOrEmpty(frontendUrl))
+                {
+                    var errorRedirect = $"{frontendUrl}#error={Uri.EscapeDataString(tokenResult.Error ?? "token_exchange_failed")}&error_description={Uri.EscapeDataString(tokenResult.ErrorDescription ?? "")}";
+                    return Results.Redirect(errorRedirect);
+                }
+
                 return Results.Json(
                     ApiResponse<object>.FailureResponse(tokenResult.ErrorDescription ?? tokenResult.Error ?? "Token exchange failed"),
                     statusCode: StatusCodes.Status400BadRequest);
             }
 
             logger.LogInformation("Successfully completed OAuth callback, tokens issued");
+
+            // Redirect to frontend with tokens in URL fragment (more secure than query params)
+            if (!string.IsNullOrEmpty(frontendUrl))
+            {
+                var fragment = $"access_token={Uri.EscapeDataString(tokenResult.AccessToken ?? "")}" +
+                               $"&id_token={Uri.EscapeDataString(tokenResult.IdToken ?? "")}" +
+                               $"&refresh_token={Uri.EscapeDataString(tokenResult.RefreshToken ?? "")}" +
+                               $"&expires_in={tokenResult.ExpiresIn}" +
+                               $"&token_type={Uri.EscapeDataString(tokenResult.TokenType ?? "Bearer")}";
+                return Results.Redirect($"{frontendUrl}#{fragment}");
+            }
 
             // Return tokens as JSON response
             return Results.Ok(ApiResponse<object>.SuccessResponse(new
@@ -111,6 +150,13 @@ public static class OAuthEndpoints
         catch (Exception ex)
         {
             logger.LogError(ex, "Error processing OAuth callback");
+
+            if (!string.IsNullOrEmpty(frontendUrl))
+            {
+                var errorRedirect = $"{frontendUrl}#error=server_error";
+                return Results.Redirect(errorRedirect);
+            }
+
             return Results.Json(
                 ApiResponse<object>.FailureResponse("Failed to process authorization callback"),
                 statusCode: StatusCodes.Status500InternalServerError);
