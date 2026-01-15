@@ -202,13 +202,13 @@ public class CognitoOidcService : IOidcAuthService
             {
                 Subject = userInfoResponse.Sub ?? string.Empty,
                 Email = userInfoResponse.Email,
-                EmailVerified = userInfoResponse.EmailVerified,
+                EmailVerified = userInfoResponse.IsEmailVerified,
                 Name = userInfoResponse.Name,
                 GivenName = userInfoResponse.GivenName,
                 FamilyName = userInfoResponse.FamilyName,
                 PreferredUsername = userInfoResponse.PreferredUsername,
                 PhoneNumber = userInfoResponse.PhoneNumber,
-                PhoneNumberVerified = userInfoResponse.PhoneNumberVerified
+                PhoneNumberVerified = userInfoResponse.IsPhoneNumberVerified
             };
         }
         catch (Exception ex)
@@ -318,8 +318,9 @@ public class CognitoOidcService : IOidcAuthService
         [System.Text.Json.Serialization.JsonPropertyName("email")]
         public string? Email { get; set; }
 
+        // Cognito returns these as strings "true"/"false", not booleans
         [System.Text.Json.Serialization.JsonPropertyName("email_verified")]
-        public bool EmailVerified { get; set; }
+        public string? EmailVerified { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("name")]
         public string? Name { get; set; }
@@ -336,8 +337,13 @@ public class CognitoOidcService : IOidcAuthService
         [System.Text.Json.Serialization.JsonPropertyName("phone_number")]
         public string? PhoneNumber { get; set; }
 
+        // Cognito returns these as strings "true"/"false", not booleans
         [System.Text.Json.Serialization.JsonPropertyName("phone_number_verified")]
-        public bool PhoneNumberVerified { get; set; }
+        public string? PhoneNumberVerified { get; set; }
+
+        // Helper methods to parse string booleans
+        public bool IsEmailVerified => string.Equals(EmailVerified, "true", StringComparison.OrdinalIgnoreCase);
+        public bool IsPhoneNumberVerified => string.Equals(PhoneNumberVerified, "true", StringComparison.OrdinalIgnoreCase);
     }
 
     #endregion
