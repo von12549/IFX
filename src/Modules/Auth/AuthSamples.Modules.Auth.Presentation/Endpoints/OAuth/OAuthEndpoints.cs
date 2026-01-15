@@ -16,10 +16,13 @@ public static class OAuthEndpoints
     /// <summary>
     /// Initiates OAuth authorization flow by redirecting to Cognito Hosted UI
     /// </summary>
+    /// <param name="redirect_uri">Optional custom redirect URI</param>
+    /// <param name="response_mode">Set to "json" to return URL instead of redirecting (for SPAs)</param>
     public static IResult Authorize(
         [FromServices] IOidcAuthService oidcService,
         [FromServices] ILogger<OAuthEndpointsLogCategory> logger,
-        [FromQuery] string? redirect_uri = null)
+        [FromQuery] string? redirect_uri = null,
+        [FromQuery] string? response_mode = null)
     {
         try
         {
@@ -27,7 +30,17 @@ public static class OAuthEndpoints
 
             logger.LogInformation("Initiating OAuth flow with state {State}", authUrl.State);
 
-            // Redirect to Cognito Hosted UI
+            // Return JSON for SPA clients
+            if (string.Equals(response_mode, "json", StringComparison.OrdinalIgnoreCase))
+            {
+                return Results.Ok(ApiResponse<object>.SuccessResponse(new
+                {
+                    AuthorizationUrl = authUrl.Url,
+                    State = authUrl.State
+                }));
+            }
+
+            // Redirect to Cognito Hosted UI (default)
             return Results.Redirect(authUrl.Url);
         }
         catch (Exception ex)
