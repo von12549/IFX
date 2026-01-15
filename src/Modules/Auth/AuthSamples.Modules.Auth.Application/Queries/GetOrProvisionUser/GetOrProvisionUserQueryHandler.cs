@@ -1,3 +1,6 @@
+using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
 using AuthSamples.Modules.Auth.Application.Common;
 using AuthSamples.Modules.Auth.Application.DTOs;
@@ -11,15 +14,21 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMediator _mediator;
+    private readonly IOidcDiscoveryService _discoveryService;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<GetOrProvisionUserQueryHandler> _logger;
 
     public GetOrProvisionUserQueryHandler(
         IUnitOfWork unitOfWork,
         IMediator mediator,
+        IOidcDiscoveryService discoveryService,
+        IHttpClientFactory httpClientFactory,
         ILogger<GetOrProvisionUserQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mediator = mediator;
+        _discoveryService = discoveryService;
+        _httpClientFactory = httpClientFactory;
         _logger = logger;
     }
 
@@ -73,24 +82,79 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                 return Result<UserAuthResult>.Failure("IdP configuration missing for auto-provisioning");
             }
 
-            if (string.IsNullOrEmpty(request.Email))
+            // 4. Fetch user info from OIDC userinfo endpoint
+            string? email = null;
+            string? firstName = null;
+            string? lastName = null;
+            bool emailVerified = false;
+
+            try
             {
-                _logger.LogWarning(
-                    "SSO user from {Issuer}/{Subject} rejected: missing email",
+                var discoveryDoc = await _discoveryService.GetDiscoveryDocumentAsync(request.Issuer, cancellationToken);
+
+                if (!string.IsNullOrEmpty(discoveryDoc.UserInfoEndpoint))
+                {
+                    var httpClient = _httpClientFactory.CreateClient("OidcUserInfo");
+                    httpClient.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", request.AccessToken);
+
+                    var response = await httpClient.GetAsync(discoveryDoc.UserInfoEndpoint, cancellationToken);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+                        var userInfo = JsonSerializer.Deserialize<UserInfoResponse>(content);
+
+                        email = userInfo?.Email;
+                        firstName = userInfo?.GivenName;
+                        lastName = userInfo?.FamilyName;
+                        emailVerified = userInfo?.IsEmailVerified ?? false;
+
+                        _logger.LogInformation(
+                            "Retrieved user info for {Subject}: email={Email}",
+                            request.Subject, email);
+                    }
+                    else
+                    {
+                        _logger.LogWarning(
+                            "UserInfo request failed: {StatusCode}",
+                            response.StatusCode);
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning(
+                        "No userinfo endpoint available for issuer {Issuer}",
+                        request.Issuer);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex,
+                    "Failed to fetch user info from OIDC endpoint for {Issuer}/{Subject}",
                     request.Issuer, request.Subject);
-                return Result<UserAuthResult>.Failure("Email is required for auto-provisioning");
             }
 
-            // 4. Auto-provision via existing command
+            // 5. Use fallback if userinfo failed
+            if (string.IsNullOrEmpty(email))
+            {
+                _logger.LogWarning(
+                    "Using placeholder email for {Issuer}/{Subject} - userinfo unavailable",
+                    request.Issuer, request.Subject);
+                email = $"{request.Subject}@pending.local";
+                emailVerified = false;
+            }
+
+            // 6. Auto-provision via existing command
             var provisionCommand = new ProvisionSsoUserCommand(
                 IdpId: request.IdpId.Value,
                 Issuer: request.Issuer,
                 Subject: request.Subject,
                 IdpType: request.IdpType.Value,
-                Email: request.Email,
-                FirstName: request.FirstName,
-                LastName: request.LastName,
-                EmailVerified: request.EmailVerified,
+                Email: email,
+                FirstName: firstName,
+                LastName: lastName,
+                EmailVerified: emailVerified,
                 IpAddress: request.IpAddress);
 
             var provisionResult = await _mediator.Send(provisionCommand, cancellationToken);
@@ -122,5 +186,35 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                 request.Issuer, request.Subject);
             return Result<UserAuthResult>.Failure("An error occurred during user authentication");
         }
+    }
+
+    /// <summary>
+    /// OIDC UserInfo response model
+    /// </summary>
+    private class UserInfoResponse
+    {
+        [JsonPropertyName("sub")]
+        public string? Sub { get; set; }
+
+        [JsonPropertyName("email")]
+        public string? Email { get; set; }
+
+        [JsonPropertyName("email_verified")]
+        public string? EmailVerified { get; set; }
+
+        [JsonPropertyName("given_name")]
+        public string? GivenName { get; set; }
+
+        [JsonPropertyName("family_name")]
+        public string? FamilyName { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        /// <summary>
+        /// Parses email_verified as boolean (handles string "true"/"false" from Cognito)
+        /// </summary>
+        public bool IsEmailVerified =>
+            string.Equals(EmailVerified, "true", StringComparison.OrdinalIgnoreCase);
     }
 }

@@ -9,7 +9,8 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **OAuth 2.0 with PKCE** - Cognito Managed Login (Hosted UI) integration
 - **Dynamic Multi-IdP SSO** - Database-driven IdP configuration with auto-provisioning
 - **OIDC Discovery** - Automatic IdP configuration via well-known endpoints
-- **Role-Based Auth** - Admin, User, SsoUser roles with JWT claims transformation
+- **UserInfo-Based Provisioning** - Fetches user data from OIDC userinfo endpoint during auto-provisioning
+- **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **195 Tests** - Comprehensive test coverage across all layers
 - **Docker Support** - Containerized deployment with docker-compose
@@ -99,6 +100,7 @@ python -m http.server 3000
 ### Setup Guides
 - [Cognito Managed Login (OAuth)](docs/Plans/cognito-managed-login.md)
 - [SSO Multi-IdP Authentication](docs/sso-multi-idp.md)
+- [Auto-Provisioning Strategy](docs/architecture/auto-provisioning.md)
 - [AWS Cognito Setup](docs/AWS_COGNITO_SETUP.md)
 - [Multi-IdP Migration](docs/MULTI_IDP_MIGRATION_SUMMARY.md)
 

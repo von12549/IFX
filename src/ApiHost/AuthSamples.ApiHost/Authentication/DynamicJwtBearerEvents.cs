@@ -61,6 +61,9 @@ public class DynamicJwtBearerEvents : JwtBearerEvents
             // Store IdP config for later use in claims transformation
             context.HttpContext.Items["IdpConfiguration"] = idpConfig;
 
+            // Store access token for userinfo endpoint call during auto-provisioning
+            context.HttpContext.Items["AccessToken"] = token;
+
             _logger.LogDebug("Configured token validation for issuer: {Issuer}", issuer);
         }
         catch (Exception ex)

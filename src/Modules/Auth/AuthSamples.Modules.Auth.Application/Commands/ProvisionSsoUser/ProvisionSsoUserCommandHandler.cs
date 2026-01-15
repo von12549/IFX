@@ -45,10 +45,9 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
                 });
             }
 
-            // Determine role based on IdP type:
-            // - Internal IdP → "User" role
-            // - External IdP → "SsoUser" role
-            var roleName = request.IdpType == IdpType.Internal ? "User" : "SsoUser";
+            // Always assign "Pending" role for auto-provisioned users
+            // User must complete profile to get full role (User/SsoUser)
+            const string roleName = "Pending";
             var userRole = await _unitOfWork.UserRoles.GetByRoleNameAsync(roleName, cancellationToken);
             if (userRole == null)
             {
@@ -90,7 +89,7 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
             var activityLog = UserActivityLog.Create(
                 user.Id,
                 ActivityType.Registration,
-                $"User auto-provisioned via SSO from {request.Issuer} (IdpType: {request.IdpType})",
+                $"User auto-provisioned via SSO from {request.Issuer} (IdpType: {request.IdpType}) - Pending profile completion",
                 request.IpAddress ?? "Unknown");
 
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);

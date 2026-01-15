@@ -47,24 +47,25 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
         try
         {
             // 3. Get IdP configuration from HttpContext (set by DynamicJwtBearerEvents)
-            var idpConfig = _httpContextAccessor.HttpContext?.Items["IdpConfiguration"]
+            var httpContext = _httpContextAccessor.HttpContext;
+            var idpConfig = httpContext?.Items["IdpConfiguration"]
                 as IdpConfigurationEntry;
 
-            // 4. Build query with claims data
+            // 4. Get access token from HttpContext (set by DynamicJwtBearerEvents)
+            var accessToken = httpContext?.Items["AccessToken"]?.ToString()
+                ?? string.Empty;
+
+            // 5. Build query with access token for userinfo fetch
             var query = new GetOrProvisionUserQuery(
                 Issuer: issuer,
                 Subject: subject,
+                AccessToken: accessToken,
                 AutoProvisionEnabled: idpConfig?.AutoProvisionEnabled ?? false,
                 IdpId: idpConfig?.IdpId,
                 IdpType: idpConfig?.IdpType,
-                Email: principal.FindFirst("email")?.Value
-                    ?? principal.FindFirst(ClaimTypes.Email)?.Value,
-                FirstName: principal.FindFirst("given_name")?.Value,
-                LastName: principal.FindFirst("family_name")?.Value,
-                EmailVerified: principal.FindFirst("email_verified")?.Value == "true",
-                IpAddress: _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString());
+                IpAddress: httpContext?.Connection.RemoteIpAddress?.ToString());
 
-            // 5. Execute query via MediatR (create scope for scoped services)
+            // 6. Execute query via MediatR (create scope for scoped services)
             using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             var result = await mediator.Send(query);
@@ -77,7 +78,7 @@ public class UserRoleClaimsTransformation : IClaimsTransformation
                 return new ClaimsPrincipal(); // Return empty principal to trigger 401
             }
 
-            // 6. Add role and user_id claims from query result
+            // 7. Add role and user_id claims from query result
             var identity = new ClaimsIdentity();
             identity.AddClaim(new Claim(ClaimTypes.Role, result.Value!.RoleName));
             identity.AddClaim(new Claim("user_id", result.Value.UserId.ToString()));

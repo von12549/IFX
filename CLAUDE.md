@@ -10,6 +10,7 @@ This file provides guidance to Claude Code when working with this repository.
 - OAuth 2.0 Authorization Code flow with PKCE (Cognito Managed Login)
 - Dynamic Multi-IdP SSO with auto-provisioning (database-driven)
 - OIDC Discovery for dynamic IdP configuration
+- UserInfo-based auto-provisioning (fetches user data from OIDC userinfo endpoint)
 - Full audit trail
 
 ## Golden Rules
@@ -34,6 +35,8 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/dotnet/testing.md` | Test structure, patterns |
 | `/.claude/dotnet/aws-cognito.md` | Cognito configuration, auth flows |
 | `/docs/Plans/cognito-managed-login.md` | OAuth 2.0 / Cognito Managed Login implementation |
+| `/docs/architecture/auto-provisioning.md` | SSO auto-provisioning strategy and flow |
+| `/docs/Plans/auto-provision-oauth-improvements.md` | UserInfo-based provisioning with Pending role |
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 
