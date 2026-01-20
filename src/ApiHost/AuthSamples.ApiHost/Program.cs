@@ -3,6 +3,7 @@ using AuthSamples.ApiHost.Configuration;
 using AuthSamples.ApiHost.Middleware;
 using AuthSamples.Modules.Auth.Composition;
 using AuthSamples.Platform.BackgroundJobs.Composition;
+using AuthSamples.Platform.Notifications.Composition;
 using Serilog;
 
 // Configure Serilog
@@ -26,6 +27,7 @@ try
 
     // Register platform services
     builder.Services.AddBackgroundJobs(builder.Configuration);
+    builder.Services.AddNotificationsOptional(builder.Configuration);
 
     // Add API infrastructure (via configuration modules)
     builder.Services.AddAuthAuthentication(builder.Configuration);

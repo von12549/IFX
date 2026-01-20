@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
     <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Composition\AuthSamples.Modules.Auth.Composition.csproj" />
     <ProjectReference Include="..\..\Platform\BackgroundJobs\AuthSamples.Platform.BackgroundJobs.Composition\AuthSamples.Platform.BackgroundJobs.Composition.csproj" />
+    <ProjectReference Include="..\..\Platform\Notifications\AuthSamples.Platform.Notifications.Composition\AuthSamples.Platform.Notifications.Composition.csproj" />
   </ItemGroup>
 
 </Project>
