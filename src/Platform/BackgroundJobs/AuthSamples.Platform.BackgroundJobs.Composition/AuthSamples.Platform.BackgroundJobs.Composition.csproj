@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthSamples.Platform.BackgroundJobs.Abstractions\AuthSamples.Platform.BackgroundJobs.Abstractions.csproj" />
+    <ProjectReference Include="..\AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire\AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

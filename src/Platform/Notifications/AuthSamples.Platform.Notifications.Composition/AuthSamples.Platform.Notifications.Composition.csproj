@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\AuthSamples.Platform.Notifications.Abstractions\AuthSamples.Platform.Notifications.Abstractions.csproj" />
+    <ProjectReference Include="..\AuthSamples.Platform.Notifications.Infrastructure.SendGrid\AuthSamples.Platform.Notifications.Infrastructure.SendGrid.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
