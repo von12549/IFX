@@ -34,9 +34,9 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/dotnet/ef-core.md` | Database schema, migrations |
 | `/.claude/dotnet/testing.md` | Test structure, patterns |
 | `/.claude/dotnet/aws-cognito.md` | Cognito configuration, auth flows |
-| `/docs/Plans/cognito-managed-login.md` | OAuth 2.0 / Cognito Managed Login implementation |
+| `/.claude/Plans/cognito-managed-login.md` | OAuth 2.0 / Cognito Managed Login implementation |
 | `/docs/architecture/auto-provisioning.md` | SSO auto-provisioning strategy and flow |
-| `/docs/Plans/auto-provision-oauth-improvements.md` | UserInfo-based provisioning with Pending role |
+| `/.claude/Plans/auto-provision-oauth-improvements.md` | UserInfo-based provisioning with Pending role |
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 
@@ -80,3 +80,4 @@ Load the most relevant `/.claude/*` document before making changes.
 - README.md maintenance must follow `/.claude/playbooks/readme-playbook.md`
 - Git operations must follow `/.claude/playbooks/git-workflow.md`
 - Naming conventions must follow `/.claude/playbooks/naming-conventions.md`
+- **Planning**: Before implementing any feature, save the plan to `/.claude/Plans/YYYYMMDD-feature-name.md`
