@@ -12,6 +12,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **UserInfo-Based Provisioning** - Fetches user data from OIDC userinfo endpoint during auto-provisioning
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
+- **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
 - **195 Tests** - Comprehensive test coverage across all layers
 - **Docker Support** - Containerized deployment with docker-compose
 - **Demo UI** - Simple HTML/JS client for testing OAuth flow
@@ -40,12 +41,22 @@ src/
 ├── ApiHost/AuthSamples.ApiHost/     # Host application
 ├── BuildingBlocks/App.Abstractions/ # Shared interfaces
 ├── WebUI/AuthSamples.WebUI/         # Demo OAuth client (HTML/JS)
-└── Modules/Auth/
-    ├── Domain/                      # Business logic
-    ├── Application/                 # Use cases (CQRS)
-    ├── Infrastructure/              # Data access, AWS, OIDC
-    ├── Presentation/                # API endpoints
-    └── Composition/                 # Module entry point
+├── Modules/Auth/
+│   ├── Domain/                      # Business logic
+│   ├── Application/                 # Use cases (CQRS)
+│   ├── Infrastructure/              # Data access, AWS, OIDC
+│   ├── Presentation/                # API endpoints
+│   └── Composition/                 # Module entry point
+└── Platform/
+    ├── AuthSamples.Platform.Shared/ # Common platform types
+    ├── BackgroundJobs/              # Hangfire background job service
+    │   ├── Abstractions/            # IBackgroundJobService
+    │   ├── Infrastructure.Hangfire/ # Hangfire implementation
+    │   └── Composition/             # DI registration
+    └── Notifications/               # SendGrid email service
+        ├── Abstractions/            # IEmailService
+        ├── Infrastructure.SendGrid/ # SendGrid implementation
+        └── Composition/             # DI registration
 tests/                               # 195 tests
 ```
 
@@ -58,6 +69,7 @@ tests/                               # 195 tests
 | Authenticated | `POST /api/v1/auth/{logout,refresh,revoke}`, `/api/v1/user/*` |
 | Admin | `/api/v1/usermanagement/*`, `/api/v1/role/*`, `/api/v1/idp/*` |
 | Health | `GET /health`, `GET /health/ready` |
+| Jobs | `GET /hangfire` (dashboard) |
 
 ### OAuth Flow (Recommended)
 
@@ -69,6 +81,61 @@ GET /api/v1/auth/oauth/authorize?response_mode=json
 ```
 
 See [API Reference](docs/api/endpoints.md) for full documentation.
+
+## Platform Services
+
+### Background Jobs (Hangfire)
+
+```csharp
+public class MyService
+{
+    private readonly IBackgroundJobService _jobs;
+
+    public void ScheduleWork()
+    {
+        // Fire-and-forget
+        _jobs.Enqueue<IEmailService>(x => x.SendEmailAsync(message));
+
+        // Delayed
+        _jobs.Schedule<IReportService>(x => x.Generate(), TimeSpan.FromHours(1));
+
+        // Recurring (cron)
+        _jobs.AddOrUpdateRecurring<ICleanupService>("cleanup", x => x.Run(), "0 0 * * *");
+    }
+}
+```
+
+### Email Notifications (SendGrid)
+
+```csharp
+public class MyService
+{
+    private readonly IEmailService _email;
+
+    public async Task SendWelcome(string userEmail)
+    {
+        await _email.SendEmailAsync(new EmailMessage
+        {
+            To = userEmail,
+            Subject = "Welcome!",
+            HtmlBody = "<h1>Welcome to our app!</h1>"
+        });
+    }
+}
+```
+
+Configuration in `appsettings.json`:
+```json
+{
+  "BackgroundJobs": { "ConnectionString": "..." },
+  "Notifications": {
+    "SendGrid": {
+      "ApiKey": "SG.xxx",
+      "DefaultFromEmail": "noreply@example.com"
+    }
+  }
+}
+```
 
 ## Development
 
@@ -109,6 +176,7 @@ python -m http.server 3000
 - .NET 8, ASP.NET Core 8, EF Core 8
 - MediatR, FluentValidation, AutoMapper
 - AWS SDK (Cognito), Serilog, Swagger
+- Hangfire (background jobs), SendGrid (email)
 - SQL Server, Docker
 
 ## Contributing

@@ -11,6 +11,7 @@ This file provides guidance to Claude Code when working with this repository.
 - Dynamic Multi-IdP SSO with auto-provisioning (database-driven)
 - OIDC Discovery for dynamic IdP configuration
 - UserInfo-based auto-provisioning (fetches user data from OIDC userinfo endpoint)
+- Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
 ## Golden Rules
@@ -37,6 +38,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/cognito-managed-login.md` | OAuth 2.0 / Cognito Managed Login implementation |
 | `/docs/architecture/auto-provisioning.md` | SSO auto-provisioning strategy and flow |
 | `/.claude/Plans/auto-provision-oauth-improvements.md` | UserInfo-based provisioning with Pending role |
+| `/.claude/Plans/20260120-platform-module.md` | Platform module (BackgroundJobs, Notifications) |
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 
@@ -62,6 +64,11 @@ dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
 - Authenticated: `POST /api/v1/auth/{logout,refresh,revoke}`, `GET/PUT /api/v1/user/profile`
 - Admin: `GET/PUT /api/v1/usermanagement/users`, `GET/POST/PUT /api/v1/role`, `/api/v1/idp`
 - Health: `GET /health`, `GET /health/ready`
+- Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
+
+### Platform Services
+- **BackgroundJobs**: `IBackgroundJobService` - Enqueue, Schedule, Recurring jobs (Hangfire)
+- **Notifications**: `IEmailService` - SendEmail, SendTemplatedEmail, SendBatch (SendGrid)
 
 ## Conflict Resolution
 
