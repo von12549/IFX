@@ -50,28 +50,56 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                 column: "Issuer",
                 unique: true);
 
-            // Seed data for IFX Cognito IdP
+            // Seed data for IdPs
             var ifxCognitoId = Guid.NewGuid();
+            var testExternalIdpId = Guid.NewGuid();
             var now = DateTime.UtcNow;
 
+            var columns = new[]
+            {
+                "Id", "Name", "Issuer", "Authority", "Description",
+                "LoginUrl", "Enabled", "AutoProvisionEnabled",
+                "ExpectedAudiences", "AllowedAlgs", "RequiredScopes",
+                "ClaimMapping", "ClockSkewSeconds",
+                "CreatedAt", "UpdatedAt"
+            };
+
+            // IFX Cognito (Primary IdP)
             migrationBuilder.InsertData(
                 schema: "cognito",
                 table: "Idps",
-                columns: new[]
-                {
-                    "Id", "Name", "Issuer", "Authority", "Description",
-                    "LoginUrl", "Enabled", "AutoProvisionEnabled",
-                    "ExpectedAudiences", "AllowedAlgs", "RequiredScopes",
-                    "ClaimMapping", "ClockSkewSeconds",
-                    "CreatedAt", "UpdatedAt"
-                },
+                columns: columns,
                 values: new object[]
                 {
                     ifxCognitoId,
                     "IFX Cognito",
-                    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
-                    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
+                    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_nh141gzCi",
+                    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_nh141gzCi",
                     "Primary AWS Cognito Identity Provider for IFX",
+                    "", // LoginUrl empty for now
+                    true, // Enabled
+                    true, // AutoProvisionEnabled
+                    "[]", // ExpectedAudiences
+                    "[]", // AllowedAlgs
+                    "[]", // RequiredScopes
+                    "{}", // ClaimMapping
+                    300, // ClockSkewSeconds
+                    now,
+                    now
+                });
+
+            // Test External IdP
+            migrationBuilder.InsertData(
+                schema: "cognito",
+                table: "Idps",
+                columns: columns,
+                values: new object[]
+                {
+                    testExternalIdpId,
+                    "Test External Idp",
+                    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
+                    "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
+                    "Test External Identity Provider for IFX",
                     "", // LoginUrl empty for now
                     true, // Enabled
                     true, // AutoProvisionEnabled
@@ -93,6 +121,12 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                 table: "Idps",
                 keyColumn: "Issuer",
                 keyValue: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P");
+
+            migrationBuilder.DeleteData(
+                schema: "cognito",
+                table: "Idps",
+                keyColumn: "Issuer",
+                keyValue: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_nh141gzCi");
 
             migrationBuilder.DropTable(
                 name: "Idps",
