@@ -63,5 +63,6 @@ nunit-*.xml
 
 # Environment variables
 .env
+.env.*
 /.vs
 /.editorconfig
