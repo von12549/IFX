@@ -2,6 +2,7 @@ using App.Abstractions;
 using AuthSamples.ApiHost.Configuration;
 using AuthSamples.ApiHost.Middleware;
 using AuthSamples.Modules.Auth.Composition;
+using AuthSamples.Platform.BackgroundJobs.Composition;
 using Serilog;
 
 // Configure Serilog
@@ -22,6 +23,9 @@ try
 
     // Register modules (each module registers its own services + IModuleInstaller)
     builder.Services.AddAuthModule(builder.Configuration);
+
+    // Register platform services
+    builder.Services.AddBackgroundJobs(builder.Configuration);
 
     // Add API infrastructure (via configuration modules)
     builder.Services.AddAuthAuthentication(builder.Configuration);
@@ -72,6 +76,9 @@ try
     app.UseCors("AllowAll");
     app.UseAuthentication();
     app.UseAuthorization();
+
+    // Background jobs dashboard
+    app.UseBackgroundJobsDashboard();
 
     // Map endpoints
     app.MapAuthHealthCheckEndpoints();  // /health, /health/ready

@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
     <ProjectReference Include="..\..\Modules\Auth\AuthSamples.Modules.Auth.Composition\AuthSamples.Modules.Auth.Composition.csproj" />
+    <ProjectReference Include="..\..\Platform\BackgroundJobs\AuthSamples.Platform.BackgroundJobs.Composition\AuthSamples.Platform.BackgroundJobs.Composition.csproj" />
   </ItemGroup>
 
 </Project>
