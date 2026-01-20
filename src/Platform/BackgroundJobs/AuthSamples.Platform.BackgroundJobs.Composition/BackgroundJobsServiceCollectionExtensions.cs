@@ -30,8 +30,9 @@ public static class BackgroundJobsServiceCollectionExtensions
         if (string.IsNullOrEmpty(settings.ConnectionString))
         {
             settings.ConnectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? configuration.GetConnectionString("AuthDatabase")
                 ?? throw new InvalidOperationException(
-                    "BackgroundJobs:ConnectionString or ConnectionStrings:DefaultConnection must be configured.");
+                    "BackgroundJobs:ConnectionString or ConnectionStrings:DefaultConnection/AuthDatabase must be configured.");
         }
 
         services.AddSingleton(settings);
