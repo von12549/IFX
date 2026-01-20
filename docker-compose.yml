@@ -12,12 +12,25 @@ services:
       - "11433:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
+      - ./docker/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Pass123' -Q 'SELECT 1' -C -b"]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 30s
+    networks:
+      - auth-network
+
+  sqlserver-init:
+    image: mcr.microsoft.com/mssql-tools:latest
+    container_name: auth-sqlserver-init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    volumes:
+      - ./docker/init-databases.sql:/init-databases.sql:ro
+    command: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'YourStrong@Pass123' -i /init-databases.sql -C
     networks:
       - auth-network
 
@@ -43,8 +56,8 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-      # Background Jobs (Hangfire) - uses same DB as AuthDatabase
-      - BackgroundJobs__ConnectionString=Server=sqlserver,1433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True;MultipleActiveResultSets=true
+      # Background Jobs (Hangfire) - separate database
+      - BackgroundJobs__ConnectionString=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True;MultipleActiveResultSets=true
       - BackgroundJobs__EnableDashboard=true
       - BackgroundJobs__WorkerCount=4
       # Notifications (SendGrid) - optional, uses NoOp if not configured
