@@ -41,7 +41,7 @@ public class BackgroundJobsSettings
     public string? ServerName { get; set; }
 
     /// <summary>
-    /// The queues that this server will process.
+    /// The queues that this server will process. If empty, defaults to ["default", "email", "report"].
     /// </summary>
-    public string[] Queues { get; set; } = ["default", "email", "report"];
+    public string[] Queues { get; set; } = [];
 }

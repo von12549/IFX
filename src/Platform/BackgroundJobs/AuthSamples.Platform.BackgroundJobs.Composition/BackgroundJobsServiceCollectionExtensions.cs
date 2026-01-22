@@ -65,7 +65,9 @@ public static class BackgroundJobsServiceCollectionExtensions
         services.AddHangfireServer(options =>
         {
             options.WorkerCount = settings.WorkerCount;
-            options.Queues = settings.Queues;
+            options.Queues = settings.Queues.Length > 0
+                ? settings.Queues
+                : ["default", "email", "report"];
 
             if (!string.IsNullOrEmpty(settings.ServerName))
             {
