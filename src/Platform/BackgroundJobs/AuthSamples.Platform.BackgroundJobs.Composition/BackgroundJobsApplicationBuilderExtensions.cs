@@ -1,4 +1,5 @@
 using Hangfire;
+using Hangfire.Dashboard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,11 +24,23 @@ public static class BackgroundJobsApplicationBuilderExtensions
         {
             app.UseHangfireDashboard(settings.DashboardPath, new DashboardOptions
             {
-                // In production, you should add authorization
-                // Authorization = new[] { new HangfireAuthorizationFilter() }
+                Authorization = new[] { new AllowAllDashboardAuthorizationFilter() }
             });
         }
 
         return app;
+    }
+}
+
+/// <summary>
+/// Authorization filter that allows all requests to the Hangfire dashboard.
+/// WARNING: Only use in development. In production, implement proper authorization.
+/// </summary>
+public class AllowAllDashboardAuthorizationFilter : IDashboardAuthorizationFilter
+{
+    public bool Authorize(DashboardContext context)
+    {
+        // Allow all requests - no authentication required
+        return true;
     }
 }
