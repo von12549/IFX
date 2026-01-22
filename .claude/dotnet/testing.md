@@ -7,6 +7,8 @@ Testing approach, project structure, and patterns.
 
 ## Test Projects
 
+### Auth Module Tests (178 tests)
+
 | Project | Purpose | Tests |
 |---------|---------|-------|
 | `AuthSamples.Tests.Common` | Shared utilities, builders, fixtures | - |
@@ -14,7 +16,21 @@ Testing approach, project structure, and patterns.
 | `AuthSamples.Modules.Auth.Application.Tests` | Validator and behavior tests | 63 |
 | `AuthSamples.Modules.Auth.Infrastructure.Tests` | Repository tests | 9 |
 | `AuthSamples.Modules.Auth.Presentation.Tests` | Extension method tests | 10 |
+
+### Platform Module Tests (28 tests)
+
+| Project | Purpose | Tests |
+|---------|---------|-------|
+| `AuthSamples.Platform.BackgroundJobs.Tests` | Hangfire service tests | 11 |
+| `AuthSamples.Platform.Notifications.Tests` | Email service tests | 17 |
+
+### Integration Tests
+
+| Project | Purpose | Tests |
+|---------|---------|-------|
 | `AuthSamples.IntegrationTests` | End-to-end API tests | 17 |
+
+**Total: 206 unit tests + 17 integration tests**
 
 ---
 
@@ -63,6 +79,82 @@ var adminUser = new UserBuilder()
 
 ---
 
+## Platform Tests
+
+### BackgroundJobs Tests
+
+Tests `HangfireBackgroundJobService` with mocked `IBackgroundJobClient` and `IRecurringJobManager`:
+
+```csharp
+public class HangfireBackgroundJobServiceTests
+{
+    private readonly Mock<IBackgroundJobClient> _mockJobClient;
+    private readonly Mock<IRecurringJobManager> _mockRecurringJobManager;
+    private readonly HangfireBackgroundJobService _sut;
+
+    [Fact]
+    public void Enqueue_WithSyncAction_CallsBackgroundJobClient()
+    {
+        // Arrange
+        _mockJobClient.Setup(x => x.Create(It.IsAny<Job>(), It.IsAny<IState>()))
+            .Returns("job-123");
+
+        // Act
+        var jobId = _sut.Enqueue<ITestService>(x => x.DoWork());
+
+        // Assert
+        Assert.Equal("job-123", jobId);
+    }
+}
+```
+
+**Coverage:**
+- `Enqueue` - sync and async actions
+- `Schedule` - TimeSpan and DateTimeOffset overloads
+- `AddOrUpdateRecurring` - cron-based jobs
+- `RemoveRecurring`, `TriggerRecurring`
+- `Delete` - job deletion
+
+### Notifications Tests
+
+Tests `SendGridEmailService` and `NoOpEmailService`:
+
+```csharp
+public class SendGridEmailServiceTests
+{
+    private readonly Mock<ISendGridClient> _mockClient;
+    private readonly SendGridEmailService _sut;
+
+    [Fact]
+    public async Task SendEmailAsync_WhenSuccessful_ReturnsSuccess()
+    {
+        // Arrange
+        var message = new EmailMessage { To = "test@example.com", Subject = "Test" };
+        _mockClient.Setup(x => x.SendEmailAsync(It.IsAny<SendGridMessage>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(CreateMockResponse(HttpStatusCode.Accepted, "msg-123"));
+
+        // Act
+        var result = await _sut.SendEmailAsync(message);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+    }
+}
+```
+
+**SendGridEmailService Coverage:**
+- `SendEmailAsync` - success, failure, exception handling
+- From address handling (default vs custom)
+- CC/BCC recipients
+- `SendTemplatedEmailAsync` - template ID and data
+- `SendBatchAsync` - multiple messages with individual results
+
+**NoOpEmailService Coverage:**
+- Always returns success
+- Logs message details without sending
+
+---
+
 ## Integration Tests
 
 Uses `CustomWebApplicationFactory` to:
@@ -95,12 +187,22 @@ public class AuthEndpointTests : IClassFixture<CustomWebApplicationFactory>
 ## Run Tests
 
 ```bash
-# All tests
+# All unit tests (excludes integration tests)
+dotnet test AuthSamples.sln --filter "FullyQualifiedName!~IntegrationTests"
+
+# All tests including integration
 dotnet test AuthSamples.sln
 
 # Specific project
 dotnet test tests/AuthSamples.Modules.Auth.Domain.Tests
 
+# Platform tests only
+dotnet test tests/AuthSamples.Platform.BackgroundJobs.Tests
+dotnet test tests/AuthSamples.Platform.Notifications.Tests
+
 # With coverage
 dotnet test --collect:"XPlat Code Coverage"
+
+# Verbose output
+dotnet test --verbosity normal
 ```
