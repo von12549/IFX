@@ -65,6 +65,12 @@ public static class BackgroundJobsServiceCollectionExtensions
         services.AddHangfireServer(options =>
         {
             options.WorkerCount = settings.WorkerCount;
+            options.Queues = settings.Queues;
+
+            if (!string.IsNullOrEmpty(settings.ServerName))
+            {
+                options.ServerName = settings.ServerName;
+            }
         });
 
         // Register our abstraction

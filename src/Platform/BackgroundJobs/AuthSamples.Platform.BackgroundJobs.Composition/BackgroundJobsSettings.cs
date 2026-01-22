@@ -34,4 +34,14 @@ public class BackgroundJobsSettings
     /// Number of worker threads for processing jobs.
     /// </summary>
     public int WorkerCount { get; set; } = Environment.ProcessorCount * 2;
+
+    /// <summary>
+    /// The name of the Hangfire server instance.
+    /// </summary>
+    public string? ServerName { get; set; }
+
+    /// <summary>
+    /// The queues that this server will process.
+    /// </summary>
+    public string[] Queues { get; set; } = ["default", "email", "report"];
 }
