@@ -72,7 +72,7 @@ services:
       - BackgroundJobs__Queues__2=${HANGFIRE_QUEUE_2:-report}
       # Notifications (SendGrid) - optional, uses NoOp if not configured
       - Notifications__SendGrid__ApiKey=${SENDGRID_API_KEY:-}
-      - Notifications__SendGrid__DefaultFromEmail=${SENDGRID_FROM_EMAIL:-noreply@example.com}
+      - Notifications__SendGrid__DefaultFromEmail=${SENDGRID_FROM_EMAIL:-noreply@clients.cx}
       - Notifications__SendGrid__DefaultFromName=${SENDGRID_FROM_NAME:-AuthSamples}
     ports:
       - "5000:8080"

@@ -3,6 +3,9 @@ using AuthSamples.Modules.Auth.Application.Interfaces;
 using AuthSamples.Modules.Auth.Application.Queries.GetAllUsers;
 using AuthSamples.Modules.Auth.Presentation.Models.Requests.User;
 using AuthSamples.Modules.Auth.Presentation.Models.Responses;
+using AuthSamples.Platform.BackgroundJobs.Abstractions;
+using AuthSamples.Platform.Notifications.Abstractions;
+using AuthSamples.Platform.Notifications.Abstractions.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,5 +77,58 @@ public static class UserManagementEndpoints
         }
 
         return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> SendTestEmail(
+        Guid userId,
+        [FromServices] IUnitOfWork unitOfWork,
+        [FromServices] IBackgroundJobService backgroundJobService,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin sending test email to user: {UserId}", userId);
+
+        // Get user by internal ID
+        var user = await unitOfWork.Users.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return Results.Json(
+                ApiResponse<object>.FailureResponse("User not found"),
+                statusCode: StatusCodes.Status404NotFound);
+        }
+
+        // Get user's email from identity
+        var identity = user.Identities.FirstOrDefault();
+        if (identity == null || string.IsNullOrEmpty(identity.Email?.Value))
+        {
+            return Results.Json(
+                ApiResponse<object>.FailureResponse("User email not found"),
+                statusCode: StatusCodes.Status400BadRequest);
+        }
+
+        var userEmail = identity.Email.Value;
+        var userName = user.DisplayName ?? "User";
+
+        // Enqueue email job on "email" queue
+        var jobId = backgroundJobService.Enqueue<IEmailService>(
+            service => service.SendEmailAsync(
+                new EmailMessage
+                {
+                    To = userEmail,
+                    ToName = userName,
+                    Subject = "Test Email from AuthSamples",
+                    HtmlBody = $"<h1>Hello {userName}!</h1><p>This is a test email sent from AuthSamples.</p><p>If you received this email, your email configuration is working correctly.</p>",
+                    PlainTextBody = $"Hello {userName}!\n\nThis is a test email sent from AuthSamples.\n\nIf you received this email, your email configuration is working correctly."
+                },
+                default),
+            "email");
+
+        logger.LogInformation("Test email job {JobId} enqueued for user {UserId} ({Email})", jobId, userId, userEmail);
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(new
+        {
+            Message = "Test email job enqueued successfully",
+            JobId = jobId,
+            Email = userEmail
+        }));
     }
 }

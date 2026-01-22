@@ -17,6 +17,7 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users
             .Include(u => u.UserRole)
+            .Include(u => u.Identities)
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
     }
 

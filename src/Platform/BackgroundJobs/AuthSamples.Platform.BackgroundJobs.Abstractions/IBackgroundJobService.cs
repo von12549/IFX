@@ -16,12 +16,30 @@ public interface IBackgroundJobService
     string Enqueue<T>(Expression<Action<T>> methodCall);
 
     /// <summary>
+    /// Enqueues a job to be executed immediately in the background on a specific queue.
+    /// </summary>
+    /// <typeparam name="T">The type containing the method to execute.</typeparam>
+    /// <param name="methodCall">Expression representing the method to call.</param>
+    /// <param name="queue">The queue name to enqueue the job on.</param>
+    /// <returns>The unique identifier of the created job.</returns>
+    string Enqueue<T>(Expression<Action<T>> methodCall, string queue);
+
+    /// <summary>
     /// Enqueues an async job to be executed immediately in the background.
     /// </summary>
     /// <typeparam name="T">The type containing the method to execute.</typeparam>
     /// <param name="methodCall">Expression representing the async method to call.</param>
     /// <returns>The unique identifier of the created job.</returns>
     string Enqueue<T>(Expression<Func<T, Task>> methodCall);
+
+    /// <summary>
+    /// Enqueues an async job to be executed immediately in the background on a specific queue.
+    /// </summary>
+    /// <typeparam name="T">The type containing the method to execute.</typeparam>
+    /// <param name="methodCall">Expression representing the async method to call.</param>
+    /// <param name="queue">The queue name to enqueue the job on.</param>
+    /// <returns>The unique identifier of the created job.</returns>
+    string Enqueue<T>(Expression<Func<T, Task>> methodCall, string queue);
 
     /// <summary>
     /// Schedules a job to be executed after a specified delay.
