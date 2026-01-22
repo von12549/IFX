@@ -13,7 +13,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
-- **195 Tests** - Comprehensive test coverage across all layers
+- **206 Unit Tests** - Comprehensive test coverage across all layers
 - **Docker Support** - Containerized deployment with docker-compose
 - **Demo UI** - Simple HTML/JS client for testing OAuth flow
 
@@ -57,7 +57,10 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 195 tests
+tests/                               # 206 unit tests
+├── AuthSamples.Modules.Auth.*/      # Auth module tests (178)
+├── AuthSamples.Platform.BackgroundJobs.Tests/  # Hangfire tests (11)
+└── AuthSamples.Platform.Notifications.Tests/   # Email service tests (17)
 ```
 
 ## API Overview
@@ -143,7 +146,7 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build AuthSamples.sln
 
-# Test (195 tests)
+# Test (206 unit tests)
 dotnet test AuthSamples.sln
 
 # Run API locally

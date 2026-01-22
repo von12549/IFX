@@ -47,7 +47,7 @@ This file provides guidance to Claude Code when working with this repository.
 ### Build & Run
 ```bash
 dotnet build AuthSamples.sln          # Build
-dotnet test AuthSamples.sln           # Test (195 tests)
+dotnet test AuthSamples.sln           # Test (206 unit tests)
 docker-compose up -d                   # Run with Docker
 ```
 
