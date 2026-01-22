@@ -18,7 +18,8 @@ public static class BackgroundJobsApplicationBuilderExtensions
     {
         var settings = app.ApplicationServices.GetRequiredService<BackgroundJobsSettings>();
 
-        if (settings.EnableDashboard)
+        // Only enable dashboard if background jobs are enabled and dashboard is enabled
+        if (settings.Enabled && settings.EnableDashboard)
         {
             app.UseHangfireDashboard(settings.DashboardPath, new DashboardOptions
             {

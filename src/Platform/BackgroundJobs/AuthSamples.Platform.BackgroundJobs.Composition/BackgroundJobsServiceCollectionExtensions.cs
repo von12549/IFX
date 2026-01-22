@@ -26,6 +26,14 @@ public static class BackgroundJobsServiceCollectionExtensions
             .GetSection(BackgroundJobsSettings.SectionName)
             .Get<BackgroundJobsSettings>() ?? new BackgroundJobsSettings();
 
+        // Check if background jobs are disabled (for testing)
+        if (!settings.Enabled)
+        {
+            services.AddSingleton(settings);
+            services.AddScoped<IBackgroundJobService, NoOpBackgroundJobService>();
+            return services;
+        }
+
         // Use default connection string if not specified in BackgroundJobs section
         if (string.IsNullOrEmpty(settings.ConnectionString))
         {

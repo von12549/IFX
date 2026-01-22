@@ -1,6 +1,10 @@
 using App.Abstractions;
 using AuthSamples.Modules.Auth.Application.Interfaces;
 using AuthSamples.Modules.Auth.Infrastructure.Persistence;
+using AuthSamples.Platform.BackgroundJobs.Abstractions;
+using AuthSamples.Platform.Notifications.Abstractions;
+using AuthSamples.Platform.Notifications.Abstractions.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Moq;
 
 namespace AuthSamples.IntegrationTests.Fixtures;
@@ -18,14 +23,25 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureAppConfiguration((context, config) =>
         {
-            // Add test configuration
+            // Add test configuration - must override all required settings
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["ConnectionStrings:AuthDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;",
+                ["ConnectionStrings:AuthDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
+                ["ConnectionStrings:BackgroundJobsDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["CognitoSettings:UserPoolId"] = "test-user-pool-id",
                 ["CognitoSettings:ClientId"] = "test-client-id",
                 ["CognitoSettings:ClientSecret"] = "test-client-secret",
-                ["CognitoSettings:Region"] = "us-east-1"
+                ["CognitoSettings:Region"] = "us-east-1",
+                // CognitoOidcSettings for OAuth
+                ["CognitoOidcSettings:Domain"] = "test-domain.auth.us-east-1.amazoncognito.com",
+                ["CognitoOidcSettings:ClientId"] = "test-client-id",
+                ["CognitoOidcSettings:ClientSecret"] = "test-client-secret",
+                ["CognitoOidcSettings:CallbackUrl"] = "http://localhost:5000/api/v1/auth/oauth/callback",
+                ["CognitoOidcSettings:LogoutCallbackUrl"] = "http://localhost:5000/api/v1/auth/oauth/logout",
+                ["CognitoOidcSettings:FrontendCallbackUrl"] = "http://localhost:3000/callback",
+                // Disable background jobs for testing
+                ["BackgroundJobs:Enabled"] = "false",
+                ["BackgroundJobs:EnableDashboard"] = "false"
             });
         });
 
@@ -112,6 +128,24 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             services.AddHealthChecks()
                 .AddCheck("Test Health Check", () => HealthCheckResult.Healthy("Test is healthy"));
 
+            // Remove Hangfire services (they require SQL Server)
+            RemoveHangfireServices(services);
+
+            // Add mock background job service
+            var mockBackgroundJobService = new Mock<IBackgroundJobService>();
+            mockBackgroundJobService.Setup(x => x.Enqueue(It.IsAny<System.Linq.Expressions.Expression<Action<It.IsAnyType>>>()))
+                .Returns("test-job-id");
+            services.AddSingleton(mockBackgroundJobService.Object);
+
+            // Remove SendGrid services and add mock email service
+            services.RemoveAll<IEmailService>();
+            var mockEmailService = new Mock<IEmailService>();
+            mockEmailService.Setup(x => x.SendEmailAsync(It.IsAny<EmailMessage>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(EmailResult.Success("test-message-id"));
+            mockEmailService.Setup(x => x.SendTemplatedEmailAsync(It.IsAny<TemplatedEmailMessage>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(EmailResult.Success("test-message-id"));
+            services.AddSingleton(mockEmailService.Object);
+
             // Build the service provider
             var sp = services.BuildServiceProvider();
 
@@ -157,6 +191,34 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             db.Idps.Add(idp);
             db.SaveChanges();
+        }
+    }
+
+    private static void RemoveHangfireServices(IServiceCollection services)
+    {
+        // Remove Hangfire-related services
+        var hangfireDescriptors = services.Where(d =>
+            d.ServiceType.FullName?.Contains("Hangfire") == true ||
+            d.ImplementationType?.FullName?.Contains("Hangfire") == true ||
+            d.ServiceType == typeof(IBackgroundJobClient) ||
+            d.ServiceType == typeof(IRecurringJobManager) ||
+            d.ServiceType == typeof(IBackgroundJobService) ||
+            d.ServiceType == typeof(JobStorage) ||
+            d.ServiceType.FullName?.Contains("BackgroundJob") == true).ToList();
+
+        foreach (var descriptor in hangfireDescriptors)
+        {
+            services.Remove(descriptor);
+        }
+
+        // Remove hosted services that might be Hangfire-related
+        var hostedServiceDescriptors = services.Where(d =>
+            d.ServiceType == typeof(Microsoft.Extensions.Hosting.IHostedService) &&
+            d.ImplementationType?.FullName?.Contains("Hangfire") == true).ToList();
+
+        foreach (var descriptor in hostedServiceDescriptors)
+        {
+            services.Remove(descriptor);
         }
     }
 }
