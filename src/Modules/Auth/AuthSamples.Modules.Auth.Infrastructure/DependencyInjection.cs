@@ -64,6 +64,7 @@ public static class DependencyInjection
 
         // Register Email Verification Service
         services.AddScoped<IEmailVerificationService, EmailVerificationService>();
+        services.AddScoped<IEmailVerificationCleanupService, EmailVerificationCleanupService>();
 
         // Register DbContext
         var connectionString = configuration.GetConnectionString("AuthDatabase");

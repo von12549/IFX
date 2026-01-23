@@ -117,4 +117,21 @@ public class UserIdentity : BaseEntity, IAuditableEntity
         if (lastName != null) LastName = lastName;
         if (phoneNumber != null) PhoneNumber = phoneNumber;
     }
+
+    public bool UpdateEmail(EmailAddress newEmail)
+    {
+        if (Email.Value == newEmail.Value)
+        {
+            return false; // No change
+        }
+
+        Email = newEmail;
+        EmailVerified = false; // Reset verification when email changes
+        return true;
+    }
+
+    public void SetEmailVerified(bool verified)
+    {
+        EmailVerified = verified;
+    }
 }

@@ -10,4 +10,12 @@ public record UpdateUserProfileCommand(
     string? Username = null,
     string? FirstName = null,
     string? LastName = null,
-    string? PhoneNumber = null) : IRequest<Result<UserProfileDto>>;
+    string? PhoneNumber = null,
+    string? Email = null,
+    string? IpAddress = null) : IRequest<Result<UpdateUserProfileResponse>>;
+
+public record UpdateUserProfileResponse(
+    UserProfileDto Profile,
+    bool EmailChanged,
+    bool RequiresEmailVerification,
+    Guid? UserIdentityId);

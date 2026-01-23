@@ -37,11 +37,17 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
                 var existingRole = await _unitOfWork.UserRoles.GetByIdAsync(
                     existingUser.UserRoleId, cancellationToken);
 
+                var existingIdentity = existingUser.Identities.FirstOrDefault(i =>
+                    i.Issuer == request.Issuer && i.Subject.Value == request.Subject);
+
                 return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse
                 {
                     UserId = existingUser.Id,
+                    UserIdentityId = existingIdentity?.Id ?? Guid.Empty,
                     RoleName = existingRole?.RoleName ?? "Unknown",
-                    WasProvisioned = false
+                    WasProvisioned = false,
+                    RequiresEmailVerification = existingIdentity != null && !existingIdentity.EmailVerified,
+                    Email = existingIdentity?.Email?.Value
                 });
             }
 
@@ -97,15 +103,21 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
             // Save changes
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            // Check if email verification is needed
+            var requiresEmailVerification = !request.EmailVerified && !string.IsNullOrEmpty(request.Email);
+
             _logger.LogInformation(
-                "Auto-provisioned SSO user {UserId} from {Issuer} with subject {Subject}, assigned role {RoleName}",
-                user.Id, request.Issuer, request.Subject, userRole.RoleName);
+                "Auto-provisioned SSO user {UserId} from {Issuer} with subject {Subject}, assigned role {RoleName}, RequiresEmailVerification: {RequiresVerification}",
+                user.Id, request.Issuer, request.Subject, userRole.RoleName, requiresEmailVerification);
 
             return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse
             {
                 UserId = user.Id,
+                UserIdentityId = userIdentity.Id,
                 RoleName = userRole.RoleName,
-                WasProvisioned = true
+                WasProvisioned = true,
+                RequiresEmailVerification = requiresEmailVerification,
+                Email = request.Email
             });
         }
         catch (Exception ex)

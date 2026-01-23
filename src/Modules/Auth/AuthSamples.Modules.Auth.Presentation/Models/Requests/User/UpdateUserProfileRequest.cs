@@ -16,4 +16,8 @@ public class UpdateUserProfileRequest
 
     [Phone]
     public string? PhoneNumber { get; set; }
+
+    [EmailAddress]
+    [MaxLength(255)]
+    public string? Email { get; set; }
 }
