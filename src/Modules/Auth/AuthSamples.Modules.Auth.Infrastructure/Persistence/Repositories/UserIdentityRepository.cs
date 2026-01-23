@@ -13,6 +13,15 @@ public class UserIdentityRepository : IUserIdentityRepository
         _context = context;
     }
 
+    public async Task<UserIdentity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.UserIdentities
+            .Include(ui => ui.User)
+                .ThenInclude(u => u!.UserRole)
+            .Include(ui => ui.Idp)
+            .FirstOrDefaultAsync(ui => ui.Id == id, cancellationToken);
+    }
+
     public async Task<UserIdentity?> GetByIssuerAndSubjectAsync(string issuer, string subject, CancellationToken cancellationToken = default)
     {
         return await _context.UserIdentities

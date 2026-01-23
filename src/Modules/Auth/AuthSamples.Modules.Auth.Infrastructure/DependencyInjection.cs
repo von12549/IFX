@@ -62,6 +62,9 @@ public static class DependencyInjection
         // Register OIDC Discovery Service (for fetching well-known configuration)
         services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();
 
+        // Register Email Verification Service
+        services.AddScoped<IEmailVerificationService, EmailVerificationService>();
+
         // Register DbContext
         var connectionString = configuration.GetConnectionString("AuthDatabase");
         services.AddDbContext<AuthDbContext>(options =>
