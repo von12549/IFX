@@ -83,6 +83,7 @@ public static class DependencyInjection
         services.AddScoped<IRegistrationFlowEventRepository, RegistrationFlowEventRepository>();
         services.AddScoped<IUserActivityLogRepository, UserActivityLogRepository>();
         services.AddScoped<IIdpRepository, IdpRepository>();
+        services.AddScoped<IEmailVerificationTokenRepository, EmailVerificationTokenRepository>();
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
