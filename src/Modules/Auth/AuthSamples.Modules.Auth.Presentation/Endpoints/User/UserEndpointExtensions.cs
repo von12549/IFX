@@ -24,6 +24,7 @@ public static class UserEndpointExtensions
         group.MapPut("/profile", UserEndpoints.UpdateProfile)
             .WithName("UpdateProfile")
             .WithSummary("Update current user profile")
+            .WithDescription("Updates user profile fields. If email is changed, a verification email is sent automatically.")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);

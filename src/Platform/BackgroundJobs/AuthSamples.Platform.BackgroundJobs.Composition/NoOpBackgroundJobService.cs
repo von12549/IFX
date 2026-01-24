@@ -25,10 +25,24 @@ public class NoOpBackgroundJobService : IBackgroundJobService
         return jobId;
     }
 
+    public string Enqueue<T>(Expression<Action<T>> methodCall, string queue)
+    {
+        var jobId = $"noop-job-{Interlocked.Increment(ref _jobCounter)}";
+        _logger.LogInformation("[NoOp] Would enqueue job {JobId} on queue '{Queue}': {Method}", jobId, queue, methodCall.Body);
+        return jobId;
+    }
+
     public string Enqueue<T>(Expression<Func<T, Task>> methodCall)
     {
         var jobId = $"noop-job-{Interlocked.Increment(ref _jobCounter)}";
         _logger.LogInformation("[NoOp] Would enqueue async job {JobId}: {Method}", jobId, methodCall.Body);
+        return jobId;
+    }
+
+    public string Enqueue<T>(Expression<Func<T, Task>> methodCall, string queue)
+    {
+        var jobId = $"noop-job-{Interlocked.Increment(ref _jobCounter)}";
+        _logger.LogInformation("[NoOp] Would enqueue async job {JobId} on queue '{Queue}': {Method}", jobId, queue, methodCall.Body);
         return jobId;
     }
 

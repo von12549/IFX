@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthSamples.Modules.Auth.Application\AuthSamples.Modules.Auth.Application.csproj" />
+    <ProjectReference Include="..\..\..\Platform\BackgroundJobs\AuthSamples.Platform.BackgroundJobs.Abstractions\AuthSamples.Platform.BackgroundJobs.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Notifications\AuthSamples.Platform.Notifications.Abstractions\AuthSamples.Platform.Notifications.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

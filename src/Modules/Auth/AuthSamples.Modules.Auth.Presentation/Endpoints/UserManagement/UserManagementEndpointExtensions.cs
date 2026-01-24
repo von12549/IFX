@@ -36,6 +36,16 @@ public static class UserManagementEndpointExtensions
             .Produces<object>(StatusCodes.Status403Forbidden)
             .Produces<object>(StatusCodes.Status404NotFound);
 
+        group.MapPost("/users/{userId}/send-test-email", UserManagementEndpoints.SendTestEmail)
+            .WithName("SendTestEmail")
+            .WithSummary("Send a test email to a user (Admin only)")
+            .WithDescription("Enqueues a test email job on the 'email' queue for the specified user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status403Forbidden)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
         return builder;
     }
 

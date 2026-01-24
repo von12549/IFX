@@ -1,6 +1,8 @@
 using System.Linq.Expressions;
 using AuthSamples.Platform.BackgroundJobs.Abstractions;
 using Hangfire;
+using Hangfire.Common;
+using Hangfire.States;
 
 namespace AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire;
 
@@ -25,9 +27,21 @@ public class HangfireBackgroundJobService : IBackgroundJobService
         return _backgroundJobClient.Enqueue(methodCall);
     }
 
+    public string Enqueue<T>(Expression<Action<T>> methodCall, string queue)
+    {
+        var job = Job.FromExpression(methodCall);
+        return _backgroundJobClient.Create(job, new EnqueuedState(queue));
+    }
+
     public string Enqueue<T>(Expression<Func<T, Task>> methodCall)
     {
         return _backgroundJobClient.Enqueue(methodCall);
+    }
+
+    public string Enqueue<T>(Expression<Func<T, Task>> methodCall, string queue)
+    {
+        var job = Job.FromExpression(methodCall);
+        return _backgroundJobClient.Create(job, new EnqueuedState(queue));
     }
 
     public string Schedule<T>(Expression<Action<T>> methodCall, TimeSpan delay)

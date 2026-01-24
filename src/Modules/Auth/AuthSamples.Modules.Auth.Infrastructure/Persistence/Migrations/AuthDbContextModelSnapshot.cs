@@ -22,6 +22,63 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.EmailVerificationToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UsedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserIdentityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpiresAt")
+                        .HasDatabaseName("IX_EmailVerificationTokens_ExpiresAt");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_EmailVerificationTokens_TokenHash");
+
+                    b.HasIndex("UserIdentityId")
+                        .HasDatabaseName("IX_EmailVerificationTokens_UserIdentityId");
+
+                    b.HasIndex("UserIdentityId", "Code")
+                        .HasDatabaseName("IX_EmailVerificationTokens_UserIdentityId_Code");
+
+                    b.ToTable("EmailVerificationTokens", "auth");
+                });
+
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.Idp", b =>
                 {
                     b.Property<Guid>("Id")
@@ -454,6 +511,17 @@ namespace AuthSamples.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("IX_UserRoles_RoleName");
 
                     b.ToTable("UserRoles", "auth");
+                });
+
+            modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.EmailVerificationToken", b =>
+                {
+                    b.HasOne("AuthSamples.Modules.Auth.Domain.Entities.UserIdentity", "UserIdentity")
+                        .WithMany()
+                        .HasForeignKey("UserIdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserIdentity");
                 });
 
             modelBuilder.Entity("AuthSamples.Modules.Auth.Domain.Entities.LoginEvent", b =>
