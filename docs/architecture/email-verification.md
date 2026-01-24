@@ -181,8 +181,8 @@ The implementation uses CQRS pattern with MediatR, background job processing via
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/api/v1/auth/email/verify` | POST | Verify email with token or code |
-| `/api/v1/auth/email/verify` | GET | Verify email via link (token + uid) |
+| `/api/v1/auth/email/verify` | POST | Verify email with JSON body (token/code + userIdentityId) |
+| `/api/v1/auth/email/verify` | GET | Verify email via link (query params: token + uid) |
 
 ### Authenticated Endpoints
 
@@ -210,6 +210,19 @@ The implementation uses CQRS pattern with MediatR, background job processing via
   "token": "a1b2c3d4e5f6789012345678abcdef01"
 }
 ```
+
+#### GET /api/v1/auth/email/verify (Link-based)
+
+**URL format:**
+```
+GET /api/v1/auth/email/verify?token=a1b2c3d4e5f6789012345678abcdef01&uid=550e8400-e29b-41d4-a716-446655440000
+```
+
+**Query Parameters:**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `token` | string | Yes | Verification token from email |
+| `uid` | Guid | Yes | UserIdentityId |
 
 **Success Response:**
 ```json

@@ -19,6 +19,13 @@ public static class EmailVerificationEndpointExtensions
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest);
 
+        publicGroup.MapGet("/verify", EmailVerificationEndpoints.VerifyEmailFromLink)
+            .WithName("VerifyEmailFromLink")
+            .WithSummary("Verify email address from email link")
+            .WithDescription("Accepts token and uid query parameters from verification email link.")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest);
+
         // Authenticated endpoints
         var authenticatedGroup = builder.MapGroup("/api/v1/user/email")
             .WithTags("Email Verification")

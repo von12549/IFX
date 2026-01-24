@@ -56,6 +56,46 @@ public static class EmailVerificationEndpoints
     }
 
     /// <summary>
+    /// Public endpoint to verify email from link (GET request)
+    /// </summary>
+    public static async Task<IResult> VerifyEmailFromLink(
+        [FromQuery] string? token,
+        [FromQuery] Guid? uid,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<EmailVerificationEndpointsLogCategory> logger,
+        HttpContext httpContext)
+    {
+        if (string.IsNullOrEmpty(token) || !uid.HasValue)
+        {
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(
+                "Missing required parameters. Both 'token' and 'uid' are required."));
+        }
+
+        logger.LogInformation("Email verification from link for UserIdentityId: {UserIdentityId}", uid.Value);
+
+        var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString();
+
+        var command = new VerifyEmailCommand(
+            uid.Value,
+            token,
+            null, // No code for link-based verification
+            ipAddress);
+
+        var result = await mediator.Send(command);
+
+        if (!result.IsSuccess)
+        {
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        }
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(new
+        {
+            result.Value!.Success,
+            result.Value.Message
+        }));
+    }
+
+    /// <summary>
     /// Authenticated endpoint to request email verification for current user
     /// </summary>
     public static async Task<IResult> SendVerification(
