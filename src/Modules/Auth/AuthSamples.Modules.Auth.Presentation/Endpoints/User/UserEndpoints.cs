@@ -99,7 +99,7 @@ public static class UserEndpoints
             if (verificationResult.IsSuccess)
             {
                 // Build verification link
-                var baseUrl = configuration["EmailVerification:VerificationBaseUrl"] ?? "https://localhost/verify-email";
+                var baseUrl = configuration["EmailVerification:VerificationBaseUrl"] ?? "http://localhost:5000/api/v1/auth/email/verify";
                 var verificationLink = $"{baseUrl}?token={verificationResult.Value!.Token}&uid={verificationResult.Value.UserIdentityId}";
 
                 // Get user display name
