@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AuthSamples.Platform.Shared\AuthSamples.Platform.Shared.csproj" />
     <ProjectReference Include="..\AuthSamples.Platform.BackgroundJobs.Abstractions\AuthSamples.Platform.BackgroundJobs.Abstractions.csproj" />
     <ProjectReference Include="..\AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire\AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj" />
   </ItemGroup>

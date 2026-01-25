@@ -1,14 +1,22 @@
+using AuthSamples.Platform.Shared.Configuration;
+using AuthSamples.Platform.Shared.Constants;
+
 namespace AuthSamples.Platform.Notifications.Infrastructure.SendGrid;
 
 /// <summary>
 /// Configuration settings for SendGrid email service.
 /// </summary>
-public class SendGridSettings
+public class SendGridSettings : IPlatformSettings
 {
     /// <summary>
     /// Configuration section name.
     /// </summary>
-    public const string SectionName = "Notifications:SendGrid";
+    public static string SectionName => ConfigurationSections.NotificationsSendGrid;
+
+    /// <summary>
+    /// Whether the email service is enabled.
+    /// </summary>
+    public bool Enabled => !string.IsNullOrEmpty(ApiKey);
 
     /// <summary>
     /// SendGrid API key.

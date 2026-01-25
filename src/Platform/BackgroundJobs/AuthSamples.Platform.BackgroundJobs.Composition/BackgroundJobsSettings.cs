@@ -1,14 +1,17 @@
+using AuthSamples.Platform.Shared.Configuration;
+using AuthSamples.Platform.Shared.Constants;
+
 namespace AuthSamples.Platform.BackgroundJobs.Composition;
 
 /// <summary>
 /// Configuration settings for background jobs.
 /// </summary>
-public class BackgroundJobsSettings
+public class BackgroundJobsSettings : IPlatformSettings
 {
     /// <summary>
     /// Configuration section name.
     /// </summary>
-    public const string SectionName = "BackgroundJobs";
+    public static string SectionName => ConfigurationSections.BackgroundJobs;
 
     /// <summary>
     /// Whether background jobs are enabled. Set to false in tests or environments without SQL Server.

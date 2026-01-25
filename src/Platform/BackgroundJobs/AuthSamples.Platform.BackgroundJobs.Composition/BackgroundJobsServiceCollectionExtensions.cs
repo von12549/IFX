@@ -1,5 +1,6 @@
 using AuthSamples.Platform.BackgroundJobs.Abstractions;
 using AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire;
+using AuthSamples.Platform.Shared.Constants;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.Extensions.Configuration;
@@ -67,7 +68,7 @@ public static class BackgroundJobsServiceCollectionExtensions
             options.WorkerCount = settings.WorkerCount;
             options.Queues = settings.Queues.Length > 0
                 ? settings.Queues
-                : ["default", "email", "report"];
+                : QueueNames.DefaultQueues;
 
             if (!string.IsNullOrEmpty(settings.ServerName))
             {

@@ -1,9 +1,11 @@
+using AuthSamples.Platform.Shared.Results;
+
 namespace AuthSamples.Platform.Notifications.Abstractions.Models;
 
 /// <summary>
 /// Represents the result of sending an email.
 /// </summary>
-public record EmailResult
+public record EmailResult : IOperationResult<string>
 {
     /// <summary>
     /// Whether the email was sent successfully.
@@ -14,6 +16,11 @@ public record EmailResult
     /// The message ID from the email provider (if available).
     /// </summary>
     public string? MessageId { get; init; }
+
+    /// <summary>
+    /// The result identifier (message ID).
+    /// </summary>
+    string? IOperationResult<string>.ResultId => MessageId;
 
     /// <summary>
     /// Error message if the send failed.

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AuthSamples.Platform.Shared\AuthSamples.Platform.Shared.csproj" />
     <ProjectReference Include="..\AuthSamples.Platform.Notifications.Abstractions\AuthSamples.Platform.Notifications.Abstractions.csproj" />
   </ItemGroup>
 
