@@ -41,6 +41,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260120-platform-module.md` | Platform module (BackgroundJobs, Notifications) |
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
+| `/.claude/playbooks/pattern-selection.md` | Platform vs Modules pattern decision guide |
 
 ## Quick Reference
 
@@ -87,4 +88,5 @@ Load the most relevant `/.claude/*` document before making changes.
 - README.md maintenance must follow `/.claude/playbooks/readme-playbook.md`
 - Git operations must follow `/.claude/playbooks/git-workflow.md`
 - Naming conventions must follow `/.claude/playbooks/naming-conventions.md`
+- Pattern selection (Platform vs Modules) must follow `/.claude/playbooks/pattern-selection.md`
 - **Planning**: Before implementing any feature, save the plan to `/.claude/Plans/YYYYMMDD-feature-name.md`

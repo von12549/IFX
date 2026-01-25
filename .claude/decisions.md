@@ -87,3 +87,47 @@ Documents significant architectural and design decisions with rationale.
 - UserActivityLog: General activity (extensible via ActivityType enum)
 
 **Trade-off:** Multiple tables vs single polymorphic event table. Chose multiple for query performance and schema clarity.
+
+---
+
+## ADR-007: Platform Pattern vs Modules Pattern (January 2026)
+
+**Decision:** Maintain separate architectural patterns for Platform services and business Modules.
+
+**Context:**
+- Platform services (BackgroundJobs, Notifications) use a 3-project pattern: Abstractions → Infrastructure.{Provider} → Composition
+- Business modules (Auth) use a 5-project Clean Architecture pattern: Domain → Application → Infrastructure → Presentation → Composition
+
+**Rationale:**
+
+| Concern | Platform Pattern | Modules Pattern |
+|---------|-----------------|-----------------|
+| **Purpose** | Cross-cutting infrastructure | Bounded business domains |
+| **Domain Logic** | None - contracts/delegation only | Rich - entities, events, rules |
+| **Business Ops** | Minimal | Heavy - CQRS with MediatR |
+| **Swappability** | High (NoOp for testing, feature flags) | N/A - domain is unique |
+| **Layers** | 3 projects | 5 projects |
+
+**Guidelines:**
+
+1. **Use Platform Pattern for:**
+   - Infrastructure services (caching, messaging, file storage)
+   - External provider integrations with simple contracts
+   - Services that need NoOp/mock implementations for testing
+   - Cross-cutting concerns shared by all modules
+
+2. **Use Modules Pattern for:**
+   - Business domains with rich logic (Orders, Payments, Inventory)
+   - Features requiring CQRS command/query separation
+   - Bounded contexts with domain entities and events
+   - Areas with complex validation and business rules
+
+3. **Cross-Module Communication:**
+   - For modules that need to expose contracts to other modules, consider adding an `.Abstractions` project
+   - This allows `ModuleB` to depend on `ModuleA.Abstractions` without full Domain/Application coupling
+
+**Trade-offs:**
+- Two patterns to learn vs one unified approach
+- Chose separation because forcing Platform's simple pattern onto Modules loses Clean Architecture benefits (domain isolation, repository abstraction, CQRS)
+
+**Reference:** See `/.claude/playbooks/pattern-selection.md` for decision flowchart.
