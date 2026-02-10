@@ -217,15 +217,26 @@ The IdpType is configured per IdP in the database and determines what role is as
 ### Current Behavior
 
 1. **Trusts IdP's `email_verified` claim** - If IdP says email is verified, system accepts it
-2. **No additional verification** - SSO users don't receive verification emails
+2. **Fallback verification** - SSO users with unverified emails can verify via email flow
 3. **Immediate activation** - Users are active upon provisioning (`isActive = true`)
 4. **Stored in UserIdentity** - `EmailVerified` flag preserved for audit
+
+### Email Verification Flow (for unverified emails)
+
+When an SSO user's email is not verified by the IdP:
+
+1. User can request verification via `POST /api/v1/user/email/send-verification`
+2. System generates token and 6-digit code, sends via email (SendGrid)
+3. User verifies via link or code (`POST /api/v1/auth/email/verify`)
+4. Rate limited to 3 requests per hour
+
+See [Email Verification](./email-verification.md) for full details.
 
 ### Rationale
 
 - Enterprise IdPs (Cognito, Azure AD, Google) have already verified emails
 - SSO implies trust in the identity provider
-- Adding verification would create friction in enterprise scenarios
+- Fallback verification available for IdPs that don't verify emails
 
 ---
 
@@ -256,45 +267,28 @@ UserActivityLog.Create(
 
 ---
 
-## Current Limitations
+## Current Implementation
 
-### 1. Email Claim Availability
+### OAuth 2.0 with UserInfo Integration (Implemented)
 
-**Problem:** Access tokens from SDK-based Cognito authentication (`InitiateAuthAsync`) don't include email/email_verified claims in the JWT.
+The system uses OAuth 2.0 Authorization Code flow with PKCE via Cognito Managed Login:
 
-**Impact:** Auto-provisioning may fail if email is not present in the token.
+1. **OIDC Discovery** - `IOidcDiscoveryService` fetches IdP configuration from `.well-known/openid-configuration`
+2. **UserInfo endpoint** - `IOidcAuthService.GetUserInfoAsync()` fetches user claims when JWT claims are insufficient
+3. **Fallback chain** - JWT claims first, then userinfo endpoint if needed
 
-**Solution:** Use OAuth 2.0 Authorization Code flow with Cognito Managed Login, which provides access to `/oauth2/userInfo` endpoint.
+### Claim Sync (Future Enhancement)
 
-### 2. No UserInfo Endpoint Integration
-
-**Problem:** Current implementation only extracts claims from the JWT token itself.
-
-**Impact:** If claims are missing from JWT, provisioning fails even though they may be available via OIDC userinfo endpoint.
-
-**Solution:** Integrate `IOidcAuthService.GetUserInfoAsync()` to fetch additional claims when needed.
-
-### 3. No Claim Refresh
-
-**Problem:** User claims (email, name) captured at first login are not updated on subsequent logins.
+**Current behavior:** User claims (email, name) captured at first login are not updated on subsequent logins.
 
 **Impact:** If user updates profile at IdP, local copy becomes stale.
 
-**Solution:** Implement claim sync on each authentication or periodic sync.
-
----
-
-## Recommended Improvements
-
-1. **Integrate OIDC UserInfo endpoint** - Fetch claims via `/oauth2/userInfo` when JWT claims are insufficient
-2. **Add claim sync on login** - Update UserIdentity with latest claims from IdP
-3. **Use OIDC Discovery** - Leverage `IOidcDiscoveryService` to dynamically configure IdP endpoints
-4. **Fallback chain** - Try JWT claims first, then userinfo endpoint if needed
+**Potential solution:** Implement claim sync on each authentication via UserInfo endpoint.
 
 ---
 
 ## Related Documentation
 
-- [Cognito Managed Login](../Plans/cognito-managed-login.md) - OAuth 2.0 implementation
+- [Email Verification](./email-verification.md) - Token-based verification for unverified SSO emails
 - [SSO Multi-IdP Authentication](../sso-multi-idp.md) - Multi-IdP configuration guide
 - [Database Schema](./database.md) - Entity relationships

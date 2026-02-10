@@ -60,19 +60,65 @@ Identity Provider configurations.
 | Enabled | bool | Provider status |
 | AutoProvisionEnabled | bool | Auto-create users |
 
+## Email Verification
+
+### EmailVerificationTokens
+Tracks email verification tokens for SSO users.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| Id | GUID | Primary key |
+| UserIdentityId | GUID | FK to UserIdentities |
+| Email | string | Email being verified |
+| TokenHash | string | SHA256 hash of token |
+| Code | string | 6-digit verification code |
+| ExpiresAt | datetime | Token expiration |
+| IsUsed | bool | Whether token was used |
+| UsedAt | datetime | When token was used |
+| CreatedAt | datetime | Creation timestamp |
+| UpdatedAt | datetime | Last update |
+
 ## Audit Tables
 
 ### LoginEvents
 All login attempts with tokens and device info.
 
+| Column | Type | Description |
+|--------|------|-------------|
+| Id | GUID | Primary key |
+| UserIdentityId | GUID | FK to UserIdentities |
+| Success | bool | Login success status |
+| IpAddress | string | Client IP address |
+| UserAgent | string | Browser/client info |
+| DeviceInfo | string | Parsed device details |
+| FailureReason | string | Reason if failed |
+| CreatedAt | datetime | Event timestamp |
+
 ### LogoutEvents
 Logout events with session duration.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| Id | GUID | Primary key |
+| UserIdentityId | GUID | FK to UserIdentities |
+| SessionDurationSeconds | long | Time since login |
+| LogoutType | string | User/Admin/System |
+| CreatedAt | datetime | Event timestamp |
 
 ### RegistrationFlowEvents
 Registration lifecycle tracking.
 
 ### UserActivityLogs
 General activity tracking.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| Id | GUID | Primary key |
+| UserIdentityId | GUID | FK to UserIdentities |
+| ActivityType | string | Action type |
+| Description | string | Activity description |
+| IpAddress | string | Client IP address |
+| CreatedAt | datetime | Event timestamp |
 
 ## Migrations
 

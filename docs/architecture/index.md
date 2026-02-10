@@ -11,13 +11,23 @@ AuthSamples/
 │   │   └── AuthSamples.ApiHost/      # Host app (middleware, startup, health checks)
 │   ├── BuildingBlocks/
 │   │   └── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   ├── Platform/                     # Cross-cutting platform services
+│   │   ├── AuthSamples.Platform.Shared/           # Constants, settings, result pattern
+│   │   ├── BackgroundJobs/                        # Hangfire-based job scheduling
+│   │   │   ├── Abstractions/                      # IBackgroundJobService interface
+│   │   │   ├── Infrastructure.Hangfire/           # Hangfire implementation
+│   │   │   └── Composition/                       # DI registration
+│   │   └── Notifications/                         # Email notifications
+│   │       ├── Abstractions/                      # IEmailService interface
+│   │       ├── Infrastructure.SendGrid/           # SendGrid implementation
+│   │       └── Composition/                       # DI registration
 │   └── Modules/Auth/
 │       ├── Domain/                   # Business entities, value objects, interfaces
 │       ├── Application/              # Use cases, DTOs, CQRS handlers
 │       ├── Infrastructure/           # Data access, AWS Cognito service
 │       ├── Presentation/             # Minimal API endpoints and models
 │       └── Composition/              # Module entry point (wires all layers)
-├── tests/                            # Test projects (195 tests)
+├── tests/                            # Test projects (206 tests)
 └── docs/                             # Documentation
 ```
 
@@ -76,3 +86,49 @@ The system separates core user identity from IdP-specific data:
 - AWS SDK for .NET (Cognito)
 - Serilog, Swagger/Swashbuckle
 - Docker with multi-stage builds
+
+## Platform Services
+
+Cross-cutting services available to all modules via the Platform layer.
+
+### Background Jobs (Hangfire)
+
+```csharp
+// Inject IBackgroundJobService
+public class MyHandler(IBackgroundJobService jobs)
+{
+    // Fire-and-forget
+    jobs.Enqueue<IMyService>(s => s.DoWork());
+
+    // Delayed execution
+    jobs.Schedule<IMyService>(s => s.DoWork(), TimeSpan.FromMinutes(5));
+
+    // Recurring jobs
+    jobs.AddOrUpdateRecurring<IMyService>("job-id", s => s.DoWork(), "0 * * * *");
+}
+```
+
+Dashboard: `/hangfire`
+
+### Notifications (SendGrid)
+
+```csharp
+// Inject IEmailService
+public class MyHandler(IEmailService email)
+{
+    await email.SendEmailAsync(new EmailMessage
+    {
+        To = "user@example.com",
+        Subject = "Welcome",
+        HtmlBody = "<h1>Hello</h1>"
+    });
+
+    // Templated emails
+    await email.SendTemplatedEmailAsync(new TemplatedEmailMessage
+    {
+        To = "user@example.com",
+        TemplateId = "d-abc123",
+        DynamicData = new { name = "User" }
+    });
+}
+```

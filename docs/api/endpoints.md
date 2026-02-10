@@ -4,7 +4,153 @@ Base URL: `http://localhost:5000`
 
 Swagger UI: `http://localhost:5000/swagger`
 
-## Authentication Endpoints
+Hangfire Dashboard: `http://localhost:5000/hangfire` (Background Jobs Monitoring)
+
+## OAuth 2.0 Endpoints (Recommended)
+
+OAuth 2.0 Authorization Code flow with PKCE via Cognito Managed Login.
+
+### Initiate Authorization
+```http
+GET /api/v1/auth/oauth/authorize
+```
+
+Query parameters:
+- `redirect_uri` (optional) - Custom redirect URI
+- `response_mode` (optional) - Set to `json` to return URL instead of redirecting (for SPAs)
+
+Redirects to Cognito Hosted UI, or returns JSON if `response_mode=json`:
+```json
+{
+  "success": true,
+  "data": {
+    "authorizationUrl": "https://cognito.../oauth2/authorize?...",
+    "state": "abc123"
+  }
+}
+```
+
+### OAuth Callback
+```http
+GET /api/v1/auth/oauth/callback
+```
+
+Query parameters:
+- `code` - Authorization code from IdP
+- `state` - State parameter for CSRF protection
+- `redirect_to` (optional) - Frontend URL to redirect with tokens
+
+Returns tokens or redirects to frontend with tokens in URL fragment.
+
+### Get User Info (Requires Auth)
+```http
+GET /api/v1/auth/oauth/userinfo
+Authorization: Bearer <access_token>
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "sub": "abc123",
+    "email": "user@example.com",
+    "emailVerified": true,
+    "name": "Test User",
+    "givenName": "Test",
+    "familyName": "User"
+  }
+}
+```
+
+### OAuth Logout
+```http
+GET /api/v1/auth/oauth/logout
+```
+
+Query parameters:
+- `post_logout_redirect_uri` (optional) - URL to redirect after logout
+
+Header (optional):
+- `X-Id-Token` - ID token for logout hint
+
+Redirects to Cognito logout endpoint.
+
+### OAuth Logout Callback
+```http
+GET /api/v1/auth/oauth/logout-callback
+```
+
+Handles post-logout callback.
+
+---
+
+## Email Verification Endpoints
+
+### Verify Email (Public)
+```http
+POST /api/v1/auth/email/verify
+Content-Type: application/json
+
+{
+  "userIdentityId": "guid",
+  "token": "verification-token",  // OR
+  "code": "123456"                // 6-digit code
+}
+```
+
+### Verify Email from Link (Public)
+```http
+GET /api/v1/auth/email/verify?token=xxx&uid=guid
+```
+
+### Send Verification Email (Requires Auth)
+```http
+POST /api/v1/user/email/send-verification
+Authorization: Bearer <access_token>
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "message": "Verification email sent successfully",
+    "expiresAt": "2026-01-15T12:00:00Z"
+  }
+}
+```
+
+### Resend Verification Email (Requires Auth)
+```http
+POST /api/v1/user/email/resend-verification
+Authorization: Bearer <access_token>
+```
+
+Rate limited to 3 per hour.
+
+### Get Verification Status (Requires Auth)
+```http
+GET /api/v1/user/email/verification-status
+Authorization: Bearer <access_token>
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "email": "user@example.com",
+    "emailVerified": true
+  }
+}
+```
+
+---
+
+## Legacy Authentication Endpoints
+
+> **Note**: Direct login is deprecated. Use OAuth 2.0 endpoints above for new integrations.
 
 ### Register User
 ```http
