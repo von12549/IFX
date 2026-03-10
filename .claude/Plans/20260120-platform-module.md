@@ -14,17 +14,17 @@ Create a Platform module for cross-cutting services (background jobs, notificati
 
 ```
 /src/Platform/
-├── AuthSamples.Platform.Shared/                    # Common types
+├── IFX.Platform.Shared/                    # Common types
 │
 ├── BackgroundJobs/
-│   ├── AuthSamples.Platform.BackgroundJobs.Abstractions/
-│   ├── AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire/
-│   └── AuthSamples.Platform.BackgroundJobs.Composition/
+│   ├── IFX.Platform.BackgroundJobs.Abstractions/
+│   ├── IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/
+│   └── IFX.Platform.BackgroundJobs.Composition/
 │
 └── Notifications/
-    ├── AuthSamples.Platform.Notifications.Abstractions/
-    ├── AuthSamples.Platform.Notifications.Infrastructure.SendGrid/
-    └── AuthSamples.Platform.Notifications.Composition/
+    ├── IFX.Platform.Notifications.Abstractions/
+    ├── IFX.Platform.Notifications.Infrastructure.SendGrid/
+    └── IFX.Platform.Notifications.Composition/
 ```
 
 ### Dependency Flow
@@ -65,7 +65,7 @@ Create a Platform module for cross-cutting services (background jobs, notificati
 
 ## Project Details
 
-### 1. AuthSamples.Platform.Shared
+### 1. IFX.Platform.Shared
 
 Common types shared across platform modules.
 
@@ -82,7 +82,7 @@ Common types shared across platform modules.
 
 ### 2. BackgroundJobs Module
 
-#### 2.1 AuthSamples.Platform.BackgroundJobs.Abstractions
+#### 2.1 IFX.Platform.BackgroundJobs.Abstractions
 
 Interfaces for background job operations.
 
@@ -100,7 +100,7 @@ public interface IBackgroundJobService
 
 **References**: Platform.Shared
 
-#### 2.2 AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire
+#### 2.2 IFX.Platform.BackgroundJobs.Infrastructure.Hangfire
 
 Hangfire implementation of background job interfaces.
 
@@ -109,7 +109,7 @@ Hangfire implementation of background job interfaces.
 - Hangfire.Core
 - Hangfire.SqlServer (or Hangfire.AspNetCore)
 
-#### 2.3 AuthSamples.Platform.BackgroundJobs.Composition
+#### 2.3 IFX.Platform.BackgroundJobs.Composition
 
 DI registration and configuration.
 
@@ -135,7 +135,7 @@ public static class BackgroundJobsServiceCollectionExtensions
 
 ### 3. Notifications Module
 
-#### 3.1 AuthSamples.Platform.Notifications.Abstractions
+#### 3.1 IFX.Platform.Notifications.Abstractions
 
 Interfaces for notification operations.
 
@@ -159,7 +159,7 @@ public record EmailRecipient(string Email, string? Name = null);
 
 **References**: Platform.Shared
 
-#### 3.2 AuthSamples.Platform.Notifications.Infrastructure.SendGrid
+#### 3.2 IFX.Platform.Notifications.Infrastructure.SendGrid
 
 SendGrid implementation of notification interfaces.
 
@@ -167,7 +167,7 @@ SendGrid implementation of notification interfaces.
 - Notifications.Abstractions
 - SendGrid
 
-#### 3.3 AuthSamples.Platform.Notifications.Composition
+#### 3.3 IFX.Platform.Notifications.Composition
 
 DI registration and configuration.
 
@@ -195,7 +195,7 @@ public static class NotificationsServiceCollectionExtensions
 ### Phase 1: Project Scaffolding (Current)
 - [ ] Create folder structure
 - [ ] Create empty .csproj files with correct references
-- [ ] Add projects to AuthSamples.sln
+- [ ] Add projects to IFX.sln
 - [ ] Verify solution builds
 
 ### Phase 2: BackgroundJobs Implementation (Future)
@@ -221,16 +221,16 @@ public static class NotificationsServiceCollectionExtensions
 
 ## Solution File Changes
 
-Add to `AuthSamples.sln`:
+Add to `IFX.sln`:
 
 ```
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.Shared", "src\Platform\AuthSamples.Platform.Shared\AuthSamples.Platform.Shared.csproj"
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.BackgroundJobs.Abstractions", "src\Platform\BackgroundJobs\AuthSamples.Platform.BackgroundJobs.Abstractions\AuthSamples.Platform.BackgroundJobs.Abstractions.csproj"
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire", "src\Platform\BackgroundJobs\AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire\AuthSamples.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj"
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.BackgroundJobs.Composition", "src\Platform\BackgroundJobs\AuthSamples.Platform.BackgroundJobs.Composition\AuthSamples.Platform.BackgroundJobs.Composition.csproj"
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.Notifications.Abstractions", "src\Platform\Notifications\AuthSamples.Platform.Notifications.Abstractions\AuthSamples.Platform.Notifications.Abstractions.csproj"
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.Notifications.Infrastructure.SendGrid", "src\Platform\Notifications\AuthSamples.Platform.Notifications.Infrastructure.SendGrid\AuthSamples.Platform.Notifications.Infrastructure.SendGrid.csproj"
-Project("{FAE04EC0-...}") = "AuthSamples.Platform.Notifications.Composition", "src\Platform\Notifications\AuthSamples.Platform.Notifications.Composition\AuthSamples.Platform.Notifications.Composition.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.Shared", "src\Platform\IFX.Platform.Shared\IFX.Platform.Shared.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.BackgroundJobs.Abstractions", "src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Abstractions\IFX.Platform.BackgroundJobs.Abstractions.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire", "src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.BackgroundJobs.Composition", "src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Composition\IFX.Platform.BackgroundJobs.Composition.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.Notifications.Abstractions", "src\Platform\Notifications\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.Notifications.Infrastructure.SendGrid", "src\Platform\Notifications\IFX.Platform.Notifications.Infrastructure.SendGrid\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj"
+Project("{FAE04EC0-...}") = "IFX.Platform.Notifications.Composition", "src\Platform\Notifications\IFX.Platform.Notifications.Composition\IFX.Platform.Notifications.Composition.csproj"
 ```
 
 ---

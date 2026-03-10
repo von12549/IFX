@@ -1,6 +1,6 @@
 # AWS Cognito Setup Guide
 
-This guide will walk you through setting up AWS Cognito for use with the AuthSamples application.
+This guide will walk you through setting up AWS Cognito for use with the IFX application.
 
 ## Prerequisites
 
@@ -106,7 +106,7 @@ After creating the user pool, you need to extract the following values:
 
 ### Option 1: Using appsettings.json (Development)
 
-Update `src/Modules/Cognito/AuthSamples.Modules.Cognito.API/appsettings.json`:
+Update `src/Modules/Cognito/IFX.Modules.Cognito.API/appsettings.json`:
 
 ```json
 {

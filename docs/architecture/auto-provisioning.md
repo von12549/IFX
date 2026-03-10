@@ -1,6 +1,6 @@
 # SSO Auto-Provisioning Strategy & Flow
 
-This document describes the current auto-provisioning mechanism for SSO users in AuthSamples.
+This document describes the current auto-provisioning mechanism for SSO users in IFX.
 
 ## Overview
 

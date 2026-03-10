@@ -11,24 +11,24 @@ Testing approach, project structure, and patterns.
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
-| `AuthSamples.Tests.Common` | Shared utilities, builders, fixtures | - |
-| `AuthSamples.Modules.Auth.Domain.Tests` | Entity and value object tests | 96 |
-| `AuthSamples.Modules.Auth.Application.Tests` | Validator and behavior tests | 63 |
-| `AuthSamples.Modules.Auth.Infrastructure.Tests` | Repository tests | 9 |
-| `AuthSamples.Modules.Auth.Presentation.Tests` | Extension method tests | 10 |
+| `IFX.Tests.Common` | Shared utilities, builders, fixtures | - |
+| `IFX.Modules.Auth.Domain.Tests` | Entity and value object tests | 96 |
+| `IFX.Modules.Auth.Application.Tests` | Validator and behavior tests | 63 |
+| `IFX.Modules.Auth.Infrastructure.Tests` | Repository tests | 9 |
+| `IFX.Modules.Auth.Presentation.Tests` | Extension method tests | 10 |
 
 ### Platform Module Tests (28 tests)
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
-| `AuthSamples.Platform.BackgroundJobs.Tests` | Hangfire service tests | 11 |
-| `AuthSamples.Platform.Notifications.Tests` | Email service tests | 17 |
+| `IFX.Platform.BackgroundJobs.Tests` | Hangfire service tests | 11 |
+| `IFX.Platform.Notifications.Tests` | Email service tests | 17 |
 
 ### Integration Tests
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
-| `AuthSamples.IntegrationTests` | End-to-end API tests | 17 |
+| `IFX.IntegrationTests` | End-to-end API tests | 17 |
 
 **Total: 206 unit tests + 17 integration tests**
 
@@ -188,17 +188,17 @@ public class AuthEndpointTests : IClassFixture<CustomWebApplicationFactory>
 
 ```bash
 # All unit tests (excludes integration tests)
-dotnet test AuthSamples.sln --filter "FullyQualifiedName!~IntegrationTests"
+dotnet test IFX.sln --filter "FullyQualifiedName!~IntegrationTests"
 
 # All tests including integration
-dotnet test AuthSamples.sln
+dotnet test IFX.sln
 
 # Specific project
-dotnet test tests/AuthSamples.Modules.Auth.Domain.Tests
+dotnet test tests/IFX.Modules.Auth.Domain.Tests
 
 # Platform tests only
-dotnet test tests/AuthSamples.Platform.BackgroundJobs.Tests
-dotnet test tests/AuthSamples.Platform.Notifications.Tests
+dotnet test tests/IFX.Platform.BackgroundJobs.Tests
+dotnet test tests/IFX.Platform.Notifications.Tests
 
 # With coverage
 dotnet test --collect:"XPlat Code Coverage"

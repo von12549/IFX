@@ -17,10 +17,10 @@ Defines the architectural invariants and patterns that must always hold in this 
 ## Pattern: Modular Monolithic + Clean Architecture + Minimal APIs
 
 ```
-AuthSamples/
+IFX/
 ├── src/
 │   ├── ApiHost/
-│   │   └── AuthSamples.ApiHost/      # Host application (references Composition + Abstractions)
+│   │   └── IFX.ApiHost/      # Host application (references Composition + Abstractions)
 │   ├── BuildingBlocks/
 │   │   └── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
 │   └── Modules/Auth/

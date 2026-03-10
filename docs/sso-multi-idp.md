@@ -1,6 +1,6 @@
 # SSO Multi-IdP Authentication
 
-AuthSamples supports dynamic multi-IdP (Identity Provider) authentication, allowing tokens from any configured identity provider to be validated and users to be auto-provisioned.
+IFX supports dynamic multi-IdP (Identity Provider) authentication, allowing tokens from any configured identity provider to be validated and users to be auto-provisioned.
 
 ## Overview
 

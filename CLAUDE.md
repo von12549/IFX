@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with this repository.
 
 ## Project Overview
 
-**AuthSamples** is a production-ready ASP.NET Core 8 authentication solution with:
+**IFX** is a production-ready ASP.NET Core 8 authentication solution with:
 - Clean Architecture (Domain → Application → Infrastructure → Presentation)
 - CQRS pattern using MediatR
 - OAuth 2.0 Authorization Code flow with PKCE (Cognito Managed Login)
@@ -47,16 +47,16 @@ This file provides guidance to Claude Code when working with this repository.
 
 ### Build & Run
 ```bash
-dotnet build AuthSamples.sln          # Build
-dotnet test AuthSamples.sln           # Test (206 unit tests)
+dotnet build IFX.sln          # Build
+dotnet test IFX.sln           # Test (206 unit tests)
 docker-compose up -d                   # Run with Docker
 ```
 
 ### EF Core Migrations
 ```bash
-cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef migrations add Name --startup-project ../../../ApiHost/AuthSamples.ApiHost
-dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
+cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
+dotnet ef migrations add Name --startup-project ../../../ApiHost/IFX.ApiHost
+dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 ```
 
 ### API Endpoints

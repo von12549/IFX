@@ -1,4 +1,4 @@
-# AuthSamples
+# IFX
 
 A production-ready ASP.NET Core 8 authentication solution with Clean Architecture, CQRS, dynamic multi-IdP SSO, and comprehensive audit trail.
 
@@ -38,9 +38,9 @@ See [Getting Started](docs/development/getting-started.md) for detailed setup.
 
 ```
 src/
-├── ApiHost/AuthSamples.ApiHost/     # Host application
+├── ApiHost/IFX.ApiHost/     # Host application
 ├── BuildingBlocks/App.Abstractions/ # Shared interfaces
-├── WebUI/AuthSamples.WebUI/         # Demo OAuth client (HTML/JS)
+├── WebUI/IFX.WebUI/         # Demo OAuth client (HTML/JS)
 ├── Modules/Auth/
 │   ├── Domain/                      # Business logic
 │   ├── Application/                 # Use cases (CQRS)
@@ -48,7 +48,7 @@ src/
 │   ├── Presentation/                # API endpoints
 │   └── Composition/                 # Module entry point
 └── Platform/
-    ├── AuthSamples.Platform.Shared/ # Common platform types
+    ├── IFX.Platform.Shared/ # Common platform types
     ├── BackgroundJobs/              # Hangfire background job service
     │   ├── Abstractions/            # IBackgroundJobService
     │   ├── Infrastructure.Hangfire/ # Hangfire implementation
@@ -58,9 +58,9 @@ src/
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
 tests/                               # 206 unit tests
-├── AuthSamples.Modules.Auth.*/      # Auth module tests (178)
-├── AuthSamples.Platform.BackgroundJobs.Tests/  # Hangfire tests (11)
-└── AuthSamples.Platform.Notifications.Tests/   # Email service tests (17)
+├── IFX.Modules.Auth.*/      # Auth module tests (178)
+├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire tests (11)
+└── IFX.Platform.Notifications.Tests/   # Email service tests (17)
 ```
 
 ## API Overview
@@ -144,17 +144,17 @@ Configuration in `appsettings.json`:
 
 ```bash
 # Build
-dotnet build AuthSamples.sln
+dotnet build IFX.sln
 
 # Test (206 unit tests)
-dotnet test AuthSamples.sln
+dotnet test IFX.sln
 
 # Run API locally
-cd src/ApiHost/AuthSamples.ApiHost
+cd src/ApiHost/IFX.ApiHost
 dotnet run
 
 # Run Demo UI (optional)
-cd src/WebUI/AuthSamples.WebUI
+cd src/WebUI/IFX.WebUI
 python -m http.server 3000
 # Open http://localhost:3000
 ```

@@ -1,18 +1,18 @@
 # Architecture Overview
 
-AuthSamples follows a **Modular Monolithic + Clean Architecture** pattern with Minimal APIs.
+IFX follows a **Modular Monolithic + Clean Architecture** pattern with Minimal APIs.
 
 ## Project Structure
 
 ```
-AuthSamples/
+IFX/
 ├── src/
 │   ├── ApiHost/
-│   │   └── AuthSamples.ApiHost/      # Host app (middleware, startup, health checks)
+│   │   └── IFX.ApiHost/      # Host app (middleware, startup, health checks)
 │   ├── BuildingBlocks/
 │   │   └── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
 │   ├── Platform/                     # Cross-cutting platform services
-│   │   ├── AuthSamples.Platform.Shared/           # Constants, settings, result pattern
+│   │   ├── IFX.Platform.Shared/           # Constants, settings, result pattern
 │   │   ├── BackgroundJobs/                        # Hangfire-based job scheduling
 │   │   │   ├── Abstractions/                      # IBackgroundJobService interface
 │   │   │   ├── Infrastructure.Hangfire/           # Hangfire implementation

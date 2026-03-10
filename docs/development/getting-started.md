@@ -35,12 +35,12 @@ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong@Pass123' \
 
 ### 2. Configure Application
 
-Update `src/ApiHost/AuthSamples.ApiHost/appsettings.Development.json`:
+Update `src/ApiHost/IFX.ApiHost/appsettings.Development.json`:
 
 ```json
 {
   "ConnectionStrings": {
-    "AuthDatabase": "Server=localhost,11433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True"
+    "AuthDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True"
   },
   "CognitoSettings": {
     "UserPoolId": "your-user-pool-id",
@@ -54,14 +54,14 @@ Update `src/ApiHost/AuthSamples.ApiHost/appsettings.Development.json`:
 ### 3. Apply Migrations
 
 ```bash
-cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
+cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
+dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 ```
 
 ### 4. Run the API
 
 ```bash
-cd src/ApiHost/AuthSamples.ApiHost
+cd src/ApiHost/IFX.ApiHost
 dotnet run
 ```
 
@@ -69,13 +69,13 @@ dotnet run
 
 ```bash
 # Build
-dotnet build AuthSamples.sln
+dotnet build IFX.sln
 
 # Run all 195 tests
-dotnet test AuthSamples.sln
+dotnet test IFX.sln
 
 # Run specific test project
-dotnet test tests/AuthSamples.Modules.Auth.Domain.Tests
+dotnet test tests/IFX.Modules.Auth.Domain.Tests
 ```
 
 ## AWS Cognito Setup

@@ -1,4 +1,4 @@
--- Initialize databases for AuthSamples
+-- Initialize databases for IFX
 -- This script runs on SQL Server container startup
 
 -- Create BackgroundJobsDb for Hangfire
@@ -9,10 +9,10 @@ BEGIN
 END
 GO
 
--- Create AuthSamplesDb if not exists (for completeness)
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'AuthSamplesDb')
+-- Create IFXDb if not exists (for completeness)
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'IFXDb')
 BEGIN
-    CREATE DATABASE AuthSamplesDb;
-    PRINT 'Created AuthSamplesDb database';
+    CREATE DATABASE IFXDb;
+    PRINT 'Created IFXDb database';
 END
 GO
