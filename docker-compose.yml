@@ -3,7 +3,7 @@ version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: auth-sqlserver
+    container_name: ifx-sqlserver
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=${DB_PASSWORD:-YourStrong@Pass123}
@@ -20,11 +20,11 @@ services:
       retries: 10
       start_period: 30s
     networks:
-      - auth-network
+      - ifx-network
 
   sqlserver-init:
     image: mcr.microsoft.com/mssql-tools:latest
-    container_name: auth-sqlserver-init
+    container_name: ifx-sqlserver-init
     depends_on:
       sqlserver:
         condition: service_healthy
@@ -34,13 +34,13 @@ services:
       - ./docker/init-databases.sql:/init-databases.sql:ro
     command: /bin/bash -c '/opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P "$${DB_PASSWORD}" -i /init-databases.sql -C'
     networks:
-      - auth-network
+      - ifx-network
 
   auth-api:
     build:
       context: .
       dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile
-    container_name: auth-api
+    container_name: IFX-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
@@ -56,8 +56,8 @@ services:
       - CognitoOidcSettings__Domain=${COGNITO_OIDC_DOMAIN}
       - CognitoOidcSettings__ClientId=${COGNITO_CLIENT_ID}
       - CognitoOidcSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
-      - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL:-http://localhost:5000/api/v1/auth/oauth/callback}
-      - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL:-http://localhost:5000/api/v1/auth/oauth/logout-callback}
+      - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/callback}
+      - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/logout-callback}
       - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL:-http://localhost:3000}
       # AWS credentials
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
@@ -77,16 +77,16 @@ services:
       # Email Verification
       - EmailVerification__TokenValidityMinutes=${EMAIL_VERIFICATION_TOKEN_VALIDITY:-60}
       - EmailVerification__MaxResendsPerHour=${EMAIL_VERIFICATION_MAX_RESENDS:-3}
-      - EmailVerification__VerificationBaseUrl=${EMAIL_VERIFICATION_BASE_URL:-http://localhost:5000/api/v1/auth/email/verify}
+      - EmailVerification__VerificationBaseUrl=${EMAIL_VERIFICATION_BASE_URL:-http://localhost:5010/api/v1/auth/email/verify}
     ports:
-      - "5000:8080"
+      - "5010:8080"
     volumes:
       - ./logs:/app/logs
     depends_on:
       sqlserver:
         condition: service_healthy
     networks:
-      - auth-network
+      - ifx-network
     restart: unless-stopped
 
 volumes:
@@ -94,5 +94,5 @@ volumes:
     driver: local
 
 networks:
-  auth-network:
+  ifx-network:
     driver: bridge
