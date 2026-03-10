@@ -1,7 +1,7 @@
 // API Configuration
 const CONFIG = {
     // Base URL of the Auth API
-    API_BASE_URL: 'http://localhost:5000',
+    API_BASE_URL: 'http://localhost:5010',
 
     // OAuth endpoints
     ENDPOINTS: {

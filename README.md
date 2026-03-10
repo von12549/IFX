@@ -28,8 +28,8 @@ cd AuthSample
 docker-compose up -d
 
 # Access
-# API: http://localhost:5000
-# Swagger: http://localhost:5000/swagger
+# API: http://localhost:5010
+# Swagger: http://localhost:5010/swagger
 ```
 
 See [Getting Started](docs/development/getting-started.md) for detailed setup.

@@ -4,10 +4,10 @@ A simple OAuth 2.0 demo client for testing the Cognito Managed Login flow.
 
 ## Prerequisites
 
-1. Backend API running at `http://localhost:5000`
+1. Backend API running at `http://localhost:5010`
 2. Cognito User Pool configured with:
    - Domain set up
-   - Callback URL: `http://localhost:5000/api/v1/auth/oauth/callback`
+   - Callback URL: `http://localhost:5010/api/v1/auth/oauth/callback`
 
 ## Running the UI
 
@@ -44,7 +44,7 @@ Edit `config.js` to change the API base URL:
 
 ```javascript
 const CONFIG = {
-    API_BASE_URL: 'http://localhost:5000',
+    API_BASE_URL: 'http://localhost:5010',
     // ...
 };
 ```

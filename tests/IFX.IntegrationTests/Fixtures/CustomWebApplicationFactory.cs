@@ -36,8 +36,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 ["CognitoOidcSettings:Domain"] = "test-domain.auth.us-east-1.amazoncognito.com",
                 ["CognitoOidcSettings:ClientId"] = "test-client-id",
                 ["CognitoOidcSettings:ClientSecret"] = "test-client-secret",
-                ["CognitoOidcSettings:CallbackUrl"] = "http://localhost:5000/api/v1/auth/oauth/callback",
-                ["CognitoOidcSettings:LogoutCallbackUrl"] = "http://localhost:5000/api/v1/auth/oauth/logout",
+                ["CognitoOidcSettings:CallbackUrl"] = "http://localhost:5010/api/v1/auth/oauth/callback",
+                ["CognitoOidcSettings:LogoutCallbackUrl"] = "http://localhost:5010/api/v1/auth/oauth/logout",
                 ["CognitoOidcSettings:FrontendCallbackUrl"] = "http://localhost:3000/callback",
                 // Disable background jobs for testing
                 ["BackgroundJobs:Enabled"] = "false",

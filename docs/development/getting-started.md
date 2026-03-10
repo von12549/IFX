@@ -19,8 +19,8 @@ cp .env.example .env
 docker-compose up -d
 
 # 3. Access the API
-# API: http://localhost:5000
-# Swagger: http://localhost:5000/swagger
+# API: http://localhost:5010
+# Swagger: http://localhost:5010/swagger
 ```
 
 ## Local Development (Without Docker)

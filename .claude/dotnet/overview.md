@@ -45,7 +45,7 @@ docker-compose down                     # Stop services
 
 # Without Docker
 cd src/ApiHost/IFX.ApiHost
-dotnet run                              # Run API (localhost:5000)
+dotnet run                              # Run API (localhost:5010)
 ```
 
 ---

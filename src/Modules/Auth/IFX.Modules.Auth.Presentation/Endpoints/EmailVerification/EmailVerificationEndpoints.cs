@@ -142,7 +142,7 @@ public static class EmailVerificationEndpoints
         var userName = user?.DisplayName ?? "User";
 
         // Build verification link
-        var baseUrl = configuration["EmailVerification:VerificationBaseUrl"] ?? "http://localhost:5000/api/v1/auth/email/verify";
+        var baseUrl = configuration["EmailVerification:VerificationBaseUrl"] ?? "http://localhost:5010/api/v1/auth/email/verify";
         var verificationLink = $"{baseUrl}?token={result.Value!.Token}&uid={result.Value.UserIdentityId}";
 
         // Build email content
@@ -223,7 +223,7 @@ public static class EmailVerificationEndpoints
         var userName = user?.DisplayName ?? "User";
 
         // Build verification link
-        var baseUrl = configuration["EmailVerification:VerificationBaseUrl"] ?? "http://localhost:5000/api/v1/auth/email/verify";
+        var baseUrl = configuration["EmailVerification:VerificationBaseUrl"] ?? "http://localhost:5010/api/v1/auth/email/verify";
         var verificationLink = $"{baseUrl}?token={result.Value!.Token}&uid={result.Value.UserIdentityId}";
 
         // Build email content
