@@ -1,10 +1,10 @@
 # API Endpoints Reference
 
-Base URL: `http://localhost:5000`
+Base URL: `http://localhost:5010`
 
-Swagger UI: `http://localhost:5000/swagger`
+Swagger UI: `http://localhost:5010/swagger`
 
-Hangfire Dashboard: `http://localhost:5000/hangfire` (Background Jobs Monitoring)
+Hangfire Dashboard: `http://localhost:5010/hangfire` (Background Jobs Monitoring)
 
 ## OAuth 2.0 Endpoints (Recommended)
 

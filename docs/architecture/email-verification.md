@@ -1,6 +1,6 @@
 # Email Verification Strategy & Flow
 
-This document describes the email verification mechanism in AuthSamples.
+This document describes the email verification mechanism in IFX.
 
 ## Overview
 

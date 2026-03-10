@@ -18,7 +18,7 @@ This document summarizes the three-phase migration from a single Cognito-specifi
 
 **Changes**:
 - ✅ Renamed module from `Cognito` to `Auth` (200+ files)
-- ✅ Renamed namespaces: `AuthSamples.Modules.Cognito.*` → `AuthSamples.Modules.Auth.*`
+- ✅ Renamed namespaces: `IFX.Modules.Cognito.*` → `IFX.Modules.Auth.*`
 - ✅ Renamed database schema: `cognito` → `auth`
 - ✅ Renamed DbContext: `CognitoDbContext` → `AuthDbContext`
 - ✅ Updated Docker configuration
@@ -481,7 +481,7 @@ UserIdentity Entity ←──────┘
 ### Phase 1 Rollback
 ```bash
 # Restore database
-RESTORE DATABASE AuthSamplesDb FROM DISK = 'D:\Backups\AuthSamplesDb_BeforePhase1.bak';
+RESTORE DATABASE IFXDb FROM DISK = 'D:\Backups\IFXDb_BeforePhase1.bak';
 
 # Revert code
 git reset --hard phase0-complete
@@ -489,8 +489,8 @@ git reset --hard phase0-complete
 
 ### Phase 2 Rollback (Before dropping UsersBackup)
 ```bash
-dotnet ef database update [PreviousMigration] --startup-project ../AuthSamples.Modules.Auth.API
-dotnet ef migrations remove --startup-project ../AuthSamples.Modules.Auth.API
+dotnet ef database update [PreviousMigration] --startup-project ../IFX.Modules.Auth.API
+dotnet ef migrations remove --startup-project ../IFX.Modules.Auth.API
 ```
 
 ### Phase 3 Rollback

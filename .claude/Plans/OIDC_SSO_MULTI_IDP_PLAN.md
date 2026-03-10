@@ -1,7 +1,7 @@
 # OIDC/SSO Multi-IdP Implementation Plan
 
 ## Overview
-Enable the AuthSamples API to accept access tokens from multiple Identity Providers configured in the database `Idps` table, with automatic user provisioning for new SSO users.
+Enable the IFX API to accept access tokens from multiple Identity Providers configured in the database `Idps` table, with automatic user provisioning for new SSO users.
 
 ## Requirements
 1. Accept `access_token` from any enabled IdP in the `Idps` table
@@ -51,17 +51,17 @@ This plan follows the project's Clean Architecture + CQRS patterns:
 ## Phase 1: IdP Configuration Service (ApiHost - Cross-cutting)
 
 ### New Files
-- `src/ApiHost/AuthSamples.ApiHost/Authentication/IdpConfigurationEntry.cs`
-- `src/ApiHost/AuthSamples.ApiHost/Authentication/IIdpConfigurationService.cs`
-- `src/ApiHost/AuthSamples.ApiHost/Authentication/IdpConfigurationService.cs`
+- `src/ApiHost/IFX.ApiHost/Authentication/IdpConfigurationEntry.cs`
+- `src/ApiHost/IFX.ApiHost/Authentication/IIdpConfigurationService.cs`
+- `src/ApiHost/IFX.ApiHost/Authentication/IdpConfigurationService.cs`
 
 ### Implementation
 
 **IdpConfigurationEntry.cs**
 ```csharp
-using AuthSamples.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Enums;
 
-namespace AuthSamples.ApiHost.Authentication;
+namespace IFX.ApiHost.Authentication;
 
 public class IdpConfigurationEntry
 {
@@ -80,7 +80,7 @@ public class IdpConfigurationEntry
 
 **IIdpConfigurationService.cs**
 ```csharp
-namespace AuthSamples.ApiHost.Authentication;
+namespace IFX.ApiHost.Authentication;
 
 public interface IIdpConfigurationService
 {
@@ -92,7 +92,7 @@ public interface IIdpConfigurationService
 
 **IdpConfigurationService.cs**
 ```csharp
-namespace AuthSamples.ApiHost.Authentication;
+namespace IFX.ApiHost.Authentication;
 
 public class IdpConfigurationService : IIdpConfigurationService
 {
@@ -170,13 +170,13 @@ public class IdpConfigurationService : IIdpConfigurationService
 ## Phase 2: Dynamic JWT Bearer Events (ApiHost - Cross-cutting)
 
 ### New File
-- `src/ApiHost/AuthSamples.ApiHost/Authentication/DynamicJwtBearerEvents.cs`
+- `src/ApiHost/IFX.ApiHost/Authentication/DynamicJwtBearerEvents.cs`
 
 ### Implementation
 
 **DynamicJwtBearerEvents.cs**
 ```csharp
-namespace AuthSamples.ApiHost.Authentication;
+namespace IFX.ApiHost.Authentication;
 
 public class DynamicJwtBearerEvents : JwtBearerEvents
 {
@@ -261,21 +261,21 @@ public class DynamicJwtBearerEvents : JwtBearerEvents
 ## Phase 3: SSO User Provisioning Command (Auth.Application - CQRS)
 
 ### New Files
-- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommand.cs`
-- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs`
-- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandValidator.cs`
-- `src/Modules/Auth/AuthSamples.Modules.Auth.Application/DTOs/ProvisionSsoUserResponse.cs`
+- `src/Modules/Auth/IFX.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommand.cs`
+- `src/Modules/Auth/IFX.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs`
+- `src/Modules/Auth/IFX.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandValidator.cs`
+- `src/Modules/Auth/IFX.Modules.Auth.Application/DTOs/ProvisionSsoUserResponse.cs`
 
 ### Implementation
 
 **ProvisionSsoUserCommand.cs**
 ```csharp
-using AuthSamples.Modules.Auth.Application.Common;
-using AuthSamples.Modules.Auth.Application.DTOs;
-using AuthSamples.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Domain.Enums;
 using MediatR;
 
-namespace AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
+namespace IFX.Modules.Auth.Application.Commands.ProvisionSsoUser;
 
 public record ProvisionSsoUserCommand(
     Guid IdpId,
@@ -291,7 +291,7 @@ public record ProvisionSsoUserCommand(
 
 **ProvisionSsoUserResponse.cs**
 ```csharp
-namespace AuthSamples.Modules.Auth.Application.DTOs;
+namespace IFX.Modules.Auth.Application.DTOs;
 
 public record ProvisionSsoUserResponse
 {
@@ -305,7 +305,7 @@ public record ProvisionSsoUserResponse
 ```csharp
 using FluentValidation;
 
-namespace AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
+namespace IFX.Modules.Auth.Application.Commands.ProvisionSsoUser;
 
 public class ProvisionSsoUserCommandValidator : AbstractValidator<ProvisionSsoUserCommand>
 {
@@ -322,16 +322,16 @@ public class ProvisionSsoUserCommandValidator : AbstractValidator<ProvisionSsoUs
 
 **ProvisionSsoUserCommandHandler.cs**
 ```csharp
-using AuthSamples.Modules.Auth.Application.Common;
-using AuthSamples.Modules.Auth.Application.DTOs;
-using AuthSamples.Modules.Auth.Application.Interfaces;
-using AuthSamples.Modules.Auth.Domain.Entities;
-using AuthSamples.Modules.Auth.Domain.Enums;
-using AuthSamples.Modules.Auth.Domain.ValueObjects;
+using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace AuthSamples.Modules.Auth.Application.Commands.ProvisionSsoUser;
+namespace IFX.Modules.Auth.Application.Commands.ProvisionSsoUser;
 
 public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCommand, Result<ProvisionSsoUserResponse>>
 {

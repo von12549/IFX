@@ -56,16 +56,16 @@ Database schema, migrations, and EF Core patterns for this project.
 **IMPORTANT:** Always run from Infrastructure directory with startup project flag.
 
 ```bash
-cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
+cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
 
 # Create migration
-dotnet ef migrations add MigrationName --startup-project ../../../ApiHost/AuthSamples.ApiHost
+dotnet ef migrations add MigrationName --startup-project ../../../ApiHost/IFX.ApiHost
 
 # Apply migrations
-dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
+dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 
 # Remove last migration (if not applied)
-dotnet ef migrations remove --startup-project ../../../ApiHost/AuthSamples.ApiHost
+dotnet ef migrations remove --startup-project ../../../ApiHost/IFX.ApiHost
 ```
 
 **Rule:** Always include `--startup-project` flag - DbContext is in Infrastructure but config is in ApiHost.

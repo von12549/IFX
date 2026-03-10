@@ -2,18 +2,18 @@
 
 ## Overview
 
-This document outlines the comprehensive testing strategy for the AuthSamples solution, covering unit tests for all layers and integration tests for end-to-end API testing.
+This document outlines the comprehensive testing strategy for the IFX solution, covering unit tests for all layers and integration tests for end-to-end API testing.
 
 ## Test Project Structure
 
 ```
 tests/
-├── AuthSamples.Modules.Auth.Domain.Tests/           # Domain layer unit tests
-├── AuthSamples.Modules.Auth.Application.Tests/      # Application layer unit tests
-├── AuthSamples.Modules.Auth.Infrastructure.Tests/   # Infrastructure layer tests
-├── AuthSamples.Modules.Auth.Presentation.Tests/     # Presentation layer unit tests
-├── AuthSamples.IntegrationTests/                    # End-to-end API integration tests
-└── AuthSamples.Tests.Common/                        # Shared test utilities & fixtures
+├── IFX.Modules.Auth.Domain.Tests/           # Domain layer unit tests
+├── IFX.Modules.Auth.Application.Tests/      # Application layer unit tests
+├── IFX.Modules.Auth.Infrastructure.Tests/   # Infrastructure layer tests
+├── IFX.Modules.Auth.Presentation.Tests/     # Presentation layer unit tests
+├── IFX.IntegrationTests/                    # End-to-end API integration tests
+└── IFX.Tests.Common/                        # Shared test utilities & fixtures
 ```
 
 ## Naming Conventions
@@ -325,7 +325,7 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - run: dotnet test tests/AuthSamples.IntegrationTests
+      - run: dotnet test tests/IFX.IntegrationTests
 ```
 
 ## Key Challenges and Mitigations

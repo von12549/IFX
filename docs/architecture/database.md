@@ -123,11 +123,11 @@ General activity tracking.
 ## Migrations
 
 ```bash
-cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
+cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
 
 # Create migration
-dotnet ef migrations add MigrationName --startup-project ../../../ApiHost/AuthSamples.ApiHost
+dotnet ef migrations add MigrationName --startup-project ../../../ApiHost/IFX.ApiHost
 
 # Apply migrations
-dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
+dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 ```

@@ -24,13 +24,13 @@ Technology stack and build/run commands for this .NET 8 solution.
 
 ```bash
 # Build entire solution
-dotnet build AuthSamples.sln
+dotnet build IFX.sln
 
 # Production build
 dotnet build -c Release
 
 # Run tests
-dotnet test AuthSamples.sln
+dotnet test IFX.sln
 ```
 
 ---
@@ -44,8 +44,8 @@ docker-compose logs -f auth-api         # View logs
 docker-compose down                     # Stop services
 
 # Without Docker
-cd src/ApiHost/AuthSamples.ApiHost
-dotnet run                              # Run API (localhost:5000)
+cd src/ApiHost/IFX.ApiHost
+dotnet run                              # Run API (localhost:5010)
 ```
 
 ---
@@ -59,17 +59,17 @@ dotnet run                              # Run API (localhost:5000)
 docker-compose up sqlserver -d
 
 # 2. Apply migrations
-cd src/Modules/Auth/AuthSamples.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../../../ApiHost/AuthSamples.ApiHost
+cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
+dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 
 # 3. Run API
-cd ../../../ApiHost/AuthSamples.ApiHost
+cd ../../../ApiHost/IFX.ApiHost
 dotnet run
 ```
 
 Connection string for local development:
 ```json
-"AuthDatabase": "Server=localhost,11433;Database=AuthSamplesDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True"
+"AuthDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True"
 ```
 
 ---

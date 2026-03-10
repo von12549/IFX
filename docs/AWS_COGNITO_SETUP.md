@@ -1,6 +1,6 @@
 # AWS Cognito Setup Guide
 
-This guide will walk you through setting up AWS Cognito for use with the AuthSamples application.
+This guide will walk you through setting up AWS Cognito for use with the IFX application.
 
 ## Prerequisites
 
@@ -106,7 +106,7 @@ After creating the user pool, you need to extract the following values:
 
 ### Option 1: Using appsettings.json (Development)
 
-Update `src/Modules/Cognito/AuthSamples.Modules.Cognito.API/appsettings.json`:
+Update `src/Modules/Cognito/IFX.Modules.Cognito.API/appsettings.json`:
 
 ```json
 {
@@ -137,7 +137,7 @@ COGNITO_REGION=us-east-1
 ### 1. Test User Registration
 
 ```bash
-curl -X POST http://localhost:5000/api/v1/auth/register \
+curl -X POST http://localhost:5010/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -165,7 +165,7 @@ For production, users receive this via email automatically.
 ### 4. Confirm Registration
 
 ```bash
-curl -X POST http://localhost:5000/api/v1/auth/confirm \
+curl -X POST http://localhost:5010/api/v1/auth/confirm \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -176,7 +176,7 @@ curl -X POST http://localhost:5000/api/v1/auth/confirm \
 ### 5. Test Login
 
 ```bash
-curl -X POST http://localhost:5000/api/v1/auth/login \
+curl -X POST http://localhost:5010/api/v1/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",

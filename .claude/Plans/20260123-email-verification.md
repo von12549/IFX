@@ -1,6 +1,6 @@
 # Email Verification Plan
 
-This document outlines the implementation plan for email verification functionality in AuthSamples.
+This document outlines the implementation plan for email verification functionality in IFX.
 
 ## Overview
 
@@ -64,7 +64,7 @@ EmailVerified updated to true
 #### New Entity: EmailVerificationToken
 
 ```csharp
-namespace AuthSamples.Modules.Auth.Domain.Entities;
+namespace IFX.Modules.Auth.Domain.Entities;
 
 public class EmailVerificationToken : BaseEntity, IAuditableEntity
 {

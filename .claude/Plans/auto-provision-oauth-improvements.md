@@ -70,7 +70,7 @@ VALUES (NEWID(), 'Pending', 'User with incomplete registration', GETUTCDATE(), G
 
 ### Step 2: Update GetOrProvisionUserQuery
 
-**File:** `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Queries/GetOrProvisionUser/GetOrProvisionUserQuery.cs`
+**File:** `src/Modules/Auth/IFX.Modules.Auth.Application/Queries/GetOrProvisionUser/GetOrProvisionUserQuery.cs`
 
 **Before:**
 ```csharp
@@ -107,7 +107,7 @@ public record GetOrProvisionUserQuery(
 
 ### Step 3: Update GetOrProvisionUserQueryHandler
 
-**File:** `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Queries/GetOrProvisionUser/GetOrProvisionUserQueryHandler.cs`
+**File:** `src/Modules/Auth/IFX.Modules.Auth.Application/Queries/GetOrProvisionUser/GetOrProvisionUserQueryHandler.cs`
 
 **Changes:**
 
@@ -235,7 +235,7 @@ private class UserInfoResponse
 
 ### Step 4: Update ProvisionSsoUserCommandHandler
 
-**File:** `src/Modules/Auth/AuthSamples.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs`
+**File:** `src/Modules/Auth/IFX.Modules.Auth.Application/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs`
 
 **Change:** Always assign "Pending" role instead of User/SsoUser.
 
@@ -269,7 +269,7 @@ var activityLog = UserActivityLog.Create(
 
 ### Step 5: Update UserRoleClaimsTransformation
 
-**File:** `src/ApiHost/AuthSamples.ApiHost/Authorization/UserRoleClaimsTransformation.cs`
+**File:** `src/ApiHost/IFX.ApiHost/Authorization/UserRoleClaimsTransformation.cs`
 
 **Change:** Pass access token instead of extracting claims.
 

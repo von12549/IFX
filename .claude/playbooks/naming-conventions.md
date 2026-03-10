@@ -48,15 +48,15 @@ This document defines the mandatory naming conventions for all code artifacts in
 
 ### Module Namespace Pattern
 ```
-AuthSamples.Modules.{Module}.{Layer}
+IFX.Modules.{Module}.{Layer}
 ```
 
 | Layer | Namespace | Example |
 |-------|-----------|---------|
-| Domain | `.Domain` | `AuthSamples.Modules.Auth.Domain` |
-| Application | `.Application` | `AuthSamples.Modules.Auth.Application` |
-| Infrastructure | `.Infrastructure` | `AuthSamples.Modules.Auth.Infrastructure` |
-| Presentation | `.Presentation` | `AuthSamples.Modules.Auth.Presentation` |
+| Domain | `.Domain` | `IFX.Modules.Auth.Domain` |
+| Application | `.Application` | `IFX.Modules.Auth.Application` |
+| Infrastructure | `.Infrastructure` | `IFX.Modules.Auth.Infrastructure` |
+| Presentation | `.Presentation` | `IFX.Modules.Auth.Presentation` |
 
 ### Folder Structure Within Layers
 

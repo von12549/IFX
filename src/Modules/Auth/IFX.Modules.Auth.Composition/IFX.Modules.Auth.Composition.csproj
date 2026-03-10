@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Auth.Application\IFX.Modules.Auth.Application.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Auth.Infrastructure\IFX.Modules.Auth.Infrastructure.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Auth.Presentation\IFX.Modules.Auth.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

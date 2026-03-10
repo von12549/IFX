@@ -1,0 +1,21 @@
+using FluentValidation;
+
+namespace IFX.Modules.Auth.Application.Commands.UpdateRole;
+
+public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
+{
+    public UpdateRoleCommandValidator()
+    {
+        RuleFor(x => x.RoleId)
+            .NotEmpty().WithMessage("RoleId is required");
+
+        RuleFor(x => x.RoleName)
+            .NotEmpty().WithMessage("Role name is required")
+            .MinimumLength(3)
+            .MaximumLength(50);
+
+        RuleFor(x => x.Description)
+            .NotEmpty().WithMessage("Description is required")
+            .MaximumLength(255);
+    }
+}

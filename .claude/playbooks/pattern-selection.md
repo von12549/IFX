@@ -20,9 +20,9 @@ This document defines when to use the **Platform Pattern** vs the **Modules Patt
 
 ```
 src/Platform/{ServiceName}/
-├── AuthSamples.Platform.{ServiceName}.Abstractions/     # Contracts only
-├── AuthSamples.Platform.{ServiceName}.Infrastructure.{Provider}/  # Implementation
-└── AuthSamples.Platform.{ServiceName}.Composition/      # DI + Configuration
+├── IFX.Platform.{ServiceName}.Abstractions/     # Contracts only
+├── IFX.Platform.{ServiceName}.Infrastructure.{Provider}/  # Implementation
+└── IFX.Platform.{ServiceName}.Composition/      # DI + Configuration
 ```
 
 **Characteristics:**
@@ -35,11 +35,11 @@ src/Platform/{ServiceName}/
 
 ```
 src/Modules/{ModuleName}/
-├── AuthSamples.Modules.{ModuleName}.Domain/           # Pure business logic
-├── AuthSamples.Modules.{ModuleName}.Application/      # CQRS operations
-├── AuthSamples.Modules.{ModuleName}.Infrastructure/   # Data access
-├── AuthSamples.Modules.{ModuleName}.Presentation/     # HTTP endpoints
-└── AuthSamples.Modules.{ModuleName}.Composition/      # Module installer
+├── IFX.Modules.{ModuleName}.Domain/           # Pure business logic
+├── IFX.Modules.{ModuleName}.Application/      # CQRS operations
+├── IFX.Modules.{ModuleName}.Infrastructure/   # Data access
+├── IFX.Modules.{ModuleName}.Presentation/     # HTTP endpoints
+└── IFX.Modules.{ModuleName}.Composition/      # Module installer
 ```
 
 **Characteristics:**
@@ -186,17 +186,17 @@ When modules need to share contracts:
 
 ```
 src/Modules/{ModuleName}/
-├── AuthSamples.Modules.{ModuleName}.Abstractions/  ← NEW
+├── IFX.Modules.{ModuleName}.Abstractions/  ← NEW
 │   ├── I{ModuleName}Service.cs
 │   └── Models/
 │       └── {Dto}s.cs
-├── AuthSamples.Modules.{ModuleName}.Domain/
+├── IFX.Modules.{ModuleName}.Domain/
 └── ...
 ```
 
 **Usage:** Other modules reference only `.Abstractions`:
 ```xml
-<ProjectReference Include="..\..\Auth\AuthSamples.Modules.Auth.Abstractions\..." />
+<ProjectReference Include="..\..\Auth\IFX.Modules.Auth.Abstractions\..." />
 ```
 
 ### Option 2: Domain Events (Loose Coupling)
@@ -218,9 +218,9 @@ public class UserCreatedHandler : INotificationHandler<UserCreatedDomainEvent>
 
 | Element | Pattern | Example |
 |---------|---------|---------|
-| Abstractions project | `AuthSamples.Platform.{Name}.Abstractions` | `AuthSamples.Platform.Caching.Abstractions` |
-| Infrastructure project | `AuthSamples.Platform.{Name}.Infrastructure.{Provider}` | `AuthSamples.Platform.Caching.Infrastructure.Redis` |
-| Composition project | `AuthSamples.Platform.{Name}.Composition` | `AuthSamples.Platform.Caching.Composition` |
+| Abstractions project | `IFX.Platform.{Name}.Abstractions` | `IFX.Platform.Caching.Abstractions` |
+| Infrastructure project | `IFX.Platform.{Name}.Infrastructure.{Provider}` | `IFX.Platform.Caching.Infrastructure.Redis` |
+| Composition project | `IFX.Platform.{Name}.Composition` | `IFX.Platform.Caching.Composition` |
 | Main interface | `I{Name}Service` | `ICacheService` |
 | Extension method | `Add{Name}()` | `AddCaching()` |
 
@@ -228,11 +228,11 @@ public class UserCreatedHandler : INotificationHandler<UserCreatedDomainEvent>
 
 | Element | Pattern | Example |
 |---------|---------|---------|
-| Domain project | `AuthSamples.Modules.{Name}.Domain` | `AuthSamples.Modules.Orders.Domain` |
-| Application project | `AuthSamples.Modules.{Name}.Application` | `AuthSamples.Modules.Orders.Application` |
-| Infrastructure project | `AuthSamples.Modules.{Name}.Infrastructure` | `AuthSamples.Modules.Orders.Infrastructure` |
-| Presentation project | `AuthSamples.Modules.{Name}.Presentation` | `AuthSamples.Modules.Orders.Presentation` |
-| Composition project | `AuthSamples.Modules.{Name}.Composition` | `AuthSamples.Modules.Orders.Composition` |
+| Domain project | `IFX.Modules.{Name}.Domain` | `IFX.Modules.Orders.Domain` |
+| Application project | `IFX.Modules.{Name}.Application` | `IFX.Modules.Orders.Application` |
+| Infrastructure project | `IFX.Modules.{Name}.Infrastructure` | `IFX.Modules.Orders.Infrastructure` |
+| Presentation project | `IFX.Modules.{Name}.Presentation` | `IFX.Modules.Orders.Presentation` |
+| Composition project | `IFX.Modules.{Name}.Composition` | `IFX.Modules.Orders.Composition` |
 | Module installer | `{Name}ModuleInstaller` | `OrdersModuleInstaller` |
 | Extension method | `Add{Name}Module()` | `AddOrdersModule()` |
 

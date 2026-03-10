@@ -37,7 +37,7 @@ Defines terms, abbreviations, and naming conventions used in this codebase.
 
 | Pattern | Example |
 |---------|---------|
-| Module namespace | `AuthSamples.Modules.Auth.{Layer}` |
+| Module namespace | `IFX.Modules.Auth.{Layer}` |
 | Command | `RegisterUserCommand` |
 | Query | `GetUserProfileQuery` |
 | Handler | `RegisterUserCommandHandler` |
