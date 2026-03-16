@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Infrastructure.Services;
+using IFX.Modules.Auth.Infrastructure.Users.Services;
 using System.Text.RegularExpressions;
 
 namespace IFX.Modules.Auth.Infrastructure.Tests.Services;

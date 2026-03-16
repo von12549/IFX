@@ -1,7 +1,7 @@
-using IFX.Modules.Auth.Application.Commands.UpdateUserProfile;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Application.Queries.GetAllUsers;
-using IFX.Modules.Auth.Presentation.Models.Requests.User;
+using IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
+using IFX.Modules.Auth.Application.Users.Queries.GetAllUsers;
+using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using IFX.Platform.BackgroundJobs.Abstractions;
 using IFX.Platform.Notifications.Abstractions;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.UserManagement;
+namespace IFX.Modules.Auth.Presentation.Users.Endpoints;
 public sealed class UserManagementEndpointsLogCategory { }
 public static class UserManagementEndpoints
 {

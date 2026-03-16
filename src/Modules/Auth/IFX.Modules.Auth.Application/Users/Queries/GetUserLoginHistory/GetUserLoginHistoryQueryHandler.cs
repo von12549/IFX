@@ -1,11 +1,12 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Queries.GetUserLoginHistory;
+namespace IFX.Modules.Auth.Application.Users.Queries.GetUserLoginHistory;
 
 public class GetUserLoginHistoryQueryHandler : IRequestHandler<GetUserLoginHistoryQuery, Result<PagedResult<LoginEventDto>>>
 {

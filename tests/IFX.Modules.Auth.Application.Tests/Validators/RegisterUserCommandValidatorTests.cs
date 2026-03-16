@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Application.Commands.RegisterUser;
+using IFX.Modules.Auth.Application.Identity.Commands.RegisterUser;
 using IFX.Tests.Common;
 using FluentValidation.TestHelper;
 

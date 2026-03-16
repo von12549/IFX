@@ -2,12 +2,12 @@ using System.Security.Cryptography;
 using System.Text;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Infrastructure.Configuration;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Infrastructure.Identity.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IFX.Modules.Auth.Infrastructure.Services;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Services;
 
 public class CognitoService : ICognitoService
 {

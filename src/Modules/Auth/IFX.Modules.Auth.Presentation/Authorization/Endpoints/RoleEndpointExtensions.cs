@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.Role;
+namespace IFX.Modules.Auth.Presentation.Authorization.Endpoints;
 
 public static class RoleEndpointExtensions
 {

@@ -1,7 +1,7 @@
 using IFX.Modules.Auth.Domain.Common;
-using IFX.Modules.Auth.Domain.ValueObjects;
+using IFX.Modules.Auth.Domain.Users;
 
-namespace IFX.Modules.Auth.Domain.Entities;
+namespace IFX.Modules.Auth.Domain.Identity;
 
 public class UserIdentity : BaseEntity, IAuditableEntity
 {

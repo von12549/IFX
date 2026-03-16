@@ -1,12 +1,12 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Authorization;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Commands.AddRole;
+namespace IFX.Modules.Auth.Application.Authorization.Commands.AddRole;
 
 public class AddRoleCommandHandler : IRequestHandler<AddRoleCommand, Result<UserRoleDto>>
 {

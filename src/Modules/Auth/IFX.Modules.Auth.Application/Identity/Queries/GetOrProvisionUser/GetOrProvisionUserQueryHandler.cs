@@ -1,14 +1,15 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using IFX.Modules.Auth.Application.Commands.ProvisionSsoUser;
+using IFX.Modules.Auth.Application.Identity.Commands.ProvisionSsoUser;
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Queries.GetOrProvisionUser;
+namespace IFX.Modules.Auth.Application.Identity.Queries.GetOrProvisionUser;
 
 public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUserQuery, Result<UserAuthResult>>
 {

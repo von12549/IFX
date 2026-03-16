@@ -1,11 +1,10 @@
-using IFX.Modules.Auth.Application.Commands.ResendEmailVerification;
-using IFX.Modules.Auth.Application.Commands.SendEmailVerification;
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Entities;
-using IFX.Modules.Auth.Domain.Enums;
-using IFX.Modules.Auth.Domain.Interfaces.Repositories;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
 using IFX.Tests.Common;
 using IFX.Tests.Common.Builders;
 using MediatR;

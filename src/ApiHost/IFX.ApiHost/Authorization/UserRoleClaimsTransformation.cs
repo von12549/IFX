@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using IFX.ApiHost.Authentication;
-using IFX.Modules.Auth.Application.Queries.GetOrProvisionUser;
+using IFX.Modules.Auth.Application.Identity.Queries.GetOrProvisionUser;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 

@@ -1,8 +1,9 @@
-using IFX.Modules.Auth.Domain.Entities;
-using IFX.Modules.Auth.Domain.Interfaces.Repositories;
+using IFX.Modules.Auth.Infrastructure.Persistence;
+using IFX.Modules.Auth.Domain.Identity;
+// Repository interface is in IFX.Modules.Auth.Domain.Identity
 using Microsoft.EntityFrameworkCore;
 
-namespace IFX.Modules.Auth.Infrastructure.Persistence.Repositories;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Repositories;
 
 public class UserIdentityRepository : IUserIdentityRepository
 {

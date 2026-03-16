@@ -13,7 +13,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
-- **206 Unit Tests** - Comprehensive test coverage across all layers
+- **252 Unit Tests** - Comprehensive test coverage across all layers
 - **Docker Support** - Containerized deployment with docker-compose
 - **Demo UI** - Simple HTML/JS client for testing OAuth flow
 
@@ -43,9 +43,22 @@ src/
 ├── WebUI/IFX.WebUI/         # Demo OAuth client (HTML/JS)
 ├── Modules/Auth/
 │   ├── Domain/                      # Business logic
+│   │   ├── Users/                   # User entity, profile, activity
+│   │   ├── Identity/                # Auth, tokens, IdP, email verification
+│   │   └── Authorization/           # Roles, role assignments
 │   ├── Application/                 # Use cases (CQRS)
+│   │   ├── Users/                   # User commands/queries
+│   │   ├── Identity/                # Auth/IdP commands/queries
+│   │   └── Authorization/           # Role commands/queries
 │   ├── Infrastructure/              # Data access, AWS, OIDC
+│   │   ├── Users/                   # User repositories & services
+│   │   ├── Identity/                # Cognito/OIDC services & repositories
+│   │   ├── Authorization/           # Role repositories
+│   │   └── Persistence/             # DbContext, migrations
 │   ├── Presentation/                # API endpoints
+│   │   ├── Users/                   # User & user-management endpoints
+│   │   ├── Identity/                # Auth, OAuth, IdP endpoints
+│   │   └── Authorization/           # Role endpoints
 │   └── Composition/                 # Module entry point
 └── Platform/
     ├── IFX.Platform.Shared/ # Common platform types
@@ -57,8 +70,8 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 206 unit tests
-├── IFX.Modules.Auth.*/      # Auth module tests (178)
+tests/                               # 252 unit tests
+├── IFX.Modules.Auth.*/      # Auth module tests (224)
 ├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire tests (11)
 └── IFX.Platform.Notifications.Tests/   # Email service tests (17)
 ```
@@ -146,7 +159,7 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build IFX.sln
 
-# Test (206 unit tests)
+# Test (252 unit tests)
 dotnet test IFX.sln
 
 # Run API locally

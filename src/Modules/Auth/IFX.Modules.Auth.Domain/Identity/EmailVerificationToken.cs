@@ -1,6 +1,6 @@
 using IFX.Modules.Auth.Domain.Common;
 
-namespace IFX.Modules.Auth.Domain.Entities;
+namespace IFX.Modules.Auth.Domain.Identity;
 
 public class EmailVerificationToken : BaseEntity, IAuditableEntity
 {

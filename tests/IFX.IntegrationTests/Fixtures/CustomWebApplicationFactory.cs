@@ -1,5 +1,5 @@
 using App.Abstractions;
-using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Platform.BackgroundJobs.Abstractions;
 using IFX.Platform.Notifications.Abstractions;
@@ -169,9 +169,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         // Seed default user role
         if (!db.UserRoles.Any())
         {
-            var userRole = IFX.Modules.Auth.Domain.Entities.UserRole.Create("User", "Standard user role");
-            var adminRole = IFX.Modules.Auth.Domain.Entities.UserRole.Create("Admin", "Administrator role");
-            var ssoRole = IFX.Modules.Auth.Domain.Entities.UserRole.Create("SsoUser", "SSO user role");
+            var userRole = IFX.Modules.Auth.Domain.Authorization.UserRole.Create("User", "Standard user role");
+            var adminRole = IFX.Modules.Auth.Domain.Authorization.UserRole.Create("Admin", "Administrator role");
+            var ssoRole = IFX.Modules.Auth.Domain.Authorization.UserRole.Create("SsoUser", "SSO user role");
 
             db.UserRoles.AddRange(userRole, adminRole, ssoRole);
             db.SaveChanges();
@@ -180,7 +180,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         // Seed default IdP (IFX Cognito)
         if (!db.Idps.Any())
         {
-            var idp = IFX.Modules.Auth.Domain.Entities.Idp.Create(
+            var idp = IFX.Modules.Auth.Domain.Identity.Idp.Create(
                 name: "IFX Cognito",
                 issuer: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
                 authority: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",

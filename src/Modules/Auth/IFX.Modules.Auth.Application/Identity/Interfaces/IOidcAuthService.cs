@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Application.Interfaces;
+namespace IFX.Modules.Auth.Application.Identity.Interfaces;
 
 /// <summary>
 /// Service for OIDC OAuth 2.0 authorization code flow operations

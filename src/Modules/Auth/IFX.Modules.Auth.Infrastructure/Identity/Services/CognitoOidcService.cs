@@ -2,13 +2,13 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Infrastructure.Configuration;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Infrastructure.Identity.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IFX.Modules.Auth.Infrastructure.Services;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Services;
 
 public class CognitoOidcService : IOidcAuthService
 {

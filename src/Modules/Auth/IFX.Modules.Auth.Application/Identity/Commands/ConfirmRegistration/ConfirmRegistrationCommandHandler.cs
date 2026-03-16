@@ -1,11 +1,12 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Users;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Commands.ConfirmRegistration;
+namespace IFX.Modules.Auth.Application.Identity.Commands.ConfirmRegistration;
 
 public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistrationCommand, Result<ConfirmRegistrationResponse>>
 {
@@ -65,7 +66,7 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
             }
 
             // Create UserActivityLog
-            var activityLog = Domain.Entities.UserActivityLog.Create(
+            var activityLog = UserActivityLog.Create(
                 user.Id,
                 ActivityType.RegistrationConfirmed,
                 "User registration confirmed",

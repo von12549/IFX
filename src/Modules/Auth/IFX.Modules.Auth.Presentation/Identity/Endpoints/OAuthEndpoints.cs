@@ -1,11 +1,11 @@
-using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.OAuth;
+namespace IFX.Modules.Auth.Presentation.Identity.Endpoints;
 
 public sealed class OAuthEndpointsLogCategory { }
 

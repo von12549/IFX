@@ -1,7 +1,7 @@
 using IFX.Modules.Auth.Application.Common;
 using MediatR;
 
-namespace IFX.Modules.Auth.Application.Commands.LogoutUser;
+namespace IFX.Modules.Auth.Application.Identity.Commands.LogoutUser;
 
 public record LogoutUserCommand(
     string Issuer,

@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Application.Interfaces;
+namespace IFX.Modules.Auth.Application.Identity.Interfaces;
 
 /// <summary>
 /// Service for discovering OpenID Connect configuration from identity providers

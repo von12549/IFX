@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using IFX.IntegrationTests.Fixtures;
-using IFX.Modules.Auth.Presentation.Models.Requests.Auth;
+using IFX.Modules.Auth.Presentation.Identity.Requests;
 using IFX.Tests.Common;
 
 namespace IFX.IntegrationTests.Endpoints;

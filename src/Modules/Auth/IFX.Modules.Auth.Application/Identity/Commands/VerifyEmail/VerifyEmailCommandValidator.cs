@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.VerifyEmail;
+namespace IFX.Modules.Auth.Application.Identity.Commands.VerifyEmail;
 
 public class VerifyEmailCommandValidator : AbstractValidator<VerifyEmailCommand>
 {

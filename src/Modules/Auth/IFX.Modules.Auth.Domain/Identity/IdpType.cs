@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Domain.Enums;
+namespace IFX.Modules.Auth.Domain.Identity;
 
 public enum IdpType
 {

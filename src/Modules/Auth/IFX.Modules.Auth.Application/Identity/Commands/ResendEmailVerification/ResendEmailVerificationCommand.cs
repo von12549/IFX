@@ -1,8 +1,8 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
 using MediatR;
 
-namespace IFX.Modules.Auth.Application.Commands.ResendEmailVerification;
+namespace IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
 
 public record ResendEmailVerificationCommand(
     Guid UserIdentityId,

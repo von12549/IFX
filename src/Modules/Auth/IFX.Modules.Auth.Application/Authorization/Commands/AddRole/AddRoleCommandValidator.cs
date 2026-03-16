@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.AddRole;
+namespace IFX.Modules.Auth.Application.Authorization.Commands.AddRole;
 
 public class AddRoleCommandValidator : AbstractValidator<AddRoleCommand>
 {

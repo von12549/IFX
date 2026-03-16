@@ -1,7 +1,7 @@
 using IFX.Modules.Auth.Domain.Common;
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Users;
 
-namespace IFX.Modules.Auth.Domain.Entities;
+namespace IFX.Modules.Auth.Domain.Identity;
 
 public class RegistrationFlowEvent : BaseEntity
 {

@@ -21,6 +21,7 @@ This file provides guidance to Claude Code when working with this repository.
 3. **Users identified by `(Issuer, Subject)` tuple** - not email alone
 4. **One handler per command/query** - no shared handlers
 5. **Result pattern for expected failures** - exceptions for unexpected errors
+6. **Auth module has three internal subdomains** - Users, Identity, Authorization; new code goes in the correct subdomain folder
 
 ## Instruction Index
 
@@ -42,13 +43,14 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/playbooks/git-workflow.md` | Git branching, commits, PR workflow |
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 | `/.claude/playbooks/pattern-selection.md` | Platform vs Modules pattern decision guide |
+| `/.claude/Plans/20260316-auth-subdomain-refactor.md` | Auth module subdomain structure (Users, Identity, Authorization) |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (206 unit tests)
+dotnet test IFX.sln           # Test (252 unit tests)
 docker-compose up -d                   # Run with Docker
 ```
 

@@ -1,4 +1,5 @@
-namespace IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Authorization.DTOs;
+namespace IFX.Modules.Auth.Application.Users.DTOs;
 
 public class UserProfileDto
 {

@@ -1,7 +1,8 @@
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Infrastructure.Services;
+namespace IFX.Modules.Auth.Infrastructure.Users.Services;
 
 public class EmailVerificationCleanupService : IEmailVerificationCleanupService
 {

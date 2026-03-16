@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Application.Commands.LoginUser;
+using IFX.Modules.Auth.Application.Identity.Commands.LoginUser;
 using IFX.Tests.Common;
 using FluentValidation.TestHelper;
 

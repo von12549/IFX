@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Application.DTOs;
+namespace IFX.Modules.Auth.Application.Authorization.DTOs;
 
 public class UserRoleDto
 {

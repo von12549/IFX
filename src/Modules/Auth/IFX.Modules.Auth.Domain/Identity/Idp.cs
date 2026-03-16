@@ -1,7 +1,7 @@
 using IFX.Modules.Auth.Domain.Common;
-using IFX.Modules.Auth.Domain.Enums;
+// IdpType is in same namespace (IFX.Modules.Auth.Domain.Identity)
 
-namespace IFX.Modules.Auth.Domain.Entities;
+namespace IFX.Modules.Auth.Domain.Identity;
 
 public class Idp : BaseEntity, IAuditableEntity
 {

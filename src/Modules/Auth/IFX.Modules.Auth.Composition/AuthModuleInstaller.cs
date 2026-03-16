@@ -1,13 +1,9 @@
 using App.Abstractions;
 using IFX.Modules.Auth.Application;
 using IFX.Modules.Auth.Infrastructure;
-using IFX.Modules.Auth.Presentation.Endpoints.Auth;
-using IFX.Modules.Auth.Presentation.Endpoints.Idp;
-using IFX.Modules.Auth.Presentation.Endpoints.OAuth;
-using IFX.Modules.Auth.Presentation.Endpoints.Role;
-using IFX.Modules.Auth.Presentation.Endpoints.User;
-using IFX.Modules.Auth.Presentation.Endpoints.UserManagement;
-using IFX.Modules.Auth.Presentation.Endpoints.EmailVerification;
+using IFX.Modules.Auth.Presentation.Authorization.Endpoints;
+using IFX.Modules.Auth.Presentation.Identity.Endpoints;
+using IFX.Modules.Auth.Presentation.Users.Endpoints;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

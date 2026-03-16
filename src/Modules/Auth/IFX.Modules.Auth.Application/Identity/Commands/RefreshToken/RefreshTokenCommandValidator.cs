@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.RefreshToken;
+namespace IFX.Modules.Auth.Application.Identity.Commands.RefreshToken;
 
 public class RefreshTokenCommandValidator : AbstractValidator<RefreshTokenCommand>
 {

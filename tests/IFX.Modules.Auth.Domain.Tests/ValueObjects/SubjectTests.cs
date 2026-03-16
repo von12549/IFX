@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.ValueObjects;
+using IFX.Modules.Auth.Domain.Identity;
 using IFX.Tests.Common;
 
 namespace IFX.Modules.Auth.Domain.Tests.ValueObjects;

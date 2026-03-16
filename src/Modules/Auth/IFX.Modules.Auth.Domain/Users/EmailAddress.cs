@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace IFX.Modules.Auth.Domain.ValueObjects;
+namespace IFX.Modules.Auth.Domain.Users;
 
 public class EmailAddress : IEquatable<EmailAddress>
 {

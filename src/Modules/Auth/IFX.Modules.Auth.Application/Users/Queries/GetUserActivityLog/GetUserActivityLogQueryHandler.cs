@@ -1,11 +1,11 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Queries.GetUserActivityLog;
+namespace IFX.Modules.Auth.Application.Users.Queries.GetUserActivityLog;
 
 public class GetUserActivityLogQueryHandler : IRequestHandler<GetUserActivityLogQuery, Result<PagedResult<UserActivityDto>>>
 {

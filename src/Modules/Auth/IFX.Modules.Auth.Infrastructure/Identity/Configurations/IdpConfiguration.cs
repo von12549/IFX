@@ -1,8 +1,8 @@
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IFX.Modules.Auth.Infrastructure.Persistence.Configurations;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Configurations;
 
 public class IdpConfiguration : IEntityTypeConfiguration<Idp>
 {
@@ -32,7 +32,7 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
 
         builder.Property(i => i.IdpType)
             .IsRequired()
-            .HasDefaultValue(Domain.Enums.IdpType.Internal)
+            .HasDefaultValue(IdpType.Internal)
             .HasConversion<string>()
             .HasMaxLength(20);
 

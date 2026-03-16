@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.LogoutUser;
+namespace IFX.Modules.Auth.Application.Identity.Commands.LogoutUser;
 
 public class LogoutUserCommandValidator : AbstractValidator<LogoutUserCommand>
 {

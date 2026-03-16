@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Tests.Common;
 using IFX.Tests.Common.Builders;
 

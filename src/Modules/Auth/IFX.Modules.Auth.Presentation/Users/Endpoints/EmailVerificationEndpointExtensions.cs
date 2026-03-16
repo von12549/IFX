@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.EmailVerification;
+namespace IFX.Modules.Auth.Presentation.Users.Endpoints;
 
 public static class EmailVerificationEndpointExtensions
 {

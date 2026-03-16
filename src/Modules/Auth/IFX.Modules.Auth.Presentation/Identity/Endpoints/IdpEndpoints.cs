@@ -1,15 +1,15 @@
-using IFX.Modules.Auth.Application.Commands.CreateIdp;
-using IFX.Modules.Auth.Application.Commands.UpdateIdp;
-using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Application.Queries.GetAllIdps;
-using IFX.Modules.Auth.Presentation.Models.Requests.Idp;
+using IFX.Modules.Auth.Application.Identity.Commands.CreateIdp;
+using IFX.Modules.Auth.Application.Identity.Commands.UpdateIdp;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Queries.GetAllIdps;
+using IFX.Modules.Auth.Presentation.Identity.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.Idp;
+namespace IFX.Modules.Auth.Presentation.Identity.Endpoints;
 
 public sealed class IdpEndpointsLogCategory { }
 public static class IdpEndpoints

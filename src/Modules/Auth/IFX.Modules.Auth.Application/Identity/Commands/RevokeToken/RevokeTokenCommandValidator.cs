@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.RevokeToken;
+namespace IFX.Modules.Auth.Application.Identity.Commands.RevokeToken;
 
 public class RevokeTokenCommandValidator : AbstractValidator<RevokeTokenCommand>
 {

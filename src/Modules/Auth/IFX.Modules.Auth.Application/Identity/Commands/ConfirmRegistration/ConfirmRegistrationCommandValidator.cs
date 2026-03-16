@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.ConfirmRegistration;
+namespace IFX.Modules.Auth.Application.Identity.Commands.ConfirmRegistration;
 
 public class ConfirmRegistrationCommandValidator : AbstractValidator<ConfirmRegistrationCommand>
 {

@@ -1,11 +1,12 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Commands.UpdateIdp;
+namespace IFX.Modules.Auth.Application.Identity.Commands.UpdateIdp;
 
 public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<IdpDto>>
 {

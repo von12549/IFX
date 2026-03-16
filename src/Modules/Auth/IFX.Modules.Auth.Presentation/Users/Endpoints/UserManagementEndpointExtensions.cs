@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.UserManagement;
+namespace IFX.Modules.Auth.Presentation.Users.Endpoints;
 
 public static class UserManagementEndpointExtensions
 {

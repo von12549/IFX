@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace IFX.Modules.Auth.Presentation.Models.Requests.User;
+namespace IFX.Modules.Auth.Presentation.Users.Requests;
 
 public class UpdateUserProfileRequest
 {

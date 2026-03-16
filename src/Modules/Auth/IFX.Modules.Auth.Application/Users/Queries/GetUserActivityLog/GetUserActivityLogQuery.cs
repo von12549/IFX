@@ -1,8 +1,8 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Users.DTOs;
 using MediatR;
 
-namespace IFX.Modules.Auth.Application.Queries.GetUserActivityLog;
+namespace IFX.Modules.Auth.Application.Users.Queries.GetUserActivityLog;
 
 public record GetUserActivityLogQuery(
     string Issuer,

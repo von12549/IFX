@@ -1,4 +1,6 @@
-using IFX.Modules.Auth.Domain.Interfaces.Repositories;
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
 
 namespace IFX.Modules.Auth.Application.Interfaces;
 
