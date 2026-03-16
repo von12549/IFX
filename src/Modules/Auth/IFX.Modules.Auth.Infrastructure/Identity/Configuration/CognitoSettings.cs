@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Infrastructure.Configuration;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Configuration;
 
 public class CognitoSettings
 {

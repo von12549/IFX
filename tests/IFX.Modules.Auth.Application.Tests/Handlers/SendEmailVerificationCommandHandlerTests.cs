@@ -1,7 +1,8 @@
-using IFX.Modules.Auth.Application.Commands.SendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Entities;
-using IFX.Modules.Auth.Domain.Interfaces.Repositories;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
 using IFX.Tests.Common;
 using IFX.Tests.Common.Builders;
 using Microsoft.Extensions.Logging;
@@ -189,7 +190,7 @@ public class SendEmailVerificationCommandHandlerTests
         // Assert
         capturedLog.Should().NotBeNull();
         capturedLog!.UserId.Should().Be(userIdentity.UserId);
-        capturedLog.ActivityType.Should().Be(Domain.Enums.ActivityType.EmailVerificationSent);
+        capturedLog.ActivityType.Should().Be(Domain.Users.ActivityType.EmailVerificationSent);
     }
 
     [Fact]

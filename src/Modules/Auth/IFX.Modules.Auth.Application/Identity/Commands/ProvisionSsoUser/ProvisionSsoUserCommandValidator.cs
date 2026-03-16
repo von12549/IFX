@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.ProvisionSsoUser;
+namespace IFX.Modules.Auth.Application.Identity.Commands.ProvisionSsoUser;
 
 public class ProvisionSsoUserCommandValidator : AbstractValidator<ProvisionSsoUserCommand>
 {

@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Identity;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 

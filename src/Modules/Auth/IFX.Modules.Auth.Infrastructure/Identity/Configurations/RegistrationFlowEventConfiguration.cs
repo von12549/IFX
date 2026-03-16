@@ -1,9 +1,10 @@
-using IFX.Modules.Auth.Domain.Entities;
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
+// RegistrationStatus is in IFX.Modules.Auth.Domain.Users (already added)
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IFX.Modules.Auth.Infrastructure.Persistence.Configurations;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Configurations;
 
 public class RegistrationFlowEventConfiguration : IEntityTypeConfiguration<RegistrationFlowEvent>
 {

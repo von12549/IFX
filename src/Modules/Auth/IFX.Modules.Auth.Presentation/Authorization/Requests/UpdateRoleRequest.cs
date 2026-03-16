@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace IFX.Modules.Auth.Presentation.Models.Requests.Role;
+namespace IFX.Modules.Auth.Presentation.Authorization.Requests;
 
 public class UpdateRoleRequest
 {

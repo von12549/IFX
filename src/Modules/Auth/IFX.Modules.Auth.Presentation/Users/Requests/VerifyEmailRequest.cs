@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Presentation.Models.Requests.EmailVerification;
+namespace IFX.Modules.Auth.Presentation.Users.Requests;
 
 public record VerifyEmailRequest(
     Guid UserIdentityId,

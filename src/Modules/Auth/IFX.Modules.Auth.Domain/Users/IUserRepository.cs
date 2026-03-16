@@ -1,6 +1,6 @@
-using IFX.Modules.Auth.Domain.Entities;
+// User is in same namespace (IFX.Modules.Auth.Domain.Users)
 
-namespace IFX.Modules.Auth.Domain.Interfaces.Repositories;
+namespace IFX.Modules.Auth.Domain.Users;
 
 public interface IUserRepository
 {

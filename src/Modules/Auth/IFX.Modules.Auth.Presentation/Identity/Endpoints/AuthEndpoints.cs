@@ -1,19 +1,19 @@
-using IFX.Modules.Auth.Application.Commands.ConfirmRegistration;
-using IFX.Modules.Auth.Application.Commands.LoginUser;
-using IFX.Modules.Auth.Application.Commands.LogoutUser;
-using IFX.Modules.Auth.Application.Commands.RefreshToken;
-using IFX.Modules.Auth.Application.Commands.RegisterUser;
-using IFX.Modules.Auth.Application.Commands.RevokeToken;
+using IFX.Modules.Auth.Application.Identity.Commands.ConfirmRegistration;
+using IFX.Modules.Auth.Application.Identity.Commands.LoginUser;
+using IFX.Modules.Auth.Application.Identity.Commands.LogoutUser;
+using IFX.Modules.Auth.Application.Identity.Commands.RefreshToken;
+using IFX.Modules.Auth.Application.Identity.Commands.RegisterUser;
+using IFX.Modules.Auth.Application.Identity.Commands.RevokeToken;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Presentation.Extensions;
-using IFX.Modules.Auth.Presentation.Models.Requests.Auth;
+using IFX.Modules.Auth.Presentation.Identity.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.Auth;
+namespace IFX.Modules.Auth.Presentation.Identity.Endpoints;
 
 public sealed class AuthEndpointsLogCategory { }
 
@@ -171,7 +171,7 @@ public static class AuthEndpoints
     {
         var ipAddress = httpContext.GetIpAddress();
 
-        var command = new Application.Commands.RevokeToken.RevokeTokenCommand(
+        var command = new RevokeTokenCommand(
             request.RefreshToken,
             Email: null, // Email is optional for revoke
             ipAddress);

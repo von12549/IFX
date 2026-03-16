@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.Idp;
+namespace IFX.Modules.Auth.Presentation.Identity.Endpoints;
 
 public static class IdpEndpointExtensions
 {

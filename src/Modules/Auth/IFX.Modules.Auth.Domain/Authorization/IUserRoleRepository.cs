@@ -1,6 +1,6 @@
-using IFX.Modules.Auth.Domain.Entities;
+// UserRole is in same namespace (IFX.Modules.Auth.Domain.Authorization)
 
-namespace IFX.Modules.Auth.Domain.Interfaces.Repositories;
+namespace IFX.Modules.Auth.Domain.Authorization;
 
 public interface IUserRoleRepository
 {

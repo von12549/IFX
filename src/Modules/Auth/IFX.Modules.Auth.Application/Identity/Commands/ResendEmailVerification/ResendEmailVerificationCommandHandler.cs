@@ -1,12 +1,13 @@
-using IFX.Modules.Auth.Application.Commands.SendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Users;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Commands.ResendEmailVerification;
+namespace IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
 
 public class ResendEmailVerificationCommandHandler : IRequestHandler<ResendEmailVerificationCommand, Result<EmailVerificationTokenInfo>>
 {

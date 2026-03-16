@@ -1,12 +1,12 @@
-using IFX.Modules.Auth.Application.Commands.SendEmailVerification;
-using IFX.Modules.Auth.Application.Commands.SyncUser;
-using IFX.Modules.Auth.Application.Commands.UpdateUserProfile;
-using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Application.Queries.GetUserActivityLog;
-using IFX.Modules.Auth.Application.Queries.GetUserLoginHistory;
-using IFX.Modules.Auth.Application.Queries.GetUserProfile;
+using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Commands.SyncUser;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
+using IFX.Modules.Auth.Application.Users.Queries.GetUserActivityLog;
+using IFX.Modules.Auth.Application.Users.Queries.GetUserLoginHistory;
+using IFX.Modules.Auth.Application.Users.Queries.GetUserProfile;
 using IFX.Modules.Auth.Presentation.Extensions;
-using IFX.Modules.Auth.Presentation.Models.Requests.User;
+using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using IFX.Platform.BackgroundJobs.Abstractions;
 using IFX.Platform.Notifications.Abstractions;
@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.User;
+namespace IFX.Modules.Auth.Presentation.Users.Endpoints;
 public sealed class UserEndpointsLogCategory { }
 public static class UserEndpoints
 {

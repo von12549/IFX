@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.CreateIdp;
+namespace IFX.Modules.Auth.Application.Identity.Commands.CreateIdp;
 
 public class CreateIdpCommandValidator : AbstractValidator<CreateIdpCommand>
 {

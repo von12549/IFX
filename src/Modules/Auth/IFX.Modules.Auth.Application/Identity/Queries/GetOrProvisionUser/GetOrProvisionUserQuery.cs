@@ -1,9 +1,9 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Domain.Identity;
 using MediatR;
 
-namespace IFX.Modules.Auth.Application.Queries.GetOrProvisionUser;
+namespace IFX.Modules.Auth.Application.Identity.Queries.GetOrProvisionUser;
 
 /// <summary>
 /// Query to get an existing user by issuer/subject or auto-provision a new user if enabled.

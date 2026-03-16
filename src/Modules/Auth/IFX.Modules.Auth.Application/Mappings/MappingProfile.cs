@@ -1,6 +1,10 @@
 using AutoMapper;
-using IFX.Modules.Auth.Application.DTOs;
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Application.Authorization.DTOs;
+using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Users.DTOs;
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
 
 namespace IFX.Modules.Auth.Application.Mappings;
 

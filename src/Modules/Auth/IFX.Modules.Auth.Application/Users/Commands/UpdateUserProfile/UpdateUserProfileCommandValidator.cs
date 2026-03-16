@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.UpdateUserProfile;
+namespace IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
 
 public class UpdateUserProfileCommandValidator : AbstractValidator<UpdateUserProfileCommand>
 {

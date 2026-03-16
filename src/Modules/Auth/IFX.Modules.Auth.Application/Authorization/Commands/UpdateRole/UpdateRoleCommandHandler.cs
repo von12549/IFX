@@ -1,11 +1,11 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Commands.UpdateRole;
+namespace IFX.Modules.Auth.Application.Authorization.Commands.UpdateRole;
 
 public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Result<UserRoleDto>>
 {

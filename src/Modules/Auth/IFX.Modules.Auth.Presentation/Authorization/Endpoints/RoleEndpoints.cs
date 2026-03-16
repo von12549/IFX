@@ -1,14 +1,14 @@
-using IFX.Modules.Auth.Application.Commands.AddRole;
-using IFX.Modules.Auth.Application.Commands.UpdateRole;
-using IFX.Modules.Auth.Application.Queries.GetAllRoles;
-using IFX.Modules.Auth.Presentation.Models.Requests.Role;
+using IFX.Modules.Auth.Application.Authorization.Commands.AddRole;
+using IFX.Modules.Auth.Application.Authorization.Commands.UpdateRole;
+using IFX.Modules.Auth.Application.Authorization.Queries.GetAllRoles;
+using IFX.Modules.Auth.Presentation.Authorization.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.Role;
+namespace IFX.Modules.Auth.Presentation.Authorization.Endpoints;
 public sealed class RoleEndpointsLogCategory { }
 public static class RoleEndpoints
 {

@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Domain.Events;
+namespace IFX.Modules.Auth.Domain.Identity.Events;
 
 public record UserLoggedOutDomainEvent(
     Guid UserId,

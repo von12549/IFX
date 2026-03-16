@@ -1,7 +1,7 @@
 using IFX.Modules.Auth.Application.Common;
 using MediatR;
 
-namespace IFX.Modules.Auth.Application.Commands.RevokeToken;
+namespace IFX.Modules.Auth.Application.Identity.Commands.RevokeToken;
 
 public record RevokeTokenCommand(
     string RefreshToken,

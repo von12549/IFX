@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Domain.Events;
+namespace IFX.Modules.Auth.Domain.Users.Events;
 
 public record RegistrationConfirmedDomainEvent(
     Guid UserId,

@@ -1,6 +1,7 @@
 using AutoFixture;
-using IFX.Modules.Auth.Domain.ValueObjects;
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
 
 namespace IFX.Tests.Common.Fixtures;
 

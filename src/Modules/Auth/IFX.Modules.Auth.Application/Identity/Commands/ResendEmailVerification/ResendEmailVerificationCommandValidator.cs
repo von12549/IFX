@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.ResendEmailVerification;
+namespace IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
 
 public class ResendEmailVerificationCommandValidator : AbstractValidator<ResendEmailVerificationCommand>
 {

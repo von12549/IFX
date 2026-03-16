@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Users;
 
 namespace IFX.Tests.Common.Builders;
 

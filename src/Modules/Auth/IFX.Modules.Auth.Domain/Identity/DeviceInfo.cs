@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Domain.ValueObjects;
+namespace IFX.Modules.Auth.Domain.Identity;
 
 public class DeviceInfo
 {

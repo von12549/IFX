@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 using System.Text;
-using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 
-namespace IFX.Modules.Auth.Infrastructure.Services;
+namespace IFX.Modules.Auth.Infrastructure.Users.Services;
 
 public class EmailVerificationService : IEmailVerificationService
 {

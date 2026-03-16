@@ -1,9 +1,10 @@
-using IFX.Modules.Auth.Application.Commands.ResendEmailVerification;
-using IFX.Modules.Auth.Application.Commands.SendEmailVerification;
-using IFX.Modules.Auth.Application.Commands.VerifyEmail;
+using IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
+using IFX.Modules.Auth.Application.Identity.Commands.VerifyEmail;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Presentation.Extensions;
-using IFX.Modules.Auth.Presentation.Models.Requests.EmailVerification;
+using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using IFX.Platform.BackgroundJobs.Abstractions;
 using IFX.Platform.Notifications.Abstractions;
@@ -14,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.EmailVerification;
+namespace IFX.Modules.Auth.Presentation.Users.Endpoints;
 
 public sealed class EmailVerificationEndpointsLogCategory { }
 

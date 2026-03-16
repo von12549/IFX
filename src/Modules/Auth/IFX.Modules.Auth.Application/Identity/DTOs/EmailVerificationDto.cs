@@ -1,4 +1,4 @@
-namespace IFX.Modules.Auth.Application.DTOs;
+namespace IFX.Modules.Auth.Application.Identity.DTOs;
 
 public record SendEmailVerificationResponse(
     string Message,

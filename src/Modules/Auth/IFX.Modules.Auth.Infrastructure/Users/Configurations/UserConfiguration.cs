@@ -1,8 +1,8 @@
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IFX.Modules.Auth.Infrastructure.Persistence.Configurations;
+namespace IFX.Modules.Auth.Infrastructure.Users.Configurations;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {

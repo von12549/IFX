@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.SyncUser;
+namespace IFX.Modules.Auth.Application.Identity.Commands.SyncUser;
 
 public class SyncUserCommandValidator : AbstractValidator<SyncUserCommand>
 {

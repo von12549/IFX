@@ -1,5 +1,7 @@
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Interfaces.Repositories;
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IFX.Modules.Auth.Infrastructure.Persistence;

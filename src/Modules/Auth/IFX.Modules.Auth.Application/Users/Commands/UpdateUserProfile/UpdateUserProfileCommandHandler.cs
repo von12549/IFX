@@ -1,14 +1,15 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Domain.Entities;
-using IFX.Modules.Auth.Domain.Enums;
-using IFX.Modules.Auth.Domain.ValueObjects;
+using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.Auth.Domain.Users;
+// ActivityType is in IFX.Modules.Auth.Domain.Users (already added above)
+// EmailAddress, Subject are in IFX.Modules.Auth.Domain.Users (already added above)
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Commands.UpdateUserProfile;
+namespace IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
 
 public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, Result<UpdateUserProfileResponse>>
 {

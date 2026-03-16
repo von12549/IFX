@@ -1,4 +1,5 @@
-namespace IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Users.DTOs;
+namespace IFX.Modules.Auth.Application.Identity.DTOs;
 
 public record LoginUserDto(
     string Email,

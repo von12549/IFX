@@ -1,11 +1,11 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.DTOs;
+using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Application.Queries.GetAllRoles;
+namespace IFX.Modules.Auth.Application.Authorization.Queries.GetAllRoles;
 
 public class GetAllRolesQueryHandler : IRequestHandler<GetAllRolesQuery, Result<List<UserRoleDto>>>
 {

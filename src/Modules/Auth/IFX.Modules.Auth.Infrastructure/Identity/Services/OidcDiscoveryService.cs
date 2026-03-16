@@ -1,10 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 
-namespace IFX.Modules.Auth.Infrastructure.Services;
+namespace IFX.Modules.Auth.Infrastructure.Identity.Services;
 
 /// <summary>
 /// Service for discovering OpenID Connect configuration from identity providers

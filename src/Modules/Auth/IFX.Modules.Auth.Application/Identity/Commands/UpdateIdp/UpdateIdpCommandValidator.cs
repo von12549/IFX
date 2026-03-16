@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace IFX.Modules.Auth.Application.Commands.UpdateIdp;
+namespace IFX.Modules.Auth.Application.Identity.Commands.UpdateIdp;
 
 public class UpdateIdpCommandValidator : AbstractValidator<UpdateIdpCommand>
 {

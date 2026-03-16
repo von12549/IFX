@@ -1,6 +1,6 @@
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Identity;
 
-namespace IFX.Modules.Auth.Application.DTOs;
+namespace IFX.Modules.Auth.Application.Identity.DTOs;
 
 public class IdpDto
 {

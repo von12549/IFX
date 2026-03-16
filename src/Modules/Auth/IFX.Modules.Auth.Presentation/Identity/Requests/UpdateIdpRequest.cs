@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using IFX.Modules.Auth.Domain.Enums;
+using IFX.Modules.Auth.Domain.Identity;
 
-namespace IFX.Modules.Auth.Presentation.Models.Requests.Idp;
+namespace IFX.Modules.Auth.Presentation.Identity.Requests;
 
 public class UpdateIdpRequest
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IFX.Modules.Auth.Presentation.Endpoints.User;
+namespace IFX.Modules.Auth.Presentation.Users.Endpoints;
 
 public static class UserEndpointExtensions
 {

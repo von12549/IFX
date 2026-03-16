@@ -1,6 +1,6 @@
-using IFX.Modules.Auth.Domain.Entities;
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Infrastructure.Authorization.Repositories;
 using IFX.Modules.Auth.Infrastructure.Persistence;
-using IFX.Modules.Auth.Infrastructure.Persistence.Repositories;
 using IFX.Tests.Common;
 using IFX.Tests.Common.Builders;
 using Microsoft.EntityFrameworkCore;

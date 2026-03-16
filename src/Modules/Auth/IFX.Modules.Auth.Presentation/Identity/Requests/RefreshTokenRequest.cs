@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace IFX.Modules.Auth.Presentation.Models.Requests.Auth;
+namespace IFX.Modules.Auth.Presentation.Identity.Requests;
 
 public class RefreshTokenRequest
 {
