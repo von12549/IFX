@@ -1,5 +1,16 @@
+# Base runtime image (used by VS for debug target and by final stage)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+# Create non-root user and logs directory
+RUN groupadd -r appuser && useradd -r -g appuser appuser \
+    && mkdir -p /app/logs && chown -R appuser:appuser /app/logs
+
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copy solution and project files
@@ -19,30 +30,16 @@ COPY . .
 
 # Build the application
 WORKDIR "/src/src/ApiHost/IFX.ApiHost"
-RUN dotnet build "IFX.ApiHost.csproj" -c Release -o /app/build
+RUN dotnet build "IFX.ApiHost.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Publish stage
 FROM build AS publish
-RUN dotnet publish "IFX.ApiHost.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "IFX.ApiHost.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+# Final runtime stage
+FROM base AS final
 WORKDIR /app
-
-# Create non-root user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
-
-# Create logs directory with proper permissions
-RUN mkdir -p /app/logs && chown -R appuser:appuser /app/logs
-
-# Copy published files
 COPY --from=publish /app/publish .
-
-# Switch to non-root user
 USER appuser
-
-# Expose ports
-EXPOSE 8080
-EXPOSE 8081
-
 ENTRYPOINT ["dotnet", "IFX.ApiHost.dll"]
