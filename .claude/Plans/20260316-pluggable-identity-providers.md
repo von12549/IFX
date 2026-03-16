@@ -359,6 +359,63 @@ All 252 tests must pass. No Cognito types should appear in Application or Domain
 |--------|------|
 | Modify | `appsettings.json` (add `Authentication:Provider = "Cognito"`) |
 | Modify | `appsettings.Development.json` (add `Authentication:Provider = "Cognito"`) |
+| Modify | `.env.example` (add `AUTHENTICATION_PROVIDER` + Auth0 variable block) |
+| Modify | `docker-compose.yml` (pass `Authentication__Provider` env var to `auth-api` service) |
+
+---
+
+## Environment and Docker Changes
+
+### Step 5b — Update `docker-compose.yml`
+
+The `auth-api` service environment block currently has no `Authentication__Provider` variable, so the provider switch in `AuthModuleInstaller` would always fall back to the default. Add it alongside the existing Cognito block:
+
+```yaml
+# Identity Provider Selection
+- Authentication__Provider=${AUTHENTICATION_PROVIDER:-Cognito}
+# AWS Cognito
+- CognitoSettings__UserPoolId=${COGNITO_USER_POOL_ID}
+...
+```
+
+The `:-Cognito` default means existing deployments that have no `AUTHENTICATION_PROVIDER` in their `.env` continue to work without any change.
+
+All existing `CognitoSettings__*` and `CognitoOidcSettings__*` entries are **unchanged** — the plan keeps the same config section names.
+
+---
+
+### Step 5c — Update `.env.example`
+
+**Current state:** `.env.example` has an `# AWS COGNITO` section and no mention of provider selection.
+
+**Changes needed:**
+
+1. Add a provider selector variable at the top of the file (before the AWS Cognito block):
+
+```dotenv
+# =============================================================================
+# IDENTITY PROVIDER
+# =============================================================================
+# Selects which identity provider implementation is active.
+# Valid values: Cognito, Auth0
+AUTHENTICATION_PROVIDER=Cognito
+```
+
+2. Add a commented-out Auth0 block after the Cognito section, so a developer switching to Auth0 knows what variables to set:
+
+```dotenv
+# =============================================================================
+# AUTH0 (set AUTHENTICATION_PROVIDER=Auth0 to use)
+# =============================================================================
+# AUTH0_DOMAIN=your-tenant.auth0.com
+# AUTH0_CLIENT_ID=your-client-id
+# AUTH0_CLIENT_SECRET=your-client-secret
+# AUTH0_AUDIENCE=https://your-api-identifier
+# AUTH0_CALLBACK_URL=http://localhost:5000/api/v1/auth/oauth/callback
+# AUTH0_LOGOUT_CALLBACK_URL=http://localhost:5000/api/v1/auth/oauth/logout-callback
+```
+
+The existing Cognito variables are **unchanged**.
 
 ---
 
@@ -411,6 +468,8 @@ IFX.Modules.Auth.Infrastructure.IdentityProviders.Auth0
 | Namespace collision after moving files | All moved files get updated namespaces; no two files share the same qualified name |
 | Tests fail after rename | Run `dotnet test` after Step 1 and Step 5; fix before proceeding |
 | Config key `Authentication:Provider` missing in test/CI environments | Default to `"Cognito"` in the switch (backward-compatible) |
+| `docker-compose.yml` omits the new env var — container uses code default | Use `${AUTHENTICATION_PROVIDER:-Cognito}` so the var is explicit in compose but safe to omit from `.env` |
+| Developer switches to Auth0 but doesn't know what env vars to set | Auth0 block in `.env.example` is commented-out documentation — no secrets, just variable names |
 
 ---
 
@@ -425,3 +484,5 @@ IFX.Modules.Auth.Infrastructure.IdentityProviders.Auth0
 - [ ] `IdentityProviders/Auth0/` contains Auth0 stub implementations
 - [ ] Setting `Authentication:Provider = Auth0` registers `Auth0IdentityProvider` and `Auth0OidcService`
 - [ ] Setting `Authentication:Provider = Cognito` registers `CognitoIdentityProvider` and `CognitoOidcService`
+- [ ] `docker-compose.yml` passes `Authentication__Provider` to `auth-api` with `:-Cognito` default
+- [ ] `.env.example` documents `AUTHENTICATION_PROVIDER` and the Auth0 variable block
