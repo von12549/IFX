@@ -32,6 +32,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 ["CognitoSettings:ClientId"] = "test-client-id",
                 ["CognitoSettings:ClientSecret"] = "test-client-secret",
                 ["CognitoSettings:Region"] = "us-east-1",
+                // Identity provider selection
+                ["Authentication:Provider"] = "Cognito",
                 // CognitoOidcSettings for OAuth
                 ["CognitoOidcSettings:Domain"] = "test-domain.auth.us-east-1.amazoncognito.com",
                 ["CognitoOidcSettings:ClientId"] = "test-client-id",
@@ -71,18 +73,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 options.UseInMemoryDatabase($"InMemoryDbForTesting_{Guid.NewGuid()}");
             });
 
-            // Remove the real Cognito service
-            var cognitoServiceDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(ICognitoService));
+            // Remove the real identity provider service
+            var identityProviderDescriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(IIdentityProvider));
 
-            if (cognitoServiceDescriptor != null)
+            if (identityProviderDescriptor != null)
             {
-                services.Remove(cognitoServiceDescriptor);
+                services.Remove(identityProviderDescriptor);
             }
 
-            // Add mock Cognito service
-            var mockCognitoService = new Mock<ICognitoService>();
-            mockCognitoService
+            // Add mock identity provider
+            var mockIdentityProvider = new Mock<IIdentityProvider>();
+            mockIdentityProvider
                 .Setup(x => x.SignUpAsync(
                     It.IsAny<string>(),
                     It.IsAny<string>(),
@@ -91,16 +93,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                     It.IsAny<string>(),
                     It.IsAny<string>(),
                     It.IsAny<string>()))
-                .ReturnsAsync(new CognitoSignUpResult
+                .ReturnsAsync(new ProviderSignUpResult
                 {
                     Success = true,
                     Subject = Guid.NewGuid().ToString(),
                     UserConfirmed = false
                 });
 
-            mockCognitoService
+            mockIdentityProvider
                 .Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(new CognitoAuthResult
+                .ReturnsAsync(new AuthTokenResult
                 {
                     Success = true,
                     AccessToken = "test-access-token",
@@ -109,7 +111,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                     ExpiresIn = 3600
                 });
 
-            services.AddSingleton(mockCognitoService.Object);
+            services.AddSingleton(mockIdentityProvider.Object);
 
             // Remove IAppMigrator to skip migrations in tests
             services.RemoveAll<IAppMigrator>();

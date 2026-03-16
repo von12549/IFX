@@ -1,6 +1,6 @@
-namespace IFX.Modules.Auth.Infrastructure.Identity.Configuration;
+namespace IFX.Modules.Auth.Infrastructure.IdentityProviders.Cognito;
 
-public class CognitoOidcSettings
+public class CognitoOidcOptions
 {
     public const string SectionName = "CognitoOidcSettings";
 

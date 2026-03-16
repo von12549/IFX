@@ -47,6 +47,8 @@ services:
       # Database connections
       - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       - ConnectionStrings__BackgroundJobsDatabase=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      # Identity Provider Selection
+      - Authentication__Provider=${AUTHENTICATION_PROVIDER:-Cognito}
       # AWS Cognito
       - CognitoSettings__UserPoolId=${COGNITO_USER_POOL_ID}
       - CognitoSettings__ClientId=${COGNITO_CLIENT_ID}

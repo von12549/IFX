@@ -14,18 +14,18 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.RefreshToken;
 
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResponse>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<RefreshTokenCommandHandler> _logger;
 
     public RefreshTokenCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         ILogger<RefreshTokenCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _logger = logger;
@@ -38,7 +38,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
         try
         {
             // Refresh token with Cognito
-            var cognitoResult = await _cognitoService.RefreshTokenAsync(request.RefreshToken, request.Username);
+            var cognitoResult = await _identityProvider.RefreshTokenAsync(request.RefreshToken, request.Username);
 
             if (!cognitoResult.Success)
             {
@@ -48,7 +48,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             }
 
             // Get user info from Cognito using the new access token
-            var cognitoUserInfo = await _cognitoService.GetUserAsync(cognitoResult.AccessToken!);
+            var cognitoUserInfo = await _identityProvider.GetUserAsync(cognitoResult.AccessToken!);
             var subject = cognitoUserInfo.Subject;
 
             if (string.IsNullOrEmpty(subject))

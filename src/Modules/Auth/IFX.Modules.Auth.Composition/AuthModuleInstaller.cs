@@ -1,6 +1,8 @@
 using App.Abstractions;
 using IFX.Modules.Auth.Application;
 using IFX.Modules.Auth.Infrastructure;
+using IFX.Modules.Auth.Infrastructure.IdentityProviders.Auth0;
+using IFX.Modules.Auth.Infrastructure.IdentityProviders.Cognito;
 using IFX.Modules.Auth.Presentation.Authorization.Endpoints;
 using IFX.Modules.Auth.Presentation.Identity.Endpoints;
 using IFX.Modules.Auth.Presentation.Users.Endpoints;
@@ -24,6 +26,23 @@ namespace IFX.Modules.Auth.Composition
 
             services.AddApplicationServices();
             services.AddInfrastructureServices(configuration);
+
+            var provider = configuration["Authentication:Provider"] ?? "Cognito";
+            switch (provider.ToLowerInvariant())
+            {
+                case "cognito":
+                    services.AddCognitoProvider(configuration);
+                    break;
+                case "auth0":
+                    services.AddAuth0Provider(configuration);
+                    break;
+                default:
+                    throw new InvalidOperationException(
+                        $"Unknown identity provider '{provider}'. Valid values: Cognito, Auth0.");
+            }
+
+            Log.Information("[{Module}] Identity provider: {Provider}", ModuleName, provider);
+
             services.AddScoped<IAppMigrator, AuthMigrator>();
 
             Log.Information("[{Module}] Module services registered successfully", ModuleName);

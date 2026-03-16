@@ -1,12 +1,9 @@
-using Amazon;
-using Amazon.CognitoIdentityProvider;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
 using IFX.Modules.Auth.Infrastructure.Authorization.Repositories;
-using IFX.Modules.Auth.Infrastructure.Identity.Configuration;
 using IFX.Modules.Auth.Infrastructure.Identity.Repositories;
 using IFX.Modules.Auth.Infrastructure.Identity.Services;
 using IFX.Modules.Auth.Infrastructure.Persistence;
@@ -15,7 +12,6 @@ using IFX.Modules.Auth.Infrastructure.Users.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace IFX.Modules.Auth.Infrastructure;
 
@@ -25,50 +21,18 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // Configure CognitoSettings
-        services.Configure<CognitoSettings>(options =>
-            configuration.GetSection(CognitoSettings.SectionName).Bind(options));
-
-        // Get settings for immediate use
-        var cognitoSettings = new CognitoSettings();
-        configuration.GetSection(CognitoSettings.SectionName).Bind(cognitoSettings);
-
-        // Register AWS Cognito Client
-        services.AddSingleton<IAmazonCognitoIdentityProvider>(sp =>
-        {
-            var region = RegionEndpoint.GetBySystemName(cognitoSettings?.Region ?? "us-east-1");
-            return new AmazonCognitoIdentityProviderClient(region);
-        });
-
-        // Register Cognito Service (SDK-based - for backward compatibility)
-        services.AddScoped<ICognitoService, CognitoService>();
-
-        // Configure CognitoOidcSettings (OAuth/OIDC flow)
-        services.Configure<CognitoOidcSettings>(options =>
-            configuration.GetSection(CognitoOidcSettings.SectionName).Bind(options));
-
-        // Register Memory Cache for OAuth state/PKCE storage
+        // Register Memory Cache (shared by all providers for OIDC state/PKCE)
         services.AddMemoryCache();
 
-        // Register HttpClient for OIDC services
-        services.AddHttpClient("CognitoOidc", client =>
-        {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-        });
-
+        // Register HttpClient for OIDC Discovery (provider-neutral)
         services.AddHttpClient("OidcDiscovery", client =>
         {
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.Timeout = TimeSpan.FromSeconds(30);
         });
 
-        // Register OIDC Auth Service (Managed Login flow)
-        services.AddScoped<IOidcAuthService, CognitoOidcService>();
-
-        // Register OIDC Discovery Service (for fetching well-known configuration)
+        // Register shared OIDC services
         services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();
-
-        // Register Email Verification Service
         services.AddScoped<IEmailVerificationService, EmailVerificationService>();
         services.AddScoped<IEmailVerificationCleanupService, EmailVerificationCleanupService>();
 

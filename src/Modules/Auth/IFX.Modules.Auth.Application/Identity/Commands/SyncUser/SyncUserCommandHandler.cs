@@ -12,18 +12,18 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.SyncUser;
 
 public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<UserProfileDto>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<SyncUserCommandHandler> _logger;
 
     public SyncUserCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         ILogger<SyncUserCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _logger = logger;
@@ -55,7 +55,7 @@ public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<Us
             // 2. Use Admin API with service credentials
             // 3. Extract access token from Authorization header in the controller
             // For now, we'll just return the current profile without syncing
-            // var cognitoUserInfo = await _cognitoService.GetUserAsync(accessToken);
+            // var providerUserInfo = await _identityProvider.GetUserAsync(accessToken);
             // identity.UpdateFromIdp(EmailAddress.Create(cognitoUserInfo.Email), ...);
             // await _unitOfWork.UserIdentities.UpdateAsync(identity, cancellationToken);
             // await _unitOfWork.SaveChangesAsync(cancellationToken);

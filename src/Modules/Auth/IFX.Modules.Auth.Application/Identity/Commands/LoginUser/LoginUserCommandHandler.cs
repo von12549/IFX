@@ -14,18 +14,18 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.LoginUser;
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<LoginUserCommandHandler> _logger;
 
     public LoginUserCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         IMapper mapper,
         ILogger<LoginUserCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _logger = logger;
@@ -54,7 +54,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             }
 
             // Authenticate with Cognito (use email as username since Cognito User Pool is configured with email sign-in)
-            var authResult = await _cognitoService.AuthenticateAsync(request.Email, request.Password);
+            var authResult = await _identityProvider.AuthenticateAsync(request.Email, request.Password);
 
             if (!authResult.Success)
             {
@@ -102,7 +102,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             // Sync user data from Cognito (update UserIdentity)
             try
             {
-                var cognitoUserInfo = await _cognitoService.GetUserAsync(authResult.AccessToken!);
+                var cognitoUserInfo = await _identityProvider.GetUserAsync(authResult.AccessToken!);
                 var identity = user.Identities.FirstOrDefault(i => i.Issuer == issuer && i.Subject.Value == subject);
 
                 if (identity != null)
