@@ -198,15 +198,14 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     private static void RemoveHangfireServices(IServiceCollection services)
     {
-        // Remove Hangfire-related services
+        // Remove Hangfire-related services (but not BackgroundJobsSettings which is still needed)
         var hangfireDescriptors = services.Where(d =>
             d.ServiceType.FullName?.Contains("Hangfire") == true ||
             d.ImplementationType?.FullName?.Contains("Hangfire") == true ||
             d.ServiceType == typeof(IBackgroundJobClient) ||
             d.ServiceType == typeof(IRecurringJobManager) ||
             d.ServiceType == typeof(IBackgroundJobService) ||
-            d.ServiceType == typeof(JobStorage) ||
-            d.ServiceType.FullName?.Contains("BackgroundJob") == true).ToList();
+            d.ServiceType == typeof(JobStorage)).ToList();
 
         foreach (var descriptor in hangfireDescriptors)
         {
