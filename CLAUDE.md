@@ -48,6 +48,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/playbooks/pattern-selection.md` | Platform vs Modules pattern decision guide |
 | `/.claude/Plans/20260316-auth-subdomain-refactor.md` | Auth module subdomain structure (Users, Identity, Authorization) |
 | `/.claude/Plans/20260316-pluggable-identity-providers.md` | Pluggable identity provider architecture (Cognito/Auth0 adapters) |
+| `/.claude/Plans/20260318-merge-ef-migrations.md` | Squash 14 EF migrations into single InitialCreate baseline |
 
 ## Quick Reference
 
