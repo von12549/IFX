@@ -1,6 +1,8 @@
 # Plan: Merge EF Core Migrations into a Single Baseline
 
 **Date:** 2026-03-18
+**Branch:** `feature/merge-ef-migrations`
+**Base:** `main`
 **Scope:** `IFX.Modules.Auth.Infrastructure` — `Persistence/Migrations/`
 **Goal:** Squash all 14 incremental migrations into a single `InitialCreate` baseline migration that matches the current schema exactly, then update the model snapshot.
 
