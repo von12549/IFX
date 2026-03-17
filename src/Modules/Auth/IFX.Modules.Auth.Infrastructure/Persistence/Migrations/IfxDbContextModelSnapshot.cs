@@ -22,7 +22,38 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.EmailVerificationToken", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleName")
+                        .IsUnique()
+                        .HasDatabaseName("IX_UserRoles_RoleName");
+
+                    b.ToTable("UserRoles", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +110,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("EmailVerificationTokens", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.Idp", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.Idp", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -187,7 +218,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("Idps", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.LoginEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.LoginEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,7 +273,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("LoginEvents", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.LogoutEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.LogoutEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -276,7 +307,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("LogoutEvents", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.RegistrationFlowEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.RegistrationFlowEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -330,80 +361,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("RegistrationFlowEvents", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserRoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserRoleId")
-                        .HasDatabaseName("IX_Users_UserRoleId");
-
-                    b.ToTable("Users", "auth");
-                });
-
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.UserActivityLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ActivityType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("IpAddress")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("nvarchar(45)");
-
-                    b.Property<string>("Metadata")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Timestamp");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId", "Timestamp");
-
-                    b.ToTable("UserActivityLogs", "auth");
-                });
-
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.UserIdentity", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.UserIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -482,7 +440,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("UserIdentities", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.UserRole", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -491,31 +449,73 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserRoleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleName")
-                        .IsUnique()
-                        .HasDatabaseName("IX_UserRoles_RoleName");
+                    b.HasIndex("UserRoleId")
+                        .HasDatabaseName("IX_Users_UserRoleId");
 
-                    b.ToTable("UserRoles", "auth");
+                    b.ToTable("Users", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.EmailVerificationToken", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.UserActivityLog", b =>
                 {
-                    b.HasOne("IFX.Modules.Auth.Domain.Entities.UserIdentity", "UserIdentity")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ActivityType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<string>("Metadata")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Timestamp");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId", "Timestamp");
+
+                    b.ToTable("UserActivityLogs", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Identity.UserIdentity", "UserIdentity")
                         .WithMany()
                         .HasForeignKey("UserIdentityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -524,9 +524,9 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Navigation("UserIdentity");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.LoginEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.LoginEvent", b =>
                 {
-                    b.OwnsOne("IFX.Modules.Auth.Domain.ValueObjects.DeviceInfo", "DeviceInfo", b1 =>
+                    b.OwnsOne("IFX.Modules.Auth.Domain.Identity.DeviceInfo", "DeviceInfo", b1 =>
                         {
                             b1.Property<Guid>("LoginEventId")
                                 .HasColumnType("uniqueidentifier");
@@ -565,26 +565,15 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.User", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.UserIdentity", b =>
                 {
-                    b.HasOne("IFX.Modules.Auth.Domain.Entities.UserRole", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.UserIdentity", b =>
-                {
-                    b.HasOne("IFX.Modules.Auth.Domain.Entities.Idp", "Idp")
+                    b.HasOne("IFX.Modules.Auth.Domain.Identity.Idp", "Idp")
                         .WithMany()
                         .HasForeignKey("IdpId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("IFX.Modules.Auth.Domain.Entities.User", "User")
+                    b.HasOne("IFX.Modules.Auth.Domain.Users.User", "User")
                         .WithMany("Identities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -595,7 +584,18 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.User", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.UserRole", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
                 {
                     b.Navigation("Identities");
                 });
