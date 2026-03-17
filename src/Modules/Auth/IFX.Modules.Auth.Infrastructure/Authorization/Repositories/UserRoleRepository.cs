@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Infrastructure.Persistence;
+﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Authorization;
 // IUserRoleRepository is in IFX.Modules.Auth.Domain.Authorization
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace IFX.Modules.Auth.Infrastructure.Authorization.Repositories;
 
 public class UserRoleRepository : IUserRoleRepository
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
 
-    public UserRoleRepository(AuthDbContext context)
+    public UserRoleRepository(IfxDbContext context)
     {
         _context = context;
     }

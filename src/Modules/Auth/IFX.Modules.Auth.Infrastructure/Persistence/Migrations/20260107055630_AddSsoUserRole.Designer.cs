@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 {
-    [DbContext(typeof(AuthDbContext))]
+    [DbContext(typeof(IfxDbContext))]
     [Migration("20260107055630_AddSsoUserRole")]
     partial class AddSsoUserRole
     {

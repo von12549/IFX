@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Authorization;
+﻿using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Common;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.Auth.Infrastructure.Persistence;
 
-public class AuthDbContext : DbContext
+public class IfxDbContext : DbContext
 {
-    public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
+    public IfxDbContext(DbContextOptions<IfxDbContext> options) : base(options)
     {
     }
 
@@ -27,7 +27,7 @@ public class AuthDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Apply all entity configurations from assembly
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AuthDbContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(IfxDbContext).Assembly);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

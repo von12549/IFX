@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Infrastructure.Persistence;
+﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Identity;
 // Repository interface is in IFX.Modules.Auth.Domain.Identity
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace IFX.Modules.Auth.Infrastructure.Identity.Repositories;
 
 public class RegistrationFlowEventRepository : IRegistrationFlowEventRepository
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
 
-    public RegistrationFlowEventRepository(AuthDbContext context)
+    public RegistrationFlowEventRepository(IfxDbContext context)
     {
         _context = context;
     }

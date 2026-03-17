@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Infrastructure.Persistence;
+﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Users;
 // Repository interface is in same namespace (IFX.Modules.Auth.Domain.Users)
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace IFX.Modules.Auth.Infrastructure.Users.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
 
-    public UserRepository(AuthDbContext context)
+    public UserRepository(IfxDbContext context)
     {
         _context = context;
     }

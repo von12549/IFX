@@ -1,4 +1,4 @@
-using App.Abstractions;
+﻿using App.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Platform.BackgroundJobs.Abstractions;
@@ -49,9 +49,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
-            // Remove the app's AuthDbContext registration
+            // Remove the app's IfxDbContext registration
             var dbContextDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbContextOptions<AuthDbContext>));
+                d => d.ServiceType == typeof(DbContextOptions<IfxDbContext>));
 
             if (dbContextDescriptor != null)
             {
@@ -60,15 +60,15 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             // Remove the real DbContext service
             var dbContextServiceDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(AuthDbContext));
+                d => d.ServiceType == typeof(IfxDbContext));
 
             if (dbContextServiceDescriptor != null)
             {
                 services.Remove(dbContextServiceDescriptor);
             }
 
-            // Add AuthDbContext using an in-memory database for testing
-            services.AddDbContext<AuthDbContext>(options =>
+            // Add IfxDbContext using an in-memory database for testing
+            services.AddDbContext<IfxDbContext>(options =>
             {
                 options.UseInMemoryDatabase($"InMemoryDbForTesting_{Guid.NewGuid()}");
             });
@@ -154,7 +154,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             // Create a scope to obtain a reference to the database context
             using var scope = sp.CreateScope();
             var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<AuthDbContext>();
+            var db = scopedServices.GetRequiredService<IfxDbContext>();
 
             // Ensure the database is created
             db.Database.EnsureCreated();
@@ -166,7 +166,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         builder.UseEnvironment("Testing");
     }
 
-    private static void SeedTestData(AuthDbContext db)
+    private static void SeedTestData(IfxDbContext db)
     {
         // Seed default user role
         if (!db.UserRoles.Any())

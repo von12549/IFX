@@ -1,19 +1,19 @@
-using IFX.Modules.Auth.Infrastructure.Persistence;
+﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.Auth.Infrastructure.Tests.Fixtures;
 
 public class InMemoryDbContextFixture : IDisposable
 {
-    public AuthDbContext Context { get; }
+    public IfxDbContext Context { get; }
 
     public InMemoryDbContextFixture()
     {
-        var options = new DbContextOptionsBuilder<AuthDbContext>()
+        var options = new DbContextOptionsBuilder<IfxDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
-        Context = new AuthDbContext(options);
+        Context = new IfxDbContext(options);
         Context.Database.EnsureCreated();
     }
 

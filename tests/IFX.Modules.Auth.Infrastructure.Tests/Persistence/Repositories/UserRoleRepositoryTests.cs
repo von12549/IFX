@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Authorization;
+﻿using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Infrastructure.Authorization.Repositories;
 using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Tests.Common;
@@ -9,16 +9,16 @@ namespace IFX.Modules.Auth.Infrastructure.Tests.Persistence.Repositories;
 
 public class UserRoleRepositoryTests : IDisposable
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
     private readonly UserRoleRepository _repository;
 
     public UserRoleRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<AuthDbContext>()
+        var options = new DbContextOptionsBuilder<IfxDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
 
-        _context = new AuthDbContext(options);
+        _context = new IfxDbContext(options);
         _repository = new UserRoleRepository(_context);
     }
 

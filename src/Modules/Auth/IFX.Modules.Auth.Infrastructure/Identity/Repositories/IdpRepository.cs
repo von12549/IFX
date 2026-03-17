@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Infrastructure.Persistence;
+﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Identity;
 // Repository interface is in IFX.Modules.Auth.Domain.Identity
 using Microsoft.EntityFrameworkCore;
@@ -7,9 +7,9 @@ namespace IFX.Modules.Auth.Infrastructure.Identity.Repositories;
 
 public class IdpRepository : IIdpRepository
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
 
-    public IdpRepository(AuthDbContext context)
+    public IdpRepository(IfxDbContext context)
     {
         _context = context;
     }

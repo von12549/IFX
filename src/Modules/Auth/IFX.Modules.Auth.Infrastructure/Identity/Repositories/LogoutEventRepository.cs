@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Infrastructure.Persistence;
+﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Identity;
 // Repository interface is in IFX.Modules.Auth.Domain.Identity
 
@@ -6,9 +6,9 @@ namespace IFX.Modules.Auth.Infrastructure.Identity.Repositories;
 
 public class LogoutEventRepository : ILogoutEventRepository
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
 
-    public LogoutEventRepository(AuthDbContext context)
+    public LogoutEventRepository(IfxDbContext context)
     {
         _context = context;
     }

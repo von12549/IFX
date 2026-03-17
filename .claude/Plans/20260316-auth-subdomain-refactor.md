@@ -1,4 +1,4 @@
-# Plan: Refactor Auth Module into Internal Subdomains
+﻿# Plan: Refactor Auth Module into Internal Subdomains
 
 **Date:** 2026-03-16
 **Branch:** `feature/auth-subdomain-refactor`
@@ -203,7 +203,7 @@ IFX.Modules.Auth.Application.Interfaces                    → IFX.Modules.Auth.
 | `Persistence/Configurations/UserRoleConfiguration.cs` | `Authorization/Configurations/UserRoleConfiguration.cs` |
 
 **Shared (no move):**
-- `Persistence/AuthDbContext.cs`
+- `Persistence/IfxDbContext.cs`
 - `Persistence/UnitOfWork.cs`
 - `Persistence/Migrations/` (all 29 migration files — never move migrations)
 - `DependencyInjection.cs`
@@ -378,7 +378,7 @@ Auth.Application/
 
 Auth.Infrastructure/
   Persistence/
-    AuthDbContext.cs                 ← no move
+    IfxDbContext.cs                 ← no move
     UnitOfWork.cs                   ← no move
     Migrations/                     ← no move (never move migrations)
   Users/
@@ -488,7 +488,7 @@ git checkout -b feature/auth-subdomain-refactor
 2. Move repository, service, configuration files per mapping
 3. **Do NOT touch `Persistence/Migrations/`**
 4. Update `namespace` declarations
-5. Update `using` statements in `AuthDbContext.cs` (references entity types from Domain)
+5. Update `using` statements in `IfxDbContext.cs` (references entity types from Domain)
 6. Update `DependencyInjection.cs` — service registrations reference new namespaces
 7. Verify: `dotnet build IFX.Modules.Auth.Infrastructure` compiles
 
@@ -528,7 +528,7 @@ After all moves, delete the now-empty original folders:
 | Risk | Mitigation |
 |---|---|
 | `UserRole` is referenced via navigation property on `User` | Cross-subdomain reference within same project is allowed — just needs correct `using` |
-| `AuthDbContext` references all entity types | Update usings after Domain step; DbContext stays in `Persistence/` (shared) |
+| `IfxDbContext` references all entity types | Update usings after Domain step; DbContext stays in `Persistence/` (shared) |
 | `DependencyInjection.cs` in Infrastructure wires many services | Update last within each layer's step |
 | `MappingProfile.cs` references DTOs and entities from both old namespaces | Update after Application DTO move |
 | Migration snapshot references entity full type names | **Do not rename entity classes** — only move files and update namespaces. EF Core resolves entities by CLR type name, not namespace, so migrations are safe. |

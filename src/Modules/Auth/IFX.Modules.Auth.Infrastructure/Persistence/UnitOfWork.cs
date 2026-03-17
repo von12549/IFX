@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Application.Interfaces;
+﻿using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
@@ -8,11 +8,11 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly AuthDbContext _context;
+    private readonly IfxDbContext _context;
     private IDbContextTransaction? _transaction;
 
     public UnitOfWork(
-        AuthDbContext context,
+        IfxDbContext context,
         IUserRepository users,
         IUserIdentityRepository userIdentities,
         IUserRoleRepository userRoles,

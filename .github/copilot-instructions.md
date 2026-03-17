@@ -1,4 +1,4 @@
-<!-- Copied/merged guidance for AI coding agents from CLAUDE.md + README.md -->
+﻿<!-- Copied/merged guidance for AI coding agents from CLAUDE.md + README.md -->
 # Copilot instructions for IFX repository
 
 Purpose: give an AI coding agent the minimal, concrete knowledge to be productive in this codebase.
@@ -11,7 +11,7 @@ Purpose: give an AI coding agent the minimal, concrete knowledge to be productiv
 - Key patterns to follow and search for:
   - Endpoint mapping: static `Map*Endpoints()` methods; module registration occurs via `IModuleInstaller.MapEndpoints(app)` in `Program.cs`.
   - CQRS: Commands/Queries in `Application` with one handler per request; pipeline behaviors (ValidationBehavior, TransactionBehavior) are used.
-  - EF Core: `AuthDbContext` lives in Infrastructure; run migrations from the Infrastructure folder *with* `--startup-project` pointing to ApiHost.
+  - EF Core: `IfxDbContext` lives in Infrastructure; run migrations from the Infrastructure folder *with* `--startup-project` pointing to ApiHost.
   - Multi-IdP data model: core `User` + `UserIdentity` (IdP-scoped). Primary user lookup uses `(issuer, subject)` — `GetByIssuerAndSubjectAsync(issuer, subject)`.
 
 - Common developer workflows (explicit commands):
@@ -33,7 +33,7 @@ Purpose: give an AI coding agent the minimal, concrete knowledge to be productiv
 - Important files to reference when implementing changes:
   - Startup / wiring: [src/ApiHost/IFX.ApiHost/Program.cs](src/ApiHost/IFX.ApiHost/Program.cs)
   - Module installer: [src/Modules/Auth/IFX.Modules.Auth.Composition/AuthModuleInstaller.cs](src/Modules/Auth/IFX.Modules.Auth.Composition/AuthModuleInstaller.cs)
-  - DbContext & configs: search for `AuthDbContext` in `src/Modules/Auth/IFX.Modules.Auth.Infrastructure`
+  - DbContext & configs: search for `IfxDbContext` in `src/Modules/Auth/IFX.Modules.Auth.Infrastructure`
   - Endpoints: `src/Modules/Auth/IFX.Modules.Auth.Presentation` (MapAuthEndpoints, MapUserEndpoints, etc.)
   - Claims enrichment: `UserRoleClaimsTransformation` in ApiHost (adds DB roles to JWT principal).
   - Cognito wrapper: `CognitoService` in Infrastructure (signin/refresh/signout helpers).

@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Application.Identity.Interfaces;
+﻿using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
@@ -38,11 +38,11 @@ public static class DependencyInjection
 
         // Register DbContext
         var connectionString = configuration.GetConnectionString("AuthDatabase");
-        services.AddDbContext<AuthDbContext>(options =>
+        services.AddDbContext<IfxDbContext>(options =>
         {
             options.UseSqlServer(connectionString, sqlOptions =>
             {
-                sqlOptions.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName);
+                sqlOptions.MigrationsAssembly(typeof(IfxDbContext).Assembly.FullName);
                 // Note: EnableRetryOnFailure is disabled because we use manual transaction management
                 // via TransactionBehavior which wraps all commands in explicit transactions
             });

@@ -14,7 +14,7 @@ namespace IFX.Modules.Auth.Composition
         {
             Log.Information("[{Module}] Starting database migration...", Name);
 
-            var db = sp.GetRequiredService<AuthDbContext>();
+            var db = sp.GetRequiredService<IfxDbContext>();
             var pendingMigrations = await db.Database.GetPendingMigrationsAsync(ct);
             var pendingCount = pendingMigrations.Count();
 

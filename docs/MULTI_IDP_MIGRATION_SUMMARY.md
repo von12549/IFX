@@ -1,4 +1,4 @@
-# Multi-IdP Migration Summary
+﻿# Multi-IdP Migration Summary
 
 ## Overview
 
@@ -20,7 +20,7 @@ This document summarizes the three-phase migration from a single Cognito-specifi
 - ✅ Renamed module from `Cognito` to `Auth` (200+ files)
 - ✅ Renamed namespaces: `IFX.Modules.Cognito.*` → `IFX.Modules.Auth.*`
 - ✅ Renamed database schema: `cognito` → `auth`
-- ✅ Renamed DbContext: `CognitoDbContext` → `AuthDbContext`
+- ✅ Renamed DbContext: `CognitoDbContext` → `IfxDbContext`
 - ✅ Updated Docker configuration
 - ✅ Updated all project references and solution file
 
