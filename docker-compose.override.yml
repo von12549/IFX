@@ -1,4 +1,4 @@
 services:
-  auth-api:
+  ifx-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

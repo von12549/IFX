@@ -36,7 +36,7 @@ services:
     networks:
       - ifx-network
 
-  auth-api:
+  ifx-api:
     build:
       context: .
       dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile
