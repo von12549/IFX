@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(IfxDbContext))]
-    [Migration("20260111031731_AddIdpTable")]
-    partial class AddIdpTable
+    [Migration("20260317145706_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,95 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.Idp", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleName")
+                        .IsUnique()
+                        .HasDatabaseName("IX_UserRoles_RoleName");
+
+                    b.ToTable("UserRoles", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TokenHash")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UsedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserIdentityId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpiresAt")
+                        .HasDatabaseName("IX_EmailVerificationTokens_ExpiresAt");
+
+                    b.HasIndex("TokenHash")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_EmailVerificationTokens_TokenHash");
+
+                    b.HasIndex("UserIdentityId")
+                        .HasDatabaseName("IX_EmailVerificationTokens_UserIdentityId");
+
+                    b.HasIndex("UserIdentityId", "Code")
+                        .HasDatabaseName("IX_EmailVerificationTokens_UserIdentityId_Code");
+
+                    b.ToTable("EmailVerificationTokens", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.Idp", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,6 +168,18 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(2000)")
                         .HasDefaultValue("[]");
 
+                    b.Property<string>("IdpType")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasDefaultValue("Internal");
+
+                    b.Property<bool>("IsPrimary")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<string>("Issuer")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -109,14 +209,19 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("Enabled");
 
+                    b.HasIndex("IsPrimary")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Idps_IsPrimary")
+                        .HasFilter("[IsPrimary] = 1");
+
                     b.HasIndex("Issuer")
                         .IsUnique()
                         .HasDatabaseName("IX_Idps_Issuer");
 
-                    b.ToTable("Idps", "cognito");
+                    b.ToTable("Idps", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.LoginEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.LoginEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,10 +273,10 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId", "LoginTimestamp");
 
-                    b.ToTable("LoginEvents", "cognito");
+                    b.ToTable("LoginEvents", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.LogoutEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.LogoutEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,10 +307,10 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LogoutEvents", "cognito");
+                    b.ToTable("LogoutEvents", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.RegistrationFlowEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.RegistrationFlowEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -256,10 +361,10 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("Status");
 
-                    b.ToTable("RegistrationFlowEvents", "cognito");
+                    b.ToTable("RegistrationFlowEvents", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.User", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.UserIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,15 +386,13 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                    b.Property<Guid>("IdpId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Issuer")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasDefaultValue("https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -310,13 +413,8 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserRoleId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("_email")
                         .IsRequired()
@@ -332,24 +430,51 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdpId")
+                        .HasDatabaseName("IX_UserIdentities_IdpId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_UserIdentities_UserId");
+
+                    b.HasIndex("Issuer", "_subject")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_UserIdentity_Issuer_Subject");
+
+                    b.ToTable("UserIdentities", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserRoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("UserRoleId")
                         .HasDatabaseName("IX_Users_UserRoleId");
 
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.HasIndex("_email")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Email");
-
-                    b.HasIndex("_subject")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Subject");
-
-                    b.ToTable("Users", "cognito");
+                    b.ToTable("Users", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.UserActivityLog", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.UserActivityLog", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -388,43 +513,23 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId", "Timestamp");
 
-                    b.ToTable("UserActivityLogs", "cognito");
+                    b.ToTable("UserActivityLogs", "auth");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.UserRole", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("IFX.Modules.Auth.Domain.Identity.UserIdentity", "UserIdentity")
+                        .WithMany()
+                        .HasForeignKey("UserIdentityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleName")
-                        .IsUnique()
-                        .HasDatabaseName("IX_UserRoles_RoleName");
-
-                    b.ToTable("UserRoles", "cognito");
+                    b.Navigation("UserIdentity");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.LoginEvent", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.LoginEvent", b =>
                 {
-                    b.OwnsOne("IFX.Modules.Auth.Domain.ValueObjects.DeviceInfo", "DeviceInfo", b1 =>
+                    b.OwnsOne("IFX.Modules.Auth.Domain.Identity.DeviceInfo", "DeviceInfo", b1 =>
                         {
                             b1.Property<Guid>("LoginEventId")
                                 .HasColumnType("uniqueidentifier");
@@ -453,7 +558,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("LoginEventId");
 
-                            b1.ToTable("LoginEvents", "cognito");
+                            b1.ToTable("LoginEvents", "auth");
 
                             b1.WithOwner()
                                 .HasForeignKey("LoginEventId");
@@ -463,15 +568,39 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Entities.User", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.UserIdentity", b =>
                 {
-                    b.HasOne("IFX.Modules.Auth.Domain.Entities.UserRole", "UserRole")
+                    b.HasOne("IFX.Modules.Auth.Domain.Identity.Idp", "Idp")
+                        .WithMany()
+                        .HasForeignKey("IdpId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IFX.Modules.Auth.Domain.Users.User", "User")
+                        .WithMany("Identities")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Idp");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("UserRole");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
+                {
+                    b.Navigation("Identities");
                 });
 #pragma warning restore 612, 618
         }
