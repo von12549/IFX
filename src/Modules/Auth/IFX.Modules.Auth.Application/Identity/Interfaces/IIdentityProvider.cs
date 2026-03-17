@@ -1,18 +1,18 @@
 namespace IFX.Modules.Auth.Application.Identity.Interfaces;
 
-public interface ICognitoService
+public interface IIdentityProvider
 {
-    Task<CognitoSignUpResult> SignUpAsync(string email, string password, string username, string firstName, string lastName,string birthDate, string phoneNumber);
+    Task<ProviderSignUpResult> SignUpAsync(string email, string password, string username, string firstName, string lastName, string birthDate, string phoneNumber);
     Task<bool> ConfirmSignUpAsync(string username, string confirmationCode);
-    Task<CognitoAuthResult> AuthenticateAsync(string username, string password);
+    Task<AuthTokenResult> AuthenticateAsync(string username, string password);
     Task<bool> SignOutAsync(string accessToken);
-    Task<CognitoUserInfo> GetUserAsync(string accessToken);
-    Task<CognitoAuthResult> RefreshTokenAsync(string refreshToken, string username);
+    Task<ProviderUserInfo> GetUserAsync(string accessToken);
+    Task<AuthTokenResult> RefreshTokenAsync(string refreshToken, string username);
     Task<bool> ResendConfirmationCodeAsync(string username);
     Task<bool> RevokeTokenAsync(string refreshToken);
 }
 
-public class CognitoSignUpResult
+public class ProviderSignUpResult
 {
     public bool Success { get; set; }
     public string? Subject { get; set; }
@@ -20,7 +20,7 @@ public class CognitoSignUpResult
     public string? ErrorMessage { get; set; }
 }
 
-public class CognitoAuthResult
+public class AuthTokenResult
 {
     public bool Success { get; set; }
     public string? AccessToken { get; set; }
@@ -31,14 +31,14 @@ public class CognitoAuthResult
     public string? ErrorMessage { get; set; }
 }
 
-public class CognitoUserInfo
+public class ProviderUserInfo
 {
     public string Subject { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-    public string BirthDate { get;set; } = string.Empty;
+    public string BirthDate { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public bool EmailVerified { get; set; }
     public bool PhoneNumberVerified { get; set; }

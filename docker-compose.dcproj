@@ -6,10 +6,16 @@
     <ProjectGuid>3e4c4c4d-8c8a-4f5e-9b2a-1d3e5f7a9c2b</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>auth-api</DockerServiceName>
+    <DockerServiceName>ifx-api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.yml" />
+    <None Include="docker-compose.override.yml" />
     <None Include=".dockerignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ServiceProjectReference Include="src\ApiHost\IFX.ApiHost\IFX.ApiHost.csproj">
+      <ServiceName>ifx-api</ServiceName>
+    </ServiceProjectReference>
   </ItemGroup>
 </Project>

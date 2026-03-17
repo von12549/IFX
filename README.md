@@ -6,7 +6,8 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 
 - **Clean Architecture** - Domain, Application, Infrastructure, Presentation layers
 - **CQRS Pattern** - Command/Query separation with MediatR
-- **OAuth 2.0 with PKCE** - Cognito Managed Login (Hosted UI) integration
+- **OAuth 2.0 with PKCE** - Authorization Code flow with pluggable identity provider adapters
+- **Pluggable Identity Providers** - Cognito and Auth0 adapters; switch provider via `Authentication:Provider` config
 - **Dynamic Multi-IdP SSO** - Database-driven IdP configuration with auto-provisioning
 - **OIDC Discovery** - Automatic IdP configuration via well-known endpoints
 - **UserInfo-Based Provisioning** - Fetches user data from OIDC userinfo endpoint during auto-provisioning
@@ -50,9 +51,12 @@ src/
 │   │   ├── Users/                   # User commands/queries
 │   │   ├── Identity/                # Auth/IdP commands/queries
 │   │   └── Authorization/           # Role commands/queries
-│   ├── Infrastructure/              # Data access, AWS, OIDC
+│   ├── Infrastructure/              # Data access, identity providers, OIDC
+│   │   ├── IdentityProviders/       # Provider adapters (config-driven selection)
+│   │   │   ├── Cognito/             # AWS Cognito implementation
+│   │   │   └── Auth0/               # Auth0 implementation (stub)
 │   │   ├── Users/                   # User repositories & services
-│   │   ├── Identity/                # Cognito/OIDC services & repositories
+│   │   ├── Identity/                # OIDC services & repositories
 │   │   ├── Authorization/           # Role repositories
 │   │   └── Persistence/             # DbContext, migrations
 │   ├── Presentation/                # API endpoints
@@ -191,7 +195,7 @@ python -m http.server 3000
 
 - .NET 8, ASP.NET Core 8, EF Core 8
 - MediatR, FluentValidation, AutoMapper
-- AWS SDK (Cognito), Serilog, Swagger
+- AWS SDK (Cognito) · Auth0 (stub adapter ready), Serilog, Swagger
 - Hangfire (background jobs), SendGrid (email)
 - SQL Server, Docker
 

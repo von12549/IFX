@@ -11,16 +11,16 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.RegisterUser;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RegisterUserCommandHandler> _logger;
 
     public RegisterUserCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         ILogger<RegisterUserCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -45,8 +45,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 return Result<RegisterUserResponse>.Failure("User with this email already exists");
             }
 
-            // Create user in Cognito
-            var cognitoResult = await _cognitoService.SignUpAsync(
+            // Create user in identity provider
+            var cognitoResult = await _identityProvider.SignUpAsync(
                 request.Email,
                 request.Password,
                 request.Username,

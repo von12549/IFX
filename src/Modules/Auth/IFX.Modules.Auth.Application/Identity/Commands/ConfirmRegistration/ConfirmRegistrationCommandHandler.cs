@@ -10,16 +10,16 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.ConfirmRegistration;
 
 public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistrationCommand, Result<ConfirmRegistrationResponse>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ConfirmRegistrationCommandHandler> _logger;
 
     public ConfirmRegistrationCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         ILogger<ConfirmRegistrationCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -45,7 +45,7 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
             }
 
             // Confirm in Cognito (use email as username since Cognito User Pool is configured with email sign-in)
-            var confirmed = await _cognitoService.ConfirmSignUpAsync(request.Email, request.ConfirmationCode);
+            var confirmed = await _identityProvider.ConfirmSignUpAsync(request.Email, request.ConfirmationCode);
             if (!confirmed)
             {
                 return Result<ConfirmRegistrationResponse>.Failure("Invalid confirmation code");

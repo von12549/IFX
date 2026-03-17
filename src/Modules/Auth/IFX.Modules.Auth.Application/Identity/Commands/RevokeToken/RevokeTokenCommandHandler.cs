@@ -12,16 +12,16 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.RevokeToken;
 
 public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Result<bool>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RevokeTokenCommandHandler> _logger;
 
     public RevokeTokenCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         ILogger<RevokeTokenCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -33,7 +33,7 @@ public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Res
         try
         {
             // Revoke token in Cognito
-            var revokeSuccess = await _cognitoService.RevokeTokenAsync(request.RefreshToken);
+            var revokeSuccess = await _identityProvider.RevokeTokenAsync(request.RefreshToken);
 
             if (!revokeSuccess)
             {

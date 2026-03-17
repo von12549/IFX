@@ -11,16 +11,16 @@ namespace IFX.Modules.Auth.Application.Identity.Commands.LogoutUser;
 
 public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Result<bool>>
 {
-    private readonly ICognitoService _cognitoService;
+    private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<LogoutUserCommandHandler> _logger;
 
     public LogoutUserCommandHandler(
-        ICognitoService cognitoService,
+        IIdentityProvider identityProvider,
         IUnitOfWork unitOfWork,
         ILogger<LogoutUserCommandHandler> logger)
     {
-        _cognitoService = cognitoService;
+        _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -39,7 +39,7 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             }
 
             // Sign out from Cognito
-            var signedOut = await _cognitoService.SignOutAsync(request.AccessToken);
+            var signedOut = await _identityProvider.SignOutAsync(request.AccessToken);
             if (!signedOut)
             {
                 _logger.LogWarning("Failed to sign out user {Issuer}/{Subject} from Cognito", request.Issuer, request.Subject);

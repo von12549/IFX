@@ -7,7 +7,8 @@ This file provides guidance to Claude Code when working with this repository.
 **IFX** is a production-ready ASP.NET Core 8 authentication solution with:
 - Clean Architecture (Domain → Application → Infrastructure → Presentation)
 - CQRS pattern using MediatR
-- OAuth 2.0 Authorization Code flow with PKCE (Cognito Managed Login)
+- OAuth 2.0 Authorization Code flow with PKCE (pluggable identity providers)
+- Pluggable identity provider architecture — Cognito and Auth0 adapters, config-driven selection
 - Dynamic Multi-IdP SSO with auto-provisioning (database-driven)
 - OIDC Discovery for dynamic IdP configuration
 - UserInfo-based auto-provisioning (fetches user data from OIDC userinfo endpoint)
@@ -22,6 +23,8 @@ This file provides guidance to Claude Code when working with this repository.
 4. **One handler per command/query** - no shared handlers
 5. **Result pattern for expected failures** - exceptions for unexpected errors
 6. **Auth module has three internal subdomains** - Users, Identity, Authorization; new code goes in the correct subdomain folder
+7. **Provider-neutral Application layer** - `Auth.Application` must not reference Cognito/Auth0 SDK types; use `IIdentityProvider`, `IOidcAuthService` abstractions
+8. **Provider code belongs in `IdentityProviders/`** - Cognito and Auth0 implementations live in `Auth.Infrastructure/IdentityProviders/{Cognito,Auth0}/`; switching provider = config change only
 
 ## Instruction Index
 
@@ -44,6 +47,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/playbooks/naming-conventions.md` | Code artifact naming patterns |
 | `/.claude/playbooks/pattern-selection.md` | Platform vs Modules pattern decision guide |
 | `/.claude/Plans/20260316-auth-subdomain-refactor.md` | Auth module subdomain structure (Users, Identity, Authorization) |
+| `/.claude/Plans/20260316-pluggable-identity-providers.md` | Pluggable identity provider architecture (Cognito/Auth0 adapters) |
 
 ## Quick Reference
 

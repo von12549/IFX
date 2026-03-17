@@ -15,19 +15,19 @@ A simple OAuth 2.0 demo client for testing the Cognito Managed Login flow.
 
 ```bash
 cd src/WebUI/IFX.WebUI
-python -m http.server 3000
+python -m http.server 8030
 ```
 
-Then open: http://localhost:3000
+Then open: http://localhost:8030
 
 ### Option 2: Using Node.js
 
 ```bash
 cd src/WebUI/IFX.WebUI
-npx serve -p 3000
+npx serve -p 8030
 ```
 
-Then open: http://localhost:3000
+Then open: http://localhost:8030
 
 ### Option 3: Using VS Code Live Server
 

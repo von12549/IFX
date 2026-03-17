@@ -3,16 +3,15 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
-using IFX.Modules.Auth.Infrastructure.Identity.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IFX.Modules.Auth.Infrastructure.Identity.Services;
+namespace IFX.Modules.Auth.Infrastructure.IdentityProviders.Cognito;
 
 public class CognitoOidcService : IOidcAuthService
 {
-    private readonly CognitoOidcSettings _settings;
+    private readonly CognitoOidcOptions _settings;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IMemoryCache _cache;
     private readonly ILogger<CognitoOidcService> _logger;
@@ -21,7 +20,7 @@ public class CognitoOidcService : IOidcAuthService
     private const string HttpClientName = "CognitoOidc";
 
     public CognitoOidcService(
-        IOptions<CognitoOidcSettings> settings,
+        IOptions<CognitoOidcOptions> settings,
         IHttpClientFactory httpClientFactory,
         IMemoryCache cache,
         ILogger<CognitoOidcService> logger)

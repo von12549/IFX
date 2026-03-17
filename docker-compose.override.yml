@@ -1,0 +1,4 @@
+services:
+  ifx-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
