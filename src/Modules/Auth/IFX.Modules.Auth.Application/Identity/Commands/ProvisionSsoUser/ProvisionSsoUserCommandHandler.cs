@@ -29,32 +29,35 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
         try
         {
             // Check if user already exists by issuer/subject
-            var existingUser = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(
+            var existingUser = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(
                 request.Issuer, request.Subject, cancellationToken);
 
             if (existingUser != null)
             {
-                var existingRole = await _unitOfWork.UserRoles.GetByIdAsync(
-                    existingUser.UserRoleId, cancellationToken);
-
                 var existingIdentity = existingUser.Identities.FirstOrDefault(i =>
                     i.Issuer == request.Issuer && i.Subject.Value == request.Subject);
+
+                var existingPermissions = existingUser.Roles
+                    .Concat(existingUser.RoleGroups.SelectMany(g => g.Roles))
+                    .SelectMany(r => r.Permissions)
+                    .Select(p => p.Name)
+                    .Distinct()
+                    .ToList();
 
                 return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse
                 {
                     UserId = existingUser.Id,
                     UserIdentityId = existingIdentity?.Id ?? Guid.Empty,
-                    RoleName = existingRole?.RoleName ?? "Unknown",
+                    PermissionNames = existingPermissions,
                     WasProvisioned = false,
                     RequiresEmailVerification = existingIdentity != null && !existingIdentity.EmailVerified,
                     Email = existingIdentity?.Email?.Value
                 });
             }
 
-            // Always assign "Pending" role for auto-provisioned users
-            // User must complete profile to get full role (User/SsoUser)
-            const string roleName = "Pending";
-            var userRole = await _unitOfWork.UserRoles.GetByRoleNameAsync(roleName, cancellationToken);
+            // Always assign "PendingUser" role for auto-provisioned users
+            const string roleName = "PendingUser";
+            var userRole = await _unitOfWork.Roles.GetByNameAsync(roleName, cancellationToken);
             if (userRole == null)
             {
                 _logger.LogError("'{RoleName}' role not found in database", roleName);
@@ -68,10 +71,8 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
                 : request.Email!;
 
             // Create User entity
-            var user = User.Create(
-                userRoleId: userRole.Id,
-                displayName: displayName,
-                isActive: true); // SSO users are active immediately
+            var user = User.Create(displayName, isActive: true); // SSO users are active immediately
+            user.AddRole(userRole);
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
 
@@ -108,13 +109,15 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
 
             _logger.LogInformation(
                 "Auto-provisioned SSO user {UserId} from {Issuer} with subject {Subject}, assigned role {RoleName}, RequiresEmailVerification: {RequiresVerification}",
-                user.Id, request.Issuer, request.Subject, userRole.RoleName, requiresEmailVerification);
+                user.Id, request.Issuer, request.Subject, userRole.Name, requiresEmailVerification);
+
+            var permissionNames = userRole.Permissions.Select(p => p.Name).ToList();
 
             return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse
             {
                 UserId = user.Id,
                 UserIdentityId = userIdentity.Id,
-                RoleName = userRole.RoleName,
+                PermissionNames = permissionNames,
                 WasProvisioned = true,
                 RequiresEmailVerification = requiresEmailVerification,
                 Email = request.Email

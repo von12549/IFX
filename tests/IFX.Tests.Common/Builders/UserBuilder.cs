@@ -4,15 +4,8 @@ namespace IFX.Tests.Common.Builders;
 
 public class UserBuilder
 {
-    private Guid _userRoleId = Guid.NewGuid();
     private string _displayName = TestConstants.ValidDisplayName;
     private bool _isActive = false;
-
-    public UserBuilder WithRole(Guid roleId)
-    {
-        _userRoleId = roleId;
-        return this;
-    }
 
     public UserBuilder WithDisplayName(string displayName)
     {
@@ -32,5 +25,5 @@ public class UserBuilder
         return this;
     }
 
-    public User Build() => User.Create(_userRoleId, _displayName, _isActive);
+    public User Build() => User.Create(_displayName, _isActive);
 }

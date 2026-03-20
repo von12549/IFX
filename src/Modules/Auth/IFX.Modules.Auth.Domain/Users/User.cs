@@ -7,13 +7,15 @@ namespace IFX.Modules.Auth.Domain.Users;
 public class User : BaseEntity, IAuditableEntity
 {
     public bool IsActive { get; private set; }
-    public Guid UserRoleId { get; private set; }
     public string DisplayName { get; private set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
-    // Navigation properties
-    public UserRole? UserRole { get; private set; }
+    private readonly List<Role> _roles = new();
+    public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();
+
+    private readonly List<RoleGroup> _roleGroups = new();
+    public IReadOnlyCollection<RoleGroup> RoleGroups => _roleGroups.AsReadOnly();
 
     private readonly List<UserIdentity> _identities = new();
     public IReadOnlyCollection<UserIdentity> Identities => _identities.AsReadOnly();
@@ -23,38 +25,44 @@ public class User : BaseEntity, IAuditableEntity
 
     private User() { } // For EF Core
 
-    public static User Create(
-        Guid userRoleId,
-        string displayName,
-        bool isActive = false)
+    public static User Create(string displayName, bool isActive = false)
     {
-        var user = new User
+        return new User
         {
-            UserRoleId = userRoleId,
             DisplayName = displayName,
             IsActive = isActive
         };
-
-        return user;
     }
 
-    public void Activate()
+    public void Activate() => IsActive = true;
+
+    public void Deactivate() => IsActive = false;
+
+    public void UpdateDisplayName(string displayName) => DisplayName = displayName;
+
+    public void AddRole(Role role)
     {
-        IsActive = true;
+        if (!_roles.Any(r => r.Id == role.Id))
+            _roles.Add(role);
     }
 
-    public void Deactivate()
+    public void RemoveRole(Guid roleId)
     {
-        IsActive = false;
+        var role = _roles.FirstOrDefault(r => r.Id == roleId);
+        if (role != null)
+            _roles.Remove(role);
     }
 
-    public void AssignRole(Guid roleId)
+    public void AddRoleGroup(RoleGroup group)
     {
-        UserRoleId = roleId;
+        if (!_roleGroups.Any(g => g.Id == group.Id))
+            _roleGroups.Add(group);
     }
 
-    public void UpdateDisplayName(string displayName)
+    public void RemoveRoleGroup(Guid groupId)
     {
-        DisplayName = displayName;
+        var group = _roleGroups.FirstOrDefault(g => g.Id == groupId);
+        if (group != null)
+            _roleGroups.Remove(group);
     }
 }

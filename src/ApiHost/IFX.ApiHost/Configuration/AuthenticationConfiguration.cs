@@ -43,8 +43,8 @@ public static class AuthenticationConfiguration
                 options.EventsType = typeof(DynamicJwtBearerEvents);
             });
 
-        // Add claims transformation to inject role from database into JWT claims
-        services.AddTransient<IClaimsTransformation, UserRoleClaimsTransformation>();
+        // Add claims transformation to inject permissions from database into JWT claims
+        services.AddTransient<IClaimsTransformation, UserPermissionClaimsTransformation>();
 
         return services;
     }

@@ -53,15 +53,17 @@ namespace IFX.Modules.Auth.Composition
         {
             Log.Information("[{Module}] Mapping module endpoints...", ModuleName);
 
-            builder.MapAuthEndpoints();           // 6 endpoints: register, confirm, login, refresh, revoke, logout
-            builder.MapOAuthEndpoints();          // 5 endpoints: authorize, callback, userinfo, logout, logout-callback
-            builder.MapUserEndpoints();           // 5 endpoints: profile (GET/PUT), login-history, activity-log, sync
-            builder.MapUserManagementEndpoints(); // 3 endpoints: users (GET/PUT), send-test-email - Admin only
-            builder.MapRoleEndpoints();           // 3 endpoints: roles (GET/POST/PUT) - Admin only
-            builder.MapIdpEndpoints();            // 3 endpoints: idps (GET/POST/PUT) - Admin only
+            builder.MapAuthEndpoints();              // 6 endpoints: register, confirm, login, refresh, revoke, logout
+            builder.MapOAuthEndpoints();             // 5 endpoints: authorize, callback, userinfo, logout, logout-callback
+            builder.MapUserEndpoints();              // 5 endpoints: profile (GET/PUT), login-history, activity-log, sync
+            builder.MapUserManagementEndpoints();    // 3 endpoints: users (GET/PUT), send-test-email
+            builder.MapRoleEndpoints();              // 6 endpoints: roles (GET/POST/PUT/DELETE + permissions)
+            builder.MapPermissionEndpoints();        // 4 endpoints: permissions (GET/POST/PUT/DELETE)
+            builder.MapRoleGroupEndpoints();         // 6 endpoints: role groups (GET/POST/PUT/DELETE + roles)
+            builder.MapIdpEndpoints();               // 3 endpoints: idps (GET/POST/PUT)
             builder.MapEmailVerificationEndpoints(); // 4 endpoints: verify, send-verification, resend-verification, verification-status
 
-            Log.Information("[{Module}] Module endpoints mapped: 29 total (6 Auth, 5 OAuth, 5 User, 3 UserManagement, 3 Role, 3 Idp, 4 EmailVerification)", ModuleName);
+            Log.Information("[{Module}] Module endpoints mapped: 42 total (6 Auth, 5 OAuth, 5 User, 3 UserManagement, 6 Role, 4 Permission, 6 RoleGroup, 3 Idp, 4 EmailVerification)", ModuleName);
             return builder;
         }
     }

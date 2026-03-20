@@ -39,29 +39,27 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
     {
         try
         {
-            // 1. Try to find existing user by issuer/subject
-            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(
+            // 1. Try to find existing user by issuer/subject (with permissions eager-loaded)
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(
                 request.Issuer, request.Subject, cancellationToken);
 
             if (user != null)
             {
-                // User exists - return their info
-                if (user.UserRole == null)
-                {
-                    _logger.LogWarning(
-                        "User {Issuer}/{Subject} has no role assigned",
-                        request.Issuer, request.Subject);
-                    return Result<UserAuthResult>.Failure("User has no role assigned");
-                }
+                var permissions = user.Roles
+                    .Concat(user.RoleGroups.SelectMany(g => g.Roles))
+                    .SelectMany(r => r.Permissions)
+                    .Select(p => p.Name)
+                    .Distinct()
+                    .ToList();
 
                 _logger.LogDebug(
-                    "Found existing user {UserId} with role '{RoleName}' for {Issuer}/{Subject}",
-                    user.Id, user.UserRole.RoleName, request.Issuer, request.Subject);
+                    "Found existing user {UserId} with {PermissionCount} permissions for {Issuer}/{Subject}",
+                    user.Id, permissions.Count, request.Issuer, request.Subject);
 
                 return Result<UserAuthResult>.Success(new UserAuthResult
                 {
                     UserId = user.Id,
-                    RoleName = user.UserRole.RoleName,
+                    PermissionNames = permissions,
                     WasProvisioned = false
                 });
             }
@@ -167,16 +165,16 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
             }
 
             _logger.LogInformation(
-                "Auto-provisioned SSO user {UserId} with role '{RoleName}' for {Issuer}/{Subject}",
+                "Auto-provisioned SSO user {UserId} with {PermissionCount} permissions for {Issuer}/{Subject}",
                 provisionResult.Value!.UserId,
-                provisionResult.Value.RoleName,
+                provisionResult.Value.PermissionNames.Count,
                 request.Issuer,
                 request.Subject);
 
             return Result<UserAuthResult>.Success(new UserAuthResult
             {
                 UserId = provisionResult.Value.UserId,
-                RoleName = provisionResult.Value.RoleName,
+                PermissionNames = provisionResult.Value.PermissionNames,
                 WasProvisioned = provisionResult.Value.WasProvisioned
             });
         }

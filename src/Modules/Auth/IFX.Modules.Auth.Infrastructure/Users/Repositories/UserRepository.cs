@@ -15,27 +15,35 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-    {
-        return await _context.Users
-            .Include(u => u.UserRole)
+        => await _context.Users
             .Include(u => u.Identities)
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
-    }
+
+    public async Task<User?> GetByIdWithRolesAndGroupsAsync(Guid id, CancellationToken cancellationToken = default)
+        => await _context.Users
+            .Include(u => u.Roles).ThenInclude(r => r.Permissions)
+            .Include(u => u.RoleGroups).ThenInclude(g => g.Roles).ThenInclude(r => r.Permissions)
+            .Include(u => u.Identities)
+            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
     public async Task<User?> GetByIssuerAndSubjectAsync(string issuer, string subject, CancellationToken cancellationToken = default)
-    {
-        return await _context.Users
-            .Include(u => u.UserRole)
+        => await _context.Users
             .Include(u => u.Identities)
             .Where(u => u.Identities.Any(ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject))
             .FirstOrDefaultAsync(cancellationToken);
-    }
+
+    public async Task<User?> GetByIssuerAndSubjectWithPermissionsAsync(string issuer, string subject, CancellationToken cancellationToken = default)
+        => await _context.Users
+            .Include(u => u.Roles).ThenInclude(r => r.Permissions)
+            .Include(u => u.RoleGroups).ThenInclude(g => g.Roles).ThenInclude(r => r.Permissions)
+            .Include(u => u.Identities)
+            .Where(u => u.Identities.Any(ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject))
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<User?> GetByEmailAndIdpAsync(string email, Guid idpId, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.Users
-            .Include(u => u.UserRole)
             .Include(u => u.Identities)
             .Where(u => u.Identities.Any(ui =>
                 EF.Property<string>(ui, "_email") == normalizedEmail &&
@@ -60,7 +68,7 @@ public class UserRepository : IUserRepository
         CancellationToken cancellationToken = default)
     {
         var query = _context.Users
-            .Include(u => u.UserRole)
+            .Include(u => u.Roles)
             .Include(u => u.Identities)
             .AsNoTracking();
 

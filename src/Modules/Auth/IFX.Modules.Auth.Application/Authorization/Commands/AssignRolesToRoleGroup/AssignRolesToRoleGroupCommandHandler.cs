@@ -1,0 +1,51 @@
+using AutoMapper;
+using IFX.Modules.Auth.Application.Authorization.DTOs;
+using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.Interfaces;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace IFX.Modules.Auth.Application.Authorization.Commands.AssignRolesToRoleGroup;
+
+public class AssignRolesToRoleGroupCommandHandler : IRequestHandler<AssignRolesToRoleGroupCommand, Result<RoleGroupDto>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly ILogger<AssignRolesToRoleGroupCommandHandler> _logger;
+
+    public AssignRolesToRoleGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AssignRolesToRoleGroupCommandHandler> logger)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _logger = logger;
+    }
+
+    public async Task<Result<RoleGroupDto>> Handle(AssignRolesToRoleGroupCommand request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var group = await _unitOfWork.RoleGroups.GetByIdWithRolesAsync(request.RoleGroupId, cancellationToken);
+            if (group == null)
+                return Result<RoleGroupDto>.Failure("Role group not found");
+
+            foreach (var roleId in request.RoleIds)
+            {
+                var role = await _unitOfWork.Roles.GetByIdAsync(roleId, cancellationToken);
+                if (role == null)
+                    return Result<RoleGroupDto>.Failure($"Role {roleId} not found");
+
+                group.AddRole(role);
+            }
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            _logger.LogInformation("Assigned {Count} roles to role group {RoleGroupId}", request.RoleIds.Count, request.RoleGroupId);
+            return Result<RoleGroupDto>.Success(_mapper.Map<RoleGroupDto>(group));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error assigning roles to role group {RoleGroupId}", request.RoleGroupId);
+            return Result<RoleGroupDto>.Failure("An error occurred while assigning roles");
+        }
+    }
+}

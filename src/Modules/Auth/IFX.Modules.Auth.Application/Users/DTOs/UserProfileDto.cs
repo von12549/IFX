@@ -4,7 +4,6 @@ namespace IFX.Modules.Auth.Application.Users.DTOs;
 public class UserProfileDto
 {
     public Guid Id { get; init; }
-    //public string Subject { get; init; } = string.Empty;
     public string Email { get; init; } = string.Empty;
     public string DisplayName { get; init; } = string.Empty;
     public string FirstName { get; init; } = string.Empty;
@@ -14,6 +13,6 @@ public class UserProfileDto
     public bool EmailVerified { get; init; }
     public bool IsActive { get; init; }
     public string Issuer { get; init; } = string.Empty;
-    public UserRoleDto? Role { get; init; }
+    public List<RoleDto> Roles { get; init; } = [];
     public DateTime CreatedAt { get; init; }
 }

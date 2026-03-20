@@ -10,32 +10,48 @@ public static class RoleEndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/role")
             .WithTags("Role")
-            .RequireAuthorization(policy => policy.RequireRole("Admin"))
-            ;
+            .RequireAuthorization();
 
         group.MapGet("/", RoleEndpoints.GetAllRoles)
             .WithName("GetAllRoles")
-            .WithSummary("Get all user roles (Admin only)")
+            .WithSummary("Get all roles")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/", RoleEndpoints.CreateRole)
+            .WithName("CreateRole")
+            .WithSummary("Create a new role")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
-            .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden);
+            .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPut("/{roleId}", RoleEndpoints.UpdateRole)
             .WithName("UpdateRole")
-            .WithSummary("Update an existing role (Admin only)")
+            .WithSummary("Update an existing role")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
-            .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden);
+            .Produces<object>(StatusCodes.Status401Unauthorized);
 
-        group.MapPost("/", RoleEndpoints.AddRole)
-            .WithName("AddRole")
-            .WithSummary("Add a new role (Admin only)")
+        group.MapDelete("/{roleId}", RoleEndpoints.DeleteRole)
+            .WithName("DeleteRole")
+            .WithSummary("Delete a role")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
-            .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden);
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{roleId}/permissions", RoleEndpoints.AssignPermissionsToRole)
+            .WithName("AssignPermissionsToRole")
+            .WithSummary("Assign permissions to a role")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{roleId}/permissions/{permissionId}", RoleEndpoints.RemovePermissionFromRole)
+            .WithName("RemovePermissionFromRole")
+            .WithSummary("Remove a permission from a role")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
 
         return builder;
     }

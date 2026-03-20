@@ -13,12 +13,11 @@ public class DomainCustomization : ICustomization
         fixture.Register(() => Subject.Create(Guid.NewGuid().ToString()));
         fixture.Register(() => DeviceInfo.Parse(TestConstants.ValidUserAgent));
 
-        fixture.Register(() => UserRole.Create(
+        fixture.Register(() => Role.Create(
             $"Role_{Guid.NewGuid():N}".Substring(0, 20),
             "Auto-generated role description"));
 
         fixture.Register(() => User.Create(
-            Guid.NewGuid(),
             $"User {fixture.Create<string>().Substring(0, 10)}",
             false));
     }

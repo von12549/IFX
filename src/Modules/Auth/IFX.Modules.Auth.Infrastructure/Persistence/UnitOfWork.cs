@@ -15,7 +15,9 @@ public class UnitOfWork : IUnitOfWork
         IfxDbContext context,
         IUserRepository users,
         IUserIdentityRepository userIdentities,
-        IUserRoleRepository userRoles,
+        IRoleRepository roles,
+        IPermissionRepository permissions,
+        IRoleGroupRepository roleGroups,
         ILoginEventRepository loginEvents,
         ILogoutEventRepository logoutEvents,
         IRegistrationFlowEventRepository registrationFlowEvents,
@@ -26,7 +28,9 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         Users = users;
         UserIdentities = userIdentities;
-        UserRoles = userRoles;
+        Roles = roles;
+        Permissions = permissions;
+        RoleGroups = roleGroups;
         LoginEvents = loginEvents;
         LogoutEvents = logoutEvents;
         RegistrationFlowEvents = registrationFlowEvents;
@@ -37,7 +41,9 @@ public class UnitOfWork : IUnitOfWork
 
     public IUserRepository Users { get; }
     public IUserIdentityRepository UserIdentities { get; }
-    public IUserRoleRepository UserRoles { get; }
+    public IRoleRepository Roles { get; }
+    public IPermissionRepository Permissions { get; }
+    public IRoleGroupRepository RoleGroups { get; }
     public ILoginEventRepository LoginEvents { get; }
     public ILogoutEventRepository LogoutEvents { get; }
     public IRegistrationFlowEventRepository RegistrationFlowEvents { get; }

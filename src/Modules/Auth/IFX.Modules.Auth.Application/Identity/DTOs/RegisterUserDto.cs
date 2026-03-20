@@ -15,5 +15,4 @@ public class RegisterUserResponse
     public string Subject { get; init; } = string.Empty;
     public bool RequiresConfirmation { get; init; }
     public string Message { get; init; } = string.Empty;
-    public string RoleName { get; init; } = "User";
 }
