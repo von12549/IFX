@@ -1,4 +1,5 @@
 using IFX.Modules.Auth.Application.Authorization.Commands.AssignPermissionsToRole;
+using IFX.Modules.Auth.Application.Authorization.Queries.GetRoleById;
 using IFX.Modules.Auth.Application.Authorization.Commands.CreateRole;
 using IFX.Modules.Auth.Application.Authorization.Commands.DeleteRole;
 using IFX.Modules.Auth.Application.Authorization.Commands.RemovePermissionFromRole;
@@ -17,6 +18,21 @@ public sealed class RoleEndpointsLogCategory { }
 
 public static class RoleEndpoints
 {
+    public static async Task<IResult> GetRoleById(
+        Guid roleId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<RoleEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Getting role: {RoleId}", roleId);
+
+        var result = await mediator.Send(new GetRoleByIdQuery(roleId));
+
+        if (!result.IsSuccess)
+            return Results.NotFound(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
     public static async Task<IResult> GetAllRoles(
         [FromServices] IMediator mediator,
         [FromServices] ILogger<RoleEndpointsLogCategory> logger)

@@ -12,6 +12,13 @@ public static class RoleEndpointExtensions
             .WithTags("Role")
             .RequireAuthorization();
 
+        group.MapGet("/{roleId}", RoleEndpoints.GetRoleById)
+            .WithName("GetRoleById")
+            .WithSummary("Get a role with its permissions")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
         group.MapGet("/", RoleEndpoints.GetAllRoles)
             .WithName("GetAllRoles")
             .WithSummary("Get all roles")
