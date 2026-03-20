@@ -21,6 +21,13 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 schema: "auth",
                 table: "Users");
 
+            // Clear the old role-definition rows (Admin, User, SsoUser, PendingUser).
+            // The old auth.UserRoles was a role-definitions table (not a join table).
+            // These rows would otherwise remain as orphaned rows with RolesId = Guid.Empty
+            // after the structural changes below, causing the FK constraint to fail.
+            // Roles are re-seeded in the new auth.Roles table later in this migration.
+            migrationBuilder.Sql("DELETE FROM [auth].[UserRoles]");
+
             migrationBuilder.DropPrimaryKey(
                 name: "PK_UserRoles",
                 schema: "auth",
