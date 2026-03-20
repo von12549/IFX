@@ -443,9 +443,14 @@ Migration `Up()` order:
 
 ---
 
-### Step 4 — ApiHost: `UserRoleClaimsTransformation`
+### Step 4 — ApiHost: `UserRoleClaimsTransformation` → `UserPermissionClaimsTransformation`
 
 This is a **critical change**. The transformation currently adds a single `ClaimTypes.Role` claim. With the new design, it adds permission claims.
+
+Rename file and class:
+- `Authorization/UserRoleClaimsTransformation.cs` → `Authorization/UserPermissionClaimsTransformation.cs`
+- Class: `UserRoleClaimsTransformation` → `UserPermissionClaimsTransformation`
+- Update registration in `AuthenticationConfiguration.cs` (or wherever `IClaimsTransformation` is registered)
 
 **a. Change guard clause (line 32)**
 
@@ -560,6 +565,7 @@ dotnet test IFX.sln
 | `Application/Authorization/DTOs/UserRoleDto.cs` | `Application/Authorization/DTOs/RoleDto.cs` |
 | `Application/Authorization/Commands/AddRole/` | `Application/Authorization/Commands/CreateRole/` |
 | `Presentation/Authorization/Requests/AddRoleRequest.cs` | `Presentation/Authorization/Requests/CreateRoleRequest.cs` |
+| `ApiHost/Authorization/UserRoleClaimsTransformation.cs` | `ApiHost/Authorization/UserPermissionClaimsTransformation.cs` |
 
 ---
 
