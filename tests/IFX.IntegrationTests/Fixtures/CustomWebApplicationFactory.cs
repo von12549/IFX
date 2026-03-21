@@ -168,14 +168,15 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     private static void SeedTestData(IfxDbContext db)
     {
-        // Seed default user role
-        if (!db.UserRoles.Any())
+        // Seed default roles
+        if (!db.Roles.Any())
         {
-            var userRole = IFX.Modules.Auth.Domain.Authorization.UserRole.Create("User", "Standard user role");
-            var adminRole = IFX.Modules.Auth.Domain.Authorization.UserRole.Create("Admin", "Administrator role");
-            var ssoRole = IFX.Modules.Auth.Domain.Authorization.UserRole.Create("SsoUser", "SSO user role");
+            var userRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("User", "Standard user role");
+            var adminRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("Admin", "Administrator role");
+            var ssoRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("SsoUser", "SSO user role");
+            var pendingRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("PendingUser", "Pending user awaiting approval");
 
-            db.UserRoles.AddRange(userRole, adminRole, ssoRole);
+            db.Roles.AddRange(userRole, adminRole, ssoRole, pendingRole);
             db.SaveChanges();
         }
 

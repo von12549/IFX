@@ -1,4 +1,8 @@
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Users.Commands.AssignRoleGroupsToUser;
+using IFX.Modules.Auth.Application.Users.Commands.AssignRolesToUser;
+using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleFromUser;
+using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleGroupFromUser;
 using IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
 using IFX.Modules.Auth.Application.Users.Queries.GetAllUsers;
 using IFX.Modules.Auth.Presentation.Users.Requests;
@@ -130,5 +134,69 @@ public static class UserManagementEndpoints
             JobId = jobId,
             Email = userEmail
         }));
+    }
+
+    public static async Task<IResult> AssignRolesToUser(
+        Guid userId,
+        [FromBody] AssignRolesToUserRequest request,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin assigning roles to user: {UserId}", userId);
+
+        var result = await mediator.Send(new AssignRolesToUserCommand(userId, request.RoleIds));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> RemoveRoleFromUser(
+        Guid userId,
+        Guid roleId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin removing role {RoleId} from user {UserId}", roleId, userId);
+
+        var result = await mediator.Send(new RemoveRoleFromUserCommand(userId, roleId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> AssignRoleGroupsToUser(
+        Guid userId,
+        [FromBody] AssignRoleGroupsToUserRequest request,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin assigning role groups to user: {UserId}", userId);
+
+        var result = await mediator.Send(new AssignRoleGroupsToUserCommand(userId, request.RoleGroupIds));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> RemoveRoleGroupFromUser(
+        Guid userId,
+        Guid roleGroupId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin removing role group {RoleGroupId} from user {UserId}", roleGroupId, userId);
+
+        var result = await mediator.Send(new RemoveRoleGroupFromUserCommand(userId, roleGroupId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 }

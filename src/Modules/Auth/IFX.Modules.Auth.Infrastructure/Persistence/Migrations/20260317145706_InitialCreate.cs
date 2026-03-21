@@ -400,8 +400,8 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     {
                         new Guid("b1b2c3d4-0002-0000-0000-000000000001"),
                         "IFX Cognito",
-                        "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
-                        "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
+                        "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_nh141gzCi",
+                        "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_nh141gzCi",
                         "IFX AWS Cognito Identity Provider",
                         "", "Internal", true, true, true,
                         "[]", "[]", "[]", "{}", 300,
@@ -412,9 +412,19 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         "Test External Idp",
                         "https://test-external-idp.example.com",
                         "https://test-external-idp.example.com",
-                        "Test External Identity Provider",
+                        "External Identity Provider",
                         "https://test-external-idp.example.com/login",
                         "External", false, false, false,
+                        "[]", "[]", "[]", "{}", 300,
+                        seedDate, seedDate
+                    },
+                    {
+                        new Guid("b1b2c3d4-0002-0000-0000-000000000003"),
+                        "VON Cognito Idp",
+                        "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
+                        "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
+                        "VON's Private Cognito Identity Provider",
+                        "", "External", false, true, true,
                         "[]", "[]", "[]", "{}", 300,
                         seedDate, seedDate
                     },
@@ -426,6 +436,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
         {
             migrationBuilder.DeleteData(schema: "auth", table: "Idps", keyColumn: "Id", keyValue: new Guid("b1b2c3d4-0002-0000-0000-000000000001"));
             migrationBuilder.DeleteData(schema: "auth", table: "Idps", keyColumn: "Id", keyValue: new Guid("b1b2c3d4-0002-0000-0000-000000000002"));
+            migrationBuilder.DeleteData(schema: "auth", table: "Idps", keyColumn: "Id", keyValue: new Guid("b1b2c3d4-0002-0000-0000-000000000003"));
             migrationBuilder.DeleteData(schema: "auth", table: "UserRoles", keyColumn: "Id", keyValue: new Guid("a1b2c3d4-0001-0000-0000-000000000001"));
             migrationBuilder.DeleteData(schema: "auth", table: "UserRoles", keyColumn: "Id", keyValue: new Guid("a1b2c3d4-0001-0000-0000-000000000002"));
             migrationBuilder.DeleteData(schema: "auth", table: "UserRoles", keyColumn: "Id", keyValue: new Guid("a1b2c3d4-0001-0000-0000-000000000003"));

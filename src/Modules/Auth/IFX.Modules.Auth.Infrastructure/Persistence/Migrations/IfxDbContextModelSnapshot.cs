@@ -22,7 +22,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.UserRole", b =>
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.Permission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,7 +36,38 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Permissions_Name");
+
+                    b.ToTable("Permissions", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -46,11 +77,42 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleName")
+                    b.HasIndex("Name")
                         .IsUnique()
-                        .HasDatabaseName("IX_UserRoles_RoleName");
+                        .HasDatabaseName("IX_Roles_Name");
 
-                    b.ToTable("UserRoles", "auth");
+                    b.ToTable("Roles", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.RoleGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("IX_RoleGroups_Name");
+
+                    b.ToTable("RoleGroups", "auth");
                 });
 
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
@@ -460,13 +522,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserRoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserRoleId")
-                        .HasDatabaseName("IX_Users_UserRoleId");
 
                     b.ToTable("Users", "auth");
                 });
@@ -511,6 +567,66 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.HasIndex("UserId", "Timestamp");
 
                     b.ToTable("UserActivityLogs", "auth");
+                });
+
+            modelBuilder.Entity("PermissionRole", b =>
+                {
+                    b.Property<Guid>("PermissionsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PermissionsId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermissions", "auth");
+                });
+
+            modelBuilder.Entity("RoleGroupUser", b =>
+                {
+                    b.Property<Guid>("RoleGroupsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleGroupsId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoleGroups", "auth");
+                });
+
+            modelBuilder.Entity("RoleRoleGroup", b =>
+                {
+                    b.Property<Guid>("RoleGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleGroupId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("RoleGroupRoles", "auth");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RolesId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoles", "auth");
                 });
 
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
@@ -584,15 +700,64 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
+            modelBuilder.Entity("PermissionRole", b =>
                 {
-                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.UserRole", "UserRole")
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.Permission", null)
                         .WithMany()
-                        .HasForeignKey("UserRoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserRole");
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleGroupUser", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.RoleGroup", null)
+                        .WithMany()
+                        .HasForeignKey("RoleGroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IFX.Modules.Auth.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleRoleGroup", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.RoleGroup", null)
+                        .WithMany()
+                        .HasForeignKey("RoleGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IFX.Modules.Auth.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>

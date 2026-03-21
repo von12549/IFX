@@ -8,7 +8,9 @@ public interface IUnitOfWork : IDisposable
 {
     IUserRepository Users { get; }
     IUserIdentityRepository UserIdentities { get; }
-    IUserRoleRepository UserRoles { get; }
+    IRoleRepository Roles { get; }
+    IPermissionRepository Permissions { get; }
+    IRoleGroupRepository RoleGroups { get; }
     ILoginEventRepository LoginEvents { get; }
     ILogoutEventRepository LogoutEvents { get; }
     IRegistrationFlowEventRepository RegistrationFlowEvents { get; }

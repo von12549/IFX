@@ -14,7 +14,9 @@ public class IfxDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<UserIdentity> UserIdentities => Set<UserIdentity>();
-    public DbSet<UserRole> UserRoles => Set<UserRole>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<RoleGroup> RoleGroups => Set<RoleGroup>();
     public DbSet<LoginEvent> LoginEvents => Set<LoginEvent>();
     public DbSet<LogoutEvent> LogoutEvents => Set<LogoutEvent>();
     public DbSet<RegistrationFlowEvent> RegistrationFlowEvents => Set<RegistrationFlowEvent>();

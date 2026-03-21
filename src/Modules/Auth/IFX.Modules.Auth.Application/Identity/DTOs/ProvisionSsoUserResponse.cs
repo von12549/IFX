@@ -4,7 +4,7 @@ public record ProvisionSsoUserResponse
 {
     public Guid UserId { get; init; }
     public Guid UserIdentityId { get; init; }
-    public string RoleName { get; init; } = string.Empty;
+    public List<string> PermissionNames { get; init; } = [];
     public bool WasProvisioned { get; init; }
     public bool RequiresEmailVerification { get; init; }
     public string? Email { get; init; }

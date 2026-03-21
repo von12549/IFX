@@ -12,8 +12,7 @@ public static class UserManagementEndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/usermanagement")
             .WithTags("User Management")
-            .RequireAuthorization(policy => policy.RequireRole("Admin"))
-            ;
+            .RequireAuthorization();
 
         group.MapGet("/users",
             ([AsParameters] UsersParams parameters, IServiceProvider services) =>
@@ -38,12 +37,43 @@ public static class UserManagementEndpointExtensions
 
         group.MapPost("/users/{userId}/send-test-email", UserManagementEndpoints.SendTestEmail)
             .WithName("SendTestEmail")
-            .WithSummary("Send a test email to a user (Admin only)")
+            .WithSummary("Send a test email to a user")
             .WithDescription("Enqueues a test email job on the 'email' queue for the specified user")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapPost("/users/{userId}/roles", UserManagementEndpoints.AssignRolesToUser)
+            .WithName("AssignRolesToUser")
+            .WithSummary("Assign roles to a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapDelete("/users/{userId}/roles/{roleId}", UserManagementEndpoints.RemoveRoleFromUser)
+            .WithName("RemoveRoleFromUser")
+            .WithSummary("Remove a role from a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapPost("/users/{userId}/rolegroups", UserManagementEndpoints.AssignRoleGroupsToUser)
+            .WithName("AssignRoleGroupsToUser")
+            .WithSummary("Assign role groups to a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapDelete("/users/{userId}/rolegroups/{roleGroupId}", UserManagementEndpoints.RemoveRoleGroupFromUser)
+            .WithName("RemoveRoleGroupFromUser")
+            .WithSummary("Remove a role group from a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
             .Produces<object>(StatusCodes.Status404NotFound);
 
         return builder;

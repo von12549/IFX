@@ -9,7 +9,7 @@ public class UpdateRoleCommandValidator : AbstractValidator<UpdateRoleCommand>
         RuleFor(x => x.RoleId)
             .NotEmpty().WithMessage("RoleId is required");
 
-        RuleFor(x => x.RoleName)
+        RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Role name is required")
             .MinimumLength(3)
             .MaximumLength(50);

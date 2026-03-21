@@ -10,16 +10,14 @@ public class UserTests
     public void Create_WithValidParameters_ReturnsUser()
     {
         // Arrange
-        var roleId = Guid.NewGuid();
         var displayName = "John Doe";
 
         // Act
-        var user = User.Create(roleId, displayName);
+        var user = User.Create(displayName);
 
         // Assert
         user.Should().NotBeNull();
         user.Id.Should().NotBeEmpty();
-        user.UserRoleId.Should().Be(roleId);
         user.DisplayName.Should().Be(displayName);
         user.IsActive.Should().BeFalse();
     }
@@ -27,11 +25,8 @@ public class UserTests
     [Fact]
     public void Create_WithIsActiveTrue_SetsIsActive()
     {
-        // Arrange
-        var roleId = Guid.NewGuid();
-
         // Act
-        var user = User.Create(roleId, "Test User", isActive: true);
+        var user = User.Create("Test User", isActive: true);
 
         // Assert
         user.IsActive.Should().BeTrue();
@@ -77,20 +72,6 @@ public class UserTests
 
         // Assert
         user.DisplayName.Should().Be(newDisplayName);
-    }
-
-    [Fact]
-    public void AssignRole_UpdatesUserRoleId()
-    {
-        // Arrange
-        var user = new UserBuilder().Build();
-        var newRoleId = Guid.NewGuid();
-
-        // Act
-        user.AssignRole(newRoleId);
-
-        // Assert
-        user.UserRoleId.Should().Be(newRoleId);
     }
 
     [Fact]

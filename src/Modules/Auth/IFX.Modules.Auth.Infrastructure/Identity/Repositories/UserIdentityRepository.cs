@@ -18,7 +18,6 @@ public class UserIdentityRepository : IUserIdentityRepository
     {
         return await _context.UserIdentities
             .Include(ui => ui.User)
-                .ThenInclude(u => u!.UserRole)
             .Include(ui => ui.Idp)
             .FirstOrDefaultAsync(ui => ui.Id == id, cancellationToken);
     }
@@ -27,7 +26,6 @@ public class UserIdentityRepository : IUserIdentityRepository
     {
         return await _context.UserIdentities
             .Include(ui => ui.User)
-                .ThenInclude(u => u!.UserRole)
             .Include(ui => ui.Idp)
             .FirstOrDefaultAsync(
                 ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject,
@@ -39,7 +37,6 @@ public class UserIdentityRepository : IUserIdentityRepository
         var normalizedEmail = email.ToLowerInvariant();
         return await _context.UserIdentities
             .Include(ui => ui.User)
-                .ThenInclude(u => u!.UserRole)
             .Include(ui => ui.Idp)
             .FirstOrDefaultAsync(ui => EF.Property<string>(ui, "_email") == normalizedEmail, cancellationToken);
     }

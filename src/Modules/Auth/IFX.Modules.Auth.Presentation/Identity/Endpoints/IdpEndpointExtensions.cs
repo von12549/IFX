@@ -10,32 +10,31 @@ public static class IdpEndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/idp")
             .WithTags("Identity Provider")
-            .RequireAuthorization(policy => policy.RequireRole("Admin"))
-            ;
+            .RequireAuthorization();
 
         group.MapGet("/", IdpEndpoints.GetAllIdps)
             .WithName("GetAllIdps")
-            .WithSummary("Get all Identity Providers (Admin only)")
+            .WithSummary("Get all Identity Providers")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden);
+;
 
         group.MapPost("/", IdpEndpoints.CreateIdp)
             .WithName("CreateIdp")
-            .WithSummary("Create a new Identity Provider (Admin only)")
+            .WithSummary("Create a new Identity Provider")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden);
+;
 
         group.MapPut("/{idpId}", IdpEndpoints.UpdateIdp)
             .WithName("UpdateIdp")
-            .WithSummary("Update an existing Identity Provider (Admin only)")
+            .WithSummary("Update an existing Identity Provider")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized)
-            .Produces<object>(StatusCodes.Status403Forbidden);
+;
 
         return builder;
     }

@@ -62,21 +62,17 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             }
 
             // Get default "User" role
-            var userRole = await _unitOfWork.UserRoles.GetByRoleNameAsync("User", cancellationToken);
+            var userRole = await _unitOfWork.Roles.GetByNameAsync("User", cancellationToken);
             if (userRole == null)
             {
                 _logger.LogError("Default 'User' role not found in database");
                 return Result<RegisterUserResponse>.Failure("System configuration error. Please contact support.");
             }
 
-            
-
-            // Create User entity (simplified structure)
+            // Create User entity
             var displayName = $"{request.FirstName} {request.LastName}";
-            var user = User.Create(
-                userRoleId: userRole.Id,
-                displayName: displayName,
-                isActive: false); // Will be activated after confirmation
+            var user = User.Create(displayName, isActive: false); // Will be activated after confirmation
+            user.AddRole(userRole);
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
 
@@ -128,8 +124,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 RequiresConfirmation = !cognitoResult.UserConfirmed,
                 Message = cognitoResult.UserConfirmed
                     ? "Registration successful"
-                    : "Registration successful. Please check your email for confirmation code.",
-                RoleName = userRole.RoleName
+                    : "Registration successful. Please check your email for confirmation code."
             });
         }
         catch (Exception ex)

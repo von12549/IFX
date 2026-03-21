@@ -12,38 +12,31 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasKey(u => u.Id);
 
-        builder.Property(u => u.IsActive)
-            .IsRequired();
+        builder.Property(u => u.IsActive).IsRequired();
 
         builder.Property(u => u.DisplayName)
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(u => u.CreatedAt)
-            .IsRequired();
+        builder.Property(u => u.CreatedAt).IsRequired();
+        builder.Property(u => u.UpdatedAt).IsRequired();
 
-        builder.Property(u => u.UpdatedAt)
-            .IsRequired();
-
-        // Configure UserRole relationship
-        builder.Property(u => u.UserRoleId)
-            .IsRequired();
-
-        builder.HasOne(u => u.UserRole)
+        // Many-to-many: User ↔ Role
+        builder.HasMany(u => u.Roles)
             .WithMany()
-            .HasForeignKey(u => u.UserRoleId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .UsingEntity(j => j.ToTable("UserRoles", "auth"));
 
-        builder.HasIndex(u => u.UserRoleId)
-            .HasDatabaseName("IX_Users_UserRoleId");
+        // Many-to-many: User ↔ RoleGroup
+        builder.HasMany(u => u.RoleGroups)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("UserRoleGroups", "auth"));
 
-        // Configure Identities navigation (inverse of UserIdentity.User)
+        // Identities (inverse of UserIdentity.User)
         builder.HasMany(u => u.Identities)
             .WithOne(ui => ui.User)
             .HasForeignKey(ui => ui.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Ignore navigation properties loaded separately
         builder.Ignore(u => u.LoginEvents);
     }
 }
