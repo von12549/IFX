@@ -3,11 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import { userManagementApi } from '../api/userManagement'
 import type { UserProfileDto } from '../types/api'
 import { Chip } from '../components/shared/Chip'
+import { SortableHeader } from '../components/shared/SortableHeader'
+
+type SortCol = 'displayName' | 'email' | 'roles' | 'roleGroups' | 'isActive'
 
 export function UserManagementPage() {
   const [users, setUsers] = useState<UserProfileDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [sortCol, setSortCol] = useState<SortCol>('displayName')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -16,6 +21,21 @@ export function UserManagementPage() {
       .catch(() => setError('Failed to load users'))
       .finally(() => setLoading(false))
   }, [])
+
+  const toggleSort = (col: string) => {
+    const c = col as SortCol
+    if (sortCol === c) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortCol(c); setSortDir('asc') }
+  }
+
+  const sorted = [...users].sort((a, b) => {
+    let v = 0
+    if (sortCol === 'roles') v = a.roles.length - b.roles.length
+    else if (sortCol === 'roleGroups') v = a.roleGroups.length - b.roleGroups.length
+    else if (sortCol === 'isActive') v = Number(a.isActive) - Number(b.isActive)
+    else v = (a[sortCol] ?? '').localeCompare(b[sortCol] ?? '')
+    return sortDir === 'asc' ? v : -v
+  })
 
   return (
     <div className="page">
@@ -28,15 +48,15 @@ export function UserManagementPage() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Display Name</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Role Groups</th>
-                <th>Active</th>
+                <SortableHeader label="Display Name" col="displayName" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Email" col="email" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Roles" col="roles" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Role Groups" col="roleGroups" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Active" col="isActive" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
               </tr>
             </thead>
             <tbody>
-              {users.map(u => (
+              {sorted.map(u => (
                 <tr key={u.id} className="clickable-row" onClick={() => navigate(`/users/${u.id}`)}>
                   <td>{u.displayName}</td>
                   <td>{u.email}</td>

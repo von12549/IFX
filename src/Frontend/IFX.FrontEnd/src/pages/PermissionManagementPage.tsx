@@ -2,6 +2,16 @@ import { useEffect, useState } from 'react'
 import { permissionApi } from '../api/permission'
 import type { CreatePermissionRequest, PermissionDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
+import { SortableHeader } from '../components/shared/SortableHeader'
+
+type SortCol = 'name' | 'description'
+
+function sortPerms(perms: PermissionDto[], col: SortCol, dir: 'asc' | 'desc') {
+  return [...perms].sort((a, b) => {
+    const v = (a[col] ?? '').localeCompare(b[col] ?? '')
+    return dir === 'asc' ? v : -v
+  })
+}
 
 export function PermissionManagementPage() {
   const [perms, setPerms] = useState<PermissionDto[]>([])
@@ -12,10 +22,18 @@ export function PermissionManagementPage() {
   const [editId, setEditId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+  const [sortCol, setSortCol] = useState<SortCol>('name')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
   const load = () => permissionApi.getAll().then(r => setPerms(r.data?.data ?? [])).catch(() => setError('Failed to load permissions'))
 
   useEffect(() => { load().finally(() => setLoading(false)) }, [])
+
+  const toggleSort = (col: string) => {
+    const c = col as SortCol
+    if (sortCol === c) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortCol(c); setSortDir('asc') }
+  }
 
   const openEdit = (p: PermissionDto) => { setForm({ name: p.name, description: p.description }); setEditId(p.id); setModal('edit') }
   const openCreate = () => { setForm({ name: '', description: '' }); setEditId(null); setModal('create') }
@@ -34,6 +52,8 @@ export function PermissionManagementPage() {
     await permissionApi.delete(id); await load(); setConfirmDelete(null)
   }
 
+  const sorted = sortPerms(perms, sortCol, sortDir)
+
   return (
     <div className="page">
       <div className="page-header">
@@ -44,9 +64,15 @@ export function PermissionManagementPage() {
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
           <table className="data-table">
-            <thead><tr><th>Name</th><th>Description</th><th></th></tr></thead>
+            <thead>
+              <tr>
+                <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <th></th>
+              </tr>
+            </thead>
             <tbody>
-              {perms.map(p => (
+              {sorted.map(p => (
                 <tr key={p.id}>
                   <td>{p.name}</td>
                   <td className="text-muted">{p.description}</td>

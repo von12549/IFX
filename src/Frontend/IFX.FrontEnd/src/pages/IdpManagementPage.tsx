@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { idpApi } from '../api/idp'
 import type { CreateIdpRequest, IdpDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
+import { SortableHeader } from '../components/shared/SortableHeader'
 
 const IdpTypeLabel: Record<number, string> = { 0: 'Cognito', 1: 'Auth0', 2: 'Generic OIDC' }
 
@@ -12,6 +13,8 @@ const emptyForm = (): CreateIdpRequest => ({
   clockSkewSeconds: 300,
 })
 
+type SortCol = 'name' | 'type' | 'issuer' | 'isPrimary' | 'enabled' | 'autoProvisionEnabled'
+
 export function IdpManagementPage() {
   const [idps, setIdps] = useState<IdpDto[]>([])
   const [loading, setLoading] = useState(true)
@@ -20,6 +23,8 @@ export function IdpManagementPage() {
   const [form, setForm] = useState<CreateIdpRequest>(emptyForm())
   const [editId, setEditId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
+  const [sortCol, setSortCol] = useState<SortCol>('name')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
   const load = () => idpApi.getAll().then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
 
@@ -55,6 +60,22 @@ export function IdpManagementPage() {
     } finally { setSaving(false) }
   }
 
+  const toggleSort = (col: string) => {
+    const c = col as SortCol
+    if (sortCol === c) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortCol(c); setSortDir('asc') }
+  }
+
+  const sorted = [...idps].sort((a, b) => {
+    let v = 0
+    if (sortCol === 'type') v = (IdpTypeLabel[a.idpType] ?? '').localeCompare(IdpTypeLabel[b.idpType] ?? '')
+    else if (sortCol === 'isPrimary') v = Number(a.isPrimary) - Number(b.isPrimary)
+    else if (sortCol === 'enabled') v = Number(a.enabled) - Number(b.enabled)
+    else if (sortCol === 'autoProvisionEnabled') v = Number(a.autoProvisionEnabled) - Number(b.autoProvisionEnabled)
+    else v = (a[sortCol as 'name' | 'issuer'] ?? '').localeCompare(b[sortCol as 'name' | 'issuer'] ?? '')
+    return sortDir === 'asc' ? v : -v
+  })
+
   return (
     <div className="page">
       <div className="page-header">
@@ -66,10 +87,18 @@ export function IdpManagementPage() {
         <div className="table-wrapper">
           <table className="data-table">
             <thead>
-              <tr><th>Name</th><th>Type</th><th>Issuer</th><th>Primary</th><th>Enabled</th><th>Auto-Provision</th><th></th></tr>
+              <tr>
+                <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Type" col="type" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Issuer" col="issuer" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Primary" col="isPrimary" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Enabled" col="enabled" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Auto-Provision" col="autoProvisionEnabled" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <th></th>
+              </tr>
             </thead>
             <tbody>
-              {idps.map(idp => (
+              {sorted.map(idp => (
                 <tr key={idp.id}>
                   <td>{idp.name}</td>
                   <td>{IdpTypeLabel[idp.idpType] ?? idp.idpType}</td>
