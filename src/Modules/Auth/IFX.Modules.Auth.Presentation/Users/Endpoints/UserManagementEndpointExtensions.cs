@@ -14,6 +14,13 @@ public static class UserManagementEndpointExtensions
             .WithTags("User Management")
             .RequireAuthorization();
 
+        group.MapGet("/users/{userId}", UserManagementEndpoints.GetUserById)
+            .WithName("GetUserById")
+            .WithSummary("Get a user by ID (Admin only)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
         group.MapGet("/users",
             ([AsParameters] UsersParams parameters, IServiceProvider services) =>
                 UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize,
