@@ -1,3 +1,4 @@
+using IFX.Modules.Auth.Presentation.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,12 +15,14 @@ public static class PermissionEndpointExtensions
 
         group.MapGet("/", PermissionEndpoints.GetAllPermissions)
             .WithName("GetAllPermissions")
+            .RequirePermission("Permission.Read")
             .WithSummary("Get all permissions")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/", PermissionEndpoints.CreatePermission)
             .WithName("CreatePermission")
+            .RequirePermission("Permission.Write")
             .WithSummary("Create a new permission")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -27,6 +30,7 @@ public static class PermissionEndpointExtensions
 
         group.MapPut("/{permissionId}", PermissionEndpoints.UpdatePermission)
             .WithName("UpdatePermission")
+            .RequirePermission("Permission.Write")
             .WithSummary("Update an existing permission")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -34,6 +38,7 @@ public static class PermissionEndpointExtensions
 
         group.MapDelete("/{permissionId}", PermissionEndpoints.DeletePermission)
             .WithName("DeletePermission")
+            .RequirePermission("Permission.Write")
             .WithSummary("Delete a permission")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

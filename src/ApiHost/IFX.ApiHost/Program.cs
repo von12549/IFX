@@ -2,6 +2,9 @@ using App.Abstractions;
 using IFX.ApiHost.Configuration;
 using IFX.ApiHost.Middleware;
 using IFX.Modules.Auth.Composition;
+
+using IFX.ApiHost.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using IFX.Platform.BackgroundJobs.Composition;
 using IFX.Platform.Notifications.Composition;
 using Serilog;
@@ -35,6 +38,8 @@ try
     builder.Services.AddAuthCors();
     builder.Services.AddAuthHealthChecks(builder.Configuration);
     builder.Services.AddAuthorization();
+    builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+    builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
     var app = builder.Build();
 
