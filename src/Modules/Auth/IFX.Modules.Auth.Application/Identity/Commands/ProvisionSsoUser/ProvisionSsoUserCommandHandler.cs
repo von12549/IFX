@@ -101,7 +101,9 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
 
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
 
-            // Save changes
+            // Save changes — may throw if a concurrent request created the same user
+            // (unique constraint on UserIdentities.Issuer+Subject). The caller
+            // (GetOrProvisionUserQueryHandler) handles the TOCTOU fallback.
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             // Check if email verification is needed
@@ -125,7 +127,10 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error provisioning SSO user from {Issuer}", request.Issuer);
+            // Log at Warning level — this is expected under concurrent provisioning.
+            // The caller re-checks for an existing user and recovers gracefully.
+            _logger.LogWarning(ex, "SSO provisioning failed for {Issuer}/{Subject} — likely a concurrent request",
+                request.Issuer, request.Subject);
             return Result<ProvisionSsoUserResponse>.Failure("An error occurred during SSO user provisioning");
         }
     }

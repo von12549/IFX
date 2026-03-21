@@ -1,3 +1,4 @@
+using IFX.Modules.Auth.Presentation.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,6 +15,7 @@ public static class IdpEndpointExtensions
 
         group.MapGet("/{idpId}", IdpEndpoints.GetIdpById)
             .WithName("GetIdpById")
+            .RequirePermission("Idp.Read")
             .WithSummary("Get an Identity Provider by ID")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized)
@@ -21,6 +23,7 @@ public static class IdpEndpointExtensions
 
         group.MapGet("/", IdpEndpoints.GetAllIdps)
             .WithName("GetAllIdps")
+            .RequirePermission("Idp.Read")
             .WithSummary("Get all Identity Providers")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -29,6 +32,7 @@ public static class IdpEndpointExtensions
 
         group.MapPost("/", IdpEndpoints.CreateIdp)
             .WithName("CreateIdp")
+            .RequirePermission("Idp.Write")
             .WithSummary("Create a new Identity Provider")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -37,6 +41,7 @@ public static class IdpEndpointExtensions
 
         group.MapPut("/{idpId}", IdpEndpoints.UpdateIdp)
             .WithName("UpdateIdp")
+            .RequirePermission("Idp.Write")
             .WithSummary("Update an existing Identity Provider")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
