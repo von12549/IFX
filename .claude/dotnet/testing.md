@@ -5,17 +5,17 @@ Testing approach, project structure, and patterns.
 
 ---
 
-## Test Projects
+## Backend Test Projects
 
-### Auth Module Tests (178 tests)
+### Auth Module Tests (348 tests)
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
 | `IFX.Tests.Common` | Shared utilities, builders, fixtures | - |
-| `IFX.Modules.Auth.Domain.Tests` | Entity and value object tests | 96 |
-| `IFX.Modules.Auth.Application.Tests` | Validator and behavior tests | 63 |
-| `IFX.Modules.Auth.Infrastructure.Tests` | Repository tests | 9 |
-| `IFX.Modules.Auth.Presentation.Tests` | Extension method tests | 10 |
+| `IFX.Modules.Auth.Domain.Tests` | Entity and value object tests | 103 |
+| `IFX.Modules.Auth.Application.Tests` | Handler, validator, and behavior tests | 190 |
+| `IFX.Modules.Auth.Infrastructure.Tests` | Repository tests (in-memory EF) | 45 |
+| `IFX.Modules.Auth.Presentation.Tests` | Authorization class unit tests | 10 |
 
 ### Platform Module Tests (28 tests)
 
@@ -24,17 +24,56 @@ Testing approach, project structure, and patterns.
 | `IFX.Platform.BackgroundJobs.Tests` | Hangfire service tests | 11 |
 | `IFX.Platform.Notifications.Tests` | Email service tests | 17 |
 
-### Integration Tests
+### Integration Tests (43 tests)
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
-| `IFX.IntegrationTests` | End-to-end API tests | 17 |
+| `IFX.IntegrationTests` | Permission enforcement + API end-to-end | 43 |
 
-**Total: 206 unit tests + 17 integration tests**
+**Total: 376 unit tests + 43 integration tests = 419 backend tests**
 
 ---
 
-## Technology Stack
+## Frontend Test Stack (55 tests)
+
+Located in `src/Frontend/IFX.FrontEnd/src/`.
+
+| Package | Purpose |
+|---------|---------|
+| `vitest` | Vite-native test runner |
+| `@vitest/coverage-v8` | Coverage via V8 |
+| `jsdom` | Browser DOM environment |
+| `@testing-library/react` | Component rendering + queries |
+| `@testing-library/user-event` | Realistic user interactions |
+| `@testing-library/jest-dom` | DOM matchers |
+| `msw` | Mock Service Worker — intercepts axios requests in tests |
+
+### Frontend Test Files
+
+| File | Tests |
+|------|-------|
+| `src/components/shared/__tests__/Chip.test.tsx` | 4 |
+| `src/components/shared/__tests__/Modal.test.tsx` | 5 |
+| `src/components/shared/__tests__/SortableHeader.test.tsx` | 7 |
+| `src/components/shared/__tests__/ProtectedRoute.test.tsx` | 3 |
+| `src/api/__tests__/client.test.ts` | 5 |
+| `src/contexts/__tests__/AuthContext.test.tsx` | 5 |
+| `src/pages/auth/__tests__/CallbackPage.test.tsx` | 6 |
+| `src/pages/auth/__tests__/LoginPage.test.tsx` | 5 |
+| `src/pages/__tests__/RoleManagementPage.test.tsx` | 7 |
+| `src/pages/__tests__/PermissionManagementPage.test.tsx` | 8 |
+
+### MSW Test Infrastructure
+
+`src/test/setup.ts` — imports `@testing-library/jest-dom` and starts/resets/stops MSW server.
+
+`src/test/server.ts` — MSW node server used in all tests.
+
+`src/test/handlers.ts` — Default API handlers for profile, roles, permissions, auth/refresh, authorize URL. Individual tests override specific handlers via `server.use(...)`.
+
+---
+
+## Backend Technology Stack
 
 - **xUnit** - Test framework
 - **FluentAssertions** - Assertion library
@@ -42,7 +81,7 @@ Testing approach, project structure, and patterns.
 - **AutoFixture** - Test data generation
 - **Bogus** - Realistic fake data
 - **Microsoft.AspNetCore.Mvc.Testing** - Integration testing
-- **EF Core InMemory** - Database testing
+- **EF Core InMemory** - In-memory database for repository tests
 
 ---
 
@@ -54,8 +93,8 @@ Testing approach, project structure, and patterns.
 
 Examples:
 - `Create_WithValidEmail_ReturnsEmailAddress`
-- `Parse_WithEmptyUserAgent_ReturnsUnknownDeviceInfo`
-- `Handle_WithInvalidRequest_ThrowsValidationException`
+- `Handle_WithValidCommand_ReturnsSuccess`
+- `Validate_WithEmptyName_Fails`
 
 ---
 
@@ -64,18 +103,28 @@ Examples:
 Located in `Tests.Common/Builders/`:
 
 ```csharp
-// Create test user
-var user = new UserBuilder()
-    .WithDisplayName("Test User")
-    .Active()
-    .Build();
-
-// Create with specific role
-var adminUser = new UserBuilder()
-    .WithRole(adminRoleId)
-    .Active()
-    .Build();
+var user = new UserBuilder().Active().Build();
+var role = new RoleBuilder().AsAdmin().Build();
 ```
+
+---
+
+## Integration Test Auth Helper
+
+`CustomWebApplicationFactory` provides `CreateAuthenticatedClient(params string[] permissions)`:
+
+```csharp
+// Unauthenticated (401 expected)
+var client = factory.CreateClient();
+
+// Authenticated, no permissions (403 expected)
+var client = factory.CreateAuthenticatedClient();
+
+// Authenticated with specific permission (200 expected)
+var client = factory.CreateAuthenticatedClient("Users.Read");
+```
+
+Uses `TestAuthHandler` — reads `X-Test-Permissions` header, bypasses JWT + `UserPermissionClaimsTransformation`.
 
 ---
 
@@ -83,126 +132,35 @@ var adminUser = new UserBuilder()
 
 ### BackgroundJobs Tests
 
-Tests `HangfireBackgroundJobService` with mocked `IBackgroundJobClient` and `IRecurringJobManager`:
-
-```csharp
-public class HangfireBackgroundJobServiceTests
-{
-    private readonly Mock<IBackgroundJobClient> _mockJobClient;
-    private readonly Mock<IRecurringJobManager> _mockRecurringJobManager;
-    private readonly HangfireBackgroundJobService _sut;
-
-    [Fact]
-    public void Enqueue_WithSyncAction_CallsBackgroundJobClient()
-    {
-        // Arrange
-        _mockJobClient.Setup(x => x.Create(It.IsAny<Job>(), It.IsAny<IState>()))
-            .Returns("job-123");
-
-        // Act
-        var jobId = _sut.Enqueue<ITestService>(x => x.DoWork());
-
-        // Assert
-        Assert.Equal("job-123", jobId);
-    }
-}
-```
-
-**Coverage:**
-- `Enqueue` - sync and async actions
-- `Schedule` - TimeSpan and DateTimeOffset overloads
-- `AddOrUpdateRecurring` - cron-based jobs
-- `RemoveRecurring`, `TriggerRecurring`
-- `Delete` - job deletion
+Tests `HangfireBackgroundJobService` with mocked `IBackgroundJobClient` and `IRecurringJobManager`.
 
 ### Notifications Tests
 
-Tests `SendGridEmailService` and `NoOpEmailService`:
-
-```csharp
-public class SendGridEmailServiceTests
-{
-    private readonly Mock<ISendGridClient> _mockClient;
-    private readonly SendGridEmailService _sut;
-
-    [Fact]
-    public async Task SendEmailAsync_WhenSuccessful_ReturnsSuccess()
-    {
-        // Arrange
-        var message = new EmailMessage { To = "test@example.com", Subject = "Test" };
-        _mockClient.Setup(x => x.SendEmailAsync(It.IsAny<SendGridMessage>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(CreateMockResponse(HttpStatusCode.Accepted, "msg-123"));
-
-        // Act
-        var result = await _sut.SendEmailAsync(message);
-
-        // Assert
-        Assert.True(result.IsSuccess);
-    }
-}
-```
-
-**SendGridEmailService Coverage:**
-- `SendEmailAsync` - success, failure, exception handling
-- From address handling (default vs custom)
-- CC/BCC recipients
-- `SendTemplatedEmailAsync` - template ID and data
-- `SendBatchAsync` - multiple messages with individual results
-
-**NoOpEmailService Coverage:**
-- Always returns success
-- Logs message details without sending
-
----
-
-## Integration Tests
-
-Uses `CustomWebApplicationFactory` to:
-- Replace DbContext with InMemory database
-- Mock ICognitoService
-- Skip migrations
-- Seed test data (UserRoles, Idps)
-
-```csharp
-public class AuthEndpointTests : IClassFixture<CustomWebApplicationFactory>
-{
-    private readonly HttpClient _client;
-
-    public AuthEndpointTests(CustomWebApplicationFactory factory)
-    {
-        _client = factory.CreateClient();
-    }
-
-    [Fact]
-    public async Task Login_WithInvalidCredentials_ReturnsUnauthorized()
-    {
-        var response = await _client.PostAsJsonAsync("/api/v1/auth/login", request);
-        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-    }
-}
-```
+Tests `SendGridEmailService` and `NoOpEmailService`. Coverage: `SendEmailAsync`, `SendTemplatedEmailAsync`, `SendBatchAsync`, CC/BCC, default/custom from address.
 
 ---
 
 ## Run Tests
 
 ```bash
-# All unit tests (excludes integration tests)
-dotnet test IFX.sln --filter "FullyQualifiedName!~IntegrationTests"
-
-# All tests including integration
+# All backend tests
 dotnet test IFX.sln
 
+# Unit tests only (excludes integration)
+dotnet test IFX.sln --filter "FullyQualifiedName!~IntegrationTests"
+
 # Specific project
-dotnet test tests/IFX.Modules.Auth.Domain.Tests
+dotnet test tests/IFX.Modules.Auth.Application.Tests
 
-# Platform tests only
-dotnet test tests/IFX.Platform.BackgroundJobs.Tests
-dotnet test tests/IFX.Platform.Notifications.Tests
+# With coverage + HTML report
+dotnet test IFX.sln --collect:"XPlat Code Coverage" --results-directory ./coverage-results
+reportgenerator -reports:"coverage-results/**/coverage.cobertura.xml" \
+  -targetdir:"coverage-report" -reporttypes:"Html;TextSummary" \
+  -assemblyfilters:"+IFX.*;-*Tests*"
 
-# With coverage
-dotnet test --collect:"XPlat Code Coverage"
-
-# Verbose output
-dotnet test --verbosity normal
+# Frontend tests
+cd src/Frontend/IFX.FrontEnd
+npm run test:run        # run once
+npm run test            # watch mode
+npm run test:coverage   # with coverage
 ```

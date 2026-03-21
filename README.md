@@ -14,7 +14,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
-- **252 Unit Tests** - Comprehensive test coverage across all layers
+- **474 Tests** - 419 backend (xUnit) + 55 frontend (Vitest) across all layers
 - **Docker Support** - Containerized deployment with docker-compose
 - **Demo UI** - Simple HTML/JS client for testing OAuth flow
 
@@ -74,10 +74,20 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 252 unit tests
-├── IFX.Modules.Auth.*/      # Auth module tests (224)
-├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire tests (11)
+tests/                               # 419 backend tests
+├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (103)
+├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (190)
+├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository tests (45)
+├── IFX.Modules.Auth.Presentation.Tests/ # Authorization class tests (10)
+├── IFX.IntegrationTests/               # Permission enforcement + API tests (43)
+├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire service tests (11)
 └── IFX.Platform.Notifications.Tests/   # Email service tests (17)
+src/Frontend/IFX.FrontEnd/src/          # 55 frontend tests (Vitest + RTL + MSW)
+├── components/shared/__tests__/        # Chip, Modal, SortableHeader, ProtectedRoute
+├── api/__tests__/                      # tokenStorage / apiClient
+├── contexts/__tests__/                 # AuthContext
+├── pages/__tests__/                    # RoleManagementPage, PermissionManagementPage
+└── pages/auth/__tests__/              # CallbackPage, LoginPage
 ```
 
 ## API Overview
@@ -163,8 +173,19 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build IFX.sln
 
-# Test (252 unit tests)
+# Backend tests (419)
 dotnet test IFX.sln
+
+# Coverage report
+dotnet test IFX.sln --collect:"XPlat Code Coverage"
+reportgenerator -reports:"coverage-results/**/coverage.cobertura.xml" \
+  -targetdir:"coverage-report" -reporttypes:"Html;TextSummary" \
+  -assemblyfilters:"+IFX.*;-*Tests*"
+
+# Frontend tests (55)
+cd src/Frontend/IFX.FrontEnd
+npm run test:run       # run once
+npm run test:coverage  # with coverage
 
 # Run API locally
 cd src/ApiHost/IFX.ApiHost

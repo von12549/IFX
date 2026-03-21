@@ -50,14 +50,20 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260316-pluggable-identity-providers.md` | Pluggable identity provider architecture (Cognito/Auth0 adapters) |
 | `/.claude/Plans/20260318-merge-ef-migrations.md` | Squash 14 EF migrations into single InitialCreate baseline |
 | `/.claude/Plans/20260321-frontend-ifx.md` | IFX.FrontEnd React app — pages, API audit, token flow, implementation order |
+| `/.claude/Plans/20260322-test-coverage-improvement.md` | Unit + integration + frontend test coverage improvement (Phases 1–8) |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (252 unit tests)
-docker-compose up -d                   # Run with Docker
+dotnet test IFX.sln           # Test (419 backend tests)
+docker-compose up -d          # Run with Docker
+
+# Frontend tests
+cd src/Frontend/IFX.FrontEnd
+npm run test:run              # Run 55 frontend tests (Vitest)
+npm run test:coverage         # With coverage report
 ```
 
 ### EF Core Migrations
