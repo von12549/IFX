@@ -2,12 +2,27 @@
 
 **Branch:** `feature/permission-enforcement`
 **Date:** 2026-03-22
+**Updated:** 2026-03-22
 
 ---
 
 ## Problem
 
-All protected endpoints currently use only `RequireAuthorization()` — any valid bearer token grants access. No endpoint enforces a specific permission. The RBAC model (User → Roles → Permissions) exists in the database but is not enforced at the API layer.
+All protected endpoints currently use only `RequireAuthorization()` — any valid bearer token grants access. No endpoint enforces a specific permission. The RBAC model (User → Roles → Permissions) exists in the database and is already loaded per-request, but is not checked at the endpoint level.
+
+---
+
+## Existing Infrastructure: `UserPermissionClaimsTransformation`
+
+**`ApiHost/Authorization/UserPermissionClaimsTransformation.cs`** already runs on every authenticated request via `IClaimsTransformation`. It:
+
+1. Extracts `(issuer, subject)` from the JWT
+2. Calls `GetOrProvisionUserQuery` — fetches the user from DB and handles SSO auto-provisioning
+3. Adds `Claim("user_id", ...)` and one `Claim("permission", "X.Y")` per permission the user holds (via roles + role groups)
+
+This means **permission data is already on the `ClaimsPrincipal` before any authorization handler runs**. The `PermissionAuthorizationHandler` must read claims only — no additional DB call is needed or wanted.
+
+Removing or modifying this class is **out of scope** — it also drives the auto-provisioning flow for SSO users.
 
 ---
 
@@ -101,48 +116,89 @@ All 10 permissions are already in the database and assigned to the `Admin` role.
 
 ## Implementation Approach
 
-### Layer: Infrastructure (new)
+### Request Flow (after implementation)
 
-**`PermissionRequirement : IAuthorizationRequirement`**
-- Holds a single `string PermissionName`
+```
+HTTP Request
+  → JWT validation (DynamicJwtBearerEvents)
+  → UserPermissionClaimsTransformation.TransformAsync()
+      → GetOrProvisionUserQuery (DB fetch + SSO auto-provision)
+      → Adds Claim("permission", "User.Read"), Claim("permission", "Role.Write"), …
+  → PermissionAuthorizationHandler.HandleRequirementAsync()
+      → context.User.HasClaim("permission", requirement.PermissionName)   ← claims only, no DB
+      → Succeed or Fail (403)
+  → Endpoint handler
+```
 
-**`PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>`**
-- Reads `(issuer, subject)` from JWT claims
-- Calls `IUnitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(issuer, subject)` (already exists)
-- Flattens permissions from direct roles + role groups → roles → permissions
-- Succeeds if the user has the required permission name
+### New: `PermissionRequirement`
 
-**`PermissionAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider`**
-- On-demand policy creation: if policy name matches a known permission (e.g. `"User.Read"`), returns a policy with `PermissionRequirement`
-- Falls back to `base` for built-in policies
+Location: `Auth.Infrastructure/Authorization/PermissionRequirement.cs`
 
-### Layer: Presentation (extension method)
+```csharp
+public record PermissionRequirement(string PermissionName) : IAuthorizationRequirement;
+```
 
-**`RouteHandlerBuilderExtensions.RequirePermission(string permissionName)`**
-- Calls `.RequireAuthorization(permissionName)` — the policy provider handles the rest
+### New: `PermissionAuthorizationHandler`
 
-### Layer: ApiHost
+Location: `Auth.Infrastructure/Authorization/PermissionAuthorizationHandler.cs`
 
-Register in `Program.cs`:
-- `services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>()`
-- `services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>()`
+- Reads `Claim("permission", ...)` from the principal — **no DB call**
+- Calls `context.Succeed(requirement)` if the claim is present
+- No dependency on `IUnitOfWork` or any infrastructure service
+
+```csharp
+protected override Task HandleRequirementAsync(
+    AuthorizationHandlerContext context, PermissionRequirement requirement)
+{
+    if (context.User.HasClaim("permission", requirement.PermissionName))
+        context.Succeed(requirement);
+    return Task.CompletedTask;
+}
+```
+
+### New: `PermissionAuthorizationPolicyProvider`
+
+Location: `Auth.Infrastructure/Authorization/PermissionAuthorizationPolicyProvider.cs`
+
+- Extends `DefaultAuthorizationPolicyProvider`
+- On-demand: if the requested policy name looks like a permission (e.g. `"User.Read"`), wraps it in an `AuthorizationPolicy` containing a `PermissionRequirement`
+- Falls back to `base.GetPolicyAsync()` for built-in policies
+
+### New: `RouteHandlerBuilderExtensions.RequirePermission()`
+
+Location: `Auth.Presentation/Extensions/RouteHandlerBuilderExtensions.cs`
+
+```csharp
+public static RouteHandlerBuilder RequirePermission(
+    this RouteHandlerBuilder builder, string permissionName)
+    => builder.RequireAuthorization(permissionName);
+```
+
+### ApiHost registration
+
+`Program.cs` (or `AuthenticationConfiguration.cs`):
+
+```csharp
+services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+```
 
 ### Endpoint changes
 
-Replace `RequireAuthorization()` with `RequirePermission("Permission.Name")` in each endpoint extension file per the mapping table above. Group-level `RequireAuthorization()` stays; individual endpoints add the more specific permission requirement.
+Add `.RequirePermission("X.Y")` to each admin route in the 5 endpoint extension files per the mapping table above. The group-level `.RequireAuthorization()` remains (ensures authentication); the per-route `.RequirePermission()` adds the permission check on top.
 
 ---
 
 ## Implementation Order
 
 1. `PermissionRequirement` — trivial record
-2. `PermissionAuthorizationHandler` — DB lookup + claim extraction
+2. `PermissionAuthorizationHandler` — claim check only, no DB
 3. `PermissionAuthorizationPolicyProvider` — on-demand policy creation
 4. `RouteHandlerBuilderExtensions.RequirePermission()`
-5. Register in `Program.cs`
-6. Update all 9 endpoint extension files
-7. Add/update integration tests for permission enforcement
-8. Update `Produces` responses to include `403 Forbidden` where missing
+5. Register handler + policy provider in `Program.cs`
+6. Update 5 endpoint extension files
+7. Add `403 Forbidden` to `Produces` declarations where missing
+8. Add/update integration tests for permission enforcement
 
 ---
 
@@ -160,17 +216,24 @@ Replace `RequireAuthorization()` with `RequirePermission("Permission.Name")` in 
 | File | Change |
 |------|--------|
 | `Program.cs` | Register handler + policy provider |
-| `AuthServiceCollectionExtensions.cs` (if exists) | Or add DI registration here |
 | `PermissionEndpointExtensions.cs` | Add `RequirePermission` per route |
 | `RoleEndpointExtensions.cs` | Add `RequirePermission` per route |
 | `RoleGroupEndpointExtensions.cs` | Add `RequirePermission` per route |
 | `IdpEndpointExtensions.cs` | Add `RequirePermission` per route |
 | `UserManagementEndpointExtensions.cs` | Add `RequirePermission` per route |
 
+## Files Unchanged
+
+| File | Reason |
+|------|--------|
+| `UserPermissionClaimsTransformation.cs` | Already loads permissions into claims; also drives SSO auto-provisioning — must not be modified |
+| `AuthenticationConfiguration.cs` | Already registers `IClaimsTransformation` correctly |
+| All public/own-data endpoint extensions | No permission policy needed |
+
 ---
 
 ## Non-Goals
 
 - Embedding permissions in JWT tokens (would require Cognito Lambda trigger)
-- Caching per-request permission lookups (out of scope; `GetByIssuerAndSubjectWithPermissionsAsync` is already efficient)
+- Adding a DB call in the authorization handler (claims transformation already covers this)
 - UI changes (frontend already shows/hides based on user roles, enforcement is backend-only)
