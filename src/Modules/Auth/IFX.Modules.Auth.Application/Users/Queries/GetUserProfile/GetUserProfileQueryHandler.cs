@@ -29,7 +29,7 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
     {
         try
         {
-            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UserProfileDto>.Failure("User not found");

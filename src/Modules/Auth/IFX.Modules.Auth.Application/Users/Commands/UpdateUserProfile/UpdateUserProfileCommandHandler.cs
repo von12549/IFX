@@ -34,7 +34,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
         try
         {
             // Get user by Issuer and Subject
-            var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
+            var user = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
             {
                 return Result<UpdateUserProfileResponse>.Failure("User not found");

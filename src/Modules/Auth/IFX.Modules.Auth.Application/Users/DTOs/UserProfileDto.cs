@@ -14,5 +14,6 @@ public class UserProfileDto
     public bool IsActive { get; init; }
     public string Issuer { get; init; } = string.Empty;
     public List<RoleDto> Roles { get; init; } = [];
+    public List<RoleGroupDto> RoleGroups { get; init; } = [];
     public DateTime CreatedAt { get; init; }
 }

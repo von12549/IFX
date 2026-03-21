@@ -69,6 +69,7 @@ public class UserRepository : IUserRepository
     {
         var query = _context.Users
             .Include(u => u.Roles)
+            .Include(u => u.RoleGroups).ThenInclude(g => g.Roles)
             .Include(u => u.Identities)
             .AsNoTracking();
 
