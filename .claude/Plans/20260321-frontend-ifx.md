@@ -70,7 +70,7 @@ After auditing all endpoints, the following API gaps must be fixed first:
 
 ### Location
 ```
-src/WebUI/IFX.FrontEnd/
+src/Frontend/IFX.FrontEnd/
 ```
 
 ### Tech Stack
@@ -81,7 +81,7 @@ src/WebUI/IFX.FrontEnd/
 
 ### Project Structure
 ```
-src/WebUI/IFX.FrontEnd/
+src/Frontend/IFX.FrontEnd/
 ├── public/
 │   └── ifx-logo.svg              # IFX icon (geometric/abstract)
 ├── src/
