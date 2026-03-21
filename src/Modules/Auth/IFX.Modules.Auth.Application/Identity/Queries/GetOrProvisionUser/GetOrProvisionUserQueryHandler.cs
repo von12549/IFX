@@ -160,6 +160,32 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
 
             if (!provisionResult.IsSuccess)
             {
+                // Concurrent request may have created the user between our "not found" check and
+                // the failed save (TOCTOU race condition). Re-read before declaring failure.
+                var concurrentUser = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(
+                    request.Issuer, request.Subject, cancellationToken);
+
+                if (concurrentUser != null)
+                {
+                    _logger.LogInformation(
+                        "SSO provisioning race condition resolved for {Issuer}/{Subject} — returning user created by concurrent request",
+                        request.Issuer, request.Subject);
+
+                    var concurrentPermissions = concurrentUser.Roles
+                        .Concat(concurrentUser.RoleGroups.SelectMany(g => g.Roles))
+                        .SelectMany(r => r.Permissions)
+                        .Select(p => p.Name)
+                        .Distinct()
+                        .ToList();
+
+                    return Result<UserAuthResult>.Success(new UserAuthResult
+                    {
+                        UserId = concurrentUser.Id,
+                        PermissionNames = concurrentPermissions,
+                        WasProvisioned = false
+                    });
+                }
+
                 _logger.LogWarning("SSO user provisioning failed: {Error}", provisionResult.Error);
                 return Result<UserAuthResult>.Failure(provisionResult.Error!);
             }
