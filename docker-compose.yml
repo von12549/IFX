@@ -60,7 +60,7 @@ services:
       - CognitoOidcSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
       - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/callback}
       - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/logout-callback}
-      - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL:-http://localhost:8030}
+      - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL:-http://localhost:8030/callback}
       # AWS credentials
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
