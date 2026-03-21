@@ -12,6 +12,13 @@ public static class IdpEndpointExtensions
             .WithTags("Identity Provider")
             .RequireAuthorization();
 
+        group.MapGet("/{idpId}", IdpEndpoints.GetIdpById)
+            .WithName("GetIdpById")
+            .WithSummary("Get an Identity Provider by ID")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
         group.MapGet("/", IdpEndpoints.GetAllIdps)
             .WithName("GetAllIdps")
             .WithSummary("Get all Identity Providers")

@@ -5,6 +5,7 @@ using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleFromUser;
 using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleGroupFromUser;
 using IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
 using IFX.Modules.Auth.Application.Users.Queries.GetAllUsers;
+using IFX.Modules.Auth.Application.Users.Queries.GetUserById;
 using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using IFX.Platform.BackgroundJobs.Abstractions;
@@ -34,6 +35,21 @@ public static class UserManagementEndpoints
         {
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         }
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetUserById(
+        Guid userId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin getting user: {UserId}", userId);
+
+        var result = await mediator.Send(new GetUserByIdQuery(userId));
+
+        if (!result.IsSuccess)
+            return Results.Json(ApiResponse<object>.FailureResponse(result.Error!), statusCode: StatusCodes.Status404NotFound);
 
         return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
