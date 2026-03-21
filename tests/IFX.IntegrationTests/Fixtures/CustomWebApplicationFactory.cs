@@ -5,6 +5,7 @@ using IFX.Platform.BackgroundJobs.Abstractions;
 using IFX.Platform.Notifications.Abstractions;
 using IFX.Platform.Notifications.Abstractions.Models;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -163,7 +164,32 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             SeedTestData(db);
         });
 
+        builder.ConfigureServices(services =>
+        {
+            // Remove UserPermissionClaimsTransformation to prevent DB calls during test auth
+            services.RemoveAll<IClaimsTransformation>();
+
+            // Override the default auth scheme with the test handler
+            services.AddAuthentication(TestAuthHandler.SchemeName)
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
+                    TestAuthHandler.SchemeName, _ => { });
+        });
+
         builder.UseEnvironment("Testing");
+    }
+
+    /// <summary>
+    /// Creates an authenticated HttpClient. Requests will be treated as authenticated
+    /// with the specified permission claims. No permissions = authenticated but no access.
+    /// </summary>
+    public HttpClient CreateAuthenticatedClient(params string[] permissions)
+    {
+        var client = CreateClient();
+        // Use a non-empty sentinel when no permissions are specified
+        // because HttpClient drops empty-string header values.
+        var headerValue = permissions.Length > 0 ? string.Join(",", permissions) : "-";
+        client.DefaultRequestHeaders.Add(TestAuthHandler.PermissionsHeader, headerValue);
+        return client;
     }
 
     private static void SeedTestData(IfxDbContext db)
