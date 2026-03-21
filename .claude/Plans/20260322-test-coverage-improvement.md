@@ -2,232 +2,322 @@
 
 **Branch:** `feature/permission-enforcement`
 **Date:** 2026-03-22
+**Updated:** 2026-03-22 — added Phase 8 Frontend Tests
 
 ---
 
 ## Current State
 
-**Overall: 22.9% line | 22.2% branch | 32.1% method** across 268 passing tests.
-
-### Coverage by Assembly
+### Backend: 22.9% line | 22.2% branch | 32.1% method (268 tests)
 
 | Assembly | Line % | State |
 |----------|--------|-------|
-| `IFX.Modules.Auth.Domain` | 59.4% | Good — domain entities well covered |
+| `IFX.Modules.Auth.Domain` | 59.4% | Good |
 | `IFX.ApiHost` | 49.1% | Acceptable — new permission classes at 80–100% |
 | `IFX.Modules.Auth.Presentation` | 34.9% | Partial |
 | `IFX.Modules.Auth.Composition` | 29.5% | Low |
 | `IFX.Modules.Auth.Application` | 15.4% | **Critical gap** |
 | `IFX.Modules.Auth.Infrastructure` | 11.3% | **Critical gap** |
 
-### Critical Gaps
+### Frontend: 0% (no test tooling installed)
+
+No test runner, no testing library, no existing test files.
+
+---
+
+## Backend Critical Gaps
 
 **Application handlers — ALL at 0%:**
 - 13 Authorization command handlers (CreateRole, DeleteRole, AssignPermissions, …)
 - 4 Authorization query handlers (GetAllRoles, GetAllPermissions, GetRoleById, GetAllRoleGroups)
 - 4 Users command handlers (AssignRolesToUser, RemoveRoleFromUser, AssignRoleGroupsToUser, RemoveRoleGroupFromUser)
-- 4 Users query handlers (GetUserProfile, GetUserById, GetAllUsers, GetAllUsers)
-- 8 Identity command handlers (RegisterUser, ConfirmRegistration, LoginUser, LogoutUser, RefreshToken, RevokeToken, CreateIdp, UpdateIdp, SyncUser, ProvisionSsoUser)
-- 4 Identity query handlers (GetAllIdps, GetIdpById, GetOrProvisionUser)
-
-**Validators — mostly 0%:**
-- Covered: `LoginUserCommandValidator` (100%), `RegisterUserCommandValidator` (100%), `RevokeTokenCommandValidator` (100%)
-- Not covered: All Authorization/Users/Identity validators
+- 4 Users query handlers (GetUserProfile, GetUserById, GetAllUsers, GetUserLoginHistory)
+- Most Identity handlers and validators
 
 **Infrastructure repositories — low coverage:**
 - `RoleRepository`: 71.4% ✓
 - `PermissionRepository`: 36.3% — partial
 - `RoleGroupRepository`: 23.5% — low
-- `IdpRepository`: 16.3% — low
-- `UserRepository`: 0% — missing
-- `UserIdentityRepository`: 10.5% — low
-- `EmailVerificationTokenRepository`: 7.8% — low
+- `UserRepository`: 0% — missing entirely
 
 **Integration tests — missing permission enforcement:**
 - Current: only test unauthenticated → 401
-- Missing: authenticated without required permission → 403
+- Missing: authenticated without permission → 403
 - Missing: authenticated with correct permission → 200
 
 **ApiHost authorization — new classes partially covered:**
 - `PermissionRequirement`: 100% ✓
-- `PermissionAuthorizationPolicyProvider`: 90% — missing fallback path
+- `PermissionAuthorizationPolicyProvider`: 90%
 - `PermissionAuthorizationHandler`: 80% — missing fail path
 
 ---
 
 ## What NOT to Test
 
-- `IFX.Platform.Shared`: 0% but contains only infrastructure glue — skip
-- `CognitoOidcService`, `Auth0OidcService`: require live AWS/Auth0 — skip (integration concern)
-- `OidcDiscoveryService`: requires HTTP — skip (already covered by infrastructure mocks)
-- Endpoint handlers themselves (static classes) — covered via integration tests, not unit tests
+- `IFX.Platform.Shared`: infrastructure glue only — skip
+- `CognitoOidcService`, `Auth0OidcService`: require live AWS/Auth0 — skip
+- `OidcDiscoveryService`: requires HTTP — skip
+- Endpoint handlers (static classes) — covered via integration tests
 
 ---
 
-## Implementation Plan
+## Backend Implementation Plan
 
-### Phase 1 — Integration Test Infrastructure (prerequisite for permission tests)
+### Phase 1 — Integration Test Infrastructure (prerequisite)
 
-**Problem:** Integration tests currently have no way to make authenticated requests. All permission-enforcement tests need a user with specific permission claims.
-
-**Solution:** Add a `TestAuthenticationScheme` to `CustomWebApplicationFactory` that accepts a special test token format and creates a `ClaimsPrincipal` with caller-specified claims, bypassing JWT validation and `UserPermissionClaimsTransformation`.
-
-**Changes:**
-- `CustomWebApplicationFactory`: add `CreateAuthenticatedClient(params string[] permissions)` helper
-  - Registers a fake `"Test"` authentication scheme
-  - Reads claims from a request header `X-Test-Claims` (JSON)
-  - Bypasses the real JWT bearer + claims transformation
-- Add `AuthenticatedWebApplicationFactory` subclass or factory method
+Add `CreateAuthenticatedClient(params string[] permissions)` to `CustomWebApplicationFactory`:
+- Registers a fake `"Test"` authentication scheme
+- Reads claims from request header `X-Test-Claims`
+- Bypasses real JWT bearer + `UserPermissionClaimsTransformation`
 
 ### Phase 2 — Integration Tests: Permission Enforcement
 
 **New file:** `tests/IFX.IntegrationTests/Endpoints/PermissionEnforcementTests.cs`
 
-Test matrix for every admin endpoint group:
+Test matrix per permission group:
 
 | Scenario | Expected |
 |----------|----------|
 | No token | 401 Unauthorized |
 | Token + no permissions | 403 Forbidden |
-| Token + wrong permission (e.g. `User.Read` on a `Role.*` endpoint) | 403 Forbidden |
-| Token + correct permission | 200 OK (or 404 for missing resource) |
+| Token + wrong permission | 403 Forbidden |
+| Token + correct permission | 200 OK / 404 (no data) |
 
-Endpoints to cover:
-- `GET /api/v1/usermanagement/users` — `User.Read`
-- `GET /api/v1/role` — `Role.Read`
-- `POST /api/v1/role` — `Role.Write`
-- `GET /api/v1/rolegroup` — `RoleGroup.Read`
-- `POST /api/v1/permission` — `Permission.Write`
-- `GET /api/v1/idp` — `Idp.Read`
-
-(One representative endpoint per permission group is sufficient — the policy provider and handler are shared.)
+Representative endpoint per group: `GET /api/v1/usermanagement/users`, `GET /api/v1/role`, `GET /api/v1/rolegroup`, `GET /api/v1/permission`, `GET /api/v1/idp`.
 
 ### Phase 3 — Unit Tests: ApiHost Authorization
 
-**New file:** `tests/IFX.Modules.Auth.Presentation.Tests/Authorization/PermissionAuthorizationHandlerTests.cs`
-
-- `HandleRequirement_UserHasPermissionClaim_Succeeds`
-- `HandleRequirement_UserMissingPermissionClaim_DoesNotSucceed`
-- `HandleRequirement_EmptyPrincipal_DoesNotSucceed`
-
-**New file:** `tests/IFX.Modules.Auth.Presentation.Tests/Authorization/PermissionAuthorizationPolicyProviderTests.cs`
-
-- `GetPolicyAsync_UnknownPolicyName_ReturnsPolicyWithPermissionRequirement`
-- `GetPolicyAsync_KnownBuiltInPolicy_ReturnsFallbackPolicy`
-
-> Note: Place in Presentation.Tests project since it already references the right test infrastructure; the tested types are in ApiHost but the test boundary is the same layer.
+- `PermissionAuthorizationHandler`: has permission claim → Succeed; missing → does not Succeed; empty principal → does not Succeed
+- `PermissionAuthorizationPolicyProvider`: unknown name → returns policy with `PermissionRequirement`; known built-in → falls back
 
 ### Phase 4 — Unit Tests: Application — Authorization Handlers
 
-**New file:** `tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/`
-
-Priority handlers (highest business value, representative of the pattern):
-
-| Handler | Key scenarios |
-|---------|--------------|
-| `CreateRoleCommandHandler` | Success; duplicate name → failure |
-| `UpdateRoleCommandHandler` | Success; role not found → failure |
-| `DeleteRoleCommandHandler` | Success; role not found → failure |
-| `GetAllRolesQueryHandler` | Returns mapped list |
-| `GetRoleByIdQueryHandler` | Found → success; not found → failure |
-| `AssignPermissionsToRoleCommandHandler` | Success; role not found → failure; permission not found → failure |
-| `RemovePermissionFromRoleCommandHandler` | Success; not found → failure |
-| `CreatePermissionCommandHandler` | Success; duplicate → failure |
-| `DeletePermissionCommandHandler` | Success; not found → failure |
-| `GetAllPermissionsQueryHandler` | Returns mapped list |
-| `CreateRoleGroupCommandHandler` | Success; duplicate → failure |
-| `DeleteRoleGroupCommandHandler` | Success; not found → failure |
-| `AssignRolesToRoleGroupCommandHandler` | Success; not found → failure |
+All 13 command + 4 query handlers in `Authorization/`. Key scenarios per handler: success path, not-found failure, duplicate failure (where applicable).
 
 ### Phase 5 — Unit Tests: Application — Users Handlers
 
-**New file:** `tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/`
-
-| Handler | Key scenarios |
-|---------|--------------|
-| `GetUserProfileQueryHandler` | Found → success; not found → failure |
-| `GetUserByIdQueryHandler` | Found → success; not found → failure |
-| `GetAllUsersQueryHandler` | Returns paged result |
-| `AssignRolesToUserCommandHandler` | Success; user not found → failure; role not found → failure |
-| `RemoveRoleFromUserCommandHandler` | Success; user not found → failure |
-| `AssignRoleGroupsToUserCommandHandler` | Success; user not found → failure |
-| `RemoveRoleGroupFromUserCommandHandler` | Success; user not found → failure |
+All 4 command + 4 query handlers in `Users/`. Key scenarios: success, user not found, role/group not found.
 
 ### Phase 6 — Unit Tests: Application — Validators
 
-**New file:** `tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/`
-
-| Validator | Key scenarios |
-|-----------|--------------|
-| `CreateRoleCommandValidator` | Empty name → invalid; valid → passes |
-| `CreatePermissionCommandValidator` | Empty name → invalid; valid → passes |
-| `CreateRoleGroupCommandValidator` | Empty name → invalid; valid → passes |
-| `UpdateRoleCommandValidator` | Empty name → invalid |
-| `UpdatePermissionCommandValidator` | Empty name → invalid |
+`CreateRoleCommandValidator`, `CreatePermissionCommandValidator`, `CreateRoleGroupCommandValidator`, `UpdateRoleCommandValidator`, `UpdatePermissionCommandValidator`.
 
 ### Phase 7 — Infrastructure Repository Tests
 
-**New file:** `tests/IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/PermissionRepositoryTests.cs`
-- `GetByIdAsync_ExistingPermission_ReturnsPermission`
-- `GetByIdAsync_NonExisting_ReturnsNull`
-- `GetByNameAsync_ExistingPermission_ReturnsPermission`
-- `GetAllAsync_ReturnsAll`
+- New: `PermissionRepositoryTests`, `RoleGroupRepositoryTests`
+- Extend: `RoleRepositoryTests` (GetAll, GetByName not found)
 
-**New file:** `tests/IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/RoleGroupRepositoryTests.cs`
-- `GetByIdAsync_ExistingRoleGroup_ReturnsWithRoles`
-- `GetAllAsync_ReturnsAll`
+---
 
-**Extend existing:** `RoleRepositoryTests.cs`
-- `GetAllAsync_ReturnsAllRoles`
-- `GetByNameAsync_NonExisting_ReturnsNull`
+## Phase 8 — Frontend Tests
+
+### 8.1 Test Stack Setup
+
+**New packages to install:**
+
+```bash
+npm install -D vitest @vitest/coverage-v8 jsdom \
+  @testing-library/react @testing-library/user-event @testing-library/jest-dom \
+  msw
+```
+
+| Package | Purpose |
+|---------|---------|
+| `vitest` | Vite-native test runner (shares vite.config.ts) |
+| `@vitest/coverage-v8` | Coverage via V8 |
+| `jsdom` | Browser DOM environment |
+| `@testing-library/react` | Component rendering + queries |
+| `@testing-library/user-event` | Realistic user interactions |
+| `@testing-library/jest-dom` | DOM matchers (`.toBeInTheDocument()`, etc.) |
+| `msw` | Mock Service Worker — intercepts axios requests |
+
+**New config files:**
+- `vite.config.ts`: add `test: { environment: 'jsdom', setupFiles: './src/test/setup.ts', coverage: { provider: 'v8' } }`
+- `src/test/setup.ts`: import `@testing-library/jest-dom`
+- `src/test/server.ts`: MSW server setup with API handlers
+
+**New `package.json` scripts:**
+```json
+"test": "vitest",
+"test:run": "vitest run",
+"test:coverage": "vitest run --coverage"
+```
+
+### 8.2 Unit Tests: Shared Components
+
+**`src/components/shared/__tests__/Chip.test.tsx`**
+- Renders label text
+- Shows remove button when `onRemove` provided
+- Hides remove button when `onRemove` omitted
+- Calls `onRemove` when × clicked
+
+**`src/components/shared/__tests__/Modal.test.tsx`**
+- Renders title, body, footer
+- Calls `onClose` when × button clicked
+- Calls `onClose` when Escape key pressed
+- Does not call `onClose` when other keys pressed
+- Renders without footer when omitted
+
+**`src/components/shared/__tests__/SortableHeader.test.tsx`**
+- Renders label text
+- Shows `↕` when column is not the active sort column
+- Shows `↑` when active column and direction is `asc`
+- Shows `↓` when active column and direction is `desc`
+- Adds `sort-active` class to icon when active
+- Calls `onSort` with correct column name on click
+
+**`src/components/shared/__tests__/ProtectedRoute.test.tsx`**
+- Shows spinner while `isLoading` is true
+- Redirects to `/login` when not authenticated
+- Renders children when authenticated
+
+### 8.3 Unit Tests: API Client
+
+**`src/api/__tests__/client.test.ts`**
+
+`tokenStorage`:
+- `save()` writes all 4 keys to localStorage
+- `getAccessToken()` returns stored token
+- `getRefreshToken()` returns stored token
+- `clear()` removes all 4 keys
+
+`apiClient` interceptors (using MSW):
+- Request interceptor attaches `Authorization: Bearer <token>` when token present
+- Request interceptor skips Authorization when no token stored
+- Response interceptor: on 401, calls `/api/v1/auth/refresh`, retries original request with new token
+- Response interceptor: on 401 with refresh failure, clears storage and redirects to `/login`
+- Response interceptor: on 401 with no refresh token, clears storage and redirects to `/login`
+- Response interceptor: on non-401 error, rejects without refresh attempt
+
+### 8.4 Unit Tests: AuthContext
+
+**`src/contexts/__tests__/AuthContext.test.tsx`**
+- `login()` saves tokens to localStorage and loads user profile
+- `logout()` clears localStorage and sets user to null
+- `isAuthenticated` is `false` before login, `true` after login, `false` after logout
+- On mount: restores session if token in localStorage (calls `getProfile`, sets user)
+- On mount: `isLoading` is true initially, false after profile load
+- On mount: no token in localStorage → `isLoading` false, `isAuthenticated` false
+- `refreshUser()` re-fetches profile from API
+
+### 8.5 Unit Tests: Auth Pages
+
+**`src/pages/auth/__tests__/CallbackPage.test.tsx`**
+- Parses `access_token` from URL hash and calls `login()`
+- Redirects to `/profile` on successful login
+- Shows error message when `error` param in hash
+- Shows "No access token" error when hash has no `access_token`
+- Shows spinner while processing (no error, no redirect yet)
+- Calls `login()` with correct `expiresIn` (defaults to 3600 if missing)
+
+**`src/pages/auth/__tests__/LoginPage.test.tsx`**
+- Renders "Sign in" button
+- Calls `getAuthorizeUrl()` API when button clicked
+- Redirects `window.location.href` to returned authorization URL
+
+### 8.6 Unit Tests: Management Pages (Sort Behavior)
+
+These pages share the sort pattern — test one representative page per concern.
+
+**`src/pages/__tests__/RoleManagementPage.test.tsx`**
+- Renders role list from API response
+- Clicking Name header sorts ascending
+- Clicking Name header again sorts descending
+- Clicking different header resets direction to ascending
+- Shows spinner while loading
+- Shows error alert on API failure
+
+**`src/pages/__tests__/PermissionManagementPage.test.tsx`**
+- Renders permission list
+- Sort by Name ascending/descending
+- Sort by Description
+- "Create Permission" button opens modal
+- Save in create modal calls `permissionApi.create()`
+- Delete confirmation calls `permissionApi.delete()`
+
+### 8.7 MSW Handler Setup
+
+**`src/test/handlers.ts`** — Default API mock handlers:
+```ts
+// GET /api/v1/user/profile → mock UserProfileDto
+// GET /api/v1/role → mock RoleDto[]
+// GET /api/v1/permission → mock PermissionDto[]
+// POST /api/v1/auth/refresh → mock token response
+// POST /api/v1/auth/refresh (error variant) → 401
+```
 
 ---
 
 ## Files to Create
 
+### Backend (Phases 1–7)
+
 | File | Phase |
 |------|-------|
 | `IFX.IntegrationTests/Fixtures/AuthenticatedClientHelper.cs` | 1 |
 | `IFX.IntegrationTests/Endpoints/PermissionEnforcementTests.cs` | 2 |
-| `IFX.Modules.Auth.Presentation.Tests/Authorization/PermissionAuthorizationHandlerTests.cs` | 3 |
-| `IFX.Modules.Auth.Presentation.Tests/Authorization/PermissionAuthorizationPolicyProviderTests.cs` | 3 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CreateRoleCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/UpdateRoleCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/DeleteRoleCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetAllRolesQueryHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetRoleByIdQueryHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/AssignPermissionsToRoleCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/RemovePermissionFromRoleCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CreatePermissionCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/DeletePermissionCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetAllPermissionsQueryHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CreateRoleGroupCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/DeleteRoleGroupCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Authorization/AssignRolesToRoleGroupCommandHandlerTests.cs` | 4 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/GetUserProfileQueryHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/GetUserByIdQueryHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/GetAllUsersQueryHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/AssignRolesToUserCommandHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/RemoveRoleFromUserCommandHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/AssignRoleGroupsToUserCommandHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Handlers/Users/RemoveRoleGroupFromUserCommandHandlerTests.cs` | 5 |
-| `IFX.Modules.Auth.Application.Tests/Validators/Authorization/CreateRoleCommandValidatorTests.cs` | 6 |
-| `IFX.Modules.Auth.Application.Tests/Validators/Authorization/CreatePermissionCommandValidatorTests.cs` | 6 |
-| `IFX.Modules.Auth.Application.Tests/Validators/Authorization/CreateRoleGroupCommandValidatorTests.cs` | 6 |
-| `IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/PermissionRepositoryTests.cs` | 7 |
-| `IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/RoleGroupRepositoryTests.cs` | 7 |
+| `Presentation.Tests/Authorization/PermissionAuthorizationHandlerTests.cs` | 3 |
+| `Presentation.Tests/Authorization/PermissionAuthorizationPolicyProviderTests.cs` | 3 |
+| `Application.Tests/Handlers/Authorization/CreateRoleCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/UpdateRoleCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/DeleteRoleCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/GetAllRolesQueryHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/GetRoleByIdQueryHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/AssignPermissionsToRoleCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/RemovePermissionFromRoleCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/CreatePermissionCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/DeletePermissionCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/GetAllPermissionsQueryHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/CreateRoleGroupCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/DeleteRoleGroupCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Authorization/AssignRolesToRoleGroupCommandHandlerTests.cs` | 4 |
+| `Application.Tests/Handlers/Users/GetUserProfileQueryHandlerTests.cs` | 5 |
+| `Application.Tests/Handlers/Users/GetUserByIdQueryHandlerTests.cs` | 5 |
+| `Application.Tests/Handlers/Users/GetAllUsersQueryHandlerTests.cs` | 5 |
+| `Application.Tests/Handlers/Users/AssignRolesToUserCommandHandlerTests.cs` | 5 |
+| `Application.Tests/Handlers/Users/RemoveRoleFromUserCommandHandlerTests.cs` | 5 |
+| `Application.Tests/Handlers/Users/AssignRoleGroupsToUserCommandHandlerTests.cs` | 5 |
+| `Application.Tests/Handlers/Users/RemoveRoleGroupFromUserCommandHandlerTests.cs` | 5 |
+| `Application.Tests/Validators/Authorization/CreateRoleCommandValidatorTests.cs` | 6 |
+| `Application.Tests/Validators/Authorization/CreatePermissionCommandValidatorTests.cs` | 6 |
+| `Application.Tests/Validators/Authorization/CreateRoleGroupCommandValidatorTests.cs` | 6 |
+| `Infrastructure.Tests/Repositories/PermissionRepositoryTests.cs` | 7 |
+| `Infrastructure.Tests/Repositories/RoleGroupRepositoryTests.cs` | 7 |
+
+### Frontend (Phase 8)
+
+| File | Phase |
+|------|-------|
+| `vite.config.ts` (modify) | 8.1 |
+| `src/test/setup.ts` | 8.1 |
+| `src/test/server.ts` | 8.1 |
+| `src/test/handlers.ts` | 8.7 |
+| `src/components/shared/__tests__/Chip.test.tsx` | 8.2 |
+| `src/components/shared/__tests__/Modal.test.tsx` | 8.2 |
+| `src/components/shared/__tests__/SortableHeader.test.tsx` | 8.2 |
+| `src/components/shared/__tests__/ProtectedRoute.test.tsx` | 8.2 |
+| `src/api/__tests__/client.test.ts` | 8.3 |
+| `src/contexts/__tests__/AuthContext.test.tsx` | 8.4 |
+| `src/pages/auth/__tests__/CallbackPage.test.tsx` | 8.5 |
+| `src/pages/auth/__tests__/LoginPage.test.tsx` | 8.5 |
+| `src/pages/__tests__/RoleManagementPage.test.tsx` | 8.6 |
+| `src/pages/__tests__/PermissionManagementPage.test.tsx` | 8.6 |
 
 ## Files to Modify
 
 | File | Change |
 |------|--------|
-| `IFX.IntegrationTests/Fixtures/CustomWebApplicationFactory.cs` | Add test auth scheme + `CreateAuthenticatedClient()` |
-| `IFX.IntegrationTests/Endpoints/AdminEndpointTests.cs` | Add authenticated + permission scenarios |
-| `IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/RoleRepositoryTests.cs` | Add missing scenarios |
+| `CustomWebApplicationFactory.cs` | Add test auth scheme + `CreateAuthenticatedClient()` |
+| `AdminEndpointTests.cs` | Add authenticated + permission scenarios |
+| `RoleRepositoryTests.cs` | Add GetAll, GetByName-missing scenarios |
+| `src/Frontend/.../vite.config.ts` | Add `test` block |
+| `src/Frontend/.../package.json` | Add test scripts + devDependencies |
 
 ---
 
 ## Expected Outcome
+
+### Backend
 
 | Assembly | Current | Target |
 |----------|---------|--------|
@@ -236,4 +326,17 @@ Priority handlers (highest business value, representative of the pattern):
 | `IFX.ApiHost` | 49.1% | ~65% |
 | **Overall** | **22.9%** | **~40%** |
 
-Total tests: 268 → ~370 (adding ~100 new tests)
+Backend tests: 268 → ~370
+
+### Frontend
+
+| Area | Current | Target |
+|------|---------|--------|
+| Shared components | 0% | ~90% |
+| API client / tokenStorage | 0% | ~85% |
+| AuthContext | 0% | ~85% |
+| Auth pages | 0% | ~80% |
+| Management pages (sort) | 0% | ~60% |
+| **Frontend overall** | **0%** | **~75%** |
+
+Frontend tests: 0 → ~60
