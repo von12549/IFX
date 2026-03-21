@@ -91,6 +91,25 @@ services:
       - ifx-network
     restart: unless-stopped
 
+  ifx-frontend:
+    build:
+      context: src/Frontend/IFX.FrontEnd
+      dockerfile: Dockerfile.dev
+    container_name: ifx-frontend
+    ports:
+      - "8030:8030"
+    volumes:
+      - ./src/Frontend/IFX.FrontEnd/src:/app/src
+      - ./src/Frontend/IFX.FrontEnd/public:/app/public
+      - ./src/Frontend/IFX.FrontEnd/index.html:/app/index.html
+    environment:
+      - VITE_API_URL=http://localhost:5010
+    depends_on:
+      - ifx-api
+    networks:
+      - ifx-network
+    restart: unless-stopped
+
 volumes:
   sqlserver_data:
     driver: local
