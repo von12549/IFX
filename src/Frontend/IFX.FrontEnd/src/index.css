@@ -9,7 +9,12 @@ body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--te
 .header{height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);display:grid;grid-template-columns:var(--sidebar-w) 1fr var(--sidebar-w);align-items:center;padding:0 20px;flex-shrink:0}
 .header-left{display:flex;align-items:center}
 .header-center{text-align:center}
-.header-right{display:flex;justify-content:flex-end;align-items:center}
+.header-right{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+.tenant-switcher{display:flex;align-items:center;gap:6px;padding:0 10px;height:32px;border-radius:6px;background:var(--surface2);border:1px solid var(--border)}
+.tenant-switcher-single{font-size:13px;color:var(--text-muted)}
+.tenant-switcher-name{font-size:13px;color:var(--text-muted)}
+.tenant-switcher-icon{font-size:14px;line-height:1}
+.tenant-switcher-select{background:transparent;border:none;color:var(--text);font-size:13px;cursor:pointer;outline:none;padding:0 2px}
 .header-title{font-size:20px;font-weight:700;letter-spacing:2px;color:var(--text)}
 .ifx-icon{width:36px;height:36px}
 .sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;overflow-y:auto}
