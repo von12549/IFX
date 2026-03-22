@@ -35,7 +35,14 @@ apiClient.interceptors.request.use(config => {
 let refreshing = false
 let refreshQueue: Array<(token: string | null) => void> = []
 
+const toastCooldown = new Map<string, number>()
+const TOAST_COOLDOWN_MS = 2000
+
 function fireToast(type: 'warning' | 'error' | 'info', message: string) {
+  const key = `${type}:${message}`
+  const now = Date.now()
+  if ((toastCooldown.get(key) ?? 0) + TOAST_COOLDOWN_MS > now) return
+  toastCooldown.set(key, now)
   window.dispatchEvent(new CustomEvent('ifx:toast', { detail: { type, message } }))
 }
 
