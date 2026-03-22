@@ -35,6 +35,21 @@ apiClient.interceptors.request.use(config => {
 let refreshing = false
 let refreshQueue: Array<(token: string | null) => void> = []
 
+function fireToast(type: 'warning' | 'error' | 'info', message: string) {
+  window.dispatchEvent(new CustomEvent('ifx:toast', { detail: { type, message } }))
+}
+
+// On 403: show a permission-denied warning toast
+apiClient.interceptors.response.use(
+  res => res,
+  error => {
+    if (error.response?.status === 403) {
+      fireToast('warning', 'You don\'t have permission to perform this action.')
+    }
+    return Promise.reject(error)
+  }
+)
+
 // On 401: attempt token refresh once, then redirect to /login
 apiClient.interceptors.response.use(
   res => res,
@@ -82,7 +97,8 @@ apiClient.interceptors.response.use(
       refreshQueue.forEach(cb => cb(null))
       refreshQueue = []
       tokenStorage.clear()
-      window.location.href = '/login'
+      fireToast('warning', 'Your session has expired. Redirecting to login…')
+      setTimeout(() => { window.location.href = '/login' }, 1500)
       return Promise.reject(error)
     } finally {
       refreshing = false
