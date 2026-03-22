@@ -197,10 +197,11 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         // Seed default roles
         if (!db.Roles.Any())
         {
-            var userRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("User", "Standard user role");
-            var adminRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("Admin", "Administrator role");
-            var ssoRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("SsoUser", "SSO user role");
-            var pendingRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("PendingUser", "Pending user awaiting approval");
+            var defaultTenantId = Guid.NewGuid();
+            var userRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("User", "Standard user role", defaultTenantId);
+            var adminRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("Admin", "Administrator role", defaultTenantId);
+            var ssoRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("SsoUser", "SSO user role", defaultTenantId);
+            var pendingRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("PendingUser", "Pending user awaiting approval", defaultTenantId);
 
             db.Roles.AddRange(userRole, adminRole, ssoRole, pendingRole);
             db.SaveChanges();

@@ -38,7 +38,7 @@ public static class RoleGroupEndpoints
     {
         logger.LogInformation("Admin creating role group: {Name}", request.Name);
 
-        var result = await mediator.Send(new CreateRoleGroupCommand(request.Name, request.Description));
+        var result = await mediator.Send(new CreateRoleGroupCommand(request.Name, request.Description, request.TenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -54,7 +54,7 @@ public static class RoleGroupEndpoints
     {
         logger.LogInformation("Admin updating role group: {RoleGroupId}", roleGroupId);
 
-        var result = await mediator.Send(new UpdateRoleGroupCommand(roleGroupId, request.Name, request.Description));
+        var result = await mediator.Send(new UpdateRoleGroupCommand(roleGroupId, request.Name, request.Description, request.TenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

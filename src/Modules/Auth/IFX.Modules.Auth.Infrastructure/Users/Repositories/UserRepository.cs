@@ -19,6 +19,13 @@ public class UserRepository : IUserRepository
             .Include(u => u.Identities)
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
+    public async Task<User?> GetByIdWithTenantsAndDepartmentsAsync(Guid id, CancellationToken cancellationToken = default)
+        => await _context.Users
+            .Include(u => u.Tenants)
+            .Include(u => u.Departments)
+            .Include(u => u.Identities)
+            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+
     public async Task<User?> GetByIdWithRolesAndGroupsAsync(Guid id, CancellationToken cancellationToken = default)
         => await _context.Users
             .Include(u => u.Roles).ThenInclude(r => r.Permissions)

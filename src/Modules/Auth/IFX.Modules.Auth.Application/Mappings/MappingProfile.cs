@@ -17,6 +17,9 @@ public class MappingProfile : Profile
         CreateMap<Permission, PermissionDto>();
         CreateMap<RoleGroup, RoleGroupDto>();
         CreateMap<Idp, IdpDto>();
+        CreateMap<Tenant, TenantDto>();
+        CreateMap<Department, DepartmentDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant.Name));
 
         CreateMap<User, UserProfileDto>()
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Identities.FirstOrDefault() != null ? src.Identities.FirstOrDefault()!.FirstName : string.Empty))

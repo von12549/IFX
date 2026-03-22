@@ -89,7 +89,7 @@ public class RoleRepositoryTests : IDisposable
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.NameExistsAsync(TestConstants.Roles.Admin);
+        var result = await _repository.NameExistsAsync(TestConstants.Roles.Admin, role.TenantId);
 
         // Assert
         result.Should().BeTrue();
@@ -99,7 +99,7 @@ public class RoleRepositoryTests : IDisposable
     public async Task NameExistsAsync_WithNonExistingRole_ReturnsFalse()
     {
         // Act
-        var result = await _repository.NameExistsAsync("NonExistent");
+        var result = await _repository.NameExistsAsync("NonExistent", Guid.NewGuid());
 
         // Assert
         result.Should().BeFalse();
@@ -114,7 +114,7 @@ public class RoleRepositoryTests : IDisposable
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.NameExistsAsync(TestConstants.Roles.Admin, role.Id);
+        var result = await _repository.NameExistsAsync(TestConstants.Roles.Admin, role.TenantId, role.Id);
 
         // Assert
         result.Should().BeFalse();

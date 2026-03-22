@@ -26,8 +26,8 @@ public class GetAllRoleGroupsQueryHandlerTests
     {
         var groupList = new List<RoleGroup>
         {
-            RoleGroup.Create("Managers", "Manager group"),
-            RoleGroup.Create("Admins", "Admin group"),
+            RoleGroup.Create("Managers", "Manager group", Guid.NewGuid()),
+            RoleGroup.Create("Admins", "Admin group", Guid.NewGuid()),
         };
         _groups.Setup(g => g.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(groupList);
         _mapper.Setup(m => m.Map<List<RoleGroupDto>>(groupList))

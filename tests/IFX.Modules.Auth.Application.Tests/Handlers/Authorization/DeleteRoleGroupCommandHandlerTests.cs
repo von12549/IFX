@@ -21,7 +21,7 @@ public class DeleteRoleGroupCommandHandlerTests
     [Fact]
     public async Task Handle_WithExistingGroup_DeletesAndReturnsTrue()
     {
-        var group = RoleGroup.Create("Managers", "Manager group");
+        var group = RoleGroup.Create("Managers", "Manager group", Guid.NewGuid());
         _groups.Setup(g => g.GetByIdAsync(group.Id, It.IsAny<CancellationToken>())).ReturnsAsync(group);
 
         var result = await _handler.Handle(new DeleteRoleGroupCommand(group.Id), CancellationToken.None);

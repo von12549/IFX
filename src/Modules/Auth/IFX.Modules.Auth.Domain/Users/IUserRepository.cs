@@ -3,6 +3,7 @@ namespace IFX.Modules.Auth.Domain.Users;
 public interface IUserRepository
 {
     Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<User?> GetByIdWithTenantsAndDepartmentsAsync(Guid id, CancellationToken cancellationToken = default);
     Task<User?> GetByIdWithRolesAndGroupsAsync(Guid id, CancellationToken cancellationToken = default);
     Task<User?> GetByIssuerAndSubjectAsync(string issuer, string subject, CancellationToken cancellationToken = default);
     Task<User?> GetByIssuerAndSubjectWithPermissionsAsync(string issuer, string subject, CancellationToken cancellationToken = default);

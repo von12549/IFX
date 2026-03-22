@@ -16,9 +16,16 @@ public class RoleGroupConfiguration : IEntityTypeConfiguration<RoleGroup>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.HasIndex(g => g.Name)
-            .HasDatabaseName("IX_RoleGroups_Name")
+        builder.Property(g => g.TenantId).IsRequired();
+
+        builder.HasIndex(g => new { g.TenantId, g.Name })
+            .HasDatabaseName("IX_RoleGroups_TenantId_Name")
             .IsUnique();
+
+        builder.HasOne<IFX.Modules.Auth.Domain.Authorization.Tenant>()
+            .WithMany()
+            .HasForeignKey(g => g.TenantId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(g => g.Description)
             .IsRequired()

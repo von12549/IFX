@@ -26,7 +26,7 @@ public class AssignRoleGroupsToUserCommandHandlerTests
     public async Task Handle_WithValidUserAndGroups_AssignsAndReturnsTrue()
     {
         var user = new UserBuilder().Active().Build();
-        var group = RoleGroup.Create("Managers", "Managers");
+        var group = RoleGroup.Create("Managers", "Managers", Guid.NewGuid());
         _users.Setup(u => u.GetByIdWithRolesAndGroupsAsync(user.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(user);
         _groups.Setup(g => g.GetByIdAsync(group.Id, It.IsAny<CancellationToken>())).ReturnsAsync(group);

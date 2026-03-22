@@ -7,7 +7,7 @@ public class CreateRoleCommandValidatorTests
 {
     private readonly CreateRoleCommandValidator _validator = new();
 
-    private static CreateRoleCommand Valid() => new("ValidRole", "A valid role description");
+    private static CreateRoleCommand Valid() => new("ValidRole", "A valid role description", Guid.NewGuid());
 
     [Fact]
     public async Task Validate_WithValidCommand_Succeeds()

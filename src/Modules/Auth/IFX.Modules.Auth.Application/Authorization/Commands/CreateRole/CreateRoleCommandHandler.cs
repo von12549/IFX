@@ -25,10 +25,10 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Resul
     {
         try
         {
-            if (await _unitOfWork.Roles.NameExistsAsync(request.Name, cancellationToken))
-                return Result<RoleDto>.Failure($"Role name '{request.Name}' already exists");
+            if (await _unitOfWork.Roles.NameExistsAsync(request.Name, request.TenantId, cancellationToken))
+                return Result<RoleDto>.Failure($"Role name '{request.Name}' already exists in this tenant");
 
-            var role = Role.Create(request.Name, request.Description);
+            var role = Role.Create(request.Name, request.Description, request.TenantId);
             await _unitOfWork.Roles.AddAsync(role, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

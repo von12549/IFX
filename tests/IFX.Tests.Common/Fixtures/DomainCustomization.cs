@@ -15,7 +15,8 @@ public class DomainCustomization : ICustomization
 
         fixture.Register(() => Role.Create(
             $"Role_{Guid.NewGuid():N}".Substring(0, 20),
-            "Auto-generated role description"));
+            "Auto-generated role description",
+            Guid.NewGuid()));
 
         fixture.Register(() => User.Create(
             $"User {fixture.Create<string>().Substring(0, 10)}",

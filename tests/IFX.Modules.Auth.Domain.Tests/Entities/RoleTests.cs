@@ -14,7 +14,7 @@ public class RoleTests
         var description = "Administrator role with full access";
 
         // Act
-        var role = Role.Create(name, description);
+        var role = Role.Create(name, description, Guid.NewGuid());
 
         // Assert
         role.Should().NotBeNull();
@@ -30,7 +30,7 @@ public class RoleTests
     public void Create_WithEmptyName_ThrowsArgumentException(string? name)
     {
         // Act
-        var act = () => Role.Create(name!, "Description");
+        var act = () => Role.Create(name!, "Description", Guid.NewGuid());
 
         // Assert
         act.Should().Throw<ArgumentException>()
@@ -44,7 +44,7 @@ public class RoleTests
     public void Create_WithEmptyDescription_ThrowsArgumentException(string? description)
     {
         // Act
-        var act = () => Role.Create("RoleName", description!);
+        var act = () => Role.Create("RoleName", description!, Guid.NewGuid());
 
         // Assert
         act.Should().Throw<ArgumentException>()
@@ -59,7 +59,7 @@ public class RoleTests
         var description = "  Administrator role  ";
 
         // Act
-        var role = Role.Create(name, description);
+        var role = Role.Create(name, description, Guid.NewGuid());
 
         // Assert
         role.Name.Should().Be("Admin");

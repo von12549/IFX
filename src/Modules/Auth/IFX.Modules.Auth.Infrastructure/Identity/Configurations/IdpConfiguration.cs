@@ -86,5 +86,12 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
 
         // Index for common queries
         builder.HasIndex(i => i.Enabled);
+
+        builder.Property(i => i.TenantId).IsRequired();
+
+        builder.HasOne<IFX.Modules.Auth.Domain.Authorization.Tenant>()
+            .WithMany()
+            .HasForeignKey(i => i.TenantId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

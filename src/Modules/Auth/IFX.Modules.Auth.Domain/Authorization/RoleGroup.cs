@@ -6,6 +6,7 @@ public class RoleGroup : BaseEntity, IAuditableEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
+    public Guid TenantId { get; private set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
@@ -14,7 +15,7 @@ public class RoleGroup : BaseEntity, IAuditableEntity
 
     private RoleGroup() { } // For EF Core
 
-    public static RoleGroup Create(string name, string description)
+    public static RoleGroup Create(string name, string description, Guid tenantId)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Role group name cannot be empty.", nameof(name));
@@ -22,10 +23,14 @@ public class RoleGroup : BaseEntity, IAuditableEntity
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be empty.", nameof(description));
 
+        if (tenantId == Guid.Empty)
+            throw new ArgumentException("TenantId must be provided.", nameof(tenantId));
+
         return new RoleGroup
         {
             Name = name.Trim(),
-            Description = description.Trim()
+            Description = description.Trim(),
+            TenantId = tenantId
         };
     }
 

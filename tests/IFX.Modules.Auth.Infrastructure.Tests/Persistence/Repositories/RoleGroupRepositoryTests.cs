@@ -29,7 +29,7 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task GetByIdAsync_WithExistingGroup_ReturnsGroup()
     {
-        var group = RoleGroup.Create("Managers", "Manager group");
+        var group = RoleGroup.Create("Managers", "Manager group", Guid.NewGuid());
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
 
@@ -49,7 +49,7 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task GetByNameAsync_WithExistingGroup_ReturnsGroup()
     {
-        var group = RoleGroup.Create("Admins", "Admin group");
+        var group = RoleGroup.Create("Admins", "Admin group", Guid.NewGuid());
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
 
@@ -70,7 +70,7 @@ public class RoleGroupRepositoryTests : IDisposable
     public async Task GetByIdWithRolesAsync_ReturnsGroupWithRoles()
     {
         var role = new RoleBuilder().AsUser().Build();
-        var group = RoleGroup.Create("Staff", "Staff group");
+        var group = RoleGroup.Create("Staff", "Staff group", Guid.NewGuid());
         await _context.Roles.AddAsync(role);
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
@@ -91,9 +91,10 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task GetAllAsync_ReturnsAllGroups()
     {
+        var tenantId = Guid.NewGuid();
         await _context.RoleGroups.AddRangeAsync(
-            RoleGroup.Create("Managers", "Manager group"),
-            RoleGroup.Create("Developers", "Dev group"));
+            RoleGroup.Create("Managers", "Manager group", tenantId),
+            RoleGroup.Create("Developers", "Dev group", tenantId));
         await _context.SaveChangesAsync();
 
         var result = await _repository.GetAllAsync();
@@ -105,7 +106,7 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task AddAsync_AddsGroupToContext()
     {
-        var group = RoleGroup.Create("NewGroup", "A new group");
+        var group = RoleGroup.Create("NewGroup", "A new group", Guid.NewGuid());
 
         await _repository.AddAsync(group);
         await _context.SaveChangesAsync();
@@ -117,10 +118,11 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task NameExistsAsync_WithExistingGroup_ReturnsTrue()
     {
-        await _context.RoleGroups.AddAsync(RoleGroup.Create("Managers", "Manager group"));
+        var tenantId = Guid.NewGuid();
+        await _context.RoleGroups.AddAsync(RoleGroup.Create("Managers", "Manager group", tenantId));
         await _context.SaveChangesAsync();
 
-        var result = await _repository.NameExistsAsync("Managers");
+        var result = await _repository.NameExistsAsync("Managers", tenantId);
 
         result.Should().BeTrue();
     }
@@ -128,18 +130,18 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task NameExistsAsync_WithNonExistingGroup_ReturnsFalse()
     {
-        var result = await _repository.NameExistsAsync("NonExistent");
+        var result = await _repository.NameExistsAsync("NonExistent", Guid.NewGuid());
         result.Should().BeFalse();
     }
 
     [Fact]
     public async Task NameExistsAsync_WithExcludeId_ExcludesSpecifiedGroup()
     {
-        var group = RoleGroup.Create("Managers", "Manager group");
+        var group = RoleGroup.Create("Managers", "Manager group", Guid.NewGuid());
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
 
-        var result = await _repository.NameExistsAsync("Managers", group.Id);
+        var result = await _repository.NameExistsAsync("Managers", group.TenantId, group.Id);
 
         result.Should().BeFalse();
     }
@@ -147,7 +149,7 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task Remove_RemovesGroupFromContext()
     {
-        var group = RoleGroup.Create("TempGroup", "Temp");
+        var group = RoleGroup.Create("TempGroup", "Temp", Guid.NewGuid());
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
 

@@ -7,7 +7,7 @@ public interface IRoleRepository
     Task<Role?> GetByIdWithPermissionsAsync(Guid id, CancellationToken cancellationToken = default);
     Task<List<Role>> GetAllAsync(CancellationToken cancellationToken = default);
     Task AddAsync(Role role, CancellationToken cancellationToken = default);
-    Task<bool> NameExistsAsync(string name, CancellationToken cancellationToken = default);
-    Task<bool> NameExistsAsync(string name, Guid excludeId, CancellationToken cancellationToken = default);
+    Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default);
+    Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default);
     void Remove(Role role);
 }

@@ -25,10 +25,10 @@ public class CreateRoleGroupCommandHandler : IRequestHandler<CreateRoleGroupComm
     {
         try
         {
-            if (await _unitOfWork.RoleGroups.NameExistsAsync(request.Name, cancellationToken))
-                return Result<RoleGroupDto>.Failure($"Role group '{request.Name}' already exists");
+            if (await _unitOfWork.RoleGroups.NameExistsAsync(request.Name, request.TenantId, cancellationToken))
+                return Result<RoleGroupDto>.Failure($"Role group '{request.Name}' already exists in this tenant");
 
-            var group = RoleGroup.Create(request.Name, request.Description);
+            var group = RoleGroup.Create(request.Name, request.Description, request.TenantId);
             await _unitOfWork.RoleGroups.AddAsync(group, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

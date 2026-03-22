@@ -27,7 +27,7 @@ public class AssignRolesToRoleGroupCommandHandlerTests
     [Fact]
     public async Task Handle_WithValidGroupAndRoles_AssignsAndReturnsDto()
     {
-        var group = RoleGroup.Create("Managers", "Managers");
+        var group = RoleGroup.Create("Managers", "Managers", Guid.NewGuid());
         var role = new RoleBuilder().AsUser().Build();
         _groups.Setup(g => g.GetByIdWithRolesAsync(group.Id, It.IsAny<CancellationToken>())).ReturnsAsync(group);
         _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<CancellationToken>())).ReturnsAsync(role);
@@ -56,7 +56,7 @@ public class AssignRolesToRoleGroupCommandHandlerTests
     [Fact]
     public async Task Handle_WhenRoleNotFound_ReturnsFailure()
     {
-        var group = RoleGroup.Create("Managers", "Managers");
+        var group = RoleGroup.Create("Managers", "Managers", Guid.NewGuid());
         var missingRoleId = Guid.NewGuid();
         _groups.Setup(g => g.GetByIdWithRolesAsync(group.Id, It.IsAny<CancellationToken>())).ReturnsAsync(group);
         _roles.Setup(r => r.GetByIdAsync(missingRoleId, It.IsAny<CancellationToken>())).ReturnsAsync((Role?)null);

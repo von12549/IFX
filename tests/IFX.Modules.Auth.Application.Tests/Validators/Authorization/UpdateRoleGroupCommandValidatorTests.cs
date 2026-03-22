@@ -7,7 +7,7 @@ public class UpdateRoleGroupCommandValidatorTests
 {
     private readonly UpdateRoleGroupCommandValidator _validator = new();
 
-    private static UpdateRoleGroupCommand Valid() => new(Guid.NewGuid(), "PlatformAdmins", "Platform administrator group");
+    private static UpdateRoleGroupCommand Valid() => new(Guid.NewGuid(), "PlatformAdmins", "Platform administrator group", Guid.NewGuid());
 
     [Fact]
     public async Task Validate_WithValidCommand_Succeeds()

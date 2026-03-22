@@ -40,5 +40,5 @@ public class RoleBuilder
         return this;
     }
 
-    public Role Build() => Role.Create(_name, _description);
+    public Role Build() => Role.Create(_name, _description, Guid.NewGuid());
 }

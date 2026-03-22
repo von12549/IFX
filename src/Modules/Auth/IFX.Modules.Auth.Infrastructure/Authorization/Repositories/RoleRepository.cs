@@ -30,11 +30,11 @@ public class RoleRepository : IRoleRepository
     public async Task AddAsync(Role role, CancellationToken cancellationToken = default)
         => await _context.Roles.AddAsync(role, cancellationToken);
 
-    public async Task<bool> NameExistsAsync(string name, CancellationToken cancellationToken = default)
-        => await _context.Roles.AnyAsync(r => r.Name == name, cancellationToken);
+    public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)
+        => await _context.Roles.AnyAsync(r => r.Name == name && r.TenantId == tenantId, cancellationToken);
 
-    public async Task<bool> NameExistsAsync(string name, Guid excludeId, CancellationToken cancellationToken = default)
-        => await _context.Roles.AnyAsync(r => r.Name == name && r.Id != excludeId, cancellationToken);
+    public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)
+        => await _context.Roles.AnyAsync(r => r.Name == name && r.TenantId == tenantId && r.Id != excludeId, cancellationToken);
 
     public void Remove(Role role) => _context.Roles.Remove(role);
 }
