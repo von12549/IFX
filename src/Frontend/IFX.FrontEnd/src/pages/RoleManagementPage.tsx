@@ -18,9 +18,10 @@ export function RoleManagementPage() {
   const [saving, setSaving] = useState(false)
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+  const [filterTenantId, setFilterTenantId] = useState<string>('')
   const navigate = useNavigate()
 
-  const load = () => roleApi.getAll().then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
+  const load = (tenantId?: string) => roleApi.getAll(tenantId || undefined).then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
 
   useEffect(() => {
     Promise.all([
@@ -28,6 +29,11 @@ export function RoleManagementPage() {
       tenantApi.getAll().then(r => setTenants(r.data?.data ?? [])),
     ]).finally(() => setLoading(false))
   }, [])
+
+  const handleFilterChange = (tenantId: string) => {
+    setFilterTenantId(tenantId)
+    load(tenantId || undefined)
+  }
 
   const toggleSort = (col: string) => {
     const c = col as SortCol
@@ -59,6 +65,15 @@ export function RoleManagementPage() {
         <button className="btn btn-primary" onClick={openCreate}>+ Create Role</button>
       </div>
       {error && <div className="alert alert-error">{error}</div>}
+
+      <div className="filter-bar">
+        <label>Filter by Tenant:</label>
+        <select value={filterTenantId} onChange={e => handleFilterChange(e.target.value)}>
+          <option value="">— Select Tenant —</option>
+          {tenants.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+        </select>
+      </div>
+
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
           <table className="data-table">

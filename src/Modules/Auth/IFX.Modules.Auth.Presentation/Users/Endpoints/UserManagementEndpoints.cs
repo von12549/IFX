@@ -27,12 +27,13 @@ public static class UserManagementEndpoints
     public static async Task<IResult> GetAllUsers(
         [FromQuery] int page,
         [FromQuery] int pageSize,
+        [FromQuery] Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing user list. Page: {Page}, PageSize: {PageSize}", page, pageSize);
 
-        var query = new GetAllUsersQuery(page, pageSize);
+        var query = new GetAllUsersQuery(page, pageSize, tenantId);
         var result = await mediator.Send(query);
 
         if (!result.IsSuccess)

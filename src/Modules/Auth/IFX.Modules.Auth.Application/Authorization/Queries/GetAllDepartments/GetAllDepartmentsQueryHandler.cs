@@ -22,9 +22,10 @@ public class GetAllDepartmentsQueryHandler : IRequestHandler<GetAllDepartmentsQu
 
     public async Task<Result<List<DepartmentDto>>> Handle(GetAllDepartmentsQuery request, CancellationToken cancellationToken)
     {
-        var departments = request.TenantId.HasValue
-            ? await _unitOfWork.Departments.GetByTenantIdAsync(request.TenantId.Value, cancellationToken)
-            : await _unitOfWork.Departments.GetAllAsync(cancellationToken);
+        if (!request.TenantId.HasValue)
+            return Result<List<DepartmentDto>>.Success([]);
+
+        var departments = await _unitOfWork.Departments.GetByTenantIdAsync(request.TenantId.Value, cancellationToken);
 
         return Result<List<DepartmentDto>>.Success(_mapper.Map<List<DepartmentDto>>(departments));
     }

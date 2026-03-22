@@ -25,7 +25,7 @@ public static class UserManagementEndpointExtensions
 
         group.MapGet("/users",
             ([AsParameters] UsersParams parameters, IServiceProvider services) =>
-                UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize,
+                UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize, parameters.tenantId,
                     services.GetRequiredService<MediatR.IMediator>(),
                     services.GetRequiredService<ILogger<UserManagementEndpointsLogCategory>>()))
             .WithName("GetAllUsers")
@@ -131,5 +131,5 @@ public static class UserManagementEndpointExtensions
         return builder;
     }
 
-    private record UsersParams(int page = 1, int pageSize = 50);
+    private record UsersParams(int page = 1, int pageSize = 50, Guid? tenantId = null);
 }

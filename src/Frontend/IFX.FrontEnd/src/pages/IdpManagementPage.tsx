@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { idpApi } from '../api/idp'
-import type { CreateIdpRequest, IdpDto } from '../types/api'
+import { tenantApi } from '../api/tenant'
+import type { CreateIdpRequest, IdpDto, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
 
@@ -17,6 +18,7 @@ type SortCol = 'name' | 'type' | 'issuer' | 'tenantName' | 'isPrimary' | 'enable
 
 export function IdpManagementPage() {
   const [idps, setIdps] = useState<IdpDto[]>([])
+  const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [modal, setModal] = useState<'create' | 'edit' | null>(null)
@@ -25,10 +27,21 @@ export function IdpManagementPage() {
   const [saving, setSaving] = useState(false)
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+  const [filterTenantId, setFilterTenantId] = useState<string>('')
 
-  const load = () => idpApi.getAll().then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
+  const load = (tenantId?: string) => idpApi.getAll(tenantId || undefined).then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
 
-  useEffect(() => { load().finally(() => setLoading(false)) }, [])
+  useEffect(() => {
+    Promise.all([
+      load(),
+      tenantApi.getAll().then(r => setTenants(r.data?.data ?? [])),
+    ]).finally(() => setLoading(false))
+  }, [])
+
+  const handleFilterChange = (tenantId: string) => {
+    setFilterTenantId(tenantId)
+    load(tenantId || undefined)
+  }
 
   const set = (k: keyof CreateIdpRequest) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked
@@ -83,6 +96,15 @@ export function IdpManagementPage() {
         <button className="btn btn-primary" onClick={openCreate}>+ Create IdP</button>
       </div>
       {error && <div className="alert alert-error">{error}</div>}
+
+      <div className="filter-bar">
+        <label>Filter by Tenant:</label>
+        <select value={filterTenantId} onChange={e => handleFilterChange(e.target.value)}>
+          <option value="">— Select Tenant —</option>
+          {tenants.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+        </select>
+      </div>
+
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
           <table className="data-table">

@@ -28,6 +28,9 @@ public class RoleRepository : IRoleRepository
     public async Task<List<Role>> GetAllAsync(CancellationToken cancellationToken = default)
         => await _context.Roles.Include(r => r.Tenant).AsNoTracking().ToListAsync(cancellationToken);
 
+    public async Task<List<Role>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)
+        => await _context.Roles.Include(r => r.Tenant).Where(r => r.TenantId == tenantId).AsNoTracking().ToListAsync(cancellationToken);
+
     public async Task AddAsync(Role role, CancellationToken cancellationToken = default)
         => await _context.Roles.AddAsync(role, cancellationToken);
 

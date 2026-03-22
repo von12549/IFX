@@ -6,4 +6,5 @@ namespace IFX.Modules.Auth.Application.Users.Queries.GetAllUsers;
 
 public record GetAllUsersQuery(
     int PageNumber = 1,
-    int PageSize = 50) : IRequest<Result<PagedResult<UserProfileDto>>>;
+    int PageSize = 50,
+    Guid? TenantId = null) : IRequest<Result<PagedResult<UserProfileDto>>>;

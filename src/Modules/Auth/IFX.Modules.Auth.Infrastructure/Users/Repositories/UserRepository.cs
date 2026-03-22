@@ -93,6 +93,31 @@ public class UserRepository : IUserRepository
         return (users, totalCount);
     }
 
+    public async Task<(List<User> Users, int TotalCount)> GetAllUsersByTenantAsync(
+        Guid tenantId,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Users
+            .Include(u => u.Roles)
+            .Include(u => u.RoleGroups).ThenInclude(g => g.Roles)
+            .Include(u => u.Identities)
+            .Include(u => u.Tenants)
+            .Where(u => u.Tenants.Any(t => t.Id == tenantId))
+            .AsNoTracking();
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var users = await query
+            .OrderByDescending(u => u.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (users, totalCount);
+    }
+
     public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = email.ToLowerInvariant();

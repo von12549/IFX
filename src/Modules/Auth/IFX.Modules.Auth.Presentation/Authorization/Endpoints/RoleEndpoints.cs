@@ -34,12 +34,13 @@ public static class RoleEndpoints
     }
 
     public static async Task<IResult> GetAllRoles(
+        [FromQuery] Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<RoleEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing roles list");
 
-        var result = await mediator.Send(new GetAllRolesQuery());
+        var result = await mediator.Send(new GetAllRolesQuery(tenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

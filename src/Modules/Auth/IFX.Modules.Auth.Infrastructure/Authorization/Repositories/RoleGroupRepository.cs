@@ -31,6 +31,14 @@ public class RoleGroupRepository : IRoleGroupRepository
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
+    public async Task<List<RoleGroup>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)
+        => await _context.RoleGroups
+            .Include(g => g.Tenant)
+            .Include(g => g.Roles)
+            .Where(g => g.TenantId == tenantId)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
     public async Task AddAsync(RoleGroup group, CancellationToken cancellationToken = default)
         => await _context.RoleGroups.AddAsync(group, cancellationToken);
 

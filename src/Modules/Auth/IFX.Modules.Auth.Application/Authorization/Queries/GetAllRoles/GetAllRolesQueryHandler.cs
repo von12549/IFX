@@ -24,7 +24,10 @@ public class GetAllRolesQueryHandler : IRequestHandler<GetAllRolesQuery, Result<
     {
         try
         {
-            var roles = await _unitOfWork.Roles.GetAllAsync(cancellationToken);
+            if (!request.TenantId.HasValue)
+                return Result<List<RoleDto>>.Success([]);
+
+            var roles = await _unitOfWork.Roles.GetByTenantIdAsync(request.TenantId.Value, cancellationToken);
             var roleDtos = _mapper.Map<List<RoleDto>>(roles);
             _logger.LogInformation("Retrieved {Count} roles", roleDtos.Count);
             return Result<List<RoleDto>>.Success(roleDtos);

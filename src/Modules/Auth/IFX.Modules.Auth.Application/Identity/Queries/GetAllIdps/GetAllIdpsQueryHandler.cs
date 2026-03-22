@@ -30,7 +30,10 @@ public class GetAllIdpsQueryHandler : IRequestHandler<GetAllIdpsQuery, Result<Li
     {
         try
         {
-            var idps = await _unitOfWork.Idps.GetAllAsync(cancellationToken);
+            if (!request.TenantId.HasValue)
+                return Result<List<IdpDto>>.Success([]);
+
+            var idps = await _unitOfWork.Idps.GetByTenantIdAsync(request.TenantId.Value, cancellationToken);
             var idpDtos = _mapper.Map<List<IdpDto>>(idps);
 
             _logger.LogInformation("Retrieved {Count} Identity Providers", idpDtos.Count);
