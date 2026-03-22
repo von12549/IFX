@@ -14,7 +14,7 @@ body{margin:0;font-family:'Inter',sans-serif;background:var(--bg);color:var(--te
 .tenant-switcher-single{font-size:13px;color:var(--text-muted)}
 .tenant-switcher-name{font-size:13px;color:var(--text-muted)}
 .tenant-switcher-icon{font-size:14px;line-height:1}
-.tenant-switcher-select{background:transparent;border:none;color:var(--text);font-size:13px;cursor:pointer;outline:none;padding:0 2px}
+.tenant-switcher-select{background:var(--surface2);border:none;color:var(--text);font-size:13px;cursor:pointer;outline:none;padding:0 2px;color-scheme:dark}
 .header-title{font-size:20px;font-weight:700;letter-spacing:2px;color:var(--text)}
 .ifx-icon{width:36px;height:36px}
 .sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;overflow-y:auto}
