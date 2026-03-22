@@ -7,6 +7,8 @@ interface AuthContextValue {
   user: UserProfileDto | null
   isAuthenticated: boolean
   isLoading: boolean
+  selectedTenantId: string | null
+  setSelectedTenantId(id: string): void
   login(tokens: { accessToken: string; refreshToken: string; idToken: string; expiresIn: number }): Promise<void>
   logout(): void
   refreshUser(): Promise<void>
@@ -17,10 +19,15 @@ const AuthContext = createContext<AuthContextValue>(null!)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfileDto | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null)
 
   const loadProfile = useCallback(async () => {
     const resp = await userApi.getProfile()
-    setUser(resp.data?.data ?? null)
+    const profile = resp.data?.data ?? null
+    setUser(profile)
+    setSelectedTenantId(prev =>
+      prev ?? (profile?.primaryTenantId ?? profile?.tenants?.[0]?.id ?? null)
+    )
   }, [])
 
   // Restore session on mount
@@ -48,6 +55,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(() => {
     tokenStorage.clear()
     setUser(null)
+    setSelectedTenantId(null)
   }, [])
 
   const refreshUser = useCallback(async () => {
@@ -55,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [loadProfile])
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, selectedTenantId, setSelectedTenantId, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   )

@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { userManagementApi } from '../api/userManagement'
-import { tenantApi } from '../api/tenant'
-import type { UserProfileDto, TenantDto } from '../types/api'
+import { useAuth } from '../contexts/AuthContext'
+import type { UserProfileDto } from '../types/api'
 import { Chip } from '../components/shared/Chip'
 import { SortableHeader } from '../components/shared/SortableHeader'
 
 type SortCol = 'displayName' | 'email' | 'roles' | 'roleGroups' | 'isActive'
 
 export function UserManagementPage() {
+  const { selectedTenantId } = useAuth()
   const [users, setUsers] = useState<UserProfileDto[]>([])
-  const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [sortCol, setSortCol] = useState<SortCol>('displayName')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
-  const [filterTenantId, setFilterTenantId] = useState<string>('')
   const navigate = useNavigate()
 
   const load = (tenantId?: string) =>
@@ -24,16 +23,9 @@ export function UserManagementPage() {
       .catch(() => setError('Failed to load users'))
 
   useEffect(() => {
-    Promise.all([
-      load(),
-      tenantApi.getAll().then(r => setTenants(r.data?.data ?? [])),
-    ]).finally(() => setLoading(false))
-  }, [])
-
-  const handleFilterChange = (tenantId: string) => {
-    setFilterTenantId(tenantId)
-    load(tenantId || undefined)
-  }
+    setLoading(true)
+    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+  }, [selectedTenantId])
 
   const toggleSort = (col: string) => {
     const c = col as SortCol
@@ -56,15 +48,6 @@ export function UserManagementPage() {
         <h2>User Management</h2>
       </div>
       {error && <div className="alert alert-error">{error}</div>}
-
-      <div className="filter-bar">
-        <label>Filter by Tenant:</label>
-        <select value={filterTenantId} onChange={e => handleFilterChange(e.target.value)}>
-          <option value="">— Select Tenant —</option>
-          {tenants.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-        </select>
-      </div>
-
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
           <table className="data-table">

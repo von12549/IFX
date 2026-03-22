@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { roleApi } from '../api/role'
 import { tenantApi } from '../api/tenant'
+import { useAuth } from '../contexts/AuthContext'
 import type { CreateRoleRequest, RoleDto, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
@@ -9,6 +10,7 @@ import { SortableHeader } from '../components/shared/SortableHeader'
 type SortCol = 'name' | 'description' | 'tenantName'
 
 export function RoleManagementPage() {
+  const { selectedTenantId } = useAuth()
   const [roles, setRoles] = useState<RoleDto[]>([])
   const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
@@ -18,22 +20,18 @@ export function RoleManagementPage() {
   const [saving, setSaving] = useState(false)
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
-  const [filterTenantId, setFilterTenantId] = useState<string>('')
   const navigate = useNavigate()
 
   const load = (tenantId?: string) => roleApi.getAll(tenantId || undefined).then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
 
   useEffect(() => {
-    Promise.all([
-      load(),
-      tenantApi.getAll().then(r => setTenants(r.data?.data ?? [])),
-    ]).finally(() => setLoading(false))
+    tenantApi.getAll().then(r => setTenants(r.data?.data ?? []))
   }, [])
 
-  const handleFilterChange = (tenantId: string) => {
-    setFilterTenantId(tenantId)
-    load(tenantId || undefined)
-  }
+  useEffect(() => {
+    setLoading(true)
+    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+  }, [selectedTenantId])
 
   const toggleSort = (col: string) => {
     const c = col as SortCol
@@ -42,13 +40,13 @@ export function RoleManagementPage() {
   }
 
   const openCreate = () => {
-    setForm({ name: '', description: '', tenantId: tenants[0]?.id ?? '' })
+    setForm({ name: '', description: '', tenantId: selectedTenantId ?? tenants[0]?.id ?? '' })
     setModal(true)
   }
 
   const handleCreate = async () => {
     setSaving(true)
-    try { await roleApi.create(form); await load(); setModal(false) }
+    try { await roleApi.create(form); await load(selectedTenantId ?? undefined); setModal(false) }
     catch (err: any) { setError(err.response?.data?.error || 'Failed to create role') }
     finally { setSaving(false) }
   }
@@ -65,15 +63,6 @@ export function RoleManagementPage() {
         <button className="btn btn-primary" onClick={openCreate}>+ Create Role</button>
       </div>
       {error && <div className="alert alert-error">{error}</div>}
-
-      <div className="filter-bar">
-        <label>Filter by Tenant:</label>
-        <select value={filterTenantId} onChange={e => handleFilterChange(e.target.value)}>
-          <option value="">— Select Tenant —</option>
-          {tenants.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-        </select>
-      </div>
-
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
           <table className="data-table">

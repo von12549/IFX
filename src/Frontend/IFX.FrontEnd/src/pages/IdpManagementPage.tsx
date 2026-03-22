@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { idpApi } from '../api/idp'
-import { tenantApi } from '../api/tenant'
-import type { CreateIdpRequest, IdpDto, TenantDto } from '../types/api'
+import { useAuth } from '../contexts/AuthContext'
+import type { CreateIdpRequest, IdpDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
 
@@ -17,8 +17,8 @@ const emptyForm = (): CreateIdpRequest => ({
 type SortCol = 'name' | 'type' | 'issuer' | 'tenantName' | 'isPrimary' | 'enabled' | 'autoProvisionEnabled'
 
 export function IdpManagementPage() {
+  const { selectedTenantId } = useAuth()
   const [idps, setIdps] = useState<IdpDto[]>([])
-  const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [modal, setModal] = useState<'create' | 'edit' | null>(null)
@@ -27,21 +27,13 @@ export function IdpManagementPage() {
   const [saving, setSaving] = useState(false)
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
-  const [filterTenantId, setFilterTenantId] = useState<string>('')
 
   const load = (tenantId?: string) => idpApi.getAll(tenantId || undefined).then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
 
   useEffect(() => {
-    Promise.all([
-      load(),
-      tenantApi.getAll().then(r => setTenants(r.data?.data ?? [])),
-    ]).finally(() => setLoading(false))
-  }, [])
-
-  const handleFilterChange = (tenantId: string) => {
-    setFilterTenantId(tenantId)
-    load(tenantId || undefined)
-  }
+    setLoading(true)
+    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+  }, [selectedTenantId])
 
   const set = (k: keyof CreateIdpRequest) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked
@@ -66,7 +58,7 @@ export function IdpManagementPage() {
     try {
       if (modal === 'create') await idpApi.create(form)
       else if (editId) await idpApi.update(editId, form)
-      await load()
+      await load(selectedTenantId ?? undefined)
       setModal(null)
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to save')
@@ -96,15 +88,6 @@ export function IdpManagementPage() {
         <button className="btn btn-primary" onClick={openCreate}>+ Create IdP</button>
       </div>
       {error && <div className="alert alert-error">{error}</div>}
-
-      <div className="filter-bar">
-        <label>Filter by Tenant:</label>
-        <select value={filterTenantId} onChange={e => handleFilterChange(e.target.value)}>
-          <option value="">— Select Tenant —</option>
-          {tenants.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-        </select>
-      </div>
-
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
           <table className="data-table">

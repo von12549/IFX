@@ -1,12 +1,11 @@
 import { useAuth } from '../../contexts/AuthContext'
 
 export function TenantSwitcher() {
-  const { user } = useAuth()
+  const { user, selectedTenantId, setSelectedTenantId } = useAuth()
 
   if (!user || !user.tenants?.length) return null
 
-  const current = user.tenants.find(t => t.id === user.primaryTenantId)
-    ?? user.tenants[0]
+  const current = user.tenants.find(t => t.id === selectedTenantId) ?? user.tenants[0]
 
   if (user.tenants.length === 1) {
     return (
@@ -22,8 +21,8 @@ export function TenantSwitcher() {
       <span className="tenant-switcher-icon">🏢</span>
       <select
         className="tenant-switcher-select"
-        defaultValue={current.id}
-        onChange={() => {/* future: dispatch tenant switch action */}}
+        value={selectedTenantId ?? current.id}
+        onChange={e => setSelectedTenantId(e.target.value)}
       >
         {user.tenants.map(t => (
           <option key={t.id} value={t.id}>
