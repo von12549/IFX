@@ -124,8 +124,12 @@ public class RoleRepositoryTests : IDisposable
     public async Task GetAllAsync_ReturnsAllRoles()
     {
         // Arrange
-        var adminRole = new RoleBuilder().AsAdmin().Build();
-        var userRole = new RoleBuilder().AsUser().Build();
+        var tenant = Tenant.Create("Test Tenant", "For tests");
+        await _context.Tenants.AddAsync(tenant);
+        await _context.SaveChangesAsync();
+
+        var adminRole = Role.Create(TestConstants.Roles.Admin, "Admin role", tenant.Id);
+        var userRole = Role.Create(TestConstants.Roles.User, "User role", tenant.Id);
         await _context.Roles.AddRangeAsync(adminRole, userRole);
         await _context.SaveChangesAsync();
 

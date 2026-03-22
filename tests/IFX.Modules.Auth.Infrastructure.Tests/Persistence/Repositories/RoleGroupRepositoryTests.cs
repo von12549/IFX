@@ -91,10 +91,13 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task GetAllAsync_ReturnsAllGroups()
     {
-        var tenantId = Guid.NewGuid();
+        var tenant = Tenant.Create("Test Tenant", "For tests");
+        await _context.Tenants.AddAsync(tenant);
+        await _context.SaveChangesAsync();
+
         await _context.RoleGroups.AddRangeAsync(
-            RoleGroup.Create("Managers", "Manager group", tenantId),
-            RoleGroup.Create("Developers", "Dev group", tenantId));
+            RoleGroup.Create("Managers", "Manager group", tenant.Id),
+            RoleGroup.Create("Developers", "Dev group", tenant.Id));
         await _context.SaveChangesAsync();
 
         var result = await _repository.GetAllAsync();
