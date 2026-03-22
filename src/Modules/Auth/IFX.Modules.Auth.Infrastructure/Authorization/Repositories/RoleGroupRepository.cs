@@ -26,6 +26,7 @@ public class RoleGroupRepository : IRoleGroupRepository
 
     public async Task<List<RoleGroup>> GetAllAsync(CancellationToken cancellationToken = default)
         => await _context.RoleGroups
+            .Include(g => g.Tenant)
             .Include(g => g.Roles)
             .AsNoTracking()
             .ToListAsync(cancellationToken);

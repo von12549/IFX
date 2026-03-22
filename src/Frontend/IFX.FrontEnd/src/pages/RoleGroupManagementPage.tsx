@@ -6,7 +6,7 @@ import type { CreateRoleGroupRequest, RoleGroupDto, TenantDto } from '../types/a
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
 
-type SortCol = 'name' | 'description' | 'roles'
+type SortCol = 'name' | 'description' | 'tenantName' | 'roles'
 
 export function RoleGroupManagementPage() {
   const [groups, setGroups] = useState<RoleGroupDto[]>([])
@@ -68,6 +68,7 @@ export function RoleGroupManagementPage() {
               <tr>
                 <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Tenant" col="tenantName" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Roles" col="roles" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
               </tr>
             </thead>
@@ -76,6 +77,7 @@ export function RoleGroupManagementPage() {
                 <tr key={g.id} className="clickable-row" onClick={() => navigate(`/rolegroups/${g.id}`)}>
                   <td>{g.name}</td>
                   <td className="text-muted">{g.description}</td>
+                  <td className="text-muted">{g.tenantName}</td>
                   <td>{g.roles.length}</td>
                 </tr>
               ))}

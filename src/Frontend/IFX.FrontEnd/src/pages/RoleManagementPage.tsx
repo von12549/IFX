@@ -6,7 +6,7 @@ import type { CreateRoleRequest, RoleDto, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
 
-type SortCol = 'name' | 'description'
+type SortCol = 'name' | 'description' | 'tenantName'
 
 export function RoleManagementPage() {
   const [roles, setRoles] = useState<RoleDto[]>([])
@@ -66,6 +66,7 @@ export function RoleManagementPage() {
               <tr>
                 <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Tenant" col="tenantName" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
               </tr>
             </thead>
             <tbody>
@@ -73,6 +74,7 @@ export function RoleManagementPage() {
                 <tr key={r.id} className="clickable-row" onClick={() => navigate(`/roles/${r.id}`)}>
                   <td>{r.name}</td>
                   <td className="text-muted">{r.description}</td>
+                  <td className="text-muted">{r.tenantName}</td>
                 </tr>
               ))}
             </tbody>

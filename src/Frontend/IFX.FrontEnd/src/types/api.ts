@@ -31,6 +31,7 @@ export interface RoleDto {
   id: string
   name: string
   description: string
+  tenantName: string
 }
 
 export interface RoleDetailDto extends RoleDto {
@@ -41,6 +42,7 @@ export interface RoleGroupDto {
   id: string
   name: string
   description: string
+  tenantName: string
   roles: RoleDto[]
 }
 
@@ -102,6 +104,7 @@ export interface IdpDto {
   requiredScopes: string
   claimMapping: string
   clockSkewSeconds: number
+  tenantName: string
 }
 
 export interface CreateIdpRequest {
