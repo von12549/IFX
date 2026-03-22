@@ -12,11 +12,15 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Role, RoleDto>();
-        CreateMap<Role, RoleDetailDto>();
+        CreateMap<Role, RoleDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
+        CreateMap<Role, RoleDetailDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
         CreateMap<Permission, PermissionDto>();
-        CreateMap<RoleGroup, RoleGroupDto>();
-        CreateMap<Idp, IdpDto>();
+        CreateMap<RoleGroup, RoleGroupDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
+        CreateMap<Idp, IdpDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
         CreateMap<Tenant, TenantDto>();
         CreateMap<Department, DepartmentDto>()
             .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant.Name));

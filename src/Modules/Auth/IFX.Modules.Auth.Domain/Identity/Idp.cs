@@ -9,6 +9,7 @@ public class Idp : BaseEntity, IAuditableEntity
     public string Issuer { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public Guid TenantId { get; private set; }
+    public Authorization.Tenant Tenant { get; private set; } = null!;
     public string LoginUrl { get; private set; } = string.Empty;
     public IdpType IdpType { get; private set; } = IdpType.Internal;
     public bool IsPrimary { get; private set; } = false;
