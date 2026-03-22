@@ -12,6 +12,7 @@ This file provides guidance to Claude Code when working with this repository.
 - Dynamic Multi-IdP SSO with auto-provisioning (database-driven)
 - OIDC Discovery for dynamic IdP configuration
 - UserInfo-based auto-provisioning (fetches user data from OIDC userinfo endpoint)
+- **Multi-tenant** — Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant
 - Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
@@ -51,14 +52,14 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260318-merge-ef-migrations.md` | Squash 14 EF migrations into single InitialCreate baseline |
 | `/.claude/Plans/20260321-frontend-ifx.md` | IFX.FrontEnd React app — pages, API audit, token flow, implementation order |
 | `/.claude/Plans/20260322-test-coverage-improvement.md` | Unit + integration + frontend test coverage improvement (Phases 1–8) |
-| `/.claude/Plans/20260322-multi-tenant.md` | Multi-tenant support — Tenant/Department entities, TenantId on Role/RoleGroup/Idp, CRUD endpoints, frontend pages |
+| `/.claude/Plans/20260322-multi-tenant.md` | Multi-tenant support — Tenant/Department entities, TenantId on Role/RoleGroup/Idp, CRUD endpoints, tenant-filtered queries, frontend pages |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (419 backend tests)
+dotnet test IFX.sln           # Test (419 backend tests → 474 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
@@ -78,9 +79,14 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - OAuth: `GET /api/v1/auth/oauth/{authorize,callback,userinfo,logout}`
 - Public: `POST /api/v1/auth/{register,confirm,login}` (login deprecated, use OAuth)
 - Authenticated: `POST /api/v1/auth/{logout,refresh,revoke}`, `GET/PUT /api/v1/user/profile`
-- Admin: `GET/PUT /api/v1/usermanagement/users`, `GET/POST/PUT /api/v1/role`, `/api/v1/idp`
+- Admin — Users: `GET/PUT /api/v1/usermanagement/users?tenantId=`
+- Admin — Auth: `GET/POST/PUT /api/v1/role?tenantId=`, `/api/v1/rolegroup?tenantId=`, `/api/v1/idp?tenantId=`
+- Admin — Tenants: `GET/POST/PUT/DELETE /api/v1/tenant`
+- Admin — Departments: `GET/POST/PUT/DELETE /api/v1/department?tenantId=`
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
+
+> **Tenant filtering:** all list endpoints accept `?tenantId=<guid>`. Omitting or passing null returns an empty result — always provide a tenant ID.
 
 ### Platform Services
 - **BackgroundJobs**: `IBackgroundJobService` - Enqueue, Schedule, Recurring jobs (Hangfire)

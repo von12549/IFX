@@ -107,6 +107,20 @@ Infrastructure  Infrastructure  (transitive)
 
 ---
 
+## Multi-Tenant Architecture
+
+**Rule:** `Tenant` is the top-level organisational unit. `Role`, `RoleGroup`, and `Idp` each carry a required `TenantId` FK.
+
+**Rule:** Name uniqueness for Role and RoleGroup is scoped to `(TenantId, Name)` — the same name may exist in different tenants.
+
+**Rule:** All list queries require a non-null `TenantId`. Handlers short-circuit with an empty result when `TenantId` is null; they never return cross-tenant data.
+
+**Rule:** The frontend drives tenant context via `selectedTenantId` in `AuthContext`. All management pages read this value and reload when it changes. Never read tenantId from component-local state for filtering.
+
+**Rule:** `Department` belongs to a `Tenant`. Users are linked to departments; the application layer enforces that a user's department belongs to one of their tenants.
+
+---
+
 ## Module Registration Pattern
 
 **Rule:** Modules register via `IModuleInstaller` interface.

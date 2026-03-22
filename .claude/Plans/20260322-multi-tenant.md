@@ -2,7 +2,7 @@
 
 **Branch:** `feature/multi-tenant`
 **Date:** 2026-03-22
-**Status:** In progress
+**Status:** Complete — PR #10 open
 
 ---
 

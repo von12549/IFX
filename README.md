@@ -11,6 +11,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Dynamic Multi-IdP SSO** - Database-driven IdP configuration with auto-provisioning
 - **OIDC Discovery** - Automatic IdP configuration via well-known endpoints
 - **UserInfo-Based Provisioning** - Fetches user data from OIDC userinfo endpoint during auto-provisioning
+- **Multi-Tenant** - Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant; tenant switcher in the React UI drives all list views
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
@@ -46,23 +47,23 @@ src/
 │   ├── Domain/                      # Business logic
 │   │   ├── Users/                   # User entity, profile, activity
 │   │   ├── Identity/                # Auth, tokens, IdP, email verification
-│   │   └── Authorization/           # Roles, role assignments
+│   │   └── Authorization/           # Roles, role groups, tenants, departments
 │   ├── Application/                 # Use cases (CQRS)
 │   │   ├── Users/                   # User commands/queries
 │   │   ├── Identity/                # Auth/IdP commands/queries
-│   │   └── Authorization/           # Role commands/queries
+│   │   └── Authorization/           # Role, tenant, department commands/queries
 │   ├── Infrastructure/              # Data access, identity providers, OIDC
 │   │   ├── IdentityProviders/       # Provider adapters (config-driven selection)
 │   │   │   ├── Cognito/             # AWS Cognito implementation
 │   │   │   └── Auth0/               # Auth0 implementation (stub)
 │   │   ├── Users/                   # User repositories & services
 │   │   ├── Identity/                # OIDC services & repositories
-│   │   ├── Authorization/           # Role repositories
+│   │   ├── Authorization/           # Role, tenant, department repositories
 │   │   └── Persistence/             # DbContext, migrations
 │   ├── Presentation/                # API endpoints
 │   │   ├── Users/                   # User & user-management endpoints
 │   │   ├── Identity/                # Auth, OAuth, IdP endpoints
-│   │   └── Authorization/           # Role endpoints
+│   │   └── Authorization/           # Role, tenant, department endpoints
 │   └── Composition/                 # Module entry point
 └── Platform/
     ├── IFX.Platform.Shared/ # Common platform types
@@ -97,9 +98,14 @@ src/Frontend/IFX.FrontEnd/src/          # 55 frontend tests (Vitest + RTL + MSW)
 | **OAuth** | `GET /api/v1/auth/oauth/{authorize,callback,userinfo,logout}` |
 | Public | `POST /api/v1/auth/{register,confirm,login}` |
 | Authenticated | `POST /api/v1/auth/{logout,refresh,revoke}`, `/api/v1/user/*` |
-| Admin | `/api/v1/usermanagement/*`, `/api/v1/role/*`, `/api/v1/idp/*` |
+| Admin — Users | `GET/PUT /api/v1/usermanagement/users?tenantId=` |
+| Admin — Auth | `/api/v1/role?tenantId=`, `/api/v1/rolegroup?tenantId=`, `/api/v1/idp?tenantId=` |
+| Admin — Tenants | `GET/POST/PUT/DELETE /api/v1/tenant` |
+| Admin — Departments | `GET/POST/PUT/DELETE /api/v1/department?tenantId=` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |
+
+> **Tenant filtering:** all list endpoints require `?tenantId=<guid>`. Omitting it returns an empty result.
 
 ### OAuth Flow (Recommended)
 

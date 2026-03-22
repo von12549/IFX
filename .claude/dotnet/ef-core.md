@@ -13,10 +13,15 @@ Database schema, migrations, and EF Core patterns for this project.
 
 | Table | Purpose | Key Relationships |
 |-------|---------|-------------------|
-| Users | Core identity (aggregate root) | → UserRoles (FK) |
+| Tenants | Tenant entity (top-level org unit) | ← Roles, RoleGroups, Idps, Departments |
+| Departments | Department within a tenant | → Tenants (FK) |
+| Users | Core identity (aggregate root) | → Tenants (many-to-many), → PrimaryTenant (FK) |
 | UserIdentities | IdP-specific data | → Users (FK), → Idps (FK) |
-| UserRoles | Role reference data | ← Users |
-| Idps | Identity Provider config | ← UserIdentities |
+| Roles | Role scoped to a tenant | → Tenants (FK) |
+| RoleGroups | Group of roles scoped to a tenant | → Tenants (FK) |
+| RoleGroupRoles | Many-to-many: RoleGroup ↔ Role | join table |
+| Permissions | System-wide permissions | ← Roles (many-to-many via RolePermissions) |
+| Idps | Identity Provider config | → Tenants (FK), ← UserIdentities |
 | LoginEvents | Login audit trail | → Users (FK) |
 | LogoutEvents | Logout audit trail | → Users (FK) |
 | RegistrationFlowEvents | Registration lifecycle | → Users (FK) |
@@ -45,9 +50,19 @@ Database schema, migrations, and EF Core patterns for this project.
 ### Key Constraints
 
 - **UserIdentities**: Unique on `(Issuer, Subject)` - ensures IdP identity uniqueness
-- **UserRoles**: Unique on `RoleName`
+- **Roles**: Unique on `(TenantId, Name)` - same name allowed in different tenants
+- **RoleGroups**: Unique on `(TenantId, Name)`
 - **Idps**: Unique on `Issuer`
 - **Idps**: Unique filtered index on `IsPrimary` where `IsPrimary = 1` (only one primary)
+
+### Tenant Filtering Rule
+
+All list queries (Roles, RoleGroups, Idps, Users, Departments) require a `TenantId`. Passing `null` returns an empty result — this is intentional. The handler short-circuits before hitting the database:
+
+```csharp
+if (!request.TenantId.HasValue)
+    return Result<List<RoleDto>>.Success([]);
+```
 
 ---
 

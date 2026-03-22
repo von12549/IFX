@@ -11,6 +11,10 @@ Defines terms, abbreviations, and naming conventions used in this codebase.
 |------|------------|
 | **User** | Core identity entity, independent of IdP |
 | **UserIdentity** | IdP-specific identity data linked to a User |
+| **Tenant** | Top-level organisational unit. Roles, RoleGroups, Idps, and Departments all belong to a tenant |
+| **Department** | Sub-unit within a tenant; users can be assigned to departments |
+| **PrimaryTenantId** | FK on User pointing to the user's default/primary tenant |
+| **selectedTenantId** | Frontend (AuthContext) — the currently active tenant; drives all management page list queries |
 | **IdP** | Identity Provider (e.g., AWS Cognito, Google) |
 | **IdpType** | Classification of IdP: `Internal` (org-managed) or `External` (third-party SSO) |
 | **IsPrimary** | Flag indicating the primary IdP for local authentication (only one can be primary) |
