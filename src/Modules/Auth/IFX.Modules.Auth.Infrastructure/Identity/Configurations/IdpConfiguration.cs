@@ -89,7 +89,7 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
 
         builder.Property(i => i.TenantId).IsRequired();
 
-        builder.HasOne<IFX.Modules.Auth.Domain.Authorization.Tenant>()
+        builder.HasOne(i => i.Tenant)
             .WithMany()
             .HasForeignKey(i => i.TenantId)
             .OnDelete(DeleteBehavior.Restrict);

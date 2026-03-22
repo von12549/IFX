@@ -22,7 +22,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasDatabaseName("IX_Roles_TenantId_Name")
             .IsUnique();
 
-        builder.HasOne<IFX.Modules.Auth.Domain.Authorization.Tenant>()
+        builder.HasOne(r => r.Tenant)
             .WithMany()
             .HasForeignKey(r => r.TenantId)
             .OnDelete(DeleteBehavior.Restrict);
