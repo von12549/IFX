@@ -19,19 +19,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   const loadProfile = useCallback(async () => {
-    try {
-      const resp = await userApi.getProfile()
-      setUser(resp.data?.data ?? null)
-    } catch {
-      setUser(null)
-    }
+    const resp = await userApi.getProfile()
+    setUser(resp.data?.data ?? null)
   }, [])
 
   // Restore session on mount
   useEffect(() => {
     const token = tokenStorage.getAccessToken()
     if (token) {
-      loadProfile().finally(() => setIsLoading(false))
+      loadProfile()
+        .catch(() => { setUser(null); tokenStorage.clear() })
+        .finally(() => setIsLoading(false))
     } else {
       setIsLoading(false)
     }
@@ -39,7 +37,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(async (tokens: { accessToken: string; refreshToken: string; idToken: string; expiresIn: number }) => {
     tokenStorage.save(tokens)
-    await loadProfile()
+    try {
+      await loadProfile()
+    } catch {
+      tokenStorage.clear()
+      throw new Error('Failed to load profile')
+    }
   }, [loadProfile])
 
   const logout = useCallback(() => {
