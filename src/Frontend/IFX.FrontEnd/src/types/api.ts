@@ -64,6 +64,9 @@ export interface UserProfileDto {
   issuer: string
   roles: RoleDto[]
   roleGroups: RoleGroupDto[]
+  primaryTenantId: string | null
+  tenants: TenantDto[]
+  departments: DepartmentDto[]
   createdAt: string
 }
 

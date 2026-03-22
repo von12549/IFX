@@ -30,7 +30,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Identities.FirstOrDefault() != null ? src.Identities.FirstOrDefault()!.PhoneNumber : string.Empty))
             .ForMember(dest => dest.Issuer, opt => opt.MapFrom(src => src.Identities.FirstOrDefault() != null ? src.Identities.FirstOrDefault()!.Issuer : string.Empty))
             .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.Roles))
-            .ForMember(dest => dest.RoleGroups, opt => opt.MapFrom(src => src.RoleGroups));
+            .ForMember(dest => dest.RoleGroups, opt => opt.MapFrom(src => src.RoleGroups))
+            .ForMember(dest => dest.PrimaryTenantId, opt => opt.MapFrom(src => src.PrimaryTenantId))
+            .ForMember(dest => dest.Tenants, opt => opt.MapFrom(src => src.Tenants))
+            .ForMember(dest => dest.Departments, opt => opt.MapFrom(src => src.Departments));
 
         CreateMap<LoginEvent, LoginEventDto>()
             .ForMember(dest => dest.DeviceBrowser, opt => opt.MapFrom(src => src.DeviceInfo.Browser))
