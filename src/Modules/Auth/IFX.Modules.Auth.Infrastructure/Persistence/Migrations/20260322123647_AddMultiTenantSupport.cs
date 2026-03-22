@@ -204,6 +204,28 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 table: "UserTenants",
                 column: "UserId");
 
+            // ── Backfill before adding FK constraints ──────────────────────────────
+
+            // 1. Seed the IFX Tenant first (must exist before FKs are enforced)
+            migrationBuilder.Sql($"""
+                IF NOT EXISTS (SELECT 1 FROM [auth].[Tenants] WHERE [Id] = '{IFXTenantId}')
+                    INSERT INTO [auth].[Tenants] ([Id], [Name], [Description], [CreatedAt], [UpdatedAt])
+                    VALUES ('{IFXTenantId}', 'IFX', 'Default IFX tenant', '{SeedDate}', '{SeedDate}')
+                """);
+
+            // 2. Backfill TenantId on Roles, RoleGroups, Idps to IFX tenant
+            migrationBuilder.Sql($"""
+                UPDATE [auth].[Roles]      SET [TenantId] = '{IFXTenantId}' WHERE [TenantId] = '00000000-0000-0000-0000-000000000000'
+                """);
+            migrationBuilder.Sql($"""
+                UPDATE [auth].[RoleGroups] SET [TenantId] = '{IFXTenantId}' WHERE [TenantId] = '00000000-0000-0000-0000-000000000000'
+                """);
+            migrationBuilder.Sql($"""
+                UPDATE [auth].[Idps]       SET [TenantId] = '{IFXTenantId}' WHERE [TenantId] = '00000000-0000-0000-0000-000000000000'
+                """);
+
+            // ── FK constraints (all rows now reference a valid Tenant) ─────────────
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Idps_Tenants_TenantId",
                 schema: "auth",
@@ -243,26 +265,6 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 principalTable: "Tenants",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.SetNull);
-
-            // ── Seed data ──────────────────────────────────────────────────────────
-
-            // 1. Seed the IFX Tenant
-            migrationBuilder.Sql($"""
-                IF NOT EXISTS (SELECT 1 FROM [auth].[Tenants] WHERE [Id] = '{IFXTenantId}')
-                    INSERT INTO [auth].[Tenants] ([Id], [Name], [Description], [CreatedAt], [UpdatedAt])
-                    VALUES ('{IFXTenantId}', 'IFX', 'Default IFX tenant', '{SeedDate}', '{SeedDate}')
-                """);
-
-            // 2. Backfill TenantId on Roles, RoleGroups, Idps to IFX tenant
-            migrationBuilder.Sql($"""
-                UPDATE [auth].[Roles]      SET [TenantId] = '{IFXTenantId}' WHERE [TenantId] = '00000000-0000-0000-0000-000000000000'
-                """);
-            migrationBuilder.Sql($"""
-                UPDATE [auth].[RoleGroups] SET [TenantId] = '{IFXTenantId}' WHERE [TenantId] = '00000000-0000-0000-0000-000000000000'
-                """);
-            migrationBuilder.Sql($"""
-                UPDATE [auth].[Idps]       SET [TenantId] = '{IFXTenantId}' WHERE [TenantId] = '00000000-0000-0000-0000-000000000000'
-                """);
 
             // 3. Seed Test Department
             migrationBuilder.Sql($"""
