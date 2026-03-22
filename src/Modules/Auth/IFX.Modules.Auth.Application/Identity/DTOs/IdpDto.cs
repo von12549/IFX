@@ -19,4 +19,5 @@ public class IdpDto
     public string RequiredScopes { get; init; } = string.Empty;
     public string ClaimMapping { get; init; } = string.Empty;
     public int ClockSkewSeconds { get; init; }
+    public string TenantName { get; init; } = string.Empty;
 }

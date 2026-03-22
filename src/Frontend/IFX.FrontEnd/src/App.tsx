@@ -14,6 +14,8 @@ import { RoleGroupDetailPage } from './pages/RoleGroupDetailPage'
 import { RoleManagementPage } from './pages/RoleManagementPage'
 import { RoleDetailPage } from './pages/RoleDetailPage'
 import { PermissionManagementPage } from './pages/PermissionManagementPage'
+import { TenantManagementPage } from './pages/TenantManagementPage'
+import { DepartmentManagementPage } from './pages/DepartmentManagementPage'
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
             <Route path="/roles" element={<RoleManagementPage />} />
             <Route path="/roles/:roleId" element={<RoleDetailPage />} />
             <Route path="/permissions" element={<PermissionManagementPage />} />
+            <Route path="/tenants" element={<TenantManagementPage />} />
+            <Route path="/departments" element={<DepartmentManagementPage />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/profile" replace />} />

@@ -22,30 +22,28 @@ public class GetAllRoleGroupsQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ReturnsAllRoleGroups()
+    public async Task Handle_WithTenantId_ReturnsFilteredRoleGroups()
     {
+        var tenantId = Guid.NewGuid();
         var groupList = new List<RoleGroup>
         {
-            RoleGroup.Create("Managers", "Manager group"),
-            RoleGroup.Create("Admins", "Admin group"),
+            RoleGroup.Create("Managers", "Manager group", tenantId),
+            RoleGroup.Create("Admins", "Admin group", tenantId),
         };
-        _groups.Setup(g => g.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(groupList);
+        _groups.Setup(g => g.GetByTenantIdAsync(tenantId, It.IsAny<CancellationToken>())).ReturnsAsync(groupList);
         _mapper.Setup(m => m.Map<List<RoleGroupDto>>(groupList))
                .Returns([new RoleGroupDto { Name = "Managers" }, new RoleGroupDto { Name = "Admins" }]);
 
-        var result = await _handler.Handle(new GetAllRoleGroupsQuery(), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllRoleGroupsQuery(tenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task Handle_WhenNoGroups_ReturnsEmptyList()
+    public async Task Handle_WithNullTenantId_ReturnsEmpty()
     {
-        _groups.Setup(g => g.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync([]);
-        _mapper.Setup(m => m.Map<List<RoleGroupDto>>(It.IsAny<List<RoleGroup>>())).Returns([]);
-
-        var result = await _handler.Handle(new GetAllRoleGroupsQuery(), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllRoleGroupsQuery(null), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Should().BeEmpty();

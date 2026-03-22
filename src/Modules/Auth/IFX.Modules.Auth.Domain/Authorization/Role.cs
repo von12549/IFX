@@ -6,6 +6,8 @@ public class Role : BaseEntity, IAuditableEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
+    public Guid TenantId { get; private set; }
+    public Tenant Tenant { get; private set; } = null!;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
@@ -14,7 +16,7 @@ public class Role : BaseEntity, IAuditableEntity
 
     private Role() { } // For EF Core
 
-    public static Role Create(string name, string description)
+    public static Role Create(string name, string description, Guid tenantId)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Role name cannot be empty.", nameof(name));
@@ -22,10 +24,14 @@ public class Role : BaseEntity, IAuditableEntity
         if (string.IsNullOrWhiteSpace(description))
             throw new ArgumentException("Description cannot be empty.", nameof(description));
 
+        if (tenantId == Guid.Empty)
+            throw new ArgumentException("TenantId must be provided.", nameof(tenantId));
+
         return new Role
         {
             Name = name.Trim(),
-            Description = description.Trim()
+            Description = description.Trim(),
+            TenantId = tenantId
         };
     }
 

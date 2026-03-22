@@ -26,18 +26,27 @@ public class RoleGroupRepository : IRoleGroupRepository
 
     public async Task<List<RoleGroup>> GetAllAsync(CancellationToken cancellationToken = default)
         => await _context.RoleGroups
+            .Include(g => g.Tenant)
             .Include(g => g.Roles)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+    public async Task<List<RoleGroup>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)
+        => await _context.RoleGroups
+            .Include(g => g.Tenant)
+            .Include(g => g.Roles)
+            .Where(g => g.TenantId == tenantId)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
     public async Task AddAsync(RoleGroup group, CancellationToken cancellationToken = default)
         => await _context.RoleGroups.AddAsync(group, cancellationToken);
 
-    public async Task<bool> NameExistsAsync(string name, CancellationToken cancellationToken = default)
-        => await _context.RoleGroups.AnyAsync(g => g.Name == name, cancellationToken);
+    public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)
+        => await _context.RoleGroups.AnyAsync(g => g.Name == name && g.TenantId == tenantId, cancellationToken);
 
-    public async Task<bool> NameExistsAsync(string name, Guid excludeId, CancellationToken cancellationToken = default)
-        => await _context.RoleGroups.AnyAsync(g => g.Name == name && g.Id != excludeId, cancellationToken);
+    public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)
+        => await _context.RoleGroups.AnyAsync(g => g.Name == name && g.TenantId == tenantId && g.Id != excludeId, cancellationToken);
 
     public void Remove(RoleGroup group) => _context.RoleGroups.Remove(group);
 }

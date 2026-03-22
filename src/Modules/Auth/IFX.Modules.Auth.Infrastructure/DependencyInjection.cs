@@ -54,6 +54,8 @@ public static class DependencyInjection
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();
+        services.AddScoped<ITenantRepository, TenantRepository>();
+        services.AddScoped<IDepartmentRepository, DepartmentRepository>();
         services.AddScoped<ILoginEventRepository, LoginEventRepository>();
         services.AddScoped<ILogoutEventRepository, LogoutEventRepository>();
         services.AddScoped<IRegistrationFlowEventRepository, RegistrationFlowEventRepository>();

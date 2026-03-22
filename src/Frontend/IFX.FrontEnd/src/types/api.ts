@@ -31,6 +31,7 @@ export interface RoleDto {
   id: string
   name: string
   description: string
+  tenantName: string
 }
 
 export interface RoleDetailDto extends RoleDto {
@@ -41,6 +42,7 @@ export interface RoleGroupDto {
   id: string
   name: string
   description: string
+  tenantName: string
   roles: RoleDto[]
 }
 
@@ -64,6 +66,9 @@ export interface UserProfileDto {
   issuer: string
   roles: RoleDto[]
   roleGroups: RoleGroupDto[]
+  primaryTenantId: string | null
+  tenants: TenantDto[]
+  departments: DepartmentDto[]
   createdAt: string
 }
 
@@ -99,6 +104,7 @@ export interface IdpDto {
   requiredScopes: string
   claimMapping: string
   clockSkewSeconds: number
+  tenantName: string
 }
 
 export interface CreateIdpRequest {
@@ -118,17 +124,44 @@ export interface CreateIdpRequest {
   clockSkewSeconds: number
 }
 
+export interface TenantDto {
+  id: string
+  name: string
+  description: string
+}
+
+export interface DepartmentDto {
+  id: string
+  name: string
+  description: string
+  tenantId: string
+  tenantName: string
+}
+
 export interface CreateRoleRequest {
   name: string
   description: string
+  tenantId: string
 }
 
 export interface CreateRoleGroupRequest {
   name: string
   description: string
+  tenantId: string
 }
 
 export interface CreatePermissionRequest {
   name: string
   description: string
+}
+
+export interface CreateTenantRequest {
+  name: string
+  description: string
+}
+
+export interface CreateDepartmentRequest {
+  name: string
+  description: string
+  tenantId: string
 }

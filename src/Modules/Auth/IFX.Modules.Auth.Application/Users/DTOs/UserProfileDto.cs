@@ -15,5 +15,8 @@ public class UserProfileDto
     public string Issuer { get; init; } = string.Empty;
     public List<RoleDto> Roles { get; init; } = [];
     public List<RoleGroupDto> RoleGroups { get; init; } = [];
+    public Guid? PrimaryTenantId { get; init; }
+    public List<TenantDto> Tenants { get; init; } = [];
+    public List<DepartmentDto> Departments { get; init; } = [];
     public DateTime CreatedAt { get; init; }
 }

@@ -102,6 +102,29 @@ export function UserProfilePage() {
               {user.roleGroups.length ? user.roleGroups.map(g => <Chip key={g.id} label={g.name} />) : <span className="text-muted">None</span>}
             </div>
           </div>
+          <div className="profile-section">
+            <label>Tenants</label>
+            <div className="chip-list">
+              {user.tenants?.length
+                ? user.tenants.map(t => (
+                    <Chip
+                      key={t.id}
+                      label={t.id === user.primaryTenantId ? `${t.name} (Primary)` : t.name}
+                    />
+                  ))
+                : <span className="text-muted">None</span>}
+            </div>
+          </div>
+          <div className="profile-section">
+            <label>Departments</label>
+            <div className="chip-list">
+              {user.departments?.length
+                ? user.departments.map(d => (
+                    <Chip key={d.id} label={`${d.name} · ${d.tenantName}`} />
+                  ))
+                : <span className="text-muted">None</span>}
+            </div>
+          </div>
         </div>
       </div>
     </div>

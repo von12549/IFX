@@ -12,4 +12,7 @@ public class UpdateRoleGroupRequest
     [Required]
     [MaxLength(255)]
     public string Description { get; set; } = string.Empty;
+
+    [Required]
+    public Guid TenantId { get; set; }
 }

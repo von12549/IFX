@@ -4,4 +4,4 @@ using MediatR;
 
 namespace IFX.Modules.Auth.Application.Authorization.Commands.CreateRole;
 
-public record CreateRoleCommand(string Name, string Description) : IRequest<Result<RoleDto>>;
+public record CreateRoleCommand(string Name, string Description, Guid TenantId) : IRequest<Result<RoleDto>>;

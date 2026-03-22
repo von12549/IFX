@@ -29,7 +29,17 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
     {
         try
         {
-            var (users, totalCount) = await _unitOfWork.Users.GetAllUsersAsync(
+            if (!request.TenantId.HasValue)
+                return Result<PagedResult<UserProfileDto>>.Success(new PagedResult<UserProfileDto>
+                {
+                    Items = [],
+                    TotalCount = 0,
+                    PageNumber = request.PageNumber,
+                    PageSize = request.PageSize
+                });
+
+            var (users, totalCount) = await _unitOfWork.Users.GetAllUsersByTenantAsync(
+                request.TenantId.Value,
                 request.PageNumber,
                 request.PageSize,
                 cancellationToken);

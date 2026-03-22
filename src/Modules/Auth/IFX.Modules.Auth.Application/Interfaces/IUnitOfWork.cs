@@ -11,6 +11,8 @@ public interface IUnitOfWork : IDisposable
     IRoleRepository Roles { get; }
     IPermissionRepository Permissions { get; }
     IRoleGroupRepository RoleGroups { get; }
+    ITenantRepository Tenants { get; }
+    IDepartmentRepository Departments { get; }
     ILoginEventRepository LoginEvents { get; }
     ILogoutEventRepository LogoutEvents { get; }
     IRegistrationFlowEventRepository RegistrationFlowEvents { get; }

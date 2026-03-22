@@ -29,6 +29,18 @@ public class IdpRepository : IIdpRepository
     public async Task<List<Idp>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _context.Idps
+            .Include(i => i.Tenant)
+            .AsNoTracking()
+            .OrderBy(i => i.Name)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<Idp>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .Include(i => i.Tenant)
+            .Where(i => i.TenantId == tenantId)
+            .AsNoTracking()
             .OrderBy(i => i.Name)
             .ToListAsync(cancellationToken);
     }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { userManagementApi } from '../api/userManagement'
+import { useAuth } from '../contexts/AuthContext'
 import type { UserProfileDto } from '../types/api'
 import { Chip } from '../components/shared/Chip'
 import { SortableHeader } from '../components/shared/SortableHeader'
@@ -8,6 +9,7 @@ import { SortableHeader } from '../components/shared/SortableHeader'
 type SortCol = 'displayName' | 'email' | 'roles' | 'roleGroups' | 'isActive'
 
 export function UserManagementPage() {
+  const { selectedTenantId } = useAuth()
   const [users, setUsers] = useState<UserProfileDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -15,12 +17,15 @@ export function UserManagementPage() {
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const navigate = useNavigate()
 
-  useEffect(() => {
-    userManagementApi.getAll()
+  const load = (tenantId?: string) =>
+    userManagementApi.getAll(1, 50, tenantId || undefined)
       .then(r => setUsers(r.data?.data?.items ?? []))
       .catch(() => setError('Failed to load users'))
-      .finally(() => setLoading(false))
-  }, [])
+
+  useEffect(() => {
+    setLoading(true)
+    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+  }, [selectedTenantId])
 
   const toggleSort = (col: string) => {
     const c = col as SortCol

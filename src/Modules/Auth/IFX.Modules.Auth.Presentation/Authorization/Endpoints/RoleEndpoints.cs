@@ -34,12 +34,13 @@ public static class RoleEndpoints
     }
 
     public static async Task<IResult> GetAllRoles(
+        [FromQuery] Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<RoleEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing roles list");
 
-        var result = await mediator.Send(new GetAllRolesQuery());
+        var result = await mediator.Send(new GetAllRolesQuery(tenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -54,7 +55,7 @@ public static class RoleEndpoints
     {
         logger.LogInformation("Admin creating role: {Name}", request.Name);
 
-        var result = await mediator.Send(new CreateRoleCommand(request.Name, request.Description));
+        var result = await mediator.Send(new CreateRoleCommand(request.Name, request.Description, request.TenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -70,7 +71,7 @@ public static class RoleEndpoints
     {
         logger.LogInformation("Admin updating role: {RoleId}", roleId);
 
-        var result = await mediator.Send(new UpdateRoleCommand(roleId, request.Name, request.Description));
+        var result = await mediator.Send(new UpdateRoleCommand(roleId, request.Name, request.Description, request.TenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

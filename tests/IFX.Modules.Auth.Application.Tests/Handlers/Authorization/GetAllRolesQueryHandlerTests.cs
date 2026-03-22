@@ -23,30 +23,28 @@ public class GetAllRolesQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ReturnsAllRoles()
+    public async Task Handle_WithTenantId_ReturnsFilteredRoles()
     {
+        var tenantId = Guid.NewGuid();
         var roleList = new List<Role>
         {
             new RoleBuilder().AsAdmin().Build(),
             new RoleBuilder().AsUser().Build(),
         };
-        _roles.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(roleList);
+        _roles.Setup(r => r.GetByTenantIdAsync(tenantId, It.IsAny<CancellationToken>())).ReturnsAsync(roleList);
         _mapper.Setup(m => m.Map<List<RoleDto>>(roleList))
                .Returns([new RoleDto { Name = "Admin" }, new RoleDto { Name = "User" }]);
 
-        var result = await _handler.Handle(new GetAllRolesQuery(), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllRolesQuery(tenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Should().HaveCount(2);
     }
 
     [Fact]
-    public async Task Handle_WhenNoRoles_ReturnsEmptyList()
+    public async Task Handle_WithNullTenantId_ReturnsEmpty()
     {
-        _roles.Setup(r => r.GetAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync([]);
-        _mapper.Setup(m => m.Map<List<RoleDto>>(It.IsAny<List<Role>>())).Returns([]);
-
-        var result = await _handler.Handle(new GetAllRolesQuery(), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllRolesQuery(null), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Should().BeEmpty();

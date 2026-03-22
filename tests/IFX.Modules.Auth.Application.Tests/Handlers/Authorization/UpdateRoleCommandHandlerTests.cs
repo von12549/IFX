@@ -30,7 +30,7 @@ public class UpdateRoleCommandHandlerTests
         _mapper.Setup(m => m.Map<RoleDto>(It.IsAny<Role>())).Returns(new RoleDto { Name = "NewName" });
 
         var result = await _handler.Handle(
-            new UpdateRoleCommand(role.Id, "NewName", "New desc"), CancellationToken.None);
+            new UpdateRoleCommand(role.Id, "NewName", "New desc", role.TenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -43,7 +43,7 @@ public class UpdateRoleCommandHandlerTests
               .ReturnsAsync((Role?)null);
 
         var result = await _handler.Handle(
-            new UpdateRoleCommand(Guid.NewGuid(), "Name", "Desc"), CancellationToken.None);
+            new UpdateRoleCommand(Guid.NewGuid(), "Name", "Desc", Guid.NewGuid()), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be("Role not found");
@@ -54,11 +54,11 @@ public class UpdateRoleCommandHandlerTests
     {
         var role = new RoleBuilder().WithName("OldName").Build();
         _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<CancellationToken>())).ReturnsAsync(role);
-        _roles.Setup(r => r.NameExistsAsync("TakenName", role.Id, It.IsAny<CancellationToken>()))
+        _roles.Setup(r => r.NameExistsAsync("TakenName", role.TenantId, role.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new UpdateRoleCommand(role.Id, "TakenName", "Desc"), CancellationToken.None);
+            new UpdateRoleCommand(role.Id, "TakenName", "Desc", role.TenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("already exists");
@@ -72,7 +72,7 @@ public class UpdateRoleCommandHandlerTests
         _mapper.Setup(m => m.Map<RoleDto>(It.IsAny<Role>())).Returns(new RoleDto { Name = "SameName" });
 
         var result = await _handler.Handle(
-            new UpdateRoleCommand(role.Id, "SameName", "Updated desc"), CancellationToken.None);
+            new UpdateRoleCommand(role.Id, "SameName", "Updated desc", role.TenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         _roles.Verify(r => r.NameExistsAsync(It.IsAny<string>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()), Times.Never);

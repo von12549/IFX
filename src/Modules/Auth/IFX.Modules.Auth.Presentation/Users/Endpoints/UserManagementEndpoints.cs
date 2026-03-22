@@ -1,8 +1,12 @@
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Users.Commands.AssignDepartmentToUser;
 using IFX.Modules.Auth.Application.Users.Commands.AssignRoleGroupsToUser;
 using IFX.Modules.Auth.Application.Users.Commands.AssignRolesToUser;
+using IFX.Modules.Auth.Application.Users.Commands.AssignTenantToUser;
+using IFX.Modules.Auth.Application.Users.Commands.RemoveDepartmentFromUser;
 using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleFromUser;
 using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleGroupFromUser;
+using IFX.Modules.Auth.Application.Users.Commands.RemoveTenantFromUser;
 using IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
 using IFX.Modules.Auth.Application.Users.Queries.GetAllUsers;
 using IFX.Modules.Auth.Application.Users.Queries.GetUserById;
@@ -23,12 +27,13 @@ public static class UserManagementEndpoints
     public static async Task<IResult> GetAllUsers(
         [FromQuery] int page,
         [FromQuery] int pageSize,
+        [FromQuery] Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing user list. Page: {Page}, PageSize: {PageSize}", page, pageSize);
 
-        var query = new GetAllUsersQuery(page, pageSize);
+        var query = new GetAllUsersQuery(page, pageSize, tenantId);
         var result = await mediator.Send(query);
 
         if (!result.IsSuccess)
@@ -209,6 +214,70 @@ public static class UserManagementEndpoints
         logger.LogInformation("Admin removing role group {RoleGroupId} from user {UserId}", roleGroupId, userId);
 
         var result = await mediator.Send(new RemoveRoleGroupFromUserCommand(userId, roleGroupId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> AssignTenantToUser(
+        Guid userId,
+        [FromBody] AssignTenantToUserRequest request,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin assigning tenant {TenantId} to user {UserId}", request.TenantId, userId);
+
+        var result = await mediator.Send(new AssignTenantToUserCommand(userId, request.TenantId, request.SetAsPrimary));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> RemoveTenantFromUser(
+        Guid userId,
+        Guid tenantId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin removing tenant {TenantId} from user {UserId}", tenantId, userId);
+
+        var result = await mediator.Send(new RemoveTenantFromUserCommand(userId, tenantId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> AssignDepartmentToUser(
+        Guid userId,
+        [FromBody] AssignDepartmentToUserRequest request,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin assigning department {DepartmentId} to user {UserId}", request.DepartmentId, userId);
+
+        var result = await mediator.Send(new AssignDepartmentToUserCommand(userId, request.DepartmentId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> RemoveDepartmentFromUser(
+        Guid userId,
+        Guid departmentId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Admin removing department {DepartmentId} from user {UserId}", departmentId, userId);
+
+        var result = await mediator.Send(new RemoveDepartmentFromUserCommand(userId, departmentId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

@@ -31,6 +31,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany()
             .UsingEntity(j => j.ToTable("UserRoleGroups", "auth"));
 
+        // Many-to-many: User ↔ Tenant
+        builder.HasMany(u => u.Tenants)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("UserTenants", "auth"));
+
+        // Many-to-many: User ↔ Department
+        builder.HasMany(u => u.Departments)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("UserDepartments", "auth"));
+
+        // Primary tenant (nullable FK)
+        builder.Property(u => u.PrimaryTenantId);
+
+        builder.HasOne<IFX.Modules.Auth.Domain.Authorization.Tenant>()
+            .WithMany()
+            .HasForeignKey(u => u.PrimaryTenantId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.SetNull);
+
         // Identities (inverse of UserIdentity.User)
         builder.HasMany(u => u.Identities)
             .WithOne(ui => ui.User)

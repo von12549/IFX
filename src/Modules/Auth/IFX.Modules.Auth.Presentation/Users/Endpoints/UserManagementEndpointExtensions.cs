@@ -25,7 +25,7 @@ public static class UserManagementEndpointExtensions
 
         group.MapGet("/users",
             ([AsParameters] UsersParams parameters, IServiceProvider services) =>
-                UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize,
+                UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize, parameters.tenantId,
                     services.GetRequiredService<MediatR.IMediator>(),
                     services.GetRequiredService<ILogger<UserManagementEndpointsLogCategory>>()))
             .WithName("GetAllUsers")
@@ -92,8 +92,44 @@ public static class UserManagementEndpointExtensions
             .Produces<object>(StatusCodes.Status401Unauthorized)
             .Produces<object>(StatusCodes.Status404NotFound);
 
+        group.MapPost("/users/{userId}/tenants", UserManagementEndpoints.AssignTenantToUser)
+            .WithName("AssignTenantToUser")
+            .RequirePermission("User.Write")
+            .WithSummary("Assign a tenant to a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapDelete("/users/{userId}/tenants/{tenantId}", UserManagementEndpoints.RemoveTenantFromUser)
+            .WithName("RemoveTenantFromUser")
+            .RequirePermission("User.Write")
+            .WithSummary("Remove a tenant from a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapPost("/users/{userId}/departments", UserManagementEndpoints.AssignDepartmentToUser)
+            .WithName("AssignDepartmentToUser")
+            .RequirePermission("User.Write")
+            .WithSummary("Assign a department to a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapDelete("/users/{userId}/departments/{departmentId}", UserManagementEndpoints.RemoveDepartmentFromUser)
+            .WithName("RemoveDepartmentFromUser")
+            .RequirePermission("User.Write")
+            .WithSummary("Remove a department from a user")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
         return builder;
     }
 
-    private record UsersParams(int page = 1, int pageSize = 50);
+    private record UsersParams(int page = 1, int pageSize = 50, Guid? tenantId = null);
 }

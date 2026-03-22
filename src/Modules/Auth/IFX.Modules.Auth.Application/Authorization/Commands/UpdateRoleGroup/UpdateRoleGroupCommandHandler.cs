@@ -29,8 +29,8 @@ public class UpdateRoleGroupCommandHandler : IRequestHandler<UpdateRoleGroupComm
                 return Result<RoleGroupDto>.Failure("Role group not found");
 
             if (group.Name != request.Name &&
-                await _unitOfWork.RoleGroups.NameExistsAsync(request.Name, request.RoleGroupId, cancellationToken))
-                return Result<RoleGroupDto>.Failure($"Role group '{request.Name}' already exists");
+                await _unitOfWork.RoleGroups.NameExistsAsync(request.Name, request.TenantId, request.RoleGroupId, cancellationToken))
+                return Result<RoleGroupDto>.Failure($"Role group '{request.Name}' already exists in this tenant");
 
             group.Update(request.Name, request.Description);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

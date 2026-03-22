@@ -30,8 +30,8 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Resul
 
             if (role.Name != request.Name)
             {
-                if (await _unitOfWork.Roles.NameExistsAsync(request.Name, request.RoleId, cancellationToken))
-                    return Result<RoleDto>.Failure($"Role name '{request.Name}' already exists");
+                if (await _unitOfWork.Roles.NameExistsAsync(request.Name, request.TenantId, request.RoleId, cancellationToken))
+                    return Result<RoleDto>.Failure($"Role name '{request.Name}' already exists in this tenant");
             }
 
             role.Update(request.Name, request.Description);

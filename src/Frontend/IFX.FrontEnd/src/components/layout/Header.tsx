@@ -1,5 +1,6 @@
 import { useAuth } from '../../contexts/AuthContext'
 import { UserMenu } from './UserMenu'
+import { TenantSwitcher } from './TenantSwitcher'
 
 export function Header() {
   const { isAuthenticated } = useAuth()
@@ -17,6 +18,7 @@ export function Header() {
         <span className="header-title">IFX</span>
       </div>
       <div className="header-right">
+        {isAuthenticated && <TenantSwitcher />}
         {isAuthenticated && <UserMenu />}
       </div>
     </header>

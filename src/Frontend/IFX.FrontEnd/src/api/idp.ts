@@ -2,8 +2,8 @@ import { apiClient } from './client'
 import type { CreateIdpRequest, IdpDto } from '../types/api'
 
 export const idpApi = {
-  getAll: () =>
-    apiClient.get<{ data: IdpDto[] }>('/api/v1/idp/'),
+  getAll: (tenantId?: string) =>
+    apiClient.get<{ data: IdpDto[] }>('/api/v1/idp/', { params: tenantId ? { tenantId } : undefined }),
 
   getById: (idpId: string) =>
     apiClient.get<{ data: IdpDto }>(`/api/v1/idp/${idpId}`),

@@ -8,6 +8,7 @@ public class User : BaseEntity, IAuditableEntity
 {
     public bool IsActive { get; private set; }
     public string DisplayName { get; private set; } = string.Empty;
+    public Guid? PrimaryTenantId { get; private set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
@@ -16,6 +17,12 @@ public class User : BaseEntity, IAuditableEntity
 
     private readonly List<RoleGroup> _roleGroups = new();
     public IReadOnlyCollection<RoleGroup> RoleGroups => _roleGroups.AsReadOnly();
+
+    private readonly List<Tenant> _tenants = new();
+    public IReadOnlyCollection<Tenant> Tenants => _tenants.AsReadOnly();
+
+    private readonly List<Department> _departments = new();
+    public IReadOnlyCollection<Department> Departments => _departments.AsReadOnly();
 
     private readonly List<UserIdentity> _identities = new();
     public IReadOnlyCollection<UserIdentity> Identities => _identities.AsReadOnly();
@@ -64,5 +71,36 @@ public class User : BaseEntity, IAuditableEntity
         var group = _roleGroups.FirstOrDefault(g => g.Id == groupId);
         if (group != null)
             _roleGroups.Remove(group);
+    }
+
+    public void AddTenant(Tenant tenant)
+    {
+        if (!_tenants.Any(t => t.Id == tenant.Id))
+            _tenants.Add(tenant);
+    }
+
+    public void RemoveTenant(Guid tenantId)
+    {
+        var tenant = _tenants.FirstOrDefault(t => t.Id == tenantId);
+        if (tenant != null)
+            _tenants.Remove(tenant);
+    }
+
+    public void SetPrimaryTenant(Guid tenantId)
+    {
+        PrimaryTenantId = tenantId;
+    }
+
+    public void AddDepartment(Department department)
+    {
+        if (!_departments.Any(d => d.Id == department.Id))
+            _departments.Add(department);
+    }
+
+    public void RemoveDepartment(Guid departmentId)
+    {
+        var department = _departments.FirstOrDefault(d => d.Id == departmentId);
+        if (department != null)
+            _departments.Remove(department);
     }
 }

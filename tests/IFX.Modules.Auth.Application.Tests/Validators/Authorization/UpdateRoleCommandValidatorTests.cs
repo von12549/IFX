@@ -7,7 +7,7 @@ public class UpdateRoleCommandValidatorTests
 {
     private readonly UpdateRoleCommandValidator _validator = new();
 
-    private static UpdateRoleCommand Valid() => new(Guid.NewGuid(), "AdminRole", "Administrator role description");
+    private static UpdateRoleCommand Valid() => new(Guid.NewGuid(), "AdminRole", "Administrator role description", Guid.NewGuid());
 
     [Fact]
     public async Task Validate_WithValidCommand_Succeeds()

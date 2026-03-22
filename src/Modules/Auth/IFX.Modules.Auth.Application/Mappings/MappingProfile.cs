@@ -12,11 +12,18 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<Role, RoleDto>();
-        CreateMap<Role, RoleDetailDto>();
+        CreateMap<Role, RoleDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
+        CreateMap<Role, RoleDetailDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
         CreateMap<Permission, PermissionDto>();
-        CreateMap<RoleGroup, RoleGroupDto>();
-        CreateMap<Idp, IdpDto>();
+        CreateMap<RoleGroup, RoleGroupDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
+        CreateMap<Idp, IdpDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
+        CreateMap<Tenant, TenantDto>();
+        CreateMap<Department, DepartmentDto>()
+            .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant.Name));
 
         CreateMap<User, UserProfileDto>()
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.Identities.FirstOrDefault() != null ? src.Identities.FirstOrDefault()!.FirstName : string.Empty))
@@ -27,7 +34,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Identities.FirstOrDefault() != null ? src.Identities.FirstOrDefault()!.PhoneNumber : string.Empty))
             .ForMember(dest => dest.Issuer, opt => opt.MapFrom(src => src.Identities.FirstOrDefault() != null ? src.Identities.FirstOrDefault()!.Issuer : string.Empty))
             .ForMember(dest => dest.Roles, opt => opt.MapFrom(src => src.Roles))
-            .ForMember(dest => dest.RoleGroups, opt => opt.MapFrom(src => src.RoleGroups));
+            .ForMember(dest => dest.RoleGroups, opt => opt.MapFrom(src => src.RoleGroups))
+            .ForMember(dest => dest.PrimaryTenantId, opt => opt.MapFrom(src => src.PrimaryTenantId))
+            .ForMember(dest => dest.Tenants, opt => opt.MapFrom(src => src.Tenants))
+            .ForMember(dest => dest.Departments, opt => opt.MapFrom(src => src.Departments));
 
         CreateMap<LoginEvent, LoginEventDto>()
             .ForMember(dest => dest.DeviceBrowser, opt => opt.MapFrom(src => src.DeviceInfo.Browser))

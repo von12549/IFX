@@ -18,6 +18,8 @@ public class UnitOfWork : IUnitOfWork
         IRoleRepository roles,
         IPermissionRepository permissions,
         IRoleGroupRepository roleGroups,
+        ITenantRepository tenants,
+        IDepartmentRepository departments,
         ILoginEventRepository loginEvents,
         ILogoutEventRepository logoutEvents,
         IRegistrationFlowEventRepository registrationFlowEvents,
@@ -31,6 +33,8 @@ public class UnitOfWork : IUnitOfWork
         Roles = roles;
         Permissions = permissions;
         RoleGroups = roleGroups;
+        Tenants = tenants;
+        Departments = departments;
         LoginEvents = loginEvents;
         LogoutEvents = logoutEvents;
         RegistrationFlowEvents = registrationFlowEvents;
@@ -44,6 +48,8 @@ public class UnitOfWork : IUnitOfWork
     public IRoleRepository Roles { get; }
     public IPermissionRepository Permissions { get; }
     public IRoleGroupRepository RoleGroups { get; }
+    public ITenantRepository Tenants { get; }
+    public IDepartmentRepository Departments { get; }
     public ILoginEventRepository LoginEvents { get; }
     public ILogoutEventRepository LogoutEvents { get; }
     public IRegistrationFlowEventRepository RegistrationFlowEvents { get; }

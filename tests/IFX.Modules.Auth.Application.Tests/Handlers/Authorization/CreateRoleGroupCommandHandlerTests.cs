@@ -24,12 +24,13 @@ public class CreateRoleGroupCommandHandlerTests
     [Fact]
     public async Task Handle_WithNewName_CreatesGroupAndReturnsDto()
     {
-        _groups.Setup(g => g.NameExistsAsync("Managers", It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        var tenantId = Guid.NewGuid();
+        _groups.Setup(g => g.NameExistsAsync("Managers", tenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
         _mapper.Setup(m => m.Map<RoleGroupDto>(It.IsAny<RoleGroup>()))
                .Returns(new RoleGroupDto { Name = "Managers" });
 
         var result = await _handler.Handle(
-            new CreateRoleGroupCommand("Managers", "Manager group"), CancellationToken.None);
+            new CreateRoleGroupCommand("Managers", "Manager group", tenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Name.Should().Be("Managers");
@@ -40,10 +41,11 @@ public class CreateRoleGroupCommandHandlerTests
     [Fact]
     public async Task Handle_WhenNameAlreadyExists_ReturnsFailure()
     {
-        _groups.Setup(g => g.NameExistsAsync("Managers", It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        var tenantId = Guid.NewGuid();
+        _groups.Setup(g => g.NameExistsAsync("Managers", tenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new CreateRoleGroupCommand("Managers", "Manager group"), CancellationToken.None);
+            new CreateRoleGroupCommand("Managers", "Manager group", tenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("already exists");

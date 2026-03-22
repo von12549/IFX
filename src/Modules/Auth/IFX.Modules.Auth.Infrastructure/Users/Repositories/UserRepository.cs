@@ -19,6 +19,13 @@ public class UserRepository : IUserRepository
             .Include(u => u.Identities)
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
+    public async Task<User?> GetByIdWithTenantsAndDepartmentsAsync(Guid id, CancellationToken cancellationToken = default)
+        => await _context.Users
+            .Include(u => u.Tenants)
+            .Include(u => u.Departments)
+            .Include(u => u.Identities)
+            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+
     public async Task<User?> GetByIdWithRolesAndGroupsAsync(Guid id, CancellationToken cancellationToken = default)
         => await _context.Users
             .Include(u => u.Roles).ThenInclude(r => r.Permissions)
@@ -37,6 +44,8 @@ public class UserRepository : IUserRepository
             .Include(u => u.Roles).ThenInclude(r => r.Permissions)
             .Include(u => u.RoleGroups).ThenInclude(g => g.Roles).ThenInclude(r => r.Permissions)
             .Include(u => u.Identities)
+            .Include(u => u.Tenants)
+            .Include(u => u.Departments).ThenInclude(d => d.Tenant)
             .Where(u => u.Identities.Any(ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject))
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -71,6 +80,31 @@ public class UserRepository : IUserRepository
             .Include(u => u.Roles)
             .Include(u => u.RoleGroups).ThenInclude(g => g.Roles)
             .Include(u => u.Identities)
+            .AsNoTracking();
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var users = await query
+            .OrderByDescending(u => u.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (users, totalCount);
+    }
+
+    public async Task<(List<User> Users, int TotalCount)> GetAllUsersByTenantAsync(
+        Guid tenantId,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Users
+            .Include(u => u.Roles)
+            .Include(u => u.RoleGroups).ThenInclude(g => g.Roles)
+            .Include(u => u.Identities)
+            .Include(u => u.Tenants)
+            .Where(u => u.Tenants.Any(t => t.Id == tenantId))
             .AsNoTracking();
 
         var totalCount = await query.CountAsync(cancellationToken);

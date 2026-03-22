@@ -18,12 +18,13 @@ public sealed class RoleGroupEndpointsLogCategory { }
 public static class RoleGroupEndpoints
 {
     public static async Task<IResult> GetAllRoleGroups(
+        [FromQuery] Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<RoleGroupEndpointsLogCategory> logger)
     {
         logger.LogInformation("Accessing role groups list");
 
-        var result = await mediator.Send(new GetAllRoleGroupsQuery());
+        var result = await mediator.Send(new GetAllRoleGroupsQuery(tenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -38,7 +39,7 @@ public static class RoleGroupEndpoints
     {
         logger.LogInformation("Admin creating role group: {Name}", request.Name);
 
-        var result = await mediator.Send(new CreateRoleGroupCommand(request.Name, request.Description));
+        var result = await mediator.Send(new CreateRoleGroupCommand(request.Name, request.Description, request.TenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -54,7 +55,7 @@ public static class RoleGroupEndpoints
     {
         logger.LogInformation("Admin updating role group: {RoleGroupId}", roleGroupId);
 
-        var result = await mediator.Send(new UpdateRoleGroupCommand(roleGroupId, request.Name, request.Description));
+        var result = await mediator.Send(new UpdateRoleGroupCommand(roleGroupId, request.Name, request.Description, request.TenantId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

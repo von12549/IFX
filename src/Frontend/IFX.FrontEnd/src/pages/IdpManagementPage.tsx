@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { idpApi } from '../api/idp'
+import { useAuth } from '../contexts/AuthContext'
 import type { CreateIdpRequest, IdpDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
@@ -13,9 +14,10 @@ const emptyForm = (): CreateIdpRequest => ({
   clockSkewSeconds: 300,
 })
 
-type SortCol = 'name' | 'type' | 'issuer' | 'isPrimary' | 'enabled' | 'autoProvisionEnabled'
+type SortCol = 'name' | 'type' | 'issuer' | 'tenantName' | 'isPrimary' | 'enabled' | 'autoProvisionEnabled'
 
 export function IdpManagementPage() {
+  const { selectedTenantId } = useAuth()
   const [idps, setIdps] = useState<IdpDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -26,9 +28,12 @@ export function IdpManagementPage() {
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
-  const load = () => idpApi.getAll().then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
+  const load = (tenantId?: string) => idpApi.getAll(tenantId || undefined).then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
 
-  useEffect(() => { load().finally(() => setLoading(false)) }, [])
+  useEffect(() => {
+    setLoading(true)
+    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+  }, [selectedTenantId])
 
   const set = (k: keyof CreateIdpRequest) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked
@@ -53,7 +58,7 @@ export function IdpManagementPage() {
     try {
       if (modal === 'create') await idpApi.create(form)
       else if (editId) await idpApi.update(editId, form)
-      await load()
+      await load(selectedTenantId ?? undefined)
       setModal(null)
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to save')
@@ -72,7 +77,7 @@ export function IdpManagementPage() {
     else if (sortCol === 'isPrimary') v = Number(a.isPrimary) - Number(b.isPrimary)
     else if (sortCol === 'enabled') v = Number(a.enabled) - Number(b.enabled)
     else if (sortCol === 'autoProvisionEnabled') v = Number(a.autoProvisionEnabled) - Number(b.autoProvisionEnabled)
-    else v = (a[sortCol as 'name' | 'issuer'] ?? '').localeCompare(b[sortCol as 'name' | 'issuer'] ?? '')
+    else v = (a[sortCol as 'name' | 'issuer' | 'tenantName'] ?? '').localeCompare(b[sortCol as 'name' | 'issuer' | 'tenantName'] ?? '')
     return sortDir === 'asc' ? v : -v
   })
 
@@ -91,6 +96,7 @@ export function IdpManagementPage() {
                 <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Type" col="type" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Issuer" col="issuer" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                <SortableHeader label="Tenant" col="tenantName" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Primary" col="isPrimary" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Enabled" col="enabled" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Auto-Provision" col="autoProvisionEnabled" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
@@ -103,6 +109,7 @@ export function IdpManagementPage() {
                   <td>{idp.name}</td>
                   <td>{IdpTypeLabel[idp.idpType] ?? idp.idpType}</td>
                   <td className="text-muted text-sm">{idp.issuer}</td>
+                  <td className="text-muted">{idp.tenantName}</td>
                   <td><span className={`badge ${idp.isPrimary ? 'badge-success' : 'badge-muted'}`}>{idp.isPrimary ? 'Yes' : 'No'}</span></td>
                   <td><span className={`badge ${idp.enabled ? 'badge-success' : 'badge-muted'}`}>{idp.enabled ? 'Yes' : 'No'}</span></td>
                   <td><span className={`badge ${idp.autoProvisionEnabled ? 'badge-success' : 'badge-muted'}`}>{idp.autoProvisionEnabled ? 'Yes' : 'No'}</span></td>

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace IFX.Modules.Auth.Application.Authorization.Commands.UpdateRoleGroup;
 
-public record UpdateRoleGroupCommand(Guid RoleGroupId, string Name, string Description) : IRequest<Result<RoleGroupDto>>;
+public record UpdateRoleGroupCommand(Guid RoleGroupId, string Name, string Description, Guid TenantId) : IRequest<Result<RoleGroupDto>>;

@@ -14,7 +14,7 @@ export function RoleDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [editing, setEditing] = useState(false)
-  const [form, setForm] = useState({ name: '', description: '' })
+  const [form, setForm] = useState({ name: '', description: '', tenantId: '' })
   const [modal, setModal] = useState(false)
   const [selected, setSelected] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
@@ -24,7 +24,7 @@ export function RoleDetailPage() {
     roleApi.getById(roleId!).then(r => {
       const data = r.data?.data
       setRole(data ?? null)
-      setForm({ name: data?.name ?? '', description: data?.description ?? '' })
+      setForm({ name: data?.name ?? '', description: data?.description ?? '', tenantId: (data as any)?.tenantId ?? '' })
     }).catch(() => setError('Role not found'))
 
   useEffect(() => {

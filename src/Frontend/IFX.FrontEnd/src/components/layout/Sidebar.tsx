@@ -6,6 +6,8 @@ const nav = [
   { to: '/rolegroups', label: 'RoleGroup Management' },
   { to: '/roles', label: 'Role Management' },
   { to: '/permissions', label: 'Permission Management' },
+  { to: '/tenants', label: 'Tenant Management' },
+  { to: '/departments', label: 'Department Management' },
 ]
 
 export function Sidebar() {

@@ -7,7 +7,7 @@ public class CreateRoleGroupCommandValidatorTests
 {
     private readonly CreateRoleGroupCommandValidator _validator = new();
 
-    private static CreateRoleGroupCommand Valid() => new("Managers", "Management group");
+    private static CreateRoleGroupCommand Valid() => new("Managers", "Management group", Guid.NewGuid());
 
     [Fact]
     public async Task Validate_WithValidCommand_Succeeds()
