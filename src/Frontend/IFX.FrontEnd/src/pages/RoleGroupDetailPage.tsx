@@ -14,7 +14,7 @@ export function RoleGroupDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [editing, setEditing] = useState(false)
-  const [form, setForm] = useState({ name: '', description: '' })
+  const [form, setForm] = useState({ name: '', description: '', tenantId: '' })
   const [modal, setModal] = useState(false)
   const [selected, setSelected] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
@@ -25,7 +25,7 @@ export function RoleGroupDetailPage() {
       .then(r => {
         const found = (r.data?.data ?? []).find((g: RoleGroupDto) => g.id === roleGroupId) ?? null
         setGroup(found)
-        setForm({ name: found?.name ?? '', description: found?.description ?? '' })
+        setForm({ name: found?.name ?? '', description: found?.description ?? '', tenantId: (found as any)?.tenantId ?? '' })
       })
       .catch(() => setError('Role group not found'))
 

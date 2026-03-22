@@ -118,17 +118,44 @@ export interface CreateIdpRequest {
   clockSkewSeconds: number
 }
 
+export interface TenantDto {
+  id: string
+  name: string
+  description: string
+}
+
+export interface DepartmentDto {
+  id: string
+  name: string
+  description: string
+  tenantId: string
+  tenantName: string
+}
+
 export interface CreateRoleRequest {
   name: string
   description: string
+  tenantId: string
 }
 
 export interface CreateRoleGroupRequest {
   name: string
   description: string
+  tenantId: string
 }
 
 export interface CreatePermissionRequest {
   name: string
   description: string
+}
+
+export interface CreateTenantRequest {
+  name: string
+  description: string
+}
+
+export interface CreateDepartmentRequest {
+  name: string
+  description: string
+  tenantId: string
 }
