@@ -1,0 +1,8 @@
+# OPA server configuration for IFX local development
+# Run OPA with: opa run --server --addr 0.0.0.0:8181 --config-file deploy/opa/config.yaml /policies
+
+decision_logs:
+  console: true
+
+status:
+  console: true

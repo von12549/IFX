@@ -78,13 +78,17 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
                 return new ClaimsPrincipal(); // Return empty principal to trigger 401
             }
 
-            // 7. Add user_id and permission claims from query result
+            // 7. Add user_id, tenant_id, role, department, and permission claims from query result
             var identity = new ClaimsIdentity();
             identity.AddClaim(new Claim("user_id", result.Value!.UserId.ToString()));
+            if (result.Value.PrimaryTenantId.HasValue)
+                identity.AddClaim(new Claim("tenant_id", result.Value.PrimaryTenantId.Value.ToString()));
             foreach (var permission in result.Value.PermissionNames)
-            {
                 identity.AddClaim(new Claim("permission", permission));
-            }
+            foreach (var role in result.Value.RoleNames)
+                identity.AddClaim(new Claim("role", role));
+            foreach (var dept in result.Value.DepartmentNames)
+                identity.AddClaim(new Claim("department", dept));
             principal.AddIdentity(identity);
 
             return principal;

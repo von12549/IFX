@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IFX.Modules.Auth.Domain\IFX.Modules.Auth.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
   </ItemGroup>
 
   <ItemGroup>

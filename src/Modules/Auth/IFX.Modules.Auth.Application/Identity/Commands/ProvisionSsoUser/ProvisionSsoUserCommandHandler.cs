@@ -120,6 +120,7 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
                 UserId = user.Id,
                 UserIdentityId = userIdentity.Id,
                 PermissionNames = permissionNames,
+                RoleNames = [userRole.Name],
                 WasProvisioned = true,
                 RequiresEmailVerification = requiresEmailVerification,
                 Email = request.Email

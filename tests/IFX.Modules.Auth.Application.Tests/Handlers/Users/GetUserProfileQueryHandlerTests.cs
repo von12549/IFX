@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Users.Queries.GetUserProfile;
@@ -14,13 +16,31 @@ public class GetUserProfileQueryHandlerTests
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IUserRepository> _users = new();
     private readonly Mock<IMapper> _mapper = new();
+    private readonly Mock<ICurrentUser> _currentUser = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<GetUserProfileQueryHandler>> _logger = new();
     private readonly GetUserProfileQueryHandler _handler;
 
     public GetUserProfileQueryHandlerTests()
     {
         _unitOfWork.Setup(u => u.Users).Returns(_users.Object);
-        _handler = new GetUserProfileQueryHandler(_unitOfWork.Object, _mapper.Object, _logger.Object);
+
+        // Authorization passes by default in unit tests
+        _authorizationService
+            .Setup(a => a.AuthorizeAsync(
+                It.IsAny<string?>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        _handler = new GetUserProfileQueryHandler(
+            _unitOfWork.Object,
+            _mapper.Object,
+            _currentUser.Object,
+            _authorizationService.Object,
+            _logger.Object);
     }
 
     [Fact]

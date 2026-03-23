@@ -33,6 +33,7 @@ try
     builder.Services.AddNotificationsOptional(builder.Configuration);
 
     // Add API infrastructure (via configuration modules)
+    builder.Services.AddOpaClient(builder.Configuration);
     builder.Services.AddAuthAuthentication(builder.Configuration);
     builder.Services.AddAuthSwagger();
     builder.Services.AddAuthCors();
