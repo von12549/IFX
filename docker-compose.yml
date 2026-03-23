@@ -43,7 +43,7 @@ services:
       - "8181:8181"
     volumes:
       - ./policies:/policies:ro
-    command: ["run", "--server", "--addr", "0.0.0.0:8181", "--config-file", "/policies/../deploy/opa/config.yaml", "/policies"]
+    command: ["run", "--server", "--addr", "0.0.0.0:8181", "--log-level", "info", "/policies"]
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8181/health"]
       interval: 5s
