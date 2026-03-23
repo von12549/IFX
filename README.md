@@ -11,8 +11,9 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Dynamic Multi-IdP SSO** - Database-driven IdP configuration with auto-provisioning
 - **OIDC Discovery** - Automatic IdP configuration via well-known endpoints
 - **UserInfo-Based Provisioning** - Fetches user data from OIDC userinfo endpoint during auto-provisioning
-- **Multi-Tenant** - Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant; tenant switcher in the React UI drives all list views
+- **Multi-Tenant** - Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant; tenant switcher in the React UI drives all list views via `X-Tenant-Id` header
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
+- **ABAC Authorization** - OPA (Open Policy Agent) for fine-grained, resource-level policy decisions layered on top of RBAC; fail-closed by default
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
 - **474 Tests** - 419 backend (xUnit) + 55 frontend (Vitest) across all layers
@@ -41,7 +42,9 @@ See [Getting Started](docs/development/getting-started.md) for detailed setup.
 ```
 src/
 ├── ApiHost/IFX.ApiHost/     # Host application
-├── BuildingBlocks/App.Abstractions/ # Shared interfaces
+├── BuildingBlocks/
+│   ├── App.Abstractions/            # Shared interfaces (IModuleInstaller)
+│   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA client, ABAC)
 ├── WebUI/IFX.WebUI/         # Demo OAuth client (HTML/JS)
 ├── Modules/Auth/
 │   ├── Domain/                      # Business logic
@@ -98,14 +101,14 @@ src/Frontend/IFX.FrontEnd/src/          # 55 frontend tests (Vitest + RTL + MSW)
 | **OAuth** | `GET /api/v1/auth/oauth/{authorize,callback,userinfo,logout}` |
 | Public | `POST /api/v1/auth/{register,confirm,login}` |
 | Authenticated | `POST /api/v1/auth/{logout,refresh,revoke}`, `/api/v1/user/*` |
-| Admin — Users | `GET/PUT /api/v1/usermanagement/users?tenantId=` |
-| Admin — Auth | `/api/v1/role?tenantId=`, `/api/v1/rolegroup?tenantId=`, `/api/v1/idp?tenantId=` |
+| Admin — Users | `GET/PUT /api/v1/usermanagement/users` |
+| Admin — Auth | `/api/v1/role`, `/api/v1/rolegroup`, `/api/v1/idp` |
 | Admin — Tenants | `GET/POST/PUT/DELETE /api/v1/tenant` |
-| Admin — Departments | `GET/POST/PUT/DELETE /api/v1/department?tenantId=` |
+| Admin — Departments | `GET/POST/PUT/DELETE /api/v1/department` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |
 
-> **Tenant filtering:** all list endpoints require `?tenantId=<guid>`. Omitting it returns an empty result.
+> **Tenant filtering:** list endpoints read the selected tenant from the `X-Tenant-Id` request header. The frontend sends this header automatically via the axios interceptor (value persisted in `localStorage`). Omitting the header returns an empty result.
 
 ### OAuth Flow (Recommended)
 
@@ -224,7 +227,9 @@ python -m http.server 3000
 - MediatR, FluentValidation, AutoMapper
 - AWS SDK (Cognito) · Auth0 (stub adapter ready), Serilog, Swagger
 - Hangfire (background jobs), SendGrid (email)
+- OPA (Open Policy Agent) for ABAC authorization
 - SQL Server, Docker
+- React 18, TypeScript, Vite (frontend)
 
 ## Contributing
 

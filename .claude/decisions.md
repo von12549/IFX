@@ -131,3 +131,57 @@ Documents significant architectural and design decisions with rationale.
 - Chose separation because forcing Platform's simple pattern onto Modules loses Clean Architecture benefits (domain isolation, repository abstraction, CQRS)
 
 **Reference:** See `/.claude/playbooks/pattern-selection.md` for decision flowchart.
+
+---
+
+## ADR-008: OPA + ABAC Authorization (March 2026)
+
+**Decision:** Introduce OPA (Open Policy Agent) as a policy decision engine for fine-grained, resource-level authorization, layered on top of the existing RBAC model.
+
+**Rationale:**
+- RBAC alone cannot express resource-level constraints (same tenant, ownership, sensitivity)
+- OPA decouples policy logic from application code — Rego policies are versioned separately
+- `IResourceAuthorizationService` provides a clean abstraction: Application layer calls it without knowing OPA exists
+- Fail-closed by default: OPA unavailability = deny, not allow
+- `NullOpaPolicyClient` (always-allow) makes local development viable without running OPA
+
+**Authorization flow:**
+```
+Request → RBAC gate (optional, skippable) → OPA policy evaluation → allow/deny
+```
+
+**Key design choices:**
+- `requiredPermission` is nullable — pass `null` to skip RBAC gate (e.g. self-reads where the user lacks the admin permission)
+- OPA policies evaluate `input.subject.permissions` only, never role names — decoupled from role taxonomy
+- Post-load pattern: load the resource first, then authorize; avoids phantom authorization on non-existent resources
+- `IFX.BuildingBlocks.Security` is a new cross-cutting project; it has zero references to any business module
+
+**Trade-offs:**
+- OPA sidecar adds operational complexity (healthcheck, container startup)
+- Policy and application code can drift if not maintained together
+- Chose OPA over in-process Rego eval for future flexibility (bundle server, remote eval)
+
+---
+
+## ADR-009: X-Tenant-Id Header for Tenant Context (March 2026)
+
+**Decision:** Replace `?tenantId=` query parameters with an `X-Tenant-Id` request header for tenant context on management list endpoints.
+
+**Rationale:**
+- Query params on GET list endpoints leaked tenant context into URLs and logs
+- Headers are the standard HTTP mechanism for per-request ambient context (like `Authorization`)
+- The selected tenant is operator state (which tenant am I working in), not a filter parameter
+- `ICurrentUser.TenantId` can now provide tenant context uniformly to all handlers — no need to thread it through query/command records
+- ABAC `same_tenant` enforcement works correctly: subject tenant and resource tenant are both derived from the same active context
+
+**Security property:**
+- `CurrentUser.TenantId` validates the header value against `tenant` claims (populated at login from the user's actual tenant memberships) before returning it. A user cannot spoof a tenant they don't belong to.
+
+**Frontend contract:**
+- `tokenStorage.setSelectedTenantId` persists the value to `localStorage`
+- `apiClient` request interceptor adds `X-Tenant-Id: <value>` to every request automatically
+- Pages still react to `selectedTenantId` changes via `useEffect([selectedTenantId])` to reload data
+
+**Trade-offs:**
+- Headers are less visible than query params for debugging (use browser devtools Network tab)
+- Chose headers over session/cookie storage to stay stateless on the server side

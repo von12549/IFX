@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-23
 **Branch:** `feature/security/opa-abac-authorization`
-**Status:** Planning
+**Status:** Implemented (2026-03-24)
 
 ## Goal
 
@@ -397,6 +397,17 @@ Initial test in `tests/auth/read_user_test.rego`:
 8. Pilot use case end-to-end (Steps 9)
 9. Docker / dev OPA (Step 11)
 10. Policy tests + README (Step 12)
+
+---
+
+## Implementation Notes (actual vs plan)
+
+- `requiredPermission` made nullable in `IResourceAuthorizationService` to support self-read (skip RBAC gate). Plan had it non-nullable.
+- `GetPermissionsForUserQuery` was not added as a separate query — permissions are loaded in `GetOrProvisionUserQueryHandler` during claims transformation, not lazily per-request.
+- OPA healthcheck removed from docker-compose after 3 failures (`opa:latest-static` has no shell tools). `ifx-api` uses `condition: service_started` instead.
+- `UserResourceAttributes` uses `ICurrentUser.TenantId` (active context tenant), not `user.PrimaryTenantId` — required for multi-tenant users who switch to a non-primary tenant.
+- `X-Tenant-Id` header approach (Option A) implemented alongside ABAC: `ICurrentUser.TenantId` reads from the header, validated against `tenant` claims. All management queries read tenant from `ICurrentUser` instead of query params.
+- OPA `BaseUrl` and `TimeoutSeconds` configurable via env vars (`OPA_BASE_URL`, `OPA_TIMEOUT_SECONDS`) in docker-compose and `.env.example`.
 
 ---
 

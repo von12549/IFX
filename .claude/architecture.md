@@ -22,7 +22,8 @@ IFX/
 │   ├── ApiHost/
 │   │   └── IFX.ApiHost/      # Host application (references Composition + Abstractions)
 │   ├── BuildingBlocks/
-│   │   └── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   │   ├── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA, ABAC)
 │   └── Modules/Auth/
 │       ├── Domain/                   # Pure business logic (no dependencies)
 │       ├── Application/              # Use cases with CQRS (→ Domain)
@@ -91,6 +92,13 @@ Infrastructure  Infrastructure  (transitive)
 - **Rule:** No implementation code
 - **Rule:** Enables plugin-like module architecture
 
+### BuildingBlocks (IFX.BuildingBlocks.Security)
+- **Rule:** Cross-cutting security abstractions and implementations used by all modules
+- Contains `ICurrentUser`, `IPermissionChecker`, `IOpaPolicyClient`, `IResourceAuthorizationService`
+- Contains `OpaClient` (HttpClient-backed), `NullOpaPolicyClient` (dev stub), `OpaOptions`
+- Contains `ForbiddenException` (→ 403 via middleware)
+- **Rule:** No references to any business module (Auth, etc.) — depends only on framework packages
+
 ---
 
 ## Multi-IdP Architecture
@@ -113,11 +121,29 @@ Infrastructure  Infrastructure  (transitive)
 
 **Rule:** Name uniqueness for Role and RoleGroup is scoped to `(TenantId, Name)` — the same name may exist in different tenants.
 
-**Rule:** All list queries require a non-null `TenantId`. Handlers short-circuit with an empty result when `TenantId` is null; they never return cross-tenant data.
+**Rule:** All list queries derive tenant context from `ICurrentUser.TenantId` — never from a query parameter. Handlers short-circuit with an empty result when `TenantId` is null; they never return cross-tenant data.
 
-**Rule:** The frontend drives tenant context via `selectedTenantId` in `AuthContext`. All management pages read this value and reload when it changes. Never read tenantId from component-local state for filtering.
+**Rule:** Tenant context is conveyed via the `X-Tenant-Id` request header. `CurrentUser.TenantId` reads this header, validates the value against the user's `tenant` claims, and falls back to the JWT `tenant_id` claim (primary tenant). The frontend sends `X-Tenant-Id` automatically via the axios interceptor; the value is persisted to `localStorage`.
+
+**Rule:** The frontend drives tenant switching via `selectedTenantId` in `AuthContext`. All management pages reload when it changes — they do NOT pass it as a query parameter to API functions.
 
 **Rule:** `Department` belongs to a `Tenant`. Users are linked to departments; the application layer enforces that a user's department belongs to one of their tenants.
+
+## ABAC Authorization (OPA)
+
+**Rule:** Authorization is two-layered — coarse-grained RBAC gate first, then fine-grained OPA policy decision.
+
+**Rule:** Resource-level authorization is performed in the Application layer after loading the target resource (post-load pattern). Never authorize before loading.
+
+**Rule:** OPA policies evaluate `input.subject.permissions` only — never raw role names. Policies are decoupled from role taxonomy.
+
+**Rule:** `requiredPermission` in `IResourceAuthorizationService.AuthorizeAsync` is nullable. Pass `null` to skip the RBAC gate and let OPA be the sole decision maker (used for self-read operations where the user lacks the admin permission).
+
+**Rule:** `OpaOptions.FailClosed = true` by default — OPA unavailability is treated as deny. Override to `false` only in local development.
+
+**Rule:** `resource.tenant_id` in `OpaResourceAttributesBase` must match the caller's active tenant context (`ICurrentUser.TenantId`), not the resource entity's `PrimaryTenantId`. This ensures `same_tenant` passes when a user is operating in a non-primary tenant.
+
+**Rule:** `Opa:Enabled = false` in `appsettings.Development.json` → `NullOpaPolicyClient` is registered (always allow). Never disable OPA in production.
 
 ---
 

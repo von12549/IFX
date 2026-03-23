@@ -16,6 +16,9 @@ Technology stack and build/run commands for this .NET 8 solution.
 - **AWS SDK for .NET** (Cognito)
 - **Serilog** for structured logging
 - **Swagger/Swashbuckle** for API docs
+- **OPA (Open Policy Agent)** for ABAC policy decisions (`openpolicyagent/opa:0.70.0-static`)
+- **Hangfire** for background jobs
+- **SendGrid** for email notifications
 - **Docker** with multi-stage builds
 
 ---
@@ -83,7 +86,9 @@ Connection string for local development:
 
 ### Services
 - **sqlserver**: SQL Server 2022 with health check, persistent volume, port 11433
-- **auth-api**: Built from Dockerfile, depends on SQL Server health
+- **opa**: OPA 0.70.0-static, serves Rego policies from `./policies/`, port 8181; `restart: on-failure`
+- **ifx-api**: Built from Dockerfile, depends on SQL Server (healthy) and OPA (started)
+- **ifx-frontend**: React dev server, port 8030, hot-reload via volume mounts
 
 ---
 
@@ -95,3 +100,5 @@ Connection string for local development:
 | Configuration binding errors | Install `Microsoft.Extensions.Configuration.Binder` |
 | Database connection failed | Check SQL Server is running, use port 11433 for Docker |
 | AutoMapper errors | Ensure mapping exists in `MappingProfile.cs` |
+| OPA container exits | `opa:...-static` has no shell; healthcheck removed. Use `docker-compose logs ifx-opa` to diagnose |
+| 403 on management pages | Check `X-Tenant-Id` header is sent; verify user has `tenant` claims matching the selected tenant |
