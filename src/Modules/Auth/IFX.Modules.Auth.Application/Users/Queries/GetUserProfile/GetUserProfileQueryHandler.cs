@@ -46,7 +46,10 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
             // ABAC: resource-level authorization after loading the resource.
             // No RBAC pre-gate (null) — OPA decides entirely.
             // Policy: allow if same tenant AND (self OR has users.read permission).
-            var resourceAttributes = new UserResourceAttributes(user.Id, user.PrimaryTenantId);
+            // Use the caller's active tenant (ICurrentUser.TenantId) as the resource tenant,
+            // not user.PrimaryTenantId — a user may read their profile from any tenant they
+            // belong to, and CurrentUser.TenantId is already validated against their memberships.
+            var resourceAttributes = new UserResourceAttributes(user.Id, _currentUser.TenantId);
             await _authorizationService.AuthorizeAsync(
                 requiredPermission: null,
                 decisionPath: "authz/auth/read_user",

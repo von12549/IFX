@@ -46,6 +46,9 @@ public class GetUserProfileQueryHandlerTests
     [Fact]
     public async Task Handle_WithExistingUser_ReturnsUserProfile()
     {
+        var tenantId = Guid.NewGuid();
+        _currentUser.Setup(c => c.TenantId).Returns(tenantId);
+
         var user = new UserBuilder().Active().Build();
         _users.Setup(u => u.GetByIssuerAndSubjectWithPermissionsAsync(
                 TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject, It.IsAny<CancellationToken>()))
@@ -59,6 +62,35 @@ public class GetUserProfileQueryHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Id.Should().Be(user.Id);
+    }
+
+    [Fact]
+    public async Task Handle_WithNonPrimaryTenant_UsesSelectedTenantForAuthorization()
+    {
+        // User's primary tenant differs from their currently selected tenant —
+        // the ABAC check should use the selected tenant so same_tenant passes.
+        var selectedTenantId = Guid.NewGuid();
+        _currentUser.Setup(c => c.TenantId).Returns(selectedTenantId);
+
+        var user = new UserBuilder().Active().Build(); // PrimaryTenantId is different
+        _users.Setup(u => u.GetByIssuerAndSubjectWithPermissionsAsync(
+                TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject, It.IsAny<CancellationToken>()))
+              .ReturnsAsync(user);
+        _mapper.Setup(m => m.Map<UserProfileDto>(user))
+               .Returns(new UserProfileDto { Id = user.Id, DisplayName = user.DisplayName });
+
+        var result = await _handler.Handle(
+            new GetUserProfileQuery(TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject),
+            CancellationToken.None);
+
+        // Should succeed — resource tenant is now the selected tenant, not user.PrimaryTenantId
+        result.IsSuccess.Should().BeTrue();
+        _authorizationService.Verify(a => a.AuthorizeAsync(
+            null,
+            "authz/auth/read_user",
+            It.Is<OpaResourceAttributesBase>(r => r.TenantId == selectedTenantId.ToString()),
+            "read",
+            It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
