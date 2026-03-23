@@ -45,10 +45,11 @@ services:
       - ./policies:/policies:ro
     command: ["run", "--server", "--addr", "0.0.0.0:8181", "--log-level", "info", "/policies"]
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:8181/health"]
+      test: ["CMD", "opa", "health", "--v1-compatible"]
       interval: 5s
       timeout: 3s
       retries: 5
+      start_period: 5s
     networks:
       - ifx-network
 
