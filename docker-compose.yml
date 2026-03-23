@@ -93,9 +93,10 @@ services:
       - EmailVerification__MaxResendsPerHour=${EMAIL_VERIFICATION_MAX_RESENDS:-3}
       - EmailVerification__VerificationBaseUrl=${EMAIL_VERIFICATION_BASE_URL:-http://localhost:5010/api/v1/auth/email/verify}
       # OPA Authorization
-      - Opa__BaseUrl=http://opa:8181
-      - Opa__Enabled=true
-      - Opa__FailClosed=true
+      - Opa__BaseUrl=${OPA_BASE_URL:-http://opa:8181}
+      - Opa__TimeoutSeconds=${OPA_TIMEOUT_SECONDS:-5}
+      - Opa__Enabled=${OPA_ENABLED:-true}
+      - Opa__FailClosed=${OPA_FAIL_CLOSED:-true}
     ports:
       - "5010:8080"
     volumes:
