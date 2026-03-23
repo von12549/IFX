@@ -37,7 +37,7 @@ services:
       - ifx-network
 
   opa:
-    image: openpolicyagent/opa:latest-static
+    image: openpolicyagent/opa:0.70.0-static
     container_name: ifx-opa
     ports:
       - "8181:8181"
@@ -45,7 +45,7 @@ services:
       - ./policies:/policies:ro
     command: ["run", "--server", "--addr", "0.0.0.0:8181", "--log-level", "info", "/policies"]
     healthcheck:
-      test: ["CMD", "opa", "health", "--v1-compatible"]
+      test: ["CMD", "opa", "health"]
       interval: 5s
       timeout: 3s
       retries: 5
