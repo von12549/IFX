@@ -28,6 +28,11 @@ export const mockPermissions = [
   { id: 'perm-2', name: 'Roles.Write', description: 'Manage roles' },
 ]
 
+export const mockTenants = [
+  { id: 'tenant-1', name: 'Acme Corp' },
+  { id: 'tenant-2', name: 'Beta Ltd' },
+]
+
 export const handlers = [
   http.get(`${API}/api/v1/user/profile`, () =>
     HttpResponse.json({ success: true, data: mockUser })
@@ -66,5 +71,9 @@ export const handlers = [
 
   http.get(`${API}/api/v1/auth/oauth/authorize`, () =>
     HttpResponse.json({ success: true, data: { authorizationUrl: 'https://auth.example.com/login', state: 'abc' } })
+  ),
+
+  http.get(`${API}/api/v1/tenant/`, () =>
+    HttpResponse.json({ success: true, data: mockTenants })
   ),
 ]
