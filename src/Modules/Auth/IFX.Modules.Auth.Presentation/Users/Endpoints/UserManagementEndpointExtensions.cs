@@ -25,12 +25,12 @@ public static class UserManagementEndpointExtensions
 
         group.MapGet("/users",
             ([AsParameters] UsersParams parameters, IServiceProvider services) =>
-                UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize, parameters.tenantId,
+                UserManagementEndpoints.GetAllUsers(parameters.page, parameters.pageSize,
                     services.GetRequiredService<MediatR.IMediator>(),
                     services.GetRequiredService<ILogger<UserManagementEndpointsLogCategory>>()))
             .WithName("GetAllUsers")
             .RequirePermission("User.Read")
-            .WithSummary("Get all users (Admin only, paginated)")
+            .WithSummary("Get all users for the current tenant (from X-Tenant-Id header), paginated")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized)
@@ -131,5 +131,5 @@ public static class UserManagementEndpointExtensions
         return builder;
     }
 
-    private record UsersParams(int page = 1, int pageSize = 50, Guid? tenantId = null);
+    private record UsersParams(int page = 1, int pageSize = 50);
 }

@@ -19,14 +19,14 @@ export function DepartmentManagementPage() {
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
-  const loadDepts = (tenantId?: string) =>
-    departmentApi.getAll(tenantId || undefined)
+  const loadDepts = () =>
+    departmentApi.getAll()
       .then(r => setDepartments(r.data?.data ?? []))
       .catch(() => setError('Failed to load departments'))
 
   useEffect(() => {
     setLoading(true)
-    loadDepts(selectedTenantId ?? undefined).finally(() => setLoading(false))
+    loadDepts().finally(() => setLoading(false))
   }, [selectedTenantId])
 
   const toggleSort = (col: string) => {
@@ -55,7 +55,7 @@ export function DepartmentManagementPage() {
       } else {
         await departmentApi.create(form)
       }
-      await loadDepts(selectedTenantId ?? undefined)
+      await loadDepts()
       setModal(false)
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to save')
@@ -68,7 +68,7 @@ export function DepartmentManagementPage() {
     if (!confirm(`Delete department "${d.name}"?`)) return
     try {
       await departmentApi.delete(d.id)
-      await loadDepts(selectedTenantId ?? undefined)
+      await loadDepts()
     } catch {
       setError('Failed to delete department')
     }

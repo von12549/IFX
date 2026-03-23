@@ -2,10 +2,8 @@ import { apiClient } from './client'
 import type { CreateDepartmentRequest, DepartmentDto } from '../types/api'
 
 export const departmentApi = {
-  getAll: (tenantId?: string) =>
-    apiClient.get<{ data: DepartmentDto[] }>('/api/v1/department/', {
-      params: tenantId ? { tenantId } : undefined,
-    }),
+  getAll: () =>
+    apiClient.get<{ data: DepartmentDto[] }>('/api/v1/department/'),
 
   getById: (departmentId: string) =>
     apiClient.get<{ data: DepartmentDto }>(`/api/v1/department/${departmentId}`),

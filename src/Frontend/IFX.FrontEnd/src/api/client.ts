@@ -7,6 +7,7 @@ const KEYS = {
   refreshToken: 'ifx_refresh_token',
   idToken: 'ifx_id_token',
   expiry: 'ifx_token_expiry',
+  selectedTenantId: 'ifx_selected_tenant_id',
 }
 
 export const tokenStorage = {
@@ -18,6 +19,11 @@ export const tokenStorage = {
   },
   getAccessToken: () => localStorage.getItem(KEYS.accessToken),
   getRefreshToken: () => localStorage.getItem(KEYS.refreshToken),
+  getSelectedTenantId: () => localStorage.getItem(KEYS.selectedTenantId),
+  setSelectedTenantId: (id: string | null) => {
+    if (id) localStorage.setItem(KEYS.selectedTenantId, id)
+    else localStorage.removeItem(KEYS.selectedTenantId)
+  },
   clear() {
     Object.values(KEYS).forEach(k => localStorage.removeItem(k))
   },
@@ -25,10 +31,12 @@ export const tokenStorage = {
 
 export const apiClient = axios.create({ baseURL: API_BASE })
 
-// Attach Bearer token on every request
+// Attach Bearer token and selected tenant on every request
 apiClient.interceptors.request.use(config => {
   const token = tokenStorage.getAccessToken()
   if (token) config.headers.Authorization = `Bearer ${token}`
+  const tenantId = tokenStorage.getSelectedTenantId()
+  if (tenantId) config.headers['X-Tenant-Id'] = tenantId
   return config
 })
 

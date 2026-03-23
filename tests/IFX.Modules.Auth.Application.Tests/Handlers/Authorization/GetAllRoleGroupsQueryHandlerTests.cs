@@ -1,4 +1,5 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Authorization.Queries.GetAllRoleGroups;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -12,19 +13,21 @@ public class GetAllRoleGroupsQueryHandlerTests
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IRoleGroupRepository> _groups = new();
     private readonly Mock<IMapper> _mapper = new();
+    private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<ILogger<GetAllRoleGroupsQueryHandler>> _logger = new();
     private readonly GetAllRoleGroupsQueryHandler _handler;
 
     public GetAllRoleGroupsQueryHandlerTests()
     {
         _unitOfWork.Setup(u => u.RoleGroups).Returns(_groups.Object);
-        _handler = new GetAllRoleGroupsQueryHandler(_unitOfWork.Object, _mapper.Object, _logger.Object);
+        _handler = new GetAllRoleGroupsQueryHandler(_unitOfWork.Object, _mapper.Object, _currentUser.Object, _logger.Object);
     }
 
     [Fact]
     public async Task Handle_WithTenantId_ReturnsFilteredRoleGroups()
     {
         var tenantId = Guid.NewGuid();
+        _currentUser.Setup(c => c.TenantId).Returns(tenantId);
         var groupList = new List<RoleGroup>
         {
             RoleGroup.Create("Managers", "Manager group", tenantId),
@@ -34,7 +37,7 @@ public class GetAllRoleGroupsQueryHandlerTests
         _mapper.Setup(m => m.Map<List<RoleGroupDto>>(groupList))
                .Returns([new RoleGroupDto { Name = "Managers" }, new RoleGroupDto { Name = "Admins" }]);
 
-        var result = await _handler.Handle(new GetAllRoleGroupsQuery(tenantId), CancellationToken.None);
+        var result = await _handler.Handle(new GetAllRoleGroupsQuery(), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Should().HaveCount(2);
@@ -43,7 +46,9 @@ public class GetAllRoleGroupsQueryHandlerTests
     [Fact]
     public async Task Handle_WithNullTenantId_ReturnsEmpty()
     {
-        var result = await _handler.Handle(new GetAllRoleGroupsQuery(null), CancellationToken.None);
+        _currentUser.Setup(c => c.TenantId).Returns((Guid?)null);
+
+        var result = await _handler.Handle(new GetAllRoleGroupsQuery(), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.Should().BeEmpty();

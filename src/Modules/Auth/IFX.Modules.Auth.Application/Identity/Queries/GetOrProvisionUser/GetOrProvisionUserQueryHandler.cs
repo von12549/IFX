@@ -66,6 +66,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                 {
                     UserId = user.Id,
                     PrimaryTenantId = user.PrimaryTenantId,
+                    TenantIds = user.Tenants.Select(t => t.Id).ToList(),
                     PermissionNames = permissions,
                     RoleNames = roleNames,
                     DepartmentNames = departmentNames,
@@ -188,6 +189,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                     {
                         UserId = concurrentUser.Id,
                         PrimaryTenantId = concurrentUser.PrimaryTenantId,
+                        TenantIds = concurrentUser.Tenants.Select(t => t.Id).ToList(),
                         PermissionNames = concurrentAllRoles.SelectMany(r => r.Permissions).Select(p => p.Name).Distinct().ToList(),
                         RoleNames = concurrentAllRoles.Select(r => r.Name).Distinct().ToList(),
                         DepartmentNames = concurrentUser.Departments.Select(d => d.Name).Distinct().ToList(),

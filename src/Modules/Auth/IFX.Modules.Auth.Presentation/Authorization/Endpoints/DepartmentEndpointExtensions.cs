@@ -16,14 +16,13 @@ public static class DepartmentEndpointExtensions
             .RequireAuthorization();
 
         group.MapGet("/",
-            ([AsParameters] DepartmentParams parameters, IServiceProvider services) =>
+            (IServiceProvider services) =>
                 DepartmentEndpoints.GetAllDepartments(
-                    parameters.tenantId,
                     services.GetRequiredService<MediatR.IMediator>(),
                     services.GetRequiredService<ILogger<DepartmentEndpointsLogCategory>>()))
             .WithName("GetAllDepartments")
             .RequirePermission("Department.Read")
-            .WithSummary("Get all departments, optionally filtered by tenantId")
+            .WithSummary("Get all departments for the current tenant (from X-Tenant-Id header)")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
@@ -62,5 +61,4 @@ public static class DepartmentEndpointExtensions
         return builder;
     }
 
-    private record DepartmentParams(Guid? tenantId = null);
 }

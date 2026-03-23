@@ -36,8 +36,18 @@ public class CurrentUser : ICurrentUser
     {
         get
         {
-            var value = Principal?.FindFirst("tenant_id")?.Value;
-            return Guid.TryParse(value, out var id) ? id : null;
+            // Prefer X-Tenant-Id header (tenant switcher selection), validated against user's tenant memberships
+            var headerValue = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].FirstOrDefault();
+            if (Guid.TryParse(headerValue, out var headerId))
+            {
+                var allowedTenants = Principal?.FindAll("tenant").Select(c => c.Value).ToHashSet() ?? [];
+                if (allowedTenants.Contains(headerId.ToString()))
+                    return headerId;
+            }
+
+            // Fall back to primary tenant from JWT claims
+            var claimValue = Principal?.FindFirst("tenant_id")?.Value;
+            return Guid.TryParse(claimValue, out var id) ? id : null;
         }
     }
 

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace IFX.Modules.Auth.Application.Identity.Queries.GetAllIdps;
 
-public record GetAllIdpsQuery(Guid? TenantId = null) : IRequest<Result<List<IdpDto>>>;
+public record GetAllIdpsQuery : IRequest<Result<List<IdpDto>>>;

@@ -19,15 +19,24 @@ const AuthContext = createContext<AuthContextValue>(null!)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfileDto | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null)
+  const [selectedTenantId, setSelectedTenantIdState] = useState<string | null>(
+    () => tokenStorage.getSelectedTenantId()
+  )
+
+  const setSelectedTenantId = useCallback((id: string) => {
+    tokenStorage.setSelectedTenantId(id)
+    setSelectedTenantIdState(id)
+  }, [])
 
   const loadProfile = useCallback(async () => {
     const resp = await userApi.getProfile()
     const profile = resp.data?.data ?? null
     setUser(profile)
-    setSelectedTenantId(prev =>
-      prev ?? (profile?.primaryTenantId ?? profile?.tenants?.[0]?.id ?? null)
-    )
+    setSelectedTenantIdState(prev => {
+      const resolved = prev ?? (profile?.primaryTenantId ?? profile?.tenants?.[0]?.id ?? null)
+      tokenStorage.setSelectedTenantId(resolved)
+      return resolved
+    })
   }, [])
 
   // Restore session on mount
@@ -55,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(() => {
     tokenStorage.clear()
     setUser(null)
-    setSelectedTenantId(null)
+    setSelectedTenantIdState(null)
   }, [])
 
   const refreshUser = useCallback(async () => {

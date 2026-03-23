@@ -2,8 +2,8 @@ import { apiClient } from './client'
 import type { CreateRoleRequest, RoleDetailDto, RoleDto } from '../types/api'
 
 export const roleApi = {
-  getAll: (tenantId?: string) =>
-    apiClient.get<{ data: RoleDto[] }>('/api/v1/role/', { params: tenantId ? { tenantId } : undefined }),
+  getAll: () =>
+    apiClient.get<{ data: RoleDto[] }>('/api/v1/role/'),
 
   getById: (roleId: string) =>
     apiClient.get<{ data: RoleDetailDto }>(`/api/v1/role/${roleId}`),

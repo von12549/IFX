@@ -79,14 +79,14 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - OAuth: `GET /api/v1/auth/oauth/{authorize,callback,userinfo,logout}`
 - Public: `POST /api/v1/auth/{register,confirm,login}` (login deprecated, use OAuth)
 - Authenticated: `POST /api/v1/auth/{logout,refresh,revoke}`, `GET/PUT /api/v1/user/profile`
-- Admin — Users: `GET/PUT /api/v1/usermanagement/users?tenantId=`
-- Admin — Auth: `GET/POST/PUT /api/v1/role?tenantId=`, `/api/v1/rolegroup?tenantId=`, `/api/v1/idp?tenantId=`
+- Admin — Users: `GET/PUT /api/v1/usermanagement/users` (tenant via `X-Tenant-Id` header)
+- Admin — Auth: `GET/POST/PUT /api/v1/role`, `/api/v1/rolegroup`, `/api/v1/idp` (tenant via `X-Tenant-Id` header)
 - Admin — Tenants: `GET/POST/PUT/DELETE /api/v1/tenant`
-- Admin — Departments: `GET/POST/PUT/DELETE /api/v1/department?tenantId=`
+- Admin — Departments: `GET/POST/PUT/DELETE /api/v1/department` (tenant via `X-Tenant-Id` header)
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
 
-> **Tenant filtering:** all list endpoints accept `?tenantId=<guid>`. Omitting or passing null returns an empty result — always provide a tenant ID.
+> **Tenant filtering:** list endpoints read the selected tenant from the `X-Tenant-Id` request header. The frontend sends this header automatically via the `apiClient` interceptor (value persisted in `localStorage`). No `TenantId` is passed in query params or command bodies for list queries — the handler reads it from `ICurrentUser.TenantId`.
 
 ### Platform Services
 - **BackgroundJobs**: `IBackgroundJobService` - Enqueue, Schedule, Recurring jobs (Hangfire)

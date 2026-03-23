@@ -8,6 +8,7 @@ public record UserAuthResult
 {
     public Guid UserId { get; init; }
     public Guid? PrimaryTenantId { get; init; }
+    public List<Guid> TenantIds { get; init; } = [];
     public List<string> PermissionNames { get; init; } = [];
     public List<string> RoleNames { get; init; } = [];
     public List<string> DepartmentNames { get; init; } = [];

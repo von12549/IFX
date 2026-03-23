@@ -2,8 +2,8 @@ import { apiClient } from './client'
 import type { CreateRoleGroupRequest, RoleGroupDto } from '../types/api'
 
 export const roleGroupApi = {
-  getAll: (tenantId?: string) =>
-    apiClient.get<{ data: RoleGroupDto[] }>('/api/v1/rolegroup/', { params: tenantId ? { tenantId } : undefined }),
+  getAll: () =>
+    apiClient.get<{ data: RoleGroupDto[] }>('/api/v1/rolegroup/'),
 
   create: (data: CreateRoleGroupRequest) =>
     apiClient.post('/api/v1/rolegroup/', data),

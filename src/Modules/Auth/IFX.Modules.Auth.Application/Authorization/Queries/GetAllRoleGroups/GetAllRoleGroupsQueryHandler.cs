@@ -1,4 +1,5 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,12 +12,14 @@ public class GetAllRoleGroupsQueryHandler : IRequestHandler<GetAllRoleGroupsQuer
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<GetAllRoleGroupsQueryHandler> _logger;
 
-    public GetAllRoleGroupsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GetAllRoleGroupsQueryHandler> logger)
+    public GetAllRoleGroupsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, ILogger<GetAllRoleGroupsQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _logger = logger;
     }
 
@@ -24,10 +27,10 @@ public class GetAllRoleGroupsQueryHandler : IRequestHandler<GetAllRoleGroupsQuer
     {
         try
         {
-            if (!request.TenantId.HasValue)
+            if (!_currentUser.TenantId.HasValue)
                 return Result<List<RoleGroupDto>>.Success([]);
 
-            var groups = await _unitOfWork.RoleGroups.GetByTenantIdAsync(request.TenantId.Value, cancellationToken);
+            var groups = await _unitOfWork.RoleGroups.GetByTenantIdAsync(_currentUser.TenantId.Value, cancellationToken);
             var dtos = _mapper.Map<List<RoleGroupDto>>(groups);
             _logger.LogInformation("Retrieved {Count} role groups", dtos.Count);
             return Result<List<RoleGroupDto>>.Success(dtos);
