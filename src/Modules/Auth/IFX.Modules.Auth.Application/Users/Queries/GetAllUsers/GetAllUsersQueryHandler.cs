@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,15 +12,18 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<GetAllUsersQueryHandler> _logger;
 
     public GetAllUsersQueryHandler(
         IUnitOfWork unitOfWork,
         IMapper mapper,
+        ICurrentUser currentUser,
         ILogger<GetAllUsersQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _logger = logger;
     }
 
@@ -29,7 +33,7 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
     {
         try
         {
-            if (!request.TenantId.HasValue)
+            if (!_currentUser.TenantId.HasValue)
                 return Result<PagedResult<UserProfileDto>>.Success(new PagedResult<UserProfileDto>
                 {
                     Items = [],
@@ -39,7 +43,7 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
                 });
 
             var (users, totalCount) = await _unitOfWork.Users.GetAllUsersByTenantAsync(
-                request.TenantId.Value,
+                _currentUser.TenantId.Value,
                 request.PageNumber,
                 request.PageSize,
                 cancellationToken);

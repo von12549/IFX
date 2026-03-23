@@ -4,4 +4,4 @@ using MediatR;
 
 namespace IFX.Modules.Auth.Application.Authorization.Queries.GetAllRoles;
 
-public record GetAllRolesQuery(Guid? TenantId = null) : IRequest<Result<List<RoleDto>>>;
+public record GetAllRolesQuery : IRequest<Result<List<RoleDto>>>;

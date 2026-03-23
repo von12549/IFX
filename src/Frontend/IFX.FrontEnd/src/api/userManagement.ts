@@ -2,10 +2,10 @@ import { apiClient } from './client'
 import type { PagedResult, UserProfileDto } from '../types/api'
 
 export const userManagementApi = {
-  getAll: (page = 1, pageSize = 50, tenantId?: string) =>
+  getAll: (page = 1, pageSize = 50) =>
     apiClient.get<{ data: PagedResult<UserProfileDto> }>(
       '/api/v1/usermanagement/users',
-      { params: { page, pageSize, ...(tenantId ? { tenantId } : {}) } }
+      { params: { page, pageSize } }
     ),
 
   getById: (userId: string) =>

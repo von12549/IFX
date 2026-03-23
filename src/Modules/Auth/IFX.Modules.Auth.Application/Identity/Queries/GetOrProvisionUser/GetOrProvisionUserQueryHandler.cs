@@ -45,12 +45,18 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
 
             if (user != null)
             {
-                var permissions = user.Roles
+                var allRoles = user.Roles
                     .Concat(user.RoleGroups.SelectMany(g => g.Roles))
+                    .ToList();
+
+                var permissions = allRoles
                     .SelectMany(r => r.Permissions)
                     .Select(p => p.Name)
                     .Distinct()
                     .ToList();
+
+                var roleNames = allRoles.Select(r => r.Name).Distinct().ToList();
+                var departmentNames = user.Departments.Select(d => d.Name).Distinct().ToList();
 
                 _logger.LogDebug(
                     "Found existing user {UserId} with {PermissionCount} permissions for {Issuer}/{Subject}",
@@ -59,7 +65,11 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                 return Result<UserAuthResult>.Success(new UserAuthResult
                 {
                     UserId = user.Id,
+                    PrimaryTenantId = user.PrimaryTenantId,
+                    TenantIds = user.Tenants.Select(t => t.Id).ToList(),
                     PermissionNames = permissions,
+                    RoleNames = roleNames,
+                    DepartmentNames = departmentNames,
                     WasProvisioned = false
                 });
             }
@@ -171,17 +181,18 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                         "SSO provisioning race condition resolved for {Issuer}/{Subject} — returning user created by concurrent request",
                         request.Issuer, request.Subject);
 
-                    var concurrentPermissions = concurrentUser.Roles
+                    var concurrentAllRoles = concurrentUser.Roles
                         .Concat(concurrentUser.RoleGroups.SelectMany(g => g.Roles))
-                        .SelectMany(r => r.Permissions)
-                        .Select(p => p.Name)
-                        .Distinct()
                         .ToList();
 
                     return Result<UserAuthResult>.Success(new UserAuthResult
                     {
                         UserId = concurrentUser.Id,
-                        PermissionNames = concurrentPermissions,
+                        PrimaryTenantId = concurrentUser.PrimaryTenantId,
+                        TenantIds = concurrentUser.Tenants.Select(t => t.Id).ToList(),
+                        PermissionNames = concurrentAllRoles.SelectMany(r => r.Permissions).Select(p => p.Name).Distinct().ToList(),
+                        RoleNames = concurrentAllRoles.Select(r => r.Name).Distinct().ToList(),
+                        DepartmentNames = concurrentUser.Departments.Select(d => d.Name).Distinct().ToList(),
                         WasProvisioned = false
                     });
                 }
@@ -201,6 +212,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
             {
                 UserId = provisionResult.Value.UserId,
                 PermissionNames = provisionResult.Value.PermissionNames,
+                RoleNames = provisionResult.Value.RoleNames,
                 WasProvisioned = provisionResult.Value.WasProvisioned
             });
         }

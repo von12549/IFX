@@ -28,11 +28,11 @@ export function IdpManagementPage() {
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
-  const load = (tenantId?: string) => idpApi.getAll(tenantId || undefined).then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
+  const load = () => idpApi.getAll().then(r => setIdps(r.data?.data ?? [])).catch(() => setError('Failed to load IdPs'))
 
   useEffect(() => {
     setLoading(true)
-    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+    load().finally(() => setLoading(false))
   }, [selectedTenantId])
 
   const set = (k: keyof CreateIdpRequest) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -58,7 +58,7 @@ export function IdpManagementPage() {
     try {
       if (modal === 'create') await idpApi.create(form)
       else if (editId) await idpApi.update(editId, form)
-      await load(selectedTenantId ?? undefined)
+      await load()
       setModal(null)
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to save')

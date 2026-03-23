@@ -17,13 +17,12 @@ public sealed class DepartmentEndpointsLogCategory { }
 public static class DepartmentEndpoints
 {
     public static async Task<IResult> GetAllDepartments(
-        Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<DepartmentEndpointsLogCategory> logger)
     {
         logger.LogInformation("Accessing departments list");
 
-        var result = await mediator.Send(new GetAllDepartmentsQuery(tenantId));
+        var result = await mediator.Send(new GetAllDepartmentsQuery());
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

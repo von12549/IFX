@@ -16,14 +16,12 @@ public sealed class IdpEndpointsLogCategory { }
 public static class IdpEndpoints
 {
     public static async Task<IResult> GetAllIdps(
-        [FromQuery] Guid? tenantId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<IdpEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin accessing Identity Providers list");
 
-        var query = new GetAllIdpsQuery(tenantId);
-        var result = await mediator.Send(query);
+        var result = await mediator.Send(new GetAllIdpsQuery());
 
         if (!result.IsSuccess)
         {

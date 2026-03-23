@@ -17,14 +17,14 @@ export function UserManagementPage() {
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const navigate = useNavigate()
 
-  const load = (tenantId?: string) =>
-    userManagementApi.getAll(1, 50, tenantId || undefined)
+  const load = () =>
+    userManagementApi.getAll(1, 50)
       .then(r => setUsers(r.data?.data?.items ?? []))
       .catch(() => setError('Failed to load users'))
 
   useEffect(() => {
     setLoading(true)
-    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+    load().finally(() => setLoading(false))
   }, [selectedTenantId])
 
   const toggleSort = (col: string) => {

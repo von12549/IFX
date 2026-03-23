@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 
 namespace IFX.ApiHost.Middleware;
 
@@ -41,7 +42,12 @@ public class ExceptionHandlingMiddleware
             Timestamp = DateTime.UtcNow
         };
 
-        if (exception is ArgumentException or ArgumentNullException)
+        if (exception is ForbiddenException)
+        {
+            statusCode = HttpStatusCode.Forbidden;
+            response.Error = exception.Message;
+        }
+        else if (exception is ArgumentException or ArgumentNullException)
         {
             statusCode = HttpStatusCode.BadRequest;
             response.Error = exception.Message;

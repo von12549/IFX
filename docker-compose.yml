@@ -36,6 +36,18 @@ services:
     networks:
       - ifx-network
 
+  opa:
+    image: openpolicyagent/opa:0.70.0-static
+    container_name: ifx-opa
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./policies:/policies:ro
+    command: ["run", "--server", "--addr", "0.0.0.0:8181", "--log-level", "info", "/policies"]
+    restart: on-failure
+    networks:
+      - ifx-network
+
   ifx-api:
     build:
       context: .
@@ -80,6 +92,11 @@ services:
       - EmailVerification__TokenValidityMinutes=${EMAIL_VERIFICATION_TOKEN_VALIDITY:-60}
       - EmailVerification__MaxResendsPerHour=${EMAIL_VERIFICATION_MAX_RESENDS:-3}
       - EmailVerification__VerificationBaseUrl=${EMAIL_VERIFICATION_BASE_URL:-http://localhost:5010/api/v1/auth/email/verify}
+      # OPA Authorization
+      - Opa__BaseUrl=${OPA_BASE_URL:-http://opa:8181}
+      - Opa__TimeoutSeconds=${OPA_TIMEOUT_SECONDS:-5}
+      - Opa__Enabled=${OPA_ENABLED:-true}
+      - Opa__FailClosed=${OPA_FAIL_CLOSED:-true}
     ports:
       - "5010:8080"
     volumes:
@@ -87,6 +104,8 @@ services:
     depends_on:
       sqlserver:
         condition: service_healthy
+      opa:
+        condition: service_started
     networks:
       - ifx-network
     restart: unless-stopped

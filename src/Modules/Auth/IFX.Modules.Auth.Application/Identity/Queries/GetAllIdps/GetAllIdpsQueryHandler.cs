@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
@@ -12,15 +13,18 @@ public class GetAllIdpsQueryHandler : IRequestHandler<GetAllIdpsQuery, Result<Li
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<GetAllIdpsQueryHandler> _logger;
 
     public GetAllIdpsQueryHandler(
         IUnitOfWork unitOfWork,
         IMapper mapper,
+        ICurrentUser currentUser,
         ILogger<GetAllIdpsQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _logger = logger;
     }
 
@@ -30,10 +34,10 @@ public class GetAllIdpsQueryHandler : IRequestHandler<GetAllIdpsQuery, Result<Li
     {
         try
         {
-            if (!request.TenantId.HasValue)
+            if (!_currentUser.TenantId.HasValue)
                 return Result<List<IdpDto>>.Success([]);
 
-            var idps = await _unitOfWork.Idps.GetByTenantIdAsync(request.TenantId.Value, cancellationToken);
+            var idps = await _unitOfWork.Idps.GetByTenantIdAsync(_currentUser.TenantId.Value, cancellationToken);
             var idpDtos = _mapper.Map<List<IdpDto>>(idps);
 
             _logger.LogInformation("Retrieved {Count} Identity Providers", idpDtos.Count);

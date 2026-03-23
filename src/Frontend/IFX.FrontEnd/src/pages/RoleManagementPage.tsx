@@ -22,7 +22,7 @@ export function RoleManagementPage() {
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
   const navigate = useNavigate()
 
-  const load = (tenantId?: string) => roleApi.getAll(tenantId || undefined).then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
+  const load = () => roleApi.getAll().then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
 
   useEffect(() => {
     tenantApi.getAll().then(r => setTenants(r.data?.data ?? []))
@@ -30,7 +30,7 @@ export function RoleManagementPage() {
 
   useEffect(() => {
     setLoading(true)
-    load(selectedTenantId ?? undefined).finally(() => setLoading(false))
+    load().finally(() => setLoading(false))
   }, [selectedTenantId])
 
   const toggleSort = (col: string) => {
@@ -46,7 +46,7 @@ export function RoleManagementPage() {
 
   const handleCreate = async () => {
     setSaving(true)
-    try { await roleApi.create(form); await load(selectedTenantId ?? undefined); setModal(false) }
+    try { await roleApi.create(form); await load(); setModal(false) }
     catch (err: any) { setError(err.response?.data?.error || 'Failed to create role') }
     finally { setSaving(false) }
   }

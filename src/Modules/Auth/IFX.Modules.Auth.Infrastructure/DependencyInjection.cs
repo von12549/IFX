@@ -1,8 +1,11 @@
-﻿using IFX.Modules.Auth.Application.Identity.Interfaces;
+﻿using IFX.BuildingBlocks.Security.Authorization;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
+using IFX.Modules.Auth.Infrastructure.Authorization;
 using IFX.Modules.Auth.Infrastructure.Authorization.Repositories;
 using IFX.Modules.Auth.Infrastructure.Identity.Repositories;
 using IFX.Modules.Auth.Infrastructure.Identity.Services;
@@ -65,6 +68,12 @@ public static class DependencyInjection
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        // Register shared authorization services
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUser, CurrentUser>();
+        services.AddScoped<IPermissionChecker, PermissionChecker>();
+        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
 
         return services;
     }
