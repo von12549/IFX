@@ -1,4 +1,6 @@
 ﻿using IFX.BuildingBlocks.Security.Authorization;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -74,6 +76,15 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IPermissionChecker, PermissionChecker>();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
+
+        // Register ABAC template engine (singleton — thread-safe, no per-request state)
+        services.AddSingleton<IAbacTemplateRegistry>(_ =>
+        {
+            var registry = new AbacTemplateRegistry();
+            BuiltInTemplates.Register(registry);
+            return registry;
+        });
+        services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
 
         return services;
     }
