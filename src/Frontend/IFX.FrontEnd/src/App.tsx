@@ -16,6 +16,7 @@ import { RoleDetailPage } from './pages/RoleDetailPage'
 import { PermissionManagementPage } from './pages/PermissionManagementPage'
 import { TenantManagementPage } from './pages/TenantManagementPage'
 import { DepartmentManagementPage } from './pages/DepartmentManagementPage'
+import { PolicyManagementPage } from './pages/PolicyManagementPage'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/permissions" element={<PermissionManagementPage />} />
             <Route path="/tenants" element={<TenantManagementPage />} />
             <Route path="/departments" element={<DepartmentManagementPage />} />
+            <Route path="/policies" element={<PolicyManagementPage />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/profile" replace />} />

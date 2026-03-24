@@ -30,4 +30,7 @@ public sealed class AbacTemplateRegistry : IAbacTemplateRegistry
 
     public bool TryResolve(string templateName, out ConditionTemplate? template) =>
         _templates.TryGetValue(templateName, out template);
+
+    public IReadOnlyCollection<ConditionTemplate> GetAll() =>
+        _templates.Values.ToList().AsReadOnly();
 }

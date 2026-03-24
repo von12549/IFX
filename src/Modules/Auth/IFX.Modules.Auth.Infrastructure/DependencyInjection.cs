@@ -1,9 +1,11 @@
 ﻿using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Users.Authorization;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
@@ -67,6 +69,7 @@ public static class DependencyInjection
         services.AddScoped<IUserActivityLogRepository, UserActivityLogRepository>();
         services.AddScoped<IIdpRepository, IdpRepository>();
         services.AddScoped<IEmailVerificationTokenRepository, EmailVerificationTokenRepository>();
+        services.AddScoped<IPolicyDefinitionRepository, PolicyDefinitionRepository>();
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -85,6 +88,21 @@ public static class DependencyInjection
             return registry;
         });
         services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
+
+        // Register ABAC policy resolver: DB-backed with static fallback
+        // StaticAbacPolicyResolver is singleton — seeded once with platform defaults
+        services.AddSingleton<StaticAbacPolicyResolver>(sp =>
+        {
+            var resolver = new StaticAbacPolicyResolver();
+            // Register platform defaults — modules add their own at DI setup
+            resolver.RegisterDefault("user", "read", UserPolicies.ReadOwnProfile);
+            return resolver;
+        });
+        // DbAbacPolicyResolver implements both IAbacPolicyResolver and IAbacPolicyCache.
+        // Register as scoped and expose via both interfaces.
+        services.AddScoped<DbAbacPolicyResolver>();
+        services.AddScoped<IAbacPolicyResolver>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());
+        services.AddScoped<IAbacPolicyCache>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());
 
         return services;
     }

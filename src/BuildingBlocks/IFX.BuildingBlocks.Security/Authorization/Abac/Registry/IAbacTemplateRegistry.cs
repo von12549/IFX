@@ -20,4 +20,7 @@ public interface IAbacTemplateRegistry
 
     /// <summary>Try to retrieve a template by name without throwing.</summary>
     bool TryResolve(string templateName, out ConditionTemplate? template);
+
+    /// <summary>Returns all registered templates.</summary>
+    IReadOnlyCollection<ConditionTemplate> GetAll();
 }

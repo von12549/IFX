@@ -8,6 +8,7 @@ const nav = [
   { to: '/permissions', label: 'Permission Management' },
   { to: '/tenants', label: 'Tenant Management' },
   { to: '/departments', label: 'Department Management' },
+  { to: '/policies', label: 'Policy Management' },
 ]
 
 export function Sidebar() {

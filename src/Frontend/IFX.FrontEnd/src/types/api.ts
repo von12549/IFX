@@ -165,3 +165,38 @@ export interface CreateDepartmentRequest {
   description: string
   tenantId: string
 }
+
+// ABAC Policies
+export interface PolicyConditionDto {
+  templateName: string
+  parameters?: Record<string, unknown> | null
+}
+
+export interface PolicyDefinitionDto {
+  id: string | null
+  tenantId: string
+  name: string
+  resourceType: string
+  action: string
+  conditions: PolicyConditionDto[]
+  isActive: boolean
+  isPlatformDefault: boolean
+  updatedAt: string
+}
+
+export interface TemplateDto {
+  name: string
+  description: string
+}
+
+export interface CreatePolicyRequest {
+  name: string
+  resourceType: string
+  action: string
+  conditions: PolicyConditionDto[]
+}
+
+export interface UpdatePolicyRequest {
+  name: string
+  conditions: PolicyConditionDto[]
+}

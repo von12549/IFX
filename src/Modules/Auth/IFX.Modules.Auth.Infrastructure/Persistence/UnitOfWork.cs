@@ -25,7 +25,8 @@ public class UnitOfWork : IUnitOfWork
         IRegistrationFlowEventRepository registrationFlowEvents,
         IUserActivityLogRepository userActivityLogs,
         IIdpRepository idps,
-        IEmailVerificationTokenRepository emailVerificationTokens)
+        IEmailVerificationTokenRepository emailVerificationTokens,
+        IPolicyDefinitionRepository policyDefinitions)
     {
         _context = context;
         Users = users;
@@ -41,6 +42,7 @@ public class UnitOfWork : IUnitOfWork
         UserActivityLogs = userActivityLogs;
         Idps = idps;
         EmailVerificationTokens = emailVerificationTokens;
+        PolicyDefinitions = policyDefinitions;
     }
 
     public IUserRepository Users { get; }
@@ -56,6 +58,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserActivityLogRepository UserActivityLogs { get; }
     public IIdpRepository Idps { get; }
     public IEmailVerificationTokenRepository EmailVerificationTokens { get; }
+    public IPolicyDefinitionRepository PolicyDefinitions { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

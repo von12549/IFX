@@ -1,0 +1,50 @@
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
+namespace IFX.Modules.Auth.Infrastructure.Authorization.Repositories;
+
+public class PolicyDefinitionRepository : IPolicyDefinitionRepository
+{
+    private readonly IfxDbContext _context;
+
+    public PolicyDefinitionRepository(IfxDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<PolicyDefinition?> GetAsync(
+        Guid tenantId, string resourceType, string action, CancellationToken ct = default)
+        => await _context.PolicyDefinitions
+            .FirstOrDefaultAsync(
+                p => p.TenantId == tenantId
+                  && p.ResourceType == resourceType.ToLowerInvariant()
+                  && p.Action == action.ToLowerInvariant()
+                  && p.IsActive,
+                ct);
+
+    public async Task<List<PolicyDefinition>> GetByTenantIdAsync(
+        Guid tenantId, CancellationToken ct = default)
+        => await _context.PolicyDefinitions
+            .AsNoTracking()
+            .Where(p => p.TenantId == tenantId && p.IsActive)
+            .ToListAsync(ct);
+
+    public async Task AddAsync(PolicyDefinition policy, CancellationToken ct = default)
+        => await _context.PolicyDefinitions.AddAsync(policy, ct);
+
+    public void Remove(PolicyDefinition policy)
+        => _context.PolicyDefinitions.Remove(policy);
+
+    public async Task<bool> ExistsAsync(
+        Guid tenantId, string resourceType, string action, CancellationToken ct = default)
+        => await _context.PolicyDefinitions
+            .AnyAsync(
+                p => p.TenantId == tenantId
+                  && p.ResourceType == resourceType.ToLowerInvariant()
+                  && p.Action == action.ToLowerInvariant(),
+                ct);
+
+    public async Task<PolicyDefinition?> GetByIdAsync(Guid id, CancellationToken ct = default)
+        => await _context.PolicyDefinitions.FirstOrDefaultAsync(p => p.Id == id, ct);
+}
