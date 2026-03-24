@@ -43,18 +43,14 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
                 return Result<UserProfileDto>.Failure("User not found");
             }
 
-            // ABAC: resource-level authorization after loading the resource.
-            // No RBAC pre-gate (null) — OPA decides entirely.
-            // Policy: allow if same tenant AND (self OR has users.read permission).
+            // ABAC: only the profile owner may read their own record (SameTenant + CreatedByMe).
             // Use the caller's active tenant (ICurrentUser.TenantId) as the resource tenant,
             // not user.PrimaryTenantId — a user may read their profile from any tenant they
             // belong to, and CurrentUser.TenantId is already validated against their memberships.
             var resourceAttributes = new UserResourceAttributes(user.Id, _currentUser.TenantId);
-            await _authorizationService.AuthorizeAsync(
-                requiredPermission: null,
-                decisionPath: "authz/auth/read_user",
-                resourceAttributes: resourceAttributes,
-                action: "read",
+            await _authorizationService.AuthorizeWithPolicyAsync(
+                UserPolicies.ReadOwnProfile,
+                resourceAttributes,
                 ct: cancellationToken);
 
             var userProfile = _mapper.Map<UserProfileDto>(user);
