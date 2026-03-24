@@ -17,7 +17,7 @@ Allow tenant administrators to configure ABAC policies at runtime via an admin A
 `abac_eval.rego` is generic and static — it evaluates whatever conditions appear in `input.conditions`. Policies stored in the DB are **condition data**, not Rego logic. No OPA sync is needed; only the C# resolution layer changes.
 
 ```
-DB: PolicyDefinition (tenant_id, resource_type, action, conditions[])
+DB: PolicyDefinition (tenant_id, resource_type, action, name, conditions[])
         ↓
 C# engine: loads from DB (cached), resolves conditions → ResolvedCondition[]
         ↓
@@ -72,6 +72,7 @@ Tenant B override:  ReadDocument = [SameTenant, CreatedByMe]  ← stricter
 CREATE TABLE PolicyDefinitions (
     Id             UNIQUEIDENTIFIER NOT NULL DEFAULT NEWSEQUENTIALID() PRIMARY KEY,
     TenantId       UNIQUEIDENTIFIER NOT NULL,             -- always a real tenant; platform defaults are code-only
+    Name           NVARCHAR(200)    NOT NULL,             -- human-readable label, e.g. "Read Own Profile"
     ResourceType   NVARCHAR(100)    NOT NULL,             -- e.g. "user", "document"
     Action         NVARCHAR(100)    NOT NULL,             -- e.g. "read", "edit", "delete"
     ConditionsJson NVARCHAR(MAX)    NOT NULL,             -- JSON: PolicyConditionRecord[]
@@ -108,6 +109,7 @@ CREATE INDEX IX_PolicyDefinitions_TenantId
 ```csharp
 builder.ToTable("PolicyDefinitions");
 builder.HasKey(p => p.Id);
+builder.Property(p => p.Name).HasMaxLength(200).IsRequired();
 builder.Property(p => p.ResourceType).HasMaxLength(100).IsRequired();
 builder.Property(p => p.Action).HasMaxLength(100).IsRequired();
 builder.Property(p => p.ConditionsJson).HasColumnType("nvarchar(max)").IsRequired();
@@ -137,6 +139,7 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 public class PolicyDefinition : BaseEntity, IAuditableEntity
 {
     public Guid TenantId { get; private set; }
+    public string Name { get; private set; }             // human-readable label, e.g. "Read Own Profile"
     public string ResourceType { get; private set; }
     public string Action { get; private set; }
     public string ConditionsJson { get; private set; }   // serialized PolicyConditionRecord[]
@@ -148,11 +151,11 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
 
     private PolicyDefinition() { }   // EF Core
 
-    public static PolicyDefinition Create(Guid tenantId, string resourceType,
+    public static PolicyDefinition Create(Guid tenantId, string name, string resourceType,
         string action, string conditionsJson, Guid? createdById)
     { /* guard + new */ }
 
-    public void Update(string conditionsJson, Guid? updatedById)
+    public void Update(string name, string conditionsJson, Guid? updatedById)
     { /* guard + set */ }
 
     public void Deactivate() => IsActive = false;
@@ -231,6 +234,7 @@ public async Task AuthorizeAsync<TResource>(
 public record PolicyDefinitionDto(
     Guid Id,
     Guid TenantId,
+    string Name,               // human-readable label
     string ResourceType,
     string Action,
     List<PolicyConditionDto> Conditions,
@@ -247,8 +251,8 @@ public record PolicyConditionDto(
 
 | File | Type | Description |
 |---|---|---|
-| `CreatePolicyCommand.cs` | Command | `(TenantId, ResourceType, Action, Conditions[])` |
-| `UpdatePolicyCommand.cs` | Command | `(PolicyId, Conditions[])` |
+| `CreatePolicyCommand.cs` | Command | `(TenantId, Name, ResourceType, Action, Conditions[])` |
+| `UpdatePolicyCommand.cs` | Command | `(PolicyId, Name, Conditions[])` |
 | `DeletePolicyCommand.cs` | Command | `(PolicyId)` — hard delete, reverts to platform default |
 | `GetPoliciesQuery.cs` | Query | `(TenantId)` — returns tenant rows + platform defaults merged |
 | `GetAvailableTemplatesQuery.cs` | Query | Returns all registered template names (for condition builder UI) |
@@ -257,6 +261,7 @@ public record PolicyConditionDto(
 
 `CreatePolicyCommandValidator.cs`
 - `TenantId` must not be empty
+- `Name` must not be empty, max 200 chars
 - `ResourceType` and `Action` must not be empty, max 100 chars
 - `Conditions` must have at least one entry
 - Each `TemplateName` must exist in `IAbacTemplateRegistry`
@@ -323,6 +328,7 @@ services.AddScoped<IAbacPolicyResolver, DbAbacPolicyResolver>();
   "data": [
     {
       "id": "...",
+      "name": "Read Own Profile",
       "resourceType": "user",
       "action": "read",
       "conditions": [{ "templateName": "SameTenant" }, { "templateName": "CreatedByMe" }],
@@ -332,6 +338,7 @@ services.AddScoped<IAbacPolicyResolver, DbAbacPolicyResolver>();
     },
     {
       "id": null,
+      "name": "Read Document (Platform Default)",
       "resourceType": "document",
       "action": "read",
       "conditions": [{ "templateName": "SameTenant" }, { "templateName": "SameDepartment" }],
@@ -399,6 +406,7 @@ export interface PolicyConditionDto {
 
 export interface PolicyDefinitionDto {
   id: string | null               // null when isPlatformDefault = true
+  name: string                    // human-readable label
   resourceType: string
   action: string
   conditions: PolicyConditionDto[]
@@ -413,12 +421,14 @@ export interface TemplateDto {
 }
 
 export interface CreatePolicyRequest {
+  name: string
   resourceType: string
   action: string
   conditions: PolicyConditionDto[]
 }
 
 export interface UpdatePolicyRequest {
+  name: string
   conditions: PolicyConditionDto[]
 }
 ```
@@ -426,14 +436,15 @@ export interface UpdatePolicyRequest {
 ### `PolicyManagementPage.tsx` — UI behaviour
 
 - **Load on mount / tenant change:** `policyApi.getAll()` + `policyApi.getTemplates()`
-- **Table columns:** Resource Type, Action, Conditions (chips), Source (Tenant Override / Platform Default), Actions
-- **Platform default rows:** shown with a badge "Platform Default", no Delete button, Override button opens create modal pre-filled
+- **Table columns:** Name, Resource Type, Action, Conditions (chips), Source (Tenant Override / Platform Default), Actions
+- **Platform default rows:** shown with a badge "Platform Default", no Delete button, Override button opens create modal pre-filled with `resourceType` and `action` (Name field blank for the admin to fill)
 - **Tenant override rows:** Edit and Delete (revert) buttons
 - **Create/Edit modal:**
+  - Name input (text, required) — e.g. "Read Own Profile"
   - ResourceType input (text)
   - Action input (text)
   - Condition builder: multi-select of available templates; each selected template shows a parameter form if the template has `parameters`
-- **Delete confirmation:** "This will revert to the platform default policy for {resourceType}/{action}"
+- **Delete confirmation:** "This will revert to the platform default policy for {name} ({resourceType}/{action})"
 
 ### Router
 
@@ -482,6 +493,8 @@ Add to sidebar navigation (alongside Roles, Permissions):
 - Tenant override replaces platform default for same `(resourceType, action)`
 
 **`CreatePolicyCommandValidatorTests.cs`**
+- Rejects empty `Name`
+- Rejects `Name` exceeding 200 characters
 - Rejects empty `ResourceType` / `Action`
 - Rejects empty conditions list
 - Rejects unknown template name
@@ -493,8 +506,8 @@ Add to sidebar navigation (alongside Roles, Permissions):
 **`PolicyEndpointsTests.cs`**
 - `GET /api/v1/policy` returns merged list for selected tenant
 - `GET /api/v1/policy/templates` returns registered templates
-- `POST /api/v1/policy` creates override; subsequent GET shows new row
-- `PUT /api/v1/policy/{id}` updates conditions; subsequent GET reflects change
+- `POST /api/v1/policy` creates override; subsequent GET shows new row with correct `name`
+- `PUT /api/v1/policy/{id}` updates name and conditions; subsequent GET reflects change
 - `DELETE /api/v1/policy/{id}` removes override; subsequent GET shows platform default
 - `POST` with unknown template name returns 400
 - `POST` duplicate `(resourceType, action)` returns 409
@@ -504,8 +517,8 @@ Add to sidebar navigation (alongside Roles, Permissions):
 
 ### 4c. Frontend Tests — `PolicyManagementPage.test.tsx`
 
-- Renders policy table with tenant overrides and platform defaults
-- Platform default rows show "Platform Default" badge, no Delete button
+- Renders policy table with Name, Resource Type, Action columns
+- Platform default rows show "Platform Default" badge and their name, no Delete button
 - Tenant override rows show Edit and Delete buttons
 - Clicking Override on a platform default opens create modal pre-filled with resourceType/action
 - Create modal validates empty conditions (submit disabled)
