@@ -48,7 +48,8 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
                 request.ResourceType,
                 request.Action,
                 conditionsJson,
-                _currentUser.UserId);
+                _currentUser.UserId,
+                request.Description);
 
             await _unitOfWork.PolicyDefinitions.AddAsync(policy, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -77,6 +78,7 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
             p.Id,
             p.TenantId,
             p.Name,
+            p.Description,
             p.ResourceType,
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),

@@ -28,6 +28,7 @@ public class CreatePolicyCommandValidatorTests
         return new CreatePolicyCommand(
             tenantId ?? Guid.NewGuid(),
             name,
+            null,
             resourceType,
             action,
             conditions ?? [new PolicyConditionDto("SameTenant", null)]);

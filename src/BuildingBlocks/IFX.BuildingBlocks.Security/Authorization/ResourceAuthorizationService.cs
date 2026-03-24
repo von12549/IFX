@@ -1,5 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
@@ -16,6 +17,7 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
     private readonly IPermissionChecker _permissionChecker;
     private readonly IOpaPolicyClient _opaClient;
     private readonly IAbacPolicyEngine _abacEngine;
+    private readonly IAbacPolicyResolver _policyResolver;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<ResourceAuthorizationService> _logger;
 
@@ -24,6 +26,7 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
         IPermissionChecker permissionChecker,
         IOpaPolicyClient opaClient,
         IAbacPolicyEngine abacEngine,
+        IAbacPolicyResolver policyResolver,
         IHttpContextAccessor httpContextAccessor,
         ILogger<ResourceAuthorizationService> logger)
     {
@@ -31,6 +34,7 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
         _permissionChecker = permissionChecker;
         _opaClient = opaClient;
         _abacEngine = abacEngine;
+        _policyResolver = policyResolver;
         _httpContextAccessor = httpContextAccessor;
         _logger = logger;
     }
@@ -143,6 +147,26 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
         _logger.LogDebug(
             "ABAC authorized: user {UserId} action '{Action}' on {ResourceType}/{ResourceId} ({ConditionCount} conditions)",
             _currentUser.UserId, policy.Action, resourceAttributes.Type, resourceAttributes.Id, conditions.Count);
+    }
+
+    public async Task AuthorizeWithResolvedPolicyAsync<TResource>(
+        string resourceType,
+        string action,
+        TResource resourceAttributes,
+        IDictionary<string, object>? parameters = null,
+        CancellationToken ct = default)
+        where TResource : OpaResourceAttributesBase
+    {
+        var policy = await _policyResolver.ResolveAsync(_currentUser.TenantId, resourceType, action, ct);
+        if (policy is null)
+        {
+            _logger.LogWarning(
+                "ABAC denied (no policy): user {UserId} action '{Action}' on {ResourceType}",
+                _currentUser.UserId, action, resourceType);
+            throw new ForbiddenException($"No ABAC policy defined for '{resourceType}/{action}'.");
+        }
+
+        await AuthorizeWithPolicyAsync(policy, resourceAttributes, parameters, ct);
     }
 
     private static string? ResolveNetwork(HttpContext? ctx)

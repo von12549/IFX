@@ -14,6 +14,10 @@ public class UpdatePolicyCommandValidator : AbstractValidator<UpdatePolicyComman
             .NotEmpty().WithMessage("Name is required.")
             .MaximumLength(200);
 
+        RuleFor(x => x.Description)
+            .MaximumLength(500)
+            .When(x => x.Description is not null);
+
         RuleFor(x => x.Conditions)
             .NotEmpty().WithMessage("At least one condition is required.");
 

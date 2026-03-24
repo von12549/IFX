@@ -176,6 +176,7 @@ export interface PolicyDefinitionDto {
   id: string | null
   tenantId: string
   name: string
+  description?: string | null
   resourceType: string
   action: string
   conditions: PolicyConditionDto[]
@@ -191,6 +192,7 @@ export interface TemplateDto {
 
 export interface CreatePolicyRequest {
   name: string
+  description?: string | null
   resourceType: string
   action: string
   conditions: PolicyConditionDto[]
@@ -198,5 +200,6 @@ export interface CreatePolicyRequest {
 
 export interface UpdatePolicyRequest {
   name: string
+  description?: string | null
   conditions: PolicyConditionDto[]
 }

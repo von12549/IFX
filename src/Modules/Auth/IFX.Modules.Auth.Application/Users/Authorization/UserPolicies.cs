@@ -23,17 +23,4 @@ public static class UserPolicies
         ]
     };
 
-    /// <summary>
-    /// Allow when the requesting user is in the same tenant as the target user.
-    /// Intended to be combined with an RBAC pre-gate (e.g. "users.read").
-    /// </summary>
-    public static readonly AbacPolicy ReadAnyProfile = new()
-    {
-        ResourceType = "user",
-        Action = "read",
-        Conditions =
-        [
-            new AbacCondition { Template = BuiltInTemplates.SameTenant }
-        ]
-    };
 }

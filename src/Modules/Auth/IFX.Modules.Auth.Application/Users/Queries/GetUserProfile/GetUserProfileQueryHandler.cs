@@ -43,13 +43,13 @@ public class GetUserProfileQueryHandler : IRequestHandler<GetUserProfileQuery, R
                 return Result<UserProfileDto>.Failure("User not found");
             }
 
-            // ABAC: only the profile owner may read their own record (SameTenant + CreatedByMe).
+            // ABAC: resolved policy for user/read (tenant override → static fallback).
             // Use the caller's active tenant (ICurrentUser.TenantId) as the resource tenant,
             // not user.PrimaryTenantId — a user may read their profile from any tenant they
             // belong to, and CurrentUser.TenantId is already validated against their memberships.
             var resourceAttributes = new UserResourceAttributes(user.Id, _currentUser.TenantId);
-            await _authorizationService.AuthorizeWithPolicyAsync(
-                UserPolicies.ReadOwnProfile,
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "user", "read",
                 resourceAttributes,
                 ct: cancellationToken);
 

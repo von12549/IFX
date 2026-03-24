@@ -6,6 +6,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
 {
     public Guid TenantId { get; private set; }
     public string Name { get; private set; } = string.Empty;
+    public string? Description { get; private set; }
     public string ResourceType { get; private set; } = string.Empty;
     public string Action { get; private set; } = string.Empty;
     public string ConditionsJson { get; private set; } = string.Empty;
@@ -23,7 +24,8 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
         string resourceType,
         string action,
         string conditionsJson,
-        Guid? createdById)
+        Guid? createdById,
+        string? description = null)
     {
         if (tenantId == Guid.Empty)
             throw new ArgumentException("TenantId must not be empty.", nameof(tenantId));
@@ -40,6 +42,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
         {
             TenantId = tenantId,
             Name = name.Trim(),
+            Description = string.IsNullOrWhiteSpace(description) ? null : description.Trim(),
             ResourceType = resourceType.Trim().ToLowerInvariant(),
             Action = action.Trim().ToLowerInvariant(),
             ConditionsJson = conditionsJson,
@@ -49,7 +52,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
         };
     }
 
-    public void Update(string name, string conditionsJson, Guid? updatedById)
+    public void Update(string name, string conditionsJson, Guid? updatedById, string? description = null)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Name must not be empty.", nameof(name));
@@ -57,6 +60,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
             throw new ArgumentException("ConditionsJson must not be empty.", nameof(conditionsJson));
 
         Name = name.Trim();
+        Description = string.IsNullOrWhiteSpace(description) ? null : description.Trim();
         ConditionsJson = conditionsJson;
         UpdatedById = updatedById;
     }

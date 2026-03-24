@@ -7,4 +7,5 @@ namespace IFX.Modules.Auth.Application.Authorization.Policies.Commands.UpdatePol
 public record UpdatePolicyCommand(
     Guid PolicyId,
     string Name,
+    string? Description,
     List<PolicyConditionDto> Conditions) : IRequest<Result<PolicyDefinitionDto>>;

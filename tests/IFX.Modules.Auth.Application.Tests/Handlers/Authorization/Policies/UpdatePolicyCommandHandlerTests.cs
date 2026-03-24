@@ -44,7 +44,7 @@ public class UpdatePolicyCommandHandlerTests
                  .ReturnsAsync(existing);
 
         var result = await _handler.Handle(
-            new UpdatePolicyCommand(policyId, "New Name", UpdatedConditions),
+            new UpdatePolicyCommand(policyId, "New Name", null, UpdatedConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
@@ -61,7 +61,7 @@ public class UpdatePolicyCommandHandlerTests
                  .ReturnsAsync((PolicyDefinition?)null);
 
         var result = await _handler.Handle(
-            new UpdatePolicyCommand(Guid.NewGuid(), "Name", UpdatedConditions),
+            new UpdatePolicyCommand(Guid.NewGuid(), "Name", null, UpdatedConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();

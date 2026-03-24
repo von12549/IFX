@@ -14,6 +14,10 @@ public class CreatePolicyCommandValidator : AbstractValidator<CreatePolicyComman
             .NotEmpty().WithMessage("Name is required.")
             .MaximumLength(200);
 
+        RuleFor(x => x.Description)
+            .MaximumLength(500)
+            .When(x => x.Description is not null);
+
         RuleFor(x => x.ResourceType)
             .NotEmpty().WithMessage("ResourceType is required.")
             .MaximumLength(100);

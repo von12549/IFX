@@ -6,6 +6,7 @@ public record PolicyConditionRequest(
 
 public record CreatePolicyRequest(
     string Name,
+    string? Description,
     string ResourceType,
     string Action,
     List<PolicyConditionRequest> Conditions);

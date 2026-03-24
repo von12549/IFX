@@ -53,6 +53,7 @@ public class GetPoliciesQueryHandler : IRequestHandler<GetPoliciesQuery, Result<
             p.Id,
             p.TenantId,
             p.Name,
+            p.Description,
             p.ResourceType,
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),

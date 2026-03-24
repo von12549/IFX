@@ -41,7 +41,7 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
             var conditionsJson = JsonSerializer.Serialize(
                 request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
 
-            policy.Update(request.Name, conditionsJson, _currentUser.UserId);
+            policy.Update(request.Name, conditionsJson, _currentUser.UserId, request.Description);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _policyCache.Invalidate(policy.TenantId, policy.ResourceType, policy.Action);
@@ -66,6 +66,7 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
             p.Id,
             p.TenantId,
             p.Name,
+            p.Description,
             p.ResourceType,
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),

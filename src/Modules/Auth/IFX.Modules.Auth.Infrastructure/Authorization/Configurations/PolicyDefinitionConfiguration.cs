@@ -18,6 +18,9 @@ public class PolicyDefinitionConfiguration : IEntityTypeConfiguration<PolicyDefi
             .HasMaxLength(200)
             .IsRequired();
 
+        builder.Property(p => p.Description)
+            .HasMaxLength(500);
+
         builder.Property(p => p.ResourceType)
             .HasMaxLength(100)
             .IsRequired();

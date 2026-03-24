@@ -3,6 +3,7 @@ using IFX.BuildingBlocks.Security.Authorization.Models;
 
 namespace IFX.BuildingBlocks.Security.Authorization.Abstractions;
 
+
 public interface IResourceAuthorizationService
 {
     /// <summary>
@@ -33,6 +34,20 @@ public interface IResourceAuthorizationService
     /// </param>
     Task AuthorizeWithPolicyAsync<TResource>(
         AbacPolicy policy,
+        TResource resourceAttributes,
+        IDictionary<string, object>? parameters = null,
+        CancellationToken ct = default)
+        where TResource : OpaResourceAttributesBase;
+
+    /// <summary>
+    /// Resolves the policy for <paramref name="resourceType"/>/<paramref name="action"/> via the
+    /// registered <see cref="Abac.Resolver.IAbacPolicyResolver"/> (DB override → static fallback)
+    /// and evaluates it against the generic <c>authz/common/abac_eval</c> OPA policy.
+    /// Throws <see cref="Exceptions.ForbiddenException"/> when no policy is found or conditions deny access.
+    /// </summary>
+    Task AuthorizeWithResolvedPolicyAsync<TResource>(
+        string resourceType,
+        string action,
         TResource resourceAttributes,
         IDictionary<string, object>? parameters = null,
         CancellationToken ct = default)

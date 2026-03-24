@@ -43,6 +43,7 @@ export const mockPolicies = [
     id: 'policy-1',
     tenantId: 'tenant-1',
     name: 'Read Own Profile',
+    description: 'Allows users to read their own profile.',
     resourceType: 'user',
     action: 'read',
     conditions: [{ templateName: 'SameTenant', parameters: null }, { templateName: 'CreatedByMe', parameters: null }],

@@ -1,10 +1,8 @@
 using AutoMapper;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Application.Users.Authorization;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Users.Queries.GetUserProfile;
 using IFX.Modules.Auth.Domain.Users;
@@ -30,8 +28,9 @@ public class GetUserProfileQueryHandlerTests
 
         // Authorization passes by default in unit tests
         _authorizationService
-            .Setup(a => a.AuthorizeWithPolicyAsync(
-                It.IsAny<AbacPolicy>(),
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<OpaResourceAttributesBase>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
@@ -67,7 +66,7 @@ public class GetUserProfileQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_AuthorizesViaReadOwnProfilePolicy()
+    public async Task Handle_AuthorizesViaResolvedUserReadPolicy()
     {
         var tenantId = Guid.NewGuid();
         _currentUser.Setup(c => c.TenantId).Returns(tenantId);
@@ -83,8 +82,9 @@ public class GetUserProfileQueryHandlerTests
             new GetUserProfileQuery(TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject),
             CancellationToken.None);
 
-        _authorizationService.Verify(a => a.AuthorizeWithPolicyAsync(
-            UserPolicies.ReadOwnProfile,
+        _authorizationService.Verify(a => a.AuthorizeWithResolvedPolicyAsync(
+            "user",
+            "read",
             It.IsAny<OpaResourceAttributesBase>(),
             It.IsAny<IDictionary<string, object>?>(),
             It.IsAny<CancellationToken>()), Times.Once);
@@ -109,8 +109,9 @@ public class GetUserProfileQueryHandlerTests
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
-        _authorizationService.Verify(a => a.AuthorizeWithPolicyAsync(
-            UserPolicies.ReadOwnProfile,
+        _authorizationService.Verify(a => a.AuthorizeWithResolvedPolicyAsync(
+            "user",
+            "read",
             It.Is<OpaResourceAttributesBase>(r => r.TenantId == selectedTenantId.ToString()),
             It.IsAny<IDictionary<string, object>?>(),
             It.IsAny<CancellationToken>()), Times.Once);
@@ -123,8 +124,9 @@ public class GetUserProfileQueryHandlerTests
         _currentUser.Setup(c => c.TenantId).Returns(tenantId);
 
         _authorizationService
-            .Setup(a => a.AuthorizeWithPolicyAsync(
-                It.IsAny<AbacPolicy>(),
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
                 It.IsAny<OpaResourceAttributesBase>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))

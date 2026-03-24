@@ -4,6 +4,7 @@ public record PolicyDefinitionDto(
     Guid? Id,
     Guid TenantId,
     string Name,
+    string? Description,
     string ResourceType,
     string Action,
     List<PolicyConditionDto> Conditions,

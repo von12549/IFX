@@ -68,7 +68,7 @@ public static class PolicyEndpoints
             .ToList();
 
         var result = await mediator.Send(
-            new CreatePolicyCommand(tenantId.Value, request.Name, request.ResourceType, request.Action, conditions));
+            new CreatePolicyCommand(tenantId.Value, request.Name, request.Description, request.ResourceType, request.Action, conditions));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -88,7 +88,7 @@ public static class PolicyEndpoints
             .Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters))
             .ToList();
 
-        var result = await mediator.Send(new UpdatePolicyCommand(policyId, request.Name, conditions));
+        var result = await mediator.Send(new UpdatePolicyCommand(policyId, request.Name, request.Description, conditions));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

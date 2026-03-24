@@ -40,7 +40,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(false);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(tenantId, "Read Own Profile", "user", "read", ValidConditions),
+            new CreatePolicyCommand(tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
@@ -62,7 +62,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(tenantId, "Read Own Profile", "user", "read", ValidConditions),
+            new CreatePolicyCommand(tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();

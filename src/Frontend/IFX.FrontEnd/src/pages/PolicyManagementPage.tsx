@@ -7,12 +7,13 @@ type ModalMode = 'create' | 'edit' | null
 
 interface PolicyForm {
   name: string
+  description: string
   resourceType: string
   action: string
   conditions: PolicyConditionDto[]
 }
 
-const emptyForm: PolicyForm = { name: '', resourceType: '', action: '', conditions: [] }
+const emptyForm: PolicyForm = { name: '', description: '', resourceType: '', action: '', conditions: [] }
 
 export function PolicyManagementPage() {
   const [policies, setPolicies] = useState<PolicyDefinitionDto[]>([])
@@ -36,13 +37,13 @@ export function PolicyManagementPage() {
   const openCreate = () => { setForm(emptyForm); setEditId(null); setModal('create') }
 
   const openEdit = (p: PolicyDefinitionDto) => {
-    setForm({ name: p.name, resourceType: p.resourceType, action: p.action, conditions: p.conditions })
+    setForm({ name: p.name, description: p.description ?? '', resourceType: p.resourceType, action: p.action, conditions: p.conditions })
     setEditId(p.id)
     setModal('edit')
   }
 
   const openOverride = (p: PolicyDefinitionDto) => {
-    setForm({ name: '', resourceType: p.resourceType, action: p.action, conditions: p.conditions })
+    setForm({ name: '', description: '', resourceType: p.resourceType, action: p.action, conditions: p.conditions })
     setEditId(null)
     setModal('create')
   }
@@ -64,9 +65,9 @@ export function PolicyManagementPage() {
     setError('')
     try {
       if (modal === 'create') {
-        await policyApi.create({ name: form.name, resourceType: form.resourceType, action: form.action, conditions: form.conditions })
+        await policyApi.create({ name: form.name, description: form.description || null, resourceType: form.resourceType, action: form.action, conditions: form.conditions })
       } else if (editId) {
-        await policyApi.update(editId, { name: form.name, conditions: form.conditions })
+        await policyApi.update(editId, { name: form.name, description: form.description || null, conditions: form.conditions })
       }
       await load()
       setModal(null)
@@ -176,6 +177,14 @@ export function PolicyManagementPage() {
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
               placeholder="e.g. Read Own Profile"
+            />
+          </div>
+          <div className="form-group">
+            <label>Description <span className="text-muted">(optional)</span></label>
+            <input
+              value={form.description}
+              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              placeholder="e.g. Allows users to read their own profile."
             />
           </div>
           {modal === 'create' && (
