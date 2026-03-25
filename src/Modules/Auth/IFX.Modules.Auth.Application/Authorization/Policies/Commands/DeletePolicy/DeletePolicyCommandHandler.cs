@@ -1,4 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Policies.Authorization;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
@@ -9,15 +11,18 @@ namespace IFX.Modules.Auth.Application.Authorization.Policies.Commands.DeletePol
 public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, Result<bool>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<DeletePolicyCommandHandler> _logger;
 
     public DeletePolicyCommandHandler(
         IUnitOfWork unitOfWork,
+        IResourceAuthorizationService authorizationService,
         IAbacPolicyCache policyCache,
         ILogger<DeletePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _authorizationService = authorizationService;
         _policyCache = policyCache;
         _logger = logger;
     }
@@ -29,6 +34,11 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
             var policy = await _unitOfWork.PolicyDefinitions.GetByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<bool>.Failure("Policy not found.");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "policy", "delete",
+                new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById),
+                ct: cancellationToken);
 
             _unitOfWork.PolicyDefinitions.Remove(policy);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

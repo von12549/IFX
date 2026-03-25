@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.Commands.UpdateRole;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -13,13 +15,22 @@ public class UpdateRoleCommandHandlerTests
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IRoleRepository> _roles = new();
     private readonly Mock<IMapper> _mapper = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<UpdateRoleCommandHandler>> _logger = new();
     private readonly UpdateRoleCommandHandler _handler;
 
     public UpdateRoleCommandHandlerTests()
     {
         _unitOfWork.Setup(u => u.Roles).Returns(_roles.Object);
-        _handler = new UpdateRoleCommandHandler(_unitOfWork.Object, _mapper.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new UpdateRoleCommandHandler(_unitOfWork.Object, _mapper.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]

@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
@@ -8,11 +10,13 @@ namespace IFX.Modules.Auth.Application.Authorization.Commands.RemovePermissionFr
 public class RemovePermissionFromRoleCommandHandler : IRequestHandler<RemovePermissionFromRoleCommand, Result<bool>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<RemovePermissionFromRoleCommandHandler> _logger;
 
-    public RemovePermissionFromRoleCommandHandler(IUnitOfWork unitOfWork, ILogger<RemovePermissionFromRoleCommandHandler> logger)
+    public RemovePermissionFromRoleCommandHandler(IUnitOfWork unitOfWork, IResourceAuthorizationService authorizationService, ILogger<RemovePermissionFromRoleCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -23,6 +27,11 @@ public class RemovePermissionFromRoleCommandHandler : IRequestHandler<RemovePerm
             var role = await _unitOfWork.Roles.GetByIdWithPermissionsAsync(request.RoleId, cancellationToken);
             if (role == null)
                 return Result<bool>.Failure("Role not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "role", "manage",
+                new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy),
+                ct: cancellationToken);
 
             role.RemovePermission(request.PermissionId);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

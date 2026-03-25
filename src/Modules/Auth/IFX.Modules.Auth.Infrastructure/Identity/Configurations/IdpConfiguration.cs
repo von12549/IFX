@@ -78,6 +78,8 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
             .IsRequired()
             .HasDefaultValue(300);
 
+        builder.Property(i => i.CreatedBy);
+
         builder.Property(i => i.CreatedAt)
             .IsRequired();
 

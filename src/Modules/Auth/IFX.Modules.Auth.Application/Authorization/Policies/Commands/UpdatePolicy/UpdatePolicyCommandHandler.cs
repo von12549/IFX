@@ -1,6 +1,7 @@
 using System.Text.Json;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Policies.Authorization;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -14,17 +15,20 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<UpdatePolicyCommandHandler> _logger;
 
     public UpdatePolicyCommandHandler(
         IUnitOfWork unitOfWork,
         ICurrentUser currentUser,
+        IResourceAuthorizationService authorizationService,
         IAbacPolicyCache policyCache,
         ILogger<UpdatePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
+        _authorizationService = authorizationService;
         _policyCache = policyCache;
         _logger = logger;
     }
@@ -37,6 +41,11 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
             var policy = await _unitOfWork.PolicyDefinitions.GetByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<PolicyDefinitionDto>.Failure("Policy not found.");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "policy", "update",
+                new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById),
+                ct: cancellationToken);
 
             var conditionsJson = JsonSerializer.Serialize(
                 request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());

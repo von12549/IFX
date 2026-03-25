@@ -1,11 +1,11 @@
+using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
-using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Users.Authorization;
+using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
-// ActivityType is in IFX.Modules.Auth.Domain.Users (already added above)
-// EmailAddress, Subject are in IFX.Modules.Auth.Domain.Users (already added above)
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -15,15 +15,21 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<UpdateUserProfileCommandHandler> _logger;
 
     public UpdateUserProfileCommandHandler(
         IUnitOfWork unitOfWork,
         IMapper mapper,
+        ICurrentUser currentUser,
+        IResourceAuthorizationService authorizationService,
         ILogger<UpdateUserProfileCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -39,6 +45,11 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
             {
                 return Result<UpdateUserProfileResponse>.Failure("User not found");
             }
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "user", "update",
+                new UserResourceAttributes(user.Id, _currentUser.TenantId),
+                ct: cancellationToken);
 
             // Get the specific UserIdentity for this Issuer+Subject
             var identity = user.Identities.FirstOrDefault(i => i.Issuer == request.Issuer && i.Subject.Value == request.Subject);

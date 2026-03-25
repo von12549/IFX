@@ -9,6 +9,7 @@ public class User : BaseEntity, IAuditableEntity
     public bool IsActive { get; private set; }
     public string DisplayName { get; private set; } = string.Empty;
     public Guid? PrimaryTenantId { get; private set; }
+    public Guid? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

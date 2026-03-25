@@ -31,6 +31,7 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
             .HasForeignKey(d => d.TenantId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Property(d => d.CreatedBy);
         builder.Property(d => d.CreatedAt).IsRequired();
         builder.Property(d => d.UpdatedAt).IsRequired();
     }

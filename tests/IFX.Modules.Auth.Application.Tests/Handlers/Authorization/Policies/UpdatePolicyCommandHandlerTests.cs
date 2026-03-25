@@ -1,5 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.UpdatePolicy;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -13,6 +14,7 @@ public class UpdatePolicyCommandHandlerTests
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IPolicyDefinitionRepository> _policies = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<IAbacPolicyCache> _policyCache = new();
     private readonly Mock<ILogger<UpdatePolicyCommandHandler>> _logger = new();
     private readonly UpdatePolicyCommandHandler _handler;
@@ -24,10 +26,19 @@ public class UpdatePolicyCommandHandlerTests
     {
         _unitOfWork.Setup(u => u.PolicyDefinitions).Returns(_policies.Object);
         _currentUser.Setup(c => c.UserId).Returns(Guid.NewGuid());
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         _handler = new UpdatePolicyCommandHandler(
             _unitOfWork.Object,
             _currentUser.Object,
+            _authorizationService.Object,
             _policyCache.Object,
             _logger.Object);
     }

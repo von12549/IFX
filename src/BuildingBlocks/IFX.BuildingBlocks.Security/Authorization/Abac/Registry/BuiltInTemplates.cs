@@ -45,11 +45,24 @@ public static class BuiltInTemplates
         Right = ConditionValueRef.FieldRef("resource.tenant_id")
     };
 
+    /// <summary>
+    /// Allow only when the resource is active.
+    /// Left: resource.is_active (scalar literal), Right: "true" (constant), Operator: Equals.
+    /// </summary>
+    public static readonly ConditionTemplate IsActive = new()
+    {
+        Name = "IsActive",
+        Left = "resource.is_active",
+        Operator = ConditionOperator.Equals,
+        Right = ConditionValueRef.Literal("true")
+    };
+
     /// <summary>Seeds all built-in templates into the provided registry.</summary>
     public static void Register(IAbacTemplateRegistry registry)
     {
         registry.Register(SameDepartment);
         registry.Register(CreatedByMe);
         registry.Register(SameTenant);
+        registry.Register(IsActive);
     }
 }

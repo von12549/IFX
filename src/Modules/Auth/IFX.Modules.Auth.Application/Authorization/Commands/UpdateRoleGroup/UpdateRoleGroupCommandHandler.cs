@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,12 +13,14 @@ public class UpdateRoleGroupCommandHandler : IRequestHandler<UpdateRoleGroupComm
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<UpdateRoleGroupCommandHandler> _logger;
 
-    public UpdateRoleGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UpdateRoleGroupCommandHandler> logger)
+    public UpdateRoleGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<UpdateRoleGroupCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -27,6 +31,11 @@ public class UpdateRoleGroupCommandHandler : IRequestHandler<UpdateRoleGroupComm
             var group = await _unitOfWork.RoleGroups.GetByIdAsync(request.RoleGroupId, cancellationToken);
             if (group == null)
                 return Result<RoleGroupDto>.Failure("Role group not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "rolegroup", "update",
+                new RoleGroupResourceAttributes(group.Id, group.TenantId, group.CreatedBy),
+                ct: cancellationToken);
 
             if (group.Name != request.Name &&
                 await _unitOfWork.RoleGroups.NameExistsAsync(request.Name, request.TenantId, request.RoleGroupId, cancellationToken))

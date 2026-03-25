@@ -8,6 +8,7 @@ public class Role : BaseEntity, IAuditableEntity
     public string Description { get; private set; } = string.Empty;
     public Guid TenantId { get; private set; }
     public Tenant Tenant { get; private set; } = null!;
+    public Guid? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

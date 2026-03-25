@@ -3,6 +3,7 @@ using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -12,12 +13,14 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, R
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<CreateTenantCommandHandler> _logger;
 
-    public CreateTenantCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateTenantCommandHandler> logger)
+    public CreateTenantCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, ILogger<CreateTenantCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _logger = logger;
     }
 
@@ -29,6 +32,7 @@ public class CreateTenantCommandHandler : IRequestHandler<CreateTenantCommand, R
                 return Result<TenantDto>.Failure($"Tenant '{request.Name}' already exists");
 
             var tenant = Tenant.Create(request.Name, request.Description);
+            tenant.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Tenants.AddAsync(tenant, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,12 +13,14 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Resul
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<UpdateRoleCommandHandler> _logger;
 
-    public UpdateRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UpdateRoleCommandHandler> logger)
+    public UpdateRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<UpdateRoleCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -27,6 +31,11 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Resul
             var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId, cancellationToken);
             if (role == null)
                 return Result<RoleDto>.Failure("Role not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "role", "update",
+                new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy),
+                ct: cancellationToken);
 
             if (role.Name != request.Name)
             {

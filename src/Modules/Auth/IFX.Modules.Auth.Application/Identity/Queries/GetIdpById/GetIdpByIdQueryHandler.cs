@@ -1,5 +1,7 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.Identity.Authorization;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
@@ -11,12 +13,14 @@ public class GetIdpByIdQueryHandler : IRequestHandler<GetIdpByIdQuery, Result<Id
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<GetIdpByIdQueryHandler> _logger;
 
-    public GetIdpByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GetIdpByIdQueryHandler> logger)
+    public GetIdpByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<GetIdpByIdQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -28,6 +32,11 @@ public class GetIdpByIdQueryHandler : IRequestHandler<GetIdpByIdQuery, Result<Id
 
             if (idp == null)
                 return Result<IdpDto>.Failure("Identity Provider not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "idp", "read",
+                new IdpResourceAttributes(idp.Id, idp.TenantId, idp.CreatedBy),
+                ct: cancellationToken);
 
             return Result<IdpDto>.Success(_mapper.Map<IdpDto>(idp));
         }

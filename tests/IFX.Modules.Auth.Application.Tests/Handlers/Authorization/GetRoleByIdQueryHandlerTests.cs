@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Authorization.Queries.GetRoleById;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -12,12 +14,21 @@ public class GetRoleByIdQueryHandlerTests
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IRoleRepository> _roles = new();
     private readonly Mock<IMapper> _mapper = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly GetRoleByIdQueryHandler _handler;
 
     public GetRoleByIdQueryHandlerTests()
     {
         _unitOfWork.Setup(u => u.Roles).Returns(_roles.Object);
-        _handler = new GetRoleByIdQueryHandler(_unitOfWork.Object, _mapper.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new GetRoleByIdQueryHandler(_unitOfWork.Object, _mapper.Object, _authorizationService.Object);
     }
 
     [Fact]

@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-25
 **Branch:** `feature/complete-abac-policies`
-**Status:** Planned
+**Status:** Implemented (2026-03-25)
 
 ---
 

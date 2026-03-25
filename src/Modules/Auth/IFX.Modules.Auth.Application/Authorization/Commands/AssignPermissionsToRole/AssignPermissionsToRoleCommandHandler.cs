@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,12 +13,14 @@ public class AssignPermissionsToRoleCommandHandler : IRequestHandler<AssignPermi
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<AssignPermissionsToRoleCommandHandler> _logger;
 
-    public AssignPermissionsToRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AssignPermissionsToRoleCommandHandler> logger)
+    public AssignPermissionsToRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<AssignPermissionsToRoleCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -27,6 +31,11 @@ public class AssignPermissionsToRoleCommandHandler : IRequestHandler<AssignPermi
             var role = await _unitOfWork.Roles.GetByIdWithPermissionsAsync(request.RoleId, cancellationToken);
             if (role == null)
                 return Result<RoleDetailDto>.Failure("Role not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "role", "manage",
+                new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy),
+                ct: cancellationToken);
 
             foreach (var permissionId in request.PermissionIds)
             {

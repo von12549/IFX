@@ -1,8 +1,10 @@
+using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.Identity.Authorization;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -12,15 +14,18 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<UpdateIdpCommandHandler> _logger;
 
     public UpdateIdpCommandHandler(
         IUnitOfWork unitOfWork,
         IMapper mapper,
+        IResourceAuthorizationService authorizationService,
         ILogger<UpdateIdpCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -36,6 +41,11 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
             {
                 return Result<IdpDto>.Failure("Identity Provider not found");
             }
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "idp", "update",
+                new IdpResourceAttributes(idp.Id, idp.TenantId, idp.CreatedBy),
+                ct: cancellationToken);
 
             // Check for Issuer conflicts (only if Issuer changed)
             if (idp.Issuer != request.Issuer)

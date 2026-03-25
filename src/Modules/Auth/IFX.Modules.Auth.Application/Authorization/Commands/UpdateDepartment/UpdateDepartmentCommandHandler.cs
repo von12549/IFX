@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,12 +13,14 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<UpdateDepartmentCommandHandler> _logger;
 
-    public UpdateDepartmentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<UpdateDepartmentCommandHandler> logger)
+    public UpdateDepartmentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<UpdateDepartmentCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -27,6 +31,11 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
             var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, cancellationToken);
             if (department == null)
                 return Result<DepartmentDto>.Failure("Department not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "department", "update",
+                new DepartmentResourceAttributes(department.Id, department.TenantId, department.CreatedBy),
+                ct: cancellationToken);
 
             if (department.Name != request.Name &&
                 await _unitOfWork.Departments.NameExistsAsync(request.Name, department.TenantId, request.DepartmentId, cancellationToken))

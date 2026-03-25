@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -10,11 +12,13 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, Result<
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
 
-    public GetRoleByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public GetRoleByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
     }
 
     public async Task<Result<RoleDetailDto>> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
@@ -23,6 +27,11 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, Result<
 
         if (role == null)
             return Result<RoleDetailDto>.Failure("Role not found");
+
+        await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+            "role", "read",
+            new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy),
+            ct: cancellationToken);
 
         return Result<RoleDetailDto>.Success(_mapper.Map<RoleDetailDto>(role));
     }

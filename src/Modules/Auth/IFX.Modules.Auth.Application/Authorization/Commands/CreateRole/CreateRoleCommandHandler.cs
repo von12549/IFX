@@ -1,6 +1,8 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.Common.Authorization;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using MediatR;
@@ -12,12 +14,16 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Resul
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<CreateRoleCommandHandler> _logger;
 
-    public CreateRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CreateRoleCommandHandler> logger)
+    public CreateRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<CreateRoleCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -25,10 +31,16 @@ public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Resul
     {
         try
         {
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "role", "create",
+                new TenantScopeResourceAttributes(_currentUser.TenantId),
+                ct: cancellationToken);
+
             if (await _unitOfWork.Roles.NameExistsAsync(request.Name, request.TenantId, cancellationToken))
                 return Result<RoleDto>.Failure($"Role name '{request.Name}' already exists in this tenant");
 
             var role = Role.Create(request.Name, request.Description, request.TenantId);
+            role.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Roles.AddAsync(role, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

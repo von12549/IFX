@@ -1,4 +1,6 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Authorization.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -11,12 +13,14 @@ public class AssignRolesToRoleGroupCommandHandler : IRequestHandler<AssignRolesT
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<AssignRolesToRoleGroupCommandHandler> _logger;
 
-    public AssignRolesToRoleGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AssignRolesToRoleGroupCommandHandler> logger)
+    public AssignRolesToRoleGroupCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<AssignRolesToRoleGroupCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -27,6 +31,11 @@ public class AssignRolesToRoleGroupCommandHandler : IRequestHandler<AssignRolesT
             var group = await _unitOfWork.RoleGroups.GetByIdWithRolesAsync(request.RoleGroupId, cancellationToken);
             if (group == null)
                 return Result<RoleGroupDto>.Failure("Role group not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "rolegroup", "manage",
+                new RoleGroupResourceAttributes(group.Id, group.TenantId, group.CreatedBy),
+                ct: cancellationToken);
 
             foreach (var roleId in request.RoleIds)
             {

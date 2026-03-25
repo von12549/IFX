@@ -24,6 +24,7 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
             .IsRequired()
             .HasMaxLength(255);
 
+        builder.Property(t => t.CreatedBy);
         builder.Property(t => t.CreatedAt).IsRequired();
         builder.Property(t => t.UpdatedAt).IsRequired();
     }

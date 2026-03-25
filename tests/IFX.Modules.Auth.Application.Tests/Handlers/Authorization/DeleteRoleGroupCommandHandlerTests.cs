@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.Commands.DeleteRoleGroup;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
@@ -9,13 +11,22 @@ public class DeleteRoleGroupCommandHandlerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IRoleGroupRepository> _groups = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<DeleteRoleGroupCommandHandler>> _logger = new();
     private readonly DeleteRoleGroupCommandHandler _handler;
 
     public DeleteRoleGroupCommandHandlerTests()
     {
         _unitOfWork.Setup(u => u.RoleGroups).Returns(_groups.Object);
-        _handler = new DeleteRoleGroupCommandHandler(_unitOfWork.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new DeleteRoleGroupCommandHandler(_unitOfWork.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]

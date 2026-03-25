@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Application.Users.Commands.RemoveRoleFromUser;
 using IFX.Modules.Auth.Domain.Users;
@@ -10,13 +12,23 @@ public class RemoveRoleFromUserCommandHandlerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IUserRepository> _users = new();
+    private readonly Mock<ICurrentUser> _currentUser = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<RemoveRoleFromUserCommandHandler>> _logger = new();
     private readonly RemoveRoleFromUserCommandHandler _handler;
 
     public RemoveRoleFromUserCommandHandlerTests()
     {
         _unitOfWork.Setup(u => u.Users).Returns(_users.Object);
-        _handler = new RemoveRoleFromUserCommandHandler(_unitOfWork.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new RemoveRoleFromUserCommandHandler(_unitOfWork.Object, _currentUser.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]

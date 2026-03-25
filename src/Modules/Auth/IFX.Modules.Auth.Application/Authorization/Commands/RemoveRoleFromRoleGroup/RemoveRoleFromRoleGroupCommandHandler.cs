@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Authorization;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
@@ -8,11 +10,13 @@ namespace IFX.Modules.Auth.Application.Authorization.Commands.RemoveRoleFromRole
 public class RemoveRoleFromRoleGroupCommandHandler : IRequestHandler<RemoveRoleFromRoleGroupCommand, Result<bool>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<RemoveRoleFromRoleGroupCommandHandler> _logger;
 
-    public RemoveRoleFromRoleGroupCommandHandler(IUnitOfWork unitOfWork, ILogger<RemoveRoleFromRoleGroupCommandHandler> logger)
+    public RemoveRoleFromRoleGroupCommandHandler(IUnitOfWork unitOfWork, IResourceAuthorizationService authorizationService, ILogger<RemoveRoleFromRoleGroupCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -23,6 +27,11 @@ public class RemoveRoleFromRoleGroupCommandHandler : IRequestHandler<RemoveRoleF
             var group = await _unitOfWork.RoleGroups.GetByIdWithRolesAsync(request.RoleGroupId, cancellationToken);
             if (group == null)
                 return Result<bool>.Failure("Role group not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "rolegroup", "manage",
+                new RoleGroupResourceAttributes(group.Id, group.TenantId, group.CreatedBy),
+                ct: cancellationToken);
 
             group.RemoveRole(request.RoleId);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -12,4 +12,7 @@ public abstract class OpaResourceAttributesBase
 
     [JsonPropertyName("tenant_id")]
     public string TenantId { get; init; } = string.Empty;
+
+    [JsonPropertyName("is_active")]
+    public string IsActive { get; init; } = string.Empty;
 }
