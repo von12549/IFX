@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-25
 **Branch:** `feature/uuid-v7`
-**Status:** Planned
+**Status:** Implemented — PR #15
 
 ## Problem
 
