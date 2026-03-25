@@ -1,8 +1,10 @@
+using UUIDNext;
+
 namespace IFX.Modules.Auth.Domain.Common;
 
 public abstract class BaseEntity
 {
-    public Guid Id { get; protected set; } = Guid.NewGuid();
+    public Guid Id { get; protected set; } = Uuid.NewSequential();
 
     public override bool Equals(object? obj)
     {
