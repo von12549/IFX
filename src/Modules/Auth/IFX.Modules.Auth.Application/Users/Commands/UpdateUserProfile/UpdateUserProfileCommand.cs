@@ -12,7 +12,8 @@ public record UpdateUserProfileCommand(
     string? LastName = null,
     string? PhoneNumber = null,
     string? Email = null,
-    string? IpAddress = null) : IRequest<Result<UpdateUserProfileResponse>>;
+    string? IpAddress = null,
+    Guid? PrimaryTenantId = null) : IRequest<Result<UpdateUserProfileResponse>>;
 
 public record UpdateUserProfileResponse(
     UserProfileDto Profile,

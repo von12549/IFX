@@ -21,14 +21,14 @@ public static class DepartmentEndpointExtensions
                     services.GetRequiredService<MediatR.IMediator>(),
                     services.GetRequiredService<ILogger<DepartmentEndpointsLogCategory>>()))
             .WithName("GetAllDepartments")
-            .RequirePermission("Department.Read")
+            .RequirePermission("Department:list")
             .WithSummary("Get all departments for the current tenant (from X-Tenant-Id header)")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapGet("/{departmentId}", DepartmentEndpoints.GetDepartmentById)
             .WithName("GetDepartmentById")
-            .RequirePermission("Department.Read")
+            .RequirePermission("Department:read")
             .WithSummary("Get a department by ID")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized)
@@ -36,7 +36,7 @@ public static class DepartmentEndpointExtensions
 
         group.MapPost("/", DepartmentEndpoints.CreateDepartment)
             .WithName("CreateDepartment")
-            .RequirePermission("Department.Write")
+            .RequirePermission("Department:create")
             .WithSummary("Create a new department")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -44,7 +44,7 @@ public static class DepartmentEndpointExtensions
 
         group.MapPut("/{departmentId}", DepartmentEndpoints.UpdateDepartment)
             .WithName("UpdateDepartment")
-            .RequirePermission("Department.Write")
+            .RequirePermission("Department:update")
             .WithSummary("Update an existing department")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -52,7 +52,7 @@ public static class DepartmentEndpointExtensions
 
         group.MapDelete("/{departmentId}", DepartmentEndpoints.DeleteDepartment)
             .WithName("DeleteDepartment")
-            .RequirePermission("Department.Write")
+            .RequirePermission("Department:delete")
             .WithSummary("Delete a department")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

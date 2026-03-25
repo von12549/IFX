@@ -15,14 +15,14 @@ public static class PlatformPolicyEndpointExtensions
 
         group.MapGet("/", PlatformPolicyEndpoints.GetPlatformPolicies)
             .WithName("GetPlatformPolicies")
-            .RequirePermission("Platform.Policy.Read")
+            .RequirePermission("Platform.Policy:list")
             .WithSummary("Get all platform-level ABAC policy definitions")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/", PlatformPolicyEndpoints.CreatePlatformPolicy)
             .WithName("CreatePlatformPolicy")
-            .RequirePermission("Platform.Policy.Write")
+            .RequirePermission("Platform.Policy:create")
             .WithSummary("Create a platform-level ABAC policy definition")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -30,7 +30,7 @@ public static class PlatformPolicyEndpointExtensions
 
         group.MapPut("/{policyId}", PlatformPolicyEndpoints.UpdatePlatformPolicy)
             .WithName("UpdatePlatformPolicy")
-            .RequirePermission("Platform.Policy.Write")
+            .RequirePermission("Platform.Policy:update")
             .WithSummary("Update a platform-level ABAC policy definition")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -38,7 +38,7 @@ public static class PlatformPolicyEndpointExtensions
 
         group.MapDelete("/{policyId}", PlatformPolicyEndpoints.DeletePlatformPolicy)
             .WithName("DeletePlatformPolicy")
-            .RequirePermission("Platform.Policy.Write")
+            .RequirePermission("Platform.Policy:delete")
             .WithSummary("Delete a platform-level ABAC policy definition")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

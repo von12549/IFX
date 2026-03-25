@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
 import { policyApi } from '../api/policy'
 import type { PolicyDefinitionDto, TemplateDto, PolicyConditionDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
@@ -16,6 +17,7 @@ interface PolicyForm {
 const emptyForm: PolicyForm = { name: '', description: '', resourceType: '', action: '', conditions: [] }
 
 export function PolicyManagementPage() {
+  const { selectedTenantId } = useAuth()
   const [policies, setPolicies] = useState<PolicyDefinitionDto[]>([])
   const [templates, setTemplates] = useState<TemplateDto[]>([])
   const [loading, setLoading] = useState(true)
@@ -32,7 +34,7 @@ export function PolicyManagementPage() {
       policyApi.getTemplates().then(r => setTemplates(r.data?.data ?? [])),
     ]).catch(() => setError('Failed to load policies'))
 
-  useEffect(() => { load().finally(() => setLoading(false)) }, [])
+  useEffect(() => { setLoading(true); load().finally(() => setLoading(false)) }, [selectedTenantId])
 
   const openCreate = () => { setForm(emptyForm); setEditId(null); setModal('create') }
 

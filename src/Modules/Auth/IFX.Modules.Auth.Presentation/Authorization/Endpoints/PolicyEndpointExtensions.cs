@@ -15,21 +15,21 @@ public static class PolicyEndpointExtensions
 
         group.MapGet("/", PolicyEndpoints.GetPolicies)
             .WithName("GetPolicies")
-            .RequirePermission("Policy.Read")
+            .RequirePermission("Policy:list")
             .WithSummary("Get all policies for the selected tenant")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapGet("/templates", PolicyEndpoints.GetAvailableTemplates)
             .WithName("GetAvailableTemplates")
-            .RequirePermission("Policy.Read")
+            .RequirePermission("Policy:list")
             .WithSummary("Get all registered condition templates")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/", PolicyEndpoints.CreatePolicy)
             .WithName("CreatePolicy")
-            .RequirePermission("Policy.Write")
+            .RequirePermission("Policy:create")
             .WithSummary("Create a tenant policy override")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -37,7 +37,7 @@ public static class PolicyEndpointExtensions
 
         group.MapPut("/{policyId}", PolicyEndpoints.UpdatePolicy)
             .WithName("UpdatePolicy")
-            .RequirePermission("Policy.Write")
+            .RequirePermission("Policy:update")
             .WithSummary("Update a tenant policy override")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -45,7 +45,7 @@ public static class PolicyEndpointExtensions
 
         group.MapDelete("/{policyId}", PolicyEndpoints.DeletePolicy)
             .WithName("DeletePolicy")
-            .RequirePermission("Policy.Write")
+            .RequirePermission("Policy:delete")
             .WithSummary("Delete a tenant policy override (reverts to platform default)")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

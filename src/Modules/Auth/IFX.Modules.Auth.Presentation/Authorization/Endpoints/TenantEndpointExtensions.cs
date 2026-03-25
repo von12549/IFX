@@ -15,14 +15,14 @@ public static class TenantEndpointExtensions
 
         group.MapGet("/", TenantEndpoints.GetAllTenants)
             .WithName("GetAllTenants")
-            .RequirePermission("Tenant.Read")
+            .RequirePermission("Tenant:list")
             .WithSummary("Get all tenants")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapGet("/{tenantId}", TenantEndpoints.GetTenantById)
             .WithName("GetTenantById")
-            .RequirePermission("Tenant.Read")
+            .RequirePermission("Tenant:read")
             .WithSummary("Get a tenant by ID")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized)
@@ -30,7 +30,7 @@ public static class TenantEndpointExtensions
 
         group.MapPost("/", TenantEndpoints.CreateTenant)
             .WithName("CreateTenant")
-            .RequirePermission("Tenant.Write")
+            .RequirePermission("Tenant:create")
             .WithSummary("Create a new tenant")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -38,7 +38,7 @@ public static class TenantEndpointExtensions
 
         group.MapPut("/{tenantId}", TenantEndpoints.UpdateTenant)
             .WithName("UpdateTenant")
-            .RequirePermission("Tenant.Write")
+            .RequirePermission("Tenant:update")
             .WithSummary("Update an existing tenant")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -46,7 +46,7 @@ public static class TenantEndpointExtensions
 
         group.MapDelete("/{tenantId}", TenantEndpoints.DeleteTenant)
             .WithName("DeleteTenant")
-            .RequirePermission("Tenant.Write")
+            .RequirePermission("Tenant:delete")
             .WithSummary("Delete a tenant")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

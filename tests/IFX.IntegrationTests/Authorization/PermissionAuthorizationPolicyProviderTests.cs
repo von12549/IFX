@@ -19,12 +19,12 @@ public class PermissionAuthorizationPolicyProviderTests
     {
         var provider = CreateProvider();
 
-        var policy = await provider.GetPolicyAsync("Role.Read");
+        var policy = await provider.GetPolicyAsync("Role:read");
 
         policy.Should().NotBeNull();
         var req = policy!.Requirements.OfType<PermissionRequirement>().SingleOrDefault();
         req.Should().NotBeNull();
-        req!.PermissionName.Should().Be("Role.Read");
+        req!.PermissionName.Should().Be("Role:read");
     }
 
     [Fact]
@@ -32,12 +32,12 @@ public class PermissionAuthorizationPolicyProviderTests
     {
         var provider = CreateProvider();
 
-        var policy = await provider.GetPolicyAsync("User.Write");
+        var policy = await provider.GetPolicyAsync("User:update");
 
         policy.Should().NotBeNull();
         var req = policy!.Requirements.OfType<PermissionRequirement>().SingleOrDefault();
         req.Should().NotBeNull();
-        req!.PermissionName.Should().Be("User.Write");
+        req!.PermissionName.Should().Be("User:update");
     }
 
     [Fact]
@@ -58,13 +58,13 @@ public class PermissionAuthorizationPolicyProviderTests
     {
         var provider = CreateProvider();
 
-        var policy1 = await provider.GetPolicyAsync("Role.Read");
-        var policy2 = await provider.GetPolicyAsync("Role.Write");
+        var policy1 = await provider.GetPolicyAsync("Role:read");
+        var policy2 = await provider.GetPolicyAsync("Role:create");
 
         var req1 = policy1!.Requirements.OfType<PermissionRequirement>().Single();
         var req2 = policy2!.Requirements.OfType<PermissionRequirement>().Single();
 
-        req1.PermissionName.Should().Be("Role.Read");
-        req2.PermissionName.Should().Be("Role.Write");
+        req1.PermissionName.Should().Be("Role:read");
+        req2.PermissionName.Should().Be("Role:create");
     }
 }

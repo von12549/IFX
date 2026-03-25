@@ -14,7 +14,8 @@ public class UpdateUserProfileCommandValidator : AbstractValidator<UpdateUserPro
             .Must(command => command.Username != null ||
                            command.FirstName != null ||
                            command.LastName != null ||
-                           command.PhoneNumber != null)
+                           command.PhoneNumber != null ||
+                           command.PrimaryTenantId != null)
             .WithMessage("At least one field must be provided for update");
 
         // Username validation (if provided)

@@ -16,7 +16,7 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
         _factory = factory;
     }
 
-    // ── User.Read ──────────────────────────────────────────────────────────
+    // ── User:list ──────────────────────────────────────────────────────────
 
     [Fact]
     public async Task GetAllUsers_WithoutToken_ReturnsUnauthorized()
@@ -37,7 +37,7 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllUsers_WithWrongPermission_ReturnsForbidden()
     {
-        var client = _factory.CreateAuthenticatedClient("Role.Read");
+        var client = _factory.CreateAuthenticatedClient("Role:list");
         var response = await client.GetAsync("/api/v1/usermanagement/users");
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -45,12 +45,12 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllUsers_WithCorrectPermission_ReturnsSuccess()
     {
-        var client = _factory.CreateAuthenticatedClient("User.Read");
+        var client = _factory.CreateAuthenticatedClient("User:list");
         var response = await client.GetAsync("/api/v1/usermanagement/users");
         response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
-    // ── Role.Read ──────────────────────────────────────────────────────────
+    // ── Role:list ──────────────────────────────────────────────────────────
 
     [Fact]
     public async Task GetAllRoles_WithoutToken_ReturnsUnauthorized()
@@ -71,7 +71,7 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllRoles_WithWrongPermission_ReturnsForbidden()
     {
-        var client = _factory.CreateAuthenticatedClient("User.Read");
+        var client = _factory.CreateAuthenticatedClient("User:list");
         var response = await client.GetAsync("/api/v1/role");
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
@@ -79,12 +79,12 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllRoles_WithCorrectPermission_ReturnsSuccess()
     {
-        var client = _factory.CreateAuthenticatedClient("Role.Read");
+        var client = _factory.CreateAuthenticatedClient("Role:list");
         var response = await client.GetAsync("/api/v1/role");
         response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
-    // ── RoleGroup.Read ─────────────────────────────────────────────────────
+    // ── RoleGroup:list ─────────────────────────────────────────────────────
 
     [Fact]
     public async Task GetAllRoleGroups_WithoutToken_ReturnsUnauthorized()
@@ -105,12 +105,12 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllRoleGroups_WithCorrectPermission_ReturnsSuccess()
     {
-        var client = _factory.CreateAuthenticatedClient("RoleGroup.Read");
+        var client = _factory.CreateAuthenticatedClient("RoleGroup:list");
         var response = await client.GetAsync("/api/v1/rolegroup");
         response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
-    // ── Permission.Read ────────────────────────────────────────────────────
+    // ── Permission:list ────────────────────────────────────────────────────
 
     [Fact]
     public async Task GetAllPermissions_WithoutToken_ReturnsUnauthorized()
@@ -131,12 +131,12 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllPermissions_WithCorrectPermission_ReturnsSuccess()
     {
-        var client = _factory.CreateAuthenticatedClient("Permission.Read");
+        var client = _factory.CreateAuthenticatedClient("Permission:list");
         var response = await client.GetAsync("/api/v1/permission");
         response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }
 
-    // ── Idp.Read ───────────────────────────────────────────────────────────
+    // ── Idp:list ───────────────────────────────────────────────────────────
 
     [Fact]
     public async Task GetAllIdps_WithoutToken_ReturnsUnauthorized()
@@ -157,7 +157,7 @@ public class PermissionEnforcementTests : IClassFixture<CustomWebApplicationFact
     [Fact]
     public async Task GetAllIdps_WithCorrectPermission_ReturnsSuccess()
     {
-        var client = _factory.CreateAuthenticatedClient("Idp.Read");
+        var client = _factory.CreateAuthenticatedClient("Idp:list");
         var response = await client.GetAsync("/api/v1/idp");
         response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
     }

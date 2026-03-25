@@ -77,7 +77,8 @@ public static class UserEndpoints
             request.LastName,
             request.PhoneNumber,
             request.Email,
-            ipAddress);
+            ipAddress,
+            request.PrimaryTenantId);
 
         var result = await mediator.Send(command);
 
