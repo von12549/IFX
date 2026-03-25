@@ -60,6 +60,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260325-db-backed-abac-policies.md` | DB-backed tenant-level ABAC policies — PolicyDefinition entity, CRUD endpoints, cache invalidation |
 | `/.claude/Plans/20260325-seed-user-policies-ifx-tenant.md` | Seed user/read ABAC policy for IFX tenant via EF migration |
 | `/.claude/Plans/20260325-global-platform-abac-policies.md` | Platform-level (TenantId=NULL) ABAC policies — 3-tier resolver, platform CRUD endpoints |
+| `/.claude/Plans/20260325-complete-abac-policies.md` | Complete ABAC coverage — IsActive template, CreatedBy DB column, resource attribute models, per-handler policies, list gate strategy, seeded PolicyDefinitions |
 
 ## Quick Reference
 
