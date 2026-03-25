@@ -1,5 +1,9 @@
 using AutoMapper;
-using IFX.Modules.Auth.Application.Authorization.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Departments.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Permissions.DTOs;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Roles.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Tenants.DTOs;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Domain.Authorization;

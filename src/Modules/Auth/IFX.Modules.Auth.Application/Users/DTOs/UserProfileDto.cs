@@ -1,4 +1,7 @@
-using IFX.Modules.Auth.Application.Authorization.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Departments.DTOs;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Roles.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Tenants.DTOs;
 namespace IFX.Modules.Auth.Application.Users.DTOs;
 
 public class UserProfileDto

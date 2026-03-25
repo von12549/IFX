@@ -69,7 +69,8 @@ public class GetPoliciesQueryHandler : IRequestHandler<GetPoliciesQuery, Result<
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),
             p.IsActive,
-            IsPlatformDefault: p.TenantId is null,
-            p.UpdatedAt);
+            IsPlatformDefault: p.Scope == PolicyScope.Platform,
+            p.UpdatedAt,
+            p.Scope);
     }
 }

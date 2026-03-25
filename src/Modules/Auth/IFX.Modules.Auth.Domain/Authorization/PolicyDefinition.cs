@@ -4,6 +4,7 @@ namespace IFX.Modules.Auth.Domain.Authorization;
 
 public class PolicyDefinition : BaseEntity, IAuditableEntity
 {
+    public PolicyScope Scope { get; private set; }
     public Guid? TenantId { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
@@ -19,6 +20,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
     private PolicyDefinition() { } // EF Core
 
     public static PolicyDefinition Create(
+        PolicyScope scope,
         Guid? tenantId,
         string name,
         string resourceType,
@@ -27,6 +29,8 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
         Guid? createdById,
         string? description = null)
     {
+        if (scope == PolicyScope.Tenant && tenantId is null)
+            throw new ArgumentException("TenantId is required for Tenant-scoped policies.", nameof(tenantId));
         if (tenantId.HasValue && tenantId.Value == Guid.Empty)
             throw new ArgumentException("TenantId must not be empty.", nameof(tenantId));
         if (string.IsNullOrWhiteSpace(name))
@@ -40,6 +44,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
 
         return new PolicyDefinition
         {
+            Scope = scope,
             TenantId = tenantId,
             Name = name.Trim(),
             Description = string.IsNullOrWhiteSpace(description) ? null : description.Trim(),

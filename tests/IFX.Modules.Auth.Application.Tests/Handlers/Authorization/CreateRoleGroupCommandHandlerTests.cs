@@ -1,8 +1,8 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.Auth.Application.Authorization.Commands.CreateRoleGroup;
-using IFX.Modules.Auth.Application.Authorization.DTOs;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.Commands.CreateRoleGroup;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using Microsoft.Extensions.Logging;

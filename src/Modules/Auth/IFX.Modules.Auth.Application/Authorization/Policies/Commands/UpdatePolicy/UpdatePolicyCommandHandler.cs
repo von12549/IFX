@@ -53,10 +53,10 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
             policy.Update(request.Name, conditionsJson, _currentUser.UserId, request.Description);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            if (policy.TenantId is null)
+            if (policy.Scope == PolicyScope.Platform)
                 _policyCache.InvalidatePlatform(policy.ResourceType, policy.Action);
             else
-                _policyCache.Invalidate(policy.TenantId.Value, policy.ResourceType, policy.Action);
+                _policyCache.Invalidate(policy.TenantId!.Value, policy.ResourceType, policy.Action);
 
             _logger.LogInformation("Policy updated: {PolicyId}", policy.Id);
 
@@ -83,7 +83,8 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),
             p.IsActive,
-            IsPlatformDefault: p.TenantId is null,
-            p.UpdatedAt);
+            IsPlatformDefault: p.Scope == PolicyScope.Platform,
+            p.UpdatedAt,
+            p.Scope);
     }
 }

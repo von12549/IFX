@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Application.Authorization.Commands.DeletePermission;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Commands.DeletePermission;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using Microsoft.Extensions.Logging;

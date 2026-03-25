@@ -37,20 +37,20 @@ public class DbAbacPolicyResolverTests
             Mock.Of<ILogger<DbAbacPolicyResolver>>());
     }
 
-    // ── Tier 1: Tenant DB row ────────────────────────────────────────────────
+    // ── Tenant: Tier 1 — tenant DB row ──────────────────────────────────────
 
     [Fact]
-    public async Task ResolveAsync_WhenTenantRowExists_ReturnsDeserializedPolicy()
+    public async Task ResolveTenantPolicy_WhenTenantRowExists_ReturnsDeserializedPolicy()
     {
         var row = PolicyDefinition.Create(
-            TenantId, "Read Own Profile", "user", "read",
+            PolicyScope.Tenant, TenantId, "Read Own Profile", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null},{\"TemplateName\":\"CreatedByMe\",\"Parameters\":null}]",
             null);
 
         _repository.Setup(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync(row);
 
-        var policy = await _resolver.ResolveAsync(TenantId, "user", "read");
+        var policy = await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
 
         policy.Should().NotBeNull();
         policy!.Conditions.Should().HaveCount(2);
@@ -59,47 +59,47 @@ public class DbAbacPolicyResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_CacheHitAvoidsSecondDbCall()
+    public async Task ResolveTenantPolicy_CacheHitAvoidsSecondDbCall()
     {
         var row = PolicyDefinition.Create(
-            TenantId, "Read", "user", "read",
+            PolicyScope.Tenant, TenantId, "Read", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
         _repository.Setup(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync(row);
 
-        await _resolver.ResolveAsync(TenantId, "user", "read");
-        await _resolver.ResolveAsync(TenantId, "user", "read");
+        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
+        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
 
         _repository.Verify(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
-    public async Task ResolveAsync_AfterInvalidate_HitsDbAgain()
+    public async Task ResolveTenantPolicy_AfterInvalidate_HitsDbAgain()
     {
         var row = PolicyDefinition.Create(
-            TenantId, "Read", "user", "read",
+            PolicyScope.Tenant, TenantId, "Read", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
         _repository.Setup(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync(row);
 
-        await _resolver.ResolveAsync(TenantId, "user", "read");
+        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
         _resolver.Invalidate(TenantId, "user", "read");
-        await _resolver.ResolveAsync(TenantId, "user", "read");
+        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
 
         _repository.Verify(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
-    // ── Tier 2: Platform DB row ──────────────────────────────────────────────
+    // ── Tenant: Tier 2 — platform DB row fallback ────────────────────────────
 
     [Fact]
-    public async Task ResolveAsync_WhenTenantRowAbsent_FallsThroughToPlatformRow()
+    public async Task ResolveTenantPolicy_WhenTenantRowAbsent_FallsThroughToPlatformRow()
     {
         var platformRow = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
@@ -108,7 +108,7 @@ public class DbAbacPolicyResolverTests
         _repository.Setup(r => r.GetPlatformAsync("user", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync(platformRow);
 
-        var policy = await _resolver.ResolveAsync(TenantId, "user", "read");
+        var policy = await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
 
         policy.Should().NotBeNull();
         policy!.Conditions.Should().HaveCount(1);
@@ -116,30 +116,10 @@ public class DbAbacPolicyResolverTests
     }
 
     [Fact]
-    public async Task ResolveAsync_WhenTenantIdIsNull_SkipsTenantDbAndChecksPlatformRow()
+    public async Task ResolveTenantPolicy_AfterInvalidatePlatform_HitsPlatformDbAgain()
     {
         var platformRow = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
-            "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null},{\"TemplateName\":\"CreatedByMe\",\"Parameters\":null}]",
-            null);
-
-        _repository.Setup(r => r.GetPlatformAsync("user", "read", It.IsAny<CancellationToken>()))
-                   .ReturnsAsync(platformRow);
-
-        var policy = await _resolver.ResolveAsync(null, "user", "read");
-
-        policy.Should().NotBeNull();
-        policy!.Conditions.Should().HaveCount(2);
-        _repository.Verify(r => r.GetAsync(
-            It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
-            Times.Never);
-    }
-
-    [Fact]
-    public async Task ResolveAsync_AfterInvalidatePlatform_HitsPlatformDbAgain()
-    {
-        var platformRow = PolicyDefinition.Create(
-            null, "Read", "user", "read",
+            PolicyScope.Platform, null, "Read", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
@@ -148,17 +128,17 @@ public class DbAbacPolicyResolverTests
         _repository.Setup(r => r.GetPlatformAsync("user", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync(platformRow);
 
-        await _resolver.ResolveAsync(TenantId, "user", "read");
+        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
         _resolver.InvalidatePlatform("user", "read");
-        await _resolver.ResolveAsync(TenantId, "user", "read");
+        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
 
         _repository.Verify(r => r.GetPlatformAsync("user", "read", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
-    // ── Tier 3: Static fallback ──────────────────────────────────────────────
+    // ── Tenant: Tier 3 — static fallback ────────────────────────────────────
 
     [Fact]
-    public async Task ResolveAsync_WhenTenantAndPlatformRowAbsent_FallsBackToStatic()
+    public async Task ResolveTenantPolicy_WhenTenantAndPlatformRowAbsent_FallsBackToStatic()
     {
         _repository.Setup(r => r.GetAsync(TenantId, "document", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync((PolicyDefinition?)null);
@@ -173,21 +153,54 @@ public class DbAbacPolicyResolverTests
         };
         _staticResolver.RegisterDefault("document", "read", staticPolicy);
 
-        var policy = await _resolver.ResolveAsync(TenantId, "document", "read");
+        var policy = await _resolver.ResolveTenantPolicyAsync(TenantId, "document", "read");
 
         policy.Should().NotBeNull();
         policy!.Conditions.Should().HaveCount(1);
     }
 
     [Fact]
-    public async Task ResolveAsync_WhenAllTiersAbsent_ReturnsNull()
+    public async Task ResolveTenantPolicy_WhenAllTiersAbsent_ReturnsNull()
     {
         _repository.Setup(r => r.GetAsync(TenantId, "unknown", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync((PolicyDefinition?)null);
         _repository.Setup(r => r.GetPlatformAsync("unknown", "read", It.IsAny<CancellationToken>()))
                    .ReturnsAsync((PolicyDefinition?)null);
 
-        var policy = await _resolver.ResolveAsync(TenantId, "unknown", "read");
+        var policy = await _resolver.ResolveTenantPolicyAsync(TenantId, "unknown", "read");
+
+        policy.Should().BeNull();
+    }
+
+    // ── Platform path ────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task ResolvePlatformPolicy_WhenPlatformRowExists_ReturnsPolicy()
+    {
+        var platformRow = PolicyDefinition.Create(
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
+            "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null},{\"TemplateName\":\"CreatedByMe\",\"Parameters\":null}]",
+            null);
+
+        _repository.Setup(r => r.GetPlatformAsync("user", "read", It.IsAny<CancellationToken>()))
+                   .ReturnsAsync(platformRow);
+
+        var policy = await _resolver.ResolvePlatformPolicyAsync("user", "read");
+
+        policy.Should().NotBeNull();
+        policy!.Conditions.Should().HaveCount(2);
+        _repository.Verify(r => r.GetAsync(
+            It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task ResolvePlatformPolicy_WhenNoPlatformRow_ReturnsNull()
+    {
+        _repository.Setup(r => r.GetPlatformAsync("unknown", "read", It.IsAny<CancellationToken>()))
+                   .ReturnsAsync((PolicyDefinition?)null);
+
+        var policy = await _resolver.ResolvePlatformPolicyAsync("unknown", "read");
 
         policy.Should().BeNull();
     }

@@ -21,4 +21,14 @@ public class OpaSubjectAttributes
 
     [JsonPropertyName("mfa")]
     public bool Mfa { get; init; }
+
+    [JsonPropertyName("global_roles")]
+    public IReadOnlyList<string> GlobalRoles { get; init; } = [];
+
+    /// <summary>
+    /// Serialized as "true"/"false" string for consistent Rego equality checks
+    /// (same pattern as resource.is_active).
+    /// </summary>
+    [JsonPropertyName("is_global_admin")]
+    public string IsGlobalAdmin { get; init; } = "false";
 }

@@ -69,6 +69,7 @@ public static class DependencyInjection
         services.AddScoped<IIdpRepository, IdpRepository>();
         services.AddScoped<IEmailVerificationTokenRepository, EmailVerificationTokenRepository>();
         services.AddScoped<IPolicyDefinitionRepository, PolicyDefinitionRepository>();
+        services.AddScoped<IGlobalRoleRepository, GlobalRoleRepository>();
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();

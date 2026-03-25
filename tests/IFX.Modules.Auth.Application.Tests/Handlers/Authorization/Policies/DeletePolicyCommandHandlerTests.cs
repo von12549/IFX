@@ -36,7 +36,7 @@ public class DeletePolicyCommandHandlerTests
     {
         var policyId = Guid.NewGuid();
         var existing = PolicyDefinition.Create(
-            Guid.NewGuid(), "Read Own Profile", "user", "read",
+            PolicyScope.Tenant, Guid.NewGuid(), "Read Own Profile", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
 
         _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
@@ -68,7 +68,7 @@ public class DeletePolicyCommandHandlerTests
     {
         var policyId = Guid.NewGuid();
         var existing = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
 
         _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))

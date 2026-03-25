@@ -1,5 +1,9 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.Auth.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace IFX.Modules.Auth.Infrastructure.Authorization;
 
@@ -7,14 +11,26 @@ namespace IFX.Modules.Auth.Infrastructure.Authorization;
 /// Reads the current user's identity and permissions from the ClaimsPrincipal.
 /// Permission and user_id claims are injected per-request by UserPermissionClaimsTransformation.
 /// tenant_id is added by the same transformation after provisioning.
+/// GlobalRoles are loaded lazily from DB (per-request) with a 5-minute cross-request cache.
 /// </summary>
 public class CurrentUser : ICurrentUser
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private static readonly TimeSpan GlobalRolesCacheTtl = TimeSpan.FromMinutes(5);
 
-    public CurrentUser(IHttpContextAccessor httpContextAccessor)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IfxDbContext _dbContext;
+    private readonly IMemoryCache _cache;
+
+    private IReadOnlyList<string>? _globalRoles;
+
+    public CurrentUser(
+        IHttpContextAccessor httpContextAccessor,
+        IfxDbContext dbContext,
+        IMemoryCache cache)
     {
         _httpContextAccessor = httpContextAccessor;
+        _dbContext = dbContext;
+        _cache = cache;
     }
 
     private System.Security.Claims.ClaimsPrincipal? Principal =>
@@ -73,4 +89,37 @@ public class CurrentUser : ICurrentUser
             return amr.Contains("mfa") || amr.Contains("otp") || amr.Contains("hwk");
         }
     }
+
+    public IReadOnlyList<string> GlobalRoles
+    {
+        get
+        {
+            if (_globalRoles is not null)
+                return _globalRoles;
+
+            var userId = UserId;
+            if (userId == Guid.Empty)
+                return _globalRoles = [];
+
+            var cacheKey = $"globalroles:{userId}";
+            if (!_cache.TryGetValue(cacheKey, out IReadOnlyList<string>? cached))
+            {
+                cached = _dbContext.Set<UserGlobalRole>()
+                    .Where(ugr => ugr.UserId == userId)
+                    .Join(
+                        _dbContext.Set<GlobalRole>(),
+                        ugr => ugr.GlobalRoleId,
+                        gr => gr.Id,
+                        (_, gr) => gr.Name)
+                    .ToList();
+
+                _cache.Set(cacheKey, cached, GlobalRolesCacheTtl);
+            }
+
+            return _globalRoles = cached ?? [];
+        }
+    }
+
+    public bool IsGlobalAdmin =>
+        GlobalRoles.Contains(GlobalRoleNames.PlatformAdmin);
 }

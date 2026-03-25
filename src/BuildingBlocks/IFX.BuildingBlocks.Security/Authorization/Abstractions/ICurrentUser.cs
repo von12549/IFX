@@ -7,6 +7,8 @@ public interface ICurrentUser
     IReadOnlyCollection<string> Departments { get; }
     IReadOnlyCollection<string> Roles { get; }
     IReadOnlyCollection<string> Permissions { get; }
+    IReadOnlyList<string> GlobalRoles { get; }
+    bool IsGlobalAdmin { get; }
     bool MfaEnabled { get; }
     bool IsAuthenticated { get; }
 }

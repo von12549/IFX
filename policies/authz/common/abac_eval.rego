@@ -5,6 +5,11 @@ import future.keywords
 # Default deny — explicit allow requires at least one condition that all pass.
 default allow := false
 
+# Global admins bypass all condition checks.
+allow if {
+    input.subject.is_global_admin == "true"
+}
+
 # Allow when the input contains at least one condition and every condition passes.
 allow if {
     count(input.conditions) > 0

@@ -48,7 +48,7 @@ public class UpdatePolicyCommandHandlerTests
     {
         var tenantId = Guid.NewGuid();
         var policyId = Guid.NewGuid();
-        var existing = PolicyDefinition.Create(tenantId, "Old Name", "user", "read",
+        var existing = PolicyDefinition.Create(PolicyScope.Tenant, tenantId, "Old Name", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
 
         _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
