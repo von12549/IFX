@@ -8,7 +8,8 @@ public class CreatePolicyCommandValidator : AbstractValidator<CreatePolicyComman
     public CreatePolicyCommandValidator(IAbacTemplateRegistry templateRegistry)
     {
         RuleFor(x => x.TenantId)
-            .NotEmpty().WithMessage("TenantId is required.");
+            .Must(id => id == null || id != Guid.Empty)
+            .WithMessage("TenantId must not be an empty Guid.");
 
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Name is required.")

@@ -12,7 +12,7 @@ public class PolicyDefinitionConfiguration : IEntityTypeConfiguration<PolicyDefi
 
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.TenantId).IsRequired();
+        builder.Property(p => p.TenantId); // nullable — null means platform/global scope
 
         builder.Property(p => p.Name)
             .HasMaxLength(200)

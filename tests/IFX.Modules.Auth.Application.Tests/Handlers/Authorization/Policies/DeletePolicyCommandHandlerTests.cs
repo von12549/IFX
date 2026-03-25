@@ -51,4 +51,22 @@ public class DeletePolicyCommandHandlerTests
         result.Error.Should().Contain("not found");
         _policies.Verify(p => p.Remove(It.IsAny<PolicyDefinition>()), Times.Never);
     }
+
+    [Fact]
+    public async Task Handle_WithPlatformPolicy_CallsInvalidatePlatformInsteadOfInvalidate()
+    {
+        var policyId = Guid.NewGuid();
+        var existing = PolicyDefinition.Create(
+            null, "Read Own Profile (Platform Default)", "user", "read",
+            "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
+
+        _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
+                 .ReturnsAsync(existing);
+
+        var result = await _handler.Handle(new DeletePolicyCommand(policyId), CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        _policyCache.Verify(c => c.InvalidatePlatform("user", "read"), Times.Once);
+        _policyCache.Verify(c => c.Invalidate(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+    }
 }

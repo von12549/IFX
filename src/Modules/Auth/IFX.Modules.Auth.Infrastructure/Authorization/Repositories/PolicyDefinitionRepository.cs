@@ -47,4 +47,29 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
 
     public async Task<PolicyDefinition?> GetByIdAsync(Guid id, CancellationToken ct = default)
         => await _context.PolicyDefinitions.FirstOrDefaultAsync(p => p.Id == id, ct);
+
+    public Task<PolicyDefinition?> GetPlatformAsync(
+        string resourceType, string action, CancellationToken ct = default)
+        => _context.PolicyDefinitions
+            .FirstOrDefaultAsync(
+                p => p.TenantId == null
+                  && p.ResourceType == resourceType.ToLowerInvariant()
+                  && p.Action == action.ToLowerInvariant()
+                  && p.IsActive,
+                ct);
+
+    public Task<List<PolicyDefinition>> GetPlatformPoliciesAsync(CancellationToken ct = default)
+        => _context.PolicyDefinitions
+            .AsNoTracking()
+            .Where(p => p.TenantId == null && p.IsActive)
+            .ToListAsync(ct);
+
+    public Task<bool> ExistsPlatformAsync(
+        string resourceType, string action, CancellationToken ct = default)
+        => _context.PolicyDefinitions
+            .AnyAsync(
+                p => p.TenantId == null
+                  && p.ResourceType == resourceType.ToLowerInvariant()
+                  && p.Action == action.ToLowerInvariant(),
+                ct);
 }

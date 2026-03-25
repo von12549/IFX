@@ -7,4 +7,5 @@ namespace IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 public interface IAbacPolicyCache
 {
     void Invalidate(Guid tenantId, string resourceType, string action);
+    void InvalidatePlatform(string resourceType, string action);
 }

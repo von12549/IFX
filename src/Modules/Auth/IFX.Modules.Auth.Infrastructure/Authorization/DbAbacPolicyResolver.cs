@@ -46,45 +46,69 @@ public sealed class DbAbacPolicyResolver : IAbacPolicyResolver, IAbacPolicyCache
         string action,
         CancellationToken ct = default)
     {
-        if (tenantId is null)
-            return await _staticResolver.ResolveAsync(null, resourceType, action, ct);
+        var resource = resourceType.ToLowerInvariant();
+        var act = action.ToLowerInvariant();
 
-        var cacheKey = $"abac:{tenantId}:{resourceType.ToLowerInvariant()}:{action.ToLowerInvariant()}";
-
-        if (_cache.TryGetValue(cacheKey, out AbacPolicy? cached))
-            return cached;
-
-        PolicyDefinition? row = null;
-        try
+        // 1. Tenant-level DB row
+        if (tenantId is not null)
         {
-            row = await _repository.GetAsync(tenantId.Value, resourceType, action, ct);
+            var tenantKey = $"abac:{tenantId}:{resource}:{act}";
+            if (_cache.TryGetValue(tenantKey, out AbacPolicy? tenantCached))
+                return tenantCached;
+
+            PolicyDefinition? tenantRow = null;
+            try { tenantRow = await _repository.GetAsync(tenantId.Value, resourceType, action, ct); }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,
+                    "Failed to load ABAC policy from DB for tenant {TenantId} {ResourceType}/{Action}",
+                    tenantId, resourceType, action);
+            }
+
+            if (tenantRow is not null)
+            {
+                var policy = DeserializePolicy(tenantRow, resource, act);
+                _cache.Set(tenantKey, policy, CacheTtl);
+                return policy;
+            }
         }
+
+        // 2. Platform-level DB row (TenantId IS NULL)
+        var platformKey = $"abac:platform:{resource}:{act}";
+        if (_cache.TryGetValue(platformKey, out AbacPolicy? platformCached))
+            return platformCached;
+
+        PolicyDefinition? platformRow = null;
+        try { platformRow = await _repository.GetPlatformAsync(resourceType, action, ct); }
         catch (Exception ex)
         {
             _logger.LogError(ex,
-                "Failed to load ABAC policy from DB for tenant {TenantId} {ResourceType}/{Action}; falling back to static default",
-                tenantId, resourceType, action);
+                "Failed to load platform ABAC policy from DB for {ResourceType}/{Action}",
+                resourceType, action);
         }
 
-        AbacPolicy? policy;
-
-        if (row is not null)
+        if (platformRow is not null)
         {
-            policy = DeserializePolicy(row, resourceType, action);
-        }
-        else
-        {
-            policy = await _staticResolver.ResolveAsync(tenantId, resourceType, action, ct);
+            var policy = DeserializePolicy(platformRow, resource, act);
+            _cache.Set(platformKey, policy, CacheTtl);
+            return policy;
         }
 
-        _cache.Set(cacheKey, policy, CacheTtl);
-        return policy;
+        // 3. Static fallback
+        return await _staticResolver.ResolveAsync(tenantId, resourceType, action, ct);
     }
 
-    /// <summary>Removes the cache entry so the next resolve hits the DB.</summary>
+    /// <summary>Removes the tenant-scoped cache entry so the next resolve hits the DB.</summary>
     public void Invalidate(Guid tenantId, string resourceType, string action)
     {
         var cacheKey = $"abac:{tenantId}:{resourceType.ToLowerInvariant()}:{action.ToLowerInvariant()}";
+        _cache.Remove(cacheKey);
+    }
+
+    /// <summary>Removes the platform-level cache entry so the next resolve hits the DB.</summary>
+    public void InvalidatePlatform(string resourceType, string action)
+    {
+        var cacheKey = $"abac:platform:{resourceType.ToLowerInvariant()}:{action.ToLowerInvariant()}";
         _cache.Remove(cacheKey);
     }
 

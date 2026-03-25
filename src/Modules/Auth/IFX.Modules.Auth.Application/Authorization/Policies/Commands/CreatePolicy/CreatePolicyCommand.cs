@@ -5,7 +5,7 @@ using MediatR;
 namespace IFX.Modules.Auth.Application.Authorization.Policies.Commands.CreatePolicy;
 
 public record CreatePolicyCommand(
-    Guid TenantId,
+    Guid? TenantId,
     string Name,
     string? Description,
     string ResourceType,

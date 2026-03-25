@@ -5,7 +5,6 @@ using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
-using IFX.Modules.Auth.Application.Users.Authorization;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
@@ -89,15 +88,8 @@ public static class DependencyInjection
         });
         services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
 
-        // Register ABAC policy resolver: DB-backed with static fallback
-        // StaticAbacPolicyResolver is singleton — seeded once with platform defaults
-        services.AddSingleton<StaticAbacPolicyResolver>(sp =>
-        {
-            var resolver = new StaticAbacPolicyResolver();
-            // Register platform defaults — modules add their own at DI setup
-            resolver.RegisterDefault("user", "read", UserPolicies.ReadOwnProfile);
-            return resolver;
-        });
+        // Register ABAC policy resolver: DB-backed, with empty static fallback as last resort
+        services.AddSingleton<StaticAbacPolicyResolver>();
         // DbAbacPolicyResolver implements both IAbacPolicyResolver and IAbacPolicyCache.
         // Register as scoped and expose via both interfaces.
         services.AddScoped<DbAbacPolicyResolver>();

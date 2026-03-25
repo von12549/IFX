@@ -33,11 +33,14 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
             _unitOfWork.PolicyDefinitions.Remove(policy);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _policyCache.Invalidate(policy.TenantId, policy.ResourceType, policy.Action);
+            if (policy.TenantId is null)
+                _policyCache.InvalidatePlatform(policy.ResourceType, policy.Action);
+            else
+                _policyCache.Invalidate(policy.TenantId.Value, policy.ResourceType, policy.Action);
 
             _logger.LogInformation(
-                "Policy deleted: {PolicyId} for tenant {TenantId} ({ResourceType}/{Action})",
-                policy.Id, policy.TenantId, policy.ResourceType, policy.Action);
+                "Policy deleted: {PolicyId} for {Scope} ({ResourceType}/{Action})",
+                policy.Id, policy.TenantId is null ? "platform" : policy.TenantId, policy.ResourceType, policy.Action);
 
             return Result<bool>.Success(true);
         }

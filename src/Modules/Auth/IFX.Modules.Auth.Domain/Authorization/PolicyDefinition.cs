@@ -4,7 +4,7 @@ namespace IFX.Modules.Auth.Domain.Authorization;
 
 public class PolicyDefinition : BaseEntity, IAuditableEntity
 {
-    public Guid TenantId { get; private set; }
+    public Guid? TenantId { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public string ResourceType { get; private set; } = string.Empty;
@@ -19,7 +19,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
     private PolicyDefinition() { } // EF Core
 
     public static PolicyDefinition Create(
-        Guid tenantId,
+        Guid? tenantId,
         string name,
         string resourceType,
         string action,
@@ -27,7 +27,7 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
         Guid? createdById,
         string? description = null)
     {
-        if (tenantId == Guid.Empty)
+        if (tenantId.HasValue && tenantId.Value == Guid.Empty)
             throw new ArgumentException("TenantId must not be empty.", nameof(tenantId));
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Name must not be empty.", nameof(name));

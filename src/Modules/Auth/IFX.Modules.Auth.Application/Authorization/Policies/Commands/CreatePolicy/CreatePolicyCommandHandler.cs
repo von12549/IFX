@@ -34,10 +34,13 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
     {
         try
         {
-            if (await _unitOfWork.PolicyDefinitions.ExistsAsync(
-                    request.TenantId, request.ResourceType, request.Action, cancellationToken))
+            var alreadyExists = request.TenantId is null
+                ? await _unitOfWork.PolicyDefinitions.ExistsPlatformAsync(request.ResourceType, request.Action, cancellationToken)
+                : await _unitOfWork.PolicyDefinitions.ExistsAsync(request.TenantId.Value, request.ResourceType, request.Action, cancellationToken);
+
+            if (alreadyExists)
                 return Result<PolicyDefinitionDto>.Failure(
-                    $"A policy for '{request.ResourceType}/{request.Action}' already exists for this tenant.");
+                    $"A policy for '{request.ResourceType}/{request.Action}' already exists{(request.TenantId is null ? " at platform level" : " for this tenant")}.");
 
             var conditionsJson = JsonSerializer.Serialize(
                 request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
@@ -54,11 +57,14 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
             await _unitOfWork.PolicyDefinitions.AddAsync(policy, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _policyCache.Invalidate(request.TenantId, request.ResourceType, request.Action);
+            if (request.TenantId is null)
+                _policyCache.InvalidatePlatform(request.ResourceType, request.Action);
+            else
+                _policyCache.Invalidate(request.TenantId.Value, request.ResourceType, request.Action);
 
             _logger.LogInformation(
-                "Policy created: {PolicyId} for tenant {TenantId} ({ResourceType}/{Action})",
-                policy.Id, request.TenantId, request.ResourceType, request.Action);
+                "Policy created: {PolicyId} for {Scope} ({ResourceType}/{Action})",
+                policy.Id, request.TenantId is null ? "platform" : request.TenantId, request.ResourceType, request.Action);
 
             return Result<PolicyDefinitionDto>.Success(MapToDto(policy));
         }
@@ -83,7 +89,7 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),
             p.IsActive,
-            IsPlatformDefault: false,
+            IsPlatformDefault: p.TenantId is null,
             p.UpdatedAt);
     }
 }

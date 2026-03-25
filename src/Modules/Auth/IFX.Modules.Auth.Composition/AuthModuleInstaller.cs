@@ -66,8 +66,9 @@ namespace IFX.Modules.Auth.Composition
             builder.MapIdpEndpoints();               // 3 endpoints: idps (GET/POST/PUT)
             builder.MapEmailVerificationEndpoints(); // 4 endpoints: verify, send-verification, resend-verification, verification-status
             builder.MapPolicyEndpoints();            // 5 endpoints: policies (GET/POST/PUT/DELETE + templates)
+            builder.MapPlatformPolicyEndpoints();    // 4 endpoints: platform policies (GET/POST/PUT/DELETE)
 
-            Log.Information("[{Module}] Module endpoints mapped: 61 total (6 Auth, 5 OAuth, 5 User, 7 UserManagement, 6 Role, 4 Permission, 6 RoleGroup, 5 Tenant, 5 Department, 3 Idp, 4 EmailVerification, 5 Policy)", ModuleName);
+            Log.Information("[{Module}] Module endpoints mapped: 65 total (6 Auth, 5 OAuth, 5 User, 7 UserManagement, 6 Role, 4 Permission, 6 RoleGroup, 5 Tenant, 5 Department, 3 Idp, 4 EmailVerification, 5 Policy, 4 Platform Policy)", ModuleName);
             return builder;
         }
     }

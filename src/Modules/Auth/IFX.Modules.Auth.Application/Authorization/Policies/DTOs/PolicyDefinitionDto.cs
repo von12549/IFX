@@ -2,7 +2,7 @@ namespace IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 
 public record PolicyDefinitionDto(
     Guid? Id,
-    Guid TenantId,
+    Guid? TenantId,
     string Name,
     string? Description,
     string ResourceType,

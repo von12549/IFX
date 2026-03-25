@@ -8,4 +8,7 @@ public interface IPolicyDefinitionRepository
     void Remove(PolicyDefinition policy);
     Task<bool> ExistsAsync(Guid tenantId, string resourceType, string action, CancellationToken ct = default);
     Task<PolicyDefinition?> GetByIdAsync(Guid id, CancellationToken ct = default);
+    Task<PolicyDefinition?> GetPlatformAsync(string resourceType, string action, CancellationToken ct = default);
+    Task<List<PolicyDefinition>> GetPlatformPoliciesAsync(CancellationToken ct = default);
+    Task<bool> ExistsPlatformAsync(string resourceType, string action, CancellationToken ct = default);
 }
