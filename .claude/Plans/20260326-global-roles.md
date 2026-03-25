@@ -246,19 +246,23 @@ OPA integration tests:
 
 ## Open Questions
 
-**Q1: JWT claim vs DB load for GlobalRoles in `ICurrentUser`**
-- JWT claim approach: faster (no DB hit), but requires token refresh when global role changes
-- DB load approach: always fresh, one extra query per request
-- Recommendation: JWT claim (`global_roles` array) — consistent with how tenant roles are surfaced; role changes require re-login (acceptable for platform operators)
+**Q1: JWT claim vs DB load for GlobalRoles in `ICurrentUser`** ✓ Decided: DB load
+- GlobalRoles is a pure authorization concern owned by our system, not the IdP — no IdP changes needed
+- `TenantId` context already comes from the `X-Tenant-Id` header (not a JWT claim), so DB-resolved auth context is the established pattern
+- JWT claim approach would require Cognito Lambda trigger + Auth0 Action updates, couples our schema to IdP logic, and role changes only take effect on token refresh
+- **Implementation:** lazy DB load in `CurrentUser`, cached per-user with a short TTL (~5 min); changes take effect on next request
 
-**Q2: Cross-tenant resource access — which TenantId does a GlobalRole user target?**
-- When `PlatformSupport` reads a user in Tenant A, the `tenantId` in the query comes from the `X-Tenant-Id` header (same as regular users)
-- `AnyTenant` condition bypasses the `SameTenant` check — so the request proceeds regardless of header
-- The header still drives which tenant's data is fetched — the policy only gates the action
+**Q2: Cross-tenant resource access — which TenantId does a GlobalRole user target?** ✓ Decided: X-Tenant-Id header, same as regular users
+- GlobalRole users still send `X-Tenant-Id` header to select which tenant's data to view — consistent with existing pattern
+- `AnyTenant` condition bypasses `SameTenant` in OPA, so the action is authorized regardless of which tenant is in the header
+- If no `X-Tenant-Id` header is sent, behavior is the same as for regular users (empty/null result) — GlobalRole users must still select a tenant
+- "View all tenants" mode is out of scope; no new mechanism required
 
-**Q3: Should `PlatformAdmin` GlobalRole assignment itself be restricted?**
-- Yes — only another PlatformAdmin (or a bootstrap seed user) can assign `PlatformAdmin`
-- Enforced in `AssignGlobalRoleCommandHandler`: check if target role is `PlatformAdmin` → require caller to also be `PlatformAdmin`
+**Q3: Should `PlatformAdmin` GlobalRole assignment itself be restricted?** ✓ Decided: two guards required
+- **Assign guard:** caller must be `IsGlobalAdmin` to assign the `PlatformAdmin` role; `PlatformSupport`/`PlatformAuditor` can be assigned by any PlatformAdmin
+- **Remove guard:** reject removal of `PlatformAdmin` if it would leave zero PlatformAdmins in the system (prevents ungovernable state)
+- **Bootstrap:** first PlatformAdmin assigned via seed migration (hardcoded user→GlobalRole row); no chicken-and-egg problem
+- Enforced in `AssignGlobalRoleCommandHandler` and `RemoveGlobalRoleCommandHandler`
 
 ---
 
