@@ -4,23 +4,40 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 
 ## Features
 
-- **Clean Architecture** - Domain, Application, Infrastructure, Presentation layers
-- **CQRS Pattern** - Command/Query separation with MediatR
-- **OAuth 2.0 with PKCE** - Authorization Code flow with pluggable identity provider adapters
-- **Pluggable Identity Providers** - Cognito and Auth0 adapters; switch provider via `Authentication:Provider` config
-- **Dynamic Multi-IdP SSO** - Database-driven IdP configuration with auto-provisioning
-- **OIDC Discovery** - Automatic IdP configuration via well-known endpoints
-- **UserInfo-Based Provisioning** - Fetches user data from OIDC userinfo endpoint during auto-provisioning
-- **Multi-Tenant** - Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant; tenant switcher in the React UI drives all list views via `X-Tenant-Id` header
-- **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
-- **ABAC Authorization** - OPA (Open Policy Agent) for fine-grained, resource-level policy decisions layered on top of RBAC; fail-closed by default
-- **Template-Based ABAC** - Reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic Rego policy; no per-resource Rego files for new resource types
-- **DB-Backed ABAC Policies** - `PolicyDefinition` table with tenant-level and platform-level rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
-- **Full Audit Trail** - Login/logout events, activity logs, registration tracking
-- **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
-- **507 Tests** - 443 backend (xUnit) + 64 frontend (Vitest) across all layers
-- **Docker Support** - Containerized deployment with docker-compose
-- **Demo UI** - Simple HTML/JS client for testing OAuth flow
+### Architecture
+- **Clean Architecture** — Domain, Application, Infrastructure, Presentation layers with inward-only dependencies
+- **CQRS** — Command/Query separation via MediatR; one handler per operation
+
+### Authentication & SSO
+- **OAuth 2.0 with PKCE** — Authorization Code flow; pluggable identity provider adapters
+- **Pluggable Identity Providers** — Cognito and Auth0 adapters; switch provider via `Authentication:Provider` config
+- **Dynamic Multi-IdP SSO** — Database-driven IdP configuration; multiple providers per tenant
+- **OIDC Discovery** — Automatic IdP configuration via well-known endpoints
+- **UserInfo-Based Provisioning** — Fetches user profile from OIDC userinfo endpoint during auto-provisioning
+
+### Multi-Tenancy
+- **Tenant & Department entities** — Roles, RoleGroups, and IdPs are all scoped per tenant
+- **Tenant switcher** — React UI tenant switcher drives all admin list views via `X-Tenant-Id` header
+
+### Authorization
+- **Role-Based Access Control** — Admin, User, SsoUser, Pending roles with JWT claims transformation
+- **ABAC via OPA** — Open Policy Agent for fine-grained, resource-level policy decisions layered on top of RBAC; fail-closed by default
+- **Template-Based ABAC** — Reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic Rego policy; no per-resource Rego files needed for new resource types
+- **DB-Backed Policies** — `PolicyDefinition` table stores tenant-level and platform-level rows; 3-tier resolver: tenant DB → platform DB → static fallback → deny
+
+### User Management
+- **Full Audit Trail** — Login/logout events, activity logs, registration tracking
+- **User Profile** — Self-service profile editing including primary tenant selection (multi-tenant users)
+
+### Platform Services
+- **Background Jobs** — Hangfire with fire-and-forget, delayed, and recurring job support
+- **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
+
+### Developer Experience
+- **507 Tests** — 443 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **Docker Support** — Full stack via `docker-compose up -d` (API + Frontend + SQL Server + OPA)
+- **React Frontend** — Admin UI for users, roles, tenants, departments, and policies
+- **Demo UI** — Minimal HTML/JS client for testing the OAuth flow end-to-end
 
 ## Quick Start
 
