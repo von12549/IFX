@@ -128,11 +128,16 @@ user.is_global_admin = _currentUser.IsGlobalAdmin
 
 ### 5. Application — `IAbacPolicyResolver`
 
-Add overloads (or rename existing):
+**Remove** the existing `ResolveAsync(Guid? tenantId, ...)` method and replace with two explicit methods:
+
 ```csharp
-Task<PolicyDefinition?> ResolvePlatformPolicyAsync(string resourceType, string action, CancellationToken ct);
-Task<PolicyDefinition?> ResolveTenantPolicyAsync(Guid? tenantId, string resourceType, string action, CancellationToken ct);
+Task<AbacPolicy?> ResolvePlatformPolicyAsync(string resourceType, string action, CancellationToken ct = default);
+Task<AbacPolicy?> ResolveTenantPolicyAsync(Guid tenantId, string resourceType, string action, CancellationToken ct = default);
 ```
+
+This eliminates the last place where the old `null = platform` implicit convention lived. The `Guid?` nullable parameter on the old method was the resolver-layer equivalent of the `TenantId IS NULL` DB convention — now both are gone.
+
+**Also update `StaticAbacPolicyResolver`** to implement both new methods. Since the static resolver ignores `tenantId` (it looks up by `(resourceType, action)` only), both methods delegate to the same in-memory dict lookup — no behavioral change, just explicit signatures.
 
 ### 6. Infrastructure — Repository
 
@@ -236,7 +241,7 @@ OPA integration tests:
 5. EF migration: `AddGlobalRoles`
 6. EF migration: `SeedGlobalRoles`
 7. OPA Rego: add `is_global_admin` allow rule + `AnyTenant` template
-8. `IAbacPolicyResolver` + `AbacPolicyResolver` — platform/tenant dispatch
+8. `IAbacPolicyResolver` — split into `ResolvePlatformPolicyAsync` / `ResolveTenantPolicyAsync`; update `StaticAbacPolicyResolver` and `DbAbacPolicyResolver` to implement new interface; remove old `ResolveAsync(Guid?)`
 9. `ResourceAuthorizationService` — global role dispatch, OPA input update
 10. CRUD commands/queries (Assign, Remove, List, GetUserGlobalRoles)
 11. `GlobalRoleController` endpoints
