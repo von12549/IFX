@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-25
 **Branch:** `feature/permission-action-expansion`
-**Status:** Planned
+**Status:** Implemented
 
 ---
 

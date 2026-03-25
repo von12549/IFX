@@ -15,7 +15,7 @@ public static class IdpEndpointExtensions
 
         group.MapGet("/{idpId}", IdpEndpoints.GetIdpById)
             .WithName("GetIdpById")
-            .RequirePermission("Idp.Read")
+            .RequirePermission("Idp:read")
             .WithSummary("Get an Identity Provider by ID")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized)
@@ -23,7 +23,7 @@ public static class IdpEndpointExtensions
 
         group.MapGet("/", IdpEndpoints.GetAllIdps)
             .WithName("GetAllIdps")
-            .RequirePermission("Idp.Read")
+            .RequirePermission("Idp:list")
             .WithSummary("Get all Identity Providers")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -32,7 +32,7 @@ public static class IdpEndpointExtensions
 
         group.MapPost("/", IdpEndpoints.CreateIdp)
             .WithName("CreateIdp")
-            .RequirePermission("Idp.Write")
+            .RequirePermission("Idp:create")
             .WithSummary("Create a new Identity Provider")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -41,7 +41,7 @@ public static class IdpEndpointExtensions
 
         group.MapPut("/{idpId}", IdpEndpoints.UpdateIdp)
             .WithName("UpdateIdp")
-            .RequirePermission("Idp.Write")
+            .RequirePermission("Idp:update")
             .WithSummary("Update an existing Identity Provider")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

@@ -15,14 +15,14 @@ public static class RoleGroupEndpointExtensions
 
         group.MapGet("/", RoleGroupEndpoints.GetAllRoleGroups)
             .WithName("GetAllRoleGroups")
-            .RequirePermission("RoleGroup.Read")
+            .RequirePermission("RoleGroup:list")
             .WithSummary("Get all role groups")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/", RoleGroupEndpoints.CreateRoleGroup)
             .WithName("CreateRoleGroup")
-            .RequirePermission("RoleGroup.Write")
+            .RequirePermission("RoleGroup:create")
             .WithSummary("Create a new role group")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -30,7 +30,7 @@ public static class RoleGroupEndpointExtensions
 
         group.MapPut("/{roleGroupId}", RoleGroupEndpoints.UpdateRoleGroup)
             .WithName("UpdateRoleGroup")
-            .RequirePermission("RoleGroup.Write")
+            .RequirePermission("RoleGroup:update")
             .WithSummary("Update an existing role group")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -38,7 +38,7 @@ public static class RoleGroupEndpointExtensions
 
         group.MapDelete("/{roleGroupId}", RoleGroupEndpoints.DeleteRoleGroup)
             .WithName("DeleteRoleGroup")
-            .RequirePermission("RoleGroup.Write")
+            .RequirePermission("RoleGroup:delete")
             .WithSummary("Delete a role group")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -46,7 +46,7 @@ public static class RoleGroupEndpointExtensions
 
         group.MapPost("/{roleGroupId}/roles", RoleGroupEndpoints.AssignRolesToRoleGroup)
             .WithName("AssignRolesToRoleGroup")
-            .RequirePermission("RoleGroup.Write")
+            .RequirePermission("RoleGroup:update")
             .WithSummary("Assign roles to a role group")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -54,7 +54,7 @@ public static class RoleGroupEndpointExtensions
 
         group.MapDelete("/{roleGroupId}/roles/{roleId}", RoleGroupEndpoints.RemoveRoleFromRoleGroup)
             .WithName("RemoveRoleFromRoleGroup")
-            .RequirePermission("RoleGroup.Write")
+            .RequirePermission("RoleGroup:update")
             .WithSummary("Remove a role from a role group")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

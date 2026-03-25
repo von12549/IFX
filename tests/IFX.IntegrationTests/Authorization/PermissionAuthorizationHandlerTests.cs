@@ -20,8 +20,8 @@ public class PermissionAuthorizationHandlerTests
     [Fact]
     public async Task HandleAsync_WhenUserHasMatchingPermissionClaim_Succeeds()
     {
-        var requirement = new PermissionRequirement("Role.Read");
-        var context = CreateContext(requirement, [new Claim("permission", "Role.Read")]);
+        var requirement = new PermissionRequirement("Role:read");
+        var context = CreateContext(requirement, [new Claim("permission", "Role:read")]);
 
         await _handler.HandleAsync(context);
 
@@ -31,11 +31,11 @@ public class PermissionAuthorizationHandlerTests
     [Fact]
     public async Task HandleAsync_WhenUserHasMultiplePermissions_SucceedsForMatchingOne()
     {
-        var requirement = new PermissionRequirement("User.Write");
+        var requirement = new PermissionRequirement("User:update");
         var context = CreateContext(requirement,
         [
-            new Claim("permission", "Role.Read"),
-            new Claim("permission", "User.Write"),
+            new Claim("permission", "Role:read"),
+            new Claim("permission", "User:update"),
         ]);
 
         await _handler.HandleAsync(context);
@@ -46,8 +46,8 @@ public class PermissionAuthorizationHandlerTests
     [Fact]
     public async Task HandleAsync_WhenUserMissingPermissionClaim_DoesNotSucceed()
     {
-        var requirement = new PermissionRequirement("Role.Read");
-        var context = CreateContext(requirement, [new Claim("permission", "User.Read")]);
+        var requirement = new PermissionRequirement("Role:read");
+        var context = CreateContext(requirement, [new Claim("permission", "User:list")]);
 
         await _handler.HandleAsync(context);
 
@@ -57,7 +57,7 @@ public class PermissionAuthorizationHandlerTests
     [Fact]
     public async Task HandleAsync_WhenUserHasNoClaims_DoesNotSucceed()
     {
-        var requirement = new PermissionRequirement("Role.Read");
+        var requirement = new PermissionRequirement("Role:read");
         var context = CreateContext(requirement, []);
 
         await _handler.HandleAsync(context);
@@ -68,7 +68,7 @@ public class PermissionAuthorizationHandlerTests
     [Fact]
     public async Task HandleAsync_WhenUserIsUnauthenticated_DoesNotSucceed()
     {
-        var requirement = new PermissionRequirement("Role.Read");
+        var requirement = new PermissionRequirement("Role:read");
         var user = new ClaimsPrincipal(new ClaimsIdentity()); // no auth type = unauthenticated
         var context = new AuthorizationHandlerContext([requirement], user, null);
 

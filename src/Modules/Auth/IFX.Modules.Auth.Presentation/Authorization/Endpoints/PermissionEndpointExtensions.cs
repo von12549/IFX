@@ -15,14 +15,14 @@ public static class PermissionEndpointExtensions
 
         group.MapGet("/", PermissionEndpoints.GetAllPermissions)
             .WithName("GetAllPermissions")
-            .RequirePermission("Permission.Read")
+            .RequirePermission("Permission:list")
             .WithSummary("Get all permissions")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/", PermissionEndpoints.CreatePermission)
             .WithName("CreatePermission")
-            .RequirePermission("Permission.Write")
+            .RequirePermission("Permission:create")
             .WithSummary("Create a new permission")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -30,7 +30,7 @@ public static class PermissionEndpointExtensions
 
         group.MapPut("/{permissionId}", PermissionEndpoints.UpdatePermission)
             .WithName("UpdatePermission")
-            .RequirePermission("Permission.Write")
+            .RequirePermission("Permission:update")
             .WithSummary("Update an existing permission")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
@@ -38,7 +38,7 @@ public static class PermissionEndpointExtensions
 
         group.MapDelete("/{permissionId}", PermissionEndpoints.DeletePermission)
             .WithName("DeletePermission")
-            .RequirePermission("Permission.Write")
+            .RequirePermission("Permission:delete")
             .WithSummary("Delete a permission")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)

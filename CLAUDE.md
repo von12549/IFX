@@ -90,8 +90,8 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - Admin — Auth: `GET/POST/PUT /api/v1/role`, `/api/v1/rolegroup`, `/api/v1/idp` (tenant via `X-Tenant-Id` header)
 - Admin — Tenants: `GET/POST/PUT/DELETE /api/v1/tenant`
 - Admin — Departments: `GET/POST/PUT/DELETE /api/v1/department` (tenant via `X-Tenant-Id` header)
-- Admin — Tenant Policies: `GET/POST/PUT/DELETE /api/v1/policy` + `GET /api/v1/policy/templates` (tenant via `X-Tenant-Id`; requires `Policy.Read`/`Policy.Write`)
-- Admin — Platform Policies: `GET/POST/PUT/DELETE /api/v1/platform/policy` (requires `Platform.Policy.Read`/`Platform.Policy.Write`)
+- Admin — Tenant Policies: `GET/POST/PUT/DELETE /api/v1/policy` + `GET /api/v1/policy/templates` (tenant via `X-Tenant-Id`; requires `Policy:list`/`Policy:create`/`Policy:update`/`Policy:delete`)
+- Admin — Platform Policies: `GET/POST/PUT/DELETE /api/v1/platform/policy` (requires `Platform.Policy:list`/`Platform.Policy:create`/`Platform.Policy:update`/`Platform.Policy:delete`)
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
 
