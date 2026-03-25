@@ -63,13 +63,14 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260325-complete-abac-policies.md` | Complete ABAC coverage — IsActive template, CreatedBy DB column, resource attribute models, per-handler policies, list gate strategy, seeded PolicyDefinitions |
 | `/.claude/Plans/20260326-policy-definition-scope.md` | PolicyDefinition Scope field — replace TenantId=NULL convention with explicit Scope enum (Platform/Tenant), unique index update, resolver refactor |
 | `/.claude/Plans/20260326-global-roles.md` | GlobalRole system — cross-tenant PlatformAdmin/Support/Auditor roles, AnyTenant OPA template, platform policy dispatch, CRUD endpoints |
+| `/.claude/Plans/20260326-auth-authorization-feature-subfolders.md` | Authorization subdomain feature-subfolder refactor — Roles, RoleGroups, Permissions, Tenants, Departments each get Commands/Queries/DTOs/Authorization subfolders |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (443 backend tests → 507 total including frontend)
+dotnet test IFX.sln           # Test (466 backend tests → 530 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests

@@ -1,8 +1,8 @@
-using IFX.Modules.Auth.Application.Authorization.Commands.CreateDepartment;
-using IFX.Modules.Auth.Application.Authorization.Commands.DeleteDepartment;
-using IFX.Modules.Auth.Application.Authorization.Commands.UpdateDepartment;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetAllDepartments;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetDepartmentById;
+using IFX.Modules.Auth.Application.Authorization.Departments.Commands.CreateDepartment;
+using IFX.Modules.Auth.Application.Authorization.Departments.Commands.DeleteDepartment;
+using IFX.Modules.Auth.Application.Authorization.Departments.Commands.UpdateDepartment;
+using IFX.Modules.Auth.Application.Authorization.Departments.Queries.GetAllDepartments;
+using IFX.Modules.Auth.Application.Authorization.Departments.Queries.GetDepartmentById;
 using IFX.Modules.Auth.Presentation.Authorization.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;

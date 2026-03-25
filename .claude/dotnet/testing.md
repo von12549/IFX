@@ -12,9 +12,9 @@ Testing approach, project structure, and patterns.
 | Project | Purpose | Tests |
 |---------|---------|-------|
 | `IFX.Tests.Common` | Shared utilities, builders, fixtures | - |
-| `IFX.Modules.Auth.Domain.Tests` | Entity and value object tests | 103 |
-| `IFX.Modules.Auth.Application.Tests` | Handler, validator, and behavior tests | 190 |
-| `IFX.Modules.Auth.Infrastructure.Tests` | Repository tests (in-memory EF) | 45 |
+| `IFX.Modules.Auth.Domain.Tests` | Entity and value object tests | 106 |
+| `IFX.Modules.Auth.Application.Tests` | Handler, validator, and behavior tests | 225 |
+| `IFX.Modules.Auth.Infrastructure.Tests` | Repository tests (in-memory EF) | 54 |
 | `IFX.Modules.Auth.Presentation.Tests` | Authorization class unit tests | 10 |
 
 ### Platform Module Tests (28 tests)
@@ -30,11 +30,11 @@ Testing approach, project structure, and patterns.
 |---------|---------|-------|
 | `IFX.IntegrationTests` | Permission enforcement + API end-to-end | 43 |
 
-**Total: 376 unit tests + 43 integration tests = 419 backend tests**
+**Total: 423 unit tests + 43 integration tests = 466 backend tests**
 
 ---
 
-## Frontend Test Stack (55 tests)
+## Frontend Test Stack (64 tests)
 
 Located in `src/Frontend/IFX.FrontEnd/src/`.
 

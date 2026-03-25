@@ -1,8 +1,8 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.Auth.Application.Authorization.DTOs;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetAllRoles;
+using IFX.Modules.Auth.Application.Authorization.Roles.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Roles.Queries.GetAllRoles;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Tests.Common.Builders;
