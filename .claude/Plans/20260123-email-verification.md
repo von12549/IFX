@@ -1,5 +1,7 @@
 # Email Verification Plan
 
+**Status:** Implemented
+
 This document outlines the implementation plan for email verification functionality in IFX.
 
 ## Overview

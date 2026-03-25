@@ -2,6 +2,7 @@
 
 **Date:** 2026-03-16
 **Branch:** `feature/auth-subdomain-refactor`
+**Status:** Implemented
 **Scope:** Internal reorganization only — no new modules, no behavior changes.
 
 ---

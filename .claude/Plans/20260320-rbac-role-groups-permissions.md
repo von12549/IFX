@@ -2,6 +2,7 @@
 
 **Date:** 2026-03-20
 **Branch:** `feature/rbac-role-groups-permissions`
+**Status:** Implemented
 **Base:** `main`
 
 ---

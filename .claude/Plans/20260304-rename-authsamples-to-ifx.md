@@ -2,6 +2,7 @@
 
 **Date:** 2026-03-04
 **Branch:** `feature/rename-authsamples-to-ifx`
+**Status:** Implemented
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-16
 **Branch:** `feature/pluggable-identity-providers`
-**Status:** Ready for implementation
+**Status:** Implemented
 
 ---
 
