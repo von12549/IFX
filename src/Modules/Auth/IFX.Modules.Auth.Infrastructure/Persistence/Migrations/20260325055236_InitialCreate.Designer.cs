@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(IfxDbContext))]
-    [Migration("20260324181817_SeedPolicyPermissions")]
-    partial class SeedPolicyPermissions
+    [Migration("20260325055236_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,7 +143,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid>("TenantId")
+                    b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -159,7 +159,8 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TenantId", "ResourceType", "Action")
                         .IsUnique()
-                        .HasDatabaseName("UX_PolicyDefinitions_Tenant_Resource_Action");
+                        .HasDatabaseName("UX_PolicyDefinitions_Tenant_Resource_Action")
+                        .HasFilter("[TenantId] IS NOT NULL");
 
                     b.ToTable("PolicyDefinitions", "auth");
                 });
