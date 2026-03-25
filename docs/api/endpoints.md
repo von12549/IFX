@@ -353,6 +353,122 @@ Content-Type: application/json
 }
 ```
 
+## ABAC Policy Endpoints (Tenant-Level)
+
+Manage tenant-specific ABAC policy overrides. Tenant context via `X-Tenant-Id` header.
+
+Requires `Policy.Read` (GET) or `Policy.Write` (POST/PUT/DELETE).
+
+### List Tenant Policies
+```http
+GET /api/v1/policy
+X-Tenant-Id: <tenantId>
+Authorization: Bearer <token>
+```
+
+### List Available Condition Templates
+```http
+GET /api/v1/policy/templates
+Authorization: Bearer <token>
+```
+
+### Create Tenant Policy
+```http
+POST /api/v1/policy
+X-Tenant-Id: <tenantId>
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Read Own Profile",
+  "description": "Allows users to read their own profile.",
+  "resourceType": "user",
+  "action": "read",
+  "conditions": [
+    { "templateName": "SameTenant", "parameters": null },
+    { "templateName": "CreatedByMe", "parameters": null }
+  ]
+}
+```
+
+### Update Tenant Policy
+```http
+PUT /api/v1/policy/{policyId}
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Read Own Profile",
+  "description": "Updated description.",
+  "conditions": [
+    { "templateName": "SameTenant", "parameters": null }
+  ]
+}
+```
+
+### Delete Tenant Policy
+```http
+DELETE /api/v1/policy/{policyId}
+Authorization: Bearer <token>
+```
+
+Deleting a tenant policy reverts to the platform-level default for that resource/action.
+
+---
+
+## ABAC Platform Policy Endpoints
+
+Manage platform-level (global) ABAC policy defaults. These apply to all tenants that have no tenant-specific override.
+
+Requires `Platform.Policy.Read` (GET) or `Platform.Policy.Write` (POST/PUT/DELETE).
+
+### List Platform Policies
+```http
+GET /api/v1/platform/policy
+Authorization: Bearer <token>
+```
+
+### Create Platform Policy
+```http
+POST /api/v1/platform/policy
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Read Own Profile (Platform Default)",
+  "description": "Platform-wide default: allows any user to read their own profile.",
+  "resourceType": "user",
+  "action": "read",
+  "conditions": [
+    { "templateName": "SameTenant", "parameters": null },
+    { "templateName": "CreatedByMe", "parameters": null }
+  ]
+}
+```
+
+### Update Platform Policy
+```http
+PUT /api/v1/platform/policy/{policyId}
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Read Own Profile (Platform Default)",
+  "description": "Updated description.",
+  "conditions": [
+    { "templateName": "SameTenant", "parameters": null }
+  ]
+}
+```
+
+### Delete Platform Policy
+```http
+DELETE /api/v1/platform/policy/{policyId}
+Authorization: Bearer <token>
+```
+
+---
+
 ## Health Endpoints
 
 ### Detailed Health Check

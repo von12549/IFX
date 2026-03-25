@@ -33,6 +33,26 @@ export const mockTenants = [
   { id: 'tenant-2', name: 'Beta Ltd' },
 ]
 
+export const mockTemplates = [
+  { name: 'SameTenant', description: 'Subject and resource must belong to the same tenant.' },
+  { name: 'CreatedByMe', description: 'Subject must be the owner of the resource.' },
+]
+
+export const mockPolicies = [
+  {
+    id: 'policy-1',
+    tenantId: 'tenant-1',
+    name: 'Read Own Profile',
+    description: 'Allows users to read their own profile.',
+    resourceType: 'user',
+    action: 'read',
+    conditions: [{ templateName: 'SameTenant', parameters: null }, { templateName: 'CreatedByMe', parameters: null }],
+    isActive: true,
+    isPlatformDefault: false,
+    updatedAt: '2026-03-25T10:00:00Z',
+  },
+]
+
 export const handlers = [
   http.get(`${API}/api/v1/user/profile`, () =>
     HttpResponse.json({ success: true, data: mockUser })
@@ -75,5 +95,25 @@ export const handlers = [
 
   http.get(`${API}/api/v1/tenant/`, () =>
     HttpResponse.json({ success: true, data: mockTenants })
+  ),
+
+  http.get(`${API}/api/v1/policy/`, () =>
+    HttpResponse.json({ success: true, data: mockPolicies })
+  ),
+
+  http.get(`${API}/api/v1/policy/templates`, () =>
+    HttpResponse.json({ success: true, data: mockTemplates })
+  ),
+
+  http.post(`${API}/api/v1/policy/`, () =>
+    HttpResponse.json({ success: true, data: { ...mockPolicies[0], id: 'policy-new' } }, { status: 201 })
+  ),
+
+  http.put(`${API}/api/v1/policy/:id`, () =>
+    HttpResponse.json({ success: true, data: mockPolicies[0] })
+  ),
+
+  http.delete(`${API}/api/v1/policy/:id`, () =>
+    HttpResponse.json({ success: true })
   ),
 ]

@@ -1,4 +1,7 @@
 ﻿using IFX.BuildingBlocks.Security.Authorization;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -65,6 +68,7 @@ public static class DependencyInjection
         services.AddScoped<IUserActivityLogRepository, UserActivityLogRepository>();
         services.AddScoped<IIdpRepository, IdpRepository>();
         services.AddScoped<IEmailVerificationTokenRepository, EmailVerificationTokenRepository>();
+        services.AddScoped<IPolicyDefinitionRepository, PolicyDefinitionRepository>();
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -74,6 +78,23 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IPermissionChecker, PermissionChecker>();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
+
+        // Register ABAC template engine (singleton — thread-safe, no per-request state)
+        services.AddSingleton<IAbacTemplateRegistry>(_ =>
+        {
+            var registry = new AbacTemplateRegistry();
+            BuiltInTemplates.Register(registry);
+            return registry;
+        });
+        services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
+
+        // Register ABAC policy resolver: DB-backed, with empty static fallback as last resort
+        services.AddSingleton<StaticAbacPolicyResolver>();
+        // DbAbacPolicyResolver implements both IAbacPolicyResolver and IAbacPolicyCache.
+        // Register as scoped and expose via both interfaces.
+        services.AddScoped<DbAbacPolicyResolver>();
+        services.AddScoped<IAbacPolicyResolver>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());
+        services.AddScoped<IAbacPolicyCache>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());
 
         return services;
     }

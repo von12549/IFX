@@ -1,3 +1,6 @@
+using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
@@ -8,9 +11,13 @@ namespace IFX.BuildingBlocks.Security.Authorization;
 
 public class ResourceAuthorizationService : IResourceAuthorizationService
 {
+    private const string AbacEvalPath = "authz/common/abac_eval";
+
     private readonly ICurrentUser _currentUser;
     private readonly IPermissionChecker _permissionChecker;
     private readonly IOpaPolicyClient _opaClient;
+    private readonly IAbacPolicyEngine _abacEngine;
+    private readonly IAbacPolicyResolver _policyResolver;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<ResourceAuthorizationService> _logger;
 
@@ -18,12 +25,16 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
         ICurrentUser currentUser,
         IPermissionChecker permissionChecker,
         IOpaPolicyClient opaClient,
+        IAbacPolicyEngine abacEngine,
+        IAbacPolicyResolver policyResolver,
         IHttpContextAccessor httpContextAccessor,
         ILogger<ResourceAuthorizationService> logger)
     {
         _currentUser = currentUser;
         _permissionChecker = permissionChecker;
         _opaClient = opaClient;
+        _abacEngine = abacEngine;
+        _policyResolver = policyResolver;
         _httpContextAccessor = httpContextAccessor;
         _logger = logger;
     }
@@ -84,6 +95,78 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
         _logger.LogDebug(
             "Authorized: user {UserId} action '{Action}' on {ResourceType}/{ResourceId}",
             _currentUser.UserId, action, resourceAttributes.Type, resourceAttributes.Id);
+    }
+
+    public async Task AuthorizeWithPolicyAsync<TResource>(
+        AbacPolicy policy,
+        TResource resourceAttributes,
+        IDictionary<string, object>? parameters = null,
+        CancellationToken ct = default)
+        where TResource : OpaResourceAttributesBase
+    {
+        // Resolve conditions (throws ArgumentException on missing UserInput params)
+        var conditions = _abacEngine.Resolve(policy, parameters);
+
+        // Build OPA envelope with resolved conditions
+        var httpContext = _httpContextAccessor.HttpContext;
+        var envelope = new OpaAuthorizationEnvelope<TResource>
+        {
+            Subject = new OpaSubjectAttributes
+            {
+                Id = _currentUser.UserId.ToString(),
+                TenantId = _currentUser.TenantId?.ToString(),
+                Departments = _currentUser.Departments,
+                Roles = _currentUser.Roles,
+                Permissions = _currentUser.Permissions,
+                Mfa = _currentUser.MfaEnabled
+            },
+            Resource = resourceAttributes,
+            Action = policy.Action,
+            Environment = new OpaEnvironmentAttributes
+            {
+                Ip = httpContext?.Connection.RemoteIpAddress?.ToString(),
+                Network = ResolveNetwork(httpContext),
+                Time = DateTime.UtcNow.ToString("O")
+            },
+            Conditions = conditions
+        };
+
+        // Evaluate against the generic ABAC evaluator policy
+        var decision = await _opaClient.EvaluateAsync(AbacEvalPath, envelope, ct);
+
+        if (!decision.Allow)
+        {
+            _logger.LogWarning(
+                "ABAC denied: user {UserId} action '{Action}' on {ResourceType}/{ResourceId} " +
+                "via policy '{Path}' ({ConditionCount} conditions). Reason: {Reason}",
+                _currentUser.UserId, policy.Action, resourceAttributes.Type, resourceAttributes.Id,
+                AbacEvalPath, conditions.Count, decision.DenyReason ?? "policy returned false");
+            throw new ForbiddenException("Access denied by policy.");
+        }
+
+        _logger.LogDebug(
+            "ABAC authorized: user {UserId} action '{Action}' on {ResourceType}/{ResourceId} ({ConditionCount} conditions)",
+            _currentUser.UserId, policy.Action, resourceAttributes.Type, resourceAttributes.Id, conditions.Count);
+    }
+
+    public async Task AuthorizeWithResolvedPolicyAsync<TResource>(
+        string resourceType,
+        string action,
+        TResource resourceAttributes,
+        IDictionary<string, object>? parameters = null,
+        CancellationToken ct = default)
+        where TResource : OpaResourceAttributesBase
+    {
+        var policy = await _policyResolver.ResolveAsync(_currentUser.TenantId, resourceType, action, ct);
+        if (policy is null)
+        {
+            _logger.LogWarning(
+                "ABAC denied (no policy): user {UserId} action '{Action}' on {ResourceType}",
+                _currentUser.UserId, action, resourceType);
+            throw new ForbiddenException($"No ABAC policy defined for '{resourceType}/{action}'.");
+        }
+
+        await AuthorizeWithPolicyAsync(policy, resourceAttributes, parameters, ct);
     }
 
     private static string? ResolveNetwork(HttpContext? ctx)

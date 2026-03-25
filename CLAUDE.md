@@ -13,6 +13,8 @@ This file provides guidance to Claude Code when working with this repository.
 - OIDC Discovery for dynamic IdP configuration
 - UserInfo-based auto-provisioning (fetches user data from OIDC userinfo endpoint)
 - **Multi-tenant** — Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant
+- **Template-Based ABAC** — reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic OPA Rego policy; no per-resource Rego files needed for new resource types
+- **DB-Backed ABAC Policies** — `PolicyDefinition` table stores tenant-level and platform-level (TenantId = NULL) policy rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
 - Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
@@ -53,18 +55,23 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260321-frontend-ifx.md` | IFX.FrontEnd React app — pages, API audit, token flow, implementation order |
 | `/.claude/Plans/20260322-test-coverage-improvement.md` | Unit + integration + frontend test coverage improvement (Phases 1–8) |
 | `/.claude/Plans/20260322-multi-tenant.md` | Multi-tenant support — Tenant/Department entities, TenantId on Role/RoleGroup/Idp, CRUD endpoints, tenant-filtered queries, frontend pages |
+| `/.claude/Plans/20260323-opa-abac-authorization.md` | OPA + ABAC authorization — IResourceAuthorizationService, OpaClient, Rego policies, pilot use case |
+| `/.claude/Plans/20260324-template-abac.md` | Template-based ABAC engine — reusable condition templates, single generic Rego, DB-backed policy storage |
+| `/.claude/Plans/20260325-db-backed-abac-policies.md` | DB-backed tenant-level ABAC policies — PolicyDefinition entity, CRUD endpoints, cache invalidation |
+| `/.claude/Plans/20260325-seed-user-policies-ifx-tenant.md` | Seed user/read ABAC policy for IFX tenant via EF migration |
+| `/.claude/Plans/20260325-global-platform-abac-policies.md` | Platform-level (TenantId=NULL) ABAC policies — 3-tier resolver, platform CRUD endpoints |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (419 backend tests → 474 total including frontend)
+dotnet test IFX.sln           # Test (443 backend tests → 507 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
 cd src/Frontend/IFX.FrontEnd
-npm run test:run              # Run 55 frontend tests (Vitest)
+npm run test:run              # Run 64 frontend tests (Vitest)
 npm run test:coverage         # With coverage report
 ```
 
@@ -83,6 +90,8 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - Admin — Auth: `GET/POST/PUT /api/v1/role`, `/api/v1/rolegroup`, `/api/v1/idp` (tenant via `X-Tenant-Id` header)
 - Admin — Tenants: `GET/POST/PUT/DELETE /api/v1/tenant`
 - Admin — Departments: `GET/POST/PUT/DELETE /api/v1/department` (tenant via `X-Tenant-Id` header)
+- Admin — Tenant Policies: `GET/POST/PUT/DELETE /api/v1/policy` + `GET /api/v1/policy/templates` (tenant via `X-Tenant-Id`; requires `Policy.Read`/`Policy.Write`)
+- Admin — Platform Policies: `GET/POST/PUT/DELETE /api/v1/platform/policy` (requires `Platform.Policy.Read`/`Platform.Policy.Write`)
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
 

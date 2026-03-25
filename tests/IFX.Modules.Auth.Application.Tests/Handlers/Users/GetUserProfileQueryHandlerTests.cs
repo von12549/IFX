@@ -1,5 +1,6 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Application.Users.DTOs;
@@ -27,11 +28,11 @@ public class GetUserProfileQueryHandlerTests
 
         // Authorization passes by default in unit tests
         _authorizationService
-            .Setup(a => a.AuthorizeAsync(
-                It.IsAny<string?>(),
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
                 It.IsAny<string>(),
                 It.IsAny<OpaResourceAttributesBase>(),
-                It.IsAny<string>(),
+                It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
@@ -65,14 +66,38 @@ public class GetUserProfileQueryHandlerTests
     }
 
     [Fact]
+    public async Task Handle_AuthorizesViaResolvedUserReadPolicy()
+    {
+        var tenantId = Guid.NewGuid();
+        _currentUser.Setup(c => c.TenantId).Returns(tenantId);
+
+        var user = new UserBuilder().Active().Build();
+        _users.Setup(u => u.GetByIssuerAndSubjectWithPermissionsAsync(
+                TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject, It.IsAny<CancellationToken>()))
+              .ReturnsAsync(user);
+        _mapper.Setup(m => m.Map<UserProfileDto>(user))
+               .Returns(new UserProfileDto { Id = user.Id, DisplayName = user.DisplayName });
+
+        await _handler.Handle(
+            new GetUserProfileQuery(TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject),
+            CancellationToken.None);
+
+        _authorizationService.Verify(a => a.AuthorizeWithResolvedPolicyAsync(
+            "user",
+            "read",
+            It.IsAny<OpaResourceAttributesBase>(),
+            It.IsAny<IDictionary<string, object>?>(),
+            It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
     public async Task Handle_WithNonPrimaryTenant_UsesSelectedTenantForAuthorization()
     {
-        // User's primary tenant differs from their currently selected tenant —
-        // the ABAC check should use the selected tenant so same_tenant passes.
+        // The ABAC check uses the selected tenant (ICurrentUser.TenantId), not user.PrimaryTenantId.
         var selectedTenantId = Guid.NewGuid();
         _currentUser.Setup(c => c.TenantId).Returns(selectedTenantId);
 
-        var user = new UserBuilder().Active().Build(); // PrimaryTenantId is different
+        var user = new UserBuilder().Active().Build();
         _users.Setup(u => u.GetByIssuerAndSubjectWithPermissionsAsync(
                 TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject, It.IsAny<CancellationToken>()))
               .ReturnsAsync(user);
@@ -83,14 +108,40 @@ public class GetUserProfileQueryHandlerTests
             new GetUserProfileQuery(TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject),
             CancellationToken.None);
 
-        // Should succeed — resource tenant is now the selected tenant, not user.PrimaryTenantId
         result.IsSuccess.Should().BeTrue();
-        _authorizationService.Verify(a => a.AuthorizeAsync(
-            null,
-            "authz/auth/read_user",
-            It.Is<OpaResourceAttributesBase>(r => r.TenantId == selectedTenantId.ToString()),
+        _authorizationService.Verify(a => a.AuthorizeWithResolvedPolicyAsync(
+            "user",
             "read",
+            It.Is<OpaResourceAttributesBase>(r => r.TenantId == selectedTenantId.ToString()),
+            It.IsAny<IDictionary<string, object>?>(),
             It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_WhenAuthorizationDenied_ReturnsFailure()
+    {
+        var tenantId = Guid.NewGuid();
+        _currentUser.Setup(c => c.TenantId).Returns(tenantId);
+
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new ForbiddenException("Access denied by policy."));
+
+        var user = new UserBuilder().Active().Build();
+        _users.Setup(u => u.GetByIssuerAndSubjectWithPermissionsAsync(
+                TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject, It.IsAny<CancellationToken>()))
+              .ReturnsAsync(user);
+
+        var result = await _handler.Handle(
+            new GetUserProfileQuery(TestConstants.IFXCognitoIssuer, TestConstants.ValidSubject),
+            CancellationToken.None);
+
+        result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]

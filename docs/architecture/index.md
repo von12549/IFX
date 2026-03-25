@@ -10,7 +10,8 @@ IFX/
 │   ├── ApiHost/
 │   │   └── IFX.ApiHost/      # Host app (middleware, startup, health checks)
 │   ├── BuildingBlocks/
-│   │   └── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   │   ├── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA, ABAC engine, policy resolver)
 │   ├── Platform/                     # Cross-cutting platform services
 │   │   ├── IFX.Platform.Shared/           # Constants, settings, result pattern
 │   │   ├── BackgroundJobs/                        # Hangfire-based job scheduling
@@ -27,7 +28,7 @@ IFX/
 │       ├── Infrastructure/           # Data access, AWS Cognito service
 │       ├── Presentation/             # Minimal API endpoints and models
 │       └── Composition/              # Module entry point (wires all layers)
-├── tests/                            # Test projects (206 tests)
+├── tests/                            # Test projects (443 backend tests)
 └── docs/                             # Documentation
 ```
 

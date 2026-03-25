@@ -102,6 +102,66 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.ToTable("Permissions", "auth");
                 });
 
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.PolicyDefinition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ConditionsJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ResourceType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid?>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId")
+                        .HasDatabaseName("IX_PolicyDefinitions_TenantId");
+
+                    b.HasIndex("TenantId", "ResourceType", "Action")
+                        .IsUnique()
+                        .HasDatabaseName("UX_PolicyDefinitions_Tenant_Resource_Action")
+                        .HasFilter("[TenantId] IS NOT NULL");
+
+                    b.ToTable("PolicyDefinitions", "auth");
+                });
+
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.Role", b =>
                 {
                     b.Property<Guid>("Id")

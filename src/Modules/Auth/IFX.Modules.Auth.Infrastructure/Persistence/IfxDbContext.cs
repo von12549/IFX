@@ -25,6 +25,7 @@ public class IfxDbContext : DbContext
     public DbSet<UserActivityLog> UserActivityLogs => Set<UserActivityLog>();
     public DbSet<Idp> Idps => Set<Idp>();
     public DbSet<EmailVerificationToken> EmailVerificationTokens => Set<EmailVerificationToken>();
+    public DbSet<PolicyDefinition> PolicyDefinitions => Set<PolicyDefinition>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

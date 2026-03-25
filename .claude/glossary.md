@@ -69,3 +69,25 @@ Defines terms, abbreviations, and naming conventions used in this codebase.
 | Access Token | Short-lived JWT for API access |
 | Refresh Token | Long-lived token to obtain new access tokens |
 | Claims Transformation | Process of adding database role to JWT claims |
+
+---
+
+## ABAC Authorization
+
+| Term | Definition |
+|------|------------|
+| **ABAC** | Attribute-Based Access Control — resource-level authorization based on subject/resource attributes |
+| **RBAC** | Role-Based Access Control — coarse-grained permission gate (checked before ABAC) |
+| **ConditionTemplate** | Named reusable rule (e.g. `SameTenant`) with left/operator/right field references |
+| **AbacPolicy** | Ordered list of `AbacCondition` objects; all must pass (AND semantics) |
+| **AbacCondition** | One condition in a policy, bound to a `ConditionTemplate` with optional parameters |
+| **PolicyDefinition** | DB entity storing a policy row; `TenantId = null` = platform-level (global default) |
+| **Platform policy** | `PolicyDefinition` with `TenantId IS NULL` — applies to all tenants without a tenant-specific override |
+| **Tenant policy** | `PolicyDefinition` with a specific `TenantId` — overrides the platform default for that tenant |
+| **3-tier resolver** | Resolution order: tenant DB row → platform DB row → static fallback → null (deny) |
+| **IAbacPolicyCache** | Interface for invalidating cached policy entries after create/update/delete |
+| **StaticAbacPolicyResolver** | In-memory fallback resolver for resources not yet stored in the DB |
+| **OPA** | Open Policy Agent — external sidecar evaluating Rego policies for fine-grained decisions |
+| **Rego** | Policy language used by OPA; template-based resources use a single `template_abac.rego` |
+| **NullOpaPolicyClient** | Dev stub that always allows; registered when `Opa:Enabled = false` |
+| **FailClosed** | Default behavior: OPA unavailability = deny (not allow) |
