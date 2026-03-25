@@ -3,7 +3,7 @@
 **Date:** 2026-03-26
 **Branch:** `feature/abac/scope-globalroles`
 **Base:** `feature/complete-abac-policies`
-**Status:** Planning
+**Status:** Implemented
 
 ---
 

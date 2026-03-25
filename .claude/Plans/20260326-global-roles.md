@@ -4,7 +4,7 @@
 **Branch:** `feature/abac/scope-globalroles`
 **Base:** `feature/complete-abac-policies`
 **Depends on:** `20260326-policy-definition-scope.md` (Scope field must be in place first)
-**Status:** Planning
+**Status:** Implemented
 
 ---
 
