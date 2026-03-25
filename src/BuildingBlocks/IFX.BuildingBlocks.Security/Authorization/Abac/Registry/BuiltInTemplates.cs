@@ -57,6 +57,19 @@ public static class BuiltInTemplates
         Right = ConditionValueRef.Literal("true")
     };
 
+    /// <summary>
+    /// Allow cross-tenant access for global-role users. Passes when the subject is a global admin.
+    /// Left: subject.is_global_admin (string "true"/"false"), Right: "true" (literal), Operator: Equals.
+    /// Used by platform-scope policies assigned to PlatformSupport/PlatformAuditor roles.
+    /// </summary>
+    public static readonly ConditionTemplate AnyTenant = new()
+    {
+        Name = "AnyTenant",
+        Left = "subject.is_global_admin",
+        Operator = ConditionOperator.Equals,
+        Right = ConditionValueRef.Literal("true")
+    };
+
     /// <summary>Seeds all built-in templates into the provided registry.</summary>
     public static void Register(IAbacTemplateRegistry registry)
     {
@@ -64,5 +77,6 @@ public static class BuiltInTemplates
         registry.Register(CreatedByMe);
         registry.Register(SameTenant);
         registry.Register(IsActive);
+        registry.Register(AnyTenant);
     }
 }

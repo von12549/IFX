@@ -31,6 +31,12 @@ public class User : BaseEntity, IAuditableEntity
     private readonly List<LoginEvent> _loginEvents = new();
     public IReadOnlyCollection<LoginEvent> LoginEvents => _loginEvents.AsReadOnly();
 
+    private readonly List<UserGlobalRole> _globalRoles = new();
+    public IReadOnlyCollection<UserGlobalRole> GlobalRoles => _globalRoles.AsReadOnly();
+
+    public bool IsGlobalAdmin =>
+        _globalRoles.Any(gr => gr.GlobalRole?.Name == GlobalRoleNames.PlatformAdmin);
+
     private User() { } // For EF Core
 
     public static User Create(string displayName, bool isActive = false)

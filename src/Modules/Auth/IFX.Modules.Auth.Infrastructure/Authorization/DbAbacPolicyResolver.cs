@@ -40,8 +40,39 @@ public sealed class DbAbacPolicyResolver : IAbacPolicyResolver, IAbacPolicyCache
     public void RegisterDefault(string resourceType, string action, AbacPolicy policy)
         => _staticResolver.RegisterDefault(resourceType, action, policy);
 
-    public async Task<AbacPolicy?> ResolveAsync(
-        Guid? tenantId,
+    public async Task<AbacPolicy?> ResolvePlatformPolicyAsync(
+        string resourceType,
+        string action,
+        CancellationToken ct = default)
+    {
+        var resource = resourceType.ToLowerInvariant();
+        var act = action.ToLowerInvariant();
+
+        var platformKey = $"abac:platform:{resource}:{act}";
+        if (_cache.TryGetValue(platformKey, out AbacPolicy? platformCached))
+            return platformCached;
+
+        PolicyDefinition? platformRow = null;
+        try { platformRow = await _repository.GetPlatformAsync(resourceType, action, ct); }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Failed to load platform ABAC policy from DB for {ResourceType}/{Action}",
+                resourceType, action);
+        }
+
+        if (platformRow is not null)
+        {
+            var policy = DeserializePolicy(platformRow, resource, act);
+            _cache.Set(platformKey, policy, CacheTtl);
+            return policy;
+        }
+
+        return await _staticResolver.ResolvePlatformPolicyAsync(resourceType, action, ct);
+    }
+
+    public async Task<AbacPolicy?> ResolveTenantPolicyAsync(
+        Guid tenantId,
         string resourceType,
         string action,
         CancellationToken ct = default)
@@ -50,30 +81,27 @@ public sealed class DbAbacPolicyResolver : IAbacPolicyResolver, IAbacPolicyCache
         var act = action.ToLowerInvariant();
 
         // 1. Tenant-level DB row
-        if (tenantId is not null)
+        var tenantKey = $"abac:{tenantId}:{resource}:{act}";
+        if (_cache.TryGetValue(tenantKey, out AbacPolicy? tenantCached))
+            return tenantCached;
+
+        PolicyDefinition? tenantRow = null;
+        try { tenantRow = await _repository.GetAsync(tenantId, resourceType, action, ct); }
+        catch (Exception ex)
         {
-            var tenantKey = $"abac:{tenantId}:{resource}:{act}";
-            if (_cache.TryGetValue(tenantKey, out AbacPolicy? tenantCached))
-                return tenantCached;
-
-            PolicyDefinition? tenantRow = null;
-            try { tenantRow = await _repository.GetAsync(tenantId.Value, resourceType, action, ct); }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex,
-                    "Failed to load ABAC policy from DB for tenant {TenantId} {ResourceType}/{Action}",
-                    tenantId, resourceType, action);
-            }
-
-            if (tenantRow is not null)
-            {
-                var policy = DeserializePolicy(tenantRow, resource, act);
-                _cache.Set(tenantKey, policy, CacheTtl);
-                return policy;
-            }
+            _logger.LogError(ex,
+                "Failed to load ABAC policy from DB for tenant {TenantId} {ResourceType}/{Action}",
+                tenantId, resourceType, action);
         }
 
-        // 2. Platform-level DB row (TenantId IS NULL)
+        if (tenantRow is not null)
+        {
+            var policy = DeserializePolicy(tenantRow, resource, act);
+            _cache.Set(tenantKey, policy, CacheTtl);
+            return policy;
+        }
+
+        // 2. Platform-level DB row (fallback for tenant users)
         var platformKey = $"abac:platform:{resource}:{act}";
         if (_cache.TryGetValue(platformKey, out AbacPolicy? platformCached))
             return platformCached;
@@ -95,7 +123,7 @@ public sealed class DbAbacPolicyResolver : IAbacPolicyResolver, IAbacPolicyCache
         }
 
         // 3. Static fallback
-        return await _staticResolver.ResolveAsync(tenantId, resourceType, action, ct);
+        return await _staticResolver.ResolveTenantPolicyAsync(tenantId, resourceType, action, ct);
     }
 
     /// <summary>Removes the tenant-scoped cache entry so the next resolve hits the DB.</summary>
