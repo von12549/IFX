@@ -1,5 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.CreatePolicy;
+using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.DeletePolicy;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.UpdatePolicy;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
@@ -68,7 +69,7 @@ public static class PolicyEndpoints
             .ToList();
 
         var result = await mediator.Send(
-            new CreatePolicyCommand(tenantId.Value, request.Name, request.Description, request.ResourceType, request.Action, conditions));
+            new CreatePolicyCommand(PolicyScope.Tenant, tenantId.Value, request.Name, request.Description, request.ResourceType, request.Action, conditions));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

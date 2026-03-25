@@ -12,7 +12,11 @@ public class PolicyDefinitionConfiguration : IEntityTypeConfiguration<PolicyDefi
 
         builder.HasKey(p => p.Id);
 
-        builder.Property(p => p.TenantId); // nullable — null means platform/global scope
+        builder.Property(p => p.Scope)
+            .HasConversion<int>()
+            .IsRequired();
+
+        builder.Property(p => p.TenantId); // nullable — null for Platform-scoped policies
 
         builder.Property(p => p.Name)
             .HasMaxLength(200)
@@ -39,9 +43,9 @@ public class PolicyDefinitionConfiguration : IEntityTypeConfiguration<PolicyDefi
         builder.Property(p => p.CreatedById);
         builder.Property(p => p.UpdatedById);
 
-        builder.HasIndex(p => new { p.TenantId, p.ResourceType, p.Action })
+        builder.HasIndex(p => new { p.Scope, p.TenantId, p.ResourceType, p.Action })
             .IsUnique()
-            .HasDatabaseName("UX_PolicyDefinitions_Tenant_Resource_Action");
+            .HasDatabaseName("UX_PolicyDefinitions_Scope_Tenant_Resource_Action");
 
         builder.HasIndex(p => p.TenantId)
             .HasDatabaseName("IX_PolicyDefinitions_TenantId");

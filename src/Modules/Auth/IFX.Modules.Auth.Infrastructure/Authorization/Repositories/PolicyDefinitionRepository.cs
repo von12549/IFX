@@ -17,7 +17,8 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
         Guid tenantId, string resourceType, string action, CancellationToken ct = default)
         => await _context.PolicyDefinitions
             .FirstOrDefaultAsync(
-                p => p.TenantId == tenantId
+                p => p.Scope == PolicyScope.Tenant
+                  && p.TenantId == tenantId
                   && p.ResourceType == resourceType.ToLowerInvariant()
                   && p.Action == action.ToLowerInvariant()
                   && p.IsActive,
@@ -27,7 +28,7 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
         Guid tenantId, CancellationToken ct = default)
         => await _context.PolicyDefinitions
             .AsNoTracking()
-            .Where(p => p.TenantId == tenantId && p.IsActive)
+            .Where(p => p.Scope == PolicyScope.Tenant && p.TenantId == tenantId && p.IsActive)
             .ToListAsync(ct);
 
     public async Task AddAsync(PolicyDefinition policy, CancellationToken ct = default)
@@ -40,7 +41,8 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
         Guid tenantId, string resourceType, string action, CancellationToken ct = default)
         => await _context.PolicyDefinitions
             .AnyAsync(
-                p => p.TenantId == tenantId
+                p => p.Scope == PolicyScope.Tenant
+                  && p.TenantId == tenantId
                   && p.ResourceType == resourceType.ToLowerInvariant()
                   && p.Action == action.ToLowerInvariant(),
                 ct);
@@ -52,7 +54,7 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
         string resourceType, string action, CancellationToken ct = default)
         => _context.PolicyDefinitions
             .FirstOrDefaultAsync(
-                p => p.TenantId == null
+                p => p.Scope == PolicyScope.Platform
                   && p.ResourceType == resourceType.ToLowerInvariant()
                   && p.Action == action.ToLowerInvariant()
                   && p.IsActive,
@@ -61,14 +63,14 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
     public Task<List<PolicyDefinition>> GetPlatformPoliciesAsync(CancellationToken ct = default)
         => _context.PolicyDefinitions
             .AsNoTracking()
-            .Where(p => p.TenantId == null && p.IsActive)
+            .Where(p => p.Scope == PolicyScope.Platform && p.IsActive)
             .ToListAsync(ct);
 
     public Task<bool> ExistsPlatformAsync(
         string resourceType, string action, CancellationToken ct = default)
         => _context.PolicyDefinitions
             .AnyAsync(
-                p => p.TenantId == null
+                p => p.Scope == PolicyScope.Platform
                   && p.ResourceType == resourceType.ToLowerInvariant()
                   && p.Action == action.ToLowerInvariant(),
                 ct);

@@ -51,7 +51,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(false);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Tenant, tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
@@ -73,7 +73,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Tenant, tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
@@ -88,7 +88,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(false);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Platform, null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
@@ -108,7 +108,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Platform, null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();

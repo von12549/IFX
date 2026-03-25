@@ -34,7 +34,7 @@ public class GetPoliciesQueryHandlerTests
     {
         var tenantId = Guid.NewGuid();
         var policy = PolicyDefinition.Create(
-            tenantId, "Read Own Profile", "user", "read",
+            PolicyScope.Tenant, tenantId, "Read Own Profile", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
 
         _policies.Setup(p => p.GetByTenantIdAsync(tenantId, It.IsAny<CancellationToken>()))

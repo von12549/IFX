@@ -2,6 +2,7 @@ using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Templates;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.CreatePolicy;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
+using IFX.Modules.Auth.Domain.Authorization;
 
 namespace IFX.Modules.Auth.Application.Tests.Validators.Authorization.Policies;
 
@@ -26,6 +27,7 @@ public class CreatePolicyCommandValidatorTests
         List<PolicyConditionDto>? conditions = null)
     {
         return new CreatePolicyCommand(
+            PolicyScope.Tenant,
             tenantId ?? Guid.NewGuid(),
             name,
             null,

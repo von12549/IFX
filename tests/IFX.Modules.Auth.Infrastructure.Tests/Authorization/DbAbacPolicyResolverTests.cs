@@ -43,7 +43,7 @@ public class DbAbacPolicyResolverTests
     public async Task ResolveAsync_WhenTenantRowExists_ReturnsDeserializedPolicy()
     {
         var row = PolicyDefinition.Create(
-            TenantId, "Read Own Profile", "user", "read",
+            PolicyScope.Tenant, TenantId, "Read Own Profile", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null},{\"TemplateName\":\"CreatedByMe\",\"Parameters\":null}]",
             null);
 
@@ -62,7 +62,7 @@ public class DbAbacPolicyResolverTests
     public async Task ResolveAsync_CacheHitAvoidsSecondDbCall()
     {
         var row = PolicyDefinition.Create(
-            TenantId, "Read", "user", "read",
+            PolicyScope.Tenant, TenantId, "Read", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
@@ -79,7 +79,7 @@ public class DbAbacPolicyResolverTests
     public async Task ResolveAsync_AfterInvalidate_HitsDbAgain()
     {
         var row = PolicyDefinition.Create(
-            TenantId, "Read", "user", "read",
+            PolicyScope.Tenant, TenantId, "Read", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
@@ -99,7 +99,7 @@ public class DbAbacPolicyResolverTests
     public async Task ResolveAsync_WhenTenantRowAbsent_FallsThroughToPlatformRow()
     {
         var platformRow = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
@@ -119,7 +119,7 @@ public class DbAbacPolicyResolverTests
     public async Task ResolveAsync_WhenTenantIdIsNull_SkipsTenantDbAndChecksPlatformRow()
     {
         var platformRow = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null},{\"TemplateName\":\"CreatedByMe\",\"Parameters\":null}]",
             null);
 
@@ -139,7 +139,7 @@ public class DbAbacPolicyResolverTests
     public async Task ResolveAsync_AfterInvalidatePlatform_HitsPlatformDbAgain()
     {
         var platformRow = PolicyDefinition.Create(
-            null, "Read", "user", "read",
+            PolicyScope.Platform, null, "Read", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]",
             null);
 
