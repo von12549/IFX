@@ -14,9 +14,11 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Multi-Tenant** - Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant; tenant switcher in the React UI drives all list views via `X-Tenant-Id` header
 - **Role-Based Auth** - Admin, User, SsoUser, Pending roles with JWT claims transformation
 - **ABAC Authorization** - OPA (Open Policy Agent) for fine-grained, resource-level policy decisions layered on top of RBAC; fail-closed by default
+- **Template-Based ABAC** - Reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic Rego policy; no per-resource Rego files for new resource types
+- **DB-Backed ABAC Policies** - `PolicyDefinition` table with tenant-level and platform-level rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
 - **Full Audit Trail** - Login/logout events, activity logs, registration tracking
 - **Platform Services** - Background jobs (Hangfire), Email notifications (SendGrid)
-- **474 Tests** - 419 backend (xUnit) + 55 frontend (Vitest) across all layers
+- **507 Tests** - 443 backend (xUnit) + 64 frontend (Vitest) across all layers
 - **Docker Support** - Containerized deployment with docker-compose
 - **Demo UI** - Simple HTML/JS client for testing OAuth flow
 
@@ -78,15 +80,15 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 419 backend tests
+tests/                               # 443 backend tests
 ├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (103)
-├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (190)
-├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository tests (45)
+├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (208)
+├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (51)
 ├── IFX.Modules.Auth.Presentation.Tests/ # Authorization class tests (10)
 ├── IFX.IntegrationTests/               # Permission enforcement + API tests (43)
 ├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire service tests (11)
 └── IFX.Platform.Notifications.Tests/   # Email service tests (17)
-src/Frontend/IFX.FrontEnd/src/          # 55 frontend tests (Vitest + RTL + MSW)
+src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 ├── components/shared/__tests__/        # Chip, Modal, SortableHeader, ProtectedRoute
 ├── api/__tests__/                      # tokenStorage / apiClient
 ├── contexts/__tests__/                 # AuthContext
@@ -105,6 +107,8 @@ src/Frontend/IFX.FrontEnd/src/          # 55 frontend tests (Vitest + RTL + MSW)
 | Admin — Auth | `/api/v1/role`, `/api/v1/rolegroup`, `/api/v1/idp` |
 | Admin — Tenants | `GET/POST/PUT/DELETE /api/v1/tenant` |
 | Admin — Departments | `GET/POST/PUT/DELETE /api/v1/department` |
+| Admin — Tenant Policies | `GET/POST/PUT/DELETE /api/v1/policy`, `GET /api/v1/policy/templates` |
+| Admin — Platform Policies | `GET/POST/PUT/DELETE /api/v1/platform/policy` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |
 
@@ -182,7 +186,7 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build IFX.sln
 
-# Backend tests (419)
+# Backend tests (443)
 dotnet test IFX.sln
 
 # Coverage report
@@ -191,7 +195,7 @@ reportgenerator -reports:"coverage-results/**/coverage.cobertura.xml" \
   -targetdir:"coverage-report" -reporttypes:"Html;TextSummary" \
   -assemblyfilters:"+IFX.*;-*Tests*"
 
-# Frontend tests (55)
+# Frontend tests (64)
 cd src/Frontend/IFX.FrontEnd
 npm run test:run       # run once
 npm run test:coverage  # with coverage

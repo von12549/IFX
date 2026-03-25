@@ -1,7 +1,7 @@
 # Plan: Seed User ABAC Policies for IFX Tenant
 
 **Date:** 2026-03-25
-**Status:** To Do
+**Status:** Implemented (2026-03-25)
 **Tenant:** IFX
 **Created/Updated by:** Xiaolong Feng
 

@@ -185,3 +185,34 @@ Request → RBAC gate (optional, skippable) → OPA policy evaluation → allow/
 **Trade-offs:**
 - Headers are less visible than query params for debugging (use browser devtools Network tab)
 - Chose headers over session/cookie storage to stay stateless on the server side
+
+---
+
+## ADR-010: Template-Based ABAC + DB-Backed Policy Storage (March 2026)
+
+**Decision:** Replace per-resource Rego files for new resource types with reusable C# condition templates (`ConditionTemplate`) evaluated by a single generic Rego policy. Store active policies in a `PolicyDefinitions` database table with a 3-tier resolver (tenant override → platform default → static fallback → deny).
+
+**Rationale:**
+- Per-resource Rego files don't scale — each new resource type requires a new `.rego` file, policy deployment, and OPA reload
+- `ConditionTemplate` objects are C# code (unit-testable, refactor-friendly, type-safe) while staying OPA-compatible
+- A single `template_abac.rego` handles all template-based resources; the evaluation logic lives in `AbacPolicyEngine`
+- DB storage enables runtime policy customization per tenant without redeployment
+- Platform rows (`TenantId IS NULL`) provide a single global default that covers all tenants without an explicit override, eliminating the need for per-tenant seed data
+
+**3-tier cascade design:**
+```
+Tenant DB row → Platform DB row → Static fallback → null (deny)
+```
+- Tier 1 (tenant) allows tenants to override the platform default
+- Tier 2 (platform) is the default for all tenants — seeded via EF migration
+- Tier 3 (static) is a last resort for resources not yet migrated to DB storage
+- null (deny) is fail-closed behavior when no policy exists
+
+**Cache strategy:**
+- `IMemoryCache` with separate keys for tenant and platform entries
+- `IAbacPolicyCache` interface on BuildingBlocks so Application handlers can invalidate without referencing Infrastructure
+
+**Trade-offs:**
+- Template-based approach is less expressive than raw Rego (no arbitrary Rego logic per resource)
+- Chose this trade-off because the common conditions (`SameTenant`, `CreatedByMe`) cover the majority of use cases, and the static fallback + raw Rego path remains available for complex policies
+- DB-backed policies add a DB round-trip per authorization; mitigated by `IMemoryCache`

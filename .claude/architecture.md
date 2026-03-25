@@ -97,6 +97,8 @@ Infrastructure  Infrastructure  (transitive)
 - Contains `ICurrentUser`, `IPermissionChecker`, `IOpaPolicyClient`, `IResourceAuthorizationService`
 - Contains `OpaClient` (HttpClient-backed), `NullOpaPolicyClient` (dev stub), `OpaOptions`
 - Contains `ForbiddenException` (→ 403 via middleware)
+- Contains template-based ABAC: `IAbacTemplateRegistry`, `IAbacPolicyEngine`, `ConditionTemplate`, `AbacPolicy`, `AbacCondition`
+- Contains policy resolver abstractions: `IAbacPolicyResolver`, `IAbacPolicyCache`, `StaticAbacPolicyResolver`
 - **Rule:** No references to any business module (Auth, etc.) — depends only on framework packages
 
 ---
@@ -129,7 +131,7 @@ Infrastructure  Infrastructure  (transitive)
 
 **Rule:** `Department` belongs to a `Tenant`. Users are linked to departments; the application layer enforces that a user's department belongs to one of their tenants.
 
-## ABAC Authorization (OPA)
+## ABAC Authorization (OPA + Template Engine)
 
 **Rule:** Authorization is two-layered — coarse-grained RBAC gate first, then fine-grained OPA policy decision.
 
@@ -144,6 +146,24 @@ Infrastructure  Infrastructure  (transitive)
 **Rule:** `resource.tenant_id` in `OpaResourceAttributesBase` must match the caller's active tenant context (`ICurrentUser.TenantId`), not the resource entity's `PrimaryTenantId`. This ensures `same_tenant` passes when a user is operating in a non-primary tenant.
 
 **Rule:** `Opa:Enabled = false` in `appsettings.Development.json` → `NullOpaPolicyClient` is registered (always allow). Never disable OPA in production.
+
+### Template-Based ABAC
+
+**Rule:** New resource types must use template-based ABAC (register conditions in `BuiltInTemplates`, store a `PolicyDefinition` row) — do not add a new per-resource `.rego` file.
+
+**Rule:** `IAbacTemplateRegistry` is a singleton — thread-safe, registered once at startup with built-in templates.
+
+**Rule:** `IAbacPolicyEngine` evaluates all conditions in an `AbacPolicy` with AND semantics — all must pass for allow.
+
+### DB-Backed Policy Resolution
+
+**Rule:** Policy resolution follows a strict 3-tier cascade: (1) tenant DB row → (2) platform DB row (`TenantId IS NULL`) → (3) static fallback → (4) null = deny.
+
+**Rule:** `PolicyDefinition.TenantId = null` means platform-level (global default). A platform row covers all tenants that have no tenant-specific override.
+
+**Rule:** Cache invalidation after any policy mutation is mandatory. Call `IAbacPolicyCache.Invalidate` for tenant rows and `IAbacPolicyCache.InvalidatePlatform` for platform rows.
+
+**Rule:** Application handlers must depend on `IAbacPolicyResolver` and `IAbacPolicyCache` (BuildingBlocks interfaces) — never on `DbAbacPolicyResolver` (Infrastructure).
 
 ---
 

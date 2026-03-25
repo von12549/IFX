@@ -1,7 +1,7 @@
 # Plan: Global / Platform-Level ABAC Policies
 
 **Date:** 2026-03-25
-**Status:** To Do
+**Status:** Implemented (2026-03-25)
 **Depends on:** `20260325-seed-user-policies-ifx-tenant.md` (implemented)
 
 ---

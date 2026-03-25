@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-24
 **Branch:** `feature/security/template-abac`
-**Status:** Planned
+**Status:** Implemented (2026-03-25)
 
 ## Goal
 

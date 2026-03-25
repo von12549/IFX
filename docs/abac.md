@@ -1,279 +1,203 @@
-## Make a plan for the following requirements
-## Create a branch for the future implement
-## Save the plan before implement
-## Analysis the requirements and give some advices
+# ABAC Authorization Architecture
 
-# Refactor the solution to introduce OPA + ABAC authorization without replacing the existing RBAC model.
+IFX uses a two-layered authorization model:
 
-# Step 0
-Goals:
-- Keep the current RBAC model (RoleGroup, Role, Permission) as the coarse-grained permission assignment layer.
-- Introduce OPA as the policy decision engine for fine-grained ABAC/resource-level authorization.
-- Preserve current authentication and RBAC behavior.
-- Add the new authorization flow incrementally.
+1. **RBAC (coarse-grained)** — Permission strings checked via `IPermissionChecker`. Gates API access.
+2. **ABAC (fine-grained)** — Resource-level policy decisions evaluated after the resource is loaded (post-load pattern). Prevents phantom authorization on non-existent resources.
 
-Architecture rules:
-- Domain projects must not depend on OPA, Rego, HttpClient, or any infrastructure concerns.
-- Resource-level authorization must be performed in Application layer after loading the target resource.
-- OPA integration must be implemented as shared cross-cutting infrastructure, not owned by the Auth module.
-- ApiHost / Composition should wire the concrete services.
-- Fail closed by default if OPA is unavailable for protected operations.
+---
 
-# Step 1
-Create a new project under src/BuildingBlocks named:
+## Components
 
-IFX.BuildingBlocks.Security
+### IFX.BuildingBlocks.Security
 
-This project will host shared cross-cutting authorization primitives and OPA integration.
+Cross-cutting security project. Zero references to any business module.
 
-Create the following folder structure:
+| Component | Description |
+|-----------|-------------|
+| `ICurrentUser` | Exposes `UserId`, `TenantId`, `Roles`, `Permissions`, `MfaEnabled` |
+| `IPermissionChecker` | Checks coarse-grained RBAC permissions for the current user |
+| `IResourceAuthorizationService` | Orchestrates RBAC gate + OPA evaluation; throws `ForbiddenException` on deny |
+| `IOpaPolicyClient` | Sends authorization envelope to OPA; returns `OpaDecisionResult` |
+| `OpaClient` | HttpClient-backed OPA client; configurable base URL and timeout; fail-closed |
+| `NullOpaPolicyClient` | Dev stub — always allows; registered when `Opa:Enabled = false` |
+| `IAbacTemplateRegistry` | Registry of named `ConditionTemplate` objects (reusable condition definitions) |
+| `IAbacPolicyEngine` | Evaluates an `AbacPolicy` against subject/resource attributes without calling OPA |
+| `IAbacPolicyResolver` | Resolves the active `AbacPolicy` for a `(tenantId, resourceType, action)` triple |
+| `IAbacPolicyCache` | Invalidates cached policy entries (tenant-scoped or platform-scoped) |
 
-Authorization/
-  Abstractions/
-  Models/
-  Opa/
-  Exceptions/
+### OPA Envelope (canonical input contract)
 
-Do not move existing Auth domain entities into this project.
-Do not place business-specific authorization logic in this project.
-This project should contain only reusable authorization contracts, models, exceptions, and OPA infrastructure primitives.
-
-# Step 2
-In the shared authorization project, add the following abstractions and models.
-
-Abstractions:
-- ICurrentUser
-- IPermissionChecker
-- IOpaPolicyClient
-- IResourceAuthorizationService
-
-Models:
-- OpaAuthorizationEnvelope<TResource>
-- OpaSubjectAttributes
-- OpaEnvironmentAttributes
-- OpaResourceAttributesBase
-- OpaDecisionResponse
-- OpaDecisionResult
-
-Exceptions:
-- ForbiddenException
-
-Behavior requirements:
-
-1. ICurrentUser exposes:
-- UserId
-- TenantId
-- Department
-- Roles
-- Permissions
-- MfaEnabled
-
-2. IPermissionChecker checks coarse-grained RBAC permission for the current user.
-
-3. IOpaPolicyClient sends a strongly typed envelope to OPA and returns a normalized decision result.
-
-4. IResourceAuthorizationService performs:
-- RBAC permission check
-- OPA policy decision
-- throws ForbiddenException if authorization fails
-
-The shared OPA input contract must use the canonical top-level fields:
-- subject
-- resource
-- action
-- environment
-
-# Step 3
-Implement a canonical OPA authorization envelope.
-
-Use this JSON shape as the standard contract:
-
+```json
 {
-  "subject": {
-    "id": "...",
-    "tenant_id": "...",
-    "department": "...",
-    "roles": [],
-    "permissions": [],
-    "mfa": true
-  },
-  "resource": {
-    "type": "...",
-    "id": "...",
-    "tenant_id": "...",
-    "owner_id": "...",
-    "status": "...",
-    "sensitivity": "..."
-  },
-  "action": "...",
-  "environment": {
-    "network": "...",
-    "ip": "...",
-    "time": "..."
-  }
+  "subject":  { "id": "...", "tenant_id": "...", "roles": [], "permissions": [], "mfa": true },
+  "resource": { "type": "...", "id": "...", "tenant_id": "...", "owner_id": "...", "status": "..." },
+  "action":   "read",
+  "environment": { "ip": "...", "time": "..." }
 }
+```
 
-Requirements:
-- Use consistent snake_case JSON names in the payload sent to OPA.
-- Keep the envelope reusable across modules.
-- Allow module-specific resource mapping by composing resource DTOs per module.
-- Do not create multiple incompatible authorization payload formats.
+OPA policies evaluate `input.subject.permissions` only — never role names. This decouples policy logic from role taxonomy.
 
-# Step 4:
-Implement a lightweight OPA client in the shared authorization project.
+---
 
-Create:
-- OpaOptions
-- OpaClient
-- OpaPaths (optional constants helper)
+## Template-Based ABAC Engine
 
-Requirements:
-- use HttpClient
-- configurable base URL
-- configurable timeout
-- support cancellation token
-- structured logging
-- POST to OPA data API with body:
-  { "input": <authorization-envelope> }
-- return a normalized OpaDecisionResult
-- fail closed by default for protected operations
+Instead of writing a separate Rego file per resource type, new resources use reusable C# condition templates evaluated by a single generic Rego policy (`template_abac.rego`).
 
-Do not add OPA references to Domain projects.
-Do not hardcode business decision paths in the shared client.
-Decision paths should be supplied by calling modules or application services.
+### Built-in templates
 
-# Step 5
-Integrate the shared authorization abstractions with the existing Auth/RBAC model.
+| Template | Condition |
+|----------|-----------|
+| `SameTenant` | `subject.tenant_id == resource.tenant_id` |
+| `CreatedByMe` | `subject.id == resource.owner_id` |
 
-Tasks:
-- Add a concrete CurrentUser implementation that maps claims/principal data to ICurrentUser.
-- Add a concrete PermissionChecker implementation that resolves the current user's permissions using the existing RBAC model.
+### How it works
 
-Constraints:
-- Reuse current Auth application/infrastructure services wherever possible.
-- Do not redesign the RoleGroup / Role / Permission domain model.
-- Do not duplicate permission resolution logic if it already exists.
-- If needed, expose an application query/service from the Auth module that returns resolved permissions for the current user.
+1. A `ConditionTemplate` defines a left-hand side, operator, and right-hand side resolved from OPA input fields.
+2. An `AbacPolicy` holds a list of `AbacCondition` objects (each referencing a template).
+3. `AbacPolicyEngine.EvaluateAsync` evaluates all conditions; all must pass for allow.
+4. The Rego policy (`policies/authz/common/template_abac.rego`) simply calls the engine result.
 
-# Step 6
-Implement a reusable ResourceAuthorizationService in the shared authorization project.
+### Adding a new condition template
 
-Required flow:
-1. Verify coarse-grained RBAC permission using IPermissionChecker.
-2. Build the OPA authorization envelope using the current user, action, resource attributes, and environment.
-3. Call IOpaPolicyClient with a supplied decision path.
-4. Throw ForbiddenException if either RBAC or OPA denies access.
+Register in `BuiltInTemplates.Register(registry)` in Infrastructure's `DependencyInjection`:
+```csharp
+registry.Register(new ConditionTemplate
+{
+    Name = "MyCondition",
+    Left  = new FieldRef { Source = FieldSource.Subject, Path = "id" },
+    Op    = ConditionOperator.Equals,
+    Right = new FieldRef { Source = FieldSource.Resource, Path = "owner_id" }
+});
+```
 
-Design constraints:
-- This service must not load business resources from the database.
-- Resource loading stays in the calling Application layer.
-- This service must stay generic and reusable across modules.
+---
 
-# Step 7
-Keep the Auth module responsible for:
-- users
-- role groups
-- roles
-- permissions
-- permission resolution
+## DB-Backed Policy Resolution (3-Tier)
 
-Do not move fine-grained ABAC resource policies into Auth.Domain.
+Policies are stored in `auth.PolicyDefinitions`. `DbAbacPolicyResolver` resolves in order:
 
-Do not make the Auth module own the OPA client or shared authorization infrastructure.
+```
+Tier 1: Tenant DB row     (TenantId = <currentTenantId>)
+    ↓ miss
+Tier 2: Platform DB row   (TenantId IS NULL)
+    ↓ miss
+Tier 3: Static fallback   (StaticAbacPolicyResolver — registered defaults)
+    ↓ miss
+Result: null → deny
+```
 
-Only add integration points from Auth to shared authorization where needed, such as:
-- current user mapping
-- permission resolution service/query
+### PolicyDefinition table
 
-# Step 8
-Create a top-level policies directory at the repository root.
+| Column | Type | Notes |
+|--------|------|-------|
+| `Id` | `uniqueidentifier` | PK |
+| `TenantId` | `uniqueidentifier?` | NULL = platform-level (global default) |
+| `Name` | `nvarchar(200)` | Display name |
+| `Description` | `nvarchar(500)?` | Optional description |
+| `ResourceType` | `nvarchar(100)` | e.g. `user`, `document` |
+| `Action` | `nvarchar(100)` | e.g. `read`, `edit` |
+| `ConditionsJson` | `nvarchar(max)` | JSON array of `{TemplateName, Parameters}` |
+| `IsActive` | `bit` | Soft-enable flag |
 
-Use this structure:
+**Unique indexes:**
+- `UX_PolicyDefinitions_Tenant_Resource_Action` — unique on `(TenantId, ResourceType, Action)` where `TenantId IS NOT NULL`
+- `UX_PolicyDefinitions_Platform_Resource_Action` — unique on `(ResourceType, Action)` where `TenantId IS NULL`
 
+### Caching
+
+`DbAbacPolicyResolver` caches resolved policies in `IMemoryCache`:
+- Tenant key: `abac:{tenantId}:{resourceType}:{action}`
+- Platform key: `abac:platform:{resourceType}:{action}`
+
+Cache is invalidated via `IAbacPolicyCache`:
+```csharp
+_policyCache.Invalidate(tenantId, resourceType, action);      // tenant row changed
+_policyCache.InvalidatePlatform(resourceType, action);        // platform row changed
+```
+
+Handlers call these after create/update/delete operations.
+
+---
+
+## Authorization Flow in Application Handlers
+
+```csharp
+// 1. Load resource
+var user = await _unitOfWork.Users.GetByIdAsync(userId, ct);
+
+// 2. Resolve ABAC policy (3-tier)
+var policy = await _resolver.ResolveAsync(currentUser.TenantId, "user", "read");
+
+// 3. Evaluate — uses IResourceAuthorizationService internally
+await _authService.AuthorizeWithResolvedPolicyAsync(
+    policy,
+    resourceAttributes,
+    currentUser,
+    requiredPermission: null,  // null = skip RBAC gate (self-read)
+    cancellationToken);
+```
+
+`AuthorizeWithResolvedPolicyAsync` throws `ForbiddenException` on deny, which middleware maps to HTTP 403.
+
+---
+
+## Rego Policies
+
+```
 policies/
   authz/
     common/
-      helpers.rego
-      tenant.rego
-      mfa.rego
-      network.rego
+      helpers.rego          # Shared helper rules
+      template_abac.rego    # Generic template evaluator (drives DB-backed policies)
+      tenant.rego           # same_tenant rule
     auth/
-      read-user.rego
-      manage-role.rego
+      read-user.rego        # Pilot: user profile read
   tests/
     auth/
       read_user_test.rego
-      manage_role_test.rego
+```
 
-Constraints:
-- Rego files must not be embedded inside Domain projects.
-- Do not create one monolithic authz.rego file for the entire solution.
-- Organize by module/resource/action and extract common reusable rules into authz/common.
+Run OPA tests locally:
+```bash
+opa test policies/ -v
+```
 
-# Step 9
-Choose one pilot ABAC use case inside the Auth area.
+---
 
-Recommended pilot examples:
-- user profile read: allow if same tenant and either self or admin
-- role assignment: allow if same tenant, has base permission, and requester is in allowed department or elevated admin group
-- permission management: require base RBAC permission plus stricter OPA checks
+## Configuration
 
-Implement the pilot authorization flow in Auth.Application with this sequence:
-- load resource
-- check RBAC permission
-- map resource to OPA input
-- call OPA
-- continue only on allow
+```json
+// appsettings.json
+{
+  "Opa": {
+    "BaseUrl": "http://localhost:8181",
+    "Timeout": "00:00:05",
+    "FailClosed": true,
+    "Enabled": true
+  }
+}
+```
 
-Do not attempt to convert all authorization flows at once.
+```json
+// appsettings.Development.json — disable OPA sidecar requirement
+{
+  "Opa": { "Enabled": false }
+}
+```
 
-# Step 10
-Refactor the chosen pilot use case so that resource authorization is performed imperatively in Application layer.
+When `Enabled = false`, `NullOpaPolicyClient` is registered (always allows). **Never disable in production.**
 
-Rules:
-- [Authorize] attributes may remain for authentication or entry-level policies.
-- Resource-level authorization must happen after the resource is loaded.
-- The handler/application service must call the shared resource authorization service.
+---
 
-Do not rely on controller attributes alone for resource authorization.
-Do not place OPA calls in controllers if the resource must be loaded by Application services.
+## Permissions
 
-# Step 11
-Wire all shared authorization services in ApiHost or the Composition layer.
+| Permission | Purpose |
+|-----------|---------|
+| `Policy.Read` | List tenant-level ABAC policies (via `GET /api/v1/policy`) |
+| `Policy.Write` | Create/update/delete tenant-level policies |
+| `Platform.Policy.Read` | List platform-level (global) ABAC policies |
+| `Platform.Policy.Write` | Create/update/delete platform-level policies |
 
-Register:
-- ICurrentUser
-- IPermissionChecker
-- IOpaPolicyClient
-- IResourceAuthorizationService
-- OpaOptions
-
-Ensure the dependency graph remains clean:
-- Domain does not depend on shared OPA infrastructure
-- Application depends only on abstractions
-- concrete implementations are wired in Composition / ApiHost / Infrastructure
-
-Do not introduce circular references.
-
-# Step 12
-Add local OPA runtime support for development.
-
-Create:
-- deploy/opa/config.yaml
-- docker-compose integration for ApiHost + OPA
-
-Requirements:
-- ApiHost can call OPA by configured base URL
-- OPA runs as a sidecar-style companion service
-- Keep deployment assets outside Domain projects
-
-# Step 13
-Add initial policy engineering support.
-
-Tasks:
-- add example Rego tests under policies/tests
-- add README or developer notes explaining how to run policy tests
-- prepare placeholders or configuration for decision logging
-- document fail-closed behavior
-
-Do not over-engineer this phase, but establish the basic structure for future policy lifecycle management.
+All four permissions are seeded to the `Admin` role via EF migrations.

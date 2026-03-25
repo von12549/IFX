@@ -1,7 +1,7 @@
 # Plan: DB-Backed Tenant-Level ABAC Policies
 
 **Date:** 2026-03-25
-**Status:** Draft
+**Status:** Implemented (2026-03-25)
 **Depends on:** `feature/security/template-abac` (template ABAC engine must be in place)
 
 ---
