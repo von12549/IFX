@@ -6,7 +6,7 @@ import { Chip } from '../components/shared/Chip'
 export function UserProfilePage() {
   const { user, refreshUser } = useAuth()
   const [editing, setEditing] = useState(false)
-  const [form, setForm] = useState({ firstName: '', lastName: '', phoneNumber: '', email: '' })
+  const [form, setForm] = useState({ firstName: '', lastName: '', phoneNumber: '', email: '', primaryTenantId: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -16,7 +16,7 @@ export function UserProfilePage() {
   const initials = [user.firstName?.[0], user.lastName?.[0]].filter(Boolean).join('').toUpperCase() || '?'
 
   const startEdit = () => {
-    setForm({ firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber, email: user.email })
+    setForm({ firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber, email: user.email, primaryTenantId: user.primaryTenantId ?? '' })
     setEditing(true)
     setError('')
     setSuccess('')
@@ -25,7 +25,10 @@ export function UserProfilePage() {
   const handleSave = async () => {
     setLoading(true); setError('')
     try {
-      await userApi.updateProfile(form)
+      await userApi.updateProfile({
+        ...form,
+        primaryTenantId: form.primaryTenantId || undefined,
+      })
       await refreshUser()
       setEditing(false)
       setSuccess('Profile updated successfully.')
@@ -104,16 +107,34 @@ export function UserProfilePage() {
           </div>
           <div className="profile-section">
             <label>Tenants</label>
-            <div className="chip-list">
-              {user.tenants?.length
-                ? user.tenants.map(t => (
-                    <Chip
-                      key={t.id}
-                      label={t.id === user.primaryTenantId ? `${t.name} (Primary)` : t.name}
+            {editing && user.tenants?.length > 1 ? (
+              <div className="tenant-select-list">
+                {user.tenants.map(t => (
+                  <label key={t.id} className="tenant-radio-row">
+                    <input
+                      type="radio"
+                      name="primaryTenantId"
+                      value={t.id}
+                      checked={form.primaryTenantId === t.id}
+                      onChange={() => setForm(f => ({ ...f, primaryTenantId: t.id }))}
                     />
-                  ))
-                : <span className="text-muted">None</span>}
-            </div>
+                    <span>{t.name}</span>
+                    {form.primaryTenantId === t.id && <span className="badge-primary">Primary</span>}
+                  </label>
+                ))}
+              </div>
+            ) : (
+              <div className="chip-list">
+                {user.tenants?.length
+                  ? user.tenants.map(t => (
+                      <Chip
+                        key={t.id}
+                        label={t.id === user.primaryTenantId ? `${t.name} (Primary)` : t.name}
+                      />
+                    ))
+                  : <span className="text-muted">None</span>}
+              </div>
+            )}
           </div>
           <div className="profile-section">
             <label>Departments</label>

@@ -77,6 +77,7 @@ export interface UpdateProfileRequest {
   lastName?: string
   phoneNumber?: string
   email?: string
+  primaryTenantId?: string
 }
 
 export interface PagedResult<T> {

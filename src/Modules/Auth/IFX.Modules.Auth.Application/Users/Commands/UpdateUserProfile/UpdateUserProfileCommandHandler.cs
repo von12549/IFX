@@ -98,6 +98,16 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
                 }
             }
 
+            // Update PrimaryTenant if requested
+            if (request.PrimaryTenantId.HasValue)
+            {
+                if (!user.Tenants.Any(t => t.Id == request.PrimaryTenantId.Value))
+                    return Result<UpdateUserProfileResponse>.Failure("Tenant is not assigned to this user");
+
+                user.SetPrimaryTenant(request.PrimaryTenantId.Value);
+                updatedFields.Add("PrimaryTenantId");
+            }
+
             await _unitOfWork.UserIdentities.UpdateAsync(identity, cancellationToken);
             await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
 

@@ -20,4 +20,6 @@ public class UpdateUserProfileRequest
     [EmailAddress]
     [MaxLength(255)]
     public string? Email { get; set; }
+
+    public Guid? PrimaryTenantId { get; set; }
 }
