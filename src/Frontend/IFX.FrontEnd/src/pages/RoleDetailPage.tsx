@@ -56,7 +56,9 @@ export function RoleDetailPage() {
   if (loading) return <div className="loading-inline"><span className="spinner" /></div>
   if (error || !role) return <div className="alert alert-error">{error || 'Role not found'}</div>
 
-  const assignable = allPerms.filter(p => !role.permissions.some(rp => rp.id === p.id))
+  const assignable = allPerms
+    .filter(p => p.scope === 'Tenant')
+    .filter(p => !role.permissions.some(rp => rp.id === p.id))
 
   return (
     <div className="page">

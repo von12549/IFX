@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { tenantApi } from '../api/tenant'
+import { useAuth } from '../contexts/AuthContext'
 import type { CreateTenantRequest, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
@@ -7,6 +8,7 @@ import { SortableHeader } from '../components/shared/SortableHeader'
 type SortCol = 'name' | 'description'
 
 export function TenantManagementPage() {
+  const { isGlobalUser, user } = useAuth()
   const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -67,7 +69,11 @@ export function TenantManagementPage() {
     }
   }
 
-  const sorted = [...tenants].sort((a, b) => {
+  // Tenant-only users see only their own tenants
+  const ownTenantIds = new Set(user?.tenants.map(t => t.id) ?? [])
+  const visibleTenants = isGlobalUser ? tenants : tenants.filter(t => ownTenantIds.has(t.id))
+
+  const sorted = [...visibleTenants].sort((a, b) => {
     const v = (a[sortCol] ?? '').localeCompare(b[sortCol] ?? '')
     return sortDir === 'asc' ? v : -v
   })
@@ -76,7 +82,12 @@ export function TenantManagementPage() {
     <div className="page">
       <div className="page-header">
         <h2>Tenant Management</h2>
-        <button className="btn btn-primary" onClick={openCreate}>+ Create Tenant</button>
+        {isGlobalUser && (
+          <button className="btn btn-primary" onClick={openCreate}>+ Create Tenant</button>
+        )}
+        {!isGlobalUser && (
+          <span className="badge badge-info">You can view your tenant details here.</span>
+        )}
       </div>
       {error && <div className="alert alert-error">{error}</div>}
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
@@ -86,7 +97,7 @@ export function TenantManagementPage() {
               <tr>
                 <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
                 <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
-                <th>Actions</th>
+                {isGlobalUser && <th>Actions</th>}
               </tr>
             </thead>
             <tbody>
@@ -94,12 +105,14 @@ export function TenantManagementPage() {
                 <tr key={t.id}>
                   <td>{t.name}</td>
                   <td className="text-muted">{t.description}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button className="btn btn-sm btn-ghost" onClick={() => openEdit(t)}>Edit</button>
-                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(t)}>Delete</button>
-                    </div>
-                  </td>
+                  {isGlobalUser && (
+                    <td>
+                      <div className="btn-group">
+                        <button className="btn btn-sm btn-ghost" onClick={() => openEdit(t)}>Edit</button>
+                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(t)}>Delete</button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

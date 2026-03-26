@@ -20,7 +20,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
         CreateMap<Role, RoleDetailDto>()
             .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
-        CreateMap<Permission, PermissionDto>();
+        CreateMap<Permission, PermissionDto>()
+            .ForMember(dest => dest.Scope, opt => opt.MapFrom(src =>
+                src.Name.StartsWith("Platform.", StringComparison.OrdinalIgnoreCase) ? "Platform" : "Tenant"));
         CreateMap<RoleGroup, RoleGroupDto>()
             .ForMember(dest => dest.TenantName, opt => opt.MapFrom(src => src.Tenant != null ? src.Tenant.Name : string.Empty));
         CreateMap<Idp, IdpDto>()
@@ -41,7 +43,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.RoleGroups, opt => opt.MapFrom(src => src.RoleGroups))
             .ForMember(dest => dest.PrimaryTenantId, opt => opt.MapFrom(src => src.PrimaryTenantId))
             .ForMember(dest => dest.Tenants, opt => opt.MapFrom(src => src.Tenants))
-            .ForMember(dest => dest.Departments, opt => opt.MapFrom(src => src.Departments));
+            .ForMember(dest => dest.Departments, opt => opt.MapFrom(src => src.Departments))
+            .ForMember(dest => dest.GlobalRoles, opt => opt.MapFrom(src =>
+                src.GlobalRoles.Select(ugr => ugr.GlobalRole.Name).ToList()));
 
         CreateMap<LoginEvent, LoginEventDto>()
             .ForMember(dest => dest.DeviceBrowser, opt => opt.MapFrom(src => src.DeviceInfo.Browser))

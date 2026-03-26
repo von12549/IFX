@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { tokenStorage } from '../api/client'
 import { userApi } from '../api/user'
 import type { UserProfileDto } from '../types/api'
@@ -12,6 +12,10 @@ interface AuthContextValue {
   login(tokens: { accessToken: string; refreshToken: string; idToken: string; expiresIn: number }): Promise<void>
   logout(): void
   refreshUser(): Promise<void>
+  globalRoles: string[]
+  isGlobalUser: boolean
+  isGlobalAdmin: boolean
+  hasGlobalRole(role: string): boolean
 }
 
 const AuthContext = createContext<AuthContextValue>(null!)
@@ -71,8 +75,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await loadProfile()
   }, [loadProfile])
 
+  const globalRoles = useMemo(() => user?.globalRoles ?? [], [user])
+  const isGlobalUser = useMemo(() => globalRoles.length > 0, [globalRoles])
+  const isGlobalAdmin = useMemo(() => globalRoles.includes('PlatformAdmin'), [globalRoles])
+  const hasGlobalRole = useCallback((role: string) => globalRoles.includes(role), [globalRoles])
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, selectedTenantId, setSelectedTenantId, login, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, selectedTenantId, setSelectedTenantId, login, logout, refreshUser, globalRoles, isGlobalUser, isGlobalAdmin, hasGlobalRole }}>
       {children}
     </AuthContext.Provider>
   )

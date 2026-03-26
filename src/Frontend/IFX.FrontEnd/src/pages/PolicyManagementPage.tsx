@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { policyApi } from '../api/policy'
+import { platformApi } from '../api/platform'
 import type { PolicyDefinitionDto, TemplateDto, PolicyConditionDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
 
 type ModalMode = 'create' | 'edit' | null
+type TabKey = 'tenant' | 'platform'
 
 interface PolicyForm {
   name: string
@@ -16,9 +20,125 @@ interface PolicyForm {
 
 const emptyForm: PolicyForm = { name: '', description: '', resourceType: '', action: '', conditions: [] }
 
+function groupByResourceType(policies: PolicyDefinitionDto[]): Map<string, PolicyDefinitionDto[]> {
+  const map = new Map<string, PolicyDefinitionDto[]>()
+  for (const p of policies) {
+    const key = p.resourceType
+    if (!map.has(key)) map.set(key, [])
+    map.get(key)!.push(p)
+  }
+  return map
+}
+
+interface PolicyGroupProps {
+  resourceType: string
+  policies: PolicyDefinitionDto[]
+  readOnly: boolean
+  onEdit: (p: PolicyDefinitionDto) => void
+  onOverride: (p: PolicyDefinitionDto) => void
+  onDelete: (p: PolicyDefinitionDto) => void
+}
+
+function PolicyGroup({ resourceType, policies, readOnly, onEdit, onOverride, onDelete }: PolicyGroupProps) {
+  const [collapsed, setCollapsed] = useState(false)
+
+  return (
+    <>
+      <tr className="policy-group-header" onClick={() => setCollapsed(c => !c)} style={{ cursor: 'pointer' }}>
+        <td colSpan={5}>
+          <strong>{collapsed ? '▶' : '▼'} {resourceType}</strong>
+          <span className="text-muted" style={{ marginLeft: 8 }}>({policies.length})</span>
+        </td>
+        {!readOnly && <td />}
+      </tr>
+      {!collapsed && policies.map((p, i) => (
+        <tr key={p.id ?? `default-${i}`}>
+          <td style={{ paddingLeft: '2rem' }}>{p.name}</td>
+          <td>{p.resourceType}</td>
+          <td>{p.action}</td>
+          <td>
+            <div className="chip-list">
+              {p.conditions.map(c => (
+                <span key={c.templateName} className="chip">{c.templateName}</span>
+              ))}
+            </div>
+          </td>
+          <td>
+            {p.isPlatformDefault
+              ? <span className="badge badge-info">Platform Default</span>
+              : <span className="badge badge-success">Tenant Override</span>}
+          </td>
+          {!readOnly && (
+            <td>
+              <div className="btn-group">
+                {p.isPlatformDefault ? (
+                  <button className="btn btn-ghost btn-sm" onClick={() => onOverride(p)}>Override</button>
+                ) : (
+                  <>
+                    <button className="btn btn-ghost btn-sm" onClick={() => onEdit(p)}>Edit</button>
+                    <button className="btn btn-danger btn-sm" onClick={() => onDelete(p)}>Delete</button>
+                  </>
+                )}
+              </div>
+            </td>
+          )}
+        </tr>
+      ))}
+    </>
+  )
+}
+
+interface PolicyTableProps {
+  policies: PolicyDefinitionDto[]
+  readOnly: boolean
+  onEdit: (p: PolicyDefinitionDto) => void
+  onOverride: (p: PolicyDefinitionDto) => void
+  onDelete: (p: PolicyDefinitionDto) => void
+}
+
+function PolicyTable({ policies, readOnly, onEdit, onOverride, onDelete }: PolicyTableProps) {
+  const grouped = groupByResourceType(policies)
+  const resourceTypes = Array.from(grouped.keys()).sort()
+
+  return (
+    <div className="table-wrapper">
+      <table className="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Resource Type</th>
+            <th>Action</th>
+            <th>Conditions</th>
+            <th>Source</th>
+            {!readOnly && <th></th>}
+          </tr>
+        </thead>
+        <tbody>
+          {resourceTypes.map(rt => (
+            <PolicyGroup
+              key={rt}
+              resourceType={rt}
+              policies={grouped.get(rt)!}
+              readOnly={readOnly}
+              onEdit={onEdit}
+              onOverride={onOverride}
+              onDelete={onDelete}
+            />
+          ))}
+          {policies.length === 0 && (
+            <tr><td colSpan={readOnly ? 5 : 6} className="text-muted text-center">No policies found.</td></tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 export function PolicyManagementPage() {
-  const { selectedTenantId } = useAuth()
+  const { selectedTenantId, isGlobalUser } = useAuth()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [policies, setPolicies] = useState<PolicyDefinitionDto[]>([])
+  const [platformPolicies, setPlatformPolicies] = useState<PolicyDefinitionDto[]>([])
   const [templates, setTemplates] = useState<TemplateDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -28,10 +148,15 @@ export function PolicyManagementPage() {
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState<PolicyDefinitionDto | null>(null)
 
+  const activeTab: TabKey = searchParams.get('tab') === 'platform' ? 'platform' : 'tenant'
+
   const load = () =>
     Promise.all([
       policyApi.getAll().then(r => setPolicies(r.data?.data ?? [])),
       policyApi.getTemplates().then(r => setTemplates(r.data?.data ?? [])),
+      isGlobalUser
+        ? platformApi.getPolicies().then(r => setPlatformPolicies(r.data?.data ?? []))
+        : Promise.resolve(),
     ]).catch(() => setError('Failed to load policies'))
 
   useEffect(() => { setLoading(true); load().finally(() => setLoading(false)) }, [selectedTenantId])
@@ -92,68 +217,47 @@ export function PolicyManagementPage() {
     }
   }
 
+  const visiblePolicies = activeTab === 'platform' ? platformPolicies : policies
+
   return (
     <div className="page">
       <div className="page-header">
         <h2>Policy Management</h2>
-        <button className="btn btn-primary" onClick={openCreate}>+ Create Policy</button>
+        {activeTab === 'tenant' && (
+          <button className="btn btn-primary" onClick={openCreate}>+ Create Policy</button>
+        )}
       </div>
 
       {error && <div className="alert alert-error">{error}</div>}
+      {isGlobalUser && !selectedTenantId && activeTab === 'tenant' && <TenantRequiredBanner />}
+
+      {isGlobalUser && (
+        <div className="tab-bar">
+          <button
+            className={`tab-btn${activeTab === 'tenant' ? ' active' : ''}`}
+            onClick={() => setSearchParams({})}
+          >
+            Tenant Policies
+          </button>
+          <button
+            className={`tab-btn${activeTab === 'platform' ? ' active' : ''}`}
+            onClick={() => setSearchParams({ tab: 'platform' })}
+          >
+            Platform Policies
+          </button>
+        </div>
+      )}
 
       {loading ? (
         <div className="loading-inline"><span className="spinner" /></div>
       ) : (
-        <div className="table-wrapper">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Resource Type</th>
-                <th>Action</th>
-                <th>Conditions</th>
-                <th>Source</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {policies.map((p, i) => (
-                <tr key={p.id ?? `default-${i}`}>
-                  <td>{p.name}</td>
-                  <td>{p.resourceType}</td>
-                  <td>{p.action}</td>
-                  <td>
-                    <div className="chip-list">
-                      {p.conditions.map(c => (
-                        <span key={c.templateName} className="chip">{c.templateName}</span>
-                      ))}
-                    </div>
-                  </td>
-                  <td>
-                    {p.isPlatformDefault
-                      ? <span className="badge badge-info">Platform Default</span>
-                      : <span className="badge badge-success">Tenant Override</span>}
-                  </td>
-                  <td>
-                    <div className="btn-group">
-                      {p.isPlatformDefault ? (
-                        <button className="btn btn-ghost btn-sm" onClick={() => openOverride(p)}>Override</button>
-                      ) : (
-                        <>
-                          <button className="btn btn-ghost btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                          <button className="btn btn-danger btn-sm" onClick={() => setConfirmDelete(p)}>Delete</button>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {policies.length === 0 && (
-                <tr><td colSpan={6} className="text-muted text-center">No policies defined for this tenant.</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <PolicyTable
+          policies={visiblePolicies}
+          readOnly={activeTab === 'platform'}
+          onEdit={openEdit}
+          onOverride={openOverride}
+          onDelete={setConfirmDelete}
+        />
       )}
 
       {modal && (

@@ -46,6 +46,7 @@ public class UserRepository : IUserRepository
             .Include(u => u.Identities)
             .Include(u => u.Tenants)
             .Include(u => u.Departments).ThenInclude(d => d.Tenant)
+            .Include(u => u.GlobalRoles).ThenInclude(ugr => ugr.GlobalRole)
             .Where(u => u.Identities.Any(ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject))
             .FirstOrDefaultAsync(cancellationToken);
 
