@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { permissionApi } from '../api/permission'
+import { useAuth } from '../contexts/AuthContext'
 import type { CreatePermissionRequest, PermissionDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
 
 type SortCol = 'name' | 'description'
+type TabKey = 'tenant' | 'platform'
 
 function sortPerms(perms: PermissionDto[], col: SortCol, dir: 'asc' | 'desc') {
   return [...perms].sort((a, b) => {
@@ -13,7 +16,49 @@ function sortPerms(perms: PermissionDto[], col: SortCol, dir: 'asc' | 'desc') {
   })
 }
 
+interface PermissionTableProps {
+  perms: PermissionDto[]
+  sortCol: SortCol
+  sortDir: 'asc' | 'desc'
+  onSort: (col: string) => void
+  onEdit: (p: PermissionDto) => void
+  onDelete: (id: string) => void
+}
+
+function PermissionTable({ perms, sortCol, sortDir, onSort, onEdit, onDelete }: PermissionTableProps) {
+  const sorted = sortPerms(perms, sortCol, sortDir)
+  return (
+    <div className="table-wrapper">
+      <table className="data-table">
+        <thead>
+          <tr>
+            <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={onSort} />
+            <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={onSort} />
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map(p => (
+            <tr key={p.id}>
+              <td>{p.name}</td>
+              <td className="text-muted">{p.description}</td>
+              <td>
+                <div className="btn-group">
+                  <button className="btn btn-ghost btn-sm" onClick={() => onEdit(p)}>Edit</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => onDelete(p.id)}>Delete</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 export function PermissionManagementPage() {
+  const { isGlobalUser } = useAuth()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [perms, setPerms] = useState<PermissionDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -24,6 +69,8 @@ export function PermissionManagementPage() {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+
+  const activeTab: TabKey = searchParams.get('tab') === 'platform' ? 'platform' : 'tenant'
 
   const load = () => permissionApi.getAll().then(r => setPerms(r.data?.data ?? [])).catch(() => setError('Failed to load permissions'))
 
@@ -52,7 +99,9 @@ export function PermissionManagementPage() {
     await permissionApi.delete(id); await load(); setConfirmDelete(null)
   }
 
-  const sorted = sortPerms(perms, sortCol, sortDir)
+  const tenantPerms = perms.filter(p => p.scope === 'Tenant')
+  const platformPerms = perms.filter(p => p.scope === 'Platform')
+  const visiblePerms = isGlobalUser ? (activeTab === 'platform' ? platformPerms : tenantPerms) : tenantPerms
 
   return (
     <div className="page">
@@ -61,32 +110,33 @@ export function PermissionManagementPage() {
         <button className="btn btn-primary" onClick={openCreate}>+ Create Permission</button>
       </div>
       {error && <div className="alert alert-error">{error}</div>}
-      {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
-        <div className="table-wrapper">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
-                <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {sorted.map(p => (
-                <tr key={p.id}>
-                  <td>{p.name}</td>
-                  <td className="text-muted">{p.description}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button className="btn btn-ghost btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                      <button className="btn btn-danger btn-sm" onClick={() => setConfirmDelete(p.id)}>Delete</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+      {isGlobalUser && (
+        <div className="tab-bar">
+          <button
+            className={`tab-btn${activeTab === 'tenant' ? ' active' : ''}`}
+            onClick={() => setSearchParams({})}
+          >
+            Tenant Permissions
+          </button>
+          <button
+            className={`tab-btn${activeTab === 'platform' ? ' active' : ''}`}
+            onClick={() => setSearchParams({ tab: 'platform' })}
+          >
+            Platform Permissions
+          </button>
         </div>
+      )}
+
+      {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
+        <PermissionTable
+          perms={visiblePerms}
+          sortCol={sortCol}
+          sortDir={sortDir}
+          onSort={toggleSort}
+          onEdit={openEdit}
+          onDelete={setConfirmDelete}
+        />
       )}
 
       {modal && (

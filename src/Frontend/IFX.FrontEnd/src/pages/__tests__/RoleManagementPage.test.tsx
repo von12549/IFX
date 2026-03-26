@@ -7,7 +7,7 @@ import { server } from '../../test/server'
 import { http, HttpResponse } from 'msw'
 
 vi.mock('../../contexts/AuthContext', () => ({
-  useAuth: () => ({ selectedTenantId: 'test-tenant-id' }),
+  useAuth: () => ({ selectedTenantId: 'test-tenant-id', isGlobalUser: false }),
 }))
 
 const API = 'http://localhost:5010'

@@ -1,10 +1,14 @@
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { PolicyManagementPage } from '../PolicyManagementPage'
 import { server } from '../../test/server'
 import { http, HttpResponse } from 'msw'
+
+vi.mock('../../contexts/AuthContext', () => ({
+  useAuth: () => ({ selectedTenantId: 'tenant-1', isGlobalUser: false }),
+}))
 
 const API = 'http://localhost:5010'
 
@@ -107,6 +111,6 @@ describe('PolicyManagementPage', () => {
       )
     )
     renderPage()
-    await waitFor(() => expect(screen.getByText(/no policies defined/i)).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByText(/no policies found/i)).toBeInTheDocument())
   })
 })

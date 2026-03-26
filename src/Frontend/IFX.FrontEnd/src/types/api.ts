@@ -50,6 +50,7 @@ export interface PermissionDto {
   id: string
   name: string
   description: string
+  scope: 'Tenant' | 'Platform'
 }
 
 // User
@@ -69,6 +70,7 @@ export interface UserProfileDto {
   primaryTenantId: string | null
   tenants: TenantDto[]
   departments: DepartmentDto[]
+  globalRoles: string[]
   createdAt: string
 }
 
@@ -165,6 +167,24 @@ export interface CreateDepartmentRequest {
   name: string
   description: string
   tenantId: string
+}
+
+// Global Roles (platform-level)
+export interface GlobalRoleDto {
+  id: string
+  name: string
+  description: string
+}
+
+// Cross-tenant data structures
+export interface TenantGroupDto<T> {
+  tenantId: string
+  tenantName: string
+  items: T[]
+}
+
+export interface CrossTenantResultDto<T> {
+  tenants: TenantGroupDto<T>[]
 }
 
 // ABAC Policies

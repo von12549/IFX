@@ -17,6 +17,7 @@ import { PermissionManagementPage } from './pages/PermissionManagementPage'
 import { TenantManagementPage } from './pages/TenantManagementPage'
 import { DepartmentManagementPage } from './pages/DepartmentManagementPage'
 import { PolicyManagementPage } from './pages/PolicyManagementPage'
+import { GlobalRolesPage } from './pages/GlobalRolesPage'
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/tenants" element={<TenantManagementPage />} />
             <Route path="/departments" element={<DepartmentManagementPage />} />
             <Route path="/policies" element={<PolicyManagementPage />} />
+            <Route path="/globalroles" element={<GlobalRolesPage />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/profile" replace />} />

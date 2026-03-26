@@ -2,16 +2,21 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { roleApi } from '../api/role'
 import { tenantApi } from '../api/tenant'
+import { platformApi } from '../api/platform'
 import { useAuth } from '../contexts/AuthContext'
-import type { CreateRoleRequest, RoleDto, TenantDto } from '../types/api'
+import type { CreateRoleRequest, GlobalRoleDto, RoleDto, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 type SortCol = 'name' | 'description' | 'tenantName'
+type TabKey = 'globalroles' | 'tenant'
 
 export function RoleManagementPage() {
-  const { selectedTenantId } = useAuth()
+  const { selectedTenantId, isGlobalUser } = useAuth()
   const [roles, setRoles] = useState<RoleDto[]>([])
+  const [globalRoles, setGlobalRoles] = useState<GlobalRoleDto[]>([])
   const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -20,17 +25,21 @@ export function RoleManagementPage() {
   const [saving, setSaving] = useState(false)
   const [sortCol, setSortCol] = useState<SortCol>('name')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+  const [activeTab, setActiveTab] = useState<TabKey>('tenant')
   const navigate = useNavigate()
 
-  const load = () => roleApi.getAll().then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
+  const loadRoles = () => roleApi.getAll().then(r => setRoles(r.data?.data ?? [])).catch(() => setError('Failed to load roles'))
 
   useEffect(() => {
     tenantApi.getAll().then(r => setTenants(r.data?.data ?? []))
-  }, [])
+    if (isGlobalUser) {
+      platformApi.getGlobalRoles().then(r => setGlobalRoles(r.data?.data ?? []))
+    }
+  }, [isGlobalUser])
 
   useEffect(() => {
     setLoading(true)
-    load().finally(() => setLoading(false))
+    loadRoles().finally(() => setLoading(false))
   }, [selectedTenantId])
 
   const toggleSort = (col: string) => {
@@ -46,7 +55,7 @@ export function RoleManagementPage() {
 
   const handleCreate = async () => {
     setSaving(true)
-    try { await roleApi.create(form); await load(); setModal(false) }
+    try { await roleApi.create(form); await loadRoles(); setModal(false) }
     catch (err: any) { setError(err.response?.data?.error || 'Failed to create role') }
     finally { setSaving(false) }
   }
@@ -60,30 +69,92 @@ export function RoleManagementPage() {
     <div className="page">
       <div className="page-header">
         <h2>Role Management</h2>
-        <button className="btn btn-primary" onClick={openCreate}>+ Create Role</button>
+        {(!isGlobalUser || activeTab === 'tenant') && (
+          <button className="btn btn-primary" onClick={openCreate}>+ Create Role</button>
+        )}
       </div>
       {error && <div className="alert alert-error">{error}</div>}
-      {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
-        <div className="table-wrapper">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
-                <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
-                <SortableHeader label="Tenant" col="tenantName" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
-              </tr>
-            </thead>
-            <tbody>
-              {sorted.map(r => (
-                <tr key={r.id} className="clickable-row" onClick={() => navigate(`/roles/${r.id}`)}>
-                  <td>{r.name}</td>
-                  <td className="text-muted">{r.description}</td>
-                  <td className="text-muted">{r.tenantName}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {isGlobalUser && !selectedTenantId && <TenantRequiredBanner />}
+
+      {isGlobalUser && (
+        <div className="tab-bar">
+          <button
+            className={`tab-btn${activeTab === 'globalroles' ? ' active' : ''}`}
+            onClick={() => setActiveTab('globalroles')}
+          >
+            Global Roles
+          </button>
+          <button
+            className={`tab-btn${activeTab === 'tenant' ? ' active' : ''}`}
+            onClick={() => setActiveTab('tenant')}
+          >
+            This Tenant
+          </button>
         </div>
+      )}
+
+      {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
+        <>
+          {(!isGlobalUser || activeTab === 'tenant') && (
+            <div className="table-wrapper">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <SortableHeader label="Name" col="name" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                    <SortableHeader label="Description" col="description" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                    <SortableHeader label="Tenant" col="tenantName" sortCol={sortCol} sortDir={sortDir} onSort={toggleSort} />
+                  </tr>
+                </thead>
+                <tbody>
+                  {sorted.map(r => (
+                    <tr key={r.id} className="clickable-row" onClick={() => navigate(`/roles/${r.id}`)}>
+                      <td>{r.name}</td>
+                      <td className="text-muted">{r.description}</td>
+                      <td className="text-muted">{r.tenantName}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {isGlobalUser && activeTab === 'tenant' && (
+            <ExpandableCrossTenantSection<RoleDto>
+              label="Roles in Other Tenants"
+              fetchData={platformApi.getAllRolesAcrossTenants}
+              columns={[
+                { header: 'Name', render: r => r.name },
+                { header: 'Description', render: r => <span className="text-muted">{r.description}</span> },
+                { header: 'Tenant', render: r => <span className="text-muted">{r.tenantName}</span> },
+              ]}
+              getKey={r => r.id}
+            />
+          )}
+
+          {isGlobalUser && activeTab === 'globalroles' && (
+            <div className="table-wrapper">
+              <div className="alert alert-info" style={{ marginBottom: '1rem' }}>
+                Global roles are platform-level roles managed by Anthropic. They cannot be modified here.
+              </div>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {globalRoles.map(r => (
+                    <tr key={r.id}>
+                      <td>{r.name}</td>
+                      <td className="text-muted">{r.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
       )}
 
       {modal && (

@@ -15,6 +15,10 @@ export const mockUser = {
   issuer: 'https://cognito.example.com',
   roles: [],
   roleGroups: [],
+  primaryTenantId: 'tenant-1',
+  tenants: [{ id: 'tenant-1', name: 'Acme Corp', description: '' }],
+  departments: [],
+  globalRoles: [],
   createdAt: '2024-01-01T00:00:00Z',
 }
 
@@ -24,8 +28,8 @@ export const mockRoles = [
 ]
 
 export const mockPermissions = [
-  { id: 'perm-1', name: 'Users.Read', description: 'Read users' },
-  { id: 'perm-2', name: 'Roles.Write', description: 'Manage roles' },
+  { id: 'perm-1', name: 'Users.Read', description: 'Read users', scope: 'Tenant' },
+  { id: 'perm-2', name: 'Roles.Write', description: 'Manage roles', scope: 'Tenant' },
 ]
 
 export const mockTenants = [
@@ -115,5 +119,13 @@ export const handlers = [
 
   http.delete(`${API}/api/v1/policy/:id`, () =>
     HttpResponse.json({ success: true })
+  ),
+
+  http.get(`${API}/api/v1/platform/globalroles`, () =>
+    HttpResponse.json({ success: true, data: [] })
+  ),
+
+  http.get(`${API}/api/v1/platform/policy`, () =>
+    HttpResponse.json({ success: true, data: [] })
   ),
 ]

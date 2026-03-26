@@ -1,7 +1,12 @@
+using IFX.Modules.Auth.Application.Authorization.Departments.Queries.GetAllDepartmentsAcrossTenants;
 using IFX.Modules.Auth.Application.Authorization.GlobalRoles.Commands.AssignGlobalRole;
 using IFX.Modules.Auth.Application.Authorization.GlobalRoles.Commands.RemoveGlobalRole;
 using IFX.Modules.Auth.Application.Authorization.GlobalRoles.Queries.GetUserGlobalRoles;
 using IFX.Modules.Auth.Application.Authorization.GlobalRoles.Queries.ListGlobalRoles;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.Queries.GetAllRoleGroupsAcrossTenants;
+using IFX.Modules.Auth.Application.Authorization.Roles.Queries.GetAllRolesAcrossTenants;
+using IFX.Modules.Auth.Application.Identity.Queries.GetAllIdpsAcrossTenants;
+using IFX.Modules.Auth.Application.Users.Queries.GetAllUsersAcrossTenants;
 using IFX.Modules.Auth.Presentation.Authorization.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;
@@ -69,6 +74,61 @@ public static class GlobalRoleEndpoints
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
 
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetAllUsersAcrossTenants(
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<GlobalRoleEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Listing users across all tenants");
+        var result = await mediator.Send(new GetAllUsersAcrossTenantsQuery());
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetAllRolesAcrossTenants(
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<GlobalRoleEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Listing roles across all tenants");
+        var result = await mediator.Send(new GetAllRolesAcrossTenantsQuery());
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetAllRoleGroupsAcrossTenants(
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<GlobalRoleEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Listing role groups across all tenants");
+        var result = await mediator.Send(new GetAllRoleGroupsAcrossTenantsQuery());
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetAllDepartmentsAcrossTenants(
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<GlobalRoleEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Listing departments across all tenants");
+        var result = await mediator.Send(new GetAllDepartmentsAcrossTenantsQuery());
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetAllIdpsAcrossTenants(
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<GlobalRoleEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Listing IdPs across all tenants");
+        var result = await mediator.Send(new GetAllIdpsAcrossTenantsQuery());
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
 }

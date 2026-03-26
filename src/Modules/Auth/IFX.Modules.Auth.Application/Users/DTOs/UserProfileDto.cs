@@ -21,5 +21,6 @@ public class UserProfileDto
     public Guid? PrimaryTenantId { get; init; }
     public List<TenantDto> Tenants { get; init; } = [];
     public List<DepartmentDto> Departments { get; init; } = [];
+    public List<string> GlobalRoles { get; init; } = [];
     public DateTime CreatedAt { get; init; }
 }

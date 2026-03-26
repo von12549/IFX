@@ -15,6 +15,8 @@ This file provides guidance to Claude Code when working with this repository.
 - **Multi-tenant** — Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant
 - **Template-Based ABAC** — reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic OPA Rego policy; no per-resource Rego files needed for new resource types
 - **DB-Backed ABAC Policies** — `PolicyDefinition` table stores tenant-level and platform-level (TenantId = NULL) policy rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
+- **GlobalRole system** — cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; GlobalRole users bypass tenant-scoped RBAC/ABAC and see cross-tenant data via platform endpoints
+- **GlobalRole frontend views** — dual-section UI: tenant data in main table, lazy-loaded `ExpandableCrossTenantSection` for other tenants; platform Sidebar nav, permission/policy scope tabs, `TenantRequiredBanner`
 - Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
@@ -64,13 +66,14 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260326-policy-definition-scope.md` | PolicyDefinition Scope field — replace TenantId=NULL convention with explicit Scope enum (Platform/Tenant), unique index update, resolver refactor |
 | `/.claude/Plans/20260326-global-roles.md` | GlobalRole system — cross-tenant PlatformAdmin/Support/Auditor roles, AnyTenant OPA template, platform policy dispatch, CRUD endpoints |
 | `/.claude/Plans/20260326-auth-authorization-feature-subfolders.md` | Authorization subdomain feature-subfolder refactor — Roles, RoleGroups, Permissions, Tenants, Departments each get Commands/Queries/DTOs/Authorization subfolders |
+| `/.claude/Plans/20260326-frontend-global-role-views.md` | Frontend GlobalRole views — dual-section layout for GlobalRole users, cross-tenant data grouping, permission/policy scope split, Phase 1 (no new endpoints) + Phase 2 (cross-tenant endpoints) |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (466 backend tests → 530 total including frontend)
+dotnet test IFX.sln           # Test (469 backend tests → 533 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
@@ -96,6 +99,8 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - Admin — Departments: `GET/POST/PUT/DELETE /api/v1/department` (tenant via `X-Tenant-Id` header)
 - Admin — Tenant Policies: `GET/POST/PUT/DELETE /api/v1/policy` + `GET /api/v1/policy/templates` (tenant via `X-Tenant-Id`; requires `Policy:list`/`Policy:create`/`Policy:update`/`Policy:delete`)
 - Admin — Platform Policies: `GET/POST/PUT/DELETE /api/v1/platform/policy` (requires `Platform.Policy:list`/`Platform.Policy:create`/`Platform.Policy:update`/`Platform.Policy:delete`)
+- Platform — GlobalRoles: `GET /api/v1/platform/globalroles`, `GET/POST/DELETE /api/v1/platform/users/{userId}/globalroles/{roleId}` (requires `Platform.GlobalRole:manage`)
+- Platform — Cross-Tenant: `GET /api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` (requires `Platform.GlobalRole:manage`; returns data grouped by tenant, excluding caller's tenant)
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
 

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { idpApi } from '../api/idp'
+import { platformApi } from '../api/platform'
 import { useAuth } from '../contexts/AuthContext'
 import type { CreateIdpRequest, IdpDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 const IdpTypeLabel: Record<number, string> = { 0: 'Cognito', 1: 'Auth0', 2: 'Generic OIDC' }
 
@@ -17,7 +20,7 @@ const emptyForm = (): CreateIdpRequest => ({
 type SortCol = 'name' | 'type' | 'issuer' | 'tenantName' | 'isPrimary' | 'enabled' | 'autoProvisionEnabled'
 
 export function IdpManagementPage() {
-  const { selectedTenantId } = useAuth()
+  const { selectedTenantId, isGlobalUser } = useAuth()
   const [idps, setIdps] = useState<IdpDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -87,6 +90,7 @@ export function IdpManagementPage() {
         <h2>IdP Management</h2>
         <button className="btn btn-primary" onClick={openCreate}>+ Create IdP</button>
       </div>
+      {isGlobalUser && !selectedTenantId && <TenantRequiredBanner />}
       {error && <div className="alert alert-error">{error}</div>}
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
@@ -119,6 +123,20 @@ export function IdpManagementPage() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {isGlobalUser && (
+        <ExpandableCrossTenantSection<IdpDto>
+          label="IdPs in Other Tenants"
+          fetchData={platformApi.getAllIdpsAcrossTenants}
+          columns={[
+            { header: 'Name', render: idp => idp.name },
+            { header: 'Type', render: idp => IdpTypeLabel[idp.idpType] ?? idp.idpType },
+            { header: 'Issuer', render: idp => <span className="text-muted text-sm">{idp.issuer}</span> },
+            { header: 'Enabled', render: idp => <span className={`badge ${idp.enabled ? 'badge-success' : 'badge-muted'}`}>{idp.enabled ? 'Yes' : 'No'}</span> },
+          ]}
+          getKey={idp => idp.id}
+        />
       )}
 
       {modal && (

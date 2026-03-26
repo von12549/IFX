@@ -46,6 +46,7 @@ public class UserRepository : IUserRepository
             .Include(u => u.Identities)
             .Include(u => u.Tenants)
             .Include(u => u.Departments).ThenInclude(d => d.Tenant)
+            .Include(u => u.GlobalRoles).ThenInclude(ugr => ugr.GlobalRole)
             .Where(u => u.Identities.Any(ui => ui.Issuer == issuer && EF.Property<string>(ui, "_subject") == subject))
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -117,6 +118,13 @@ public class UserRepository : IUserRepository
 
         return (users, totalCount);
     }
+
+    public async Task<List<User>> GetAllUsersWithTenantsAsync(CancellationToken cancellationToken = default)
+        => await _context.Users
+            .Include(u => u.Tenants)
+            .Include(u => u.Identities)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
 
     public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
     {

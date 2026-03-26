@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { userManagementApi } from '../api/userManagement'
+import { platformApi } from '../api/platform'
 import { useAuth } from '../contexts/AuthContext'
 import type { UserProfileDto } from '../types/api'
 import { Chip } from '../components/shared/Chip'
 import { SortableHeader } from '../components/shared/SortableHeader'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 type SortCol = 'displayName' | 'email' | 'roles' | 'roleGroups' | 'isActive'
 
 export function UserManagementPage() {
-  const { selectedTenantId } = useAuth()
+  const { selectedTenantId, isGlobalUser } = useAuth()
   const [users, setUsers] = useState<UserProfileDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -47,6 +50,7 @@ export function UserManagementPage() {
       <div className="page-header">
         <h2>User Management</h2>
       </div>
+      {isGlobalUser && !selectedTenantId && <TenantRequiredBanner />}
       {error && <div className="alert alert-error">{error}</div>}
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
@@ -81,6 +85,19 @@ export function UserManagementPage() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {isGlobalUser && (
+        <ExpandableCrossTenantSection<UserProfileDto>
+          label="Users in Other Tenants"
+          fetchData={platformApi.getAllUsersAcrossTenants}
+          columns={[
+            { header: 'Display Name', render: u => u.displayName },
+            { header: 'Email', render: u => u.email },
+            { header: 'Active', render: u => <span className={`badge ${u.isActive ? 'badge-success' : 'badge-muted'}`}>{u.isActive ? 'Active' : 'Inactive'}</span> },
+          ]}
+          getKey={u => u.id}
+        />
       )}
     </div>
   )
