@@ -4,11 +4,13 @@ import { useAuth } from '../contexts/AuthContext'
 import type { CreateTenantRequest, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 type SortCol = 'name' | 'description'
 
 export function TenantManagementPage() {
-  const { isGlobalUser, user } = useAuth()
+  const { isGlobalUser, selectedTenantId, user } = useAuth()
   const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -71,9 +73,14 @@ export function TenantManagementPage() {
 
   // Tenant-only users see only their own tenants
   const ownTenantIds = new Set(user?.tenants.map(t => t.id) ?? [])
-  const visibleTenants = isGlobalUser ? tenants : tenants.filter(t => ownTenantIds.has(t.id))
+  const primaryTenants = isGlobalUser
+    ? (selectedTenantId ? tenants.filter(t => t.id === selectedTenantId) : tenants)
+    : tenants.filter(t => ownTenantIds.has(t.id))
+  const otherTenants = isGlobalUser && selectedTenantId
+    ? tenants.filter(t => t.id !== selectedTenantId)
+    : []
 
-  const sorted = [...visibleTenants].sort((a, b) => {
+  const sorted = [...primaryTenants].sort((a, b) => {
     const v = (a[sortCol] ?? '').localeCompare(b[sortCol] ?? '')
     return sortDir === 'asc' ? v : -v
   })
@@ -89,6 +96,7 @@ export function TenantManagementPage() {
           <span className="badge badge-info">You can view your tenant details here.</span>
         )}
       </div>
+      {isGlobalUser && !selectedTenantId && <TenantRequiredBanner />}
       {error && <div className="alert alert-error">{error}</div>}
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
@@ -118,6 +126,32 @@ export function TenantManagementPage() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {isGlobalUser && otherTenants.length > 0 && (
+        <ExpandableCrossTenantSection<TenantDto>
+          label="Other Tenants"
+          fetchData={() => Promise.resolve({
+            data: {
+              data: {
+                tenants: [{ tenantId: 'all', tenantName: 'All Tenants', items: otherTenants }]
+              }
+            }
+          })}
+          columns={[
+            { header: 'Name', render: t => t.name },
+            { header: 'Description', render: t => <span className="text-muted">{t.description}</span> },
+            {
+              header: 'Actions', render: t => (
+                <div className="btn-group">
+                  <button className="btn btn-sm btn-ghost" onClick={() => openEdit(t)}>Edit</button>
+                  <button className="btn btn-sm btn-danger" onClick={() => handleDelete(t)}>Delete</button>
+                </div>
+              )
+            },
+          ]}
+          getKey={t => t.id}
+        />
       )}
 
       {modal && (
