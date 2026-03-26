@@ -64,6 +64,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260326-policy-definition-scope.md` | PolicyDefinition Scope field — replace TenantId=NULL convention with explicit Scope enum (Platform/Tenant), unique index update, resolver refactor |
 | `/.claude/Plans/20260326-global-roles.md` | GlobalRole system — cross-tenant PlatformAdmin/Support/Auditor roles, AnyTenant OPA template, platform policy dispatch, CRUD endpoints |
 | `/.claude/Plans/20260326-auth-authorization-feature-subfolders.md` | Authorization subdomain feature-subfolder refactor — Roles, RoleGroups, Permissions, Tenants, Departments each get Commands/Queries/DTOs/Authorization subfolders |
+| `/.claude/Plans/20260326-frontend-global-role-views.md` | Frontend GlobalRole views — dual-section layout for GlobalRole users, cross-tenant data grouping, permission/policy scope split, Phase 1 (no new endpoints) + Phase 2 (cross-tenant endpoints) |
 
 ## Quick Reference
 
