@@ -26,6 +26,8 @@ public class IfxDbContext : DbContext
     public DbSet<Idp> Idps => Set<Idp>();
     public DbSet<EmailVerificationToken> EmailVerificationTokens => Set<EmailVerificationToken>();
     public DbSet<PolicyDefinition> PolicyDefinitions => Set<PolicyDefinition>();
+    public DbSet<GlobalRole> GlobalRoles => Set<GlobalRole>();
+    public DbSet<UserGlobalRole> UserGlobalRoles => Set<UserGlobalRole>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

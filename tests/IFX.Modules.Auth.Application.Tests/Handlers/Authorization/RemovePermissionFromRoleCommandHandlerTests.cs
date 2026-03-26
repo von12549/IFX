@@ -1,4 +1,6 @@
-using IFX.Modules.Auth.Application.Authorization.Commands.RemovePermissionFromRole;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
+using IFX.Modules.Auth.Application.Authorization.Roles.Commands.RemovePermissionFromRole;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Tests.Common.Builders;
@@ -10,13 +12,22 @@ public class RemovePermissionFromRoleCommandHandlerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IRoleRepository> _roles = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<RemovePermissionFromRoleCommandHandler>> _logger = new();
     private readonly RemovePermissionFromRoleCommandHandler _handler;
 
     public RemovePermissionFromRoleCommandHandlerTests()
     {
         _unitOfWork.Setup(u => u.Roles).Returns(_roles.Object);
-        _handler = new RemovePermissionFromRoleCommandHandler(_unitOfWork.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new RemovePermissionFromRoleCommandHandler(_unitOfWork.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]

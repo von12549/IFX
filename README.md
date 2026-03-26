@@ -34,7 +34,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
 
 ### Developer Experience
-- **507 Tests** — 443 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **530 Tests** — 466 backend (xUnit) + 64 frontend (Vitest) across all layers
 - **Docker Support** — Full stack via `docker-compose up -d` (API + Frontend + SQL Server + OPA)
 - **React Frontend** — Admin UI for users, roles, tenants, departments, and policies
 - **Demo UI** — Minimal HTML/JS client for testing the OAuth flow end-to-end
@@ -73,7 +73,7 @@ src/
 │   ├── Application/                 # Use cases (CQRS)
 │   │   ├── Users/                   # User commands/queries
 │   │   ├── Identity/                # Auth/IdP commands/queries
-│   │   └── Authorization/           # Role, tenant, department commands/queries
+│   │   └── Authorization/           # Feature subfolders: Roles, RoleGroups, Permissions, Tenants, Departments
 │   ├── Infrastructure/              # Data access, identity providers, OIDC
 │   │   ├── IdentityProviders/       # Provider adapters (config-driven selection)
 │   │   │   ├── Cognito/             # AWS Cognito implementation
@@ -97,10 +97,10 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 443 backend tests
-├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (103)
-├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (208)
-├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (51)
+tests/                               # 466 backend tests
+├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (106)
+├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (225)
+├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (54)
 ├── IFX.Modules.Auth.Presentation.Tests/ # Authorization class tests (10)
 ├── IFX.IntegrationTests/               # Permission enforcement + API tests (43)
 ├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire service tests (11)

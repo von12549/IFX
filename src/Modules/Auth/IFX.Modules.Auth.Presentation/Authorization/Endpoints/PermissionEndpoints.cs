@@ -1,7 +1,7 @@
-using IFX.Modules.Auth.Application.Authorization.Commands.CreatePermission;
-using IFX.Modules.Auth.Application.Authorization.Commands.DeletePermission;
-using IFX.Modules.Auth.Application.Authorization.Commands.UpdatePermission;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetAllPermissions;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Commands.CreatePermission;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Commands.DeletePermission;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Commands.UpdatePermission;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Queries.GetAllPermissions;
 using IFX.Modules.Auth.Presentation.Authorization.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;

@@ -73,6 +73,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             var displayName = $"{request.FirstName} {request.LastName}";
             var user = User.Create(displayName, isActive: false); // Will be activated after confirmation
             user.AddRole(userRole);
+            user.CreatedBy = user.Id; // self-created
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
 
@@ -90,6 +91,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 emailVerified: cognitoResult.UserConfirmed,
                 phoneNumberVerified: false);
 
+            userIdentity.CreatedBy = user.Id;
             await _unitOfWork.UserIdentities.AddAsync(userIdentity, cancellationToken);
 
             // Create RegistrationFlowEvent

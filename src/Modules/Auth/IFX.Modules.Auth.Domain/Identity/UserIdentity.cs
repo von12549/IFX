@@ -50,6 +50,7 @@ public class UserIdentity : BaseEntity, IAuditableEntity
     public bool EmailVerified { get; private set; }
     public bool PhoneNumberVerified { get; private set; }
     public DateTime LastSyncedAt { get; private set; }
+    public Guid? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

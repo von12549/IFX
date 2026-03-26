@@ -45,11 +45,53 @@ public static class BuiltInTemplates
         Right = ConditionValueRef.FieldRef("resource.tenant_id")
     };
 
+    /// <summary>
+    /// Allow only when the resource is active.
+    /// Left: resource.is_active (scalar literal), Right: "true" (constant), Operator: Equals.
+    /// </summary>
+    public static readonly ConditionTemplate IsActive = new()
+    {
+        Name = "IsActive",
+        Left = "resource.is_active",
+        Operator = ConditionOperator.Equals,
+        Right = ConditionValueRef.Literal("true")
+    };
+
+    /// <summary>
+    /// Allow cross-tenant access for global-role users. Passes when the subject is a global admin.
+    /// Left: subject.is_global_admin (string "true"/"false"), Right: "true" (literal), Operator: Equals.
+    /// Used by platform-scope policies assigned to PlatformSupport/PlatformAuditor roles.
+    /// </summary>
+    public static readonly ConditionTemplate AnyTenant = new()
+    {
+        Name = "AnyTenant",
+        Left = "subject.is_global_admin",
+        Operator = ConditionOperator.Equals,
+        Right = ConditionValueRef.Literal("true")
+    };
+
+    /// <summary>
+    /// Allow when the subject holds a specific GlobalRole.
+    /// Left: subject.global_roles (collection), Right: UserInput("role") (literal role name), Operator: Contains.
+    /// The caller must supply a <c>Parameters</c> dictionary with key <c>"global_role"</c> set to the
+    /// expected GlobalRole name (e.g. "PlatformSupport").
+    /// </summary>
+    public static readonly ConditionTemplate GlobalRoleIncludes = new()
+    {
+        Name = "GlobalRoleIncludes",
+        Left = "subject.global_roles",
+        Operator = ConditionOperator.Contains,
+        Right = ConditionValueRef.UserInput("global_role")
+    };
+
     /// <summary>Seeds all built-in templates into the provided registry.</summary>
     public static void Register(IAbacTemplateRegistry registry)
     {
         registry.Register(SameDepartment);
         registry.Register(CreatedByMe);
         registry.Register(SameTenant);
+        registry.Register(IsActive);
+        registry.Register(AnyTenant);
+        registry.Register(GlobalRoleIncludes);
     }
 }

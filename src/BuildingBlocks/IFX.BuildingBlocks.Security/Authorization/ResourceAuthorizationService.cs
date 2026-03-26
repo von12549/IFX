@@ -68,7 +68,9 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
                 Departments = _currentUser.Departments,
                 Roles = _currentUser.Roles,
                 Permissions = _currentUser.Permissions,
-                Mfa = _currentUser.MfaEnabled
+                Mfa = _currentUser.MfaEnabled,
+                GlobalRoles = _currentUser.GlobalRoles,
+                IsGlobalAdmin = _currentUser.IsGlobalAdmin ? "true" : "false"
             },
             Resource = resourceAttributes,
             Action = action,
@@ -118,7 +120,9 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
                 Departments = _currentUser.Departments,
                 Roles = _currentUser.Roles,
                 Permissions = _currentUser.Permissions,
-                Mfa = _currentUser.MfaEnabled
+                Mfa = _currentUser.MfaEnabled,
+                GlobalRoles = _currentUser.GlobalRoles,
+                IsGlobalAdmin = _currentUser.IsGlobalAdmin ? "true" : "false"
             },
             Resource = resourceAttributes,
             Action = policy.Action,
@@ -157,7 +161,24 @@ public class ResourceAuthorizationService : IResourceAuthorizationService
         CancellationToken ct = default)
         where TResource : OpaResourceAttributesBase
     {
-        var policy = await _policyResolver.ResolveAsync(_currentUser.TenantId, resourceType, action, ct);
+        // PlatformAdmin bypasses all resource-level ABAC — no OPA call needed.
+        if (_currentUser.IsGlobalAdmin)
+            return;
+
+        AbacPolicy? policy;
+        if (_currentUser.GlobalRoles.Count > 0)
+        {
+            // Non-admin GlobalRole users: resolve the platform policy seeded specifically for
+            // their role (e.g. PlatformSupport or PlatformAuditor). Multiple platform policies
+            // may exist per (resourceType, action) since the unique index only covers tenant rows.
+            policy = await _policyResolver.ResolvePlatformPolicyForRoleAsync(
+                resourceType, action, _currentUser.GlobalRoles[0], ct);
+        }
+        else if (_currentUser.TenantId.HasValue)
+            policy = await _policyResolver.ResolveTenantPolicyAsync(_currentUser.TenantId.Value, resourceType, action, ct);
+        else
+            policy = null;
+
         if (policy is null)
         {
             _logger.LogWarning(

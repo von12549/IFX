@@ -1,6 +1,8 @@
 using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Users.Authorization;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -11,12 +13,16 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<GetUserByIdQueryHandler> _logger;
 
-    public GetUserByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GetUserByIdQueryHandler> logger)
+    public GetUserByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<GetUserByIdQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -28,6 +34,11 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
 
             if (user == null)
                 return Result<UserProfileDto>.Failure("User not found");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "user", "read_admin",
+                new UserResourceAttributes(user.Id, _currentUser.TenantId),
+                ct: cancellationToken);
 
             return Result<UserProfileDto>.Success(_mapper.Map<UserProfileDto>(user));
         }

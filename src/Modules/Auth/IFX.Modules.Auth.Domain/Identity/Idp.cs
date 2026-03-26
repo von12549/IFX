@@ -21,6 +21,7 @@ public class Idp : BaseEntity, IAuditableEntity
     public string RequiredScopes { get; private set; } = "[]"; // JSON array
     public string ClaimMapping { get; private set; } = "{}"; // JSON object
     public int ClockSkewSeconds { get; private set; } = 300; // 5 minutes default
+    public Guid? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

@@ -1,6 +1,6 @@
 using AutoMapper;
-using IFX.Modules.Auth.Application.Authorization.DTOs;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetAllPermissions;
+using IFX.Modules.Auth.Application.Authorization.Permissions.DTOs;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Queries.GetAllPermissions;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using Microsoft.Extensions.Logging;

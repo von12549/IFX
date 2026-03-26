@@ -21,6 +21,7 @@ public interface IUnitOfWork : IDisposable
     IIdpRepository Idps { get; }
     IEmailVerificationTokenRepository EmailVerificationTokens { get; }
     IPolicyDefinitionRepository PolicyDefinitions { get; }
+    IGlobalRoleRepository GlobalRoles { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);

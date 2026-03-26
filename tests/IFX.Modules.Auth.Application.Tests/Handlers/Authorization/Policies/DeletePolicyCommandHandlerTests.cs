@@ -1,4 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.DeletePolicy;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
@@ -10,6 +12,7 @@ public class DeletePolicyCommandHandlerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IPolicyDefinitionRepository> _policies = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<IAbacPolicyCache> _policyCache = new();
     private readonly Mock<ILogger<DeletePolicyCommandHandler>> _logger = new();
     private readonly DeletePolicyCommandHandler _handler;
@@ -17,7 +20,15 @@ public class DeletePolicyCommandHandlerTests
     public DeletePolicyCommandHandlerTests()
     {
         _unitOfWork.Setup(u => u.PolicyDefinitions).Returns(_policies.Object);
-        _handler = new DeletePolicyCommandHandler(_unitOfWork.Object, _policyCache.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new DeletePolicyCommandHandler(_unitOfWork.Object, _authorizationService.Object, _policyCache.Object, _logger.Object);
     }
 
     [Fact]
@@ -25,7 +36,7 @@ public class DeletePolicyCommandHandlerTests
     {
         var policyId = Guid.NewGuid();
         var existing = PolicyDefinition.Create(
-            Guid.NewGuid(), "Read Own Profile", "user", "read",
+            PolicyScope.Tenant, Guid.NewGuid(), "Read Own Profile", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
 
         _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
@@ -57,7 +68,7 @@ public class DeletePolicyCommandHandlerTests
     {
         var policyId = Guid.NewGuid();
         var existing = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
 
         _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))

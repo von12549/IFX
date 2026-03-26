@@ -9,6 +9,7 @@ public interface IPolicyDefinitionRepository
     Task<bool> ExistsAsync(Guid tenantId, string resourceType, string action, CancellationToken ct = default);
     Task<PolicyDefinition?> GetByIdAsync(Guid id, CancellationToken ct = default);
     Task<PolicyDefinition?> GetPlatformAsync(string resourceType, string action, CancellationToken ct = default);
+    Task<PolicyDefinition?> GetPlatformByGlobalRoleAsync(string resourceType, string action, string globalRole, CancellationToken ct = default);
     Task<List<PolicyDefinition>> GetPlatformPoliciesAsync(CancellationToken ct = default);
     Task<bool> ExistsPlatformAsync(string resourceType, string action, CancellationToken ct = default);
 }

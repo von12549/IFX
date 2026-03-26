@@ -21,12 +21,30 @@ public sealed class StaticAbacPolicyResolver : IAbacPolicyResolver
         _defaults[key] = policy;
     }
 
-    public Task<AbacPolicy?> ResolveAsync(
-        Guid? tenantId,
+    public Task<AbacPolicy?> ResolvePlatformPolicyAsync(
         string resourceType,
         string action,
         CancellationToken ct = default)
     {
+        _defaults.TryGetValue(MakeKey(resourceType, action), out var policy);
+        return Task.FromResult(policy);
+    }
+
+    // Static resolver has no GlobalRole-specific policies — always returns null.
+    public Task<AbacPolicy?> ResolvePlatformPolicyForRoleAsync(
+        string resourceType,
+        string action,
+        string globalRole,
+        CancellationToken ct = default)
+        => Task.FromResult<AbacPolicy?>(null);
+
+    public Task<AbacPolicy?> ResolveTenantPolicyAsync(
+        Guid tenantId,
+        string resourceType,
+        string action,
+        CancellationToken ct = default)
+    {
+        // Static resolver has no tenant concept — delegates to same in-memory lookup
         _defaults.TryGetValue(MakeKey(resourceType, action), out var policy);
         return Task.FromResult(policy);
     }

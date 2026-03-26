@@ -1,5 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.CreatePolicy;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
@@ -13,6 +14,7 @@ public class CreatePolicyCommandHandlerTests
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IPolicyDefinitionRepository> _policies = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<IAbacPolicyCache> _policyCache = new();
     private readonly Mock<ILogger<CreatePolicyCommandHandler>> _logger = new();
     private readonly CreatePolicyCommandHandler _handler;
@@ -24,10 +26,19 @@ public class CreatePolicyCommandHandlerTests
     {
         _unitOfWork.Setup(u => u.PolicyDefinitions).Returns(_policies.Object);
         _currentUser.Setup(c => c.UserId).Returns(Guid.NewGuid());
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         _handler = new CreatePolicyCommandHandler(
             _unitOfWork.Object,
             _currentUser.Object,
+            _authorizationService.Object,
             _policyCache.Object,
             _logger.Object);
     }
@@ -40,7 +51,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(false);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Tenant, tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
@@ -62,7 +73,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Tenant, tenantId, "Read Own Profile", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
@@ -77,7 +88,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(false);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Platform, null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
@@ -97,7 +108,7 @@ public class CreatePolicyCommandHandlerTests
                  .ReturnsAsync(true);
 
         var result = await _handler.Handle(
-            new CreatePolicyCommand(null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
+            new CreatePolicyCommand(PolicyScope.Platform, null, "Read Own Profile (Platform)", null, "user", "read", ValidConditions),
             CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();

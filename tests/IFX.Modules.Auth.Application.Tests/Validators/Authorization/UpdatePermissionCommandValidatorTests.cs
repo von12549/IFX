@@ -1,5 +1,5 @@
 using FluentValidation.TestHelper;
-using IFX.Modules.Auth.Application.Authorization.Commands.UpdatePermission;
+using IFX.Modules.Auth.Application.Authorization.Permissions.Commands.UpdatePermission;
 
 namespace IFX.Modules.Auth.Application.Tests.Validators.Authorization;
 

@@ -1,3 +1,5 @@
+using IFX.Modules.Auth.Domain.Authorization;
+
 namespace IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 
 public record PolicyDefinitionDto(
@@ -10,4 +12,5 @@ public record PolicyDefinitionDto(
     List<PolicyConditionDto> Conditions,
     bool IsActive,
     bool IsPlatformDefault,
-    DateTime UpdatedAt);
+    DateTime UpdatedAt,
+    PolicyScope Scope = PolicyScope.Tenant);

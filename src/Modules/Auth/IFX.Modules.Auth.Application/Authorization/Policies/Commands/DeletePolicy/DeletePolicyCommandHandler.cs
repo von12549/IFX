@@ -1,6 +1,9 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Policies.Authorization;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Domain.Authorization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -9,15 +12,18 @@ namespace IFX.Modules.Auth.Application.Authorization.Policies.Commands.DeletePol
 public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, Result<bool>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<DeletePolicyCommandHandler> _logger;
 
     public DeletePolicyCommandHandler(
         IUnitOfWork unitOfWork,
+        IResourceAuthorizationService authorizationService,
         IAbacPolicyCache policyCache,
         ILogger<DeletePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _authorizationService = authorizationService;
         _policyCache = policyCache;
         _logger = logger;
     }
@@ -30,17 +36,22 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
             if (policy is null)
                 return Result<bool>.Failure("Policy not found.");
 
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "policy", "delete",
+                new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById),
+                ct: cancellationToken);
+
             _unitOfWork.PolicyDefinitions.Remove(policy);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            if (policy.TenantId is null)
+            if (policy.Scope == PolicyScope.Platform)
                 _policyCache.InvalidatePlatform(policy.ResourceType, policy.Action);
             else
-                _policyCache.Invalidate(policy.TenantId.Value, policy.ResourceType, policy.Action);
+                _policyCache.Invalidate(policy.TenantId!.Value, policy.ResourceType, policy.Action);
 
             _logger.LogInformation(
                 "Policy deleted: {PolicyId} for {Scope} ({ResourceType}/{Action})",
-                policy.Id, policy.TenantId is null ? "platform" : policy.TenantId, policy.ResourceType, policy.Action);
+                policy.Id, policy.Scope, policy.ResourceType, policy.Action);
 
             return Result<bool>.Success(true);
         }

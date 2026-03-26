@@ -1,6 +1,9 @@
 using System.Text.Json;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Auth.Application.Authorization.Policies.Authorization;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.Common.Authorization;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using MediatR;
@@ -11,13 +14,16 @@ namespace IFX.Modules.Auth.Application.Authorization.Policies.Queries.GetPolicie
 public class GetPoliciesQueryHandler : IRequestHandler<GetPoliciesQuery, Result<List<PolicyDefinitionDto>>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<GetPoliciesQueryHandler> _logger;
 
     public GetPoliciesQueryHandler(
         IUnitOfWork unitOfWork,
+        IResourceAuthorizationService authorizationService,
         ILogger<GetPoliciesQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -26,6 +32,11 @@ public class GetPoliciesQueryHandler : IRequestHandler<GetPoliciesQuery, Result<
     {
         try
         {
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "policy", "list",
+                new TenantScopeResourceAttributes(request.TenantId),
+                ct: cancellationToken);
+
             var tenantRows = await _unitOfWork.PolicyDefinitions
                 .GetByTenantIdAsync(request.TenantId, cancellationToken);
 
@@ -58,7 +69,8 @@ public class GetPoliciesQueryHandler : IRequestHandler<GetPoliciesQuery, Result<
             p.Action,
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),
             p.IsActive,
-            IsPlatformDefault: p.TenantId is null,
-            p.UpdatedAt);
+            IsPlatformDefault: p.Scope == PolicyScope.Platform,
+            p.UpdatedAt,
+            p.Scope);
     }
 }

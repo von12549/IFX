@@ -56,6 +56,8 @@ public class UserIdentityConfiguration : IEntityTypeConfiguration<UserIdentity>
         builder.Property(ui => ui.LastSyncedAt)
             .IsRequired();
 
+        builder.Property(ui => ui.CreatedBy);
+
         builder.Property(ui => ui.CreatedAt)
             .IsRequired();
 

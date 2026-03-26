@@ -6,6 +6,7 @@ public class Tenant : BaseEntity, IAuditableEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
+    public Guid? CreatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

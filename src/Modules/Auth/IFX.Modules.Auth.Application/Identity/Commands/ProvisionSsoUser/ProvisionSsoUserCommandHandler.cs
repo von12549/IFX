@@ -73,6 +73,7 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
             // Create User entity
             var user = User.Create(displayName, isActive: true); // SSO users are active immediately
             user.AddRole(userRole);
+            user.CreatedBy = user.Id; // self-provisioned
 
             await _unitOfWork.Users.AddAsync(user, cancellationToken);
 
@@ -90,6 +91,7 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
                 emailVerified: request.EmailVerified,
                 phoneNumberVerified: false);
 
+            userIdentity.CreatedBy = user.Id;
             await _unitOfWork.UserIdentities.AddAsync(userIdentity, cancellationToken);
 
             // Create UserActivityLog

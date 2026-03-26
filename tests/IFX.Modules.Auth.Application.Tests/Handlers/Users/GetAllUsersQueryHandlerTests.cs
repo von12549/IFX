@@ -1,5 +1,6 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Application.Users.DTOs;
@@ -16,13 +17,22 @@ public class GetAllUsersQueryHandlerTests
     private readonly Mock<IUserRepository> _users = new();
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<GetAllUsersQueryHandler>> _logger = new();
     private readonly GetAllUsersQueryHandler _handler;
 
     public GetAllUsersQueryHandlerTests()
     {
         _unitOfWork.Setup(u => u.Users).Returns(_users.Object);
-        _handler = new GetAllUsersQueryHandler(_unitOfWork.Object, _mapper.Object, _currentUser.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new GetAllUsersQueryHandler(_unitOfWork.Object, _mapper.Object, _currentUser.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]

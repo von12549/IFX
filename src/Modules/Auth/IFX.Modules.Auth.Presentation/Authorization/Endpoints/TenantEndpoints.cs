@@ -1,8 +1,8 @@
-using IFX.Modules.Auth.Application.Authorization.Commands.CreateTenant;
-using IFX.Modules.Auth.Application.Authorization.Commands.DeleteTenant;
-using IFX.Modules.Auth.Application.Authorization.Commands.UpdateTenant;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetAllTenants;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetTenantById;
+using IFX.Modules.Auth.Application.Authorization.Tenants.Commands.CreateTenant;
+using IFX.Modules.Auth.Application.Authorization.Tenants.Commands.DeleteTenant;
+using IFX.Modules.Auth.Application.Authorization.Tenants.Commands.UpdateTenant;
+using IFX.Modules.Auth.Application.Authorization.Tenants.Queries.GetAllTenants;
+using IFX.Modules.Auth.Application.Authorization.Tenants.Queries.GetTenantById;
 using IFX.Modules.Auth.Presentation.Authorization.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;

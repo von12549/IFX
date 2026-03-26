@@ -1,8 +1,9 @@
+using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Common;
+using IFX.Modules.Auth.Application.Common.Authorization;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
-using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -13,17 +14,20 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<GetAllUsersQueryHandler> _logger;
 
     public GetAllUsersQueryHandler(
         IUnitOfWork unitOfWork,
         IMapper mapper,
         ICurrentUser currentUser,
+        IResourceAuthorizationService authorizationService,
         ILogger<GetAllUsersQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currentUser = currentUser;
+        _authorizationService = authorizationService;
         _logger = logger;
     }
 
@@ -41,6 +45,11 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
                     PageNumber = request.PageNumber,
                     PageSize = request.PageSize
                 });
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "user", "list",
+                new TenantScopeResourceAttributes(_currentUser.TenantId),
+                ct: cancellationToken);
 
             var (users, totalCount) = await _unitOfWork.Users.GetAllUsersByTenantAsync(
                 _currentUser.TenantId.Value,

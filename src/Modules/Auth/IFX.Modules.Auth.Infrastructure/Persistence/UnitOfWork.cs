@@ -26,7 +26,8 @@ public class UnitOfWork : IUnitOfWork
         IUserActivityLogRepository userActivityLogs,
         IIdpRepository idps,
         IEmailVerificationTokenRepository emailVerificationTokens,
-        IPolicyDefinitionRepository policyDefinitions)
+        IPolicyDefinitionRepository policyDefinitions,
+        IGlobalRoleRepository globalRoles)
     {
         _context = context;
         Users = users;
@@ -43,6 +44,7 @@ public class UnitOfWork : IUnitOfWork
         Idps = idps;
         EmailVerificationTokens = emailVerificationTokens;
         PolicyDefinitions = policyDefinitions;
+        GlobalRoles = globalRoles;
     }
 
     public IUserRepository Users { get; }
@@ -59,6 +61,7 @@ public class UnitOfWork : IUnitOfWork
     public IIdpRepository Idps { get; }
     public IEmailVerificationTokenRepository EmailVerificationTokens { get; }
     public IPolicyDefinitionRepository PolicyDefinitions { get; }
+    public IGlobalRoleRepository GlobalRoles { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

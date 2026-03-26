@@ -51,6 +51,7 @@ public class GetPlatformPoliciesQueryHandler : IRequestHandler<GetPlatformPolici
             conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),
             p.IsActive,
             IsPlatformDefault: true,
-            p.UpdatedAt);
+            p.UpdatedAt,
+            p.Scope);
     }
 }

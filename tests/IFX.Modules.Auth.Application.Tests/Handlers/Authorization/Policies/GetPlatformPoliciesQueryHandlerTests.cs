@@ -22,7 +22,7 @@ public class GetPlatformPoliciesQueryHandlerTests
     public async Task Handle_ReturnsPlatformPoliciesWithIsPlatformDefaultTrue()
     {
         var policy = PolicyDefinition.Create(
-            null, "Read Own Profile (Platform Default)", "user", "read",
+            PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null},{\"TemplateName\":\"CreatedByMe\",\"Parameters\":null}]",
             null);
 

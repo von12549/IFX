@@ -1,10 +1,10 @@
-using IFX.Modules.Auth.Application.Authorization.Commands.AssignPermissionsToRole;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetRoleById;
-using IFX.Modules.Auth.Application.Authorization.Commands.CreateRole;
-using IFX.Modules.Auth.Application.Authorization.Commands.DeleteRole;
-using IFX.Modules.Auth.Application.Authorization.Commands.RemovePermissionFromRole;
-using IFX.Modules.Auth.Application.Authorization.Commands.UpdateRole;
-using IFX.Modules.Auth.Application.Authorization.Queries.GetAllRoles;
+using IFX.Modules.Auth.Application.Authorization.Roles.Commands.AssignPermissionsToRole;
+using IFX.Modules.Auth.Application.Authorization.Roles.Queries.GetRoleById;
+using IFX.Modules.Auth.Application.Authorization.Roles.Commands.CreateRole;
+using IFX.Modules.Auth.Application.Authorization.Roles.Commands.DeleteRole;
+using IFX.Modules.Auth.Application.Authorization.Roles.Commands.RemovePermissionFromRole;
+using IFX.Modules.Auth.Application.Authorization.Roles.Commands.UpdateRole;
+using IFX.Modules.Auth.Application.Authorization.Roles.Queries.GetAllRoles;
 using IFX.Modules.Auth.Presentation.Authorization.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
 using MediatR;

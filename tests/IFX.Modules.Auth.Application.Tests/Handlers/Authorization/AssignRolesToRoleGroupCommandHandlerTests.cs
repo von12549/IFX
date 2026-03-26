@@ -1,6 +1,8 @@
 using AutoMapper;
-using IFX.Modules.Auth.Application.Authorization.Commands.AssignRolesToRoleGroup;
-using IFX.Modules.Auth.Application.Authorization.DTOs;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Models;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.Commands.AssignRolesToRoleGroup;
+using IFX.Modules.Auth.Application.Authorization.RoleGroups.DTOs;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Tests.Common.Builders;
@@ -14,6 +16,7 @@ public class AssignRolesToRoleGroupCommandHandlerTests
     private readonly Mock<IRoleGroupRepository> _groups = new();
     private readonly Mock<IRoleRepository> _roles = new();
     private readonly Mock<IMapper> _mapper = new();
+    private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<ILogger<AssignRolesToRoleGroupCommandHandler>> _logger = new();
     private readonly AssignRolesToRoleGroupCommandHandler _handler;
 
@@ -21,7 +24,15 @@ public class AssignRolesToRoleGroupCommandHandlerTests
     {
         _unitOfWork.Setup(u => u.RoleGroups).Returns(_groups.Object);
         _unitOfWork.Setup(u => u.Roles).Returns(_roles.Object);
-        _handler = new AssignRolesToRoleGroupCommandHandler(_unitOfWork.Object, _mapper.Object, _logger.Object);
+        _authorizationService
+            .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<IDictionary<string, object>?>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        _handler = new AssignRolesToRoleGroupCommandHandler(_unitOfWork.Object, _mapper.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]

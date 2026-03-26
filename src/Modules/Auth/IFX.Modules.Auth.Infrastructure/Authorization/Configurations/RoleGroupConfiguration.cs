@@ -31,6 +31,7 @@ public class RoleGroupConfiguration : IEntityTypeConfiguration<RoleGroup>
             .IsRequired()
             .HasMaxLength(255);
 
+        builder.Property(g => g.CreatedBy);
         builder.Property(g => g.CreatedAt).IsRequired();
         builder.Property(g => g.UpdatedAt).IsRequired();
 
