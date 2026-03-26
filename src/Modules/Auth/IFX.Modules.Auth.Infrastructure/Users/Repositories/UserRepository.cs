@@ -119,6 +119,13 @@ public class UserRepository : IUserRepository
         return (users, totalCount);
     }
 
+    public async Task<List<User>> GetAllUsersWithTenantsAsync(CancellationToken cancellationToken = default)
+        => await _context.Users
+            .Include(u => u.Tenants)
+            .Include(u => u.Identities)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+
     public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = email.ToLowerInvariant();

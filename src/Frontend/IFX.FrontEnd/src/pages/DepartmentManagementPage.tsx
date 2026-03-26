@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
 import { departmentApi } from '../api/department'
+import { platformApi } from '../api/platform'
 import { useAuth } from '../contexts/AuthContext'
 import type { CreateDepartmentRequest, DepartmentDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 type SortCol = 'name' | 'description' | 'tenantName'
 
 export function DepartmentManagementPage() {
-  const { selectedTenantId } = useAuth()
+  const { selectedTenantId, isGlobalUser } = useAuth()
   const [departments, setDepartments] = useState<DepartmentDto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -87,6 +90,7 @@ export function DepartmentManagementPage() {
           + Create Department
         </button>
       </div>
+      {isGlobalUser && !selectedTenantId && <TenantRequiredBanner />}
       {error && <div className="alert alert-error">{error}</div>}
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
@@ -116,6 +120,18 @@ export function DepartmentManagementPage() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {isGlobalUser && (
+        <ExpandableCrossTenantSection<DepartmentDto>
+          label="Departments in Other Tenants"
+          fetchData={platformApi.getAllDepartmentsAcrossTenants}
+          columns={[
+            { header: 'Name', render: d => d.name },
+            { header: 'Description', render: d => <span className="text-muted">{d.description}</span> },
+          ]}
+          getKey={d => d.id}
+        />
       )}
 
       {modal && (

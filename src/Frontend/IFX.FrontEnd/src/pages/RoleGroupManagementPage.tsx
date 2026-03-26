@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { roleGroupApi } from '../api/roleGroup'
 import { tenantApi } from '../api/tenant'
+import { platformApi } from '../api/platform'
 import { useAuth } from '../contexts/AuthContext'
 import type { CreateRoleGroupRequest, RoleGroupDto, TenantDto } from '../types/api'
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
+import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 type SortCol = 'name' | 'description' | 'tenantName' | 'roles'
 
 export function RoleGroupManagementPage() {
-  const { selectedTenantId } = useAuth()
+  const { selectedTenantId, isGlobalUser } = useAuth()
   const [groups, setGroups] = useState<RoleGroupDto[]>([])
   const [tenants, setTenants] = useState<TenantDto[]>([])
   const [loading, setLoading] = useState(true)
@@ -64,6 +67,7 @@ export function RoleGroupManagementPage() {
         <h2>RoleGroup Management</h2>
         <button className="btn btn-primary" onClick={openCreate}>+ Create Group</button>
       </div>
+      {isGlobalUser && !selectedTenantId && <TenantRequiredBanner />}
       {error && <div className="alert alert-error">{error}</div>}
       {loading ? <div className="loading-inline"><span className="spinner" /></div> : (
         <div className="table-wrapper">
@@ -88,6 +92,19 @@ export function RoleGroupManagementPage() {
             </tbody>
           </table>
         </div>
+      )}
+
+      {isGlobalUser && (
+        <ExpandableCrossTenantSection<RoleGroupDto>
+          label="Role Groups in Other Tenants"
+          fetchData={platformApi.getAllRoleGroupsAcrossTenants}
+          columns={[
+            { header: 'Name', render: g => g.name },
+            { header: 'Description', render: g => <span className="text-muted">{g.description}</span> },
+            { header: 'Roles', render: g => g.roles.length },
+          ]}
+          getKey={g => g.id}
+        />
       )}
 
       {modal && (

@@ -43,6 +43,41 @@ public static class GlobalRoleEndpointExtensions
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
+        group.MapGet("/cross-tenant/users", GlobalRoleEndpoints.GetAllUsersAcrossTenants)
+            .WithName("GetAllUsersAcrossTenants")
+            .RequirePermission("Platform.GlobalRole:manage")
+            .WithSummary("Get all users grouped by tenant (excluding caller's tenant)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/cross-tenant/roles", GlobalRoleEndpoints.GetAllRolesAcrossTenants)
+            .WithName("GetAllRolesAcrossTenants")
+            .RequirePermission("Platform.GlobalRole:manage")
+            .WithSummary("Get all roles grouped by tenant (excluding caller's tenant)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/cross-tenant/rolegroups", GlobalRoleEndpoints.GetAllRoleGroupsAcrossTenants)
+            .WithName("GetAllRoleGroupsAcrossTenants")
+            .RequirePermission("Platform.GlobalRole:manage")
+            .WithSummary("Get all role groups grouped by tenant (excluding caller's tenant)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/cross-tenant/departments", GlobalRoleEndpoints.GetAllDepartmentsAcrossTenants)
+            .WithName("GetAllDepartmentsAcrossTenants")
+            .RequirePermission("Platform.GlobalRole:manage")
+            .WithSummary("Get all departments grouped by tenant (excluding caller's tenant)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/cross-tenant/idps", GlobalRoleEndpoints.GetAllIdpsAcrossTenants)
+            .WithName("GetAllIdpsAcrossTenants")
+            .RequirePermission("Platform.GlobalRole:manage")
+            .WithSummary("Get all IdPs grouped by tenant (excluding caller's tenant)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status403Forbidden);
+
         return builder;
     }
 }

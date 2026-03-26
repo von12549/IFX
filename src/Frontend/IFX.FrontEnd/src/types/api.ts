@@ -176,6 +176,17 @@ export interface GlobalRoleDto {
   description: string
 }
 
+// Cross-tenant data structures
+export interface TenantGroupDto<T> {
+  tenantId: string
+  tenantName: string
+  items: T[]
+}
+
+export interface CrossTenantResultDto<T> {
+  tenants: TenantGroupDto<T>[]
+}
+
 // ABAC Policies
 export interface PolicyConditionDto {
   templateName: string

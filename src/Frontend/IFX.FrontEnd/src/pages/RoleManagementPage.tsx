@@ -8,6 +8,7 @@ import type { CreateRoleRequest, GlobalRoleDto, RoleDto, TenantDto } from '../ty
 import { Modal } from '../components/shared/Modal'
 import { SortableHeader } from '../components/shared/SortableHeader'
 import { TenantRequiredBanner } from '../components/shared/TenantRequiredBanner'
+import { ExpandableCrossTenantSection } from '../components/shared/ExpandableCrossTenantSection'
 
 type SortCol = 'name' | 'description' | 'tenantName'
 type TabKey = 'globalroles' | 'tenant'
@@ -115,6 +116,19 @@ export function RoleManagementPage() {
                 </tbody>
               </table>
             </div>
+          )}
+
+          {isGlobalUser && activeTab === 'tenant' && (
+            <ExpandableCrossTenantSection<RoleDto>
+              label="Roles in Other Tenants"
+              fetchData={platformApi.getAllRolesAcrossTenants}
+              columns={[
+                { header: 'Name', render: r => r.name },
+                { header: 'Description', render: r => <span className="text-muted">{r.description}</span> },
+                { header: 'Tenant', render: r => <span className="text-muted">{r.tenantName}</span> },
+              ]}
+              getKey={r => r.id}
+            />
           )}
 
           {isGlobalUser && activeTab === 'globalroles' && (
