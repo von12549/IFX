@@ -20,6 +20,17 @@ public interface IAbacPolicyResolver
         CancellationToken ct = default);
 
     /// <summary>
+    /// Resolves the Platform-scoped policy whose conditions target a specific GlobalRole
+    /// (e.g. "PlatformSupport" or "PlatformAuditor"). Used when multiple platform policies
+    /// exist for the same resource/action. Returns <c>null</c> if none found.
+    /// </summary>
+    Task<AbacPolicy?> ResolvePlatformPolicyForRoleAsync(
+        string resourceType,
+        string action,
+        string globalRole,
+        CancellationToken ct = default);
+
+    /// <summary>
     /// Resolves a Tenant-scoped policy, falling back to platform default if no tenant
     /// override exists. Returns <c>null</c> if no policy is defined — treat as implicit deny.
     /// </summary>

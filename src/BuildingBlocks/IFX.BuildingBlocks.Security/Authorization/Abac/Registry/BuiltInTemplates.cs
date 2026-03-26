@@ -70,6 +70,20 @@ public static class BuiltInTemplates
         Right = ConditionValueRef.Literal("true")
     };
 
+    /// <summary>
+    /// Allow when the subject holds a specific GlobalRole.
+    /// Left: subject.global_roles (collection), Right: UserInput("role") (literal role name), Operator: Contains.
+    /// The caller must supply a <c>Parameters</c> dictionary with key <c>"global_role"</c> set to the
+    /// expected GlobalRole name (e.g. "PlatformSupport").
+    /// </summary>
+    public static readonly ConditionTemplate GlobalRoleIncludes = new()
+    {
+        Name = "GlobalRoleIncludes",
+        Left = "subject.global_roles",
+        Operator = ConditionOperator.Contains,
+        Right = ConditionValueRef.UserInput("global_role")
+    };
+
     /// <summary>Seeds all built-in templates into the provided registry.</summary>
     public static void Register(IAbacTemplateRegistry registry)
     {
@@ -78,5 +92,6 @@ public static class BuiltInTemplates
         registry.Register(SameTenant);
         registry.Register(IsActive);
         registry.Register(AnyTenant);
+        registry.Register(GlobalRoleIncludes);
     }
 }

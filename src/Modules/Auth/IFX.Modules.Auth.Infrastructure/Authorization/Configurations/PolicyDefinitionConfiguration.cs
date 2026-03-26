@@ -43,8 +43,11 @@ public class PolicyDefinitionConfiguration : IEntityTypeConfiguration<PolicyDefi
         builder.Property(p => p.CreatedById);
         builder.Property(p => p.UpdatedById);
 
+        // Unique only for tenant-scoped rows — platform rows (TenantId IS NULL) are excluded
+        // so multiple platform policies per (ResourceType, Action) are allowed.
         builder.HasIndex(p => new { p.Scope, p.TenantId, p.ResourceType, p.Action })
             .IsUnique()
+            .HasFilter("[TenantId] IS NOT NULL")
             .HasDatabaseName("UX_PolicyDefinitions_Scope_Tenant_Resource_Action");
 
         builder.HasIndex(p => p.TenantId)

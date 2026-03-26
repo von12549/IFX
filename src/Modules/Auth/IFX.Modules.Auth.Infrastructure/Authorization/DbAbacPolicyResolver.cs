@@ -71,6 +71,36 @@ public sealed class DbAbacPolicyResolver : IAbacPolicyResolver, IAbacPolicyCache
         return await _staticResolver.ResolvePlatformPolicyAsync(resourceType, action, ct);
     }
 
+    public async Task<AbacPolicy?> ResolvePlatformPolicyForRoleAsync(
+        string resourceType,
+        string action,
+        string globalRole,
+        CancellationToken ct = default)
+    {
+        var resource = resourceType.ToLowerInvariant();
+        var act = action.ToLowerInvariant();
+
+        var cacheKey = $"abac:platform:{resource}:{act}:role:{globalRole}";
+        if (_cache.TryGetValue(cacheKey, out AbacPolicy? cached))
+            return cached;
+
+        PolicyDefinition? row = null;
+        try { row = await _repository.GetPlatformByGlobalRoleAsync(resource, act, globalRole, ct); }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Failed to load platform ABAC policy for GlobalRole '{GlobalRole}' {ResourceType}/{Action}",
+                globalRole, resourceType, action);
+        }
+
+        if (row is null)
+            return null;
+
+        var policy = DeserializePolicy(row, resource, act);
+        _cache.Set(cacheKey, policy, CacheTtl);
+        return policy;
+    }
+
     public async Task<AbacPolicy?> ResolveTenantPolicyAsync(
         Guid tenantId,
         string resourceType,

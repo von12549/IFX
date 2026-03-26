@@ -18,7 +18,8 @@ public class PermissionChecker : IPermissionChecker
     public Task<bool> HasPermissionAsync(string permission, CancellationToken ct = default)
     {
         var result = _currentUser.IsAuthenticated &&
-                     _currentUser.Permissions.Contains(permission, StringComparer.OrdinalIgnoreCase);
+                     (_currentUser.GlobalRoles.Count > 0 ||
+                      _currentUser.Permissions.Contains(permission, StringComparer.OrdinalIgnoreCase));
         return Task.FromResult(result);
     }
 }

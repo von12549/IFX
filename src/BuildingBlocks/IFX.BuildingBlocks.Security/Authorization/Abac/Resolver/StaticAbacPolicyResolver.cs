@@ -30,6 +30,14 @@ public sealed class StaticAbacPolicyResolver : IAbacPolicyResolver
         return Task.FromResult(policy);
     }
 
+    // Static resolver has no GlobalRole-specific policies — always returns null.
+    public Task<AbacPolicy?> ResolvePlatformPolicyForRoleAsync(
+        string resourceType,
+        string action,
+        string globalRole,
+        CancellationToken ct = default)
+        => Task.FromResult<AbacPolicy?>(null);
+
     public Task<AbacPolicy?> ResolveTenantPolicyAsync(
         Guid tenantId,
         string resourceType,

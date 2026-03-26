@@ -60,6 +60,17 @@ public class PolicyDefinitionRepository : IPolicyDefinitionRepository
                   && p.IsActive,
                 ct);
 
+    public Task<PolicyDefinition?> GetPlatformByGlobalRoleAsync(
+        string resourceType, string action, string globalRole, CancellationToken ct = default)
+        => _context.PolicyDefinitions
+            .FirstOrDefaultAsync(
+                p => p.Scope == PolicyScope.Platform
+                  && p.ResourceType == resourceType.ToLowerInvariant()
+                  && p.Action == action.ToLowerInvariant()
+                  && p.IsActive
+                  && p.ConditionsJson.Contains($"\"global_role\":\"{globalRole}\""),
+                ct);
+
     public Task<List<PolicyDefinition>> GetPlatformPoliciesAsync(CancellationToken ct = default)
         => _context.PolicyDefinitions
             .AsNoTracking()
