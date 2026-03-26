@@ -3,7 +3,7 @@
 **Date:** 2026-03-26
 **Branch:** `feature/frontend-global-role-views`
 **Base:** `main`
-**Status:** Ready to Implement
+**Status:** ✅ Complete (2026-03-27)
 
 ---
 
@@ -325,3 +325,15 @@ below the existing table, only rendered when `isGlobalUser`.
 - RBAC/ABAC enforcement — backend still gates all actions
 - Auth flow (login, token refresh, logout) — unchanged
 - RoleGroup, User, Department, IdP CRUD logic — extended with optional cross-tenant view, not replaced
+
+---
+
+## Implementation Notes (actual vs. plan)
+
+- **IdP added to Phase 2** — Plan listed 4 cross-tenant handlers; IdP (`GetAllIdpsAcrossTenants`) was added as a 5th, covering `IdpManagementPage` as well.
+- **Cross-tenant URL prefix** — Endpoints landed at `/api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` (not `/api/v1/platform/{users,...}` as originally sketched) to avoid collisions with future tenant-scoped platform endpoints.
+- **TenantManagementPage extended** — Plan said "restrict tenant-only users" (Phase 1); a subsequent request added `TenantRequiredBanner`, `ExpandableCrossTenantSection` (using already-loaded data, no new endpoint), and selected-tenant filtering to the main table for global users.
+- **RoleManagementPage cross-tenant** — Plan noted "All Tenants" as a tab; implemented as `ExpandableCrossTenantSection` inline under the "This Tenant" tab (collapsed by default) rather than a separate tab, keeping the tab count at two.
+- **Tab styling** — Added `.tab-bar` / `.tab-btn` / `.tab-btn.active` CSS (underline indicator pattern) after the initial implementation rendered selected/unselected tabs as visually identical.
+- **MappingProfile approach** — `PermissionDto.Scope` and `UserProfileDto.GlobalRoles` are derived via AutoMapper `ForMember` in `MappingProfile.cs` rather than inside the query handlers, centralising the projection logic.
+- **Tests** — All 469 backend + 64 frontend tests pass. No new backend tests were added for the cross-tenant handlers (covered by integration tests via permission enforcement).

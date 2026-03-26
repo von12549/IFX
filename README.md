@@ -24,6 +24,7 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **ABAC via OPA** — Open Policy Agent for fine-grained, resource-level policy decisions layered on top of RBAC; fail-closed by default
 - **Template-Based ABAC** — Reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic Rego policy; no per-resource Rego files needed for new resource types
 - **DB-Backed Policies** — `PolicyDefinition` table stores tenant-level and platform-level rows; 3-tier resolver: tenant DB → platform DB → static fallback → deny
+- **GlobalRole system** — Cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; bypass tenant-scoped RBAC/ABAC and access platform endpoints for cross-tenant data
 
 ### User Management
 - **Full Audit Trail** — Login/logout events, activity logs, registration tracking
@@ -34,9 +35,9 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
 
 ### Developer Experience
-- **530 Tests** — 466 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **533 Tests** — 469 backend (xUnit) + 64 frontend (Vitest) across all layers
 - **Docker Support** — Full stack via `docker-compose up -d` (API + Frontend + SQL Server + OPA)
-- **React Frontend** — Admin UI for users, roles, tenants, departments, and policies
+- **React Frontend** — Admin UI with role-differentiated views: tenant-scoped CRUD for standard users; GlobalRole users get platform Sidebar nav, permission/policy scope tabs, and lazy-loaded cross-tenant data sections on every management page
 - **Demo UI** — Minimal HTML/JS client for testing the OAuth flow end-to-end
 
 ## Quick Start
@@ -97,12 +98,12 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 466 backend tests
+tests/                               # 469 backend tests
 ├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (106)
 ├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (225)
 ├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (54)
 ├── IFX.Modules.Auth.Presentation.Tests/ # Authorization class tests (10)
-├── IFX.IntegrationTests/               # Permission enforcement + API tests (43)
+├── IFX.IntegrationTests/               # Permission enforcement + API tests (46)
 ├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire service tests (11)
 └── IFX.Platform.Notifications.Tests/   # Email service tests (17)
 src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
@@ -126,6 +127,8 @@ src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 | Admin — Departments | `GET/POST/PUT/DELETE /api/v1/department` |
 | Admin — Tenant Policies | `GET/POST/PUT/DELETE /api/v1/policy`, `GET /api/v1/policy/templates` |
 | Admin — Platform Policies | `GET/POST/PUT/DELETE /api/v1/platform/policy` |
+| Platform — GlobalRoles | `GET /api/v1/platform/globalroles`, `GET/POST/DELETE /api/v1/platform/users/{id}/globalroles` |
+| Platform — Cross-Tenant | `GET /api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |
 
@@ -203,7 +206,7 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build IFX.sln
 
-# Backend tests (443)
+# Backend tests (469)
 dotnet test IFX.sln
 
 # Coverage report
