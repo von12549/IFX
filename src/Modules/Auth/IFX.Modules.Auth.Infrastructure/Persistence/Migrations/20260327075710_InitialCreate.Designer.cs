@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(IfxDbContext))]
-    [Migration("20260325095303_AddCreatedByToResources")]
-    partial class AddCreatedByToResources
+    [Migration("20260327075710_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,37 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("IX_Departments_TenantId_Name");
 
                     b.ToTable("Departments", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.GlobalRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("UX_GlobalRoles_Name");
+
+                    b.ToTable("GlobalRoles", "auth");
                 });
 
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.Permission", b =>
@@ -146,6 +177,9 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("Scope")
+                        .HasColumnType("int");
+
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
@@ -160,9 +194,9 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.HasIndex("TenantId")
                         .HasDatabaseName("IX_PolicyDefinitions_TenantId");
 
-                    b.HasIndex("TenantId", "ResourceType", "Action")
+                    b.HasIndex("Scope", "TenantId", "ResourceType", "Action")
                         .IsUnique()
-                        .HasDatabaseName("UX_PolicyDefinitions_Tenant_Resource_Action")
+                        .HasDatabaseName("UX_PolicyDefinitions_Scope_Tenant_Resource_Action")
                         .HasFilter("[TenantId] IS NOT NULL");
 
                     b.ToTable("PolicyDefinitions", "auth");
@@ -274,6 +308,24 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("IX_Tenants_Name");
 
                     b.ToTable("Tenants", "auth");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.UserGlobalRole", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GlobalRoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AssignedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "GlobalRoleId");
+
+                    b.HasIndex("GlobalRoleId");
+
+                    b.ToTable("UserGlobalRoles", "auth");
                 });
 
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
@@ -872,6 +924,25 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     b.Navigation("Tenant");
                 });
 
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.UserGlobalRole", b =>
+                {
+                    b.HasOne("IFX.Modules.Auth.Domain.Authorization.GlobalRole", "GlobalRole")
+                        .WithMany("UserGlobalRoles")
+                        .HasForeignKey("GlobalRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IFX.Modules.Auth.Domain.Users.User", "User")
+                        .WithMany("GlobalRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GlobalRole");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Identity.EmailVerificationToken", b =>
                 {
                     b.HasOne("IFX.Modules.Auth.Domain.Identity.UserIdentity", "UserIdentity")
@@ -1037,8 +1108,15 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("IFX.Modules.Auth.Domain.Authorization.GlobalRole", b =>
+                {
+                    b.Navigation("UserGlobalRoles");
+                });
+
             modelBuilder.Entity("IFX.Modules.Auth.Domain.Users.User", b =>
                 {
+                    b.Navigation("GlobalRoles");
+
                     b.Navigation("Identities");
                 });
 #pragma warning restore 612, 618
