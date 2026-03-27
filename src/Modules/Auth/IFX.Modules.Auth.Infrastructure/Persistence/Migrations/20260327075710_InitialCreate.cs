@@ -15,6 +15,22 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 name: "auth");
 
             migrationBuilder.CreateTable(
+                name: "GlobalRoles",
+                schema: "auth",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GlobalRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LoginEvents",
                 schema: "auth",
                 columns: table => new
@@ -79,6 +95,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Scope = table.Column<int>(type: "int", nullable: false),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -125,6 +142,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -160,6 +178,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -196,6 +215,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     RequiredScopes = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false, defaultValue: "[]"),
                     ClaimMapping = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false, defaultValue: "{}"),
                     ClockSkewSeconds = table.Column<int>(type: "int", nullable: false, defaultValue: 300),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -220,6 +240,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -244,6 +265,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -268,6 +290,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PrimaryTenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -365,6 +388,34 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserGlobalRoles",
+                schema: "auth",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GlobalRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AssignedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGlobalRoles", x => new { x.UserId, x.GlobalRoleId });
+                    table.ForeignKey(
+                        name: "FK_UserGlobalRoles_GlobalRoles_GlobalRoleId",
+                        column: x => x.GlobalRoleId,
+                        principalSchema: "auth",
+                        principalTable: "GlobalRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserGlobalRoles_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "auth",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserIdentities",
                 schema: "auth",
                 columns: table => new
@@ -380,6 +431,7 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                     EmailVerified = table.Column<bool>(type: "bit", nullable: false),
                     PhoneNumberVerified = table.Column<bool>(type: "bit", nullable: false),
                     LastSyncedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -546,6 +598,13 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "UX_GlobalRoles_Name",
+                schema: "auth",
+                table: "GlobalRoles",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Idps_Enabled",
                 schema: "auth",
                 table: "Idps",
@@ -616,10 +675,10 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
-                name: "UX_PolicyDefinitions_Tenant_Resource_Action",
+                name: "UX_PolicyDefinitions_Scope_Tenant_Resource_Action",
                 schema: "auth",
                 table: "PolicyDefinitions",
-                columns: new[] { "TenantId", "ResourceType", "Action" },
+                columns: new[] { "Scope", "TenantId", "ResourceType", "Action" },
                 unique: true,
                 filter: "[TenantId] IS NOT NULL");
 
@@ -697,6 +756,12 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 schema: "auth",
                 table: "UserDepartments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGlobalRoles_GlobalRoleId",
+                schema: "auth",
+                table: "UserGlobalRoles",
+                column: "GlobalRoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserIdentities_IdpId",
@@ -782,6 +847,10 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
                 schema: "auth");
 
             migrationBuilder.DropTable(
+                name: "UserGlobalRoles",
+                schema: "auth");
+
+            migrationBuilder.DropTable(
                 name: "UserRoleGroups",
                 schema: "auth");
 
@@ -803,6 +872,10 @@ namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Departments",
+                schema: "auth");
+
+            migrationBuilder.DropTable(
+                name: "GlobalRoles",
                 schema: "auth");
 
             migrationBuilder.DropTable(

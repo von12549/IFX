@@ -53,7 +53,8 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/playbooks/pattern-selection.md` | Platform vs Modules pattern decision guide |
 | `/.claude/Plans/20260316-auth-subdomain-refactor.md` | Auth module subdomain structure (Users, Identity, Authorization) |
 | `/.claude/Plans/20260316-pluggable-identity-providers.md` | Pluggable identity provider architecture (Cognito/Auth0 adapters) |
-| `/.claude/Plans/20260318-merge-ef-migrations.md` | Squash 14 EF migrations into single InitialCreate baseline |
+| `/.claude/Plans/20260318-merge-ef-migrations.md` | Squash 14 EF migrations into single InitialCreate baseline (superseded) |
+| `/.claude/Plans/20260327-merge-ef-migrations-uuid-v7.md` | Squash 10 EF migrations into InitialCreate + InitialSeed with UUID v7 seed IDs |
 | `/.claude/Plans/20260321-frontend-ifx.md` | IFX.FrontEnd React app — pages, API audit, token flow, implementation order |
 | `/.claude/Plans/20260322-test-coverage-improvement.md` | Unit + integration + frontend test coverage improvement (Phases 1–8) |
 | `/.claude/Plans/20260322-multi-tenant.md` | Multi-tenant support — Tenant/Department entities, TenantId on Role/RoleGroup/Idp, CRUD endpoints, tenant-filtered queries, frontend pages |

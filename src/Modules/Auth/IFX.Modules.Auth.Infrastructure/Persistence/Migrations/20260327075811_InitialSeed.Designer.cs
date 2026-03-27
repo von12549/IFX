@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IFX.Modules.Auth.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(IfxDbContext))]
-    [Migration("20260326094516_SeedGlobalRolePlatformPolicies")]
-    partial class SeedGlobalRolePlatformPolicies
+    [Migration("20260327075811_InitialSeed")]
+    partial class InitialSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
