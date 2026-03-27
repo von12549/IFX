@@ -1,0 +1,6 @@
+@IFX.ApiHost_HostAddress = http://localhost:5275
+
+GET {{IFX.ApiHost_HostAddress}}/health
+Accept: application/json
+
+###
