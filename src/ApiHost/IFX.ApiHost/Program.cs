@@ -2,10 +2,12 @@ using App.Abstractions;
 using IFX.ApiHost.Configuration;
 using IFX.ApiHost.Middleware;
 using IFX.Modules.Auth.Composition;
-
+using IFX.Modules.CRM.Composition;
+using IFX.Modules.Registry.Composition;
 using IFX.ApiHost.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using IFX.Platform.BackgroundJobs.Composition;
+using IFX.Platform.Messaging.Composition;
 using IFX.Platform.Notifications.Composition;
 using Serilog;
 
@@ -27,8 +29,11 @@ try
 
     // Register modules (each module registers its own services + IModuleInstaller)
     builder.Services.AddAuthModule(builder.Configuration);
+    builder.Services.AddCrmModule(builder.Configuration);
+    builder.Services.AddRegistryModule(builder.Configuration);
 
     // Register platform services
+    builder.Services.AddMessaging();
     builder.Services.AddBackgroundJobs(builder.Configuration);
     builder.Services.AddNotificationsOptional(builder.Configuration);
 

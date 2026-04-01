@@ -1,0 +1,71 @@
+using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.Registry.Abstractions.Events;
+using IFX.Modules.Registry.Application.Common;
+using IFX.Modules.Registry.Application.Common.Authorization;
+using IFX.Modules.Registry.Application.Funds.DTOs;
+using IFX.Modules.Registry.Application.Interfaces;
+using IFX.Platform.Messaging.Abstractions;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace IFX.Modules.Registry.Application.Funds.Commands.DeleteFund;
+
+public class DeleteFundCommandHandler : IRequestHandler<DeleteFundCommand, Result<FundDto>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
+    private readonly IIntegrationEventBus _eventBus;
+    private readonly ILogger<DeleteFundCommandHandler> _logger;
+
+    public DeleteFundCommandHandler(
+        IUnitOfWork unitOfWork,
+        IMapper mapper,
+        ICurrentUser currentUser,
+        IResourceAuthorizationService authorizationService,
+        IIntegrationEventBus eventBus,
+        ILogger<DeleteFundCommandHandler> logger)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
+        _eventBus = eventBus;
+        _logger = logger;
+    }
+
+    public async Task<Result<FundDto>> Handle(DeleteFundCommand request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var tenantId = _currentUser.TenantId;
+            if (tenantId == null)
+                return Result<FundDto>.Failure("Tenant context is required.");
+
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "fund", "delete",
+                new TenantScopeResourceAttributes(tenantId),
+                ct: cancellationToken);
+
+            var fund = await _unitOfWork.Funds.GetByIdAsync(request.FundId, tenantId.Value, cancellationToken);
+            if (fund == null)
+                return Result<FundDto>.Failure("Fund not found.");
+
+            var oldStatus = fund.Status.ToString();
+            fund.Close();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _eventBus.PublishAsync(new FundStatusChangedEvent(fund.Id, fund.TenantId, oldStatus, fund.Status.ToString()), cancellationToken);
+
+            _logger.LogInformation("Fund closed: {FundId}", fund.Id);
+            return Result<FundDto>.Success(_mapper.Map<FundDto>(fund));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error closing fund {FundId}", request.FundId);
+            return Result<FundDto>.Failure("An error occurred while closing the fund.");
+        }
+    }
+}

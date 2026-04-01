@@ -1,0 +1,16 @@
+using IFX.Modules.Registry.Application.Common;
+using IFX.Modules.Registry.Application.FundClasses.DTOs;
+using IFX.Modules.Registry.Domain.Enums;
+using MediatR;
+
+namespace IFX.Modules.Registry.Application.FundClasses.Commands.UpdateClass;
+
+public record UpdateClassCommand(
+    Guid ClassId,
+    Guid FundId,
+    string ClassName,
+    string Currency,
+    NavFrequency NavFrequency,
+    decimal? MinInitialInvestment,
+    decimal? ManagementFeeRate,
+    decimal? PerformanceFeeRate) : IRequest<Result<FundClassDto>>;

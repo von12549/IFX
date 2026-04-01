@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Registry.Abstractions\IFX.Modules.Registry.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Registry.Application\IFX.Modules.Registry.Application.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Registry.Infrastructure\IFX.Modules.Registry.Infrastructure.csproj" />
+    <ProjectReference Include="..\IFX.Modules.Registry.Presentation\IFX.Modules.Registry.Presentation.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj" />
+  </ItemGroup>
+
+</Project>
