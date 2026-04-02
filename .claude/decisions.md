@@ -216,3 +216,49 @@ Tenant DB row → Platform DB row → Static fallback → null (deny)
 - Template-based approach is less expressive than raw Rego (no arbitrary Rego logic per resource)
 - Chose this trade-off because the common conditions (`SameTenant`, `CreatedByMe`) cover the majority of use cases, and the static fallback + raw Rego path remains available for complex policies
 - DB-backed policies add a DB round-trip per authorization; mitigated by `IMemoryCache`
+
+---
+
+## ADR-011: Integration Event Bus — Platform.Messaging (April 2026)
+
+**Decision:** Cross-module communication uses an in-process `IIntegrationEventBus` (`InMemoryIntegrationEventBus`) registered as a Platform service. Integration event contracts live in each module's `.Abstractions` project. No module references another module's Domain, Application, Infrastructure, or Presentation layers.
+
+**Rationale:**
+- Option A (.Abstractions shared references) creates compile-time coupling between modules — a change in CRM.Abstractions forces recompilation of all consumers
+- Option B (integration events via a central bus) preserves module isolation while still allowing data sharing through well-typed event contracts
+- In-memory dispatch (same thread, same DI scope) keeps the transaction boundary simple and avoids distributed systems complexity for the current scale
+- Swapping to an external broker (RabbitMQ, Azure Service Bus) later requires only a new `IFX.Platform.Messaging.Infrastructure.{Provider}` project and a config change — no Application layer changes
+
+**Event contract ownership:**
+- Each module owns its own event types in its `.Abstractions` project
+- Consumers reference only `.Abstractions`, never the emitting module's Application or Infrastructure
+
+**Trade-offs:**
+- In-memory bus is lost on process crash; no message durability
+- Sequential dispatch — a slow handler blocks subsequent handlers
+- Chose this trade-off: durability and parallelism can be added in the Infrastructure layer without changing Application code
+
+---
+
+## ADR-012: Fund Registry Domain Modules (April 2026)
+
+**Decision:** The Fund Registry system is split into four domain modules (CRM, Registry, Holdings, Transaction) following the existing 5-layer Clean Architecture + CQRS pattern. Holdings is the authoritative unit ledger, updated exclusively via integration events — never via direct HTTP writes.
+
+**Module boundaries:**
+- **CRM** — Party + Investor lifecycle, KYC tracking, many-to-many Party↔Investor relationships
+- **Registry** — Fund + FundClass lifecycle, NAV frequency, fee rates, soft-close/close status
+- **Holdings** — Running unit balances per (Investor, FundClass); read-only HTTP; mutated by `TransactionProcessedEvent` and `ClassStatusChangedEvent`
+- **Transaction** — Subscription / Redemption / Transfer / Switch; validates KYC + class status via cross-module readers; `Process(navPrice)` calculates units and publishes `TransactionProcessedEvent`
+
+**Cross-module referential integrity (no FK across modules):**
+- Application layer calls `ICrmReader.IsInvestorKycApprovedAsync` and `IRegistryReader.IsClassOpenForSubscriptionAsync` before creating transactions
+- No foreign key constraints across module database schemas — integrity enforced at the application boundary
+- Holdings upserts a new `Holding` row if none exists for a (TenantId, InvestorId, ClassId) triple
+
+**Entity naming:**
+- `Party` (not Account) — represents a legal entity acting as Distributor, Custodian, Fund Manager, etc.
+- `FundClass` (not Class) — avoids collision with the C# `class` keyword
+
+**Soft delete everywhere:**
+- `DeletePartyCommand`, `DeleteInvestorCommand`, `DeleteFundCommand`, `DeleteClassCommand` all set `Status = Closed`
+- `IsActive` ABAC template enforces closed entities are read-only

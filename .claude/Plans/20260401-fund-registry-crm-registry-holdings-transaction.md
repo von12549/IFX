@@ -1,6 +1,6 @@
 # Plan: Fund Registry System — CRM, Registry, Holdings, Transaction
 
-**Status:** Implementing
+**Status:** Done
 
 ---
 
@@ -633,3 +633,5 @@ POST   /api/v1/transaction/{id}/cancel  → CancelTransactionCommand
 | Date | Status | Notes |
 |------|--------|-------|
 | 2026-04-01 | Plan | Plan created |
+| 2026-04-02 | Implementing | Phases 0–4 complete (Platform.Messaging, CRM, Registry, Holdings, Transaction) |
+| 2026-04-02 | Done | Phase 5 docs complete; all modules implemented and committed |

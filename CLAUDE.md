@@ -68,6 +68,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260326-global-roles.md` | GlobalRole system — cross-tenant PlatformAdmin/Support/Auditor roles, AnyTenant OPA template, platform policy dispatch, CRUD endpoints |
 | `/.claude/Plans/20260326-auth-authorization-feature-subfolders.md` | Authorization subdomain feature-subfolder refactor — Roles, RoleGroups, Permissions, Tenants, Departments each get Commands/Queries/DTOs/Authorization subfolders |
 | `/.claude/Plans/20260326-frontend-global-role-views.md` | Frontend GlobalRole views — dual-section layout for GlobalRole users, cross-tenant data grouping, permission/policy scope split, Phase 1 (no new endpoints) + Phase 2 (cross-tenant endpoints) |
+| `/.claude/Plans/20260401-fund-registry-crm-registry-holdings-transaction.md` | Fund Registry System — CRM (Party/Investor), Registry (Fund/Class), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules with Option B integration events |
 
 ## Quick Reference
 
@@ -104,6 +105,12 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - Platform — Cross-Tenant: `GET /api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` (requires `Platform.GlobalRole:manage`; returns data grouped by tenant, excluding caller's tenant)
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
+- CRM — Parties: `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, `GET /api/v1/party/{id}/investors`, `POST/DELETE /api/v1/party/{id}/investors/{investorId}` (tenant via `X-Tenant-Id`)
+- CRM — Investors: `GET/POST /api/v1/investor`, `GET/PUT/DELETE /api/v1/investor/{id}`, `PUT /api/v1/investor/{id}/kyc` (tenant via `X-Tenant-Id`)
+- Registry — Funds: `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` (tenant via `X-Tenant-Id`)
+- Registry — Classes: `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` (tenant via `X-Tenant-Id`)
+- Holdings (read-only): `GET /api/v1/holding`, `GET /api/v1/holding/{id}`, `GET /api/v1/investor/{investorId}/holdings`, `GET /api/v1/fund/{fundId}/class/{classId}/holdings` (tenant via `X-Tenant-Id`)
+- Transactions: `GET/POST /api/v1/transaction`, `GET /api/v1/transaction/{id}`, `POST /api/v1/transaction/{subscription,redemption,transfer,switch}`, `POST /api/v1/transaction/{id}/{process,cancel}` (tenant via `X-Tenant-Id`)
 
 > **Tenant filtering:** list endpoints read the selected tenant from the `X-Tenant-Id` request header. The frontend sends this header automatically via the `apiClient` interceptor (value persisted in `localStorage`). No `TenantId` is passed in query params or command bodies for list queries — the handler reads it from `ICurrentUser.TenantId`.
 
