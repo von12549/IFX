@@ -4,6 +4,7 @@ using IFX.ApiHost.Middleware;
 using IFX.Modules.Auth.Composition;
 using IFX.Modules.CRM.Composition;
 using IFX.Modules.Holdings.Composition;
+using IFX.Modules.Transaction.Composition;
 using IFX.Modules.Registry.Composition;
 using IFX.ApiHost.Authorization;
 using Microsoft.AspNetCore.Authorization;
@@ -33,6 +34,7 @@ try
     builder.Services.AddCrmModule(builder.Configuration);
     builder.Services.AddRegistryModule(builder.Configuration);
     builder.Services.AddHoldingsModule(builder.Configuration);
+    builder.Services.AddTransactionModule(builder.Configuration);
 
     // Register platform services
     builder.Services.AddMessaging();
