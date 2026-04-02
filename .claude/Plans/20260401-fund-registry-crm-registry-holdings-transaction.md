@@ -566,11 +566,11 @@ POST   /api/v1/transaction/{id}/cancel  → CancelTransactionCommand
 
 ### Phase 5 — Decisions & Docs
 
-- [ ] Add `ADR-011: Integration Event Bus (Platform.Messaging)` to `.claude/decisions.md`
-- [ ] Add `ADR-012: Fund Registry Domain Modules` to `.claude/decisions.md`
-- [ ] Update `CLAUDE.md` Quick Reference with new API endpoints
-- [ ] Update `CLAUDE.md` Instruction Index with this plan file
-- [ ] Update `/.claude/architecture.md` with multi-module dependency graph
+- [x] Add `ADR-011: Integration Event Bus (Platform.Messaging)` to `.claude/decisions.md`
+- [x] Add `ADR-012: Fund Registry Domain Modules` to `.claude/decisions.md`
+- [x] Update `CLAUDE.md` Quick Reference with new API endpoints
+- [x] Update `CLAUDE.md` Instruction Index with this plan file
+- [x] Update `/.claude/architecture.md` with multi-module dependency graph
 
 ---
 
@@ -635,3 +635,4 @@ POST   /api/v1/transaction/{id}/cancel  → CancelTransactionCommand
 | 2026-04-01 | Plan | Plan created |
 | 2026-04-02 | Implementing | Phases 0–4 complete (Platform.Messaging, CRM, Registry, Holdings, Transaction) |
 | 2026-04-02 | Done | Phase 5 docs complete; all modules implemented and committed |
+| 2026-04-02 | Done | Test coverage expanded: 63 new tests across Transaction (19), Registry (17), Holdings (20 — new project), bringing total to 643 backend tests |

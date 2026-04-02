@@ -75,7 +75,7 @@ This file provides guidance to Claude Code when working with this repository.
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (469 backend tests → 533 total including frontend)
+dotnet test IFX.sln           # Test (643 backend tests → 707 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
