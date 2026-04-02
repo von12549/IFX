@@ -30,6 +30,7 @@
     <ProjectReference Include="..\..\Modules\Auth\IFX.Modules.Auth.Composition\IFX.Modules.Auth.Composition.csproj" />
     <ProjectReference Include="..\..\Modules\CRM\IFX.Modules.CRM.Composition\IFX.Modules.CRM.Composition.csproj" />
     <ProjectReference Include="..\..\Modules\Registry\IFX.Modules.Registry.Composition\IFX.Modules.Registry.Composition.csproj" />
+    <ProjectReference Include="..\..\Modules\Holdings\IFX.Modules.Holdings.Composition\IFX.Modules.Holdings.Composition.csproj" />
     <ProjectReference Include="..\..\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Composition\IFX.Platform.BackgroundJobs.Composition.csproj" />
     <ProjectReference Include="..\..\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj" />
     <ProjectReference Include="..\..\Platform\Notifications\IFX.Platform.Notifications.Composition\IFX.Platform.Notifications.Composition.csproj" />
