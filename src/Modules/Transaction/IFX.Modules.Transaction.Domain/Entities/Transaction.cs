@@ -1,4 +1,4 @@
-using IFX.Modules.Transaction.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Transaction.Domain.Enums;
 
 namespace IFX.Modules.Transaction.Domain.Entities;
@@ -20,6 +20,7 @@ public class Transaction : BaseEntity, IAuditableEntity
     public TransactionStatus Status { get; private set; } = TransactionStatus.Pending;
     public string? FailureReason { get; private set; }
     public Guid? CreatedBy { get; set; }
+    public Guid? UpdatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

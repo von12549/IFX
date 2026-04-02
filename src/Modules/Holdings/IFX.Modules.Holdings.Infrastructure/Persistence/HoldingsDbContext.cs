@@ -1,4 +1,4 @@
-using IFX.Modules.Holdings.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Holdings.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

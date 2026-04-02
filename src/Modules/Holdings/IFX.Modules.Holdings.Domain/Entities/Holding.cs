@@ -1,4 +1,4 @@
-using IFX.Modules.Holdings.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Holdings.Domain.Enums;
 
 namespace IFX.Modules.Holdings.Domain.Entities;
@@ -12,6 +12,7 @@ public class Holding : BaseEntity, IAuditableEntity
     public HoldingStatus Status { get; private set; } = HoldingStatus.Active;
     public DateTime? LastTransactionAt { get; private set; }
     public Guid? CreatedBy { get; set; }
+    public Guid? UpdatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

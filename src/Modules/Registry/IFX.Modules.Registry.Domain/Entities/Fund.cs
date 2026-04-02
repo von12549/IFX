@@ -1,4 +1,4 @@
-using IFX.Modules.Registry.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Registry.Domain.Enums;
 
 namespace IFX.Modules.Registry.Domain.Entities;
@@ -13,6 +13,7 @@ public class Fund : BaseEntity, IAuditableEntity
     public DateOnly InceptionDate { get; private set; }
     public FundStatus Status { get; private set; } = FundStatus.Active;
     public Guid? CreatedBy { get; set; }
+    public Guid? UpdatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

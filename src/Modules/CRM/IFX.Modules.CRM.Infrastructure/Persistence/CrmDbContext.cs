@@ -1,4 +1,4 @@
-using IFX.Modules.CRM.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.CRM.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

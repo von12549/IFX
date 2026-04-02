@@ -147,6 +147,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFX.Modules.Transaction.Pre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFX.Modules.Transaction.Composition", "src\Modules\Transaction\IFX.Modules.Transaction.Composition\IFX.Modules.Transaction.Composition.csproj", "{1F41FC66-221B-4970-BC1E-24398998E222}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{7266C4A9-E384-DC00-0EB6-47F6002CFBA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFX.BuildingBlocks.Domain", "src\BuildingBlocks\IFX.BuildingBlocks.Domain\IFX.BuildingBlocks.Domain.csproj", "{305ABE0E-EB92-48C9-863A-671A4B103104}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -769,6 +773,18 @@ Global
 		{1F41FC66-221B-4970-BC1E-24398998E222}.Release|x64.Build.0 = Release|Any CPU
 		{1F41FC66-221B-4970-BC1E-24398998E222}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F41FC66-221B-4970-BC1E-24398998E222}.Release|x86.Build.0 = Release|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Debug|x64.Build.0 = Debug|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Debug|x86.Build.0 = Debug|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Release|x64.ActiveCfg = Release|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Release|x64.Build.0 = Release|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Release|x86.ActiveCfg = Release|Any CPU
+		{305ABE0E-EB92-48C9-863A-671A4B103104}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -836,6 +852,7 @@ Global
 		{AF653D1B-AB06-4803-AEC0-364A1B55248C} = {1B582752-51A5-9834-41AD-250D8F8FB14A}
 		{B0F26AFC-67B0-4A58-B8C8-3AF1617EC7E7} = {1B582752-51A5-9834-41AD-250D8F8FB14A}
 		{1F41FC66-221B-4970-BC1E-24398998E222} = {1B582752-51A5-9834-41AD-250D8F8FB14A}
+		{305ABE0E-EB92-48C9-863A-671A4B103104} = {7266C4A9-E384-DC00-0EB6-47F6002CFBA7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AA0D61E-58B0-4529-B16D-19A079DDA409}

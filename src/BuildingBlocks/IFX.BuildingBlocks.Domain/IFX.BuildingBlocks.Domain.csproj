@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Domain\IFX.BuildingBlocks.Domain.csproj" />
+    <PackageReference Include="UUIDNext" Version="4.2.3" />
   </ItemGroup>
 
 </Project>

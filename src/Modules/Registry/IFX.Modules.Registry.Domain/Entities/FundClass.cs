@@ -1,4 +1,4 @@
-using IFX.Modules.Registry.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Registry.Domain.Enums;
 
 namespace IFX.Modules.Registry.Domain.Entities;
@@ -16,6 +16,7 @@ public class FundClass : BaseEntity, IAuditableEntity
     public NavFrequency NavFrequency { get; private set; }
     public ClassStatus Status { get; private set; } = ClassStatus.Active;
     public Guid? CreatedBy { get; set; }
+    public Guid? UpdatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

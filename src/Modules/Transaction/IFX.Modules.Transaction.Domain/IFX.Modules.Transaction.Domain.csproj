@@ -5,6 +5,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="UUIDNext" Version="3.1.0" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Domain\IFX.BuildingBlocks.Domain.csproj" />
   </ItemGroup>
 </Project>

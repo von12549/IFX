@@ -1,4 +1,4 @@
-using IFX.Modules.CRM.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.CRM.Domain.Enums;
 
 namespace IFX.Modules.CRM.Domain.Entities;
@@ -11,6 +11,7 @@ public class Party : BaseEntity, IAuditableEntity
     public PartyType Type { get; private set; }
     public EntityStatus Status { get; private set; } = EntityStatus.Active;
     public Guid? CreatedBy { get; set; }
+    public Guid? UpdatedBy { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

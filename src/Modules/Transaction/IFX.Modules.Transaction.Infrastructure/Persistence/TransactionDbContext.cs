@@ -1,4 +1,4 @@
-using IFX.Modules.Transaction.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using Microsoft.EntityFrameworkCore;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
 

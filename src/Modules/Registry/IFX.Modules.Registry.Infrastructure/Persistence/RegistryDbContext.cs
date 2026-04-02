@@ -1,4 +1,4 @@
-using IFX.Modules.Registry.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Registry.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
