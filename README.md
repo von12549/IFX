@@ -1,6 +1,6 @@
 # IFX
 
-A production-ready ASP.NET Core 8 authentication solution with Clean Architecture, CQRS, dynamic multi-IdP SSO, and comprehensive audit trail.
+A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS, dynamic multi-IdP SSO, and a Fund Registry system (CRM, Registry, Holdings, Transaction modules).
 
 ## Features
 
@@ -30,7 +30,14 @@ A production-ready ASP.NET Core 8 authentication solution with Clean Architectur
 - **Full Audit Trail** — Login/logout events, activity logs, registration tracking
 - **User Profile** — Self-service profile editing including primary tenant selection (multi-tenant users)
 
+### Fund Registry
+- **CRM** — Party and Investor lifecycle with KYC tracking and many-to-many Party↔Investor relationships
+- **Registry** — Fund and FundClass lifecycle with NAV frequency, fee rates, and soft-close/liquidating status
+- **Holdings** — Authoritative unit ledger per (Investor, FundClass); read-only HTTP; mutated exclusively via integration events
+- **Transaction** — Subscription, Redemption, Transfer, and Switch processing; cross-module KYC + class-status validation; `Process(navPrice)` calculates units and triggers Holdings update
+
 ### Platform Services
+- **Integration Events** — In-process `IIntegrationEventBus` (provider-swappable); module contracts live in `.Abstractions` projects
 - **Background Jobs** — Hangfire with fire-and-forget, delayed, and recurring job support
 - **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
 
@@ -61,35 +68,51 @@ See [Getting Started](docs/development/getting-started.md) for detailed setup.
 
 ```
 src/
-├── ApiHost/IFX.ApiHost/     # Host application
+├── ApiHost/IFX.ApiHost/             # Host application
 ├── BuildingBlocks/
-│   ├── App.Abstractions/            # Shared interfaces (IModuleInstaller)
+│   ├── App.Abstractions/            # Shared interfaces (IModuleInstaller, IAppMigrator)
 │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA client, ABAC)
-├── WebUI/IFX.WebUI/         # Demo OAuth client (HTML/JS)
-├── Modules/Auth/
-│   ├── Domain/                      # Business logic
-│   │   ├── Users/                   # User entity, profile, activity
-│   │   ├── Identity/                # Auth, tokens, IdP, email verification
-│   │   └── Authorization/           # Roles, role groups, tenants, departments
-│   ├── Application/                 # Use cases (CQRS)
-│   │   ├── Users/                   # User commands/queries
-│   │   ├── Identity/                # Auth/IdP commands/queries
-│   │   └── Authorization/           # Feature subfolders: Roles, RoleGroups, Permissions, Tenants, Departments
-│   ├── Infrastructure/              # Data access, identity providers, OIDC
-│   │   ├── IdentityProviders/       # Provider adapters (config-driven selection)
-│   │   │   ├── Cognito/             # AWS Cognito implementation
-│   │   │   └── Auth0/               # Auth0 implementation (stub)
-│   │   ├── Users/                   # User repositories & services
-│   │   ├── Identity/                # OIDC services & repositories
-│   │   ├── Authorization/           # Role, tenant, department repositories
-│   │   └── Persistence/             # DbContext, migrations
-│   ├── Presentation/                # API endpoints
-│   │   ├── Users/                   # User & user-management endpoints
-│   │   ├── Identity/                # Auth, OAuth, IdP endpoints
-│   │   └── Authorization/           # Role, tenant, department endpoints
-│   └── Composition/                 # Module entry point
+├── WebUI/IFX.WebUI/                 # Demo OAuth client (HTML/JS)
+├── Modules/
+│   ├── Auth/                        # Authentication & authorization module
+│   │   ├── Domain/                  # Users, Identity, Authorization subdomains
+│   │   ├── Application/             # CQRS handlers
+│   │   ├── Infrastructure/          # EF Core, Cognito/Auth0 adapters, OIDC
+│   │   ├── Presentation/            # Minimal API endpoints
+│   │   └── Composition/             # Module entry point
+│   ├── CRM/                         # Party & Investor management
+│   │   ├── Abstractions/            # ICrmReader, integration events
+│   │   ├── Domain/                  # Party, Investor, PartyInvestorRelationship entities
+│   │   ├── Application/             # 14 CQRS handlers, validators, AutoMapper
+│   │   ├── Infrastructure/          # CrmDbContext (schema: crm), repositories
+│   │   ├── Presentation/            # 14 endpoints (8 Party, 6 Investor)
+│   │   └── Composition/             # Module entry point
+│   ├── Registry/                    # Fund & FundClass management
+│   │   ├── Abstractions/            # IRegistryReader, integration events
+│   │   ├── Domain/                  # Fund, FundClass entities
+│   │   ├── Application/             # 10 CQRS handlers
+│   │   ├── Infrastructure/          # RegistryDbContext (schema: registry)
+│   │   ├── Presentation/            # 10 endpoints (5 Fund, 5 FundClass nested)
+│   │   └── Composition/             # Module entry point
+│   ├── Holdings/                    # Unit ledger (read-only HTTP; event-driven writes)
+│   │   ├── Abstractions/            # IHoldingsReader, HoldingFrozenEvent
+│   │   ├── Domain/                  # Holding entity with ApplySubscription/Redemption/Freeze
+│   │   ├── Application/             # 4 queries + TransactionProcessed/ClassStatusChanged handlers
+│   │   ├── Infrastructure/          # HoldingsDbContext (schema: holdings)
+│   │   ├── Presentation/            # 4 read-only GET endpoints
+│   │   └── Composition/             # Module entry point + event handler registration
+│   └── Transaction/                 # Subscription/Redemption/Transfer/Switch processing
+│       ├── Abstractions/            # ITransactionReader, integration events
+│       ├── Domain/                  # Transaction entity state machine (Pending→Processed→Settled)
+│       ├── Application/             # 6 commands + 2 queries; cross-module KYC + class validation
+│       ├── Infrastructure/          # TransactionDbContext (schema: transaction)
+│       ├── Presentation/            # 8 endpoints
+│       └── Composition/             # Module entry point
 └── Platform/
-    ├── IFX.Platform.Shared/ # Common platform types
+    ├── Messaging/                   # Integration event bus (IIntegrationEventBus)
+    │   ├── Abstractions/            # IIntegrationEvent, IIntegrationEventBus, IIntegrationEventHandler
+    │   ├── Infrastructure.InMemory/ # InMemoryIntegrationEventBus (provider-swappable)
+    │   └── Composition/             # AddMessaging(), AddIntegrationEventHandler<>()
     ├── BackgroundJobs/              # Hangfire background job service
     │   ├── Abstractions/            # IBackgroundJobService
     │   ├── Infrastructure.Hangfire/ # Hangfire implementation
@@ -129,6 +152,12 @@ src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 | Admin — Platform Policies | `GET/POST/PUT/DELETE /api/v1/platform/policy` |
 | Platform — GlobalRoles | `GET /api/v1/platform/globalroles`, `GET/POST/DELETE /api/v1/platform/users/{id}/globalroles` |
 | Platform — Cross-Tenant | `GET /api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` |
+| CRM — Parties | `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, party↔investor link/unlink |
+| CRM — Investors | `GET/POST /api/v1/investor`, `GET/PUT/DELETE /api/v1/investor/{id}`, `PUT /api/v1/investor/{id}/kyc` |
+| Registry — Funds | `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` |
+| Registry — Classes | `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` |
+| Holdings | `GET /api/v1/holding`, `/holding/{id}`, `/investor/{id}/holdings`, `/fund/{id}/class/{id}/holdings` |
+| Transactions | `GET/POST /api/v1/transaction`, `POST /transaction/{subscription,redemption,transfer,switch}`, `POST /transaction/{id}/{process,cancel}` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |
 
