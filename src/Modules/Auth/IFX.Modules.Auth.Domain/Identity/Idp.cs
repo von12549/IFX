@@ -1,3 +1,4 @@
+using BaseEntity = IFX.BuildingBlocks.Domain.BaseEntity;
 using IFX.Modules.Auth.Domain.Common;
 // IdpType is in same namespace (IFX.Modules.Auth.Domain.Identity)
 

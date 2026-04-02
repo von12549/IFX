@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 // ActivityType is in same namespace (IFX.Modules.Auth.Domain.Users)
 
 namespace IFX.Modules.Auth.Domain.Users;
