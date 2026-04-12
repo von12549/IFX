@@ -86,7 +86,8 @@ crm.PartyInvestorRelationships   ← to be retired in V2
 ```
 PartyLegalStructure:  Individual=1, Company=2, Trust=3, SuperFund=4
 PartyFunctionalRole:  FundManager=1, Distributor=2, Custodian=3,
-                      TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6
+                      TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6,
+                      AdvisorRep=7
 ```
 
 Examples:
@@ -219,6 +220,32 @@ Both templates traverse the `PartyRelationship(ParentFirm)` hierarchy (max depth
 
 ---
 
+#### UserPartyLink — User ↔ Party bridge
+
+Bridges the Auth module's `User` identity to a CRM `Party` record. Stored in CRM; references `UserId` by Guid value only — no cross-schema FK, preserving module isolation.
+
+```
+crm.UserPartyLinks
+├── Id, TenantId
+├── UserId (Guid — value reference to auth.Users, no FK)
+├── PartyId (FK → crm.Parties)
+└── Audit fields
+
+Indexes: UNIQUE(TenantId, UserId)   — one Party per User per tenant
+         UNIQUE(TenantId, PartyId)  — one User per Party per tenant
+```
+
+When an admin calls `LinkUserToPartyCommand`, the `party_id` claim is written to the User via `IIdentityProvider.UpdateUserClaimsAsync`. On next login the JWT carries `party_id`, which `ICurrentUser.PartyId` reads — zero DB lookups per request.
+
+**This pattern covers both portals:**
+
+| Portal | User's Party | Party type | Profile |
+|---|---|---|---|
+| AdvisorPortal | `Party(Individual, AdvisorRep)` | Advisor rep | Linked to firm/branch via `PartyRelationship(ParentFirm)` |
+| InvestorPortal | `Party(Individual, null)` | Individual investor | `Investor(PartyId=...)` for KYC, accounts, holdings |
+
+---
+
 ## 4. Registry Module (built)
 
 ```
@@ -343,6 +370,7 @@ Task<bool>                         IsPartyKycApprovedAsync(Guid partyId, Guid te
 | `PartyInvestorRelationship` | Retired (clean drop) | Zero rows on branch; superseded by `PartyInvestmentAccountLink` which links to `InvestmentAccount` not `Investor` directly |
 | Joint account validation | Application-layer only | Consistent with IFX pattern; no external tooling bypasses the application layer |
 | Holdings writes | Event-driven only | Enforces single source of truth; Holdings is an eventual-consistency ledger, not a transactional service |
+| Advisor/Investor User bridge | `UserPartyLink` + `party_id` JWT claim + `ICurrentUser.PartyId` | Individual advisor reps and investors both need a User↔Party link for portal login and ABAC evaluation; one pattern covers both AdvisorPortal and InvestorPortal |
 
 ---
 
