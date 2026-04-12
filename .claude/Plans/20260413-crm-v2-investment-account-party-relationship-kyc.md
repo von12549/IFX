@@ -6,7 +6,7 @@
 
 ## Overview
 
-The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdings-transaction`) established a working foundation with `Party`, `Investor`, and `PartyInvestorRelationship`. Analysis of the legacy Taurus `inv` schema and ChatGPT design discussion (see `/docs/crm/`) revealed significant structural gaps that must be addressed before the Holdings module is extended and before production data exists. This plan delivers CRM V2: introducing `InvestmentAccount` as a first-class entity, replacing the flat `PartyInvestorRelationship` with a proper `PartyInvestmentAccountLink`, adding a general-purpose `PartyRelationship` table for Party-to-Party structures (advisor hierarchy + corporate investor ownership chains), wiring a two-layer advisor authorization model via ABAC, and enriching `Investor` with FATCA/CRS, PEP, AML, and FrankieOne-compatible KYC fields.
+The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdings-transaction`) established a working foundation with `Party`, `Investor`, and `PartyInvestorRelationship`. Analysis of the legacy Taurus `inv` schema and ChatGPT design discussion (see `/docs/crm/`) revealed significant structural gaps that must be addressed before the Holdings module is extended and before production data exists. This plan delivers CRM V2: introducing `InvestmentAccount` as a first-class entity, replacing the flat `PartyInvestorRelationship` with a proper `PartyInvestmentAccountLink`, adding a general-purpose `PartyRelationship` table for Party-to-Party structures (advisor hierarchy + corporate investor ownership chains), wiring a two-layer advisor authorization model via ABAC, enriching `Investor` with FATCA/CRS, PEP, AML, and FrankieOne-compatible KYC fields, and — since `InvestmentAccount` is the correct unit of investment activity — migrating `Holding` and `Transaction` from `InvestorId` FK to `InvestmentAccountId` FK.
 
 ---
 
@@ -24,7 +24,9 @@ The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdin
 - Introduce `UserPartyLink` entity — bridges `User` (auth) to `Party` (CRM) by storing `UserId` as a value reference; enables `ICurrentUser.PartyId` for ABAC evaluation
 - Add `party_id` custom claim to JWT — set at provisioning/link time; read by `ICurrentUser.PartyId`
 - Update `ICrmReader` to expose `InvestmentAccount` and `PartyRelationship` queries
-- Migrate EF schema (new tables, modified `Investor` columns, retire `PartyInvestorRelationship`)
+- **Migrate `Holding` from `InvestorId` → `InvestmentAccountId`** — holdings belong to an account, not directly to an investor
+- **Migrate `Transaction` from `InvestorId` → `InvestmentAccountId`; remove `PartyId`** — trades execute against an account; Party is derivable via `PartyInvestmentAccountLink`
+- Migrate EF schema (new CRM tables, modified `Investor`/`Holding`/`Transaction` columns, retire `PartyInvestorRelationship`)
 
 ---
 
@@ -35,8 +37,9 @@ The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdin
 - FATCA/CRS workflow automation (regulatory — Phase 3)
 - FrankieOne API integration (store `AmlGatewayReference` as a pointer; actual API calls are out of scope)
 - Name versioning / historical name tracking
-- NAV pricing or Holdings balance changes (Holdings module is a separate concern)
-- Modifying the Registry or Transaction modules (they depend on `ICrmReader` which will be updated non-breaking)
+- NAV pricing or Holdings balance changes (Holdings balance logic is unchanged — only the FK column name changes)
+- Modifying the Registry module
+- Commission module (deferred)
 
 ---
 
@@ -47,10 +50,10 @@ The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdin
 | Layer | Changes |
 |---|---|
 | Domain | New entities: `InvestmentAccount`, `PartyInvestmentAccountLink`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`, `UserPartyLink`, `IndividualInvestorProfile`, `CorporateInvestorProfile`, `TrustInvestorProfile`. Updated entity: `Investor` (KYC/AML fields, `LegalStructure`, `PartyId` FK), `Party` (`PartyLegalStructure` + `PartyFunctionalRole`). New enums: `PartyLegalStructure`, `PartyFunctionalRole` (incl. `AdvisorRep`), `InvestmentAccountType`, `InvestmentAccountRelationshipType`, `PartyRelationshipType`, `AmlStatus`, `FatcaCrsStatus`, `DocumentType`, `Gender`. Retire: `PartyType`, `InvestorType`, `PartyInvestorRelationship`. |
-| Application | New commands/queries for `InvestmentAccount`, `PartyRelationship`, `AdvisorInvestmentAccountLink`. Updated `Investor` commands. New ABAC condition template registration. Updated `ICrmReader`. |
-| Infrastructure | New EF configurations + migration. New repositories. Updated `CrmReader`. |
-| Presentation | New endpoints for `InvestmentAccount`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`. |
-| Abstractions | Updated `ICrmReader` interface (non-breaking additions). New DTOs. |
+| Application | New commands/queries for `InvestmentAccount`, `PartyRelationship`, `AdvisorInvestmentAccountLink`. Updated `Investor` commands. Updated Holdings queries (`GetHoldingsByInvestmentAccount`). Updated Transaction command handlers (`InvestmentAccountId` replaces `InvestorId`/`PartyId`). New ABAC condition template registration. Updated `ICrmReader`. |
+| Infrastructure | New EF configurations + migration (CRM + Holdings + Transaction). New repositories. Updated `CrmReader`. |
+| Presentation | New endpoints for `InvestmentAccount`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`. Updated Holdings + Transaction endpoints. |
+| Abstractions | Updated `ICrmReader` (add `IsInvestmentAccountKycApprovedAsync`). Updated `IHoldingsReader`. New DTOs. |
 
 ### New Domain Entities
 
@@ -321,21 +324,74 @@ Both templates must traverse the Party hierarchy (rep → branch → firm) via `
 - `POST /api/v1/investor/{id}/documents`
 - `DELETE /api/v1/investor/{id}/documents/{docId}`
 
-### Updated `ICrmReader` (non-breaking additions)
+### Updated `ICrmReader`
 
 ```csharp
 // Existing (unchanged)
-Task<PartySummaryDto?> GetPartyByIdAsync(Guid partyId, Guid tenantId, CancellationToken ct);
+Task<PartySummaryDto?>    GetPartyByIdAsync(Guid partyId, Guid tenantId, CancellationToken ct);
 Task<InvestorSummaryDto?> GetInvestorByIdAsync(Guid investorId, Guid tenantId, CancellationToken ct);
-Task<bool> IsInvestorKycApprovedAsync(Guid investorId, Guid tenantId, CancellationToken ct);
-Task<bool> PartyExistsAsync(Guid partyId, Guid tenantId, CancellationToken ct);
+Task<bool>                IsInvestorKycApprovedAsync(Guid investorId, Guid tenantId, CancellationToken ct);
+Task<bool>                PartyExistsAsync(Guid partyId, Guid tenantId, CancellationToken ct);
 
 // New additions
 Task<InvestmentAccountSummaryDto?> GetInvestmentAccountByIdAsync(Guid accountId, Guid tenantId, CancellationToken ct);
-Task<bool> InvestmentAccountExistsAsync(Guid accountId, Guid tenantId, CancellationToken ct);
-Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investorPartyId, Guid tenantId, CancellationToken ct);
+Task<bool>                         InvestmentAccountExistsAsync(Guid accountId, Guid tenantId, CancellationToken ct);
+Task<bool>                         AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investorPartyId, Guid tenantId, CancellationToken ct);
+Task<bool>                         IsPartyKycApprovedAsync(Guid partyId, Guid tenantId, CancellationToken ct);
+Task<bool>                         IsInvestmentAccountKycApprovedAsync(Guid accountId, Guid tenantId, CancellationToken ct);
+```
+
+`IsInvestmentAccountKycApprovedAsync` resolves: `accountId → PartyInvestmentAccountLink(RegisteredHolder) → Party → Investor.KycStatus = Approved`. Used by Transaction command handlers to validate KYC before processing a trade.
+
+---
+
+### Updated: `Holding` entity (Holdings module)
+
+`InvestorId` is replaced by `InvestmentAccountId`. Holdings belong to an account — not directly to an investor — because joint accounts, trust accounts, and multiple-account investors all break the 1:1 assumption that `InvestorId` implied.
 
 ```
+holdings.Holdings
+├── Id, TenantId
+├── InvestmentAccountId  (Guid — value ref to crm.InvestmentAccounts, no cross-schema FK)  ← replaces InvestorId
+├── ClassId              (Guid — value ref to registry.FundClasses)
+├── Units
+├── Status, LastTransactionAt
+└── Audit fields
+```
+
+**Query changes:**
+- `GetHoldingsByInvestmentAccountQuery` — primary query (direct FK lookup)
+- `GET /api/v1/investor/{investorId}/holdings` — convenience endpoint kept; resolves `investorId → Party → PartyInvestmentAccountLinks → accounts → holdings` at the application layer
+
+---
+
+### Updated: `Transaction` entity (Transaction module)
+
+`InvestorId` replaced by `InvestmentAccountId`; `PartyId` removed — the account holder Party is derivable via `PartyInvestmentAccountLink(RegisteredHolder)` and should not be denormalised onto the Transaction.
+
+```
+transaction.Transactions
+├── Id, TenantId
+├── Type  (Subscription / Redemption / Transfer / Switch)
+├── InvestmentAccountId  (Guid — value ref to crm.InvestmentAccounts)  ← replaces InvestorId + PartyId
+├── FundId, ClassId
+├── TargetClassId (Transfer / Switch only)
+├── Amount, Units, NAVPrice
+├── TradeDate, SettlementDate
+├── Status, FailureReason
+└── Audit fields
+```
+
+**Factory method signatures (updated):**
+```csharp
+Transaction.CreateSubscription(tenantId, investmentAccountId, fundId, classId, amount, tradeDate)
+Transaction.CreateRedemption(tenantId, investmentAccountId, fundId, classId, amount, tradeDate)
+Transaction.CreateTransfer(tenantId, investmentAccountId, fundId, classId, targetClassId, amount, tradeDate)
+Transaction.CreateSwitch(tenantId, investmentAccountId, fundId, classId, targetClassId, amount, tradeDate)
+```
+
+**KYC validation (updated):**
+Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId, tenantId)` instead of `IsInvestorKycApprovedAsync(investorId, tenantId)`.
 
 ### EF Schema Changes
 
@@ -343,6 +399,8 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 - **New extension tables:** `crm.IndividualInvestorProfiles`, `crm.CorporateInvestorProfiles`, `crm.TrustInvestorProfiles` — each with `InvestorId UNIQUE FK` + CASCADE DELETE
 - **Modified table:** `crm.Parties` — drop `PartyType`; add `LegalStructure` (tinyint NOT NULL, back-filled) + `FunctionalRole` (tinyint NULL)
 - **Modified table:** `crm.Investors` — rename `InvestorType` → `LegalStructure`; add `PartyId` (nullable FK → Parties); add KYC/AML columns
+- **Modified table:** `holdings.Holdings` — rename `InvestorId` → `InvestmentAccountId`
+- **Modified table:** `transaction.Transactions` — rename `InvestorId` → `InvestmentAccountId`; drop `PartyId` column
 - **Retire:** `crm.PartyInvestorRelationships` — clean drop (zero rows confirmed pre-migration)
 - **New unique indexes:** `UserPartyLinks(TenantId, UserId)`, `UserPartyLinks(TenantId, PartyId)`, `InvestmentAccounts(TenantId, AccountNumber)`, `PartyRelationships(FromPartyId, ToPartyId, RelationshipType)` (partial: ExpiryDate IS NULL), `IndividualInvestorProfiles(InvestorId)`, `CorporateInvestorProfiles(InvestorId)`, `TrustInvestorProfiles(InvestorId)`, `Investors(TenantId, PartyId)` (filtered: PartyId IS NOT NULL)
 
@@ -376,6 +434,8 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 - [ ] Add `GetLinksByAccountIdAsync(accountId, tenantId)` to `IPartyInvestmentAccountLinkRepository` (needed by Q1 validator)
 - [ ] Create `UserPartyLink` entity with factory method; `IUserPartyLinkRepository` with `GetByUserIdAsync(userId, tenantId)` and `GetByPartyIdAsync(partyId, tenantId)`
 - [ ] Remove `PartyInvestorRelationship` entity and `IPartyInvestorRepository`
+- [ ] **Holdings.Domain:** update `Holding` entity — rename `InvestorId` to `InvestmentAccountId`; update `Create(...)` factory method signature
+- [ ] **Transaction.Domain:** update `Transaction` entity — rename `InvestorId` to `InvestmentAccountId`; remove `PartyId`; update all four factory method signatures
 - [ ] Create `AdvisoryAuthorizationTemplate` condition template (Q2 decision) — traverses `PartyRelationship(ParentFirm)` chain up to depth 3; per-request in-memory cache on `(advisorPartyId, investorPartyId, tenantId)`
 
 ### Phase 2 — Application (CQRS handlers + ABAC)
@@ -392,6 +452,8 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 - [ ] **Investor update:** extend `UpdateInvestorCommand` with new KYC fields + type-specific profile fields; add `UpdateInvestorAmlCommand`
 - [ ] **UserPartyLink commands:** `LinkUserToPartyCommand`, `UnlinkUserFromPartyCommand` — admin operation; sets/clears `party_id` claim on the User via `IIdentityProvider.UpdateUserClaimsAsync`
 - [ ] **UserPartyLink queries:** `GetPartyForUserQuery` — resolves `UserId → PartyId` (used by AdvisorPortal/InvestorPortal on login)
+- [ ] **Holdings.Application:** add `GetHoldingsByInvestmentAccountQuery`; update `GetHoldingsByInvestorQuery` to resolve via `investorId → Party → accounts → holdings` (convenience wrapper)
+- [ ] **Transaction.Application:** update all four `Create*Command` handlers to use `InvestmentAccountId`; replace `IsInvestorKycApprovedAsync` call with `IsInvestmentAccountKycApprovedAsync`; remove `PartyId` from command/DTO
 - [ ] Remove `LinkInvestorToPartyCommand` and `UnlinkInvestorFromPartyCommand`
 - [ ] Register ABAC condition templates: `HasAdvisoryAuthorization` (uses `AdvisoryAuthorizationTemplate`), `IsAdvisorForAccount` in `BuiltInTemplates`
 - [ ] **Q1:** add joint-account and ownership% validators to `LinkPartyToInvestmentAccountCommandValidator`
@@ -411,7 +473,9 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 - [ ] Update `CrmDbContext` (add DbSets, remove `PartyInvestorRelationships`)
 - [ ] Update `CrmReader` to implement new `ICrmReader` methods
 - [ ] **Q3:** Confirm `SELECT COUNT(*) FROM crm.PartyInvestorRelationships` = 0 on all non-production environments before cutting migration
-- [ ] Write EF migration: create new tables, alter `Investors` (add KYC/AML columns), drop `PartyInvestorRelationships`
+- [ ] **Holdings.Infrastructure:** update `HoldingConfiguration` — rename column `InvestorId` → `InvestmentAccountId`; update `EfHoldingRepository` queries
+- [ ] **Transaction.Infrastructure:** update `TransactionConfiguration` — rename `InvestorId` → `InvestmentAccountId`; drop `PartyId` column mapping; update `EfTransactionRepository` queries
+- [ ] Write EF migration (single migration across all three DB contexts or coordinated migrations): create new CRM tables, alter `crm.Investors`, drop `crm.PartyInvestorRelationships`, rename `holdings.Holdings.InvestorId` → `InvestmentAccountId`, rename `transaction.Transactions.InvestorId` → `InvestmentAccountId` + drop `PartyId`
 - [ ] Verify `NoOpAbacPolicyCache` still compiles (no changes expected)
 
 ### Phase 4 — Presentation (Endpoints)
@@ -420,13 +484,17 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 - [ ] `AdvisorInvestmentAccountLinkEndpoints`: link / unlink / list (mounted under investment-account)
 - [ ] `InvestorDocumentEndpoints`: add / list / remove
 - [ ] `UserPartyLinkEndpoints`: link user to party + unlink + get party for user
+- [ ] **Holdings.Presentation:** add `GET /api/v1/investment-account/{accountId}/holdings` endpoint; update `GET /api/v1/investor/{investorId}/holdings` to resolve through accounts
+- [ ] **Transaction.Presentation:** update all Create* request DTOs to replace `investorId`/`partyId` with `investmentAccountId`
 - [ ] Remove `RelationshipEndpoints` (old LinkInvestor/UnlinkInvestor)
 - [ ] Update request/response DTOs
 
 ### Phase 5 — Abstractions
 - [ ] Add `InvestmentAccountSummaryDto` to `CRM.Abstractions`
-- [ ] Update `ICrmReader` interface: add new methods including `IsPartyKycApprovedAsync(Guid partyId, Guid tenantId, CancellationToken ct)` — resolves `PartyId` → `Investor.KycStatus = Approved`
+- [ ] Update `ICrmReader` interface: add `IsPartyKycApprovedAsync`, `IsInvestmentAccountKycApprovedAsync`, and other new methods
 - [ ] Update `PartySummaryDto`: replace `PartyType` field with `LegalStructure` + `FunctionalRole`
+- [ ] Update `HoldingSummaryDto`: replace `InvestorId` field with `InvestmentAccountId`
+- [ ] Update `IHoldingsReader`: replace `GetHoldingsByInvestorAsync(investorId)` with `GetHoldingsByInvestmentAccountAsync(accountId)`
 - [ ] Add `InvestmentAccountCreatedEvent`, `PartyRelationshipCreatedEvent` integration events
 - [ ] Update `CrmReader` implementation for new interface methods
 
@@ -441,6 +509,8 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 - [ ] Unit tests: `AdvisorInvestmentAccountLink` factory + Expire()
 - [ ] Unit tests: `Investor` entity KYC/AML field updates
 - [ ] Review and update existing `CreatePartyCommandHandlerTests`, `CreateInvestorCommandHandlerTests`, `UpdateInvestorKycCommandHandlerTests`
+- [ ] Update all Holdings query handler tests: replace `InvestorId` with `InvestmentAccountId` in test fixtures
+- [ ] Update all Transaction command handler tests: replace `investorId`/`partyId` params with `investmentAccountId`; update KYC mock to use `IsInvestmentAccountKycApprovedAsync`
 
 ### Phase 7 — Docs + CLAUDE.md
 - [ ] Update `CLAUDE.md` Quick Reference (API endpoints, test counts)
@@ -470,7 +540,9 @@ Task<bool> AdvisorIsAuthorizedForInvestorAsync(Guid advisorPartyId, Guid investo
 ### Regression
 - Existing Party CRUD endpoints unchanged
 - Existing Investor CRUD endpoints unchanged (new KYC fields are nullable/optional)
-- `ICrmReader` callers (Transaction module) compile and pass — `IsInvestorKycApprovedAsync` still works
+- `ICrmReader` callers compile and pass — `IsInvestorKycApprovedAsync` kept (not removed); new `IsInvestmentAccountKycApprovedAsync` added alongside it
+- Holdings read endpoints return correct data after `InvestorId → InvestmentAccountId` rename
+- Transaction create endpoints accept `investmentAccountId` in request body; no `investorId`/`partyId` required
 
 ---
 
@@ -742,6 +814,7 @@ Option B (firm-level only, `party_id` claim set manually) loses individual rep t
 | Q3 — Data migration | ✅ Clean drop — confirm zero rows pre-migration; update affected tests in Phase 6 | Phase 3 — migration |
 | Q4 — Investor ↔ Party FK | ✅ Path 2 — add `PartyId` FK to `Investor`; split `PartyType` → `PartyLegalStructure` (required) + `PartyFunctionalRole` (nullable); UNIQUE(TenantId, PartyId) filtered index; add `IsPartyKycApprovedAsync` to `ICrmReader` | Phase 1 (entities + enums) + Phase 3 (migration) + Phase 5 (ICrmReader) |
 | Q5 — Advisor/Investor User identity bridge | ✅ Option A — `AdvisorRep=7` in `PartyFunctionalRole`; `UserPartyLink` table (`UserId` value ref + `PartyId` FK); `party_id` JWT claim; `ICurrentUser.PartyId`; generalises to InvestorPortal | Phase 1 (entity) + Phase 2 (commands) + Phase 3 (EF) + Phase 4 (endpoints) |
+| Q6 — Holdings/Transaction FK | ✅ `InvestmentAccountId` replaces `InvestorId` (+ remove `PartyId` from Transaction) — holdings and trades belong to an account, not directly to an investor; joint/trust/multi-account scenarios all require account-level granularity | Phase 1 (domain) + Phase 2 (app) + Phase 3 (infra) + Phase 4 (presentation) + Phase 5 (abstractions) |
 
 ---
 
@@ -757,3 +830,4 @@ Option B (firm-level only, `party_id` claim set manually) loses individual rep t
 | 2026-04-13 | Plan | Naming consistency: AccountType → InvestmentAccountType, AccountRelationshipType → InvestmentAccountRelationshipType, PartyAccountLink → PartyInvestmentAccountLink, AdvisorAccountLink → AdvisorInvestmentAccountLink. |
 | 2026-04-13 | Plan | Review pass: removed stale PartyType expansion section; updated Layers Touched; added Id + audit fields to PartyInvestmentAccountLink; fixed ISO alpha-2/3 inconsistency on InvestorDocument; renamed Link*ToAccount commands to Link*ToInvestmentAccount; fixed ABAC seed resource name; added CreateInvestorCommand profile step; updated integration test scenario for Path 2 workflow. |
 | 2026-04-13 | Plan | Q5 → Option A: AdvisorRep=7 in PartyFunctionalRole; UserPartyLink entity (UserId value ref + PartyId FK); party_id JWT claim; ICurrentUser.PartyId. Generalises to InvestorPortal. Goals, Layers Touched, entity definitions, Phase 1/2/3/4 steps, Decision Summary updated. |
+| 2026-04-13 | Plan | Q6 → Holding.InvestorId and Transaction.InvestorId migrate to InvestmentAccountId; Transaction.PartyId removed. Holdings/Transaction entity definitions, ICrmReader (IsInvestmentAccountKycApprovedAsync), IHoldingsReader, all affected phases and tests updated. |

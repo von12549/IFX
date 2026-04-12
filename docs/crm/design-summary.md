@@ -275,18 +275,23 @@ A `FundClass` is the unit of investment — Holdings and Transactions reference 
 
 ---
 
-## 5. Holdings Module (built — read-only API)
+## 5. Holdings Module (V2 — account-centric)
 
 ```
 holdings.Holdings
 ├── Id, TenantId
-├── InvestorId (FK → crm.Investors via ICrmReader)
-├── ClassId (FK → registry.FundClasses via IRegistryReader)
+├── InvestmentAccountId  (Guid — value ref to crm.InvestmentAccounts)  ← V2: was InvestorId
+├── ClassId              (Guid — value ref to registry.FundClasses)
 ├── Units (decimal — the unit balance)
 ├── Status  (Active / Frozen / Closed)
 ├── LastTransactionAt
 └── Audit fields
 ```
+
+Holdings belong to an **investment account**, not directly to an investor. This is necessary because:
+- A joint account has two registered holders — `InvestorId` would require picking one arbitrarily
+- An investor with two accounts has independent unit balances per account
+- Advisors link to `InvestmentAccount`, not `Investor` — account-level FK makes advisor-holdings queries natural
 
 **Holdings are written only by Transaction event handlers** — never directly via API. The API is read-only:
 - `GET /api/v1/holding` — list
@@ -298,13 +303,14 @@ When a Transaction is processed, it emits a `TransactionProcessedEvent` → Hold
 
 ---
 
-## 6. Transaction Module (built)
+## 6. Transaction Module (V2 — account-centric)
 
 ```
 transaction.Transactions
 ├── Id, TenantId
 ├── Type  (Subscription / Redemption / Transfer / Switch)
-├── PartyId, InvestorId, FundId, ClassId
+├── InvestmentAccountId  (Guid — value ref)  ← V2: replaces InvestorId + PartyId
+├── FundId, ClassId
 ├── TargetClassId (for Transfer and Switch)
 ├── Amount (decimal — money amount at creation)
 ├── Units (decimal? — calculated at Process time: Units = Amount / NAVPrice)
@@ -369,6 +375,7 @@ Task<bool>                         IsPartyKycApprovedAsync(Guid partyId, Guid te
 | Advisor ABAC | C# `AdvisoryAuthorizationTemplate` | OPA cannot query the DB; C# template keeps traversal logic testable and consistent with existing templates |
 | `PartyInvestorRelationship` | Retired (clean drop) | Zero rows on branch; superseded by `PartyInvestmentAccountLink` which links to `InvestmentAccount` not `Investor` directly |
 | Joint account validation | Application-layer only | Consistent with IFX pattern; no external tooling bypasses the application layer |
+| Holdings/Transaction FK | `InvestmentAccountId` replaces `InvestorId` (+ `PartyId` removed from Transaction) | Holdings and trades belong to an account; joint/trust/multi-account scenarios break the 1:1 assumption of `InvestorId` |
 | Holdings writes | Event-driven only | Enforces single source of truth; Holdings is an eventual-consistency ledger, not a transactional service |
 | Advisor/Investor User bridge | `UserPartyLink` + `party_id` JWT claim + `ICurrentUser.PartyId` | Individual advisor reps and investors both need a User↔Party link for portal login and ABAC evaluation; one pattern covers both AdvisorPortal and InvestorPortal |
 
