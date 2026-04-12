@@ -16,11 +16,11 @@ The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdin
 - Introduce `PartyInvestmentAccountLink` (Party → InvestmentAccount with RelationshipType + OwnershipPercentage) — replaces `PartyInvestorRelationship`
 - Introduce `PartyRelationship` (Party → Party with RelationshipType) for advisor hierarchy and corporate investor structures
 - Introduce `AdvisorInvestmentAccountLink` (Advisor Party → InvestmentAccount with RebateRate + effective dates)
-- Retire `PartyType` on `Party`; replace with `PartyLegalStructure` (required) + `PartyFunctionalRole` (nullable)
+- Retire `PartyType` on `Party`; replace with `PartyLegalStructure` (required, single) + `PartyRoleAssignment` table (multi-role, replaces single nullable `PartyFunctionalRole` column)
 - Enrich `Investor` with KYC/AML fields drawn from Taurus and FrankieOne model
 - Add `InvestorDocument` child entity for identity documents
 - Add OPA ABAC condition template `HasAdvisoryAuthorization` for advisor access policy
-- Add `AdvisorRep = 7` to `PartyFunctionalRole` — individual human advisor reps get a Party record
+- Add `AdvisorRep = 7` to `PartyFunctionalRole` enum; store via `PartyRoleAssignment` — a Party can now hold multiple simultaneous functional roles (e.g. Investor + AdvisorRep + Trustee)
 - Introduce `UserPartyLink` entity — bridges `User` (auth) to `Party` (CRM) by storing `UserId` as a value reference; enables `ICurrentUser.PartyId` for ABAC evaluation
 - Add `party_id` custom claim to JWT — set at provisioning/link time; read by `ICurrentUser.PartyId`
 - Update `ICrmReader` to expose `InvestmentAccount` and `PartyRelationship` queries
@@ -49,7 +49,7 @@ The initial CRM module (delivered in `20260401-fund-registry-crm-registry-holdin
 
 | Layer | Changes |
 |---|---|
-| Domain | New entities: `InvestmentAccount`, `PartyInvestmentAccountLink`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`, `UserPartyLink`, `IndividualInvestorProfile`, `CorporateInvestorProfile`, `TrustInvestorProfile`. Updated entity: `Investor` (KYC/AML fields, `LegalStructure`, `PartyId` FK), `Party` (`PartyLegalStructure` + `PartyFunctionalRole`). New enums: `PartyLegalStructure`, `PartyFunctionalRole` (incl. `AdvisorRep`), `InvestmentAccountType`, `InvestmentAccountRelationshipType`, `PartyRelationshipType`, `AmlStatus`, `FatcaCrsStatus`, `DocumentType`, `Gender`. Retire: `PartyType`, `InvestorType`, `PartyInvestorRelationship`. |
+| Domain | New entities: `InvestmentAccount`, `PartyInvestmentAccountLink`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`, `UserPartyLink`, `PartyRoleAssignment`, `IndividualInvestorProfile`, `CorporateInvestorProfile`, `TrustInvestorProfile`. Updated entity: `Investor` (KYC/AML fields, `LegalStructure`, `PartyId` FK), `Party` (`PartyLegalStructure` replaces `PartyType`; `ICollection<PartyRoleAssignment> RoleAssignments` replaces single `PartyFunctionalRole` column). New enums: `PartyLegalStructure`, `PartyFunctionalRole` (incl. `AdvisorRep`; now used in `PartyRoleAssignment.Role`, not on `Party` directly), `InvestmentAccountType`, `InvestmentAccountRelationshipType`, `PartyRelationshipType`, `AmlStatus`, `FatcaCrsStatus`, `DocumentType`, `Gender`. Retire: `PartyType`, `InvestorType`, `PartyInvestorRelationship`. |
 | Application | New commands/queries for `InvestmentAccount`, `PartyRelationship`, `AdvisorInvestmentAccountLink`. Updated `Investor` commands. Updated Holdings queries (`GetHoldingsByInvestmentAccount`). Updated Transaction command handlers (`InvestmentAccountId` replaces `InvestorId`/`PartyId`). New ABAC condition template registration. Updated `ICrmReader`. |
 | Infrastructure | New EF configurations + migration (CRM + Holdings + Transaction). New repositories. Updated `CrmReader`. |
 | Presentation | New endpoints for `InvestmentAccount`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`. Updated Holdings + Transaction endpoints. |
@@ -107,7 +107,7 @@ PartyRelationship
 ```
 AdvisorInvestmentAccountLink
 ├── Id (Guid, UUID v7)
-├── AdvisorPartyId (Guid FK → Party — must be AdvisoryFirm or AdvisoryBranch)
+├── AdvisorPartyId (Guid FK → Party — must have PartyRoleAssignment(AdvisoryFirm) or PartyRoleAssignment(AdvisoryBranch))
 ├── InvestmentAccountId (Guid FK → InvestmentAccount)
 ├── TenantId (Guid)
 ├── RebateRate (decimal?)
@@ -131,6 +131,29 @@ InvestorDocument
 ├── CreatedBy / UpdatedBy / CreatedAt / UpdatedAt
 ```
 
+#### `PartyRoleAssignment`
+
+Replaces the single `PartyFunctionalRole` nullable column on `Party`. A Party can now hold any number of simultaneous functional roles (e.g. AdvisoryRep + Trustee + FundManager). This is the ChatGPT design's `PartyRole` junction table principle — **decouple identity (Party) from behaviour (Role)**.
+
+```
+PartyRoleAssignment
+├── Id (Guid, UUID v7)
+├── TenantId (Guid)
+├── PartyId (Guid FK → crm.Parties)
+├── Role (PartyFunctionalRole enum)
+├── AssignedAt (DateTimeOffset)
+├── AssignedBy (Guid — UserId value ref, no cross-schema FK)
+├── CreatedBy / UpdatedBy / CreatedAt / UpdatedAt
+
+UNIQUE INDEX (TenantId, PartyId, Role)
+```
+
+**Why not a column on `Party`:** A single nullable enum can only store one role. A Party that is simultaneously an `AdvisoryFirm` and a `Distributor`, or an `AdvisorRep` and a `Trustee`, cannot be represented. The junction table handles all multi-role cases cleanly.
+
+**"Investor" is NOT a `PartyFunctionalRole`:** Being an investor is represented by the existence of an `Investor` record with `Investor.PartyId` FK. The `Investor` entity is too rich (KYC/AML, legal structure profiles, FrankieOne) to be a role row. All other service-provider roles (`FundManager`, `Distributor`, `Custodian`, `AdvisoryFirm`, `AdvisoryBranch`, `AdvisorRep`, `Trustee`) live in `PartyRoleAssignment`.
+
+---
+
 #### `UserPartyLink`
 
 Bridges the Auth module's `User` identity to a CRM `Party` record. Enables `ICurrentUser.PartyId` for ABAC evaluation. Stored in CRM — references `UserId` by value only (no cross-schema FK) to preserve module isolation.
@@ -150,10 +173,11 @@ UserPartyLink
 
 **Portal generalisation — this pattern covers two use cases:**
 
-| User type | Party they link to | Notes |
-|---|---|---|
-| Advisor rep | `Party(Individual, AdvisorRep)` | Links to their firm/branch via `PartyRelationship(ParentFirm)` |
-| Investor | `Party(Individual, null)` | The same Party that `Investor.PartyId` points to |
+| User type | Party they link to | Roles in `PartyRoleAssignment` | Notes |
+|---|---|---|---|
+| Advisor rep | `Party(Individual)` | `AdvisorRep` | Links to their firm/branch via `PartyRelationship(ParentFirm)` |
+| Investor | `Party(Individual)` | *(none — Investor record covers this)* | The same Party that `Investor.PartyId` points to |
+| Advisor who also invests | `Party(Individual)` | `AdvisorRep` | Also has `Investor(PartyId=...)` — roles are orthogonal |
 
 When an advisor logs into AdvisorPortal: `ICurrentUser.PartyId` → `UserPartyLink.PartyId` → Party → hierarchy traversal → ABAC.
 When an investor logs into InvestorPortal: `ICurrentUser.PartyId` → `UserPartyLink.PartyId` → `Investor.PartyId` → KYC/account data.
@@ -276,7 +300,7 @@ q = investor.LegalStructure switch {
 List/summary views query the `Investors` base table only — no joins needed.
 
 #### Scaling to Functional Role Profiles (Future)
-Same pattern: `FundManagerProfile`, `DistributorProfile`, etc. carry a `PartyId` FK and a 1:0-1 navigation on `Party`. Zero changes to `Party` or any existing profile entity.
+Same pattern: `FundManagerProfile`, `DistributorProfile`, etc. carry a `PartyId` FK and a 1:0-1 navigation on `Party`. Zero changes to `Party`, `PartyRoleAssignment`, or any existing profile entity.
 
 ---
 
@@ -395,14 +419,14 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 
 ### EF Schema Changes
 
-- **New tables:** `crm.InvestmentAccounts`, `crm.PartyInvestmentAccountLinks`, `crm.PartyRelationships`, `crm.AdvisorInvestmentAccountLinks`, `crm.InvestorDocuments`, `crm.UserPartyLinks`
+- **New tables:** `crm.InvestmentAccounts`, `crm.PartyInvestmentAccountLinks`, `crm.PartyRelationships`, `crm.AdvisorInvestmentAccountLinks`, `crm.InvestorDocuments`, `crm.UserPartyLinks`, `crm.PartyRoleAssignments`
 - **New extension tables:** `crm.IndividualInvestorProfiles`, `crm.CorporateInvestorProfiles`, `crm.TrustInvestorProfiles` — each with `InvestorId UNIQUE FK` + CASCADE DELETE
-- **Modified table:** `crm.Parties` — drop `PartyType`; add `LegalStructure` (tinyint NOT NULL, back-filled) + `FunctionalRole` (tinyint NULL)
+- **Modified table:** `crm.Parties` — drop `PartyType`; add `LegalStructure` (tinyint NOT NULL, back-filled); **no** `FunctionalRole` column — roles live in `crm.PartyRoleAssignments`
 - **Modified table:** `crm.Investors` — rename `InvestorType` → `LegalStructure`; add `PartyId` (nullable FK → Parties); add KYC/AML columns
 - **Modified table:** `holdings.Holdings` — rename `InvestorId` → `InvestmentAccountId`
 - **Modified table:** `transaction.Transactions` — rename `InvestorId` → `InvestmentAccountId`; drop `PartyId` column
 - **Retire:** `crm.PartyInvestorRelationships` — clean drop (zero rows confirmed pre-migration)
-- **New unique indexes:** `UserPartyLinks(TenantId, UserId)`, `UserPartyLinks(TenantId, PartyId)`, `InvestmentAccounts(TenantId, AccountNumber)`, `PartyRelationships(FromPartyId, ToPartyId, RelationshipType)` (partial: ExpiryDate IS NULL), `IndividualInvestorProfiles(InvestorId)`, `CorporateInvestorProfiles(InvestorId)`, `TrustInvestorProfiles(InvestorId)`, `Investors(TenantId, PartyId)` (filtered: PartyId IS NOT NULL)
+- **New unique indexes:** `UserPartyLinks(TenantId, UserId)`, `UserPartyLinks(TenantId, PartyId)`, `InvestmentAccounts(TenantId, AccountNumber)`, `PartyRelationships(FromPartyId, ToPartyId, RelationshipType)` (partial: ExpiryDate IS NULL), `IndividualInvestorProfiles(InvestorId)`, `CorporateInvestorProfiles(InvestorId)`, `TrustInvestorProfiles(InvestorId)`, `Investors(TenantId, PartyId)` (filtered: PartyId IS NOT NULL), `PartyRoleAssignments(TenantId, PartyId, Role)`
 
 ---
 
@@ -410,9 +434,10 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 
 ### Phase 1 — Domain (no external dependencies)
 - [ ] Add `PartyLegalStructure` enum (Individual=1, Company=2, Trust=3, SuperFund=4) — replaces `PartyType` on `Party`
-- [ ] Add `PartyFunctionalRole` enum (FundManager=1, Distributor=2, Custodian=3, TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6, AdvisorRep=7) — nullable on `Party`
+- [ ] Add `PartyFunctionalRole` enum (FundManager=1, Distributor=2, Custodian=3, TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6, AdvisorRep=7, Trustee=8) — used as `Role` field in `PartyRoleAssignment`; **no longer a column on `Party`**
 - [ ] Retire `PartyType` enum — remove after `Party` entity migration
-- [ ] Update `Party` entity: replace `PartyType` with `PartyLegalStructure` (required) + `PartyFunctionalRole` (nullable); update factory `Create(...)` and `Update(...)` signatures accordingly
+- [ ] Update `Party` entity: replace `PartyType` with `PartyLegalStructure` (required); add `ICollection<PartyRoleAssignment> RoleAssignments` navigation property; remove any `PartyFunctionalRole` field; update factory `Create(...)` and `Update(...)` signatures accordingly
+- [ ] Create `PartyRoleAssignment` entity with factory method `Assign(tenantId, partyId, role, assignedBy)`; add `IPartyRoleAssignmentRepository` with `GetRolesForPartyAsync(partyId, tenantId)` and `HasRoleAsync(partyId, role, tenantId)`
 - [ ] Add `InvestmentAccountRelationshipType` enum (RegisteredHolder, BeneficialHolder, TrustBeneficiary, ControllingEntity, Agent)
 - [ ] Add `PartyRelationshipType` enum (ParentFirm, AuthorizedToAdvise, BeneficialOwner, ControllingEntity, TrustBeneficiary)
 - [ ] Add `InvestmentAccountType` enum (Individual, Joint, Trust, Corporate, SuperannuationFund, Partnership, Other)
@@ -433,6 +458,7 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 - [ ] Add `IIndividualInvestorProfileRepository`, `ICorporateInvestorProfileRepository`, `ITrustInvestorProfileRepository` (create/update operations for extension profiles)
 - [ ] Add `GetLinksByAccountIdAsync(accountId, tenantId)` to `IPartyInvestmentAccountLinkRepository` (needed by Q1 validator)
 - [ ] Create `UserPartyLink` entity with factory method; `IUserPartyLinkRepository` with `GetByUserIdAsync(userId, tenantId)` and `GetByPartyIdAsync(partyId, tenantId)`
+- [ ] Update `AdvisoryAuthorizationTemplate`: replace `party.PartyFunctionalRole == AdvisoryRep` check with `await _roleRepo.HasRoleAsync(partyId, PartyFunctionalRole.AdvisorRep, tenantId, ct)`
 - [ ] Remove `PartyInvestorRelationship` entity and `IPartyInvestorRepository`
 - [ ] **Holdings.Domain:** update `Holding` entity — rename `InvestorId` to `InvestmentAccountId`; update `Create(...)` factory method signature
 - [ ] **Transaction.Domain:** update `Transaction` entity — rename `InvestorId` to `InvestmentAccountId`; remove `PartyId`; update all four factory method signatures
@@ -450,6 +476,8 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 - [ ] **InvestorDocument queries:** `GetInvestorDocumentsQuery`
 - [ ] **Investor create:** extend `CreateInvestorCommand` to require `LegalStructure` + accept type-specific profile fields (individual/corporate/trust sub-object); handler creates `Investor` + the matching extension profile in one transaction
 - [ ] **Investor update:** extend `UpdateInvestorCommand` with new KYC fields + type-specific profile fields; add `UpdateInvestorAmlCommand`
+- [ ] **PartyRoleAssignment commands:** `AssignPartyRoleCommand`, `RemovePartyRoleCommand` — admin operation; validates Party exists and role not already assigned/not assigned
+- [ ] **PartyRoleAssignment queries:** `GetPartyRolesQuery(partyId)` — returns all active role assignments for a party
 - [ ] **UserPartyLink commands:** `LinkUserToPartyCommand`, `UnlinkUserFromPartyCommand` — admin operation; sets/clears `party_id` claim on the User via `IIdentityProvider.UpdateUserClaimsAsync`
 - [ ] **UserPartyLink queries:** `GetPartyForUserQuery` — resolves `UserId → PartyId` (used by AdvisorPortal/InvestorPortal on login)
 - [ ] **Holdings.Application:** add `GetHoldingsByInvestmentAccountQuery`; update `GetHoldingsByInvestorQuery` to resolve via `investorId → Party → accounts → holdings` (convenience wrapper)
@@ -463,7 +491,8 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 
 ### Phase 3 — Infrastructure (EF + Repositories)
 - [ ] Add EF entity configurations for `InvestmentAccount`, `PartyInvestmentAccountLink`, `PartyRelationship`, `AdvisorInvestmentAccountLink`, `InvestorDocument`
-- [ ] Update `Party` EF configuration: remove `PartyType`; add `LegalStructure` (required, tinyint) + `FunctionalRole` (nullable, tinyint)
+- [ ] Update `Party` EF configuration: remove `PartyType`; add `LegalStructure` (required, tinyint); configure `HasMany(p => p.RoleAssignments).WithOne(r => r.Party).HasForeignKey(r => r.PartyId).OnDelete(DeleteBehavior.Cascade)`
+- [ ] Add EF entity configuration for `PartyRoleAssignment` (`ToTable("PartyRoleAssignments", "crm")`; UNIQUE index on `(TenantId, PartyId, Role)`); implement `EfPartyRoleAssignmentRepository`
 - [ ] Update `Investor` EF configuration: rename `InvestorType` column to `LegalStructure`; add `PartyId` nullable FK + filtered UNIQUE index `(TenantId, PartyId) WHERE PartyId IS NOT NULL`; add KYC/AML columns; configure 1:0-1 HasOne/WithOne navigations for `IndividualProfile`, `CorporateProfile`, `TrustProfile`
 - [ ] Add EF entity configurations for `IndividualInvestorProfile`, `CorporateInvestorProfile`, `TrustInvestorProfile` (each: `ToTable`, `HasKey`, `HasOne/WithOne`, UNIQUE index on `InvestorId`)
 - [ ] Add EF entity configuration for `UserPartyLink` (`ToTable("UserPartyLinks", "crm")`; UNIQUE indexes on `(TenantId, UserId)` and `(TenantId, PartyId)`)
@@ -480,6 +509,7 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 
 ### Phase 4 — Presentation (Endpoints)
 - [ ] `InvestmentAccountEndpoints`: CRUD + party link/unlink + advisor link/unlink
+- [ ] `PartyRoleEndpoints`: `GET /api/v1/party/{id}/roles`, `POST /api/v1/party/{id}/roles`, `DELETE /api/v1/party/{id}/roles/{role}`
 - [ ] `PartyRelationshipEndpoints`: create + list + expire
 - [ ] `AdvisorInvestmentAccountLinkEndpoints`: link / unlink / list (mounted under investment-account)
 - [ ] `InvestorDocumentEndpoints`: add / list / remove
@@ -492,7 +522,7 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 ### Phase 5 — Abstractions
 - [ ] Add `InvestmentAccountSummaryDto` to `CRM.Abstractions`
 - [ ] Update `ICrmReader` interface: add `IsPartyKycApprovedAsync`, `IsInvestmentAccountKycApprovedAsync`, and other new methods
-- [ ] Update `PartySummaryDto`: replace `PartyType` field with `LegalStructure` + `FunctionalRole`
+- [ ] Update `PartySummaryDto`: replace `PartyType` field with `LegalStructure` + `Roles` (list of `PartyFunctionalRole`)
 - [ ] Update `HoldingSummaryDto`: replace `InvestorId` field with `InvestmentAccountId`
 - [ ] Update `IHoldingsReader`: replace `GetHoldingsByInvestorAsync(investorId)` with `GetHoldingsByInvestmentAccountAsync(accountId)`
 - [ ] Add `InvestmentAccountCreatedEvent`, `PartyRelationshipCreatedEvent` integration events
@@ -527,7 +557,7 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 - `Expire()` methods: idempotent on already-expired relationships
 
 ### Integration Tests (manual via HTTP / Swagger)
-- Create `Party(LegalStructure=Company, FunctionalRole=AdvisoryFirm)` → create `Party(LegalStructure=Company, FunctionalRole=AdvisoryBranch)` → create `PartyRelationship(ParentFirm)` between them
+- Create `Party(LegalStructure=Company)` → `AssignPartyRole(AdvisoryFirm)` → create `Party(LegalStructure=Company)` → `AssignPartyRole(AdvisoryBranch)` → create `PartyRelationship(ParentFirm)` between them
 - Create `Party(LegalStructure=Individual)` → create `Investor(PartyId=..., LegalStructure=Individual)` with `IndividualInvestorProfile`
 - Create `InvestmentAccount` → link via `PartyInvestmentAccountLink(PartyId=investor.PartyId, RelationshipType=RegisteredHolder)`
 - Create `PartyRelationship(AuthorizedToAdvise)` from AdvisoryFirm → Investor's Party
@@ -637,25 +667,30 @@ Currently `Party` and `Investor` are independent with no FK. `PartyInvestmentAcc
 
 **`Party` entity changes:**
 - Add `PartyLegalStructure` (enum, **required**) — what the party **is** (legal structure)
-- Add `PartyFunctionalRole` (enum, **nullable**) — what the party **does** (business role)
-- Retire `PartyType` — split into the two fields above
+- Remove `PartyType` — replaced by `PartyLegalStructure` + `PartyRoleAssignment` table (see below)
+- No `PartyFunctionalRole` column on `Party` — role multiplicity is handled by the `PartyRoleAssignment` junction table
 
 `PartyLegalStructure` enum: `Individual=1, Company=2, Trust=3, SuperFund=4`
 
-`PartyFunctionalRole` enum: `FundManager=1, Distributor=2, Custodian=3, TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6, AdvisorRep=7`
+`PartyFunctionalRole` enum (used in `PartyRoleAssignment.Role`):
+`FundManager=1, Distributor=2, Custodian=3, TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6, AdvisorRep=7, Trustee=8`
+
+> **Note:** `Trustee=8` is added to explicitly support parties that act as trustee for a managed fund or trust structure — separate from `TrustInvestorProfile.TrusteePartyId` which is a Party reference within a trust's KYC profile.
 
 Examples after migration:
-| Old `PartyType` | `PartyLegalStructure` | `PartyFunctionalRole` |
+| Old `PartyType` | `PartyLegalStructure` | `PartyRoleAssignment(s)` |
 |---|---|---|
-| FundManager | Company | FundManager |
-| Distributor | Company | Distributor |
-| Custodian | Company | Custodian |
-| TransferAgent | Company | TransferAgent |
-| AdvisoryFirm | Company | AdvisoryFirm |
-| AdvisoryBranch | Company | AdvisoryBranch |
-| Other | Company | null |
-| *(new)* Individual investor | Individual | null |
-| *(new)* Trust investor | Trust | null |
+| FundManager | Company | `FundManager` |
+| Distributor | Company | `Distributor` |
+| Custodian | Company | `Custodian` |
+| TransferAgent | Company | `TransferAgent` |
+| AdvisoryFirm | Company | `AdvisoryFirm` |
+| AdvisoryBranch | Company | `AdvisoryBranch` |
+| Other | Company | *(none)* |
+| *(new)* Individual investor | Individual | *(none — `Investor` record covers this)* |
+| *(new)* Trust investor | Trust | *(none)* |
+| *(new)* Advisor + Investor | Individual | `AdvisorRep` |
+| *(new)* Advisor + Trustee | Individual | `AdvisorRep`, `Trustee` |
 
 **`Investor` entity changes:**
 - Add `PartyId` (Guid?, nullable FK → `crm.Parties`) — links KYC profile to universal legal identity
@@ -688,27 +723,57 @@ A Fund Manager firm: `Party(LegalStructure=Company, FunctionalRole=FundManager)`
 Since this is a feature branch with no production data, the migration can be data-aware but non-destructive:
 
 ```sql
--- 1. Add new columns to crm.Parties
+-- 1. Add LegalStructure column to crm.Parties
 ALTER TABLE crm.Parties ADD LegalStructure tinyint NULL;
-ALTER TABLE crm.Parties ADD FunctionalRole tinyint NULL;
 
--- 2. Back-fill from PartyType (all current Parties are corporate service providers)
-UPDATE crm.Parties SET LegalStructure = 2, FunctionalRole = PartyType
-  WHERE PartyType IN (1,2,3,4,6,7);  -- FundManager..AdvisoryBranch → LegalStructure=Company
-UPDATE crm.Parties SET LegalStructure = 2, FunctionalRole = NULL
-  WHERE PartyType = 5;               -- Other → Company + no functional role
+-- 2. Back-fill LegalStructure from PartyType (all current Parties are corporate service providers)
+UPDATE crm.Parties SET LegalStructure = 2  -- Company
+  WHERE PartyType IN (1,2,3,4,5,6,7);      -- all existing PartyType values → Company
 
--- 3. Make LegalStructure NOT NULL, drop PartyType
+-- 3. Make LegalStructure NOT NULL; drop old PartyType column (no FunctionalRole column added)
 ALTER TABLE crm.Parties ALTER COLUMN LegalStructure tinyint NOT NULL;
 ALTER TABLE crm.Parties DROP COLUMN PartyType;
 
--- 4. Add PartyId FK to crm.Investors
+-- 4. Create PartyRoleAssignments table
+CREATE TABLE crm.PartyRoleAssignments (
+  Id uniqueidentifier NOT NULL DEFAULT NEWSEQUENTIALID() PRIMARY KEY,
+  TenantId uniqueidentifier NOT NULL,
+  PartyId uniqueidentifier NOT NULL REFERENCES crm.Parties(Id) ON DELETE CASCADE,
+  Role tinyint NOT NULL,
+  AssignedAt datetimeoffset NOT NULL,
+  AssignedBy uniqueidentifier NOT NULL,
+  CreatedAt datetimeoffset NOT NULL,
+  UpdatedAt datetimeoffset NOT NULL,
+  CreatedBy uniqueidentifier NULL,
+  UpdatedBy uniqueidentifier NULL
+);
+CREATE UNIQUE INDEX UQ_PartyRoleAssignments_TenantPartyRole
+  ON crm.PartyRoleAssignments(TenantId, PartyId, Role);
+
+-- 5. Seed existing PartyType values into PartyRoleAssignments
+-- (maps old PartyType int → new PartyFunctionalRole int; Other=5 → no role)
+INSERT INTO crm.PartyRoleAssignments (Id, TenantId, PartyId, Role, AssignedAt, AssignedBy, CreatedAt, UpdatedAt)
+SELECT NEWSEQUENTIALID(), TenantId, Id,
+       CASE PartyType_old  -- stored temporarily before drop; or done in EF migration C# code
+         WHEN 1 THEN 1  -- FundManager
+         WHEN 2 THEN 2  -- Distributor
+         WHEN 3 THEN 3  -- Custodian
+         WHEN 4 THEN 4  -- TransferAgent
+         WHEN 6 THEN 5  -- AdvisoryFirm
+         WHEN 7 THEN 6  -- AdvisoryBranch
+       END,
+       GETUTCDATE(), '00000000-0000-0000-0000-000000000000', GETUTCDATE(), GETUTCDATE()
+FROM crm.Parties WHERE PartyType_old NOT IN (5);  -- skip Other → no role
+
+-- 6. Add PartyId FK to crm.Investors
 ALTER TABLE crm.Investors ADD PartyId uniqueidentifier NULL;
 ALTER TABLE crm.Investors ADD CONSTRAINT FK_Investors_Party
   FOREIGN KEY (PartyId) REFERENCES crm.Parties(Id);
 CREATE UNIQUE INDEX UQ_Investors_TenantParty
   ON crm.Investors(TenantId, PartyId) WHERE PartyId IS NOT NULL;
 ```
+
+> **Implementation note:** In EF Core C# migration code, retain the old `PartyType` column value temporarily before dropping it; use it to seed `PartyRoleAssignments`. This is simpler than the raw SQL above and avoids the temporary alias.
 
 ---
 
@@ -747,11 +812,11 @@ Additionally, individual human advisor reps (the people who log in and place tra
 
 #### Option A Design
 
-**New `PartyFunctionalRole` value:**
-`AdvisorRep = 7` — individual human advisor rep; always `LegalStructure = Individual`
+**New `PartyFunctionalRole` enum value:**
+`AdvisorRep = 7` — individual human advisor rep; always paired with `LegalStructure = Individual`; stored via `PartyRoleAssignment`, not as a column on `Party`
 
 **Workflow for onboarding an advisor rep:**
-1. Admin creates `Party(LegalStructure=Individual, FunctionalRole=AdvisorRep)`
+1. Admin creates `Party(LegalStructure=Individual)` then calls `AssignPartyRoleCommand(partyId, AdvisorRep)`
 2. Admin creates `PartyRelationship(ParentFirm)` from rep's Party → their AdvisoryBranch (or AdvisoryFirm directly)
 3. Admin calls `LinkUserToPartyCommand(userId, partyId)` — creates `UserPartyLink` + updates `party_id` claim on the User via `IIdentityProvider.UpdateUserClaimsAsync`
 4. On next login, JWT contains `party_id` claim
@@ -812,7 +877,7 @@ Option B (firm-level only, `party_id` claim set manually) loses individual rep t
 | Q1 — LinkOrder uniqueness | ✅ Option B — application-layer validation; `LinkPartyToInvestmentAccountCommandValidator` enforces uniqueness, single-holder rule, ownership % cap | Phase 2 — validator |
 | Q2 — ABAC traversal | ✅ Option A — C# `AdvisoryAuthorizationTemplate`; depth-capped hierarchy traversal; per-request cache | Phase 1 (template) + Phase 2 (registration) |
 | Q3 — Data migration | ✅ Clean drop — confirm zero rows pre-migration; update affected tests in Phase 6 | Phase 3 — migration |
-| Q4 — Investor ↔ Party FK | ✅ Path 2 — add `PartyId` FK to `Investor`; split `PartyType` → `PartyLegalStructure` (required) + `PartyFunctionalRole` (nullable); UNIQUE(TenantId, PartyId) filtered index; add `IsPartyKycApprovedAsync` to `ICrmReader` | Phase 1 (entities + enums) + Phase 3 (migration) + Phase 5 (ICrmReader) |
+| Q4 — Investor ↔ Party FK | ✅ Path 2 — add `PartyId` FK to `Investor`; retire `PartyType` → `PartyLegalStructure` (required, single) + `PartyRoleAssignment` table (multi-role); UNIQUE(TenantId, PartyId) filtered index on `Investors`; add `IsPartyKycApprovedAsync` to `ICrmReader` | Phase 1 (entities + enums) + Phase 3 (migration) + Phase 5 (ICrmReader) |
 | Q5 — Advisor/Investor User identity bridge | ✅ Option A — `AdvisorRep=7` in `PartyFunctionalRole`; `UserPartyLink` table (`UserId` value ref + `PartyId` FK); `party_id` JWT claim; `ICurrentUser.PartyId`; generalises to InvestorPortal | Phase 1 (entity) + Phase 2 (commands) + Phase 3 (EF) + Phase 4 (endpoints) |
 | Q6 — Holdings/Transaction FK | ✅ `InvestmentAccountId` replaces `InvestorId` (+ remove `PartyId` from Transaction) — holdings and trades belong to an account, not directly to an investor; joint/trust/multi-account scenarios all require account-level granularity | Phase 1 (domain) + Phase 2 (app) + Phase 3 (infra) + Phase 4 (presentation) + Phase 5 (abstractions) |
 
@@ -831,3 +896,4 @@ Option B (firm-level only, `party_id` claim set manually) loses individual rep t
 | 2026-04-13 | Plan | Review pass: removed stale PartyType expansion section; updated Layers Touched; added Id + audit fields to PartyInvestmentAccountLink; fixed ISO alpha-2/3 inconsistency on InvestorDocument; renamed Link*ToAccount commands to Link*ToInvestmentAccount; fixed ABAC seed resource name; added CreateInvestorCommand profile step; updated integration test scenario for Path 2 workflow. |
 | 2026-04-13 | Plan | Q5 → Option A: AdvisorRep=7 in PartyFunctionalRole; UserPartyLink entity (UserId value ref + PartyId FK); party_id JWT claim; ICurrentUser.PartyId. Generalises to InvestorPortal. Goals, Layers Touched, entity definitions, Phase 1/2/3/4 steps, Decision Summary updated. |
 | 2026-04-13 | Plan | Q6 → Holding.InvestorId and Transaction.InvestorId migrate to InvestmentAccountId; Transaction.PartyId removed. Holdings/Transaction entity definitions, ICrmReader (IsInvestmentAccountKycApprovedAsync), IHoldingsReader, all affected phases and tests updated. |
+| 2026-04-13 | Plan | Multi-role fix: replace `Party.PartyFunctionalRole` (single nullable enum) with `PartyRoleAssignment` junction table. A Party can now hold multiple simultaneous functional roles (e.g. Investor + AdvisorRep + Trustee). `Trustee=8` added to `PartyFunctionalRole` enum. `PartySummaryDto.Roles` is now a list. All phases, Q4 migration SQL, Q5 workflow, integration tests, and Decision Summary updated. Rationale: ChatGPT design's "decouple identity from behaviour" principle; single enum cannot represent multi-role Parties. |

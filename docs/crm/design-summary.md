@@ -76,24 +76,38 @@ crm.PartyInvestorRelationships   ← to be retired in V2
 
 #### Party — identity redesign
 
-`PartyType` is retired and replaced by two orthogonal fields:
+`PartyType` is retired and replaced by:
 
-| Field | Meaning | Required? |
+| Field / Table | Meaning | Cardinality |
 |---|---|---|
-| `PartyLegalStructure` | What the party **is** (legal form) | Yes |
-| `PartyFunctionalRole` | What the party **does** (business role) | No (nullable) |
+| `PartyLegalStructure` (column) | What the party **is** (legal form) | Required, exactly one |
+| `PartyRoleAssignment` (table) | What the party **does** (business role) | Zero to many |
 
 ```
 PartyLegalStructure:  Individual=1, Company=2, Trust=3, SuperFund=4
-PartyFunctionalRole:  FundManager=1, Distributor=2, Custodian=3,
-                      TransferAgent=4, AdvisoryFirm=5, AdvisoryBranch=6,
-                      AdvisorRep=7
+
+PartyFunctionalRole (enum — stored in PartyRoleAssignment.Role):
+  FundManager=1, Distributor=2, Custodian=3, TransferAgent=4,
+  AdvisoryFirm=5, AdvisoryBranch=6, AdvisorRep=7, Trustee=8
+
+crm.PartyRoleAssignments
+├── Id, TenantId
+├── PartyId (FK → Parties)
+├── Role (PartyFunctionalRole enum)
+├── AssignedAt, AssignedBy
+UNIQUE INDEX (TenantId, PartyId, Role)
 ```
 
+**Why a junction table instead of a nullable column:** A single enum can only store one role. A Party that is simultaneously an `AdvisoryFirm` and a `Distributor`, or an `AdvisorRep` and a `Trustee`, cannot be represented with a column. The junction table handles all multi-role cases cleanly. This implements the ChatGPT design's principle: **decouple identity (Party) from behaviour (Role)**.
+
+**"Investor" is NOT a functional role:** Being an investor is represented by the existence of an `Investor` record with `Investor.PartyId` FK. The `Investor` entity is too rich (KYC/AML, legal structure profiles, FrankieOne) to be a role row.
+
 Examples:
-- Individual investor: `LegalStructure=Individual, FunctionalRole=null`
-- Fund Manager firm:   `LegalStructure=Company,    FunctionalRole=FundManager`
-- Advisory branch:     `LegalStructure=Company,    FunctionalRole=AdvisoryBranch`
+- Individual investor: `LegalStructure=Individual` + no role assignments + `Investor(PartyId=...)`
+- Fund Manager firm:   `LegalStructure=Company`    + role `FundManager`
+- Advisory branch:     `LegalStructure=Company`    + role `AdvisoryBranch`
+- Advisor + Investor:  `LegalStructure=Individual` + role `AdvisorRep` + `Investor(PartyId=...)`
+- Advisor + Trustee:   `LegalStructure=Individual` + roles `AdvisorRep`, `Trustee`
 
 **Party is now the universal legal identity for everyone** — individuals, companies, trusts, and service providers all get a Party record first.
 
@@ -368,7 +382,7 @@ Task<bool>                         IsPartyKycApprovedAsync(Guid partyId, Guid te
 
 | Decision | Choice | Rationale |
 |---|---|---|
-| `PartyType` split | `PartyLegalStructure` (required) + `PartyFunctionalRole` (nullable) | Legal structure and business role are orthogonal; mixing them prevented individual investors from being Parties |
+| `PartyType` split | `PartyLegalStructure` (required column) + `PartyRoleAssignment` (junction table, multi-role) | Legal structure and business role are orthogonal; a Party can hold multiple simultaneous roles (e.g. AdvisorRep + Trustee); single nullable enum cannot represent this |
 | `Investor` ↔ `Party` link | `Investor.PartyId` FK (nullable, UNIQUE per tenant) | Eliminates dual-identity problem; low-cost; one-to-zero-or-one enforced by filtered UNIQUE index |
 | Investor extension tables | Explicit composition (not EF inheritance) | Avoids TPH nullable sprawl, EF TPT poor SQL, TPC FK issues; extensible without altering base table |
 | `InvestmentAccount` location | CRM module | Created before holdings exist; lifecycle managed by client services; Holdings → CRM dependency direction must not reverse |
