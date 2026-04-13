@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IFX.Modules.Transaction.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class TransactionV2_InvestmentAccountId : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

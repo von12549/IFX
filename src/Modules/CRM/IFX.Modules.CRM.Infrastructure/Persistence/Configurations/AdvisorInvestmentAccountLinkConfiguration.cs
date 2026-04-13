@@ -14,10 +14,9 @@ public class AdvisorInvestmentAccountLinkConfiguration : IEntityTypeConfiguratio
 
         builder.Property(l => l.TenantId).IsRequired();
 
-        // Cross-module value reference — no FK constraint
-        builder.Property(l => l.AdvisorPartyId).IsRequired();
-
-        builder.Property(l => l.InvestmentAccountId).IsRequired();
+        builder.HasOne(l => l.AdvisorParty)
+            .WithMany()
+            .HasForeignKey(l => l.AdvisorPartyId);
 
         builder.Property(l => l.RebateRate)
             .HasPrecision(5, 2)

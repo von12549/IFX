@@ -1,6 +1,6 @@
 # Plan: EF Migration Pipeline — CRM, Holdings, Transaction, Registry
 
-**Status:** Ready to implement
+**Status:** Implemented — 2026-04-14
 
 ---
 
@@ -108,8 +108,8 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
 **Migrator:** `CrmMigrator` in `IFX.Modules.CRM.Infrastructure/Persistence/CrmMigrator.cs`
 **Probe:** schema=`crm`, table=`Parties`
 
-- [ ] Delete `20260413095800_CrmV2_InvestmentAccount_PartyRelationships.cs` and `.Designer.cs`
-- [ ] Generate squashed `InitialCreate` migration:
+- [x] Delete `20260413095800_CrmV2_InvestmentAccount_PartyRelationships.cs` and `.Designer.cs`
+- [x] Generate squashed `InitialCreate` migration:
   ```bash
   cd src/Modules/CRM/IFX.Modules.CRM.Infrastructure
   dotnet ef migrations add InitialCreate \
@@ -118,8 +118,8 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
   ```
   Rename the generated file timestamps to `20260413120000` in both the `.cs` and `.Designer.cs`
   filenames and in the `[Migration("...")]` attribute inside the `.Designer.cs`
-- [ ] Update `CrmDbContextModelSnapshot.cs` — regenerated automatically by the `add` command
-- [ ] Replace `CrmMigrator.MigrateAsync` body:
+- [x] Update `CrmDbContextModelSnapshot.cs` — regenerated automatically by the `add` command
+- [x] Replace `CrmMigrator.MigrateAsync` body:
   ```csharp
   public string Name => "CRM";
   private const string InitialCreateId = "20260413120000_InitialCreate";
@@ -154,7 +154,7 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
           [InitialCreateId, EfProductVersion], ct);
   }
   ```
-- [ ] Add `using Serilog;` and `using Microsoft.EntityFrameworkCore;` to `CrmMigrator.cs`
+- [x] Add `using Serilog;` and `using Microsoft.EntityFrameworkCore;` to `CrmMigrator.cs`
 
 ### Phase 2 — Holdings
 
@@ -162,8 +162,8 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
 **Migrator:** `HoldingsMigrator` in `IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsMigrator.cs`
 **Probe:** schema=`holdings`, table=`Holdings`
 
-- [ ] Delete `20260413095819_HoldingsV2_InvestmentAccountId.cs` and `.Designer.cs`
-- [ ] Generate squashed `InitialCreate` migration:
+- [x] Delete `20260413095819_HoldingsV2_InvestmentAccountId.cs` and `.Designer.cs`
+- [x] Generate squashed `InitialCreate` migration:
   ```bash
   cd src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure
   dotnet ef migrations add InitialCreate \
@@ -171,7 +171,7 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
     --output-dir Migrations
   ```
   Rename timestamps to `20260413120100`
-- [ ] Replace `HoldingsMigrator.MigrateAsync` with stamping + `MigrateAsync` pattern
+- [x] Replace `HoldingsMigrator.MigrateAsync` with stamping + `MigrateAsync` pattern
   (same structure as CRM; probe: schema=`holdings`, table=`Holdings`; ID=`20260413120100_InitialCreate`)
 
 ### Phase 3 — Transaction
@@ -180,8 +180,8 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
 **Migrator:** `TransactionMigrator` in `IFX.Modules.Transaction.Infrastructure/Persistence/TransactionMigrator.cs`
 **Probe:** schema=`transaction`, table=`Transactions`
 
-- [ ] Delete `20260413095944_TransactionV2_InvestmentAccountId.cs` and `.Designer.cs`
-- [ ] Generate squashed `InitialCreate` migration:
+- [x] Delete `20260413095944_TransactionV2_InvestmentAccountId.cs` and `.Designer.cs`
+- [x] Generate squashed `InitialCreate` migration:
   ```bash
   cd src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure
   dotnet ef migrations add InitialCreate \
@@ -189,7 +189,7 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
     --output-dir Migrations
   ```
   Rename timestamps to `20260413120200`
-- [ ] Replace `TransactionMigrator.MigrateAsync` with stamping + `MigrateAsync` pattern
+- [x] Replace `TransactionMigrator.MigrateAsync` with stamping + `MigrateAsync` pattern
   (probe: schema=`transaction`, table=`Transactions`; ID=`20260413120200_InitialCreate`)
 
 ### Phase 4 — Registry
@@ -198,8 +198,8 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
 **Migrator:** `RegistryMigrator` in `IFX.Modules.Registry.Composition/RegistryMigrator.cs`
 **Probe:** schema=`registry`, table=`Funds`
 
-- [ ] Confirm Registry Infrastructure has a `Migrations/` folder — create it if absent
-- [ ] Generate squashed `InitialCreate` migration:
+- [x] Confirm Registry Infrastructure has a `Migrations/` folder — create it if absent
+- [x] Generate squashed `InitialCreate` migration:
   ```bash
   cd src/Modules/Registry/IFX.Modules.Registry.Infrastructure
   dotnet ef migrations add InitialCreate \
@@ -207,31 +207,31 @@ private async Task StampIfEnsureCreatedDatabaseAsync(DbContext db, string initCr
     --output-dir Migrations
   ```
   Rename timestamps to `20260413120300`
-- [ ] Replace `RegistryMigrator.MigrateAsync` with stamping + `MigrateAsync` pattern
+- [x] Replace `RegistryMigrator.MigrateAsync` with stamping + `MigrateAsync` pattern
   (probe: schema=`registry`, table=`Funds`; ID=`20260413120300_InitialCreate`)
-- [ ] Move `RegistryMigrator.cs` from `Registry.Composition` to
+- [x] Move `RegistryMigrator.cs` from `Registry.Composition` to
   `Registry.Infrastructure/Persistence/` to match the pattern of other modules
   (update the `IAppMigrator` registration in `RegistryModuleInstaller.cs` accordingly)
 
 ### Phase 5 — Verify correct schema probe names
 
-- [ ] Confirm actual SQL schema names used by each module (check EF configurations):
+- [x] Confirm actual SQL schema names used by each module (check EF configurations):
   - CRM: `ToTable("Parties", "crm")` → probe schema=`crm`
   - Holdings: confirm schema name used in `HoldingConfiguration`
   - Transaction: confirm schema name used in `TransactionConfiguration`
   - Registry: confirm schema name used in `FundConfiguration`
-- [ ] Adjust probe table/schema constants in each migrator if different from the defaults above
+- [x] Adjust probe table/schema constants in each migrator if different from the defaults above
 
 ### Phase 6 — Test
 
-- [ ] **Fresh database test:** Drop all module databases, restart app — verify all four modules
+- [x] **Fresh database test:** Drop all module databases, restart app — verify all four modules
   run `MigrateAsync`, create `__EFMigrationsHistory` entries, and all tables are created
-- [ ] **Existing database test:** Start with databases that were created by `EnsureCreatedAsync`
+- [x] **Existing database test:** Start with databases that were created by `EnsureCreatedAsync`
   (no `__EFMigrationsHistory` rows for these modules) — verify stamping logic fires, logs
   the warning, inserts the history row, and `MigrateAsync` finds zero pending migrations
-- [ ] **Already-migrated test:** Run the app twice — second run should log "No pending migrations"
+- [x] **Already-migrated test:** Run the app twice — second run should log "No pending migrations"
   for all four modules with no errors
-- [ ] `dotnet test IFX.sln` — all 690 tests still pass
+- [x] `dotnet test IFX.sln` — all 690 tests still pass
 
 ---
 

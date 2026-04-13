@@ -1,6 +1,7 @@
 using App.Abstractions;
 using IFX.Modules.Registry.Application;
 using IFX.Modules.Registry.Infrastructure;
+using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Modules.Registry.Presentation.Extensions;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;

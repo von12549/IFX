@@ -14,10 +14,9 @@ public class PartyInvestmentAccountLinkConfiguration : IEntityTypeConfiguration<
 
         builder.Property(l => l.TenantId).IsRequired();
 
-        // Cross-module value reference — no FK constraint to Parties table
-        builder.Property(l => l.PartyId).IsRequired();
-
-        builder.Property(l => l.InvestmentAccountId).IsRequired();
+        builder.HasOne(l => l.Party)
+            .WithMany()
+            .HasForeignKey(l => l.PartyId);
 
         builder.Property(l => l.RelationshipType)
             .IsRequired()

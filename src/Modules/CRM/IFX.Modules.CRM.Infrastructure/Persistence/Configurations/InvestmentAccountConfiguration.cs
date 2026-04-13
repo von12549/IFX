@@ -38,12 +38,12 @@ public class InvestmentAccountConfiguration : IEntityTypeConfiguration<Investmen
             .IsUnique();
 
         builder.HasMany(a => a.PartyLinks)
-            .WithOne()
+            .WithOne(l => l.InvestmentAccount)
             .HasForeignKey(l => l.InvestmentAccountId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(a => a.AdvisorLinks)
-            .WithOne()
+            .WithOne(l => l.InvestmentAccount)
             .HasForeignKey(l => l.InvestmentAccountId)
             .OnDelete(DeleteBehavior.Cascade);
     }

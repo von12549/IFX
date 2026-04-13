@@ -46,9 +46,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     b.Property<Guid>("InvestmentAccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("InvestmentAccountId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal?>("RebateRate")
                         .IsRequired()
                         .HasPrecision(5, 2)
@@ -68,8 +65,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     b.HasIndex("AdvisorPartyId");
 
                     b.HasIndex("InvestmentAccountId");
-
-                    b.HasIndex("InvestmentAccountId1");
 
                     b.HasIndex("TenantId", "InvestmentAccountId", "AdvisorPartyId")
                         .HasDatabaseName("IX_AdvisorInvestmentAccountLinks_TenantId_AccountId_AdvisorPartyId");
@@ -479,9 +474,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     b.Property<Guid>("InvestmentAccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("InvestmentAccountId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("LinkOrder")
                         .IsRequired()
                         .HasColumnType("int");
@@ -508,8 +500,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InvestmentAccountId");
-
-                    b.HasIndex("InvestmentAccountId1");
 
                     b.HasIndex("PartyId");
 
@@ -708,15 +698,9 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IFX.Modules.CRM.Domain.Entities.InvestmentAccount", null)
+                    b.HasOne("IFX.Modules.CRM.Domain.Entities.InvestmentAccount", "InvestmentAccount")
                         .WithMany("AdvisorLinks")
                         .HasForeignKey("InvestmentAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IFX.Modules.CRM.Domain.Entities.InvestmentAccount", "InvestmentAccount")
-                        .WithMany()
-                        .HasForeignKey("InvestmentAccountId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -760,15 +744,9 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
 
             modelBuilder.Entity("IFX.Modules.CRM.Domain.Entities.PartyInvestmentAccountLink", b =>
                 {
-                    b.HasOne("IFX.Modules.CRM.Domain.Entities.InvestmentAccount", null)
+                    b.HasOne("IFX.Modules.CRM.Domain.Entities.InvestmentAccount", "InvestmentAccount")
                         .WithMany("PartyLinks")
                         .HasForeignKey("InvestmentAccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IFX.Modules.CRM.Domain.Entities.InvestmentAccount", "InvestmentAccount")
-                        .WithMany()
-                        .HasForeignKey("InvestmentAccountId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

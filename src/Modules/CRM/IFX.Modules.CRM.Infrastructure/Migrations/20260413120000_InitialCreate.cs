@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IFX.Modules.CRM.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CrmV2_InvestmentAccount_PartyRelationships : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -235,8 +235,7 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    InvestmentAccountId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -244,13 +243,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AdvisorInvestmentAccountLinks_InvestmentAccounts_InvestmentAccountId",
                         column: x => x.InvestmentAccountId,
-                        principalSchema: "crm",
-                        principalTable: "InvestmentAccounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AdvisorInvestmentAccountLinks_InvestmentAccounts_InvestmentAccountId1",
-                        column: x => x.InvestmentAccountId1,
                         principalSchema: "crm",
                         principalTable: "InvestmentAccounts",
                         principalColumn: "Id",
@@ -281,8 +273,7 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    InvestmentAccountId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -290,13 +281,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_PartyInvestmentAccountLinks_InvestmentAccounts_InvestmentAccountId",
                         column: x => x.InvestmentAccountId,
-                        principalSchema: "crm",
-                        principalTable: "InvestmentAccounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PartyInvestmentAccountLinks_InvestmentAccounts_InvestmentAccountId1",
-                        column: x => x.InvestmentAccountId1,
                         principalSchema: "crm",
                         principalTable: "InvestmentAccounts",
                         principalColumn: "Id",
@@ -413,12 +397,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                 column: "InvestmentAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdvisorInvestmentAccountLinks_InvestmentAccountId1",
-                schema: "crm",
-                table: "AdvisorInvestmentAccountLinks",
-                column: "InvestmentAccountId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AdvisorInvestmentAccountLinks_TenantId_AccountId_AdvisorPartyId",
                 schema: "crm",
                 table: "AdvisorInvestmentAccountLinks",
@@ -484,12 +462,6 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                 schema: "crm",
                 table: "PartyInvestmentAccountLinks",
                 column: "InvestmentAccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PartyInvestmentAccountLinks_InvestmentAccountId1",
-                schema: "crm",
-                table: "PartyInvestmentAccountLinks",
-                column: "InvestmentAccountId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PartyInvestmentAccountLinks_PartyId",
