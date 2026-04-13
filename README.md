@@ -1,6 +1,6 @@
 # IFX
 
-A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS, dynamic multi-IdP SSO, and a Fund Registry system (CRM, Registry, Holdings, Transaction modules).
+A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS, dynamic multi-IdP SSO, and a Fund Registry system (CRM, Registry, Holdings, Transaction modules) with a three-tier Product → Fund → FundClass hierarchy.
 
 ## Features
 
@@ -32,7 +32,7 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 
 ### Fund Registry
 - **CRM** — Party (with multi-role `PartyRoleAssignment`), Investor (with extension profiles), and `InvestmentAccount` as the unit of investment activity; Party↔Account and Party↔Party relationships; user-party links; KYC tracking
-- **Registry** — Fund and FundClass lifecycle with NAV frequency, fee rates, and soft-close/liquidating status
+- **Registry** — Three-tier Product (Scheme) → Fund → FundClass hierarchy; Product holds regulatory identity (ARSN, APIR, ISIN), issuer metadata, and PDS reference; Fund carries BaseCurrency, FundType, and lifecycle status; FundClass holds fee rates, NAV frequency, and class currency; `Fund.ProductId` is optional so standalone funds remain valid
 - **Holdings** — Authoritative unit ledger per (InvestmentAccount, FundClass); read-only HTTP; mutated exclusively via integration events
 - **Transaction** — Subscription, Redemption, Transfer, and Switch processing; cross-module KYC + class-status validation; `Process(navPrice)` calculates units and triggers Holdings update
 
@@ -42,7 +42,7 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 - **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
 
 ### Developer Experience
-- **533 Tests** — 469 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **793 Tests** — 729 backend (xUnit) + 64 frontend (Vitest) across all layers
 - **Docker Support** — Full stack via `docker-compose up -d` (API + Frontend + SQL Server + OPA)
 - **React Frontend** — Admin UI with role-differentiated views: tenant-scoped CRUD for standard users; GlobalRole users get platform Sidebar nav, permission/policy scope tabs, and lazy-loaded cross-tenant data sections on every management page
 - **Demo UI** — Minimal HTML/JS client for testing the OAuth flow end-to-end
@@ -87,12 +87,12 @@ src/
 │   │   ├── Infrastructure/          # CrmDbContext (schema: crm), repositories
 │   │   ├── Presentation/            # 14 endpoints (8 Party, 6 Investor)
 │   │   └── Composition/             # Module entry point
-│   ├── Registry/                    # Fund & FundClass management
-│   │   ├── Abstractions/            # IRegistryReader, integration events
-│   │   ├── Domain/                  # Fund, FundClass entities
-│   │   ├── Application/             # 10 CQRS handlers
-│   │   ├── Infrastructure/          # RegistryDbContext (schema: registry)
-│   │   ├── Presentation/            # 10 endpoints (5 Fund, 5 FundClass nested)
+│   ├── Registry/                    # Product → Fund → FundClass management
+│   │   ├── Abstractions/            # IRegistryReader, integration events (incl. Product events)
+│   │   ├── Domain/                  # Product, Fund, FundClass entities; ProductType/ProductStatus enums
+│   │   ├── Application/             # 16 CQRS handlers (6 Product, 5 Fund, 5 FundClass)
+│   │   ├── Infrastructure/          # RegistryDbContext (schema: registry); AddProduct migration
+│   │   ├── Presentation/            # 16 endpoints (6 Product, 5 Fund, 5 FundClass nested)
 │   │   └── Composition/             # Module entry point
 │   ├── Holdings/                    # Unit ledger (read-only HTTP; event-driven writes)
 │   │   ├── Abstractions/            # IHoldingsReader, HoldingFrozenEvent
@@ -121,14 +121,22 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 469 backend tests
+tests/                               # 729 backend tests
 ├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (106)
 ├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (225)
 ├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (54)
 ├── IFX.Modules.Auth.Presentation.Tests/ # Authorization class tests (10)
 ├── IFX.IntegrationTests/               # Permission enforcement + API tests (46)
 ├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire service tests (11)
-└── IFX.Platform.Notifications.Tests/   # Email service tests (17)
+├── IFX.Platform.Notifications.Tests/   # Email service tests (17)
+├── IFX.Modules.CRM.Domain.Tests/       # CRM domain entity tests
+├── IFX.Modules.CRM.Application.Tests/  # CRM handler tests
+├── IFX.Modules.Registry.Domain.Tests/  # Registry domain entity tests (Fund, FundClass, Product)
+├── IFX.Modules.Registry.Application.Tests/ # Registry handler tests (Product + Fund + FundClass)
+├── IFX.Modules.Holdings.Domain.Tests/  # Holdings domain entity tests
+├── IFX.Modules.Holdings.Application.Tests/ # Holdings handler tests
+├── IFX.Modules.Transaction.Domain.Tests/   # Transaction domain entity tests
+└── IFX.Modules.Transaction.Application.Tests/ # Transaction handler tests
 src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 ├── components/shared/__tests__/        # Chip, Modal, SortableHeader, ProtectedRoute
 ├── api/__tests__/                      # tokenStorage / apiClient
@@ -155,7 +163,8 @@ src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 | CRM — Parties | `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, `GET/POST/DELETE /api/v1/party/{id}/roles/{role}`, `POST /api/v1/party/{id}/relationships`, `POST/DELETE /api/v1/party/{id}/users/{userId}` |
 | CRM — Investors | `GET/POST /api/v1/investor`, `GET/PUT/DELETE /api/v1/investor/{id}`, `PUT /api/v1/investor/{id}/kyc` |
 | CRM — InvestmentAccounts | `GET/POST /api/v1/investment-account`, `GET/PUT/DELETE /api/v1/investment-account/{id}`, party/advisor link/unlink sub-routes |
-| Registry — Funds | `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` |
+| Registry — Products | `GET/POST /api/v1/product`, `GET/PUT/DELETE /api/v1/product/{id}`, `GET /api/v1/product/{id}/funds` |
+| Registry — Funds | `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` (optional `ProductId`) |
 | Registry — Classes | `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` |
 | Holdings | `GET /api/v1/holding`, `/holding/{id}`, `/investor/{investmentAccountId}/holdings`, `/fund/{id}/class/{id}/holdings` |
 | Transactions | `GET/POST /api/v1/transaction`, `POST /transaction/{subscription,redemption,transfer,switch}`, `POST /transaction/{id}/{process,cancel}` |
@@ -236,7 +245,7 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build IFX.sln
 
-# Backend tests (469)
+# Backend tests (729)
 dotnet test IFX.sln
 
 # Coverage report

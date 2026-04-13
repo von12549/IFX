@@ -17,6 +17,8 @@ This file provides guidance to Claude Code when working with this repository.
 - **DB-Backed ABAC Policies** — `PolicyDefinition` table stores tenant-level and platform-level (TenantId = NULL) policy rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
 - **GlobalRole system** — cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; GlobalRole users bypass tenant-scoped RBAC/ABAC and see cross-tenant data via platform endpoints
 - **GlobalRole frontend views** — dual-section UI: tenant data in main table, lazy-loaded `ExpandableCrossTenantSection` for other tenants; platform Sidebar nav, permission/policy scope tabs, `TenantRequiredBanner`
+- **Fund Registry** — CRM (Party/Investor/InvestmentAccount), Registry (Product→Fund→FundClass three-tier hierarchy), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules
+- **Product layer** — `Product` (Scheme) is the optional regulatory parent of `Fund`; holds ARSN, APIR, ISIN, issuer name, PDS reference; `Fund.ProductId` is nullable so standalone funds remain valid
 - Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
@@ -78,7 +80,7 @@ This file provides guidance to Claude Code when working with this repository.
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (643 backend tests → 707 total including frontend)
+dotnet test IFX.sln           # Test (729 backend tests → 793 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests

@@ -246,7 +246,7 @@ Tenant DB row → Platform DB row → Static fallback → null (deny)
 
 **Module boundaries:**
 - **CRM** — Party + Investor lifecycle, KYC tracking, many-to-many Party↔Investor relationships
-- **Registry** — Fund + FundClass lifecycle, NAV frequency, fee rates, soft-close/close status
+- **Registry** — Three-tier Product (Scheme) → Fund → FundClass hierarchy; `Product` holds regulatory identity (ARSN, APIR, ISIN), issuer metadata, PDS reference; `Fund.ProductId` is a nullable FK — standalone funds remain valid; FundClass carries fee rates, NAV frequency, and class currency
 - **Holdings** — Running unit balances per (Investor, FundClass); read-only HTTP; mutated by `TransactionProcessedEvent` and `ClassStatusChangedEvent`
 - **Transaction** — Subscription / Redemption / Transfer / Switch; validates KYC + class status via cross-module readers; `Process(navPrice)` calculates units and publishes `TransactionProcessedEvent`
 
@@ -258,7 +258,28 @@ Tenant DB row → Platform DB row → Static fallback → null (deny)
 **Entity naming:**
 - `Party` (not Account) — represents a legal entity acting as Distributor, Custodian, Fund Manager, etc.
 - `FundClass` (not Class) — avoids collision with the C# `class` keyword
+- `Product` (not Scheme) — used in code; `ProductType` carries `ManagedFund | ETF | Superannuation | IDPS | LIT | Other`
 
 **Soft delete everywhere:**
-- `DeletePartyCommand`, `DeleteInvestorCommand`, `DeleteFundCommand`, `DeleteClassCommand` all set `Status = Closed`
+- `DeletePartyCommand`, `DeleteInvestorCommand`, `DeleteFundCommand`, `DeleteClassCommand`, `DeleteProductCommand` all set `Status = Closed`
 - `IsActive` ABAC template enforces closed entities are read-only
+
+---
+
+## ADR-013: Registry Product Layer — Product → Fund → FundClass Hierarchy (April 2026)
+
+**Decision:** Introduce a `Product` entity as an optional parent of `Fund` in the Registry module, establishing the industry-standard three-tier hierarchy aligned with the Taurus schema (Product/Scheme → Sub-fund → Class).
+
+**Rationale:**
+- Industry standard (ASIC, APRA, Taurus) separates regulatory scheme identity (Product) from investment vehicle (Fund) from investor unit series (FundClass)
+- Regulatory fields (ARSN, APIR, ISIN) belong at the Product level — they identify the scheme, not any single sub-fund
+- `Fund.ProductId` is nullable so all existing funds remain valid with no migration of data; Product association is opt-in
+- `OnDelete(Restrict)` on the FK prevents accidental Product deletion while funds reference it
+
+**Key design choices:**
+- `ProductType` enum (`ManagedFund | ETF | Superannuation | IDPS | LIT | Other`) is scheme-level classification, distinct from `FundType` which is vehicle-level
+- `ProductStatus` enum (`Active | Closed | Suspended`) mirrors `FundStatus`/`ClassStatus` pattern
+- `GET /api/v1/product/{id}/funds` provides the downward navigation from Product to its Funds
+- `Fund.SetProduct(Guid?)` / `UpdateFundCommand.ClearProduct = true` cleanly manages the nullable association without a separate endpoint
+
+**Migration:** Additive delta migration `AddProduct` adds `registry.Products` table and nullable `ProductId` FK on `registry.Funds` — zero downtime, no existing row touched.
