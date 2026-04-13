@@ -246,7 +246,7 @@ crm.UserPartyLinks
 └── Audit fields
 
 Indexes: UNIQUE(TenantId, UserId)   — one Party per User per tenant
-         UNIQUE(TenantId, PartyId)  — one User per Party per tenant
+         (no unique on PartyId)     — multiple users may link to the same corporate Party
 ```
 
 When an admin calls `LinkUserToPartyCommand`, the `party_id` claim is written to the User via `IIdentityProvider.UpdateUserClaimsAsync`. On next login the JWT carries `party_id`, which `ICurrentUser.PartyId` reads — zero DB lookups per request.
@@ -300,7 +300,11 @@ holdings.Holdings
 ├── Status  (Active / Frozen / Closed)
 ├── LastTransactionAt
 └── Audit fields
+
+UNIQUE INDEX (TenantId, InvestmentAccountId, ClassId)
 ```
+
+The unique constraint prevents a double-processed transaction event from silently creating two rows for the same position. `Holding` is a current-state view with no lot tracking — one row per (Account, Class) is the invariant.
 
 Holdings belong to an **investment account**, not directly to an investor. This is necessary because:
 - A joint account has two registered holders — `InvestorId` would require picking one arbitrarily
@@ -391,7 +395,9 @@ Task<bool>                         IsPartyKycApprovedAsync(Guid partyId, Guid te
 | Joint account validation | Application-layer only | Consistent with IFX pattern; no external tooling bypasses the application layer |
 | Holdings/Transaction FK | `InvestmentAccountId` replaces `InvestorId` (+ `PartyId` removed from Transaction) | Holdings and trades belong to an account; joint/trust/multi-account scenarios break the 1:1 assumption of `InvestorId` |
 | Holdings writes | Event-driven only | Enforces single source of truth; Holdings is an eventual-consistency ledger, not a transactional service |
-| Advisor/Investor User bridge | `UserPartyLink` + `party_id` JWT claim + `ICurrentUser.PartyId` | Individual advisor reps and investors both need a User↔Party link for portal login and ABAC evaluation; one pattern covers both AdvisorPortal and InvestorPortal |
+| Advisor/Investor User bridge | `UserPartyLink` + `party_id` JWT claim + `ICurrentUser.PartyId`; many-to-one (multiple users may link to same corporate Party) | Individual advisor reps and investors need a User↔Party link; corporate parties allow multiple authorized staff logins; only `UNIQUE(TenantId, UserId)` enforced |
+| Holdings uniqueness | `UNIQUE(TenantId, InvestmentAccountId, ClassId)` on `holdings.Holdings` | Prevents duplicate position rows from double-processed events; `Holding` is a current-state view, one row per (Account, Class) is invariant |
+| PartyRelationship direction | XML doc convention per enum value + direction guard in `CreatePartyRelationshipCommandValidator` | `FromPartyId → ToPartyId` semantics are per-type (e.g. `ParentFirm`: rep → firm); validator prevents inverted relationships that would silently corrupt ABAC hierarchy traversal |
 
 ---
 

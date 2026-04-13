@@ -168,16 +168,19 @@ UserPartyLink
 ```
 
 **Indexes:**
-- `UNIQUE(TenantId, UserId)` — one Party per User per tenant (a user has one CRM identity per tenant)
-- `UNIQUE(TenantId, PartyId)` — one User per Party per tenant (a Party has at most one portal user)
+- `UNIQUE(TenantId, UserId)` — one Party per User per tenant (a user has exactly one CRM identity per tenant)
+- ~~`UNIQUE(TenantId, PartyId)`~~ — **intentionally removed** (see architecture review #3)
+
+**Many-to-one semantics:** Multiple users can link to the same Party. This is required for corporate/institutional parties where multiple authorized staff (CFO, compliance officer) need separate logins but share the same `party_id` JWT claim and therefore the same authorization scope. Individual accountability is preserved via `UserId` in all audit fields. Only `UNIQUE(TenantId, UserId)` is retained — one portal identity per user per tenant.
 
 **Portal generalisation — this pattern covers two use cases:**
 
 | User type | Party they link to | Roles in `PartyRoleAssignment` | Notes |
 |---|---|---|---|
 | Advisor rep | `Party(Individual)` | `AdvisorRep` | Links to their firm/branch via `PartyRelationship(ParentFirm)` |
-| Investor | `Party(Individual)` | *(none — Investor record covers this)* | The same Party that `Investor.PartyId` points to |
+| Investor (individual) | `Party(Individual)` | *(none)* | The same Party that `Investor.PartyId` points to |
 | Advisor who also invests | `Party(Individual)` | `AdvisorRep` | Also has `Investor(PartyId=...)` — roles are orthogonal |
+| Corporate investor staff | `Party(Company)` | *(none or FundManager etc.)* | Multiple users (CFO, compliance) may link to same corporate Party — many-to-one allowed |
 
 When an advisor logs into AdvisorPortal: `ICurrentUser.PartyId` → `UserPartyLink.PartyId` → Party → hierarchy traversal → ABAC.
 When an investor logs into InvestorPortal: `ICurrentUser.PartyId` → `UserPartyLink.PartyId` → `Investor.PartyId` → KYC/account data.
@@ -383,6 +386,12 @@ holdings.Holdings
 └── Audit fields
 ```
 
+**Uniqueness constraint:**
+```
+UNIQUE(TenantId, InvestmentAccountId, ClassId)
+```
+Enforces exactly one position row per account/class. Without this, a double-processed transaction event could silently create two rows, splitting the unit balance and corrupting any query that reads a single position. `Holding` is a current-state view (no lot tracking) — one row per (Account, Class) is the invariant.
+
 **Query changes:**
 - `GetHoldingsByInvestmentAccountQuery` — primary query (direct FK lookup)
 - `GET /api/v1/investor/{investorId}/holdings` — convenience endpoint kept; resolves `investorId → Party → PartyInvestmentAccountLinks → accounts → holdings` at the application layer
@@ -426,7 +435,7 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 - **Modified table:** `holdings.Holdings` — rename `InvestorId` → `InvestmentAccountId`
 - **Modified table:** `transaction.Transactions` — rename `InvestorId` → `InvestmentAccountId`; drop `PartyId` column
 - **Retire:** `crm.PartyInvestorRelationships` — clean drop (zero rows confirmed pre-migration)
-- **New unique indexes:** `UserPartyLinks(TenantId, UserId)`, `UserPartyLinks(TenantId, PartyId)`, `InvestmentAccounts(TenantId, AccountNumber)`, `PartyRelationships(FromPartyId, ToPartyId, RelationshipType)` (partial: ExpiryDate IS NULL), `IndividualInvestorProfiles(InvestorId)`, `CorporateInvestorProfiles(InvestorId)`, `TrustInvestorProfiles(InvestorId)`, `Investors(TenantId, PartyId)` (filtered: PartyId IS NOT NULL), `PartyRoleAssignments(TenantId, PartyId, Role)`
+- **New unique indexes:** `UserPartyLinks(TenantId, UserId)` *(no `UserPartyLinks(TenantId, PartyId)` — many-to-one allowed)*, `InvestmentAccounts(TenantId, AccountNumber)`, `PartyRelationships(FromPartyId, ToPartyId, RelationshipType)` (partial: ExpiryDate IS NULL), `IndividualInvestorProfiles(InvestorId)`, `CorporateInvestorProfiles(InvestorId)`, `TrustInvestorProfiles(InvestorId)`, `Investors(TenantId, PartyId)` (filtered: PartyId IS NOT NULL), `PartyRoleAssignments(TenantId, PartyId, Role)`, `Holdings(TenantId, InvestmentAccountId, ClassId)` — prevents duplicate position rows per account/class
 
 ---
 
@@ -470,6 +479,7 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 - [ ] **PartyInvestmentAccountLink commands:** `LinkPartyToInvestmentAccountCommand`, `UnlinkPartyFromInvestmentAccountCommand`
 - [ ] **PartyRelationship commands:** `CreatePartyRelationshipCommand`, `ExpirePartyRelationshipCommand`
 - [ ] **PartyRelationship queries:** `GetPartyRelationshipsQuery` (by FromPartyId or ToPartyId)
+- [ ] **Direction guard:** Add directional semantics to `PartyRelationshipType` enum via XML doc comments (e.g. `/// FromParty belongs to ToParty` for `ParentFirm`; `/// FromParty is authorised to advise ToParty` for `AuthorizedToAdvise`); add `CreatePartyRelationshipCommandValidator` guards that enforce correct role-per-direction (e.g. `ParentFirm` requires `FromParty` has `AdvisorRep` or `AdvisoryBranch` role; `AuthorizedToAdvise` requires `FromParty` has an advisory role; `BeneficialOwner` and `ControllingEntity` require `FromParty` is an individual or company respectively)
 - [ ] **AdvisorInvestmentAccountLink commands:** `LinkAdvisorToInvestmentAccountCommand`, `UnlinkAdvisorFromInvestmentAccountCommand`
 - [ ] **AdvisorInvestmentAccountLink queries:** `GetAdvisorsForInvestmentAccountQuery`
 - [ ] **InvestorDocument commands:** `AddInvestorDocumentCommand`, `RemoveInvestorDocumentCommand`
@@ -495,14 +505,14 @@ Transaction command handlers call `IsInvestmentAccountKycApprovedAsync(accountId
 - [ ] Add EF entity configuration for `PartyRoleAssignment` (`ToTable("PartyRoleAssignments", "crm")`; UNIQUE index on `(TenantId, PartyId, Role)`); implement `EfPartyRoleAssignmentRepository`
 - [ ] Update `Investor` EF configuration: rename `InvestorType` column to `LegalStructure`; add `PartyId` nullable FK + filtered UNIQUE index `(TenantId, PartyId) WHERE PartyId IS NOT NULL`; add KYC/AML columns; configure 1:0-1 HasOne/WithOne navigations for `IndividualProfile`, `CorporateProfile`, `TrustProfile`
 - [ ] Add EF entity configurations for `IndividualInvestorProfile`, `CorporateInvestorProfile`, `TrustInvestorProfile` (each: `ToTable`, `HasKey`, `HasOne/WithOne`, UNIQUE index on `InvestorId`)
-- [ ] Add EF entity configuration for `UserPartyLink` (`ToTable("UserPartyLinks", "crm")`; UNIQUE indexes on `(TenantId, UserId)` and `(TenantId, PartyId)`)
+- [ ] Add EF entity configuration for `UserPartyLink` (`ToTable("UserPartyLinks", "crm")`; UNIQUE index on `(TenantId, UserId)` only — no unique index on `(TenantId, PartyId)` — many-to-one is intentional)
 - [ ] Implement `EfUserPartyLinkRepository`
 - [ ] Remove `PartyInvestorRelationship` EF configuration
 - [ ] Implement `EfInvestmentAccountRepository`, `EfPartyInvestmentAccountLinkRepository`, `EfPartyRelationshipRepository`, `EfAdvisorInvestmentAccountLinkRepository`, `EfInvestorDocumentRepository`
 - [ ] Update `CrmDbContext` (add DbSets, remove `PartyInvestorRelationships`)
 - [ ] Update `CrmReader` to implement new `ICrmReader` methods
 - [ ] **Q3:** Confirm `SELECT COUNT(*) FROM crm.PartyInvestorRelationships` = 0 on all non-production environments before cutting migration
-- [ ] **Holdings.Infrastructure:** update `HoldingConfiguration` — rename column `InvestorId` → `InvestmentAccountId`; update `EfHoldingRepository` queries
+- [ ] **Holdings.Infrastructure:** update `HoldingConfiguration` — rename column `InvestorId` → `InvestmentAccountId`; add `UNIQUE(TenantId, InvestmentAccountId, ClassId)` index; update `EfHoldingRepository` queries
 - [ ] **Transaction.Infrastructure:** update `TransactionConfiguration` — rename `InvestorId` → `InvestmentAccountId`; drop `PartyId` column mapping; update `EfTransactionRepository` queries
 - [ ] Write EF migration (single migration across all three DB contexts or coordinated migrations): create new CRM tables, alter `crm.Investors`, drop `crm.PartyInvestorRelationships`, rename `holdings.Holdings.InvestorId` → `InvestmentAccountId`, rename `transaction.Transactions.InvestorId` → `InvestmentAccountId` + drop `PartyId`
 - [ ] Verify `NoOpAbacPolicyCache` still compiles (no changes expected)
@@ -831,7 +841,7 @@ public class UserPartyLink : BaseEntity
     public Guid TenantId { get; private set; }
 }
 ```
-Indexes: `UNIQUE(TenantId, UserId)` + `UNIQUE(TenantId, PartyId)` — one-to-one per tenant in both directions.
+Indexes: `UNIQUE(TenantId, UserId)` — one portal identity per user per tenant. No `UNIQUE(TenantId, PartyId)` — multiple users may link to the same corporate Party.
 
 **`ICurrentUser` extension:**
 ```csharp
@@ -896,4 +906,5 @@ Option B (firm-level only, `party_id` claim set manually) loses individual rep t
 | 2026-04-13 | Plan | Review pass: removed stale PartyType expansion section; updated Layers Touched; added Id + audit fields to PartyInvestmentAccountLink; fixed ISO alpha-2/3 inconsistency on InvestorDocument; renamed Link*ToAccount commands to Link*ToInvestmentAccount; fixed ABAC seed resource name; added CreateInvestorCommand profile step; updated integration test scenario for Path 2 workflow. |
 | 2026-04-13 | Plan | Q5 → Option A: AdvisorRep=7 in PartyFunctionalRole; UserPartyLink entity (UserId value ref + PartyId FK); party_id JWT claim; ICurrentUser.PartyId. Generalises to InvestorPortal. Goals, Layers Touched, entity definitions, Phase 1/2/3/4 steps, Decision Summary updated. |
 | 2026-04-13 | Plan | Q6 → Holding.InvestorId and Transaction.InvestorId migrate to InvestmentAccountId; Transaction.PartyId removed. Holdings/Transaction entity definitions, ICrmReader (IsInvestmentAccountKycApprovedAsync), IHoldingsReader, all affected phases and tests updated. |
+| 2026-04-13 | Plan | Architecture review (ChatGPT): accepted 3 of 7 recommendations. (1) UserPartyLink — removed `UNIQUE(TenantId, PartyId)`; many Users may link to same corporate Party; only `UNIQUE(TenantId, UserId)` retained. (2) PartyRelationship direction semantics — added XML doc convention per enum value + direction guard in `CreatePartyRelationshipCommandValidator`. (3) Holdings uniqueness — added `UNIQUE(TenantId, InvestmentAccountId, ClassId)` to prevent duplicate position rows. Deferred: Investor decomposition (Phase 3), AccessGrant model (future), ledger separation (Phase 3). |
 | 2026-04-13 | Plan | Multi-role fix: replace `Party.PartyFunctionalRole` (single nullable enum) with `PartyRoleAssignment` junction table. A Party can now hold multiple simultaneous functional roles (e.g. Investor + AdvisorRep + Trustee). `Trustee=8` added to `PartyFunctionalRole` enum. `PartySummaryDto.Roles` is now a list. All phases, Q4 migration SQL, Q5 workflow, integration tests, and Decision Summary updated. Rationale: ChatGPT design's "decouple identity from behaviour" principle; single enum cannot represent multi-role Parties. |
