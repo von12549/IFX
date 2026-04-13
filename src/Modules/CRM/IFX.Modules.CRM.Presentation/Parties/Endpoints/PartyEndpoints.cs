@@ -10,6 +10,8 @@ using IFX.Modules.CRM.Application.Parties.Commands.UnlinkUserFromParty;
 using IFX.Modules.CRM.Application.Parties.Commands.UpdateParty;
 using IFX.Modules.CRM.Application.Parties.Queries.GetParties;
 using IFX.Modules.CRM.Application.Parties.Queries.GetPartyById;
+using IFX.Modules.CRM.Application.Parties.Queries.GetPartyForUser;
+using IFX.Modules.CRM.Application.Parties.Queries.GetPartyRelationships;
 using IFX.Modules.CRM.Application.Parties.Queries.GetPartyRoles;
 using IFX.Modules.CRM.Domain.Enums;
 using IFX.Modules.CRM.Presentation.Models.Responses;
@@ -167,6 +169,36 @@ public static class PartyEndpoints
             return Results.BadRequest(ApiResponse<object>.FailureResponse($"Invalid role: '{role}'."));
 
         var result = await mediator.Send(new RemovePartyRoleCommand(partyId, functionalRole));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetPartyRelationships(
+        Guid partyId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<PartyEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Getting relationships for party {PartyId}", partyId);
+
+        var result = await mediator.Send(new GetPartyRelationshipsQuery(partyId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetPartyForUser(
+        Guid userId,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<PartyEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Getting party for user {UserId}", userId);
+
+        var result = await mediator.Send(new GetPartyForUserQuery(userId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

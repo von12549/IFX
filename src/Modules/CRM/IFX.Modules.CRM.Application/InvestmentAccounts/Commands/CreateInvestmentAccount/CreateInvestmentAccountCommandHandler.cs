@@ -1,10 +1,12 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.InvestmentAccounts.DTOs;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Domain.Entities;
+using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -16,14 +18,15 @@ public class CreateInvestmentAccountCommandHandler : IRequestHandler<CreateInves
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly IIntegrationEventBus _eventBus;
     private readonly ILogger<CreateInvestmentAccountCommandHandler> _logger;
 
     public CreateInvestmentAccountCommandHandler(IUnitOfWork unitOfWork, IMapper mapper,
         ICurrentUser currentUser, IResourceAuthorizationService authorizationService,
-        ILogger<CreateInvestmentAccountCommandHandler> logger)
+        IIntegrationEventBus eventBus, ILogger<CreateInvestmentAccountCommandHandler> logger)
     {
         _unitOfWork = unitOfWork; _mapper = mapper; _currentUser = currentUser;
-        _authorizationService = authorizationService; _logger = logger;
+        _authorizationService = authorizationService; _eventBus = eventBus; _logger = logger;
     }
 
     public async Task<Result<InvestmentAccountDto>> Handle(CreateInvestmentAccountCommand request, CancellationToken cancellationToken)
@@ -44,6 +47,8 @@ public class CreateInvestmentAccountCommandHandler : IRequestHandler<CreateInves
 
             await _unitOfWork.InvestmentAccounts.AddAsync(account, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _eventBus.PublishAsync(new InvestmentAccountCreatedEvent(account.Id, account.TenantId, account.AccountNumber, account.AccountType.ToString()), cancellationToken);
 
             _logger.LogInformation("InvestmentAccount created: {AccountNumber}", account.AccountNumber);
             return Result<InvestmentAccountDto>.Success(_mapper.Map<InvestmentAccountDto>(account));

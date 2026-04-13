@@ -5,6 +5,7 @@ using IFX.Modules.CRM.Application.InvestmentAccounts.Commands.LinkPartyToInvestm
 using IFX.Modules.CRM.Application.InvestmentAccounts.Commands.UnlinkAdvisorFromInvestmentAccount;
 using IFX.Modules.CRM.Application.InvestmentAccounts.Commands.UnlinkPartyFromInvestmentAccount;
 using IFX.Modules.CRM.Application.InvestmentAccounts.Commands.UpdateInvestmentAccount;
+using IFX.Modules.CRM.Application.InvestmentAccounts.Queries.GetAdvisorsForInvestmentAccount;
 using IFX.Modules.CRM.Application.InvestmentAccounts.Queries.GetInvestmentAccountById;
 using IFX.Modules.CRM.Application.InvestmentAccounts.Queries.GetInvestmentAccounts;
 using IFX.Modules.CRM.Domain.Enums;
@@ -146,6 +147,21 @@ public static class InvestmentAccountEndpoints
         logger.LogInformation("Unlinking party {PartyId} from investment account {Id}", partyId, id);
 
         var result = await mediator.Send(new UnlinkPartyFromInvestmentAccountCommand(id, partyId));
+
+        if (!result.IsSuccess)
+            return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
+
+        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+    }
+
+    public static async Task<IResult> GetAdvisorsForInvestmentAccount(
+        Guid id,
+        [FromServices] IMediator mediator,
+        [FromServices] ILogger<InvestmentAccountEndpointsLogCategory> logger)
+    {
+        logger.LogInformation("Getting advisors for investment account {Id}", id);
+
+        var result = await mediator.Send(new GetAdvisorsForInvestmentAccountQuery(id));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

@@ -96,6 +96,13 @@ public static class EndpointExtensions
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
+        group.MapGet("/{partyId}/relationships", PartyEndpoints.GetPartyRelationships)
+            .WithName("GetPartyRelationships")
+            .RequirePermission("Party:read")
+            .WithSummary("Get all relationships for a party")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
         group.MapPost("/{partyId}/relationships", PartyEndpoints.CreatePartyRelationship)
             .WithName("CreatePartyRelationship")
             .RequirePermission("Party:update")
@@ -126,6 +133,13 @@ public static class EndpointExtensions
             .WithSummary("Unlink a user account from a party")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/user/{userId}/party", PartyEndpoints.GetPartyForUser)
+            .WithName("GetPartyForUser")
+            .RequirePermission("Party:read")
+            .WithSummary("Get the party linked to a user")
+            .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         return builder;
@@ -176,6 +190,37 @@ public static class EndpointExtensions
             .WithName("UpdateInvestorKyc")
             .RequirePermission("Investor:update")
             .WithSummary("Update KYC status for an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPut("/{investorId}/aml", InvestorEndpoints.UpdateInvestorAml)
+            .WithName("UpdateInvestorAml")
+            .RequirePermission("Investor:update")
+            .WithSummary("Update AML status for an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{investorId}/documents", InvestorEndpoints.GetInvestorDocuments)
+            .WithName("GetInvestorDocuments")
+            .RequirePermission("Investor:read")
+            .WithSummary("Get all documents for an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{investorId}/documents", InvestorEndpoints.AddInvestorDocument)
+            .WithName("AddInvestorDocument")
+            .RequirePermission("Investor:update")
+            .WithSummary("Add an identity document to an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{investorId}/documents/{documentId}", InvestorEndpoints.RemoveInvestorDocument)
+            .WithName("RemoveInvestorDocument")
+            .RequirePermission("Investor:update")
+            .WithSummary("Remove an identity document from an investor")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);
@@ -254,6 +299,13 @@ public static class EndpointExtensions
             .WithSummary("Unlink a party from an investment account")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{id}/advisors", InvestmentAccountEndpoints.GetAdvisorsForInvestmentAccount)
+            .WithName("GetAdvisorsForInvestmentAccount")
+            .RequirePermission("InvestmentAccount:read")
+            .WithSummary("Get all advisors linked to an investment account")
+            .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         group.MapPost("/{id}/advisors/{advisorPartyId}", InvestmentAccountEndpoints.LinkAdvisorToInvestmentAccount)

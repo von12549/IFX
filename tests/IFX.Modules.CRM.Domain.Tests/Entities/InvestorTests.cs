@@ -105,4 +105,37 @@ public class InvestorTests
 
         investor.Status.Should().Be(EntityStatus.Closed);
     }
+
+    [Fact]
+    public void UpdateAmlStatus_SetsAmlFieldsCorrectly()
+    {
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
+
+        investor.UpdateAmlStatus(AmlStatus.Review, "REF-001", true, "Government official", "Salary", 0, 1, 0);
+
+        investor.AmlStatus.Should().Be(AmlStatus.Review);
+        investor.AmlGatewayReference.Should().Be("REF-001");
+        investor.IsPEP.Should().BeTrue();
+        investor.PepDetails.Should().Be("Government official");
+        investor.SourceOfWealth.Should().Be("Salary");
+        investor.UnresolvedSanctionCount.Should().Be(1);
+    }
+
+    [Fact]
+    public void UpdateAmlStatus_DefaultsToNotChecked()
+    {
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
+
+        investor.AmlStatus.Should().Be(AmlStatus.NotChecked);
+    }
+
+    [Fact]
+    public void UpdateAmlStatus_BlockedStatus_SetsAmlStatusToBlocked()
+    {
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
+
+        investor.UpdateAmlStatus(AmlStatus.Blocked);
+
+        investor.AmlStatus.Should().Be(AmlStatus.Blocked);
+    }
 }

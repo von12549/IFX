@@ -3,6 +3,7 @@ using IFX.Modules.CRM.Application.InvestmentAccounts.DTOs;
 using IFX.Modules.CRM.Application.Investors.DTOs;
 using IFX.Modules.CRM.Application.Parties.DTOs;
 using IFX.Modules.CRM.Domain.Entities;
+using IFX.Modules.CRM.Domain.Enums;
 
 namespace IFX.Modules.CRM.Application.Mappings;
 
@@ -25,5 +26,19 @@ public class MappingProfile : Profile
         CreateMap<InvestmentAccount, InvestmentAccountDto>()
             .ForMember(dest => dest.AccountType, opt => opt.MapFrom(src => src.AccountType.ToString()))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+
+        CreateMap<PartyRelationship, PartyRelationshipDto>()
+            .ForMember(dest => dest.RelationshipType, opt => opt.MapFrom(src => src.RelationshipType.ToString()))
+            .ForMember(dest => dest.EffectiveDate, opt => opt.MapFrom(src => src.EffectiveDate.ToString("yyyy-MM-dd")))
+            .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate.HasValue ? src.ExpiryDate.Value.ToString("yyyy-MM-dd") : null));
+
+        CreateMap<AdvisorInvestmentAccountLink, AdvisorLinkDto>()
+            .ForMember(dest => dest.EffectiveDate, opt => opt.MapFrom(src => src.EffectiveDate.ToString("yyyy-MM-dd")))
+            .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate.HasValue ? src.ExpiryDate.Value.ToString("yyyy-MM-dd") : null));
+
+        CreateMap<InvestorDocument, InvestorDocumentDto>()
+            .ForMember(dest => dest.DocumentType, opt => opt.MapFrom(src => src.DocumentType.ToString()))
+            .ForMember(dest => dest.IssueDate, opt => opt.MapFrom(src => src.IssueDate.HasValue ? src.IssueDate.Value.ToString("yyyy-MM-dd") : null))
+            .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate.HasValue ? src.ExpiryDate.Value.ToString("yyyy-MM-dd") : null));
     }
 }

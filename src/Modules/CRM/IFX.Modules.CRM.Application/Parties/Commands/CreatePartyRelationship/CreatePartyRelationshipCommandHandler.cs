@@ -1,9 +1,11 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Enums;
+using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -14,13 +16,15 @@ public class CreatePartyRelationshipCommandHandler : IRequestHandler<CreateParty
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly IIntegrationEventBus _eventBus;
     private readonly ILogger<CreatePartyRelationshipCommandHandler> _logger;
 
     public CreatePartyRelationshipCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser,
-        IResourceAuthorizationService authorizationService, ILogger<CreatePartyRelationshipCommandHandler> logger)
+        IResourceAuthorizationService authorizationService, IIntegrationEventBus eventBus,
+        ILogger<CreatePartyRelationshipCommandHandler> logger)
     {
         _unitOfWork = unitOfWork; _currentUser = currentUser;
-        _authorizationService = authorizationService; _logger = logger;
+        _authorizationService = authorizationService; _eventBus = eventBus; _logger = logger;
     }
 
     public async Task<Result<Unit>> Handle(CreatePartyRelationshipCommand request, CancellationToken cancellationToken)
@@ -47,6 +51,8 @@ public class CreatePartyRelationshipCommandHandler : IRequestHandler<CreateParty
 
             await _unitOfWork.PartyRelationships.AddAsync(relationship, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _eventBus.PublishAsync(new PartyRelationshipCreatedEvent(relationship.Id, tenantId, relationship.FromPartyId, relationship.ToPartyId, relationship.RelationshipType.ToString()), cancellationToken);
 
             _logger.LogInformation("PartyRelationship {Type} created: {From} -> {To}", request.RelationshipType, request.FromPartyId, request.ToPartyId);
             return Result<Unit>.Success(Unit.Value);
