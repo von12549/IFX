@@ -5,4 +5,4 @@ using MediatR;
 
 namespace IFX.Modules.CRM.Application.Parties.Commands.UpdateParty;
 
-public record UpdatePartyCommand(Guid PartyId, string Name, PartyType Type) : IRequest<Result<PartyDto>>;
+public record UpdatePartyCommand(Guid PartyId, string Name, PartyLegalStructure LegalStructure) : IRequest<Result<PartyDto>>;

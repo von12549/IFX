@@ -17,8 +17,8 @@ public class EfTransactionRepository : ITransactionRepository
     public async Task<IReadOnlyList<TxEntity>> GetByTenantAsync(Guid tenantId, CancellationToken ct = default)
         => await _context.Transactions.Where(t => t.TenantId == tenantId).ToListAsync(ct);
 
-    public async Task<IReadOnlyList<TxEntity>> GetByInvestorAsync(Guid tenantId, Guid investorId, CancellationToken ct = default)
-        => await _context.Transactions.Where(t => t.TenantId == tenantId && t.InvestorId == investorId).ToListAsync(ct);
+    public async Task<IReadOnlyList<TxEntity>> GetByInvestmentAccountAsync(Guid tenantId, Guid investmentAccountId, CancellationToken ct = default)
+        => await _context.Transactions.Where(t => t.TenantId == tenantId && t.InvestmentAccountId == investmentAccountId).ToListAsync(ct);
 
     public async Task AddAsync(TxEntity transaction, CancellationToken ct = default)
         => await _context.Transactions.AddAsync(transaction, ct);

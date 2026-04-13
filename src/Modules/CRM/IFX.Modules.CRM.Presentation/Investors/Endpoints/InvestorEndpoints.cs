@@ -54,10 +54,10 @@ public static class InvestorEndpoints
     {
         logger.LogInformation("Creating investor: {InvestorCode}", request.InvestorCode);
 
-        if (!Enum.TryParse<InvestorType>(request.Type, ignoreCase: true, out var investorType))
-            return Results.BadRequest(ApiResponse<object>.FailureResponse($"Invalid InvestorType: '{request.Type}'."));
+        if (!Enum.TryParse<PartyLegalStructure>(request.LegalStructure, ignoreCase: true, out var legalStructure))
+            return Results.BadRequest(ApiResponse<object>.FailureResponse($"Invalid LegalStructure: '{request.LegalStructure}'."));
 
-        var result = await mediator.Send(new CreateInvestorCommand(request.InvestorCode, request.Name, investorType, request.ResidencyCountry, request.TaxResidency));
+        var result = await mediator.Send(new CreateInvestorCommand(request.InvestorCode, request.Name, legalStructure, request.TaxResidencyCountry, request.PartyId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -73,10 +73,7 @@ public static class InvestorEndpoints
     {
         logger.LogInformation("Updating investor: {InvestorId}", investorId);
 
-        if (!Enum.TryParse<InvestorType>(request.Type, ignoreCase: true, out var investorType))
-            return Results.BadRequest(ApiResponse<object>.FailureResponse($"Invalid InvestorType: '{request.Type}'."));
-
-        var result = await mediator.Send(new UpdateInvestorCommand(investorId, request.Name, investorType, request.ResidencyCountry, request.TaxResidency));
+        var result = await mediator.Send(new UpdateInvestorCommand(investorId, request.Name, request.TaxResidencyCountry, request.TIN, request.GIIN));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

@@ -7,8 +7,7 @@ public class Transaction : BaseEntity, IAuditableEntity
 {
     public Guid TenantId { get; private set; }
     public TransactionType Type { get; private set; }
-    public Guid PartyId { get; private set; }
-    public Guid InvestorId { get; private set; }
+    public Guid InvestmentAccountId { get; private set; }
     public Guid FundId { get; private set; }
     public Guid ClassId { get; private set; }
     public Guid? TargetClassId { get; private set; }
@@ -27,18 +26,18 @@ public class Transaction : BaseEntity, IAuditableEntity
     private Transaction() { }
 
     private static Transaction CreateBase(
-        Guid tenantId, TransactionType type, Guid partyId, Guid investorId,
+        Guid tenantId, TransactionType type, Guid investmentAccountId,
         Guid fundId, Guid classId, Guid? targetClassId, decimal amount, DateOnly tradeDate)
     {
         if (tenantId == Guid.Empty) throw new ArgumentException("TenantId required.", nameof(tenantId));
+        if (investmentAccountId == Guid.Empty) throw new ArgumentException("InvestmentAccountId required.", nameof(investmentAccountId));
         if (amount <= 0) throw new ArgumentException("Amount must be positive.", nameof(amount));
 
         return new Transaction
         {
             TenantId = tenantId,
             Type = type,
-            PartyId = partyId,
-            InvestorId = investorId,
+            InvestmentAccountId = investmentAccountId,
             FundId = fundId,
             ClassId = classId,
             TargetClassId = targetClassId,
@@ -48,17 +47,17 @@ public class Transaction : BaseEntity, IAuditableEntity
         };
     }
 
-    public static Transaction CreateSubscription(Guid tenantId, Guid partyId, Guid investorId, Guid fundId, Guid classId, decimal amount, DateOnly tradeDate)
-        => CreateBase(tenantId, TransactionType.Subscription, partyId, investorId, fundId, classId, null, amount, tradeDate);
+    public static Transaction CreateSubscription(Guid tenantId, Guid investmentAccountId, Guid fundId, Guid classId, decimal amount, DateOnly tradeDate)
+        => CreateBase(tenantId, TransactionType.Subscription, investmentAccountId, fundId, classId, null, amount, tradeDate);
 
-    public static Transaction CreateRedemption(Guid tenantId, Guid partyId, Guid investorId, Guid fundId, Guid classId, decimal amount, DateOnly tradeDate)
-        => CreateBase(tenantId, TransactionType.Redemption, partyId, investorId, fundId, classId, null, amount, tradeDate);
+    public static Transaction CreateRedemption(Guid tenantId, Guid investmentAccountId, Guid fundId, Guid classId, decimal amount, DateOnly tradeDate)
+        => CreateBase(tenantId, TransactionType.Redemption, investmentAccountId, fundId, classId, null, amount, tradeDate);
 
-    public static Transaction CreateTransfer(Guid tenantId, Guid partyId, Guid investorId, Guid fundId, Guid classId, Guid targetClassId, decimal amount, DateOnly tradeDate)
-        => CreateBase(tenantId, TransactionType.Transfer, partyId, investorId, fundId, classId, targetClassId, amount, tradeDate);
+    public static Transaction CreateTransfer(Guid tenantId, Guid investmentAccountId, Guid fundId, Guid classId, Guid targetClassId, decimal amount, DateOnly tradeDate)
+        => CreateBase(tenantId, TransactionType.Transfer, investmentAccountId, fundId, classId, targetClassId, amount, tradeDate);
 
-    public static Transaction CreateSwitch(Guid tenantId, Guid partyId, Guid investorId, Guid fundId, Guid classId, Guid targetClassId, decimal amount, DateOnly tradeDate)
-        => CreateBase(tenantId, TransactionType.Switch, partyId, investorId, fundId, classId, targetClassId, amount, tradeDate);
+    public static Transaction CreateSwitch(Guid tenantId, Guid investmentAccountId, Guid fundId, Guid classId, Guid targetClassId, decimal amount, DateOnly tradeDate)
+        => CreateBase(tenantId, TransactionType.Switch, investmentAccountId, fundId, classId, targetClassId, amount, tradeDate);
 
     public void Process(decimal navPrice)
     {

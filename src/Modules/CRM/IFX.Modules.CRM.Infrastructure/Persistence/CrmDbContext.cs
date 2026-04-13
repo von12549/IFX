@@ -11,20 +11,26 @@ public class CrmDbContext : DbContext
     }
 
     public DbSet<Party> Parties => Set<Party>();
+    public DbSet<PartyRoleAssignment> PartyRoleAssignments => Set<PartyRoleAssignment>();
     public DbSet<Investor> Investors => Set<Investor>();
-    public DbSet<PartyInvestorRelationship> PartyInvestorRelationships => Set<PartyInvestorRelationship>();
+    public DbSet<IndividualInvestorProfile> IndividualInvestorProfiles => Set<IndividualInvestorProfile>();
+    public DbSet<CorporateInvestorProfile> CorporateInvestorProfiles => Set<CorporateInvestorProfile>();
+    public DbSet<TrustInvestorProfile> TrustInvestorProfiles => Set<TrustInvestorProfile>();
+    public DbSet<InvestmentAccount> InvestmentAccounts => Set<InvestmentAccount>();
+    public DbSet<PartyInvestmentAccountLink> PartyInvestmentAccountLinks => Set<PartyInvestmentAccountLink>();
+    public DbSet<PartyRelationship> PartyRelationships => Set<PartyRelationship>();
+    public DbSet<AdvisorInvestmentAccountLink> AdvisorInvestmentAccountLinks => Set<AdvisorInvestmentAccountLink>();
+    public DbSet<InvestorDocument> InvestorDocuments => Set<InvestorDocument>();
+    public DbSet<UserPartyLink> UserPartyLinks => Set<UserPartyLink>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        // Apply all entity configurations from assembly
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CrmDbContext).Assembly);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Automatically set CreatedAt/UpdatedAt for auditable entities
         var entries = ChangeTracker.Entries<IAuditableEntity>();
 
         foreach (var entry in entries)

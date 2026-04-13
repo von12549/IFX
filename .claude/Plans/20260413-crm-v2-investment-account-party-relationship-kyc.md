@@ -1,6 +1,6 @@
 # Plan: CRM V2 — InvestmentAccount, PartyRelationship, Advisor Model, KYC Enrichment
 
-**Status:** Plan
+**Status:** Done
 
 ---
 

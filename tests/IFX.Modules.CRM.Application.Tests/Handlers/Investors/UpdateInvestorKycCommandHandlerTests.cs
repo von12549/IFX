@@ -49,7 +49,7 @@ public class UpdateInvestorKycCommandHandlerTests
     [Fact]
     public async Task Handle_WhenInvestorExists_UpdatesKycAndPublishesEvent()
     {
-        var investor = Investor.Create(TenantId, "INV001", "John Doe", InvestorType.Individual, "AU", "AU");
+        var investor = Investor.Create(TenantId, "INV001", "John Doe", PartyLegalStructure.Individual);
         _investors.Setup(r => r.GetByIdAsync(investor.Id, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(investor);
         _mapper.Setup(m => m.Map<InvestorDto>(investor)).Returns(new InvestorDto { KycStatus = "Approved" });
 
@@ -88,7 +88,7 @@ public class UpdateInvestorKycCommandHandlerTests
     [Fact]
     public async Task Handle_PublishesEventWithOldAndNewStatus()
     {
-        var investor = Investor.Create(TenantId, "INV001", "John Doe", InvestorType.Individual, "AU", "AU");
+        var investor = Investor.Create(TenantId, "INV001", "John Doe", PartyLegalStructure.Individual);
         investor.UpdateKyc(KycStatus.Pending); // ensure known old status
         _investors.Setup(r => r.GetByIdAsync(investor.Id, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(investor);
 

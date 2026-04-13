@@ -17,6 +17,9 @@ public class EfInvestorRepository : IInvestorRepository
     public async Task<Investor?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)
     {
         return await _context.Investors
+            .Include(i => i.IndividualProfile)
+            .Include(i => i.CorporateProfile)
+            .Include(i => i.TrustProfile)
             .FirstOrDefaultAsync(i => i.Id == id && i.TenantId == tenantId, ct);
     }
 
@@ -30,14 +33,8 @@ public class EfInvestorRepository : IInvestorRepository
 
     public async Task<List<Investor>> GetByPartyIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default)
     {
-        var investorIds = await _context.PartyInvestorRelationships
-            .Where(r => r.PartyId == partyId && r.TenantId == tenantId)
-            .Select(r => r.InvestorId)
-            .Distinct()
-            .ToListAsync(ct);
-
         return await _context.Investors
-            .Where(i => investorIds.Contains(i.Id) && i.TenantId == tenantId)
+            .Where(i => i.PartyId == partyId && i.TenantId == tenantId)
             .OrderBy(i => i.Name)
             .ToListAsync(ct);
     }

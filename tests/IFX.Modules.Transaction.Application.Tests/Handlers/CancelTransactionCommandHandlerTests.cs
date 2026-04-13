@@ -26,7 +26,7 @@ public class CancelTransactionCommandHandlerTests
 
     private static TransactionDto MakeDto() => new(
         Guid.NewGuid(), Guid.NewGuid(), "Subscription",
-        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
         10000m, null, null, "2024-01-01", null, "Cancelled", null,
         DateTime.UtcNow, DateTime.UtcNow);
 
@@ -52,7 +52,7 @@ public class CancelTransactionCommandHandlerTests
 
     private TxEntity CreatePendingSubscription()
         => TxEntity.CreateSubscription(
-            TenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+            TenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             10000m, DateOnly.FromDateTime(DateTime.UtcNow));
 
     [Fact]
@@ -97,7 +97,7 @@ public class CancelTransactionCommandHandlerTests
     public async Task Handle_WhenTransactionBelongsToDifferentTenant_ReturnsFailure()
     {
         var tx = TxEntity.CreateSubscription(
-            Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+            Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             10000m, DateOnly.FromDateTime(DateTime.UtcNow));
         _transactions.Setup(r => r.GetByIdAsync(tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
 

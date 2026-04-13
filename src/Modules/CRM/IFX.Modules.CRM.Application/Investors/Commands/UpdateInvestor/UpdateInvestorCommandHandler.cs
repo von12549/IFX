@@ -50,7 +50,7 @@ public class UpdateInvestorCommandHandler : IRequestHandler<UpdateInvestorComman
                 resourceAttributes,
                 ct: cancellationToken);
 
-            investor.Update(request.Name, request.Type, request.ResidencyCountry, request.TaxResidency);
+            investor.Update(request.Name, request.TaxResidencyCountry, request.TIN, request.GIIN);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Investor updated: {InvestorId}", request.InvestorId);

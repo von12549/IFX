@@ -12,7 +12,7 @@ public class MappingProfile : Profile
             .ConstructUsing(h => new HoldingSummaryDto(
                 h.Id,
                 h.TenantId,
-                h.InvestorId,
+                h.InvestmentAccountId,
                 h.ClassId,
                 h.Units,
                 h.Status.ToString(),

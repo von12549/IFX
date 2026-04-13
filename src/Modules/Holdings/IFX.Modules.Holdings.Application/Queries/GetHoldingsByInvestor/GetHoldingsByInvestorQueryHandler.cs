@@ -34,13 +34,13 @@ public class GetHoldingsByInvestorQueryHandler : IRequestHandler<GetHoldingsByIn
             if (_currentUser.TenantId == null)
                 return Result<IReadOnlyList<HoldingSummaryDto>>.Failure("Tenant context required.");
 
-            var holdings = await _unitOfWork.Holdings.GetByInvestorAsync(_currentUser.TenantId.Value, request.InvestorId, cancellationToken);
+            var holdings = await _unitOfWork.Holdings.GetByInvestmentAccountAsync(_currentUser.TenantId.Value, request.InvestmentAccountId, cancellationToken);
             var dtos = _mapper.Map<IReadOnlyList<HoldingSummaryDto>>(holdings);
             return Result<IReadOnlyList<HoldingSummaryDto>>.Success(dtos);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting holdings for investor {InvestorId}", request.InvestorId);
+            _logger.LogError(ex, "Error getting holdings for investment account {InvestmentAccountId}", request.InvestmentAccountId);
             return Result<IReadOnlyList<HoldingSummaryDto>>.Failure("An error occurred.");
         }
     }

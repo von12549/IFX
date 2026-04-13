@@ -15,6 +15,6 @@ public class TransactionReader : ITransactionReader
     {
         var tx = await _context.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId, ct);
         if (tx == null) return null;
-        return new TransactionSummaryDto(tx.Id, tx.TenantId, tx.Type.ToString(), tx.InvestorId, tx.ClassId, tx.Amount, tx.Status.ToString());
+        return new TransactionSummaryDto(tx.Id, tx.TenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount, tx.Status.ToString());
     }
 }

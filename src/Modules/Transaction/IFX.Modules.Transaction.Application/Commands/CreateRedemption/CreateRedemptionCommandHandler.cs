@@ -47,19 +47,16 @@ public class CreateRedemptionCommandHandler : IRequestHandler<CreateRedemptionCo
             var tenantId = _currentUser.TenantId.Value;
 
             // Validate KYC — must be approved to redeem
-            if (!await _crmReader.IsInvestorKycApprovedAsync(request.InvestorId, tenantId, cancellationToken))
-                return Result<TransactionDto>.Failure("Investor KYC is not approved.");
+            if (!await _crmReader.IsInvestmentAccountKycApprovedAsync(request.InvestmentAccountId, tenantId, cancellationToken))
+                return Result<TransactionDto>.Failure("Investment account KYC is not approved.");
 
-            if (!await _crmReader.PartyExistsAsync(request.PartyId, tenantId, cancellationToken))
-                return Result<TransactionDto>.Failure("Party not found.");
-
-            var tx = TxEntity.CreateRedemption(tenantId, request.PartyId, request.InvestorId, request.FundId, request.ClassId, request.Amount, request.TradeDate);
+            var tx = TxEntity.CreateRedemption(tenantId, request.InvestmentAccountId, request.FundId, request.ClassId, request.Amount, request.TradeDate);
             tx.CreatedBy = _currentUser.UserId;
 
             await _unitOfWork.Transactions.AddAsync(tx, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await _eventBus.PublishAsync(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestorId, tx.ClassId, tx.Amount), cancellationToken);
+            await _eventBus.PublishAsync(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount), cancellationToken);
 
             _logger.LogInformation("Redemption created: {TransactionId}", tx.Id);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));

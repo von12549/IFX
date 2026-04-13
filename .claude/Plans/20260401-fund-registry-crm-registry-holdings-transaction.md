@@ -135,6 +135,8 @@ public interface IIntegrationEventHandler<TEvent>
 
 #### CRM Module
 
+> **Superseded by CRM V2** — See `/.claude/Plans/20260413-crm-v2-investment-account-party-relationship-kyc.md`. The entity model below reflects V1; the implemented model uses `PartyLegalStructure` (not `PartyType`), removes `InvestorType`/`ResidencyCountry`/`TaxResidency`, adds `InvestmentAccount`, `PartyRoleAssignment`, `PartyRelationship`, `PartyInvestmentAccountLink`, and extension profile tables. `Holding` and `Transaction` reference `InvestmentAccountId` (not `InvestorId`).
+
 ```
 Party (Tenant-scoped)
   PartyId            Guid (UUID v7)

@@ -8,38 +8,35 @@ public class InvestorTests
     private static readonly Guid ValidTenantId = Guid.NewGuid();
     private const string ValidCode = "INV001";
     private const string ValidName = "John Doe";
-    private const string ValidCountry = "AU";
-    private const string ValidTaxResidency = "AU";
 
     [Fact]
     public void Create_WithValidParameters_ReturnsInvestor()
     {
-        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
 
         investor.Should().NotBeNull();
         investor.Id.Should().NotBeEmpty();
         investor.TenantId.Should().Be(ValidTenantId);
         investor.InvestorCode.Should().Be(ValidCode);
         investor.Name.Should().Be(ValidName);
-        investor.Type.Should().Be(InvestorType.Individual);
+        investor.LegalStructure.Should().Be(PartyLegalStructure.Individual);
         investor.KycStatus.Should().Be(KycStatus.Pending);
         investor.Status.Should().Be(EntityStatus.Active);
         investor.KycReviewedAt.Should().BeNull();
     }
 
     [Fact]
-    public void Create_NormalizesCountryToUpperCase()
+    public void Create_WithTaxResidencyCountry_NormalizesToUpperCase()
     {
-        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, "au", "au");
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual, "au");
 
-        investor.ResidencyCountry.Should().Be("AU");
-        investor.TaxResidency.Should().Be("AU");
+        investor.TaxResidencyCountry.Should().Be("AU");
     }
 
     [Fact]
     public void Create_WithEmptyTenantId_ThrowsArgumentException()
     {
-        var act = () => Investor.Create(Guid.Empty, ValidCode, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var act = () => Investor.Create(Guid.Empty, ValidCode, ValidName, PartyLegalStructure.Individual);
 
         act.Should().Throw<ArgumentException>().WithParameterName("tenantId");
     }
@@ -49,7 +46,7 @@ public class InvestorTests
     [InlineData("   ")]
     public void Create_WithEmptyInvestorCode_ThrowsArgumentException(string code)
     {
-        var act = () => Investor.Create(ValidTenantId, code, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var act = () => Investor.Create(ValidTenantId, code, ValidName, PartyLegalStructure.Individual);
 
         act.Should().Throw<ArgumentException>().WithParameterName("investorCode");
     }
@@ -57,27 +54,17 @@ public class InvestorTests
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    public void Create_WithEmptyResidencyCountry_ThrowsArgumentException(string country)
+    public void Create_WithEmptyName_ThrowsArgumentException(string name)
     {
-        var act = () => Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, country, ValidTaxResidency);
+        var act = () => Investor.Create(ValidTenantId, ValidCode, name, PartyLegalStructure.Individual);
 
-        act.Should().Throw<ArgumentException>().WithParameterName("residencyCountry");
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void Create_WithEmptyTaxResidency_ThrowsArgumentException(string taxResidency)
-    {
-        var act = () => Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, ValidCountry, taxResidency);
-
-        act.Should().Throw<ArgumentException>().WithParameterName("taxResidency");
+        act.Should().Throw<ArgumentException>().WithParameterName("name");
     }
 
     [Fact]
     public void UpdateKyc_SetsKycStatusAndTimestamp()
     {
-        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
         var before = DateTime.UtcNow;
 
         investor.UpdateKyc(KycStatus.Approved);
@@ -90,7 +77,7 @@ public class InvestorTests
     [Fact]
     public void UpdateKyc_CanTransitionToRejected()
     {
-        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
 
         investor.UpdateKyc(KycStatus.Rejected);
 
@@ -101,20 +88,18 @@ public class InvestorTests
     [Fact]
     public void Update_WithValidParameters_UpdatesFields()
     {
-        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
 
-        investor.Update("Jane Doe", InvestorType.Corporate, "nz", "nz");
+        investor.Update("Jane Doe", "NZ", null, null);
 
         investor.Name.Should().Be("Jane Doe");
-        investor.Type.Should().Be(InvestorType.Corporate);
-        investor.ResidencyCountry.Should().Be("NZ");
-        investor.TaxResidency.Should().Be("NZ");
+        investor.TaxResidencyCountry.Should().Be("NZ");
     }
 
     [Fact]
     public void Close_SetsStatusToClosed()
     {
-        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, InvestorType.Individual, ValidCountry, ValidTaxResidency);
+        var investor = Investor.Create(ValidTenantId, ValidCode, ValidName, PartyLegalStructure.Individual);
 
         investor.Close();
 

@@ -23,9 +23,9 @@ public class HoldingsReader : IHoldingsReader
         return holding == null ? null : _mapper.Map<HoldingSummaryDto>(holding);
     }
 
-    public async Task<IReadOnlyList<HoldingSummaryDto>> GetHoldingsByInvestorAsync(Guid tenantId, Guid investorId, CancellationToken ct = default)
+    public async Task<IReadOnlyList<HoldingSummaryDto>> GetHoldingsByInvestmentAccountAsync(Guid tenantId, Guid investmentAccountId, CancellationToken ct = default)
     {
-        var holdings = await _context.Holdings.Where(h => h.TenantId == tenantId && h.InvestorId == investorId).ToListAsync(ct);
+        var holdings = await _context.Holdings.Where(h => h.TenantId == tenantId && h.InvestmentAccountId == investmentAccountId).ToListAsync(ct);
         return _mapper.Map<IReadOnlyList<HoldingSummaryDto>>(holdings);
     }
 

@@ -4,4 +4,4 @@ using MediatR;
 
 namespace IFX.Modules.Holdings.Application.Queries.GetHoldingsByInvestor;
 
-public record GetHoldingsByInvestorQuery(Guid InvestorId) : IRequest<Result<IReadOnlyList<HoldingSummaryDto>>>;
+public record GetHoldingsByInvestorQuery(Guid InvestmentAccountId) : IRequest<Result<IReadOnlyList<HoldingSummaryDto>>>;

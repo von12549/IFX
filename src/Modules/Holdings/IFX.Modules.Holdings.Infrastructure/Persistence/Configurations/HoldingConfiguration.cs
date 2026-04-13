@@ -11,15 +11,22 @@ public class HoldingConfiguration : IEntityTypeConfiguration<Holding>
         builder.ToTable("Holdings", "holdings");
         builder.HasKey(h => h.Id);
         builder.Property(h => h.TenantId).IsRequired();
-        builder.Property(h => h.InvestorId).IsRequired();
+        builder.Property(h => h.InvestmentAccountId).IsRequired();
         builder.Property(h => h.ClassId).IsRequired();
         builder.Property(h => h.Units).HasPrecision(18, 8).IsRequired();
         builder.Property(h => h.Status).HasConversion<string>().IsRequired();
         builder.Property(h => h.LastTransactionAt);
         builder.Property(h => h.CreatedAt).IsRequired();
         builder.Property(h => h.UpdatedAt).IsRequired();
-        builder.HasIndex(h => new { h.TenantId, h.InvestorId, h.ClassId }).IsUnique().HasDatabaseName("IX_Holdings_TenantId_InvestorId_ClassId");
-        builder.HasIndex(h => h.TenantId).HasDatabaseName("IX_Holdings_TenantId");
-        builder.HasIndex(h => new { h.TenantId, h.ClassId }).HasDatabaseName("IX_Holdings_TenantId_ClassId");
+
+        builder.HasIndex(h => new { h.TenantId, h.InvestmentAccountId, h.ClassId })
+            .IsUnique()
+            .HasDatabaseName("IX_Holdings_TenantId_InvestmentAccountId_ClassId");
+
+        builder.HasIndex(h => h.TenantId)
+            .HasDatabaseName("IX_Holdings_TenantId");
+
+        builder.HasIndex(h => new { h.TenantId, h.ClassId })
+            .HasDatabaseName("IX_Holdings_TenantId_ClassId");
     }
 }

@@ -3,7 +3,7 @@ namespace IFX.Modules.Holdings.Abstractions.DTOs;
 public record HoldingSummaryDto(
     Guid HoldingId,
     Guid TenantId,
-    Guid InvestorId,
+    Guid InvestmentAccountId,
     Guid ClassId,
     decimal Units,
     string Status,

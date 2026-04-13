@@ -12,8 +12,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<TxEntity>
         builder.HasKey(t => t.Id);
         builder.Property(t => t.TenantId).IsRequired();
         builder.Property(t => t.Type).HasConversion<string>().IsRequired();
-        builder.Property(t => t.PartyId).IsRequired();
-        builder.Property(t => t.InvestorId).IsRequired();
+        builder.Property(t => t.InvestmentAccountId).IsRequired();
         builder.Property(t => t.FundId).IsRequired();
         builder.Property(t => t.ClassId).IsRequired();
         builder.Property(t => t.TargetClassId);
@@ -26,8 +25,14 @@ public class TransactionConfiguration : IEntityTypeConfiguration<TxEntity>
         builder.Property(t => t.FailureReason).HasMaxLength(500);
         builder.Property(t => t.CreatedAt).IsRequired();
         builder.Property(t => t.UpdatedAt).IsRequired();
-        builder.HasIndex(t => t.TenantId).HasDatabaseName("IX_Transactions_TenantId");
-        builder.HasIndex(t => new { t.TenantId, t.InvestorId }).HasDatabaseName("IX_Transactions_TenantId_InvestorId");
-        builder.HasIndex(t => new { t.TenantId, t.Status }).HasDatabaseName("IX_Transactions_TenantId_Status");
+
+        builder.HasIndex(t => t.TenantId)
+            .HasDatabaseName("IX_Transactions_TenantId");
+
+        builder.HasIndex(t => new { t.TenantId, t.InvestmentAccountId })
+            .HasDatabaseName("IX_Transactions_TenantId_InvestmentAccountId");
+
+        builder.HasIndex(t => new { t.TenantId, t.Status })
+            .HasDatabaseName("IX_Transactions_TenantId_Status");
     }
 }

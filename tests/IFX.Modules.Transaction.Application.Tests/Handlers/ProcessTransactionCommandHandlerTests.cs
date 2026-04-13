@@ -26,7 +26,7 @@ public class ProcessTransactionCommandHandlerTests
 
     private static TransactionDto MakeDto() => new(
         Guid.NewGuid(), Guid.NewGuid(), "Subscription",
-        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
         10000m, 1000m, 10m, "2024-01-01", null, "Processed", null,
         DateTime.UtcNow, DateTime.UtcNow);
 
@@ -53,7 +53,7 @@ public class ProcessTransactionCommandHandlerTests
     private TxEntity CreatePendingSubscription()
     {
         return TxEntity.CreateSubscription(
-            TenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+            TenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             10000m, DateOnly.FromDateTime(DateTime.UtcNow));
     }
 
@@ -91,7 +91,7 @@ public class ProcessTransactionCommandHandlerTests
     {
         var tx = TxEntity.CreateSubscription(
             Guid.NewGuid(), // different tenant
-            Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+            Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             10000m, DateOnly.FromDateTime(DateTime.UtcNow));
         _transactions.Setup(r => r.GetByIdAsync(tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
 

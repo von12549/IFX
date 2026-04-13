@@ -1,8 +1,7 @@
 # CRM & Fund Registry — Design Summary
 
 **Last updated:** 2026-04-13
-**Status:** CRM V1 built · Registry/Holdings/Transaction built · CRM V2 planned
-**Branch:** `feature/crm-v2-investment-account-party-relationship-kyc`
+**Status:** CRM V2 built · Registry/Holdings/Transaction built and updated for V2
 
 ---
 

@@ -50,7 +50,7 @@ public class ProcessTransactionCommandHandler : IRequestHandler<ProcessTransacti
             // Publish event — Holdings module will update balances
             await _eventBus.PublishAsync(new TransactionProcessedEvent(
                 tx.Id, tx.TenantId, tx.Type.ToString(),
-                tx.InvestorId, tx.ClassId, tx.TargetClassId,
+                tx.InvestmentAccountId, tx.ClassId, tx.TargetClassId,
                 tx.Units!.Value, tx.NAVPrice!.Value), cancellationToken);
 
             _logger.LogInformation("Transaction processed: {TransactionId} Units={Units} NAV={NAVPrice}", tx.Id, tx.Units, tx.NAVPrice);

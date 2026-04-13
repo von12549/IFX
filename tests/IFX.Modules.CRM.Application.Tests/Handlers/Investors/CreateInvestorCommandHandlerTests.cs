@@ -24,7 +24,7 @@ public class CreateInvestorCommandHandlerTests
     private readonly CreateInvestorCommandHandler _handler;
 
     private static readonly Guid TenantId = Guid.NewGuid();
-    private static readonly CreateInvestorCommand ValidCommand = new("INV001", "John Doe", InvestorType.Individual, "AU", "AU");
+    private static readonly CreateInvestorCommand ValidCommand = new("INV001", "John Doe", PartyLegalStructure.Individual);
 
     public CreateInvestorCommandHandlerTests()
     {
