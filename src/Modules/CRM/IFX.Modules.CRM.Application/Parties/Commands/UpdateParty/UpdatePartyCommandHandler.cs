@@ -50,7 +50,7 @@ public class UpdatePartyCommandHandler : IRequestHandler<UpdatePartyCommand, Res
                 resourceAttributes,
                 ct: cancellationToken);
 
-            party.Update(request.Name, request.Type);
+            party.Update(request.Name, request.LegalStructure);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Party updated: {PartyId}", request.PartyId);

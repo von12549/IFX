@@ -31,9 +31,9 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 - **User Profile** — Self-service profile editing including primary tenant selection (multi-tenant users)
 
 ### Fund Registry
-- **CRM** — Party and Investor lifecycle with KYC tracking and many-to-many Party↔Investor relationships
+- **CRM** — Party (with multi-role `PartyRoleAssignment`), Investor (with extension profiles), and `InvestmentAccount` as the unit of investment activity; Party↔Account and Party↔Party relationships; user-party links; KYC tracking
 - **Registry** — Fund and FundClass lifecycle with NAV frequency, fee rates, and soft-close/liquidating status
-- **Holdings** — Authoritative unit ledger per (Investor, FundClass); read-only HTTP; mutated exclusively via integration events
+- **Holdings** — Authoritative unit ledger per (InvestmentAccount, FundClass); read-only HTTP; mutated exclusively via integration events
 - **Transaction** — Subscription, Redemption, Transfer, and Switch processing; cross-module KYC + class-status validation; `Process(navPrice)` calculates units and triggers Holdings update
 
 ### Platform Services
@@ -152,11 +152,12 @@ src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 | Admin — Platform Policies | `GET/POST/PUT/DELETE /api/v1/platform/policy` |
 | Platform — GlobalRoles | `GET /api/v1/platform/globalroles`, `GET/POST/DELETE /api/v1/platform/users/{id}/globalroles` |
 | Platform — Cross-Tenant | `GET /api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` |
-| CRM — Parties | `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, party↔investor link/unlink |
+| CRM — Parties | `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, `GET/POST/DELETE /api/v1/party/{id}/roles/{role}`, `POST /api/v1/party/{id}/relationships`, `POST/DELETE /api/v1/party/{id}/users/{userId}` |
 | CRM — Investors | `GET/POST /api/v1/investor`, `GET/PUT/DELETE /api/v1/investor/{id}`, `PUT /api/v1/investor/{id}/kyc` |
+| CRM — InvestmentAccounts | `GET/POST /api/v1/investment-account`, `GET/PUT/DELETE /api/v1/investment-account/{id}`, party/advisor link/unlink sub-routes |
 | Registry — Funds | `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` |
 | Registry — Classes | `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` |
-| Holdings | `GET /api/v1/holding`, `/holding/{id}`, `/investor/{id}/holdings`, `/fund/{id}/class/{id}/holdings` |
+| Holdings | `GET /api/v1/holding`, `/holding/{id}`, `/investor/{investmentAccountId}/holdings`, `/fund/{id}/class/{id}/holdings` |
 | Transactions | `GET/POST /api/v1/transaction`, `POST /transaction/{subscription,redemption,transfer,switch}`, `POST /transaction/{id}/{process,cancel}` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |

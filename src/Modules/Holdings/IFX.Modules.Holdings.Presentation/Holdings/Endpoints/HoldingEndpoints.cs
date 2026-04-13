@@ -36,12 +36,12 @@ public static class HoldingEndpoints
     }
 
     public static async Task<IResult> GetHoldingsByInvestor(
-        Guid investorId,
+        Guid investmentAccountId,
         [FromServices] IMediator mediator,
         [FromServices] ILogger<HoldingEndpointsLogCategory> logger)
     {
-        logger.LogInformation("Getting holdings for investor {InvestorId}", investorId);
-        var result = await mediator.Send(new GetHoldingsByInvestorQuery(investorId));
+        logger.LogInformation("Getting holdings for investment account {InvestmentAccountId}", investmentAccountId);
+        var result = await mediator.Send(new GetHoldingsByInvestorQuery(investmentAccountId));
         if (!result.IsSuccess) return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }

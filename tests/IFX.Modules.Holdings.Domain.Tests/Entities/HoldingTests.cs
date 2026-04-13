@@ -6,18 +6,18 @@ namespace IFX.Modules.Holdings.Domain.Tests.Entities;
 public class HoldingTests
 {
     private static readonly Guid ValidTenantId = Guid.NewGuid();
-    private static readonly Guid ValidInvestorId = Guid.NewGuid();
+    private static readonly Guid ValidAccountId = Guid.NewGuid();
     private static readonly Guid ValidClassId = Guid.NewGuid();
 
     [Fact]
     public void Create_WithValidParameters_ReturnsHolding()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
 
         holding.Should().NotBeNull();
         holding.Id.Should().NotBeEmpty();
         holding.TenantId.Should().Be(ValidTenantId);
-        holding.InvestorId.Should().Be(ValidInvestorId);
+        holding.InvestmentAccountId.Should().Be(ValidAccountId);
         holding.ClassId.Should().Be(ValidClassId);
         holding.Units.Should().Be(0m);
         holding.Status.Should().Be(HoldingStatus.Active);
@@ -27,23 +27,23 @@ public class HoldingTests
     [Fact]
     public void Create_WithEmptyTenantId_ThrowsArgumentException()
     {
-        var act = () => Holding.Create(Guid.Empty, ValidInvestorId, ValidClassId);
+        var act = () => Holding.Create(Guid.Empty, ValidAccountId, ValidClassId);
 
         act.Should().Throw<ArgumentException>().WithParameterName("tenantId");
     }
 
     [Fact]
-    public void Create_WithEmptyInvestorId_ThrowsArgumentException()
+    public void Create_WithEmptyInvestmentAccountId_ThrowsArgumentException()
     {
         var act = () => Holding.Create(ValidTenantId, Guid.Empty, ValidClassId);
 
-        act.Should().Throw<ArgumentException>().WithParameterName("investorId");
+        act.Should().Throw<ArgumentException>().WithParameterName("investmentAccountId");
     }
 
     [Fact]
     public void Create_WithEmptyClassId_ThrowsArgumentException()
     {
-        var act = () => Holding.Create(ValidTenantId, ValidInvestorId, Guid.Empty);
+        var act = () => Holding.Create(ValidTenantId, ValidAccountId, Guid.Empty);
 
         act.Should().Throw<ArgumentException>().WithParameterName("classId");
     }
@@ -51,7 +51,7 @@ public class HoldingTests
     [Fact]
     public void ApplySubscription_AddsUnitsAndSetsTimestamp()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         var before = DateTime.UtcNow;
 
         holding.ApplySubscription(100m);
@@ -64,7 +64,7 @@ public class HoldingTests
     [Fact]
     public void ApplySubscription_AccumulatesUnitsOnMultipleCalls()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
 
         holding.ApplySubscription(100m);
         holding.ApplySubscription(50m);
@@ -75,7 +75,7 @@ public class HoldingTests
     [Fact]
     public void ApplySubscription_WithZeroUnits_ThrowsArgumentException()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
 
         var act = () => holding.ApplySubscription(0m);
 
@@ -85,7 +85,7 @@ public class HoldingTests
     [Fact]
     public void ApplySubscription_WithNegativeUnits_ThrowsArgumentException()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
 
         var act = () => holding.ApplySubscription(-10m);
 
@@ -95,7 +95,7 @@ public class HoldingTests
     [Fact]
     public void ApplyRedemption_SubtractsUnits()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.ApplySubscription(100m);
 
         holding.ApplyRedemption(40m);
@@ -107,7 +107,7 @@ public class HoldingTests
     [Fact]
     public void ApplyRedemption_WhenFullRedemption_ClosesHolding()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.ApplySubscription(100m);
 
         holding.ApplyRedemption(100m);
@@ -119,7 +119,7 @@ public class HoldingTests
     [Fact]
     public void ApplyRedemption_WhenExceedsBalance_ThrowsInvalidOperationException()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.ApplySubscription(50m);
 
         var act = () => holding.ApplyRedemption(100m);
@@ -130,7 +130,7 @@ public class HoldingTests
     [Fact]
     public void ApplyRedemption_WithZeroUnits_ThrowsArgumentException()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.ApplySubscription(100m);
 
         var act = () => holding.ApplyRedemption(0m);
@@ -141,7 +141,7 @@ public class HoldingTests
     [Fact]
     public void ApplyTransfer_DelegatesToApplyRedemption()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.ApplySubscription(100m);
 
         holding.ApplyTransfer(30m);
@@ -152,7 +152,7 @@ public class HoldingTests
     [Fact]
     public void Freeze_WhenActive_SetsStatusToFrozen()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
 
         holding.Freeze();
 
@@ -162,7 +162,7 @@ public class HoldingTests
     [Fact]
     public void Freeze_WhenAlreadyFrozen_RemainsUnchanged()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.Freeze();
 
         holding.Freeze(); // second call — no-op
@@ -173,7 +173,7 @@ public class HoldingTests
     [Fact]
     public void Unfreeze_WhenFrozen_SetsStatusToActive()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.Freeze();
 
         holding.Unfreeze();
@@ -184,7 +184,7 @@ public class HoldingTests
     [Fact]
     public void Unfreeze_WhenActive_RemainsUnchanged()
     {
-        var holding = Holding.Create(ValidTenantId, ValidInvestorId, ValidClassId);
+        var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
 
         holding.Unfreeze(); // no-op
 

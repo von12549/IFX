@@ -27,9 +27,9 @@ public class TransactionProcessedEventHandlerTests
     [Fact]
     public async Task HandleAsync_Subscription_CreatesHoldingAndAppliesUnits()
     {
-        var investorId = Guid.NewGuid();
+        var accountId = Guid.NewGuid();
         var classId = Guid.NewGuid();
-        _holdings.Setup(r => r.GetByInvestorAndClassAsync(TenantId, investorId, classId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByAccountAndClassAsync(TenantId, accountId, classId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Holding?)null);
 
         Holding? added = null;
@@ -38,7 +38,7 @@ public class TransactionProcessedEventHandlerTests
             .Returns(Task.CompletedTask);
 
         var @event = new TransactionProcessedEvent(
-            Guid.NewGuid(), TenantId, "Subscription", investorId, classId, null, 100m, 10m);
+            Guid.NewGuid(), TenantId, "Subscription", accountId, classId, null, 100m, 10m);
 
         await _handler.HandleAsync(@event);
 
@@ -50,16 +50,16 @@ public class TransactionProcessedEventHandlerTests
     [Fact]
     public async Task HandleAsync_Subscription_UpdatesExistingHolding()
     {
-        var investorId = Guid.NewGuid();
+        var accountId = Guid.NewGuid();
         var classId = Guid.NewGuid();
-        var existing = Holding.Create(TenantId, investorId, classId);
+        var existing = Holding.Create(TenantId, accountId, classId);
         existing.ApplySubscription(50m);
 
-        _holdings.Setup(r => r.GetByInvestorAndClassAsync(TenantId, investorId, classId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByAccountAndClassAsync(TenantId, accountId, classId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(existing);
 
         var @event = new TransactionProcessedEvent(
-            Guid.NewGuid(), TenantId, "Subscription", investorId, classId, null, 100m, 10m);
+            Guid.NewGuid(), TenantId, "Subscription", accountId, classId, null, 100m, 10m);
 
         await _handler.HandleAsync(@event);
 
@@ -70,16 +70,16 @@ public class TransactionProcessedEventHandlerTests
     [Fact]
     public async Task HandleAsync_Redemption_ReducesHoldingUnits()
     {
-        var investorId = Guid.NewGuid();
+        var accountId = Guid.NewGuid();
         var classId = Guid.NewGuid();
-        var existing = Holding.Create(TenantId, investorId, classId);
+        var existing = Holding.Create(TenantId, accountId, classId);
         existing.ApplySubscription(200m);
 
-        _holdings.Setup(r => r.GetByInvestorAndClassAsync(TenantId, investorId, classId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByAccountAndClassAsync(TenantId, accountId, classId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(existing);
 
         var @event = new TransactionProcessedEvent(
-            Guid.NewGuid(), TenantId, "Redemption", investorId, classId, null, 50m, 10m);
+            Guid.NewGuid(), TenantId, "Redemption", accountId, classId, null, 50m, 10m);
 
         await _handler.HandleAsync(@event);
 
@@ -90,13 +90,13 @@ public class TransactionProcessedEventHandlerTests
     [Fact]
     public async Task HandleAsync_Redemption_WhenNoHoldingExists_DoesNotThrow()
     {
-        var investorId = Guid.NewGuid();
+        var accountId = Guid.NewGuid();
         var classId = Guid.NewGuid();
-        _holdings.Setup(r => r.GetByInvestorAndClassAsync(TenantId, investorId, classId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByAccountAndClassAsync(TenantId, accountId, classId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Holding?)null);
 
         var @event = new TransactionProcessedEvent(
-            Guid.NewGuid(), TenantId, "Redemption", investorId, classId, null, 50m, 10m);
+            Guid.NewGuid(), TenantId, "Redemption", accountId, classId, null, 50m, 10m);
 
         await _handler.Invoking(h => h.HandleAsync(@event)).Should().NotThrowAsync();
     }
@@ -104,16 +104,16 @@ public class TransactionProcessedEventHandlerTests
     [Fact]
     public async Task HandleAsync_Transfer_DecrementsSourceAndIncrementsTarget()
     {
-        var investorId = Guid.NewGuid();
+        var accountId = Guid.NewGuid();
         var sourceClassId = Guid.NewGuid();
         var targetClassId = Guid.NewGuid();
 
-        var sourceHolding = Holding.Create(TenantId, investorId, sourceClassId);
+        var sourceHolding = Holding.Create(TenantId, accountId, sourceClassId);
         sourceHolding.ApplySubscription(300m);
 
-        _holdings.Setup(r => r.GetByInvestorAndClassAsync(TenantId, investorId, sourceClassId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByAccountAndClassAsync(TenantId, accountId, sourceClassId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(sourceHolding);
-        _holdings.Setup(r => r.GetByInvestorAndClassAsync(TenantId, investorId, targetClassId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByAccountAndClassAsync(TenantId, accountId, targetClassId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Holding?)null);
 
         Holding? targetAdded = null;
@@ -122,7 +122,7 @@ public class TransactionProcessedEventHandlerTests
             .Returns(Task.CompletedTask);
 
         var @event = new TransactionProcessedEvent(
-            Guid.NewGuid(), TenantId, "Transfer", investorId, sourceClassId, targetClassId, 100m, 10m);
+            Guid.NewGuid(), TenantId, "Transfer", accountId, sourceClassId, targetClassId, 100m, 10m);
 
         await _handler.HandleAsync(@event);
 

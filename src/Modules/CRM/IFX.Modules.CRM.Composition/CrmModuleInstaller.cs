@@ -34,10 +34,11 @@ public sealed class CrmModuleInstaller : IModuleInstaller
     {
         Log.Information("[{Module}] Mapping module endpoints...", ModuleName);
 
-        builder.MapPartyEndpoints();    // 8 endpoints: party CRUD + investor relationship management
-        builder.MapInvestorEndpoints(); // 6 endpoints: investor CRUD + KYC update
+        builder.MapPartyEndpoints();
+        builder.MapInvestorEndpoints();
+        builder.MapInvestmentAccountEndpoints();
 
-        Log.Information("[{Module}] Module endpoints mapped: 14 total (8 Party, 6 Investor)", ModuleName);
+        Log.Information("[{Module}] Module endpoints mapped", ModuleName);
         return builder;
     }
 }

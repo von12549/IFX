@@ -52,7 +52,7 @@ public class CreatePartyCommandHandler : IRequestHandler<CreatePartyCommand, Res
             if (await _unitOfWork.Parties.CodeExistsAsync(request.PartyCode, _currentUser.TenantId.Value, cancellationToken))
                 return Result<PartyDto>.Failure($"Party code '{request.PartyCode}' already exists in this tenant.");
 
-            var party = Party.Create(_currentUser.TenantId.Value, request.PartyCode, request.Name, request.Type);
+            var party = Party.Create(_currentUser.TenantId.Value, request.PartyCode, request.Name, request.LegalStructure);
             party.CreatedBy = _currentUser.UserId;
 
             await _unitOfWork.Parties.AddAsync(party, cancellationToken);

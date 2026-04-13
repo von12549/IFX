@@ -52,7 +52,7 @@ public class CreatePartyCommandHandlerTests
         _parties.Setup(r => r.CodeExistsAsync("PTY001", TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
         _mapper.Setup(m => m.Map<PartyDto>(It.IsAny<Party>())).Returns(new PartyDto { PartyCode = "PTY001" });
 
-        var result = await _handler.Handle(new CreatePartyCommand("PTY001", "Acme Ltd", PartyType.FundManager), CancellationToken.None);
+        var result = await _handler.Handle(new CreatePartyCommand("PTY001", "Acme Ltd", PartyLegalStructure.Company), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value!.PartyCode.Should().Be("PTY001");
@@ -66,7 +66,7 @@ public class CreatePartyCommandHandlerTests
     {
         _parties.Setup(r => r.CodeExistsAsync("PTY001", TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
-        var result = await _handler.Handle(new CreatePartyCommand("PTY001", "Acme Ltd", PartyType.FundManager), CancellationToken.None);
+        var result = await _handler.Handle(new CreatePartyCommand("PTY001", "Acme Ltd", PartyLegalStructure.Company), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("PTY001");
@@ -78,7 +78,7 @@ public class CreatePartyCommandHandlerTests
     {
         _currentUser.Setup(c => c.TenantId).Returns((Guid?)null);
 
-        var result = await _handler.Handle(new CreatePartyCommand("PTY001", "Acme Ltd", PartyType.FundManager), CancellationToken.None);
+        var result = await _handler.Handle(new CreatePartyCommand("PTY001", "Acme Ltd", PartyLegalStructure.Company), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("Tenant");
@@ -95,7 +95,7 @@ public class CreatePartyCommandHandlerTests
             .Callback<Party, CancellationToken>((p, _) => capturedParty = p)
             .Returns(Task.CompletedTask);
 
-        await _handler.Handle(new CreatePartyCommand("PTY002", "Beta Ltd", PartyType.FundManager), CancellationToken.None);
+        await _handler.Handle(new CreatePartyCommand("PTY002", "Beta Ltd", PartyLegalStructure.Company), CancellationToken.None);
 
         capturedParty.Should().NotBeNull();
         capturedParty!.CreatedBy.Should().Be(userId);

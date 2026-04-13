@@ -1,4 +1,5 @@
 using IFX.Modules.CRM.Domain.Entities;
+using IFX.Modules.CRM.Domain.Enums;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,14 @@ public class EfPartyRepository : IPartyRepository
     public async Task<Party?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)
     {
         return await _context.Parties
+            .Include(p => p.RoleAssignments)
             .FirstOrDefaultAsync(p => p.Id == id && p.TenantId == tenantId, ct);
     }
 
     public async Task<List<Party>> GetByTenantIdAsync(Guid tenantId, CancellationToken ct = default)
     {
         return await _context.Parties
+            .Include(p => p.RoleAssignments)
             .Where(p => p.TenantId == tenantId)
             .OrderBy(p => p.Name)
             .ToListAsync(ct);
@@ -38,6 +41,15 @@ public class EfPartyRepository : IPartyRepository
     {
         return await _context.Parties
             .AnyAsync(p => p.PartyCode == partyCode && p.TenantId == tenantId && p.Id != excludeId, ct);
+    }
+
+    public async Task<IReadOnlyList<Party>> GetByLegalStructureAsync(Guid tenantId, PartyLegalStructure legalStructure, CancellationToken ct = default)
+    {
+        return await _context.Parties
+            .Include(p => p.RoleAssignments)
+            .Where(p => p.TenantId == tenantId && p.LegalStructure == legalStructure)
+            .OrderBy(p => p.Name)
+            .ToListAsync(ct);
     }
 
     public async Task AddAsync(Party party, CancellationToken ct = default)

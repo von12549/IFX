@@ -4,8 +4,7 @@ public class CreateSwitchCommandValidator : AbstractValidator<CreateSwitchComman
 {
     public CreateSwitchCommandValidator()
     {
-        RuleFor(x => x.PartyId).NotEmpty();
-        RuleFor(x => x.InvestorId).NotEmpty();
+        RuleFor(x => x.InvestmentAccountId).NotEmpty();
         RuleFor(x => x.FundId).NotEmpty();
         RuleFor(x => x.ClassId).NotEmpty();
         RuleFor(x => x.TargetClassId).NotEmpty().WithMessage("TargetClassId is required for Switch.");

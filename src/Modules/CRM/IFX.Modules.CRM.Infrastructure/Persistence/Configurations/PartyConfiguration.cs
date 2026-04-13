@@ -22,7 +22,7 @@ public class PartyConfiguration : IEntityTypeConfiguration<Party>
             .IsRequired()
             .HasMaxLength(200);
 
-        builder.Property(p => p.Type)
+        builder.Property(p => p.LegalStructure)
             .IsRequired()
             .HasConversion<int>();
 
@@ -31,11 +31,17 @@ public class PartyConfiguration : IEntityTypeConfiguration<Party>
             .HasConversion<int>();
 
         builder.Property(p => p.CreatedBy);
+        builder.Property(p => p.UpdatedBy);
         builder.Property(p => p.CreatedAt).IsRequired();
         builder.Property(p => p.UpdatedAt).IsRequired();
 
         builder.HasIndex(p => new { p.TenantId, p.PartyCode })
             .HasDatabaseName("IX_Parties_TenantId_PartyCode")
             .IsUnique();
+
+        builder.HasMany(p => p.RoleAssignments)
+            .WithOne(r => r.Party)
+            .HasForeignKey(r => r.PartyId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

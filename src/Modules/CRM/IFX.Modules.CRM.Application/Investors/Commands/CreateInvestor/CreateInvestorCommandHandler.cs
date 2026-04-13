@@ -52,7 +52,7 @@ public class CreateInvestorCommandHandler : IRequestHandler<CreateInvestorComman
             if (await _unitOfWork.Investors.CodeExistsAsync(request.InvestorCode, _currentUser.TenantId.Value, cancellationToken))
                 return Result<InvestorDto>.Failure($"Investor code '{request.InvestorCode}' already exists in this tenant.");
 
-            var investor = Investor.Create(_currentUser.TenantId.Value, request.InvestorCode, request.Name, request.Type, request.ResidencyCountry, request.TaxResidency);
+            var investor = Investor.Create(_currentUser.TenantId.Value, request.InvestorCode, request.Name, request.LegalStructure, request.TaxResidencyCountry, request.PartyId);
             investor.CreatedBy = _currentUser.UserId;
 
             await _unitOfWork.Investors.AddAsync(investor, cancellationToken);

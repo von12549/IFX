@@ -22,7 +22,7 @@ public class GetTransactionsQueryHandlerTests
 
     private static TransactionDto MakeDto() => new(
         Guid.NewGuid(), Guid.NewGuid(), "Subscription",
-        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
         10000m, null, null, "2024-01-01", null, "Pending", null,
         DateTime.UtcNow, DateTime.UtcNow);
 
@@ -39,7 +39,7 @@ public class GetTransactionsQueryHandlerTests
     public async Task Handle_WithTenantContext_ReturnsTransactions()
     {
         var tx = TxEntity.CreateSubscription(
-            TenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+            TenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             10000m, DateOnly.FromDateTime(DateTime.UtcNow));
         _transactions.Setup(r => r.GetByTenantAsync(TenantId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<TxEntity> { tx });

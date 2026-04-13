@@ -45,12 +45,12 @@ public static class TransactionEndpoints
         [FromServices] IMediator mediator,
         [FromServices] ILogger<TransactionEndpointsLogCategory> logger)
     {
-        logger.LogInformation("Creating subscription for investor {InvestorId}", request.InvestorId);
+        logger.LogInformation("Creating subscription for investment account {InvestmentAccountId}", request.InvestmentAccountId);
 
         if (!DateOnly.TryParse(request.TradeDate, out var tradeDate))
             return Results.BadRequest(ApiResponse<object>.FailureResponse("Invalid TradeDate format. Use yyyy-MM-dd."));
 
-        var command = new CreateSubscriptionCommand(request.PartyId, request.InvestorId, request.FundId, request.ClassId, request.Amount, tradeDate);
+        var command = new CreateSubscriptionCommand(request.InvestmentAccountId, request.FundId, request.ClassId, request.Amount, tradeDate);
         var result = await mediator.Send(command);
         if (!result.IsSuccess) return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         return Results.Created($"/api/v1/transaction/{result.Value!.TransactionId}", ApiResponse<object>.SuccessResponse(result.Value!));
@@ -61,12 +61,12 @@ public static class TransactionEndpoints
         [FromServices] IMediator mediator,
         [FromServices] ILogger<TransactionEndpointsLogCategory> logger)
     {
-        logger.LogInformation("Creating redemption for investor {InvestorId}", request.InvestorId);
+        logger.LogInformation("Creating redemption for investment account {InvestmentAccountId}", request.InvestmentAccountId);
 
         if (!DateOnly.TryParse(request.TradeDate, out var tradeDate))
             return Results.BadRequest(ApiResponse<object>.FailureResponse("Invalid TradeDate format. Use yyyy-MM-dd."));
 
-        var command = new CreateRedemptionCommand(request.PartyId, request.InvestorId, request.FundId, request.ClassId, request.Amount, tradeDate);
+        var command = new CreateRedemptionCommand(request.InvestmentAccountId, request.FundId, request.ClassId, request.Amount, tradeDate);
         var result = await mediator.Send(command);
         if (!result.IsSuccess) return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         return Results.Created($"/api/v1/transaction/{result.Value!.TransactionId}", ApiResponse<object>.SuccessResponse(result.Value!));
@@ -77,12 +77,12 @@ public static class TransactionEndpoints
         [FromServices] IMediator mediator,
         [FromServices] ILogger<TransactionEndpointsLogCategory> logger)
     {
-        logger.LogInformation("Creating transfer for investor {InvestorId}", request.InvestorId);
+        logger.LogInformation("Creating transfer for investment account {InvestmentAccountId}", request.InvestmentAccountId);
 
         if (!DateOnly.TryParse(request.TradeDate, out var tradeDate))
             return Results.BadRequest(ApiResponse<object>.FailureResponse("Invalid TradeDate format. Use yyyy-MM-dd."));
 
-        var command = new CreateTransferCommand(request.PartyId, request.InvestorId, request.FundId, request.ClassId, request.TargetClassId, request.Amount, tradeDate);
+        var command = new CreateTransferCommand(request.InvestmentAccountId, request.FundId, request.ClassId, request.TargetClassId, request.Amount, tradeDate);
         var result = await mediator.Send(command);
         if (!result.IsSuccess) return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         return Results.Created($"/api/v1/transaction/{result.Value!.TransactionId}", ApiResponse<object>.SuccessResponse(result.Value!));
@@ -93,12 +93,12 @@ public static class TransactionEndpoints
         [FromServices] IMediator mediator,
         [FromServices] ILogger<TransactionEndpointsLogCategory> logger)
     {
-        logger.LogInformation("Creating switch for investor {InvestorId}", request.InvestorId);
+        logger.LogInformation("Creating switch for investment account {InvestmentAccountId}", request.InvestmentAccountId);
 
         if (!DateOnly.TryParse(request.TradeDate, out var tradeDate))
             return Results.BadRequest(ApiResponse<object>.FailureResponse("Invalid TradeDate format. Use yyyy-MM-dd."));
 
-        var command = new CreateSwitchCommand(request.PartyId, request.InvestorId, request.FundId, request.ClassId, request.TargetClassId, request.Amount, tradeDate);
+        var command = new CreateSwitchCommand(request.InvestmentAccountId, request.FundId, request.ClassId, request.TargetClassId, request.Amount, tradeDate);
         var result = await mediator.Send(command);
         if (!result.IsSuccess) return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         return Results.Created($"/api/v1/transaction/{result.Value!.TransactionId}", ApiResponse<object>.SuccessResponse(result.Value!));

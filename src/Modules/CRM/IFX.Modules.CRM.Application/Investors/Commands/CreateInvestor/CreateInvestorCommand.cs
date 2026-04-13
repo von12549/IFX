@@ -5,4 +5,10 @@ using MediatR;
 
 namespace IFX.Modules.CRM.Application.Investors.Commands.CreateInvestor;
 
-public record CreateInvestorCommand(string InvestorCode, string Name, InvestorType Type, string ResidencyCountry, string TaxResidency) : IRequest<Result<InvestorDto>>;
+
+public record CreateInvestorCommand(
+    string InvestorCode,
+    string Name,
+    PartyLegalStructure LegalStructure,
+    string? TaxResidencyCountry = null,
+    Guid? PartyId = null) : IRequest<Result<InvestorDto>>;

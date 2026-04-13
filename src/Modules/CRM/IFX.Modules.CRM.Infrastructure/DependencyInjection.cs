@@ -22,10 +22,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // Register Memory Cache
         services.AddMemoryCache();
 
-        // Register DbContext
         var connectionString = configuration.GetConnectionString("CrmDatabase")
             ?? configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<CrmDbContext>(options =>
@@ -36,22 +34,30 @@ public static class DependencyInjection
             });
         });
 
-        // Register Repositories
+        // Repositories
         services.AddScoped<IPartyRepository, EfPartyRepository>();
         services.AddScoped<IInvestorRepository, EfInvestorRepository>();
-        services.AddScoped<IPartyInvestorRepository, EfPartyInvestorRepository>();
+        services.AddScoped<IPartyRoleAssignmentRepository, EfPartyRoleAssignmentRepository>();
+        services.AddScoped<IInvestmentAccountRepository, EfInvestmentAccountRepository>();
+        services.AddScoped<IPartyInvestmentAccountLinkRepository, EfPartyInvestmentAccountLinkRepository>();
+        services.AddScoped<IPartyRelationshipRepository, EfPartyRelationshipRepository>();
+        services.AddScoped<IAdvisorInvestmentAccountLinkRepository, EfAdvisorInvestmentAccountLinkRepository>();
+        services.AddScoped<IInvestorDocumentRepository, EfInvestorDocumentRepository>();
+        services.AddScoped<IUserPartyLinkRepository, EfUserPartyLinkRepository>();
+        services.AddScoped<IIndividualInvestorProfileRepository, EfIndividualInvestorProfileRepository>();
+        services.AddScoped<ICorporateInvestorProfileRepository, EfCorporateInvestorProfileRepository>();
+        services.AddScoped<ITrustInvestorProfileRepository, EfTrustInvestorProfileRepository>();
 
-        // Register UnitOfWork
+        // Unit of Work
         services.AddScoped<IUnitOfWork, CrmUnitOfWork>();
 
-        // Register CrmReader (cross-module read service)
+        // CrmReader (cross-module read service)
         services.AddScoped<ICrmReader, CrmReader>();
 
-        // Register shared authorization services
+        // Authorization
         services.AddHttpContextAccessor();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
 
-        // Register ABAC template engine (singleton — thread-safe, no per-request state)
         services.AddSingleton<IAbacTemplateRegistry>(_ =>
         {
             var registry = new AbacTemplateRegistry();
@@ -60,13 +66,8 @@ public static class DependencyInjection
         });
         services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
 
-        // Register ABAC policy resolver: static fallback resolver.
-        // CRM resource policies are seeded into the shared PolicyDefinition table (Auth module's DB)
-        // and resolved via Auth module's DbAbacPolicyResolver which is registered in the shared DI container.
-        // The StaticAbacPolicyResolver here acts as a deny-by-default fallback.
         services.AddSingleton<StaticAbacPolicyResolver>();
         services.AddScoped<IAbacPolicyResolver>(sp => sp.GetRequiredService<StaticAbacPolicyResolver>());
-        // IAbacPolicyCache: CRM does not own PolicyDefinitions; use a no-op adapter.
         services.AddScoped<IAbacPolicyCache, NoOpAbacPolicyCache>();
 
         return services;

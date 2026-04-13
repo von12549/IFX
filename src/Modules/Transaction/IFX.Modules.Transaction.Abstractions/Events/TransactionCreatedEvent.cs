@@ -6,7 +6,7 @@ public record TransactionCreatedEvent(
     Guid TransactionId,
     Guid TenantId,
     string TransactionType,
-    Guid InvestorId,
+    Guid InvestmentAccountId,
     Guid ClassId,
     decimal Amount
 ) : IntegrationEvent;

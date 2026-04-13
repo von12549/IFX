@@ -49,7 +49,7 @@ public class GetHoldingsQueryHandlerTests
         _mapper.Setup(m => m.Map<IReadOnlyList<HoldingSummaryDto>>(It.IsAny<IEnumerable<Holding>>()))
             .Returns(new List<HoldingSummaryDto>
             {
-                new(holding.Id, TenantId, holding.InvestorId, holding.ClassId, 100m, "Active", null, DateTime.UtcNow, DateTime.UtcNow)
+                new(holding.Id, TenantId, holding.InvestmentAccountId, holding.ClassId, 100m, "Active", null, DateTime.UtcNow, DateTime.UtcNow)
             });
 
         var result = await _handler.Handle(new GetHoldingsQuery(), CancellationToken.None);

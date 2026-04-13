@@ -6,5 +6,5 @@ public record HoldingFrozenEvent(
     Guid HoldingId,
     Guid TenantId,
     Guid ClassId,
-    Guid InvestorId
+    Guid InvestmentAccountId
 ) : IntegrationEvent;

@@ -1,3 +1,4 @@
+using IFX.Modules.CRM.Presentation.InvestmentAccounts.Endpoints;
 using IFX.Modules.CRM.Presentation.Investors.Endpoints;
 using IFX.Modules.CRM.Presentation.Parties.Endpoints;
 using Microsoft.AspNetCore.Builder;
@@ -71,20 +72,74 @@ public static class EndpointExtensions
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
-        group.MapPost("/{partyId}/investors/{investorId}", PartyEndpoints.LinkInvestorToParty)
-            .WithName("LinkInvestorToParty")
-            .RequirePermission("PartyInvestor:link")
-            .WithSummary("Link an investor to a party with a relationship type")
+        group.MapGet("/{partyId}/roles", PartyEndpoints.GetPartyRoles)
+            .WithName("GetPartyRoles")
+            .RequirePermission("Party:read")
+            .WithSummary("Get all functional roles assigned to a party")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapPost("/{partyId}/roles/{role}", PartyEndpoints.AssignPartyRole)
+            .WithName("AssignPartyRole")
+            .RequirePermission("Party:update")
+            .WithSummary("Assign a functional role to a party")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
-        group.MapDelete("/{partyId}/investors/{investorId}", PartyEndpoints.UnlinkInvestorFromParty)
-            .WithName("UnlinkInvestorFromParty")
-            .RequirePermission("PartyInvestor:unlink")
-            .WithSummary("Unlink an investor from a party (requires ?relationshipType=)")
+        group.MapDelete("/{partyId}/roles/{role}", PartyEndpoints.RemovePartyRole)
+            .WithName("RemovePartyRole")
+            .RequirePermission("Party:update")
+            .WithSummary("Remove a functional role from a party")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{partyId}/relationships", PartyEndpoints.GetPartyRelationships)
+            .WithName("GetPartyRelationships")
+            .RequirePermission("Party:read")
+            .WithSummary("Get all relationships for a party")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{partyId}/relationships", PartyEndpoints.CreatePartyRelationship)
+            .WithName("CreatePartyRelationship")
+            .RequirePermission("Party:update")
+            .WithSummary("Create a relationship between two parties")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPut("/{partyId}/relationships/{relationshipId}/expire", PartyEndpoints.ExpirePartyRelationship)
+            .WithName("ExpirePartyRelationship")
+            .RequirePermission("Party:update")
+            .WithSummary("Set the expiry date on a party relationship")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{partyId}/users/{userId}", PartyEndpoints.LinkUserToParty)
+            .WithName("LinkUserToParty")
+            .RequirePermission("Party:update")
+            .WithSummary("Link a user account to a party")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{partyId}/users/{userId}", PartyEndpoints.UnlinkUserFromParty)
+            .WithName("UnlinkUserFromParty")
+            .RequirePermission("Party:update")
+            .WithSummary("Unlink a user account from a party")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/user/{userId}/party", PartyEndpoints.GetPartyForUser)
+            .WithName("GetPartyForUser")
+            .RequirePermission("Party:read")
+            .WithSummary("Get the party linked to a user")
+            .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
         return builder;
@@ -139,10 +194,132 @@ public static class EndpointExtensions
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);
 
+        group.MapPut("/{investorId}/aml", InvestorEndpoints.UpdateInvestorAml)
+            .WithName("UpdateInvestorAml")
+            .RequirePermission("Investor:update")
+            .WithSummary("Update AML status for an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{investorId}/documents", InvestorEndpoints.GetInvestorDocuments)
+            .WithName("GetInvestorDocuments")
+            .RequirePermission("Investor:read")
+            .WithSummary("Get all documents for an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{investorId}/documents", InvestorEndpoints.AddInvestorDocument)
+            .WithName("AddInvestorDocument")
+            .RequirePermission("Investor:update")
+            .WithSummary("Add an identity document to an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{investorId}/documents/{documentId}", InvestorEndpoints.RemoveInvestorDocument)
+            .WithName("RemoveInvestorDocument")
+            .RequirePermission("Investor:update")
+            .WithSummary("Remove an identity document from an investor")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
         group.MapDelete("/{investorId}", InvestorEndpoints.DeleteInvestor)
             .WithName("DeleteInvestor")
             .RequirePermission("Investor:delete")
             .WithSummary("Close an investor (soft delete)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        return builder;
+    }
+
+    public static IEndpointRouteBuilder MapInvestmentAccountEndpoints(this IEndpointRouteBuilder builder)
+    {
+        var group = builder.MapGroup("/api/v1/investment-account")
+            .WithTags("InvestmentAccount")
+            .RequireAuthorization();
+
+        group.MapGet("/",
+            (IServiceProvider services) =>
+                InvestmentAccountEndpoints.GetInvestmentAccounts(
+                    services.GetRequiredService<MediatR.IMediator>(),
+                    services.GetRequiredService<ILogger<InvestmentAccountEndpointsLogCategory>>()))
+            .WithName("GetInvestmentAccounts")
+            .RequirePermission("InvestmentAccount:list")
+            .WithSummary("Get all investment accounts for the current tenant")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{id}", InvestmentAccountEndpoints.GetInvestmentAccountById)
+            .WithName("GetInvestmentAccountById")
+            .RequirePermission("InvestmentAccount:read")
+            .WithSummary("Get an investment account by ID")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapPost("/", InvestmentAccountEndpoints.CreateInvestmentAccount)
+            .WithName("CreateInvestmentAccount")
+            .RequirePermission("InvestmentAccount:create")
+            .WithSummary("Create a new investment account")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPut("/{id}", InvestmentAccountEndpoints.UpdateInvestmentAccount)
+            .WithName("UpdateInvestmentAccount")
+            .RequirePermission("InvestmentAccount:update")
+            .WithSummary("Update an investment account")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{id}", InvestmentAccountEndpoints.DeleteInvestmentAccount)
+            .WithName("DeleteInvestmentAccount")
+            .RequirePermission("InvestmentAccount:delete")
+            .WithSummary("Close an investment account (soft delete)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{id}/parties/{partyId}", InvestmentAccountEndpoints.LinkPartyToInvestmentAccount)
+            .WithName("LinkPartyToInvestmentAccount")
+            .RequirePermission("InvestmentAccount:update")
+            .WithSummary("Link a party to an investment account")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{id}/parties/{partyId}", InvestmentAccountEndpoints.UnlinkPartyFromInvestmentAccount)
+            .WithName("UnlinkPartyFromInvestmentAccount")
+            .RequirePermission("InvestmentAccount:update")
+            .WithSummary("Unlink a party from an investment account")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{id}/advisors", InvestmentAccountEndpoints.GetAdvisorsForInvestmentAccount)
+            .WithName("GetAdvisorsForInvestmentAccount")
+            .RequirePermission("InvestmentAccount:read")
+            .WithSummary("Get all advisors linked to an investment account")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPost("/{id}/advisors/{advisorPartyId}", InvestmentAccountEndpoints.LinkAdvisorToInvestmentAccount)
+            .WithName("LinkAdvisorToInvestmentAccount")
+            .RequirePermission("InvestmentAccount:update")
+            .WithSummary("Link an advisor party to an investment account")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{id}/advisors/{advisorPartyId}", InvestmentAccountEndpoints.UnlinkAdvisorFromInvestmentAccount)
+            .WithName("UnlinkAdvisorFromInvestmentAccount")
+            .RequirePermission("InvestmentAccount:update")
+            .WithSummary("Unlink an advisor party from an investment account")
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest)
             .Produces<object>(StatusCodes.Status401Unauthorized);

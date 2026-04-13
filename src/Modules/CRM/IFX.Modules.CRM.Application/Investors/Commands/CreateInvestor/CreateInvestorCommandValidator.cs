@@ -14,12 +14,8 @@ public class CreateInvestorCommandValidator : AbstractValidator<CreateInvestorCo
             .NotEmpty().WithMessage("Name is required.")
             .MaximumLength(200).WithMessage("Name must not exceed 200 characters.");
 
-        RuleFor(x => x.ResidencyCountry)
-            .NotEmpty().WithMessage("ResidencyCountry is required.")
-            .Length(2).WithMessage("ResidencyCountry must be a 2-letter ISO country code.");
-
-        RuleFor(x => x.TaxResidency)
-            .NotEmpty().WithMessage("TaxResidency is required.")
-            .Length(2).WithMessage("TaxResidency must be a 2-letter ISO country code.");
+        RuleFor(x => x.TaxResidencyCountry)
+            .Length(2).WithMessage("TaxResidencyCountry must be a 2-letter ISO country code.")
+            .When(x => x.TaxResidencyCountry != null);
     }
 }

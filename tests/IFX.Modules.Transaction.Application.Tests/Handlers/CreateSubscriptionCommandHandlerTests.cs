@@ -29,12 +29,12 @@ public class CreateSubscriptionCommandHandlerTests
     private static readonly Guid TenantId = Guid.NewGuid();
     private static TransactionDto MakeDto() => new(
         Guid.NewGuid(), Guid.NewGuid(), "Subscription",
-        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), null,
         10000m, null, null, "2024-01-01", null, "Pending", null,
         DateTime.UtcNow, DateTime.UtcNow);
 
     private static readonly CreateSubscriptionCommand ValidCommand = new(
-        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
         10000m, DateOnly.FromDateTime(DateTime.UtcNow));
 
     public CreateSubscriptionCommandHandlerTests()
@@ -49,8 +49,7 @@ public class CreateSubscriptionCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _crmReader.Setup(c => c.IsInvestorKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-        _crmReader.Setup(c => c.PartyExistsAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _crmReader.Setup(c => c.IsInvestmentAccountKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
         _registryReader.Setup(r => r.IsClassOpenForSubscriptionAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
         _eventBus
             .Setup(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()))
@@ -88,9 +87,9 @@ public class CreateSubscriptionCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenInvestorKycNotApproved_ReturnsFailure()
+    public async Task Handle_WhenInvestmentAccountKycNotApproved_ReturnsFailure()
     {
-        _crmReader.Setup(c => c.IsInvestorKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        _crmReader.Setup(c => c.IsInvestmentAccountKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         var result = await _handler.Handle(ValidCommand, CancellationToken.None);
 
@@ -108,18 +107,6 @@ public class CreateSubscriptionCommandHandlerTests
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("not open");
-        _transactions.Verify(r => r.AddAsync(It.IsAny<TxEntity>(), It.IsAny<CancellationToken>()), Times.Never);
-    }
-
-    [Fact]
-    public async Task Handle_WhenPartyNotFound_ReturnsFailure()
-    {
-        _crmReader.Setup(c => c.PartyExistsAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
-
-        var result = await _handler.Handle(ValidCommand, CancellationToken.None);
-
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Contain("Party");
         _transactions.Verify(r => r.AddAsync(It.IsAny<TxEntity>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

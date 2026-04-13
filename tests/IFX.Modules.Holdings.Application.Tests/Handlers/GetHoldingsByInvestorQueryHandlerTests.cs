@@ -40,20 +40,20 @@ public class GetHoldingsByInvestorQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ReturnsHoldingsForInvestor()
+    public async Task Handle_ReturnsHoldingsForInvestmentAccount()
     {
-        var investorId = Guid.NewGuid();
-        var holding = Holding.Create(TenantId, investorId, Guid.NewGuid());
+        var accountId = Guid.NewGuid();
+        var holding = Holding.Create(TenantId, accountId, Guid.NewGuid());
         holding.ApplySubscription(200m);
-        _holdings.Setup(r => r.GetByInvestorAsync(TenantId, investorId, It.IsAny<CancellationToken>()))
+        _holdings.Setup(r => r.GetByInvestmentAccountAsync(TenantId, accountId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Holding> { holding });
         _mapper.Setup(m => m.Map<IReadOnlyList<HoldingSummaryDto>>(It.IsAny<IEnumerable<Holding>>()))
             .Returns(new List<HoldingSummaryDto>
             {
-                new(holding.Id, TenantId, investorId, holding.ClassId, 200m, "Active", null, DateTime.UtcNow, DateTime.UtcNow)
+                new(holding.Id, TenantId, accountId, holding.ClassId, 200m, "Active", null, DateTime.UtcNow, DateTime.UtcNow)
             });
 
-        var result = await _handler.Handle(new GetHoldingsByInvestorQuery(investorId), CancellationToken.None);
+        var result = await _handler.Handle(new GetHoldingsByInvestorQuery(accountId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().HaveCount(1);
@@ -71,15 +71,15 @@ public class GetHoldingsByInvestorQueryHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenInvestorHasNoHoldings_ReturnsEmptyList()
+    public async Task Handle_WhenAccountHasNoHoldings_ReturnsEmptyList()
     {
-        var investorId = Guid.NewGuid();
-        _holdings.Setup(r => r.GetByInvestorAsync(TenantId, investorId, It.IsAny<CancellationToken>()))
+        var accountId = Guid.NewGuid();
+        _holdings.Setup(r => r.GetByInvestmentAccountAsync(TenantId, accountId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<Holding>());
         _mapper.Setup(m => m.Map<IReadOnlyList<HoldingSummaryDto>>(It.IsAny<IEnumerable<Holding>>()))
             .Returns(new List<HoldingSummaryDto>());
 
-        var result = await _handler.Handle(new GetHoldingsByInvestorQuery(investorId), CancellationToken.None);
+        var result = await _handler.Handle(new GetHoldingsByInvestorQuery(accountId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEmpty();

@@ -13,17 +13,44 @@ public class CrmUnitOfWork : IUnitOfWork
         CrmDbContext context,
         IPartyRepository parties,
         IInvestorRepository investors,
-        IPartyInvestorRepository partyInvestors)
+        IPartyRoleAssignmentRepository partyRoleAssignments,
+        IInvestmentAccountRepository investmentAccounts,
+        IPartyInvestmentAccountLinkRepository partyInvestmentAccountLinks,
+        IPartyRelationshipRepository partyRelationships,
+        IAdvisorInvestmentAccountLinkRepository advisorInvestmentAccountLinks,
+        IInvestorDocumentRepository investorDocuments,
+        IUserPartyLinkRepository userPartyLinks,
+        IIndividualInvestorProfileRepository individualProfiles,
+        ICorporateInvestorProfileRepository corporateProfiles,
+        ITrustInvestorProfileRepository trustProfiles)
     {
         _context = context;
         Parties = parties;
         Investors = investors;
-        PartyInvestors = partyInvestors;
+        PartyRoleAssignments = partyRoleAssignments;
+        InvestmentAccounts = investmentAccounts;
+        PartyInvestmentAccountLinks = partyInvestmentAccountLinks;
+        PartyRelationships = partyRelationships;
+        AdvisorInvestmentAccountLinks = advisorInvestmentAccountLinks;
+        InvestorDocuments = investorDocuments;
+        UserPartyLinks = userPartyLinks;
+        IndividualProfiles = individualProfiles;
+        CorporateProfiles = corporateProfiles;
+        TrustProfiles = trustProfiles;
     }
 
     public IPartyRepository Parties { get; }
     public IInvestorRepository Investors { get; }
-    public IPartyInvestorRepository PartyInvestors { get; }
+    public IPartyRoleAssignmentRepository PartyRoleAssignments { get; }
+    public IInvestmentAccountRepository InvestmentAccounts { get; }
+    public IPartyInvestmentAccountLinkRepository PartyInvestmentAccountLinks { get; }
+    public IPartyRelationshipRepository PartyRelationships { get; }
+    public IAdvisorInvestmentAccountLinkRepository AdvisorInvestmentAccountLinks { get; }
+    public IInvestorDocumentRepository InvestorDocuments { get; }
+    public IUserPartyLinkRepository UserPartyLinks { get; }
+    public IIndividualInvestorProfileRepository IndividualProfiles { get; }
+    public ICorporateInvestorProfileRepository CorporateProfiles { get; }
+    public ITrustInvestorProfileRepository TrustProfiles { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
