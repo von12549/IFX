@@ -320,14 +320,14 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                         principalSchema: "crm",
                         principalTable: "Parties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PartyRelationships_Parties_ToPartyId",
                         column: x => x.ToPartyId,
                         principalSchema: "crm",
                         principalTable: "Parties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

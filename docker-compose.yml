@@ -59,6 +59,10 @@ services:
       # Database connections
       - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       - ConnectionStrings__BackgroundJobsDatabase=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__CrmDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__HoldingsDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__TransactionDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__RegistryDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${DB_USER:-sa};Password=${DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       # Identity Provider Selection
       - Authentication__Provider=${AUTHENTICATION_PROVIDER:-Cognito}
       # AWS Cognito

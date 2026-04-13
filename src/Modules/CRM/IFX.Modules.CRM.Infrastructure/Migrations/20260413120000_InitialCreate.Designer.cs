@@ -769,13 +769,13 @@ namespace IFX.Modules.CRM.Infrastructure.Migrations
                     b.HasOne("IFX.Modules.CRM.Domain.Entities.Party", "FromParty")
                         .WithMany()
                         .HasForeignKey("FromPartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("IFX.Modules.CRM.Domain.Entities.Party", "ToParty")
                         .WithMany()
                         .HasForeignKey("ToPartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FromParty");

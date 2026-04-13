@@ -14,9 +14,17 @@ public class PartyRelationshipConfiguration : IEntityTypeConfiguration<PartyRela
 
         builder.Property(r => r.TenantId).IsRequired();
 
-        // Cross-module value references — no FK constraints
-        builder.Property(r => r.FromPartyId).IsRequired();
-        builder.Property(r => r.ToPartyId).IsRequired();
+        // Both FKs reference Parties — SQL Server forbids CASCADE on both (multiple cascade paths).
+        // Use Restrict so application logic handles cleanup.
+        builder.HasOne(r => r.FromParty)
+            .WithMany()
+            .HasForeignKey(r => r.FromPartyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(r => r.ToParty)
+            .WithMany()
+            .HasForeignKey(r => r.ToPartyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(r => r.RelationshipType)
             .IsRequired()
