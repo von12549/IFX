@@ -70,6 +70,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260326-frontend-global-role-views.md` | Frontend GlobalRole views — dual-section layout for GlobalRole users, cross-tenant data grouping, permission/policy scope split, Phase 1 (no new endpoints) + Phase 2 (cross-tenant endpoints) |
 | `/.claude/Plans/20260401-fund-registry-crm-registry-holdings-transaction.md` | Fund Registry System — CRM (Party/Investor), Registry (Fund/Class), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules with Option B integration events |
 | `/.claude/Plans/20260413-crm-v2-investment-account-party-relationship-kyc.md` | CRM V2 — InvestmentAccount entity, PartyRelationship, advisor model, KYC enrichment; migrates Holding/Transaction from InvestorId → InvestmentAccountId |
+| `/.claude/Plans/20260413-ef-migration-pipeline-crm-holdings-transaction-registry.md` | Replace EnsureCreatedAsync with MigrateAsync in CRM, Holdings, Transaction, Registry — squashed InitialCreate baselines + EnsureCreatedAsync→MigrateAsync stamping logic |
 
 ## Quick Reference
 
