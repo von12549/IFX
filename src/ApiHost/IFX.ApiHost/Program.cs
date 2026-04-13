@@ -85,7 +85,11 @@ try
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth API v1");
+            options.SwaggerEndpoint("/swagger/auth/swagger.json",        "Auth");
+            options.SwaggerEndpoint("/swagger/crm/swagger.json",         "CRM");
+            options.SwaggerEndpoint("/swagger/registry/swagger.json",    "Registry");
+            options.SwaggerEndpoint("/swagger/holdings/swagger.json",    "Holdings");
+            options.SwaggerEndpoint("/swagger/transaction/swagger.json", "Transaction");
         });
     }
 
