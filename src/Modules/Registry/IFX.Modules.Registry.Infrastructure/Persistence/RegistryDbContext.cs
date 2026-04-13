@@ -10,6 +10,7 @@ public class RegistryDbContext : DbContext
     {
     }
 
+    public DbSet<Product> Products => Set<Product>();
     public DbSet<Fund> Funds => Set<Fund>();
     public DbSet<FundClass> FundClasses => Set<FundClass>();
 

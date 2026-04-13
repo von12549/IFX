@@ -11,14 +11,17 @@ public class RegistryUnitOfWork : IUnitOfWork
 
     public RegistryUnitOfWork(
         RegistryDbContext context,
+        IProductRepository products,
         IFundRepository funds,
         IFundClassRepository fundClasses)
     {
         _context = context;
+        Products = products;
         Funds = funds;
         FundClasses = fundClasses;
     }
 
+    public IProductRepository Products { get; }
     public IFundRepository Funds { get; }
     public IFundClassRepository FundClasses { get; }
 

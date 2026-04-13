@@ -61,6 +61,9 @@ public class CreateFundCommandHandler : IRequestHandler<CreateFundCommand, Resul
                 request.BaseCurrency,
                 request.InceptionDate);
 
+            if (request.ProductId.HasValue)
+                fund.SetProduct(request.ProductId.Value);
+
             fund.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Funds.AddAsync(fund, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

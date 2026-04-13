@@ -1,6 +1,7 @@
 using AutoMapper;
 using IFX.Modules.Registry.Application.FundClasses.DTOs;
 using IFX.Modules.Registry.Application.Funds.DTOs;
+using IFX.Modules.Registry.Application.Products.DTOs;
 using IFX.Modules.Registry.Domain.Entities;
 
 namespace IFX.Modules.Registry.Application.Mappings;
@@ -9,6 +10,10 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<Product, ProductDto>()
+            .ForMember(dest => dest.ProductType, opt => opt.MapFrom(src => src.ProductType.ToString()))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+
         CreateMap<Fund, FundDto>()
             .ForMember(dest => dest.FundType, opt => opt.MapFrom(src => src.FundType.ToString()))
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));

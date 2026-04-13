@@ -4,6 +4,7 @@ public class FundDto
 {
     public Guid Id { get; init; }
     public Guid TenantId { get; init; }
+    public Guid? ProductId { get; init; }
     public string FundCode { get; init; } = string.Empty;
     public string FundName { get; init; } = string.Empty;
     public string FundType { get; init; } = string.Empty;

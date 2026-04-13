@@ -29,6 +29,7 @@ public static class DependencyInjection
         });
 
         // Register Repositories
+        services.AddScoped<IProductRepository, EfProductRepository>();
         services.AddScoped<IFundRepository, EfFundRepository>();
         services.AddScoped<IFundClassRepository, EfFundClassRepository>();
 

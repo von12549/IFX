@@ -9,4 +9,6 @@ public record UpdateFundCommand(
     Guid FundId,
     string FundName,
     FundType FundType,
-    string BaseCurrency) : IRequest<Result<FundDto>>;
+    string BaseCurrency,
+    Guid? ProductId = null,
+    bool ClearProduct = false) : IRequest<Result<FundDto>>;

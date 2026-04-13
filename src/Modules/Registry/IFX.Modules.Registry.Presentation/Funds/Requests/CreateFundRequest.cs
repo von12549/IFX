@@ -5,4 +5,5 @@ public record CreateFundRequest(
     string FundName,
     string FundType,
     string BaseCurrency,
-    string InceptionDate);
+    string InceptionDate,
+    Guid? ProductId = null);

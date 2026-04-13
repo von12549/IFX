@@ -64,7 +64,8 @@ public static class FundEndpoints
             request.FundName,
             fundType,
             request.BaseCurrency,
-            inceptionDate));
+            inceptionDate,
+            request.ProductId));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
@@ -87,7 +88,9 @@ public static class FundEndpoints
             fundId,
             request.FundName,
             fundType,
-            request.BaseCurrency));
+            request.BaseCurrency,
+            request.ProductId,
+            request.ClearProduct));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

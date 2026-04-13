@@ -71,6 +71,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260401-fund-registry-crm-registry-holdings-transaction.md` | Fund Registry System — CRM (Party/Investor), Registry (Fund/Class), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules with Option B integration events |
 | `/.claude/Plans/20260413-crm-v2-investment-account-party-relationship-kyc.md` | CRM V2 — InvestmentAccount entity, PartyRelationship, advisor model, KYC enrichment; migrates Holding/Transaction from InvestorId → InvestmentAccountId |
 | `/.claude/Plans/20260413-ef-migration-pipeline-crm-holdings-transaction-registry.md` | Replace EnsureCreatedAsync with MigrateAsync in CRM, Holdings, Transaction, Registry — squashed InitialCreate baselines + EnsureCreatedAsync→MigrateAsync stamping logic |
+| `/.claude/Plans/20260414-registry-product-layer.md` | Registry Product layer — Product (Scheme) → Fund → FundClass three-tier hierarchy; nullable ProductId FK on Fund; new CRUD endpoints + integration events |
 
 ## Quick Reference
 
@@ -110,7 +111,8 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - CRM — Parties: `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, `GET /api/v1/party/{id}/investors`, `GET/POST/DELETE /api/v1/party/{id}/roles/{role}`, `POST /api/v1/party/{id}/relationships`, `PUT /api/v1/party/{id}/relationships/{relId}/expire`, `POST/DELETE /api/v1/party/{id}/users/{userId}` (tenant via `X-Tenant-Id`)
 - CRM — Investors: `GET/POST /api/v1/investor`, `GET/PUT/DELETE /api/v1/investor/{id}`, `PUT /api/v1/investor/{id}/kyc` (tenant via `X-Tenant-Id`)
 - CRM — InvestmentAccounts: `GET/POST /api/v1/investment-account`, `GET/PUT/DELETE /api/v1/investment-account/{id}`, `POST/DELETE /api/v1/investment-account/{id}/parties/{partyId}`, `POST/DELETE /api/v1/investment-account/{id}/advisors/{advisorPartyId}` (tenant via `X-Tenant-Id`)
-- Registry — Funds: `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` (tenant via `X-Tenant-Id`)
+- Registry — Products: `GET/POST /api/v1/product`, `GET/PUT/DELETE /api/v1/product/{id}`, `GET /api/v1/product/{id}/funds` (tenant via `X-Tenant-Id`)
+- Registry — Funds: `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` (tenant via `X-Tenant-Id`; optional `ProductId` on create/update)
 - Registry — Classes: `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` (tenant via `X-Tenant-Id`)
 - Holdings (read-only): `GET /api/v1/holding`, `GET /api/v1/holding/{id}`, `GET /api/v1/investor/{investmentAccountId}/holdings`, `GET /api/v1/fund/{fundId}/class/{classId}/holdings` (tenant via `X-Tenant-Id`)
 - Transactions: `GET/POST /api/v1/transaction`, `GET /api/v1/transaction/{id}`, `POST /api/v1/transaction/{subscription,redemption,transfer,switch}`, `POST /api/v1/transaction/{id}/{process,cancel}` (tenant via `X-Tenant-Id`)

@@ -6,6 +6,8 @@ namespace IFX.Modules.Registry.Domain.Entities;
 public class Fund : BaseEntity, IAuditableEntity
 {
     public Guid TenantId { get; private set; }
+    public Guid? ProductId { get; private set; }
+    public Product? Product { get; private set; }
     public string FundCode { get; private set; } = string.Empty;
     public string FundName { get; private set; } = string.Empty;
     public FundType FundType { get; private set; }
@@ -62,6 +64,11 @@ public class Fund : BaseEntity, IAuditableEntity
         FundName = fundName.Trim();
         FundType = fundType;
         BaseCurrency = baseCurrency.Trim().ToUpperInvariant();
+    }
+
+    public void SetProduct(Guid? productId)
+    {
+        ProductId = productId;
     }
 
     public void Close()

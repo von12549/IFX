@@ -1,5 +1,6 @@
 using IFX.Modules.Registry.Presentation.FundClasses.Endpoints;
 using IFX.Modules.Registry.Presentation.Funds.Endpoints;
+using IFX.Modules.Registry.Presentation.Products.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -10,6 +11,71 @@ namespace IFX.Modules.Registry.Presentation.Extensions;
 
 public static class EndpointExtensions
 {
+    public static IEndpointRouteBuilder MapProductEndpoints(this IEndpointRouteBuilder builder)
+    {
+        var group = builder.MapGroup("/api/v1/product")
+            .WithTags("Fund")
+            .RequireAuthorization();
+
+        group.MapGet("/",
+            (IServiceProvider services) =>
+                ProductEndpoints.GetProducts(
+                    services.GetRequiredService<MediatR.IMediator>(),
+                    services.GetRequiredService<ILogger<ProductEndpointsLogCategory>>()))
+            .WithName("GetProducts")
+            .RequirePermission("Product:list")
+            .WithSummary("Get all products for the current tenant (from X-Tenant-Id header)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapGet("/{productId}", ProductEndpoints.GetProductById)
+            .WithName("GetProductById")
+            .RequirePermission("Product:read")
+            .WithSummary("Get a product by ID")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapGet("/{productId}/funds",
+            (Guid productId, IServiceProvider services) =>
+                ProductEndpoints.GetProductFunds(
+                    productId,
+                    services.GetRequiredService<MediatR.IMediator>(),
+                    services.GetRequiredService<ILogger<ProductEndpointsLogCategory>>()))
+            .WithName("GetProductFunds")
+            .RequirePermission("Product:read")
+            .WithSummary("Get all funds under a product")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status401Unauthorized)
+            .Produces<object>(StatusCodes.Status404NotFound);
+
+        group.MapPost("/", ProductEndpoints.CreateProduct)
+            .WithName("CreateProduct")
+            .RequirePermission("Product:create")
+            .WithSummary("Create a new product")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapPut("/{productId}", ProductEndpoints.UpdateProduct)
+            .WithName("UpdateProduct")
+            .RequirePermission("Product:update")
+            .WithSummary("Update an existing product")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        group.MapDelete("/{productId}", ProductEndpoints.DeleteProduct)
+            .WithName("DeleteProduct")
+            .RequirePermission("Product:delete")
+            .WithSummary("Close a product (soft delete)")
+            .Produces<object>(StatusCodes.Status200OK)
+            .Produces<object>(StatusCodes.Status400BadRequest)
+            .Produces<object>(StatusCodes.Status401Unauthorized);
+
+        return builder;
+    }
+
     public static IEndpointRouteBuilder MapFundEndpoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("/api/v1/fund")

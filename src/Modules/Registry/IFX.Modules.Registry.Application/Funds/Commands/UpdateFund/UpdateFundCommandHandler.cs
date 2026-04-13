@@ -49,6 +49,12 @@ public class UpdateFundCommandHandler : IRequestHandler<UpdateFundCommand, Resul
                 return Result<FundDto>.Failure("Fund not found.");
 
             fund.Update(request.FundName, request.FundType, request.BaseCurrency);
+
+            if (request.ProductId.HasValue)
+                fund.SetProduct(request.ProductId.Value);
+            else if (request.ClearProduct)
+                fund.SetProduct(null);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _logger.LogInformation("Fund updated: {FundId}", fund.Id);

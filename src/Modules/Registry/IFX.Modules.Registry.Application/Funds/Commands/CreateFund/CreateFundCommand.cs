@@ -10,4 +10,5 @@ public record CreateFundCommand(
     string FundName,
     FundType FundType,
     string BaseCurrency,
-    DateOnly InceptionDate) : IRequest<Result<FundDto>>;
+    DateOnly InceptionDate,
+    Guid? ProductId = null) : IRequest<Result<FundDto>>;

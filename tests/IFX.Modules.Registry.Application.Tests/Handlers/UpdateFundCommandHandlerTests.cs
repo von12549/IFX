@@ -81,4 +81,32 @@ public class UpdateFundCommandHandlerTests
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("Tenant");
     }
+
+    [Fact]
+    public async Task Handle_WithProductId_SetsProductIdOnFund()
+    {
+        var fund = Fund.Create(TenantId, "FUND001", "Growth Fund", FundType.UCITS, "USD", new DateOnly(2024, 1, 1));
+        var productId = Guid.NewGuid();
+        var command = new UpdateFundCommand(ValidCommand.FundId, "Updated Fund", FundType.AIF, "EUR", productId);
+        _funds.Setup(r => r.GetByIdAsync(command.FundId, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(fund);
+
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        fund.ProductId.Should().Be(productId);
+    }
+
+    [Fact]
+    public async Task Handle_WithClearProduct_RemovesProductIdFromFund()
+    {
+        var fund = Fund.Create(TenantId, "FUND001", "Growth Fund", FundType.UCITS, "USD", new DateOnly(2024, 1, 1));
+        fund.SetProduct(Guid.NewGuid());
+        var command = new UpdateFundCommand(ValidCommand.FundId, "Updated Fund", FundType.AIF, "EUR", ClearProduct: true);
+        _funds.Setup(r => r.GetByIdAsync(command.FundId, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(fund);
+
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        result.IsSuccess.Should().BeTrue();
+        fund.ProductId.Should().BeNull();
+    }
 }

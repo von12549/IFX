@@ -108,4 +108,34 @@ public class FundTests
 
         fund.Status.Should().Be(FundStatus.Closed);
     }
+
+    [Fact]
+    public void SetProduct_AssignsProductId()
+    {
+        var fund = Fund.Create(ValidTenantId, ValidCode, ValidName, FundType.UCITS, ValidCurrency, ValidInceptionDate);
+        var productId = Guid.NewGuid();
+
+        fund.SetProduct(productId);
+
+        fund.ProductId.Should().Be(productId);
+    }
+
+    [Fact]
+    public void SetProduct_WithNull_ClearsProductId()
+    {
+        var fund = Fund.Create(ValidTenantId, ValidCode, ValidName, FundType.UCITS, ValidCurrency, ValidInceptionDate);
+        fund.SetProduct(Guid.NewGuid());
+
+        fund.SetProduct(null);
+
+        fund.ProductId.Should().BeNull();
+    }
+
+    [Fact]
+    public void Create_HasNullProductIdByDefault()
+    {
+        var fund = Fund.Create(ValidTenantId, ValidCode, ValidName, FundType.UCITS, ValidCurrency, ValidInceptionDate);
+
+        fund.ProductId.Should().BeNull();
+    }
 }

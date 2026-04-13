@@ -34,10 +34,11 @@ public sealed class RegistryModuleInstaller : IModuleInstaller
     {
         Log.Information("[{Module}] Mapping module endpoints...", ModuleName);
 
+        builder.MapProductEndpoints();    // 6 endpoints: products (GET/GET-by-id/GET-funds/POST/PUT/DELETE)
         builder.MapFundEndpoints();       // 5 endpoints: funds (GET/GET-by-id/POST/PUT/DELETE)
         builder.MapFundClassEndpoints();  // 5 endpoints: fund classes (GET/GET-by-id/POST/PUT/DELETE)
 
-        Log.Information("[{Module}] Module endpoints mapped: 10 total (5 Fund, 5 FundClass)", ModuleName);
+        Log.Information("[{Module}] Module endpoints mapped: 16 total (6 Product, 5 Fund, 5 FundClass)", ModuleName);
         return builder;
     }
 }

@@ -101,4 +101,36 @@ public class CreateFundCommandHandlerTests
         capturedFund.Should().NotBeNull();
         capturedFund!.CreatedBy.Should().Be(userId);
     }
+
+    [Fact]
+    public async Task Handle_WithProductId_SetsProductIdOnFund()
+    {
+        var productId = Guid.NewGuid();
+        var command = ValidCommand with { ProductId = productId };
+        _funds.Setup(r => r.CodeExistsAsync(It.IsAny<string>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        Fund? captured = null;
+        _funds.Setup(r => r.AddAsync(It.IsAny<Fund>(), It.IsAny<CancellationToken>()))
+            .Callback<Fund, CancellationToken>((f, _) => captured = f)
+            .Returns(Task.CompletedTask);
+
+        await _handler.Handle(command, CancellationToken.None);
+
+        captured.Should().NotBeNull();
+        captured!.ProductId.Should().Be(productId);
+    }
+
+    [Fact]
+    public async Task Handle_WithoutProductId_LeavesProductIdNull()
+    {
+        _funds.Setup(r => r.CodeExistsAsync(It.IsAny<string>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        Fund? captured = null;
+        _funds.Setup(r => r.AddAsync(It.IsAny<Fund>(), It.IsAny<CancellationToken>()))
+            .Callback<Fund, CancellationToken>((f, _) => captured = f)
+            .Returns(Task.CompletedTask);
+
+        await _handler.Handle(ValidCommand, CancellationToken.None);
+
+        captured.Should().NotBeNull();
+        captured!.ProductId.Should().BeNull();
+    }
 }
