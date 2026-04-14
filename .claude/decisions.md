@@ -216,3 +216,70 @@ Tenant DB row → Platform DB row → Static fallback → null (deny)
 - Template-based approach is less expressive than raw Rego (no arbitrary Rego logic per resource)
 - Chose this trade-off because the common conditions (`SameTenant`, `CreatedByMe`) cover the majority of use cases, and the static fallback + raw Rego path remains available for complex policies
 - DB-backed policies add a DB round-trip per authorization; mitigated by `IMemoryCache`
+
+---
+
+## ADR-011: Integration Event Bus — Platform.Messaging (April 2026)
+
+**Decision:** Cross-module communication uses an in-process `IIntegrationEventBus` (`InMemoryIntegrationEventBus`) registered as a Platform service. Integration event contracts live in each module's `.Abstractions` project. No module references another module's Domain, Application, Infrastructure, or Presentation layers.
+
+**Rationale:**
+- Option A (.Abstractions shared references) creates compile-time coupling between modules — a change in CRM.Abstractions forces recompilation of all consumers
+- Option B (integration events via a central bus) preserves module isolation while still allowing data sharing through well-typed event contracts
+- In-memory dispatch (same thread, same DI scope) keeps the transaction boundary simple and avoids distributed systems complexity for the current scale
+- Swapping to an external broker (RabbitMQ, Azure Service Bus) later requires only a new `IFX.Platform.Messaging.Infrastructure.{Provider}` project and a config change — no Application layer changes
+
+**Event contract ownership:**
+- Each module owns its own event types in its `.Abstractions` project
+- Consumers reference only `.Abstractions`, never the emitting module's Application or Infrastructure
+
+**Trade-offs:**
+- In-memory bus is lost on process crash; no message durability
+- Sequential dispatch — a slow handler blocks subsequent handlers
+- Chose this trade-off: durability and parallelism can be added in the Infrastructure layer without changing Application code
+
+---
+
+## ADR-012: Fund Registry Domain Modules (April 2026)
+
+**Decision:** The Fund Registry system is split into four domain modules (CRM, Registry, Holdings, Transaction) following the existing 5-layer Clean Architecture + CQRS pattern. Holdings is the authoritative unit ledger, updated exclusively via integration events — never via direct HTTP writes.
+
+**Module boundaries:**
+- **CRM** — Party + Investor lifecycle, KYC tracking, many-to-many Party↔Investor relationships
+- **Registry** — Three-tier Product (Scheme) → Fund → FundClass hierarchy; `Product` holds regulatory identity (ARSN, APIR, ISIN), issuer metadata, PDS reference; `Fund.ProductId` is a nullable FK — standalone funds remain valid; FundClass carries fee rates, NAV frequency, and class currency
+- **Holdings** — Running unit balances per (Investor, FundClass); read-only HTTP; mutated by `TransactionProcessedEvent` and `ClassStatusChangedEvent`
+- **Transaction** — Subscription / Redemption / Transfer / Switch; validates KYC + class status via cross-module readers; `Process(navPrice)` calculates units and publishes `TransactionProcessedEvent`
+
+**Cross-module referential integrity (no FK across modules):**
+- Application layer calls `ICrmReader.IsInvestorKycApprovedAsync` and `IRegistryReader.IsClassOpenForSubscriptionAsync` before creating transactions
+- No foreign key constraints across module database schemas — integrity enforced at the application boundary
+- Holdings upserts a new `Holding` row if none exists for a (TenantId, InvestorId, ClassId) triple
+
+**Entity naming:**
+- `Party` (not Account) — represents a legal entity acting as Distributor, Custodian, Fund Manager, etc.
+- `FundClass` (not Class) — avoids collision with the C# `class` keyword
+- `Product` (not Scheme) — used in code; `ProductType` carries `ManagedFund | ETF | Superannuation | IDPS | LIT | Other`
+
+**Soft delete everywhere:**
+- `DeletePartyCommand`, `DeleteInvestorCommand`, `DeleteFundCommand`, `DeleteClassCommand`, `DeleteProductCommand` all set `Status = Closed`
+- `IsActive` ABAC template enforces closed entities are read-only
+
+---
+
+## ADR-013: Registry Product Layer — Product → Fund → FundClass Hierarchy (April 2026)
+
+**Decision:** Introduce a `Product` entity as an optional parent of `Fund` in the Registry module, establishing the industry-standard three-tier hierarchy aligned with the Taurus schema (Product/Scheme → Sub-fund → Class).
+
+**Rationale:**
+- Industry standard (ASIC, APRA, Taurus) separates regulatory scheme identity (Product) from investment vehicle (Fund) from investor unit series (FundClass)
+- Regulatory fields (ARSN, APIR, ISIN) belong at the Product level — they identify the scheme, not any single sub-fund
+- `Fund.ProductId` is nullable so all existing funds remain valid with no migration of data; Product association is opt-in
+- `OnDelete(Restrict)` on the FK prevents accidental Product deletion while funds reference it
+
+**Key design choices:**
+- `ProductType` enum (`ManagedFund | ETF | Superannuation | IDPS | LIT | Other`) is scheme-level classification, distinct from `FundType` which is vehicle-level
+- `ProductStatus` enum (`Active | Closed | Suspended`) mirrors `FundStatus`/`ClassStatus` pattern
+- `GET /api/v1/product/{id}/funds` provides the downward navigation from Product to its Funds
+- `Fund.SetProduct(Guid?)` / `UpdateFundCommand.ClearProduct = true` cleanly manages the nullable association without a separate endpoint
+
+**Migration:** Additive delta migration `AddProduct` adds `registry.Products` table and nullable `ProductId` FK on `registry.Funds` — zero downtime, no existing row touched.

@@ -196,3 +196,42 @@ foreach (var installer in installers)
 **Rule:** Authenticated endpoints require JWT Bearer token.
 
 **Rule:** Admin endpoints require `Admin` role via `RequireAuthorization()`.
+
+---
+
+## Multi-Module Dependency Graph (Fund Registry)
+
+```
+ApiHost
+  → Auth.Composition
+  → CRM.Composition
+  → Registry.Composition
+  → Holdings.Composition
+  → Transaction.Composition
+  → Platform.Messaging.Composition
+  → Platform.BackgroundJobs.Composition
+  → Platform.Notifications.Composition
+
+Transaction.Application
+  → CRM.Abstractions          (ICrmReader — KYC check, party existence)
+  → Registry.Abstractions     (IRegistryReader — class open for subscription)
+  → Platform.Messaging.Abstractions  (IIntegrationEventBus — publish events)
+
+Holdings.Application
+  → Registry.Abstractions     (IIntegrationEventHandler<ClassStatusChangedEvent>)
+  → Transaction.Abstractions  (IIntegrationEventHandler<TransactionProcessedEvent>)
+  → Platform.Messaging.Abstractions
+
+CRM.Application / Registry.Application
+  → Platform.Messaging.Abstractions  (publish integration events)
+
+No module references another module's Domain, Application, Infrastructure, or Presentation.
+```
+
+**Rule:** Cross-module reads go through `.Abstractions` reader interfaces only (`ICrmReader`, `IRegistryReader`, `IHoldingsReader`, `ITransactionReader`). Never inject another module's repository or DbContext.
+
+**Rule:** Cross-module writes happen exclusively via integration events — no module calls another module's command handler or service directly.
+
+**Rule:** Holdings is mutated only by integration events (`TransactionProcessedEvent`, `ClassStatusChangedEvent`). There are no HTTP write endpoints on Holdings.
+
+**Rule:** All module databases use separate schemas (`"crm"`, `"registry"`, `"holdings"`, `"transaction"`) with no foreign key constraints across schemas. Referential integrity is enforced at the Application layer via cross-module reader calls before writing.

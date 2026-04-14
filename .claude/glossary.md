@@ -52,12 +52,36 @@ Defines terms, abbreviations, and naming conventions used in this codebase.
 
 ---
 
+## Fund Registry
+
+| Term | Definition |
+|------|------------|
+| **Product** | Scheme-level entity — holds regulatory identity (ARSN, APIR, ISIN), issuer name, PDS reference; optional parent of `Fund` via nullable `ProductId` FK |
+| **ProductType** | Scheme-level classification: `ManagedFund`, `ETF`, `Superannuation`, `IDPS`, `LIT`, `Other` |
+| **ProductStatus** | Scheme lifecycle: `Active`, `Closed`, `Suspended` |
+| **Fund** | Investment vehicle (sub-fund); belongs to a `Product` (optional); carries `BaseCurrency`, `FundType`, `InceptionDate`, `Status` |
+| **FundType** | Vehicle-level classification: `UCITS`, `AIF`, `Hedge`, `ETF`, `PrivateEquity`, `Other` |
+| **FundClass** | Investor-facing unit series within a Fund; carries fee rates, NAV frequency, class currency |
+| **NavFrequency** | How often NAV is calculated: `Daily`, `Weekly`, `Monthly`, etc. |
+| **Party** | Legal entity (Distributor, Custodian, Fund Manager, Investor, Advisor) with multi-role `PartyRoleAssignment` |
+| **Investor** | Extension profile attached to a Party for investment-specific attributes (KYC, risk profile) |
+| **InvestmentAccount** | Unit of investment activity; linked to one or more Parties (owners) and Advisors |
+| **Holding** | Running unit balance for a `(TenantId, InvestmentAccountId, FundClassId)` triple; read-only via HTTP |
+| **Transaction** | State-machine record for subscription, redemption, transfer, or switch; transitions Pending → Processed → Settled |
+| **TransactionProcessedEvent** | Integration event published after `Process(navPrice)` — triggers Holdings update |
+| **ARSN** | Australian Registered Scheme Number — scheme-level regulatory identifier |
+| **APIR** | Australian Product Identification Reference — 9-character fund identifier |
+| **ISIN** | International Securities Identification Number — ISO 6166 12-character identifier |
+| **PDS** | Product Disclosure Statement — regulatory document reference stored at Product level |
+
+---
+
 ## Database
 
 | Term | Definition |
 |------|------------|
-| Schema | `auth` (all tables use this schema) |
-| Aggregate Root | Entity that owns other entities (User owns UserIdentities) |
+| Schema | Modules use separate schemas: `auth`, `crm`, `registry`, `holdings`, `transaction` |
+| Aggregate Root | Entity that owns other entities (User owns UserIdentities; Product owns Funds navigation) |
 | Owned Entity | Entity stored in same table as owner (DeviceInfo in LoginEvent) |
 
 ---

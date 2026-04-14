@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 // DeviceInfo is in same namespace (IFX.Modules.Auth.Domain.Identity)
 
 namespace IFX.Modules.Auth.Domain.Identity;

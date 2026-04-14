@@ -1,3 +1,4 @@
+using BaseEntity = IFX.BuildingBlocks.Domain.BaseEntity;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Common;
 using IFX.Modules.Auth.Domain.Identity;

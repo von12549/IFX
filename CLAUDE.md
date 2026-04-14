@@ -17,6 +17,8 @@ This file provides guidance to Claude Code when working with this repository.
 - **DB-Backed ABAC Policies** — `PolicyDefinition` table stores tenant-level and platform-level (TenantId = NULL) policy rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
 - **GlobalRole system** — cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; GlobalRole users bypass tenant-scoped RBAC/ABAC and see cross-tenant data via platform endpoints
 - **GlobalRole frontend views** — dual-section UI: tenant data in main table, lazy-loaded `ExpandableCrossTenantSection` for other tenants; platform Sidebar nav, permission/policy scope tabs, `TenantRequiredBanner`
+- **Fund Registry** — CRM (Party/Investor/InvestmentAccount), Registry (Product→Fund→FundClass three-tier hierarchy), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules
+- **Product layer** — `Product` (Scheme) is the optional regulatory parent of `Fund`; holds ARSN, APIR, ISIN, issuer name, PDS reference; `Fund.ProductId` is nullable so standalone funds remain valid
 - Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
@@ -68,13 +70,17 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260326-global-roles.md` | GlobalRole system — cross-tenant PlatformAdmin/Support/Auditor roles, AnyTenant OPA template, platform policy dispatch, CRUD endpoints |
 | `/.claude/Plans/20260326-auth-authorization-feature-subfolders.md` | Authorization subdomain feature-subfolder refactor — Roles, RoleGroups, Permissions, Tenants, Departments each get Commands/Queries/DTOs/Authorization subfolders |
 | `/.claude/Plans/20260326-frontend-global-role-views.md` | Frontend GlobalRole views — dual-section layout for GlobalRole users, cross-tenant data grouping, permission/policy scope split, Phase 1 (no new endpoints) + Phase 2 (cross-tenant endpoints) |
+| `/.claude/Plans/20260401-fund-registry-crm-registry-holdings-transaction.md` | Fund Registry System — CRM (Party/Investor), Registry (Fund/Class), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules with Option B integration events |
+| `/.claude/Plans/20260413-crm-v2-investment-account-party-relationship-kyc.md` | CRM V2 — InvestmentAccount entity, PartyRelationship, advisor model, KYC enrichment; migrates Holding/Transaction from InvestorId → InvestmentAccountId |
+| `/.claude/Plans/20260413-ef-migration-pipeline-crm-holdings-transaction-registry.md` | Replace EnsureCreatedAsync with MigrateAsync in CRM, Holdings, Transaction, Registry — squashed InitialCreate baselines + EnsureCreatedAsync→MigrateAsync stamping logic |
+| `/.claude/Plans/20260414-registry-product-layer.md` | Registry Product layer — Product (Scheme) → Fund → FundClass three-tier hierarchy; nullable ProductId FK on Fund; new CRUD endpoints + integration events |
 
 ## Quick Reference
 
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (469 backend tests → 533 total including frontend)
+dotnet test IFX.sln           # Test (729 backend tests → 793 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
@@ -104,6 +110,14 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - Platform — Cross-Tenant: `GET /api/v1/platform/cross-tenant/{users,roles,rolegroups,departments,idps}` (requires `Platform.GlobalRole:manage`; returns data grouped by tenant, excluding caller's tenant)
 - Health: `GET /health`, `GET /health/ready`
 - Hangfire Dashboard: `GET /hangfire` (background jobs monitoring)
+- CRM — Parties: `GET/POST /api/v1/party`, `GET/PUT/DELETE /api/v1/party/{id}`, `GET /api/v1/party/{id}/investors`, `GET/POST/DELETE /api/v1/party/{id}/roles/{role}`, `POST /api/v1/party/{id}/relationships`, `PUT /api/v1/party/{id}/relationships/{relId}/expire`, `POST/DELETE /api/v1/party/{id}/users/{userId}` (tenant via `X-Tenant-Id`)
+- CRM — Investors: `GET/POST /api/v1/investor`, `GET/PUT/DELETE /api/v1/investor/{id}`, `PUT /api/v1/investor/{id}/kyc` (tenant via `X-Tenant-Id`)
+- CRM — InvestmentAccounts: `GET/POST /api/v1/investment-account`, `GET/PUT/DELETE /api/v1/investment-account/{id}`, `POST/DELETE /api/v1/investment-account/{id}/parties/{partyId}`, `POST/DELETE /api/v1/investment-account/{id}/advisors/{advisorPartyId}` (tenant via `X-Tenant-Id`)
+- Registry — Products: `GET/POST /api/v1/product`, `GET/PUT/DELETE /api/v1/product/{id}`, `GET /api/v1/product/{id}/funds` (tenant via `X-Tenant-Id`)
+- Registry — Funds: `GET/POST /api/v1/fund`, `GET/PUT/DELETE /api/v1/fund/{id}` (tenant via `X-Tenant-Id`; optional `ProductId` on create/update)
+- Registry — Classes: `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` (tenant via `X-Tenant-Id`)
+- Holdings (read-only): `GET /api/v1/holding`, `GET /api/v1/holding/{id}`, `GET /api/v1/investor/{investmentAccountId}/holdings`, `GET /api/v1/fund/{fundId}/class/{classId}/holdings` (tenant via `X-Tenant-Id`)
+- Transactions: `GET/POST /api/v1/transaction`, `GET /api/v1/transaction/{id}`, `POST /api/v1/transaction/{subscription,redemption,transfer,switch}`, `POST /api/v1/transaction/{id}/{process,cancel}` (tenant via `X-Tenant-Id`)
 
 > **Tenant filtering:** list endpoints read the selected tenant from the `X-Tenant-Id` request header. The frontend sends this header automatically via the `apiClient` interceptor (value persisted in `localStorage`). No `TenantId` is passed in query params or command bodies for list queries — the handler reads it from `ICurrentUser.TenantId`.
 

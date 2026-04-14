@@ -1,3 +1,6 @@
+## Local/NAS-specific Docker Compose overrides
+docker-compose.nas.yml
+
 ## Coverage reports (generated artifacts)
 coverage-report/
 coverage-results/

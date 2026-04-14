@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Common;
+using IFX.BuildingBlocks.Domain;
 
 namespace IFX.Modules.Auth.Domain.Identity;
 

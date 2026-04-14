@@ -1,0 +1,69 @@
+CRM Design Summary for Fund Register System
+
+1.  Overview The CRM component in a Fund Register system manages
+    relationships between business entities (Parties) and their roles
+    such as Investors, Advisors, and Distributors. It acts as the
+    upstream system for identity, relationships, and client management.
+
+2.  Core Concepts
+
+Party: Represents a legal entity (individual or organization). This is
+the root identity in the system.
+
+Party Role: Defines the function of a Party in a business context.
+Examples include Investor, Advisor, Distributor, Custodian. A Party can
+have multiple roles.
+
+Party Relationship: Defines relationships between parties. Examples: -
+Advisor advises Investor - Distributor distributes for Investor -
+Custodian services Fund
+
+3.  CRM Responsibilities
+
+-   Maintain Party master data
+-   Manage Party roles and lifecycle
+-   Manage relationships between parties
+-   Provide relationship-based access control input
+-   Support multi-tenant scoping
+
+4.  Relationship-Driven Model
+
+Instead of embedding references directly in domain entities,
+relationships are modeled explicitly:
+
+PartyRelationship: - FromPartyId - ToPartyId - RelationshipType -
+Effective dates
+
+This allows: - Multiple advisors per investor - Historical tracking -
+Flexible authorization
+
+5.  Integration with Fund Register
+
+CRM feeds downstream modules:
+
+Investor Module: - Derived from Party + Role
+
+Account Module: - InvestmentAccount linked to Investor
+
+Transaction Module: - Uses relationships for validation
+
+6.  Authorization (ABAC Integration)
+
+CRM provides relationship data to authorization layer (OPA):
+
+-   Input includes user partyId and relationships
+-   Policies evaluate whether access is allowed
+-   Enables fine-grained, dynamic access control
+
+7.  Multi-Tenant Considerations
+
+-   Tenant is associated with Party
+-   Relationships are tenant-scoped
+-   Policies evaluated within tenant context
+
+8.  Key Design Principles
+
+-   Decouple identity (Party) from behavior (Role)
+-   Use relationships instead of foreign keys for flexibility
+-   Keep CRM independent but integrable
+-   Support extensibility for new roles and relationship types

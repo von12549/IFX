@@ -24,13 +24,26 @@ Testing approach, project structure, and patterns.
 | `IFX.Platform.BackgroundJobs.Tests` | Hangfire service tests | 11 |
 | `IFX.Platform.Notifications.Tests` | Email service tests | 17 |
 
-### Integration Tests (43 tests)
+### Fund Registry Module Tests (221 tests)
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
-| `IFX.IntegrationTests` | Permission enforcement + API end-to-end | 43 |
+| `IFX.Modules.CRM.Domain.Tests` | Party + Investor entity tests | 24 |
+| `IFX.Modules.CRM.Application.Tests` | CreateParty, CreateInvestor, UpdateKyc handlers | 11 |
+| `IFX.Modules.Registry.Domain.Tests` | Fund + FundClass entity tests | 25 |
+| `IFX.Modules.Registry.Application.Tests` | Fund/Class CRUD + query handlers | 21 |
+| `IFX.Modules.Holdings.Domain.Tests` | Holding entity + state machine tests | 17 |
+| `IFX.Modules.Holdings.Application.Tests` | Query handlers + event handlers | 20 |
+| `IFX.Modules.Transaction.Domain.Tests` | Transaction entity + state machine tests | 20 |
+| `IFX.Modules.Transaction.Application.Tests` | All 6 commands + 2 query handlers | 36 |
 
-**Total: 423 unit tests + 43 integration tests = 466 backend tests**
+### Integration Tests (46 tests)
+
+| Project | Purpose | Tests |
+|---------|---------|-------|
+| `IFX.IntegrationTests` | Permission enforcement + API end-to-end | 46 |
+
+**Total: 597 unit tests + 46 integration tests = 643 backend tests**
 
 ---
 

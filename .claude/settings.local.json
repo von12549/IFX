@@ -19,7 +19,12 @@
       "Bash(do)",
       "Bash(echo \"=== $f ===\")",
       "Read(//d/tmp/**)",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(sqlcmd:*)",
+      "WebFetch(domain:docs.frankieone.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:help.frankieone.com)"
     ]
   }
 }
