@@ -15,7 +15,7 @@ public static class SwaggerConfiguration
             "Policy", "Platform Policy", "Platform GlobalRoles"
         ],
         ["crm"]         = ["Party", "Investor", "InvestmentAccount"],
-        ["registry"]    = ["Fund", "FundClass"],
+        ["registry"]    = ["Product", "Fund", "FundClass"],
         ["holdings"]    = ["Holdings"],
         ["transaction"] = ["Transactions"],
     };

@@ -14,7 +14,7 @@ public static class EndpointExtensions
     public static IEndpointRouteBuilder MapProductEndpoints(this IEndpointRouteBuilder builder)
     {
         var group = builder.MapGroup("/api/v1/product")
-            .WithTags("Fund")
+            .WithTags("Product")
             .RequireAuthorization();
 
         group.MapGet("/",
