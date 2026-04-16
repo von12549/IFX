@@ -74,6 +74,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260413-crm-v2-investment-account-party-relationship-kyc.md` | CRM V2 — InvestmentAccount entity, PartyRelationship, advisor model, KYC enrichment; migrates Holding/Transaction from InvestorId → InvestmentAccountId |
 | `/.claude/Plans/20260413-ef-migration-pipeline-crm-holdings-transaction-registry.md` | Replace EnsureCreatedAsync with MigrateAsync in CRM, Holdings, Transaction, Registry — squashed InitialCreate baselines + EnsureCreatedAsync→MigrateAsync stamping logic |
 | `/.claude/Plans/20260414-registry-product-layer.md` | Registry Product layer — Product (Scheme) → Fund → FundClass three-tier hierarchy; nullable ProductId FK on Fund; new CRUD endpoints + integration events |
+| `/.claude/Plans/20260416-pricing-distribution-commission-billing.md` | Future modules — Pricing (UnitPrice/NAV), Distribution, Commission, Billing, Operations; entity designs, batch jobs, cross-module dependencies, implementation order |
 
 ## Quick Reference
 
