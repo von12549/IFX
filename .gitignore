@@ -73,3 +73,4 @@ nunit-*.xml
 .env.*
 /.vs
 /.editorconfig
+.claude/analytics.json

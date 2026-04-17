@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "claude-analytics@analytic-claude": true
+  }
+}
