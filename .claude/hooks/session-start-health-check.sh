@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Claude Analytics - SessionStart health check hook
+# Claudalytics - SessionStart health check hook
 # VERSION: 1.0.0
 
-DOCKER_CONTAINERS=("claude-analytics-clickhouse" "claude-analytics-otel" "claude-analytics-grafana" "claude-analytics-hooks")
-HOOKS_SERVER_URL="http://localhost:14319/health"
+DOCKER_CONTAINERS=("claudalytics-clickhouse" "claudalytics-otel" "claudalytics-grafana" "claudalytics-hooks")
+HOOKS_SERVER_URL="http://localhost:4319/health"
 
 docker_healthy=true
 hooks_healthy=true
@@ -33,18 +33,18 @@ escape_for_json() {
 }
 
 if [ "$docker_healthy" = true ] && [ "$hooks_healthy" = true ]; then
-  context="[claude-analytics] All services healthy. Docker stack and hooks server running. Dashboards: http://localhost:3000"
-  sysmsg="[claude-analytics] Services healthy. Dashboards: http://localhost:3000"
+  context="[claudalytics] All services healthy. Docker stack and hooks server running. Dashboards: http://localhost:13000"
+  sysmsg="[claudalytics] Services healthy. Dashboards: http://localhost:13000"
 else
-  context="[claude-analytics] WARNING: Monitoring services are NOT fully operational."
-  sysmsg="[claude-analytics] WARNING: Monitoring services are NOT fully operational."
+  context="[claudalytics] WARNING: Monitoring services are NOT fully operational."
+  sysmsg="[claudalytics] WARNING: Monitoring services are NOT fully operational."
   if [ "$docker_healthy" = false ]; then
-    detail=" Containers down: ${down_containers[*]}. Run: docker compose up -d from Analytic_Claude/docker-stack."
+    detail=" Containers down: ${down_containers[*]}. Run: docker compose up -d from Claudalytics/docker-stack."
     context="$context$detail"
     sysmsg="$sysmsg$detail"
   fi
   if [ "$hooks_healthy" = false ]; then
-    detail=" Hooks server not responding on port 14319. Run: docker compose up -d from Analytic_Claude/docker-stack."
+    detail=" Hooks server not responding on port 4319. Run: docker compose up -d from Claudalytics/docker-stack."
     context="$context$detail"
     sysmsg="$sysmsg$detail"
   fi

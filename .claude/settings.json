@@ -1,5 +1,5 @@
 {
   "enabledPlugins": {
-    "claude-analytics@analytic-claude": true
+    "claudalytics@claudalytics": true
   }
 }

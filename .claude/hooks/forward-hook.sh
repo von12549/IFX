@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Analytics - Generic forward hook
+# Claudalytics - Generic forward hook
 # VERSION: 1.0.0
 # Forwards hook payload to hooks server via fire-and-forget POST.
 # Used for SessionStart and all command-only hook events.
@@ -7,7 +7,7 @@
 # Usage: "$CLAUDE_PROJECT_DIR"/.claude/hooks/forward-hook.sh <PROJECT_NAME>
 
 PROJECT_NAME="${1:-unknown}"
-HOOKS_URL="http://localhost:14319/hook?projectName=${PROJECT_NAME}"
+HOOKS_URL="http://localhost:4319/hook?projectName=${PROJECT_NAME}"
 
 payload=$(cat)
 

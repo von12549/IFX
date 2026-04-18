@@ -1,4 +1,19 @@
 {
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp",
+    "OTEL_LOGS_EXPORTER": "otlp",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:4317",
+    "OTEL_LOG_TOOL_DETAILS": "1",
+    "OTEL_LOG_USER_PROMPTS": "1",
+    "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA": "1",
+    "OTEL_TRACES_EXPORTER": "otlp",
+    "OTEL_LOG_TOOL_CONTENT": "1",
+    "OTEL_METRIC_EXPORT_INTERVAL": "10000",
+    "OTEL_LOGS_EXPORT_INTERVAL": "5000",
+    "OTEL_RESOURCE_ATTRIBUTES": "project.name=IFX"
+  },
   "permissions": {
     "allow": [
       "Bash(dir:*)",
@@ -26,21 +41,6 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:help.frankieone.com)"
     ]
-  },
-  "env": {
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
-    "OTEL_METRICS_EXPORTER": "otlp",
-    "OTEL_LOGS_EXPORTER": "otlp",
-    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
-    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:14317",
-    "OTEL_LOG_TOOL_DETAILS": "1",
-    "OTEL_LOG_USER_PROMPTS": "1",
-    "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA": "1",
-    "OTEL_TRACES_EXPORTER": "otlp",
-    "OTEL_LOG_TOOL_CONTENT": "1",
-    "OTEL_METRIC_EXPORT_INTERVAL": "10000",
-    "OTEL_LOGS_EXPORT_INTERVAL": "5000",
-    "OTEL_RESOURCE_ATTRIBUTES": "project.name=IFX"
   },
   "hooks": {
     "SessionStart": [
@@ -122,7 +122,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -132,7 +132,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -142,7 +142,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -152,7 +152,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -162,7 +162,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -172,7 +172,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -182,7 +182,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -192,7 +192,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -202,7 +202,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -212,7 +212,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -222,7 +222,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -232,7 +232,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -242,7 +242,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -252,7 +252,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -262,7 +262,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -272,7 +272,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -282,7 +282,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -292,7 +292,7 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
@@ -302,10 +302,11 @@
         "hooks": [
           {
             "type": "http",
-            "url": "http://localhost:14319/hook?projectName=IFX"
+            "url": "http://localhost:4319/hook?projectName=IFX"
           }
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {}
 }
