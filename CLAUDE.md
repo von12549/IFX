@@ -75,6 +75,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260413-ef-migration-pipeline-crm-holdings-transaction-registry.md` | Replace EnsureCreatedAsync with MigrateAsync in CRM, Holdings, Transaction, Registry — squashed InitialCreate baselines + EnsureCreatedAsync→MigrateAsync stamping logic |
 | `/.claude/Plans/20260414-registry-product-layer.md` | Registry Product layer — Product (Scheme) → Fund → FundClass three-tier hierarchy; nullable ProductId FK on Fund; new CRUD endpoints + integration events |
 | `/.claude/Plans/20260416-pricing-distribution-commission-billing.md` | Future modules — Pricing (UnitPrice/NAV), Distribution, Commission, Billing, Operations; entity designs, batch jobs, cross-module dependencies, implementation order |
+| `/.claude/Plans/20260418-order-instruction-model.md` | Order Instruction Model — Calastone STP integration layer; Order → Transaction legs hierarchy; accept/reject/confirm workflow; external fund identifiers (ISIN/APIR); charge/commission/tax details |
 
 ## Quick Reference
 

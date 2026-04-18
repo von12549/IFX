@@ -9,13 +9,18 @@ public class TransactionUnitOfWork : IUnitOfWork
     private readonly TransactionDbContext _context;
     private IDbContextTransaction? _transaction;
 
-    public TransactionUnitOfWork(TransactionDbContext context, ITransactionRepository transactions)
+    public TransactionUnitOfWork(
+        TransactionDbContext context,
+        ITransactionRepository transactions,
+        IOrderRepository orders)
     {
         _context = context;
         Transactions = transactions;
+        Orders = orders;
     }
 
     public ITransactionRepository Transactions { get; }
+    public IOrderRepository Orders { get; }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         => await _context.SaveChangesAsync(cancellationToken);
