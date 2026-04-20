@@ -13,7 +13,7 @@ public class Investor : BaseEntity, IAuditableEntity
 
     // KYC
     public KycStatus KycStatus { get; private set; } = KycStatus.Pending;
-    public DateTime? KycReviewedAt { get; private set; }
+    public DateTimeOffset? KycReviewedAt { get; private set; }
 
     // Tax & Compliance
     public string? TaxResidencyCountry { get; private set; }
@@ -35,8 +35,8 @@ public class Investor : BaseEntity, IAuditableEntity
     public EntityStatus Status { get; private set; } = EntityStatus.Active;
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     // Extension profiles (at most one non-null, matched by LegalStructure)
     public IndividualInvestorProfile? IndividualProfile { get; private set; }
@@ -96,7 +96,7 @@ public class Investor : BaseEntity, IAuditableEntity
     public void UpdateKyc(KycStatus kycStatus)
     {
         KycStatus = kycStatus;
-        KycReviewedAt = DateTime.UtcNow;
+        KycReviewedAt = DateTimeOffset.UtcNow;
     }
 
     public void UpdateFatcaCrs(FatcaCrsStatus status, string? giin = null)

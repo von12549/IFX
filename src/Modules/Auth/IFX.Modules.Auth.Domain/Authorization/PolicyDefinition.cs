@@ -15,8 +15,8 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
     public bool IsActive { get; private set; }
     public Guid? CreatedById { get; private set; }
     public Guid? UpdatedById { get; private set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private PolicyDefinition() { } // EF Core
 

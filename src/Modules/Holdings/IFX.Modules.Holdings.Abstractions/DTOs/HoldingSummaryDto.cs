@@ -7,7 +7,7 @@ public record HoldingSummaryDto(
     Guid ClassId,
     decimal Units,
     string Status,
-    DateTime? LastTransactionAt,
-    DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTimeOffset? LastTransactionAt,
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt
 );

@@ -8,4 +8,4 @@ public record PartyRelationshipDto(
     string RelationshipType,
     string EffectiveDate,
     string? ExpiryDate,
-    DateTime CreatedAt);
+    DateTimeOffset CreatedAt);

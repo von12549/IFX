@@ -12,8 +12,8 @@ public class PartyRoleAssignment : BaseEntity, IAuditableEntity
     public Guid AssignedBy { get; private set; }
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     // Navigation
     public Party Party { get; private set; } = null!;

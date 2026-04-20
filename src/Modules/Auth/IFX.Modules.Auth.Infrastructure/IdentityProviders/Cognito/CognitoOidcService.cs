@@ -279,7 +279,7 @@ public class CognitoOidcService : IOidcAuthService
     {
         public string State { get; set; } = string.Empty;
         public string CodeVerifier { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
     }
 
     private class TokenSuccessResponse

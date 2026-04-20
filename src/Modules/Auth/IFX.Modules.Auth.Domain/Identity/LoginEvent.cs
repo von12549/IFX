@@ -6,7 +6,7 @@ namespace IFX.Modules.Auth.Domain.Identity;
 public class LoginEvent : BaseEntity
 {
     public Guid UserId { get; private set; }
-    public DateTime LoginTimestamp { get; private set; }
+    public DateTimeOffset LoginTimestamp { get; private set; }
     public bool Success { get; private set; }
     public string? FailureReason { get; private set; }
     public string IpAddress { get; private set; } = string.Empty;
@@ -15,7 +15,7 @@ public class LoginEvent : BaseEntity
     public string? CognitoSessionId { get; private set; }
     public string? AccessToken { get; private set; }
     public string? RefreshToken { get; private set; }
-    public DateTime? TokenExpiresAt { get; private set; }
+    public DateTimeOffset? TokenExpiresAt { get; private set; }
 
     private LoginEvent() { } // For EF Core
 
@@ -26,12 +26,12 @@ public class LoginEvent : BaseEntity
         string? cognitoSessionId = null,
         string? accessToken = null,
         string? refreshToken = null,
-        DateTime? tokenExpiresAt = null)
+        DateTimeOffset? tokenExpiresAt = null)
     {
         return new LoginEvent
         {
             UserId = userId,
-            LoginTimestamp = DateTime.UtcNow,
+            LoginTimestamp = DateTimeOffset.UtcNow,
             Success = true,
             FailureReason = null,
             IpAddress = ipAddress,
@@ -53,7 +53,7 @@ public class LoginEvent : BaseEntity
         return new LoginEvent
         {
             UserId = userId,
-            LoginTimestamp = DateTime.UtcNow,
+            LoginTimestamp = DateTimeOffset.UtcNow,
             Success = false,
             FailureReason = failureReason,
             IpAddress = ipAddress,

@@ -8,7 +8,7 @@ public class UserGlobalRole
     public Guid GlobalRoleId { get; private set; }
     public User User { get; private set; } = null!;
     public GlobalRole GlobalRole { get; private set; } = null!;
-    public DateTime AssignedAt { get; private set; }
+    public DateTimeOffset AssignedAt { get; private set; }
 
     private UserGlobalRole() { } // EF Core
 
@@ -23,7 +23,7 @@ public class UserGlobalRole
         {
             UserId = userId,
             GlobalRoleId = globalRoleId,
-            AssignedAt = DateTime.UtcNow
+            AssignedAt = DateTimeOffset.UtcNow
         };
     }
 }

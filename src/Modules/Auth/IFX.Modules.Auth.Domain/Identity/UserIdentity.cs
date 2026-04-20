@@ -50,10 +50,10 @@ public class UserIdentity : BaseEntity, IAuditableEntity
     public string BirthDate { get; private set; } = string.Empty;
     public bool EmailVerified { get; private set; }
     public bool PhoneNumberVerified { get; private set; }
-    public DateTime LastSyncedAt { get; private set; }
+    public DateTimeOffset LastSyncedAt { get; private set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     // Navigation properties
     public User? User { get; private set; }
@@ -87,7 +87,7 @@ public class UserIdentity : BaseEntity, IAuditableEntity
             PhoneNumber = phoneNumber,
             EmailVerified = emailVerified,
             PhoneNumberVerified = phoneNumberVerified,
-            LastSyncedAt = DateTime.UtcNow
+            LastSyncedAt = DateTimeOffset.UtcNow
         };
 
         return userIdentity;
@@ -107,7 +107,7 @@ public class UserIdentity : BaseEntity, IAuditableEntity
         PhoneNumber = phoneNumber ?? string.Empty;
         EmailVerified = emailVerified;
         PhoneNumberVerified = phoneNumberVerified;
-        LastSyncedAt = DateTime.UtcNow;
+        LastSyncedAt = DateTimeOffset.UtcNow;
     }
 
     public void UpdateProfile(

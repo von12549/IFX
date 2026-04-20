@@ -14,6 +14,6 @@ public record TransactionDto(
     string? SettlementDate,
     string Status,
     string? FailureReason,
-    DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt
 );

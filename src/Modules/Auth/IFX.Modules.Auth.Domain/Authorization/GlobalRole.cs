@@ -7,8 +7,8 @@ public class GlobalRole : BaseEntity, IAuditableEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private readonly List<UserGlobalRole> _userGlobalRoles = new();
     public IReadOnlyCollection<UserGlobalRole> UserGlobalRoles => _userGlobalRoles.AsReadOnly();

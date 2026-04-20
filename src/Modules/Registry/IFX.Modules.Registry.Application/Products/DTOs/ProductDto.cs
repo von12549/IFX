@@ -16,6 +16,6 @@ public class ProductDto
     public DateOnly InceptionDate { get; init; }
     public DateOnly? WindUpDate { get; init; }
     public string Status { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
-    public DateTime UpdatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset UpdatedAt { get; init; }
 }

@@ -11,7 +11,7 @@ public class InvestorDto
 
     // KYC
     public string KycStatus { get; init; } = string.Empty;
-    public DateTime? KycReviewedAt { get; init; }
+    public DateTimeOffset? KycReviewedAt { get; init; }
 
     // Tax & Compliance
     public string? TaxResidencyCountry { get; init; }
@@ -25,6 +25,6 @@ public class InvestorDto
     public string? SourceOfWealth { get; init; }
 
     public string Status { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
-    public DateTime UpdatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset UpdatedAt { get; init; }
 }

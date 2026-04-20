@@ -11,8 +11,8 @@ public class User : BaseEntity, IAuditableEntity
     public string DisplayName { get; private set; } = string.Empty;
     public Guid? PrimaryTenantId { get; private set; }
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private readonly List<Role> _roles = new();
     public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();

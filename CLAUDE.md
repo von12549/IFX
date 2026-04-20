@@ -76,6 +76,7 @@ This file provides guidance to Claude Code when working with this repository.
 | `/.claude/Plans/20260414-registry-product-layer.md` | Registry Product layer — Product (Scheme) → Fund → FundClass three-tier hierarchy; nullable ProductId FK on Fund; new CRUD endpoints + integration events |
 | `/.claude/Plans/20260416-pricing-distribution-commission-billing.md` | Future modules — Pricing (UnitPrice/NAV), Distribution, Commission, Billing, Operations; entity designs, batch jobs, cross-module dependencies, implementation order |
 | `/.claude/Plans/20260418-order-instruction-model.md` | Order Instruction Model — Calastone STP integration layer; Order → Transaction legs hierarchy; accept/reject/confirm workflow; external fund identifiers (ISIN/APIR); charge/commission/tax details |
+| `/.claude/Plans/20260418-datetimeoffset-migration.md` | DateTimeOffset Migration — replace all `DateTime` audit/domain fields with `DateTimeOffset` across 5 modules; EF migrations per DbContext; zero functional change |
 
 ## Quick Reference
 

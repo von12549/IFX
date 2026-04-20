@@ -9,6 +9,6 @@ public class PartyDto
     public string LegalStructure { get; init; } = string.Empty;
     public List<string> Roles { get; init; } = new();
     public string Status { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
-    public DateTime UpdatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset UpdatedAt { get; init; }
 }

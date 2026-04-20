@@ -48,7 +48,7 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             // Get the most recent successful login to calculate session duration
             var loginHistory = await _unitOfWork.LoginEvents.GetUserLoginHistoryAsync(user.Id, 1, 1, cancellationToken);
             var lastLogin = loginHistory.FirstOrDefault();
-            var loginTimestamp = lastLogin?.LoginTimestamp ?? DateTime.UtcNow;
+            var loginTimestamp = lastLogin?.LoginTimestamp ?? DateTimeOffset.UtcNow;
 
             // Create logout event with session duration
             var logoutEvent = LogoutEvent.Create(

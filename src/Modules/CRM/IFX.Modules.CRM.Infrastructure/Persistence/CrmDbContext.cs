@@ -37,12 +37,12 @@ public class CrmDbContext : DbContext
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedAt = DateTime.UtcNow;
-                entry.Entity.UpdatedAt = DateTime.UtcNow;
+                entry.Entity.CreatedAt = DateTimeOffset.UtcNow;
+                entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
             }
             else if (entry.State == EntityState.Modified)
             {
-                entry.Entity.UpdatedAt = DateTime.UtcNow;
+                entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
             }
         }
 

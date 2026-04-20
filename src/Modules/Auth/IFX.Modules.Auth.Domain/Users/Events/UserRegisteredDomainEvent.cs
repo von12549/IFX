@@ -4,4 +4,4 @@ public record UserRegisteredDomainEvent(
     Guid UserId,
     string Email,
     string Username,
-    DateTime Timestamp);
+    DateTimeOffset Timestamp);

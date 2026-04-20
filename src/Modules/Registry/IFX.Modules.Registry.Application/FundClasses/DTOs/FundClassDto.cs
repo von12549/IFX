@@ -14,6 +14,6 @@ public class FundClassDto
     public string NavFrequency { get; init; } = string.Empty;
     public string Status { get; init; } = string.Empty;
     public bool IsOpenForSubscription { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime UpdatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset UpdatedAt { get; init; }
 }

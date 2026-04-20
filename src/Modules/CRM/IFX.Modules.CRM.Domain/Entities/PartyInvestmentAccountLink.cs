@@ -15,8 +15,8 @@ public class PartyInvestmentAccountLink : BaseEntity, IAuditableEntity
     public DateOnly? ExpiryDate { get; private set; }
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     public Party Party { get; private set; } = null!;
     public InvestmentAccount InvestmentAccount { get; private set; } = null!;

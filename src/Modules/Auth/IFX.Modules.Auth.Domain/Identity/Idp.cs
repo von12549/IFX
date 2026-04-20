@@ -23,8 +23,8 @@ public class Idp : BaseEntity, IAuditableEntity
     public string ClaimMapping { get; private set; } = "{}"; // JSON object
     public int ClockSkewSeconds { get; private set; } = 300; // 5 minutes default
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private Idp() { } // For EF Core
 

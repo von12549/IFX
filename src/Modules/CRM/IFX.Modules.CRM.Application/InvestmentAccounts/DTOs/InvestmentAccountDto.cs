@@ -7,5 +7,5 @@ public record InvestmentAccountDto(
     string AccountType,
     string Status,
     DateOnly? CertificateDate,
-    DateTime CreatedAt,
-    DateTime UpdatedAt);
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt);

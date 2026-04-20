@@ -8,5 +8,5 @@ public record OrderSummaryDto(
     string? DealReference,
     string Status,
     int LegCount,
-    DateTime CreatedAt
+    DateTimeOffset CreatedAt
 );

@@ -23,8 +23,8 @@ public class TransactionDbContext : DbContext
         var entries = ChangeTracker.Entries<IAuditableEntity>();
         foreach (var entry in entries)
         {
-            if (entry.State == EntityState.Added) { entry.Entity.CreatedAt = DateTime.UtcNow; entry.Entity.UpdatedAt = DateTime.UtcNow; }
-            else if (entry.State == EntityState.Modified) { entry.Entity.UpdatedAt = DateTime.UtcNow; }
+            if (entry.State == EntityState.Added) { entry.Entity.CreatedAt = DateTimeOffset.UtcNow; entry.Entity.UpdatedAt = DateTimeOffset.UtcNow; }
+            else if (entry.State == EntityState.Modified) { entry.Entity.UpdatedAt = DateTimeOffset.UtcNow; }
         }
         return base.SaveChangesAsync(cancellationToken);
     }

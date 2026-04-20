@@ -11,6 +11,6 @@ public record OrderDto(
     string? ExpectedTradeDate,
     string? ExpectedSettlementDate,
     IReadOnlyList<OrderLegDto> Legs,
-    DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTimeOffset CreatedAt,
+    DateTimeOffset UpdatedAt
 );
