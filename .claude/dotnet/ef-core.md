@@ -68,22 +68,38 @@ if (!request.TenantId.HasValue)
 
 ## Migration Commands
 
-**IMPORTANT:** Always run from Infrastructure directory with startup project flag.
+**IMPORTANT:** Always run from Infrastructure directory with startup project flag. Always pass `--context` when multiple DbContexts exist in the solution.
 
 ```bash
-cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
+# Auth module
+dotnet ef migrations add MigrationName --context IfxDbContext \
+  --project src/Modules/Auth/IFX.Modules.Auth.Infrastructure \
+  --startup-project src/ApiHost/IFX.ApiHost
 
-# Create migration
-dotnet ef migrations add MigrationName --startup-project ../../../ApiHost/IFX.ApiHost
+# CRM module
+dotnet ef migrations add MigrationName --context CrmDbContext \
+  --project src/Modules/CRM/IFX.Modules.CRM.Infrastructure \
+  --startup-project src/ApiHost/IFX.ApiHost
 
-# Apply migrations
-dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
+# Registry module
+dotnet ef migrations add MigrationName --context RegistryDbContext \
+  --project src/Modules/Registry/IFX.Modules.Registry.Infrastructure \
+  --startup-project src/ApiHost/IFX.ApiHost
 
-# Remove last migration (if not applied)
-dotnet ef migrations remove --startup-project ../../../ApiHost/IFX.ApiHost
+# Holdings module
+dotnet ef migrations add MigrationName --context HoldingsDbContext \
+  --project src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure \
+  --startup-project src/ApiHost/IFX.ApiHost
+
+# Transaction module
+dotnet ef migrations add MigrationName --context TransactionDbContext \
+  --project src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure \
+  --startup-project src/ApiHost/IFX.ApiHost
 ```
 
-**Rule:** Always include `--startup-project` flag - DbContext is in Infrastructure but config is in ApiHost.
+**Rule:** Always include `--startup-project` flag — DbContext is in Infrastructure but config is in ApiHost.
+
+**Rule:** Always include `--context` — the solution has 5 DbContexts (IfxDbContext, CrmDbContext, RegistryDbContext, HoldingsDbContext, TransactionDbContext). Omitting it causes ambiguity errors.
 
 ---
 
@@ -94,7 +110,7 @@ When adding reference data that must exist before app runs:
 ```csharp
 // In migration Up() method
 var roleId = Guid.NewGuid();
-var now = DateTime.UtcNow;
+var now = new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero); // fixed seed date
 
 migrationBuilder.InsertData(
     schema: "auth",
@@ -132,8 +148,10 @@ migrationBuilder.DeleteData(
 - DeviceInfo owned by LoginEvent (stored in same table)
 
 ### Auto-timestamps
-- `IAuditableEntity` interface
-- `SaveChangesAsync` sets `CreatedAt`/`UpdatedAt` automatically
+- `IAuditableEntity` interface defines `DateTimeOffset CreatedAt` and `DateTimeOffset UpdatedAt`
+- `SaveChangesAsync` in all 5 DbContexts sets these via `DateTimeOffset.UtcNow` automatically
+- SQL Server column type: `datetimeoffset(7)` (EF default mapping for `DateTimeOffset`)
+- **Rule:** Never use `DateTime` for any timestamp field — always `DateTimeOffset`
 
 ---
 

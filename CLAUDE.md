@@ -19,6 +19,8 @@ This file provides guidance to Claude Code when working with this repository.
 - **GlobalRole frontend views** — dual-section UI: tenant data in main table, lazy-loaded `ExpandableCrossTenantSection` for other tenants; platform Sidebar nav, permission/policy scope tabs, `TenantRequiredBanner`
 - **Fund Registry** — CRM (Party/Investor/InvestmentAccount), Registry (Product→Fund→FundClass three-tier hierarchy), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules
 - **Product layer** — `Product` (Scheme) is the optional regulatory parent of `Fund`; holds ARSN, APIR, ISIN, issuer name, PDS reference; `Fund.ProductId` is nullable so standalone funds remain valid
+- **Order Instruction Model** — `Order` aggregate root as investor instruction (Calastone STP layer); `Order → Transaction` legs hierarchy; accept/reject/confirm workflow; external fund identifiers (ISIN/APIR); charge/commission/tax details
+- **DateTimeOffset** — all audit (`CreatedAt`/`UpdatedAt`) and domain timestamp fields use `DateTimeOffset` throughout; SQL Server stores `datetimeoffset(7)` columns
 - Platform services (Background Jobs with Hangfire, Notifications with SendGrid)
 - Full audit trail
 
@@ -32,6 +34,7 @@ This file provides guidance to Claude Code when working with this repository.
 6. **Auth module has three internal subdomains** - Users, Identity, Authorization; new code goes in the correct subdomain folder
 7. **Provider-neutral Application layer** - `Auth.Application` must not reference Cognito/Auth0 SDK types; use `IIdentityProvider`, `IOidcAuthService` abstractions
 8. **Provider code belongs in `IdentityProviders/`** - Cognito and Auth0 implementations live in `Auth.Infrastructure/IdentityProviders/{Cognito,Auth0}/`; switching provider = config change only
+9. **Use `DateTimeOffset`, never `DateTime`** - all timestamps (audit fields, domain events, DTOs) must be `DateTimeOffset`; `SaveChangesAsync` assigns `DateTimeOffset.UtcNow`
 
 ## Instruction Index
 
@@ -83,7 +86,7 @@ This file provides guidance to Claude Code when working with this repository.
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (729 backend tests → 793 total including frontend)
+dotnet test IFX.sln           # Test (765 backend tests → 829 total including frontend)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
@@ -121,6 +124,7 @@ dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
 - Registry — Classes: `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` (tenant via `X-Tenant-Id`)
 - Holdings (read-only): `GET /api/v1/holding`, `GET /api/v1/holding/{id}`, `GET /api/v1/investor/{investmentAccountId}/holdings`, `GET /api/v1/fund/{fundId}/class/{classId}/holdings` (tenant via `X-Tenant-Id`)
 - Transactions: `GET/POST /api/v1/transaction`, `GET /api/v1/transaction/{id}`, `POST /api/v1/transaction/{subscription,redemption,transfer,switch}`, `POST /api/v1/transaction/{id}/{process,cancel}` (tenant via `X-Tenant-Id`)
+- Orders (STP): `POST /api/v1/order`, `GET /api/v1/order`, `GET /api/v1/order/{id}`, `POST /api/v1/order/{id}/{accept,reject,confirm}`, `DELETE /api/v1/order/{id}` (tenant via `X-Tenant-Id`; requires `Order:create`/`Order:read`/`Order:update`/`Order:delete`)
 
 > **Tenant filtering:** list endpoints read the selected tenant from the `X-Tenant-Id` request header. The frontend sends this header automatically via the `apiClient` interceptor (value persisted in `localStorage`). No `TenantId` is passed in query params or command bodies for list queries — the handler reads it from `ICurrentUser.TenantId`.
 
