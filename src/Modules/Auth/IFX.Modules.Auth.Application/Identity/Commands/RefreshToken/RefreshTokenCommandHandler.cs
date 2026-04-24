@@ -80,7 +80,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
                 cognitoSessionId: null,
                 cognitoResult.AccessToken,
                 cognitoResult.RefreshToken,
-                DateTime.UtcNow.AddSeconds(cognitoResult.ExpiresIn));
+                DateTimeOffset.UtcNow.AddSeconds(cognitoResult.ExpiresIn));
 
             await _unitOfWork.LoginEvents.AddAsync(loginEvent, cancellationToken);
 

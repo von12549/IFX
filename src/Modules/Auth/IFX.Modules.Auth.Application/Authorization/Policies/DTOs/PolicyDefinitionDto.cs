@@ -12,5 +12,5 @@ public record PolicyDefinitionDto(
     List<PolicyConditionDto> Conditions,
     bool IsActive,
     bool IsPlatformDefault,
-    DateTime UpdatedAt,
+    DateTimeOffset UpdatedAt,
     PolicyScope Scope = PolicyScope.Tenant);

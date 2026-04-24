@@ -20,8 +20,8 @@ public class Product : BaseEntity, IAuditableEntity
     public ProductStatus Status { get; private set; } = ProductStatus.Active;
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private readonly List<Fund> _funds = new();
     public IReadOnlyCollection<Fund> Funds => _funds.AsReadOnly();

@@ -12,8 +12,8 @@ public class InvestmentAccount : BaseEntity, IAuditableEntity
     public DateOnly? CertificateDate { get; private set; }
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     public ICollection<PartyInvestmentAccountLink> PartyLinks { get; private set; } = new List<PartyInvestmentAccountLink>();
     public ICollection<AdvisorInvestmentAccountLink> AdvisorLinks { get; private set; } = new List<AdvisorInvestmentAccountLink>();

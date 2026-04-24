@@ -12,8 +12,8 @@ public class Party : BaseEntity, IAuditableEntity
     public EntityStatus Status { get; private set; } = EntityStatus.Active;
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     // Navigation
     public ICollection<PartyRoleAssignment> RoleAssignments { get; private set; } = new List<PartyRoleAssignment>();

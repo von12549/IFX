@@ -39,7 +39,7 @@ public class ExceptionHandlingMiddleware
         {
             Success = false,
             Error = message,
-            Timestamp = DateTime.UtcNow
+            Timestamp = DateTimeOffset.UtcNow
         };
 
         if (exception is ForbiddenException)
@@ -81,5 +81,5 @@ public class ErrorResponse
     public object? Data { get; set; }
     public string? Error { get; set; }
     public List<string>? Errors { get; set; }
-    public DateTime Timestamp { get; set; }
+    public DateTimeOffset Timestamp { get; set; }
 }

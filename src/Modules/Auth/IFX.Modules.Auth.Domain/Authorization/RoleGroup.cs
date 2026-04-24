@@ -10,8 +10,8 @@ public class RoleGroup : BaseEntity, IAuditableEntity
     public Guid TenantId { get; private set; }
     public Tenant Tenant { get; private set; } = null!;
     public Guid? CreatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private readonly List<Role> _roles = new();
     public IReadOnlyCollection<Role> Roles => _roles.AsReadOnly();

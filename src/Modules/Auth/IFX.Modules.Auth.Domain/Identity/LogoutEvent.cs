@@ -5,7 +5,7 @@ namespace IFX.Modules.Auth.Domain.Identity;
 public class LogoutEvent : BaseEntity
 {
     public Guid UserId { get; private set; }
-    public DateTime LogoutTimestamp { get; private set; }
+    public DateTimeOffset LogoutTimestamp { get; private set; }
     public TimeSpan SessionDuration { get; private set; }
     public string IpAddress { get; private set; } = string.Empty;
     public string Reason { get; private set; } = string.Empty;
@@ -15,10 +15,10 @@ public class LogoutEvent : BaseEntity
     public static LogoutEvent Create(
         Guid userId,
         string ipAddress,
-        DateTime loginTimestamp,
+        DateTimeOffset loginTimestamp,
         string reason = "Manual")
     {
-        var logoutTimestamp = DateTime.UtcNow;
+        var logoutTimestamp = DateTimeOffset.UtcNow;
         var sessionDuration = logoutTimestamp - loginTimestamp;
 
         return new LogoutEvent

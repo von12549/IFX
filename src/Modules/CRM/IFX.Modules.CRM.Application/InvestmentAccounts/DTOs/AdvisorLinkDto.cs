@@ -8,4 +8,4 @@ public record AdvisorLinkDto(
     decimal? RebateRate,
     string EffectiveDate,
     string? ExpiryDate,
-    DateTime CreatedAt);
+    DateTimeOffset CreatedAt);

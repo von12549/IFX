@@ -35,6 +35,7 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 - **Registry** — Three-tier Product (Scheme) → Fund → FundClass hierarchy; Product holds regulatory identity (ARSN, APIR, ISIN), issuer metadata, and PDS reference; Fund carries BaseCurrency, FundType, and lifecycle status; FundClass holds fee rates, NAV frequency, and class currency; `Fund.ProductId` is optional so standalone funds remain valid
 - **Holdings** — Authoritative unit ledger per (InvestmentAccount, FundClass); read-only HTTP; mutated exclusively via integration events
 - **Transaction** — Subscription, Redemption, Transfer, and Switch processing; cross-module KYC + class-status validation; `Process(navPrice)` calculates units and triggers Holdings update
+- **Order Instruction Model** — `Order` aggregate root wrapping `Transaction` legs; Calastone STP pattern; lifecycle: Submitted → Accepted → PriceConfirmed | Rejected | Cancelled; external fund identifiers (ISIN/APIR/CUSIP/SEDOL); charge/commission/tax detail columns
 
 ### Platform Services
 - **Integration Events** — In-process `IIntegrationEventBus` (provider-swappable); module contracts live in `.Abstractions` projects
@@ -42,7 +43,8 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 - **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
 
 ### Developer Experience
-- **793 Tests** — 729 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **829 Tests** — 765 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **DateTimeOffset throughout** — all timestamps use `DateTimeOffset` (not `DateTime`); SQL columns are `datetimeoffset(7)`; JSON responses carry explicit UTC offset (`+00:00`)
 - **Docker Support** — Full stack via `docker-compose up -d` (API + Frontend + SQL Server + OPA)
 - **React Frontend** — Admin UI with role-differentiated views: tenant-scoped CRUD for standard users; GlobalRole users get platform Sidebar nav, permission/policy scope tabs, and lazy-loaded cross-tenant data sections on every management page
 - **Demo UI** — Minimal HTML/JS client for testing the OAuth flow end-to-end
@@ -121,7 +123,7 @@ src/
         ├── Abstractions/            # IEmailService
         ├── Infrastructure.SendGrid/ # SendGrid implementation
         └── Composition/             # DI registration
-tests/                               # 729 backend tests
+tests/                               # 765 backend tests
 ├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (106)
 ├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (225)
 ├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (54)
@@ -168,6 +170,7 @@ src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
 | Registry — Classes | `GET/POST /api/v1/fund/{fundId}/class`, `GET/PUT/DELETE /api/v1/fund/{fundId}/class/{id}` |
 | Holdings | `GET /api/v1/holding`, `/holding/{id}`, `/investor/{investmentAccountId}/holdings`, `/fund/{id}/class/{id}/holdings` |
 | Transactions | `GET/POST /api/v1/transaction`, `POST /transaction/{subscription,redemption,transfer,switch}`, `POST /transaction/{id}/{process,cancel}` |
+| Orders (STP) | `GET/POST /api/v1/order`, `GET /api/v1/order/{id}`, `POST /api/v1/order/{id}/{accept,reject,confirm}`, `DELETE /api/v1/order/{id}` |
 | Health | `GET /health`, `GET /health/ready` |
 | Jobs | `GET /hangfire` (dashboard) |
 
@@ -245,7 +248,7 @@ Configuration in `appsettings.json`:
 # Build
 dotnet build IFX.sln
 
-# Backend tests (729)
+# Backend tests (765)
 dotnet test IFX.sln
 
 # Coverage report

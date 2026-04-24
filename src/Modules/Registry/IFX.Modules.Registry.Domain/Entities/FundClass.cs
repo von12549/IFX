@@ -17,8 +17,8 @@ public class FundClass : BaseEntity, IAuditableEntity
     public ClassStatus Status { get; private set; } = ClassStatus.Active;
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private FundClass() { } // For EF Core
 

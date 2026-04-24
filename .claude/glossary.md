@@ -67,8 +67,17 @@ Defines terms, abbreviations, and naming conventions used in this codebase.
 | **Investor** | Extension profile attached to a Party for investment-specific attributes (KYC, risk profile) |
 | **InvestmentAccount** | Unit of investment activity; linked to one or more Parties (owners) and Advisors |
 | **Holding** | Running unit balance for a `(TenantId, InvestmentAccountId, FundClassId)` triple; read-only via HTTP |
-| **Transaction** | State-machine record for subscription, redemption, transfer, or switch; transitions Pending → Processed → Settled |
-| **TransactionProcessedEvent** | Integration event published after `Process(navPrice)` — triggers Holdings update |
+| **Transaction** | State-machine record for subscription, redemption, transfer, or switch; transitions Pending → Processed → Settled; may be an Order leg (OrderId set) or a standalone legacy transaction (OrderId null) |
+| **Order** | Aggregate root representing an investor instruction (Calastone STP pattern); wraps one or more Transaction legs; lifecycle: Submitted → Accepted → PriceConfirmed \| Rejected \| Cancelled |
+| **OrderType** | `SubscriptionOrder`, `RedemptionOrder`, `SwitchOrder` |
+| **OrderStatus** | `Submitted`, `Accepted`, `PriceConfirmed`, `Rejected`, `Cancelled` |
+| **OrderReference** | Ordering-party external reference for the Order (unique per tenant) |
+| **DealReference** | Executing-party reference set on Accept (e.g. Calastone deal ref) |
+| **ExternalFundIdentifier** | Value object: identifier type (ISIN/APIR/CUSIP/SEDOL/OTHER) + identifier string; stored on Transaction leg |
+| **DealingPriceDetails** | Owned type on Transaction leg: PriceType + Amount + Currency; populated on Order Confirm |
+| **TransactionProcessedEvent** | Integration event published after `Process(navPrice)` or Order `Confirm` — triggers Holdings update |
+| **STP** | Straight-Through Processing — automated fund order routing without manual intervention; Calastone is the industry STP network |
+| **Calastone** | Fund industry STP network; IFX acts as an Executing Party in the Calastone REST API V3.0 model |
 | **ARSN** | Australian Registered Scheme Number — scheme-level regulatory identifier |
 | **APIR** | Australian Product Identification Reference — 9-character fund identifier |
 | **ISIN** | International Securities Identification Number — ISO 6166 12-character identifier |

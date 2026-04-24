@@ -283,3 +283,52 @@ Tenant DB row → Platform DB row → Static fallback → null (deny)
 - `Fund.SetProduct(Guid?)` / `UpdateFundCommand.ClearProduct = true` cleanly manages the nullable association without a separate endpoint
 
 **Migration:** Additive delta migration `AddProduct` adds `registry.Products` table and nullable `ProductId` FK on `registry.Funds` — zero downtime, no existing row touched.
+
+---
+
+## ADR-014: DateTimeOffset for All Timestamps (April 2026)
+
+**Decision:** Replace all `DateTime` fields with `DateTimeOffset` across every domain entity, DTO, DbContext, and event type in the solution. SQL Server columns migrate from `datetime2` to `datetimeoffset(7)`.
+
+**Rationale:**
+- `DateTime` has no offset information — callers must assume UTC by convention, but the type itself doesn't enforce it
+- `DateTimeOffset` carries the offset (`+00:00` for UTC), making the round-trip unambiguous in JSON responses and SQL storage
+- Aligns with ISO 8601 and the Calastone API contract which uses offset-qualified timestamps
+- Existing UTC timestamps are preserved exactly — SQL Server `CONVERT(datetimeoffset, datetime2_value)` appends `+00:00` without changing the point-in-time
+
+**Key changes:**
+- `IAuditableEntity.CreatedAt/UpdatedAt` → `DateTimeOffset`
+- All `SaveChangesAsync` overrides → `DateTimeOffset.UtcNow`
+- Auth non-audit fields: `LoginEvent.LoginTimestamp`, `EmailVerificationToken.ExpiresAt/UsedAt`, `UserGlobalRole.AssignedAt`, `LogoutEvent.LogoutTimestamp`, `UserActivityLog.Timestamp`, `UserIdentity.LastSyncedAt`
+- CRM: `Investor.KycReviewedAt`; Holdings: `Holding.LastTransactionAt`
+- All 5 modules received `AlterAuditColumnsToDateTimeOffset` EF migrations
+
+**Rule established:** All new timestamp fields must use `DateTimeOffset`, never `DateTime`. This is now a Golden Rule in CLAUDE.md.
+
+**Trade-offs:**
+- JSON responses change from `"2026-04-20T12:00:00"` to `"2026-04-20T12:00:00+00:00"` — more explicit, valid ISO 8601
+- Clients that parse timestamps as `DateTime` will still work (the offset is ignored but the point-in-time is correct)
+
+---
+
+## ADR-015: Order Instruction Model — Calastone STP Integration Layer (April 2026)
+
+**Decision:** Introduce an `Order` aggregate root as the top-level investor instruction entity, with `Transaction` records as execution legs, aligned with the Calastone Executing Party REST API (V3.0) and ISO 20022 fund industry STP patterns.
+
+**Rationale:**
+- `Transaction` conflated instruction (what the investor wants) with execution record (what happened) — causing structural gaps: Switch used a `TargetClassId` shortcut; no accept/reject lifecycle; no external order references; no charge/commission/tax breakdown
+- The Calastone REST API contract requires Order-level lifecycle: `Submitted → Accepted → PriceConfirmed | Rejected | Cancelled`
+- Separating Order (instruction) from Transaction (leg) makes Switch orders natural: one Order, two legs (Redemption + Subscription)
+- Backward compatible: existing `POST /api/v1/transaction/{subscription,redemption,switch}` endpoints remain unchanged
+
+**Key design choices:**
+- `Transaction.OrderId` is nullable FK — legacy transactions (pre-STP) have `null`; new STP transactions are always created via an Order
+- JSON columns for `ChargeDetails[]`, `CommissionDetails[]`, `TaxDetails[]` — simpler than normalized child tables; charges are read-only after confirmation
+- `ExternalFundIdentifier` (ISIN/APIR/CUSIP/SEDOL) as a flat owned value object on Transaction legs
+- `OrderReference` uniqueness scoped to `(TenantId, OrderReference)` — ordering party controls the ref
+
+**New endpoints:** `POST/GET /api/v1/order`, `GET /api/v1/order/{id}`, `POST /api/v1/order/{id}/{accept,reject,confirm}`, `DELETE /api/v1/order/{id}`
+
+**Trade-offs:**
+- Existing `CreateSubscription/Redemption/Switch` handlers remain unchanged (parallel path) — a later migration task will wire them through Order internally
+- `Transfer` type has no Calastone equivalent — remains Transaction-only

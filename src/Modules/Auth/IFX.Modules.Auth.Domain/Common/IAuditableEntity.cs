@@ -2,6 +2,6 @@ namespace IFX.Modules.Auth.Domain.Common;
 
 public interface IAuditableEntity
 {
-    DateTime CreatedAt { get; set; }
-    DateTime UpdatedAt { get; set; }
+    DateTimeOffset CreatedAt { get; set; }
+    DateTimeOffset UpdatedAt { get; set; }
 }

@@ -10,11 +10,11 @@ public class Holding : BaseEntity, IAuditableEntity
     public Guid ClassId { get; private set; }
     public decimal Units { get; private set; }
     public HoldingStatus Status { get; private set; } = HoldingStatus.Active;
-    public DateTime? LastTransactionAt { get; private set; }
+    public DateTimeOffset? LastTransactionAt { get; private set; }
     public Guid? CreatedBy { get; set; }
     public Guid? UpdatedBy { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
 
     private Holding() { }
 
@@ -38,7 +38,7 @@ public class Holding : BaseEntity, IAuditableEntity
     {
         if (units <= 0) throw new ArgumentException("Units must be positive.", nameof(units));
         Units += units;
-        LastTransactionAt = DateTime.UtcNow;
+        LastTransactionAt = DateTimeOffset.UtcNow;
     }
 
     public void ApplyRedemption(decimal units)
@@ -46,7 +46,7 @@ public class Holding : BaseEntity, IAuditableEntity
         if (units <= 0) throw new ArgumentException("Units must be positive.", nameof(units));
         if (units > Units) throw new InvalidOperationException($"Cannot redeem {units} units; holding only has {Units}.");
         Units -= units;
-        LastTransactionAt = DateTime.UtcNow;
+        LastTransactionAt = DateTimeOffset.UtcNow;
         if (Units == 0) Status = HoldingStatus.Closed;
     }
 

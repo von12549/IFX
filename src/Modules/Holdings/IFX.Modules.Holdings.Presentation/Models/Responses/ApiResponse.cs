@@ -6,7 +6,7 @@ public class ApiResponse<T>
     public T? Data { get; set; }
     public string? Error { get; set; }
     public List<string>? Errors { get; set; }
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    public DateTimeOffset Timestamp { get; set; } = DateTimeOffset.UtcNow;
 
     public static ApiResponse<T> SuccessResponse(T data)
     {

@@ -8,6 +8,6 @@ public class RefreshTokenResponse
     public string RefreshToken { get; init; } = string.Empty;
     public int ExpiresIn { get; init; }
     public string TokenType { get; init; } = string.Empty;
-    public DateTime ExpiresAt { get; init; }
+    public DateTimeOffset ExpiresAt { get; init; }
     public UserProfileDto? UserProfile { get; init; }
 }

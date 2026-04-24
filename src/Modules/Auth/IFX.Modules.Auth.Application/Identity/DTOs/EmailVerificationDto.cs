@@ -2,7 +2,7 @@ namespace IFX.Modules.Auth.Application.Identity.DTOs;
 
 public record SendEmailVerificationResponse(
     string Message,
-    DateTime ExpiresAt,
+    DateTimeOffset ExpiresAt,
     Guid TokenId);
 
 public record VerifyEmailResponse(
@@ -11,7 +11,7 @@ public record VerifyEmailResponse(
 
 public record ResendEmailVerificationResponse(
     string Message,
-    DateTime ExpiresAt,
+    DateTimeOffset ExpiresAt,
     Guid TokenId);
 
 public record EmailVerificationTokenInfo(
@@ -20,4 +20,4 @@ public record EmailVerificationTokenInfo(
     string Email,
     string Token,
     string Code,
-    DateTime ExpiresAt);
+    DateTimeOffset ExpiresAt);

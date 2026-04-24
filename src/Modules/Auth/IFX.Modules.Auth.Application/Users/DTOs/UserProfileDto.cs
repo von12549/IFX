@@ -22,5 +22,5 @@ public class UserProfileDto
     public List<TenantDto> Tenants { get; init; } = [];
     public List<DepartmentDto> Departments { get; init; } = [];
     public List<string> GlobalRoles { get; init; } = [];
-    public DateTime CreatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
 }

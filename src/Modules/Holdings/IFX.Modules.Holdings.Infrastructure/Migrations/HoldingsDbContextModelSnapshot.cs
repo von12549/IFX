@@ -31,8 +31,8 @@ namespace IFX.Modules.Holdings.Infrastructure.Migrations
                     b.Property<Guid>("ClassId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -40,8 +40,8 @@ namespace IFX.Modules.Holdings.Infrastructure.Migrations
                     b.Property<Guid>("InvestmentAccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("LastTransactionAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset?>("LastTransactionAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -54,8 +54,8 @@ namespace IFX.Modules.Holdings.Infrastructure.Migrations
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");

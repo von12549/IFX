@@ -10,4 +10,4 @@ public record InvestorDocumentDto(
     string? IssueState,
     string? IssueDate,
     string? ExpiryDate,
-    DateTime CreatedAt);
+    DateTimeOffset CreatedAt);

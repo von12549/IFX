@@ -1,3 +1,4 @@
+using IFX.Modules.Transaction.Presentation.Orders.Endpoints;
 using IFX.Modules.Transaction.Presentation.Transactions.Endpoints;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,38 @@ public static class EndpointExtensions
 {
     public static IEndpointRouteBuilder MapTransactionEndpoints(this IEndpointRouteBuilder builder)
     {
+        // Order endpoints
+        var orderGroup = builder.MapGroup("/api/v1").WithTags("Orders");
+
+        orderGroup.MapGet("/order", OrderEndpoints.GetOrders)
+            .RequireAuthorization()
+            .RequirePermission("Order:list");
+
+        orderGroup.MapGet("/order/{orderId:guid}", OrderEndpoints.GetOrderById)
+            .RequireAuthorization()
+            .RequirePermission("Order:read");
+
+        orderGroup.MapPost("/order", OrderEndpoints.CreateOrder)
+            .RequireAuthorization()
+            .RequirePermission("Order:create");
+
+        orderGroup.MapPost("/order/{orderId:guid}/accept", OrderEndpoints.AcceptOrder)
+            .RequireAuthorization()
+            .RequirePermission("Order:update");
+
+        orderGroup.MapPost("/order/{orderId:guid}/reject", OrderEndpoints.RejectOrder)
+            .RequireAuthorization()
+            .RequirePermission("Order:update");
+
+        orderGroup.MapPost("/order/{orderId:guid}/confirm", OrderEndpoints.ConfirmOrder)
+            .RequireAuthorization()
+            .RequirePermission("Order:update");
+
+        orderGroup.MapDelete("/order/{orderId:guid}", OrderEndpoints.CancelOrder)
+            .RequireAuthorization()
+            .RequirePermission("Order:delete");
+
+        // Transaction endpoints (backward compatible)
         var group = builder.MapGroup("/api/v1").WithTags("Transactions");
 
         group.MapGet("/transaction", TransactionEndpoints.GetTransactions)
