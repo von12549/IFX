@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "layerguard": {
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "mcp/LayerGuard/src/LayerGuard/LayerGuard.csproj",
+        "--verbosity",
+        "quiet",
+        "--nologo"
+      ]
+    }
+  }
+}
