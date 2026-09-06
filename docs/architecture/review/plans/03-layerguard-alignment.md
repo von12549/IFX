@@ -3,6 +3,7 @@
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 治理前置：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 提供 module ownership、合法 provider/consumer 边、shared primitives allowlist 和 waiver policy。
+> 上下文前置：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 提供 Context/Messaging schema primitive allowlist、Contract/Event 声明与禁止框架规则；字段分类和值传播由专用 validator/tests 负责。
 > 当前问题：`src/layerguard.json` 只认识 Domain/Application/Presentation/Infrastructure，并通过 blanket `sameModule: ["*.Abstractions"]` 禁止所有层引用本模块 Abstractions；这既无法表达新目标，也与现状存在漂移。
 
 ## 目标依赖矩阵
@@ -10,7 +11,7 @@
 | From | 允许依赖 | 明确禁止 |
 | --- | --- | --- |
 | Domain | 本模块 Domain、经批准的 Domain primitives | Contracts、Application、Presentation、Infrastructure、其他模块 |
-| Contracts | BCL、经批准的 contract primitives | Domain、Application、Infrastructure、Presentation、EF/MediatR/transport SDK |
+| Contracts | BCL、经批准的 contract/context/messaging primitives | Domain、Application、Infrastructure、Presentation、Security implementation、ASP.NET、EF/MediatR/transport SDK |
 | Application | 本模块 Domain、本模块 Contracts、本模块 Application abstractions | 其他模块 Contracts/实现、Infrastructure、Presentation |
 | Presentation | 本模块 Application、HTTP 框架、必要的宿主协议类型 | DbContext、Repository、其他模块实现 |
 | Integration Adapter | 本模块 Application Port、目标提供方 Contracts、必要 transport client | 目标模块实现/Domain/DbContext、业务规则复制 |
@@ -29,6 +30,7 @@
 - [ ] L0.5 检查 LayerGuard 当前是否能识别 Integration Adapter 子目录、独立项目或命名约定。
 - [ ] L0.6 检查工具能否验证直接项目引用、源码 namespace 使用、声明位置与传递依赖。
 - [ ] L0.7 对无法由现有配置表达的规则建立工具增强清单，确认是扩展配置 schema 还是调整物理项目结构。
+- [ ] L0.8 建立 Gate 05 门禁职责表：LayerGuard 不承担字段分类、header 值、日志内容或 runtime propagation 判断，只验证静态依赖、声明和禁止类型。
 
 ## Phase 1 — 设计迁移期 ring 与项目识别
 
@@ -37,7 +39,7 @@
 - [ ] L1.1 为 `Contracts`、`IntegrationAdapter`、`Composition` 增加可识别的 ring/role，或定义等价的 ownership-aware project role。
 - [ ] L1.2 在迁移期同时识别 `*.Abstractions` 与 `*.Contracts`，但禁止新增旧命名的项目和引用。
 - [ ] L1.3 更新当前 X-1 规则：Application 可以引用本模块 Contracts，但不得引用其他模块 Contracts。
-- [ ] L1.4 从 Gate 03 权威目录读取或一致性生成 Contracts shared primitives allowlist，默认拒绝 BCL 与已批准 Messaging.Contracts 之外的依赖。
+- [ ] L1.4 从 Gate 03/05 权威目录读取或一致性生成 Contracts shared primitives allowlist，默认拒绝 BCL 与已批准 Context/Messaging Contracts 之外的依赖。
 - [ ] L1.5 明确 Adapter 若保留在 Infrastructure 项目中时的目录/namespace 边界，避免整个 Infrastructure 获得外部 Contracts 许可。
 - [ ] L1.6 明确 Composition 与 Gate 04 API/Worker Runtime Host 的模式匹配、允许边和禁止内容。
 - [ ] L1.7 为历史违规建立临时 baseline/waiver 格式，要求 owner、原因、创建日、到期日和删除条件。
@@ -56,6 +58,7 @@
 - [ ] L2.8 实现规则：API/Worker Runtime Host 只能通过 Composition 装载模块，禁止直接引用业务实现类型；Worker role 不得引用或映射业务 Presentation。
 - [ ] L2.9 为未识别项目、模糊 ownership 和无法解析引用采用 fail-closed 或明确告警策略，避免静默跳过。
 - [ ] L2.10 使用 Gate 03 provider/consumer graph 验证 Adapter 只能引用已登记 provider Contracts，并阻断未登记同步依赖环。
+- [ ] L2.11 验证 context runtime 实现只能位于 ApiHost/Platform 外层；Application 只依赖批准的 accessor/primitive，Auth.Infrastructure 不成为其他模块的隐式 context host。
 
 ## Phase 3 — 增加声明与框架泄漏规则
 
@@ -68,6 +71,8 @@
 - [ ] L3.5 禁止 Contracts 声明 Handler、DbContext、Repository、DI extension 或实现类。
 - [ ] L3.6 禁止 Integration Event payload 使用 Domain Entity、EF Entity 或其他模块内部类型。
 - [ ] L3.7 为命名规则提供有限且明确的例外机制，避免只靠 `Reader`/`Handler` 字符串产生大量误报。
+- [ ] L3.8 禁止 ContractRequestContext/Event Envelope 引用 HttpContext、ClaimsPrincipal、JWT/token 类型、Activity、ILogger、DI、Security implementation 或 broker carrier。
+- [ ] L3.9 验证同步 Contract metadata 与业务 DTO 分区、Event Envelope 与 payload 声明分区；字段 C0-C4/purpose 由 Gate 05 schema validator 验证而非字符串猜测。
 
 ## Phase 4 — 建立 LayerGuard 自动化测试套件
 
@@ -81,6 +86,7 @@
 - [ ] L4.6 添加模块循环依赖与 Contract 循环依赖检测测试。
 - [ ] L4.7 添加配置错误、未知 ring、重复规则和过期 waiver 的失败测试。
 - [ ] L4.8 验证报告包含违规源、目标、规则编号、所属模块与可执行修复提示。
+- [ ] L4.9 添加合法 BCL-only context primitive 正例，以及 Contracts → ASP.NET/Security implementation/Activity/broker 和 Application → runtime context implementation 反例。
 
 ## Phase 5 — 迁移仓库配置并修复违规
 
@@ -94,6 +100,7 @@
 - [ ] L5.6 修复 ApiHost/Composition 的装配越界与跨模块实现引用。
 - [ ] L5.7 按 Gate 03 waiver policy 审核全部例外；缺少 owner、风险、到期日、删除条件或超过默认期限的豁免不得进入主分支，不可豁免规则不得建立例外。
 - [ ] L5.8 达到零未豁免违规后保存依赖图和报告作为新基线。
+- [ ] L5.9 修复 CurrentUser/context 迁移后的项目引用和声明位置违规，并验证 context primitive allowlist 没有扩大为通用 SharedKernel 许可。
 
 ## Phase 6 — 接入 CI 门禁
 
@@ -106,6 +113,7 @@
 - [ ] L6.5 对过期 waiver、未识别项目和扫描异常设置 CI 失败，避免绿色假象。
 - [ ] L6.6 记录执行时间并设置合理性能基线，确保开发者可在本地频繁运行。
 - [ ] L6.7 将 LayerGuard 结果与 Gate 03 catalog/source reconciliation 串联，防止配置复制 ownership 数据后发生漂移。
+- [ ] L6.8 将 Gate 05 catalog/schema/security test 结果与 LayerGuard 报告共同发布，但失败来源和责任规则保持可区分。
 
 ## Phase 7 — 严格模式与维护机制
 
@@ -117,6 +125,20 @@
 - [ ] L7.4 为新模块模板预置 Contracts/Application/Adapters/Composition 的合规结构。
 - [ ] L7.5 建立定期 waiver 审核和依赖图审查，防止配置与代码再次漂移。
 - [ ] L7.6 由架构负责人确认严格模式报告为零未豁免违规，并批准完成。
+- [ ] L7.7 汇总最终规则矩阵、违规清零结果、waiver 状态及 Gate 03/05 输入，作为 Phase 8 文档来源。
+
+## Phase 8 — 架构与规则文档化
+
+- [ ] **Phase 8 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] L8.1 编写完整中文规则说明，解释项目识别、ownership-aware 依赖、声明位置、框架泄漏和 waiver 规则。
+- [ ] L8.2 编写与中文内容一致的英文规则说明，并建立双向链接。
+- [ ] L8.3 保存目标编译期依赖矩阵和项目/模块 ownership 架构图。
+- [ ] L8.4 保存从项目发现、项目图/源码分析、catalog reconciliation 到本地/CI 报告的检查流程图。
+- [ ] L8.5 保存迁移模式到严格模式的状态图，标明启用条件、失败行为和 waiver 到期处理。
+- [ ] L8.6 提供每条核心规则的正例、反例、诊断信息、修复方式和允许的最小例外。
+- [ ] L8.7 说明 Gate 03 权威目录与 Gate 05 context/分类规则如何输入同一门禁，但保持失败责任可区分。
+- [ ] L8.8 保存 Mermaid 源文件及可审阅的 SVG/PNG 渲染结果，并更新规则与架构索引。
 
 ## 完成标准（Definition of Done）
 
@@ -126,3 +148,6 @@
 - [ ] L-D04 CI 阻断新增和未豁免架构违规，扫描异常不能静默通过。
 - [ ] L-D05 旧 `Abstractions` 兼容规则最终移除，仓库规则与目标文档一致。
 - [ ] L-D06 所有 waiver 都可追责、会过期且有明确删除条件。
+- [ ] L-D07 Contract/Event context 只能依赖 Gate 05 批准的 BCL-only primitives，运行时 HttpContext/Activity/Security/broker 类型不能泄漏进公共 schema 或 Application。
+- [ ] L-D08 LayerGuard 与 Gate 05 Catalog/schema/security/runtime tests 分工清晰，任一门禁失败都不能由另一门禁的绿色结果掩盖。
+- [ ] L-D09 中英文规则说明、依赖图、检查流程图、模式状态图及正反例完整且与门禁实现一致。

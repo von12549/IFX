@@ -3,6 +3,7 @@
 > 状态：Draft / 待评审
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
+> 计划概述与审查结论：[`README.md`](README.md)
 > 进度规则：只有当某项的实现、验证与必要文档证据均已完成时，才勾选该项；Phase 内全部项目完成后，才勾选 Phase。
 
 ## 目标
@@ -15,11 +16,12 @@
 
 | 子计划 | 负责范围 | 完成标志 |
 | --- | --- | --- |
-| [`00-prerequisites.md`](00-prerequisites.md) | Plan 00 前置的事务、数据库、治理、部署与数据规则 | Gate 1–5 全部通过并形成可追踪证据 |
+| [`00-prerequisites.md`](00-prerequisites.md) | Plan 00 前置的事务、数据库、治理、部署与数据规则 | 先完成 Gate 1–5 前置放行；子计划回交真实实现后再最终关闭 |
 | [`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md) | Gate 1 本地事务、Result/异常语义、并发及 Outbox/Inbox 原子接缝 | TX1–TX5 的实现、测试与文档全部验收 |
 | [`00-G02-database-boundary.md`](00-G02-database-boundary.md) | Gate 2 DbContext/schema ownership、独立 history、Migrator job 与真实数据库测试 | DB1–DB4、DB9–DB11 的实现、迁移和文档全部验收 |
 | [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) | Gate 3 Contract/Event ownership、版本兼容、权威目录、共享原语与变更治理 | GOV1/GOV2/GOV5 的目录、门禁、测试与文档全部验收 |
 | [`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) | Gate 4 业务发布边界、API/Worker roles、多实例 lease、部署、探针与关闭 | DP1/DP3/DP4/DP5 的运行、演练、健康与文档全部验收 |
+| [`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) | Gate 5 Correlation/Causation/Tenant/Trace、Contract/Event context 与敏感数据治理 | OPS1/OPS3/OPS-G1 的上下文、分类、门禁、测试与文档全部验收 |
 | [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) | `Abstractions` → `Contracts/Ports/Adapters`；Contracts 与 Application 职责；现有代码迁移 | Application 不再直接引用其他模块 Contracts；所有跨模块同步调用经消费方 Port 与 Adapter |
 | [`02-reliable-integration-events.md`](02-reliable-integration-events.md) | Integration Event 契约、Outbox/Inbox、投递、重试与运维 | 提交后发布、至少一次投递、消费幂等、失败可恢复 |
 | [`03-layerguard-alignment.md`](03-layerguard-alignment.md) | LayerGuard 规则、工具能力、测试与 CI | 新依赖矩阵可自动验证，并且仓库零未豁免违规 |
@@ -37,14 +39,23 @@
 - [ ] M-C08 每个模块保持自己的数据和本地事务边界；跨模块工作流不宣称共享 ACID 原子性。
 - [ ] M-C09 所有架构和规则设计完成后必须文档化，至少包含设计解释、架构图、关键流程图、失败/状态说明及规则到验证机制的映射。
 - [ ] M-C10 五个业务模块保持同一后端发布边界；同 release 的 API/Worker Runtime Roles 可独立扩容，但不能独立选择业务模块版本。
+- [ ] M-C11 业务关联、单次操作、直接因果、事件身份、W3C trace 和租户 scope 使用不同语义；所有入口由可信 Adapter 建立显式 ExecutionContext。
+- [ ] M-C12 Contract/Event 公共字段必须完成 C0-C4 分类和目的登记；C4 Secret 零暴露，普通日志/trace 不成为敏感数据旁路。
 
 ## 依赖与实施顺序
 
+本计划使用两个不同里程碑，避免 Gate 的最终验收与下游实现形成循环依赖：
+
+- **前置放行（Prerequisite Release）**：Gate 的架构决策、阻塞性现存缺陷、协议接缝、ownership 和 conformance 要求已经确定，可开始三个原子子计划。
+- **最终关闭（Final Closure）**：原子子计划已把 Gate 规则应用到真实 Contracts、Outbox/Inbox、Dispatcher 和 LayerGuard，Gate 的全部 Phase/DoD 与文档证据完成。
+
+Gate Plan 是总计划的一部分，不是与原子子计划平行维护的第二份实现 backlog。涉及真实 Contract/Event 的代码只在对应原子子计划实施，Gate Plan 负责规则、前置基础和最终验收。
+
 ```text
-前置 Gate：事务 + 数据库 + Ownership + 部署假设 + 数据规则
+Gate 1-5 决策 + 阻塞基础 + conformance 要求
       |
       v
-架构决策冻结（Plan 00 Phase 0）
+前置放行（PRE-READY）
       |
       +--> 子计划 1：Contracts / Ports / Adapters 基础结构
       |          |
@@ -53,18 +64,21 @@
       |          +--> 子计划 3：迁移期规则验证
       |
 子计划 1 完成主要依赖迁移 --> 子计划 3 开启严格模式并成为 CI 门禁
+      |
+      v
+Gate 1-5 最终关闭 + 总体验收
 ```
 
 ## Plan 00 准入门槛
 
-- [ ] M-PRE 完成 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 1–5 和最终准入验收；在此之前只允许调研、决策和原型验证，不开始正式架构迁移。
+- [ ] M-PRE 完成 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 1–5 前置放行和 PRE-READY 验收；各 Gate 最终关闭可依赖原子子计划的真实实现证据，但必须在总计划最终验收前完成。
 
 ## Phase 0 — 建立基线与冻结架构决策
 
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [ ] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
-- [ ] M0.2 评审并确认上方 M-C01 至 M-C10；未达成一致的项目记录为 ADR 决策，不直接进入实现。
+- [ ] M0.2 评审并确认上方 M-C01 至 M-C12；未达成一致的项目记录为 ADR 决策，不直接进入实现。
 - [ ] M0.3 决定 `Contracts` 的物理命名迁移策略：一次性项目重命名，或先兼容 namespace/package、后移除 `Abstractions`。
 - [ ] M0.4 决定 Integration Adapter 的物理组织：保留在 `Infrastructure/Integrations`，或拆分独立项目；选择须能被 LayerGuard 精确验证。
 - [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
@@ -74,11 +88,11 @@
 
 - [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] M1.1 以 Gate 03 权威目录、ownership、V1 identity 和 shared primitives allowlist 为输入，执行子计划 1 的 Contracts 分类、Application Facade、消费方 Port 和 Adapter 迁移。
+- [ ] M1.1 以 Gate 03 权威目录、ownership、V1 identity/shared primitives allowlist，以及 Gate 05 ContractRequestContext、ExecutionScope 和字段分类为输入，执行子计划 1 的迁移。
 - [ ] M1.2 优先迁移当前真实同步依赖：CRM 的 KYC 校验与 Registry 的 Class subscription 状态查询。
 - [ ] M1.3 清除 Transaction.Application 对 CRM/Registry Contracts 的直接项目引用，并用依赖图验证。
 - [ ] M1.4 清理未被生产代码消费的公共 Reader，避免为了假想扩展面继续暴露公共查询模型。
-- [ ] M1.5 分离 Application 内部 DTO 与公共 Contract DTO，防止公共模型成为内部用例模型。
+- [ ] M1.5 分离 Application 内部 DTO 与公共 Contract DTO，按 capability 最小化字段并应用 Gate 05 C0-C4 分类，防止公共模型成为内部用例模型或敏感数据捷径。
 - [ ] M1.6 完成子计划 1 的单元、DI、集成和架构测试后，勾选本 Phase。
 
 ## Phase 2 — 启用迁移期 LayerGuard 规则
@@ -94,12 +108,12 @@
 
 - [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] M3.1 以 Gate 03 事件目录、producer/consumer、版本与兼容政策为输入，执行子计划 2 的事件契约和统一 envelope 设计；消息 schema primitives 与运行时端口保持分离。
+- [ ] M3.1 以 Gate 03 事件目录/版本政策和 Gate 05 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类为输入，执行子计划 2；schema primitives 与运行时端口保持分离。
 - [ ] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
 - [ ] M3.3 按 Gate 04 Worker role、唯一 instance identity 和多实例 claim/lease 规则实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
-- [ ] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter，再映射为消费方内部命令。
+- [ ] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter；Adapter 先验证 producer/schema/tenant/context，再建立隔离的 ExecutionContext 并映射为内部命令。
 - [ ] M3.5 实现 Inbox 去重及“消费方业务数据 + Inbox”本地原子保存。
-- [ ] M3.6 完成崩溃窗口、重复投递、毒消息、回放和端到端测试后，勾选本 Phase。
+- [ ] M3.6 完成崩溃窗口、重复投递、毒消息、上下文传播/隔离、敏感字段、回放和端到端测试后，勾选本 Phase。
 
 ## Phase 4 — 收紧 LayerGuard 并形成 CI 门禁
 
@@ -110,15 +124,16 @@
 - [ ] M4.3 将 Contracts 禁止依赖业务/基础设施框架、Application 禁止外部 Contracts、Adapter 依赖方向等规则设为阻断级别。
 - [ ] M4.4 验证直接和传递依赖、项目引用与 namespace 声明均无法绕过规则。
 - [ ] M4.5 在标准 CI 路径中启用 LayerGuard，失败报告能指向违规边、规则和修复建议。
+- [ ] M4.6 保持门禁职责清晰：LayerGuard 验证引用/声明/框架泄漏，Gate 03/05 catalog 与 schema/security/runtime tests 验证字段、值和传播语义。
 
 ## Phase 5 — 收尾、发布与架构验收
 
 - [ ] **Phase 5 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [ ] M5.1 删除已废弃的接口、DTO、注册代码、兼容 shim 与旧事件直发代码，确认无生产引用。
-- [ ] M5.2 更新架构图、模块开发指南、Contract/Event 版本策略和故障处理手册。
+- [ ] M5.2 更新架构图、模块开发指南、Contract/Event 版本策略、上下文/敏感数据规则和故障处理手册。
 - [ ] M5.3 对所有模块执行完整构建、测试、LayerGuard 和关键业务回归，并保存结果。
-- [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的数据库/事务项完成或转为具备负责人和时间点的正式计划。
+- [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的剩余事项完成或转为具备负责人和时间点的正式计划，已提取事项不得重复维护。
 - [ ] M5.5 由架构与模块负责人共同确认 Definition of Done，并记录最终偏差或临时豁免的到期日。
 - [ ] M5.6 按 Gate 04 顺序演练 Migrator → Worker consumers → API producers → schedules → cleanup，并验证 probes、drain、backpressure 和安全回退。
 
@@ -134,6 +149,8 @@
 - [ ] M-D08 各 Gate 和子计划均已交付并审核中英文设计说明、架构图、流程图及必要状态图，文档与最终代码和自动化规则一致。
 - [ ] M-D09 Contract/Event 权威目录与源码、API/schema 快照、依赖图和 LayerGuard 保持一致，所有 Active 协议均有唯一 owner 和真实 consumer。
 - [ ] M-D10 API/Worker roles、多实例 Dispatcher、role-specific readiness、优雅关闭与 consumer-first 发布均通过自动化或受控演练。
+- [ ] M-D11 HTTP、job、同步 Contract 与 Event consumer 使用统一且隔离的 ExecutionContext，Correlation/Causation/Tenant/Trace 传播和失败语义通过测试。
+- [ ] M-D12 所有 Active Contract/Event 字段完成 C0-C4 分类和目的登记；C4 零暴露，日志/trace/error/health 无未批准敏感信息。
 
 ## 风险与回退原则
 
@@ -142,3 +159,4 @@
 - [ ] M-R03 Outbox/Inbox 上线前完成数据库 migration、部署顺序与旧实例兼容验证。
 - [ ] M-R04 严格 LayerGuard 规则先验证真实代码可达，再从报告模式提升为阻断模式。
 - [ ] M-R05 任何回退都不得绕过审计：记录被恢复的旧路径、回退原因和再次切换条件。
+- [ ] M-R06 Context/schema 兼容只能通过有 owner 和到期日的显式 Adapter；不得恢复默认租户、全局补值或明文敏感日志。

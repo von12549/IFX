@@ -4,6 +4,7 @@
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 相关架构：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > 治理前置：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 提供权威目录、V1 identity、版本/废弃政策和 shared primitives allowlist。
+> 上下文与数据前置：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 提供 ContractRequestContext、ExecutionScope、tenant/consumer 验证、C0-C4 分类与 conformance suite。
 
 ## 目标边界
 
@@ -45,18 +46,21 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C0.6 决定项目/namespace 重命名策略、兼容窗口和删除日期，并记录对应 ADR。
 - [ ] C0.7 决定错误语义、取消、超时和不可用的表达方式，禁止向 Contract 泄漏 EF、MediatR 或内部异常类型。
 - [ ] C0.8 为所有按租户访问的 Contract 明确 TenantId 来源与授权检查位置，不允许仅靠调用方约定过滤。
+- [ ] C0.9 从 Gate 05 字段目录导入每个公开字段的分类、purpose、approved consumers 和 log/retention policy；未分类字段不得迁移为 Active Contract。
 
 ## Phase 1 — 建立最小 Contracts 项目
 
 - [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] C1.1 为真实被消费的能力建立 `*.Contracts` 项目或兼容命名空间，并保持项目只依赖 BCL；Event schema 仅可依赖 Gate 03 批准的 `IFX.Platform.Messaging.Contracts` 原语。
+- [ ] C1.1 为真实被消费的能力建立 `*.Contracts` 项目或兼容命名空间；默认只依赖 BCL，同步 metadata 和 Event schema 分别只能依赖 Gate 03/05 批准的 `Context.Contracts` 与 `Messaging.Contracts` 原语。
 - [ ] C1.2 将同步能力按业务能力组织，例如 CRM compliance 与 Registry subscription availability，而不是按数据库实体暴露 CRUD Reader。
 - [ ] C1.3 为请求/响应创建专用 Contract DTO；只包含调用者必须知道的字段，不公开 Domain Entity、Value Object 或持久化模型。
 - [ ] C1.4 将 Integration Event schema 放入提供方 Contracts 的独立目录/namespace，并与同步接口明确分区。
 - [ ] C1.5 落实 Gate 03 的 V1 identity、Compatible/Conditional/Breaking 分类、并行 V+1、unknown fallback 与默认废弃窗口。
 - [ ] C1.6 验证 Contracts 不包含业务实现、Handler、DbContext、Repository、DI、日志、HTTP client 或 broker SDK 引用。
 - [ ] C1.7 在迁移期为旧 `Abstractions` 建立最小兼容 shim（仅在确有必要时），并给每个 shim 标注删除条件。
+- [ ] C1.8 使用 Gate 05 BCL-only ContractRequestContext；业务 request/response 与调用 metadata 分离，不携带 ClaimsPrincipal、JWT/token、角色全集或 transport 类型。
+- [ ] C1.9 对 Contract schema 执行字段分类、Secret denylist、序列化 golden 和 context conformance tests。
 
 ## Phase 2 — 将提供方实现归位到 Application
 
@@ -69,6 +73,7 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C2.5 审查所有 Contract 方法的租户隔离、授权、取消令牌和 not-found/denied/unavailable 语义。
 - [ ] C2.6 在各自 Module Composition 中注册 Contract 实现及其本地依赖；ApiHost 只调用模块注册入口。
 - [ ] C2.7 添加提供方 Application 单元测试，覆盖允许、拒绝、缺失、跨租户和底层不可用场景。
+- [ ] C2.8 Provider Inbound Adapter 在 Application 前验证 consumer、context version、Tenant/Platform scope 和资源 tenant 一致性；ActorReference 不作为独立授权证明。
 
 ## Phase 3 — 在消费方建立 Ports 与 Integration Adapters
 
@@ -82,6 +87,8 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C3.6 删除 Transaction.Application 对 CRM/Registry Contracts（以及旧 Abstractions）的直接项目引用和 using。
 - [ ] C3.7 用项目引用图和 LayerGuard 迁移规则验证：消费方 Application 不认识提供方 Contract，外层 Adapter 是唯一桥接点。
 - [ ] C3.8 添加 Adapter 契约测试，覆盖提供方成功、业务拒绝、超时、取消、不可用和协议映射失败。
+- [ ] C3.9 Consumer Adapter 从可信 ExecutionContext 创建新 RequestId、继承 CorrelationId、设置 CausationId，并禁止调用方业务代码任意伪造 Source/Actor/Tenant。
+- [ ] C3.10 运行 Gate 05 Contract conformance suite，覆盖 missing/invalid context、未登记 consumer、tenant mismatch、嵌套调用和并行 scope 隔离。
 
 ## Phase 4 — 收窄公共表面并分离内部模型
 
@@ -94,6 +101,7 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C4.5 检查公共 DTO 是否暴露内部状态机、数据库主键策略或导航结构，并用稳定语义替代。
 - [ ] C4.6 删除没有真实消费者的 DI 注册、Reader 实现、DTO 映射和测试夹具。
 - [ ] C4.7 对最终公共 API surface 生成快照并与 Gate 03 catalog/Change Record 关联，作为正式 V1 兼容性检查基线。
+- [ ] C4.8 按 Gate 05 capability-purpose 原则移除 `InvestorSummaryDto` 等过宽模型中的非必要姓名、KYC、税务或账户字段；C3 例外必须链接批准记录。
 
 ## Phase 5 — 解决 Composition 与启动路径
 
@@ -104,8 +112,9 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C5.3 为模块装配建立启动测试：缺失实现、重复实现、错误生命周期和循环依赖应快速失败。
 - [ ] C5.4 明确进程内 Adapter 的替换点，证明未来 HTTP/gRPC Adapter 可在不修改消费方 Application 的情况下接入。
 - [ ] C5.5 记录模块启动依赖仅代表部署组合关系，不等价于允许任意项目引用或共享数据库访问。
+- [ ] C5.6 Root Composition 注册唯一 execution-context runtime；模块 Composition 只注册 Adapter/Provider，不从 Auth.Infrastructure 或 HttpContext 获取隐式全局上下文。
 
-## Phase 6 — 验证、迁移收尾与文档
+## Phase 6 — 验证与迁移收尾
 
 - [ ] **Phase 6 完成**：本 Phase 下全部项目均已完成并附有证据。
 
@@ -116,6 +125,21 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C6.5 更新架构图、模块模板、命名规范和“新增跨模块同步调用”的评审清单。
 - [ ] C6.6 保存最终项目引用图、公共 surface 快照、测试报告和 LayerGuard 报告作为完成证据。
 - [ ] C6.7 将实际迁移结果、Active/Deprecated/Retired 状态、Adapter 位置和遗留清零证据回写 Gate 03 权威目录。
+- [ ] C6.8 更新 Gate 05 字段目录、Contract schema 快照、context/error reason codes 和敏感数据例外状态。
+- [ ] C6.9 汇总最终 Contract context、tenant、字段分类、Adapter 和验证结果，作为 Phase 7 文档输入。
+
+## Phase 7 — 架构与规则文档化
+
+- [ ] **Phase 7 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] C7.1 编写完整中文设计说明，解释 Contracts、Application Ports、Adapters、Composition 与 Presentation 的职责和边界。
+- [ ] C7.2 编写与中文内容一致的英文设计说明，并建立双向链接。
+- [ ] C7.3 保存改造前后编译期依赖架构图，标明提供方 ownership、消费方 Port、Adapter 和 Root Composition。
+- [ ] C7.4 保存同步 Contract 正常、拒绝、异常、context 传播及错误映射流程图。
+- [ ] C7.5 保存 DI 装配和进程内 Adapter 被 HTTP/gRPC Adapter 替换的流程图。
+- [ ] C7.6 保存现状到目标的项目/类型映射、公共 surface 变化和职责判定表。
+- [ ] C7.7 保存 Mermaid 源文件及可审阅的 SVG/PNG 渲染结果，并执行链接和视觉检查。
+- [ ] C7.8 将每项规则映射到测试、LayerGuard rule、Gate 证据或有到期日的 waiver，并更新架构索引。
 
 ## 完成标准（Definition of Done）
 
@@ -125,3 +149,6 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C-D04 当前全部真实跨模块同步调用均完成迁移，并通过功能与隔离测试。
 - [ ] C-D05 未使用 Reader 已删除或内部化，内部 Application DTO 不再复用公共 DTO。
 - [ ] C-D06 未来进程外 Adapter 的替换边界已通过测试或最小 spike 验证。
+- [ ] C-D07 所有同步调用使用已验证 ContractRequestContext，Correlation/Causation/Tenant scope 在嵌套和异常场景语义一致。
+- [ ] C-D08 所有 Active Contract 字段有 C0-C4 分类和 purpose，C4 零暴露，C3 只有批准例外。
+- [ ] C-D09 中英文说明、架构图、流程图、映射表和规则证据完整且与实现一致。

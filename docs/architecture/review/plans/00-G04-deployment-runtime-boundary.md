@@ -3,7 +3,9 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 上下文与数据规则：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 定义 Worker/job/message scope、telemetry、quarantine 与 health/details 脱敏要求。
 > 范围：DP1、DP3、DP4、DP5，以及业务发布边界、Runtime Role、多实例后台处理、部署编排、健康探针和优雅关闭规则
+> 前置放行：完成 Runtime Role/manifest/lease/health/backpressure 协议及 reference conformance；真实 Dispatcher、消息 backlog 和 Event replay 由 E3/E6 实现并回交最终证据
 > Gate 关闭条件：本计划全部 Phase、Definition of Done 和文档交付均已完成
 
 ## 目标
@@ -15,7 +17,7 @@
 ## 非目标
 
 - [ ] G04-N01 不在本 Gate 把五个业务模块拆成独立服务或允许独立业务版本。
-- [ ] G04-N02 不在本 Gate选择最终消息 broker，或重复实现 Event 子计划负责的 Outbox/Inbox/transport 业务功能。
+- [ ] G04-N02 不在本 Gate 选择最终消息 broker，或重复实现 Event 子计划负责的 Outbox/Inbox/Dispatcher/transport 业务功能。
 - [ ] G04-N03 不在本 Gate 建立跨模块共享 Dispatcher DbContext、共享消息事务或全局业务 Worker。
 - [ ] G04-N04 不把独立 SQL、OPA、Frontend、Migrator 或托管服务的存在当成“已经微服务化”的证据。
 - [ ] G04-N05 不用 readiness 探针执行 migration、seed、修复数据或触发业务副作用。
@@ -247,17 +249,17 @@ flush telemetry and exit before orchestrator kill timeout
 - [ ] G04-3.6 建立 startup-fatal、readiness-critical、capability-critical、optional、operational dependency catalog。
 - [ ] G04-3.7 审核 Cognito、OPA、SendGrid、各模块数据库、Hangfire storage 和 transport 的实际覆盖范围并批准 criticality。
 
-## Phase 4 — 实现多实例 Worker 与 Lease 协议
+## Phase 4 — 建立多实例 Worker 与 Lease Conformance
 
 - [ ] **Phase 4 完成**：多个 Worker 可安全竞争模块 Outbox，崩溃后可接管且不宣称 exactly-once。
 
 - [ ] G04-4.1 定义唯一 instance identity 的来源、格式、日志/metrics tag、重启变化和最大长度，不依赖所有副本共享固定名称。
-- [ ] G04-4.2 为 Dispatcher 框架定义 per-module registration，使每个实例只通过模块服务访问其模块 Outbox。
-- [ ] G04-4.3 实现或交付给 Event 子计划短事务 claim：eligible filter、bounded batch、LeaseOwner、LeaseUntil、concurrency token 和 conditional completion。
-- [ ] G04-4.4 在数据库事务外发送，禁止 claim lock 跨 transport I/O；发送确认前崩溃必须保留 at-least-once 重发路径。
+- [ ] G04-4.2 为 Dispatcher 框架定义 per-module registration contract，使每个实例只通过模块服务访问其模块 Outbox；实际 registration 由 E3 实现。
+- [ ] G04-4.3 建立并交付 E3 可复用的短事务 claim conformance suite：eligible filter、bounded batch、LeaseOwner、LeaseUntil、concurrency token 和 conditional completion。
+- [ ] G04-4.4 用 reference fixture 验证事务外发送和发送确认前崩溃的 at-least-once 重发路径；真实 Dispatcher 在 E3 重跑。
 - [ ] G04-4.5 定义 lease renewal、expiry、clock tolerance、stale owner 和并发更新失败语义。
-- [ ] G04-4.6 对需要顺序的 Tenant/Aggregate partition 建立单 in-flight/sequence 规则，不声明全局顺序。
-- [ ] G04-4.7 建立模块/分区公平性、batch size、poll jitter 和数据库负载限制，防止单一 backlog 饿死其他模块。
+- [ ] G04-4.6 为需要顺序的 Tenant/Aggregate partition 定义单 in-flight/sequence conformance，不声明全局顺序；具体 Event 分区由 E3 登记。
+- [ ] G04-4.7 定义模块/分区公平性、batch size、poll jitter 和数据库负载限制接口，E3 负责真实 backlog 调度实现。
 - [ ] G04-4.8 配置 Hangfire unique server identity、per-instance WorkerCount、queue ownership 和唯一 recurring registration authority。
 - [ ] G04-4.9 关键 worker-loop 未处理异常必须使 role NotReady 并终止进程；普通消息失败进入可观察 retry/dead-letter 状态。
 
@@ -280,23 +282,23 @@ flush telemetry and exit before orchestrator kill timeout
 - [ ] G04-6.1 建立 `/health/live`，只检查进程和关键循环是否不可恢复故障，不调用 SQL、Cognito、OPA、transport 或其他网络依赖。
 - [ ] G04-6.2 建立 `/health/startup`，在静态 config/manifest/DI/route 初始化完成前失败，完成后保持成功。
 - [ ] G04-6.3 重建 `/health/ready`，按 API/Worker/all role 选择 contributor，并在 Starting/Stopping 阶段失败。
-- [ ] G04-6.4 建立受保护 `/health/details`，输出稳定 reason、release、role、instance、freshness 和各 contributor 状态，不输出 secret/payload/stack trace。
+- [ ] G04-6.4 建立受保护 `/health/details`，按 Gate 05 输出稳定 reason、release、role、instance、freshness 和 contributor 状态，不输出 secret/payload/stack trace 或原始 tenant/user 标识。
 - [ ] G04-6.5 为五个业务模块提供无写入、低成本、有 timeout 的 schema/database/contract/external dependency Health Contributor。
 - [ ] G04-6.6 为 Worker 提供 Hangfire、Dispatcher、consumer、transport、lease 和 module backlog contributor。
 - [ ] G04-6.7 为外部检查实现 lastChecked/lastSucceeded/duration/status/reason、缓存、timeout、jitter 和并发合并。
 - [ ] G04-6.8 按 dependency criticality 聚合 Healthy/Degraded/Unhealthy，明确 Cognito capability、SendGrid optional 和 OPA 审核结论。
-- [ ] G04-6.9 对 details、Hangfire dashboard 和 Worker management port 建立生产认证、网络和日志脱敏规则。
+- [ ] G04-6.9 对 details、Hangfire dashboard 和 Worker management port 建立生产认证、网络和 Gate 05 C0-C4/日志脱敏规则。
 
 ## Phase 7 — 消息积压、Backpressure 与告警
 
 - [ ] **Phase 7 完成**：消息通道故障不会静默积压，系统可在保留读取能力的同时限制扩大风险的写入。
 
-- [ ] G04-7.1 采集 per-module/event oldest pending age、count、retry/dead-letter、last success、latency、expired lease 和 duplicate rate。
+- [ ] G04-7.1 定义 per-module/event oldest pending age、count、retry/dead-letter、last success、latency、expired lease 和 duplicate rate 的指标契约；E3/E6 负责从真实存储采集。
 - [ ] G04-7.2 为不同事件类别和环境定义 warning/critical SLO 与 freshness window，阈值配置受版本控制并经容量验证。
 - [ ] G04-7.3 warning 进入 Degraded 和告警；critical 使 Worker NotReady，并触发事件生产命令的受控 backpressure。
 - [ ] G04-7.4 Backpressure 只限制会扩大相关积压的命令，尽可能保留安全读取和无关能力；返回稳定 retryable error 与 Retry-After 语义。
 - [ ] G04-7.5 禁止只以消息数量判断健康；age、业务类别、处理速率和 storage capacity 必须共同评估。
-- [ ] G04-7.6 建立 transport outage、毒消息、单模块饥饿、dead-letter 增长和 dispatcher silent-stop 告警。
+- [ ] G04-7.6 建立告警规则和 synthetic/reference 验证，覆盖 transport outage、毒消息、单模块饥饿、dead-letter 增长和 dispatcher silent-stop；真实信号由 E3/E6 接入。
 - [ ] G04-7.7 提供受控恢复流程：暂停生产、扩展 Worker、修复 transport、审查 dead-letter、回放并解除 backpressure。
 
 ## Phase 8 — 实现部署编排、Seed 与兼容发布
@@ -332,12 +334,12 @@ flush telemetry and exit before orchestrator kill timeout
 - [ ] G04-10.1 测试 invalid config/manifest、duplicate module/endpoint、missing/multiple Contract implementation 的 startup-fatal exit。
 - [ ] G04-10.2 测试 transient DB/dependency 故障时 Alive/NotReady，以及恢复后不重启转为 Ready。
 - [ ] G04-10.3 测试 API/Worker/all 角色只启动允许能力，Worker 不映射业务 endpoint，API 不启动 Server/Dispatcher。
-- [ ] G04-10.4 使用真实 SQL Server 测试两个以上 Dispatcher 的原子 claim、conditional completion、lease expiry、renewal 和接管。
-- [ ] G04-10.5 注入 claim 前、发送后标记前、标记后崩溃，证明不丢消息且重复由 Inbox/幂等吸收。
-- [ ] G04-10.6 测试分区顺序、不同分区并发、毒消息隔离和模块公平性。
+- [ ] G04-10.4 使用真实 SQL Server reference fixture 验证两个以上 claimant 的原子 claim、conditional completion、lease expiry、renewal 和接管；E3 在真实 Dispatcher 重跑。
+- [ ] G04-10.5 在 reference fixture 注入 claim 前、发送后标记前、标记后崩溃；E3/E4 回交真实 Outbox/Inbox 的不丢失与重复吸收证据。
+- [ ] G04-10.6 用 conformance fixture 测试分区顺序、不同分区并发、毒消息隔离和模块公平性；具体事件映射由 E3 验收。
 - [ ] G04-10.7 测试 Hangfire 多 Server identity、总 WorkerCount、queue ownership、recurring registration 和 failure health。
 - [ ] G04-10.8 测试 SIGTERM、load-balancer drain、停止新 claim、in-flight completion、timeout、forced kill 和 telemetry flush。
-- [ ] G04-10.9 测试 live/startup/ready/details 的选择、状态码、权限、freshness、timeout 和无敏感信息。
+- [ ] G04-10.9 测试 live/startup/ready/details 的选择、状态码、权限、freshness、timeout，并运行 Gate 05 敏感 sentinel 验证无未批准数据。
 - [ ] G04-10.10 演练 Migrator → Worker → API → scheduler → cleanup，以及各阶段失败、停止和安全回退。
 - [ ] G04-10.11 在 CI/CD 中验证 release/module/deployment/catalog/migration manifest 一致并保存报告。
 
@@ -374,7 +376,7 @@ flush telemetry and exit before orchestrator kill timeout
 
 - [ ] G04-DD01 Deployment Unit、Module 和 Release Manifest 能准确区分共同业务发布与独立基础设施生命周期。
 - [ ] G04-DD02 API/Worker/all Runtime Role 行为确定，生产可独立扩展 HTTP 与后台容量但业务版本继续锁步。
-- [ ] G04-DD03 多实例 Dispatcher claim/lease、at-least-once、分区顺序和 crash recovery 通过真实数据库测试。
+- [ ] G04-DD03 多实例 claim/lease、at-least-once、分区顺序和 crash recovery conformance 通过真实数据库 reference fixture，且 E3/E4 的真实 Dispatcher/Inbox 通过同一验收。
 - [ ] G04-DD04 Hangfire client/server、identity、queue、WorkerCount 和 recurring authority 在多实例环境可验证。
 - [ ] G04-DD05 startup-fatal、NotReady、Degraded、worker fatal 和 graceful drain 状态均有稳定行为与 reason code。
 - [ ] G04-DD06 live/startup/ready/details 按 role 和 criticality 正确聚合，无副作用且不泄漏敏感信息。
@@ -390,4 +392,3 @@ flush telemetry and exit before orchestrator kill timeout
 - [ ] G04-R04 Dispatcher/transport 故障不删除 Outbox、不伪造成功；通过持久 retry、lease 接管和受控 backpressure 恢复。
 - [ ] G04-R05 forced termination 必须依赖持久状态恢复，不能通过无限 shutdown 或 lease 隐藏无法停止的问题。
 - [ ] G04-R06 health/readiness 配置回退不得把外部依赖放进 liveness，也不得通过始终 Healthy 掩盖 critical worker failure。
-

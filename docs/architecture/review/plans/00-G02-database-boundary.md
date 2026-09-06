@@ -6,6 +6,7 @@
 > 运行编排：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 Migrator → Worker → API、readiness 和回退顺序。
 > 前置关系：Gate 01 已定义模块本地事务与 Outbox/Inbox 原子性
 > 范围：DB1–DB4、DB9–DB11，以及数据库 ownership、history bootstrap、部署和测试规则
+> 前置放行：模块 schema/history/Migrator 边界可独立实施；真实 Outbox/Inbox 表由 E2/E4 通过模块 migration 创建并回交最终证据
 > Gate 关闭条件：本计划全部 Phase、Definition of Done 和文档交付均已完成
 
 ## 目标
@@ -129,7 +130,11 @@ Auth -> CRM -> Registry -> Holdings -> Transaction
             |
 schema/history validation
             |
-deploy ApiHost
+deploy compatible Worker consumers
+            |
+Worker Ready
+            |
+deploy ApiHost producers
             |
 readiness + smoke tests
 ```
@@ -242,7 +247,7 @@ readiness + smoke tests
 - [ ] G02-7.8 注入模块 N 失败，验证后续模块不执行、报告准确且修复后可继续。
 - [ ] G02-7.9 测试 model ownership 与数据库 metadata，确保没有实体、history 或 FK 越过模块 schema。
 - [ ] G02-7.10 测试 migration identity 可执行 DDL，runtime identity 只能完成所需 DML/readiness。
-- [ ] G02-7.11 Event 实施后增加 Outbox/Inbox schema ownership 和 fresh/upgrade migration 测试。
+- [ ] G02-7.11 向 E2/E4 提供可复用 schema ownership 和 fresh/upgrade migration assertions；Event 实施真实 Outbox/Inbox migration 后回交测试报告作为最终关闭证据。
 - [ ] G02-7.12 在 CI 运行 build、pending-model 检查、migration matrix 和 SQL artifact 生成。
 
 ## Phase 8 — 渐进上线与兼容窗口

@@ -4,6 +4,7 @@
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 范围：TX1–TX5，以及其所需的命令、结果、异常、并发和事务执行规则
+> 前置放行：完成 TX1–TX3 阻塞修复、TX4/TX5 接缝和 conformance 要求；真实 Outbox/Inbox 由 E2/E4 实现后回交最终证据
 > Gate 关闭条件：本计划全部 Phase、Definition of Done 和文档交付均已完成
 
 ## 目标
@@ -171,8 +172,8 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] **Phase 3 完成**：默认、Inbox 和特殊强一致 Profile 均有唯一且可测试的执行算法。
 
 - [ ] G01-3.1 实现默认 Deferred Write：先执行 Handler，Failure 不保存，Success 才进入持久化事务。
-- [ ] G01-3.2 在默认 Profile 中统一登记 Outbox pending records 并执行一次 SaveChanges，再 commit。
-- [ ] G01-3.3 实现 Inbox Profile：Begin → 去重 → Handler → Inbox completion → Save once → Commit。
+- [ ] G01-3.2 在默认 Profile 中定义 pending record 的事务参与接缝并用 reference fixture 执行一次 SaveChanges 后 commit；真实 Outbox 绑定由 E2 实现。
+- [ ] G01-3.3 定义并验证 Inbox Profile：Begin → 去重 → Handler → Inbox completion → Save once → Commit；真实 Inbox 绑定由 E4 实现。
 - [ ] G01-3.4 实现显式 Consistent Read/Write Profile，并限制其只能执行本模块数据库操作。
 - [ ] G01-3.5 禁止 TransactionBehavior 使用 request 名称、namespace 字符串或 Attribute 猜测事务类型。
 - [ ] G01-3.6 定义 pipeline 顺序并测试：Logging → Validation → transaction policy；无效请求不得开启事务。
@@ -187,7 +188,7 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-4.2 从普通 Handler 移除最终 `SaveChangesAsync`，由 Behavior 统一保存。
 - [ ] G01-4.3 从 Handler 移除通用 `catch (Exception)`；仅保留有明确业务语义的转换。
 - [ ] G01-4.4 确保 `OperationCanceledException` 和 unexpected exception 可以穿透 Handler。
-- [ ] G01-4.5 移除 Handler 中直接 `PublishAsync`；临时过渡路径必须有到期日并且不会提交前通知消费者。
+- [ ] G01-4.5 盘点并禁止新增 Handler 直接 `PublishAsync`；E2 在事件切换中移除真实直发路径，临时过渡路径必须有到期日且不会提交前通知消费者。
 - [ ] G01-4.6 修复或重构立即写入、raw SQL、多次 SaveChanges 和数据库生成 ID 的特殊 Handler。
 - [ ] G01-4.7 禁止 Command Handler 嵌套发送 Command；共享逻辑提取为 Domain/Application Service。
 - [ ] G01-4.8 每迁移一个模块即运行该模块全部行为与功能测试，并更新迁移燃尽表。
@@ -201,7 +202,7 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-5.3 将 conflict 映射为明确的应用/API 结果，例如 HTTP 409，并定义客户端重试条件。
 - [ ] G01-5.4 为 tenant-scoped business key 建立数据库复合唯一约束，Application 预检查只负责友好提示。
 - [ ] G01-5.5 为可由客户端或基础设施重试的写 Command 定义 idempotency key、保存位置和保留期。
-- [ ] G01-5.6 为 Event Consumer 强制使用 EventId 作为 Inbox 幂等键和数据库唯一约束。
+- [ ] G01-5.6 为 Event Consumer 强制使用 `(ConsumerId, EventId)` 作为 Inbox 幂等身份和数据库复合唯一约束；EventId 不替代消费方业务幂等键。
 - [ ] G01-5.7 添加并发写、重复请求、重复事件和 commit 结果不确定的测试。
 
 ## Phase 6 — 固定 Outbox / Inbox 事务接缝
@@ -209,9 +210,9 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] **Phase 6 完成**：Event 子计划获得稳定、无循环依赖的本地事务接入点。
 
 - [ ] G01-6.1 定义 Application 可使用的事件登记 Port；它只能登记事实，不能直接调用 transport。
-- [ ] G01-6.2 证明业务实体与 Outbox pending record 由同一个模块 DbContext、同一次 SaveChanges 保存。
+- [ ] G01-6.2 建立可复用事务 conformance fixture，证明同一模块 DbContext/SaveChanges 接缝可原子保存业务实体与 pending record；真实 Outbox entity/migration 由 E2 实现并重跑该测试。
 - [ ] G01-6.3 定义 Inbound Adapter 到 Inbox Command 的 metadata 传递，包括 EventId、TenantId、CorrelationId 和 CausationId。
-- [ ] G01-6.4 证明 Inbox 去重、消费方业务变化与 Inbox completion 位于同一个模块本地事务。
+- [ ] G01-6.4 建立 Inbox Profile conformance fixture，证明去重、消费方业务变化与 completion 可位于同一本地事务；真实 Inbox entity/migration 由 E4 实现并重跑该测试。
 - [ ] G01-6.5 明确 commit 后 transport ack 的责任边界；事务层不实现 transport retry。
 - [ ] G01-6.6 添加保护规则，禁止共享 Outbox/Inbox DbContext 和跨模块 transaction enlistment。
 - [ ] G01-6.7 将 Dispatcher、dead letter、replay、schema version 等非事务事项交接到 Event 子计划，并建立双向链接。
@@ -223,8 +224,8 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-7.1 为 TransactionBehavior 建立 success/failure/exception/cancellation 状态矩阵测试。
 - [ ] G01-7.2 使用真实关系数据库验证 rollback、commit、savepoint、unique constraint 和 optimistic concurrency。
 - [ ] G01-7.3 验证 retry 不会重新执行 Handler 或重复外部副作用。
-- [ ] G01-7.4 验证生产方业务数据与 Outbox 同生同灭，消费方业务数据与 Inbox 同生同灭。
-- [ ] G01-7.5 执行并发 Inbox、重复 EventId、进程中止和 commit response 丢失的故障注入测试。
+- [ ] G01-7.4 在事务 conformance fixture 验证 pending/completion 与业务数据同生同灭；E2/E4 在真实 Outbox/Inbox 上完成最终关系数据库验收。
+- [ ] G01-7.5 在 Inbox fixture 执行并发 `(ConsumerId, EventId)`、重复消息和 commit response 丢失测试；进程中止与真实 transport 崩溃窗口由 Event 子计划负责。
 - [ ] G01-7.6 采用逐模块切换；每次切换前后保存 build、test 和运行指标基线。
 - [ ] G01-7.7 删除全部迁移期 waiver、旧 TransactionBehavior 和 Handler 自行持久化路径。
 - [ ] G01-7.8 运行完整 solution build、tests 与 LayerGuard，确认没有跨模块事务依赖。
@@ -263,7 +264,7 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-DD02 Handler 不负责最终 SaveChanges、事务控制或 Integration Event transport 发布。
 - [ ] G01-DD03 Failure、异常、取消和 commit 不确定性均有明确、经过测试的处理语义。
 - [ ] G01-DD04 默认事务只覆盖本地持久化阶段，特殊强一致事务显式且不包含外部调用。
-- [ ] G01-DD05 Outbox/Inbox 分别与所属模块业务数据原子保存，不存在共享或跨模块事务。
+- [ ] G01-DD05 Outbox/Inbox 的模块本地原子接缝和 conformance suite 已建立；E2/E4 的真实实现通过同一 suite，且不存在共享或跨模块事务。
 - [ ] G01-DD06 optimistic concurrency、唯一约束和幂等策略覆盖已识别的高风险写入。
 - [ ] G01-DD07 关系数据库、故障注入、完整 build/test 和架构检查全部通过。
 - [ ] G01-DD08 中英文设计说明、架构图、流程图、状态图和规则到自动化检查的映射均已完成并审核。

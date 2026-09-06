@@ -27,6 +27,13 @@ This directory records the source-verified current architecture and the proposed
 | Current architecture / 当前架构 | [current-architecture.zh-CN.md](current-architecture.zh-CN.md) | [current-architecture.en.md](current-architecture.en.md) |
 | Target Contracts/Adapters/Events architecture / 目标架构 | [target-contracts-adapters-events.zh-CN.md](target-contracts-adapters-events.zh-CN.md) | [target-contracts-adapters-events.en.md](target-contracts-adapters-events.en.md) |
 
+## Implementation plans / 实施计划
+
+- [Plan overview and review conclusions / 计划概述与审查结论](plans/README.md)
+- [Master plan / 总计划](plans/00-master-plan.md)
+- [Prerequisite gates / 前置 Gate](plans/00-prerequisites.md)
+- [Deferred work / 后续 TODO](plans/TODO.md)
+
 ## Diagrams / 图表
 
 | No. | Diagram |
@@ -42,11 +49,11 @@ This directory records the source-verified current architecture and the proposed
 
 1. Read the current architecture document and diagrams to establish what the code does today.
 2. Read the target architecture document and architecture diagram to understand responsibilities and dependency directions.
-3. Use the synchronous flow, event flow, and DI flow as the basis for implementation planning.
+3. Read the plan overview and master plan, then use the synchronous flow, event flow, and DI flow during implementation.
 
 1. 先阅读当前架构文档和现状图，确认今天的代码实际如何运行。
 2. 再阅读目标架构文档和目标架构图，理解职责与依赖方向。
-3. 后续制定实施计划时，以同步流程、事件流程和 DI 流程为依据。
+3. 阅读计划概述和总计划，实施时以同步流程、事件流程和 DI 流程为依据。
 
 ## Diagram conventions / 图例约定
 

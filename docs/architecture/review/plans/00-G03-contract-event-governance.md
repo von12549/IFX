@@ -3,7 +3,9 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 字段与上下文规则：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 已确认 Correlation/Causation/Tenant/Trace、Envelope/Contract context 与 C0-C4 分类；本 Gate 负责在权威目录中承载并验证。
 > 范围：GOV1、GOV2、GOV5，以及同步 Contract、Integration Event、共享契约原语和变更治理所需的准入规则
+> 前置放行：catalog/owner/consumer/identity/compatibility/allowlist 可供子计划使用；真实 V1 schema 迁移后回交 Active/Retired 证据
 > Gate 关闭条件：本计划全部 Phase、Definition of Done 和文档交付均已完成
 
 ## 目标
@@ -16,7 +18,7 @@
 
 - [ ] G03-N01 不在本 Gate 完成全部 `*.Abstractions` → `*.Contracts` 代码迁移或删除遗留类型。
 - [ ] G03-N02 不在本 Gate 实现 Outbox、Inbox、Dispatcher、broker、dead-letter 或 replay。
-- [ ] G03-N03 不在本 Gate 决定 Gate 05 所负责的 CorrelationId、CausationId、TenantId 与敏感字段最终 schema。
+- [ ] G03-N03 不在本 Gate 重新定义 Gate 05 已批准的 Correlation/Operation/Causation/Tenant/Trace 与敏感字段 schema；只负责治理登记、ownership 和变更控制。
 - [ ] G03-N04 不因当前为单一 ApiHost 而引入 localhost HTTP，也不把 Contracts 当成可独立执行的服务。
 - [ ] G03-N05 不建立承载跨模块业务模型、通用 `Result<T>` 或 Domain 类型的 SharedKernel。
 
@@ -66,13 +68,13 @@
 - [x] G03-D18 在 `docs/architecture/review/gates/G03/contract-event-catalog.yaml` 建立唯一机器可读 source of truth；中英文文档不复制维护独立事实。
 - [x] G03-D19 每个公共协议使用独立于 CLR 类型名的全局唯一稳定 identity；Active 后不得改名/复用，Retired identity 永久保留历史。
 - [x] G03-D20 将 BCL-only、transport-neutral 的 `IFX.Platform.Messaging.Contracts` 与 bus、handler、dispatcher、DI、serializer、broker 等运行时端口/实现分离。
-- [x] G03-D21 Contracts 默认只依赖 BCL；消息 schema 可依赖批准后的 Messaging.Contracts。共享 primitive 需满足三模块同义复用或统一基础设施协议的必要性。
+- [x] G03-D21 Contracts 默认只依赖 BCL；同步 metadata 与消息 schema 可分别依赖 Gate 05 批准的 Context.Contracts 与 Messaging.Contracts。共享 primitive 需满足三模块同义复用或统一基础设施协议的必要性。
 - [x] G03-D22 生命周期采用 Proposed → Active → Deprecated → Retired；迁移期只允许有 owner、计划和到期日的 `LegacyPendingMigration`，且不得用于新增类型。
 - [x] G03-D23 Consumer 分为 internal-module、external-service、external-client；外部 consumer 必须登记 owner/contact、版本、证据和最后确认日期。
 - [x] G03-D24 由目录生成依赖图；禁止同步环，事件反馈环必须有 workflow identity、causation、幂等和终止条件，混合环必须评审。
 - [x] G03-D25 使用 catalog、source reconciliation、API/schema snapshot、contract tests、LayerGuard 与 ownership approval 组成分层门禁，并分阶段从基线模式提升为严格模式。
 - [x] G03-D26 变更必须在同一变更集中更新协议、catalog、Change Record 与测试，依次经过自动检查、Provider/Consumer 审批、发布与观察。
-- [x] G03-D27 waiver 必须有 owner、风险、创建/到期时间和删除条件，默认不超过 90 天或命名里程碑；无 owner/consumer、内部模型泄漏、敏感数据违规和 identity 复用不可豁免。
+- [x] G03-D27 waiver 必须有 owner、风险、创建/到期时间和删除条件，默认不超过 90 天或命名里程碑；无 owner/consumer、内部模型泄漏、C4 或未批准 C3 暴露和 identity 复用不可豁免。
 - [x] G03-D28 Gate 交付中英文说明、inventory/ownership 矩阵、依赖/生命周期/变更/版本图、模板、验证映射和 Mermaid + SVG/PNG。
 - [x] G03-D29 Gate 关闭前必须完成全量分类、Active consumer 证据、权威目录验证、共享原语 allowlist、兼容快照、waiver expiry 门禁及文档审核。
 
@@ -194,7 +196,7 @@ Author updates protocol + catalog + Change Record + tests
 - [ ] G03-1.1 创建 `docs/architecture/review/gates/G03/contract-event-catalog.yaml` schema 与 validator，定义 module、capability、contract、event、consumer、version、lifecycle 和 waiver 节点。
 - [ ] G03-1.2 登记 Auth、CRM、Registry、Transaction、Holdings 的业务能力、数据 ownership 和负责角色；owner 必须能解析到真实维护者，不允许占位符。
 - [ ] G03-1.3 登记同步 provider → consumer、事件 producer → consumer、Adapter/subscription 和相应业务用例。
-- [ ] G03-1.4 登记 tenant、授权、新鲜度、失败语义、敏感级别和测试位置；Gate 05 未决字段以显式 dependency 标记，不使用猜测值。
+- [ ] G03-1.4 按 Gate 05 登记 execution scope、授权、新鲜度、失败语义、字段 C0-C4、purpose、retention、log policy、例外和测试位置；不得保留“待定”猜测值进入 Active。
 - [ ] G03-1.5 为 external-service/client consumer 记录 owner/contact、supported version、接入证据和 last-confirmed-at。
 - [ ] G03-1.6 从目录生成模块依赖图并检查 sync、async 与 mixed cycles；不允许手工维护第二份关系图数据。
 - [ ] G03-1.7 为 catalog schema、唯一 identity、合法状态转换、必填 owner/consumer 和引用完整性建立测试。
@@ -230,7 +232,7 @@ Author updates protocol + catalog + Change Record + tests
 - [ ] G03-4.1 盘点 `IFX.Platform.Messaging.Abstractions` 的 schema 类型、bus、handler、DI/package dependency 和现有引用者。
 - [ ] G03-4.2 设计 BCL-only `IFX.Platform.Messaging.Contracts`，只承载 marker/schema identity 与 Gate 05 批准后的 envelope/value primitives。
 - [ ] G03-4.3 将 `IIntegrationEventBus`、`IIntegrationEventHandler<T>`、dispatcher、serializer、broker、DI 和可靠性实现明确留在运行时项目。
-- [ ] G03-4.4 建立 Contract project dependency allowlist：BCL 默认允许；Messaging.Contracts 仅对事件 schema 允许；其他依赖默认拒绝。
+- [ ] G03-4.4 建立 Contract project dependency allowlist：BCL 默认允许；Context.Contracts 仅对调用 metadata、Messaging.Contracts 仅对事件 schema 允许；其他依赖默认拒绝。
 - [ ] G03-4.5 建立 shared primitive 准入测试：三模块完全同义复用或统一协议必要性、稳定 owner、序列化定义和兼容政策缺一不可。
 - [ ] G03-4.6 明确禁止 `Result<T>`、Domain/Security/Application types、EF/MediatR/ASP.NET/DI/serializer/broker SDK 和泛化 SharedKernel。
 - [ ] G03-4.7 将物理拆分实现交付给 Contracts/Event 子计划，并提供保持 build green 的迁移顺序。
@@ -265,7 +267,7 @@ Author updates protocol + catalog + Change Record + tests
 
 - [ ] G03-7.1 定义 waiver schema：owner、reason、risk、created-at、expires-at、removal condition 和 linked plan item。
 - [ ] G03-7.2 验证 waiver 默认不超过 90 天或命名里程碑，以较早者为准；续期视为新评审。
-- [ ] G03-7.3 将无 owner/consumer、内部模型泄漏、敏感数据违规和 identity 复用设为不可豁免。
+- [ ] G03-7.3 将无 owner/consumer、内部模型泄漏、C4/未批准 C3 暴露和 identity 复用设为不可豁免；获批 C3 State Transfer 属于受控准入而非 waiver。
 - [ ] G03-7.4 向 LayerGuard 子计划交付 module ownership、Contract role、Adapter provider allowlist 与 shared primitives allowlist 的机器可读输入。
 - [ ] G03-7.5 禁止 LayerGuard 配置手工复制一份会漂移的 ownership 数据；若工具不能直接读取目录，建立一致性生成/校验步骤。
 - [ ] G03-7.6 为 catalog/API/schema/contract tests、LayerGuard 和 owner approval 定义统一 CI 入口与失败报告。
@@ -318,4 +320,3 @@ Author updates protocol + catalog + Change Record + tests
 - [ ] G03-R03 Retired identity 和历史 Change Record 永不复用或删除；只允许归档并保持可查。
 - [ ] G03-R04 LegacyPendingMigration 或 waiver 到期后默认阻断，不自动延长；续期需要新风险评审和新到期日。
 - [ ] G03-R05 紧急兼容中断必须保留影响、审批、发布、回退和事后修复证据，不能成为永久例外。
-
