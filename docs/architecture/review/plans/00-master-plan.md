@@ -19,6 +19,7 @@
 | [`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md) | Gate 1 本地事务、Result/异常语义、并发及 Outbox/Inbox 原子接缝 | TX1–TX5 的实现、测试与文档全部验收 |
 | [`00-G02-database-boundary.md`](00-G02-database-boundary.md) | Gate 2 DbContext/schema ownership、独立 history、Migrator job 与真实数据库测试 | DB1–DB4、DB9–DB11 的实现、迁移和文档全部验收 |
 | [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) | Gate 3 Contract/Event ownership、版本兼容、权威目录、共享原语与变更治理 | GOV1/GOV2/GOV5 的目录、门禁、测试与文档全部验收 |
+| [`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) | Gate 4 业务发布边界、API/Worker roles、多实例 lease、部署、探针与关闭 | DP1/DP3/DP4/DP5 的运行、演练、健康与文档全部验收 |
 | [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) | `Abstractions` → `Contracts/Ports/Adapters`；Contracts 与 Application 职责；现有代码迁移 | Application 不再直接引用其他模块 Contracts；所有跨模块同步调用经消费方 Port 与 Adapter |
 | [`02-reliable-integration-events.md`](02-reliable-integration-events.md) | Integration Event 契约、Outbox/Inbox、投递、重试与运维 | 提交后发布、至少一次投递、消费幂等、失败可恢复 |
 | [`03-layerguard-alignment.md`](03-layerguard-alignment.md) | LayerGuard 规则、工具能力、测试与 CI | 新依赖矩阵可自动验证，并且仓库零未豁免违规 |
@@ -35,6 +36,7 @@
 - [ ] M-C07 ApiHost 仅承担组合根和宿主职责，不实现模块业务逻辑，也不代替模块实现 Contracts。
 - [ ] M-C08 每个模块保持自己的数据和本地事务边界；跨模块工作流不宣称共享 ACID 原子性。
 - [ ] M-C09 所有架构和规则设计完成后必须文档化，至少包含设计解释、架构图、关键流程图、失败/状态说明及规则到验证机制的映射。
+- [ ] M-C10 五个业务模块保持同一后端发布边界；同 release 的 API/Worker Runtime Roles 可独立扩容，但不能独立选择业务模块版本。
 
 ## 依赖与实施顺序
 
@@ -62,7 +64,7 @@
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [ ] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
-- [ ] M0.2 评审并确认上方 M-C01 至 M-C09；未达成一致的项目记录为 ADR 决策，不直接进入实现。
+- [ ] M0.2 评审并确认上方 M-C01 至 M-C10；未达成一致的项目记录为 ADR 决策，不直接进入实现。
 - [ ] M0.3 决定 `Contracts` 的物理命名迁移策略：一次性项目重命名，或先兼容 namespace/package、后移除 `Abstractions`。
 - [ ] M0.4 决定 Integration Adapter 的物理组织：保留在 `Infrastructure/Integrations`，或拆分独立项目；选择须能被 LayerGuard 精确验证。
 - [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
@@ -94,7 +96,7 @@
 
 - [ ] M3.1 以 Gate 03 事件目录、producer/consumer、版本与兼容政策为输入，执行子计划 2 的事件契约和统一 envelope 设计；消息 schema primitives 与运行时端口保持分离。
 - [ ] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
-- [ ] M3.3 实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
+- [ ] M3.3 按 Gate 04 Worker role、唯一 instance identity 和多实例 claim/lease 规则实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
 - [ ] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter，再映射为消费方内部命令。
 - [ ] M3.5 实现 Inbox 去重及“消费方业务数据 + Inbox”本地原子保存。
 - [ ] M3.6 完成崩溃窗口、重复投递、毒消息、回放和端到端测试后，勾选本 Phase。
@@ -118,6 +120,7 @@
 - [ ] M5.3 对所有模块执行完整构建、测试、LayerGuard 和关键业务回归，并保存结果。
 - [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的数据库/事务项完成或转为具备负责人和时间点的正式计划。
 - [ ] M5.5 由架构与模块负责人共同确认 Definition of Done，并记录最终偏差或临时豁免的到期日。
+- [ ] M5.6 按 Gate 04 顺序演练 Migrator → Worker consumers → API producers → schedules → cleanup，并验证 probes、drain、backpressure 和安全回退。
 
 ## 总体验收标准（Definition of Done）
 
@@ -130,6 +133,7 @@
 - [ ] M-D07 所有临时兼容与规则豁免均有 owner、原因、到期日和删除条件。
 - [ ] M-D08 各 Gate 和子计划均已交付并审核中英文设计说明、架构图、流程图及必要状态图，文档与最终代码和自动化规则一致。
 - [ ] M-D09 Contract/Event 权威目录与源码、API/schema 快照、依赖图和 LayerGuard 保持一致，所有 Active 协议均有唯一 owner 和真实 consumer。
+- [ ] M-D10 API/Worker roles、多实例 Dispatcher、role-specific readiness、优雅关闭与 consumer-first 发布均通过自动化或受控演练。
 
 ## 风险与回退原则
 

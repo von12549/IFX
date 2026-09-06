@@ -16,7 +16,7 @@
 | Integration Adapter | 本模块 Application Port、目标提供方 Contracts、必要 transport client | 目标模块实现/Domain/DbContext、业务规则复制 |
 | Infrastructure | 本模块 Application/Domain、持久化与外部技术 | 其他模块 DbContext/实现；除 Integration Adapter 外的外部 Contracts |
 | Composition | 本模块各项目、必要宿主 DI primitives | 业务逻辑、跨模块数据库访问 |
-| ApiHost | 各模块 Composition、宿主能力 | 模块业务实现、Repository/DbContext 直接调用 |
+| Runtime Host（API/Worker） | 各模块 Composition、宿主/运行原语 | 模块业务实现、Repository/DbContext 直接调用；Worker 不引用 Presentation |
 
 ## Phase 0 — 建立规则基线与能力差距
 
@@ -39,7 +39,7 @@
 - [ ] L1.3 更新当前 X-1 规则：Application 可以引用本模块 Contracts，但不得引用其他模块 Contracts。
 - [ ] L1.4 从 Gate 03 权威目录读取或一致性生成 Contracts shared primitives allowlist，默认拒绝 BCL 与已批准 Messaging.Contracts 之外的依赖。
 - [ ] L1.5 明确 Adapter 若保留在 Infrastructure 项目中时的目录/namespace 边界，避免整个 Infrastructure 获得外部 Contracts 许可。
-- [ ] L1.6 明确 Composition 与 ApiHost 的模式匹配、允许边和禁止内容。
+- [ ] L1.6 明确 Composition 与 Gate 04 API/Worker Runtime Host 的模式匹配、允许边和禁止内容。
 - [ ] L1.7 为历史违规建立临时 baseline/waiver 格式，要求 owner、原因、创建日、到期日和删除条件。
 
 ## Phase 2 — 增强 ownership-aware 规则能力
@@ -53,7 +53,7 @@
 - [ ] L2.5 实现规则：Contracts 不得引用任何模块内层或基础设施项目。
 - [ ] L2.6 实现规则：Presentation 不得直接引用 DbContext、Repository 实现或外部模块实现。
 - [ ] L2.7 实现规则：Infrastructure 不得跨模块引用 DbContext/Repository/implementation assembly。
-- [ ] L2.8 实现规则：ApiHost 只能通过 Composition 装载模块，禁止直接引用业务实现类型。
+- [ ] L2.8 实现规则：API/Worker Runtime Host 只能通过 Composition 装载模块，禁止直接引用业务实现类型；Worker role 不得引用或映射业务 Presentation。
 - [ ] L2.9 为未识别项目、模糊 ownership 和无法解析引用采用 fail-closed 或明确告警策略，避免静默跳过。
 - [ ] L2.10 使用 Gate 03 provider/consumer graph 验证 Adapter 只能引用已登记 provider Contracts，并阻断未登记同步依赖环。
 

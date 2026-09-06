@@ -3,6 +3,7 @@
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。
+> 运行前置：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 API/Worker roles、instance identity、多实例 lease、health、drain、backpressure 和 consumer-first 发布顺序。
 
 ## 目标流程
 
@@ -64,14 +65,15 @@ Producer Application
 
 - [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E3.1 实现 Outbox Dispatcher，只读取已提交记录，并使用有界批次、锁租约和并发安全 claim。
-- [ ] E3.2 定义 dispatcher 的启动、停止、优雅关闭和多 ApiHost 实例并发行为。
+- [ ] E3.1 按 Gate 04 实现 Outbox Dispatcher：只读取已提交记录，使用短事务有界 claim、唯一 LeaseOwner/LeaseUntil/concurrency token、事务外发送与条件完成。
+- [ ] E3.2 在 `worker`/`all` role 启动 Dispatcher，按 Gate 04 定义多 Worker 实例竞争、critical loop failure 和优雅 drain；`api` role 不启动 Dispatcher。
 - [ ] E3.3 把 transport 抽象限制在投递职责；当前可适配进程内总线，未来可替换消息 broker 而不改 Application。
 - [ ] E3.4 修复总线错误语义：handler/transport 失败不得被吞掉，必须反馈给重试状态机。
 - [ ] E3.5 实现指数退避、最大尝试次数、抖动与可配置超时，避免热循环和级联故障。
 - [ ] E3.6 明确 Outbox 的 delivered、retrying、dead-lettered 状态转换和并发更新策略。
 - [ ] E3.7 增加 backlog、oldest age、success/failure rate、retry count 与 dead-letter count 指标及结构化日志。
 - [ ] E3.8 验证进程在“发送前、发送后标记前、标记后”三个时点崩溃时均不会丢失已提交事件。
+- [ ] E3.9 实现 per-module backlog/lease/last-success Health Contributor 和 warning/critical backpressure 接缝。
 
 ## Phase 4 — 消费方 Inbound Adapter、Inbox 与幂等
 
@@ -116,7 +118,7 @@ Producer Application
 - [ ] E7.2 添加包含真实关系数据库的集成测试，覆盖事务 rollback、唯一约束和并发 claim。
 - [ ] E7.3 添加端到端测试，证明源提交最终导致消费方状态变化，并能容忍重复与短暂故障。
 - [ ] E7.4 执行故障注入测试，覆盖进程终止、连接中断、超时、部分批次和重启恢复。
-- [ ] E7.5 设计兼容上线顺序；需要双轨时，定义去重、观测窗口和唯一权威路径，避免双重业务副作用。
+- [ ] E7.5 执行 Gate 04 consumer-first 顺序：先部署兼容旧/新 schema 的 Worker consumers，再部署 API producers；定义去重、观测窗口和唯一权威路径。
 - [ ] E7.6 在指标达到验收门槛后关闭旧的同步直发/直接 handler 路径，并删除无用注册。
 - [ ] E7.7 将实际 schema、版本、发布/消费责任人、兼容状态和 retire 证据回写 Gate 03 权威目录，并更新运维 runbook。
 

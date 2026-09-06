@@ -3,6 +3,7 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 运行编排：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 Migrator → Worker → API、readiness 和回退顺序。
 > 前置关系：Gate 01 已定义模块本地事务与 Outbox/Inbox 原子性
 > 范围：DB1–DB4、DB9–DB11，以及数据库 ownership、history bootstrap、部署和测试规则
 > Gate 关闭条件：本计划全部 Phase、Definition of Done 和文档交付均已完成
@@ -206,12 +207,13 @@ readiness + smoke tests
 - [ ] G02-5.1 从生产 ApiHost startup 移除 `IAppMigrator` 执行路径。
 - [ ] G02-5.2 为需要本地便利的迁移提供显式命令，不允许 API 隐式修改 schema。
 - [ ] G02-5.3 在 CI 生成版本匹配的 Migrator artifact、module manifest 和每模块 idempotent SQL script。
-- [ ] G02-5.4 部署顺序固定为 preflight/backup → migrator → validation → ApiHost → readiness/smoke test。
+- [ ] G02-5.4 数据库阶段固定为 preflight/backup → migrator → validation；随后按 Gate 04 执行 Worker consumers → API producers → readiness/smoke test。
 - [ ] G02-5.5 使用独立 migration connection/secret；运行连接不承担 DDL 职责。
 - [ ] G02-5.6 实现只读 schema compatibility/readiness，验证当前应用 required migrations 已存在。
 - [ ] G02-5.7 数据库存在更新但向后兼容 migration 时允许旧实例继续运行，以支持 Expand/Contract 滚动发布。
 - [ ] G02-5.8 修改 `docker-compose.yml` 与 NAS Compose：SQL healthy → init completed → migrator completed → ApiHost。
 - [ ] G02-5.9 migration job 失败时阻断 ApiHost 新版本启动，且不会由 restart policy 无限热重试。
+- [ ] G02-5.10 将每模块 required/compatible schema version 输出到 Gate 04 Release/Module Manifest，供 API 与 Worker 只读 readiness 校验。
 
 ## Phase 6 — Expand / Contract、失败与回退策略
 
@@ -291,7 +293,7 @@ readiness + smoke tests
 - [ ] G02-DD03 Auth legacy、错误 squash ID、shared history 和 EnsureCreated adoption 均安全且可重复处理。
 - [ ] G02-DD04 `IFX.DatabaseMigrator` 独立执行、全局互斥、失败阻断、可重跑并输出完整报告。
 - [ ] G02-DD05 生产 ApiHost 不执行 DDL，只读 readiness 能识别 required migration 缺失。
-- [ ] G02-DD06 Compose 和生产部署均保证 database/init/migrator/ApiHost 的确定顺序。
+- [ ] G02-DD06 Compose 和生产部署均保证 database/init/migrator/Worker/API 的确定顺序，并与 Gate 04 consumer-first 编排一致。
 - [ ] G02-DD07 真实 SQL Server migration matrix、故障测试、build 和架构检查全部通过。
 - [ ] G02-DD08 中英文说明、架构图、流程图、状态图和规则验证映射全部完成并审核。
 

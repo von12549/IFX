@@ -18,7 +18,7 @@
 | [Gate 1：事务边界](00-G01-transaction-boundary.md) | 硬依赖 | Outbox/Inbox 原子性、事件最终验收 |
 | [Gate 2：数据库边界](00-G02-database-boundary.md) | 硬依赖 | Outbox/Inbox 表归属、migration 与关系数据库测试 |
 | [Gate 3：Contract/Event 治理](00-G03-contract-event-governance.md) | 设计前置 | Contracts surface、event ownership 与版本策略 |
-| Gate 4：部署运行假设 | 上线前置 | Dispatcher 多实例、部署顺序和 readiness |
+| [Gate 4：部署运行假设](00-G04-deployment-runtime-boundary.md) | 上线前置 | Dispatcher 多实例、部署顺序和 readiness |
 | Gate 5：关联与敏感数据 | schema 前置 | Event envelope、诊断能力和数据治理 |
 
 ## Gate 1 — 事务边界最小集
@@ -66,11 +66,13 @@
 
 - [ ] **Gate 4 完成**：单体部署假设、Dispatcher 多实例行为、migration 顺序和健康信号已冻结。
 
-- [ ] DP1 形成部署边界 ADR：当前为单一 ApiHost/进程/发布单元的模块化单体，编译期与数据边界不代表可独立部署。
+实施计划：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md)。架构决策已经确认；只有 Deployment Unit/Module/Release Manifest、Runtime Role、多实例 lease、探针、部署演练和中英文图文交付全部完成后才能勾选本 Gate。
+
+- [ ] DP1 形成部署边界 ADR：五个业务模块共同构成一个 ApiHost 业务发布边界；Frontend、数据库、OPA、Migrator 和独立基础设施可有自己的部署生命周期，编译期/数据边界或多容器不代表业务微服务化。
 - [ ] DP3 明确模块和后台服务的启动顺序、依赖失败、部分不可用、优雅关闭及多实例 Dispatcher 的并发领取策略。
 - [ ] DP4 定义 database migration/seed、ApiHost 实例和 Dispatcher 的部署编排顺序，禁止未完成 schema 升级的实例开始分发消息。
 - [ ] DP5 定义模块与消息通道的 health/readiness 信号，包括 dispatcher 状态、Outbox backlog age 和必要依赖可用性。
-- [ ] DP-G1 保存单实例/多实例运行图、部署顺序和失败矩阵，作为 Dispatcher 设计与生产上线依据。
+- [ ] DP-G1 保存当前/目标 Deployment Unit Catalog、单实例/多实例运行图、API/Worker roles、部署顺序和失败矩阵，作为 Dispatcher 设计与生产上线依据。
 
 ## Gate 5 — 关联信息与敏感数据规则
 
