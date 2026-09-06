@@ -1,0 +1,134 @@
+# Contracts / Adapters / Events 架构改进总计划
+
+> 状态：Draft / 待评审
+> 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
+> 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
+> 进度规则：只有当某项的实现、验证与必要文档证据均已完成时，才勾选该项；Phase 内全部项目完成后，才勾选 Phase。
+
+## 目标
+
+本计划把现有以 `*.Abstractions` 为中心的模块间依赖，演进为由提供方拥有的窄 `Contracts`、消费方拥有的 Application Port、位于消费方外层的 Integration Adapter，以及可靠的 Integration Event 通道。与此同时，LayerGuard 将从与代码不一致的静态约定，升级为可在 CI 中执行的新架构边界。
+
+本计划不把 `Integration` 定义为新的业务层。它是 Infrastructure/外层中的适配器角色；只有当项目物理拆分能显著改善编译期约束时，才建立独立的 `*.Integration` 或 `*.Infrastructure.Integrations` 项目。
+
+## 计划索引
+
+| 子计划 | 负责范围 | 完成标志 |
+| --- | --- | --- |
+| [`00-prerequisites.md`](00-prerequisites.md) | Plan 00 前置的事务、数据库、治理、部署与数据规则 | Gate 1–5 全部通过并形成可追踪证据 |
+| [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) | `Abstractions` → `Contracts/Ports/Adapters`；Contracts 与 Application 职责；现有代码迁移 | Application 不再直接引用其他模块 Contracts；所有跨模块同步调用经消费方 Port 与 Adapter |
+| [`02-reliable-integration-events.md`](02-reliable-integration-events.md) | Integration Event 契约、Outbox/Inbox、投递、重试与运维 | 提交后发布、至少一次投递、消费幂等、失败可恢复 |
+| [`03-layerguard-alignment.md`](03-layerguard-alignment.md) | LayerGuard 规则、工具能力、测试与 CI | 新依赖矩阵可自动验证，并且仓库零未豁免违规 |
+| [`TODO.md`](TODO.md) | 本轮未展开的数据库、事务、部署等边界 | 转化为后续评审与实施计划 |
+
+## 关键架构约束
+
+- [ ] M-C01 提供方拥有并版本化自己的公共 `Contracts`；Contracts 只表达模块能力和已发生的公共事实。
+- [ ] M-C02 提供方 Application 实现自身同步 Contract；模块 Composition 负责把实现注册到根 DI 容器。
+- [ ] M-C03 消费方 Application 只依赖自己定义的 Port，不直接引用其他模块的 Contracts。
+- [ ] M-C04 消费方的 Integration Adapter 位于外层，引用“自己的 Application Port + 提供方 Contracts”，并完成协议/模型转换。
+- [ ] M-C05 Presentation 是入站 HTTP Adapter，可以含路由、认证和协议映射；它与 Contracts 都不得包含业务规则或直接访问 DbContext。
+- [ ] M-C06 Domain Event 与 Integration Event 分离；Integration Event 是跨边界、可版本化、可重复投递的公共事实。
+- [ ] M-C07 ApiHost 仅承担组合根和宿主职责，不实现模块业务逻辑，也不代替模块实现 Contracts。
+- [ ] M-C08 每个模块保持自己的数据和本地事务边界；跨模块工作流不宣称共享 ACID 原子性。
+
+## 依赖与实施顺序
+
+```text
+前置 Gate：事务 + 数据库 + Ownership + 部署假设 + 数据规则
+      |
+      v
+架构决策冻结（Plan 00 Phase 0）
+      |
+      +--> 子计划 1：Contracts / Ports / Adapters 基础结构
+      |          |
+      |          +--> 子计划 2：事件契约归位 + Outbox / Inbox
+      |          |
+      |          +--> 子计划 3：迁移期规则验证
+      |
+子计划 1 完成主要依赖迁移 --> 子计划 3 开启严格模式并成为 CI 门禁
+```
+
+## Plan 00 准入门槛
+
+- [ ] M-PRE 完成 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 1–5 和最终准入验收；在此之前只允许调研、决策和原型验证，不开始正式架构迁移。
+
+## Phase 0 — 建立基线与冻结架构决策
+
+- [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
+- [ ] M0.2 评审并确认上方 M-C01 至 M-C08；未达成一致的项目记录为 ADR 决策，不直接进入实现。
+- [ ] M0.3 决定 `Contracts` 的物理命名迁移策略：一次性项目重命名，或先兼容 namespace/package、后移除 `Abstractions`。
+- [ ] M0.4 决定 Integration Adapter 的物理组织：保留在 `Infrastructure/Integrations`，或拆分独立项目；选择须能被 LayerGuard 精确验证。
+- [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
+- [ ] M0.6 记录当前构建、测试和 LayerGuard 结果，作为后续“无回归”对照。
+
+## Phase 1 — 建立 Contracts / Ports / Adapters 编译期边界
+
+- [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] M1.1 执行子计划 1 的 Contracts 分类、Application Facade、消费方 Port 和 Adapter 迁移。
+- [ ] M1.2 优先迁移当前真实同步依赖：CRM 的 KYC 校验与 Registry 的 Class subscription 状态查询。
+- [ ] M1.3 清除 Transaction.Application 对 CRM/Registry Contracts 的直接项目引用，并用依赖图验证。
+- [ ] M1.4 清理未被生产代码消费的公共 Reader，避免为了假想扩展面继续暴露公共查询模型。
+- [ ] M1.5 分离 Application 内部 DTO 与公共 Contract DTO，防止公共模型成为内部用例模型。
+- [ ] M1.6 完成子计划 1 的单元、DI、集成和架构测试后，勾选本 Phase。
+
+## Phase 2 — 启用迁移期 LayerGuard 规则
+
+- [ ] **Phase 2 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] M2.1 执行子计划 3 的规则矩阵与 LayerGuard 能力设计，使 `Abstractions` 与 `Contracts` 可在迁移期并存但不可新增旧依赖。
+- [ ] M2.2 对“同模块 Contracts”与“外部模块 Contracts”建立不同规则，消除当前 blanket `sameModule` 规则与代码现实的冲突。
+- [ ] M2.3 为 Integration Adapter 的允许边和 Application 的禁止边建立正反测试样例。
+- [ ] M2.4 在 CI 中先以报告模式运行迁移规则，保存所有历史违规并禁止新增违规。
+
+## Phase 3 — 建立可靠 Integration Event 通道
+
+- [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] M3.1 执行子计划 2 的事件盘点、公共事件契约和统一 envelope 设计。
+- [ ] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
+- [ ] M3.3 实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
+- [ ] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter，再映射为消费方内部命令。
+- [ ] M3.5 实现 Inbox 去重及“消费方业务数据 + Inbox”本地原子保存。
+- [ ] M3.6 完成崩溃窗口、重复投递、毒消息、回放和端到端测试后，勾选本 Phase。
+
+## Phase 4 — 收紧 LayerGuard 并形成 CI 门禁
+
+- [ ] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] M4.1 完成子计划 3 所需的工具增强、规则配置与仓库违规修复。
+- [ ] M4.2 移除迁移期针对 `*.Abstractions` 的兼容许可，并禁止新建同类项目/namespace。
+- [ ] M4.3 将 Contracts 禁止依赖业务/基础设施框架、Application 禁止外部 Contracts、Adapter 依赖方向等规则设为阻断级别。
+- [ ] M4.4 验证直接和传递依赖、项目引用与 namespace 声明均无法绕过规则。
+- [ ] M4.5 在标准 CI 路径中启用 LayerGuard，失败报告能指向违规边、规则和修复建议。
+
+## Phase 5 — 收尾、发布与架构验收
+
+- [ ] **Phase 5 完成**：本 Phase 下全部项目均已完成并附有证据。
+
+- [ ] M5.1 删除已废弃的接口、DTO、注册代码、兼容 shim 与旧事件直发代码，确认无生产引用。
+- [ ] M5.2 更新架构图、模块开发指南、Contract/Event 版本策略和故障处理手册。
+- [ ] M5.3 对所有模块执行完整构建、测试、LayerGuard 和关键业务回归，并保存结果。
+- [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的数据库/事务项完成或转为具备负责人和时间点的正式计划。
+- [ ] M5.5 由架构与模块负责人共同确认 Definition of Done，并记录最终偏差或临时豁免的到期日。
+
+## 总体验收标准（Definition of Done）
+
+- [ ] M-D01 代码中的项目引用图与目标架构图一致，且由自动化规则验证。
+- [ ] M-D02 Contracts 不含业务逻辑、DbContext、Repository、Handler、DI 注册或传输实现。
+- [ ] M-D03 所有跨模块同步读取均通过消费方 Port 和外层 Adapter，能够替换为 HTTP/gRPC Adapter 而不改消费方 Application。
+- [ ] M-D04 所有跨模块事件均在源事务提交后投递，支持重复投递且消费幂等。
+- [ ] M-D05 ApiHost 仅加载模块 Composition；模块负责实现和注册自身能力。
+- [ ] M-D06 `dotnet build`、相关 `dotnet test` 与 LayerGuard 在 CI 中全部通过。
+- [ ] M-D07 所有临时兼容与规则豁免均有 owner、原因、到期日和删除条件。
+
+## 风险与回退原则
+
+- [ ] M-R01 每次只迁移一条可观察的模块依赖边，保留可快速切回旧 Adapter 的组合根开关，避免大爆炸式切换。
+- [ ] M-R02 公共 Contract/Event 的破坏性变化采用并行版本或适配转换，不通过共享内部 Domain 类型规避版本问题。
+- [ ] M-R03 Outbox/Inbox 上线前完成数据库 migration、部署顺序与旧实例兼容验证。
+- [ ] M-R04 严格 LayerGuard 规则先验证真实代码可达，再从报告模式提升为阻断模式。
+- [ ] M-R05 任何回退都不得绕过审计：记录被恢复的旧路径、回退原因和再次切换条件。
