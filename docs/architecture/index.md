@@ -2,6 +2,10 @@
 
 IFX follows a **Modular Monolithic + Clean Architecture** pattern with Minimal APIs.
 
+## Architecture Review Baselines
+
+The bilingual current-state and proposed Contracts/Adapters/Events architecture review is indexed at [review/README.md](review/README.md). The target material is a planning baseline and is not yet implemented.
+
 ## Project Structure
 
 ```
