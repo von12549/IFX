@@ -2,7 +2,7 @@
 
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
-> 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构；原子保存依赖 [`00-prerequisites.md`](00-prerequisites.md) 中的事务与数据库 Gate。
+> 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。
 
 ## 目标流程
 
@@ -24,7 +24,7 @@ Producer Application
 
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E0.1 枚举所有事件类型、发布点、处理器、模块所有者、触发事务和实际消费者，标记未使用事件。
+- [ ] E0.1 从 Gate 03 权威目录导入所有事件类型、发布点、处理器、模块所有者、触发事务和实际消费者，并与源码对账；新增或重分类先更新目录。
 - [ ] E0.2 将现有事件分类为 Domain Event、Integration Event、进程内通知或错误地用于状态传输的消息。
 - [ ] E0.3 为每个 Integration Event 明确“已发生的事实”、生产方、消费方、交付要求和可接受延迟。
 - [ ] E0.4 识别当前 Transaction 在 `SaveChanges` 后、`TransactionBehavior` 提交前调用 `PublishAsync` 的崩溃与可见性窗口。
@@ -37,7 +37,7 @@ Producer Application
 
 - [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E1.1 将生产方拥有的 Integration Event schema 放入生产方 Contracts，并与 Domain Event 类型完全分离。
+- [ ] E1.1 将生产方拥有且已通过 Gate 03 准入的 Integration Event schema 放入生产方 Contracts，并与 Domain Event 类型完全分离。
 - [ ] E1.2 采用过去时、业务事实命名，禁止把“请执行某操作”的命令伪装为事件。
 - [ ] E1.3 定义统一 envelope，至少包含 EventId、EventType、SchemaVersion、OccurredAt、TenantId、CorrelationId 与 CausationId。
 - [ ] E1.4 定义 trace、actor/source 与 content type 等可选元数据的传播规则，避免把认证凭据写入事件。
@@ -45,6 +45,7 @@ Producer Application
 - [ ] E1.6 为向后兼容、并行版本、未知字段和废弃窗口建立可自动验证的规则。
 - [ ] E1.7 评审 CRM 当前事件是否足以构建账户 KYC 投影；若不足，设计最小事实事件或明确继续使用同步 Contract。
 - [ ] E1.8 为关键事件保存序列化 golden files，作为 schema 回归基线。
+- [ ] E1.9 建立 BCL-only `IFX.Platform.Messaging.Contracts` schema primitives；bus、handler、dispatcher、DI、serializer 和 broker 端口/实现不得进入模块 Contracts 依赖。
 
 ## Phase 2 — 生产方 Transactional Outbox
 
@@ -117,7 +118,7 @@ Producer Application
 - [ ] E7.4 执行故障注入测试，覆盖进程终止、连接中断、超时、部分批次和重启恢复。
 - [ ] E7.5 设计兼容上线顺序；需要双轨时，定义去重、观测窗口和唯一权威路径，避免双重业务副作用。
 - [ ] E7.6 在指标达到验收门槛后关闭旧的同步直发/直接 handler 路径，并删除无用注册。
-- [ ] E7.7 更新事件目录、schema 文档、发布/消费责任人与运维 runbook。
+- [ ] E7.7 将实际 schema、版本、发布/消费责任人、兼容状态和 retire 证据回写 Gate 03 权威目录，并更新运维 runbook。
 
 ## 完成标准（Definition of Done）
 

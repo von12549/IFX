@@ -16,6 +16,9 @@
 | 子计划 | 负责范围 | 完成标志 |
 | --- | --- | --- |
 | [`00-prerequisites.md`](00-prerequisites.md) | Plan 00 前置的事务、数据库、治理、部署与数据规则 | Gate 1–5 全部通过并形成可追踪证据 |
+| [`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md) | Gate 1 本地事务、Result/异常语义、并发及 Outbox/Inbox 原子接缝 | TX1–TX5 的实现、测试与文档全部验收 |
+| [`00-G02-database-boundary.md`](00-G02-database-boundary.md) | Gate 2 DbContext/schema ownership、独立 history、Migrator job 与真实数据库测试 | DB1–DB4、DB9–DB11 的实现、迁移和文档全部验收 |
+| [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) | Gate 3 Contract/Event ownership、版本兼容、权威目录、共享原语与变更治理 | GOV1/GOV2/GOV5 的目录、门禁、测试与文档全部验收 |
 | [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) | `Abstractions` → `Contracts/Ports/Adapters`；Contracts 与 Application 职责；现有代码迁移 | Application 不再直接引用其他模块 Contracts；所有跨模块同步调用经消费方 Port 与 Adapter |
 | [`02-reliable-integration-events.md`](02-reliable-integration-events.md) | Integration Event 契约、Outbox/Inbox、投递、重试与运维 | 提交后发布、至少一次投递、消费幂等、失败可恢复 |
 | [`03-layerguard-alignment.md`](03-layerguard-alignment.md) | LayerGuard 规则、工具能力、测试与 CI | 新依赖矩阵可自动验证，并且仓库零未豁免违规 |
@@ -31,6 +34,7 @@
 - [ ] M-C06 Domain Event 与 Integration Event 分离；Integration Event 是跨边界、可版本化、可重复投递的公共事实。
 - [ ] M-C07 ApiHost 仅承担组合根和宿主职责，不实现模块业务逻辑，也不代替模块实现 Contracts。
 - [ ] M-C08 每个模块保持自己的数据和本地事务边界；跨模块工作流不宣称共享 ACID 原子性。
+- [ ] M-C09 所有架构和规则设计完成后必须文档化，至少包含设计解释、架构图、关键流程图、失败/状态说明及规则到验证机制的映射。
 
 ## 依赖与实施顺序
 
@@ -58,7 +62,7 @@
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [ ] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
-- [ ] M0.2 评审并确认上方 M-C01 至 M-C08；未达成一致的项目记录为 ADR 决策，不直接进入实现。
+- [ ] M0.2 评审并确认上方 M-C01 至 M-C09；未达成一致的项目记录为 ADR 决策，不直接进入实现。
 - [ ] M0.3 决定 `Contracts` 的物理命名迁移策略：一次性项目重命名，或先兼容 namespace/package、后移除 `Abstractions`。
 - [ ] M0.4 决定 Integration Adapter 的物理组织：保留在 `Infrastructure/Integrations`，或拆分独立项目；选择须能被 LayerGuard 精确验证。
 - [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
@@ -68,7 +72,7 @@
 
 - [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] M1.1 执行子计划 1 的 Contracts 分类、Application Facade、消费方 Port 和 Adapter 迁移。
+- [ ] M1.1 以 Gate 03 权威目录、ownership、V1 identity 和 shared primitives allowlist 为输入，执行子计划 1 的 Contracts 分类、Application Facade、消费方 Port 和 Adapter 迁移。
 - [ ] M1.2 优先迁移当前真实同步依赖：CRM 的 KYC 校验与 Registry 的 Class subscription 状态查询。
 - [ ] M1.3 清除 Transaction.Application 对 CRM/Registry Contracts 的直接项目引用，并用依赖图验证。
 - [ ] M1.4 清理未被生产代码消费的公共 Reader，避免为了假想扩展面继续暴露公共查询模型。
@@ -88,7 +92,7 @@
 
 - [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] M3.1 执行子计划 2 的事件盘点、公共事件契约和统一 envelope 设计。
+- [ ] M3.1 以 Gate 03 事件目录、producer/consumer、版本与兼容政策为输入，执行子计划 2 的事件契约和统一 envelope 设计；消息 schema primitives 与运行时端口保持分离。
 - [ ] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
 - [ ] M3.3 实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
 - [ ] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter，再映射为消费方内部命令。
@@ -124,6 +128,8 @@
 - [ ] M-D05 ApiHost 仅加载模块 Composition；模块负责实现和注册自身能力。
 - [ ] M-D06 `dotnet build`、相关 `dotnet test` 与 LayerGuard 在 CI 中全部通过。
 - [ ] M-D07 所有临时兼容与规则豁免均有 owner、原因、到期日和删除条件。
+- [ ] M-D08 各 Gate 和子计划均已交付并审核中英文设计说明、架构图、流程图及必要状态图，文档与最终代码和自动化规则一致。
+- [ ] M-D09 Contract/Event 权威目录与源码、API/schema 快照、依赖图和 LayerGuard 保持一致，所有 Active 协议均有唯一 owner 和真实 consumer。
 
 ## 风险与回退原则
 

@@ -3,18 +3,16 @@
 > 状态：Backlog
 > 目的：记录本轮 Contracts / Adapters / Events / LayerGuard 计划之外，讨论中已经识别但尚未形成完整实施计划的事项。
 > 使用方式：每一项进入实施前应补充现状证据、目标决策、独立计划、负责人和验收标准。
-> 已提取前置项：TX1–TX5、DB1/DB3/DB4/DB9/DB11、GOV1/GOV2/GOV5、DP1/DP3/DP4/DP5、OPS1/OPS3 已移动至 [`00-prerequisites.md`](00-prerequisites.md)，不在本 TODO 重复维护。
+> 已提取前置项：TX1–TX5、DB1–DB4/DB9–DB11、GOV1/GOV2/GOV5、DP1/DP3/DP4/DP5、OPS1/OPS3 已移动至 [`00-prerequisites.md`](00-prerequisites.md)，不在本 TODO 重复维护。
 
 ## Topic 1 — 数据库边界：独立 DbContext、migration 与 schema
 
 - [ ] **Topic 1 完成**：全部事项已转为正式计划或有证据地完成。
 
-- [ ] DB2 修复 Auth migration 标识不一致：`EFMigrator.cs` 使用 `20260317145706_InitialCreate`，实际 migration 为 `20260327075710_InitialCreate`。
 - [ ] DB5 评估生产环境每模块独立数据库 role/credential 与 schema 权限；当前共享高权限连接不构成强隔离。
 - [ ] DB6 明确“不建立跨模块数据库 FK”的完整生命周期协议，尤其是 Tenant 删除/停用后其他模块数据的处理。
 - [ ] DB7 设计 `TenantDeleted`/`TenantDeactivated` 等事实事件、软删除/保留策略和孤儿数据 reconciliation。
 - [ ] DB8 建立 tenant-aware Repository/Contract 规范，并评估 global query filter 或数据库 RLS 的适用性与旁路风险。
-- [ ] DB10 修正容器启动依赖：ApiHost 不仅等待 SQL Server health，还要等待初始化/migration job 成功。
 - [ ] DB12 定义模块拆分为独立数据库时的数据复制、报表、备份恢复与迁移策略。
 
 ## Topic 2 — 事务边界：模块本地事务与跨模块一致性

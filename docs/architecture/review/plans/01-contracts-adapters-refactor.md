@@ -3,6 +3,7 @@
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 相关架构：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
+> 治理前置：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 提供权威目录、V1 identity、版本/废弃政策和 shared primitives allowlist。
 
 ## 目标边界
 
@@ -36,8 +37,8 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] C0.1 枚举所有 `*.Abstractions` 项目、公开类型、方法、DTO、事件和项目引用，标记提供方、实际消费方及运行路径。
-- [ ] C0.2 将每个公开类型分类为“同步 Contract”“Integration Event”“模块内部 Application 类型”“应删除的未使用表面”。
+- [ ] C0.1 从 Gate 03 权威目录导入全部 `*.Abstractions` 项目、公开类型、方法、DTO、事件、提供方、实际消费方及运行路径，并与当前源码对账。
+- [ ] C0.2 执行 Gate 03 已批准的分类，将每个公开类型迁移为“同步 Contract”“Integration Event”“模块内部 Application 类型”或“应删除的未使用表面”；分类变化须先更新目录并评审。
 - [ ] C0.3 核实当前生产同步调用基线：`ICrmReader.IsInvestmentAccountKycApprovedAsync` 与 `IRegistryReader.IsClassOpenForSubscriptionAsync`。
 - [ ] C0.4 核实 `IHoldingsReader`、`ITransactionReader` 是否确无生产跨模块消费者；若有隐藏消费者，补入清单并明确迁移策略。
 - [ ] C0.5 为每个 Contract 明确 capability-oriented 名称，避免继续扩展通用 `Reader` 成为跨模块 Repository。
@@ -49,11 +50,11 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 
 - [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] C1.1 为真实被消费的能力建立 `*.Contracts` 项目或兼容命名空间，并保持项目只依赖 BCL/经批准的共享契约原语。
+- [ ] C1.1 为真实被消费的能力建立 `*.Contracts` 项目或兼容命名空间，并保持项目只依赖 BCL；Event schema 仅可依赖 Gate 03 批准的 `IFX.Platform.Messaging.Contracts` 原语。
 - [ ] C1.2 将同步能力按业务能力组织，例如 CRM compliance 与 Registry subscription availability，而不是按数据库实体暴露 CRUD Reader。
 - [ ] C1.3 为请求/响应创建专用 Contract DTO；只包含调用者必须知道的字段，不公开 Domain Entity、Value Object 或持久化模型。
 - [ ] C1.4 将 Integration Event schema 放入提供方 Contracts 的独立目录/namespace，并与同步接口明确分区。
-- [ ] C1.5 为 Contract 建立版本与兼容策略，包括新增字段、枚举演进、废弃期和破坏性版本的命名规则。
+- [ ] C1.5 落实 Gate 03 的 V1 identity、Compatible/Conditional/Breaking 分类、并行 V+1、unknown fallback 与默认废弃窗口。
 - [ ] C1.6 验证 Contracts 不包含业务实现、Handler、DbContext、Repository、DI、日志、HTTP client 或 broker SDK 引用。
 - [ ] C1.7 在迁移期为旧 `Abstractions` 建立最小兼容 shim（仅在确有必要时），并给每个 shim 标注删除条件。
 
@@ -92,7 +93,7 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C4.4 逐一修复公共 `GetById` 类能力缺失 TenantId/授权上下文的问题；无法安全补齐的接口不得继续公开。
 - [ ] C4.5 检查公共 DTO 是否暴露内部状态机、数据库主键策略或导航结构，并用稳定语义替代。
 - [ ] C4.6 删除没有真实消费者的 DI 注册、Reader 实现、DTO 映射和测试夹具。
-- [ ] C4.7 对最终公共 API surface 生成快照，作为后续兼容性检查基线。
+- [ ] C4.7 对最终公共 API surface 生成快照并与 Gate 03 catalog/Change Record 关联，作为正式 V1 兼容性检查基线。
 
 ## Phase 5 — 解决 Composition 与启动路径
 
@@ -114,6 +115,7 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C6.4 移除过期兼容 shim、旧 `Abstractions` 项目引用和空项目；若暂不能移除，登记有到期日的豁免。
 - [ ] C6.5 更新架构图、模块模板、命名规范和“新增跨模块同步调用”的评审清单。
 - [ ] C6.6 保存最终项目引用图、公共 surface 快照、测试报告和 LayerGuard 报告作为完成证据。
+- [ ] C6.7 将实际迁移结果、Active/Deprecated/Retired 状态、Adapter 位置和遗留清零证据回写 Gate 03 权威目录。
 
 ## 完成标准（Definition of Done）
 

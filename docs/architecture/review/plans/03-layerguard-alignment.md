@@ -2,6 +2,7 @@
 
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
+> 治理前置：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 提供 module ownership、合法 provider/consumer 边、shared primitives allowlist 和 waiver policy。
 > 当前问题：`src/layerguard.json` 只认识 Domain/Application/Presentation/Infrastructure，并通过 blanket `sameModule: ["*.Abstractions"]` 禁止所有层引用本模块 Abstractions；这既无法表达新目标，也与现状存在漂移。
 
 ## 目标依赖矩阵
@@ -36,7 +37,7 @@
 - [ ] L1.1 为 `Contracts`、`IntegrationAdapter`、`Composition` 增加可识别的 ring/role，或定义等价的 ownership-aware project role。
 - [ ] L1.2 在迁移期同时识别 `*.Abstractions` 与 `*.Contracts`，但禁止新增旧命名的项目和引用。
 - [ ] L1.3 更新当前 X-1 规则：Application 可以引用本模块 Contracts，但不得引用其他模块 Contracts。
-- [ ] L1.4 明确 Contracts 项目自身可引用的共享 primitives allowlist，默认拒绝其他项目引用。
+- [ ] L1.4 从 Gate 03 权威目录读取或一致性生成 Contracts shared primitives allowlist，默认拒绝 BCL 与已批准 Messaging.Contracts 之外的依赖。
 - [ ] L1.5 明确 Adapter 若保留在 Infrastructure 项目中时的目录/namespace 边界，避免整个 Infrastructure 获得外部 Contracts 许可。
 - [ ] L1.6 明确 Composition 与 ApiHost 的模式匹配、允许边和禁止内容。
 - [ ] L1.7 为历史违规建立临时 baseline/waiver 格式，要求 owner、原因、创建日、到期日和删除条件。
@@ -54,6 +55,7 @@
 - [ ] L2.7 实现规则：Infrastructure 不得跨模块引用 DbContext/Repository/implementation assembly。
 - [ ] L2.8 实现规则：ApiHost 只能通过 Composition 装载模块，禁止直接引用业务实现类型。
 - [ ] L2.9 为未识别项目、模糊 ownership 和无法解析引用采用 fail-closed 或明确告警策略，避免静默跳过。
+- [ ] L2.10 使用 Gate 03 provider/consumer graph 验证 Adapter 只能引用已登记 provider Contracts，并阻断未登记同步依赖环。
 
 ## Phase 3 — 增加声明与框架泄漏规则
 
@@ -90,7 +92,7 @@
 - [ ] L5.4 随子计划 2 迁移 Holdings 外部事件 handler 并清除 Application foreign Event Contract 违规。
 - [ ] L5.5 修复 Contracts 的框架/实现泄漏和未使用公共表面违规。
 - [ ] L5.6 修复 ApiHost/Composition 的装配越界与跨模块实现引用。
-- [ ] L5.7 审核全部 waiver；无 owner 或无到期日的豁免不得进入主分支。
+- [ ] L5.7 按 Gate 03 waiver policy 审核全部例外；缺少 owner、风险、到期日、删除条件或超过默认期限的豁免不得进入主分支，不可豁免规则不得建立例外。
 - [ ] L5.8 达到零未豁免违规后保存依赖图和报告作为新基线。
 
 ## Phase 6 — 接入 CI 门禁
@@ -103,6 +105,7 @@
 - [ ] L6.4 对配置或规则代码变更要求相应正反 fixture，避免通过放宽规则“修复”违规。
 - [ ] L6.5 对过期 waiver、未识别项目和扫描异常设置 CI 失败，避免绿色假象。
 - [ ] L6.6 记录执行时间并设置合理性能基线，确保开发者可在本地频繁运行。
+- [ ] L6.7 将 LayerGuard 结果与 Gate 03 catalog/source reconciliation 串联，防止配置复制 ownership 数据后发生漂移。
 
 ## Phase 7 — 严格模式与维护机制
 
