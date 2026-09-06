@@ -1,0 +1,7 @@
+# Nothing ULA writes belongs in this project's history, and a shared repo must
+# not accumulate every user's runs. Run output lives in the store outside this
+# repo; this pattern is the backstop for anything that ever lands here anyway.
+# Only the README and this ignore file stay under version control.
+*
+!.gitignore
+!README.md

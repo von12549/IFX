@@ -1,0 +1,255 @@
+{
+  "_": [
+    "The Clean Architecture rules IFX is measured by. This file is IN FORCE for everything under",
+    "src/: layerguard's check walks up from whatever path it is given looking for layerguard.json,",
+    "and from src/Modules it finds this one. It sits in src/ rather than the repository root so it",
+    "governs the code it describes and nothing else — the tooling under mcp/ is not part of this",
+    "architecture, and a rule file above it would be found by that project's own tests.",
+    "Nothing runs this automatically. It is not an analyzer and no build depends on it, so what it",
+    "changes is what `check` reports to whoever asks.",
+    "D-3 says Domain declares no package at all, so its allow-list is empty. It once named",
+    "IFX.BuildingBlocks.Domain, which was dead weight twice over: Domain declares no package, and",
+    "BuildingBlocks.Domain is a project the run loads, never a package.",
+    "The two Microsoft.Extensions entries end in * because this list is read twice: against the",
+    "packages a project declares, where the id is Microsoft.Extensions.Logging.Abstractions, and",
+    "against imported namespaces, where the same package appears as Microsoft.Extensions.Logging.",
+    "The wildcard is what lets one entry cover both, and it is the looser of the two readings.",
+    "forbiddenPackages names data-access libraries one by one, because the tool has no idea what",
+    "a data-access library is. P-2 is only as complete as this list: a driver nobody wrote down",
+    "here passes.",
+    "allowedReferences encodes D-2 and A-1, and the last two patterns under Application are the",
+    "rulebook's own carve-outs, not the rule: 'a ring referencing a project belonging to another",
+    "module' and 'a ring referencing a shared host or platform project' are recorded and never",
+    "ruled on. A-1 read on its own would refuse all six of those references. They are listed here",
+    "so the exemption is visible in the file rather than hidden in the tool. Own-module",
+    "Abstractions stays a violation: the deny-list is read first and X-1 still names it.",
+    "forbiddenDependencies encodes only half of C-7. 'Never takes a repository itself' is a",
+    "constructor parameter and is judged here. 'Reaches a use case through the mediator' is what",
+    "a method body does, which nothing here reads. That half is measured by nothing, and",
+    "mcp/LayerGuard/COVERAGE.md is where every such gap is listed.",
+    "forbiddenDependencyOrigins encodes C-4's testable half: 'never as a concrete class from",
+    "Infrastructure'. Its other half, 'takes its dependencies as interfaces declared in Domain',",
+    "is a positive claim about every parameter and is not written as a rule here.",
+    "severities carries A-2's own level. The rulebook calls A-2 a bend, not a break: an extra",
+    "package in Application is infrastructure work in the wrong ring, not a dependency pointing",
+    "the wrong way. Every other rule in the rulebook breaks, except X-2, which the tool already",
+    "reports as drift.",
+    "ruleRefs maps this tool's rule ids onto the rulebook's numbered rules. The mapping is",
+    "many-to-many — RING-DIRECTION serves D-1, A-1, P-1 and I-1, which differ only by ring, and",
+    "D-1 alone is settled by four ids — so it is stated here rather than worked out again by",
+    "whoever reads a report. First match wins: D-1 carries sameModule so it is claimed before",
+    "D-2, which takes the rest. notMeasured is what a clean result does NOT prove.",
+    "What this rule set does NOT measure is not written out here twice: every ruleRefs entry",
+    "carries its own notMeasured, and describe_rules prints the whole table computed. The tool's",
+    "own permanent limits — what parsing cannot see at all — are in mcp/LayerGuard/LIMITS.md."
+  ],
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"],
+    "Infrastructure": ["IFX.Modules.*.Infrastructure"]
+  },
+  "allowedDependencies": {
+    "Domain": [],
+    "Application": ["Domain"],
+    "Presentation": ["Application", "Domain"],
+    "Infrastructure": ["Application", "Domain"]
+  },
+  "allowedReferences": {
+    "Domain": ["IFX.BuildingBlocks.Domain"],
+    "Application": [
+      "IFX.Modules.*.Domain",
+      "IFX.BuildingBlocks.Domain",
+      "IFX.BuildingBlocks.Security",
+      "IFX.Modules.*.Abstractions",
+      "IFX.Platform.*"
+    ]
+  },
+  "allowedPackages": {
+    "Domain": [],
+    "Application": [
+      "MediatR*",
+      "FluentValidation*",
+      "AutoMapper*",
+      "Microsoft.Extensions.Logging*",
+      "Microsoft.Extensions.DependencyInjection*",
+      "IFX.BuildingBlocks.Domain*",
+      "IFX.BuildingBlocks.Security*"
+    ]
+  },
+  "forbiddenDependencies": {
+    "Presentation": ["I*Repository", "*DbContext"]
+  },
+  "forbiddenDependencyOrigins": {
+    "Application": ["Infrastructure"]
+  },
+  "forbiddenPackages": {
+    "Presentation": [
+      "Microsoft.EntityFrameworkCore*",
+      "Dapper*",
+      "Npgsql*",
+      "System.Data.SqlClient*",
+      "Microsoft.Data.SqlClient*"
+    ]
+  },
+  "forbiddenReferences": {
+    "sameModule": ["*.Abstractions"]
+  },
+  "declarations": [
+    {
+      "match": "I*Repository",
+      "kind": "interface",
+      "mustLiveIn": "Domain"
+    },
+    {
+      "match": "*Repository",
+      "kind": "class",
+      "mustLiveIn": "Infrastructure",
+      "mustImplement": "Domain",
+      "severity": "bends"
+    },
+    {
+      "match": "*CommandHandler",
+      "mustLiveIn": "Application"
+    },
+    {
+      "match": "*QueryHandler",
+      "mustLiveIn": "Application"
+    },
+    {
+      "match": "*Validator",
+      "mustLiveIn": "Application",
+      "severity": "bends"
+    }
+  ],
+  "severities": {
+    "RING-PACKAGE": "bends",
+    "RING-PACKAGE-IMPORT": "bends"
+  },
+  "requireRings": true,
+  "ruleRefs": [
+    {
+      "ref": "D-1",
+      "text": "Domain references no other project of its own module.",
+      "rules": [
+        "RING-DIRECTION",
+        "RING-REFERENCE",
+        "FORBIDDEN-REFERENCE",
+        "IMPORT-DIRECTION"
+      ],
+      "ring": "Domain",
+      "sameModule": true
+    },
+    {
+      "ref": "D-2",
+      "text": "Domain's only project reference outside its module is IFX.BuildingBlocks.Domain.",
+      "rules": ["RING-DIRECTION", "RING-REFERENCE", "IMPORT-DIRECTION"],
+      "ring": "Domain"
+    },
+    {
+      "ref": "D-3",
+      "text": "Domain declares no package at all.",
+      "rules": ["RING-PACKAGE", "RING-PACKAGE-IMPORT"],
+      "ring": "Domain"
+    },
+    {
+      "ref": "A-1",
+      "text": "Application references its own Domain; a reference to its own Presentation or Infrastructure is a violation.",
+      "rules": ["RING-DIRECTION", "RING-REFERENCE", "IMPORT-DIRECTION"],
+      "ring": "Application"
+    },
+    {
+      "ref": "A-2",
+      "text": "Application's packages are limited to the use-case libraries.",
+      "rules": ["RING-PACKAGE", "RING-PACKAGE-IMPORT"],
+      "ring": "Application"
+    },
+    {
+      "ref": "P-1",
+      "text": "Presentation references its own Application and may reference its own Domain; its own Infrastructure is a violation.",
+      "rules": ["RING-DIRECTION", "IMPORT-DIRECTION", "RING-REFERENCE"],
+      "ring": "Presentation"
+    },
+    {
+      "ref": "P-2",
+      "text": "A data-access package in Presentation is a violation.",
+      "rules": ["RING-PACKAGE-FORBIDDEN", "FORBIDDEN-DEPENDENCY"],
+      "ring": "Presentation",
+      "notMeasured": "only as complete as the list of libraries forbiddenPackages names; a driver nobody wrote down passes"
+    },
+    {
+      "ref": "I-1",
+      "text": "Infrastructure references its own Application and Domain; its own Presentation is a violation.",
+      "rules": ["RING-DIRECTION", "IMPORT-DIRECTION", "RING-REFERENCE"],
+      "ring": "Infrastructure"
+    },
+    {
+      "ref": "X-1",
+      "text": "No ring references its own module's .Abstractions project.",
+      "rules": ["FORBIDDEN-REFERENCE"]
+    },
+    {
+      "ref": "X-2",
+      "text": "All four ring projects exist in the module, each named for it.",
+      "rules": ["RING-MISSING"],
+      "notMeasured": "that each ring project is named for its module; only that one is present"
+    },
+    {
+      "ref": "C-1",
+      "text": "No Domain file names a database library, web framework, mediator or validation library.",
+      "rules": ["RING-PACKAGE-IMPORT"],
+      "ring": "Domain",
+      "notMeasured": "a type named in full in code, with no import line"
+    },
+    {
+      "ref": "C-2",
+      "text": "Every repository interface is declared in Domain.",
+      "rules": ["DECLARATION-PLACEMENT"],
+      "notMeasured": "a repository interface whose name is outside the convention the rule file states"
+    },
+    {
+      "ref": "C-3",
+      "text": "No Application file names a database context, database library or web framework.",
+      "rules": ["RING-PACKAGE-IMPORT"],
+      "ring": "Application",
+      "notMeasured": "a type named in full in code, with no import line"
+    },
+    {
+      "ref": "C-4",
+      "text": "Application takes its dependencies as interfaces declared in Domain, never a concrete class from Infrastructure.",
+      "rules": ["FORBIDDEN-DEPENDENCY-ORIGIN"],
+      "ring": "Application",
+      "notMeasured": "the positive half: that every dependency IS an interface declared in Domain"
+    },
+    {
+      "ref": "C-5",
+      "text": "Every command and query handler is in Application.",
+      "rules": ["DECLARATION-PLACEMENT"],
+      "notMeasured": "a handler whose name is outside the convention the rule file states"
+    },
+    {
+      "ref": "C-6",
+      "text": "Every validator is in Application.",
+      "rules": ["DECLARATION-PLACEMENT"],
+      "notMeasured": "a validator whose name is outside the convention the rule file states"
+    },
+    {
+      "ref": "C-7",
+      "text": "An endpoint reaches a use case through the mediator and never takes a repository itself.",
+      "rules": ["FORBIDDEN-DEPENDENCY"],
+      "ring": "Presentation",
+      "notMeasured": "the positive half: that a use case IS reached through the mediator"
+    },
+    {
+      "ref": "C-8",
+      "text": "An endpoint returns its own response type, never a Domain entity.",
+      "rules": [],
+      "notMeasured": "the whole rule; a return type built inside a method body is not read"
+    },
+    {
+      "ref": "C-9",
+      "text": "Every repository class in Infrastructure implements an interface declared in Domain.",
+      "rules": ["DECLARATION-IMPLEMENTS"]
+    }
+  ]
+}

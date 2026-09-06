@@ -1,0 +1,9 @@
+{
+  "allowedReferences": {
+    "Domain": ["Acme.Shared.Domain"],
+    "Application": ["Acme.*.Domain"]
+  },
+  "forbiddenReferences": {
+    "sameModule": ["*.Abstractions"]
+  }
+}

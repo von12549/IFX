@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Indirect.PresCarrier\Indirect.PresCarrier.csproj" />
+    <ProjectReference Include="..\Indirect.InfraCarrier\Indirect.InfraCarrier.csproj" />
+  </ItemGroup>
+
+</Project>

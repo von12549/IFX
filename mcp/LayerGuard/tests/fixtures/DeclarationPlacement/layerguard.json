@@ -1,0 +1,27 @@
+{
+  "declarations": [
+    {
+      "match": "I*Repository",
+      "kind": "interface",
+      "mustLiveIn": "Domain"
+    },
+    {
+      "match": "*Repository",
+      "kind": "class",
+      "mustLiveIn": "Infrastructure"
+    },
+    {
+      "match": "*CommandHandler",
+      "mustLiveIn": "Application"
+    },
+    {
+      "match": "*QueryHandler",
+      "mustLiveIn": "Application"
+    },
+    {
+      "match": "*Validator",
+      "mustLiveIn": "Application",
+      "severity": "bends"
+    }
+  ]
+}

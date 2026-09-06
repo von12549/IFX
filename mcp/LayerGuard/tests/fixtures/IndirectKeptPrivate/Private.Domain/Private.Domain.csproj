@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Private.AppCarrier\Private.AppCarrier.csproj" />
+    <ProjectReference Include="..\Private.PresCarrier\Private.PresCarrier.csproj" />
+    <ProjectReference Include="..\Private.InfraCarrier\Private.InfraCarrier.csproj" />
+  </ItemGroup>
+
+</Project>
