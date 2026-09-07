@@ -215,15 +215,20 @@ Phase 1 证据：[`contract-event-catalog.yaml`](../gates/G03/contract-event-cat
 
 ## Phase 2 — 全量分类现有公共表面
 
-- [ ] **Phase 2 完成**：每个现有 Reader、方法、DTO 和 Event 均有明确目标状态、owner、consumer 证据或迁移承诺。
+- [x] **Phase 2 完成**：每个现有 Reader、方法、DTO 和 Event 均有明确目标状态、owner、consumer 证据或迁移承诺。
 
-- [ ] G03-2.1 将 account compliance 与 class subscription availability 登记为 Proposed V1 同步能力，明确 Provider/Consumer 和业务语义边界。
-- [ ] G03-2.2 将 `TransactionProcessed` 与 `ClassStatusChanged` 登记为 Proposed V1 Integration Event，明确事实发生时点与 Holdings 消费用例。
-- [ ] G03-2.3 对其余 Reader 方法和 DTO 逐项判定 Active candidate、Internalize、Replace 或 Remove；不以程序集公开性替代业务准入。
-- [ ] G03-2.4 对其余事件逐项核实真实 consumer；无证据者标记 LegacyPendingMigration 并关联 Event 子计划处置项。
-- [ ] G03-2.5 对 `HoldingFrozenEvent` 形成明确结论：补齐真实事实、producer/consumer 和测试，或进入删除路径。
-- [ ] G03-2.6 为所有 LegacyPendingMigration 项记录 owner、目标状态、执行计划、到期日和删除条件，禁止新增此状态。
-- [ ] G03-2.7 生成当前/目标 inventory diff 与 public surface burn-down 基线。
+- [x] G03-2.1 将 account compliance 与 class subscription availability 登记为 Proposed V1 同步能力，明确 Provider/Consumer 和业务语义边界。
+- [x] G03-2.2 将 `TransactionProcessed` 与 `ClassStatusChanged` 登记为 Proposed V1 Integration Event，明确事实发生时点与 Holdings 消费用例。
+- [x] G03-2.3 对其余 Reader 方法和 DTO 逐项判定 Active candidate、Internalize、Replace 或 Remove；不以程序集公开性替代业务准入。
+- [x] G03-2.4 对其余事件逐项核实真实 consumer；无证据者标记 LegacyPendingMigration 并关联 Event 子计划处置项。
+- [x] G03-2.5 对 `HoldingFrozenEvent` 形成明确结论：当前无 producer/consumer，进入 Plan 02 删除路径。
+- [x] G03-2.6 为所有 LegacyPendingMigration 项记录 owner、目标状态、执行计划、到期日和删除条件，禁止新增此状态。
+- [x] G03-2.7 生成当前/目标 inventory diff 与 public surface burn-down 基线。
+
+Phase 2 证据：[`G03-phase2-report.md`](../evidence/gates/G03/G03-phase2-report.md)、
+[`G03-phase2-catalog-report.json`](../evidence/gates/G03/G03-phase2-catalog-report.json)、
+[`G03-phase2-guard-report.json`](../evidence/gates/G03/G03-phase2-guard-report.json) 与
+[`G03-phase2-layerguard-report.json`](../evidence/gates/G03/G03-phase2-layerguard-report.json)。
 
 ## Phase 3 — 建立 Identity、版本与兼容政策
 

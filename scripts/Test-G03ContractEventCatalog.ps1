@@ -29,6 +29,7 @@ function Test-Catalog($catalog) {
     Test-Unique @($catalog.modules) 'id' 'modules'
     Test-Unique @($catalog.consumers) 'id' 'consumers'
     Test-Unique @($catalog.protocols) 'identity' 'protocols'
+    Test-Unique @($catalog.publicSurface) 'id' 'publicSurface'
     $ownerIds = @($catalog.owners.id)
     $moduleIds = @($catalog.modules.id)
     $consumerIds = @($catalog.consumers.id)
@@ -69,6 +70,18 @@ function Test-Catalog($catalog) {
                 if ([string]::IsNullOrWhiteSpace($field.$required)) { Add-Error 'field-metadata' "$fieldPath.$required" "$required is required." }
             }
         }
+    }
+    foreach ($surface in @($catalog.publicSurface)) {
+        $path = "publicSurface.$($surface.id)"
+        if ($surface.owner -notin $ownerIds) { Add-Error 'owner-reference' "$path.owner" "Unknown owner '$($surface.owner)'." }
+        if ($surface.lifecycle -ne 'LegacyPendingMigration') { Add-Error 'legacy-lifecycle' "$path.lifecycle" 'Baseline public surfaces must remain LegacyPendingMigration until source migration evidence exists.' }
+        if ($surface.disposition -notin @('Internalize', 'Replace', 'Remove')) { Add-Error 'legacy-disposition' "$path.disposition" 'Disposition must be Internalize, Replace, or Remove.' }
+        foreach ($required in @('project', 'type', 'linkedPlan', 'expiresAt', 'removalCondition')) {
+            if ([string]::IsNullOrWhiteSpace($surface.$required)) { Add-Error 'legacy-metadata' "$path.$required" "$required is required." }
+        }
+        if ($surface.expiresAt -and [DateOnly]::Parse($surface.expiresAt) -gt [DateOnly]::Parse($catalog.sourcePolicy.legacyDeadline)) { Add-Error 'legacy-expiry' "$path.expiresAt" 'Surface expiry exceeds the catalog legacy deadline.' }
+        if ($surface.disposition -eq 'Replace' -and $surface.member -and [string]::IsNullOrWhiteSpace($surface.targetIdentity)) { Add-Error 'replacement-target' "$path.targetIdentity" 'A replaced callable/event requires targetIdentity.' }
+        if ($surface.targetIdentity -and $surface.targetIdentity -notin @($catalog.protocols.identity)) { Add-Error 'protocol-reference' "$path.targetIdentity" "Unknown target protocol '$($surface.targetIdentity)'." }
     }
     return @($errors)
 }
@@ -135,7 +148,7 @@ $report = [ordered]@{
     gate = 'G03'
     result = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }
     mode = $catalog.mode
-    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
+    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
     checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
     graph = $graphEdges
     selfTests = $selfTestResults

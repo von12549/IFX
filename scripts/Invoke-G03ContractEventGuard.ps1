@@ -31,6 +31,21 @@ if ($Phase -ge 1) {
     $catalogResult = Get-Content -Raw -LiteralPath $catalogReportPath | ConvertFrom-Json -Depth 100
     $catalogPassed = $catalogResult.result -eq 'passed'
 }
+$surfaceReconciled = $true
+$missingCatalogSurface = @()
+$unknownCatalogSurface = @()
+if ($Phase -ge 2) {
+    $catalog = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
+    $sourceKeys = @()
+    foreach ($surface in @($inventory.publicSurface)) {
+        $sourceKeys += "$($surface.project)|$($surface.name)|"
+        foreach ($method in @($surface.methods)) { $sourceKeys += "$($surface.project)|$($surface.name)|$($method.name)" }
+    }
+    $catalogKeys = @($catalog.publicSurface | ForEach-Object { "$($_.project)|$($_.type)|$($_.member)" })
+    $missingCatalogSurface = @($sourceKeys | Where-Object { $_ -notin $catalogKeys } | Sort-Object -Unique)
+    $unknownCatalogSurface = @($catalogKeys | Where-Object { $_ -notin $sourceKeys } | Sort-Object -Unique)
+    $surfaceReconciled = $missingCatalogSurface.Count -eq 0 -and $unknownCatalogSurface.Count -eq 0 -and $catalogKeys.Count -eq 46
+}
 
 $checks = [ordered]@{
     deterministicInventory = $firstHash -eq $secondHash
@@ -42,6 +57,7 @@ $checks = [ordered]@{
     messagingSurfaceInventoried = $inventory.counts.messagingAbstractionTypes -eq 4
     generatedDirectoriesExcluded = @($inventory.publicSurface.declaration.file | Where-Object { $_ -match '(^|/)(bin|obj)/' }).Count -eq 0
     catalogValidation = $catalogPassed
+    publicSurfaceReconciliation = $surfaceReconciled
 }
 
 $report = [ordered]@{
@@ -52,6 +68,7 @@ $report = [ordered]@{
     checks = $checks
     counts = $inventory.counts
     sha256 = [ordered]@{ inventory = $secondHash }
+    failures = [ordered]@{ missingCatalogSurface = $missingCatalogSurface; unknownCatalogSurface = $unknownCatalogSurface }
 }
 
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $resolvedReportPath) | Out-Null
