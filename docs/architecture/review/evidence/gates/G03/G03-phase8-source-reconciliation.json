@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "result": "passed",
+  "mode": "baseline",
+  "counts": {
+    "sourceSurface": 46,
+    "catalogSurface": 46,
+    "protocols": 4,
+    "unregistered": 0,
+    "missingSource": 0,
+    "failedProtocolEvidence": 0
+  },
+  "protocols": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "sourceExists": true,
+      "memberExists": true,
+      "currentConsumerSiteExists": true
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "sourceExists": true,
+      "memberExists": true,
+      "currentConsumerSiteExists": true
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "sourceExists": true,
+      "memberExists": true,
+      "currentConsumerSiteExists": true
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "sourceExists": true,
+      "memberExists": true,
+      "currentConsumerSiteExists": true
+    }
+  ],
+  "failures": {
+    "unregistered": [],
+    "missingSource": [],
+    "protocolEvidence": []
+  }
+}

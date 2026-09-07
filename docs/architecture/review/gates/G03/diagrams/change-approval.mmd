@@ -1,0 +1,15 @@
+flowchart TD
+  D[Draft Contract Change Record] --> V[Catalog/schema/source validation]
+  V --> K{Classification}
+  K -->|New / Compatible| PC[Provider + affected Consumer]
+  K -->|Conditional| PCA[Provider + all Consumers + Architecture]
+  K -->|Breaking| ALL[Provider + all Consumers + Platform if shared + Architecture]
+  K -->|Shared primitive| SHARE[Platform Messaging + all affected modules + Architecture]
+  PC --> CI[Snapshots, tests, G03 guard, LayerGuard, CI]
+  PCA --> CI
+  ALL --> MIG[Parallel-version migration record]
+  SHARE --> CI
+  MIG --> CI
+  CI -->|pass and evidence recorded| STATE[Lifecycle transition]
+  CI -->|fail| D
+

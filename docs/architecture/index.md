@@ -4,6 +4,10 @@ IFX follows a **Modular Monolithic + Clean Architecture** pattern with Minimal A
 
 ## Architecture Review Baselines
 
+- [G03 Contract/Event governance (中文)](review/gates/G03/contract-event-governance.zh-CN.md)
+- [G03 Contract/Event governance (English)](review/gates/G03/contract-event-governance.en.md)
+- [G03 authoritative machine-readable catalog](review/gates/G03/contract-event-catalog.yaml)
+
 The bilingual current-state and proposed Contracts/Adapters/Events architecture review is indexed at [review/README.md](review/README.md). Gate G01's implemented module-local transaction model is documented in [Chinese](review/gates/G01/transaction-boundary.zh-CN.md) and [English](review/gates/G01/transaction-boundary.en.md); its real Outbox/Inbox acceptance remains linked to Plan 02 E2/E4.
 
 ## Project Structure

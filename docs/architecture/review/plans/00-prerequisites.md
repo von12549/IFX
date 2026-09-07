@@ -69,6 +69,8 @@ Gate 最终关闭仍等待 Plan 02 E2/E4、G04 生产编排回交和最终三方
 - [ ] **Gate 3 前置放行**：现有和目标公共能力/事件均已盘点，Active candidate 有唯一 owner、真实消费者及可执行兼容策略，迁移项有期限。
 
 实施与最终验收：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md)。目录和准入规则先放行，真实 V1 schema/consumer 迁移后再最终关闭。
+G03 图文治理基线见[中文](../gates/G03/contract-event-governance.zh-CN.md)与
+[English](../gates/G03/contract-event-governance.en.md)；当前为 PRE-READY，尚未勾选最终放行。
 
 - [ ] GOV1 为每个模块建立业务能力、数据 ownership、同步 Contracts、发布事件和消费事件目录。
 - [ ] GOV2 建立 Contract/Event owner 与变更评审机制；新增公共表面必须有真实消费者、版本策略和废弃方式。

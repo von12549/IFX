@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant P as Provider
+  participant V1 as V1 endpoint/schema
+  participant V2 as V2 endpoint/schema
+  participant A as Consumer Adapter
+  participant O as Observability
+  P->>V1: keep producing/serving V1
+  P->>V2: publish V2 beside V1
+  A->>V2: deploy V2-capable consumer first
+  A->>A: switch per consumer with rollback point
+  P->>V1: retain V1 during migration
+  O->>O: prove 2 releases + 30 days + zero old traffic/backlog
+  A-->>V1: all consumers migrated
+  P->>V1: retire V1 and reserve identity forever

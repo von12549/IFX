@@ -1,0 +1,11 @@
+flowchart TB
+  P[Proposed] -->|source + snapshots + tests + approvals| A[Active]
+  A -->|Change Record + consumer notice| D[Deprecated]
+  D -->|all migrated + 2 releases + 30 days + zero traffic/backlog| R[Retired identity reserved forever]
+  L[LegacyPendingMigration] -->|evidenced capability| X[Replace with admitted V1]
+  L -->|module-only use| I[Internalize]
+  L -->|no producer or consumer| M[Remove]
+  X --> P
+  I --> DONE[Legacy declaration deleted]
+  M --> DONE
+

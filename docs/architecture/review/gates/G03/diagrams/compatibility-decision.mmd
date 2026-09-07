@@ -1,0 +1,11 @@
+flowchart TD
+  C[Public surface change] --> O{Observable schema or semantics?}
+  O -->|No| INTERNAL[Internal]
+  O -->|Yes| B{Remove/rename/type/meaning/required/signature/error/fact change?}
+  B -->|Yes| BREAK[Breaking: parallel V+1]
+  B -->|No| E{Optional default or enum fallback fully proven?}
+  E -->|Yes| COMP[Compatible]
+  E -->|No| R{Within documented validation/freshness/timeout envelope?}
+  R -->|Yes| COND[Conditional: affected consumers + Architecture approve]
+  R -->|No| BREAK
+

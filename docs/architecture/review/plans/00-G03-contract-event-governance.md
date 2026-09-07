@@ -325,19 +325,26 @@ Phase 7 证据：[`layerguard-governance-input.json`](../gates/G03/generated/lay
 
 ## Phase 8 — 架构与规则文档化
 
-- [ ] **Phase 8 完成**：Contract/Event ownership、版本、生命周期和治理流程形成可维护的中英文图文基线。
+- [x] **Phase 8 完成**：Contract/Event ownership、版本、生命周期和治理流程形成可维护的中英文图文基线。
 
-- [ ] G03-8.1 创建中文设计文档 `docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md`。
-- [ ] G03-8.2 创建对应英文文档 `docs/architecture/review/gates/G03/contract-event-governance.en.md`，保持决策、规则和 identity 一致。
-- [ ] G03-8.3 文档解释 Provider Contract、Consumer Port、Integration Adapter、Event owner、Application 和 Composition 的职责边界。
-- [ ] G03-8.4 创建当前/目标 public surface inventory、模块能力和数据 ownership 矩阵。
-- [ ] G03-8.5 创建 Provider → Consumer 总体架构图以及同步、异步和 mixed dependency 图。
-- [ ] G03-8.6 创建 Proposed → Active → Deprecated → Retired 生命周期状态图和 LegacyPendingMigration 迁移图。
-- [ ] G03-8.7 创建 Compatible/Conditional/Breaking 判定流程图、V1/V2 并行迁移时序图和变更审批流程图。
-- [ ] G03-8.8 文档包含 catalog schema、Change Record、waiver、外部 consumer 和 shared primitive 申请示例。
-- [ ] G03-8.9 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
-- [ ] G03-8.10 将每条治理规则映射到 catalog validator、snapshot、contract test、LayerGuard、CI 或人工审批。
-- [ ] G03-8.11 更新架构索引、前置计划、总计划和三个原子计划的反向链接，并完成中英文一致性审查。
+- [x] G03-8.1 创建中文设计文档 `docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md`。
+- [x] G03-8.2 创建对应英文文档 `docs/architecture/review/gates/G03/contract-event-governance.en.md`，保持决策、规则和 identity 一致。
+- [x] G03-8.3 文档解释 Provider Contract、Consumer Port、Integration Adapter、Event owner、Application 和 Composition 的职责边界。
+- [x] G03-8.4 创建当前/目标 public surface inventory、模块能力和数据 ownership 矩阵。
+- [x] G03-8.5 创建 Provider → Consumer 总体架构图以及同步、异步和 mixed dependency 图。
+- [x] G03-8.6 创建 Proposed → Active → Deprecated → Retired 生命周期状态图和 LegacyPendingMigration 迁移图。
+- [x] G03-8.7 创建 Compatible/Conditional/Breaking 判定流程图、V1/V2 并行迁移时序图和变更审批流程图。
+- [x] G03-8.8 文档包含 catalog schema、Change Record、waiver、外部 consumer 和 shared primitive 申请示例。
+- [x] G03-8.9 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
+- [x] G03-8.10 将每条治理规则映射到 catalog validator、snapshot、contract test、LayerGuard、CI 或人工审批。
+- [x] G03-8.11 更新架构索引、前置计划、总计划和三个原子计划的反向链接，并完成中英文一致性审查。
+
+Phase 8 证据：[`contract-event-governance.zh-CN.md`](../gates/G03/contract-event-governance.zh-CN.md)、
+[`contract-event-governance.en.md`](../gates/G03/contract-event-governance.en.md)、
+[`G03-phase8-report.md`](../evidence/gates/G03/G03-phase8-report.md)、
+[`G03-phase8-documentation-report.json`](../evidence/gates/G03/G03-phase8-documentation-report.json)、
+[`G03-phase8-guard-report.json`](../evidence/gates/G03/G03-phase8-guard-report.json) 与
+[`G03-phase8-layerguard-report.json`](../evidence/gates/G03/G03-phase8-layerguard-report.json)。
 
 ## Phase 9 — Gate 关闭与后续计划交接
 

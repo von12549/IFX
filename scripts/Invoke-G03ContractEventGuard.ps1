@@ -49,6 +49,7 @@ if ($Phase -ge 2) {
 $sourceReconciliation = $true
 $deterministicSnapshots = $true
 $layerGuardHandoff = $true
+$documentationPassed = $true
 if ($Phase -ge 6) {
     $sourceReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-source-reconciliation.json"
     & (Join-Path $PSScriptRoot 'Invoke-G03SourceReconciliation.ps1') -ReportPath $sourceReportPath
@@ -68,6 +69,12 @@ if ($Phase -ge 7) {
     $handoffResult = Get-Content -Raw -LiteralPath $handoffReportPath | ConvertFrom-Json -Depth 100
     $layerGuardHandoff = $handoffResult.result -eq 'passed'
 }
+if ($Phase -ge 8) {
+    $documentationReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-documentation-report.json"
+    & (Join-Path $PSScriptRoot 'Test-G03Documentation.ps1') -ReportPath $documentationReportPath
+    $documentationResult = Get-Content -Raw -LiteralPath $documentationReportPath | ConvertFrom-Json -Depth 100
+    $documentationPassed = $documentationResult.result -eq 'passed'
+}
 
 $checks = [ordered]@{
     deterministicInventory = $firstHash -eq $secondHash
@@ -83,6 +90,7 @@ $checks = [ordered]@{
     sourceCatalogReconciliation = $sourceReconciliation
     deterministicCompatibilitySnapshots = $deterministicSnapshots
     layerGuardGovernanceHandoff = $layerGuardHandoff
+    bilingualDocumentationAndRenderedDiagrams = $documentationPassed
 }
 
 $report = [ordered]@{

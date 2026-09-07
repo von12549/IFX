@@ -1,0 +1,22 @@
+flowchart LR
+  subgraph Sync[Sync capability]
+    CA[Consumer Application] --> CP[Consumer Port]
+    AD[Consumer Integration Adapter] -. implements .-> CP
+    AD --> PC[Provider Contracts.V1]
+    PA[Provider Application] -. implements .-> PC
+    PA --> PD[(Provider-owned data)]
+  end
+  subgraph Async[Async fact]
+    PROD[Producer Application] --> OUT[(Producer Outbox)]
+    OUT --> ENV[Provider-owned V1 Event Envelope]
+    ENV --> IN[Consumer Inbound Adapter + Inbox]
+    IN --> CONS[Consumer Application]
+    CONS --> CD[(Consumer-owned data)]
+  end
+  subgraph Mixed[Mixed workflow]
+    PRE[Pre-command sync decision] --> COMMIT[Consumer local commit]
+    COMMIT --> FACT[Post-commit integration fact]
+  end
+  CP -. use case .-> PRE
+  CD -. later state .-> FACT
+

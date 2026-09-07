@@ -4,6 +4,7 @@
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 执行位置：03-A0 在 Gate 01–05 之前；03-A1 在 Gate 前置放行之后；03-B 在子计划 1/2 之后。
 > 治理输入：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 在 03-A1 提供 module ownership、合法 provider/consumer 边、shared primitives allowlist 和 waiver policy。
+> G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [generated governance input](../evidence/gates/G03/G03-layerguard-governance.json)；L5.1 必须直接消费并验证 catalog hash，不能复制 ownership 配置。
 > 上下文输入：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 在 03-A1 提供 Context/Messaging schema primitive allowlist、Contract/Event 声明与禁止框架规则；字段分类和值传播由专用 validator/tests 负责。
 > 当前问题：`src/layerguard.json` 只认识 Domain/Application/Presentation/Infrastructure，并通过 blanket `sameModule: ["*.Abstractions"]` 禁止所有层引用本模块 Abstractions；这既无法表达新目标，也与现状存在漂移。
 

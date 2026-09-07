@@ -3,6 +3,7 @@
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。
+> G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [serialization golden snapshot](../gates/G03/snapshots/G03-serialization-golden.json)；完成真实 Envelope/Outbox/Inbox/behavior tests 后回交 Active 准入证据。
 > 运行前置：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 API/Worker roles、instance identity、多实例 lease、health、drain、backpressure 和 consumer-first 发布顺序。
 > 上下文与数据前置：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 定义 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类、失败矩阵和 conformance suite。
 > 门禁前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0/03-A1 已完成并保存正式 B1；事件迁移全过程不得新增未登记依赖或通过放宽规则绕过 B1。
