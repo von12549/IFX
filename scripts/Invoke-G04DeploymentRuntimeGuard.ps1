@@ -110,6 +110,19 @@ if ($Phase -ge 6) {
     $checks.phase6EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md')
 }
 
+if ($Phase -ge 7) {
+    $policyPath = Join-Path $repositoryRoot 'deployment/g04/backpressure-policy.json'
+    $policy = Get-Content -Raw -LiteralPath $policyPath | ConvertFrom-Json -Depth 20
+    $implementation = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Composition/Dispatching/MessageBackpressurePolicy.cs')
+    $checks.backlogMetricContractComplete = @($policy.requiredDimensions).Count -ge 11
+    $checks.countAloneCannotTripHealth = $implementation -match 'Count is never sufficient by itself'
+    $checks.backpressureIsScoped = ($implementation -match 'intent\.ExpandsBacklog') -and ($implementation -match 'item\.ModuleId') -and ($implementation -match 'item\.EventCategory')
+    $checks.retrySemanticsStable = ($implementation -match 'G04-BACKPRESSURE-RETRY') -and ($implementation -match 'RetryAfter')
+    $checks.syntheticBackpressureTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs')
+    $checks.recoveryRunbookExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/gates/G04/backpressure-recovery-runbook.md')
+    $checks.phase7EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

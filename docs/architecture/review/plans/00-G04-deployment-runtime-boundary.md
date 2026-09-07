@@ -325,15 +325,20 @@ Phase 6 证据：[`G04-phase6-health-conformance.md`](../evidence/gates/G04/G04-
 
 ## Phase 7 — 消息积压、Backpressure 与告警
 
-- [ ] **Phase 7 完成**：消息通道故障不会静默积压，系统可在保留读取能力的同时限制扩大风险的写入。
+- [ ] **Phase 7 PRE-READY**：指标、阈值、判定、选择性 backpressure 与恢复契约已通过 synthetic 验证；真实 E3/E6 信号和生产容量校准未关闭。
 
-- [ ] G04-7.1 定义 per-module/event oldest pending age、count、retry/dead-letter、last success、latency、expired lease 和 duplicate rate 的指标契约；E3/E6 负责从真实存储采集。
-- [ ] G04-7.2 为不同事件类别和环境定义 warning/critical SLO 与 freshness window，阈值配置受版本控制并经容量验证。
-- [ ] G04-7.3 warning 进入 Degraded 和告警；critical 使 Worker NotReady，并触发事件生产命令的受控 backpressure。
-- [ ] G04-7.4 Backpressure 只限制会扩大相关积压的命令，尽可能保留安全读取和无关能力；返回稳定 retryable error 与 Retry-After 语义。
-- [ ] G04-7.5 禁止只以消息数量判断健康；age、业务类别、处理速率和 storage capacity 必须共同评估。
-- [ ] G04-7.6 建立告警规则和 synthetic/reference 验证，覆盖 transport outage、毒消息、单模块饥饿、dead-letter 增长和 dispatcher silent-stop；真实信号由 E3/E6 接入。
-- [ ] G04-7.7 提供受控恢复流程：暂停生产、扩展 Worker、修复 transport、审查 dead-letter、回放并解除 backpressure。
+- [x] G04-7.1 定义 per-module/event oldest pending age、count、retry/dead-letter、last success、latency/rate、expired lease 和 duplicate rate 的指标契约；E3/E6 负责从真实存储采集。
+- [ ] G04-7.2 warning/critical/freshness 阈值已版本化并由 validator 检查顺序；按事件类别/环境的生产容量校准等待 E6/运维。
+- [ ] G04-7.3 evaluator 已产生 Healthy/Warning/Critical 稳定 reason；接入 Worker lifecycle、告警和命令管道等待 E3/E6 真实信号。
+- [x] G04-7.4 Backpressure 决策只限制同 module/event 且 `ExpandsBacklog` 的命令，保留读取和无关能力，并提供 retryable/Retry-After 契约。
+- [x] G04-7.5 evaluator 明确禁止只按数量判断，组合 age、业务类别、处理速率、dead-letter 和 storage capacity。
+- [ ] G04-7.6 synthetic suite 覆盖 transport stall、毒消息、dead-letter、作用域隔离和恢复；真实单模块饥饿/silent-stop 告警等待 E3/E6。
+- [x] G04-7.7 提供受控恢复流程：暂停相关生产、扩展 Worker、修复 transport、审查 dead-letter、回放并解除 backpressure。
+
+Phase 7 证据：[`G04-phase7-backpressure-conformance.md`](../evidence/gates/G04/G04-phase7-backpressure-conformance.md)、
+[`backpressure-recovery-runbook.md`](../gates/G04/backpressure-recovery-runbook.md)、`MessageBackpressurePolicyTests`、
+[`G04-phase7-guard-report.json`](../evidence/gates/G04/G04-phase7-guard-report.json) 与
+[`G04-phase7-layerguard-report.json`](../evidence/gates/G04/G04-phase7-layerguard-report.json)。
 
 ## Phase 8 — 实现部署编排、Seed 与兼容发布
 

@@ -16,6 +16,7 @@ $units = Get-Content -Raw -LiteralPath (Repo 'deployment/g04/deployment-unit-cat
 $compatibility = Get-Content -Raw -LiteralPath (Repo 'deployment/g04/infrastructure-compatibility-matrix.json') | ConvertFrom-Json -Depth 100
 $release = Get-Content -Raw -LiteralPath (Repo 'deployment/g04/release-runtime-manifest.json') | ConvertFrom-Json -Depth 100
 $dependencies = Get-Content -Raw -LiteralPath (Repo 'deployment/g04/dependency-criticality-catalog.json') | ConvertFrom-Json -Depth 100
+$backpressure = Get-Content -Raw -LiteralPath (Repo 'deployment/g04/backpressure-policy.json') | ConvertFrom-Json -Depth 100
 $moduleIds = @($modules.modules.moduleId)
 $unitIds = @($units.units.unitId)
 $bindingChecks = @($release.bindings.psobject.Properties | ForEach-Object { $_.Value.sha256 -eq (Sha $_.Value.path) })
@@ -35,6 +36,8 @@ $checks = [ordered]@{
     adrExists = Test-Path (Repo 'docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md')
     dependencyIdentitiesUnique = @($dependencies.dependencies.dependencyId | Select-Object -Unique).Count -eq @($dependencies.dependencies).Count
     dependencyCriticalitiesKnown = @($dependencies.dependencies | Where-Object criticality -notin @('startup-fatal','readiness-critical','capability-critical','optional','operational')).Count -eq 0
+    backpressureThresholdsOrdered = ([TimeSpan]::Parse($backpressure.thresholds.warningAge) -lt [TimeSpan]::Parse($backpressure.thresholds.criticalAge)) -and ($backpressure.thresholds.warningCount -lt $backpressure.thresholds.criticalCount)
+    backpressureDimensionsComplete = @('moduleId','eventCategory','pendingCount','oldestPendingAge','retryCount','deadLetterCount','lastSucceeded','processingRatePerSecond','storageUtilization','expiredLeaseCount','duplicateRate' | Where-Object { $_ -notin $backpressure.requiredDimensions }).Count -eq 0
 }
 $report = [ordered]@{ formatVersion=1; gate='G04'; phase=1; result=if($checks.Values -contains $false){'failed'}else{'passed'}; checks=$checks; hashes=[ordered]@{releaseManifest=$second;moduleManifest=Sha 'deployment/g04/module-manifest.json';deploymentUnitCatalog=Sha 'deployment/g04/deployment-unit-catalog.json'} }
 $resolved = Repo $ReportPath
