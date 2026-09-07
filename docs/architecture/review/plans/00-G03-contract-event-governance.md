@@ -232,15 +232,22 @@ Phase 2 证据：[`G03-phase2-report.md`](../evidence/gates/G03/G03-phase2-repor
 
 ## Phase 3 — 建立 Identity、版本与兼容政策
 
-- [ ] **Phase 3 完成**：所有 Active candidate 都有稳定 identity、版本、兼容矩阵、生命周期与 Change Record。
+- [x] **Phase 3 完成**：所有 Active candidate 都有稳定 identity、版本、兼容矩阵、生命周期与 Change Record。
 
-- [ ] G03-3.1 冻结 sync/event identity 命名规范、namespace/version 映射和 Retired identity 保留规则。
-- [ ] G03-3.2 为 Compatible、Conditional、Breaking 和 Internal 建立逐项判定矩阵，覆盖字段、requiredness、类型、语义、错误码、接口方法和事件产生时点。
-- [ ] G03-3.3 定义 DTO 设计规则：optional 扩展不破坏 C# 构造；Consumer 容忍未知字段和值；公共状态具有受控 fallback。
-- [ ] G03-3.4 定义 Breaking V+1 并行支持、Adapter 切换、双版本观测与旧版删除流程。
-- [ ] G03-3.5 将默认废弃条件编码为可检查政策：两个生产发布、30 天、全部 consumer 迁移、零旧流量，以及无待处理旧 schema 消息。
-- [ ] G03-3.6 创建 Contract Change Record 与 Breaking migration/ADR 模板，并验证必填字段。
-- [ ] G03-3.7 明确首次 `Abstractions` cutover 与正式 V1 baseline marker；基线后禁止无版本的静默破坏。
+- [x] G03-3.1 冻结 sync/event identity 命名规范、namespace/version 映射和 Retired identity 保留规则。
+- [x] G03-3.2 为 Compatible、Conditional、Breaking 和 Internal 建立逐项判定矩阵，覆盖字段、requiredness、类型、语义、错误码、接口方法和事件产生时点。
+- [x] G03-3.3 定义 DTO 设计规则：optional 扩展不破坏 C# 构造；Consumer 容忍未知字段和值；公共状态具有受控 fallback。
+- [x] G03-3.4 定义 Breaking V+1 并行支持、Adapter 切换、双版本观测与旧版删除流程。
+- [x] G03-3.5 将默认废弃条件编码为可检查政策：两个生产发布、30 天、全部 consumer 迁移、零旧流量，以及无待处理旧 schema 消息。
+- [x] G03-3.6 创建 Contract Change Record 与 Breaking migration/ADR 模板，并验证必填字段。
+- [x] G03-3.7 明确首次 `Abstractions` cutover 与正式 V1 baseline marker；基线后禁止无版本的静默破坏。
+
+Phase 3 证据：[`compatibility-policy.md`](../gates/G03/compatibility-policy.md)、
+[`templates/contract-change-record.md`](../gates/G03/templates/contract-change-record.md)、
+[`templates/breaking-version-migration.md`](../gates/G03/templates/breaking-version-migration.md)、
+[`G03-phase3-report.md`](../evidence/gates/G03/G03-phase3-report.md)、
+[`G03-phase3-guard-report.json`](../evidence/gates/G03/G03-phase3-guard-report.json) 与
+[`G03-phase3-layerguard-report.json`](../evidence/gates/G03/G03-phase3-layerguard-report.json)。
 
 ## Phase 4 — 收敛共享 Contract Primitives
 

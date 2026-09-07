@@ -22,6 +22,9 @@ function Test-Catalog($catalog) {
 
     if ($catalog.formatVersion -ne 1) { Add-Error 'format-version' 'formatVersion' 'Only formatVersion 1 is supported.' }
     if ($catalog.mode -notin @('baseline', 'strict')) { Add-Error 'mode' 'mode' 'Mode must be baseline or strict.' }
+    foreach ($name in @('identity', 'compatibility', 'dtoPolicy', 'breakingChange', 'baseline', 'deprecation')) {
+        if ($null -eq $catalog.sourcePolicy.$name) { Add-Error 'policy-node' "sourcePolicy.$name" "Required policy '$name' is missing." }
+    }
     foreach ($name in @('owners', 'modules', 'consumers', 'protocols', 'publicSurface', 'sharedPrimitives', 'waivers', 'changeRecords')) {
         if ($null -eq $catalog.$name) { Add-Error 'required-node' $name "Required node '$name' is missing." }
     }
@@ -82,6 +85,16 @@ function Test-Catalog($catalog) {
         if ($surface.expiresAt -and [DateOnly]::Parse($surface.expiresAt) -gt [DateOnly]::Parse($catalog.sourcePolicy.legacyDeadline)) { Add-Error 'legacy-expiry' "$path.expiresAt" 'Surface expiry exceeds the catalog legacy deadline.' }
         if ($surface.disposition -eq 'Replace' -and $surface.member -and [string]::IsNullOrWhiteSpace($surface.targetIdentity)) { Add-Error 'replacement-target' "$path.targetIdentity" 'A replaced callable/event requires targetIdentity.' }
         if ($surface.targetIdentity -and $surface.targetIdentity -notin @($catalog.protocols.identity)) { Add-Error 'protocol-reference' "$path.targetIdentity" "Unknown target protocol '$($surface.targetIdentity)'." }
+    }
+    Test-Unique @($catalog.changeRecords) 'id' 'changeRecords'
+    foreach ($record in @($catalog.changeRecords)) {
+        $path = "changeRecords.$($record.id)"
+        if ($record.identity -notin @($catalog.protocols.identity)) { Add-Error 'protocol-reference' "$path.identity" "Unknown identity '$($record.identity)'." }
+        if ($record.providerOwner -notin $ownerIds) { Add-Error 'owner-reference' "$path.providerOwner" "Unknown owner '$($record.providerOwner)'." }
+        foreach ($required in @('classification', 'summary', 'compatibilityEvidence', 'releaseOrder', 'rollback', 'status')) {
+            if ([string]::IsNullOrWhiteSpace($record.$required)) { Add-Error 'change-record-metadata' "$path.$required" "$required is required." }
+        }
+        if (@($record.affectedConsumers).Count -eq 0) { Add-Error 'change-record-consumer' "$path.affectedConsumers" 'At least one affected consumer is required.' }
     }
     return @($errors)
 }
@@ -148,7 +161,7 @@ $report = [ordered]@{
     gate = 'G03'
     result = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }
     mode = $catalog.mode
-    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
+    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; changeRecords = @($catalog.changeRecords).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
     checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
     graph = $graphEdges
     selfTests = $selfTestResults

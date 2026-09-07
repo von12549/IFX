@@ -13,6 +13,33 @@
       "requiresAllConsumersMigrated": true,
       "requiresZeroOldTraffic": true,
       "requiresEmptyOldSchemaBacklog": true
+    },
+    "identity": {
+      "syncPattern": "<provider>.<business-capability>.v<major>",
+      "eventPattern": "ifx.<provider>.<past-tense-business-fact>.v<major>",
+      "namespacePattern": "IFX.Modules.<Provider>.Contracts.V<major>[.Events]",
+      "retiredIdentityPolicy": "Retired identities and change history remain reserved forever and must never be renamed, reused, or deleted."
+    },
+    "compatibility": {
+      "Compatible": ["add optional field with a C# construction default", "add documented enum value with consumer fallback", "documentation clarification with no semantic change"],
+      "Conditional": ["tighten validation within an already documented range", "change freshness or timeout within an approved consumer envelope", "optional field whose consumer fallback needs explicit evidence"],
+      "Breaking": ["remove or rename field", "change field type or meaning", "make optional field required", "break interface signature", "change stable error code", "change event fact or occurrence time"],
+      "Internal": ["implementation-only change outside the public schema and observable protocol"]
+    },
+    "dtoPolicy": {
+      "optionalConstruction": "New optional members require a source-compatible default and must not break positional construction.",
+      "unknownFields": "Consumers must ignore unknown fields while preserving known-field semantics.",
+      "unknownValues": "Public status/enum values require an explicit Unknown fallback or a tested safe rejection policy."
+    },
+    "breakingChange": {
+      "requiresParallelMajor": true,
+      "sequence": ["publish V+1 beside V", "deploy consumers able to select V+1", "observe both versions", "migrate all consumers", "satisfy deprecation policy", "retire V without identity reuse"],
+      "rollback": "Keep V and the consumer adapter switch point; do not delete produced V+1 messages or hide their processing owner."
+    },
+    "baseline": {
+      "legacyCutover": "Plans 01/02 may atomically migrate in-repository producer and consumers because Abstractions is not a formal compatibility baseline.",
+      "formalMarker": "An identity becomes Active only after Contracts.V1 source, public API/serialization snapshots, provider and consumer tests, catalog reconciliation, and recorded approvals exist.",
+      "silentBreakingChangesForbiddenAfterActive": true
     }
   },
   "owners": [
@@ -245,5 +272,10 @@
   ],
   "sharedPrimitives": [],
   "waivers": [],
-  "changeRecords": []
+  "changeRecords": [
+    {"id":"G03-CR-001","identity":"crm.account-compliance.v1","classification":"New","summary":"Establish the first capability-specific CRM account compliance contract.","providerOwner":"xiaolong-feng","affectedConsumers":["transaction-application"],"compatibilityEvidence":"Initial Proposed baseline; no prior formal version.","releaseOrder":"Provider contract and Transaction adapter migrate atomically in Plan 01 before Active promotion.","rollback":"Retain the legacy Reader path until V1 validation is complete.","status":"Proposed"},
+    {"id":"G03-CR-002","identity":"registry.class-subscription-availability.v1","classification":"New","summary":"Establish the first capability-specific Registry subscription availability contract.","providerOwner":"xiaolong-feng","affectedConsumers":["transaction-application"],"compatibilityEvidence":"Initial Proposed baseline; no prior formal version.","releaseOrder":"Provider contract and Transaction adapter migrate atomically in Plan 01 before Active promotion.","rollback":"Retain the legacy Reader path until V1 validation is complete.","status":"Proposed"},
+    {"id":"G03-CR-003","identity":"ifx.transaction.transaction-processed.v1","classification":"New","summary":"Establish the first versioned transaction-processed fact schema.","providerOwner":"xiaolong-feng","affectedConsumers":["holdings-application"],"compatibilityEvidence":"Initial Proposed baseline; legacy event is not a formal wire baseline.","releaseOrder":"Deploy compatible Holdings inbound adapter before Transaction producer activation in Plan 02.","rollback":"Stop V1 production while retaining the consumer and any already-produced V1 messages.","status":"Proposed"},
+    {"id":"G03-CR-004","identity":"ifx.registry.class-status-changed.v1","classification":"New","summary":"Establish the first versioned class-status-changed fact schema.","providerOwner":"xiaolong-feng","affectedConsumers":["holdings-application"],"compatibilityEvidence":"Initial Proposed baseline; legacy event is not a formal wire baseline.","releaseOrder":"Deploy compatible Holdings inbound adapter before Registry producer activation in Plan 02.","rollback":"Stop V1 production while retaining the consumer and any already-produced V1 messages.","status":"Proposed"}
+  ]
 }
