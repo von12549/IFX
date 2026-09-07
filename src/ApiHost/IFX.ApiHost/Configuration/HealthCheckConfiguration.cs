@@ -1,4 +1,5 @@
 using IFX.ApiHost.HealthChecks;
+using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Text.Json;
@@ -15,6 +16,16 @@ public static class HealthCheckConfiguration
         IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("AuthDatabase");
+        var releaseManifest = ReleaseSchemaManifest.Load(
+            Path.Combine(AppContext.BaseDirectory, "release-manifest.json"));
+        var manifestErrors = SchemaCompatibilityPlanner.ValidateManifest(releaseManifest);
+        if (manifestErrors.Count > 0)
+        {
+            throw new InvalidOperationException(
+                $"Release schema manifest is invalid: {string.Join(" ", manifestErrors)}");
+        }
+
+        services.AddSingleton(releaseManifest);
 
         services.AddHealthChecks()
             .AddSqlServer(
@@ -26,7 +37,11 @@ public static class HealthCheckConfiguration
             .AddCheck<CognitoHealthCheck>(
                 name: "AWS Cognito",
                 failureStatus: HealthStatus.Unhealthy,
-                tags: new[] { "aws", "cognito", "authentication" });
+                tags: new[] { "aws", "cognito", "authentication" })
+            .AddCheck<DatabaseSchemaCompatibilityHealthCheck>(
+                name: "Database schema compatibility",
+                failureStatus: HealthStatus.Unhealthy,
+                tags: new[] { "database", "schema", "readiness" });
 
         return services;
     }

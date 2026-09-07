@@ -39,6 +39,8 @@ execution, validation, and evidence explicitly module-owned.
   removal of single-table automatic stamping from long-running migrators.
 - Phase 4 complete: one-shot DatabaseMigrator executable/image definition, versioned manifest,
   deterministic orchestration, explicit modes/exit codes, and structured module reports.
+- Phase 5 complete: ApiHost production DDL removed, read-only release/schema compatibility added,
+  version-matched SQL artifacts automated, and local/NAS deployment ordering enforced.
 
 ## Phase discipline
 

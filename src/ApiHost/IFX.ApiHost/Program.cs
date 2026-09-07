@@ -55,29 +55,6 @@ try
 
     var app = builder.Build();
 
-    // Apply EF Core migrations on startup (via IAppMigrator discovery)
-    using (var scope = app.Services.CreateScope())
-    {
-        var sp = scope.ServiceProvider;
-
-        try
-        {
-            var migrators = sp.GetServices<IAppMigrator>();
-
-            foreach (var m in migrators)
-            {
-                Log.Information("Applying migrations for {Module}", m.Name);
-                await m.MigrateAsync(sp);
-                Log.Information("Migrations applied for {Module}", m.Name);
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "An error occurred while migrating the database");
-            throw;
-        }
-    }
-
     // Configure middleware pipeline
     app.UseMiddleware<RequestLoggingMiddleware>();
     app.UseMiddleware<ExceptionHandlingMiddleware>();

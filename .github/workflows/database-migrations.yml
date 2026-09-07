@@ -1,0 +1,32 @@
+name: Database migration artifacts
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  migration-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore DatabaseMigrator
+        run: dotnet restore src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj
+      - name: Build DatabaseMigrator
+        run: dotnet build src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj --configuration Release --no-restore
+      - name: Generate version-matched idempotent SQL
+        shell: pwsh
+        run: ./scripts/New-DatabaseMigrationArtifacts.ps1 -OutputDirectory artifacts/database-migrator/release -NoBuild
+      - name: Publish DatabaseMigrator
+        run: dotnet publish src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj --configuration Release --no-restore --output artifacts/database-migrator/publish /p:UseAppHost=false
+      - name: Verify database boundary manifest
+        run: dotnet test tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj --configuration Release
+      - name: Upload immutable migration bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: database-migrator-${{ github.sha }}
+          path: artifacts/database-migrator
+          if-no-files-found: error

@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "releaseVersion": "g02-phase5",
+  "migrationCatalogSha256": "32244a8b03a69278317ccf78f7f50c6976ab3e70d6ffcc91027cee12eee8bec4",
+  "modules": [
+    {
+      "moduleName": "Auth",
+      "schema": "auth",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "AuthDatabase",
+      "requiredMigrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationIds": [
+        "20260327075710_InitialCreate",
+        "20260327075811_InitialSeed",
+        "20260413100000_CrmPolicyDefinitionSeeds",
+        "20260420042950_AlterAuditColumnsToDateTimeOffset"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "CRM",
+      "schema": "crm",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "CrmDatabase",
+      "requiredMigrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationIds": [
+        "20260413120000_InitialCreate",
+        "20260420043006_AlterAuditColumnsToDateTimeOffset"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "Registry",
+      "schema": "registry",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "RegistryDatabase",
+      "requiredMigrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationIds": [
+        "20260413120300_InitialCreate",
+        "20260413191525_AddProduct",
+        "20260420043017_AlterAuditColumnsToDateTimeOffset"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "Holdings",
+      "schema": "holdings",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "HoldingsDatabase",
+      "requiredMigrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationIds": [
+        "20260413120100_InitialCreate",
+        "20260420043031_AlterAuditColumnsToDateTimeOffset"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "Transaction",
+      "schema": "transaction",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "TransactionDatabase",
+      "requiredMigrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationIds": [
+        "20260413120200_InitialCreate",
+        "20260418123443_AddOrderInstructionModel",
+        "20260420043039_AlterAuditColumnsToDateTimeOffset"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    }
+  ]
+}

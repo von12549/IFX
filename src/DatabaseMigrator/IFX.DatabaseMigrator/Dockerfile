@@ -9,4 +9,5 @@ RUN dotnet publish src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrato
 FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["dotnet", "IFX.DatabaseMigrator.dll", "--mode", "apply"]
+ENTRYPOINT ["dotnet", "IFX.DatabaseMigrator.dll"]
+CMD ["--mode", "apply", "--report", "/reports/database-migration.json"]

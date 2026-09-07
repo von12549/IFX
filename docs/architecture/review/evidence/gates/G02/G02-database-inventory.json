@@ -5558,32 +5558,57 @@
           {
             "Key": "AuthDatabase",
             "Database": "IFXDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "AuthDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           },
           {
             "Key": "BackgroundJobsDatabase",
             "Database": "BackgroundJobsDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
           },
           {
             "Key": "CrmDatabase",
             "Database": "IFXDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "CrmDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           },
           {
             "Key": "HoldingsDatabase",
             "Database": "IFXDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           },
           {
             "Key": "RegistryDatabase",
             "Database": "IFXDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           },
           {
             "Key": "TransactionDatabase",
             "Database": "IFXDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "TransactionDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           }
         ]
       },
@@ -5593,12 +5618,57 @@
           {
             "Key": "AuthDatabase",
             "Database": "IFXDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "AuthDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           },
           {
             "Key": "BackgroundJobsDatabase",
             "Database": "BackgroundJobsDb",
-            "UsesEnvironmentCredentials": true
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "CrmDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "CrmDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "TransactionDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "TransactionDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
           }
         ]
       }

@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 4 已完成（2026-09-07）
+> 状态：Implementation In Progress / Phase 5 已完成（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -234,18 +234,24 @@ manifest/assembly fail-closed 校验、四种模式、稳定编排与结构化�
 
 ## Phase 5 — 从 ApiHost 移除生产 DDL 并建立部署编排
 
-- [ ] **Phase 5 完成**：数据库升级是独立发布步骤，ApiHost 只使用已验证 schema。
+- [x] **Phase 5 完成**：数据库升级是独立发布步骤，ApiHost 只使用已验证 schema。
 
-- [ ] G02-5.1 从生产 ApiHost startup 移除 `IAppMigrator` 执行路径。
-- [ ] G02-5.2 为需要本地便利的迁移提供显式命令，不允许 API 隐式修改 schema。
-- [ ] G02-5.3 在 CI 生成版本匹配的 Migrator artifact、module manifest 和每模块 idempotent SQL script。
-- [ ] G02-5.4 数据库阶段固定为 preflight/backup → migrator → validation；随后按 Gate 04 执行 Worker consumers → API producers → readiness/smoke test。
-- [ ] G02-5.5 使用独立 migration connection/secret；运行连接不承担 DDL 职责。
-- [ ] G02-5.6 实现只读 schema compatibility/readiness，验证当前应用 required migrations 已存在。
-- [ ] G02-5.7 数据库存在更新但向后兼容 migration 时允许旧实例继续运行，以支持 Expand/Contract 滚动发布。
-- [ ] G02-5.8 修改 `docker-compose.yml` 与 NAS Compose：SQL healthy → init completed → migrator completed → ApiHost。
-- [ ] G02-5.9 migration job 失败时阻断 ApiHost 新版本启动，且不会由 restart policy 无限热重试。
-- [ ] G02-5.10 将每模块 required/compatible schema version 输出到 Gate 04 Release/Module Manifest，供 API 与 Worker 只读 readiness 校验。
+- [x] G02-5.1 从生产 ApiHost startup 移除 `IAppMigrator` 执行路径。
+- [x] G02-5.2 为需要本地便利的迁移提供显式命令，不允许 API 隐式修改 schema。
+- [x] G02-5.3 在 CI 生成版本匹配的 Migrator artifact、module manifest 和每模块 idempotent SQL script。
+- [x] G02-5.4 数据库阶段固定为 preflight/backup → migrator → validation；随后按 Gate 04 执行 Worker consumers → API producers → readiness/smoke test。
+- [x] G02-5.5 使用独立 migration connection/secret；运行连接不承担 DDL 职责。
+- [x] G02-5.6 实现只读 schema compatibility/readiness，验证当前应用 required migrations 已存在。
+- [x] G02-5.7 数据库存在更新但向后兼容 migration 时允许旧实例继续运行，以支持 Expand/Contract 滚动发布。
+- [x] G02-5.8 修改 `docker-compose.yml` 与 NAS Compose：SQL healthy → init completed → migrator completed → ApiHost。
+- [x] G02-5.9 migration job 失败时阻断 ApiHost 新版本启动，且不会由 restart policy 无限热重试。
+- [x] G02-5.10 将每模块 required/compatible schema version 输出到 Gate 04 Release/Module Manifest，供 API 与 Worker 只读 readiness 校验。
+
+Phase 5 证据：[`G02-phase5-report.md`](../evidence/gates/G02/G02-phase5-report.md)、
+[`G02-phase5-deployment-runbook.md`](../evidence/gates/G02/G02-phase5-deployment-runbook.md)、
+[`G02-phase5-guard-report.json`](../evidence/gates/G02/G02-phase5-guard-report.json) 和
+[`G02-phase5-layerguard-report.json`](../evidence/gates/G02/G02-phase5-layerguard-report.json)。生产身份权限、
+backup/restore point 与实际 rollout 仍由 Phase 8 采集，不在仓库验证中冒充已执行。
 
 ## Phase 6 — Expand / Contract、失败与回退策略
 

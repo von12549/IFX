@@ -118,9 +118,6 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
             services.AddSingleton(mockIdentityProvider.Object);
 
-            // Remove IAppMigrator to skip migrations in tests
-            services.RemoveAll<IAppMigrator>();
-
             // Clear existing health checks and add mock ones
             var healthCheckDescriptors = services.Where(d =>
                 d.ServiceType == typeof(HealthCheckService) ||

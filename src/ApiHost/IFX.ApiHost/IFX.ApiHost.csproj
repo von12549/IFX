@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
@@ -36,6 +37,13 @@
     <ProjectReference Include="..\..\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Composition\IFX.Platform.BackgroundJobs.Composition.csproj" />
     <ProjectReference Include="..\..\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj" />
     <ProjectReference Include="..\..\Platform\Notifications\IFX.Platform.Notifications.Composition\IFX.Platform.Notifications.Composition.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\deployment\release-manifest.json"
+             Link="release-manifest.json"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

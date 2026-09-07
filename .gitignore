@@ -1,5 +1,4 @@
-## Local/NAS-specific Docker Compose overrides
-docker-compose.nas.yml
+## The sanitized NAS deployment template is version-controlled at docker-compose.nas.yml.
 
 ## Coverage reports (generated artifacts)
 coverage-report/
@@ -71,6 +70,7 @@ nunit-*.xml
 # Environment variables
 .env
 .env.*
+!.env.nas.example
 /.vs
 /.editorconfig
 .claude/analytics.json

@@ -80,6 +80,7 @@ public sealed class DatabaseMigratorManifestTests
     [InlineData("dry-run", MigratorMode.DryRun)]
     [InlineData("apply", MigratorMode.Apply)]
     [InlineData("validate", MigratorMode.Validate)]
+    [InlineData("scripts", MigratorMode.Scripts)]
     public void Command_line_exposes_each_required_mode(string value, MigratorMode expected)
     {
         MigratorOptions.Parse(["--mode", value]).Mode.Should().Be(expected);

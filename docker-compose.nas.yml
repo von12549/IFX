@@ -36,9 +36,7 @@ services:
     restart: "no"
 
   ifx-database-migrator:
-    build:
-      context: .
-      dockerfile: src/DatabaseMigrator/IFX.DatabaseMigrator/Dockerfile
+    image: ${IFX_DATABASE_MIGRATOR_IMAGE:-von12549/ifx-database-migrator:latest}
     container_name: ifx-database-migrator
     environment:
       - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${MIGRATION_DB_USER:-sa};Password=${MIGRATION_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
@@ -68,20 +66,18 @@ services:
       - ifx-network
 
   ifx-api:
-    build:
-      context: .
-      dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile
+    image: ${IFX_API_IMAGE:-von12549/ifx-api:latest}
     container_name: IFX-api
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
       # Database connections
       - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
-      - ConnectionStrings__BackgroundJobsDatabase=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       - ConnectionStrings__CrmDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__RegistryDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       - ConnectionStrings__HoldingsDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       - ConnectionStrings__TransactionDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
-      - ConnectionStrings__RegistryDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__BackgroundJobsDatabase=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       # Identity Provider Selection
       - Authentication__Provider=${AUTHENTICATION_PROVIDER:-Cognito}
       # AWS Cognito
@@ -93,9 +89,9 @@ services:
       - CognitoOidcSettings__Domain=${COGNITO_OIDC_DOMAIN}
       - CognitoOidcSettings__ClientId=${COGNITO_CLIENT_ID}
       - CognitoOidcSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
-      - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/callback}
-      - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/logout-callback}
-      - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL:-http://localhost:8030/callback}
+      - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL:-http://${NAS_IP}:5010/api/v1/auth/oauth/callback}
+      - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL:-http://${NAS_IP}:5010/api/v1/auth/oauth/logout-callback}
+      - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL:-http://${NAS_IP}:8030/callback}
       # AWS credentials
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -114,7 +110,7 @@ services:
       # Email Verification
       - EmailVerification__TokenValidityMinutes=${EMAIL_VERIFICATION_TOKEN_VALIDITY:-60}
       - EmailVerification__MaxResendsPerHour=${EMAIL_VERIFICATION_MAX_RESENDS:-3}
-      - EmailVerification__VerificationBaseUrl=${EMAIL_VERIFICATION_BASE_URL:-http://localhost:5010/api/v1/auth/email/verify}
+      - EmailVerification__VerificationBaseUrl=${EMAIL_VERIFICATION_BASE_URL:-http://${NAS_IP}:5010/api/v1/auth/email/verify}
       # OPA Authorization
       - Opa__BaseUrl=${OPA_BASE_URL:-http://opa:8181}
       - Opa__TimeoutSeconds=${OPA_TIMEOUT_SECONDS:-5}
@@ -134,18 +130,12 @@ services:
     restart: unless-stopped
 
   ifx-frontend:
-    build:
-      context: src/Frontend/IFX.FrontEnd
-      dockerfile: Dockerfile.dev
+    image: ${IFX_FRONTEND_IMAGE:-von12549/ifx-frontend:latest}
     container_name: ifx-frontend
     ports:
       - "8030:8030"
-    volumes:
-      - ./src/Frontend/IFX.FrontEnd/src:/app/src
-      - ./src/Frontend/IFX.FrontEnd/public:/app/public
-      - ./src/Frontend/IFX.FrontEnd/index.html:/app/index.html
     environment:
-      - VITE_API_URL=http://localhost:5010
+      - VITE_API_URL=http://${NAS_IP}:5010
     depends_on:
       - ifx-api
     networks:

@@ -40,7 +40,11 @@ Update `src/ApiHost/IFX.ApiHost/appsettings.Development.json`:
 ```json
 {
   "ConnectionStrings": {
-    "AuthDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True"
+    "AuthDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True",
+    "CrmDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True",
+    "RegistryDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True",
+    "HoldingsDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True",
+    "TransactionDatabase": "Server=localhost,11433;Database=IFXDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True"
   },
   "CognitoSettings": {
     "UserPoolId": "your-user-pool-id",
@@ -54,9 +58,14 @@ Update `src/ApiHost/IFX.ApiHost/appsettings.Development.json`:
 ### 3. Apply Migrations
 
 ```bash
-cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
+pwsh ./scripts/Invoke-DatabaseMigrator.ps1 -Mode preflight
+pwsh ./scripts/Invoke-DatabaseMigrator.ps1 -Mode apply
+pwsh ./scripts/Invoke-DatabaseMigrator.ps1 -Mode validate
 ```
+
+The API never applies migrations during startup. Set the five `ConnectionStrings__*Database`
+values for the migration command, using a migration identity that is separate from the runtime
+identity in deployed environments.
 
 ### 4. Run the API
 

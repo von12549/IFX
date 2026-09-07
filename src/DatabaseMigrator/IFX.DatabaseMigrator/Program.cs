@@ -1,5 +1,6 @@
 using System.Text.Json;
 using IFX.BuildingBlocks.EntityFrameworkCore.Configuration;
+using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
 using IFX.DatabaseMigrator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,20 @@ try
         .Build();
     var manifestPath = Path.Combine(AppContext.BaseDirectory, "migration-manifest.json");
     var manifest = MigrationManifest.Load(manifestPath);
+    if (options.Mode == MigratorMode.Scripts)
+    {
+        var releaseManifest = ReleaseSchemaManifest.Load(options.ReleaseManifestPath);
+        var artifactReport = await MigrationArtifactGenerator.GenerateAsync(
+            manifestPath,
+            manifest,
+            releaseManifest,
+            options.ReleaseManifestPath,
+            options.ArtifactDirectory,
+            CancellationToken.None);
+        Console.WriteLine(JsonSerializer.Serialize(artifactReport, new JsonSerializerOptions { WriteIndented = true }));
+        return success;
+    }
+
     var connectionStrings = new Dictionary<string, string>(StringComparer.Ordinal);
     foreach (var runtime in ModuleRuntime.All)
     {
