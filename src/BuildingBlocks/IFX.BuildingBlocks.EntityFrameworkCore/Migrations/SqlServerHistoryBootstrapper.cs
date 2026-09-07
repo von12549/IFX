@@ -23,6 +23,7 @@ public sealed class SqlServerHistoryBootstrapper
         DbConnection connection,
         IReadOnlyList<ModuleMigrationCatalog> catalogs,
         bool dryRun,
+        bool acquireLock = true,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(connection);
@@ -45,7 +46,10 @@ public sealed class SqlServerHistoryBootstrapper
             await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
             try
             {
-                await AcquireApplicationLockAsync(connection, transaction, cancellationToken);
+                if (acquireLock)
+                {
+                    await AcquireApplicationLockAsync(connection, transaction, cancellationToken);
+                }
 
                 var beforeSnapshot = await ReadSnapshotAsync(connection, transaction, catalogs, cancellationToken);
                 var before = HistoryBootstrapPlanner.Create(catalogs, beforeSnapshot);

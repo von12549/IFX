@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 3 已完成（2026-09-07）
+> 状态：Implementation In Progress / Phase 4 已完成（2026-09-07）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -215,16 +215,22 @@ Phase 3 证据：[`G02-phase3-report.md`](../evidence/gates/G02/G02-phase3-repor
 
 ## Phase 4 — 建立 IFX.DatabaseMigrator 与模块 Manifest
 
-- [ ] **Phase 4 完成**：独立 Migrator 可以确定性地升级并验证整个 IFXDb，而不启动 Web Host。
+- [x] **Phase 4 完成**：独立 Migrator 可以确定性地升级并验证整个 IFXDb，而不启动 Web Host。
 
-- [ ] G02-4.1 创建独立 `IFX.DatabaseMigrator` executable 和对应容器镜像/发布 artifact。
-- [ ] G02-4.2 Migrator 只加载数据库升级所需服务，不启动 HTTP、后台任务、消息消费或业务宿主。
-- [ ] G02-4.3 定义 manifest schema：ModuleName、DbContext、Schema、HistoryTable、ConnectionKey、Order/DependsOn 和 migration catalog。
-- [ ] G02-4.4 以稳定顺序执行 History Bootstrap → Auth → CRM → Registry → Holdings → Transaction → validation。
-- [ ] G02-4.5 检测缺失模块、重复顺序、循环 DependsOn、重复 MigrationId 和 manifest/assembly 不一致。
-- [ ] G02-4.6 支持 preflight、dry-run、apply 和 validate 模式，并使用明确 exit code。
-- [ ] G02-4.7 输出结构化日志和每模块报告：before/after version、applied IDs、duration、result 和 failure point。
-- [ ] G02-4.8 不在协调器中定义模块表；每个模块 migration 仍归本模块 Infrastructure ownership。
+- [x] G02-4.1 创建独立 `IFX.DatabaseMigrator` executable 和对应容器镜像/发布 artifact。
+- [x] G02-4.2 Migrator 只加载数据库升级所需服务，不启动 HTTP、后台任务、消息消费或业务宿主。
+- [x] G02-4.3 定义 manifest schema：ModuleName、DbContext、Schema、HistoryTable、ConnectionKey、Order/DependsOn 和 migration catalog。
+- [x] G02-4.4 以稳定顺序执行 History Bootstrap → Auth → CRM → Registry → Holdings → Transaction → validation。
+- [x] G02-4.5 检测缺失模块、重复顺序、循环 DependsOn、重复 MigrationId 和 manifest/assembly 不一致。
+- [x] G02-4.6 支持 preflight、dry-run、apply 和 validate 模式，并使用明确 exit code。
+- [x] G02-4.7 输出结构化日志和每模块报告：before/after version、applied IDs、duration、result 和 failure point。
+- [x] G02-4.8 不在协调器中定义模块表；每个模块 migration 仍归本模块 Infrastructure ownership。
+
+Phase 4 证据：[`G02-phase4-report.md`](../evidence/gates/G02/G02-phase4-report.md)、
+[`G02-phase4-guard-report.json`](../evidence/gates/G02/G02-phase4-guard-report.json) 和
+[`G02-phase4-layerguard-report.json`](../evidence/gates/G02/G02-phase4-layerguard-report.json)。真实 SQL Server
+上的执行顺序、锁竞争和失败恢复由 Phase 7 矩阵验证；本 Phase 已完成可发布 executable/image 定义、
+manifest/assembly fail-closed 校验、四种模式、稳定编排与结构化报告实现。
 
 ## Phase 5 — 从 ApiHost 移除生产 DDL 并建立部署编排
 

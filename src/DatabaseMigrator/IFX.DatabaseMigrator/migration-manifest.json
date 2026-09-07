@@ -1,0 +1,75 @@
+{
+  "formatVersion": 1,
+  "physicalDatabase": "IFXDb",
+  "modules": [
+    {
+      "moduleName": "Auth",
+      "dbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
+      "schema": "auth",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "AuthDatabase",
+      "order": 10,
+      "dependsOn": [],
+      "migrations": [
+        { "migrationId": "20260327075710_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045" },
+        { "migrationId": "20260327075811_InitialSeed", "productVersion": "8.0.0", "sourceSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e" },
+        { "migrationId": "20260413100000_CrmPolicyDefinitionSeeds", "productVersion": "8.0.0", "sourceSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b" },
+        { "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980" }
+      ]
+    },
+    {
+      "moduleName": "CRM",
+      "dbContext": "IFX.Modules.CRM.Infrastructure.Persistence.CrmDbContext",
+      "schema": "crm",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "CrmDatabase",
+      "order": 20,
+      "dependsOn": [],
+      "migrations": [
+        { "migrationId": "20260413120000_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "4d5e5a2496f4d8a61d92f4278a85609a0aeeffae843e789086a14257167b854d" },
+        { "migrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b" }
+      ]
+    },
+    {
+      "moduleName": "Registry",
+      "dbContext": "IFX.Modules.Registry.Infrastructure.Persistence.RegistryDbContext",
+      "schema": "registry",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "RegistryDatabase",
+      "order": 30,
+      "dependsOn": [],
+      "migrations": [
+        { "migrationId": "20260413120300_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "2b9983bacf6695594c5616552e13ac50240a5991ed842e5438e968cf23de6d31" },
+        { "migrationId": "20260413191525_AddProduct", "productVersion": "8.0.0", "sourceSha256": "86d12070d5212c13c4efb108cfcdd29332ea9d318be034e89135137da722ca15" },
+        { "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd" }
+      ]
+    },
+    {
+      "moduleName": "Holdings",
+      "dbContext": "IFX.Modules.Holdings.Infrastructure.Persistence.HoldingsDbContext",
+      "schema": "holdings",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "HoldingsDatabase",
+      "order": 40,
+      "dependsOn": [],
+      "migrations": [
+        { "migrationId": "20260413120100_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "95593d59a104c3d414c39a66e470ce7f07cce525f58841a7b71d6639f1eae5f2" },
+        { "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83" }
+      ]
+    },
+    {
+      "moduleName": "Transaction",
+      "dbContext": "IFX.Modules.Transaction.Infrastructure.Persistence.TransactionDbContext",
+      "schema": "transaction",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "TransactionDatabase",
+      "order": 50,
+      "dependsOn": [],
+      "migrations": [
+        { "migrationId": "20260413120200_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "8cd83761a6ad71ad0f9eaba090b2d600f8e42f3f88cba6f5ab555d9c99c5671c" },
+        { "migrationId": "20260418123443_AddOrderInstructionModel", "productVersion": "8.0.0", "sourceSha256": "bf87f5cc66d112776079bf0acd330890f655f76320612303f61a13169382c23f" },
+        { "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be" }
+      ]
+    }
+  ]
+}

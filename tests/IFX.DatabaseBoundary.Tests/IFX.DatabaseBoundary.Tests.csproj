@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\DatabaseMigrator\IFX.DatabaseMigrator\IFX.DatabaseMigrator.csproj" />
     <ProjectReference Include="..\..\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Modules\Auth\IFX.Modules.Auth.Infrastructure\IFX.Modules.Auth.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj" />

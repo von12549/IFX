@@ -1,5 +1,7 @@
 param(
     [string] $ReportPath = "docs/architecture/review/evidence/gates/G02/G02-phase0-guard-report.json",
+    [ValidateRange(0, 10)]
+    [int] $Phase = 0,
     [switch] $NoBuild
 )
 
@@ -78,7 +80,7 @@ $checks = [ordered]@{
 $report = [ordered]@{
     formatVersion = 1
     gate = "G02"
-    phase = 0
+    phase = $Phase
     result = if ($checks.Values -contains $false) { "failed" } else { "passed" }
     checks = $checks
     counts = [ordered]@{
@@ -112,7 +114,7 @@ New-Item -ItemType Directory -Force -Path $reportDirectory | Out-Null
 $report | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $resolvedReportPath -Encoding utf8NoBOM
 
 if ($report.result -ne "passed") {
-    throw "G02 Phase 0 guard failed. Report: $resolvedReportPath"
+    throw "G02 Phase $Phase guard failed. Report: $resolvedReportPath"
 }
 
-Write-Host "G02 Phase 0 guard passed. Report: $resolvedReportPath"
+Write-Host "G02 Phase $Phase guard passed. Report: $resolvedReportPath"

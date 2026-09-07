@@ -37,6 +37,8 @@ execution, validation, and evidence explicitly module-owned.
   live SQL Server behavior remains scheduled for the Phase 7 matrix.
 - Phase 3 complete: Auth canonical/legacy normalization, full relational fingerprinting, and
   removal of single-table automatic stamping from long-running migrators.
+- Phase 4 complete: one-shot DatabaseMigrator executable/image definition, versioned manifest,
+  deterministic orchestration, explicit modes/exit codes, and structured module reports.
 
 ## Phase discipline
 

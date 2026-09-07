@@ -25,6 +25,7 @@ public sealed class SqlServerAuthLegacyAdopter
         Func<DbConnection, DbTransaction?, CancellationToken, Task<SchemaFingerprintVerification>> verifyFingerprint,
         bool explicitAdoption,
         bool dryRun,
+        bool acquireLock = true,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(connection);
@@ -56,7 +57,10 @@ public sealed class SqlServerAuthLegacyAdopter
             await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
             try
             {
-                await AcquireLockAsync(connection, transaction, cancellationToken);
+                if (acquireLock)
+                {
+                    await AcquireLockAsync(connection, transaction, cancellationToken);
+                }
                 var before = await CreatePlanAsync(
                     connection,
                     transaction,
