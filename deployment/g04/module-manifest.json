@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "releaseVersion": "1.0.0-g04",
+  "modules": [
+    {
+      "moduleId": "auth", "version": "1.0.0", "required": true,
+      "contracts": [],
+      "endpointGroups": ["auth", "oauth", "user", "user-management", "role", "permission", "role-group", "tenant", "department", "idp", "email-verification", "policy", "platform-policy", "global-role"],
+      "schema": "auth", "configuration": ["Authentication", "CognitoSettings", "CognitoOidcSettings"],
+      "runtimeCapabilities": ["api", "hangfire-client"],
+      "shutdownRequirements": ["http-drain", "drain-in-flight", "telemetry-flush"]
+    },
+    {
+      "moduleId": "crm", "version": "1.0.0", "required": true,
+      "contracts": ["ICrmReader"], "endpointGroups": ["party", "investor", "investment-account"],
+      "schema": "crm", "configuration": ["ConnectionStrings:CrmDatabase"],
+      "runtimeCapabilities": ["api", "hangfire-client", "dispatcher"],
+      "shutdownRequirements": ["http-drain", "stop-claim", "drain-in-flight", "recoverable-lease", "telemetry-flush"]
+    },
+    {
+      "moduleId": "registry", "version": "1.0.0", "required": true,
+      "contracts": ["IRegistryReader"], "endpointGroups": ["product", "fund", "fund-class"],
+      "schema": "registry", "configuration": ["ConnectionStrings:RegistryDatabase"],
+      "runtimeCapabilities": ["api", "hangfire-client", "dispatcher"],
+      "shutdownRequirements": ["http-drain", "stop-claim", "drain-in-flight", "recoverable-lease", "telemetry-flush"]
+    },
+    {
+      "moduleId": "holdings", "version": "1.0.0", "required": true,
+      "contracts": ["IHoldingsReader"], "endpointGroups": ["holding"],
+      "schema": "holdings", "configuration": ["ConnectionStrings:HoldingsDatabase"],
+      "runtimeCapabilities": ["api", "hangfire-client", "consumer"],
+      "shutdownRequirements": ["http-drain", "drain-in-flight", "recoverable-lease", "telemetry-flush"]
+    },
+    {
+      "moduleId": "transaction", "version": "1.0.0", "required": true,
+      "contracts": ["ITransactionReader"], "endpointGroups": ["transaction", "order"],
+      "schema": "transaction", "configuration": ["ConnectionStrings:TransactionDatabase"],
+      "runtimeCapabilities": ["api", "hangfire-client", "dispatcher"],
+      "shutdownRequirements": ["http-drain", "stop-claim", "drain-in-flight", "recoverable-lease", "telemetry-flush"]
+    }
+  ]
+}

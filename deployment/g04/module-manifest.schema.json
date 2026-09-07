@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ifx.local/schemas/g04/module-manifest.schema.json",
+  "title": "IFX G04 module manifest",
+  "type": "object",
+  "required": ["formatVersion", "releaseVersion", "modules"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "releaseVersion": { "type": "string", "minLength": 1 },
+    "modules": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["moduleId", "version", "required", "contracts", "endpointGroups", "schema", "configuration", "runtimeCapabilities", "shutdownRequirements"],
+        "properties": {
+          "moduleId": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "required": { "const": true },
+          "contracts": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "endpointGroups": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "schema": { "type": "string", "minLength": 1 },
+          "configuration": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+          "runtimeCapabilities": { "type": "array", "items": { "enum": ["api", "hangfire-client", "hangfire-server", "dispatcher", "consumer", "scheduler"] }, "uniqueItems": true },
+          "shutdownRequirements": { "type": "array", "items": { "enum": ["http-drain", "stop-schedule", "stop-claim", "drain-in-flight", "recoverable-lease", "telemetry-flush"] }, "uniqueItems": true }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

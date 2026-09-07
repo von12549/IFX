@@ -221,15 +221,21 @@ Phase 0 证据：[`G04-phase0-baseline.md`](../evidence/gates/G04/G04-phase0-bas
 
 ## Phase 1 — 冻结业务部署边界与 Manifest
 
-- [ ] **Phase 1 完成**：业务模块、Deployment Unit 和 release compatibility 的不同边界已显式建模。
+- [x] **Phase 1 完成**：业务模块、Deployment Unit 和 release compatibility 的不同边界已显式建模。
 
-- [ ] G04-1.1 形成部署边界 ADR：五个业务模块共同发布，Platform/Infrastructure deployable 不因此并入业务单体边界。
-- [ ] G04-1.2 建立 Module Manifest schema，记录 ModuleId/version、requiredness、Contracts、endpoints、schema、配置、runtime capabilities 和 shutdown requirements。
-- [ ] G04-1.3 建立 Deployment Unit Catalog，登记 API、Worker、all-in-one、Frontend、SQL、init、Migrator、OPA 与 managed dependencies。
-- [ ] G04-1.4 建立 Release Manifest，将 ApiHost/Worker artifact、module versions、catalog hash、migration manifest 和 schema compatibility 绑定到不可变 release。
-- [ ] G04-1.5 验证所有 ApiHost replicas 的 required module set、endpoint set 和版本一致，禁止按副本关闭整个模块。
-- [ ] G04-1.6 定义独立基础设施的 compatibility matrix、owner 和升级责任，避免将其错误纳入业务模块锁步发布。
-- [ ] G04-1.7 为 manifest/catalog 的唯一 identity、引用完整性、版本匹配和部署类型建立 validator。
+- [x] G04-1.1 形成部署边界 ADR：五个业务模块共同发布，Platform/Infrastructure deployable 不因此并入业务单体边界。
+- [x] G04-1.2 建立 Module Manifest schema，记录 ModuleId/version、requiredness、Contracts、endpoints、schema、配置、runtime capabilities 和 shutdown requirements。
+- [x] G04-1.3 建立 Deployment Unit Catalog，登记 API、Worker、all-in-one、Frontend、SQL、init、Migrator、OPA 与 managed dependencies。
+- [x] G04-1.4 建立 Release Manifest，将 ApiHost/Worker artifact、module versions、catalog hash、migration manifest 和 schema compatibility 绑定到不可变 release。
+- [x] G04-1.5 验证所有 ApiHost replicas 的 required module set、endpoint set 和版本一致，禁止按副本关闭整个模块。
+- [x] G04-1.6 定义独立基础设施的 compatibility matrix、owner 和升级责任，避免将其错误纳入业务模块锁步发布。
+- [x] G04-1.7 为 manifest/catalog 的唯一 identity、引用完整性、版本匹配和部署类型建立 validator。
+
+Phase 1 证据：[`ADR-G04-001`](../gates/G04/ADR-G04-001-deployment-runtime-boundary.md)、
+`deployment/g04` 中的 manifests/catalog/matrix、
+[`G04-phase1-manifest-report.json`](../evidence/gates/G04/G04-phase1-manifest-report.json)、
+[`G04-phase1-guard-report.json`](../evidence/gates/G04/G04-phase1-guard-report.json) 与
+[`G04-phase1-layerguard-report.json`](../evidence/gates/G04/G04-phase1-layerguard-report.json)。
 
 ## Phase 2 — 建立 API / Worker Runtime Roles
 

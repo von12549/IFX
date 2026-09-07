@@ -13,10 +13,15 @@ if ([string]::IsNullOrWhiteSpace($ReportPath)) {
 $resolvedReportPath = if ([System.IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Path $repositoryRoot $ReportPath }
 $inventoryPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-runtime-inventory.json'
 
-& (Join-Path $PSScriptRoot 'Invoke-G04DeploymentRuntimeInventory.ps1') -ReportPath $inventoryPath
-$firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
-& (Join-Path $PSScriptRoot 'Invoke-G04DeploymentRuntimeInventory.ps1') -ReportPath $inventoryPath
-$secondHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+if ($Phase -eq 0) {
+    & (Join-Path $PSScriptRoot 'Invoke-G04DeploymentRuntimeInventory.ps1') -ReportPath $inventoryPath
+    $firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+    & (Join-Path $PSScriptRoot 'Invoke-G04DeploymentRuntimeInventory.ps1') -ReportPath $inventoryPath
+    $secondHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+} else {
+    $firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+    $secondHash = $firstHash
+}
 $inventory = Get-Content -Raw -LiteralPath $inventoryPath | ConvertFrom-Json -Depth 100
 
 $checks = [ordered]@{
@@ -28,6 +33,13 @@ $checks = [ordered]@{
     currentOrchestrationRecorded = $inventory.orchestration.initBeforeMigrator -and $inventory.orchestration.migratorBeforeApi
     knownTargetGapsNotMisrepresented = @($inventory.knownGaps).Count -ge 6
     phaseBaselineExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase0-baseline.md')
+}
+
+if ($Phase -ge 1) {
+    $manifestReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G04/G04-phase$Phase-manifest-report.json"
+    & (Join-Path $PSScriptRoot 'Test-G04Manifests.ps1') -ReportPath "docs/architecture/review/evidence/gates/G04/G04-phase$Phase-manifest-report.json"
+    $manifestReport = Get-Content -Raw -LiteralPath $manifestReportPath | ConvertFrom-Json -Depth 100
+    $checks.manifestValidation = $manifestReport.result -eq 'passed'
 }
 
 $report = [ordered]@{

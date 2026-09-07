@@ -1,7 +1,9 @@
 # G04 Phase 0 deployment/runtime baseline
 
-Date: 2026-09-08  
-Branch: `feature/architecture-boundary-implementation`  
+Date: 2026-09-08
+
+Branch: `feature/architecture-boundary-implementation`
+
 Scope: evidence captured before G04 runtime implementation
 
 ## Preconditions and repository state

@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "units": [
+    { "unitId": "ifx-api", "artifact": "ifx-host", "processType": "web", "owner": "IFX Platform", "versionSource": "release-manifest", "configuration": ["Runtime:Role=api"], "dependencies": ["sqlserver", "opa"], "scaling": "horizontal-http", "readiness": "api", "shutdown": "http-drain" },
+    { "unitId": "ifx-worker", "artifact": "ifx-host", "processType": "worker-management-web", "owner": "IFX Platform", "versionSource": "release-manifest", "configuration": ["Runtime:Role=worker"], "dependencies": ["sqlserver"], "scaling": "horizontal-leased-work", "readiness": "worker", "shutdown": "worker-drain" },
+    { "unitId": "ifx-all", "artifact": "ifx-host", "processType": "local-combined", "owner": "IFX Platform", "versionSource": "release-manifest", "configuration": ["Runtime:Role=all"], "dependencies": ["sqlserver", "opa"], "scaling": "non-production", "readiness": "all", "shutdown": "combined-drain" },
+    { "unitId": "ifx-frontend", "artifact": "ifx-frontend", "processType": "web", "owner": "Frontend", "versionSource": "image-digest", "configuration": ["VITE_API_URL"], "dependencies": ["ifx-api"], "scaling": "horizontal-http", "readiness": "http", "shutdown": "connection-drain" },
+    { "unitId": "sqlserver", "artifact": "mssql-server", "processType": "database", "owner": "Database Operations", "versionSource": "image-digest", "configuration": ["MSSQL_PID"], "dependencies": [], "scaling": "platform-managed", "readiness": "sql-query", "shutdown": "database-managed" },
+    { "unitId": "sqlserver-init", "artifact": "mssql-tools", "processType": "one-shot", "owner": "Database Operations", "versionSource": "image-digest", "configuration": ["DB_PASSWORD"], "dependencies": ["sqlserver"], "scaling": "singleton", "readiness": "successful-exit", "shutdown": "bounded-command" },
+    { "unitId": "ifx-database-migrator", "artifact": "ifx-database-migrator", "processType": "one-shot", "owner": "Database Operations", "versionSource": "release-manifest", "configuration": ["ConnectionStrings"], "dependencies": ["sqlserver-init"], "scaling": "database-lock", "readiness": "validated-report", "shutdown": "transaction-safe-cancel" },
+    { "unitId": "opa", "artifact": "opa", "processType": "policy-service", "owner": "Security Platform", "versionSource": "image-digest", "configuration": ["policy-bundle"], "dependencies": [], "scaling": "horizontal-http", "readiness": "policy-query", "shutdown": "connection-drain" },
+    { "unitId": "cognito", "artifact": "managed", "processType": "managed-dependency", "owner": "Identity Platform", "versionSource": "provider-api", "configuration": ["CognitoSettings"], "dependencies": [], "scaling": "provider-managed", "readiness": "capability", "shutdown": "provider-managed" },
+    { "unitId": "sendgrid", "artifact": "managed", "processType": "managed-dependency", "owner": "Notifications Platform", "versionSource": "provider-api", "configuration": ["Notifications:SendGrid"], "dependencies": [], "scaling": "provider-managed", "readiness": "optional", "shutdown": "provider-managed" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "releaseVersion": "1.0.0-g04",
+  "dependencies": [
+    { "unitId": "sqlserver", "supported": "SQL Server 2022", "criticality": "readiness-critical", "owner": "Database Operations", "upgradeResponsibility": "Database Operations" },
+    { "unitId": "opa", "supported": "OPA REST API 0.70 compatible", "criticality": "capability-critical", "owner": "Security Platform", "upgradeResponsibility": "Security Platform" },
+    { "unitId": "cognito", "supported": "configured OAuth/OIDC provider contract", "criticality": "capability-critical", "owner": "Identity Platform", "upgradeResponsibility": "Identity Platform" },
+    { "unitId": "sendgrid", "supported": "SendGrid v3 API", "criticality": "optional", "owner": "Notifications Platform", "upgradeResponsibility": "Notifications Platform" },
+    { "unitId": "ifx-frontend", "supported": "API v1", "criticality": "operational", "owner": "Frontend", "upgradeResponsibility": "Frontend" }
+  ]
+}
