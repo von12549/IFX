@@ -1,5 +1,7 @@
 # 子计划 1：Abstractions 向 Contracts / Ports / Adapters 演进
 
+> G04 反向链接：API/Worker 继续使用同一业务 release，Contract 迁移不得形成按模块独立部署；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
+
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 相关架构：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)

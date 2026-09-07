@@ -1,0 +1,15 @@
+flowchart TB
+  RM[Same release manifest + host artifact]
+  RM --> API[API role]
+  RM --> WORKER[Worker role]
+  RM --> ALL[Local all role]
+  API --> HTTP[Business HTTP endpoints]
+  API --> CLIENT[Hangfire client]
+  WORKER --> SERVER[Hangfire server]
+  WORKER --> DISP[Dispatcher capability - E3]
+  WORKER --> CONS[Consumer capability - E3/E4]
+  WORKER --> SCHED[Recurring authority]
+  ALL --> HTTP
+  ALL --> SERVER
+  API -. no business-version selection .-> MODS[All five modules]
+  WORKER -. no business HTTP .-> MODS

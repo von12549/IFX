@@ -1,5 +1,7 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
+> G04 反向链接：生产 schema gate 必须先于 Worker consumer/API producer，失败不得自动 Down；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
+
 > 状态：PRE-READY / Phase 0–9 已完成；Phase 10 等待 E2/E4、G04 与最终签字（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)

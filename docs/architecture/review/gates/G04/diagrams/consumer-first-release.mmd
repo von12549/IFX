@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant DB as DB / Gate 02
+  participant W as Worker V2
+  participant A as API V2
+  participant S as Scheduler
+  participant O as Observation
+  DB->>DB: preflight + restore + migrate + validate
+  DB-->>W: schema compatible
+  W->>W: consume V1 and V2
+  W-->>A: all target replicas Ready
+  A->>A: rolling producer deployment
+  A-->>S: API stable
+  S->>S: idempotent singleton registration
+  S-->>O: observe schema/runtime/backlog
+  O-->>DB: cleanup only after zero old-version demand

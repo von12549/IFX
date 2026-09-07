@@ -1,0 +1,12 @@
+flowchart LR
+  W[Worker instance] --> C[Short SQL claim transaction]
+  C --> L[Lease owner / until / rowversion]
+  L --> S[Send outside transaction]
+  S -->|broker ack| U[Conditional delivered update]
+  S -->|crash / no persisted ack| X[Lease expires]
+  X --> R[Another Worker reclaims same EventId]
+  R --> I[Inbox idempotency - E4]
+  B[Backlog observation] --> E{age + count + rate + DLQ + capacity}
+  E -->|warning| D[Degraded + alert]
+  E -->|critical| P[Worker NotReady + scoped backpressure]
+  P --> SAFE[Reads and unrelated production stay open]

@@ -29,6 +29,7 @@ This directory records the source-verified current architecture and the proposed
 | G01 transaction boundary / 事务边界 | [G01 中文](gates/G01/transaction-boundary.zh-CN.md) | [G01 English](gates/G01/transaction-boundary.en.md) |
 | G02 database boundary / 数据库边界 | [G02 中文](gates/G02/database-boundary.zh-CN.md) | [G02 English](gates/G02/database-boundary.en.md) |
 | G03 Contract/Event governance / Contract/Event 治理 | [G03 中文](gates/G03/contract-event-governance.zh-CN.md) | [G03 English](gates/G03/contract-event-governance.en.md) |
+| G04 deployment/runtime boundary / 部署与运行边界 | [G04 中文](gates/G04/deployment-runtime-boundary.zh-CN.md) | [G04 English](gates/G04/deployment-runtime-boundary.en.md) |
 
 ## Implementation plans / 实施计划
 
@@ -57,6 +58,12 @@ This directory records the source-verified current architecture and the proposed
 | 14 | [G03 compatibility decision / 兼容判定](gates/G03/diagrams/compatibility-decision.svg) |
 | 15 | [G03 V1/V2 migration / V1/V2 迁移时序](gates/G03/diagrams/v1-v2-migration.svg) |
 | 16 | [G03 change approval / 变更审批](gates/G03/diagrams/change-approval.svg) |
+| 17 | [G04 deployment boundary / 部署边界](gates/G04/diagrams/deployment-boundary.svg) |
+| 18 | [G04 runtime topology / 运行拓扑](gates/G04/diagrams/runtime-topology.svg) |
+| 19 | [G04 startup, health, drain / 启动、健康与排空](gates/G04/diagrams/startup-health-drain.svg) |
+| 20 | [G04 dispatcher and backpressure / Dispatcher 与背压](gates/G04/diagrams/dispatcher-backpressure.svg) |
+| 21 | [G04 consumer-first release / Consumer-first 发布](gates/G04/diagrams/consumer-first-release.svg) |
+| 22 | [G04 failure and rollback / 失败与回退](gates/G04/diagrams/failure-rollback.svg) |
 
 ## Recommended reading order / 建议阅读顺序
 

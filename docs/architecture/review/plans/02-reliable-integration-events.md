@@ -1,5 +1,7 @@
 # 子计划 2：可靠 Integration Event 改进
 
+> G04 反向链接：E3/E4/E6 必须重跑 lease、drain、health、backpressure 与 consumer-first conformance；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
+
 > 状态：Draft / 待评审
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。

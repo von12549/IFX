@@ -1,0 +1,12 @@
+stateDiagram-v2
+  [*] --> Starting
+  Starting --> AliveNotReady: static validation complete
+  Starting --> Terminated: G04 startup fatal
+  AliveNotReady --> Ready: role dependencies healthy
+  Ready --> AliveNotReady: critical dependency unavailable
+  Ready --> Degraded: optional/capability issue
+  Degraded --> Ready: recovered
+  AliveNotReady --> Stopping: SIGTERM
+  Ready --> Stopping: SIGTERM
+  Degraded --> Stopping: SIGTERM
+  Stopping --> Terminated: in-flight drained or grace expired

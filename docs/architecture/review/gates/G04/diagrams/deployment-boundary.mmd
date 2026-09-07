@@ -1,0 +1,15 @@
+flowchart LR
+  R[Immutable release: ifx-backend] --> H[ifx-host artifact]
+  H --> M[Five required business modules]
+  M --> A[Auth]
+  M --> C[CRM]
+  M --> G[Registry]
+  M --> O[Holdings]
+  M --> T[Transaction]
+  H --> API[API role replicas]
+  H --> W[Worker role replicas]
+  F[Frontend] -. independent lifecycle .-> API
+  SQL[(SQL Server)] -. infrastructure lifecycle .-> H
+  MIG[Database Migrator] -. one-shot .-> SQL
+  OPA[OPA] -. infrastructure lifecycle .-> API
+  EXT[Cognito / SendGrid] -. managed dependencies .-> H

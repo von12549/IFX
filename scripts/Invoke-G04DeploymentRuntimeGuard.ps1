@@ -154,6 +154,14 @@ if ($Phase -ge 10) {
     $checks.phase10EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md')
 }
 
+if ($Phase -ge 11) {
+    $documentationReportPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase11-documentation-report.json'
+    & (Join-Path $PSScriptRoot 'Test-G04Documentation.ps1')
+    $documentationReport = Get-Content -Raw -LiteralPath $documentationReportPath | ConvertFrom-Json -Depth 20
+    $checks.documentationValidated = $documentationReport.result -eq 'passed'
+    $checks.phase11EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

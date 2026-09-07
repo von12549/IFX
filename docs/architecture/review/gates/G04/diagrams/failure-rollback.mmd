@@ -1,0 +1,16 @@
+flowchart TB
+  F{First failed boundary}
+  F -->|preflight / migration| DB[Stop; keep old compatible release; no Down]
+  F -->|Worker V2 not Ready| W[Block API V2 producer]
+  F -->|API rolling failure| A[Keep healthy old API replicas]
+  F -->|V2 event already produced| V[Retain V2 Worker until backlog/replay zero]
+  F -->|transport / storage| B[Retry + scoped backpressure; preserve Outbox]
+  F -->|single Worker crash| L[Lease or Hangfire takeover]
+  F -->|shutdown timeout| X[Force exit after grace; recover durable state]
+  DB --> VERIFY[Fresh validation and immutable evidence]
+  W --> VERIFY
+  A --> VERIFY
+  V --> VERIFY
+  B --> VERIFY
+  L --> VERIFY
+  X --> VERIFY

@@ -401,19 +401,24 @@ Phase 10 证据：[`G04-phase10-automated-acceptance.md`](../evidence/gates/G04/
 
 ## Phase 11 — 架构与规则文档化
 
-- [ ] **Phase 11 完成**：部署边界、运行角色、多实例处理和健康治理形成可维护的中英文图文基线。
+- [x] **Phase 11 完成**：部署边界、运行角色、多实例处理和健康治理形成可维护的中英文图文基线。
 
-- [ ] G04-11.1 创建中文设计文档 `docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md`。
-- [ ] G04-11.2 创建对应英文文档 `docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md`，保持决策编号与运行术语一致。
-- [ ] G04-11.3 文档解释业务模块共同发布与 Platform/Infrastructure 独立部署的区别，以及为何 Worker role 不等于微服务。
-- [ ] G04-11.4 创建当前/目标 Deployment Unit Catalog、Module Manifest、Release Manifest 和 dependency criticality 矩阵。
-- [ ] G04-11.5 创建单实例/多实例总体架构图、API/Worker 拓扑图和业务发布边界图。
-- [ ] G04-11.6 创建启动状态机、role readiness 判定流程、Dispatcher claim/lease、backpressure 和 graceful shutdown 流程图。
-- [ ] G04-11.7 创建 DB → Worker consumer → API producer → scheduler → cleanup 发布时序图和 V1/V2 consumer-first 图。
-- [ ] G04-11.8 创建 failure/rollback 状态图与运行手册，覆盖 migration、schema、transport、worker crash、backlog 和 shutdown。
-- [ ] G04-11.9 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
-- [ ] G04-11.10 将每条运行规则映射到 manifest validator、startup validation、probe、测试、CI/CD、指标或人工审批。
-- [ ] G04-11.11 更新架构索引、前置/总计划、数据库/Event/LayerGuard 子计划反向链接，并完成中英文一致性审查。
+- [x] G04-11.1 创建中文设计文档 `docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md`。
+- [x] G04-11.2 创建对应英文文档 `docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md`，保持 G04-D01 至 G04-D09 与运行术语一致。
+- [x] G04-11.3 文档解释业务模块共同发布与 Platform/Infrastructure 独立部署的区别，以及为何 Worker role 不等于微服务。
+- [x] G04-11.4 Deployment Unit Catalog、Module Manifest、Release Manifest 和 dependency criticality 矩阵均已链接和解释。
+- [x] G04-11.5 创建总体部署边界、单/多实例 API/Worker 拓扑和业务发布边界图。
+- [x] G04-11.6 创建启动/健康/drain 状态机以及 Dispatcher claim/lease/backpressure 流程图。
+- [x] G04-11.7 创建 DB → Worker consumer → API producer → scheduler → observation/cleanup 的 V1/V2 时序图。
+- [x] G04-11.8 创建 failure/rollback 图与运行手册，覆盖 migration、schema、transport、worker crash、backlog 和 shutdown。
+- [x] G04-11.9 六份 Mermaid 源文件均用 Mermaid CLI 11.17.0 渲染为 SVG/PNG，并完成可视检查与文件 validator。
+- [x] G04-11.10 G04-D01 至 D09 映射到 manifest/startup/probe/test/CI/指标/人工审批，并标注下游证据。
+- [x] G04-11.11 更新架构索引、前置/总计划和 Contracts/Event/LayerGuard 子计划反向链接，脚本验证中英文 decision IDs 一致。
+
+Phase 11 证据：[`G04-phase11-documentation.md`](../evidence/gates/G04/G04-phase11-documentation.md)、
+[`G04-phase11-documentation-report.json`](../evidence/gates/G04/G04-phase11-documentation-report.json)、
+[`G04-phase11-guard-report.json`](../evidence/gates/G04/G04-phase11-guard-report.json) 与
+[`G04-phase11-layerguard-report.json`](../evidence/gates/G04/G04-phase11-layerguard-report.json)。
 
 ## Phase 12 — Gate 关闭与后续计划交接
 

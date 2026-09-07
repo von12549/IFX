@@ -1,5 +1,7 @@
 # 子计划 3：LayerGuard 对齐新架构
 
+> G04 反向链接：L5.1/B1/B4 必须约束 Runtime Host 仅引用 Composition/host primitives；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
+
 > 状态：03-A0 Core Bootstrap 已完成；03-A1 / 03-B 待实施
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 执行位置：03-A0 在 Gate 01–05 之前；03-A1 在 Gate 前置放行之后；03-B 在子计划 1/2 之后。

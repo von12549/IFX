@@ -83,6 +83,8 @@ G03 图文治理基线见[中文](../gates/G03/contract-event-governance.zh-CN.m
 - [ ] **Gate 4 前置放行**：单体部署假设、API/Worker Runtime Role、Dispatcher lease protocol、migration 顺序和 health/backpressure contract 已冻结并可做 conformance 验证。
 
 实施与最终验收：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md)。Runtime 基础先放行；真实 Dispatcher 和 backlog 信号由 E3/E6 实现后回交最终证据。
+中英文实现基线见[中文](../gates/G04/deployment-runtime-boundary.zh-CN.md)与
+[English](../gates/G04/deployment-runtime-boundary.en.md)。当前审计状态为 PRE-READY；下方未勾选项保留到对应真实信号与生产演练交回。
 
 - [ ] DP1 形成部署边界 ADR：五个业务模块共同构成一个 ApiHost 业务发布边界；Frontend、数据库、OPA、Migrator 和独立基础设施可有自己的部署生命周期，编译期/数据边界或多容器不代表业务微服务化。
 - [ ] DP3 明确模块和后台服务的启动顺序、依赖失败、部分不可用、优雅关闭及多实例 Dispatcher 的并发领取策略。
