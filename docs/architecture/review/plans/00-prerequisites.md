@@ -86,11 +86,13 @@ G03 图文治理基线见[中文](../gates/G03/contract-event-governance.zh-CN.m
 中英文实现基线见[中文](../gates/G04/deployment-runtime-boundary.zh-CN.md)与
 [English](../gates/G04/deployment-runtime-boundary.en.md)。当前审计状态为 PRE-READY；下方未勾选项保留到对应真实信号与生产演练交回。
 
-- [ ] DP1 形成部署边界 ADR：五个业务模块共同构成一个 ApiHost 业务发布边界；Frontend、数据库、OPA、Migrator 和独立基础设施可有自己的部署生命周期，编译期/数据边界或多容器不代表业务微服务化。
-- [ ] DP3 明确模块和后台服务的启动顺序、依赖失败、部分不可用、优雅关闭及多实例 Dispatcher 的并发领取策略。
-- [ ] DP4 定义 database migration/seed、ApiHost 实例和 Dispatcher 的部署编排顺序，禁止未完成 schema 升级的实例开始分发消息。
-- [ ] DP5 定义模块与消息通道的 health/readiness 信号，包括 dispatcher 状态、Outbox backlog age 和必要依赖可用性。
-- [ ] DP-G1 保存当前/目标 Deployment Unit Catalog、单实例/多实例运行图、API/Worker roles、部署顺序和失败矩阵，作为 Dispatcher 设计与生产上线依据。
+- [x] DP1 形成部署边界 ADR：五个业务模块共同构成一个 ApiHost 业务发布边界；Frontend、数据库、OPA、Migrator 和独立基础设施可有自己的部署生命周期，编译期/数据边界或多容器不代表业务微服务化。
+- [x] DP3 明确模块和后台服务的启动顺序、依赖失败、部分不可用、优雅关闭及多实例 Dispatcher 的并发领取策略。
+- [x] DP4 定义 database migration/seed、ApiHost 实例和 Dispatcher 的部署编排顺序，禁止未完成 schema 升级的实例开始分发消息。
+- [x] DP5 定义模块与消息通道的 health/readiness 信号，包括 dispatcher 状态、Outbox backlog age 和必要依赖可用性。
+- [x] DP-G1 保存当前/目标 Deployment Unit Catalog、单实例/多实例运行图、API/Worker roles、部署顺序和失败矩阵，作为 Dispatcher 设计与生产上线依据。
+
+G04 仓库内可实现基线已完成；[`PRE-READY closeout`](../evidence/gates/G04/G04-phase12-handoff.md) 明确保留 E3/E4/E6、G05、L5.1/L5.2、生产演练与五方批准，因此上方 Gate 4 前置放行仍不勾选。
 
 ## Gate 5 — 关联信息与敏感数据规则
 

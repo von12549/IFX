@@ -162,6 +162,17 @@ if ($Phase -ge 11) {
     $checks.phase11EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase11-documentation.md')
 }
 
+if ($Phase -ge 12) {
+    $closeoutReportPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase12-closeout-report.json'
+    & (Join-Path $PSScriptRoot 'Test-G04Closeout.ps1')
+    $closeoutReport = Get-Content -Raw -LiteralPath $closeoutReportPath | ConvertFrom-Json -Depth 20
+    $closeoutStatus = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase12-status.json') | ConvertFrom-Json -Depth 30
+    $checks.closeoutValidated = $closeoutReport.result -eq 'passed'
+    $checks.closeoutRemainsPreReady = $closeoutStatus.status -eq 'PRE-READY' -and $closeoutStatus.gateClosed -eq $false
+    $checks.closeoutApprovalNotClaimed = $closeoutStatus.approvalGranted -eq $false
+    $checks.phase12EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase12-handoff.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

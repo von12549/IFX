@@ -422,24 +422,28 @@ Phase 11 证据：[`G04-phase11-documentation.md`](../evidence/gates/G04/G04-pha
 
 ## Phase 12 — Gate 关闭与后续计划交接
 
-- [ ] **Phase 12 完成**：Gate 04 已批准关闭，Event Dispatcher 和生产发布具有明确运行约束。
+- [ ] **Phase 12 PRE-READY**：仓库内可实现基线和交接审计已完成；Gate 04 未批准关闭，真实 Event Dispatcher、生产演练与下游证据仍受阻塞清单约束。
 
-- [ ] G04-12.1 对照 DP1、DP3、DP4、DP5 附上 ADR、catalog/manifest、代码、测试、演练、probe 和文档证据。
-- [ ] G04-12.2 确认五个业务模块仍为一个发布边界，而 API/Worker 角色和独立 infrastructure 没有伪装成业务独立部署。
-- [ ] G04-12.3 向 Gate 02 交付 Migrator/schema readiness 与发布编排接口；两处顺序和 failure policy 必须一致。
-- [ ] G04-12.4 向 Event 子计划交付 Runtime Role、instance identity、lease、shutdown、consumer-first、health 和 backpressure 规则。
-- [ ] G04-12.5 向 LayerGuard 子计划交付 API/Worker Runtime Host 只能引用 Composition/host primitives 的编译期要求。
+- [x] G04-12.1 对照 DP1、DP3、DP4、DP5 附上 ADR、catalog/manifest、代码、reference/synthetic 测试、probe 和文档证据；生产演练差距保留为 G04-B06。
+- [x] G04-12.2 确认五个业务模块仍为一个发布边界，而 API/Worker 角色和独立 infrastructure 没有伪装成业务独立部署。
+- [x] G04-12.3 向 Gate 02 交付 Migrator/schema readiness 与发布编排接口；生产执行证据仍由 G04-B06 回交。
+- [x] G04-12.4 向 Event 子计划交付 Runtime Role、instance identity、lease、shutdown、consumer-first、health 和 backpressure 规则；E3/E4/E6 为 G04-B01 至 B03。
+- [x] G04-12.5 向 LayerGuard 子计划交付 API/Worker Runtime Host 只能引用 Composition/host primitives 的编译期要求；L5.1/L5.2 与 B1/B4 为 G04-B05。
 - [ ] G04-12.6 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 4 相关事项，仅在全部实施、验证与文档完成后操作。
-- [ ] G04-12.7 记录未解决的生产平台特有参数、owner、到期日和验证环境，不使用永久默认值掩盖。
+- [x] G04-12.7 在机器可读状态中记录未解决的生产平台特有参数、owner、到期里程碑和 production-like 验证环境，不使用永久默认值掩盖。
 - [ ] G04-12.8 由架构、模块、Platform、数据库和运维负责人共同批准 Gate 关闭。
+
+Phase 12 PRE-READY 证据：[`G04-phase12-handoff.md`](../evidence/gates/G04/G04-phase12-handoff.md)、
+[`G04-phase12-status.json`](../evidence/gates/G04/G04-phase12-status.json) 与
+[`G04-phase12-closeout-report.json`](../evidence/gates/G04/G04-phase12-closeout-report.json)。
 
 ## Definition of Done
 
-- [ ] G04-DD01 Deployment Unit、Module 和 Release Manifest 能准确区分共同业务发布与独立基础设施生命周期。
-- [ ] G04-DD02 API/Worker/all Runtime Role 行为确定，生产可独立扩展 HTTP 与后台容量但业务版本继续锁步。
+- [x] G04-DD01 Deployment Unit、Module 和 Release Manifest 能准确区分共同业务发布与独立基础设施生命周期。
+- [x] G04-DD02 API/Worker/all Runtime Role 行为确定，生产可独立扩展 HTTP 与后台容量但业务版本继续锁步。
 - [ ] G04-DD03 多实例 claim/lease、at-least-once、分区顺序和 crash recovery conformance 通过真实数据库 reference fixture，且 E3/E4 的真实 Dispatcher/Inbox 通过同一验收。
 - [ ] G04-DD04 Hangfire client/server、identity、queue、WorkerCount 和 recurring authority 在多实例环境可验证。
-- [ ] G04-DD05 startup-fatal、NotReady、Degraded、worker fatal 和 graceful drain 状态均有稳定行为与 reason code。
+- [x] G04-DD05 startup-fatal、NotReady、Degraded、worker fatal 和 graceful drain 状态均有稳定的 reference 行为与 reason code；生产编排验证仍归 G04-B06。
 - [ ] G04-DD06 live/startup/ready/details 按 role 和 criticality 正确聚合，无副作用且不泄漏敏感信息。
 - [ ] G04-DD07 database → Worker consumer → API producer → scheduler → cleanup 顺序及失败回退由 CI/CD 或演练验证。
 - [ ] G04-DD08 backlog age、retry/dead-letter、lease、last success 和 backpressure 具有指标、阈值、告警与恢复手册。
@@ -447,9 +451,9 @@ Phase 11 证据：[`G04-phase11-documentation.md`](../evidence/gates/G04/G04-pha
 
 ## 回退与运行安全原则
 
-- [ ] G04-R01 API/Worker role 切分失败时可暂时回到同版本 `all`，但必须保留多实例安全、唯一 identity、health 和 shutdown 规则。
-- [ ] G04-R02 schema/migration 问题优先停止发布并 roll-forward；不自动执行 Down，也不让未验证实例开始 dispatch。
-- [ ] G04-R03 Consumer-first 发布中即使 API 回退，也不得先删除或回退仍需处理 V2 backlog 的 Worker consumer。
+- [x] G04-R01 API/Worker role 切分失败时可暂时回到同版本 `all`，但必须保留多实例安全、唯一 identity、health 和 shutdown 规则。
+- [x] G04-R02 schema/migration 问题优先停止发布并 roll-forward；不自动执行 Down，也不让未验证实例开始 dispatch。
+- [x] G04-R03 Consumer-first 发布中即使 API 回退，也不得先删除或回退仍需处理 V2 backlog 的 Worker consumer。
 - [ ] G04-R04 Dispatcher/transport 故障不删除 Outbox、不伪造成功；通过持久 retry、lease 接管和受控 backpressure 恢复。
 - [ ] G04-R05 forced termination 必须依赖持久状态恢复，不能通过无限 shutdown 或 lease 隐藏无法停止的问题。
-- [ ] G04-R06 health/readiness 配置回退不得把外部依赖放进 liveness，也不得通过始终 Healthy 掩盖 critical worker failure。
+- [x] G04-R06 health/readiness 配置回退不得把外部依赖放进 liveness，也不得通过始终 Healthy 掩盖 critical worker failure。

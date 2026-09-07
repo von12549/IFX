@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "phase": 12,
+  "result": "passed",
+  "validationMode": "pre-ready-closeout-no-production-claim",
+  "checks": {
+    "statusIsPreReady": true,
+    "gateNotClosed": true,
+    "allBlockersPresent": true,
+    "dependenciesAreComplete": true,
+    "blockerAccountabilityComplete": true,
+    "productionParametersOwned": true,
+    "verificationRecorded": true,
+    "handoffNamesEveryBlocker": true,
+    "phase12NotFalselyClosed": true,
+    "finalApprovalUnchecked": true,
+    "prerequisiteGateUnchecked": true,
+    "phase12EvidenceLinked": true
+  }
+}

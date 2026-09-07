@@ -1,0 +1,139 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "status": "PRE-READY",
+  "gateClosed": false,
+  "approvalGranted": false,
+  "asOf": "2026-09-08",
+  "attainableImplementation": {
+    "completePhases": [0, 1, 2, 3, 4, 5, 6, 7, 11],
+    "preReadyPhases": [8, 9, 10, 12],
+    "summary": "The repository-owned runtime baseline, conformance fixtures, policy validators, documentation and CI entry point are complete. Production and downstream implementation evidence is intentionally not claimed."
+  },
+  "verification": {
+    "closeoutValidator": "passed",
+    "phase12Guard": "passed",
+    "layerGuard": {
+      "passed": 179,
+      "failed": 0
+    },
+    "solutionBuild": {
+      "result": "passed",
+      "errors": 0,
+      "warnings": 20,
+      "warningPolicy": "Pre-existing package, nullability and obsolete-endpoint warnings remain visible; no warning was reclassified as success."
+    },
+    "solutionTests": {
+      "passed": 934,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "blockers": [
+    {
+      "id": "G04-B01",
+      "dependency": "Plan 02 E3",
+      "owner": "Platform Messaging with producing module owners",
+      "revisitTrigger": "The first real module Outbox Dispatcher is ready for integration acceptance.",
+      "requiredEvidence": [
+        "Module-owned dispatcher mapping and migration",
+        "Two-instance claim, renewal, expiry and takeover results against the real dispatcher",
+        "Crash-before-send, crash-after-send-before-ack and post-ack restart results",
+        "Partition ordering, poison-message and cross-module fairness results"
+      ]
+    },
+    {
+      "id": "G04-B02",
+      "dependency": "Plan 02 E4",
+      "owner": "Consuming module owners",
+      "revisitTrigger": "The first real module Inbox and inbound integration adapter are ready.",
+      "requiredEvidence": [
+        "Duplicate and concurrent-duplicate absorption",
+        "Atomic Inbox plus business-state completion",
+        "Crash, retry, ordering and tenant-isolation results"
+      ]
+    },
+    {
+      "id": "G04-B03",
+      "dependency": "Plan 02 E6",
+      "owner": "Observability and Platform Operations",
+      "revisitTrigger": "Real Outbox, Inbox and dead-letter metrics exist in a production-like environment.",
+      "requiredEvidence": [
+        "Backlog age, retry, dead-letter, lease and last-success dashboards",
+        "Warning and critical alert thresholds with owner acknowledgement",
+        "Silent-dispatcher-stop detection and recovery exercise"
+      ]
+    },
+    {
+      "id": "G04-B04",
+      "dependency": "Gate 05",
+      "owner": "Security, Platform and Architecture",
+      "revisitTrigger": "G05 context carriers, C0-C4 classification and sentinels are implemented.",
+      "requiredEvidence": [
+        "Health and management endpoint sensitive-data sentinel results",
+        "Worker scope and telemetry-flush conformance",
+        "Quarantine and diagnostic field classification evidence"
+      ]
+    },
+    {
+      "id": "G04-B05",
+      "dependency": "Plan 03 L5.1/L5.2 and B1/B4",
+      "owner": "LayerGuard and Architecture",
+      "revisitTrigger": "03-A1 policy binding starts from the approved G03/G04 governance inputs.",
+      "requiredEvidence": [
+        "Runtime Host compile-time rules bound to Composition and host primitives",
+        "Catalog/hash binding without copied ownership configuration",
+        "B1/B4 pass report and forbidden-edge fixtures"
+      ]
+    },
+    {
+      "id": "G04-B06",
+      "dependency": "Production-like release rehearsal",
+      "owner": "Operations, Database, Platform and module owners",
+      "revisitTrigger": "A production-candidate release can run in production-like staging.",
+      "requiredEvidence": [
+        "Migrator to Worker consumer to API producer to scheduler to cleanup evidence",
+        "Rolling rollout, SIGTERM/drain, forced termination and rollback exercise",
+        "Network-policy, scheduler-authority and total-capacity validation",
+        "Completed release evidence manifest with observation-window approval"
+      ]
+    },
+    {
+      "id": "G04-B07",
+      "dependency": "Final approval",
+      "owner": "Architecture, module, Platform, Database and Operations approvers",
+      "revisitTrigger": "G04-B01 through G04-B06 are closed with linked evidence.",
+      "requiredEvidence": [
+        "Named approvers and dated approval references",
+        "No expired waiver or unowned production parameter",
+        "Gate plan and prerequisite checklist final review"
+      ]
+    }
+  ],
+  "productionParameters": [
+    {
+      "name": "api-worker-replica-and-total-concurrency",
+      "owner": "Platform Operations",
+      "dueBy": "Before the first production-candidate staging rehearsal",
+      "validationEnvironment": "Production-like staging with target replica counts and load"
+    },
+    {
+      "name": "lease-retry-backpressure-and-alert-thresholds",
+      "owner": "Platform Messaging and Observability",
+      "dueBy": "Before Plan 02 E6 acceptance",
+      "validationEnvironment": "Production-like staging with real module Outbox and Inbox traffic"
+    },
+    {
+      "name": "startup-drain-rollout-and-rollback-budgets",
+      "owner": "Operations and Database",
+      "dueBy": "Before the first production-candidate staging rehearsal",
+      "validationEnvironment": "Production-like staging with orchestrator, load balancer and SQL Server"
+    },
+    {
+      "name": "scheduler-authority-and-network-policy",
+      "owner": "Platform Operations and Security",
+      "dueBy": "Before production release approval",
+      "validationEnvironment": "Production-like staging with target identity and network controls"
+    }
+  ]
+}
