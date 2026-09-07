@@ -361,16 +361,22 @@ Phase 8 证据：[`G04-phase8-release-orchestration.md`](../evidence/gates/G04/G
 
 ## Phase 9 — 失败矩阵与安全回退
 
-- [ ] **Phase 9 完成**：每个部署和运行失败点都有明确的继续、停止、接管、限流或回退动作。
+- [ ] **Phase 9 PRE-READY**：部署与运行失败矩阵及安全回退规则已机器验证；真实 E3/E4 接管与生产演练仍待下游证据。
 
-- [ ] G04-9.1 Migrator/preflight 失败时阻断新 Worker/API，保持兼容旧 release，禁止自动 Down。
-- [ ] G04-9.2 Worker V2 未 Ready 时禁止 API V2 producer rollout；已升级 Worker 可继续处理旧消息。
-- [ ] G04-9.3 API rolling failure 时停止 rollout 并保留健康旧副本，验证 schema 仍向后兼容。
-- [ ] G04-9.4 如果 API V2 已产生 V2 Event，回退 API 时保留支持 V2 的 Worker，直至 backlog/replay 清零。
-- [ ] G04-9.5 transport/storage 故障进入 retry/backlog/backpressure；不得删除、跳过或伪造 delivered。
-- [ ] G04-9.6 单 Worker 崩溃依赖 lease/Hangfire recovery 接管；大面积故障使用明确暂停与恢复 runbook。
-- [ ] G04-9.7 shutdown 超时允许强制退出，但必须留下可重试、可诊断的持久状态和审计记录。
-- [ ] G04-9.8 将 module、dependency、role、failure reason、operator action 和恢复验证形成运行失败矩阵。
+- [x] G04-9.1 Migrator/preflight 失败硬阻断新 Worker/API，保持兼容旧 release，矩阵禁止自动 Down。
+- [x] G04-9.2 Worker V2 未 Ready 禁止 API V2 producer rollout；兼容 Worker 的 V1 消费要求写入编排与矩阵。
+- [x] G04-9.3 API rolling failure 停止 rollout 并保留健康旧副本，cleanup 被阻断并要求复核 schema 兼容。
+- [x] G04-9.4 API V2 已产生 V2 Event 时回退 API 必须保留 V2 Worker，直至 backlog/replay 清零。
+- [ ] G04-9.5 transport/storage 故障的 retry/backpressure 与不得删除/伪造规则已固定；真实 E3 durable retry/dead-letter 尚未验证。
+- [ ] G04-9.6 reference lease/Hangfire storage 与 fleet runbook 已就绪；真实 Worker crash/fleet 接管等待 E3/生产演练。
+- [x] G04-9.7 shutdown 超时有界强退，规则要求保留可重试持久状态与审计关联；Inbox 部分等待 E4。
+- [x] G04-9.8 module、dependency、role、failure reason、operator action 和恢复验证已形成版本化失败矩阵。
+
+Phase 9 证据：[`G04-phase9-failure-safety.md`](../evidence/gates/G04/G04-phase9-failure-safety.md)、
+[`failure-rollback-runbook.md`](../gates/G04/failure-rollback-runbook.md)、`Test-G04FailureMatrix.ps1`、
+[`G04-phase9-failure-matrix-report.json`](../evidence/gates/G04/G04-phase9-failure-matrix-report.json)、
+[`G04-phase9-guard-report.json`](../evidence/gates/G04/G04-phase9-guard-report.json) 与
+[`G04-phase9-layerguard-report.json`](../evidence/gates/G04/G04-phase9-layerguard-report.json)。
 
 ## Phase 10 — 自动化测试与发布验收
 

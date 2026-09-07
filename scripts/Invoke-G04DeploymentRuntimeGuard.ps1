@@ -135,6 +135,15 @@ if ($Phase -ge 8) {
     $checks.phase8EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md')
 }
 
+if ($Phase -ge 9) {
+    $failureReportPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase9-failure-matrix-report.json'
+    & (Join-Path $PSScriptRoot 'Test-G04FailureMatrix.ps1')
+    $failureReport = Get-Content -Raw -LiteralPath $failureReportPath | ConvertFrom-Json -Depth 20
+    $checks.failureMatrixValid = $failureReport.result -eq 'passed'
+    $checks.failureRunbookExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/gates/G04/failure-rollback-runbook.md')
+    $checks.phase9EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

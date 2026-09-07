@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "owner": "Architecture and Operations",
+  "scenarios": [
+    { "scenarioId": "database-preflight-failed", "module": "all", "dependency": "sqlserver", "role": "migrator", "reason": "G02-PREFLIGHT-FAILED", "action": "stop-release", "recovery": "correct state or restore approved copy; rerun preflight", "prohibitions": ["automatic-down", "start-new-worker", "start-new-api"] },
+    { "scenarioId": "database-migrator-failed", "module": "all", "dependency": "sqlserver", "role": "migrator", "reason": "G02-MIGRATOR-FAILED", "action": "stop-release-preserve-old-compatible-release", "recovery": "classify committed state and roll forward", "prohibitions": ["automatic-down"] },
+    { "scenarioId": "worker-v2-not-ready", "module": "all", "dependency": "worker", "role": "worker", "reason": "G04-WORKER-V2-NOT-READY", "action": "stop-api-v2-rollout", "recovery": "restore Worker readiness while retaining V1 consumption", "prohibitions": ["start-api-v2-producer"] },
+    { "scenarioId": "api-rolling-failed", "module": "all", "dependency": "api", "role": "api", "reason": "G04-API-ROLLOUT-FAILED", "action": "halt-rollout-keep-healthy-old-api", "recovery": "verify schema compatibility and repair or revert artifact", "prohibitions": ["remove-old-api", "contract-cleanup"] },
+    { "scenarioId": "api-v2-produced-before-rollback", "module": "event-owner", "dependency": "transport", "role": "api", "reason": "G04-V2-EVENT-IN-FLIGHT", "action": "retain-v2-worker-while-api-rolls-back", "recovery": "drain V2 backlog/replay before consumer removal", "prohibitions": ["remove-v2-consumer"] },
+    { "scenarioId": "transport-or-storage-outage", "module": "affected-module", "dependency": "transport-or-sql", "role": "worker", "reason": "G04-BACKLOG-CRITICAL", "action": "retry-backpressure-and-preserve-outbox", "recovery": "restore dependency then controlled replay", "prohibitions": ["delete-outbox", "skip-message", "invent-delivered"] },
+    { "scenarioId": "single-worker-crash", "module": "affected-module", "dependency": "worker", "role": "worker", "reason": "G04-WORKER-CRASH", "action": "lease-or-hangfire-recovery", "recovery": "new instance reclaims durable work after timeout", "prohibitions": ["assume-exactly-once"] },
+    { "scenarioId": "worker-fleet-failure", "module": "all", "dependency": "worker", "role": "worker", "reason": "G04-WORKER-FLEET-FAILED", "action": "pause-related-production-and-recover", "recovery": "follow backpressure runbook and scale compatible workers", "prohibitions": ["unbounded-retry"] },
+    { "scenarioId": "shutdown-timeout", "module": "all", "dependency": "runtime", "role": "api-worker-all", "reason": "G04-DRAIN-TIMEOUT", "action": "force-exit-after-grace", "recovery": "reclaim durable lease/job and correlate audit", "prohibitions": ["extend-shutdown-unbounded", "mark-unacknowledged-delivered"] }
+  ]
+}
