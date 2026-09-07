@@ -98,25 +98,30 @@ public static class ImportRules
         if (!declaring.InScope || declaring.FullPath == node.FullPath)
             return null;
 
-        if (ruleset.Allows(node.Ring, declaring.Ring))
+        if (ruleset.Allows(node.Ring, declaring.Ring)
+            && ruleset.AllowsOwnership(node.Ring, declaring.Ring, node.Module, declaring.Module))
             return null;
+
+        var ownershipOnly = ruleset.Allows(node.Ring, declaring.Ring);
 
         return new Violation(
             Id: "",
-            Rule: DirectionRule,
-            Severity: ruleset.SeverityOf(DirectionRule),
+            Rule: ownershipOnly ? OwnershipRules.ScopeRule : DirectionRule,
+            Severity: ruleset.SeverityOf(ownershipOnly ? OwnershipRules.ScopeRule : DirectionRule),
             Headline: $"{Path.GetFileName(file)} imports {declaring.Name}",
             FromProject: node.Name,
             FromRing: node.Ring.ToString(),
-            FromModule: node.File.Module,
+            FromModule: node.Module,
             ToProject: declaring.Name,
             ToRing: declaring.Ring.ToString(),
-            ToModule: declaring.File.Module,
+            ToModule: declaring.Module,
             Kind: "import" + note,
             Path: [node.Name, declaring.Name],
             Evidence: evidence,
             FixAt: evidence,
-            FixHint: inactive
+            FixHint: ownershipOnly
+                ? $"Remove this import: {node.Ring} may not use {declaring.Ring} from module {declaring.Module}."
+                : inactive
                 ? $"Remove this import from {Path.GetFileName(file)}. It only compiles in the "
                     + $"configuration that turns this branch on, and there {node.Ring} depends on {declaring.Ring}."
                 : $"Remove this import from {Path.GetFileName(file)}, along with the use of "
@@ -150,7 +155,7 @@ public static class ImportRules
             Headline: $"{Path.GetFileName(evidence.File)} imports {target}",
             FromProject: node.Name,
             FromRing: node.Ring.ToString(),
-            FromModule: node.File.Module,
+            FromModule: node.Module,
             ToProject: target,
             ToRing: "package",
             ToModule: null,

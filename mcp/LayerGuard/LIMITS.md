@@ -7,14 +7,11 @@ is paid for in the four limits below.
 They are permanent, they are the same for every codebase, and every report names them under
 `notChecked` so a clean result is never mistaken for a complete one.
 
-## A type named in full, with no import line
+## Syntactic names are not semantic bindings
 
-`using Acme.Data;` is a fact in the syntax tree. `Acme.Data.Context` written inline is four
-identifiers, and nothing here knows the first three are a namespace. Any rule of the form "this
-layer must not name that library" reaches the import and misses the inline use.
-
-Closing it needs a semantic model, which needs a build. An analyzer running inside the
-compilation gets it for free.
+`using Acme.Data;` and a fully-qualified `Acme.Data.Context` are both visible syntax. A0 can match
+either against configured forbidden patterns, but it cannot prove which assembly or symbol the
+name binds to. Closing that gap requires a semantic model from a compilation.
 
 ## Which project a name really binds to
 

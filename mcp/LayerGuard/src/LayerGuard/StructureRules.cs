@@ -15,8 +15,8 @@ public static class StructureRules
         var expected = ruleset.RingPatterns.Keys.Where(ring => ring != Ring.Outside).Order().ToList();
 
         var modules = inScope
-            .Where(node => node.File.Module is not null)
-            .GroupBy(node => node.File.Module!)
+            .Where(node => node.Module is not null)
+            .GroupBy(node => node.Module!)
             .OrderBy(group => group.Key);
 
         foreach (var module in modules)

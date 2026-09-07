@@ -12,12 +12,12 @@ namespace LayerGuard;
 /// under that name, so a rule they both match passes on either.
 public static class DeclarationIndex
 {
-    public static IReadOnlyDictionary<string, HashSet<Ring>> Build(
+    public static IReadOnlyDictionary<string, HashSet<DeclarationSite>> Build(
         IEnumerable<ProjectNode> nodes,
         IReadOnlyDictionary<string, List<string>> sources
     )
     {
-        var index = new Dictionary<string, HashSet<Ring>>(StringComparer.Ordinal);
+        var index = new Dictionary<string, HashSet<DeclarationSite>>(StringComparer.Ordinal);
 
         foreach (var node in nodes)
         {
@@ -29,9 +29,9 @@ public static class DeclarationIndex
                 var root = SourceFiles.Parse(file).GetRoot();
                 foreach (var declaration in root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
                 {
-                    if (!index.TryGetValue(declaration.Identifier.Text, out var rings))
-                        index[declaration.Identifier.Text] = rings = [];
-                    rings.Add(node.Ring);
+                    if (!index.TryGetValue(declaration.Identifier.Text, out var sites))
+                        index[declaration.Identifier.Text] = sites = [];
+                    sites.Add(new DeclarationSite(node.Ring, node.Module));
                 }
             }
         }
@@ -51,3 +51,5 @@ public static class DeclarationIndex
         return name is SimpleNameSyntax simple ? simple.Identifier.Text : name.ToString();
     }
 }
+
+public sealed record DeclarationSite(Ring Ring, string? Module);

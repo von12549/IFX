@@ -4,8 +4,8 @@ A Clean Architecture check for .NET, exposed over the Model Context Protocol so 
 model can call it instead of reading project files and source files itself.
 
 **Every rule it applies is data in a file a person wrote.** There is no rule baked into the
-code except the direction of the four layers, and even that is overridable. A codebase states
-its own layer names, its own allowed directions, which packages a layer may hold, which
+code except the default direction of the four layers, and even that is overridable. A codebase states
+its own project roles, ownership patterns, allowed directions, which packages a role may hold, which
 projects a layer may never name, and where a kind of type has to be declared — and gets the
 same answer every time it asks.
 
@@ -17,13 +17,29 @@ A rule family the rule file is silent about **does not run, and the report says 
 That is the difference between "checked and clean" and "never looked", and a reader who cannot
 tell them apart has been misled by a green result.
 
-It reads. It never writes, builds, restores, or runs anything.
+Analysis reads only. The optional `snapshot` command and `check --report` write the explicitly
+named evidence file; LayerGuard never edits product source or project files.
+
+## IFX 03-A0 bootstrap
+
+Version `0.3.0-a0` adds configurable `Contracts`, `IntegrationAdapter`, `Composition`,
+`RuntimeHost`, and `Test` roles while preserving the four built-in roles for configurations that
+do not opt in. IFX's bootstrap policy additionally checks module ownership and own/foreign
+references; standalone and namespace-confined embedded adapters; provisional provider and
+Contracts cycles; declaration placement; forbidden framework symbols and reflection strings;
+event payload types; and BCL-only context/envelope type allowlists.
+
+Migration baselines use exact fingerprints, require owner/reason/dates/removal criteria, reject
+expired or stale entries, and fail on new findings. `*.Abstractions` is recognized as the
+migration form of `Contracts`, while a separate rule forbids adding another legacy project.
+Gate-owned catalogs and final allowlists are intentionally deferred to 03-A1.
 
 ---
 
 ## What it checks
 
-Clean Architecture has four layers. Dependencies point inward and only inward.
+The built-in default has four layers. A repository policy may add the A0 roles above and replace
+the dependency matrix completely.
 
 | depends on →       | Domain  | Application | Presentation | Infrastructure |
 | ------------------ | ------- | ----------- | ------------ | -------------- |
@@ -44,10 +60,8 @@ A project is assigned to a layer **by its name**. By default:
 | Presentation   | `*.Presentation`     |
 | Infrastructure | `*.Infrastructure`   |
 
-**A project matching none of these is outside the check.** It is listed in the report and
-nothing rules on it — no verdict, no severity, no mention in the violation list. Contract
-projects, wiring projects, shared libraries and anything else a codebase happens to hold are
-all outside unless a rule file says otherwise.
+**A project matching none of the configured patterns is outside the check.** Contract and wiring
+projects are checked when the repository policy assigns them the corresponding A0 roles.
 
 ### Direct and transitive both count
 
@@ -102,7 +116,7 @@ It parses the C# rather than searching it, which is not a detail:
 | -------------------------------------- | ---------------------- | ------------------------ |
 | `using var scope = Get();`             | an import              | a statement, ignored     |
 | `// using X.Infrastructure;`           | an import              | a comment, ignored       |
-| `"X.Infrastructure.Thing"` in a string | a reference            | text, ignored            |
+| `"X.Infrastructure.Thing"` in a string | a reference            | checked when `forbiddenText` states a pattern |
 | `using Repo = X.Infrastructure.R;`     | missed by `^using X`   | an alias import, read    |
 | a `using` inside `#if DEBUG`           | an import              | read, and marked as such |
 
@@ -123,8 +137,9 @@ that does not even parse still gives up its import lines.
 
 ### The rules that are not about direction
 
-The direction table is one family of nine. The other eight exist because each one catches
-something the table structurally cannot see, and each is silent until the rule file states it.
+The direction table is one family. Ownership, provider graph, source-symbol, declaration,
+payload and baseline families catch facts the table structurally cannot see; each is silent
+until the rule file states it.
 
 | family                              | catches                                                       | why the direction table cannot                                           |
 | ----------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------ |
@@ -261,7 +276,7 @@ dotnet tool install --global --add-source ./nupkg layerguard
 }
 ```
 
-### The three tools
+### Commands and MCP tools
 
 The split between them is the point. `check` judges, and every rule it applies came from a file
 a person wrote and can be shown. `scan` only lists, so a question no rule covers can still be
@@ -273,6 +288,9 @@ so a verdict can be read back to the rule that produced it.
 | `check`          | Applies every rule the rule file states, and returns each finding with the file and line to open. Takes one `path` — a `.csproj`, a folder, or a `.sln` — plus optional `configPath` and `format`. **Answers in JSON by default**: the caller acts on `fixAt.file` and `fixAt.line`, and those are fields, not prose to parse. Also returns `checked` — the rule families that ran — and `notChecked`, which names the ones the rule file left silent. |
 | `scan`           | Lists what is in the codebase with no verdict attached. `select` picks `projects`, `packages`, `imports` or `declarations`; `ring`, `module` and `namePattern` narrow the result. Use it for a question the rule file does not cover, instead of reading the source.                                                                                                                                                                                   |
 | `describe_rules` | The rules that would be applied: name patterns, the direction table, package allow-lists, forbidden projects, declaration placement, and what nothing here looks at. Call it before `check` when the rules matter to the answer.                                                                                                                                                                                                                       |
+
+The CLI also provides `snapshot`, which creates a reviewed migration baseline. It is not exposed
+as an MCP analysis tool because it changes the accepted-debt state.
 
 `path` decides the scope for both `check` and `scan`:
 
@@ -298,13 +316,16 @@ The same answers, without an MCP client:
 ```bash
 layerguard check src/Modules                     # every rule the rule file states
 layerguard check src/Modules --format json
+layerguard check src --baseline mcp/LayerGuard/baselines/b0.5.json --report artifacts/layerguard.json
+layerguard snapshot src --output baseline.json --owner architecture-team --expires 2026-12-31
 layerguard scan  src/Modules --select packages   # facts, no verdicts
 layerguard scan  src/Modules --select declarations --ring Application --name "*Handler"
 layerguard rules                                 # the rules in force
 ```
 
-`check` exits `0` when clean, `1` when it found violations, `2` when it could not run — so it
-drops into a build pipeline unchanged.
+`check` exits `0` when clean. With a baseline it exits `0` only when every finding is historical
+and every baseline entry still matches. New findings or stale entries exit `1`; invalid or
+expired baseline/configuration data exits `2`.
 
 ---
 
@@ -405,6 +426,11 @@ report says so under `notChecked` rather than passing quietly.
 | -------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `rings`                          | the built-in `*.Domain` … patterns                   | these patterns instead                                                                                                                                                                                                     |
 | `allowedDependencies`            | the built-in direction table                         | this table instead                                                                                                                                                                                                         |
+| `ownership`                      | parent-folder fallback                               | project-name patterns with `{module}` and optional fail-closed ownership                                                                                                                                                    |
+| `referenceScopes`                | allowed role pairs ignore ownership                  | narrows a role pair to `own`, `foreign`, `any`, or `none` ownership                                                                                                                                                          |
+| `providerContracts`              | no provider edge is approved                         | provisional consumer-to-provider graph; 03-A1 replaces this with Gate 03 input                                                                                                                                              |
+| `embeddedAdapterNamespaces`      | no embedded adapter namespace is approved            | only matching Infrastructure namespaces may use foreign Contracts                                                                                                                                                           |
+| `forbiddenProjectNames`          | no project name is forbidden                         | reports migration-only or retired project patterns even when their role is recognized                                                                                                                                       |
 | `allowedReferences`              | **no reference allow-list**                          | a ring listed here may name only projects matching, in its own project file; a ring absent from the list may name anything; an empty list allows no reference at all                                                       |
 | `allowedPackages`                | **no package is judged**                             | a ring listed here may hold only what matches; a ring absent from the list is still unjudged; an empty list allows nothing at all                                                                                          |
 | `forbiddenDependencies`          | not asked                                            | no type declared in that ring may take a constructor parameter whose type names a match; a ring absent from the list is unjudged                                                                                           |
@@ -413,6 +439,10 @@ report says so under `notChecked` rather than passing quietly.
 | `forbiddenReferences.sameModule` | no such rule                                         | no project may reference a project in its **own module** whose name matches                                                                                                                                                |
 | `forbiddenReferences.byRing`     | no such rule                                         | a project in that ring may never reference a matching project, whatever module it is in                                                                                                                                    |
 | `declarations`                   | **no placement is judged**                           | a type whose name matches must be declared in that ring; `severity` defaults to `breaks`                                                                                                                                   |
+| `declarationNamespaces`          | no role/namespace declaration policy                 | names public Contracts, Ports, Events and Adapters and supports explicit exceptions                                                                                                                                         |
+| `forbiddenDeclarations`          | no declaration responsibility is forbidden           | prevents implementation-shaped types such as handlers and DbContexts in Contracts                                                                                                                                           |
+| `forbiddenNamespaces/Symbols/Text` | no source leak policy                              | checks imports, qualified/simple syntax names and configured reflection/configuration strings                                                                                                                               |
+| `payloads`                       | no payload type policy                               | denies internal types or applies a default-deny primitive allowlist to matching declarations                                                                                                                                |
 | `ruleRefs`                       | findings carry this tool's rule ids and nothing else | every finding also carries the numbered rule of your own rulebook it answers to, and the report gains a row per numbered rule: what settles it, how many findings came back, and what a clean result would still not prove |
 | `severities`                     | every rule reports at the level it carries           | that rule id reports at the level named here; only `breaks`, `bends` and `drift` are accepted, and anything else is refused when the file is read                                                                          |
 | `requireRings`                   | not asked                                            | every module must hold a project in each ring named under `rings`                                                                                                                                                          |
@@ -452,11 +482,12 @@ drops.
 Every report names the rule source it used, so a surprising verdict can be traced to the file
 that produced it — and a missing verdict to the rule nobody wrote.
 
-### A module is a folder
+### Module ownership
 
-`sameModule` and `requireRings` both need to know what a module is. A project's module is
-**the folder holding its project folder** — `src/Modules/Auth/Acme.Auth.Domain/Acme.Auth.Domain.csproj`
-is in module `Auth`. Nothing is configured and nothing is inferred from the name.
+`ownership.modulePatterns` may contain one `{module}` token, for example
+`IFX.Modules.{module}.*`. This is the preferred A0 source and avoids prefix ambiguity such as
+`Billing` versus `BillingPlus`. When no pattern matches, the legacy fallback is the folder holding
+the project folder. `ownership.requireKnown` turns unresolved in-scope ownership into a finding.
 
 In a flat layout, where every project folder sits directly under one directory, that directory
 becomes the single module every project shares. `requireRings` then asks for all four layers
@@ -471,6 +502,7 @@ does not consult the module at all.
 ```bash
 dotnet build   mcp/LayerGuard/src/LayerGuard
 dotnet test    mcp/LayerGuard/tests/LayerGuard.Tests
+pwsh -File scripts/Invoke-LayerGuard.ps1
 ```
 
 Every case is a folder of real project files under `tests/fixtures`, named for the situation it
@@ -488,6 +520,7 @@ holds. Open the folder and the case is in front of you.
 | `PrivateAssetsAttributeForm` | the private marker written as an attribute, beside a carrier that declares nothing                | 1 finding, from the open carrier                     |
 | `CustomRules`                | a codebase naming its layers Core, UseCases, Api, Persistence, with a `layerguard.json` beside it | 1 finding the built-in rules would allow             |
 | `SolutionScope`              | three projects on disk, a solution listing two                                                    | 1 finding through the solution, 2 through the folder |
+| `BootstrapArchitecture`      | A0 roles, ownership, adapters, context, payload, cycles, generated/test code and runtime host      | focused positive and negative A0 findings             |
 | `AllowedDirections`          | the five dependencies Clean Architecture permits                                                  | nothing                                              |
 
 The two sibling fixtures exist because Presentation and Infrastructure refuse each other in both

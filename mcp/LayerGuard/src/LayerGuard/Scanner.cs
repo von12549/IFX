@@ -28,7 +28,7 @@ public static class Scanner
 
         var wanted = entryNodes
             .Where(node => ring is null || node.Ring.ToString().Equals(ring, StringComparison.OrdinalIgnoreCase))
-            .Where(node => module is null || string.Equals(node.File.Module, module, StringComparison.OrdinalIgnoreCase))
+            .Where(node => module is null || string.Equals(node.Module, module, StringComparison.OrdinalIgnoreCase))
             .OrderBy(node => node.Name)
             .ToList();
 
@@ -52,71 +52,71 @@ public static class Scanner
         switch (select.ToLowerInvariant())
         {
             case "packages":
-            {
-                var packages = wanted
-                    .SelectMany(node =>
-                        node.File.PackageReferences.Where(package => NameWanted(package.Id))
-                            .Select(package => new PackageFact(
-                                node.Name,
-                                node.Ring.ToString(),
-                                node.File.Module,
-                                package.Id,
-                                package.Version,
-                                package.Source.File,
-                                package.Source.Line
-                            ))
-                    )
-                    .ToList();
-                return new ScanResult(Analyzer.ToolName, "packages", scope, rules, packages.Count, Packages: packages);
-            }
+                {
+                    var packages = wanted
+                        .SelectMany(node =>
+                            node.File.PackageReferences.Where(package => NameWanted(package.Id))
+                                .Select(package => new PackageFact(
+                                    node.Name,
+                                    node.Ring.ToString(),
+                                    node.Module,
+                                    package.Id,
+                                    package.Version,
+                                    package.Source.File,
+                                    package.Source.Line
+                                ))
+                        )
+                        .ToList();
+                    return new ScanResult(Analyzer.ToolName, "packages", scope, rules, packages.Count, Packages: packages);
+                }
 
             case "imports":
-            {
-                var byLongestName = graph.Nodes.Values.OrderByDescending(node => node.Name.Length).ToList();
-                var sources = SourceFiles.ByProject(graph.Nodes.Values);
-                var imports = new List<ImportFact>();
-
-                foreach (var node in wanted)
                 {
-                    if (!sources.TryGetValue(node.FullPath, out var files))
-                        continue;
+                    var byLongestName = graph.Nodes.Values.OrderByDescending(node => node.Name.Length).ToList();
+                    var sources = SourceFiles.ByProject(graph.Nodes.Values);
+                    var imports = new List<ImportFact>();
 
-                    foreach (var file in files.Order())
-                        imports.AddRange(ImportsIn(node, file, byLongestName).Where(fact => NameWanted(fact.Target)));
+                    foreach (var node in wanted)
+                    {
+                        if (!sources.TryGetValue(node.FullPath, out var files))
+                            continue;
+
+                        foreach (var file in files.Order())
+                            imports.AddRange(ImportsIn(node, file, byLongestName).Where(fact => NameWanted(fact.Target)));
+                    }
+
+                    return new ScanResult(Analyzer.ToolName, "imports", scope, rules, imports.Count, Imports: imports);
                 }
-
-                return new ScanResult(Analyzer.ToolName, "imports", scope, rules, imports.Count, Imports: imports);
-            }
 
             case "declarations":
-            {
-                var sources = SourceFiles.ByProject(graph.Nodes.Values);
-                var declarations = new List<DeclarationFact>();
-
-                foreach (var node in wanted)
                 {
-                    if (!sources.TryGetValue(node.FullPath, out var files))
-                        continue;
+                    var sources = SourceFiles.ByProject(graph.Nodes.Values);
+                    var declarations = new List<DeclarationFact>();
 
-                    foreach (var file in files.Order())
-                        declarations.AddRange(DeclarationsIn(node, file).Where(fact => NameWanted(fact.Name)));
+                    foreach (var node in wanted)
+                    {
+                        if (!sources.TryGetValue(node.FullPath, out var files))
+                            continue;
+
+                        foreach (var file in files.Order())
+                            declarations.AddRange(DeclarationsIn(node, file).Where(fact => NameWanted(fact.Name)));
+                    }
+
+                    return new ScanResult(
+                        Analyzer.ToolName,
+                        "declarations",
+                        scope,
+                        rules,
+                        declarations.Count,
+                        Declarations: declarations
+                    );
                 }
 
-                return new ScanResult(
-                    Analyzer.ToolName,
-                    "declarations",
-                    scope,
-                    rules,
-                    declarations.Count,
-                    Declarations: declarations
-                );
-            }
-
             case "projects":
-            {
-                var projects = wanted.Where(node => NameWanted(node.Name)).Select(Analyzer.Summarize).ToList();
-                return new ScanResult(Analyzer.ToolName, "projects", scope, rules, projects.Count, Projects: projects);
-            }
+                {
+                    var projects = wanted.Where(node => NameWanted(node.Name)).Select(Analyzer.Summarize).ToList();
+                    return new ScanResult(Analyzer.ToolName, "projects", scope, rules, projects.Count, Projects: projects);
+                }
 
             default:
                 throw new ArgumentException(
@@ -173,7 +173,7 @@ public static class Scanner
         return new ImportFact(
             node.Name,
             node.Ring.ToString(),
-            node.File.Module,
+            node.Module,
             file,
             line,
             target,
@@ -192,7 +192,7 @@ public static class Scanner
             yield return new DeclarationFact(
                 node.Name,
                 node.Ring.ToString(),
-                node.File.Module,
+                node.Module,
                 file,
                 tree.GetLineSpan(declaration.Span).StartLinePosition.Line + 1,
                 DeclarationRules.KindOf(declaration),

@@ -28,10 +28,10 @@ public static class ReferenceRules
                 Headline: $"{node.Name} sees {target.Name}",
                 FromProject: node.Name,
                 FromRing: node.Ring.ToString(),
-                FromModule: node.File.Module,
+                FromModule: node.Module,
                 ToProject: target.Name,
                 ToRing: target.Ring.ToString(),
-                ToModule: target.File.Module,
+                ToModule: target.Module,
                 Kind: direct ? "direct" : "transitive",
                 Path: PathNames(node, chain),
                 Evidence: chain[0].Source,
@@ -57,8 +57,8 @@ public static class ReferenceRules
         {
             var targetName = Path.GetFileNameWithoutExtension(reference.ResolvedPath);
             graph.Nodes.TryGetValue(reference.ResolvedPath, out var target);
-            var targetModule = target?.File.Module;
-            var sameModule = node.File.Module is not null && targetModule == node.File.Module;
+            var targetModule = target?.Module;
+            var sameModule = node.Module is not null && targetModule == node.Module;
 
             var pattern = ruleset.ForbidsReference(node.Ring, targetName, sameModule);
             if (pattern is null)
@@ -76,7 +76,7 @@ public static class ReferenceRules
                 Headline: $"{node.Name} references {targetName}",
                 FromProject: node.Name,
                 FromRing: node.Ring.ToString(),
-                FromModule: node.File.Module,
+                FromModule: node.Module,
                 ToProject: targetName,
                 ToRing: (target?.Ring ?? Ring.Outside).ToString(),
                 ToModule: targetModule,
@@ -119,7 +119,7 @@ public static class ReferenceRules
             Headline: $"{node.Name} references {targetName}, which {node.Ring} may not name",
             FromProject: node.Name,
             FromRing: node.Ring.ToString(),
-            FromModule: node.File.Module,
+            FromModule: node.Module,
             ToProject: targetName,
             ToRing: (target?.Ring ?? Ring.Outside).ToString(),
             ToModule: targetModule,

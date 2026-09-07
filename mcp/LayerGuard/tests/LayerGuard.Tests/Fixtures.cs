@@ -25,6 +25,7 @@ internal static class Fixtures
     public const string Imports = "Imports";
     public const string Rulebook = "Rulebook";
     public const string SolutionScope = "SolutionScope";
+    public const string BootstrapArchitecture = "BootstrapArchitecture";
 
     private static readonly string Root = Path.GetFullPath(
         Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "fixtures")

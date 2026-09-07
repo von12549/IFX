@@ -26,12 +26,47 @@ static int RunCommandLine(string[] args)
             case "check":
                 {
                     var report = Analyzer.Analyze(Require(positional, "check <path>"), configPath);
-                    Console.WriteLine(
-                        ValueOf(args, "--format") == "json"
-                            ? ReportWriter.ToJson(report)
-                            : ReportWriter.ToMarkdown(report)
-                    );
-                    return report.ViolationCount == 0 ? 0 : 1;
+                    var baselinePath = ValueOf(args, "--baseline");
+                    if (baselinePath is not null)
+                        report = Baseline.Apply(report, baselinePath);
+                    var rendered = ValueOf(args, "--format") == "json"
+                        ? ReportWriter.ToJson(report)
+                        : ReportWriter.ToMarkdown(report);
+                    var reportPath = ValueOf(args, "--report");
+                    if (reportPath is not null)
+                        File.WriteAllText(Paths.Normalize(reportPath), rendered + Environment.NewLine);
+                    if (!args.Contains("--quiet", StringComparer.OrdinalIgnoreCase))
+                        Console.WriteLine(rendered);
+                    return report.Baseline is null
+                        ? report.ViolationCount == 0 ? 0 : 1
+                        : report.Baseline.New == 0 && report.Baseline.Stale == 0 ? 0 : 1;
+                }
+
+            case "snapshot":
+                {
+                    var report = Analyzer.Analyze(Require(positional, "snapshot <path>"), configPath);
+                    var output = ValueOf(args, "--output")
+                        ?? throw new ArgumentException("snapshot requires --output <file>.");
+                    var owner = ValueOf(args, "--owner")
+                        ?? throw new ArgumentException("snapshot requires --owner <name>.");
+                    var expires = DateOnly.Parse(ValueOf(args, "--expires")
+                        ?? throw new ArgumentException("snapshot requires --expires yyyy-MM-dd."));
+                    var reason = ValueOf(args, "--reason") ?? "03-A0 bootstrap historical violation";
+                    var removal = ValueOf(args, "--removal") ?? "Remove when the owning migration item is complete.";
+                    Baseline.Write(Baseline.Snapshot(report, owner, reason, expires, removal), output);
+                    Console.WriteLine($"Wrote {report.ViolationCount} baseline entries to {Paths.Normalize(output)}.");
+                    return 0;
+                }
+            case "graph":
+                {
+                    var graph = ArchitectureGraph.Build(Require(positional, "graph <path>"), configPath);
+                    var rendered = ReportWriter.ToJson(graph);
+                    var reportPath = ValueOf(args, "--report");
+                    if (reportPath is not null)
+                        File.WriteAllText(Paths.Normalize(reportPath), rendered + Environment.NewLine);
+                    if (!args.Contains("--quiet", StringComparer.OrdinalIgnoreCase))
+                        Console.WriteLine(rendered);
+                    return 0;
                 }
 
             case "scan":
@@ -84,7 +119,9 @@ public static partial class Program
         With no arguments it speaks the Model Context Protocol over stdin/stdout.
 
         Commands:
-          check   <path> [--config <file>] [--format json] every rule the rule file states
+          check   <path> [--config <file>] [--baseline <file>] [--report <file>] [--format json] [--quiet]
+          snapshot <path> --output <file> --owner <name> --expires yyyy-MM-dd [--config <file>]
+          graph   <path> [--config <file>] [--report <file>] [--quiet]
           scan    <path> [--select projects|packages|imports|declarations] [--config <file>]
           rules   [<path>] [--config <file>]               show the rules that would apply
 

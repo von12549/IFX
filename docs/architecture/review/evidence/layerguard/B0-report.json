@@ -1,0 +1,31 @@
+{
+  "checkpoint": "B0",
+  "capturedOn": "2026-09-07",
+  "toolVersion": "0.2.0",
+  "scope": "src/Modules",
+  "projectsLoaded": 38,
+  "projectsInScope": 20,
+  "projectsOutside": 9,
+  "sourceFilesRead": 776,
+  "verdict": "violations",
+  "violationCount": 11,
+  "findings": [
+    { "rule": "RING-PACKAGE", "from": "IFX.Modules.Auth.Application", "to": "Microsoft.Extensions.Http", "file": "src/Modules/Auth/IFX.Modules.Auth.Application/IFX.Modules.Auth.Application.csproj", "line": 15 },
+    { "rule": "RING-PACKAGE", "from": "IFX.Modules.Auth.Application", "to": "System.IdentityModel.Tokens.Jwt", "file": "src/Modules/Auth/IFX.Modules.Auth.Application/IFX.Modules.Auth.Application.csproj", "line": 17 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.CRM.Application", "to": "IFX.Modules.CRM.Abstractions", "file": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj", "line": 11 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.CRM.Infrastructure", "to": "IFX.Modules.CRM.Abstractions", "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj", "line": 11 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.Holdings.Application", "to": "IFX.Modules.Holdings.Abstractions", "file": "src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj", "line": 19 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.Holdings.Infrastructure", "to": "IFX.Modules.Holdings.Abstractions", "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj", "line": 19 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.Registry.Application", "to": "IFX.Modules.Registry.Abstractions", "file": "src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj", "line": 5 },
+    { "rule": "RING-PACKAGE", "from": "IFX.Modules.Registry.Application", "to": "Microsoft.Extensions.Http", "file": "src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj", "line": 15 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.Registry.Infrastructure", "to": "IFX.Modules.Registry.Abstractions", "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj", "line": 6 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.Transaction.Application", "to": "IFX.Modules.Transaction.Abstractions", "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj", "line": 19 },
+    { "rule": "FORBIDDEN-REFERENCE", "from": "IFX.Modules.Transaction.Infrastructure", "to": "IFX.Modules.Transaction.Abstractions", "file": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj", "line": 19 }
+  ],
+  "capabilityGaps": [
+    "Contracts, IntegrationAdapter, Composition and RuntimeHost projects were outside the check.",
+    "Own Contracts could not be distinguished from foreign Contracts.",
+    "Provider graph, namespace placement, framework symbol, payload and baseline checks did not exist.",
+    "The old report was not connected to CI."
+  ]
+}

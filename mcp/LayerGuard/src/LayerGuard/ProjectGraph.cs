@@ -4,6 +4,7 @@ namespace LayerGuard;
 public sealed class ProjectGraph
 {
     private readonly Dictionary<string, ProjectNode> nodes = new(StringComparer.OrdinalIgnoreCase);
+    private Ruleset ActiveRuleset { get; init; } = Ruleset.Default;
 
     public required string Root { get; init; }
     public required string RootKind { get; init; }
@@ -20,6 +21,7 @@ public sealed class ProjectGraph
             Root = normalized,
             RootKind = kind,
             EntryProjects = entries,
+            ActiveRuleset = ruleset,
         };
 
         var pending = new Queue<string>(entries);
@@ -30,7 +32,8 @@ public sealed class ProjectGraph
                 continue;
 
             var file = CsprojReader.Read(projectPath);
-            graph.nodes[projectPath] = new ProjectNode(file, ruleset.RingOf(file.Name));
+            var role = ruleset.RingOf(file.Name);
+            graph.nodes[projectPath] = new ProjectNode(file, role, ruleset.ModuleOf(file, role));
 
             foreach (var reference in file.ProjectReferences)
                 pending.Enqueue(reference.ResolvedPath);
@@ -66,6 +69,8 @@ public sealed class ProjectGraph
         {
             var (currentPath, chain) = frontier.Dequeue();
             if (!nodes.TryGetValue(currentPath, out var current))
+                continue;
+            if (ActiveRuleset.TransitiveBoundaryRoles.Contains(current.Ring))
                 continue;
 
             foreach (var edge in EdgesOf(current))

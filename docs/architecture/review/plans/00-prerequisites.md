@@ -13,7 +13,7 @@
 
 ## 里程碑语义
 
-- [ ] **LG-BOOTSTRAP**：Gate 01 实施前完成 LayerGuard 03-A0，保存 B0/B0.5 并对不依赖 Gate artifact 的确定性规则阻断新增违规。
+- [x] **LG-BOOTSTRAP**：Gate 01 实施前完成 LayerGuard 03-A0，保存 B0/B0.5 并对不依赖 Gate artifact 的确定性规则阻断新增违规。证据：[`../evidence/03-a0-layerguard-bootstrap.md`](../evidence/03-a0-layerguard-bootstrap.md)。
 - [ ] **PRE-READY 前置放行**：在 03-A0 保护下完成 Gate 1–5 的批准决策、阻塞修复、ownership、协议接缝和可执行验收要求。
 - [ ] **LG-POLICY-READY**：PRE-READY 后完成 03-A1，将 Gate 输出绑定到完整目标规则，保存正式 B1 并启用完整“禁止新增违规”门禁。
 - [ ] **Gate 最终关闭**：对应原子子计划完成真实代码迁移并回交证据后，才勾选各 Gate Plan 的全部 Phase 与 Definition of Done。
@@ -97,7 +97,7 @@
 
 ## 最终准入验收
 
-- [ ] PRE-D01 LayerGuard 03-A0 已在 Gate 01 前完成，B0/B0.5、工具版本、bootstrap 规则和执行结果可追踪。
+- [x] PRE-D01 LayerGuard 03-A0 已在 Gate 01 前完成，B0/B0.5、工具版本、bootstrap 规则和执行结果可追踪。
 - [ ] PRE-D02 没有通过共享 DbContext、共享事务或共享内部模型来规避边界问题。
 - [ ] PRE-D03 Event 子计划中 TX4/TX5 对应的实现仍由 E2/E4 跟踪，没有因前置决策被错误标记为已实现。
 - [ ] PRE-D04 Plan 00 的架构假设、计划顺序和 LayerGuard 目标矩阵已根据前置决策更新。

@@ -80,7 +80,7 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## LayerGuard Bootstrap 准入门槛
 
-- [ ] M-BOOT 在 Gate 01 实施前完成子计划 3 的 Phase 0–4：保留 B0、建立新引擎/角色/规则/fixture/执行入口、生成 B0.5，并对不依赖 Gate artifact 的确定性规则阻断新增违规。
+- [x] M-BOOT 在 Gate 01 实施前完成子计划 3 的 Phase 0–4：保留 B0、建立新引擎/角色/规则/fixture/执行入口、生成 B0.5，并对不依赖 Gate artifact 的确定性规则阻断新增违规。证据：[`../evidence/03-a0-layerguard-bootstrap.md`](../evidence/03-a0-layerguard-bootstrap.md)。
 
 ## Plan 00 Gate 准入门槛
 

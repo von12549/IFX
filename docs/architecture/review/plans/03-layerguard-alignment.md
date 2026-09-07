@@ -1,6 +1,6 @@
 # 子计划 3：LayerGuard 对齐新架构
 
-> 状态：Draft / 待评审
+> 状态：03-A0 Core Bootstrap 已完成；03-A1 / 03-B 待实施
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 执行位置：03-A0 在 Gate 01–05 之前；03-A1 在 Gate 前置放行之后；03-B 在子计划 1/2 之后。
 > 治理输入：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 在 03-A1 提供 module ownership、合法 provider/consumer 边、shared primitives allowlist 和 waiver policy。
@@ -41,73 +41,73 @@
 
 ## Phase 0 — 建立规则基线与能力差距
 
-- [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。证据：[`../evidence/03-a0-layerguard-bootstrap.md`](../evidence/03-a0-layerguard-bootstrap.md)。
 
-- [ ] L0.1 运行当前 LayerGuard，保存所有结果、误报、漏报和配置解析行为作为基线。
-- [ ] L0.2 生成真实项目引用图与 namespace 引用图，比较 `src/layerguard.json` 声明和代码现实。
-- [ ] L0.3 将上方目标矩阵逐条转成可测试的正例与反例，不以自然语言规则代替验证用例。
-- [ ] L0.4 检查 LayerGuard 当前是否能区分“本模块 Contracts”与“其他模块 Contracts”。
-- [ ] L0.5 检查 LayerGuard 当前是否能识别 Integration Adapter 子目录、独立项目或命名约定。
-- [ ] L0.6 检查工具能否验证直接项目引用、源码 namespace 使用、声明位置与传递依赖。
-- [ ] L0.7 对无法由现有配置表达的规则建立工具增强清单，确认是扩展配置 schema 还是调整物理项目结构。
-- [ ] L0.8 建立可扩展的门禁职责模型：LayerGuard 只验证静态依赖、声明和禁止类型；字段、值和运行时语义由外部 validator/test 负责，具体 Gate 05 绑定延后至 Phase 5。
+- [x] L0.1 运行当前 LayerGuard，保存所有结果、误报、漏报和配置解析行为作为基线。
+- [x] L0.2 生成真实项目引用图与 namespace 引用图，比较 `src/layerguard.json` 声明和代码现实。
+- [x] L0.3 将上方目标矩阵逐条转成可测试的正例与反例，不以自然语言规则代替验证用例。
+- [x] L0.4 检查 LayerGuard 当前是否能区分“本模块 Contracts”与“其他模块 Contracts”。
+- [x] L0.5 检查 LayerGuard 当前是否能识别 Integration Adapter 子目录、独立项目或命名约定。
+- [x] L0.6 检查工具能否验证直接项目引用、源码 namespace 使用、声明位置与传递依赖。
+- [x] L0.7 对无法由现有配置表达的规则建立工具增强清单，确认是扩展配置 schema 还是调整物理项目结构。
+- [x] L0.8 建立可扩展的门禁职责模型：LayerGuard 只验证静态依赖、声明和禁止类型；字段、值和运行时语义由外部 validator/test 负责，具体 Gate 05 绑定延后至 Phase 5。
 
 ## Phase 1 — 设计迁移期 ring 与项目识别
 
-- [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] L1.1 为 `Contracts`、`IntegrationAdapter`、`Composition` 增加可识别的 ring/role，或定义等价的 ownership-aware project role。
-- [ ] L1.2 在迁移期同时识别 `*.Abstractions` 与 `*.Contracts`，但禁止新增旧命名的项目和引用。
-- [ ] L1.3 更新当前 X-1 规则：Application 可以引用本模块 Contracts，但不得引用其他模块 Contracts。
-- [ ] L1.4 定义可读取或一致性生成 shared primitives allowlist 的输入 schema，并用 provisional fixture 验证 default-deny；不在 03-A0 复制尚未产出的 Gate 03/05 权威数据。
-- [ ] L1.5 明确 Adapter 若保留在 Infrastructure 项目中时的目录/namespace 边界，避免整个 Infrastructure 获得外部 Contracts 许可。
-- [ ] L1.6 实现可配置的 Composition 与 API/Worker Runtime Host 模式匹配能力，并用 provisional fixture 验证允许边和禁止内容；实际 Gate 04 role matrix 在 Phase 5 绑定。
-- [ ] L1.7 为历史违规建立临时 baseline/waiver 格式，要求 owner、原因、创建日、到期日和删除条件。
+- [x] L1.1 为 `Contracts`、`IntegrationAdapter`、`Composition` 增加可识别的 ring/role，或定义等价的 ownership-aware project role。
+- [x] L1.2 在迁移期同时识别 `*.Abstractions` 与 `*.Contracts`，但禁止新增旧命名的项目和引用。
+- [x] L1.3 更新当前 X-1 规则：Application 可以引用本模块 Contracts，但不得引用其他模块 Contracts。
+- [x] L1.4 定义可读取或一致性生成 shared primitives allowlist 的输入 schema，并用 provisional fixture 验证 default-deny；不在 03-A0 复制尚未产出的 Gate 03/05 权威数据。
+- [x] L1.5 明确 Adapter 若保留在 Infrastructure 项目中时的目录/namespace 边界，避免整个 Infrastructure 获得外部 Contracts 许可。
+- [x] L1.6 实现可配置的 Composition 与 API/Worker Runtime Host 模式匹配能力，并用 provisional fixture 验证允许边和禁止内容；实际 Gate 04 role matrix 在 Phase 5 绑定。
+- [x] L1.7 为历史违规建立临时 baseline/waiver 格式，要求 owner、原因、创建日、到期日和删除条件。
 
 ## Phase 2 — 增强 ownership-aware 规则能力
 
-- [ ] **Phase 2 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 2 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] L2.1 实现并测试 module ownership 解析，使规则能区分 own module 与 foreign module。
-- [ ] L2.2 实现规则：Domain 不得引用任何 Contracts，包括本模块 Contracts。
-- [ ] L2.3 实现规则：Application 可引用本模块 Contracts，但不得引用 foreign Contracts。
-- [ ] L2.4 实现规则：Integration Adapter 只可引用本模块 Application Port 与声明的 provider Contracts。
-- [ ] L2.5 实现规则：Contracts 不得引用任何模块内层或基础设施项目。
-- [ ] L2.6 实现规则：Presentation 不得直接引用 DbContext、Repository 实现或外部模块实现。
-- [ ] L2.7 实现规则：Infrastructure 不得跨模块引用 DbContext/Repository/implementation assembly。
-- [ ] L2.8 实现规则：API/Worker Runtime Host 只能通过 Composition 装载模块，禁止直接引用业务实现类型；Worker role 不得引用或映射业务 Presentation。
-- [ ] L2.9 为未识别项目、模糊 ownership 和无法解析引用采用 fail-closed 或明确告警策略，避免静默跳过。
-- [ ] L2.10 实现 provider/consumer graph 输入能力，用 fixture 验证 Adapter 只能引用图中登记的 provider Contracts，并阻断未登记同步依赖环；权威图在 Phase 5 接入。
-- [ ] L2.11 实现 context runtime 位置和 primitive allowlist 的可配置检查能力，用 fixture 验证 Application 不依赖 runtime context implementation；批准位置和原语在 Phase 5 接入。
+- [x] L2.1 实现并测试 module ownership 解析，使规则能区分 own module 与 foreign module。
+- [x] L2.2 实现规则：Domain 不得引用任何 Contracts，包括本模块 Contracts。
+- [x] L2.3 实现规则：Application 可引用本模块 Contracts，但不得引用 foreign Contracts。
+- [x] L2.4 实现规则：Integration Adapter 只可引用本模块 Application Port 与声明的 provider Contracts。
+- [x] L2.5 实现规则：Contracts 不得引用任何模块内层或基础设施项目。
+- [x] L2.6 实现规则：Presentation 不得直接引用 DbContext、Repository 实现或外部模块实现。
+- [x] L2.7 实现规则：Infrastructure 不得跨模块引用 DbContext/Repository/implementation assembly。
+- [x] L2.8 实现规则：API/Worker Runtime Host 只能通过 Composition 装载模块，禁止直接引用业务实现类型；Worker role 不得引用或映射业务 Presentation。
+- [x] L2.9 为未识别项目、模糊 ownership 和无法解析引用采用 fail-closed 或明确告警策略，避免静默跳过。
+- [x] L2.10 实现 provider/consumer graph 输入能力，用 fixture 验证 Adapter 只能引用图中登记的 provider Contracts，并阻断未登记同步依赖环；权威图在 Phase 5 接入。
+- [x] L2.11 实现 context runtime 位置和 primitive allowlist 的可配置检查能力，用 fixture 验证 Application 不依赖 runtime context implementation；批准位置和原语在 Phase 5 接入。
 
 ## Phase 3 — 增加声明与框架泄漏规则
 
-- [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] L3.1 验证同步 Contract、公共 DTO 与 Integration Event 只能声明在提供方 Contracts 允许的 namespace。
-- [ ] L3.2 验证消费方 Port 声明在消费方 Application 的约定位置，不能放入提供方 Contracts。
-- [ ] L3.3 验证 Integration Adapter 的实现放在外层约定位置并实现本模块 Port。
-- [ ] L3.4 禁止 Contracts 引用 EF Core、MediatR、ASP.NET、具体序列化器、broker SDK 与 DI 容器包。
-- [ ] L3.5 禁止 Contracts 声明 Handler、DbContext、Repository、DI extension 或实现类。
-- [ ] L3.6 禁止 Integration Event payload 使用 Domain Entity、EF Entity 或其他模块内部类型。
-- [ ] L3.7 为命名规则提供有限且明确的例外机制，避免只靠 `Reader`/`Handler` 字符串产生大量误报。
-- [ ] L3.8 禁止 ContractRequestContext/Event Envelope 引用 HttpContext、ClaimsPrincipal、JWT/token 类型、Activity、ILogger、DI、Security implementation 或 broker carrier。
-- [ ] L3.9 实现同步 Contract metadata/业务 DTO、Event Envelope/payload 声明分区规则，并定义与外部字段分类 validator 的职责接口；具体 C0-C4/purpose policy 在 Phase 5 绑定。
+- [x] L3.1 验证同步 Contract、公共 DTO 与 Integration Event 只能声明在提供方 Contracts 允许的 namespace。
+- [x] L3.2 验证消费方 Port 声明在消费方 Application 的约定位置，不能放入提供方 Contracts。
+- [x] L3.3 验证 Integration Adapter 的实现放在外层约定位置并实现本模块 Port。
+- [x] L3.4 禁止 Contracts 引用 EF Core、MediatR、ASP.NET、具体序列化器、broker SDK 与 DI 容器包。
+- [x] L3.5 禁止 Contracts 声明 Handler、DbContext、Repository、DI extension 或实现类。
+- [x] L3.6 禁止 Integration Event payload 使用 Domain Entity、EF Entity 或其他模块内部类型。
+- [x] L3.7 为命名规则提供有限且明确的例外机制，避免只靠 `Reader`/`Handler` 字符串产生大量误报。
+- [x] L3.8 禁止 ContractRequestContext/Event Envelope 引用 HttpContext、ClaimsPrincipal、JWT/token 类型、Activity、ILogger、DI、Security implementation 或 broker carrier。
+- [x] L3.9 实现同步 Contract metadata/业务 DTO、Event Envelope/payload 声明分区规则，并定义与外部字段分类 validator 的职责接口；具体 C0-C4/purpose policy 在 Phase 5 绑定。
 
 ## Phase 4 — 建立 LayerGuard 自动化测试套件
 
-- [ ] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] L4.1 为每条允许边建立最小正例 fixture，防止规则过严阻断合法架构。
-- [ ] L4.2 为 Domain → Contracts、Application → foreign Contracts 等每条禁止边建立反例 fixture。
-- [ ] L4.3 添加“同名模块前缀”“嵌套模块名”“测试项目”“生成代码”等 ownership 边界用例。
-- [ ] L4.4 添加 Adapter 位于独立项目与 Infrastructure 子目录两种组织方式的用例；最终未采用的模式可保留为工具能力测试。
-- [ ] L4.5 添加直接引用、间接/传递引用、源码 using、fully-qualified name 和反射配置等绕过场景测试。
-- [ ] L4.6 添加模块循环依赖与 Contract 循环依赖检测测试。
-- [ ] L4.7 添加配置错误、未知 ring、重复规则和过期 waiver 的失败测试。
-- [ ] L4.8 验证报告包含违规源、目标、规则编号、所属模块与可执行修复提示。
-- [ ] L4.9 添加合法 BCL-only context primitive 正例，以及 Contracts → ASP.NET/Security implementation/Activity/broker 和 Application → runtime context implementation 反例。
-- [ ] L4.10 提供统一的本地/CI 执行入口，运行新引擎及所有不依赖 Gate artifact 的确定性规则，保存 B0.5 报告并在 G01–G05 实施期间阻断这些规则的新增违规。
+- [x] L4.1 为每条允许边建立最小正例 fixture，防止规则过严阻断合法架构。
+- [x] L4.2 为 Domain → Contracts、Application → foreign Contracts 等每条禁止边建立反例 fixture。
+- [x] L4.3 添加“同名模块前缀”“嵌套模块名”“测试项目”“生成代码”等 ownership 边界用例。
+- [x] L4.4 添加 Adapter 位于独立项目与 Infrastructure 子目录两种组织方式的用例；最终未采用的模式可保留为工具能力测试。
+- [x] L4.5 添加直接引用、间接/传递引用、源码 using、fully-qualified name 和反射配置等绕过场景测试。
+- [x] L4.6 添加模块循环依赖与 Contract 循环依赖检测测试。
+- [x] L4.7 添加配置错误、未知 ring、重复规则和过期 waiver 的失败测试。
+- [x] L4.8 验证报告包含违规源、目标、规则编号、所属模块与可执行修复提示。
+- [x] L4.9 添加合法 BCL-only context primitive 正例，以及 Contracts → ASP.NET/Security implementation/Activity/broker 和 Application → runtime context implementation 反例。
+- [x] L4.10 提供统一的本地/CI 执行入口，运行新引擎及所有不依赖 Gate artifact 的确定性规则，保存 B0.5 报告并在 G01–G05 实施期间阻断这些规则的新增违规。
 
 ## Phase 5 — 绑定 Gate Policy 并保存正式改造前基线
 

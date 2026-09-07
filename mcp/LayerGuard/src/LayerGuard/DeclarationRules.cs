@@ -18,7 +18,7 @@ public static class DeclarationRules
         ProjectNode node,
         string file,
         Ruleset ruleset,
-        IReadOnlyDictionary<string, HashSet<Ring>> index
+        IReadOnlyDictionary<string, HashSet<DeclarationSite>> index
     )
     {
         if (ruleset.Declarations.Count == 0)
@@ -54,10 +54,10 @@ public static class DeclarationRules
                     Headline: $"{name} is declared in {node.Ring}, not {rule.MustLiveIn}",
                     FromProject: node.Name,
                     FromRing: node.Ring.ToString(),
-                    FromModule: node.File.Module,
+                    FromModule: node.Module,
                     ToProject: name,
                     ToRing: rule.MustLiveIn.ToString(),
-                    ToModule: node.File.Module,
+                    ToModule: node.Module,
                     Kind: "declaration",
                     Path: [node.Name, name],
                     Evidence: evidence,
@@ -74,11 +74,12 @@ public static class DeclarationRules
     private static bool Implements(
         BaseTypeDeclarationSyntax declaration,
         Ring required,
-        IReadOnlyDictionary<string, HashSet<Ring>> index
+        IReadOnlyDictionary<string, HashSet<DeclarationSite>> index
     ) =>
         declaration.BaseList is not null
         && declaration.BaseList.Types.Any(baseType =>
-            index.TryGetValue(DeclarationIndex.SimpleName(baseType), out var rings) && rings.Contains(required)
+            index.TryGetValue(DeclarationIndex.SimpleName(baseType), out var sites)
+            && sites.Any(site => site.Ring == required)
         );
 
     private static Violation Unimplemented(
@@ -97,10 +98,10 @@ public static class DeclarationRules
             Headline: $"{name} implements nothing declared in {required}",
             FromProject: node.Name,
             FromRing: node.Ring.ToString(),
-            FromModule: node.File.Module,
+            FromModule: node.Module,
             ToProject: name,
             ToRing: required.ToString(),
-            ToModule: node.File.Module,
+            ToModule: node.Module,
             Kind: kind,
             Path: [node.Name, name],
             Evidence: evidence,

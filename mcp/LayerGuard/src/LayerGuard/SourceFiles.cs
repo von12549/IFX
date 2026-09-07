@@ -41,7 +41,13 @@ public static class SourceFiles
 
     public static SyntaxTree Parse(string file) => CSharpSyntaxTree.ParseText(File.ReadAllText(file));
 
-    private static bool IsGenerated(string file) =>
-        file.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+    private static bool IsGenerated(string file)
+    {
+        if (file.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase)
+            || file.EndsWith(".generated.cs", StringComparison.OrdinalIgnoreCase)
+            || file.EndsWith(".designer.cs", StringComparison.OrdinalIgnoreCase))
+            return true;
+        return file.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
             .Any(part => part is "obj" or "bin");
+    }
 }

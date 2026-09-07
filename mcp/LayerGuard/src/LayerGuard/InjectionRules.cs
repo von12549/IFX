@@ -26,7 +26,7 @@ public static class InjectionRules
         ProjectNode node,
         string file,
         Ruleset ruleset,
-        IReadOnlyDictionary<string, HashSet<Ring>> index
+        IReadOnlyDictionary<string, HashSet<DeclarationSite>> index
     )
     {
         var byName = ruleset.ForbiddenDependencies.ContainsKey(node.Ring);
@@ -60,10 +60,10 @@ public static class InjectionRules
                         Headline: $"{declaration.Identifier.Text} is handed {name}",
                         FromProject: node.Name,
                         FromRing: node.Ring.ToString(),
-                        FromModule: node.File.Module,
+                        FromModule: node.Module,
                         ToProject: name,
                         ToRing: origin?.ToString() ?? "type",
-                        ToModule: node.File.Module,
+                        ToModule: node.Module,
                         Kind: KindOf(parameter),
                         Path: [node.Name, declaration.Identifier.Text, name],
                         Evidence: evidence,
@@ -89,15 +89,16 @@ public static class InjectionRules
         string name,
         Ring[]? forbidden,
         Ring judged,
-        IReadOnlyDictionary<string, HashSet<Ring>> index
+        IReadOnlyDictionary<string, HashSet<DeclarationSite>> index
     )
     {
-        if (forbidden is null || !index.TryGetValue(name, out var declaredIn) || declaredIn.Contains(judged))
+        if (forbidden is null || !index.TryGetValue(name, out var declaredIn)
+            || declaredIn.Any(site => site.Ring == judged))
             return null;
 
         foreach (var ring in forbidden)
         {
-            if (declaredIn.Contains(ring))
+            if (declaredIn.Any(site => site.Ring == ring))
                 return ring;
         }
 

@@ -18,6 +18,8 @@ public static class ReportWriter
 
     public static string ToJson(ScanResult result) => JsonSerializer.Serialize(result, JsonOptions);
 
+    public static string ToJson(ArchitectureGraphReport result) => JsonSerializer.Serialize(result, JsonOptions);
+
     public static string ToMarkdown(Report report)
     {
         var text = new StringBuilder();
@@ -33,6 +35,8 @@ public static class ReportWriter
         text.AppendLine($"- Rules: {report.Ruleset.Source}");
         text.AppendLine($"- Root: `{report.Scope.Root}`");
         text.AppendLine($"- Outside the check: {report.Scope.ProjectsOutside} projects");
+        if (report.Baseline is not null)
+            text.AppendLine($"- Baseline: {report.Baseline.Matched} matched, {report.Baseline.New} new, {report.Baseline.Stale} stale");
         text.AppendLine();
         text.AppendLine("## Checked");
         text.AppendLine();

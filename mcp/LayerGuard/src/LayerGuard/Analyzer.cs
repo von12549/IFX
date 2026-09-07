@@ -9,7 +9,7 @@ namespace LayerGuard;
 public static class Analyzer
 {
     public const string ToolName = "layerguard";
-    public const string ToolVersion = "0.2.0";
+    public const string ToolVersion = "0.3.0-a0";
 
     public static Report Analyze(string path, string? configPath)
     {
@@ -28,11 +28,12 @@ public static class Analyzer
 
         // Only built when a rule asks where a contract is declared: it costs a second read of
         // every source file, and no other family looks outside the file in front of it.
-        var judgesContracts = ruleset.Declarations.Any(rule => rule.MustImplement is not null);
+        var judgesContracts = ruleset.Declarations.Any(rule => rule.MustImplement is not null)
+            || ruleset.DeclarationNamespaces.Any(rule => rule.MustImplement is not null);
         var wantsIndex = judgesContracts || ruleset.ForbiddenDependencyOrigins.Count > 0;
         var declaredIn = wantsIndex
             ? DeclarationIndex.Build(inScope, sources)
-            : new Dictionary<string, HashSet<Ring>>();
+            : new Dictionary<string, HashSet<DeclarationSite>>();
 
         var checkedFamilies = new List<string> { "project references" };
         var notChecked = new List<string>();
@@ -43,6 +44,7 @@ public static class Analyzer
         {
             violations.AddRange(ReferenceRules.Direction(node, graph, ruleset));
             violations.AddRange(ReferenceRules.Named(node, graph, ruleset));
+            violations.AddRange(OwnershipRules.For(node, graph, ruleset));
             violations.AddRange(PackageRules.For(node, ruleset));
 
             if (!sources.TryGetValue(node.FullPath, out var files))
@@ -54,10 +56,13 @@ public static class Analyzer
                 violations.AddRange(ImportRules.For(node, file, byLongestName, ruleset));
                 violations.AddRange(DeclarationRules.For(node, file, ruleset, declaredIn));
                 violations.AddRange(InjectionRules.For(node, file, ruleset, declaredIn));
+                violations.AddRange(SourcePolicyRules.For(node, file, ruleset, declaredIn));
+                violations.AddRange(EmbeddedAdapterRules.For(node, file, byLongestName, ruleset));
             }
         }
 
         violations.AddRange(StructureRules.For(inScope, ruleset));
+        violations.AddRange(OwnershipRules.Graph(graph, ruleset));
 
         if (sourceFilesRead > 0)
             checkedFamilies.Add($"import directives in {sourceFilesRead} source files");
@@ -121,13 +126,54 @@ public static class Analyzer
             checkedFamilies,
             notChecked
         );
+        Record(
+            ruleset.ModulePatterns.Length > 0,
+            "module ownership and project roles",
+            "module ownership — no project-name ownership pattern is configured",
+            checkedFamilies,
+            notChecked
+        );
+        Record(
+            ruleset.ReferenceScopes.Count > 0,
+            "own and foreign role references",
+            "own/foreign role references — no ownership scope is configured",
+            checkedFamilies,
+            notChecked
+        );
+        Record(
+            ruleset.ProviderContracts.Count > 0 || ruleset.EmbeddedAdapterNamespaces.Length > 0,
+            "provider graph and adapter boundaries",
+            "provider graph and adapter boundaries — no provisional policy is configured",
+            checkedFamilies,
+            notChecked
+        );
+        Record(
+            ruleset.DeclarationNamespaces.Count > 0 || ruleset.ForbiddenDeclarations.Count > 0,
+            "declaration namespaces and forbidden implementation declarations",
+            "declaration namespace policy — no rule is configured",
+            checkedFamilies,
+            notChecked
+        );
+        Record(
+            ruleset.ForbiddenNamespaces.Count > 0 || ruleset.ForbiddenSymbols.Count > 0,
+            "forbidden framework namespaces, symbols, and reflection strings",
+            "forbidden source symbols — no rule is configured",
+            checkedFamilies,
+            notChecked
+        );
+        Record(
+            ruleset.Payloads.Count > 0,
+            "Contract context and event payload type boundaries",
+            "Contract context and payload types — no rule is configured",
+            checkedFamilies,
+            notChecked
+        );
 
         notChecked.AddRange(
             [
-                "type names written out in full in code, with no import line",
-                "which project a name really binds to — namespaces are matched against project "
-                    + "names, not resolved by a compiler",
-                "method bodies, and any use of a type that needs no import",
+                "semantic symbol binding — names are matched syntactically against loaded project names",
+                "method behavior and runtime values; this tool checks only static dependency and declaration boundaries",
+                "Gate 05 field classification, purpose and propagation semantics — delegated to external validators/tests",
                 "anything inside a project that matches no layer",
             ]
         );
@@ -142,7 +188,8 @@ public static class Analyzer
         for (var index = 0; index < ordered.Count; index++)
         {
             var violation = ordered[index];
-            var sameModule = violation.FromModule is not null && violation.FromModule == violation.ToModule;
+            var sameModule = violation.FromModule is not null
+                && string.Equals(violation.FromModule, violation.ToModule, StringComparison.OrdinalIgnoreCase);
             var claimed = Enum.TryParse<Ring>(violation.FromRing, out var fromRing)
                 ? ruleset.RefFor(violation.Rule, fromRing, sameModule)
                 : null;
@@ -223,7 +270,7 @@ public static class Analyzer
         new(
             Name: node.Name,
             Ring: node.Ring.ToString(),
-            Module: node.File.Module,
+                Module: node.Module,
             File: node.FullPath,
             DirectProjectReferences: node.File.ProjectReferences.Count,
             Packages: node.File.PackageReferences.Count

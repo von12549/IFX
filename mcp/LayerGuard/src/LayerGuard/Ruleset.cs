@@ -15,6 +15,23 @@ public sealed class Ruleset
     public required string Source { get; init; }
     public required IReadOnlyDictionary<Ring, string[]> RingPatterns { get; init; }
     public required IReadOnlyDictionary<Ring, Ring[]> AllowedDependencies { get; init; }
+    public IReadOnlyList<ReferenceScopeRule> ReferenceScopes { get; init; } = [];
+    public string[] ModulePatterns { get; init; } = [];
+    public bool RequireKnownOwnership { get; init; }
+    public IReadOnlyDictionary<string, string[]> ProviderContracts { get; init; } =
+        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
+    public string[] ForbiddenProjectNames { get; init; } = [];
+    public IReadOnlyDictionary<Ring, string[]> ForbiddenNamespaces { get; init; } =
+        new Dictionary<Ring, string[]>();
+    public IReadOnlyDictionary<Ring, string[]> ForbiddenSymbols { get; init; } =
+        new Dictionary<Ring, string[]>();
+    public IReadOnlyDictionary<Ring, string[]> ForbiddenText { get; init; } =
+        new Dictionary<Ring, string[]>();
+    public IReadOnlyList<NamespaceDeclarationRule> DeclarationNamespaces { get; init; } = [];
+    public IReadOnlyList<ForbiddenDeclarationRule> ForbiddenDeclarations { get; init; } = [];
+    public IReadOnlyList<PayloadRule> Payloads { get; init; } = [];
+    public string[] EmbeddedAdapterNamespaces { get; init; } = [];
+    public Ring[] TransitiveBoundaryRoles { get; init; } = [];
 
     /// A ring listed here may hold only packages matching one of its patterns. An empty list
     /// means no package at all. A ring that is absent is not checked — silence is not consent.
@@ -129,6 +146,43 @@ public sealed class Ruleset
     public bool Allows(Ring from, Ring to) =>
         from == to || (AllowedDependencies.TryGetValue(from, out var allowed) && allowed.Contains(to));
 
+    public bool AllowsOwnership(Ring from, Ring to, string? fromModule, string? toModule)
+    {
+        var constraints = ReferenceScopes.Where(rule => rule.From == from && rule.To == to).ToList();
+        if (constraints.Count == 0)
+            return true;
+
+        var relationship = fromModule is not null
+            && string.Equals(fromModule, toModule, StringComparison.OrdinalIgnoreCase)
+                ? "own"
+                : "foreign";
+        return constraints.Any(rule =>
+            rule.Ownership.Equals("any", StringComparison.OrdinalIgnoreCase)
+            || rule.Ownership.Equals(relationship, StringComparison.OrdinalIgnoreCase)
+        );
+    }
+
+    public bool IsApprovedProvider(string consumer, string provider) =>
+        ProviderContracts.TryGetValue(consumer, out var providers)
+        && providers.Contains(provider, StringComparer.OrdinalIgnoreCase);
+
+    public string? ModuleOf(ProjectFile file, Ring role)
+    {
+        foreach (var pattern in ModulePatterns)
+        {
+            var expression = "^"
+                + Regex.Escape(pattern)
+                    .Replace("\\{module}", "(?<module>[^.]+)")
+                    .Replace("\\*", ".*")
+                + "$";
+            var match = Regex.Match(file.Name, expression, RegexOptions.IgnoreCase);
+            if (match.Success)
+                return match.Groups["module"].Value;
+        }
+
+        return role is Ring.RuntimeHost or Ring.Test ? null : file.Module;
+    }
+
     /// null when the ring states no package rule at all, which is not the same as stating an
     /// empty one: the first is unchecked, the second forbids everything.
     public string[]? PackagesAllowedIn(Ring ring) =>
@@ -197,6 +251,7 @@ public sealed class Ruleset
                 PropertyNameCaseInsensitive = true,
                 ReadCommentHandling = JsonCommentHandling.Skip,
                 AllowTrailingCommas = true,
+                UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow,
                 Converters = { new JsonStringEnumConverter() },
             }
         );
@@ -204,11 +259,27 @@ public sealed class Ruleset
         if (document is null)
             throw new InvalidDataException($"{path} is empty");
 
+        Validate(document, path);
+
         return new Ruleset
         {
             Source = path,
             RingPatterns = ToRingMap(document.Rings) ?? Default.RingPatterns,
             AllowedDependencies = ToDependencyMap(document.AllowedDependencies) ?? Default.AllowedDependencies,
+            ReferenceScopes = document.ReferenceScopes ?? [],
+            ModulePatterns = document.Ownership?.ModulePatterns ?? [],
+            RequireKnownOwnership = document.Ownership?.RequireKnown ?? false,
+            ProviderContracts = document.ProviderContracts
+                ?? new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase),
+            ForbiddenProjectNames = document.ForbiddenProjectNames ?? [],
+            ForbiddenNamespaces = ToRingMap(document.ForbiddenNamespaces) ?? new Dictionary<Ring, string[]>(),
+            ForbiddenSymbols = ToRingMap(document.ForbiddenSymbols) ?? new Dictionary<Ring, string[]>(),
+            ForbiddenText = ToRingMap(document.ForbiddenText) ?? new Dictionary<Ring, string[]>(),
+            DeclarationNamespaces = document.DeclarationNamespaces ?? [],
+            ForbiddenDeclarations = document.ForbiddenDeclarations ?? [],
+            Payloads = document.Payloads ?? [],
+            EmbeddedAdapterNamespaces = document.EmbeddedAdapterNamespaces ?? [],
+            TransitiveBoundaryRoles = document.TransitiveBoundaryRoles ?? [],
             AllowedPackages = ToRingMap(document.AllowedPackages) ?? new Dictionary<Ring, string[]>(),
             ForbiddenPackages = ToRingMap(document.ForbiddenPackages) ?? new Dictionary<Ring, string[]>(),
             ForbiddenDependencies =
@@ -264,6 +335,18 @@ public sealed class Ruleset
         InjectionRules.Rule,
         InjectionRules.OriginRule,
         StructureRules.Rule,
+        OwnershipRules.UnknownOwnershipRule,
+        OwnershipRules.ProjectNameRule,
+        OwnershipRules.ScopeRule,
+        OwnershipRules.ProviderRule,
+        OwnershipRules.ProviderCycleRule,
+        OwnershipRules.ContractCycleRule,
+        SourcePolicyRules.NamespaceRuleId,
+        SourcePolicyRules.ForbiddenDeclarationRuleId,
+        SourcePolicyRules.ForbiddenSymbolRuleId,
+        SourcePolicyRules.PayloadRuleId,
+        EmbeddedAdapterRules.LocationRule,
+        EmbeddedAdapterRules.ProviderRule,
     };
 
     /// A severity nobody recognises is refused at the door. Left through, it would produce
@@ -278,6 +361,8 @@ public sealed class Ruleset
 
         foreach (var (ruleId, severity) in raw)
         {
+            if (!KnownRules.Contains(ruleId))
+                throw new InvalidDataException($"{path} assigns severity to unknown rule `{ruleId}`.");
             if (severity is not (Breaks or Bends or Drift))
                 throw new InvalidDataException(
                     $"{path} gives {ruleId} the severity \"{severity}\". "
@@ -286,6 +371,33 @@ public sealed class Ruleset
         }
 
         return raw;
+    }
+
+    private static void Validate(RulesetDocument document, string path)
+    {
+        foreach (var pattern in document.Ownership?.ModulePatterns ?? [])
+            if (pattern.Split("{module}", StringSplitOptions.None).Length != 2)
+                throw new InvalidDataException(
+                    $"{path} ownership pattern `{pattern}` must contain exactly one {{module}} token."
+                );
+
+        foreach (var scope in document.ReferenceScopes ?? [])
+            if (scope.Ownership is not ("own" or "foreign" or "any" or "none"))
+                throw new InvalidDataException(
+                    $"{path} referenceScopes ownership `{scope.Ownership}` must be own, foreign, any, or none."
+                );
+
+        var duplicate = (document.ReferenceScopes ?? [])
+            .GroupBy(scope => $"{scope.From}|{scope.To}|{scope.Ownership}", StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicate is not null)
+            throw new InvalidDataException($"{path} contains duplicate reference scope `{duplicate.Key}`.");
+
+        var duplicateNamespace = (document.DeclarationNamespaces ?? [])
+            .GroupBy(rule => $"{rule.Match}|{rule.Kind}|{rule.Namespace}", StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault(group => group.Count() > 1);
+        if (duplicateNamespace is not null)
+            throw new InvalidDataException($"{path} contains duplicate declaration namespace rule `{duplicateNamespace.Key}`.");
     }
 
     private static IReadOnlyDictionary<Ring, string[]>? ToRingMap(Dictionary<string, string[]>? raw) =>
@@ -300,8 +412,10 @@ public sealed class Ruleset
         Enum.TryParse<Ring>(name, ignoreCase: true, out var ring)
             ? ring
             : throw new InvalidDataException(
-                $"\"{name}\" is not a ring. Use Domain, Application, Presentation or Infrastructure."
+                $"\"{name}\" is not a project role. Use one of: {string.Join(", ", Enum.GetNames<Ring>())}."
             );
+
+    private sealed record OwnershipDocument(string[]? ModulePatterns, bool? RequireKnown);
 
     private sealed record ForbiddenReferencesDocument(
         string[]? SameModule,
@@ -309,10 +423,23 @@ public sealed class Ruleset
     );
 
     private sealed record RulesetDocument(
+        [property: JsonPropertyName("_")] string[]? Comments,
         Dictionary<string, string>? Severities,
         RuleRef[]? RuleRefs,
         Dictionary<string, string[]>? Rings,
         Dictionary<string, string[]>? AllowedDependencies,
+        ReferenceScopeRule[]? ReferenceScopes,
+        OwnershipDocument? Ownership,
+        Dictionary<string, string[]>? ProviderContracts,
+        string[]? ForbiddenProjectNames,
+        Dictionary<string, string[]>? ForbiddenNamespaces,
+        Dictionary<string, string[]>? ForbiddenSymbols,
+        Dictionary<string, string[]>? ForbiddenText,
+        NamespaceDeclarationRule[]? DeclarationNamespaces,
+        ForbiddenDeclarationRule[]? ForbiddenDeclarations,
+        PayloadRule[]? Payloads,
+        string[]? EmbeddedAdapterNamespaces,
+        Ring[]? TransitiveBoundaryRoles,
         Dictionary<string, string[]>? AllowedReferences,
         Dictionary<string, string[]>? AllowedPackages,
         Dictionary<string, string[]>? ForbiddenPackages,
@@ -323,6 +450,32 @@ public sealed class Ruleset
         bool? RequireRings
     );
 }
+
+public sealed record ReferenceScopeRule(Ring From, Ring To, string Ownership);
+
+public sealed record NamespaceDeclarationRule(
+    string Match,
+    Ring[] MustLiveIn,
+    string Namespace,
+    string? Kind = null,
+    string[]? Exceptions = null,
+    Ring? MustImplement = null,
+    bool MustImplementOwn = false
+);
+
+public sealed record ForbiddenDeclarationRule(
+    string Match,
+    Ring In,
+    string? Kind = null,
+    string[]? Exceptions = null
+);
+
+public sealed record PayloadRule(
+    string Match,
+    string[]? ForbiddenTypes = null,
+    string[]? AllowedTypes = null,
+    string[]? Exceptions = null
+);
 
 /// A type whose name matches `Match` has to be declared in `MustLiveIn`. The name is most of the
 /// rule's input, because a naming convention is the only thing a codebase states out loud about

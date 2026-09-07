@@ -3,9 +3,14 @@ namespace LayerGuard;
 public enum Ring
 {
     Domain,
+    Contracts,
     Application,
     Presentation,
+    IntegrationAdapter,
     Infrastructure,
+    Composition,
+    RuntimeHost,
+    Test,
     Outside,
 }
 
@@ -47,12 +52,20 @@ public sealed record GraphEdge(
 );
 
 /// One project as the analyzer sees it: the file plus the ring it was assigned to.
-public sealed record ProjectNode(ProjectFile File, Ring Ring)
+public sealed record ProjectNode(ProjectFile File, Ring Ring, string? Module)
 {
     public string Name => File.Name;
     public string FullPath => File.FullPath;
     public bool InScope => Ring != Ring.Outside;
 }
+
+public sealed record BaselineSummary(
+    string? Source,
+    int Matched,
+    int New,
+    int Stale,
+    int TotalEntries
+);
 
 public sealed record Violation(
     string Id,
@@ -118,5 +131,6 @@ public sealed record Report(
     IReadOnlyList<Violation> Violations,
     IReadOnlyList<ProjectSummary> Projects,
     IReadOnlyList<ProjectSummary> Outside,
-    IReadOnlyList<string> NotChecked
+    IReadOnlyList<string> NotChecked,
+    BaselineSummary? Baseline = null
 );
