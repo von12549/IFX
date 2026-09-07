@@ -1,0 +1,18 @@
+-- MANUAL REVIEW REQUIRED. Never execute this template directly.
+-- Release / migration IDs:
+-- Approved restore point:
+-- Expected data loss:
+-- Architecture approval:
+-- Database approval:
+-- Operations approval:
+-- Forward compatibility impact:
+
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+
+-- Add the reviewed, environment-specific compensating statements here.
+-- Include explicit preconditions and row-count assertions for every destructive statement.
+
+THROW 51000, 'Replace the rollback template with an approved script before execution.', 1;
+
+ROLLBACK TRANSACTION;

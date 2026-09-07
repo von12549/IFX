@@ -1,0 +1,38 @@
+{
+  "releaseId": "<immutable-release-id>",
+  "environment": "<environment>",
+  "changeTicket": "<approved-change-ticket>",
+  "approvals": {
+    "architecture": "<approval-reference>",
+    "database": "<approval-reference>",
+    "operations": "<approval-reference>"
+  },
+  "artifacts": {
+    "migrationManifestSha256": "<sha256>",
+    "releaseManifestSha256": "<sha256>",
+    "artifactManifestSha256": "<sha256>"
+  },
+  "restorePoint": {
+    "identifier": "<backup-or-snapshot-id>",
+    "restoreVerifiedAt": "<ISO-8601-timestamp>"
+  },
+  "execution": {
+    "preflightReport": "<immutable-location>",
+    "applyReport": "<immutable-location>",
+    "validationReport": "<immutable-location>",
+    "startedAt": "<ISO-8601-timestamp>",
+    "finishedAt": "<ISO-8601-timestamp>",
+    "operator": "<controlled-identity>",
+    "result": "<succeeded-or-failed>"
+  },
+  "databaseState": {
+    "moduleMigrationIds": {},
+    "partialUpgrade": false,
+    "dataImpact": "<none-or-reviewed-summary>"
+  },
+  "recovery": {
+    "action": "<none-roll-forward-or-reviewed-restore>",
+    "verification": "<evidence-reference>",
+    "nextReleaseCondition": "<condition>"
+  }
+}

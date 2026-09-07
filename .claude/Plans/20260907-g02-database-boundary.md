@@ -41,6 +41,8 @@ execution, validation, and evidence explicitly module-owned.
   deterministic orchestration, explicit modes/exit codes, and structured module reports.
 - Phase 5 complete: ApiHost production DDL removed, read-only release/schema compatibility added,
   version-matched SQL artifacts automated, and local/NAS deployment ordering enforced.
+- Phase 6 complete: Expand/Contract review, destructive-migration policy enforcement, partial
+  upgrade recovery, exceptional rollback and immutable upgrade audit controls established.
 
 ## Phase discipline
 

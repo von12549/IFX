@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "phase": 6,
+  "result": "passed",
+  "defaultStrategy": "roll-forward",
+  "automaticDownAllowed": false,
+  "riskyMigrations": 5,
+  "reviewedRiskyMigrations": 5,
+  "failures": []
+}

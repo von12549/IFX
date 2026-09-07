@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "defaultStrategy": "roll-forward",
+  "automaticDownAllowed": false,
+  "reviewSignals": [
+    "drop-table-or-column",
+    "rename-table-or-column",
+    "non-null-column-transition",
+    "alter-column-type-or-width",
+    "large-data-backfill"
+  ],
+  "reviewedMigrations": [
+    {
+      "module": "Auth",
+      "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+      "sourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980",
+      "disposition": "pre-gate-baseline",
+      "signals": ["alter-column-lock-and-conversion"]
+    },
+    {
+      "module": "CRM",
+      "migrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+      "sourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b",
+      "disposition": "pre-gate-baseline",
+      "signals": ["alter-column-lock-and-conversion"]
+    },
+    {
+      "module": "Registry",
+      "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+      "sourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd",
+      "disposition": "pre-gate-baseline",
+      "signals": ["alter-column-lock-and-conversion"]
+    },
+    {
+      "module": "Holdings",
+      "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+      "sourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83",
+      "disposition": "pre-gate-baseline",
+      "signals": ["alter-column-lock-and-conversion"]
+    },
+    {
+      "module": "Transaction",
+      "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+      "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be",
+      "disposition": "pre-gate-baseline",
+      "signals": ["alter-column-lock-and-conversion"]
+    }
+  ]
+}

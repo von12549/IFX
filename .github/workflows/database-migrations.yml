@@ -20,6 +20,9 @@ jobs:
       - name: Generate version-matched idempotent SQL
         shell: pwsh
         run: ./scripts/New-DatabaseMigrationArtifacts.ps1 -OutputDirectory artifacts/database-migrator/release -NoBuild
+      - name: Enforce destructive migration review policy
+        shell: pwsh
+        run: ./scripts/Test-MigrationSafetyPolicy.ps1 -NoBuild
       - name: Publish DatabaseMigrator
         run: dotnet publish src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj --configuration Release --no-restore --output artifacts/database-migrator/publish /p:UseAppHost=false
       - name: Verify database boundary manifest

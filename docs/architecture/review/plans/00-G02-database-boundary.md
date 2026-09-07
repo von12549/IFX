@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 5 已完成（2026-09-08）
+> 状态：Implementation In Progress / Phase 6 已完成（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -255,16 +255,23 @@ backup/restore point 与实际 rollout 仍由 Phase 8 采集，不在仓库验�
 
 ## Phase 6 — Expand / Contract、失败与回退策略
 
-- [ ] **Phase 6 完成**：部分升级、应用回退和 destructive migration 均有明确安全路径。
+- [x] **Phase 6 完成**：部分升级、应用回退和 destructive migration 均有明确安全路径。
 
-- [ ] G02-6.1 建立 Expand → deploy/read/write transition → backfill → Contract 的发布模板。
-- [ ] G02-6.2 对 drop、rename、non-null、类型缩窄和大规模 backfill 强制架构/DB 审核。
-- [ ] G02-6.3 禁止模块失败后自动执行 Down；默认停止部署、修复并 roll-forward。
-- [ ] G02-6.4 明确部分模块已升级时的状态报告、ApiHost 阻断条件和安全重跑方式。
-- [ ] G02-6.5 应用版本回退前验证 schema 向后兼容，禁止假设镜像回退等于数据库回退。
-- [ ] G02-6.6 对确需数据库回退的 migration 生成并人工审核脚本，提前验证数据损失与恢复点。
-- [ ] G02-6.7 建立 migration lock 超时、进程终止、连接中断和 validation failure 的恢复手册。
-- [ ] G02-6.8 每次生产升级保存 manifest、SQL、日志、结果与批准记录，形成审计链。
+- [x] G02-6.1 建立 Expand → deploy/read/write transition → backfill → Contract 的发布模板。
+- [x] G02-6.2 对 drop、rename、non-null、类型缩窄和大规模 backfill 强制架构/DB 审核。
+- [x] G02-6.3 禁止模块失败后自动执行 Down；默认停止部署、修复并 roll-forward。
+- [x] G02-6.4 明确部分模块已升级时的状态报告、ApiHost 阻断条件和安全重跑方式。
+- [x] G02-6.5 应用版本回退前验证 schema 向后兼容，禁止假设镜像回退等于数据库回退。
+- [x] G02-6.6 对确需数据库回退的 migration 生成并人工审核脚本，提前验证数据损失与恢复点。
+- [x] G02-6.7 建立 migration lock 超时、进程终止、连接中断和 validation failure 的恢复手册。
+- [x] G02-6.8 每次生产升级保存 manifest、SQL、日志、结果与批准记录，形成审计链。
+
+Phase 6 证据：[`G02-phase6-report.md`](../evidence/gates/G02/G02-phase6-report.md)、
+[`G02-phase6-expand-contract-template.md`](../evidence/gates/G02/G02-phase6-expand-contract-template.md)、
+[`G02-phase6-recovery-runbook.md`](../evidence/gates/G02/G02-phase6-recovery-runbook.md)、
+[`G02-phase6-safety-report.json`](../evidence/gates/G02/G02-phase6-safety-report.json)、
+[`G02-phase6-guard-report.json`](../evidence/gates/G02/G02-phase6-guard-report.json) 和
+[`G02-phase6-layerguard-report.json`](../evidence/gates/G02/G02-phase6-layerguard-report.json)。
 
 ## Phase 7 — 建立真实 SQL Server Migration 测试矩阵
 
