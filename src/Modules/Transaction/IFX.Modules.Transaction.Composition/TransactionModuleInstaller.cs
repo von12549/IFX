@@ -19,7 +19,6 @@ public sealed class TransactionModuleInstaller : IModuleInstaller
         Log.Information("[{Module}] Registering module services...", ModuleName);
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        services.AddScoped<IAppMigrator, TransactionMigrator>();
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;
     }

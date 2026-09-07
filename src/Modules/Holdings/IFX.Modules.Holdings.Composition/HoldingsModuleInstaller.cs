@@ -24,8 +24,6 @@ public sealed class HoldingsModuleInstaller : IModuleInstaller
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        services.AddScoped<IAppMigrator, HoldingsMigrator>();
-
         // Register integration event handlers
         services.AddIntegrationEventHandler<TransactionProcessedEvent, TransactionProcessedEventHandler>();
         services.AddIntegrationEventHandler<ClassStatusChangedEvent, ClassStatusChangedEventHandler>();

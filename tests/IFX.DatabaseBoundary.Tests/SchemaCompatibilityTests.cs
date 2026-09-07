@@ -85,6 +85,25 @@ public sealed class SchemaCompatibilityTests
         project.Should().Contain("deployment\\release-manifest.json");
     }
 
+    [Fact]
+    public void Legacy_runtime_migrator_contract_and_module_implementations_are_removed()
+    {
+        var root = RepositoryRoot();
+        File.Exists(Path.Combine(root, "src", "BuildingBlocks", "App.Abstractions", "IAppMigrator.cs"))
+            .Should().BeFalse();
+        var moduleSources = Directory.EnumerateFiles(
+            Path.Combine(root, "src", "Modules"),
+            "*.cs",
+            SearchOption.AllDirectories);
+
+        foreach (var source in moduleSources)
+        {
+            var text = File.ReadAllText(source);
+            text.Should().NotContain("IAppMigrator");
+            text.Should().NotContain("Database.MigrateAsync(");
+        }
+    }
+
     [Theory]
     [InlineData("docker-compose.yml")]
     [InlineData("docker-compose.nas.yml")]

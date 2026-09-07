@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "status": "<completed>",
+  "releaseId": "<immutable-release-id>",
+  "environment": "<production-environment-name>",
+  "changeTicket": "<approved-change-ticket>",
+  "approvals": {
+    "architecture": "<approval-reference>",
+    "database": "<approval-reference>",
+    "operations": "<approval-reference>"
+  },
+  "artifacts": {
+    "migrationManifestSha256": "<64-lowercase-hex>",
+    "releaseManifestSha256": "<64-lowercase-hex>",
+    "artifactManifestSha256": "<64-lowercase-hex>"
+  },
+  "preflight": {
+    "reportReference": "<immutable-reference>",
+    "reportSha256": "<64-lowercase-hex>",
+    "classification": "<fresh-current-shared-already-bootstrapped>",
+    "historyMappingReviewed": false,
+    "fingerprintReviewed": false,
+    "reviewedBy": "<controlled-identity>",
+    "reviewedAt": "<ISO-8601-timestamp>"
+  },
+  "restorePoint": {
+    "identifier": "<backup-or-snapshot-id>",
+    "restoreVerified": false,
+    "restoreVerificationReference": "<immutable-reference>",
+    "verifiedAt": "<ISO-8601-timestamp>"
+  },
+  "execution": {
+    "migrationJobReference": "<deployment-or-job-reference>",
+    "applyReportReference": "<immutable-reference>",
+    "applyReportSha256": "<64-lowercase-hex>",
+    "validationReportReference": "<immutable-reference>",
+    "validationReportSha256": "<64-lowercase-hex>",
+    "validationResult": "<succeeded>",
+    "apiStartedAfterValidation": false,
+    "operator": "<controlled-identity>",
+    "startedAt": "<ISO-8601-timestamp>",
+    "finishedAt": "<ISO-8601-timestamp>"
+  },
+  "compatibilityWindow": {
+    "startedAt": "<ISO-8601-timestamp>",
+    "finishedAt": "<ISO-8601-timestamp>",
+    "migrationStable": false,
+    "readinessStable": false,
+    "businessReadWriteStable": false,
+    "rollbackObserved": false,
+    "smokeTestReference": "<immutable-reference>",
+    "rollbackVerificationReference": "<immutable-reference>"
+  },
+  "runtimeIdentity": {
+    "permissionReportReference": "<immutable-reference>",
+    "dmlVerified": false,
+    "readinessVerified": false,
+    "ddlDenied": false,
+    "legacyRuntimeMigrationEntryPointsAbsent": true
+  },
+  "sharedHistory": {
+    "mode": "<archived-read-only>",
+    "archiveReference": "<immutable-reference>",
+    "rowsPreserved": false,
+    "deletionApproved": false
+  }
+}

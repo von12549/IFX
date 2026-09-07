@@ -73,6 +73,24 @@ public sealed class MigrationSafetyPolicyTests
         audit.RootElement.GetProperty("recovery").GetProperty("nextReleaseCondition").GetString().Should().NotBeNullOrWhiteSpace();
     }
 
+    [Fact]
+    public void Rollout_evidence_template_requires_every_external_phase_8_control()
+    {
+        using var evidence = JsonDocument.Parse(File.ReadAllText(Path.Combine(
+            RepositoryRoot(), "deployment", "database-rollout-evidence-template.json")));
+        var root = evidence.RootElement;
+
+        root.GetProperty("preflight").GetProperty("historyMappingReviewed").GetBoolean().Should().BeFalse();
+        root.GetProperty("preflight").GetProperty("fingerprintReviewed").GetBoolean().Should().BeFalse();
+        root.GetProperty("restorePoint").GetProperty("restoreVerified").GetBoolean().Should().BeFalse();
+        root.GetProperty("execution").GetProperty("validationResult").GetString().Should().Be("<succeeded>");
+        root.GetProperty("compatibilityWindow").GetProperty("rollbackObserved").GetBoolean().Should().BeFalse();
+        root.GetProperty("runtimeIdentity").GetProperty("ddlDenied").GetBoolean().Should().BeFalse();
+        root.GetProperty("sharedHistory").GetProperty("mode").GetString().Should().Be("<archived-read-only>");
+        File.Exists(Path.Combine(RepositoryRoot(), "scripts", "Test-G02DatabaseRolloutEvidence.ps1"))
+            .Should().BeTrue();
+    }
+
     private static string RepositoryRoot()
     {
         var directory = new DirectoryInfo(AppContext.BaseDirectory);

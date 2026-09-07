@@ -24,8 +24,6 @@ public sealed class RegistryModuleInstaller : IModuleInstaller
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
 
-        services.AddScoped<IAppMigrator, RegistryMigrator>();
-
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;
     }

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
 using IFX.DatabaseMigrator;
 using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
 using Microsoft.Data.SqlClient;
@@ -368,6 +369,34 @@ public sealed class SqlServerMigrationMatrixTests(SqlServerMigrationFixture fixt
         AssertSucceeded(await RunMigratorAsync(runtimeConnection, MigratorMode.Validate));
         var ddl = () => ExecuteAsync(runtimeConnection, "CREATE TABLE [auth].[RuntimeMustNotCreate] ([Id] int NOT NULL);");
         await ddl.Should().ThrowAsync<SqlException>();
+    }
+
+    [Fact]
+    public async Task Nonproduction_rollout_rehearsal_verifies_restore_point_and_full_job_sequence()
+    {
+        var connectionString = await fixture.CreateDatabaseAsync("rollout_rehearsal");
+        var database = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+        var backup = $"/var/opt/mssql/data/{database}.bak";
+
+        var preflight = await RunMigratorAsync(connectionString, MigratorMode.Preflight);
+        AssertSucceeded(preflight);
+        preflight.HistoryBootstrap!.Classification.Should().Be(HistoryBootstrapClassification.Fresh);
+        await ExecuteAsync(
+            fixture.MasterConnectionString,
+            $"BACKUP DATABASE [{database}] TO DISK = N'{backup}' WITH COPY_ONLY, INIT, CHECKSUM;");
+        await ExecuteAsync(
+            fixture.MasterConnectionString,
+            $"RESTORE VERIFYONLY FROM DISK = N'{backup}' WITH CHECKSUM;");
+
+        var applied = await RunMigratorAsync(connectionString);
+        var validated = await RunMigratorAsync(connectionString, MigratorMode.Validate);
+        var rerun = await RunMigratorAsync(connectionString);
+
+        AssertSucceeded(applied);
+        AssertSucceeded(validated);
+        AssertSucceeded(rerun);
+        rerun.Modules.Should().OnlyContain(module => module.AppliedIds.Count == 0);
+        await G02SqlServerAssertions.AssertCurrentHistoriesAsync(connectionString, LoadManifest());
     }
 
     private static readonly string[] ExpectedModules = ["Auth", "CRM", "Registry", "Holdings", "Transaction"];

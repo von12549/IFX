@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "phase": 8,
+  "date": "2026-09-08",
+  "result": "awaiting-external-environment-evidence",
+  "controls": [
+    {
+      "id": "G02-8.1",
+      "status": "passed",
+      "owner": "Engineering",
+      "evidence": "SqlServerMigrationMatrixTests.Nonproduction_rollout_rehearsal_verifies_restore_point_and_full_job_sequence"
+    },
+    {
+      "id": "G02-8.2",
+      "status": "pending",
+      "owner": "Database Operations",
+      "required": "production preflight/dry-run report, classification and manual mapping/fingerprint review"
+    },
+    {
+      "id": "G02-8.3",
+      "status": "pending",
+      "owner": "Database Operations",
+      "required": "verified production backup or snapshot and one-shot bootstrap/apply report"
+    },
+    {
+      "id": "G02-8.4",
+      "status": "pending",
+      "owner": "Release Operations",
+      "required": "deployed migration job and successful validation before API rollout"
+    },
+    {
+      "id": "G02-8.5",
+      "status": "pending",
+      "owner": "Release Operations",
+      "required": "dated compatibility window, readiness, business smoke and rollback evidence"
+    },
+    {
+      "id": "G02-8.6",
+      "status": "repository-complete-environment-pending",
+      "owner": "Database Operations",
+      "required": "deployed runtime permission report proving DML/readiness and denied DDL"
+    },
+    {
+      "id": "G02-8.7",
+      "status": "pending",
+      "owner": "Database Operations",
+      "required": "shared history archive/read-only record with rows preserved"
+    },
+    {
+      "id": "G02-8.8",
+      "status": "passed",
+      "owner": "Engineering",
+      "evidence": "legacy IAppMigrator contract, registrations and module runtime implementations removed"
+    }
+  ]
+}

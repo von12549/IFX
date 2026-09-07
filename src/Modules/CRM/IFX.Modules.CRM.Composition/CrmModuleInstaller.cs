@@ -24,8 +24,6 @@ public sealed class CrmModuleInstaller : IModuleInstaller
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
 
-        services.AddScoped<IAppMigrator, CrmMigrator>();
-
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;
     }

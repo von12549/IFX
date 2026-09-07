@@ -46,6 +46,10 @@ execution, validation, and evidence explicitly module-owned.
 - Phase 7 complete: SQL Server 2022 migration matrix covers fresh/shared/legacy/historyless/partial,
   previous-release, concurrency, failure recovery and split migration/runtime permissions; CI now
   runs solution build, pending-model checks, SQL artifacts and the live matrix.
+- Phase 8 repository preparation complete: the recoverable non-production sequence is rehearsed,
+  obsolete runtime migrator entry points are removed, and a fail-closed production evidence package
+  is ready. Production dry-run, restore point, rollout, observation, permission and archive evidence
+  remains environment-owned and must not be marked complete without actual records.
 
 ## Phase discipline
 

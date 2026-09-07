@@ -44,8 +44,6 @@ namespace IFX.Modules.Auth.Composition
 
             Log.Information("[{Module}] Identity provider: {Provider}", ModuleName, provider);
 
-            services.AddScoped<IAppMigrator, AuthMigrator>();
-
             Log.Information("[{Module}] Module services registered successfully", ModuleName);
             return services;
         }
