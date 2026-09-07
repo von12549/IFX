@@ -272,17 +272,22 @@ Phase 3 证据：[`G04-phase3-dependency-review.md`](../evidence/gates/G04/G04-p
 
 ## Phase 4 — 建立多实例 Worker 与 Lease Conformance
 
-- [ ] **Phase 4 完成**：多个 Worker 可安全竞争模块 Outbox，崩溃后可接管且不宣称 exactly-once。
+- [x] **Phase 4 完成**：多个 Worker 的 reference fixture 可安全竞争模块式 Outbox，崩溃后可接管且不宣称 exactly-once；真实 E3/E4 绑定仍为最终关闭条件。
 
-- [ ] G04-4.1 定义唯一 instance identity 的来源、格式、日志/metrics tag、重启变化和最大长度，不依赖所有副本共享固定名称。
-- [ ] G04-4.2 为 Dispatcher 框架定义 per-module registration contract，使每个实例只通过模块服务访问其模块 Outbox；实际 registration 由 E3 实现。
-- [ ] G04-4.3 建立并交付 E3 可复用的短事务 claim conformance suite：eligible filter、bounded batch、LeaseOwner、LeaseUntil、concurrency token 和 conditional completion。
-- [ ] G04-4.4 用 reference fixture 验证事务外发送和发送确认前崩溃的 at-least-once 重发路径；真实 Dispatcher 在 E3 重跑。
-- [ ] G04-4.5 定义 lease renewal、expiry、clock tolerance、stale owner 和并发更新失败语义。
-- [ ] G04-4.6 为需要顺序的 Tenant/Aggregate partition 定义单 in-flight/sequence conformance，不声明全局顺序；具体 Event 分区由 E3 登记。
-- [ ] G04-4.7 定义模块/分区公平性、batch size、poll jitter 和数据库负载限制接口，E3 负责真实 backlog 调度实现。
-- [ ] G04-4.8 配置 Hangfire unique server identity、per-instance WorkerCount、queue ownership 和唯一 recurring registration authority。
-- [ ] G04-4.9 关键 worker-loop 未处理异常必须使 role NotReady 并终止进程；普通消息失败进入可观察 retry/dead-letter 状态。
+- [x] G04-4.1 定义唯一 instance identity 的来源、格式、日志/metrics tag、重启变化和最大长度，不依赖所有副本共享固定名称。
+- [x] G04-4.2 为 Dispatcher 框架定义 per-module registration contract，使每个实例只通过模块服务访问其模块 Outbox；实际 registration 由 E3 实现。
+- [x] G04-4.3 建立并交付 E3 可复用的 SQL Server 短事务 claim conformance suite：eligible filter、bounded batch、LeaseOwner、LeaseUntil、rowversion 和 conditional completion。
+- [x] G04-4.4 用 reference fixture 验证发送确认前崩溃经 lease expiry 以相同 EventId 重发；send 明确位于 claim 事务外，真实 Dispatcher 在 E3 重跑。
+- [x] G04-4.5 定义并测试 lease renewal、expiry、clock tolerance、stale owner 和并发更新失败语义。
+- [x] G04-4.6 为需要顺序的 Module/Tenant/Aggregate partition 定义单 in-flight/sequence conformance，不声明全局顺序；具体 Event 分区由 E3 登记。
+- [x] G04-4.7 定义模块/分区公平性、batch size、poll jitter、renewal 和数据库负载限制接口；E3 负责真实 backlog 调度实现及公平性指标。
+- [x] G04-4.8 Hangfire 使用 runtime instance identity、per-instance WorkerCount 和显式 queues；recurring registration 是独立且默认关闭的 capability，生产启用前须由编排选择唯一 authority。
+- [x] G04-4.9 `CriticalWorkerBackgroundService` 使未处理关键 loop 异常进入 NotReady、设置非零 exit 并停止进程；普通消息失败仍由 E3 durable retry/dead-letter 实现。
+
+Phase 4 证据：[`G04-phase4-lease-conformance.md`](../evidence/gates/G04/G04-phase4-lease-conformance.md)、
+`G04DispatcherLeaseConformanceTests`、`RuntimeInstanceIdentityTests`、
+[`G04-phase4-guard-report.json`](../evidence/gates/G04/G04-phase4-guard-report.json) 与
+[`G04-phase4-layerguard-report.json`](../evidence/gates/G04/G04-phase4-layerguard-report.json)。
 
 ## Phase 5 — 建立优雅关闭与接管
 

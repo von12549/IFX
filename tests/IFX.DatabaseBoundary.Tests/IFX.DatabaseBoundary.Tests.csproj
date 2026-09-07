@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\DatabaseMigrator\IFX.DatabaseMigrator\IFX.DatabaseMigrator.csproj" />
     <ProjectReference Include="..\..\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj" />
     <ProjectReference Include="..\..\src\Modules\Auth\IFX.Modules.Auth.Infrastructure\IFX.Modules.Auth.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\IFX.Modules.Registry.Infrastructure.csproj" />

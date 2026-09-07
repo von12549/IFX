@@ -67,6 +67,19 @@ if ($Phase -ge 3) {
     $checks.dependencyReviewExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md')
 }
 
+if ($Phase -ge 4) {
+    $program = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
+    $backgroundJobs = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs')
+    $compose = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docker-compose.yml')
+    $checks.perModuleDispatcherContractExists = Test-Path (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Composition/Dispatching/DispatcherRuntimeContracts.cs')
+    $checks.sqlLeaseReferenceSuiteExists = Test-Path (Join-Path $repositoryRoot 'tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs')
+    $checks.uniqueRuntimeIdentityCreated = $program -match 'RuntimeInstanceIdentity\.Create'
+    $checks.runtimeIdentityOverridesHangfire = ($program -match 'AddBackgroundJobsServer\(builder\.Configuration, runtimeInstanceIdentity\.Value\)') -and ($backgroundJobs -match 'options\.ServerName = runtimeInstanceIdentity')
+    $checks.fixedHangfireIdentityRemoved = $compose -notmatch 'auth-api-worker'
+    $checks.criticalLoopTerminatesNonZero = (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/CriticalWorkerBackgroundService.cs')) -match 'Environment\.ExitCode = 1'
+    $checks.leaseConformanceDocumented = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

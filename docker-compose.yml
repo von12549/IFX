@@ -104,7 +104,6 @@ services:
       # Background Jobs (Hangfire)
       - BackgroundJobs__EnableDashboard=false
       - BackgroundJobs__WorkerCount=${HANGFIRE_WORKER_COUNT:-4}
-      - BackgroundJobs__ServerName=${HANGFIRE_SERVER_NAME:-auth-api-worker}
       - BackgroundJobs__Queues__0=${HANGFIRE_QUEUE_0:-default}
       - BackgroundJobs__Queues__1=${HANGFIRE_QUEUE_1:-email}
       - BackgroundJobs__Queues__2=${HANGFIRE_QUEUE_2:-report}

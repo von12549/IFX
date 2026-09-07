@@ -74,7 +74,8 @@ public static class BackgroundJobsServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddBackgroundJobsServer(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        string? runtimeInstanceIdentity = null)
     {
         var settings = configuration
             .GetSection(BackgroundJobsSettings.SectionName)
@@ -92,7 +93,11 @@ public static class BackgroundJobsServiceCollectionExtensions
                 ? settings.Queues
                 : QueueNames.DefaultQueues;
 
-            if (!string.IsNullOrEmpty(settings.ServerName))
+            if (!string.IsNullOrEmpty(runtimeInstanceIdentity))
+            {
+                options.ServerName = runtimeInstanceIdentity;
+            }
+            else if (!string.IsNullOrEmpty(settings.ServerName))
             {
                 options.ServerName = settings.ServerName;
             }

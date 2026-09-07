@@ -1,0 +1,3849 @@
+{
+  "tool": "layerguard",
+  "toolVersion": "0.3.0-a0",
+  "checked": [
+    "project references",
+    "import directives in 858 source files",
+    "which packages a ring may hold",
+    "which projects a ring may name",
+    "which packages a ring may never hold",
+    "where types of a given name must be declared",
+    "what a ring may be handed to hold",
+    "which ring a type a ring is handed was declared in",
+    "whether a type answers to a contract declared in another ring",
+    "module ownership and project roles",
+    "own and foreign role references",
+    "provider graph and adapter boundaries",
+    "declaration namespaces and forbidden implementation declarations",
+    "forbidden framework namespaces, symbols, and reflection strings",
+    "Contract context and event payload type boundaries",
+    "every numbered rule of this codebase\u0027s own rulebook"
+  ],
+  "scope": {
+    "root": "D:\\IFX\\src",
+    "rootKind": "directory",
+    "projectsLoaded": 46,
+    "projectsInScope": 39,
+    "projectsOutside": 7
+  },
+  "ruleset": {
+    "source": "D:\\IFX\\src\\layerguard.json",
+    "allowedDependencies": {
+      "Domain": [],
+      "Contracts": [],
+      "Application": [
+        "Domain",
+        "Contracts"
+      ],
+      "Presentation": [
+        "Application",
+        "Contracts",
+        "Domain"
+      ],
+      "IntegrationAdapter": [
+        "Application",
+        "Contracts"
+      ],
+      "Infrastructure": [
+        "Application",
+        "Domain",
+        "Contracts"
+      ],
+      "Composition": [
+        "Domain",
+        "Contracts",
+        "Application",
+        "Presentation",
+        "IntegrationAdapter",
+        "Infrastructure"
+      ],
+      "RuntimeHost": [
+        "Composition"
+      ]
+    }
+  },
+  "rulebook": [
+    {
+      "ref": "L2.2",
+      "text": "Domain does not depend on Contracts.",
+      "settledBy": [
+        "RING-DIRECTION",
+        "IMPORT-DIRECTION"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L2.3",
+      "text": "Application may use own Contracts but not foreign Contracts.",
+      "settledBy": [
+        "OWNERSHIP-REFERENCE"
+      ],
+      "coverage": "full",
+      "findings": 43
+    },
+    {
+      "ref": "L2.4",
+      "text": "Adapters use only registered provider Contracts.",
+      "settledBy": [
+        "PROVIDER-CONTRACT",
+        "PROVIDER-CYCLE",
+        "EMBEDDED-ADAPTER-PROVIDER"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L3.1",
+      "text": "Public contracts and events live in provider Contracts namespaces.",
+      "settledBy": [
+        "DECLARATION-NAMESPACE"
+      ],
+      "coverage": "full",
+      "findings": 2
+    },
+    {
+      "ref": "L3.4",
+      "text": "Contracts do not reference framework or transport implementations.",
+      "settledBy": [
+        "RING-PACKAGE",
+        "RING-PACKAGE-FORBIDDEN",
+        "RING-PACKAGE-IMPORT",
+        "SYMBOL-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 1
+    },
+    {
+      "ref": "L3.5",
+      "text": "Contracts do not contain implementation declarations.",
+      "settledBy": [
+        "DECLARATION-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 1
+    },
+    {
+      "ref": "L3.6",
+      "text": "Integration event payloads do not expose internal entities.",
+      "settledBy": [
+        "PAYLOAD-TYPE-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L1.2",
+      "text": "No new Abstractions project is introduced.",
+      "settledBy": [
+        "PROJECT-NAME-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 7
+    },
+    {
+      "ref": "L2.9",
+      "text": "Unknown module ownership fails closed.",
+      "settledBy": [
+        "OWNERSHIP-UNKNOWN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    }
+  ],
+  "verdict": "baseline-clean",
+  "violationCount": 116,
+  "violations": [
+    {
+      "id": "V001",
+      "rule": "IMPORT-DIRECTION",
+      "severity": "breaks",
+      "headline": "IdpConfigurationEntry.cs imports IFX.Modules.Auth.Domain",
+      "fromProject": "IFX.ApiHost",
+      "fromRing": "RuntimeHost",
+      "toProject": "IFX.Modules.Auth.Domain",
+      "toRing": "Domain",
+      "toModule": "Auth",
+      "kind": "import",
+      "path": [
+        "IFX.ApiHost",
+        "IFX.Modules.Auth.Domain"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authentication\\IdpConfigurationEntry.cs",
+        "line": 1,
+        "text": "using IFX.Modules.Auth.Domain.Identity;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authentication\\IdpConfigurationEntry.cs",
+        "line": 1,
+        "text": "using IFX.Modules.Auth.Domain.Identity;"
+      },
+      "fixHint": "Remove this import from IdpConfigurationEntry.cs, along with the use of IFX.Modules.Auth.Domain that needs it."
+    },
+    {
+      "id": "V002",
+      "rule": "IMPORT-DIRECTION",
+      "severity": "breaks",
+      "headline": "IdpConfigurationService.cs imports IFX.Modules.Auth.Application",
+      "fromProject": "IFX.ApiHost",
+      "fromRing": "RuntimeHost",
+      "toProject": "IFX.Modules.Auth.Application",
+      "toRing": "Application",
+      "toModule": "Auth",
+      "kind": "import",
+      "path": [
+        "IFX.ApiHost",
+        "IFX.Modules.Auth.Application"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authentication\\IdpConfigurationService.cs",
+        "line": 3,
+        "text": "using IFX.Modules.Auth.Application.Identity.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authentication\\IdpConfigurationService.cs",
+        "line": 3,
+        "text": "using IFX.Modules.Auth.Application.Identity.Interfaces;"
+      },
+      "fixHint": "Remove this import from IdpConfigurationService.cs, along with the use of IFX.Modules.Auth.Application that needs it."
+    },
+    {
+      "id": "V003",
+      "rule": "IMPORT-DIRECTION",
+      "severity": "breaks",
+      "headline": "IdpConfigurationService.cs imports IFX.Modules.Auth.Application",
+      "fromProject": "IFX.ApiHost",
+      "fromRing": "RuntimeHost",
+      "toProject": "IFX.Modules.Auth.Application",
+      "toRing": "Application",
+      "toModule": "Auth",
+      "kind": "import",
+      "path": [
+        "IFX.ApiHost",
+        "IFX.Modules.Auth.Application"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authentication\\IdpConfigurationService.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Auth.Application.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authentication\\IdpConfigurationService.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Auth.Application.Interfaces;"
+      },
+      "fixHint": "Remove this import from IdpConfigurationService.cs, along with the use of IFX.Modules.Auth.Application that needs it."
+    },
+    {
+      "id": "V004",
+      "rule": "IMPORT-DIRECTION",
+      "severity": "breaks",
+      "headline": "UserPermissionClaimsTransformation.cs imports IFX.Modules.Auth.Application",
+      "fromProject": "IFX.ApiHost",
+      "fromRing": "RuntimeHost",
+      "toProject": "IFX.Modules.Auth.Application",
+      "toRing": "Application",
+      "toModule": "Auth",
+      "kind": "import",
+      "path": [
+        "IFX.ApiHost",
+        "IFX.Modules.Auth.Application"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authorization\\UserPermissionClaimsTransformation.cs",
+        "line": 3,
+        "text": "using IFX.Modules.Auth.Application.Identity.Queries.GetOrProvisionUser;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\Authorization\\UserPermissionClaimsTransformation.cs",
+        "line": 3,
+        "text": "using IFX.Modules.Auth.Application.Identity.Queries.GetOrProvisionUser;"
+      },
+      "fixHint": "Remove this import from UserPermissionClaimsTransformation.cs, along with the use of IFX.Modules.Auth.Application that needs it."
+    },
+    {
+      "id": "V005",
+      "rule": "RING-PACKAGE",
+      "severity": "bends",
+      "headline": "IFX.Modules.Auth.Application declares Microsoft.Extensions.Http",
+      "fromProject": "IFX.Modules.Auth.Application",
+      "fromRing": "Application",
+      "fromModule": "Auth",
+      "toProject": "Microsoft.Extensions.Http",
+      "toRing": "package",
+      "kind": "package",
+      "path": [
+        "IFX.Modules.Auth.Application",
+        "Microsoft.Extensions.Http"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+        "line": 16,
+        "text": "\u003CPackageReference Include=\u0022Microsoft.Extensions.Http\u0022 Version=\u00228.0.0\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+        "line": 16,
+        "text": "\u003CPackageReference Include=\u0022Microsoft.Extensions.Http\u0022 Version=\u00228.0.0\u0022 /\u003E"
+      },
+      "fixHint": "Application projects are allowed only: MediatR*, FluentValidation*, AutoMapper*, Microsoft.Extensions.Logging*, Microsoft.Extensions.DependencyInjection*, IFX.BuildingBlocks.Domain*, IFX.BuildingBlocks.Security*. Move whatever needs Microsoft.Extensions.Http to a ring that may hold it."
+    },
+    {
+      "id": "V006",
+      "rule": "RING-PACKAGE",
+      "severity": "bends",
+      "headline": "IFX.Modules.Auth.Application declares System.IdentityModel.Tokens.Jwt",
+      "fromProject": "IFX.Modules.Auth.Application",
+      "fromRing": "Application",
+      "fromModule": "Auth",
+      "toProject": "System.IdentityModel.Tokens.Jwt",
+      "toRing": "package",
+      "kind": "package",
+      "path": [
+        "IFX.Modules.Auth.Application",
+        "System.IdentityModel.Tokens.Jwt"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+        "line": 18,
+        "text": "\u003CPackageReference Include=\u0022System.IdentityModel.Tokens.Jwt\u0022 Version=\u00228.15.0\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+        "line": 18,
+        "text": "\u003CPackageReference Include=\u0022System.IdentityModel.Tokens.Jwt\u0022 Version=\u00228.15.0\u0022 /\u003E"
+      },
+      "fixHint": "Application projects are allowed only: MediatR*, FluentValidation*, AutoMapper*, Microsoft.Extensions.Logging*, Microsoft.Extensions.DependencyInjection*, IFX.BuildingBlocks.Domain*, IFX.BuildingBlocks.Security*. Move whatever needs System.IdentityModel.Tokens.Jwt to a ring that may hold it."
+    },
+    {
+      "id": "V007",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Auth.Presentation sees foreign IFX.Platform.BackgroundJobs.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "BackgroundJobs",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.BackgroundJobs.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 5,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 5,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Remove the reference to IFX.Platform.BackgroundJobs.Abstractions."
+    },
+    {
+      "id": "V008",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Auth.Presentation sees foreign IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 6,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 6,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Remove the reference to IFX.Platform.Notifications.Abstractions."
+    },
+    {
+      "id": "V009",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "EmailVerificationEndpoints.cs imports IFX.Platform.BackgroundJobs.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "BackgroundJobs",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.BackgroundJobs.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\EmailVerificationEndpoints.cs",
+        "line": 9,
+        "text": "using IFX.Platform.BackgroundJobs.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\EmailVerificationEndpoints.cs",
+        "line": 9,
+        "text": "using IFX.Platform.BackgroundJobs.Abstractions;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module BackgroundJobs."
+    },
+    {
+      "id": "V010",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "EmailVerificationEndpoints.cs imports IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\EmailVerificationEndpoints.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Notifications.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\EmailVerificationEndpoints.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Notifications.Abstractions;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module Notifications."
+    },
+    {
+      "id": "V011",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "EmailVerificationEndpoints.cs imports IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\EmailVerificationEndpoints.cs",
+        "line": 11,
+        "text": "using IFX.Platform.Notifications.Abstractions.Models;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\EmailVerificationEndpoints.cs",
+        "line": 11,
+        "text": "using IFX.Platform.Notifications.Abstractions.Models;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module Notifications."
+    },
+    {
+      "id": "V012",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UserEndpoints.cs imports IFX.Platform.BackgroundJobs.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "BackgroundJobs",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.BackgroundJobs.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserEndpoints.cs",
+        "line": 11,
+        "text": "using IFX.Platform.BackgroundJobs.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserEndpoints.cs",
+        "line": 11,
+        "text": "using IFX.Platform.BackgroundJobs.Abstractions;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module BackgroundJobs."
+    },
+    {
+      "id": "V013",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UserEndpoints.cs imports IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserEndpoints.cs",
+        "line": 12,
+        "text": "using IFX.Platform.Notifications.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserEndpoints.cs",
+        "line": 12,
+        "text": "using IFX.Platform.Notifications.Abstractions;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module Notifications."
+    },
+    {
+      "id": "V014",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UserEndpoints.cs imports IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserEndpoints.cs",
+        "line": 13,
+        "text": "using IFX.Platform.Notifications.Abstractions.Models;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserEndpoints.cs",
+        "line": 13,
+        "text": "using IFX.Platform.Notifications.Abstractions.Models;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module Notifications."
+    },
+    {
+      "id": "V015",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UserManagementEndpoints.cs imports IFX.Platform.BackgroundJobs.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "BackgroundJobs",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.BackgroundJobs.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserManagementEndpoints.cs",
+        "line": 15,
+        "text": "using IFX.Platform.BackgroundJobs.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserManagementEndpoints.cs",
+        "line": 15,
+        "text": "using IFX.Platform.BackgroundJobs.Abstractions;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module BackgroundJobs."
+    },
+    {
+      "id": "V016",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UserManagementEndpoints.cs imports IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserManagementEndpoints.cs",
+        "line": 16,
+        "text": "using IFX.Platform.Notifications.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserManagementEndpoints.cs",
+        "line": 16,
+        "text": "using IFX.Platform.Notifications.Abstractions;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module Notifications."
+    },
+    {
+      "id": "V017",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UserManagementEndpoints.cs imports IFX.Platform.Notifications.Abstractions",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserManagementEndpoints.cs",
+        "line": 17,
+        "text": "using IFX.Platform.Notifications.Abstractions.Models;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\Users\\Endpoints\\UserManagementEndpoints.cs",
+        "line": 17,
+        "text": "using IFX.Platform.Notifications.Abstractions.Models;"
+      },
+      "fixHint": "Remove this import: Presentation may not use Contracts from module Notifications."
+    },
+    {
+      "id": "V018",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Auth.Presentation references IFX.Platform.BackgroundJobs.Abstractions, which Presentation may not name",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "BackgroundJobs",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.BackgroundJobs.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 5,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 5,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation projects may name only: IFX.Modules.*.Application, IFX.Modules.*.Contracts, IFX.Modules.*.Abstractions, IFX.Modules.*.Domain. Remove the reference to IFX.Platform.BackgroundJobs.Abstractions from IFX.Modules.Auth.Presentation."
+    },
+    {
+      "id": "V019",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Auth.Presentation references IFX.Platform.Notifications.Abstractions, which Presentation may not name",
+      "fromProject": "IFX.Modules.Auth.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Auth",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Auth.Presentation",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 6,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+        "line": 6,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation projects may name only: IFX.Modules.*.Application, IFX.Modules.*.Contracts, IFX.Modules.*.Abstractions, IFX.Modules.*.Domain. Remove the reference to IFX.Platform.Notifications.Abstractions from IFX.Modules.Auth.Presentation."
+    },
+    {
+      "id": "V020",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "InvestmentAccountCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\InvestmentAccountCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\InvestmentAccountCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V021",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "InvestorCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\InvestorCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\InvestorCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V022",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "InvestorKycStatusChangedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\InvestorKycStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\InvestorKycStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V023",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "PartyCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\PartyCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\PartyCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V024",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "PartyRelationshipCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\PartyRelationshipCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\PartyRelationshipCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V025",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "PartyStatusChangedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\PartyStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\Events\\PartyStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V026",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.CRM.Abstractions sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts may not depend on foreign Contracts. Remove the reference to IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V027",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Modules.CRM.Abstractions: project declaration",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.CRM.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.CRM.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V028",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.CRM.Abstractions references IFX.Platform.Messaging.Abstractions, which Contracts may not name",
+      "fromProject": "IFX.Modules.CRM.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts projects may name no other project at all. Remove the reference to IFX.Platform.Messaging.Abstractions from IFX.Modules.CRM.Abstractions."
+    },
+    {
+      "id": "V029",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.CRM.Application sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\IFX.Modules.CRM.Application.csproj",
+        "line": 12,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.CRM.Abstractions -\u003E IFX.Platform.Messaging.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V030",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateInvestmentAccountCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\InvestmentAccounts\\Commands\\CreateInvestmentAccount\\CreateInvestmentAccountCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\InvestmentAccounts\\Commands\\CreateInvestmentAccount\\CreateInvestmentAccountCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V031",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateInvestorCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Investors\\Commands\\CreateInvestor\\CreateInvestorCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Investors\\Commands\\CreateInvestor\\CreateInvestorCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V032",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "UpdateInvestorKycCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Investors\\Commands\\UpdateInvestorKyc\\UpdateInvestorKycCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Investors\\Commands\\UpdateInvestorKyc\\UpdateInvestorKycCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V033",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreatePartyRelationshipCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Parties\\Commands\\CreatePartyRelationship\\CreatePartyRelationshipCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Parties\\Commands\\CreatePartyRelationship\\CreatePartyRelationshipCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V034",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreatePartyCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Parties\\Commands\\CreateParty\\CreatePartyCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Parties\\Commands\\CreateParty\\CreatePartyCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V035",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "DeletePartyCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Application",
+      "fromRing": "Application",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.CRM.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Parties\\Commands\\DeleteParty\\DeletePartyCommandHandler.cs",
+        "line": 6,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\Parties\\Commands\\DeleteParty\\DeletePartyCommandHandler.cs",
+        "line": 6,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V036",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.CRM.Infrastructure references App.Abstractions, which Infrastructure may not name",
+      "fromProject": "IFX.Modules.CRM.Infrastructure",
+      "fromRing": "Infrastructure",
+      "fromModule": "CRM",
+      "toProject": "App.Abstractions",
+      "toRing": "Outside",
+      "toModule": "BuildingBlocks",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.CRM.Infrastructure",
+        "App.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Infrastructure\\IFX.Modules.CRM.Infrastructure.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Infrastructure\\IFX.Modules.CRM.Infrastructure.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Infrastructure projects may name only: IFX.Modules.*.Application, IFX.Modules.*.Domain, IFX.Modules.*.Contracts, IFX.Modules.*.Abstractions, IFX.BuildingBlocks.*, IFX.Platform.*. Remove the reference to App.Abstractions from IFX.Modules.CRM.Infrastructure."
+    },
+    {
+      "id": "V037",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.CRM.Presentation sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.CRM.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "CRM",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.CRM.Presentation",
+        "IFX.Modules.CRM.Application",
+        "IFX.Modules.CRM.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Presentation\\IFX.Modules.CRM.Presentation.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.CRM.Application\\IFX.Modules.CRM.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.CRM.Abstractions -\u003E IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V038",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "HoldingFrozenEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Holdings.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\Events\\HoldingFrozenEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\Events\\HoldingFrozenEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V039",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Abstractions sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts may not depend on foreign Contracts. Remove the reference to IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V040",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Modules.Holdings.Abstractions: project declaration",
+      "fromProject": "IFX.Modules.Holdings.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Holdings.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Holdings",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Modules.Holdings.Abstractions",
+        "IFX.Modules.Holdings.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.Holdings.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.Holdings.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V041",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Abstractions references IFX.Platform.Messaging.Abstractions, which Contracts may not name",
+      "fromProject": "IFX.Modules.Holdings.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Holdings.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts projects may name no other project at all. Remove the reference to IFX.Platform.Messaging.Abstractions from IFX.Modules.Holdings.Abstractions."
+    },
+    {
+      "id": "V042",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ClassStatusChangedEventHandler.cs imports IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\ClassStatusChangedEventHandler.cs",
+        "line": 2,
+        "text": "using IFX.Modules.Registry.Abstractions.Events;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\ClassStatusChangedEventHandler.cs",
+        "line": 2,
+        "text": "using IFX.Modules.Registry.Abstractions.Events;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Registry.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V043",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ClassStatusChangedEventHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\ClassStatusChangedEventHandler.cs",
+        "line": 3,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\ClassStatusChangedEventHandler.cs",
+        "line": 3,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V044",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "TransactionProcessedEventHandler.cs imports IFX.Modules.Transaction.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Transaction.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Transaction",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Modules.Transaction.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\TransactionProcessedEventHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.Transaction.Abstractions.Events;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\TransactionProcessedEventHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.Transaction.Abstractions.Events;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Transaction.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V045",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "TransactionProcessedEventHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\TransactionProcessedEventHandler.cs",
+        "line": 4,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\EventHandlers\\TransactionProcessedEventHandler.cs",
+        "line": 4,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V046",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Application sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 19,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 19,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Remove the reference to IFX.Platform.Messaging.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V047",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Application sees foreign IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 22,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 22,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Remove the reference to IFX.Modules.Registry.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V048",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Application sees foreign IFX.Modules.Transaction.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Application",
+      "fromRing": "Application",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Transaction.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Transaction",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Application",
+        "IFX.Modules.Transaction.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 23,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 23,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Remove the reference to IFX.Modules.Transaction.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V049",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Infrastructure references App.Abstractions, which Infrastructure may not name",
+      "fromProject": "IFX.Modules.Holdings.Infrastructure",
+      "fromRing": "Infrastructure",
+      "fromModule": "Holdings",
+      "toProject": "App.Abstractions",
+      "toRing": "Outside",
+      "toModule": "BuildingBlocks",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Holdings.Infrastructure",
+        "App.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Infrastructure\\IFX.Modules.Holdings.Infrastructure.csproj",
+        "line": 18,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Infrastructure\\IFX.Modules.Holdings.Infrastructure.csproj",
+        "line": 18,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Infrastructure projects may name only: IFX.Modules.*.Application, IFX.Modules.*.Domain, IFX.Modules.*.Contracts, IFX.Modules.*.Abstractions, IFX.BuildingBlocks.*, IFX.Platform.*. Remove the reference to App.Abstractions from IFX.Modules.Holdings.Infrastructure."
+    },
+    {
+      "id": "V050",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Presentation sees foreign IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Presentation",
+        "IFX.Modules.Holdings.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Presentation\\IFX.Modules.Holdings.Presentation.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 22,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Holdings.Application -\u003E IFX.Modules.Registry.Abstractions."
+    },
+    {
+      "id": "V051",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Presentation sees foreign IFX.Modules.Transaction.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Modules.Transaction.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Transaction",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Presentation",
+        "IFX.Modules.Holdings.Application",
+        "IFX.Modules.Transaction.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Presentation\\IFX.Modules.Holdings.Presentation.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 23,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Holdings.Application -\u003E IFX.Modules.Transaction.Abstractions."
+    },
+    {
+      "id": "V052",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Holdings.Presentation sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Holdings.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Holdings",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Holdings.Presentation",
+        "IFX.Modules.Holdings.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Presentation\\IFX.Modules.Holdings.Presentation.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+        "line": 19,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Holdings.Application -\u003E IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V053",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ClassCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ClassCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ClassCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V054",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ClassStatusChangedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ClassStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ClassStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V055",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "FundCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\FundCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\FundCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V056",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "FundStatusChangedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\FundStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\FundStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V057",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ProductCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ProductCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ProductCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V058",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ProductStatusChangedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ProductStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\Events\\ProductStatusChangedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V059",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Registry.Abstractions sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts may not depend on foreign Contracts. Remove the reference to IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V060",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Modules.Registry.Abstractions: project declaration",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.Registry.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.Registry.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V061",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Registry.Abstractions references IFX.Platform.Messaging.Abstractions, which Contracts may not name",
+      "fromProject": "IFX.Modules.Registry.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts projects may name no other project at all. Remove the reference to IFX.Platform.Messaging.Abstractions from IFX.Modules.Registry.Abstractions."
+    },
+    {
+      "id": "V062",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateClassCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\FundClasses\\Commands\\CreateClass\\CreateClassCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\FundClasses\\Commands\\CreateClass\\CreateClassCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V063",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "DeleteClassCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\FundClasses\\Commands\\DeleteClass\\DeleteClassCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\FundClasses\\Commands\\DeleteClass\\DeleteClassCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V064",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateFundCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Funds\\Commands\\CreateFund\\CreateFundCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Funds\\Commands\\CreateFund\\CreateFundCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V065",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "DeleteFundCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Funds\\Commands\\DeleteFund\\DeleteFundCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Funds\\Commands\\DeleteFund\\DeleteFundCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V066",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Registry.Application sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj",
+        "line": 6,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Registry.Abstractions -\u003E IFX.Platform.Messaging.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V067",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateProductCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Products\\Commands\\CreateProduct\\CreateProductCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Products\\Commands\\CreateProduct\\CreateProductCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V068",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "DeleteProductCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Products\\Commands\\DeleteProduct\\DeleteProductCommandHandler.cs",
+        "line": 6,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\Products\\Commands\\DeleteProduct\\DeleteProductCommandHandler.cs",
+        "line": 6,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V069",
+      "rule": "RING-PACKAGE",
+      "severity": "bends",
+      "headline": "IFX.Modules.Registry.Application declares Microsoft.Extensions.Http",
+      "fromProject": "IFX.Modules.Registry.Application",
+      "fromRing": "Application",
+      "fromModule": "Registry",
+      "toProject": "Microsoft.Extensions.Http",
+      "toRing": "package",
+      "kind": "package",
+      "path": [
+        "IFX.Modules.Registry.Application",
+        "Microsoft.Extensions.Http"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj",
+        "line": 16,
+        "text": "\u003CPackageReference Include=\u0022Microsoft.Extensions.Http\u0022 Version=\u00228.0.0\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj",
+        "line": 16,
+        "text": "\u003CPackageReference Include=\u0022Microsoft.Extensions.Http\u0022 Version=\u00228.0.0\u0022 /\u003E"
+      },
+      "fixHint": "Application projects are allowed only: MediatR*, FluentValidation*, AutoMapper*, Microsoft.Extensions.Logging*, Microsoft.Extensions.DependencyInjection*, IFX.BuildingBlocks.Domain*, IFX.BuildingBlocks.Security*. Move whatever needs Microsoft.Extensions.Http to a ring that may hold it."
+    },
+    {
+      "id": "V070",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Registry.Infrastructure references App.Abstractions, which Infrastructure may not name",
+      "fromProject": "IFX.Modules.Registry.Infrastructure",
+      "fromRing": "Infrastructure",
+      "fromModule": "Registry",
+      "toProject": "App.Abstractions",
+      "toRing": "Outside",
+      "toModule": "BuildingBlocks",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Registry.Infrastructure",
+        "App.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Infrastructure\\IFX.Modules.Registry.Infrastructure.csproj",
+        "line": 5,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Infrastructure\\IFX.Modules.Registry.Infrastructure.csproj",
+        "line": 5,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Infrastructure projects may name only: IFX.Modules.*.Application, IFX.Modules.*.Domain, IFX.Modules.*.Contracts, IFX.Modules.*.Abstractions, IFX.BuildingBlocks.*, IFX.Platform.*. Remove the reference to App.Abstractions from IFX.Modules.Registry.Infrastructure."
+    },
+    {
+      "id": "V071",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Registry.Presentation sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Registry.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Registry",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Registry.Presentation",
+        "IFX.Modules.Registry.Application",
+        "IFX.Modules.Registry.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Presentation\\IFX.Modules.Registry.Presentation.csproj",
+        "line": 4,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+        "line": 10,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Registry.Abstractions -\u003E IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V072",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "OrderAcceptedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderAcceptedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderAcceptedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V073",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "OrderConfirmedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderConfirmedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderConfirmedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V074",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "OrderRejectedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderRejectedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderRejectedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V075",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "OrderSubmittedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderSubmittedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\OrderSubmittedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V076",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "TransactionCancelledEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\TransactionCancelledEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\TransactionCancelledEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V077",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "TransactionCreatedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\TransactionCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\TransactionCreatedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V078",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "TransactionProcessedEvent.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\TransactionProcessedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\Events\\TransactionProcessedEvent.cs",
+        "line": 1,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Contracts may not use Contracts from module Messaging."
+    },
+    {
+      "id": "V079",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Abstractions sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts may not depend on foreign Contracts. Remove the reference to IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V080",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Modules.Transaction.Abstractions: project declaration",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Transaction.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Transaction",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Modules.Transaction.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.Transaction.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Modules.Transaction.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V081",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Abstractions references IFX.Platform.Messaging.Abstractions, which Contracts may not name",
+      "fromProject": "IFX.Modules.Transaction.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Transaction.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts projects may name no other project at all. Remove the reference to IFX.Platform.Messaging.Abstractions from IFX.Modules.Transaction.Abstractions."
+    },
+    {
+      "id": "V082",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "AcceptOrderCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\AcceptOrder\\AcceptOrderCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\AcceptOrder\\AcceptOrderCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V083",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CancelTransactionCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CancelTransaction\\CancelTransactionCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CancelTransaction\\CancelTransactionCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V084",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ConfirmOrderCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\ConfirmOrder\\ConfirmOrderCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\ConfirmOrder\\ConfirmOrderCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V085",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateOrderCommandHandler.cs imports IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateOrder\\CreateOrderCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateOrder\\CreateOrderCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module CRM.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V086",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateOrderCommandHandler.cs imports IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateOrder\\CreateOrderCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateOrder\\CreateOrderCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Registry.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V087",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateOrderCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateOrder\\CreateOrderCommandHandler.cs",
+        "line": 11,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateOrder\\CreateOrderCommandHandler.cs",
+        "line": 11,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V088",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateRedemptionCommandHandler.cs imports IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateRedemption\\CreateRedemptionCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateRedemption\\CreateRedemptionCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module CRM.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V089",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateRedemptionCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateRedemption\\CreateRedemptionCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateRedemption\\CreateRedemptionCommandHandler.cs",
+        "line": 9,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V090",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateSubscriptionCommandHandler.cs imports IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSubscription\\CreateSubscriptionCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSubscription\\CreateSubscriptionCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module CRM.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V091",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateSubscriptionCommandHandler.cs imports IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSubscription\\CreateSubscriptionCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSubscription\\CreateSubscriptionCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Registry.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V092",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateSubscriptionCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSubscription\\CreateSubscriptionCommandHandler.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSubscription\\CreateSubscriptionCommandHandler.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V093",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateSwitchCommandHandler.cs imports IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSwitch\\CreateSwitchCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSwitch\\CreateSwitchCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module CRM.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V094",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateSwitchCommandHandler.cs imports IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSwitch\\CreateSwitchCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSwitch\\CreateSwitchCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Registry.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V095",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateSwitchCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSwitch\\CreateSwitchCommandHandler.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateSwitch\\CreateSwitchCommandHandler.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V096",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateTransferCommandHandler.cs imports IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateTransfer\\CreateTransferCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateTransfer\\CreateTransferCommandHandler.cs",
+        "line": 3,
+        "text": "using IFX.Modules.CRM.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module CRM.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V097",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateTransferCommandHandler.cs imports IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateTransfer\\CreateTransferCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateTransfer\\CreateTransferCommandHandler.cs",
+        "line": 4,
+        "text": "using IFX.Modules.Registry.Abstractions.Interfaces;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Registry.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V098",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "CreateTransferCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateTransfer\\CreateTransferCommandHandler.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\CreateTransfer\\CreateTransferCommandHandler.cs",
+        "line": 10,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V099",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "ProcessTransactionCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\ProcessTransaction\\ProcessTransactionCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\ProcessTransaction\\ProcessTransactionCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V100",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "RejectOrderCommandHandler.cs imports IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "import",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\RejectOrder\\RejectOrderCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\Commands\\RejectOrder\\RejectOrderCommandHandler.cs",
+        "line": 8,
+        "text": "using IFX.Platform.Messaging.Abstractions;"
+      },
+      "fixHint": "Remove this import: Application may not use Contracts from module Messaging.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V101",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Application sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 19,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 19,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Remove the reference to IFX.Platform.Messaging.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V102",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Application sees foreign IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 22,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 22,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Remove the reference to IFX.Modules.CRM.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V103",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Application sees foreign IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Application",
+      "fromRing": "Application",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "direct ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 23,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 23,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Application may not depend on foreign Contracts. Remove the reference to IFX.Modules.Registry.Abstractions.",
+      "ref": "L2.3"
+    },
+    {
+      "id": "V104",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Infrastructure references App.Abstractions, which Infrastructure may not name",
+      "fromProject": "IFX.Modules.Transaction.Infrastructure",
+      "fromRing": "Infrastructure",
+      "fromModule": "Transaction",
+      "toProject": "App.Abstractions",
+      "toRing": "Outside",
+      "toModule": "BuildingBlocks",
+      "kind": "reference",
+      "path": [
+        "IFX.Modules.Transaction.Infrastructure",
+        "App.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Infrastructure\\IFX.Modules.Transaction.Infrastructure.csproj",
+        "line": 18,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Infrastructure\\IFX.Modules.Transaction.Infrastructure.csproj",
+        "line": 18,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Infrastructure projects may name only: IFX.Modules.*.Application, IFX.Modules.*.Domain, IFX.Modules.*.Contracts, IFX.Modules.*.Abstractions, IFX.BuildingBlocks.*, IFX.Platform.*. Remove the reference to App.Abstractions from IFX.Modules.Transaction.Infrastructure."
+    },
+    {
+      "id": "V105",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Presentation sees foreign IFX.Modules.CRM.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.CRM.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "CRM",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Presentation",
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.CRM.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Presentation\\IFX.Modules.Transaction.Presentation.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 22,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Transaction.Application -\u003E IFX.Modules.CRM.Abstractions."
+    },
+    {
+      "id": "V106",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Presentation sees foreign IFX.Modules.Registry.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Modules.Registry.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Registry",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Presentation",
+        "IFX.Modules.Transaction.Application",
+        "IFX.Modules.Registry.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Presentation\\IFX.Modules.Transaction.Presentation.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 23,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Transaction.Application -\u003E IFX.Modules.Registry.Abstractions."
+    },
+    {
+      "id": "V107",
+      "rule": "OWNERSHIP-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Modules.Transaction.Presentation sees foreign IFX.Platform.Messaging.Abstractions",
+      "fromProject": "IFX.Modules.Transaction.Presentation",
+      "fromRing": "Presentation",
+      "fromModule": "Transaction",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "transitive ownership reference",
+      "path": [
+        "IFX.Modules.Transaction.Presentation",
+        "IFX.Modules.Transaction.Application",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Presentation\\IFX.Modules.Transaction.Presentation.csproj",
+        "line": 14,
+        "text": "\u003CProjectReference Include=\u0022..\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+        "line": 19,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Presentation may not depend on foreign Contracts. Stop the transitive flow at IFX.Modules.Transaction.Application -\u003E IFX.Platform.Messaging.Abstractions."
+    },
+    {
+      "id": "V108",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Platform.BackgroundJobs.Abstractions: project declaration",
+      "fromProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "BackgroundJobs",
+      "toProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "BackgroundJobs",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Platform.BackgroundJobs.Abstractions",
+        "IFX.Platform.BackgroundJobs.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Platform.BackgroundJobs.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Platform.BackgroundJobs.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V109",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Platform.BackgroundJobs.Abstractions references IFX.Platform.Shared, which Contracts may not name",
+      "fromProject": "IFX.Platform.BackgroundJobs.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "BackgroundJobs",
+      "toProject": "IFX.Platform.Shared",
+      "toRing": "Outside",
+      "toModule": "Platform",
+      "kind": "reference",
+      "path": [
+        "IFX.Platform.BackgroundJobs.Abstractions",
+        "IFX.Platform.Shared"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj",
+        "line": 4,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj",
+        "line": 4,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts projects may name no other project at all. Remove the reference to IFX.Platform.Shared from IFX.Platform.BackgroundJobs.Abstractions."
+    },
+    {
+      "id": "V110",
+      "rule": "DECLARATION-FORBIDDEN",
+      "severity": "breaks",
+      "headline": "IFX.Platform.Messaging.Abstractions contains forbidden declaration: IIntegrationEventHandler",
+      "fromProject": "IFX.Platform.Messaging.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Messaging",
+      "toProject": "IIntegrationEventHandler",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "forbidden declaration",
+      "path": [
+        "IFX.Platform.Messaging.Abstractions",
+        "IIntegrationEventHandler"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IIntegrationEventHandler.cs",
+        "line": 3,
+        "text": "interface IIntegrationEventHandler"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IIntegrationEventHandler.cs",
+        "line": 3,
+        "text": "interface IIntegrationEventHandler"
+      },
+      "fixHint": "Contracts may not declare \u0060*Handler\u0060. Move the implementation to an outer role or rename only if the type is genuinely not that responsibility.",
+      "ref": "L3.5"
+    },
+    {
+      "id": "V111",
+      "rule": "DECLARATION-NAMESPACE",
+      "severity": "breaks",
+      "headline": "IFX.Platform.Messaging.Abstractions contains declaration namespace: IIntegrationEvent",
+      "fromProject": "IFX.Platform.Messaging.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Messaging",
+      "toProject": "IIntegrationEvent",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "declaration namespace",
+      "path": [
+        "IFX.Platform.Messaging.Abstractions",
+        "IIntegrationEvent"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IIntegrationEvent.cs",
+        "line": 3,
+        "text": "interface IIntegrationEvent"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IIntegrationEvent.cs",
+        "line": 3,
+        "text": "interface IIntegrationEvent"
+      },
+      "fixHint": "Move IIntegrationEvent to role Contracts under namespace \u0060*.Contracts.Events*\u0060.",
+      "ref": "L3.1"
+    },
+    {
+      "id": "V112",
+      "rule": "DECLARATION-NAMESPACE",
+      "severity": "breaks",
+      "headline": "IFX.Platform.Messaging.Abstractions contains declaration namespace: IntegrationEvent",
+      "fromProject": "IFX.Platform.Messaging.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Messaging",
+      "toProject": "IntegrationEvent",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "declaration namespace",
+      "path": [
+        "IFX.Platform.Messaging.Abstractions",
+        "IntegrationEvent"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IntegrationEvent.cs",
+        "line": 3,
+        "text": "record IntegrationEvent"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IntegrationEvent.cs",
+        "line": 3,
+        "text": "record IntegrationEvent"
+      },
+      "fixHint": "Move IntegrationEvent to role Contracts under namespace \u0060*.Contracts.Events*\u0060.",
+      "ref": "L3.1"
+    },
+    {
+      "id": "V113",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Platform.Messaging.Abstractions: project declaration",
+      "fromProject": "IFX.Platform.Messaging.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Messaging",
+      "toProject": "IFX.Platform.Messaging.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Messaging",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Platform.Messaging.Abstractions",
+        "IFX.Platform.Messaging.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Platform.Messaging.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Platform.Messaging.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V114",
+      "rule": "RING-PACKAGE-FORBIDDEN",
+      "severity": "breaks",
+      "headline": "IFX.Platform.Messaging.Abstractions takes Microsoft.Extensions.DependencyInjection.Abstractions, which Contracts may never hold",
+      "fromProject": "IFX.Platform.Messaging.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Messaging",
+      "toProject": "Microsoft.Extensions.DependencyInjection.Abstractions",
+      "toRing": "package",
+      "kind": "package",
+      "path": [
+        "IFX.Platform.Messaging.Abstractions",
+        "Microsoft.Extensions.DependencyInjection.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CPackageReference Include=\u0022Microsoft.Extensions.DependencyInjection.Abstractions\u0022 Version=\u00228.0.2\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj",
+        "line": 8,
+        "text": "\u003CPackageReference Include=\u0022Microsoft.Extensions.DependencyInjection.Abstractions\u0022 Version=\u00228.0.2\u0022 /\u003E"
+      },
+      "fixHint": "Contracts may never hold a package matching \u0060Microsoft.Extensions.DependencyInjection*\u0060. Move whatever needs Microsoft.Extensions.DependencyInjection.Abstractions to a ring that may.",
+      "ref": "L3.4"
+    },
+    {
+      "id": "V115",
+      "rule": "PROJECT-NAME-FORBIDDEN",
+      "severity": "drift",
+      "headline": "IFX.Platform.Notifications.Abstractions: project declaration",
+      "fromProject": "IFX.Platform.Notifications.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Notifications",
+      "toProject": "IFX.Platform.Notifications.Abstractions",
+      "toRing": "Contracts",
+      "toModule": "Notifications",
+      "kind": "project declaration",
+      "path": [
+        "IFX.Platform.Notifications.Abstractions",
+        "IFX.Platform.Notifications.Abstractions"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Platform.Notifications.Abstractions"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj",
+        "line": 1,
+        "text": "IFX.Platform.Notifications.Abstractions"
+      },
+      "fixHint": "Projects matching \u0060*.Abstractions\u0060 are migration-only. Create a provider-owned .Contracts project instead.",
+      "ref": "L1.2"
+    },
+    {
+      "id": "V116",
+      "rule": "RING-REFERENCE",
+      "severity": "breaks",
+      "headline": "IFX.Platform.Notifications.Abstractions references IFX.Platform.Shared, which Contracts may not name",
+      "fromProject": "IFX.Platform.Notifications.Abstractions",
+      "fromRing": "Contracts",
+      "fromModule": "Notifications",
+      "toProject": "IFX.Platform.Shared",
+      "toRing": "Outside",
+      "toModule": "Platform",
+      "kind": "reference",
+      "path": [
+        "IFX.Platform.Notifications.Abstractions",
+        "IFX.Platform.Shared"
+      ],
+      "evidence": {
+        "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj",
+        "line": 4,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj\u0022 /\u003E"
+      },
+      "fixAt": {
+        "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj",
+        "line": 4,
+        "text": "\u003CProjectReference Include=\u0022..\\..\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj\u0022 /\u003E"
+      },
+      "fixHint": "Contracts projects may name no other project at all. Remove the reference to IFX.Platform.Shared from IFX.Platform.Notifications.Abstractions."
+    }
+  ],
+  "projects": [
+    {
+      "name": "IFX.ApiHost",
+      "ring": "RuntimeHost",
+      "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\IFX.ApiHost.csproj",
+      "directProjectReferences": 11,
+      "packages": 11
+    },
+    {
+      "name": "IFX.Modules.Auth.Application",
+      "ring": "Application",
+      "module": "Auth",
+      "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+      "directProjectReferences": 4,
+      "packages": 8
+    },
+    {
+      "name": "IFX.Modules.Auth.Composition",
+      "ring": "Composition",
+      "module": "Auth",
+      "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Composition\\IFX.Modules.Auth.Composition.csproj",
+      "directProjectReferences": 4,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Auth.Domain",
+      "ring": "Domain",
+      "module": "Auth",
+      "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Domain\\IFX.Modules.Auth.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Auth.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Auth",
+      "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Infrastructure\\IFX.Modules.Auth.Infrastructure.csproj",
+      "directProjectReferences": 4,
+      "packages": 8
+    },
+    {
+      "name": "IFX.Modules.Auth.Presentation",
+      "ring": "Presentation",
+      "module": "Auth",
+      "file": "D:\\IFX\\src\\Modules\\Auth\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj",
+      "directProjectReferences": 3,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.CRM.Abstractions",
+      "ring": "Contracts",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Abstractions\\IFX.Modules.CRM.Abstractions.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.CRM.Application",
+      "ring": "Application",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\IFX.Modules.CRM.Application.csproj",
+      "directProjectReferences": 4,
+      "packages": 6
+    },
+    {
+      "name": "IFX.Modules.CRM.Composition",
+      "ring": "Composition",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Composition\\IFX.Modules.CRM.Composition.csproj",
+      "directProjectReferences": 6,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.CRM.Domain",
+      "ring": "Domain",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Domain\\IFX.Modules.CRM.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.CRM.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Infrastructure\\IFX.Modules.CRM.Infrastructure.csproj",
+      "directProjectReferences": 5,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.CRM.Presentation",
+      "ring": "Presentation",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Presentation\\IFX.Modules.CRM.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Holdings.Abstractions",
+      "ring": "Contracts",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Abstractions\\IFX.Modules.Holdings.Abstractions.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Holdings.Application",
+      "ring": "Application",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+      "directProjectReferences": 7,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.Holdings.Composition",
+      "ring": "Composition",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Composition\\IFX.Modules.Holdings.Composition.csproj",
+      "directProjectReferences": 6,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Holdings.Domain",
+      "ring": "Domain",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Domain\\IFX.Modules.Holdings.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Holdings.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Infrastructure\\IFX.Modules.Holdings.Infrastructure.csproj",
+      "directProjectReferences": 6,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Modules.Holdings.Presentation",
+      "ring": "Presentation",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Presentation\\IFX.Modules.Holdings.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Registry.Abstractions",
+      "ring": "Contracts",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Abstractions\\IFX.Modules.Registry.Abstractions.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Registry.Application",
+      "ring": "Application",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj",
+      "directProjectReferences": 4,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.Registry.Composition",
+      "ring": "Composition",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Composition\\IFX.Modules.Registry.Composition.csproj",
+      "directProjectReferences": 6,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Registry.Domain",
+      "ring": "Domain",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Domain\\IFX.Modules.Registry.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Registry.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Infrastructure\\IFX.Modules.Registry.Infrastructure.csproj",
+      "directProjectReferences": 5,
+      "packages": 8
+    },
+    {
+      "name": "IFX.Modules.Registry.Presentation",
+      "ring": "Presentation",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Presentation\\IFX.Modules.Registry.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Transaction.Abstractions",
+      "ring": "Contracts",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Abstractions\\IFX.Modules.Transaction.Abstractions.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Transaction.Application",
+      "ring": "Application",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+      "directProjectReferences": 7,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.Transaction.Composition",
+      "ring": "Composition",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Composition\\IFX.Modules.Transaction.Composition.csproj",
+      "directProjectReferences": 6,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Transaction.Domain",
+      "ring": "Domain",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Domain\\IFX.Modules.Transaction.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Transaction.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Infrastructure\\IFX.Modules.Transaction.Infrastructure.csproj",
+      "directProjectReferences": 6,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Modules.Transaction.Presentation",
+      "ring": "Presentation",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Presentation\\IFX.Modules.Transaction.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Platform.BackgroundJobs.Abstractions",
+      "ring": "Contracts",
+      "module": "BackgroundJobs",
+      "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Abstractions\\IFX.Platform.BackgroundJobs.Abstractions.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.BackgroundJobs.Composition",
+      "ring": "Composition",
+      "module": "BackgroundJobs",
+      "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Composition\\IFX.Platform.BackgroundJobs.Composition.csproj",
+      "directProjectReferences": 3,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "ring": "Infrastructure",
+      "module": "BackgroundJobs",
+      "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj",
+      "directProjectReferences": 1,
+      "packages": 2
+    },
+    {
+      "name": "IFX.Platform.Messaging.Abstractions",
+      "ring": "Contracts",
+      "module": "Messaging",
+      "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Abstractions\\IFX.Platform.Messaging.Abstractions.csproj",
+      "directProjectReferences": 0,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Platform.Messaging.Composition",
+      "ring": "Composition",
+      "module": "Messaging",
+      "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Composition\\IFX.Platform.Messaging.Composition.csproj",
+      "directProjectReferences": 2,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "ring": "Infrastructure",
+      "module": "Messaging",
+      "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Infrastructure.InMemory\\IFX.Platform.Messaging.Infrastructure.InMemory.csproj",
+      "directProjectReferences": 2,
+      "packages": 2
+    },
+    {
+      "name": "IFX.Platform.Notifications.Abstractions",
+      "ring": "Contracts",
+      "module": "Notifications",
+      "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Abstractions\\IFX.Platform.Notifications.Abstractions.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Notifications.Composition",
+      "ring": "Composition",
+      "module": "Notifications",
+      "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Composition\\IFX.Platform.Notifications.Composition.csproj",
+      "directProjectReferences": 2,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "ring": "Infrastructure",
+      "module": "Notifications",
+      "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Infrastructure.SendGrid\\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj",
+      "directProjectReferences": 2,
+      "packages": 2
+    }
+  ],
+  "outside": [
+    {
+      "name": "App.Abstractions",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.BuildingBlocks.Application",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Application\\IFX.BuildingBlocks.Application.csproj",
+      "directProjectReferences": 0,
+      "packages": 4
+    },
+    {
+      "name": "IFX.BuildingBlocks.Domain",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Domain\\IFX.BuildingBlocks.Domain.csproj",
+      "directProjectReferences": 0,
+      "packages": 1
+    },
+    {
+      "name": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.EntityFrameworkCore\\IFX.BuildingBlocks.EntityFrameworkCore.csproj",
+      "directProjectReferences": 1,
+      "packages": 4
+    },
+    {
+      "name": "IFX.BuildingBlocks.Security",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj",
+      "directProjectReferences": 0,
+      "packages": 3
+    },
+    {
+      "name": "IFX.DatabaseMigrator",
+      "ring": "Outside",
+      "module": "DatabaseMigrator",
+      "file": "D:\\IFX\\src\\DatabaseMigrator\\IFX.DatabaseMigrator\\IFX.DatabaseMigrator.csproj",
+      "directProjectReferences": 6,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.Shared",
+      "ring": "Outside",
+      "module": "Platform",
+      "file": "D:\\IFX\\src\\Platform\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    }
+  ],
+  "notChecked": [
+    "whether every module holds every ring \u2014 the rule file does not ask for it",
+    "semantic symbol binding \u2014 names are matched syntactically against loaded project names",
+    "method behavior and runtime values; this tool checks only static dependency and declaration boundaries",
+    "Gate 05 field classification, purpose and propagation semantics \u2014 delegated to external validators/tests",
+    "anything inside a project that matches no layer"
+  ],
+  "baseline": {
+    "source": "D:\\IFX\\mcp\\LayerGuard\\baselines\\b0.5.json",
+    "matched": 116,
+    "new": 0,
+    "stale": 0,
+    "totalEntries": 116
+  }
+}

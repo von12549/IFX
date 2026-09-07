@@ -29,6 +29,8 @@ try
     var builder = WebApplication.CreateBuilder(args);
     var runtimeProfile = RuntimeProfileResolver.Resolve(builder.Configuration, builder.Environment);
     builder.Services.AddSingleton(runtimeProfile);
+    var runtimeInstanceIdentity = RuntimeInstanceIdentity.Create(runtimeProfile.Role);
+    builder.Services.AddSingleton(runtimeInstanceIdentity);
     var runtimeManifests = RuntimeManifestLoader.Load(AppContext.BaseDirectory);
     builder.Services.AddSingleton(runtimeManifests.Modules);
     builder.Services.AddSingleton(runtimeManifests.Release);
@@ -42,7 +44,7 @@ try
     builder.Services.AddBackgroundJobsClient(builder.Configuration);
     if (runtimeProfile.Capabilities.HangfireServer)
     {
-        builder.Services.AddBackgroundJobsServer(builder.Configuration);
+        builder.Services.AddBackgroundJobsServer(builder.Configuration, runtimeInstanceIdentity.Value);
     }
     builder.Services.AddNotificationsOptional(builder.Configuration);
 
@@ -103,9 +105,10 @@ try
     // Map endpoints
     app.MapAuthHealthCheckEndpoints();  // /health, /health/database, /health/ready
 
-    app.MapGet("/management/runtime", (RuntimeProfile profile) => Results.Ok(new
+    app.MapGet("/management/runtime", (RuntimeProfile profile, RuntimeInstanceIdentity instance) => Results.Ok(new
     {
         role = profile.RoleName,
+        instance = instance.Value,
         capabilities = profile.Capabilities
     })).RequireAuthorization();
 
