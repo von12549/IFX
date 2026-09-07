@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Common;
 using MediatR;
 
@@ -7,4 +9,4 @@ public record LogoutUserCommand(
     string Issuer,
     string Subject,
     string AccessToken,
-    string IpAddress) : IRequest<Result<bool>>;
+    string IpAddress) : ICommand<Result<bool>, AuthTransactionOwner>;

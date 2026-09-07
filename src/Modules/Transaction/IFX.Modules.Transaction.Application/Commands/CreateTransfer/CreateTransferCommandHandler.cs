@@ -11,9 +11,9 @@ using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
+using IFX.BuildingBlocks.Application.Events;
 
 namespace IFX.Modules.Transaction.Application.Commands.CreateTransfer;
-
 public class CreateTransferCommandHandler : IRequestHandler<CreateTransferCommand, Result<TransactionDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -22,53 +22,37 @@ public class CreateTransferCommandHandler : IRequestHandler<CreateTransferComman
     private readonly IResourceAuthorizationService _authorizationService;
     private readonly ICrmReader _crmReader;
     private readonly IRegistryReader _registryReader;
-    private readonly IIntegrationEventBus _eventBus;
+    private readonly ICommittedEventBuffer _eventBuffer;
     private readonly ILogger<CreateTransferCommandHandler> _logger;
-
-    public CreateTransferCommandHandler(
-        IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
-        IResourceAuthorizationService authorizationService,
-        ICrmReader crmReader, IRegistryReader registryReader,
-        IIntegrationEventBus eventBus, ILogger<CreateTransferCommandHandler> logger)
+    public CreateTransferCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ICrmReader crmReader, IRegistryReader registryReader, ICommittedEventBuffer eventBuffer, ILogger<CreateTransferCommandHandler> logger)
     {
-        _unitOfWork = unitOfWork; _mapper = mapper; _currentUser = currentUser;
-        _authorizationService = authorizationService; _crmReader = crmReader;
-        _registryReader = registryReader; _eventBus = eventBus; _logger = logger;
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
+        _crmReader = crmReader;
+        _registryReader = registryReader;
+        _eventBuffer = eventBuffer;
+        _logger = logger;
     }
 
     public async Task<Result<TransactionDto>> Handle(CreateTransferCommand request, CancellationToken cancellationToken)
     {
-        try
         {
-            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
-                "transaction", "create", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
-
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync("transaction", "create", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
             if (_currentUser.TenantId == null)
                 return Result<TransactionDto>.Failure("Tenant context required.");
-
             var tenantId = _currentUser.TenantId.Value;
-
             if (!await _crmReader.IsInvestmentAccountKycApprovedAsync(request.InvestmentAccountId, tenantId, cancellationToken))
                 return Result<TransactionDto>.Failure("Investment account KYC is not approved.");
-
             if (!await _registryReader.IsClassOpenForSubscriptionAsync(request.TargetClassId, tenantId, cancellationToken))
                 return Result<TransactionDto>.Failure("Target fund class is not open for subscription.");
-
             var tx = TxEntity.CreateTransfer(tenantId, request.InvestmentAccountId, request.FundId, request.ClassId, request.TargetClassId, request.Amount, request.TradeDate);
             tx.CreatedBy = _currentUser.UserId;
-
             await _unitOfWork.Transactions.AddAsync(tx, cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            await _eventBus.PublishAsync(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount), cancellationToken);
-
+            _eventBuffer.Add(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount));
             _logger.LogInformation("Transfer created: {TransactionId}", tx.Id);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error creating transfer");
-            return Result<TransactionDto>.Failure("An error occurred while creating the transfer.");
         }
     }
 }

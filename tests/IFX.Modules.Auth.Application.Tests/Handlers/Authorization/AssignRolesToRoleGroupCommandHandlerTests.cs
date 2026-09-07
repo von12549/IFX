@@ -48,7 +48,7 @@ public class AssignRolesToRoleGroupCommandHandlerTests
             new AssignRolesToRoleGroupCommand(group.Id, [role.Id]), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

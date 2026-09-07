@@ -1,5 +1,7 @@
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
+using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 
 namespace IFX.ApiHost.Middleware;
@@ -23,6 +25,11 @@ public class ExceptionHandlingMiddleware
         {
             await _next(context);
         }
+        catch (OperationCanceledException)
+        {
+            // Cancellation is control flow. Preserve it for the server and do not log it as an error.
+            throw;
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An unhandled exception occurred: {Message}", ex.Message);
@@ -42,10 +49,30 @@ public class ExceptionHandlingMiddleware
             Timestamp = DateTimeOffset.UtcNow
         };
 
-        if (exception is ForbiddenException)
+        if (exception is ValidationException validationException)
+        {
+            statusCode = HttpStatusCode.BadRequest;
+            response.Error = "One or more validation errors occurred.";
+            response.Errors = validationException.Errors
+                .GroupBy(failure => failure.PropertyName)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Select(failure => failure.ErrorMessage).Distinct().ToArray());
+        }
+        else if (exception is ForbiddenException)
         {
             statusCode = HttpStatusCode.Forbidden;
             response.Error = exception.Message;
+        }
+        else if (exception is ConcurrencyConflictException)
+        {
+            statusCode = HttpStatusCode.Conflict;
+            response.Error = "The resource was changed by another request. Reload it before retrying.";
+        }
+        else if (exception is TransactionCommitOutcomeUnknownException)
+        {
+            statusCode = HttpStatusCode.ServiceUnavailable;
+            response.Error = "The operation outcome could not be confirmed. Reconcile it before retrying.";
         }
         else if (exception is ArgumentException or ArgumentNullException)
         {
@@ -80,6 +107,6 @@ public class ErrorResponse
     public bool Success { get; set; }
     public object? Data { get; set; }
     public string? Error { get; set; }
-    public List<string>? Errors { get; set; }
+    public Dictionary<string, string[]>? Errors { get; set; }
     public DateTimeOffset Timestamp { get; set; }
 }

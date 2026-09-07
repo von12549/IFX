@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Funds.DTOs;
 using IFX.Modules.Registry.Domain.Enums;
@@ -11,4 +13,4 @@ public record CreateFundCommand(
     FundType FundType,
     string BaseCurrency,
     DateOnly InceptionDate,
-    Guid? ProductId = null) : IRequest<Result<FundDto>>;
+    Guid? ProductId = null) : ICommand<Result<FundDto>, RegistryTransactionOwner>;

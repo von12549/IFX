@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using MediatR;
@@ -8,4 +10,4 @@ public record LoginUserCommand(
     string Email,
     string Password,
     string IpAddress,
-    string UserAgent) : IRequest<Result<LoginUserResponse>>;
+    string UserAgent) : ICommand<Result<LoginUserResponse>, AuthTransactionOwner>;

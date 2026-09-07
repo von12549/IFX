@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\IFX.Platform.Messaging.Abstractions\IFX.Platform.Messaging.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>

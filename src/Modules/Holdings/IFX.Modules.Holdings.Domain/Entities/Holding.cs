@@ -44,7 +44,7 @@ public class Holding : BaseEntity, IAuditableEntity
     public void ApplyRedemption(decimal units)
     {
         if (units <= 0) throw new ArgumentException("Units must be positive.", nameof(units));
-        if (units > Units) throw new InvalidOperationException($"Cannot redeem {units} units; holding only has {Units}.");
+        if (units > Units) throw new DomainRuleViolationException($"Cannot redeem {units} units; holding only has {Units}.");
         Units -= units;
         LastTransactionAt = DateTimeOffset.UtcNow;
         if (Units == 0) Status = HoldingStatus.Closed;

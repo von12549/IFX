@@ -1,0 +1,91 @@
+{
+  "gate": "G01",
+  "generatedAtUtc": "2026-09-07T11:45:01.2257069+00:00",
+  "passed": true,
+  "inventory": {
+    "commands": 89,
+    "commandHandlers": 89,
+    "handlerViolations": {
+      "saveChanges": [],
+      "catchAll": [],
+      "directPublish": [],
+      "nestedSend": [],
+      "rawSql": []
+    }
+  },
+  "checks": [
+    {
+      "name": "all commands use explicit ICommand marker",
+      "passed": true,
+      "actual": {
+        "commandCount": 89,
+        "missingMarker": []
+      },
+      "expectation": "89 commands and zero missing markers"
+    },
+    {
+      "name": "command handlers do not own final persistence",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero active SaveChangesAsync calls"
+    },
+    {
+      "name": "command handlers do not catch all exceptions",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero catch (Exception) blocks"
+    },
+    {
+      "name": "command handlers do not publish transport events",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero PublishAsync calls"
+    },
+    {
+      "name": "command handlers do not nest commands",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero MediatR Send calls"
+    },
+    {
+      "name": "command handlers do not execute raw SQL",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero raw SQL calls"
+    },
+    {
+      "name": "module-local shared behaviors are removed",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero module Application Behavior files"
+    },
+    {
+      "name": "shared pipeline registrations are unique",
+      "passed": true,
+      "actual": {
+        "logging": 1,
+        "validation": 1,
+        "transaction": 1
+      },
+      "expectation": "one registration for each shared behavior"
+    },
+    {
+      "name": "ambient distributed transactions are forbidden",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero TransactionScope uses"
+    },
+    {
+      "name": "UnitOfWork ports do not expose transaction control",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero Begin/Commit/Rollback methods"
+    },
+    {
+      "name": "transaction protocol does not leak into external contracts",
+      "passed": true,
+      "actual": [],
+      "expectation": "zero Abstractions/Contracts references"
+    }
+  ]
+}

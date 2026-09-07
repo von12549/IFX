@@ -39,7 +39,7 @@ public class RemoveGlobalRoleCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _globalRoles.Verify(r => r.RemoveUserGlobalRole(assignment), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -108,6 +108,6 @@ public class RemoveGlobalRoleCommandHandlerTests
             new RemoveGlobalRoleCommand(userId, adminRole.Id), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 }

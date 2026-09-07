@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Investors.DTOs;
 using IFX.Modules.CRM.Domain.Enums;
@@ -14,4 +16,4 @@ public record UpdateInvestorAmlCommand(
     string? SourceOfWealth,
     int UnresolvedPepCount,
     int UnresolvedSanctionCount,
-    int UnresolvedAdverseMediaCount) : IRequest<Result<InvestorDto>>;
+    int UnresolvedAdverseMediaCount) : ICommand<Result<InvestorDto>, CrmTransactionOwner>;

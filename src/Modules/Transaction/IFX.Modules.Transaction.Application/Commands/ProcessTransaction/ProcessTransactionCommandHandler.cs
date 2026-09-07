@@ -8,25 +8,25 @@ using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using IFX.BuildingBlocks.Application.Events;
 
 namespace IFX.Modules.Transaction.Application.Commands.ProcessTransaction;
-
 public class ProcessTransactionCommandHandler : IRequestHandler<ProcessTransactionCommand, Result<TransactionDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
-    private readonly IIntegrationEventBus _eventBus;
+    private readonly ICommittedEventBuffer _eventBuffer;
     private readonly ILogger<ProcessTransactionCommandHandler> _logger;
-
-    public ProcessTransactionCommandHandler(
-        IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
-        IResourceAuthorizationService authorizationService,
-        IIntegrationEventBus eventBus, ILogger<ProcessTransactionCommandHandler> logger)
+    public ProcessTransactionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ICommittedEventBuffer eventBuffer, ILogger<ProcessTransactionCommandHandler> logger)
     {
-        _unitOfWork = unitOfWork; _mapper = mapper; _currentUser = currentUser;
-        _authorizationService = authorizationService; _eventBus = eventBus; _logger = logger;
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
+        _eventBuffer = eventBuffer;
+        _logger = logger;
     }
 
     public async Task<Result<TransactionDto>> Handle(ProcessTransactionCommand request, CancellationToken cancellationToken)
@@ -35,35 +35,20 @@ public class ProcessTransactionCommandHandler : IRequestHandler<ProcessTransacti
         {
             if (_currentUser.TenantId == null)
                 return Result<TransactionDto>.Failure("Tenant context required.");
-
             var tx = await _unitOfWork.Transactions.GetByIdAsync(request.TransactionId, cancellationToken);
             if (tx == null || tx.TenantId != _currentUser.TenantId.Value)
                 return Result<TransactionDto>.Failure("Transaction not found.");
-
-            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
-                "transaction", "process", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
-
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync("transaction", "process", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
             tx.Process(request.NAVPrice);
             _unitOfWork.Transactions.Update(tx);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             // Publish event — Holdings module will update balances
-            await _eventBus.PublishAsync(new TransactionProcessedEvent(
-                tx.Id, tx.TenantId, tx.Type.ToString(),
-                tx.InvestmentAccountId, tx.ClassId, tx.TargetClassId,
-                tx.Units!.Value, tx.NAVPrice!.Value), cancellationToken);
-
+            _eventBuffer.Add(new TransactionProcessedEvent(tx.Id, tx.TenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.TargetClassId, tx.Units!.Value, tx.NAVPrice!.Value));
             _logger.LogInformation("Transaction processed: {TransactionId} Units={Units} NAV={NAVPrice}", tx.Id, tx.Units, tx.NAVPrice);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));
         }
-        catch (InvalidOperationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
         {
             return Result<TransactionDto>.Failure(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error processing transaction {TransactionId}", request.TransactionId);
-            return Result<TransactionDto>.Failure("An error occurred while processing the transaction.");
         }
     }
 }

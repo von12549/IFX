@@ -1,10 +1,12 @@
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Transaction.Abstractions.Interfaces;
 using IFX.Modules.Transaction.Application.Interfaces;
+using IFX.Modules.Transaction.Application.Transactions;
 using IFX.Modules.Transaction.Domain.Repositories;
 using IFX.Modules.Transaction.Infrastructure.Repositories;
 using IFX.Modules.Transaction.Infrastructure.Authorization;
@@ -33,6 +35,7 @@ public static class DependencyInjection
         services.AddScoped<ITransactionRepository, EfTransactionRepository>();
         services.AddScoped<IOrderRepository, EfOrderRepository>();
         services.AddScoped<IUnitOfWork, TransactionUnitOfWork>();
+        services.AddKeyedScoped<ITransactionExecutor, TransactionModuleExecutor>(typeof(TransactionModuleOwner));
         services.AddScoped<ITransactionReader, TransactionReader>();
 
         services.AddHttpContextAccessor();

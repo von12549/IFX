@@ -43,7 +43,7 @@ public class RemovePermissionFromRoleCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeTrue();
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

@@ -1,5 +1,4 @@
 using System.Reflection;
-using IFX.Modules.CRM.Application.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,11 +19,6 @@ public static class DependencyInjection
 
         // Register FluentValidation validators
         services.AddValidatorsFromAssembly(assembly);
-
-        // Register MediatR Pipeline Behaviors (order matters)
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
         return services;
     }

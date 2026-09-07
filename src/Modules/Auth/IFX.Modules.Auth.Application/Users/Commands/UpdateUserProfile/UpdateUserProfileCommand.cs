@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Users.DTOs;
 using MediatR;
@@ -13,7 +15,7 @@ public record UpdateUserProfileCommand(
     string? PhoneNumber = null,
     string? Email = null,
     string? IpAddress = null,
-    Guid? PrimaryTenantId = null) : IRequest<Result<UpdateUserProfileResponse>>;
+    Guid? PrimaryTenantId = null) : ICommand<Result<UpdateUserProfileResponse>, AuthTransactionOwner>;
 
 public record UpdateUserProfileResponse(
     UserProfileDto Profile,

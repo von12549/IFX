@@ -44,7 +44,7 @@ public class UpdateRoleCommandHandlerTests
             new UpdateRoleCommand(role.Id, "NewName", "New desc", role.TenantId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

@@ -17,7 +17,7 @@ public class HoldingConfiguration : IEntityTypeConfiguration<Holding>
         builder.Property(h => h.Status).HasConversion<string>().IsRequired();
         builder.Property(h => h.LastTransactionAt);
         builder.Property(h => h.CreatedAt).IsRequired();
-        builder.Property(h => h.UpdatedAt).IsRequired();
+        builder.Property(h => h.UpdatedAt).IsRequired().IsConcurrencyToken();
 
         builder.HasIndex(h => new { h.TenantId, h.InvestmentAccountId, h.ClassId })
             .IsUnique()

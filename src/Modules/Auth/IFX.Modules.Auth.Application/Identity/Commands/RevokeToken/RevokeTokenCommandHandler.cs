@@ -4,37 +4,27 @@ using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
-using IFX.Modules.Auth.Domain.Users;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Auth.Application.Identity.Commands.RevokeToken;
-
 public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Result<bool>>
 {
     private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RevokeTokenCommandHandler> _logger;
-
-    public RevokeTokenCommandHandler(
-        IIdentityProvider identityProvider,
-        IUnitOfWork unitOfWork,
-        ILogger<RevokeTokenCommandHandler> logger)
+    public RevokeTokenCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, ILogger<RevokeTokenCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
-    public async Task<Result<bool>> Handle(
-        RevokeTokenCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Result<bool>> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
     {
-        try
         {
             // Revoke token in Cognito
             var revokeSuccess = await _identityProvider.RevokeTokenAsync(request.RefreshToken);
-
             if (!revokeSuccess)
             {
                 _logger.LogWarning("Failed to revoke refresh token");
@@ -56,25 +46,13 @@ public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Res
                 if (user != null)
                 {
                     // Create UserActivityLog
-                    var activityLog = UserActivityLog.Create(
-                        user.Id,
-                        ActivityType.Logout,
-                        "Refresh token revoked",
-                        request.IpAddress ?? "Unknown");
-
+                    var activityLog = UserActivityLog.Create(user.Id, ActivityType.Logout, "Refresh token revoked", request.IpAddress ?? "Unknown");
                     await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
-                    await _unitOfWork.SaveChangesAsync(cancellationToken);
-
                     _logger.LogInformation("Refresh token revoked for user {Email}", request.Email);
                 }
             }
 
             return Result<bool>.Success(true);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error revoking refresh token");
-            return Result<bool>.Failure("An error occurred while revoking the refresh token");
         }
     }
 }

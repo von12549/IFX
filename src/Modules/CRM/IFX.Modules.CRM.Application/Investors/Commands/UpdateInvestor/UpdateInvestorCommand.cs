@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Investors.DTOs;
 using MediatR;
@@ -9,4 +11,4 @@ public record UpdateInvestorCommand(
     string Name,
     string? TaxResidencyCountry,
     string? TIN,
-    string? GIIN) : IRequest<Result<InvestorDto>>;
+    string? GIIN) : ICommand<Result<InvestorDto>, CrmTransactionOwner>;

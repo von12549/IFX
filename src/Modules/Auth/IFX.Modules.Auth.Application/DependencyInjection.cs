@@ -1,6 +1,7 @@
 using System.Reflection;
-using IFX.Modules.Auth.Application.Behaviors;
 using FluentValidation;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,11 +21,7 @@ public static class DependencyInjection
 
         // Register FluentValidation validators
         services.AddValidatorsFromAssembly(assembly);
-
-        // Register MediatR Pipeline Behaviors (order matters)
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+        services.AddScoped<IEmailVerificationIssuanceService, EmailVerificationIssuanceService>();
 
         return services;
     }

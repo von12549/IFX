@@ -1,4 +1,5 @@
 using App.Abstractions;
+using IFX.BuildingBlocks.Application;
 using IFX.ApiHost.Configuration;
 using IFX.ApiHost.Middleware;
 using IFX.Modules.Auth.Composition;
@@ -35,6 +36,7 @@ try
     builder.Services.AddRegistryModule(builder.Configuration);
     builder.Services.AddHoldingsModule(builder.Configuration);
     builder.Services.AddTransactionModule(builder.Configuration);
+    builder.Services.AddApplicationPipeline();
 
     // Register platform services
     builder.Services.AddMessaging();

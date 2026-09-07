@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Domain.Identity;
@@ -19,4 +21,4 @@ public record CreateIdpCommand(
     string AllowedAlgs,
     string RequiredScopes,
     string ClaimMapping,
-    int ClockSkewSeconds) : IRequest<Result<IdpDto>>;
+    int ClockSkewSeconds) : ICommand<Result<IdpDto>, AuthTransactionOwner>;

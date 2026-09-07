@@ -30,7 +30,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<TxEntity>
         builder.Property(t => t.LegId).HasMaxLength(35);
 
         builder.Property(t => t.CreatedAt).IsRequired();
-        builder.Property(t => t.UpdatedAt).IsRequired();
+        builder.Property(t => t.UpdatedAt).IsRequired().IsConcurrencyToken();
 
         // ExternalFundIdentifier — stored as flat columns
         builder.OwnsOne(t => t.ExternalFundIdentifier, nav =>

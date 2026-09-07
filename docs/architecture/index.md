@@ -4,7 +4,7 @@ IFX follows a **Modular Monolithic + Clean Architecture** pattern with Minimal A
 
 ## Architecture Review Baselines
 
-The bilingual current-state and proposed Contracts/Adapters/Events architecture review is indexed at [review/README.md](review/README.md). The target material is a planning baseline and is not yet implemented.
+The bilingual current-state and proposed Contracts/Adapters/Events architecture review is indexed at [review/README.md](review/README.md). Gate G01's implemented module-local transaction model is documented in [Chinese](review/gates/G01/transaction-boundary.zh-CN.md) and [English](review/gates/G01/transaction-boundary.en.md); its real Outbox/Inbox acceptance remains linked to Plan 02 E2/E4.
 
 ## Project Structure
 
@@ -15,6 +15,8 @@ IFX/
 │   │   └── IFX.ApiHost/      # Host app (middleware, startup, health checks)
 │   ├── BuildingBlocks/
 │   │   ├── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   │   ├── IFX.BuildingBlocks.Application/ # Shared CQRS pipeline and transaction policy
+│   │   ├── IFX.BuildingBlocks.EntityFrameworkCore/ # Shared EF transaction executor
 │   │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA, ABAC engine, policy resolver)
 │   ├── Platform/                     # Cross-cutting platform services
 │   │   ├── IFX.Platform.Shared/           # Constants, settings, result pattern
@@ -48,12 +50,13 @@ IFX/
 - Use case orchestration with CQRS (MediatR)
 - Commands: RegisterUser, LoginUser, LogoutUser, RefreshToken, etc.
 - Queries: GetUserProfile, GetUserLoginHistory, GetAllUsers, etc.
-- Validators (FluentValidation), Pipeline behaviors
+- Module validators and services; shared Logging, Validation, and Transaction behaviors are registered once by ApiHost
 
 ### Infrastructure Layer
 - Data access (EF Core with SQL Server)
 - External services (AWS Cognito)
 - Repository implementations
+- One keyed module transaction executor, restricted to that module's DbContext
 
 ### Presentation Layer
 - Minimal API endpoints organized by feature

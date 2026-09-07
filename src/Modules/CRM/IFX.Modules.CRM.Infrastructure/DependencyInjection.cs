@@ -1,10 +1,12 @@
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.CRM.Abstractions.Interfaces;
 using IFX.Modules.CRM.Application.Interfaces;
+using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Authorization;
 using IFX.Modules.CRM.Infrastructure.Persistence;
@@ -50,6 +52,7 @@ public static class DependencyInjection
 
         // Unit of Work
         services.AddScoped<IUnitOfWork, CrmUnitOfWork>();
+        services.AddKeyedScoped<ITransactionExecutor, CrmTransactionExecutor>(typeof(CrmTransactionOwner));
 
         // CrmReader (cross-module read service)
         services.AddScoped<ICrmReader, CrmReader>();

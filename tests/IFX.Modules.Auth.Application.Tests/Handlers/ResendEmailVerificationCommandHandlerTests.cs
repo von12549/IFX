@@ -1,20 +1,19 @@
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
-using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
 using IFX.Modules.Auth.Application.Identity.DTOs;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
 using IFX.Tests.Common;
 using IFX.Tests.Common.Builders;
-using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Auth.Application.Tests.Handlers;
 
 public class ResendEmailVerificationCommandHandlerTests
 {
-    private readonly Mock<IMediator> _mediatorMock;
+    private readonly Mock<IEmailVerificationIssuanceService> _issuanceServiceMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<IUserIdentityRepository> _userIdentityRepoMock;
     private readonly Mock<IUserActivityLogRepository> _activityLogRepoMock;
@@ -23,7 +22,7 @@ public class ResendEmailVerificationCommandHandlerTests
 
     public ResendEmailVerificationCommandHandlerTests()
     {
-        _mediatorMock = new Mock<IMediator>();
+        _issuanceServiceMock = new Mock<IEmailVerificationIssuanceService>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _userIdentityRepoMock = new Mock<IUserIdentityRepository>();
         _activityLogRepoMock = new Mock<IUserActivityLogRepository>();
@@ -33,7 +32,7 @@ public class ResendEmailVerificationCommandHandlerTests
         _unitOfWorkMock.Setup(u => u.UserActivityLogs).Returns(_activityLogRepoMock.Object);
 
         _handler = new ResendEmailVerificationCommandHandler(
-            _mediatorMock.Object,
+            _issuanceServiceMock.Object,
             _unitOfWorkMock.Object,
             _loggerMock.Object);
     }
@@ -64,8 +63,11 @@ public class ResendEmailVerificationCommandHandlerTests
             .Setup(r => r.GetUserActivitiesAsync(userIdentity.UserId, 1, 100, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<UserActivityLog>());
 
-        _mediatorMock
-            .Setup(m => m.Send(It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()))
+        _issuanceServiceMock
+            .Setup(service => service.IssueAsync(
+                userIdentity.Id,
+                TestConstants.ValidIpAddress,
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<EmailVerificationTokenInfo>.Success(expectedResponse));
 
         // Act
@@ -75,10 +77,9 @@ public class ResendEmailVerificationCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().Be(expectedResponse);
 
-        _mediatorMock.Verify(m => m.Send(
-            It.Is<SendEmailVerificationCommand>(c =>
-                c.UserIdentityId == userIdentity.Id &&
-                c.IpAddress == TestConstants.ValidIpAddress),
+        _issuanceServiceMock.Verify(service => service.IssueAsync(
+            userIdentity.Id,
+            TestConstants.ValidIpAddress,
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -100,8 +101,8 @@ public class ResendEmailVerificationCommandHandlerTests
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be("User identity not found");
 
-        _mediatorMock.Verify(m => m.Send(
-            It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        _issuanceServiceMock.Verify(service => service.IssueAsync(
+            It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -126,8 +127,8 @@ public class ResendEmailVerificationCommandHandlerTests
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be("Email is already verified");
 
-        _mediatorMock.Verify(m => m.Send(
-            It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        _issuanceServiceMock.Verify(service => service.IssueAsync(
+            It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -163,8 +164,8 @@ public class ResendEmailVerificationCommandHandlerTests
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("Too many verification emails sent");
 
-        _mediatorMock.Verify(m => m.Send(
-            It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()), Times.Never);
+        _issuanceServiceMock.Verify(service => service.IssueAsync(
+            It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -201,8 +202,9 @@ public class ResendEmailVerificationCommandHandlerTests
             .Setup(r => r.GetUserActivitiesAsync(userIdentity.UserId, 1, 100, It.IsAny<CancellationToken>()))
             .ReturnsAsync(recentActivities);
 
-        _mediatorMock
-            .Setup(m => m.Send(It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()))
+        _issuanceServiceMock
+            .Setup(service => service.IssueAsync(
+                It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<EmailVerificationTokenInfo>.Success(expectedResponse));
 
         // Act
@@ -211,8 +213,8 @@ public class ResendEmailVerificationCommandHandlerTests
         // Assert
         result.IsSuccess.Should().BeTrue();
 
-        _mediatorMock.Verify(m => m.Send(
-            It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        _issuanceServiceMock.Verify(service => service.IssueAsync(
+            It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -233,8 +235,9 @@ public class ResendEmailVerificationCommandHandlerTests
             .Setup(r => r.GetUserActivitiesAsync(userIdentity.UserId, 1, 100, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<UserActivityLog>());
 
-        _mediatorMock
-            .Setup(m => m.Send(It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()))
+        _issuanceServiceMock
+            .Setup(service => service.IssueAsync(
+                It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<EmailVerificationTokenInfo>.Failure("Some error"));
 
         // Act
@@ -295,8 +298,9 @@ public class ResendEmailVerificationCommandHandlerTests
             .Setup(r => r.GetUserActivitiesAsync(userIdentity.UserId, 1, 100, It.IsAny<CancellationToken>()))
             .ReturnsAsync(activities);
 
-        _mediatorMock
-            .Setup(m => m.Send(It.IsAny<SendEmailVerificationCommand>(), It.IsAny<CancellationToken>()))
+        _issuanceServiceMock
+            .Setup(service => service.IssueAsync(
+                It.IsAny<Guid>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<EmailVerificationTokenInfo>.Success(expectedResponse));
 
         // Act

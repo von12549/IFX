@@ -43,7 +43,7 @@ public class FundClassConfiguration : IEntityTypeConfiguration<FundClass>
 
         builder.Property(fc => fc.CreatedBy);
         builder.Property(fc => fc.CreatedAt).IsRequired();
-        builder.Property(fc => fc.UpdatedAt).IsRequired();
+        builder.Property(fc => fc.UpdatedAt).IsRequired().IsConcurrencyToken();
 
         builder.HasIndex(fc => new { fc.FundId, fc.ClassCode })
             .HasDatabaseName("IX_FundClasses_FundId_ClassCode")

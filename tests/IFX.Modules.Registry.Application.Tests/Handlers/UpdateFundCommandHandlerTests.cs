@@ -55,7 +55,7 @@ public class UpdateFundCommandHandlerTests
         fund.FundName.Should().Be("Updated Fund");
         fund.FundType.Should().Be(FundType.AIF);
         fund.BaseCurrency.Should().Be("EUR");
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

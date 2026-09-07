@@ -61,7 +61,7 @@ public class CreatePolicyCommandHandlerTests
         result.Value.IsPlatformDefault.Should().BeFalse();
 
         _policies.Verify(p => p.AddAsync(It.IsAny<PolicyDefinition>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         _policyCache.Verify(c => c.Invalidate(tenantId, "user", "read"), Times.Once);
     }
 
@@ -96,7 +96,7 @@ public class CreatePolicyCommandHandlerTests
         result.Value.IsPlatformDefault.Should().BeTrue();
 
         _policies.Verify(p => p.AddAsync(It.IsAny<PolicyDefinition>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         _policyCache.Verify(c => c.InvalidatePlatform("user", "read"), Times.Once);
         _policyCache.Verify(c => c.Invalidate(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }

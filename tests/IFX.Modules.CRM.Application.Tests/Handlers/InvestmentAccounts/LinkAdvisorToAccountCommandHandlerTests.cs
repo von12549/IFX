@@ -65,7 +65,7 @@ public class LinkAdvisorToAccountCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _advisorLinks.Verify(r => r.AddAsync(It.IsAny<AdvisorInvestmentAccountLink>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

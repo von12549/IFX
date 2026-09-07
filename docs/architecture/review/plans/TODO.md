@@ -31,9 +31,9 @@
 
 - [ ] **Topic 2 完成**：全部事项已转为正式计划或有证据地完成。
 
-- [ ] TX6 评估 KYC 与 Class 状态“先查后写”的 TOCTOU 风险，按业务需要采用 reservation、version token、有效期或最终补偿。
-- [ ] TX7 为需要跨模块完成的业务流程定义状态机、超时、补偿、人工干预和审计，不引入分布式数据库事务。
-- [ ] TX9 为 TX7 的跨模块状态机与补偿流程添加故障注入，覆盖补偿失败、超时和人工恢复；本地事务、消息崩溃与重复投递测试分别由 Gate 01 和事件子计划负责。
+- [ ] TX6（Owner：Architecture + Registry/Transaction Application）评估 KYC 与 Class 状态“先查后写”的 TOCTOU 风险，按业务需要采用 reservation、version token、有效期或最终补偿。
+- [ ] TX7（Owner：Architecture + 各 owning module Application）为需要跨模块完成的业务流程定义状态机、超时、补偿、人工干预和审计，不引入分布式数据库事务。
+- [ ] TX9（Owner：Infrastructure + Test Engineering）为 TX7 的跨模块状态机与补偿流程添加故障注入，覆盖补偿失败、超时和人工恢复；本地事务、消息崩溃与重复投递测试分别由 Gate 01 和事件子计划负责。
 
 ## Topic 3 — 部署边界：单一 ApiHost 的模块化单体
 

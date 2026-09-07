@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Transaction.Domain.Entities;
 using IFX.Modules.Transaction.Domain.Enums;
 
@@ -136,7 +137,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void Accept_WhenAlreadyAccepted_ThrowsInvalidOperationException()
+    public void Accept_WhenAlreadyAccepted_ThrowsDomainRuleViolationException()
     {
         var order = Order.CreateSubscriptionOrder(
             TenantId, "ORD-001", InvestmentAccountId, FundId, ClassId, 10000m, "AUD", TradeDate);
@@ -144,7 +145,7 @@ public class OrderTests
 
         var act = () => order.Accept("DEAL-002");
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 
     // --- Reject ---
@@ -174,7 +175,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void Reject_WhenAlreadyConfirmed_ThrowsInvalidOperationException()
+    public void Reject_WhenAlreadyConfirmed_ThrowsDomainRuleViolationException()
     {
         var order = Order.CreateSubscriptionOrder(
             TenantId, "ORD-001", InvestmentAccountId, FundId, ClassId, 10000m, "AUD", TradeDate);
@@ -183,7 +184,7 @@ public class OrderTests
 
         var act = () => order.Reject("Too late");
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 
     // --- Confirm ---
@@ -201,14 +202,14 @@ public class OrderTests
     }
 
     [Fact]
-    public void Confirm_WhenSubmitted_ThrowsInvalidOperationException()
+    public void Confirm_WhenSubmitted_ThrowsDomainRuleViolationException()
     {
         var order = Order.CreateSubscriptionOrder(
             TenantId, "ORD-001", InvestmentAccountId, FundId, ClassId, 10000m, "AUD", TradeDate);
 
         var act = () => order.Confirm();
 
-        act.Should().Throw<InvalidOperationException>().WithMessage("*Accepted*");
+        act.Should().Throw<DomainRuleViolationException>().WithMessage("*Accepted*");
     }
 
     // --- Cancel ---
@@ -226,7 +227,7 @@ public class OrderTests
     }
 
     [Fact]
-    public void Cancel_WhenPriceConfirmed_ThrowsInvalidOperationException()
+    public void Cancel_WhenPriceConfirmed_ThrowsDomainRuleViolationException()
     {
         var order = Order.CreateSubscriptionOrder(
             TenantId, "ORD-001", InvestmentAccountId, FundId, ClassId, 10000m, "AUD", TradeDate);
@@ -235,11 +236,11 @@ public class OrderTests
 
         var act = () => order.Cancel();
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 
     [Fact]
-    public void Cancel_WhenAlreadyCancelled_ThrowsInvalidOperationException()
+    public void Cancel_WhenAlreadyCancelled_ThrowsDomainRuleViolationException()
     {
         var order = Order.CreateSubscriptionOrder(
             TenantId, "ORD-001", InvestmentAccountId, FundId, ClassId, 10000m, "AUD", TradeDate);
@@ -247,6 +248,6 @@ public class OrderTests
 
         var act = () => order.Cancel();
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 }

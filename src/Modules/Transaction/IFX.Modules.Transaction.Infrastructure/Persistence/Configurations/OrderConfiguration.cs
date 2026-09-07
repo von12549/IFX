@@ -17,7 +17,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.Status).HasConversion<string>().IsRequired();
         builder.Property(o => o.RejectionReason).HasMaxLength(500);
         builder.Property(o => o.CreatedAt).IsRequired();
-        builder.Property(o => o.UpdatedAt).IsRequired();
+        builder.Property(o => o.UpdatedAt).IsRequired().IsConcurrencyToken();
 
         builder.HasIndex(o => o.TenantId)
             .HasDatabaseName("IX_Orders_TenantId");

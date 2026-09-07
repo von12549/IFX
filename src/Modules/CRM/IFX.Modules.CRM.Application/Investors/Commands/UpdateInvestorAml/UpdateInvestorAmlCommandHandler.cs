@@ -8,7 +8,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.CRM.Application.Investors.Commands.UpdateInvestorAml;
-
 public class UpdateInvestorAmlCommandHandler : IRequestHandler<UpdateInvestorAmlCommand, Result<InvestorDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -16,13 +15,7 @@ public class UpdateInvestorAmlCommandHandler : IRequestHandler<UpdateInvestorAml
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
     private readonly ILogger<UpdateInvestorAmlCommandHandler> _logger;
-
-    public UpdateInvestorAmlCommandHandler(
-        IUnitOfWork unitOfWork,
-        IMapper mapper,
-        ICurrentUser currentUser,
-        IResourceAuthorizationService authorizationService,
-        ILogger<UpdateInvestorAmlCommandHandler> logger)
+    public UpdateInvestorAmlCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<UpdateInvestorAmlCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -33,40 +26,17 @@ public class UpdateInvestorAmlCommandHandler : IRequestHandler<UpdateInvestorAml
 
     public async Task<Result<InvestorDto>> Handle(UpdateInvestorAmlCommand request, CancellationToken cancellationToken)
     {
-        try
         {
             if (_currentUser.TenantId == null)
                 return Result<InvestorDto>.Failure("Tenant context is required.");
-
             var investor = await _unitOfWork.Investors.GetByIdAsync(request.InvestorId, _currentUser.TenantId.Value, cancellationToken);
             if (investor == null)
                 return Result<InvestorDto>.Failure("Investor not found.");
-
-            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
-                "investor", "update",
-                new TenantScopeResourceAttributes(_currentUser.TenantId),
-                ct: cancellationToken);
-
-            investor.UpdateAmlStatus(
-                request.AmlStatus,
-                request.AmlGatewayReference,
-                request.IsPEP,
-                request.PepDetails,
-                request.SourceOfWealth,
-                request.UnresolvedPepCount,
-                request.UnresolvedSanctionCount,
-                request.UnresolvedAdverseMediaCount);
-
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync("investor", "update", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
+            investor.UpdateAmlStatus(request.AmlStatus, request.AmlGatewayReference, request.IsPEP, request.PepDetails, request.SourceOfWealth, request.UnresolvedPepCount, request.UnresolvedSanctionCount, request.UnresolvedAdverseMediaCount);
             investor.UpdatedBy = _currentUser.UserId;
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Investor AML updated: {InvestorId} -> {AmlStatus}", request.InvestorId, request.AmlStatus);
             return Result<InvestorDto>.Success(_mapper.Map<InvestorDto>(investor));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating AML for investor {InvestorId}", request.InvestorId);
-            return Result<InvestorDto>.Failure("An error occurred while updating investor AML.");
         }
     }
 }

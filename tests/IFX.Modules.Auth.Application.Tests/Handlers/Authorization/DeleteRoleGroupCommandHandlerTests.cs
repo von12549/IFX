@@ -40,7 +40,7 @@ public class DeleteRoleGroupCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeTrue();
         _groups.Verify(g => g.Remove(group), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

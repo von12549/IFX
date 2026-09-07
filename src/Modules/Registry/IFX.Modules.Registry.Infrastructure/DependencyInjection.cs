@@ -1,5 +1,7 @@
 using IFX.Modules.Registry.Abstractions.Interfaces;
 using IFX.Modules.Registry.Application.Interfaces;
+using IFX.BuildingBlocks.Application.Transactions;
+using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Domain.Repositories;
 using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Modules.Registry.Infrastructure.Repositories;
@@ -35,6 +37,7 @@ public static class DependencyInjection
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, RegistryUnitOfWork>();
+        services.AddKeyedScoped<ITransactionExecutor, RegistryTransactionExecutor>(typeof(RegistryTransactionOwner));
 
         // Register RegistryReader (cross-module anti-corruption layer)
         services.AddScoped<IRegistryReader, RegistryReader>();

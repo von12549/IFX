@@ -10,7 +10,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Auth.Application.Authorization.Policies.Commands.UpdatePolicy;
-
 public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, Result<PolicyDefinitionDto>>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -18,13 +17,7 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
     private readonly IResourceAuthorizationService _authorizationService;
     private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<UpdatePolicyCommandHandler> _logger;
-
-    public UpdatePolicyCommandHandler(
-        IUnitOfWork unitOfWork,
-        ICurrentUser currentUser,
-        IResourceAuthorizationService authorizationService,
-        IAbacPolicyCache policyCache,
-        ILogger<UpdatePolicyCommandHandler> logger)
+    public UpdatePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, IAbacPolicyCache policyCache, ILogger<UpdatePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
@@ -33,58 +26,27 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
         _logger = logger;
     }
 
-    public async Task<Result<PolicyDefinitionDto>> Handle(
-        UpdatePolicyCommand request, CancellationToken cancellationToken)
+    public async Task<Result<PolicyDefinitionDto>> Handle(UpdatePolicyCommand request, CancellationToken cancellationToken)
     {
-        try
         {
             var policy = await _unitOfWork.PolicyDefinitions.GetByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<PolicyDefinitionDto>.Failure("Policy not found.");
-
-            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
-                "policy", "update",
-                new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById),
-                ct: cancellationToken);
-
-            var conditionsJson = JsonSerializer.Serialize(
-                request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
-
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "update", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
+            var conditionsJson = JsonSerializer.Serialize(request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
             policy.Update(request.Name, conditionsJson, _currentUser.UserId, request.Description);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             if (policy.Scope == PolicyScope.Platform)
                 _policyCache.InvalidatePlatform(policy.ResourceType, policy.Action);
             else
                 _policyCache.Invalidate(policy.TenantId!.Value, policy.ResourceType, policy.Action);
-
             _logger.LogInformation("Policy updated: {PolicyId}", policy.Id);
-
             return Result<PolicyDefinitionDto>.Success(MapToDto(policy));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating policy {PolicyId}", request.PolicyId);
-            return Result<PolicyDefinitionDto>.Failure("An error occurred while updating the policy.");
         }
     }
 
     private static PolicyDefinitionDto MapToDto(PolicyDefinition p)
     {
-        var conditions = JsonSerializer.Deserialize<List<PolicyConditionRecord>>(
-            p.ConditionsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
-
-        return new PolicyDefinitionDto(
-            p.Id,
-            p.TenantId,
-            p.Name,
-            p.Description,
-            p.ResourceType,
-            p.Action,
-            conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(),
-            p.IsActive,
-            IsPlatformDefault: p.Scope == PolicyScope.Platform,
-            p.UpdatedAt,
-            p.Scope);
+        var conditions = JsonSerializer.Deserialize<List<PolicyConditionRecord>>(p.ConditionsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
+        return new PolicyDefinitionDto(p.Id, p.TenantId, p.Name, p.Description, p.ResourceType, p.Action, conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(), p.IsActive, IsPlatformDefault: p.Scope == PolicyScope.Platform, p.UpdatedAt, p.Scope);
     }
 }

@@ -1,4 +1,5 @@
 using IFX.Platform.Messaging.Abstractions;
+using IFX.BuildingBlocks.Application.Events;
 using IFX.Platform.Messaging.Infrastructure.InMemory;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ public static class MessagingServiceCollectionExtensions
     public static IServiceCollection AddMessaging(this IServiceCollection services)
     {
         services.AddScoped<IIntegrationEventBus, InMemoryIntegrationEventBus>();
+        services.AddScoped<ICommittedEventBuffer, InMemoryCommittedEventBuffer>();
         return services;
     }
 

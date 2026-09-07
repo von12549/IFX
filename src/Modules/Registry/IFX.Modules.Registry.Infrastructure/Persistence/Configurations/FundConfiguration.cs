@@ -34,7 +34,7 @@ public class FundConfiguration : IEntityTypeConfiguration<Fund>
 
         builder.Property(f => f.CreatedBy);
         builder.Property(f => f.CreatedAt).IsRequired();
-        builder.Property(f => f.UpdatedAt).IsRequired();
+        builder.Property(f => f.UpdatedAt).IsRequired().IsConcurrencyToken();
 
         builder.HasIndex(f => new { f.TenantId, f.FundCode })
             .HasDatabaseName("IX_Funds_TenantId_FundCode")

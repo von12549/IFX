@@ -55,7 +55,7 @@ public class UpdateInvestorAmlCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         investor.AmlStatus.Should().Be(AmlStatus.Clear);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

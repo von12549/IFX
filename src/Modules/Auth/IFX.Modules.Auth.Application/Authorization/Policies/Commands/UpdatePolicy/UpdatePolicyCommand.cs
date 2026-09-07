@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using MediatR;
@@ -8,4 +10,4 @@ public record UpdatePolicyCommand(
     Guid PolicyId,
     string Name,
     string? Description,
-    List<PolicyConditionDto> Conditions) : IRequest<Result<PolicyDefinitionDto>>;
+    List<PolicyConditionDto> Conditions) : ICommand<Result<PolicyDefinitionDto>, AuthTransactionOwner>;

@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
@@ -18,7 +19,7 @@ public class RejectOrderCommandHandlerTests
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<IIntegrationEventBus> _eventBus = new();
+    private readonly Mock<ICommittedEventBuffer> _eventBuffer = new();
     private readonly Mock<ILogger<RejectOrderCommandHandler>> _logger = new();
     private readonly RejectOrderCommandHandler _handler;
 
@@ -40,14 +41,13 @@ public class RejectOrderCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _eventBus.Setup(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
         _mapper.Setup(m => m.Map<OrderDto>(It.IsAny<Order>())).Returns(
             new OrderDto(Guid.NewGuid(), TenantId, "SubscriptionOrder", "ORD-001", null, "Rejected",
                 "Unknown ISIN", null, null, Array.Empty<OrderLegDto>(), DateTime.UtcNow, DateTime.UtcNow));
 
         _handler = new RejectOrderCommandHandler(
             _unitOfWork.Object, _mapper.Object, _currentUser.Object,
-            _authorizationService.Object, _eventBus.Object, _logger.Object);
+            _authorizationService.Object, _eventBuffer.Object, _logger.Object);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class RejectOrderCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         order.Status.Should().Be(Domain.Enums.OrderStatus.Rejected);
         order.RejectionReason.Should().Be("Unknown ISIN");
-        _eventBus.Verify(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
     }
 
     [Fact]

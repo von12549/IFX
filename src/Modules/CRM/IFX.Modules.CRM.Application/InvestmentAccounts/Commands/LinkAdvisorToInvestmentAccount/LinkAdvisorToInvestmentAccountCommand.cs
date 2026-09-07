@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Application.Common;
 using MediatR;
 
@@ -7,4 +9,4 @@ public record LinkAdvisorToInvestmentAccountCommand(
     Guid InvestmentAccountId,
     Guid AdvisorPartyId,
     DateOnly EffectiveDate,
-    decimal? RebateRate) : IRequest<Result<Unit>>;
+    decimal? RebateRate) : ICommand<Result<Unit>, CrmTransactionOwner>;

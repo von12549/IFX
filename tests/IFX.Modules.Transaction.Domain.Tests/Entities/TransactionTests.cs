@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Transaction.Domain.Enums;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
 
@@ -112,14 +113,14 @@ public class TransactionTests
     }
 
     [Fact]
-    public void Process_WhenAlreadyProcessed_ThrowsInvalidOperationException()
+    public void Process_WhenAlreadyProcessed_ThrowsDomainRuleViolationException()
     {
         var tx = TxEntity.CreateSubscription(TenantId, InvestmentAccountId, FundId, ClassId, 1000m, TradeDate);
         tx.Process(10m);
 
         var act = () => tx.Process(10m);
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 
     // --- Cancel ---
@@ -147,7 +148,7 @@ public class TransactionTests
     }
 
     [Fact]
-    public void Cancel_WhenSettled_ThrowsInvalidOperationException()
+    public void Cancel_WhenSettled_ThrowsDomainRuleViolationException()
     {
         var tx = TxEntity.CreateSubscription(TenantId, InvestmentAccountId, FundId, ClassId, 1000m, TradeDate);
         tx.Process(10m);
@@ -155,18 +156,18 @@ public class TransactionTests
 
         var act = () => tx.Cancel();
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 
     [Fact]
-    public void Cancel_WhenAlreadyCancelled_ThrowsInvalidOperationException()
+    public void Cancel_WhenAlreadyCancelled_ThrowsDomainRuleViolationException()
     {
         var tx = TxEntity.CreateSubscription(TenantId, InvestmentAccountId, FundId, ClassId, 1000m, TradeDate);
         tx.Cancel();
 
         var act = () => tx.Cancel();
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 
     // --- Fail ---
@@ -209,12 +210,12 @@ public class TransactionTests
     }
 
     [Fact]
-    public void Settle_WhenPending_ThrowsInvalidOperationException()
+    public void Settle_WhenPending_ThrowsDomainRuleViolationException()
     {
         var tx = TxEntity.CreateSubscription(TenantId, InvestmentAccountId, FundId, ClassId, 1000m, TradeDate);
 
         var act = () => tx.Settle();
 
-        act.Should().Throw<InvalidOperationException>();
+        act.Should().Throw<DomainRuleViolationException>();
     }
 }

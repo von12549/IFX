@@ -1,10 +1,12 @@
 ﻿using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
@@ -73,6 +75,7 @@ public static class DependencyInjection
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<ITransactionExecutor, AuthTransactionExecutor>(typeof(AuthTransactionOwner));
 
         // Register shared authorization services
         services.AddHttpContextAccessor();

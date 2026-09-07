@@ -47,7 +47,7 @@ public class CreateRoleCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         result.Value!.Name.Should().Be("Moderator");
         _roles.Verify(r => r.AddAsync(It.IsAny<Role>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

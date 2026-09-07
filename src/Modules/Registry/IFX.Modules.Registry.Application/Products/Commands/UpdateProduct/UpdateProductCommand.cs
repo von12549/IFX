@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Products.DTOs;
 using MediatR;
@@ -12,4 +14,4 @@ public record UpdateProductCommand(
     string? RegulatorSchemeNumber,
     string? PdsReference,
     string? IssuerName,
-    DateOnly? WindUpDate) : IRequest<Result<ProductDto>>;
+    DateOnly? WindUpDate) : ICommand<Result<ProductDto>, RegistryTransactionOwner>;

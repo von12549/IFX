@@ -1,0 +1,14 @@
+flowchart TD
+  A[Transport] --> B[Inbound adapter and metadata]
+  B --> C[Inbox command]
+  C --> T[Begin local transaction]
+  T --> D{ConsumerId, EventId exists?}
+  D -- duplicate --> N[No-op]
+  D -- new --> H[Application handler]
+  H --> R{Success?}
+  R -- no --> X[Rollback and no ack]
+  R -- yes --> I[Add Inbox completion]
+  N --> S[Save once]
+  I --> S
+  S --> M[Commit]
+  M --> K[Transport ack]

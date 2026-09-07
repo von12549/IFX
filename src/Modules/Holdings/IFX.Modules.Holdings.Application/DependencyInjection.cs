@@ -1,6 +1,5 @@
 using System.Reflection;
 using FluentValidation;
-using IFX.Modules.Holdings.Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,9 +13,6 @@ public static class DependencyInjection
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         services.AddAutoMapper(assembly);
         services.AddValidatorsFromAssembly(assembly);
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
         return services;
     }
 }

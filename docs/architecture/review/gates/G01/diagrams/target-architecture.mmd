@@ -1,0 +1,11 @@
+flowchart LR
+  API[ApiHost composition root] --> P[Logging → Validation → Transaction]
+  P --> C[ICommand Response, Owner]
+  C --> H[Module Application Handler]
+  H --> U[Module UnitOfWork port]
+  P --> X[Keyed module Transaction Executor]
+  X --> DB[Module DbContext]
+  X --> TP[ITransactionParticipant]
+  TP --> O[Module Outbox or Inbox record]
+  DB --> SQL[(Module local database)]
+  O --> SQL

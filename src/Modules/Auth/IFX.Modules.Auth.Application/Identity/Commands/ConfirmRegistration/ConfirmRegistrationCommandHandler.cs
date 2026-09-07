@@ -7,28 +7,20 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Auth.Application.Identity.Commands.ConfirmRegistration;
-
 public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistrationCommand, Result<ConfirmRegistrationResponse>>
 {
     private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ConfirmRegistrationCommandHandler> _logger;
-
-    public ConfirmRegistrationCommandHandler(
-        IIdentityProvider identityProvider,
-        IUnitOfWork unitOfWork,
-        ILogger<ConfirmRegistrationCommandHandler> logger)
+    public ConfirmRegistrationCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, ILogger<ConfirmRegistrationCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
-    public async Task<Result<ConfirmRegistrationResponse>> Handle(
-        ConfirmRegistrationCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Result<ConfirmRegistrationResponse>> Handle(ConfirmRegistrationCommand request, CancellationToken cancellationToken)
     {
-        try
         {
             // Get primary IdP
             var primaryIdp = await _unitOfWork.Idps.GetPrimaryIdpAsync(cancellationToken);
@@ -37,6 +29,7 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
                 _logger.LogError("Primary IdP not found or not enabled in database");
                 return Result<ConfirmRegistrationResponse>.Failure("System configuration error. Please contact support.");
             }
+
             // Get user by email
             var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, primaryIdp.Id, cancellationToken);
             if (user == null)
@@ -54,11 +47,8 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
             // Activate user
             user.Activate();
             await _unitOfWork.Users.UpdateAsync(user, cancellationToken);
-
             // Update RegistrationFlowEvent
-            var registrationEvent = await _unitOfWork.RegistrationFlowEvents
-                .GetByEmailAsync(request.Email, cancellationToken);
-
+            var registrationEvent = await _unitOfWork.RegistrationFlowEvents.GetByEmailAsync(request.Email, cancellationToken);
             if (registrationEvent != null)
             {
                 registrationEvent.Confirm(user.Id);
@@ -66,28 +56,10 @@ public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistra
             }
 
             // Create UserActivityLog
-            var activityLog = UserActivityLog.Create(
-                user.Id,
-                ActivityType.RegistrationConfirmed,
-                "User registration confirmed",
-                request.IpAddress);
-
+            var activityLog = UserActivityLog.Create(user.Id, ActivityType.RegistrationConfirmed, "User registration confirmed", request.IpAddress);
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("User {Email} confirmed registration successfully", request.Email);
-
-            return Result<ConfirmRegistrationResponse>.Success(new ConfirmRegistrationResponse
-            {
-                Success = true,
-                Message = "Registration confirmed successfully"
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error confirming registration for {Email}", request.Email);
-            return Result<ConfirmRegistrationResponse>.Failure("An error occurred during confirmation");
+            return Result<ConfirmRegistrationResponse>.Success(new ConfirmRegistrationResponse { Success = true, Message = "Registration confirmed successfully" });
         }
     }
 }

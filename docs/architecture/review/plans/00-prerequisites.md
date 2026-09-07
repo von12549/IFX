@@ -32,16 +32,16 @@
 
 ## Gate 1 — 事务边界最小集
 
-- [ ] **Gate 1 前置放行**：TX1–TX5 的决策、测试要求和责任边界均已批准；TX2/TX3 阻塞缺陷与可独立完成的事务基础已修复，TX4/TX5 的真实 Outbox/Inbox 代码仍由 E2/E4 实施。
+- [x] **Gate 1 前置放行**：TX1–TX5 的决策、测试要求和责任边界均已批准；TX2/TX3 阻塞缺陷与可独立完成的事务基础已修复，TX4/TX5 的真实 Outbox/Inbox 代码仍由 E2/E4 实施。
 
 实施与最终验收：[`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md)。架构决策已经确认；前置放行不等于 Gate 最终关闭。
 
-- [ ] TX1 形成事务边界 ADR：事务只在单模块 DbContext 内保证 ACID；跨模块流程使用消息、补偿或 Saga，不声明共享原子性。
-- [ ] TX2 修复并验证 `TransactionBehavior` 提交语义：正常返回的 `Result.Failure` 不得被误认为成功并提交。
-- [ ] TX3 统一异常、业务失败、取消与 transient failure 的 commit/rollback 规则，并用关系数据库测试覆盖。
-- [ ] TX4 冻结“业务数据与 Outbox 必须位于同一本地事务、提交前不得直接发布 Integration Event”的规则；实际迁移由 Event 子计划 E2 执行。
-- [ ] TX5 冻结“消费方业务数据与 Inbox 完成记录必须位于同一本地事务”的规则及失败语义；实际实现由 Event 子计划 E4 执行。
-- [ ] TX-G1 保存批准的 ADR、事务状态表和成功/失败/取消测试结果，作为 Plan 00 的输入证据。
+- [x] TX1 形成事务边界 ADR：事务只在单模块 DbContext 内保证 ACID；跨模块流程使用消息、补偿或 Saga，不声明共享原子性。
+- [x] TX2 修复并验证 `TransactionBehavior` 提交语义：正常返回的 `Result.Failure` 不得被误认为成功并提交。
+- [x] TX3 统一异常、业务失败、取消与 transient failure 的 commit/rollback 规则，并用关系数据库测试覆盖。
+- [x] TX4 冻结“业务数据与 Outbox 必须位于同一本地事务、提交前不得直接发布 Integration Event”的规则；实际迁移由 Event 子计划 E2 执行。
+- [x] TX5 冻结“消费方业务数据与 Inbox 完成记录必须位于同一本地事务”的规则及失败语义；实际实现由 Event 子计划 E4 执行。
+- [x] TX-G1 保存批准的 ADR、事务状态表和成功/失败/取消测试结果，作为 Plan 00 的输入证据。
 
 ## Gate 2 — 数据库边界最小集
 

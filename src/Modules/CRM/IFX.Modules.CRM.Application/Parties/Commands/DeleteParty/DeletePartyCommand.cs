@@ -1,6 +1,8 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Application.Common;
 using MediatR;
 
 namespace IFX.Modules.CRM.Application.Parties.Commands.DeleteParty;
 
-public record DeletePartyCommand(Guid PartyId) : IRequest<Result<bool>>;
+public record DeletePartyCommand(Guid PartyId) : ICommand<Result<bool>, CrmTransactionOwner>;

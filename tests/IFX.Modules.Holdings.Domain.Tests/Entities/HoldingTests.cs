@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Holdings.Domain.Entities;
 using IFX.Modules.Holdings.Domain.Enums;
 
@@ -117,14 +118,14 @@ public class HoldingTests
     }
 
     [Fact]
-    public void ApplyRedemption_WhenExceedsBalance_ThrowsInvalidOperationException()
+    public void ApplyRedemption_WhenExceedsBalance_ThrowsDomainRuleViolationException()
     {
         var holding = Holding.Create(ValidTenantId, ValidAccountId, ValidClassId);
         holding.ApplySubscription(50m);
 
         var act = () => holding.ApplyRedemption(100m);
 
-        act.Should().Throw<InvalidOperationException>().WithMessage("*50*");
+        act.Should().Throw<DomainRuleViolationException>().WithMessage("*50*");
     }
 
     [Fact]

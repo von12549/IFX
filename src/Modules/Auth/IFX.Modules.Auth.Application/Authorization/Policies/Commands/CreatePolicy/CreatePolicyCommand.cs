@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Domain.Authorization;
@@ -12,4 +14,4 @@ public record CreatePolicyCommand(
     string? Description,
     string ResourceType,
     string Action,
-    List<PolicyConditionDto> Conditions) : IRequest<Result<PolicyDefinitionDto>>;
+    List<PolicyConditionDto> Conditions) : ICommand<Result<PolicyDefinitionDto>, AuthTransactionOwner>;

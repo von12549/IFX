@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Domain.Enums;
 using MediatR;
@@ -11,4 +13,4 @@ public record AddInvestorDocumentCommand(
     string IssueCountry,
     string? IssueState,
     DateOnly? IssueDate,
-    DateOnly? ExpiryDate) : IRequest<Result<Unit>>;
+    DateOnly? ExpiryDate) : ICommand<Result<Unit>, CrmTransactionOwner>;

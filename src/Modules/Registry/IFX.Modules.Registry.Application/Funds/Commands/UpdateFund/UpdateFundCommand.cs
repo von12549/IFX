@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Funds.DTOs;
 using IFX.Modules.Registry.Domain.Enums;
@@ -11,4 +13,4 @@ public record UpdateFundCommand(
     FundType FundType,
     string BaseCurrency,
     Guid? ProductId = null,
-    bool ClearProduct = false) : IRequest<Result<FundDto>>;
+    bool ClearProduct = false) : ICommand<Result<FundDto>, RegistryTransactionOwner>;

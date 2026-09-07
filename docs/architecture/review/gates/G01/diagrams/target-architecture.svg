@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="430" viewBox="0 0 1120 430" role="img" aria-labelledby="title desc">
+  <title id="title">G01 target transaction architecture</title><desc id="desc">ApiHost owns one shared pipeline and selects one module transaction executor and database.</desc>
+  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#52606d"/></marker><style>.b{fill:#f5f7fa;stroke:#334e68;stroke-width:2}.p{fill:#e6f6ff;stroke:#0077b6;stroke-width:2}.m{fill:#edf9f0;stroke:#2f855a;stroke-width:2}.t{font:15px Segoe UI,Arial;fill:#102a43;text-anchor:middle}.s{font:12px Segoe UI,Arial;fill:#486581;text-anchor:middle}.l{stroke:#52606d;stroke-width:2;marker-end:url(#a)}</style></defs>
+  <rect width="1120" height="430" fill="#fff"/>
+  <rect class="p" x="40" y="45" width="205" height="65" rx="10"/><text class="t" x="142" y="73">ApiHost composition root</text><text class="s" x="142" y="94">register once</text>
+  <rect class="p" x="315" y="45" width="280" height="65" rx="10"/><text class="t" x="455" y="73">Logging → Validation → Transaction</text><text class="s" x="455" y="94">shared Application policy</text>
+  <rect class="b" x="665" y="45" width="230" height="65" rx="10"/><text class="t" x="780" y="73">ICommand&lt;Response, Owner&gt;</text><text class="s" x="780" y="94">explicit ownership</text>
+  <rect class="m" x="665" y="165" width="230" height="65" rx="10"/><text class="t" x="780" y="193">Module Application Handler</text><text class="s" x="780" y="214">business orchestration</text>
+  <rect class="m" x="925" y="165" width="160" height="65" rx="10"/><text class="t" x="1005" y="193">UnitOfWork port</text><text class="s" x="1005" y="214">no tx control</text>
+  <rect class="p" x="315" y="285" width="280" height="65" rx="10"/><text class="t" x="455" y="313">Keyed module executor</text><text class="s" x="455" y="334">EF execution strategy + local tx</text>
+  <rect class="m" x="665" y="285" width="230" height="65" rx="10"/><text class="t" x="780" y="313">Module DbContext</text><text class="s" x="780" y="334">business + pending records</text>
+  <rect class="b" x="925" y="285" width="160" height="65" rx="10"/><text class="t" x="1005" y="313">Local database</text><text class="s" x="1005" y="334">one module tx</text>
+  <line class="l" x1="245" y1="77" x2="315" y2="77"/><line class="l" x1="595" y1="77" x2="665" y2="77"/><line class="l" x1="780" y1="110" x2="780" y2="165"/><line class="l" x1="895" y1="197" x2="925" y2="197"/><path class="l" fill="none" d="M455 110 V285"/><line class="l" x1="595" y1="317" x2="665" y2="317"/><line class="l" x1="895" y1="317" x2="925" y2="317"/>
+  <text class="s" x="455" y="382">Outbox/Inbox participant joins the owning module's single SaveChanges</text>
+</svg>

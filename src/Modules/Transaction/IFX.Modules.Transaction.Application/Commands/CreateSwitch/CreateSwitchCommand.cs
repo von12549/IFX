@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Transaction.Application.Transactions;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.DTOs;
 using MediatR;
@@ -6,4 +8,4 @@ public record CreateSwitchCommand(
     Guid InvestmentAccountId, Guid FundId,
     Guid ClassId, Guid TargetClassId,
     decimal Amount, DateOnly TradeDate
-) : IRequest<Result<TransactionDto>>;
+) : ICommand<Result<TransactionDto>, TransactionModuleOwner>;

@@ -53,7 +53,7 @@ public class AddInvestorDocumentCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _documents.Verify(r => r.AddAsync(It.IsAny<InvestorDocument>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

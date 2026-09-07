@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Transaction.Application.Transactions;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.DTOs;
 using MediatR;
@@ -15,4 +17,4 @@ public record OrderLegConfirmation(
 public record ConfirmOrderCommand(
     Guid OrderId,
     IReadOnlyList<OrderLegConfirmation> Legs
-) : IRequest<Result<OrderDto>>;
+) : ICommand<Result<OrderDto>, TransactionModuleOwner>;

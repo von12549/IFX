@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Domain.Identity;
@@ -14,4 +16,4 @@ public record ProvisionSsoUserCommand(
     string? FirstName,
     string? LastName,
     bool EmailVerified,
-    string? IpAddress) : IRequest<Result<ProvisionSsoUserResponse>>;
+    string? IpAddress) : ICommand<Result<ProvisionSsoUserResponse>, AuthTransactionOwner>;

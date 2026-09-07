@@ -74,7 +74,7 @@ public class Order : BaseEntity, IAuditableEntity
     public void Accept(string dealReference, DateOnly? expectedTradeDate = null, DateOnly? expectedSettlementDate = null)
     {
         if (Status != OrderStatus.Submitted)
-            throw new InvalidOperationException($"Cannot accept an order in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot accept an order in status {Status}.");
         if (string.IsNullOrWhiteSpace(dealReference))
             throw new ArgumentException("Deal reference is required to accept an order.", nameof(dealReference));
 
@@ -87,7 +87,7 @@ public class Order : BaseEntity, IAuditableEntity
     public void Reject(string reason)
     {
         if (Status != OrderStatus.Submitted && Status != OrderStatus.Accepted)
-            throw new InvalidOperationException($"Cannot reject an order in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot reject an order in status {Status}.");
         if (string.IsNullOrWhiteSpace(reason))
             throw new ArgumentException("Rejection reason is required.", nameof(reason));
 
@@ -98,7 +98,7 @@ public class Order : BaseEntity, IAuditableEntity
     public void Confirm()
     {
         if (Status != OrderStatus.Accepted)
-            throw new InvalidOperationException($"Cannot confirm an order in status {Status}. Order must be Accepted first.");
+            throw new DomainRuleViolationException($"Cannot confirm an order in status {Status}. Order must be Accepted first.");
 
         Status = OrderStatus.PriceConfirmed;
     }
@@ -106,7 +106,7 @@ public class Order : BaseEntity, IAuditableEntity
     public void Cancel(string? reason = null)
     {
         if (Status == OrderStatus.PriceConfirmed || Status == OrderStatus.Cancelled || Status == OrderStatus.Rejected)
-            throw new InvalidOperationException($"Cannot cancel an order in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot cancel an order in status {Status}.");
 
         Status = OrderStatus.Cancelled;
         RejectionReason = reason;

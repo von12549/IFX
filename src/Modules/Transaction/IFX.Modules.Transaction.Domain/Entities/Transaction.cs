@@ -91,7 +91,7 @@ public class Transaction : BaseEntity, IAuditableEntity
     public void Process(decimal navPrice)
     {
         if (Status != TransactionStatus.Pending && Status != TransactionStatus.Processing)
-            throw new InvalidOperationException($"Cannot process transaction in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot process transaction in status {Status}.");
         if (navPrice <= 0) throw new ArgumentException("NAVPrice must be positive.", nameof(navPrice));
 
         NAVPrice = navPrice;
@@ -104,7 +104,7 @@ public class Transaction : BaseEntity, IAuditableEntity
         IEnumerable<TaxDetail>? taxes = null, DateOnly? settlementDate = null)
     {
         if (Status != TransactionStatus.Pending && Status != TransactionStatus.Processing)
-            throw new InvalidOperationException($"Cannot confirm transaction in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot confirm transaction in status {Status}.");
         if (navPrice <= 0) throw new ArgumentException("NAVPrice must be positive.", nameof(navPrice));
         if (units <= 0) throw new ArgumentException("Units must be positive.", nameof(units));
 
@@ -121,7 +121,7 @@ public class Transaction : BaseEntity, IAuditableEntity
     public void Cancel(string? reason = null)
     {
         if (Status == TransactionStatus.Settled || Status == TransactionStatus.Cancelled || Status == TransactionStatus.Failed)
-            throw new InvalidOperationException($"Cannot cancel transaction in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot cancel transaction in status {Status}.");
 
         Status = TransactionStatus.Cancelled;
         FailureReason = reason;
@@ -136,7 +136,7 @@ public class Transaction : BaseEntity, IAuditableEntity
     public void Settle(DateOnly? settlementDate = null)
     {
         if (Status != TransactionStatus.Processed)
-            throw new InvalidOperationException($"Cannot settle transaction in status {Status}.");
+            throw new DomainRuleViolationException($"Cannot settle transaction in status {Status}.");
         Status = TransactionStatus.Settled;
         SettlementDate = settlementDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
     }

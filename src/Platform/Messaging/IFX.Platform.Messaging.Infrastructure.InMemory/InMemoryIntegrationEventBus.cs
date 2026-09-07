@@ -17,6 +17,15 @@ public sealed class InMemoryIntegrationEventBus : IIntegrationEventBus
         _logger = logger;
     }
 
+    public Task PublishAsync(IIntegrationEvent @event, CancellationToken ct = default)
+    {
+        var method = typeof(InMemoryIntegrationEventBus)
+            .GetMethods()
+            .Single(candidate => candidate.Name == nameof(PublishAsync) && candidate.IsGenericMethod)
+            .MakeGenericMethod(@event.GetType());
+        return (Task)method.Invoke(this, [@event, ct])!;
+    }
+
     public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken ct = default)
         where TEvent : IIntegrationEvent
     {
@@ -24,6 +33,7 @@ public sealed class InMemoryIntegrationEventBus : IIntegrationEventBus
         _logger.LogDebug("Publishing integration event {EventType} ({EventId})", eventType, @event.EventId);
 
         var handlers = _serviceProvider.GetServices<IIntegrationEventHandler<TEvent>>();
+        List<Exception>? failures = null;
 
         foreach (var handler in handlers)
         {
@@ -36,7 +46,15 @@ public sealed class InMemoryIntegrationEventBus : IIntegrationEventBus
                 _logger.LogError(ex,
                     "Error handling integration event {EventType} ({EventId}) in handler {Handler}",
                     eventType, @event.EventId, handler.GetType().Name);
+                (failures ??= []).Add(ex);
             }
+        }
+
+        if (failures is not null)
+        {
+            throw new AggregateException(
+                $"One or more handlers failed for integration event '{eventType}' ({@event.EventId}).",
+                failures);
         }
     }
 }

@@ -9,19 +9,13 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Auth.Application.Identity.Commands.SyncUser;
-
 public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<UserProfileDto>>
 {
     private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<SyncUserCommandHandler> _logger;
-
-    public SyncUserCommandHandler(
-        IIdentityProvider identityProvider,
-        IUnitOfWork unitOfWork,
-        IMapper mapper,
-        ILogger<SyncUserCommandHandler> logger)
+    public SyncUserCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, IMapper mapper, ILogger<SyncUserCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
@@ -29,11 +23,8 @@ public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<Us
         _logger = logger;
     }
 
-    public async Task<Result<UserProfileDto>> Handle(
-        SyncUserCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Result<UserProfileDto>> Handle(SyncUserCommand request, CancellationToken cancellationToken)
     {
-        try
         {
             // Get user from local DB
             var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(request.Issuer, request.Subject, cancellationToken);
@@ -59,16 +50,9 @@ public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<Us
             // identity.UpdateFromIdp(EmailAddress.Create(cognitoUserInfo.Email), ...);
             // await _unitOfWork.UserIdentities.UpdateAsync(identity, cancellationToken);
             // await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("User {Issuer}/{Subject} sync requested (implementation pending)", request.Issuer, request.Subject);
-
             var userProfile = _mapper.Map<UserProfileDto>(user);
             return Result<UserProfileDto>.Success(userProfile);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error syncing user {Issuer}/{Subject}", request.Issuer, request.Subject);
-            return Result<UserProfileDto>.Failure("An error occurred during user sync");
         }
     }
 }

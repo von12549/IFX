@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> Handler
+  Handler --> Discarded: Result.Failure
+  Handler --> Persisting: Result.Success
+  Handler --> RolledBack: exception or cancellation
+  Persisting --> Committed: save and commit succeed
+  Persisting --> Retried: transient before commit
+  Retried --> Persisting
+  Persisting --> RolledBack: save failure
+  Persisting --> Unknown: commit attempted and failed
+  RolledBack --> Diagnostic: cleanup failure
+  Committed --> [*]
+  Discarded --> [*]
+  Unknown --> Reconciliation

@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
@@ -18,7 +19,7 @@ public class ProcessTransactionCommandHandlerTests
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<IIntegrationEventBus> _eventBus = new();
+    private readonly Mock<ICommittedEventBuffer> _eventBuffer = new();
     private readonly Mock<ILogger<ProcessTransactionCommandHandler>> _logger = new();
     private readonly ProcessTransactionCommandHandler _handler;
 
@@ -41,13 +42,10 @@ public class ProcessTransactionCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _eventBus
-            .Setup(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
 
         _handler = new ProcessTransactionCommandHandler(
             _unitOfWork.Object, _mapper.Object, _currentUser.Object,
-            _authorizationService.Object, _eventBus.Object, _logger.Object);
+            _authorizationService.Object, _eventBuffer.Object, _logger.Object);
     }
 
     private TxEntity CreatePendingSubscription()
@@ -69,8 +67,8 @@ public class ProcessTransactionCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         tx.NAVPrice.Should().Be(10m);
         tx.Units.Should().Be(1000m);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _eventBus.Verify(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
     }
 
     [Fact]
@@ -122,6 +120,6 @@ public class ProcessTransactionCommandHandlerTests
         var result = await _handler.Handle(new ProcessTransactionCommand(tx.Id, 10m), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
-        _eventBus.Verify(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()), Times.Never);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Never);
     }
 }

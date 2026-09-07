@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Products.DTOs;
 using IFX.Modules.Registry.Domain.Enums;
@@ -15,4 +17,4 @@ public record CreateProductCommand(
     string? Isin = null,
     string? RegulatorSchemeNumber = null,
     string? PdsReference = null,
-    string? IssuerName = null) : IRequest<Result<ProductDto>>;
+    string? IssuerName = null) : ICommand<Result<ProductDto>, RegistryTransactionOwner>;

@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using MediatR;
@@ -12,4 +14,4 @@ public record RegisterUserCommand(
     string LastName,
     string BirthDate,
     string PhoneNumber,
-    string IpAddress) : IRequest<Result<RegisterUserResponse>>;
+    string IpAddress) : ICommand<Result<RegisterUserResponse>, AuthTransactionOwner>;

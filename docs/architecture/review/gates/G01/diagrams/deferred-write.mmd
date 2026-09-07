@@ -1,0 +1,12 @@
+flowchart TD
+  A[Logging] --> B[Validation]
+  B --> C[Resolve one owner executor]
+  C --> H[Handler]
+  H --> R{Result success?}
+  R -- no --> D[Discard tracked changes and facts]
+  R -- yes --> E[Execution strategy]
+  E --> T[Begin local transaction]
+  T --> P[Prepare participants]
+  P --> S[SaveChanges once]
+  S --> M[Commit]
+  M --> Q[Dispatch after commit]

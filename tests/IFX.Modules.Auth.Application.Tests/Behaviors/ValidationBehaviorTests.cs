@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Application.Behaviors;
+using IFX.BuildingBlocks.Application.Behaviors;
 using IFX.Modules.Auth.Application.Common;
 using FluentValidation;
 using FluentValidation.Results;

@@ -46,7 +46,7 @@ public class AssignGlobalRoleCommandHandlerTests
         _globalRoles.Verify(
             r => r.AddUserGlobalRoleAsync(It.IsAny<UserGlobalRole>(), It.IsAny<CancellationToken>()),
             Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

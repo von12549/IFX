@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
@@ -19,7 +20,7 @@ public class CreateInvestmentAccountCommandHandlerTests
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<IIntegrationEventBus> _eventBus = new();
+    private readonly Mock<ICommittedEventBuffer> _eventBuffer = new();
     private readonly Mock<ILogger<CreateInvestmentAccountCommandHandler>> _logger = new();
     private readonly CreateInvestmentAccountCommandHandler _handler;
 
@@ -39,13 +40,10 @@ public class CreateInvestmentAccountCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _eventBus
-            .Setup(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
 
         _handler = new CreateInvestmentAccountCommandHandler(
             _unitOfWork.Object, _mapper.Object, _currentUser.Object,
-            _authorizationService.Object, _eventBus.Object, _logger.Object);
+            _authorizationService.Object, _eventBuffer.Object, _logger.Object);
     }
 
     [Fact]
@@ -59,8 +57,8 @@ public class CreateInvestmentAccountCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _accounts.Verify(r => r.AddAsync(It.IsAny<InvestmentAccount>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _eventBus.Verify(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
     }
 
     [Fact]

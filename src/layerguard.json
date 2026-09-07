@@ -55,12 +55,12 @@
   "allowedReferences": {
     "Domain": ["IFX.BuildingBlocks.Domain"],
     "Contracts": [],
-    "Application": ["IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
+    "Application": ["IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
     "Presentation": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.Modules.*.Domain"],
     "IntegrationAdapter": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.Platform.*.Contracts", "IFX.Platform.*.Abstractions"],
     "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
     "Composition": ["IFX.Modules.*", "IFX.Platform.*", "App.Abstractions", "IFX.BuildingBlocks.*"],
-    "RuntimeHost": ["*.Composition", "App.Abstractions", "IFX.BuildingBlocks.Security"]
+    "RuntimeHost": ["*.Composition", "App.Abstractions", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Security"]
   },
   "allowedPackages": {
     "Domain": [],

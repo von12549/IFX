@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Events;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.CRM.Application.Interfaces;
@@ -16,7 +17,7 @@ public class CreatePartyRelationshipCommandHandlerTests
     private readonly Mock<IPartyRoleAssignmentRepository> _roleAssignments = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<IIntegrationEventBus> _eventBus = new();
+    private readonly Mock<ICommittedEventBuffer> _eventBuffer = new();
     private readonly Mock<ILogger<CreatePartyRelationshipCommandHandler>> _logger = new();
     private readonly CreatePartyRelationshipCommandHandler _handler;
 
@@ -38,13 +39,10 @@ public class CreatePartyRelationshipCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _eventBus
-            .Setup(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
 
         _handler = new CreatePartyRelationshipCommandHandler(
             _unitOfWork.Object, _currentUser.Object,
-            _authorizationService.Object, _eventBus.Object, _logger.Object);
+            _authorizationService.Object, _eventBuffer.Object, _logger.Object);
     }
 
     [Fact]
@@ -58,8 +56,8 @@ public class CreatePartyRelationshipCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _relationships.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.PartyRelationship>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
-        _eventBus.Verify(e => e.PublishAsync(It.IsAny<IIntegrationEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
     }
 
     [Fact]

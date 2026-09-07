@@ -1,3 +1,5 @@
+using IFX.BuildingBlocks.Application.Commands;
+using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.FundClasses.DTOs;
 using IFX.Modules.Registry.Domain.Enums;
@@ -13,4 +15,4 @@ public record CreateClassCommand(
     NavFrequency NavFrequency,
     decimal? MinInitialInvestment,
     decimal? ManagementFeeRate,
-    decimal? PerformanceFeeRate) : IRequest<Result<FundClassDto>>;
+    decimal? PerformanceFeeRate) : ICommand<Result<FundClassDto>, RegistryTransactionOwner>;

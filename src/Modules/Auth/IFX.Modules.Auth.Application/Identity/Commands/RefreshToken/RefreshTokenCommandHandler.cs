@@ -5,25 +5,18 @@ using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
-using IFX.Modules.Auth.Domain.Users;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Auth.Application.Identity.Commands.RefreshToken;
-
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResponse>>
 {
     private readonly IIdentityProvider _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<RefreshTokenCommandHandler> _logger;
-
-    public RefreshTokenCommandHandler(
-        IIdentityProvider identityProvider,
-        IUnitOfWork unitOfWork,
-        IMapper mapper,
-        ILogger<RefreshTokenCommandHandler> logger)
+    public RefreshTokenCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, IMapper mapper, ILogger<RefreshTokenCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;
@@ -31,26 +24,20 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
         _logger = logger;
     }
 
-    public async Task<Result<RefreshTokenResponse>> Handle(
-        RefreshTokenCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Result<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        try
         {
             // Refresh token with Cognito
             var cognitoResult = await _identityProvider.RefreshTokenAsync(request.RefreshToken, request.Username);
-
             if (!cognitoResult.Success)
             {
                 _logger.LogWarning("Failed to refresh token: {ErrorMessage}", cognitoResult.ErrorMessage);
-                return Result<RefreshTokenResponse>.Failure(
-                    cognitoResult.ErrorMessage ?? "Failed to refresh token");
+                return Result<RefreshTokenResponse>.Failure(cognitoResult.ErrorMessage ?? "Failed to refresh token");
             }
 
             // Get user info from Cognito using the new access token
             var cognitoUserInfo = await _identityProvider.GetUserAsync(cognitoResult.AccessToken!);
             var subject = cognitoUserInfo.Subject;
-
             if (string.IsNullOrEmpty(subject))
             {
                 _logger.LogError("Subject not found in Cognito user info");
@@ -73,49 +60,16 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             }
 
             // Create new LoginEvent for token refresh
-            var loginEvent = LoginEvent.CreateSuccess(
-                user.Id,
-                request.IpAddress ?? "Unknown",
-                "Token Refresh", // DeviceInfo not available on refresh
-                cognitoSessionId: null,
-                cognitoResult.AccessToken,
-                cognitoResult.RefreshToken,
-                DateTimeOffset.UtcNow.AddSeconds(cognitoResult.ExpiresIn));
-
+            var loginEvent = LoginEvent.CreateSuccess(user.Id, request.IpAddress ?? "Unknown", "Token Refresh", // DeviceInfo not available on refresh
+ cognitoSessionId: null, cognitoResult.AccessToken, cognitoResult.RefreshToken, DateTimeOffset.UtcNow.AddSeconds(cognitoResult.ExpiresIn));
             await _unitOfWork.LoginEvents.AddAsync(loginEvent, cancellationToken);
-
             // Create UserActivityLog
-            var activityLog = UserActivityLog.Create(
-                user.Id,
-                ActivityType.Login,
-                $"Token refreshed for user {user.DisplayName}",
-                request.IpAddress ?? "Unknown");
-
+            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Login, $"Token refreshed for user {user.DisplayName}", request.IpAddress ?? "Unknown");
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
-
-            // Save changes
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             _logger.LogInformation("Token refreshed successfully for Subject {Subject}", subject);
-
             // Map user to DTO
             var userProfileDto = _mapper.Map<UserProfileDto>(user);
-
-            return Result<RefreshTokenResponse>.Success(new RefreshTokenResponse
-            {
-                AccessToken = cognitoResult.AccessToken,
-                IdToken = cognitoResult.IdToken,
-                RefreshToken = cognitoResult.RefreshToken,
-                ExpiresIn = cognitoResult.ExpiresIn,
-                TokenType = cognitoResult.TokenType,
-                ExpiresAt = DateTime.UtcNow.AddSeconds(cognitoResult.ExpiresIn),
-                UserProfile = userProfileDto
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error refreshing token");
-            return Result<RefreshTokenResponse>.Failure("An error occurred while refreshing the token");
+            return Result<RefreshTokenResponse>.Success(new RefreshTokenResponse { AccessToken = cognitoResult.AccessToken, IdToken = cognitoResult.IdToken, RefreshToken = cognitoResult.RefreshToken, ExpiresIn = cognitoResult.ExpiresIn, TokenType = cognitoResult.TokenType, ExpiresAt = DateTime.UtcNow.AddSeconds(cognitoResult.ExpiresIn), UserProfile = userProfileDto });
         }
     }
 }

@@ -46,7 +46,7 @@ public class DeletePolicyCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _policies.Verify(p => p.Remove(existing), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
         _policyCache.Verify(c => c.Invalidate(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
     }
 

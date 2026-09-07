@@ -1,5 +1,6 @@
 using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Services;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Identity;
 using IFX.Modules.Auth.Domain.Users;
@@ -16,7 +17,7 @@ public class SendEmailVerificationCommandHandlerTests
     private readonly Mock<IEmailVerificationTokenRepository> _tokenRepoMock;
     private readonly Mock<IUserActivityLogRepository> _activityLogRepoMock;
     private readonly Mock<IEmailVerificationService> _emailVerificationServiceMock;
-    private readonly Mock<ILogger<SendEmailVerificationCommandHandler>> _loggerMock;
+    private readonly Mock<ILogger<EmailVerificationIssuanceService>> _loggerMock;
     private readonly SendEmailVerificationCommandHandler _handler;
 
     public SendEmailVerificationCommandHandlerTests()
@@ -26,16 +27,17 @@ public class SendEmailVerificationCommandHandlerTests
         _tokenRepoMock = new Mock<IEmailVerificationTokenRepository>();
         _activityLogRepoMock = new Mock<IUserActivityLogRepository>();
         _emailVerificationServiceMock = new Mock<IEmailVerificationService>();
-        _loggerMock = new Mock<ILogger<SendEmailVerificationCommandHandler>>();
+        _loggerMock = new Mock<ILogger<EmailVerificationIssuanceService>>();
 
         _unitOfWorkMock.Setup(u => u.UserIdentities).Returns(_userIdentityRepoMock.Object);
         _unitOfWorkMock.Setup(u => u.EmailVerificationTokens).Returns(_tokenRepoMock.Object);
         _unitOfWorkMock.Setup(u => u.UserActivityLogs).Returns(_activityLogRepoMock.Object);
 
-        _handler = new SendEmailVerificationCommandHandler(
+        var issuanceService = new EmailVerificationIssuanceService(
             _unitOfWorkMock.Object,
             _emailVerificationServiceMock.Object,
             _loggerMock.Object);
+        _handler = new SendEmailVerificationCommandHandler(issuanceService);
     }
 
     [Fact]
@@ -73,7 +75,7 @@ public class SendEmailVerificationCommandHandlerTests
             It.IsAny<EmailVerificationToken>(), It.IsAny<CancellationToken>()), Times.Once);
         _activityLogRepoMock.Verify(r => r.AddAsync(
             It.IsAny<UserActivityLog>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWorkMock.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWorkMock.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

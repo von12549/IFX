@@ -48,7 +48,7 @@ public class CreateRoleGroupCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         result.Value!.Name.Should().Be("Managers");
         _groups.Verify(g => g.AddAsync(It.IsAny<RoleGroup>(), It.IsAny<CancellationToken>()), Times.Once);
-        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+        _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
