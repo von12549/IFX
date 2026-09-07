@@ -3,6 +3,7 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 catalog/graph/allowlist/waiver policy 在 03-A1 绑定为权威规则输入。
 > 字段与上下文规则：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 已确认 Correlation/Causation/Tenant/Trace、Envelope/Contract context 与 C0-C4 分类；本 Gate 负责在权威目录中承载并验证。
 > 范围：GOV1、GOV2、GOV5，以及同步 Contract、Integration Event、共享契约原语和变更治理所需的准入规则
 > 前置放行：catalog/owner/consumer/identity/compatibility/allowlist 可供子计划使用；真实 V1 schema 迁移后回交 Active/Retired 证据

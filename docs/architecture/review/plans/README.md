@@ -30,19 +30,29 @@
 | Gate 05 与 Gate 03 可能各建一套 catalog validator | Gate 03 只拥有一套权威目录/validator；Gate 05 只贡献 context 与字段分类扩展。 |
 | TODO 重复维护 TX8、DP2、DP7、OPS4 和已完成评审的 NEXT1–3 | 从活动 backlog 移除，并保留指向唯一实施计划的追踪表。 |
 | 三个子计划对最终架构与规则文档要求不对称 | 每个子计划新增独立文档化 Phase，要求中英文说明、架构图、流程/状态图及规则证据映射。 |
+| 新版门禁仍排在 Gate 01–05 后，无法观察 Gate 自身改动 | 拆分 03-A0 Core Bootstrap 与 03-A1 Policy Binding：A0 最先运行并生成 B0.5，Gate 完成后再绑定权威 policy 并生成正式 B1。 |
 
 ### 单一职责与证据回交流程
 
 ```text
-Gate 01-05
-  ├─ 冻结架构决策、ownership、阻塞基础、协议接缝和验收规则
-  └─ 达到 PRE-READY
+子计划 3-A0：先建立 LayerGuard Core 和 B0.5
            |
-           +--> 子计划 1：真实 Contracts / Ports / Adapters 迁移
-           +--> 子计划 2：真实 Outbox / Inbox / Dispatcher / Event 迁移
-           +--> 子计划 3：真实 LayerGuard / CI 门禁迁移
-                             |
-                             v
+           v
+Gate 01-05：在 bootstrap 门禁下完成规则与基础并达到 PRE-READY
+           |
+           v
+       子计划 3-A1：绑定 Gate policy 并生成正式 B1
+           |
+           v
+       子计划 1：真实 Contracts / Ports / Adapters 迁移 --> B2
+           |
+           v
+       子计划 2：真实 Outbox / Inbox / Dispatcher / Event 迁移 --> B3
+           |
+           v
+       子计划 3-B：违规清零、严格模式和 B4 对比
+           |
+           v
               实现与测试证据回交相应 Gate
                              |
                              v
@@ -62,22 +72,32 @@ Gate 01-05
 ## 实施顺序
 
 ```text
+                                LayerGuard 03-A0
+                    core engine + fixtures + B0.5 bootstrap
+                                             |
+                                             v
 G01 Transaction ──────────────┐
 G02 Database ─────────────────┤
 G03 Contract/Event Governance ┼──> PRE-READY
 G04 Deployment/Runtime ───────┤          |
 G05 Context/Sensitive Data ───┘          v
-                                  Contracts/Adapters
-                                    /           \
-                             Events              LayerGuard migration mode
-                                \                 /
-                                 +--> LayerGuard strict mode
+                                LayerGuard 03-A1
+                      bind Gate policy + formal B1
+                                             |
+                                             v
+                                  Contracts/Adapters --> B2
+                                             |
+                                             v
+                                        Events --> B3
+                                             |
+                                             v
+                                LayerGuard 03-B strict + B4
                                              |
                                              v
                               Gate final closure + overall release
 ```
 
-LayerGuard 的迁移模式可以与代码迁移并行建立，用来阻止新增违规；严格模式必须等 Contracts/Events 的真实迁移完成后才能启用。事件子计划依赖 Contracts 的公共协议基础，但不依赖后续 Saga、Microservice 拆分或完整 SLO 治理。
+03-A0 必须在 Gate 01 前完成，用 B0.5 观察 Gate 自身改动并阻止通用确定性规则的新增违规；由于此时尚无完整 catalog、allowlist 和 Runtime Role artifact，B0.5 不作为正式改善基准。Gate 01–05 前置放行后，03-A1 绑定权威 policy 并生成正式 B1；子计划 1/2 后分别保存 B2/B3，严格模式最后生成 B4。B1 与 B4 必须使用相同目标规则语义，旧 LayerGuard 的 B0 只作为旧工具能力参考。
 
 ## 主体 1：事务边界（Gate 01）
 
@@ -163,7 +183,7 @@ Event 解决的是跨边界事实传播和可靠最终送达，不提供跨模�
 1. **本次要修改的问题**：让 LayerGuard 能识别 own/foreign Contracts、Integration Adapter 的最小许可、声明位置、传递依赖、框架泄漏和 waiver 生命周期，并接入 CI。
 2. **为什么要修改**：仅靠文档不能阻止依赖回流；过于宽泛的 `sameModule`/ring 规则也无法表达“消费方 Application 禁止 foreign Contracts、只有指定 Adapter 可以引用”的目标边界。
 3. **当前如何做**：现有规则主要按四层 ring 和同模块关系检查，对新 Contracts/Adapters 模型、catalog reconciliation、Context primitives 和 CI 阶段化阻断支持不足。
-4. **修改后是什么样**：门禁从项目发现和 ownership 图出发，验证直接/传递项目引用、namespace 声明和框架类型；迁移期先记录历史并阻止新增，迁移完成后开启严格模式；所有核心规则都有正反 fixture，所有 waiver 有 owner、到期日和删除条件。
+4. **修改后是什么样**：03-A0 在 Gate 01 前建立项目发现、ownership/role 分析、可配置规则、正反 fixture 和 B0.5；03-A1 在 Gate 前置放行后绑定权威 policy 并保存正式 B1；随后用 B2/B3 跟踪迁移，最终以 B4 清零未豁免违规并开启严格模式。
 
 LayerGuard 只检查静态依赖、声明和框架泄漏；字段值、敏感数据、运行时传播与 schema 兼容由 Gate 03/05 的 catalog/schema/security/conformance tests 负责，任何一侧的绿色结果都不能掩盖另一侧失败。
 

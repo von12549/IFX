@@ -3,7 +3,7 @@
 > 状态：Draft / 待评审
 > 后续计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：从 [`TODO.md`](TODO.md) 提取的强依赖或必须提前冻结的事项
-> 准入规则：本文件全部 Gate 达到“前置放行”前，可以继续调研和原型验证，但不进入三个原子子计划的正式迁移实施；Gate 的“最终关闭”在真实下游实现验收后完成。
+> 准入规则：先完成 LayerGuard 03-A0 Core Bootstrap，再实施本文件 Gate 01–05；全部 Gate 达到“前置放行”后执行 03-A1 Policy Binding，随后才进入 Contracts/Events 正式迁移；Gate 的“最终关闭”在真实下游实现验收后完成。
 
 ## 前置范围说明
 
@@ -13,7 +13,9 @@
 
 ## 里程碑语义
 
-- [ ] **PRE-READY 前置放行**：Gate 1–5 的批准决策、阻塞修复、ownership、协议接缝和可执行验收要求齐备，允许进入 Contracts、Events、LayerGuard 原子子计划。
+- [ ] **LG-BOOTSTRAP**：Gate 01 实施前完成 LayerGuard 03-A0，保存 B0/B0.5 并对不依赖 Gate artifact 的确定性规则阻断新增违规。
+- [ ] **PRE-READY 前置放行**：在 03-A0 保护下完成 Gate 1–5 的批准决策、阻塞修复、ownership、协议接缝和可执行验收要求。
+- [ ] **LG-POLICY-READY**：PRE-READY 后完成 03-A1，将 Gate 输出绑定到完整目标规则，保存正式 B1 并启用完整“禁止新增违规”门禁。
 - [ ] **Gate 最终关闭**：对应原子子计划完成真实代码迁移并回交证据后，才勾选各 Gate Plan 的全部 Phase 与 Definition of Done。
 
 同一实现只有一个 owner：例如 Event 子计划 E2/E4 实现真实 Outbox/Inbox，Gate 01 只定义和验证事务接缝；Event E3 实现真实 Dispatcher，Gate 04 只定义 Runtime Role、lease、health 和运行 conformance。
@@ -95,9 +97,10 @@
 
 ## 最终准入验收
 
-- [ ] PRE-D01 Gate 1–5 均达到前置放行，且放行输出有链接、负责人、批准记录和明确的下游实现 owner。
+- [ ] PRE-D01 LayerGuard 03-A0 已在 Gate 01 前完成，B0/B0.5、工具版本、bootstrap 规则和执行结果可追踪。
 - [ ] PRE-D02 没有通过共享 DbContext、共享事务或共享内部模型来规避边界问题。
 - [ ] PRE-D03 Event 子计划中 TX4/TX5 对应的实现仍由 E2/E4 跟踪，没有因前置决策被错误标记为已实现。
 - [ ] PRE-D04 Plan 00 的架构假设、计划顺序和 LayerGuard 目标矩阵已根据前置决策更新。
-- [ ] PRE-D05 构建、事务测试和 migration 测试基线已保存，可以开始三个原子子计划；尚未完成的 Gate 最终验收项均有唯一回交路径。
+- [ ] PRE-D05 Gate 1–5 均达到前置放行，且输出有链接、负责人、批准记录和明确的下游实现 owner。
 - [ ] PRE-D06 每个 Gate 的架构与规则设计均已形成设计解释、架构图、流程图和必要状态图，并完成技术审查。
+- [ ] PRE-D07 构建、事务和 migration 测试基线已保存；03-A1 已绑定 Gate policy 并生成正式 B1，之后才允许开始 Contracts/Events；尚未完成的 Gate 最终验收项均有唯一回交路径。

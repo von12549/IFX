@@ -3,6 +3,7 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Composition/API/Worker Runtime Role matrix 在 03-A1 绑定。
 > 上下文与数据规则：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 定义 Worker/job/message scope、telemetry、quarantine 与 health/details 脱敏要求。
 > 范围：DP1、DP3、DP4、DP5，以及业务发布边界、Runtime Role、多实例后台处理、部署编排、健康探针和优雅关闭规则
 > 前置放行：完成 Runtime Role/manifest/lease/health/backpressure 协议及 reference conformance；真实 Dispatcher、消息 backlog 和 Event replay 由 E3/E6 实现并回交最终证据

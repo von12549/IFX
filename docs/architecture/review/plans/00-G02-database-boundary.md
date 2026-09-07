@@ -3,6 +3,7 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
 > 运行编排：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 Migrator → Worker → API、readiness 和回退顺序。
 > 前置关系：Gate 01 已定义模块本地事务与 Outbox/Inbox 原子性
 > 范围：DB1–DB4、DB9–DB11，以及数据库 ownership、history bootstrap、部署和测试规则

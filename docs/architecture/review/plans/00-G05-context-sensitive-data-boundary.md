@@ -3,6 +3,7 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
 > 相关治理：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md)
 > 相关运行边界：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md)
 > 范围：OPS1、OPS3、OPS-G1，以及 HTTP、同步 Contract、Outbox/transport/Inbox 所需的关联、因果、租户、trace、数据分类、日志和失败语义

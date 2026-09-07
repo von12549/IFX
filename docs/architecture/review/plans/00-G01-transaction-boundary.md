@@ -3,6 +3,7 @@
 > 状态：Architecture Decisions Approved / 待实施
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
+> 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
 > 范围：TX1–TX5，以及其所需的命令、结果、异常、并发和事务执行规则
 > 前置放行：完成 TX1–TX3 阻塞修复、TX4/TX5 接缝和 conformance 要求；真实 Outbox/Inbox 由 E2/E4 实现后回交最终证据
 > Gate 关闭条件：本计划全部 Phase、Definition of Done 和文档交付均已完成
