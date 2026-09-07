@@ -287,14 +287,22 @@ Phase 5 当前为 PRE-READY：[`G03-phase5-pre-ready.md`](../evidence/gates/G03/
 
 - [ ] **Phase 6 完成**：未登记、无 owner/consumer、非法版本变化与 schema/API 破坏可以被自动发现。
 
-- [ ] G03-6.1 实现 catalog validator，并为 duplicate identity、missing owner/consumer、非法状态和断裂引用建立失败测试。
-- [ ] G03-6.2 实现 source/catalog reconciliation，比较公开声明、PublishAsync/Outbox producer、subscription/handler 与目录记录。
-- [ ] G03-6.3 对 Proposed → Active 的同步 Contract 生成 public API snapshot，检测公开签名变化。
-- [ ] G03-6.4 对 Proposed → Active 的 Event、Request 和 Response 生成 serialization golden files，固定 wire name、字段、类型、requiredness 与版本。
+- [x] G03-6.1 实现 catalog validator，并为 duplicate identity、missing owner/consumer、非法状态和断裂引用建立失败测试。
+- [x] G03-6.2 实现 source/catalog reconciliation，比较公开声明、PublishAsync/Outbox producer、subscription/handler 与目录记录。
+- [x] G03-6.3 对 Proposed → Active 的同步 Contract 生成 public API snapshot，检测公开签名变化（当前为显式 pre-Active baseline，真实 Contracts.V1 需 Plan 01 回交）。
+- [x] G03-6.4 对 Proposed → Active 的 Event、Request 和 Response 生成 serialization golden files，固定 wire name、字段、类型、requiredness 与版本（当前为显式 pre-Active baseline，真实 schema 需 Plans 01/02 回交）。
 - [ ] G03-6.5 建立 Provider contract tests，覆盖 tenant、授权、NotFound、Denied、Unavailable、取消和协议语义。
 - [ ] G03-6.6 建立 Consumer compatibility tests，覆盖 optional/unknown 字段和值、支持期旧版本及 Adapter 映射。
-- [ ] G03-6.7 自动生成 provider → consumer 图并阻断同步环；event/mixed loop 缺少 workflow、causation、idempotency 或 termination 声明时失败。
-- [ ] G03-6.8 先以 LegacyPendingMigration baseline 禁止新增债务，迁移完成后切换为零未登记/未豁免严格模式。
+- [x] G03-6.7 自动生成 provider → consumer 图并阻断同步环；event/mixed loop 缺少 workflow、causation、idempotency 或 termination 声明时失败。
+- [x] G03-6.8 先以 LegacyPendingMigration baseline 禁止新增债务，迁移完成后切换为零未登记/未豁免严格模式。
+
+Phase 6 当前为 PRE-READY：[`G03-phase6-pre-ready.md`](../evidence/gates/G03/G03-phase6-pre-ready.md)、
+[`G03-sync-api-snapshot.json`](../gates/G03/snapshots/G03-sync-api-snapshot.json)、
+[`G03-serialization-golden.json`](../gates/G03/snapshots/G03-serialization-golden.json)、
+[`G03-phase6-source-reconciliation.json`](../evidence/gates/G03/G03-phase6-source-reconciliation.json)、
+[`G03-phase6-guard-report.json`](../evidence/gates/G03/G03-phase6-guard-report.json) 与
+[`G03-phase6-layerguard-report.json`](../evidence/gates/G03/G03-phase6-layerguard-report.json)。G03-6.5/6.6 等待 Plan 01/02
+真实 Provider/Consumer Adapter 与兼容测试回交，因此 Phase 6 不虚假标为完成。
 
 ## Phase 7 — Waiver、LayerGuard 与 CI 接缝
 

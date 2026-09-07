@@ -46,6 +46,21 @@ if ($Phase -ge 2) {
     $unknownCatalogSurface = @($catalogKeys | Where-Object { $_ -notin $sourceKeys } | Sort-Object -Unique)
     $surfaceReconciled = $missingCatalogSurface.Count -eq 0 -and $unknownCatalogSurface.Count -eq 0 -and $catalogKeys.Count -eq 46
 }
+$sourceReconciliation = $true
+$deterministicSnapshots = $true
+if ($Phase -ge 6) {
+    $sourceReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-source-reconciliation.json"
+    & (Join-Path $PSScriptRoot 'Invoke-G03SourceReconciliation.ps1') -ReportPath $sourceReportPath
+    $sourceResult = Get-Content -Raw -LiteralPath $sourceReportPath | ConvertFrom-Json -Depth 100
+    $sourceReconciliation = $sourceResult.result -eq 'passed'
+    & (Join-Path $PSScriptRoot 'Invoke-G03CompatibilitySnapshots.ps1')
+    $apiPath = Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json'
+    $schemaPath = Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json'
+    $firstSnapshotHash = "$((Get-FileHash $apiPath -Algorithm SHA256).Hash)|$((Get-FileHash $schemaPath -Algorithm SHA256).Hash)"
+    & (Join-Path $PSScriptRoot 'Invoke-G03CompatibilitySnapshots.ps1')
+    $secondSnapshotHash = "$((Get-FileHash $apiPath -Algorithm SHA256).Hash)|$((Get-FileHash $schemaPath -Algorithm SHA256).Hash)"
+    $deterministicSnapshots = $firstSnapshotHash -eq $secondSnapshotHash
+}
 
 $checks = [ordered]@{
     deterministicInventory = $firstHash -eq $secondHash
@@ -58,6 +73,8 @@ $checks = [ordered]@{
     generatedDirectoriesExcluded = @($inventory.publicSurface.declaration.file | Where-Object { $_ -match '(^|/)(bin|obj)/' }).Count -eq 0
     catalogValidation = $catalogPassed
     publicSurfaceReconciliation = $surfaceReconciled
+    sourceCatalogReconciliation = $sourceReconciliation
+    deterministicCompatibilitySnapshots = $deterministicSnapshots
 }
 
 $report = [ordered]@{

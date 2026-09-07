@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "status": "proposed-pre-active-baseline",
+  "protocols": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "legacySourceSignature": "Task<bool> IsInvestmentAccountKycApprovedAsync(Guid investmentAccountId, Guid tenantId, CancellationToken ct = default);",
+      "targetNamespace": "IFX.Modules.Crm.Contracts.V1",
+      "fields": [
+        {
+          "name": "investmentAccountId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "isApproved",
+          "required": true,
+          "classification": "C3"
+        }
+      ]
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "legacySourceSignature": "Task<bool> IsClassOpenForSubscriptionAsync(Guid classId, Guid tenantId, CancellationToken ct = default);",
+      "targetNamespace": "IFX.Modules.Registry.Contracts.V1",
+      "fields": [
+        {
+          "name": "classId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "isOpen",
+          "required": true,
+          "classification": "C1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[CmdletBinding()]
+param(
+    [string] $ApiSnapshotPath = 'docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json',
+    [string] $SerializationSnapshotPath = 'docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json'
+)
+
+$ErrorActionPreference = 'Stop'
+$repositoryRoot = Split-Path -Parent $PSScriptRoot
+$catalog = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
+$inventory = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G03/G03-contract-event-inventory.json') | ConvertFrom-Json -Depth 100
+
+$api = [ordered]@{
+    formatVersion = 1; status = 'proposed-pre-active-baseline'
+    protocols = @($catalog.protocols | Where-Object kind -eq 'sync' | Sort-Object identity | ForEach-Object {
+        $protocol = $_
+        $surface = $inventory.publicSurface | Where-Object { $_.project -eq $protocol.source.project -and $_.name -eq $protocol.source.type } | Select-Object -First 1
+        $method = $surface.methods | Where-Object name -eq $protocol.source.member | Select-Object -First 1
+        [ordered]@{ identity = $protocol.identity; version = $protocol.version; lifecycle = $protocol.lifecycle; legacySourceSignature = $method.signature; targetNamespace = "IFX.Modules.$(($protocol.provider.Substring(0,1).ToUpper()+$protocol.provider.Substring(1))).Contracts.V$($protocol.version)"; fields = @($protocol.fields | Select-Object name, required, classification) }
+    })
+}
+$serialization = [ordered]@{
+    formatVersion = 1; status = 'proposed-pre-active-baseline'; unknownFields = 'ignored-by-consumers'; propertyNaming = 'camelCase'
+    schemas = @($catalog.protocols | Sort-Object identity | ForEach-Object {
+        [ordered]@{ identity = $_.identity; version = $_.version; kind = $_.kind; lifecycle = $_.lifecycle; fields = @($_.fields | Select-Object name, required, classification); compatibility = if ($_.kind -eq 'event') { 'immutable envelope plus provider-owned payload' } else { 'capability request/response' } }
+    })
+}
+foreach ($item in @(@{path=$ApiSnapshotPath; value=$api}, @{path=$SerializationSnapshotPath; value=$serialization})) {
+    $path = if ([IO.Path]::IsPathRooted($item.path)) { $item.path } else { Join-Path $repositoryRoot $item.path }
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $path) | Out-Null
+    $item.value | ConvertTo-Json -Depth 50 | Set-Content -LiteralPath $path -Encoding utf8NoBOM
+}
+Write-Host 'G03 compatibility snapshots generated.'

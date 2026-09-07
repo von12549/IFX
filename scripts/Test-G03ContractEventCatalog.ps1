@@ -79,6 +79,12 @@ function Test-Catalog($catalog) {
                 if ([string]::IsNullOrWhiteSpace($field.$required)) { Add-Error 'field-metadata' "$fieldPath.$required" "$required is required." }
             }
         }
+        if ($protocol.lifecycle -eq 'Active') {
+            $requiredEvidence = @('source', 'apiOrSchemaSnapshot', 'providerContractTests', 'consumerCompatibilityTests', 'providerApproval', 'consumerApprovals')
+            foreach ($evidence in $requiredEvidence) {
+                if ($null -eq $protocol.admissionEvidence.$evidence -or @($protocol.admissionEvidence.$evidence).Count -eq 0) { Add-Error 'active-admission' "$path.admissionEvidence.$evidence" 'Active protocol admission evidence is required.' }
+            }
+        }
     }
     foreach ($surface in @($catalog.publicSurface)) {
         $path = "publicSurface.$($surface.id)"
@@ -129,7 +135,9 @@ if ($SelfTest) {
         @{ name = 'missing owner'; mutate = { param($x) $x.protocols[0].owner = 'unknown-owner' }; expected = 'owner-reference' },
         @{ name = 'missing consumer'; mutate = { param($x) $x.protocols[0].consumers = @() }; expected = 'missing-consumer' },
         @{ name = 'broken reference'; mutate = { param($x) $x.protocols[0].provider = 'unknown-module' }; expected = 'module-reference' },
-        @{ name = 'C4 exposure'; mutate = { param($x) $x.protocols[0].fields[0].classification = 'C4' }; expected = 'secret-forbidden' }
+        @{ name = 'C4 exposure'; mutate = { param($x) $x.protocols[0].fields[0].classification = 'C4' }; expected = 'secret-forbidden' },
+        @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[0].lifecycle = 'Active' }; expected = 'active-admission' },
+        @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' }
     )
     foreach ($case in $cases) {
         $copy = ($catalogText | ConvertFrom-Json -Depth 100)

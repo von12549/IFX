@@ -1,0 +1,139 @@
+{
+  "formatVersion": 1,
+  "status": "proposed-pre-active-baseline",
+  "unknownFields": "ignored-by-consumers",
+  "propertyNaming": "camelCase",
+  "schemas": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "version": 1,
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "fields": [
+        {
+          "name": "investmentAccountId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "isApproved",
+          "required": true,
+          "classification": "C3"
+        }
+      ],
+      "compatibility": "capability request/response"
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "version": 1,
+      "kind": "event",
+      "lifecycle": "Proposed",
+      "fields": [
+        {
+          "name": "classId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "fundId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "oldStatus",
+          "required": true,
+          "classification": "C1"
+        },
+        {
+          "name": "newStatus",
+          "required": true,
+          "classification": "C1"
+        }
+      ],
+      "compatibility": "immutable envelope plus provider-owned payload"
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "version": 1,
+      "kind": "event",
+      "lifecycle": "Proposed",
+      "fields": [
+        {
+          "name": "transactionId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "transactionType",
+          "required": true,
+          "classification": "C1"
+        },
+        {
+          "name": "investmentAccountId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "classId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "targetClassId",
+          "required": false,
+          "classification": "C2"
+        },
+        {
+          "name": "units",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "navPrice",
+          "required": true,
+          "classification": "C2"
+        }
+      ],
+      "compatibility": "immutable envelope plus provider-owned payload"
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "version": 1,
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "fields": [
+        {
+          "name": "classId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "isOpen",
+          "required": true,
+          "classification": "C1"
+        }
+      ],
+      "compatibility": "capability request/response"
+    }
+  ]
+}
