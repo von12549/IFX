@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Architecture Decisions Approved / 待实施
+> 状态：Implementation In Progress / Phase 0 已完成（2026-09-07）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -142,15 +142,22 @@ readiness + smoke tests
 
 ## Phase 0 — 完成数据库资产盘点与迁移基线
 
-- [ ] **Phase 0 完成**：数据库对象、migration、history 和部署路径均有可复查基线。
+- [x] **Phase 0 完成**：数据库对象、migration、history 和部署路径均有可复查基线。
 
-- [ ] G02-0.1 枚举五个 DbContext、全部 entity/table/index/constraint、schema 和 migration assembly。
-- [ ] G02-0.2 生成当前 migration manifest，记录模块、MigrationId、ProductVersion、顺序和 migration source hash。
-- [ ] G02-0.3 扫描所有跨 schema FK、view、trigger、procedure、raw SQL 和直接表访问，并记录结果。
-- [ ] G02-0.4 盘点所有环境的连接配置键、目标数据库、数据库身份和 DDL/DML 权限。
-- [ ] G02-0.5 盘点 fresh、EnsureCreated、pre-squash、错误 Auth squash、current shared history 等已知数据库状态。
-- [ ] G02-0.6 保存生产/测试数据库的匿名化 schema 与 history 样本，禁止把 secret 或业务数据提交到仓库。
-- [ ] G02-0.7 建立 migration 风险分级，标记 destructive DDL、长时间 backfill、锁表和不可逆操作。
+- [x] G02-0.1 枚举五个 DbContext、全部 entity/table/index/constraint、schema 和 migration assembly。
+- [x] G02-0.2 生成当前 migration manifest，记录模块、MigrationId、ProductVersion、顺序和 migration source hash。
+- [x] G02-0.3 扫描所有跨 schema FK、view、trigger、procedure、raw SQL 和直接表访问，并记录结果。
+- [x] G02-0.4 盘点仓库内全部环境配置 surface；真实环境数据库身份和 DDL/DML 权限作为 Database Operations 外部证据缺口登记，并定义采集程序。
+- [x] G02-0.5 盘点 fresh、EnsureCreated、pre-squash、错误 Auth squash、current shared history 等已知数据库状态。
+- [x] G02-0.6 保存匿名化仓库模型/history 状态样本；测试和生产实库样本分别登记到 Phase 7 与 Database Operations 外部证据缺口，禁止把 secret 或业务数据提交到仓库。
+- [x] G02-0.7 建立 migration 风险分级，标记 destructive DDL、长时间 backfill、锁表和不可逆操作。
+
+Phase 0 证据：[`G02-phase0-baseline.md`](../evidence/gates/G02/G02-phase0-baseline.md)、
+[`G02-database-inventory.json`](../evidence/gates/G02/G02-database-inventory.json)、
+[`G02-migration-manifest.json`](../evidence/gates/G02/G02-migration-manifest.json)、
+[`G02-phase0-guard-report.json`](../evidence/gates/G02/G02-phase0-guard-report.json) 和
+[`G02-layerguard-report.json`](../evidence/gates/G02/G02-layerguard-report.json)。Phase 0 只关闭仓库盘点；
+真实环境身份/权限与实库 metadata/history 样本仍须按证据登记表在 Phase 5、7、8 对应关口采集，不构成当前环境合规声明。
 
 ## Phase 1 — 强化模块 schema 与连接配置边界
 

@@ -1,0 +1,5699 @@
+{
+  "formatVersion": 1,
+  "physicalDatabase": "IFXDb",
+  "historyBaseline": {
+    "current": "dbo.__EFMigrationsHistory",
+    "target": {
+      "Auth": "auth.__EFMigrationsHistory",
+      "CRM": "crm.__EFMigrationsHistory",
+      "Registry": "registry.__EFMigrationsHistory",
+      "Holdings": "holdings.__EFMigrationsHistory",
+      "Transaction": "transaction.__EFMigrationsHistory"
+    }
+  },
+  "modules": [
+    {
+      "Module": "Auth",
+      "Order": 10,
+      "Schema": "auth",
+      "DbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
+      "MigrationAssembly": "IFX.Modules.Auth.Infrastructure",
+      "ConnectionKey": "AuthDatabase",
+      "TargetHistory": "auth.__EFMigrationsHistory",
+      "ContextSource": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/IfxDbContext.cs",
+      "Entities": [
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.Department",
+          "Table": "Departments",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Departments",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Departments_TenantId_Name",
+              "Properties": [
+                "TenantId",
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Departments_Tenants_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.GlobalRole",
+          "Table": "GlobalRoles",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_GlobalRoles",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "UX_GlobalRoles_Name",
+              "Properties": [
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.Permission",
+          "Table": "Permissions",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Permissions",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Permissions_Name",
+              "Properties": [
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.PolicyDefinition",
+          "Table": "PolicyDefinitions",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_PolicyDefinitions",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_PolicyDefinitions_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "UX_PolicyDefinitions_Scope_Tenant_Resource_Action",
+              "Properties": [
+                "Scope",
+                "TenantId",
+                "ResourceType",
+                "Action"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Action",
+              "Column": "Action",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "ConditionsJson",
+              "Column": "ConditionsJson",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedById",
+              "Column": "CreatedById",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(500)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IsActive",
+              "Column": "IsActive",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "ResourceType",
+              "Column": "ResourceType",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "Scope",
+              "Column": "Scope",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedById",
+              "Column": "UpdatedById",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.Role",
+          "Table": "Roles",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Roles",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Roles_TenantId_Name",
+              "Properties": [
+                "TenantId",
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Roles_Tenants_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(50)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.RoleGroup",
+          "Table": "RoleGroups",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RoleGroups",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RoleGroups_TenantId_Name",
+              "Properties": [
+                "TenantId",
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_RoleGroups_Tenants_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.Tenant",
+          "Table": "Tenants",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Tenants",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Tenants_Name",
+              "Properties": [
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Authorization.UserGlobalRole",
+          "Table": "UserGlobalRoles",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "GlobalRoleId",
+            "UserId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserGlobalRoles",
+              "Properties": [
+                "UserId",
+                "GlobalRoleId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserGlobalRoles_GlobalRoleId",
+              "Properties": [
+                "GlobalRoleId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserGlobalRoles_GlobalRoles_GlobalRoleId",
+              "Properties": [
+                "GlobalRoleId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "GlobalRoles"
+            },
+            {
+              "Name": "FK_UserGlobalRoles_Users_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AssignedAt",
+              "Column": "AssignedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "GlobalRoleId",
+              "Column": "GlobalRoleId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.DeviceInfo",
+          "Table": "LoginEvents",
+          "Schema": "auth",
+          "Owned": true,
+          "PrimaryKey": [
+            "LoginEventId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_LoginEvents",
+              "Properties": [
+                "LoginEventId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [],
+          "ForeignKeys": [
+            {
+              "Name": "FK_LoginEvents_LoginEvents_LoginEventId",
+              "Properties": [
+                "LoginEventId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "LoginEvents"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Browser",
+              "Column": "DeviceBrowser",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "DeviceType",
+              "Column": "DeviceType",
+              "StoreType": "nvarchar(50)",
+              "Nullable": false
+            },
+            {
+              "Name": "IsBot",
+              "Column": "IsBot",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "LoginEventId",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "OS",
+              "Column": "DeviceOS",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.EmailVerificationToken",
+          "Table": "EmailVerificationTokens",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_EmailVerificationTokens",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_EmailVerificationTokens_ExpiresAt",
+              "Properties": [
+                "ExpiresAt"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_EmailVerificationTokens_UserIdentityId",
+              "Properties": [
+                "UserIdentityId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_EmailVerificationTokens_UserIdentityId_Code",
+              "Properties": [
+                "UserIdentityId",
+                "Code"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "UQ_EmailVerificationTokens_TokenHash",
+              "Properties": [
+                "TokenHash"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_EmailVerificationTokens_UserIdentities_UserIdentityId",
+              "Properties": [
+                "UserIdentityId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "UserIdentities"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Code",
+              "Column": "Code",
+              "StoreType": "nvarchar(6)",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "Email",
+              "Column": "Email",
+              "StoreType": "nvarchar(256)",
+              "Nullable": false
+            },
+            {
+              "Name": "ExpiresAt",
+              "Column": "ExpiresAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IsUsed",
+              "Column": "IsUsed",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "TokenHash",
+              "Column": "TokenHash",
+              "StoreType": "nvarchar(64)",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UsedAt",
+              "Column": "UsedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "UserIdentityId",
+              "Column": "UserIdentityId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.Idp",
+          "Table": "Idps",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Idps",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Idps_Enabled",
+              "Properties": [
+                "Enabled"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Idps_IsPrimary",
+              "Properties": [
+                "IsPrimary"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_Idps_Issuer",
+              "Properties": [
+                "Issuer"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_Idps_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Idps_Tenants_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AllowedAlgs",
+              "Column": "AllowedAlgs",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "Authority",
+              "Column": "Authority",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "AutoProvisionEnabled",
+              "Column": "AutoProvisionEnabled",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "ClaimMapping",
+              "Column": "ClaimMapping",
+              "StoreType": "nvarchar(4000)",
+              "Nullable": false
+            },
+            {
+              "Name": "ClockSkewSeconds",
+              "Column": "ClockSkewSeconds",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(1000)",
+              "Nullable": false
+            },
+            {
+              "Name": "Enabled",
+              "Column": "Enabled",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "ExpectedAudiences",
+              "Column": "ExpectedAudiences",
+              "StoreType": "nvarchar(2000)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IdpType",
+              "Column": "IdpType",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "IsPrimary",
+              "Column": "IsPrimary",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "Issuer",
+              "Column": "Issuer",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "LoginUrl",
+              "Column": "LoginUrl",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "RequiredScopes",
+              "Column": "RequiredScopes",
+              "StoreType": "nvarchar(1000)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.LoginEvent",
+          "Table": "LoginEvents",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_LoginEvents",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_LoginEvents_LoginTimestamp",
+              "Properties": [
+                "LoginTimestamp"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_LoginEvents_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_LoginEvents_UserId_LoginTimestamp",
+              "Properties": [
+                "UserId",
+                "LoginTimestamp"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AccessToken",
+              "Column": "AccessToken",
+              "StoreType": "nvarchar(2048)",
+              "Nullable": true
+            },
+            {
+              "Name": "CognitoSessionId",
+              "Column": "CognitoSessionId",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "FailureReason",
+              "Column": "FailureReason",
+              "StoreType": "nvarchar(255)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "Column": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "Nullable": false
+            },
+            {
+              "Name": "LoginTimestamp",
+              "Column": "LoginTimestamp",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "RefreshToken",
+              "Column": "RefreshToken",
+              "StoreType": "nvarchar(2048)",
+              "Nullable": true
+            },
+            {
+              "Name": "Success",
+              "Column": "Success",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "TokenExpiresAt",
+              "Column": "TokenExpiresAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "UserAgent",
+              "Column": "UserAgent",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.LogoutEvent",
+          "Table": "LogoutEvents",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_LogoutEvents",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_LogoutEvents_LogoutTimestamp",
+              "Properties": [
+                "LogoutTimestamp"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_LogoutEvents_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "Column": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "Nullable": false
+            },
+            {
+              "Name": "LogoutTimestamp",
+              "Column": "LogoutTimestamp",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "Reason",
+              "Column": "Reason",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "SessionDuration",
+              "Column": "SessionDuration",
+              "StoreType": "time",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.RegistrationFlowEvent",
+          "Table": "RegistrationFlowEvents",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RegistrationFlowEvents",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RegistrationFlowEvents_Email",
+              "Properties": [
+                "Email"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_RegistrationFlowEvents_RegistrationInitiatedAt",
+              "Properties": [
+                "RegistrationInitiatedAt"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_RegistrationFlowEvents_Status",
+              "Properties": [
+                "Status"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "ConfirmationCode",
+              "Column": "ConfirmationCode",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "Email",
+              "Column": "Email",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "FailureReason",
+              "Column": "FailureReason",
+              "StoreType": "nvarchar(500)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "Column": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "Nullable": false
+            },
+            {
+              "Name": "RegistrationConfirmedAt",
+              "Column": "RegistrationConfirmedAt",
+              "StoreType": "datetime2",
+              "Nullable": true
+            },
+            {
+              "Name": "RegistrationInitiatedAt",
+              "Column": "RegistrationInitiatedAt",
+              "StoreType": "datetime2",
+              "Nullable": false
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "nvarchar(50)",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Username",
+              "Column": "Username",
+              "StoreType": "nvarchar(50)",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Identity.UserIdentity",
+          "Table": "UserIdentities",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserIdentities",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserIdentities_IdpId",
+              "Properties": [
+                "IdpId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_UserIdentities_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "UQ_UserIdentity_Issuer_Subject",
+              "Properties": [
+                "Issuer",
+                "_subject"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserIdentities_Idps_IdpId",
+              "Properties": [
+                "IdpId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Idps"
+            },
+            {
+              "Name": "FK_UserIdentities_Users_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "_email",
+              "Column": "Email",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "_subject",
+              "Column": "Subject",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "BirthDate",
+              "Column": "BirthDate",
+              "StoreType": "nvarchar(10)",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "EmailVerified",
+              "Column": "EmailVerified",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "FirstName",
+              "Column": "FirstName",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IdpId",
+              "Column": "IdpId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Issuer",
+              "Column": "Issuer",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "LastName",
+              "Column": "LastName",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "LastSyncedAt",
+              "Column": "LastSyncedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "PhoneNumber",
+              "Column": "PhoneNumber",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "PhoneNumberVerified",
+              "Column": "PhoneNumberVerified",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Users.User",
+          "Table": "Users",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Users",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Users_PrimaryTenantId",
+              "Properties": [
+                "PrimaryTenantId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Users_Tenants_PrimaryTenantId",
+              "Properties": [
+                "PrimaryTenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "DisplayName",
+              "Column": "DisplayName",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IsActive",
+              "Column": "IsActive",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "PrimaryTenantId",
+              "Column": "PrimaryTenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Auth.Domain.Users.UserActivityLog",
+          "Table": "UserActivityLogs",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserActivityLogs",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserActivityLogs_Timestamp",
+              "Properties": [
+                "Timestamp"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_UserActivityLogs_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_UserActivityLogs_UserId_Timestamp",
+              "Properties": [
+                "UserId",
+                "Timestamp"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "ActivityType",
+              "Column": "ActivityType",
+              "StoreType": "nvarchar(50)",
+              "Nullable": false
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(500)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "Column": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "Nullable": false
+            },
+            {
+              "Name": "Metadata",
+              "Column": "Metadata",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "Timestamp",
+              "Column": "Timestamp",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+          "Table": "UserDepartments",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "DepartmentsId",
+            "UserId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserDepartments",
+              "Properties": [
+                "DepartmentsId",
+                "UserId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserDepartments_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserDepartments_Departments_DepartmentsId",
+              "Properties": [
+                "DepartmentsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Departments"
+            },
+            {
+              "Name": "FK_UserDepartments_Users_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "DepartmentsId",
+              "Column": "DepartmentsId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+          "Table": "RolePermissions",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "PermissionsId",
+            "RoleId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RolePermissions",
+              "Properties": [
+                "PermissionsId",
+                "RoleId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RolePermissions_RoleId",
+              "Properties": [
+                "RoleId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_RolePermissions_Permissions_PermissionsId",
+              "Properties": [
+                "PermissionsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Permissions"
+            },
+            {
+              "Name": "FK_RolePermissions_Roles_RoleId",
+              "Properties": [
+                "RoleId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Roles"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "PermissionsId",
+              "Column": "PermissionsId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "RoleId",
+              "Column": "RoleId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+          "Table": "UserRoleGroups",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "RoleGroupsId",
+            "UserId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserRoleGroups",
+              "Properties": [
+                "RoleGroupsId",
+                "UserId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserRoleGroups_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserRoleGroups_RoleGroups_RoleGroupsId",
+              "Properties": [
+                "RoleGroupsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "RoleGroups"
+            },
+            {
+              "Name": "FK_UserRoleGroups_Users_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "RoleGroupsId",
+              "Column": "RoleGroupsId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+          "Table": "RoleGroupRoles",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "RoleGroupId",
+            "RolesId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RoleGroupRoles",
+              "Properties": [
+                "RoleGroupId",
+                "RolesId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RoleGroupRoles_RolesId",
+              "Properties": [
+                "RolesId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_RoleGroupRoles_RoleGroups_RoleGroupId",
+              "Properties": [
+                "RoleGroupId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "RoleGroups"
+            },
+            {
+              "Name": "FK_RoleGroupRoles_Roles_RolesId",
+              "Properties": [
+                "RolesId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Roles"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "RoleGroupId",
+              "Column": "RoleGroupId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "RolesId",
+              "Column": "RolesId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+          "Table": "UserRoles",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "RolesId",
+            "UserId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserRoles",
+              "Properties": [
+                "RolesId",
+                "UserId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserRoles_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserRoles_Roles_RolesId",
+              "Properties": [
+                "RolesId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Roles"
+            },
+            {
+              "Name": "FK_UserRoles_Users_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "RolesId",
+              "Column": "RolesId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+          "Table": "UserTenants",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "TenantsId",
+            "UserId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserTenants",
+              "Properties": [
+                "TenantsId",
+                "UserId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserTenants_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserTenants_Tenants_TenantsId",
+              "Properties": [
+                "TenantsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            },
+            {
+              "Name": "FK_UserTenants_Users_UserId",
+              "Properties": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "TenantsId",
+              "Column": "TenantsId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        }
+      ],
+      "Sequences": [],
+      "Migrations": [
+        {
+          "MigrationId": "20260327075710_InitialCreate",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
+          "SourceSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260327075811_InitialSeed",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+          "SourceSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "data-change-or-backfill"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260413100000_CrmPolicyDefinitionSeeds",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+          "SourceSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "data-change-or-backfill"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "alter-column-lock-and-conversion"
+            ]
+          }
+        }
+      ],
+      "SchemaViolations": []
+    },
+    {
+      "Module": "CRM",
+      "Order": 20,
+      "Schema": "crm",
+      "DbContext": "IFX.Modules.CRM.Infrastructure.Persistence.CrmDbContext",
+      "MigrationAssembly": "IFX.Modules.CRM.Infrastructure",
+      "ConnectionKey": "CrmDatabase",
+      "TargetHistory": "crm.__EFMigrationsHistory",
+      "ContextSource": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Persistence/CrmDbContext.cs",
+      "Entities": [
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.AdvisorInvestmentAccountLink",
+          "Table": "AdvisorInvestmentAccountLinks",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_AdvisorInvestmentAccountLinks",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_AdvisorInvestmentAccountLinks_AdvisorPartyId",
+              "Properties": [
+                "AdvisorPartyId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_AdvisorInvestmentAccountLinks_InvestmentAccountId",
+              "Properties": [
+                "InvestmentAccountId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_AdvisorInvestmentAccountLinks_TenantId_AccountId_AdvisorPartyId",
+              "Properties": [
+                "TenantId",
+                "InvestmentAccountId",
+                "AdvisorPartyId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_AdvisorInvestmentAccountLinks_InvestmentAccounts_InvestmentAccountId",
+              "Properties": [
+                "InvestmentAccountId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "InvestmentAccounts"
+            },
+            {
+              "Name": "FK_AdvisorInvestmentAccountLinks_Parties_AdvisorPartyId",
+              "Properties": [
+                "AdvisorPartyId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Parties"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AdvisorPartyId",
+              "Column": "AdvisorPartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "EffectiveDate",
+              "Column": "EffectiveDate",
+              "StoreType": "date",
+              "Nullable": false
+            },
+            {
+              "Name": "ExpiryDate",
+              "Column": "ExpiryDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestmentAccountId",
+              "Column": "InvestmentAccountId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "RebateRate",
+              "Column": "RebateRate",
+              "StoreType": "decimal(5,2)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.CorporateInvestorProfile",
+          "Table": "CorporateInvestorProfiles",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_CorporateInvestorProfiles",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_CorporateInvestorProfiles_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_CorporateInvestorProfiles_Investors_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Investors"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Abn",
+              "Column": "Abn",
+              "StoreType": "nvarchar(11)",
+              "Nullable": true
+            },
+            {
+              "Name": "Acn",
+              "Column": "Acn",
+              "StoreType": "nvarchar(9)",
+              "Nullable": true
+            },
+            {
+              "Name": "CountryOfIncorporation",
+              "Column": "CountryOfIncorporation",
+              "StoreType": "nvarchar(2)",
+              "Nullable": true
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "FrankieOneEntityId",
+              "Column": "FrankieOneEntityId",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IncorporationDate",
+              "Column": "IncorporationDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "InvestorId",
+              "Column": "InvestorId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IsPubliclyListed",
+              "Column": "IsPubliclyListed",
+              "StoreType": "bit",
+              "Nullable": true
+            },
+            {
+              "Name": "LicenceNumber",
+              "Column": "LicenceNumber",
+              "StoreType": "nvarchar(50)",
+              "Nullable": true
+            },
+            {
+              "Name": "RegistrationNumber",
+              "Column": "RegistrationNumber",
+              "StoreType": "nvarchar(50)",
+              "Nullable": true
+            },
+            {
+              "Name": "Regulator",
+              "Column": "Regulator",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.IndividualInvestorProfile",
+          "Table": "IndividualInvestorProfiles",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_IndividualInvestorProfiles",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_IndividualInvestorProfiles_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_IndividualInvestorProfiles_Investors_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Investors"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "DateOfBirth",
+              "Column": "DateOfBirth",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "DateOfDeath",
+              "Column": "DateOfDeath",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "FrankieOneEntityId",
+              "Column": "FrankieOneEntityId",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "Gender",
+              "Column": "Gender",
+              "StoreType": "int",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IdDocumentCountry",
+              "Column": "IdDocumentCountry",
+              "StoreType": "nvarchar(2)",
+              "Nullable": true
+            },
+            {
+              "Name": "IdDocumentExpiry",
+              "Column": "IdDocumentExpiry",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "IdDocumentNumber",
+              "Column": "IdDocumentNumber",
+              "StoreType": "nvarchar(50)",
+              "Nullable": true
+            },
+            {
+              "Name": "IdDocumentType",
+              "Column": "IdDocumentType",
+              "StoreType": "int",
+              "Nullable": true
+            },
+            {
+              "Name": "InvestorId",
+              "Column": "InvestorId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Nationality",
+              "Column": "Nationality",
+              "StoreType": "nvarchar(2)",
+              "Nullable": true
+            },
+            {
+              "Name": "PlaceOfBirth",
+              "Column": "PlaceOfBirth",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.InvestmentAccount",
+          "Table": "InvestmentAccounts",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_InvestmentAccounts",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_InvestmentAccounts_TenantId_AccountNumber",
+              "Properties": [
+                "TenantId",
+                "AccountNumber"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AccountNumber",
+              "Column": "AccountNumber",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "AccountType",
+              "Column": "AccountType",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "CertificateDate",
+              "Column": "CertificateDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.Investor",
+          "Table": "Investors",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Investors",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Investors_TenantId_InvestorCode",
+              "Properties": [
+                "TenantId",
+                "InvestorCode"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_Investors_TenantId_PartyId",
+              "Properties": [
+                "TenantId",
+                "PartyId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AmlCheckedAt",
+              "Column": "AmlCheckedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "AmlGatewayReference",
+              "Column": "AmlGatewayReference",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "AmlStatus",
+              "Column": "AmlStatus",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "FatcaCrsStatus",
+              "Column": "FatcaCrsStatus",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "GIIN",
+              "Column": "GIIN",
+              "StoreType": "nvarchar(20)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestorCode",
+              "Column": "InvestorCode",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "IsPEP",
+              "Column": "IsPEP",
+              "StoreType": "bit",
+              "Nullable": true
+            },
+            {
+              "Name": "KycReviewedAt",
+              "Column": "KycReviewedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "KycStatus",
+              "Column": "KycStatus",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "LegalStructure",
+              "Column": "LegalStructure",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "PartyId",
+              "Column": "PartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "PepDetails",
+              "Column": "PepDetails",
+              "StoreType": "nvarchar(500)",
+              "Nullable": true
+            },
+            {
+              "Name": "SourceOfWealth",
+              "Column": "SourceOfWealth",
+              "StoreType": "nvarchar(200)",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TaxResidencyCountry",
+              "Column": "TaxResidencyCountry",
+              "StoreType": "nvarchar(2)",
+              "Nullable": true
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "TIN",
+              "Column": "TIN",
+              "StoreType": "nvarchar(20)",
+              "Nullable": true
+            },
+            {
+              "Name": "UnresolvedAdverseMediaCount",
+              "Column": "UnresolvedAdverseMediaCount",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "UnresolvedPepCount",
+              "Column": "UnresolvedPepCount",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "UnresolvedSanctionCount",
+              "Column": "UnresolvedSanctionCount",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.InvestorDocument",
+          "Table": "InvestorDocuments",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_InvestorDocuments",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_InvestorDocuments_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_InvestorDocuments_TenantId_InvestorId",
+              "Properties": [
+                "TenantId",
+                "InvestorId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_InvestorDocuments_Investors_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Investors"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "DocumentNumber",
+              "Column": "DocumentNumber",
+              "StoreType": "nvarchar(50)",
+              "Nullable": false
+            },
+            {
+              "Name": "DocumentType",
+              "Column": "DocumentType",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "ExpiryDate",
+              "Column": "ExpiryDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestorId",
+              "Column": "InvestorId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IssueCountry",
+              "Column": "IssueCountry",
+              "StoreType": "nvarchar(2)",
+              "Nullable": false
+            },
+            {
+              "Name": "IssueDate",
+              "Column": "IssueDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "IssueState",
+              "Column": "IssueState",
+              "StoreType": "nvarchar(50)",
+              "Nullable": true
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.Party",
+          "Table": "Parties",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Parties",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Parties_TenantId_PartyCode",
+              "Properties": [
+                "TenantId",
+                "PartyCode"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "LegalStructure",
+              "Column": "LegalStructure",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "PartyCode",
+              "Column": "PartyCode",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.PartyInvestmentAccountLink",
+          "Table": "PartyInvestmentAccountLinks",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_PartyInvestmentAccountLinks",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_PartyInvestmentAccountLinks_InvestmentAccountId",
+              "Properties": [
+                "InvestmentAccountId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_PartyInvestmentAccountLinks_PartyId",
+              "Properties": [
+                "PartyId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_PartyInvestmentAccountLinks_TenantId_AccountId_PartyId",
+              "Properties": [
+                "TenantId",
+                "InvestmentAccountId",
+                "PartyId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_PartyInvestmentAccountLinks_InvestmentAccounts_InvestmentAccountId",
+              "Properties": [
+                "InvestmentAccountId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "InvestmentAccounts"
+            },
+            {
+              "Name": "FK_PartyInvestmentAccountLinks_Parties_PartyId",
+              "Properties": [
+                "PartyId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Parties"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "EffectiveDate",
+              "Column": "EffectiveDate",
+              "StoreType": "date",
+              "Nullable": false
+            },
+            {
+              "Name": "ExpiryDate",
+              "Column": "ExpiryDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestmentAccountId",
+              "Column": "InvestmentAccountId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "LinkOrder",
+              "Column": "LinkOrder",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "OwnershipPercentage",
+              "Column": "OwnershipPercentage",
+              "StoreType": "decimal(5,2)",
+              "Nullable": true
+            },
+            {
+              "Name": "PartyId",
+              "Column": "PartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "RelationshipType",
+              "Column": "RelationshipType",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.PartyRelationship",
+          "Table": "PartyRelationships",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_PartyRelationships",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_PartyRelationships_FromPartyId",
+              "Properties": [
+                "FromPartyId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_PartyRelationships_TenantId_FromPartyId_Type",
+              "Properties": [
+                "TenantId",
+                "FromPartyId",
+                "RelationshipType"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_PartyRelationships_ToPartyId",
+              "Properties": [
+                "ToPartyId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_PartyRelationships_Parties_FromPartyId",
+              "Properties": [
+                "FromPartyId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Parties"
+            },
+            {
+              "Name": "FK_PartyRelationships_Parties_ToPartyId",
+              "Properties": [
+                "ToPartyId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Parties"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "EffectiveDate",
+              "Column": "EffectiveDate",
+              "StoreType": "date",
+              "Nullable": false
+            },
+            {
+              "Name": "ExpiryDate",
+              "Column": "ExpiryDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "FromPartyId",
+              "Column": "FromPartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "RelationshipType",
+              "Column": "RelationshipType",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "ToPartyId",
+              "Column": "ToPartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.PartyRoleAssignment",
+          "Table": "PartyRoleAssignments",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_PartyRoleAssignments",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_PartyRoleAssignments_PartyId",
+              "Properties": [
+                "PartyId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_PartyRoleAssignments_TenantId_PartyId_Role",
+              "Properties": [
+                "TenantId",
+                "PartyId",
+                "Role"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_PartyRoleAssignments_Parties_PartyId",
+              "Properties": [
+                "PartyId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Parties"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AssignedAt",
+              "Column": "AssignedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "AssignedBy",
+              "Column": "AssignedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "PartyId",
+              "Column": "PartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Role",
+              "Column": "Role",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.TrustInvestorProfile",
+          "Table": "TrustInvestorProfiles",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_TrustInvestorProfiles",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_TrustInvestorProfiles_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_TrustInvestorProfiles_Investors_InvestorId",
+              "Properties": [
+                "InvestorId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Investors"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "FrankieOneEntityId",
+              "Column": "FrankieOneEntityId",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestorId",
+              "Column": "InvestorId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "TrustDeedReference",
+              "Column": "TrustDeedReference",
+              "StoreType": "nvarchar(100)",
+              "Nullable": true
+            },
+            {
+              "Name": "TrusteePartyId",
+              "Column": "TrusteePartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "TrustEstablishedDate",
+              "Column": "TrustEstablishedDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "TrustType",
+              "Column": "TrustType",
+              "StoreType": "nvarchar(50)",
+              "Nullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.CRM.Domain.Entities.UserPartyLink",
+          "Table": "UserPartyLinks",
+          "Schema": "crm",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserPartyLinks",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserPartyLinks_PartyId",
+              "Properties": [
+                "PartyId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_UserPartyLinks_TenantId_PartyId",
+              "Properties": [
+                "TenantId",
+                "PartyId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_UserPartyLinks_TenantId_UserId",
+              "Properties": [
+                "TenantId",
+                "UserId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserPartyLinks_Parties_PartyId",
+              "Properties": [
+                "PartyId"
+              ],
+              "PrincipalSchema": "crm",
+              "PrincipalTable": "Parties"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "PartyId",
+              "Column": "PartyId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "UserId",
+              "Column": "UserId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        }
+      ],
+      "Sequences": [],
+      "Migrations": [
+        {
+          "MigrationId": "20260413120000_InitialCreate",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations/20260413120000_InitialCreate.cs",
+          "SourceSha256": "4d5e5a2496f4d8a61d92f4278a85609a0aeeffae843e789086a14257167b854d",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations/20260420043006_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "alter-column-lock-and-conversion"
+            ]
+          }
+        }
+      ],
+      "SchemaViolations": []
+    },
+    {
+      "Module": "Registry",
+      "Order": 30,
+      "Schema": "registry",
+      "DbContext": "IFX.Modules.Registry.Infrastructure.Persistence.RegistryDbContext",
+      "MigrationAssembly": "IFX.Modules.Registry.Infrastructure",
+      "ConnectionKey": "RegistryDatabase",
+      "TargetHistory": "registry.__EFMigrationsHistory",
+      "ContextSource": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Persistence/RegistryDbContext.cs",
+      "Entities": [
+        {
+          "Entity": "IFX.Modules.Registry.Domain.Entities.Fund",
+          "Table": "Funds",
+          "Schema": "registry",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Funds",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Funds_ProductId",
+              "Properties": [
+                "ProductId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Funds_TenantId_FundCode",
+              "Properties": [
+                "TenantId",
+                "FundCode"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Funds_Products_ProductId",
+              "Properties": [
+                "ProductId"
+              ],
+              "PrincipalSchema": "registry",
+              "PrincipalTable": "Products"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "BaseCurrency",
+              "Column": "BaseCurrency",
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "FundCode",
+              "Column": "FundCode",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "FundName",
+              "Column": "FundName",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "FundType",
+              "Column": "FundType",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InceptionDate",
+              "Column": "InceptionDate",
+              "StoreType": "date",
+              "Nullable": false
+            },
+            {
+              "Name": "ProductId",
+              "Column": "ProductId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Registry.Domain.Entities.FundClass",
+          "Table": "FundClasses",
+          "Schema": "registry",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_FundClasses",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_FundClasses_FundId_ClassCode",
+              "Properties": [
+                "FundId",
+                "ClassCode"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_FundClasses_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "ClassCode",
+              "Column": "ClassCode",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "ClassName",
+              "Column": "ClassName",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Currency",
+              "Column": "Currency",
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "FundId",
+              "Column": "FundId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "ManagementFeeRate",
+              "Column": "ManagementFeeRate",
+              "StoreType": "decimal(8,6)",
+              "Nullable": true
+            },
+            {
+              "Name": "MinInitialInvestment",
+              "Column": "MinInitialInvestment",
+              "StoreType": "decimal(18,4)",
+              "Nullable": true
+            },
+            {
+              "Name": "NavFrequency",
+              "Column": "NavFrequency",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "PerformanceFeeRate",
+              "Column": "PerformanceFeeRate",
+              "StoreType": "decimal(8,6)",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Registry.Domain.Entities.Product",
+          "Table": "Products",
+          "Schema": "registry",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Products",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Products_TenantId_ProductCode",
+              "Properties": [
+                "TenantId",
+                "ProductCode"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "ApirCode",
+              "Column": "ApirCode",
+              "StoreType": "nvarchar(9)",
+              "Nullable": true
+            },
+            {
+              "Name": "BaseCurrency",
+              "Column": "BaseCurrency",
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InceptionDate",
+              "Column": "InceptionDate",
+              "StoreType": "date",
+              "Nullable": false
+            },
+            {
+              "Name": "Isin",
+              "Column": "Isin",
+              "StoreType": "nvarchar(12)",
+              "Nullable": true
+            },
+            {
+              "Name": "IssuerName",
+              "Column": "IssuerName",
+              "StoreType": "nvarchar(200)",
+              "Nullable": true
+            },
+            {
+              "Name": "PdsReference",
+              "Column": "PdsReference",
+              "StoreType": "nvarchar(500)",
+              "Nullable": true
+            },
+            {
+              "Name": "ProductCode",
+              "Column": "ProductCode",
+              "StoreType": "nvarchar(20)",
+              "Nullable": false
+            },
+            {
+              "Name": "ProductName",
+              "Column": "ProductName",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "ProductType",
+              "Column": "ProductType",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "RegulatorSchemeNumber",
+              "Column": "RegulatorSchemeNumber",
+              "StoreType": "nvarchar(20)",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "WindUpDate",
+              "Column": "WindUpDate",
+              "StoreType": "date",
+              "Nullable": true
+            }
+          ]
+        }
+      ],
+      "Sequences": [],
+      "Migrations": [
+        {
+          "MigrationId": "20260413120300_InitialCreate",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260413120300_InitialCreate.cs",
+          "SourceSha256": "2b9983bacf6695594c5616552e13ac50240a5991ed842e5438e968cf23de6d31",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260413191525_AddProduct",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260413191525_AddProduct.cs",
+          "SourceSha256": "86d12070d5212c13c4efb108cfcdd29332ea9d318be034e89135137da722ca15",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock",
+              "schema-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260420043017_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "alter-column-lock-and-conversion"
+            ]
+          }
+        }
+      ],
+      "SchemaViolations": []
+    },
+    {
+      "Module": "Holdings",
+      "Order": 40,
+      "Schema": "holdings",
+      "DbContext": "IFX.Modules.Holdings.Infrastructure.Persistence.HoldingsDbContext",
+      "MigrationAssembly": "IFX.Modules.Holdings.Infrastructure",
+      "ConnectionKey": "HoldingsDatabase",
+      "TargetHistory": "holdings.__EFMigrationsHistory",
+      "ContextSource": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsDbContext.cs",
+      "Entities": [
+        {
+          "Entity": "IFX.Modules.Holdings.Domain.Entities.Holding",
+          "Table": "Holdings",
+          "Schema": "holdings",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Holdings",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Holdings_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Holdings_TenantId_ClassId",
+              "Properties": [
+                "TenantId",
+                "ClassId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Holdings_TenantId_InvestmentAccountId_ClassId",
+              "Properties": [
+                "TenantId",
+                "InvestmentAccountId",
+                "ClassId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "ClassId",
+              "Column": "ClassId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestmentAccountId",
+              "Column": "InvestmentAccountId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "LastTransactionAt",
+              "Column": "LastTransactionAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Units",
+              "Column": "Units",
+              "StoreType": "decimal(18,8)",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        }
+      ],
+      "Sequences": [],
+      "Migrations": [
+        {
+          "MigrationId": "20260413120100_InitialCreate",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260413120100_InitialCreate.cs",
+          "SourceSha256": "95593d59a104c3d414c39a66e470ce7f07cce525f58841a7b71d6639f1eae5f2",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260420043031_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "alter-column-lock-and-conversion"
+            ]
+          }
+        }
+      ],
+      "SchemaViolations": []
+    },
+    {
+      "Module": "Transaction",
+      "Order": 50,
+      "Schema": "transaction",
+      "DbContext": "IFX.Modules.Transaction.Infrastructure.Persistence.TransactionDbContext",
+      "MigrationAssembly": "IFX.Modules.Transaction.Infrastructure",
+      "ConnectionKey": "TransactionDatabase",
+      "TargetHistory": "transaction.__EFMigrationsHistory",
+      "ContextSource": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Persistence/TransactionDbContext.cs",
+      "Entities": [
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.Entities.Order",
+          "Table": "Orders",
+          "Schema": "transaction",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Orders",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Orders_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Orders_TenantId_OrderReference",
+              "Properties": [
+                "TenantId",
+                "OrderReference"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_Orders_TenantId_Status",
+              "Properties": [
+                "TenantId",
+                "Status"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "DealReference",
+              "Column": "DealReference",
+              "StoreType": "nvarchar(350)",
+              "Nullable": true
+            },
+            {
+              "Name": "ExpectedSettlementDate",
+              "Column": "ExpectedSettlementDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "ExpectedTradeDate",
+              "Column": "ExpectedTradeDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "OrderReference",
+              "Column": "OrderReference",
+              "StoreType": "nvarchar(35)",
+              "Nullable": false
+            },
+            {
+              "Name": "OrderType",
+              "Column": "OrderType",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "RejectionReason",
+              "Column": "RejectionReason",
+              "StoreType": "nvarchar(500)",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "nvarchar(450)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.Entities.Transaction",
+          "Table": "Transactions",
+          "Schema": "transaction",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Transactions",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Transactions_OrderId",
+              "Properties": [
+                "OrderId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Transactions_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Transactions_TenantId_InvestmentAccountId",
+              "Properties": [
+                "TenantId",
+                "InvestmentAccountId"
+              ],
+              "Unique": false
+            },
+            {
+              "Name": "IX_Transactions_TenantId_Status",
+              "Properties": [
+                "TenantId",
+                "Status"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Transactions_Orders_OrderId",
+              "Properties": [
+                "OrderId"
+              ],
+              "PrincipalSchema": "transaction",
+              "PrincipalTable": "Orders"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Amount",
+              "Column": "Amount",
+              "StoreType": "decimal(18,4)",
+              "Nullable": false
+            },
+            {
+              "Name": "ClassId",
+              "Column": "ClassId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Currency",
+              "Column": "Currency",
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "FailureReason",
+              "Column": "FailureReason",
+              "StoreType": "nvarchar(500)",
+              "Nullable": true
+            },
+            {
+              "Name": "FundId",
+              "Column": "FundId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "InvestmentAccountId",
+              "Column": "InvestmentAccountId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "LegId",
+              "Column": "LegId",
+              "StoreType": "nvarchar(35)",
+              "Nullable": true
+            },
+            {
+              "Name": "NAVPrice",
+              "Column": "NAVPrice",
+              "StoreType": "decimal(18,8)",
+              "Nullable": true
+            },
+            {
+              "Name": "OrderId",
+              "Column": "OrderId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "SettlementDate",
+              "Column": "SettlementDate",
+              "StoreType": "date",
+              "Nullable": true
+            },
+            {
+              "Name": "Status",
+              "Column": "Status",
+              "StoreType": "nvarchar(450)",
+              "Nullable": false
+            },
+            {
+              "Name": "TargetClassId",
+              "Column": "TargetClassId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "TradeDate",
+              "Column": "TradeDate",
+              "StoreType": "date",
+              "Nullable": false
+            },
+            {
+              "Name": "Type",
+              "Column": "Type",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "Units",
+              "Column": "Units",
+              "StoreType": "decimal(18,8)",
+              "Nullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedBy",
+              "Column": "UpdatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.ValueObjects.ChargeDetail",
+          "Table": "Transactions",
+          "Schema": "transaction",
+          "Owned": true,
+          "PrimaryKey": [
+            "Id",
+            "TransactionId"
+          ],
+          "Keys": [
+            {
+              "Name": null,
+              "Properties": [
+                "TransactionId",
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Transactions_Transactions_TransactionId",
+              "Properties": [
+                "TransactionId"
+              ],
+              "PrincipalSchema": "transaction",
+              "PrincipalTable": "Transactions"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Amount",
+              "Column": null,
+              "StoreType": "decimal(18,4)",
+              "Nullable": false
+            },
+            {
+              "Name": "Currency",
+              "Column": null,
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": null,
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Rate",
+              "Column": null,
+              "StoreType": "decimal(11,10)",
+              "Nullable": true
+            },
+            {
+              "Name": "TransactionId",
+              "Column": null,
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Type",
+              "Column": null,
+              "StoreType": "nvarchar(35)",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.ValueObjects.CommissionDetail",
+          "Table": "Transactions",
+          "Schema": "transaction",
+          "Owned": true,
+          "PrimaryKey": [
+            "Id",
+            "TransactionId"
+          ],
+          "Keys": [
+            {
+              "Name": null,
+              "Properties": [
+                "TransactionId",
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Transactions_Transactions_TransactionId",
+              "Properties": [
+                "TransactionId"
+              ],
+              "PrincipalSchema": "transaction",
+              "PrincipalTable": "Transactions"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Amount",
+              "Column": null,
+              "StoreType": "decimal(18,4)",
+              "Nullable": false
+            },
+            {
+              "Name": "Currency",
+              "Column": null,
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": null,
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "PercentageWaived",
+              "Column": null,
+              "StoreType": "decimal(11,10)",
+              "Nullable": true
+            },
+            {
+              "Name": "Rate",
+              "Column": null,
+              "StoreType": "decimal(11,10)",
+              "Nullable": true
+            },
+            {
+              "Name": "TransactionId",
+              "Column": null,
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Type",
+              "Column": null,
+              "StoreType": "nvarchar(35)",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.ValueObjects.DealingPriceDetails",
+          "Table": "Transactions",
+          "Schema": "transaction",
+          "Owned": true,
+          "PrimaryKey": [
+            "TransactionId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Transactions",
+              "Properties": [
+                "TransactionId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Transactions_Transactions_TransactionId",
+              "Properties": [
+                "TransactionId"
+              ],
+              "PrincipalSchema": "transaction",
+              "PrincipalTable": "Transactions"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Amount",
+              "Column": "PriceAmount",
+              "StoreType": "decimal(18,8)",
+              "Nullable": false
+            },
+            {
+              "Name": "Currency",
+              "Column": "PriceCurrency",
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "PriceType",
+              "Column": "PriceType",
+              "StoreType": "nvarchar(35)",
+              "Nullable": false
+            },
+            {
+              "Name": "TransactionId",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.ValueObjects.ExternalFundIdentifier",
+          "Table": "Transactions",
+          "Schema": "transaction",
+          "Owned": true,
+          "PrimaryKey": [
+            "TransactionId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Transactions",
+              "Properties": [
+                "TransactionId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Transactions_Transactions_TransactionId",
+              "Properties": [
+                "TransactionId"
+              ],
+              "PrincipalSchema": "transaction",
+              "PrincipalTable": "Transactions"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Identifier",
+              "Column": "ExternalFundId",
+              "StoreType": "nvarchar(35)",
+              "Nullable": false
+            },
+            {
+              "Name": "OtherType",
+              "Column": "ExternalFundIdOtherType",
+              "StoreType": "nvarchar(35)",
+              "Nullable": true
+            },
+            {
+              "Name": "TransactionId",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Type",
+              "Column": "ExternalFundIdType",
+              "StoreType": "nvarchar(10)",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Domain.ValueObjects.TaxDetail",
+          "Table": "Transactions",
+          "Schema": "transaction",
+          "Owned": true,
+          "PrimaryKey": [
+            "Id",
+            "TransactionId"
+          ],
+          "Keys": [
+            {
+              "Name": null,
+              "Properties": [
+                "TransactionId",
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Transactions_Transactions_TransactionId",
+              "Properties": [
+                "TransactionId"
+              ],
+              "PrincipalSchema": "transaction",
+              "PrincipalTable": "Transactions"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "Amount",
+              "Column": null,
+              "StoreType": "decimal(18,4)",
+              "Nullable": false
+            },
+            {
+              "Name": "Currency",
+              "Column": null,
+              "StoreType": "nvarchar(3)",
+              "Nullable": false
+            },
+            {
+              "Name": "ExemptionIndicator",
+              "Column": null,
+              "StoreType": "bit",
+              "Nullable": true
+            },
+            {
+              "Name": "ExemptionReason",
+              "Column": null,
+              "StoreType": "nvarchar(350)",
+              "Nullable": true
+            },
+            {
+              "Name": "Id",
+              "Column": null,
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Rate",
+              "Column": null,
+              "StoreType": "decimal(11,10)",
+              "Nullable": true
+            },
+            {
+              "Name": "TransactionId",
+              "Column": null,
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Type",
+              "Column": null,
+              "StoreType": "nvarchar(35)",
+              "Nullable": false
+            }
+          ]
+        }
+      ],
+      "Sequences": [],
+      "Migrations": [
+        {
+          "MigrationId": "20260413120200_InitialCreate",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260413120200_InitialCreate.cs",
+          "SourceSha256": "8cd83761a6ad71ad0f9eaba090b2d600f8e42f3f88cba6f5ab555d9c99c5671c",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260418123443_AddOrderInstructionModel",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260418123443_AddOrderInstructionModel.cs",
+          "SourceSha256": "bf87f5cc66d112776079bf0acd330890f655f76320612303f61a13169382c23f",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock",
+              "schema-lock"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260420043039_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "alter-column-lock-and-conversion"
+            ]
+          }
+        }
+      ],
+      "SchemaViolations": []
+    }
+  ],
+  "staticScan": {
+    "RawSqlFindings": [
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Composition/EFMigrator.cs",
+        "Line": 90,
+        "Kind": "raw-sql",
+        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Composition/EFMigrator.cs",
+        "Line": 98,
+        "Kind": "raw-sql",
+        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 156,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 163,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 170,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 222,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 277,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 291,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 298,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 312,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 371,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 380,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 396,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 405,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 414,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 423,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 433,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 448,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 464,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 508,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 523,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 559,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 575,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserGlobalRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 578,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 593,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 599,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 610,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[PolicyDefinitions] WHERE [Id] IN (\u0027{PolicyUserReadIFX}\u0027, \u0027{PolicyUserReadPlatform}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 613,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserDepartments] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 616,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserTenants] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 619,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoleGroups] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 622,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 625,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserIdentities] WHERE [Id] = \u0027{AdminUserIdentityId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 628,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Users] WHERE [Id] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 631,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RolePermissions] WHERE [RoleId] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 634,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroupRoles] WHERE [RoleGroupId] = \u0027{RoleGroupTestId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 637,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroups] WHERE [Id] = \u0027{RoleGroupTestId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 640,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Roles] WHERE [Id] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 643,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 658,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Idps] WHERE [Id] IN (\u0027{IdpIfxCognitoId}\u0027, \u0027{IdpTestExternalId}\u0027, \u0027{IdpVonCognitoId}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 661,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Departments] WHERE [Id] = \u0027{TestDeptId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 664,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+        "Line": 42,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+        "Line": 73,
+        "Kind": "raw-sql",
+        "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Persistence/CrmMigrator.cs",
+        "Line": 33,
+        "Kind": "raw-sql",
+        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
+      },
+      {
+        "Path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Persistence/CrmMigrator.cs",
+        "Line": 38,
+        "Kind": "raw-sql",
+        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
+      },
+      {
+        "Path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsMigrator.cs",
+        "Line": 33,
+        "Kind": "raw-sql",
+        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
+      },
+      {
+        "Path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsMigrator.cs",
+        "Line": 38,
+        "Kind": "raw-sql",
+        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
+      },
+      {
+        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Persistence/RegistryMigrator.cs",
+        "Line": 33,
+        "Kind": "raw-sql",
+        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
+      },
+      {
+        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Persistence/RegistryMigrator.cs",
+        "Line": 38,
+        "Kind": "raw-sql",
+        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
+      },
+      {
+        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Persistence/TransactionMigrator.cs",
+        "Line": 33,
+        "Kind": "raw-sql",
+        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
+      },
+      {
+        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Persistence/TransactionMigrator.cs",
+        "Line": 38,
+        "Kind": "raw-sql",
+        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
+      }
+    ],
+    "SchemaQualifiedTableReferences": [
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 157,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 158,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Tenants] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedAt])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 164,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Departments] WHERE [Id] = \u0027{TestDeptId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 165,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Departments] ([Id], [Name], [Description], [TenantId], [CreatedBy], [CreatedAt], [UpdatedAt])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 171,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Idps] WHERE [Id] = \u0027{IdpIfxCognitoId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 172,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Idps]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 187,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Idps] WHERE [Id] = \u0027{IdpTestExternalId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 188,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Idps]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 204,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Idps] WHERE [Id] = \u0027{IdpVonCognitoId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 205,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Idps]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 224,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Permissions] ([Id], [Name], [Description], [CreatedAt], [UpdatedAt])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 273,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "WHERE NOT EXISTS (SELECT 1 FROM [auth].[Permissions] p WHERE p.[Name] = v.[Name])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 279,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Roles] ([Id], [Name], [Description], [TenantId], [CreatedBy], [CreatedAt], [UpdatedAt])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 287,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "WHERE NOT EXISTS (SELECT 1 FROM [auth].[Roles] r WHERE r.[Id] = v.[Id])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 292,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[RoleGroups] WHERE [Id] = \u0027{RoleGroupTestId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 293,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[RoleGroups] ([Id], [Name], [Description], [TenantId], [CreatedBy], [CreatedAt], [UpdatedAt])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 299,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[RoleGroupRoles] ([RoleGroupId], [RolesId])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 307,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [auth].[RoleGroupRoles] x"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 313,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[RolePermissions] ([RoleId], [PermissionsId])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 366,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [auth].[RolePermissions] x"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 372,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Users] WHERE [Id] = \u0027{AdminUserId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 373,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[Users]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 381,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[UserIdentities] WHERE [Id] = \u0027{AdminUserIdentityId}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 382,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[UserIdentities]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 398,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [auth].[UserRoles]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 400,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[UserRoles] ([RolesId], [UserId])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 407,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [auth].[UserRoleGroups]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 409,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[UserRoleGroups] ([RoleGroupsId], [UserId])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 416,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [auth].[UserTenants]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 418,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[UserTenants] ([TenantsId], [UserId])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 425,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [auth].[UserDepartments]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 427,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[UserDepartments] ([DepartmentsId], [UserId])"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 434,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[PolicyDefinitions] WHERE [Id] = \u0027{PolicyUserReadIFX}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 435,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[PolicyDefinitions]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 449,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[PolicyDefinitions] WHERE [Id] = \u0027{PolicyUserReadPlatform}\u0027)"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 450,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "INSERT INTO [auth].[PolicyDefinitions]"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 575,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserGlobalRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 610,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[PolicyDefinitions] WHERE [Id] IN (\u0027{PolicyUserReadIFX}\u0027, \u0027{PolicyUserReadPlatform}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 613,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserDepartments] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 616,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserTenants] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 619,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoleGroups] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 622,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 625,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserIdentities] WHERE [Id] = \u0027{AdminUserIdentityId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 628,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Users] WHERE [Id] = \u0027{AdminUserId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 631,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RolePermissions] WHERE [RoleId] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 634,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroupRoles] WHERE [RoleGroupId] = \u0027{RoleGroupTestId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 637,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroups] WHERE [Id] = \u0027{RoleGroupTestId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 640,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Roles] WHERE [Id] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 644,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "DELETE FROM [auth].[Permissions] WHERE [Id] IN ("
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 658,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Idps] WHERE [Id] IN (\u0027{IdpIfxCognitoId}\u0027, \u0027{IdpTestExternalId}\u0027, \u0027{IdpVonCognitoId}\u0027)\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 661,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Departments] WHERE [Id] = \u0027{TestDeptId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Line": 664,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027\u0022);"
+      }
+    ],
+    "DatabaseObjectDefinitions": [],
+    "CrossSchemaFindings": []
+  },
+  "connectionSurfaces": {
+    "RequiredModuleKeys": [
+      "AuthDatabase",
+      "CrmDatabase",
+      "RegistryDatabase",
+      "HoldingsDatabase",
+      "TransactionDatabase"
+    ],
+    "ConfigurationFiles": [
+      {
+        "Path": "src/ApiHost/IFX.ApiHost/appsettings.Development.json",
+        "Entries": []
+      },
+      {
+        "Path": "src/ApiHost/IFX.ApiHost/appsettings.Testing.json",
+        "Entries": [
+          {
+            "Key": "AuthDatabase",
+            "State": "configured",
+            "Database": "TestDb"
+          },
+          {
+            "Key": "BackgroundJobsDatabase",
+            "State": "configured",
+            "Database": "TestDb"
+          }
+        ]
+      },
+      {
+        "Path": "src/ApiHost/IFX.ApiHost/appsettings.json",
+        "Entries": [
+          {
+            "Key": "AuthDatabase",
+            "State": "blank",
+            "Database": "\u003Cnot-declared\u003E"
+          },
+          {
+            "Key": "BackgroundJobsDatabase",
+            "State": "blank",
+            "Database": "\u003Cnot-declared\u003E"
+          }
+        ]
+      }
+    ],
+    "ComposeFiles": [
+      {
+        "Path": "docker-compose.yml",
+        "Entries": [
+          {
+            "Key": "AuthDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": true
+          },
+          {
+            "Key": "BackgroundJobsDatabase",
+            "Database": "BackgroundJobsDb",
+            "UsesEnvironmentCredentials": true
+          },
+          {
+            "Key": "CrmDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": true
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": true
+          },
+          {
+            "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": true
+          },
+          {
+            "Key": "TransactionDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": true
+          }
+        ]
+      },
+      {
+        "Path": "docker-compose.nas.yml",
+        "Entries": [
+          {
+            "Key": "AuthDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": true
+          },
+          {
+            "Key": "BackgroundJobsDatabase",
+            "Database": "BackgroundJobsDb",
+            "UsesEnvironmentCredentials": true
+          }
+        ]
+      }
+    ],
+    "DefaultConnectionFallbacks": [
+      {
+        "Path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/DependencyInjection.cs",
+        "Line": 30,
+        "Kind": "default-connection-fallback",
+        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
+      },
+      {
+        "Path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/DependencyInjection.cs",
+        "Line": 30,
+        "Kind": "default-connection-fallback",
+        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
+      },
+      {
+        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/DependencyInjection.cs",
+        "Line": 23,
+        "Kind": "default-connection-fallback",
+        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
+      },
+      {
+        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/DependencyInjection.cs",
+        "Line": 30,
+        "Kind": "default-connection-fallback",
+        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
+      }
+    ],
+    "EnvironmentIdentityAndPermissions": {
+      "Owner": "Database Operations",
+      "CollectionProcedure": "Environment inventory must map every module key to server/database identity and document DDL/DML grants without exporting connection strings or secrets."
+    },
+    "CurrentIdentityBoundary": "Current Compose uses the same DB_USER/DB_PASSWORD variables for runtime startup migrations; migration/runtime identity separation is not yet implemented."
+  },
+  "knownDatabaseStates": [
+    {
+      "name": "fresh",
+      "signal": "No module tables and no migration history",
+      "classification": "safe",
+      "action": "Apply canonical module migrations"
+    },
+    {
+      "name": "current-shared-history",
+      "signal": "Known catalog in dbo.__EFMigrationsHistory",
+      "classification": "bootstrap-required",
+      "action": "Copy exact owned IDs to module histories, retain shared history read-only"
+    },
+    {
+      "name": "ensure-created",
+      "signal": "Complete module schema fingerprint and no history",
+      "classification": "explicit-adoption-only",
+      "action": "Adopt only after full fingerprint match"
+    },
+    {
+      "name": "auth-pre-squash-14",
+      "signal": "20251222160950_InitialCreate,20251224110859_AddBirthDateToUsers,20260106033815_AddUserRoles,20260107055630_AddSsoUserRole,20260110091959_AddIssuerToUsers,20260110095019_RenameColumn_CognitoUserId_To_Subject,20260111031731_AddIdpTable,20260111120403_RenameSchemaFromCognitoToAuth,20260111122753_SplitUserTableIntoUserAndUserIdentity,20260111123319_DropUsersBackupTable,20260114025631_AddIdpTypeColumn,20260114125506_AddIsPrimaryToIdp,20260116100000_AddPendingRole,20260123042554_AddEmailVerificationToken",
+      "classification": "known-legacy",
+      "action": "Normalize transactionally to canonical Auth InitialCreate"
+    },
+    {
+      "name": "auth-wrong-squash-alias",
+      "signal": "20260317145706_InitialCreate",
+      "classification": "known-legacy",
+      "action": "Recognize as alias; normalize to canonical ID"
+    },
+    {
+      "name": "unknown-or-partial",
+      "signal": "Unknown history ID or incomplete schema fingerprint",
+      "classification": "fail-closed",
+      "action": "Do not stamp or migrate automatically"
+    }
+  ],
+  "schemaSamples": {
+    "repositoryModel": "Complete compiled EF model and migration catalogs in this report; contains no rows or secrets",
+    "testDatabase": "Phase 7 will capture SQL Server metadata-only fixtures",
+    "productionDatabase": {
+      "status": "external-evidence-gap",
+      "owner": "Database Operations",
+      "collection": "Export metadata-only sys.schemas/sys.tables/sys.columns/sys.indexes/sys.foreign_keys and migration-history rows after redacting server, login, and business data"
+    }
+  }
+}
