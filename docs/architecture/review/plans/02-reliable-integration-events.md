@@ -147,6 +147,7 @@ Producer Application
 - [ ] E8.6 说明 Gate 01/02 的本地事务与数据库边界，以及 Gate 05 context/敏感数据规则如何约束事件通道。
 - [ ] E8.7 保存 Mermaid 源文件及可审阅的 SVG/PNG 渲染结果，并执行链接和视觉检查。
 - [ ] E8.8 将事件规则映射到 schema、测试、指标、告警、runbook、Gate 证据或有到期日的 waiver，并更新架构索引。
+- [ ] E8.9 在 E2/E4 完成后执行 G01 对称回交：将真实模块 Outbox/Inbox entity、migration、关系数据库 conformance 与故障测试报告链接到 [`G01-closeout.md`](../evidence/gates/G01/G01-closeout.md)，确认复用 G01 的 `ITransactionParticipant`、`TransactionProfile.Inbox` 和唯一事务政策且未复制另一套 Behavior/Executor 协议；据此回写 [`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md) 的 G01-9.3、G01-DD05 和状态，并发起 Architecture/Application/Infrastructure 三方最终签字。上述回交未完成时不得关闭 Plan 02 或 G01。
 
 ## 完成标准（Definition of Done）
 
@@ -159,3 +160,4 @@ Producer Application
 - [ ] E-D07 Event Envelope、transport 和 Consumer ExecutionContext 的 Correlation/Causation/Tenant/Trace 语义与 Gate 05 一致，retry/replay 不改变逻辑身份。
 - [ ] E-D08 Event、Outbox/Inbox、dead-letter、日志和 trace 满足字段分类；C4 零暴露，C3 仅有批准且受控的状态传输。
 - [ ] E-D09 中英文说明、架构图、正常/失败流程图和规则证据完整且与实现一致。
+- [ ] E-D10 E2/E4 的真实实现证据已按 E8.9 回交 G01，G01-9.3 与 G01-DD05 已有可审计链接，并已进入三方最终签字流程。
