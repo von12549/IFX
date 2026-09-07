@@ -270,7 +270,22 @@
     {"id":"transaction.event.created","project":"IFX.Modules.Transaction.Abstractions","type":"TransactionCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"LegacyPendingMigration","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
     {"id":"transaction.event.processed","project":"IFX.Modules.Transaction.Abstractions","type":"TransactionProcessedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"LegacyPendingMigration","disposition":"Replace","targetIdentity":"ifx.transaction.transaction-processed.v1","consumerEvidence":["holdings-application"],"linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"The approved V1 envelope/schema and reliable Holdings adapter path are active, then the unversioned legacy event is deleted."}
   ],
-  "sharedPrimitives": [],
+  "contractDependencyPolicy": {
+    "default": "BCL-only",
+    "syncMetadata": ["IFX.Platform.Context.Contracts"],
+    "eventSchema": ["IFX.Platform.Messaging.Contracts"],
+    "forbidden": ["Result<T>", "Domain types", "Security implementation types", "Application types", "Entity Framework", "MediatR", "ASP.NET", "dependency injection", "serializer SDK", "broker SDK", "transport handler", "dispatcher"],
+    "runtimeSeparation": {
+      "project": "IFX.Platform.Messaging.Runtime",
+      "contains": ["IIntegrationEventBus", "IIntegrationEventHandler<T>", "dispatcher ports", "serializer ports", "broker adapters", "DI registration", "delivery reliability"],
+      "mustNotBeReferencedByModuleContracts": true
+    }
+  },
+  "sharedPrimitives": [
+    {"id":"messaging.integration-event-marker.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Marks a provider-owned immutable integration-event schema without providing dispatch behavior.","bclTypes":[],"serialization":"Marker has no serialized fields; concrete provider event owns its payload schema.","compatibility":"Adding runtime methods or state is forbidden; replacement requires a reviewed major protocol change.","linkedPlan":"02-reliable-integration-events.md:E1.9"},
+    {"id":"messaging.event-envelope.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Carries the Gate 05-approved immutable logical event identity, producer, tenant scope, correlation, causation, content type, and optional W3C trace carrier.","bclTypes":["Guid","string","int","DateTimeOffset","nullable BCL value"],"serialization":"Canonical V1 field names and UTC DateTimeOffset; retry/replay preserve the frozen value.","compatibility":"Optional additions require defaults and unknown-field tests; required/type/meaning changes require a parallel V2.","linkedPlan":"00-G05-context-sensitive-data-boundary.md:G05-1.6;02-reliable-integration-events.md:E1.3"},
+    {"id":"messaging.schema-identity.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Represents a stable catalog event identity and positive major schema version independently of CLR type names.","bclTypes":["string","int"],"serialization":"Lowercase catalog identity ending in .vN plus positive integer major version.","compatibility":"Active identity is immutable and Retired identity remains reserved forever.","linkedPlan":"02-reliable-integration-events.md:E1.1-E1.9"}
+  ],
   "waivers": [],
   "changeRecords": [
     {"id":"G03-CR-001","identity":"crm.account-compliance.v1","classification":"New","summary":"Establish the first capability-specific CRM account compliance contract.","providerOwner":"xiaolong-feng","affectedConsumers":["transaction-application"],"compatibilityEvidence":"Initial Proposed baseline; no prior formal version.","releaseOrder":"Provider contract and Transaction adapter migrate atomically in Plan 01 before Active promotion.","rollback":"Retain the legacy Reader path until V1 validation is complete.","status":"Proposed"},

@@ -25,7 +25,7 @@ function Test-Catalog($catalog) {
     foreach ($name in @('identity', 'compatibility', 'dtoPolicy', 'breakingChange', 'baseline', 'deprecation')) {
         if ($null -eq $catalog.sourcePolicy.$name) { Add-Error 'policy-node' "sourcePolicy.$name" "Required policy '$name' is missing." }
     }
-    foreach ($name in @('owners', 'modules', 'consumers', 'protocols', 'publicSurface', 'sharedPrimitives', 'waivers', 'changeRecords')) {
+    foreach ($name in @('owners', 'modules', 'consumers', 'protocols', 'publicSurface', 'contractDependencyPolicy', 'sharedPrimitives', 'waivers', 'changeRecords')) {
         if ($null -eq $catalog.$name) { Add-Error 'required-node' $name "Required node '$name' is missing." }
     }
     Test-Unique @($catalog.owners) 'id' 'owners'
@@ -96,6 +96,19 @@ function Test-Catalog($catalog) {
         }
         if (@($record.affectedConsumers).Count -eq 0) { Add-Error 'change-record-consumer' "$path.affectedConsumers" 'At least one affected consumer is required.' }
     }
+    Test-Unique @($catalog.sharedPrimitives) 'id' 'sharedPrimitives'
+    foreach ($primitive in @($catalog.sharedPrimitives)) {
+        $path = "sharedPrimitives.$($primitive.id)"
+        if ($primitive.owner -notin $ownerIds) { Add-Error 'owner-reference' "$path.owner" "Unknown owner '$($primitive.owner)'." }
+        if ($primitive.admissionBasis -notin @('three-module-identical-semantics', 'uniform-infrastructure-protocol')) { Add-Error 'primitive-admission' "$path.admissionBasis" 'Shared primitive requires a recognized admission basis.' }
+        if ($primitive.admissionBasis -eq 'three-module-identical-semantics' -and @($primitive.consumers).Count -lt 3) { Add-Error 'primitive-consumers' "$path.consumers" 'Three-module admission requires at least three module consumers.' }
+        foreach ($required in @('project', 'status', 'semantic', 'serialization', 'compatibility', 'linkedPlan')) {
+            if ([string]::IsNullOrWhiteSpace($primitive.$required)) { Add-Error 'primitive-metadata' "$path.$required" "$required is required." }
+        }
+    }
+    if ($catalog.contractDependencyPolicy.default -ne 'BCL-only' -or -not $catalog.contractDependencyPolicy.runtimeSeparation.mustNotBeReferencedByModuleContracts) {
+        Add-Error 'contract-allowlist' 'contractDependencyPolicy' 'Contracts must default to BCL-only and reject Messaging runtime references.'
+    }
     return @($errors)
 }
 
@@ -161,7 +174,7 @@ $report = [ordered]@{
     gate = 'G03'
     result = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }
     mode = $catalog.mode
-    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; changeRecords = @($catalog.changeRecords).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
+    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; sharedPrimitives = @($catalog.sharedPrimitives).Count; changeRecords = @($catalog.changeRecords).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
     checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
     graph = $graphEdges
     selfTests = $selfTestResults

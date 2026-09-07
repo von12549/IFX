@@ -251,15 +251,20 @@ Phase 3 证据：[`compatibility-policy.md`](../gates/G03/compatibility-policy.m
 
 ## Phase 4 — 收敛共享 Contract Primitives
 
-- [ ] **Phase 4 完成**：Contracts 的依赖 allowlist 足够小、transport-neutral，并与运行时消息端口彻底分离。
+- [x] **Phase 4 完成**：Contracts 的依赖 allowlist 足够小、transport-neutral，并与运行时消息端口彻底分离。
 
-- [ ] G03-4.1 盘点 `IFX.Platform.Messaging.Abstractions` 的 schema 类型、bus、handler、DI/package dependency 和现有引用者。
-- [ ] G03-4.2 设计 BCL-only `IFX.Platform.Messaging.Contracts`，只承载 marker/schema identity 与 Gate 05 批准后的 envelope/value primitives。
-- [ ] G03-4.3 将 `IIntegrationEventBus`、`IIntegrationEventHandler<T>`、dispatcher、serializer、broker、DI 和可靠性实现明确留在运行时项目。
-- [ ] G03-4.4 建立 Contract project dependency allowlist：BCL 默认允许；Context.Contracts 仅对调用 metadata、Messaging.Contracts 仅对事件 schema 允许；其他依赖默认拒绝。
-- [ ] G03-4.5 建立 shared primitive 准入测试：三模块完全同义复用或统一协议必要性、稳定 owner、序列化定义和兼容政策缺一不可。
-- [ ] G03-4.6 明确禁止 `Result<T>`、Domain/Security/Application types、EF/MediatR/ASP.NET/DI/serializer/broker SDK 和泛化 SharedKernel。
-- [ ] G03-4.7 将物理拆分实现交付给 Contracts/Event 子计划，并提供保持 build green 的迁移顺序。
+- [x] G03-4.1 盘点 `IFX.Platform.Messaging.Abstractions` 的 schema 类型、bus、handler、DI/package dependency 和现有引用者。
+- [x] G03-4.2 设计 BCL-only `IFX.Platform.Messaging.Contracts`，只承载 marker/schema identity 与 Gate 05 批准后的 envelope/value primitives。
+- [x] G03-4.3 将 `IIntegrationEventBus`、`IIntegrationEventHandler<T>`、dispatcher、serializer、broker、DI 和可靠性实现明确留在运行时项目。
+- [x] G03-4.4 建立 Contract project dependency allowlist：BCL 默认允许；Context.Contracts 仅对调用 metadata、Messaging.Contracts 仅对事件 schema 允许；其他依赖默认拒绝。
+- [x] G03-4.5 建立 shared primitive 准入测试：三模块完全同义复用或统一协议必要性、稳定 owner、序列化定义和兼容政策缺一不可。
+- [x] G03-4.6 明确禁止 `Result<T>`、Domain/Security/Application types、EF/MediatR/ASP.NET/DI/serializer/broker SDK 和泛化 SharedKernel。
+- [x] G03-4.7 将物理拆分实现交付给 Contracts/Event 子计划，并提供保持 build green 的迁移顺序。
+
+Phase 4 证据：[`shared-contract-primitives.md`](../gates/G03/shared-contract-primitives.md)、
+[`G03-phase4-report.md`](../evidence/gates/G03/G03-phase4-report.md)、
+[`G03-phase4-guard-report.json`](../evidence/gates/G03/G03-phase4-guard-report.json) 与
+[`G03-phase4-layerguard-report.json`](../evidence/gates/G03/G03-phase4-layerguard-report.json)。
 
 ## Phase 5 — 建立 Ownership 与变更审批机制
 
