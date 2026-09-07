@@ -53,6 +53,7 @@ public static class DependencyInjection
             options.UseSqlServer(connectionString, sqlOptions =>
             {
                 sqlOptions.MigrationsAssembly(typeof(IfxDbContext).Assembly.FullName);
+                sqlOptions.MigrationsHistoryTable(ModuleDatabase.HistoryTable, ModuleDatabase.Schema);
                 // Note: EnableRetryOnFailure is disabled because we use manual transaction management
                 // via TransactionBehavior which wraps all commands in explicit transactions
             });

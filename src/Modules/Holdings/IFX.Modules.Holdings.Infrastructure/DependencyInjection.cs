@@ -31,7 +31,10 @@ public static class DependencyInjection
             ModuleDatabase.ConnectionStringName);
         services.AddDbContext<HoldingsDbContext>(options =>
             options.UseSqlServer(connectionString, sql =>
-                sql.MigrationsAssembly(typeof(HoldingsDbContext).Assembly.FullName)));
+            {
+                sql.MigrationsAssembly(typeof(HoldingsDbContext).Assembly.FullName);
+                sql.MigrationsHistoryTable(ModuleDatabase.HistoryTable, ModuleDatabase.Schema);
+            }));
 
         services.AddScoped<IHoldingRepository, EfHoldingRepository>();
         services.AddScoped<IUnitOfWork, HoldingsUnitOfWork>();

@@ -31,7 +31,10 @@ public static class DependencyInjection
             ModuleDatabase.ConnectionStringName);
         services.AddDbContext<TransactionDbContext>(options =>
             options.UseSqlServer(connectionString, sql =>
-                sql.MigrationsAssembly(typeof(TransactionDbContext).Assembly.FullName)));
+            {
+                sql.MigrationsAssembly(typeof(TransactionDbContext).Assembly.FullName);
+                sql.MigrationsHistoryTable(ModuleDatabase.HistoryTable, ModuleDatabase.Schema);
+            }));
 
         services.AddScoped<ITransactionRepository, EfTransactionRepository>();
         services.AddScoped<IOrderRepository, EfOrderRepository>();

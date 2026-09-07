@@ -1,8 +1,10 @@
 using FluentAssertions;
 using IFX.BuildingBlocks.EntityFrameworkCore.Configuration;
+using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -33,6 +35,15 @@ public sealed class ModuleDatabaseBoundaryTests
         { TransactionDatabase.Schema, () => CreateContext<TransactionDbContext>() }
     };
 
+    public static TheoryData<string, string, int, Func<DbContext>> CatalogCases => new()
+    {
+        { "Auth", AuthDatabase.Schema, 10, () => CreateContext<AuthDbContext>() },
+        { "CRM", CrmDatabase.Schema, 20, () => CreateContext<CrmDbContext>() },
+        { "Registry", RegistryDatabase.Schema, 30, () => CreateContext<RegistryDbContext>() },
+        { "Holdings", HoldingsDatabase.Schema, 40, () => CreateContext<HoldingsDbContext>() },
+        { "Transaction", TransactionDatabase.Schema, 50, () => CreateContext<TransactionDbContext>() }
+    };
+
     public static TheoryData<string, Type, Action<IServiceCollection, IConfiguration>> RegistrationCases => new()
     {
         { AuthDatabase.ConnectionStringName, typeof(AuthDbContext), (services, configuration) => { IFX.Modules.Auth.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
@@ -40,6 +51,15 @@ public sealed class ModuleDatabaseBoundaryTests
         { RegistryDatabase.ConnectionStringName, typeof(RegistryDbContext), (services, configuration) => { IFX.Modules.Registry.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { HoldingsDatabase.ConnectionStringName, typeof(HoldingsDbContext), (services, configuration) => { IFX.Modules.Holdings.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { TransactionDatabase.ConnectionStringName, typeof(TransactionDbContext), (services, configuration) => { IFX.Modules.Transaction.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } }
+    };
+
+    public static TheoryData<string, string, Type, Action<IServiceCollection, IConfiguration>> HistoryCases => new()
+    {
+        { AuthDatabase.Schema, AuthDatabase.ConnectionStringName, typeof(AuthDbContext), (services, configuration) => { IFX.Modules.Auth.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
+        { CrmDatabase.Schema, CrmDatabase.ConnectionStringName, typeof(CrmDbContext), (services, configuration) => { IFX.Modules.CRM.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
+        { RegistryDatabase.Schema, RegistryDatabase.ConnectionStringName, typeof(RegistryDbContext), (services, configuration) => { IFX.Modules.Registry.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
+        { HoldingsDatabase.Schema, HoldingsDatabase.ConnectionStringName, typeof(HoldingsDbContext), (services, configuration) => { IFX.Modules.Holdings.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
+        { TransactionDatabase.Schema, TransactionDatabase.ConnectionStringName, typeof(TransactionDbContext), (services, configuration) => { IFX.Modules.Transaction.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } }
     };
 
     [Theory]
@@ -63,6 +83,26 @@ public sealed class ModuleDatabaseBoundaryTests
         model.GetSequences()
             .All(sequence => sequence.Schema == expectedSchema)
             .Should().BeTrue();
+    }
+
+    [Theory]
+    [MemberData(nameof(CatalogCases))]
+    public void Bootstrap_catalog_is_generated_from_the_current_ef_assembly_and_model(
+        string module,
+        string schema,
+        int order,
+        Func<DbContext> contextFactory)
+    {
+        using var context = contextFactory();
+
+        var catalog = EfModuleMigrationCatalog.Create(context, module, schema, order);
+
+        catalog.Module.Should().Be(module);
+        catalog.Schema.Should().Be(schema);
+        catalog.Order.Should().Be(order);
+        catalog.MigrationIds.Should().Equal(context.Database.GetMigrations());
+        catalog.MigrationIds.Should().NotBeEmpty().And.OnlyHaveUniqueItems();
+        catalog.RequiredTables.Should().NotBeEmpty().And.OnlyHaveUniqueItems();
     }
 
     [Theory]
@@ -103,6 +143,28 @@ public sealed class ModuleDatabaseBoundaryTests
         using var provider = services.BuildServiceProvider();
         using var context = (DbContext)provider.GetRequiredService(contextType);
         context.Database.GetConnectionString().Should().Be(expected);
+    }
+
+    [Theory]
+    [MemberData(nameof(HistoryCases))]
+    public void Registration_uses_a_history_table_in_the_module_schema(
+        string schema,
+        string connectionName,
+        Type contextType,
+        Action<IServiceCollection, IConfiguration> register)
+    {
+        var configuration = Configuration(new Dictionary<string, string?>
+        {
+            [$"ConnectionStrings:{connectionName}"] = TestConnection
+        });
+        var services = new ServiceCollection();
+        register(services, configuration);
+
+        using var provider = services.BuildServiceProvider();
+        using var context = (DbContext)provider.GetRequiredService(contextType);
+        var createScript = context.GetService<IHistoryRepository>().GetCreateScript();
+
+        createScript.Should().Contain($"[{schema}].[__EFMigrationsHistory]");
     }
 
     [Theory]

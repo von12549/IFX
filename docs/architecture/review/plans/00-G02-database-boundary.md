@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 1 已完成（2026-09-07）
+> 状态：Implementation In Progress / Phase 2 已完成（2026-09-07）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -177,18 +177,24 @@ Phase 1 证据：[`G02-phase1-report.md`](../evidence/gates/G02/G02-phase1-repor
 
 ## Phase 2 — 建立模块独立 Migration History
 
-- [ ] **Phase 2 完成**：五个 DbContext 使用独立 history，已有数据库可安全、幂等地切换。
+- [x] **Phase 2 完成**：五个 DbContext 使用独立 history，已有数据库可安全、幂等地切换。
 
-- [ ] G02-2.1 为每个 DbContext 配置 `MigrationsHistoryTable("__EFMigrationsHistory", ModuleSchema.Name)`。
-- [ ] G02-2.2 设计并实现 History Bootstrap preflight 和 `--dry-run`，在写入前输出状态分类与变更计划。
-- [ ] G02-2.3 使用当前 migration assembly/build manifest 将旧 shared history 精确归属到模块。
-- [ ] G02-2.4 在目标 schema 中创建兼容 EF Core 的 history table，并保留原 ProductVersion。
-- [ ] G02-2.5 在受控事务内复制/规范化模块记录，保证失败不留下半迁移 history。
-- [ ] G02-2.6 对整个 bootstrap/upgrade 获取 SQL Server database-level application lock，并设置明确超时。
-- [ ] G02-2.7 未知 ID、重复 ownership、partial schema 或 fingerprint mismatch 必须 fail closed。
-- [ ] G02-2.8 切换后验证每个 history 只包含本模块 ID，且各 DbContext pending migrations 符合预期。
-- [ ] G02-2.9 旧 `dbo.__EFMigrationsHistory` 进入只读兼容期；建立归档/删除条件但不在首次切换删除。
-- [ ] G02-2.10 证明重复执行 bootstrap 是无变化的幂等操作。
+- [x] G02-2.1 为每个 DbContext 配置 `MigrationsHistoryTable("__EFMigrationsHistory", ModuleSchema.Name)`。
+- [x] G02-2.2 设计并实现 History Bootstrap preflight 和 `--dry-run`，在写入前输出状态分类与变更计划。
+- [x] G02-2.3 使用当前 migration assembly/build manifest 将旧 shared history 精确归属到模块。
+- [x] G02-2.4 在目标 schema 中创建兼容 EF Core 的 history table，并保留原 ProductVersion。
+- [x] G02-2.5 在受控事务内复制/规范化模块记录，保证失败不留下半迁移 history。
+- [x] G02-2.6 对整个 bootstrap/upgrade 获取 SQL Server database-level application lock，并设置明确超时。
+- [x] G02-2.7 未知 ID、重复 ownership、partial schema 或 fingerprint mismatch 必须 fail closed。
+- [x] G02-2.8 切换后验证每个 history 只包含本模块 ID，且各 DbContext pending migrations 符合预期。
+- [x] G02-2.9 旧 `dbo.__EFMigrationsHistory` 进入只读兼容期；建立归档/删除条件但不在首次切换删除。
+- [x] G02-2.10 证明重复执行 bootstrap 是无变化的幂等操作。
+
+Phase 2 证据：[`G02-phase2-report.md`](../evidence/gates/G02/G02-phase2-report.md)、
+[`G02-phase2-guard-report.json`](../evidence/gates/G02/G02-phase2-guard-report.json) 和
+[`G02-phase2-layerguard-report.json`](../evidence/gates/G02/G02-phase2-layerguard-report.json)。真实 SQL Server
+的 shared-history、事务回滚、锁竞争与重复运行矩阵由 Phase 7 在容器数据库上复验；Phase 2 已建立对应的执行器、
+失败关闭规则和确定性单元测试接缝。
 
 ## Phase 3 — 修复 Auth Squash 与 Legacy Adoption
 

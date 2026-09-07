@@ -29,6 +29,13 @@ execution, validation, and evidence explicitly module-owned.
 10. Phase 9/10 — complete bilingual design/evidence and close only the conditions supported by
     real implementation and approvals.
 
+## Progress
+
+- Phase 0 complete: deterministic repository/model/migration baseline and guards.
+- Phase 1 complete: module schema ownership and dedicated connection boundaries.
+- Phase 2 complete: per-schema EF histories and transactional, fail-closed history bootstrap;
+  live SQL Server behavior remains scheduled for the Phase 7 matrix.
+
 ## Phase discipline
 
 - Complete and verify one phase before modifying the next phase's implementation.

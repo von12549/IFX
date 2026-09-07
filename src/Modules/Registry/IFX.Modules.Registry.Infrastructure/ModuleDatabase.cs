@@ -4,4 +4,5 @@ public static class ModuleDatabase
 {
     public const string Schema = "registry";
     public const string ConnectionStringName = "RegistryDatabase";
+    public const string HistoryTable = "__EFMigrationsHistory";
 }
