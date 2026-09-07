@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "status": "pending-production-rehearsal",
+  "releaseId": "<immutable-release-id>",
+  "environment": "<environment>",
+  "artifactDigest": "<sha256-digest>",
+  "runtimeManifestSha256": "<sha256>",
+  "migrationManifestSha256": "<sha256>",
+  "approvals": { "architecture": "<reference>", "database": "<reference>", "operations": "<reference>" },
+  "stages": [
+    { "stageId": "database-preflight", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "restore-point", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "database-migrator", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "schema-validation", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "worker-consumer", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "api-producer", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "scheduler", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "observation", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
+    { "stageId": "contract-cleanup", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null }
+  ]
+}

@@ -38,6 +38,14 @@
     "migrationManifest": {
       "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
       "sha256": "32244a8b03a69278317ccf78f7f50c6976ab3e70d6ffcc91027cee12eee8bec4"
+    },
+    "releaseOrchestration": {
+      "path": "deployment/g04/release-orchestration.json",
+      "sha256": "56b1cc645e879459a97a0bcc04829e8aa838bd50c0e8b9fc72c27c9fb74adcfe"
+    },
+    "backpressurePolicy": {
+      "path": "deployment/g04/backpressure-policy.json",
+      "sha256": "1edf02f7ed4c3fd3b9d880fde18deca0e4168d96bd83c0ae27bec40ee2aaf1cd"
     }
   },
   "schemaCompatibility": {

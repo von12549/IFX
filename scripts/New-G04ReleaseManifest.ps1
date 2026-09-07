@@ -12,6 +12,8 @@ $compatibilityPath = 'deployment/g04/infrastructure-compatibility-matrix.json'
 $schemaReleasePath = 'deployment/release-manifest.json'
 $migrationPath = 'src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json'
 $hostProjectPath = 'src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj'
+$orchestrationPath = 'deployment/g04/release-orchestration.json'
+$backpressurePath = 'deployment/g04/backpressure-policy.json'
 $moduleManifest = Get-Content -Raw -LiteralPath (Resolve-RepoPath $modulePath) | ConvertFrom-Json -Depth 100
 
 $manifest = [ordered]@{
@@ -30,6 +32,8 @@ $manifest = [ordered]@{
         infrastructureCompatibility = [ordered]@{ path=$compatibilityPath; sha256=Get-Sha $compatibilityPath }
         schemaReleaseManifest = [ordered]@{ path=$schemaReleasePath; sha256=Get-Sha $schemaReleasePath }
         migrationManifest = [ordered]@{ path=$migrationPath; sha256=Get-Sha $migrationPath }
+        releaseOrchestration = [ordered]@{ path=$orchestrationPath; sha256=Get-Sha $orchestrationPath }
+        backpressurePolicy = [ordered]@{ path=$backpressurePath; sha256=Get-Sha $backpressurePath }
     }
     schemaCompatibility = [ordered]@{ policy='expand-contract'; cleanupRequires='observed-zero-old-version-demand' }
 }

@@ -123,6 +123,18 @@ if ($Phase -ge 7) {
     $checks.phase7EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase7-backpressure-conformance.md')
 }
 
+if ($Phase -ge 8) {
+    $orchestrationReportPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase8-orchestration-report.json'
+    & (Join-Path $PSScriptRoot 'Test-G04ReleaseOrchestration.ps1')
+    $orchestrationReport = Get-Content -Raw -LiteralPath $orchestrationReportPath | ConvertFrom-Json -Depth 20
+    $release = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'deployment/g04/release-runtime-manifest.json') | ConvertFrom-Json -Depth 30
+    $checks.releaseOrchestrationValid = $orchestrationReport.result -eq 'passed' -and $orchestrationReport.validationMode -eq 'structure-only-no-production-claim'
+    $checks.orchestrationBoundToRelease = -not [string]::IsNullOrWhiteSpace($release.bindings.releaseOrchestration.sha256)
+    $checks.backpressureBoundToRelease = -not [string]::IsNullOrWhiteSpace($release.bindings.backpressurePolicy.sha256)
+    $checks.phase8EvidenceTemplateExists = Test-Path (Join-Path $repositoryRoot 'deployment/g04/release-evidence-template.json')
+    $checks.phase8EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase8-release-orchestration.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

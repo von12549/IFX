@@ -342,16 +342,22 @@ Phase 7 证据：[`G04-phase7-backpressure-conformance.md`](../evidence/gates/G0
 
 ## Phase 8 — 实现部署编排、Seed 与兼容发布
 
-- [ ] **Phase 8 完成**：数据库、Worker consumer、API producer、scheduler 和清理阶段按兼容顺序部署且失败可停止。
+- [ ] **Phase 8 PRE-READY**：consumer-first 编排 DAG、失败策略、独立数据 job 与证据模板已版本化并验证；目标环境 rollout/观测/批准尚未执行。
 
-- [ ] G04-8.1 将 Gate 02 的 preflight/restore point/Migrator/validation 作为发布硬前置，schema 未验证时 Worker Dispatcher 和 API 新版均不得 Ready。
-- [ ] G04-8.2 部署支持旧/新 Event schema 的 Worker，并等待所有目标副本 Ready 后才允许 API 生产新版本。
-- [ ] G04-8.3 滚动部署 API，保持旧/新实例只在批准的 Contract、Event 和 Expand/Contract 窗口内共存。
-- [ ] G04-8.4 将 recurring definitions 交由唯一 Scheduler authority 在 Worker Ready 后幂等注册；失败阻断相应 capability。
-- [ ] G04-8.5 将 reference migration、system seed、demo seed 和业务 backfill 拆成独立命令/job，定义 owner、幂等、审计和失败行为。
-- [ ] G04-8.6 发布后观察 schema、API、Worker、backlog、retry、dead-letter 和 compatibility 指标，再允许 contract cleanup。
-- [ ] G04-8.7 旧 Event consumer 只有在 Outbox/Inbox/dead-letter/replay 均无旧版本需求后才能移除。
-- [ ] G04-8.8 生成并保存每次发布的 artifact digest、manifest、migration、部署阶段、批准和观测证据。
+- [x] G04-8.1 编排 DAG 将 Gate 02 preflight/restore point/Migrator/validation 设为 Worker/API 的严格前置，任一失败均停止且不自动 Down。
+- [ ] G04-8.2 DAG 强制 Worker consumer 在 API producer 前并要求全部 Ready/V1+V2 兼容证据；真实 E3 consumer 与目标副本部署未执行。
+- [ ] G04-8.3 API rolling/compatibility window 与失败停止规则已编码；生产滚动发布未执行。
+- [ ] G04-8.4 scheduler 是 Worker Ready/API 后的唯一 authority 阶段；真实 recurring definitions、幂等注册与 authority 选择未演练。
+- [x] G04-8.5 reference migration、system seed、demo seed 和业务 backfill 已拆为四类独立 job contract，均要求 owner、幂等、审计且禁止自动执行。
+- [ ] G04-8.6 cleanup 依赖 observation 阶段及 schema/API/Worker/backlog/retry/dead-letter 稳定证据；E6/生产观测未执行。
+- [ ] G04-8.7 Release Manifest 要求 `observed-zero-old-version-demand`，但真实 Outbox/Inbox/dead-letter/replay 清零等待 E3/E4/E6。
+- [ ] G04-8.8 evidence template 覆盖 digest、manifest、migration、阶段、批准和观测；尚无生产 release 可填写并验证 `RequireCompleted`。
+
+Phase 8 证据：[`G04-phase8-release-orchestration.md`](../evidence/gates/G04/G04-phase8-release-orchestration.md)、
+`deployment/g04/release-orchestration.json`、`Test-G04ReleaseOrchestration.ps1`、
+[`G04-phase8-orchestration-report.json`](../evidence/gates/G04/G04-phase8-orchestration-report.json)、
+[`G04-phase8-guard-report.json`](../evidence/gates/G04/G04-phase8-guard-report.json) 与
+[`G04-phase8-layerguard-report.json`](../evidence/gates/G04/G04-phase8-layerguard-report.json)。
 
 ## Phase 9 — 失败矩阵与安全回退
 

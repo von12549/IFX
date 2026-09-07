@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "phase": 8,
+  "result": "passed",
+  "validationMode": "structure-only-no-production-claim",
+  "checks": {
+    "exactConsumerFirstStages": true,
+    "uniqueStageIds": true,
+    "dependenciesReferenceEarlierStages": true,
+    "evidenceMatchesPlan": true,
+    "migratorStopsWithoutDown": true,
+    "workerPrecedesApi": true,
+    "cleanupRequiresObservation": true,
+    "dataJobsAreSeparateAndOwned": true,
+    "completedEvidenceValid": true
+  }
+}
