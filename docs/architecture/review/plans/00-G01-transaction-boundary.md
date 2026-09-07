@@ -9,7 +9,7 @@
 
 ## 目标
 
-为每个模块建立一致、可验证的本地事务模型：一个写 Command 只能修改一个模块的数据；TransactionBehavior 是唯一事务政策所有者；Handler 不执行最终持久化；只有成功结果可以提交；业务数据与 Outbox、消费方业务数据与 Inbox 分别在所属模块的同一本地事务中原子保存。
+为每个模块建立一致、可验证的本地事务模型：一个写 Command 只能修改一个模块的数据；共享 TransactionBehavior 是唯一事务政策所有者并且只选择该 Command 所属模块的事务执行器；共享 LoggingBehavior、ValidationBehavior 在宿主组合根各注册一次；Handler 不执行最终持久化；只有成功结果可以提交；业务数据与 Outbox、消费方业务数据与 Inbox 分别在所属模块的同一本地事务中原子保存。
 
 本计划只确定 Outbox/Inbox 与事务的连接点，不实现 Dispatcher、transport、dead letter、replay 或完整 Event schema。这些内容仍由 [`02-reliable-integration-events.md`](02-reliable-integration-events.md) 负责。
 
@@ -25,8 +25,11 @@
 | 事实 | 当前证据 | 风险 |
 | --- | --- | --- |
 | 五个模块各自复制 TransactionBehavior | 各 Behavior 均按 `*Command` 名称开启事务并在正常返回时提交 | 规则漂移；无法识别 `Result.Failure` |
+| 五个模块各自注册三种开放泛型 Pipeline Behavior | Auth、CRM、Registry、Holdings、Transaction 分别注册 Logging、Validation、Transaction，共 15 个开放泛型注册 | 共享 ApiHost 中同一请求可能重复记录日志、重复验证，并依次进入不属于该请求的模块事务行为 |
 | Handler 自行保存 | 89 个 Command Handler 中有 88 个调用 `SaveChangesAsync` | 持久化责任分散；难以保证统一 Outbox 原子写入 |
 | Handler 吞掉异常 | 89 个 Command Handler 均存在通用 `catch (Exception)` | Behavior 通常看不到异常并可能提交失败流程 |
+| Validation 异常未映射为 400 | ValidationBehavior 抛出 FluentValidation `ValidationException`，宿主异常中间件没有对应分支 | 无效请求可能被转换为 HTTP 500，且结构化字段错误丢失 |
+| Forbidden 映射依赖异常穿透 | 宿主已将 `ForbiddenException` 映射为 HTTP 403，但部分 Handler 存在捕获/转换逻辑 | 权限拒绝可能被包装成普通失败结果，破坏稳定的 403 语义 |
 | 事件在提交前发布 | Transaction Handler 在 SaveChanges 后调用 `PublishAsync`，外层 Behavior 随后才 commit | 消费方可能先于生产方提交 |
 | InMemory bus 吞掉消费异常 | 总线捕获 Handler 异常后只记录日志 | 生产方无法感知失败，也没有可靠重试依据 |
 | 事件消费者直接保存 | Holdings Integration Event Handler 直接调用自己的 UnitOfWork | 没有 Inbox 去重和统一消费事务 |
@@ -37,6 +40,7 @@
 - [ ] G01-B02 保存并引用 `ProcessTransactionCommandHandler` 的 Save → Publish → Result 流程快照。
 - [ ] G01-B03 保存并引用 `InMemoryIntegrationEventBus` 的同步调用与吞错行为快照。
 - [ ] G01-B04 生成 Command Handler 的 SaveChanges、catch-all 和 PublishAsync 使用清单，作为迁移燃尽表。
+- [ ] G01-B05 保存共享 ApiHost 中 `IPipelineBehavior<,>` 的服务描述符、解析顺序和代表性 Command 实际调用次数快照，明确记录当前 15 个开放泛型注册。
 
 ## 已确认架构决策
 
@@ -55,6 +59,11 @@
 - [x] G01-D13 Outbox/Inbox 分别进入所属模块 DbContext，不建立共享消息事务。
 - [x] G01-D14 Inbound Integration Adapter 只做协议映射，不拥有消费事务。
 - [x] G01-D15 禁止使用 `TransactionScope` 建立跨模块 ambient/distributed transaction。
+- [x] G01-D16 LoggingBehavior 与 ValidationBehavior 收敛到共享 Application BuildingBlock，并且在宿主组合根各注册一次；模块只注册自己的 Handler、Validator 和模块服务，不得再次注册通用 Pipeline Behavior。
+- [x] G01-D17 TransactionBehavior 收敛为一个共享事务政策 Behavior，并且在宿主组合根只注册一次；对写 Command 必须唯一解析其所属模块的 Transaction Executor，零个或多个候选都 fail fast，绝不依次调用其他模块的 UnitOfWork/DbContext。
+- [x] G01-D18 最小 `IResult`/`IOperationResult` 属于进程内 Application BuildingBlock 事务协议，不进入模块 `*.Contracts`、Integration Event schema 或泛化 SharedKernel，以遵守 Gate 03 的 Contract 边界。
+- [x] G01-D19 FluentValidation `ValidationException` 由 ValidationBehavior 抛出，在进入 Handler 和事务边界前由宿主映射为带结构化字段错误的 HTTP 400；`ForbiddenException` 穿透 Handler、触发 rollback/discard 后映射为 HTTP 403；unexpected exception 在 rollback 后映射为安全的 HTTP 500。
+- [x] G01-D20 Pipeline 的注册数量、执行顺序、单次调用和模块事务隔离必须由使用真实 ApiHost 组合根的自动化测试验证，不能只以单个 Behavior 的孤立单元测试作为证据。
 
 ## 目标流程
 
@@ -133,26 +142,28 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 
 - [ ] **Phase 0 完成**：现状清单、测试基线、迁移顺序和临时保护规则均已准备。
 
-- [ ] G01-0.1 枚举五个模块全部 TransactionBehavior、IUnitOfWork、UnitOfWork 实现和注册位置。
+- [ ] G01-0.1 枚举五个模块全部 LoggingBehavior、ValidationBehavior、TransactionBehavior、IUnitOfWork、UnitOfWork 实现和注册位置，并记录开放泛型服务描述符数量与顺序。
 - [ ] G01-0.2 生成全部 Command 的 Result 类型、SaveChanges、catch-all、PublishAsync、raw SQL 与嵌套 Send 使用清单。
 - [ ] G01-0.3 标记包含多次 SaveChanges、数据库生成 ID、立即执行写入或外部副作用的特殊 Handler。
 - [ ] G01-0.4 建立当前成功、业务失败、异常和取消行为的 characterization tests，防止迁移时误判变化。
 - [ ] G01-0.5 确定模块迁移顺序；建议先 Transaction，再 Holdings、Registry、CRM，最后 Auth。
 - [ ] G01-0.6 决定 UnitOfWork 与 Transaction Executor 的最终接口拆分，并用 ADR 记录选择及依赖方向。
 - [ ] G01-0.7 定义迁移期规则：已迁移 Handler 禁止 SaveChanges/catch-all/direct Publish，未迁移 Handler 进入显式 baseline。
+- [ ] G01-0.8 使用真实 ApiHost 服务集合建立 Pipeline characterization test：选择 Query、有效 Command、无效 Command 各一个，记录每种 Behavior 的解析数量、顺序、调用次数及触达的模块事务执行器。
 
 ## Phase 1 — 统一 Command、Result 与错误语义
 
 - [ ] **Phase 1 完成**：事务参与者可由类型系统识别，所有结果与异常都有确定提交语义。
 
 - [ ] G01-1.1 定义 `ICommand<TResponse>`，并让写请求显式实现该 marker。
-- [ ] G01-1.2 定义最小 `IResult`/`IOperationResult`，至少稳定暴露 `IsSuccess` 与结构化错误类别。
+- [ ] G01-1.2 在进程内 Application BuildingBlock 定义最小 `IResult`/`IOperationResult`，至少稳定暴露 `IsSuccess` 与结构化错误类别；通过依赖规则禁止模块 `*.Contracts`、Integration Event schema 和外部 API contract 引用该运行时事务协议。
 - [ ] G01-1.3 统一各模块 `Result<T>` 与事务 Behavior 的交互方式，避免反射或模块类型分支。
-- [ ] G01-1.4 定义 Validation、business rejection、not found、conflict、forbidden、unexpected failure 和 cancellation 的分类表。
+- [ ] G01-1.4 定义 Validation、business rejection、not found、conflict、forbidden、unexpected failure 和 cancellation 的分类表；明确 FluentValidation `ValidationException` → HTTP 400、`ForbiddenException` → HTTP 403、unexpected exception → 安全 HTTP 500。
 - [ ] G01-1.5 引入明确的 Domain/Application 异常类型；禁止把任意 `InvalidOperationException` 自动视为业务失败。
-- [ ] G01-1.6 建立统一异常映射边界，使 unexpected exception 经过 rollback 后由宿主转换为稳定 API 错误。
+- [ ] G01-1.6 建立统一异常映射边界：`ValidationException` 在进入 Handler/事务前由宿主转换为结构化 400；`ForbiddenException` 与 unexpected exception 穿透 Handler、触发 rollback/discard 后分别转换为 403 与安全 500 响应。
 - [ ] G01-1.7 为 `OperationCanceledException` 建立“不记录为普通错误、不转换为 Result.Failure”的测试。
 - [ ] G01-1.8 添加静态规则，禁止通过类名后缀决定事务参与资格。
+- [ ] G01-1.9 添加 Pipeline、Handler 与 HTTP 集成测试，证明 Validation failure 不进入 Handler/事务，Forbidden/unexpected exception 不会被 Handler 捕获为普通成功或模糊的 `Result.Failure`，且响应中不泄漏内部异常细节。
 
 ## Phase 2 — 建立事务执行基础设施
 
@@ -176,9 +187,10 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-3.3 定义并验证 Inbox Profile：Begin → 去重 → Handler → Inbox completion → Save once → Commit；真实 Inbox 绑定由 E4 实现。
 - [ ] G01-3.4 实现显式 Consistent Read/Write Profile，并限制其只能执行本模块数据库操作。
 - [ ] G01-3.5 禁止 TransactionBehavior 使用 request 名称、namespace 字符串或 Attribute 猜测事务类型。
-- [ ] G01-3.6 定义 pipeline 顺序并测试：Logging → Validation → transaction policy；无效请求不得开启事务。
+- [ ] G01-3.6 定义并测试唯一 Pipeline 顺序：Logging → Validation → Transaction；每个阶段对单个请求恰好调用一次，无效请求不得开启任何模块事务。
 - [ ] G01-3.7 对 Failure、异常、取消、Save 失败、Commit 失败和 cleanup 失败逐一验证状态转换。
-- [ ] G01-3.8 评估将五份复制 Behavior 收敛为共享机制；只共享通用政策，不共享模块 DbContext 或 Repository。
+- [ ] G01-3.8 将五份 Logging、Validation、Transaction Behavior 收敛为共享机制并在宿主组合根各注册一次；只共享通用政策，不共享模块 DbContext、UnitOfWork 或 Repository。
+- [ ] G01-3.9 建立 Command → 模块事务所有者的显式、可测试映射；TransactionBehavior 对每个写 Command 只解析一个模块 Transaction Executor，并对零个或多个候选立即失败且不进入 Handler。
 
 ## Phase 4 — 迁移 Command Handler
 
@@ -229,6 +241,9 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-7.6 采用逐模块切换；每次切换前后保存 build、test 和运行指标基线。
 - [ ] G01-7.7 删除全部迁移期 waiver、旧 TransactionBehavior 和 Handler 自行持久化路径。
 - [ ] G01-7.8 运行完整 solution build、tests 与 LayerGuard，确认没有跨模块事务依赖。
+- [ ] G01-7.9 使用真实 ApiHost 组合根执行 Pipeline conformance tests：断言服务描述符中 Logging、Validation、Transaction 开放泛型注册各一个，运行时顺序固定且每个请求各调用一次。
+- [ ] G01-7.10 对至少五个模块各选一个代表性写 Command，断言所属模块 Transaction Executor 调用一次、其他模块调用零次；另验证 Query 和无效 Command 不开启事务。
+- [ ] G01-7.11 执行 HTTP 端到端异常语义测试：FluentValidation `ValidationException` 返回结构化 400，`ForbiddenException` 返回 403，unexpected exception rollback 后返回不泄漏内部信息的 500。
 
 ## Phase 8 — 架构与规则文档化
 
@@ -268,6 +283,9 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [ ] G01-DD06 optimistic concurrency、唯一约束和幂等策略覆盖已识别的高风险写入。
 - [ ] G01-DD07 关系数据库、故障注入、完整 build/test 和架构检查全部通过。
 - [ ] G01-DD08 中英文设计说明、架构图、流程图、状态图和规则到自动化检查的映射均已完成并审核。
+- [ ] G01-DD09 共享 ApiHost 中 Logging、Validation、Transaction 开放泛型 Behavior 各且仅注册一次，顺序固定，并有组合层测试证明每个请求各阶段最多执行一次。
+- [ ] G01-DD10 每个写 Command 唯一解析所属模块 Transaction Executor；测试证明其他模块 UnitOfWork/DbContext 不会被解析、开启、保存或提交。
+- [ ] G01-DD11 Validation failure 不进入 Handler/事务，Forbidden 与 unexpected exception 穿透 Handler 并触发正确 rollback/discard；三者分别得到经过 HTTP 端到端测试的结构化 400、403 与安全 500 响应。
 
 ## 回退原则
 
