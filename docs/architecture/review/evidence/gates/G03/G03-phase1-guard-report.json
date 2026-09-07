@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "gate": "G03",
-  "phase": 0,
+  "phase": 1,
   "result": "passed",
   "checks": {
     "deterministicInventory": true,

@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
-    [string] $ReportPath = "docs/architecture/review/evidence/gates/G03/G03-contract-event-inventory.json"
+    [string] $ReportPath = "docs/architecture/review/evidence/gates/G03/G03-contract-event-inventory.json",
+    [string] $BaselineCommit = "b9f1c19"
 )
 
 $ErrorActionPreference = "Stop"
@@ -154,8 +155,8 @@ foreach ($projectFile in $allProjects) {
     }
 }
 
-$commitSha = (git -C $repositoryRoot rev-parse HEAD).Trim()
-$commitTime = (git -C $repositoryRoot show -s --format=%cI HEAD).Trim()
+$commitSha = (git -C $repositoryRoot rev-parse $BaselineCommit).Trim()
+$commitTime = (git -C $repositoryRoot show -s --format=%cI $commitSha).Trim()
 $governance = [ordered]@{
     codeowners = Test-Path (Join-Path $repositoryRoot '.github/CODEOWNERS')
     apiDiff = @(Get-ChildItem $repositoryRoot -Recurse -File -ErrorAction SilentlyContinue |

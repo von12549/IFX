@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ifx.local/architecture/g03/contract-event-catalog.schema.json",
+  "title": "IFX Contract/Event Governance Catalog",
+  "type": "object",
+  "required": ["formatVersion", "catalogId", "mode", "owners", "modules", "consumers", "protocols", "publicSurface", "sharedPrimitives", "waivers", "changeRecords"],
+  "properties": {
+    "formatVersion": {"const": 1},
+    "mode": {"enum": ["baseline", "strict"]},
+    "owners": {"type": "array", "items": {"$ref": "#/$defs/owner"}},
+    "modules": {"type": "array", "items": {"$ref": "#/$defs/module"}},
+    "consumers": {"type": "array", "items": {"$ref": "#/$defs/consumer"}},
+    "protocols": {"type": "array", "items": {"$ref": "#/$defs/protocol"}},
+    "publicSurface": {"type": "array"},
+    "sharedPrimitives": {"type": "array"},
+    "waivers": {"type": "array"},
+    "changeRecords": {"type": "array"}
+  },
+  "$defs": {
+    "owner": {
+      "type": "object",
+      "required": ["id", "name", "contact", "repositoryEvidence", "approvalRole"],
+      "properties": {"id": {"type": "string", "minLength": 1}, "contact": {"type": "string", "minLength": 3}}
+    },
+    "module": {
+      "type": "object",
+      "required": ["id", "name", "owner", "capabilities", "dataFacts"]
+    },
+    "consumer": {
+      "type": "object",
+      "required": ["id", "kind", "owner", "evidence", "lastConfirmedAt"],
+      "properties": {"kind": {"enum": ["internal-module", "external-service", "external-client"]}}
+    },
+    "protocol": {
+      "type": "object",
+      "required": ["identity", "kind", "version", "lifecycle", "provider", "owner", "consumers", "businessUse", "source", "executionScope", "authorization", "freshness", "failureSemantics", "fields", "tests"],
+      "properties": {
+        "kind": {"enum": ["sync", "event"]},
+        "lifecycle": {"enum": ["Proposed", "Active", "Deprecated", "Retired"]},
+        "fields": {"type": "array", "items": {"$ref": "#/$defs/field"}}
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": ["name", "classification", "purpose", "required", "retention", "logPolicy"],
+      "properties": {"classification": {"enum": ["C0", "C1", "C2", "C3", "C4"]}}
+    }
+  }
+}

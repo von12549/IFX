@@ -1010,7 +1010,7 @@
     "codeowners": false,
     "apiDiff": false,
     "serializationSnapshots": true,
-    "contractCatalog": false,
+    "contractCatalog": true,
     "ciWorkflow": true,
     "externalConsumerEvidencePolicy": "A consumer outside this repository is recognized only with system identity, accountable owner/contact, supported version, connection evidence, and last-confirmed date."
   }

@@ -197,15 +197,21 @@ Phase 0 证据：[`G03-phase0-baseline.md`](../evidence/gates/G03/G03-phase0-bas
 
 ## Phase 1 — 建立模块能力、数据与消费目录
 
-- [ ] **Phase 1 完成**：所有模块、能力、数据事实和跨模块关系均有明确 owner 与来源证据。
+- [x] **Phase 1 完成**：所有模块、能力、数据事实和跨模块关系均有明确 owner 与来源证据。
 
-- [ ] G03-1.1 创建 `docs/architecture/review/gates/G03/contract-event-catalog.yaml` schema 与 validator，定义 module、capability、contract、event、consumer、version、lifecycle 和 waiver 节点。
-- [ ] G03-1.2 登记 Auth、CRM、Registry、Transaction、Holdings 的业务能力、数据 ownership 和负责角色；owner 必须能解析到真实维护者，不允许占位符。
-- [ ] G03-1.3 登记同步 provider → consumer、事件 producer → consumer、Adapter/subscription 和相应业务用例。
-- [ ] G03-1.4 按 Gate 05 登记 execution scope、授权、新鲜度、失败语义、字段 C0-C4、purpose、retention、log policy、例外和测试位置；不得保留“待定”猜测值进入 Active。
-- [ ] G03-1.5 为 external-service/client consumer 记录 owner/contact、supported version、接入证据和 last-confirmed-at。
-- [ ] G03-1.6 从目录生成模块依赖图并检查 sync、async 与 mixed cycles；不允许手工维护第二份关系图数据。
-- [ ] G03-1.7 为 catalog schema、唯一 identity、合法状态转换、必填 owner/consumer 和引用完整性建立测试。
+- [x] G03-1.1 创建 `docs/architecture/review/gates/G03/contract-event-catalog.yaml` schema 与 validator，定义 module、capability、contract、event、consumer、version、lifecycle 和 waiver 节点。
+- [x] G03-1.2 登记 Auth、CRM、Registry、Transaction、Holdings 的业务能力、数据 ownership 和负责角色；owner 必须能解析到真实维护者，不允许占位符。
+- [x] G03-1.3 登记同步 provider → consumer、事件 producer → consumer、Adapter/subscription 和相应业务用例。
+- [x] G03-1.4 按 Gate 05 登记 execution scope、授权、新鲜度、失败语义、字段 C0-C4、purpose、retention、log policy、例外和测试位置；不得保留“待定”猜测值进入 Active。
+- [x] G03-1.5 为 external-service/client consumer 记录 owner/contact、supported version、接入证据和 last-confirmed-at（当前无已证实 external consumer；schema 与 validator 已强制其必填证据）。
+- [x] G03-1.6 从目录生成模块依赖图并检查 sync、async 与 mixed cycles；不允许手工维护第二份关系图数据。
+- [x] G03-1.7 为 catalog schema、唯一 identity、合法状态转换、必填 owner/consumer 和引用完整性建立测试。
+
+Phase 1 证据：[`contract-event-catalog.yaml`](../gates/G03/contract-event-catalog.yaml)、
+[`contract-event-catalog.schema.json`](../gates/G03/contract-event-catalog.schema.json)、
+[`G03-phase1-catalog-report.json`](../evidence/gates/G03/G03-phase1-catalog-report.json)、
+[`G03-phase1-guard-report.json`](../evidence/gates/G03/G03-phase1-guard-report.json) 与
+[`G03-phase1-layerguard-report.json`](../evidence/gates/G03/G03-phase1-layerguard-report.json)。
 
 ## Phase 2 — 全量分类现有公共表面
 

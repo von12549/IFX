@@ -1,0 +1,202 @@
+{
+  "formatVersion": 1,
+  "catalogId": "ifx.contract-event-governance",
+  "mode": "baseline",
+  "asOf": "2026-09-08",
+  "sourcePolicy": {
+    "authority": "This file is the sole machine-readable source for module ownership, admitted provider-consumer relationships, lifecycle, field classification, shared primitive admission, and governance waivers.",
+    "legacyDeadline": "2026-12-01",
+    "externalConsumerConfirmationDays": 90,
+    "deprecation": {
+      "minimumSuccessfulProductionReleases": 2,
+      "minimumCalendarDays": 30,
+      "requiresAllConsumersMigrated": true,
+      "requiresZeroOldTraffic": true,
+      "requiresEmptyOldSchemaBacklog": true
+    }
+  },
+  "owners": [
+    {
+      "id": "xiaolong-feng",
+      "name": "Xiaolong Feng",
+      "contact": "xiaolong@cxisoftware.com.au",
+      "repositoryEvidence": "git log --format=%an <%ae>",
+      "approvalRole": "repository-maintainer"
+    }
+  ],
+  "modules": [
+    {
+      "id": "auth",
+      "name": "Auth",
+      "owner": "xiaolong-feng",
+      "capabilities": ["identity", "authentication", "subject-and-external-identity-mapping"],
+      "dataFacts": ["identity subjects", "credentials", "external identity mappings"]
+    },
+    {
+      "id": "crm",
+      "name": "CRM",
+      "owner": "xiaolong-feng",
+      "capabilities": ["party", "investor", "investment-account", "account-compliance"],
+      "dataFacts": ["party", "investor", "investment account", "KYC and compliance"]
+    },
+    {
+      "id": "registry",
+      "name": "Registry",
+      "owner": "xiaolong-feng",
+      "capabilities": ["product", "fund", "fund-class", "class-subscription-availability"],
+      "dataFacts": ["product", "fund", "fund class", "subscription status"]
+    },
+    {
+      "id": "transaction",
+      "name": "Transaction",
+      "owner": "xiaolong-feng",
+      "capabilities": ["order", "transaction-processing"],
+      "dataFacts": ["order instruction", "transaction lifecycle"]
+    },
+    {
+      "id": "holdings",
+      "name": "Holdings",
+      "owner": "xiaolong-feng",
+      "capabilities": ["position", "holding-freeze"],
+      "dataFacts": ["holding", "position", "holding freeze state"]
+    },
+    {
+      "id": "platform-messaging",
+      "name": "Platform Messaging",
+      "owner": "xiaolong-feng",
+      "capabilities": ["message-schema-primitives", "runtime-event-delivery"],
+      "dataFacts": ["transport-neutral envelope semantics", "delivery attempt state"]
+    }
+  ],
+  "consumers": [
+    {
+      "id": "transaction-application",
+      "kind": "internal-module",
+      "module": "transaction",
+      "owner": "xiaolong-feng",
+      "evidence": "src/Modules/Transaction/IFX.Modules.Transaction.Application",
+      "lastConfirmedAt": "2026-09-08"
+    },
+    {
+      "id": "holdings-application",
+      "kind": "internal-module",
+      "module": "holdings",
+      "owner": "xiaolong-feng",
+      "evidence": "src/Modules/Holdings/IFX.Modules.Holdings.Application",
+      "lastConfirmedAt": "2026-09-08"
+    }
+  ],
+  "protocols": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "kind": "sync",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "provider": "crm",
+      "owner": "xiaolong-feng",
+      "consumers": ["transaction-application"],
+      "businessUse": "Check an investment account's KYC approval before accepting an order or transaction instruction.",
+      "source": {
+        "project": "IFX.Modules.CRM.Abstractions",
+        "type": "ICrmReader",
+        "member": "IsInvestmentAccountKycApprovedAsync"
+      },
+      "executionScope": "tenant",
+      "authorization": "Provider must validate the registered Transaction consumer and the trusted tenant scope before reading CRM facts.",
+      "freshness": "Current committed CRM state at provider invocation time; no cache guarantee.",
+      "failureSemantics": ["not-found:false", "not-approved:false", "cancelled:propagate", "unavailable:fail-closed"],
+      "fields": [
+        {"name": "investmentAccountId", "classification": "C2", "purpose": "select the account compliance fact", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
+        {"name": "tenantId", "classification": "C2", "purpose": "enforce tenant scope during legacy cutover", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
+        {"name": "isApproved", "classification": "C3", "purpose": "decide whether processing may continue", "required": true, "retention": "decision lifetime", "logPolicy": "redact"}
+      ],
+      "tests": ["tests/IFX.Modules.Transaction.Application.Tests"]
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "kind": "sync",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "provider": "registry",
+      "owner": "xiaolong-feng",
+      "consumers": ["transaction-application"],
+      "businessUse": "Check whether a fund class can accept subscription or inbound transfer instructions.",
+      "source": {
+        "project": "IFX.Modules.Registry.Abstractions",
+        "type": "IRegistryReader",
+        "member": "IsClassOpenForSubscriptionAsync"
+      },
+      "executionScope": "tenant",
+      "authorization": "Provider must validate the registered Transaction consumer and trusted tenant scope.",
+      "freshness": "Current committed Registry state at provider invocation time; caller accepts the documented TOCTOU window.",
+      "failureSemantics": ["not-found:false", "closed:false", "cancelled:propagate", "unavailable:fail-closed"],
+      "fields": [
+        {"name": "classId", "classification": "C2", "purpose": "select the fund-class availability fact", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
+        {"name": "tenantId", "classification": "C2", "purpose": "enforce tenant scope during legacy cutover", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
+        {"name": "isOpen", "classification": "C1", "purpose": "decide whether processing may continue", "required": true, "retention": "decision lifetime", "logPolicy": "allow-low-cardinality"}
+      ],
+      "tests": ["tests/IFX.Modules.Transaction.Application.Tests"]
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "kind": "event",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "provider": "transaction",
+      "owner": "xiaolong-feng",
+      "consumers": ["holdings-application"],
+      "businessUse": "Apply the completed transaction fact to the Holdings position projection.",
+      "source": {
+        "project": "IFX.Modules.Transaction.Abstractions",
+        "type": "TransactionProcessedEvent"
+      },
+      "executionScope": "tenant-envelope-required-at-v1-cutover",
+      "authorization": "Inbound Holdings adapter must validate producer identity, event identity/version, and trusted tenant scope.",
+      "freshness": "Eventually consistent after the producer transaction commits; reliable delivery is owned by Plan 02.",
+      "failureSemantics": ["duplicate:inbox-dedupe", "transient:retry", "invalid-schema:quarantine", "business-rejection:ack-and-audit"],
+      "loopPolicy": {"workflowIdentity": "transaction-to-holdings-projection", "causation": "required", "idempotency": "EventId inbox key", "termination": "Holdings does not republish this fact"},
+      "fields": [
+        {"name": "transactionId", "classification": "C2", "purpose": "idempotent business reference", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
+        {"name": "tenantId", "classification": "C2", "purpose": "legacy payload scope until V1 envelope cutover", "required": true, "retention": "remove from payload at V1 cutover", "logPolicy": "pseudonymize"},
+        {"name": "transactionType", "classification": "C1", "purpose": "select projection operation", "required": true, "retention": "projection audit policy", "logPolicy": "allow-enum"},
+        {"name": "investmentAccountId", "classification": "C2", "purpose": "select affected account position", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
+        {"name": "classId", "classification": "C2", "purpose": "select affected class position", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
+        {"name": "targetClassId", "classification": "C2", "purpose": "select destination position for transfer or switch", "required": false, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
+        {"name": "units", "classification": "C2", "purpose": "apply the position delta", "required": true, "retention": "financial record policy", "logPolicy": "redact"},
+        {"name": "navPrice", "classification": "C2", "purpose": "retain transaction valuation fact", "required": true, "retention": "financial record policy", "logPolicy": "redact"}
+      ],
+      "tests": ["tests/IFX.Modules.Holdings.Application.Tests"]
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "kind": "event",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "provider": "registry",
+      "owner": "xiaolong-feng",
+      "consumers": ["holdings-application"],
+      "businessUse": "Freeze affected Holdings positions after a Registry class becomes closed.",
+      "source": {
+        "project": "IFX.Modules.Registry.Abstractions",
+        "type": "ClassStatusChangedEvent"
+      },
+      "executionScope": "tenant-envelope-required-at-v1-cutover",
+      "authorization": "Inbound Holdings adapter must validate producer identity, event identity/version, and trusted tenant scope.",
+      "freshness": "Eventually consistent after the Registry transaction commits; reliable delivery is owned by Plan 02.",
+      "failureSemantics": ["duplicate:inbox-dedupe", "transient:retry", "invalid-schema:quarantine", "business-rejection:ack-and-audit"],
+      "loopPolicy": {"workflowIdentity": "registry-to-holdings-freeze", "causation": "required", "idempotency": "EventId inbox key", "termination": "Holding freeze does not republish class status"},
+      "fields": [
+        {"name": "classId", "classification": "C2", "purpose": "select affected positions", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
+        {"name": "fundId", "classification": "C2", "purpose": "preserve owning fund fact for reconciliation", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
+        {"name": "tenantId", "classification": "C2", "purpose": "legacy payload scope until V1 envelope cutover", "required": true, "retention": "remove from payload at V1 cutover", "logPolicy": "pseudonymize"},
+        {"name": "oldStatus", "classification": "C1", "purpose": "record the state transition", "required": true, "retention": "projection audit policy", "logPolicy": "allow-enum"},
+        {"name": "newStatus", "classification": "C1", "purpose": "decide whether positions must freeze", "required": true, "retention": "projection audit policy", "logPolicy": "allow-enum"}
+      ],
+      "tests": ["tests/IFX.Modules.Holdings.Application.Tests"]
+    }
+  ],
+  "publicSurface": [],
+  "sharedPrimitives": [],
+  "waivers": [],
+  "changeRecords": []
+}

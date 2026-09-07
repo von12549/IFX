@@ -52,7 +52,7 @@ downstream Contracts/Event migration has occurred.
 ## Verification result
 
 - G03 guard: passed; deterministic inventory SHA-256
-  `4c3484d8194c5e55b967282906bc81b1e0c80e387d47129aaba5be7dbe4a1aa2`.
+  `324a65b5105f03118035a2b8bd92cea0151b59521e022089b2438f9a02e0cf7d`.
 - LayerGuard: 179 tool tests passed; B0.5 comparison `baseline-clean` with 116 matched,
   0 new, and 0 stale findings.
 - Solution build: passed with 0 errors and 20 pre-existing package/nullability/obsolete warnings.

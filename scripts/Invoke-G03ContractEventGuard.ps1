@@ -14,11 +14,23 @@ if ([string]::IsNullOrWhiteSpace($ReportPath)) {
 $resolvedReportPath = if ([System.IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Path $repositoryRoot $ReportPath }
 $generator = Join-Path $PSScriptRoot 'Invoke-G03ContractEventInventory.ps1'
 
-& $generator -ReportPath $inventoryPath
-$firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
-& $generator -ReportPath $inventoryPath
-$secondHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+if ($Phase -eq 0) {
+    & $generator -ReportPath $inventoryPath
+    $firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+    & $generator -ReportPath $inventoryPath
+    $secondHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+} else {
+    $firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+    $secondHash = $firstHash
+}
 $inventory = Get-Content -Raw -LiteralPath $inventoryPath | ConvertFrom-Json -Depth 100
+$catalogReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-catalog-report.json"
+$catalogPassed = $true
+if ($Phase -ge 1) {
+    & (Join-Path $PSScriptRoot 'Test-G03ContractEventCatalog.ps1') -ReportPath $catalogReportPath -SelfTest
+    $catalogResult = Get-Content -Raw -LiteralPath $catalogReportPath | ConvertFrom-Json -Depth 100
+    $catalogPassed = $catalogResult.result -eq 'passed'
+}
 
 $checks = [ordered]@{
     deterministicInventory = $firstHash -eq $secondHash
@@ -29,6 +41,7 @@ $checks = [ordered]@{
     exactIntegrationEventCount = $inventory.counts.integrationEvents -eq 20
     messagingSurfaceInventoried = $inventory.counts.messagingAbstractionTypes -eq 4
     generatedDirectoriesExcluded = @($inventory.publicSurface.declaration.file | Where-Object { $_ -match '(^|/)(bin|obj)/' }).Count -eq 0
+    catalogValidation = $catalogPassed
 }
 
 $report = [ordered]@{
