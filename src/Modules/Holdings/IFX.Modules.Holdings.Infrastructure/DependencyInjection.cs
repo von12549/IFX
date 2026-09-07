@@ -26,8 +26,9 @@ public static class DependencyInjection
     {
         services.AddMemoryCache();
 
-        var connectionString = configuration.GetConnectionString("HoldingsDatabase")
-            ?? configuration.GetConnectionString("DefaultConnection");
+        var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(
+            configuration,
+            ModuleDatabase.ConnectionStringName);
         services.AddDbContext<HoldingsDbContext>(options =>
             options.UseSqlServer(connectionString, sql =>
                 sql.MigrationsAssembly(typeof(HoldingsDbContext).Assembly.FullName)));

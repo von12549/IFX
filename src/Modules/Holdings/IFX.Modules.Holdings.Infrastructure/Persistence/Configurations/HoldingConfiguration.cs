@@ -8,7 +8,7 @@ public class HoldingConfiguration : IEntityTypeConfiguration<Holding>
 {
     public void Configure(EntityTypeBuilder<Holding> builder)
     {
-        builder.ToTable("Holdings", "holdings");
+        builder.ToTable("Holdings", ModuleDatabase.Schema);
         builder.HasKey(h => h.Id);
         builder.Property(h => h.TenantId).IsRequired();
         builder.Property(h => h.InvestmentAccountId).IsRequired();

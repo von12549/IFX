@@ -8,7 +8,7 @@ public class LogoutEventConfiguration : IEntityTypeConfiguration<LogoutEvent>
 {
     public void Configure(EntityTypeBuilder<LogoutEvent> builder)
     {
-        builder.ToTable("LogoutEvents", "auth");
+        builder.ToTable("LogoutEvents", ModuleDatabase.Schema);
 
         builder.HasKey(le => le.Id);
 

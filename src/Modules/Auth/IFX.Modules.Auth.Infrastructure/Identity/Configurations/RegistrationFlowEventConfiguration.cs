@@ -10,7 +10,7 @@ public class RegistrationFlowEventConfiguration : IEntityTypeConfiguration<Regis
 {
     public void Configure(EntityTypeBuilder<RegistrationFlowEvent> builder)
     {
-        builder.ToTable("RegistrationFlowEvents", "auth");
+        builder.ToTable("RegistrationFlowEvents", ModuleDatabase.Schema);
 
         builder.HasKey(rfe => rfe.Id);
 

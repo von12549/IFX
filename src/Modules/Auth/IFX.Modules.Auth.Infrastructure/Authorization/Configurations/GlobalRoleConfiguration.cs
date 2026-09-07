@@ -8,7 +8,7 @@ public class GlobalRoleConfiguration : IEntityTypeConfiguration<GlobalRole>
 {
     public void Configure(EntityTypeBuilder<GlobalRole> builder)
     {
-        builder.ToTable("GlobalRoles", "auth");
+        builder.ToTable("GlobalRoles", ModuleDatabase.Schema);
 
         builder.HasKey(gr => gr.Id);
 

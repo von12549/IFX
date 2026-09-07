@@ -8,7 +8,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Users", "auth");
+        builder.ToTable("Users", ModuleDatabase.Schema);
 
         builder.HasKey(u => u.Id);
 
@@ -25,22 +25,22 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // Many-to-many: User ↔ Role
         builder.HasMany(u => u.Roles)
             .WithMany()
-            .UsingEntity(j => j.ToTable("UserRoles", "auth"));
+            .UsingEntity(j => j.ToTable("UserRoles", ModuleDatabase.Schema));
 
         // Many-to-many: User ↔ RoleGroup
         builder.HasMany(u => u.RoleGroups)
             .WithMany()
-            .UsingEntity(j => j.ToTable("UserRoleGroups", "auth"));
+            .UsingEntity(j => j.ToTable("UserRoleGroups", ModuleDatabase.Schema));
 
         // Many-to-many: User ↔ Tenant
         builder.HasMany(u => u.Tenants)
             .WithMany()
-            .UsingEntity(j => j.ToTable("UserTenants", "auth"));
+            .UsingEntity(j => j.ToTable("UserTenants", ModuleDatabase.Schema));
 
         // Many-to-many: User ↔ Department
         builder.HasMany(u => u.Departments)
             .WithMany()
-            .UsingEntity(j => j.ToTable("UserDepartments", "auth"));
+            .UsingEntity(j => j.ToTable("UserDepartments", ModuleDatabase.Schema));
 
         // Primary tenant (nullable FK)
         builder.Property(u => u.PrimaryTenantId);

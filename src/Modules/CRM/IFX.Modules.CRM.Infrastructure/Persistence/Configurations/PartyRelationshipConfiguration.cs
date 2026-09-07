@@ -8,7 +8,7 @@ public class PartyRelationshipConfiguration : IEntityTypeConfiguration<PartyRela
 {
     public void Configure(EntityTypeBuilder<PartyRelationship> builder)
     {
-        builder.ToTable("PartyRelationships", "crm");
+        builder.ToTable("PartyRelationships", ModuleDatabase.Schema);
 
         builder.HasKey(r => r.Id);
 

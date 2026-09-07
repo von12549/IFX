@@ -8,7 +8,7 @@ public class FundConfiguration : IEntityTypeConfiguration<Fund>
 {
     public void Configure(EntityTypeBuilder<Fund> builder)
     {
-        builder.ToTable("Funds", "registry");
+        builder.ToTable("Funds", ModuleDatabase.Schema);
 
         builder.HasKey(f => f.Id);
 

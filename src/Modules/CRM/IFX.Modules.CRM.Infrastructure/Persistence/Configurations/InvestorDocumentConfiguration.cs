@@ -8,7 +8,7 @@ public class InvestorDocumentConfiguration : IEntityTypeConfiguration<InvestorDo
 {
     public void Configure(EntityTypeBuilder<InvestorDocument> builder)
     {
-        builder.ToTable("InvestorDocuments", "crm");
+        builder.ToTable("InvestorDocuments", ModuleDatabase.Schema);
 
         builder.HasKey(d => d.Id);
 

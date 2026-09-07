@@ -8,7 +8,7 @@ public class PartyInvestmentAccountLinkConfiguration : IEntityTypeConfiguration<
 {
     public void Configure(EntityTypeBuilder<PartyInvestmentAccountLink> builder)
     {
-        builder.ToTable("PartyInvestmentAccountLinks", "crm");
+        builder.ToTable("PartyInvestmentAccountLinks", ModuleDatabase.Schema);
 
         builder.HasKey(l => l.Id);
 

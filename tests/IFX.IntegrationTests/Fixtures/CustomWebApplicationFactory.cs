@@ -28,6 +28,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["ConnectionStrings:AuthDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
+                ["ConnectionStrings:CrmDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
+                ["ConnectionStrings:RegistryDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
+                ["ConnectionStrings:HoldingsDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
+                ["ConnectionStrings:TransactionDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["ConnectionStrings:BackgroundJobsDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["CognitoSettings:UserPoolId"] = "test-user-pool-id",
                 ["CognitoSettings:ClientId"] = "test-client-id",

@@ -8,7 +8,7 @@ public class UserGlobalRoleConfiguration : IEntityTypeConfiguration<UserGlobalRo
 {
     public void Configure(EntityTypeBuilder<UserGlobalRole> builder)
     {
-        builder.ToTable("UserGlobalRoles", "auth");
+        builder.ToTable("UserGlobalRoles", ModuleDatabase.Schema);
 
         builder.HasKey(ugr => new { ugr.UserId, ugr.GlobalRoleId });
 

@@ -9,7 +9,7 @@ public class UserActivityLogConfiguration : IEntityTypeConfiguration<UserActivit
 {
     public void Configure(EntityTypeBuilder<UserActivityLog> builder)
     {
-        builder.ToTable("UserActivityLogs", "auth");
+        builder.ToTable("UserActivityLogs", ModuleDatabase.Schema);
 
         builder.HasKey(ual => ual.Id);
 

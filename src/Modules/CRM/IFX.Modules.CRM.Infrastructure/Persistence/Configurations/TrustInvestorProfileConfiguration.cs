@@ -8,7 +8,7 @@ public class TrustInvestorProfileConfiguration : IEntityTypeConfiguration<TrustI
 {
     public void Configure(EntityTypeBuilder<TrustInvestorProfile> builder)
     {
-        builder.ToTable("TrustInvestorProfiles", "crm");
+        builder.ToTable("TrustInvestorProfiles", ModuleDatabase.Schema);
 
         builder.HasKey(p => p.Id);
 

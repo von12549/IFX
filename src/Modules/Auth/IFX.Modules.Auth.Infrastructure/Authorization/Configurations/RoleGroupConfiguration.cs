@@ -8,7 +8,7 @@ public class RoleGroupConfiguration : IEntityTypeConfiguration<RoleGroup>
 {
     public void Configure(EntityTypeBuilder<RoleGroup> builder)
     {
-        builder.ToTable("RoleGroups", "auth");
+        builder.ToTable("RoleGroups", ModuleDatabase.Schema);
 
         builder.HasKey(g => g.Id);
 
@@ -37,6 +37,6 @@ public class RoleGroupConfiguration : IEntityTypeConfiguration<RoleGroup>
 
         builder.HasMany(g => g.Roles)
             .WithMany()
-            .UsingEntity(j => j.ToTable("RoleGroupRoles", "auth"));
+            .UsingEntity(j => j.ToTable("RoleGroupRoles", ModuleDatabase.Schema));
     }
 }

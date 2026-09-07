@@ -13,6 +13,7 @@ public class HoldingsDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema(ModuleDatabase.Schema);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(HoldingsDbContext).Assembly);
     }
 

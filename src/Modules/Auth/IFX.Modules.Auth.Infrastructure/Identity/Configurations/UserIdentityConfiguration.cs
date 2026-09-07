@@ -8,7 +8,7 @@ public class UserIdentityConfiguration : IEntityTypeConfiguration<UserIdentity>
 {
     public void Configure(EntityTypeBuilder<UserIdentity> builder)
     {
-        builder.ToTable("UserIdentities", "auth");
+        builder.ToTable("UserIdentities", ModuleDatabase.Schema);
 
         builder.HasKey(ui => ui.Id);
 

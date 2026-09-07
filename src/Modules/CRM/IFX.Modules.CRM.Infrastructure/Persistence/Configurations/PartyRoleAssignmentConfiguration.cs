@@ -8,7 +8,7 @@ public class PartyRoleAssignmentConfiguration : IEntityTypeConfiguration<PartyRo
 {
     public void Configure(EntityTypeBuilder<PartyRoleAssignment> builder)
     {
-        builder.ToTable("PartyRoleAssignments", "crm");
+        builder.ToTable("PartyRoleAssignments", ModuleDatabase.Schema);
 
         builder.HasKey(r => r.Id);
 

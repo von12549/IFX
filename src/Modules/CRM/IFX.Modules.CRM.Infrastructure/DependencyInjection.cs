@@ -26,8 +26,9 @@ public static class DependencyInjection
     {
         services.AddMemoryCache();
 
-        var connectionString = configuration.GetConnectionString("CrmDatabase")
-            ?? configuration.GetConnectionString("DefaultConnection");
+        var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(
+            configuration,
+            ModuleDatabase.ConnectionStringName);
         services.AddDbContext<CrmDbContext>(options =>
         {
             options.UseSqlServer(connectionString, sqlOptions =>

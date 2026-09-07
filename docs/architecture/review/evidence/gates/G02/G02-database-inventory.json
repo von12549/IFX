@@ -16,6 +16,7 @@
       "Module": "Auth",
       "Order": 10,
       "Schema": "auth",
+      "DefaultSchema": "auth",
       "DbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
       "MigrationAssembly": "IFX.Modules.Auth.Infrastructure",
       "ConnectionKey": "AuthDatabase",
@@ -2056,6 +2057,7 @@
       "Module": "CRM",
       "Order": 20,
       "Schema": "crm",
+      "DefaultSchema": "crm",
       "DbContext": "IFX.Modules.CRM.Infrastructure.Persistence.CrmDbContext",
       "MigrationAssembly": "IFX.Modules.CRM.Infrastructure",
       "ConnectionKey": "CrmDatabase",
@@ -3589,6 +3591,7 @@
       "Module": "Registry",
       "Order": 30,
       "Schema": "registry",
+      "DefaultSchema": "registry",
       "DbContext": "IFX.Modules.Registry.Infrastructure.Persistence.RegistryDbContext",
       "MigrationAssembly": "IFX.Modules.Registry.Infrastructure",
       "ConnectionKey": "RegistryDatabase",
@@ -4037,6 +4040,7 @@
       "Module": "Holdings",
       "Order": 40,
       "Schema": "holdings",
+      "DefaultSchema": "holdings",
       "DbContext": "IFX.Modules.Holdings.Infrastructure.Persistence.HoldingsDbContext",
       "MigrationAssembly": "IFX.Modules.Holdings.Infrastructure",
       "ConnectionKey": "HoldingsDatabase",
@@ -4191,6 +4195,7 @@
       "Module": "Transaction",
       "Order": 50,
       "Schema": "transaction",
+      "DefaultSchema": "transaction",
       "DbContext": "IFX.Modules.Transaction.Infrastructure.Persistence.TransactionDbContext",
       "MigrationAssembly": "IFX.Modules.Transaction.Infrastructure",
       "ConnectionKey": "TransactionDatabase",
@@ -5519,7 +5524,8 @@
       }
     ],
     "DatabaseObjectDefinitions": [],
-    "CrossSchemaFindings": []
+    "CrossSchemaFindings": [],
+    "NonCanonicalSchemaFindings": []
   },
   "connectionSurfaces": {
     "RequiredModuleKeys": [
@@ -5546,6 +5552,26 @@
             "Key": "BackgroundJobsDatabase",
             "State": "configured",
             "Database": "TestDb"
+          },
+          {
+            "Key": "CrmDatabase",
+            "State": "configured",
+            "Database": "TestDb"
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "State": "configured",
+            "Database": "TestDb"
+          },
+          {
+            "Key": "RegistryDatabase",
+            "State": "configured",
+            "Database": "TestDb"
+          },
+          {
+            "Key": "TransactionDatabase",
+            "State": "configured",
+            "Database": "TestDb"
           }
         ]
       },
@@ -5559,6 +5585,26 @@
           },
           {
             "Key": "BackgroundJobsDatabase",
+            "State": "blank",
+            "Database": "\u003Cnot-declared\u003E"
+          },
+          {
+            "Key": "CrmDatabase",
+            "State": "blank",
+            "Database": "\u003Cnot-declared\u003E"
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "State": "blank",
+            "Database": "\u003Cnot-declared\u003E"
+          },
+          {
+            "Key": "RegistryDatabase",
+            "State": "blank",
+            "Database": "\u003Cnot-declared\u003E"
+          },
+          {
+            "Key": "TransactionDatabase",
             "State": "blank",
             "Database": "\u003Cnot-declared\u003E"
           }
@@ -5617,32 +5663,8 @@
         ]
       }
     ],
-    "DefaultConnectionFallbacks": [
-      {
-        "Path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/DependencyInjection.cs",
-        "Line": 30,
-        "Kind": "default-connection-fallback",
-        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
-      },
-      {
-        "Path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/DependencyInjection.cs",
-        "Line": 30,
-        "Kind": "default-connection-fallback",
-        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
-      },
-      {
-        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/DependencyInjection.cs",
-        "Line": 23,
-        "Kind": "default-connection-fallback",
-        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
-      },
-      {
-        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/DependencyInjection.cs",
-        "Line": 30,
-        "Kind": "default-connection-fallback",
-        "Excerpt": "?? configuration.GetConnectionString(\u0022DefaultConnection\u0022);"
-      }
-    ],
+    "DefaultConnectionFallbacks": [],
+    "ConfigurationViolations": [],
     "EnvironmentIdentityAndPermissions": {
       "Owner": "Database Operations",
       "CollectionProcedure": "Environment inventory must map every module key to server/database identity and document DDL/DML grants without exporting connection strings or secrets."

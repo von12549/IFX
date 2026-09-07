@@ -10,28 +10,33 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using AuthModuleDatabase = IFX.Modules.Auth.Infrastructure.ModuleDatabase;
+using CrmModuleDatabase = IFX.Modules.CRM.Infrastructure.ModuleDatabase;
+using HoldingsModuleDatabase = IFX.Modules.Holdings.Infrastructure.ModuleDatabase;
+using RegistryModuleDatabase = IFX.Modules.Registry.Infrastructure.ModuleDatabase;
+using TransactionModuleDatabase = IFX.Modules.Transaction.Infrastructure.ModuleDatabase;
 
 var options = Arguments.Parse(args);
 var root = Path.GetFullPath(options.Root);
 var moduleSpecs = new ModuleSpec[]
 {
-    new("Auth", "auth", "AuthDatabase", 10,
+    new("Auth", AuthModuleDatabase.Schema, AuthModuleDatabase.ConnectionStringName, 10,
         "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations",
         "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/IfxDbContext.cs",
         () => new IfxDbContext(SqlOptions<IfxDbContext>())),
-    new("CRM", "crm", "CrmDatabase", 20,
+    new("CRM", CrmModuleDatabase.Schema, CrmModuleDatabase.ConnectionStringName, 20,
         "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations",
         "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Persistence/CrmDbContext.cs",
         () => new CrmDbContext(SqlOptions<CrmDbContext>())),
-    new("Registry", "registry", "RegistryDatabase", 30,
+    new("Registry", RegistryModuleDatabase.Schema, RegistryModuleDatabase.ConnectionStringName, 30,
         "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations",
         "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Persistence/RegistryDbContext.cs",
         () => new RegistryDbContext(SqlOptions<RegistryDbContext>())),
-    new("Holdings", "holdings", "HoldingsDatabase", 40,
+    new("Holdings", HoldingsModuleDatabase.Schema, HoldingsModuleDatabase.ConnectionStringName, 40,
         "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations",
         "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsDbContext.cs",
         () => new HoldingsDbContext(SqlOptions<HoldingsDbContext>())),
-    new("Transaction", "transaction", "TransactionDatabase", 50,
+    new("Transaction", TransactionModuleDatabase.Schema, TransactionModuleDatabase.ConnectionStringName, 50,
         "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations",
         "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Persistence/TransactionDbContext.cs",
         () => new TransactionDbContext(SqlOptions<TransactionDbContext>()))
@@ -107,6 +112,10 @@ File.WriteAllText(
 
 var violations = modules.SelectMany(module => module.SchemaViolations)
     .Concat(staticScan.CrossSchemaFindings)
+    .Concat(staticScan.NonCanonicalSchemaFindings)
+    .Concat(connectionSurfaces.ConfigurationViolations)
+    .Concat(connectionSurfaces.DefaultConnectionFallbacks.Select(finding =>
+        $"DefaultConnection fallback: {finding.Path}:{finding.Line}"))
     .ToArray();
 var duplicateMigrationIds = modules.SelectMany(module => module.Migrations)
     .GroupBy(migration => migration.MigrationId, StringComparer.Ordinal)
@@ -217,6 +226,9 @@ static ModuleInventory InspectModule(string root, ModuleSpec spec)
             .Where(foreignKey => foreignKey.PrincipalTable is not null &&
                                  !string.Equals(foreignKey.PrincipalSchema, spec.Schema, StringComparison.OrdinalIgnoreCase))
             .Select(foreignKey => $"{spec.Name}: FK {foreignKey.Name} points to {foreignKey.PrincipalSchema}.{foreignKey.PrincipalTable}")))
+        .Concat(string.Equals(model.GetDefaultSchema(), spec.Schema, StringComparison.OrdinalIgnoreCase)
+            ? []
+            : new[] { $"{spec.Name}: default schema is '{model.GetDefaultSchema() ?? "<null>"}', expected '{spec.Schema}'" })
         .Order()
         .ToArray();
 
@@ -224,6 +236,7 @@ static ModuleInventory InspectModule(string root, ModuleSpec spec)
         spec.Name,
         spec.Order,
         spec.Schema,
+        model.GetDefaultSchema(),
         context.GetType().FullName!,
         context.GetType().Assembly.GetName().Name!,
         spec.ConnectionKey,
@@ -240,6 +253,7 @@ static StaticScanReport ScanSources(string root, IReadOnlyList<ModuleSpec> specs
     var sqlFindings = new List<SourceFinding>();
     var directTableReferences = new List<SourceFinding>();
     var crossSchema = new List<string>();
+    var nonCanonicalSchemas = new List<string>();
     var databaseObjectDefinitions = new List<SourceFinding>();
     var sourceFiles = Directory.GetFiles(Path.Combine(root, "src"), "*.cs", SearchOption.AllDirectories)
         .Where(path => !IsBuildOutput(path))
@@ -280,6 +294,17 @@ static StaticScanReport ScanSources(string root, IReadOnlyList<ModuleSpec> specs
             }
         }
 
+        if (!relative.Contains("/Migrations/", StringComparison.OrdinalIgnoreCase))
+        {
+            foreach (var finding in FindLines(
+                         text,
+                         @"ToTable\([^\r\n]+,\s*""(?:auth|crm|registry|holdings|transaction)""\)"))
+            {
+                nonCanonicalSchemas.Add(
+                    $"{relative}:{finding.Line} uses a schema literal instead of ModuleDatabase.Schema");
+            }
+        }
+
         if (module is null || !relative.Contains("/Migrations/", StringComparison.OrdinalIgnoreCase))
         {
             continue;
@@ -300,7 +325,8 @@ static StaticScanReport ScanSources(string root, IReadOnlyList<ModuleSpec> specs
         sqlFindings.OrderBy(finding => finding.Path).ThenBy(finding => finding.Line).ToArray(),
         directTableReferences.OrderBy(finding => finding.Path).ThenBy(finding => finding.Line).ToArray(),
         databaseObjectDefinitions.OrderBy(finding => finding.Path).ThenBy(finding => finding.Line).ToArray(),
-        crossSchema.Distinct().Order().ToArray());
+        crossSchema.Distinct().Order().ToArray(),
+        nonCanonicalSchemas.Distinct().Order().ToArray());
 }
 
 static ConnectionSurfaceReport InspectConnectionSurfaces(string root, IReadOnlyList<ModuleSpec> specs)
@@ -346,6 +372,14 @@ static ConnectionSurfaceReport InspectConnectionSurfaces(string root, IReadOnlyL
         })
         .ToArray();
 
+    var baseConfiguration = jsonFiles.Single(file =>
+        file.Path.EndsWith("/appsettings.json", StringComparison.OrdinalIgnoreCase));
+    var configurationViolations = specs
+        .Where(spec => baseConfiguration.Entries.All(entry =>
+            !string.Equals(entry.Key, spec.ConnectionKey, StringComparison.Ordinal)))
+        .Select(spec => $"Base appsettings.json does not declare '{spec.ConnectionKey}'")
+        .ToArray();
+
     var fallbackFindings = Directory.GetFiles(Path.Combine(root, "src", "Modules"), "DependencyInjection.cs", SearchOption.AllDirectories)
         .Where(path => !IsBuildOutput(path))
         .SelectMany(path => FindLines(File.ReadAllText(path), "GetConnectionString\\(\"DefaultConnection\"\\)")
@@ -358,6 +392,7 @@ static ConnectionSurfaceReport InspectConnectionSurfaces(string root, IReadOnlyL
         jsonFiles,
         composeFiles,
         fallbackFindings,
+        configurationViolations,
         new ExternalEvidenceGap(
             "Database Operations",
             "Environment inventory must map every module key to server/database identity and document DDL/DML grants without exporting connection strings or secrets."),
@@ -435,6 +470,7 @@ internal sealed record ModuleInventory(
     string Module,
     int Order,
     string Schema,
+    string? DefaultSchema,
     string DbContext,
     string MigrationAssembly,
     string ConnectionKey,
@@ -469,13 +505,15 @@ internal sealed record StaticScanReport(
     SourceFinding[] RawSqlFindings,
     SourceFinding[] SchemaQualifiedTableReferences,
     SourceFinding[] DatabaseObjectDefinitions,
-    string[] CrossSchemaFindings);
+    string[] CrossSchemaFindings,
+    string[] NonCanonicalSchemaFindings);
 internal sealed record SourceFinding(string Path, int Line, string Kind, string Excerpt);
 internal sealed record ConnectionSurfaceReport(
     string[] RequiredModuleKeys,
     ConfigurationFile[] ConfigurationFiles,
     ComposeFile[] ComposeFiles,
     SourceFinding[] DefaultConnectionFallbacks,
+    string[] ConfigurationViolations,
     ExternalEvidenceGap EnvironmentIdentityAndPermissions,
     string CurrentIdentityBoundary);
 internal sealed record ConfigurationFile(string Path, ConnectionSetting[] Entries);

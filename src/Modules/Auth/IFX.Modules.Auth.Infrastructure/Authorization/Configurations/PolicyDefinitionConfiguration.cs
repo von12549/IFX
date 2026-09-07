@@ -8,7 +8,7 @@ public class PolicyDefinitionConfiguration : IEntityTypeConfiguration<PolicyDefi
 {
     public void Configure(EntityTypeBuilder<PolicyDefinition> builder)
     {
-        builder.ToTable("PolicyDefinitions", "auth");
+        builder.ToTable("PolicyDefinitions", ModuleDatabase.Schema);
 
         builder.HasKey(p => p.Id);
 

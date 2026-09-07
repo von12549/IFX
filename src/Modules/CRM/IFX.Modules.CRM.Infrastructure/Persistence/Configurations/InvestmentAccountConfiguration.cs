@@ -8,7 +8,7 @@ public class InvestmentAccountConfiguration : IEntityTypeConfiguration<Investmen
 {
     public void Configure(EntityTypeBuilder<InvestmentAccount> builder)
     {
-        builder.ToTable("InvestmentAccounts", "crm");
+        builder.ToTable("InvestmentAccounts", ModuleDatabase.Schema);
 
         builder.HasKey(a => a.Id);
 

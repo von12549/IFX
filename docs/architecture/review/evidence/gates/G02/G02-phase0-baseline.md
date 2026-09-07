@@ -1,7 +1,7 @@
 # G02 Phase 0 database baseline
 
 > Scope: repository source, compiled EF Core models, migrations, checked-in configuration, and
-> Compose definitions at commit `80053bd` plus the uncommitted G02 Phase 0 implementation.
+> Compose definitions captured by Phase 0 commit `7cc6f2f`.
 > This evidence does not claim access to a deployed test or production database.
 
 ## Reproduction
@@ -131,7 +131,8 @@ real environment is compliant.
 
 ## Verification result
 
-- G02 Phase 0 guard: passed; both generated artifacts reproduced byte-for-byte, with inventory
+- At Phase 0 commit `7cc6f2f`, the guard passed and both generated artifacts reproduced
+  byte-for-byte, with inventory
   SHA-256 `ed4f300321e3acdb4a41c75066de2dd6ff82c2f056e3d1c4d6efc3de4648d4de` and manifest
   SHA-256 `59ddebdc56462fc5de083ed4e522f5adb07eb373fc4263a2d8f3b6e806377cdb`.
 - Solution build: passed with 0 errors; 13 existing package/obsolete API warnings remain.

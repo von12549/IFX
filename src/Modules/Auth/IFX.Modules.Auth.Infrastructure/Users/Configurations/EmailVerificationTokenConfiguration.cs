@@ -8,7 +8,7 @@ public class EmailVerificationTokenConfiguration : IEntityTypeConfiguration<Emai
 {
     public void Configure(EntityTypeBuilder<EmailVerificationToken> builder)
     {
-        builder.ToTable("EmailVerificationTokens", "auth");
+        builder.ToTable("EmailVerificationTokens", ModuleDatabase.Schema);
 
         builder.HasKey(e => e.Id);
 

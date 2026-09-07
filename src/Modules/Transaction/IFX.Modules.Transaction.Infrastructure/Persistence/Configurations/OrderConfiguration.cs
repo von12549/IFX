@@ -8,7 +8,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> builder)
     {
-        builder.ToTable("Orders", "transaction");
+        builder.ToTable("Orders", ModuleDatabase.Schema);
         builder.HasKey(o => o.Id);
         builder.Property(o => o.TenantId).IsRequired();
         builder.Property(o => o.OrderReference).HasMaxLength(35).IsRequired();

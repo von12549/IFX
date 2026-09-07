@@ -45,7 +45,9 @@ public static class DependencyInjection
         services.AddScoped<IEmailVerificationCleanupService, EmailVerificationCleanupService>();
 
         // Register DbContext
-        var connectionString = configuration.GetConnectionString("AuthDatabase");
+        var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(
+            configuration,
+            ModuleDatabase.ConnectionStringName);
         services.AddDbContext<IfxDbContext>(options =>
         {
             options.UseSqlServer(connectionString, sqlOptions =>

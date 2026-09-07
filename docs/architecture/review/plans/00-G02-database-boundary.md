@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 0 已完成（2026-09-07）
+> 状态：Implementation In Progress / Phase 1 已完成（2026-09-07）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -161,16 +161,19 @@ Phase 0 证据：[`G02-phase0-baseline.md`](../evidence/gates/G02/G02-phase0-bas
 
 ## Phase 1 — 强化模块 schema 与连接配置边界
 
-- [ ] **Phase 1 完成**：每个 DbContext、实体和配置都具有明确且可验证的模块 ownership。
+- [x] **Phase 1 完成**：每个 DbContext、实体和配置都具有明确且可验证的模块 ownership。
 
-- [ ] G02-1.1 为 auth、crm、registry、holdings、transaction 建立唯一模块 schema 常量。
-- [ ] G02-1.2 在每个 DbContext 的模型配置中调用 `HasDefaultSchema(ModuleSchema.Name)`。
-- [ ] G02-1.3 保留必要的显式 `ToTable(..., schema)`，并统一改用模块 schema 常量。
-- [ ] G02-1.4 添加模型测试，断言所有 entity、owned type、join table、sequence 和数据库对象属于预期 schema。
-- [ ] G02-1.5 移除 CRM/Registry/Holdings/Transaction 对 `DefaultConnection` 的隐式回退。
-- [ ] G02-1.6 对缺失、空白和无效模块连接配置实施 fail-fast，并避免在日志中输出 secret。
-- [ ] G02-1.7 添加静态/数据库检查，禁止模块 migration 创建其他模块 schema 中的对象。
-- [ ] G02-1.8 为未来物理分库验证配置接缝：改变单模块连接值不要求修改 Application/Domain。
+- [x] G02-1.1 为 auth、crm、registry、holdings、transaction 建立唯一模块 schema 常量。
+- [x] G02-1.2 在每个 DbContext 的模型配置中调用 `HasDefaultSchema(ModuleDatabase.Schema)`。
+- [x] G02-1.3 保留必要的显式 `ToTable(..., schema)`，并统一改用模块 schema 常量。
+- [x] G02-1.4 添加模型测试，断言所有 entity、owned type、join table、sequence 和数据库对象属于预期 schema。
+- [x] G02-1.5 移除 CRM/Registry/Holdings/Transaction 对 `DefaultConnection` 的隐式回退。
+- [x] G02-1.6 对缺失、空白和无效模块连接配置实施 fail-fast，并避免在日志中输出 secret。
+- [x] G02-1.7 添加静态/数据库检查，禁止模块 migration 创建其他模块 schema 中的对象。
+- [x] G02-1.8 为未来物理分库验证配置接缝：改变单模块连接值不要求修改 Application/Domain。
+
+Phase 1 证据：[`G02-phase1-report.md`](../evidence/gates/G02/G02-phase1-report.md) 和
+[`G02-phase1-layerguard-report.json`](../evidence/gates/G02/G02-phase1-layerguard-report.json)。
 
 ## Phase 2 — 建立模块独立 Migration History
 

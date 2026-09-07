@@ -19,8 +19,9 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         // Register DbContext
-        var connectionString = configuration.GetConnectionString("RegistryDatabase")
-            ?? configuration.GetConnectionString("DefaultConnection");
+        var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(
+            configuration,
+            ModuleDatabase.ConnectionStringName);
 
         services.AddDbContext<RegistryDbContext>(options =>
         {

@@ -8,7 +8,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<TxEntity>
 {
     public void Configure(EntityTypeBuilder<TxEntity> builder)
     {
-        builder.ToTable("Transactions", "transaction");
+        builder.ToTable("Transactions", ModuleDatabase.Schema);
         builder.HasKey(t => t.Id);
         builder.Property(t => t.TenantId).IsRequired();
         builder.Property(t => t.Type).HasConversion<string>().IsRequired();

@@ -8,7 +8,7 @@ public class CorporateInvestorProfileConfiguration : IEntityTypeConfiguration<Co
 {
     public void Configure(EntityTypeBuilder<CorporateInvestorProfile> builder)
     {
-        builder.ToTable("CorporateInvestorProfiles", "crm");
+        builder.ToTable("CorporateInvestorProfiles", ModuleDatabase.Schema);
 
         builder.HasKey(p => p.Id);
 

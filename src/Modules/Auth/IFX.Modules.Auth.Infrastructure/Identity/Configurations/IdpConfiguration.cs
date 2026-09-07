@@ -8,7 +8,7 @@ public class IdpConfiguration : IEntityTypeConfiguration<Idp>
 {
     public void Configure(EntityTypeBuilder<Idp> builder)
     {
-        builder.ToTable("Idps", "auth");
+        builder.ToTable("Idps", ModuleDatabase.Schema);
 
         builder.HasKey(i => i.Id);
 

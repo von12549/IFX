@@ -8,7 +8,7 @@ public class LoginEventConfiguration : IEntityTypeConfiguration<LoginEvent>
 {
     public void Configure(EntityTypeBuilder<LoginEvent> builder)
     {
-        builder.ToTable("LoginEvents", "auth");
+        builder.ToTable("LoginEvents", ModuleDatabase.Schema);
 
         builder.HasKey(le => le.Id);
 

@@ -8,7 +8,7 @@ public class UserPartyLinkConfiguration : IEntityTypeConfiguration<UserPartyLink
 {
     public void Configure(EntityTypeBuilder<UserPartyLink> builder)
     {
-        builder.ToTable("UserPartyLinks", "crm");
+        builder.ToTable("UserPartyLinks", ModuleDatabase.Schema);
 
         builder.HasKey(l => l.Id);
 
