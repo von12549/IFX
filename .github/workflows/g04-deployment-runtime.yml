@@ -1,0 +1,25 @@
+name: G04 Deployment Runtime
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  deployment-runtime-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Validate G04 manifests, runtime behavior, release policy, and architecture boundaries
+        shell: pwsh
+        run: ./scripts/Invoke-G04Verification.ps1
+      - name: Upload G04 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: g04-deployment-runtime
+          path: artifacts/g04
+          if-no-files-found: error

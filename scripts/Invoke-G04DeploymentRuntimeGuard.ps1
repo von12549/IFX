@@ -144,6 +144,16 @@ if ($Phase -ge 9) {
     $checks.phase9EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase9-failure-safety.md')
 }
 
+if ($Phase -ge 10) {
+    $workflow = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot '.github/workflows/g04-deployment-runtime.yml')
+    $verification = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'scripts/Invoke-G04Verification.ps1')
+    $checks.g04CiWorkflowExists = ($workflow -match 'Invoke-G04Verification\.ps1') -and ($workflow -match 'upload-artifact')
+    $checks.ciRunsGuardAndLayerGuard = ($verification -match 'Invoke-G04DeploymentRuntimeGuard\.ps1') -and ($verification -match 'Invoke-LayerGuard\.ps1')
+    $checks.ciRunsSolutionBuildAndTests = ($verification -match 'dotnet build') -and ($verification -match 'dotnet test')
+    $checks.crashInjectionReferenceTestExists = (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs')) -match 'Crash_injection_preserves_truth'
+    $checks.phase10EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase10-automated-acceptance.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

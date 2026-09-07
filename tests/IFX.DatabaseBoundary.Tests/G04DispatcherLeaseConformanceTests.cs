@@ -73,6 +73,24 @@ public sealed class G04DispatcherLeaseConformanceTests(SqlServerMigrationFixture
         claimed.Select(x => (x.PartitionKey, x.Sequence)).Should().BeEquivalentTo(new[] { ("tenant-a", 1L), ("tenant-b", 1L) });
     }
 
+    [Fact]
+    public async Task Crash_injection_preserves_truth_before_and_after_send_acknowledgement()
+    {
+        var connectionString = await CreateFixtureAsync("crash", 2);
+        var now = DateTimeOffset.UtcNow;
+        var claimed = await ClaimAsync(connectionString, "worker-a", now, 2);
+
+        // Crash before send: no completion is written, so the original EventId is reclaimable.
+        // Crash after send but before acknowledgement is indistinguishable and may redeliver at-least-once.
+        var reclaimed = await ClaimAsync(connectionString, "worker-b", now.AddMinutes(2), 2);
+        reclaimed.Select(item => item.EventId).Should().BeEquivalentTo(claimed.Select(item => item.EventId));
+
+        // Once the broker acknowledgement has been conditionally persisted, a later crash cannot reclaim it.
+        (await CompleteAsync(connectionString, reclaimed[0])).Should().BeTrue();
+        var afterCompletion = await ClaimAsync(connectionString, "worker-c", now.AddMinutes(4), 2);
+        afterCompletion.Should().NotContain(item => item.EventId == reclaimed[0].EventId);
+    }
+
     private async Task<string> CreateFixtureAsync(string scenario, int rows)
     {
         var connectionString = await fixture.CreateDatabaseAsync($"g04_{scenario}");

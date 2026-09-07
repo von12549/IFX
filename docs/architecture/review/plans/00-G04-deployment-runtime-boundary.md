@@ -380,19 +380,24 @@ Phase 9 证据：[`G04-phase9-failure-safety.md`](../evidence/gates/G04/G04-phas
 
 ## Phase 10 — 自动化测试与发布验收
 
-- [ ] **Phase 10 完成**：启动、角色、多实例、探针、关闭与部署时序均由自动化或受控演练证明。
+- [ ] **Phase 10 PRE-READY**：当前可实现的启动、角色、reference lease、探针、drain 与策略验证已纳入 CI；真实 E3/E4、G05 sentinel 和生产演练未关闭。
 
-- [ ] G04-10.1 测试 invalid config/manifest、duplicate module/endpoint、missing/multiple Contract implementation 的 startup-fatal exit。
-- [ ] G04-10.2 测试 transient DB/dependency 故障时 Alive/NotReady，以及恢复后不重启转为 Ready。
-- [ ] G04-10.3 测试 API/Worker/all 角色只启动允许能力，Worker 不映射业务 endpoint，API 不启动 Server/Dispatcher。
-- [ ] G04-10.4 使用真实 SQL Server reference fixture 验证两个以上 claimant 的原子 claim、conditional completion、lease expiry、renewal 和接管；E3 在真实 Dispatcher 重跑。
-- [ ] G04-10.5 在 reference fixture 注入 claim 前、发送后标记前、标记后崩溃；E3/E4 回交真实 Outbox/Inbox 的不丢失与重复吸收证据。
-- [ ] G04-10.6 用 conformance fixture 测试分区顺序、不同分区并发、毒消息隔离和模块公平性；具体事件映射由 E3 验收。
-- [ ] G04-10.7 测试 Hangfire 多 Server identity、总 WorkerCount、queue ownership、recurring registration 和 failure health。
-- [ ] G04-10.8 测试 SIGTERM、load-balancer drain、停止新 claim、in-flight completion、timeout、forced kill 和 telemetry flush。
-- [ ] G04-10.9 测试 live/startup/ready/details 的选择、状态码、权限、freshness、timeout，并运行 Gate 05 敏感 sentinel 验证无未批准数据。
-- [ ] G04-10.10 演练 Migrator → Worker → API → scheduler → cleanup，以及各阶段失败、停止和安全回退。
-- [ ] G04-10.11 在 CI/CD 中验证 release/module/deployment/catalog/migration manifest 一致并保存报告。
+- [ ] G04-10.1 invalid config/manifest 与 duplicate module/endpoint 已有 startup-fatal 测试；missing/multiple Contract implementation 仍由 G03/Plan 01 catalog 验收，尚未在 Host 重复建模。
+- [ ] G04-10.2 monitor 已实现 timeout、Alive/NotReady 和恢复转 Ready；真实 transient DB integration 需目标环境演练。
+- [x] G04-10.3 `RuntimeProfileResolverTests` 与 Host/guard 验证 API/Worker/all capabilities、endpoint role gate 和 Hangfire server gate。
+- [x] G04-10.4 真实 SQL Server reference fixture 验证两个 claimant、conditional completion、expiry、renewal 和接管；E3 重跑仍是 DD03 条件。
+- [ ] G04-10.5 reference fixture 已覆盖 crash before send、after send before persisted ack、after completion；E3/E4 的真实不丢失/重复吸收证据未交回。
+- [ ] G04-10.6 fixture 覆盖分区顺序和不同分区并发；毒消息、模块公平性与具体事件映射等待 E3。
+- [ ] G04-10.7 unique identity、WorkerCount/queue config 与 recurring API 有测试/静态 guard；多 Server 总容量及唯一 scheduler authority 未演练。
+- [ ] G04-10.8 drain coordinator 测试停止新工作、in-flight、timeout；真实 SIGTERM/load-balancer/forced kill/telemetry flush 等待平台演练。
+- [ ] G04-10.9 live/startup/ready/details 状态码与权限、snapshot freshness 已测试；Gate 05 敏感 sentinel 未交回。
+- [ ] G04-10.10 编排 DAG 和失败矩阵通过结构验证；目标环境全链路演练尚未执行。
+- [x] G04-10.11 CI workflow 运行 G04 guard、manifest/orchestration/failure validator、LayerGuard、解方案 build/test 并上传报告。
+
+Phase 10 证据：[`G04-phase10-automated-acceptance.md`](../evidence/gates/G04/G04-phase10-automated-acceptance.md)、
+`.github/workflows/g04-deployment-runtime.yml`、`Invoke-G04Verification.ps1`、
+[`G04-phase10-guard-report.json`](../evidence/gates/G04/G04-phase10-guard-report.json) 与
+[`G04-phase10-layerguard-report.json`](../evidence/gates/G04/G04-phase10-layerguard-report.json)。
 
 ## Phase 11 — 架构与规则文档化
 
