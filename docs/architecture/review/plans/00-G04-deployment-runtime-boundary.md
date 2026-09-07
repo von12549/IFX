@@ -307,17 +307,21 @@ Phase 5 证据：[`G04-phase5-drain-conformance.md`](../evidence/gates/G04/G04-p
 
 ## Phase 6 — 重建 Health、Startup 与 Readiness
 
-- [ ] **Phase 6 完成**：探针语义独立、按 role 聚合、无副作用且不会泄漏敏感信息。
+- [ ] **Phase 6 PRE-READY**：Host 探针语义、role 聚合、缓存与受保护 details 已实现；真实 Worker contributors 与 Gate 05 sentinel 等待 E3/E6/G05。
 
-- [ ] G04-6.1 建立 `/health/live`，只检查进程和关键循环是否不可恢复故障，不调用 SQL、Cognito、OPA、transport 或其他网络依赖。
-- [ ] G04-6.2 建立 `/health/startup`，在静态 config/manifest/DI/route 初始化完成前失败，完成后保持成功。
-- [ ] G04-6.3 重建 `/health/ready`，按 API/Worker/all role 选择 contributor，并在 Starting/Stopping 阶段失败。
-- [ ] G04-6.4 建立受保护 `/health/details`，按 Gate 05 输出稳定 reason、release、role、instance、freshness 和 contributor 状态，不输出 secret/payload/stack trace 或原始 tenant/user 标识。
-- [ ] G04-6.5 为五个业务模块提供无写入、低成本、有 timeout 的 schema/database/contract/external dependency Health Contributor。
-- [ ] G04-6.6 为 Worker 提供 Hangfire、Dispatcher、consumer、transport、lease 和 module backlog contributor。
-- [ ] G04-6.7 为外部检查实现 lastChecked/lastSucceeded/duration/status/reason、缓存、timeout、jitter 和并发合并。
-- [ ] G04-6.8 按 dependency criticality 聚合 Healthy/Degraded/Unhealthy，明确 Cognito capability、SendGrid optional 和 OPA 审核结论。
-- [ ] G04-6.9 对 details、Hangfire dashboard 和 Worker management port 建立生产认证、网络和 Gate 05 C0-C4/日志脱敏规则。
+- [x] G04-6.1 建立 `/health/live`，只读取进程 lifecycle/关键 loop 状态，不调用任何网络依赖。
+- [x] G04-6.2 建立 `/health/startup`，静态 config/manifest/DI/route 初始化完成后保持成功，drain 不倒退 startup。
+- [x] G04-6.3 重建 `/health/ready`，从缓存按 API/Worker/all role 聚合，并在 Starting/Stopping 阶段失败。
+- [ ] G04-6.4 建立受保护 `/health/details`，输出稳定 reason、release、role、instance、freshness 和 contributor 状态且不复制异常/description；最终字段分类等待 Gate 05。
+- [x] G04-6.5 五个业务模块的 SQL/schema contributor 无写入、低成本且由 monitor timeout 约束；contract/external contributor 随真实能力接入。
+- [ ] G04-6.6 Hangfire 使用 Host lifecycle；Dispatcher、consumer、transport、lease 和 module backlog contributor 等待 E3/E6 真实信号。
+- [x] G04-6.7 外部检查由单 monitor 串行合并并缓存 lastChecked/lastSucceeded/duration/status/reason，具有 timeout 与轮询窗口；生产 jitter 校准留待演练。
+- [x] G04-6.8 readiness-critical 决定 Ready/NotReady，Cognito 标为 capability-critical/Degraded；SendGrid optional 与 OPA operational 维持 Phase 3 审核结论。
+- [ ] G04-6.9 details 已认证且公开探针已脱敏；Hangfire/Worker 网络边界和 Gate 05 C0-C4 sentinel 等待 G05 与运维环境。
+
+Phase 6 证据：[`G04-phase6-health-conformance.md`](../evidence/gates/G04/G04-phase6-health-conformance.md)、
+`HealthEndpointTests`、`HealthSnapshotStoreTests`、[`G04-phase6-guard-report.json`](../evidence/gates/G04/G04-phase6-guard-report.json) 与
+[`G04-phase6-layerguard-report.json`](../evidence/gates/G04/G04-phase6-layerguard-report.json)。
 
 ## Phase 7 — 消息积压、Backpressure 与告警
 

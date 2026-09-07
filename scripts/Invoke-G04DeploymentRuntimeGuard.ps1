@@ -97,6 +97,19 @@ if ($Phase -ge 5) {
     $checks.phase5EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md')
 }
 
+if ($Phase -ge 6) {
+    $healthConfig = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs')
+    $monitor = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs')
+    $checks.liveProbeIsLocalOnly = ($healthConfig -match '"/health/live"') -and ($healthConfig -notmatch 'MapHealthChecks\("/health/live"')
+    $checks.startupProbeIsSeparate = $healthConfig -match '"/health/startup"'
+    $checks.readyProbeUsesLifecycle = ($healthConfig -match '"/health/ready"') -and ($healthConfig -match 'RuntimeLifecycleState\.Ready')
+    $checks.detailsProbeProtected = ($healthConfig -match '"/health/details"') -and ($healthConfig -match '\.RequireAuthorization\(\)')
+    $checks.detailsUsesCachedSnapshot = ($healthConfig -match 'HealthSnapshotStore') -and (Test-Path (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/HealthSnapshotStore.cs'))
+    $checks.readinessIsRoleFiltered = ($monitor -match 'registration\.Tags\.Contains\(runtimeProfile\.RoleName\)')
+    $checks.publicAggregateHasNoDescriptions = $healthConfig -notmatch 'e\.Value\.Description'
+    $checks.phase6EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase6-health-conformance.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

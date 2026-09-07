@@ -35,6 +35,7 @@ try
     builder.Services.AddSingleton(runtimeManifests.Modules);
     builder.Services.AddSingleton(runtimeManifests.Release);
     builder.Services.AddSingleton<RuntimeLifecycle>();
+    builder.Services.AddSingleton<HealthSnapshotStore>();
     var drainOptions = builder.Configuration
         .GetSection(RuntimeDrainOptions.SectionName)
         .Get<RuntimeDrainOptions>() ?? new RuntimeDrainOptions();
@@ -114,7 +115,7 @@ try
     }
 
     // Map endpoints
-    app.MapAuthHealthCheckEndpoints();  // /health, /health/database, /health/ready
+    app.MapAuthHealthCheckEndpoints();
 
     app.MapGet("/management/runtime", (RuntimeProfile profile, RuntimeInstanceIdentity instance) => Results.Ok(new
     {
