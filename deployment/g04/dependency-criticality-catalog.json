@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "dependencies": [
+    { "dependencyId": "static-configuration", "criticality": "startup-fatal", "roles": ["api", "worker", "all"], "reasonCode": "G04-STARTUP-CONFIG-INVALID", "coverage": "Runtime role, manifests, DI and routes" },
+    { "dependencyId": "module-databases", "criticality": "readiness-critical", "roles": ["api", "worker", "all"], "reasonCode": "G04-READY-DATABASE-UNAVAILABLE", "coverage": "All five module schemas and compatible migration state" },
+    { "dependencyId": "hangfire-storage", "criticality": "readiness-critical", "roles": ["worker", "all"], "reasonCode": "G04-READY-HANGFIRE-UNAVAILABLE", "coverage": "Worker storage and server heartbeat" },
+    { "dependencyId": "transport", "criticality": "readiness-critical", "roles": ["worker", "all"], "reasonCode": "G04-READY-TRANSPORT-UNAVAILABLE", "coverage": "Enabled Dispatcher and consumer paths; supplied by E3" },
+    { "dependencyId": "opa", "criticality": "capability-critical", "roles": ["api", "all"], "reasonCode": "G04-DEGRADED-OPA-UNAVAILABLE", "coverage": "Protected operations using OPA fail closed; unaffected public/health paths remain available" },
+    { "dependencyId": "cognito", "criticality": "capability-critical", "roles": ["api", "all"], "reasonCode": "G04-DEGRADED-IDENTITY-UNAVAILABLE", "coverage": "Login and identity-management capability" },
+    { "dependencyId": "sendgrid", "criticality": "optional", "roles": ["api", "worker", "all"], "reasonCode": "G04-DEGRADED-NOTIFICATIONS-UNAVAILABLE", "coverage": "Email delivery only; durable retry is operationally visible" },
+    { "dependencyId": "frontend", "criticality": "operational", "roles": ["api", "all"], "reasonCode": "G04-OPS-FRONTEND-UNAVAILABLE", "coverage": "Does not control backend readiness" }
+  ]
+}

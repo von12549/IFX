@@ -40,6 +40,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="..\..\..\deployment\g04\module-manifest.json"
+             Link="module-manifest.json"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\..\deployment\g04\release-runtime-manifest.json"
+             Link="release-runtime-manifest.json"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="..\..\..\deployment\release-manifest.json"
              Link="release-manifest.json"
              CopyToOutputDirectory="PreserveNewest"

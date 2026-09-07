@@ -33,15 +33,15 @@ public static class HealthCheckConfiguration
                 healthQuery: "SELECT 1;",
                 name: "SQL Server",
                 failureStatus: HealthStatus.Unhealthy,
-                tags: new[] { "database", "sqlserver" })
+                tags: new[] { "database", "sqlserver", "readiness-critical", "api", "worker", "all" })
             .AddCheck<CognitoHealthCheck>(
                 name: "AWS Cognito",
                 failureStatus: HealthStatus.Unhealthy,
-                tags: new[] { "aws", "cognito", "authentication" })
+                tags: new[] { "aws", "cognito", "authentication", "capability-critical", "api", "all" })
             .AddCheck<DatabaseSchemaCompatibilityHealthCheck>(
                 name: "Database schema compatibility",
                 failureStatus: HealthStatus.Unhealthy,
-                tags: new[] { "database", "schema", "readiness" });
+                tags: new[] { "database", "schema", "readiness", "readiness-critical", "api", "worker", "all" });
 
         return services;
     }

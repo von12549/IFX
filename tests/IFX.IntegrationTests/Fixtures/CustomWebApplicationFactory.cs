@@ -28,6 +28,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["Runtime:Role"] = "api",
+                ["Runtime:DependencyPollSeconds"] = "1",
+                ["Runtime:DependencyTimeoutSeconds"] = "1",
                 ["ConnectionStrings:AuthDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["ConnectionStrings:CrmDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["ConnectionStrings:RegistryDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",

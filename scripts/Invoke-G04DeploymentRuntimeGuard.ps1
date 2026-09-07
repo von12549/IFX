@@ -54,6 +54,19 @@ if ($Phase -ge 2) {
     $checks.workerRoleConfigured = $compose -match 'ifx-worker:[\s\S]*?Runtime__Role=worker'
 }
 
+if ($Phase -ge 3) {
+    $program = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
+    $monitor = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs')
+    $checks.manifestsLoadedBeforeBuild = $program.IndexOf('RuntimeManifestLoader.Load', [StringComparison]::Ordinal) -lt $program.IndexOf('builder.Build()', [StringComparison]::Ordinal)
+    $checks.platformRegisteredBeforeModules = $program.IndexOf('builder.Services.AddMessaging()', [StringComparison]::Ordinal) -lt $program.IndexOf('builder.Services.AddAuthModule', [StringComparison]::Ordinal)
+    $checks.manifestOrdersEndpointMapping = $program -match 'orderedInstallers[\s\S]*?installer\.MapEndpoints'
+    $checks.compositionValidatedAfterBuild = $program -match 'builder\.Build\(\)[\s\S]*?StartupBoundaryVerifier\.ValidateComposition'
+    $checks.endpointCollisionValidated = $program -match 'StartupBoundaryVerifier\.ValidateEndpointIdentity'
+    $checks.recoverableDependenciesAsync = ($monitor -match 'BackgroundService') -and ($monitor -match 'while \(!stoppingToken\.IsCancellationRequested\)')
+    $checks.readinessChecksBounded = ($monitor -match 'CancelAfter\(timeout\)') -and ($monitor -match 'readiness-critical')
+    $checks.dependencyReviewExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase3-dependency-review.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

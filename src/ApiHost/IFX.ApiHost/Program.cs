@@ -29,19 +29,15 @@ try
     var builder = WebApplication.CreateBuilder(args);
     var runtimeProfile = RuntimeProfileResolver.Resolve(builder.Configuration, builder.Environment);
     builder.Services.AddSingleton(runtimeProfile);
+    var runtimeManifests = RuntimeManifestLoader.Load(AppContext.BaseDirectory);
+    builder.Services.AddSingleton(runtimeManifests.Modules);
+    builder.Services.AddSingleton(runtimeManifests.Release);
+    builder.Services.AddSingleton<RuntimeLifecycle>();
 
     // Add Serilog
     builder.Host.UseSerilog();
 
-    // Register modules (each module registers its own services + IModuleInstaller)
-    builder.Services.AddAuthModule(builder.Configuration);
-    builder.Services.AddCrmModule(builder.Configuration);
-    builder.Services.AddRegistryModule(builder.Configuration);
-    builder.Services.AddHoldingsModule(builder.Configuration);
-    builder.Services.AddTransactionModule(builder.Configuration);
-    builder.Services.AddApplicationPipeline();
-
-    // Register platform services
+    // Register platform primitives before the required module topology.
     builder.Services.AddMessaging();
     builder.Services.AddBackgroundJobsClient(builder.Configuration);
     if (runtimeProfile.Capabilities.HangfireServer)
@@ -49,6 +45,14 @@ try
         builder.Services.AddBackgroundJobsServer(builder.Configuration);
     }
     builder.Services.AddNotificationsOptional(builder.Configuration);
+
+    // Register required modules. Composition registration is side-effect free.
+    builder.Services.AddAuthModule(builder.Configuration);
+    builder.Services.AddCrmModule(builder.Configuration);
+    builder.Services.AddRegistryModule(builder.Configuration);
+    builder.Services.AddHoldingsModule(builder.Configuration);
+    builder.Services.AddTransactionModule(builder.Configuration);
+    builder.Services.AddApplicationPipeline();
 
     // Add API infrastructure (via configuration modules)
     builder.Services.AddOpaClient(builder.Configuration);
@@ -59,8 +63,14 @@ try
     builder.Services.AddAuthorization();
     builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
     builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+    builder.Services.AddHostedService<StartupDependencyMonitor>();
 
     var app = builder.Build();
+    var orderedInstallers = StartupBoundaryVerifier.ValidateComposition(
+        app.Services.GetServices<IModuleInstaller>(),
+        runtimeManifests.Modules,
+        runtimeManifests.Release,
+        runtimeProfile);
 
     // Configure middleware pipeline
     app.UseMiddleware<RequestLoggingMiddleware>();
@@ -102,13 +112,14 @@ try
     if (runtimeProfile.Capabilities.Api)
     {
         // Business endpoints are mapped only by api/all roles.
-        var installers = app.Services.GetServices<IModuleInstaller>();
-        foreach (var installer in installers)
+        foreach (var installer in orderedInstallers)
         {
             Log.Information("Mapping endpoints for {Module} module", installer.ModuleName);
             installer.MapEndpoints(app);
         }
     }
+
+    StartupBoundaryVerifier.ValidateEndpointIdentity(app.Services.GetRequiredService<EndpointDataSource>());
 
     app.Run();
 }

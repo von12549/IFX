@@ -4,7 +4,7 @@
   "businessBoundary": "ifx-backend",
   "hostArtifact": {
     "artifactId": "ifx-host",
-    "digest": "sha256:d7abd388a9ff2a155ce1247ed1df46a67fc7db459b21ee0daca57a1227e246a0",
+    "digest": "sha256:be40721d21dd6865e69616ff4763ade46689e4fdfdab9dd0141da46ad5ca33cb",
     "allowedRoles": [
       "api",
       "worker",

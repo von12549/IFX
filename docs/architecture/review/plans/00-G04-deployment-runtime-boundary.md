@@ -255,15 +255,20 @@ Phase 2 证据：`RuntimeProfileResolverTests`、Compose API/Worker 同 artifact
 
 ## Phase 3 — 重构确定性启动与依赖分类
 
-- [ ] **Phase 3 完成**：注册、验证、环境准备和 Ready 状态之间具有确定且无副作用的边界。
+- [x] **Phase 3 完成**：注册、验证、环境准备和 Ready 状态之间具有确定且无副作用的边界。
 
-- [ ] G04-3.1 将 platform primitives 注册置于显式阶段，再按 Module Manifest 拓扑注册 required modules；不依赖偶然 DI 枚举顺序。
-- [ ] G04-3.2 将 Composition `InstallServices` 和 endpoint mapping 约束为纯声明/注册，移除 migration、seed、网络探测和 worker 启动副作用。
-- [ ] G04-3.3 在 Build 后验证 required Contract 单一实现、module dependency、endpoint collision、catalog/release/schema metadata 一致性。
-- [ ] G04-3.4 将错误配置、duplicate identity、missing service 和 manifest mismatch 设为 startup-fatal，并提供稳定 exit/reason code。
-- [ ] G04-3.5 让 Host 先进入 Alive/NotReady，再异步验证可恢复环境依赖；检查可取消、超时且不会无限阻塞启动。
-- [ ] G04-3.6 建立 startup-fatal、readiness-critical、capability-critical、optional、operational dependency catalog。
-- [ ] G04-3.7 审核 Cognito、OPA、SendGrid、各模块数据库、Hangfire storage 和 transport 的实际覆盖范围并批准 criticality。
+- [x] G04-3.1 将 platform primitives 注册置于显式阶段，再按 Module Manifest 拓扑映射 required modules；不依赖偶然 DI 枚举顺序。
+- [x] G04-3.2 将 Composition `InstallServices` 和 endpoint mapping 约束为纯声明/注册；migration 已由 Gate 02 Migrator 独立执行，网络探测和 worker loop 均不在 Composition 中启动。
+- [x] G04-3.3 在 Build 后验证 required module 单一 installer、module/release identity、允许 role 和 endpoint collision；Contract 单一实现继续由各 Composition DI 测试与 G03/Plan 01 catalog 约束，避免在 Host 复制 Contract registry。
+- [x] G04-3.4 将错误 Runtime 配置、duplicate/missing module identity、manifest/release mismatch 和 endpoint collision 设为 startup-fatal，并提供稳定 `G04-*` reason code。
+- [x] G04-3.5 Host 通过 `StartupDependencyMonitor` 先进入 Alive/NotReady，再异步、可取消且有 timeout 地验证 readiness-critical 依赖，并在恢复后转为 Ready。
+- [x] G04-3.6 建立 startup-fatal、readiness-critical、capability-critical、optional、operational dependency catalog。
+- [x] G04-3.7 审核 Cognito、OPA、SendGrid、各模块数据库、Hangfire storage 和 transport 的实际覆盖范围并记录 criticality；E3 启用 transport 后须回访真实 contributor。
+
+Phase 3 证据：[`G04-phase3-dependency-review.md`](../evidence/gates/G04/G04-phase3-dependency-review.md)、
+`deployment/g04/dependency-criticality-catalog.json`、`StartupBoundaryVerifierTests`、
+[`G04-phase3-guard-report.json`](../evidence/gates/G04/G04-phase3-guard-report.json) 与
+[`G04-phase3-layerguard-report.json`](../evidence/gates/G04/G04-phase3-layerguard-report.json)。
 
 ## Phase 4 — 建立多实例 Worker 与 Lease Conformance
 
