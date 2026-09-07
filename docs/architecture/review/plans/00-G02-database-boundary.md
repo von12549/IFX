@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 6 已完成（2026-09-08）
+> 状态：Implementation In Progress / Phase 7 已完成（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -275,20 +275,26 @@ Phase 6 证据：[`G02-phase6-report.md`](../evidence/gates/G02/G02-phase6-repor
 
 ## Phase 7 — 建立真实 SQL Server Migration 测试矩阵
 
-- [ ] **Phase 7 完成**：fresh、upgrade、legacy、partial、并发和权限路径均有自动化测试。
+- [x] **Phase 7 完成**：fresh、upgrade、legacy、partial、并发和权限路径均有自动化测试。
 
-- [ ] G02-7.1 使用现有 `Testcontainers.MsSql` 建立隔离的 SQL Server 2022 migration fixture。
-- [ ] G02-7.2 测试 empty database → latest，验证五个 schema、history、表、约束和零 pending migrations。
-- [ ] G02-7.3 测试 shared `dbo` history → module histories，验证精确复制与旧表只读保留。
-- [ ] G02-7.4 测试 Auth 14-ID legacy、正确 canonical、错误 squash alias 和 mixed/partial 状态。
-- [ ] G02-7.5 测试完整 EnsureCreated fingerprint 可显式 adopt，缺表/列/index 时 fail closed 且不改 history。
-- [ ] G02-7.6 测试 previous release → latest，验证数据保留、Expand/Contract 兼容和重跑幂等。
-- [ ] G02-7.7 测试两个 Migrator 并发执行，验证全局锁、等待/超时和单一执行者。
-- [ ] G02-7.8 注入模块 N 失败，验证后续模块不执行、报告准确且修复后可继续。
-- [ ] G02-7.9 测试 model ownership 与数据库 metadata，确保没有实体、history 或 FK 越过模块 schema。
-- [ ] G02-7.10 测试 migration identity 可执行 DDL，runtime identity 只能完成所需 DML/readiness。
-- [ ] G02-7.11 向 E2/E4 提供可复用 schema ownership 和 fresh/upgrade migration assertions；Event 实施真实 Outbox/Inbox migration 后回交测试报告作为最终关闭证据。
-- [ ] G02-7.12 在 CI 运行 build、pending-model 检查、migration matrix 和 SQL artifact 生成。
+- [x] G02-7.1 使用现有 `Testcontainers.MsSql` 建立隔离的 SQL Server 2022 migration fixture。
+- [x] G02-7.2 测试 empty database → latest，验证五个 schema、history、表、约束和零 pending migrations。
+- [x] G02-7.3 测试 shared `dbo` history → module histories，验证精确复制与旧表只读保留。
+- [x] G02-7.4 测试 Auth 14-ID legacy、正确 canonical、错误 squash alias 和 mixed/partial 状态。
+- [x] G02-7.5 测试完整 EnsureCreated fingerprint 可显式 adopt，缺表/列/index 时 fail closed 且不改 history。
+- [x] G02-7.6 测试 previous release → latest，验证数据保留、Expand/Contract 兼容和重跑幂等。
+- [x] G02-7.7 测试两个 Migrator 并发执行，验证全局锁、等待/超时和单一执行者。
+- [x] G02-7.8 注入模块 N 失败，验证后续模块不执行、报告准确且修复后可继续。
+- [x] G02-7.9 测试 model ownership 与数据库 metadata，确保没有实体、history 或 FK 越过模块 schema。
+- [x] G02-7.10 测试 migration identity 可执行 DDL，runtime identity 只能完成所需 DML/readiness。
+- [x] G02-7.11 向 E2/E4 提供可复用 schema ownership 和 fresh/upgrade migration assertions；Event 实施真实 Outbox/Inbox migration 后回交测试报告作为最终关闭证据。
+- [x] G02-7.12 在 CI 运行 build、pending-model 检查、migration matrix 和 SQL artifact 生成。
+
+Phase 7 证据：[`G02-phase7-report.md`](../evidence/gates/G02/G02-phase7-report.md)、
+[`G02-phase7-matrix-report.json`](../evidence/gates/G02/G02-phase7-matrix-report.json)、
+[`G02-phase7-guard-report.json`](../evidence/gates/G02/G02-phase7-guard-report.json) 和
+[`G02-phase7-layerguard-report.json`](../evidence/gates/G02/G02-phase7-layerguard-report.json)。E2/E4 可直接复用
+`G02SqlServerAssertions`，但真实 Outbox/Inbox migration 尚未实施，因此其最终回交证据仍是 Gate 关闭前置项。
 
 ## Phase 8 — 渐进上线与兼容窗口
 

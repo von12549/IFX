@@ -75,11 +75,12 @@ public static class SqlServerSchemaFingerprintReader
             JOIN sys.schemas s ON s.schema_id = t.schema_id
             JOIN sys.index_columns ic ON ic.object_id = t.object_id AND ic.index_id = kc.unique_index_id
             JOIN sys.columns c ON c.object_id = t.object_id AND c.column_id = ic.column_id
-            WHERE s.name = @schema
+            WHERE s.name = @schema AND t.name <> @history
             ORDER BY t.name, kc.name, ic.key_ordinal;
             """;
         await using var command = Command(connection, transaction, sql);
         Parameter(command, "@schema", schema);
+        Parameter(command, "@history", SqlServerHistoryBootstrapper.HistoryTable);
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var groups = new Dictionary<(string Table, string Name, bool Primary), List<string>>();
         while (await reader.ReadAsync(cancellationToken))
@@ -117,11 +118,12 @@ public static class SqlServerSchemaFingerprintReader
             JOIN sys.tables rt ON rt.object_id = fk.referenced_object_id
             JOIN sys.schemas ps ON ps.schema_id = rt.schema_id
             JOIN sys.columns rc ON rc.object_id = rt.object_id AND rc.column_id = fkc.referenced_column_id
-            WHERE pts.name = @schema
+            WHERE pts.name = @schema AND pt.name <> @history
             ORDER BY pt.name, fk.name, fkc.constraint_column_id;
             """;
         await using var command = Command(connection, transaction, sql);
         Parameter(command, "@schema", schema);
+        Parameter(command, "@history", SqlServerHistoryBootstrapper.HistoryTable);
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var groups = new Dictionary<(string Table, string Name, string PrincipalSchema, string PrincipalTable),
             (List<string> Columns, List<string> PrincipalColumns)>();
@@ -163,6 +165,7 @@ public static class SqlServerSchemaFingerprintReader
             JOIN sys.index_columns ic ON ic.object_id = i.object_id AND ic.index_id = i.index_id
             JOIN sys.columns c ON c.object_id = t.object_id AND c.column_id = ic.column_id
             WHERE s.name = @schema
+              AND t.name <> @history
               AND i.is_primary_key = 0
               AND i.is_unique_constraint = 0
               AND i.is_hypothetical = 0
@@ -172,6 +175,7 @@ public static class SqlServerSchemaFingerprintReader
             """;
         await using var command = Command(connection, transaction, sql);
         Parameter(command, "@schema", schema);
+        Parameter(command, "@history", SqlServerHistoryBootstrapper.HistoryTable);
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var groups = new Dictionary<(string Table, string Name, bool Unique, string? Filter), List<string>>();
         while (await reader.ReadAsync(cancellationToken))
@@ -192,7 +196,11 @@ public static class SqlServerSchemaFingerprintReader
         foreach (var pair in groups)
         {
             GetTable(tables, pair.Key.Table).Indexes.Add(
-                new IndexFingerprint(pair.Key.Name, pair.Key.Unique, pair.Key.Filter, pair.Value));
+                new IndexFingerprint(
+                    pair.Key.Name,
+                    pair.Key.Unique,
+                    SchemaFingerprintSql.NormalizeFilter(pair.Key.Filter),
+                    pair.Value));
         }
     }
 

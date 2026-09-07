@@ -93,6 +93,16 @@ public static class SchemaFingerprintBuilder
             .ToArray();
         var foreignKeys = entities
             .SelectMany(entity => entity.GetForeignKeys())
+            .Where(foreignKey =>
+                !foreignKey.IsOwnership ||
+                !string.Equals(
+                    foreignKey.PrincipalEntityType.GetTableName(),
+                    table,
+                    StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(
+                    foreignKey.PrincipalEntityType.GetSchema(),
+                    schema,
+                    StringComparison.OrdinalIgnoreCase))
             .Select(foreignKey =>
             {
                 var principalTable = foreignKey.PrincipalEntityType.GetTableName()!;
@@ -116,7 +126,7 @@ public static class SchemaFingerprintBuilder
             .Select(index => new IndexFingerprint(
                 index.GetDatabaseName()!,
                 index.IsUnique,
-                index.GetFilter(),
+                SchemaFingerprintSql.NormalizeFilter(index.GetFilter()),
                 index.Properties.Select(property => property.GetColumnName(store)!).ToArray()))
             .GroupBy(index => index.Name, StringComparer.OrdinalIgnoreCase)
             .Select(group => group.First())
@@ -124,6 +134,35 @@ public static class SchemaFingerprintBuilder
             .ToArray();
 
         return new TableFingerprint(table, columns, keys, foreignKeys, indexes);
+    }
+}
+
+internal static class SchemaFingerprintSql
+{
+    public static string? NormalizeFilter(string? filter)
+    {
+        if (filter is null) return null;
+
+        var builder = new StringBuilder(filter.Length);
+        var inString = false;
+        foreach (var character in filter)
+        {
+            if (character == '\'')
+            {
+                inString = !inString;
+                builder.Append(character);
+                continue;
+            }
+
+            if (!inString && (char.IsWhiteSpace(character) || character is '[' or ']' or '(' or ')'))
+            {
+                continue;
+            }
+
+            builder.Append(char.ToLowerInvariant(character));
+        }
+
+        return builder.ToString();
     }
 }
 

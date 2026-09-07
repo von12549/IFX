@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "phase": 7,
+  "date": "2026-09-08",
+  "result": "passed",
+  "runtime": {
+    "engine": "SQL Server 2022",
+    "image": "mcr.microsoft.com/mssql/server:2022-latest",
+    "fixture": "Testcontainers.MsSql 4.1.0",
+    "isolation": "one disposable database per scenario"
+  },
+  "counts": {
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "modules": 5,
+    "migrations": 14
+  },
+  "scenarios": [
+    "empty database to latest and idempotent rerun",
+    "shared dbo history to exact module histories with source retained",
+    "Auth canonical history",
+    "Auth exact fourteen-ID pre-squash history",
+    "Auth incorrect squash alias",
+    "Auth partial schema and fingerprint mismatch fail closed",
+    "Auth complete historyless schema requires explicit adoption",
+    "Auth partial legacy history fails closed without rewriting history",
+    "previous release to latest with data preservation and idempotent rerun",
+    "concurrent migrators serialize and explicit lock timeout",
+    "injected module failure stops later modules and resumes by roll-forward",
+    "migration identity DDL plus runtime identity DML/readiness without DDL"
+  ],
+  "reusableAssertions": [
+    "G02SqlServerAssertions.AssertCurrentHistoriesAsync",
+    "G02SqlServerAssertions.AssertNoCrossSchemaForeignKeysAsync"
+  ],
+  "ci": {
+    "workflow": ".github/workflows/database-migrations.yml",
+    "checks": [
+      "solution build",
+      "five-context pending-model check",
+      "migration safety policy",
+      "version-matched SQL artifact generation",
+      "deterministic database boundary tests",
+      "SQL Server migration matrix"
+    ]
+  }
+}

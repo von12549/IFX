@@ -11,7 +11,8 @@ public sealed class DatabaseMigratorRunner(
     MigrationManifest manifest,
     MigratorOptions options,
     IReadOnlyDictionary<string, string> connectionStrings,
-    IReadOnlyDictionary<string, DbContext> contexts)
+    IReadOnlyDictionary<string, DbContext> contexts,
+    Func<ModuleRuntime, DbContext, CancellationToken, Task>? migrateModule = null)
 {
     private readonly IReadOnlyList<ModuleRuntime> _runtimes = ModuleRuntime.All.OrderBy(module => module.Order).ToArray();
 
@@ -178,7 +179,14 @@ public sealed class DatabaseMigratorRunner(
         var before = (await context.Database.GetAppliedMigrationsAsync(cancellationToken)).ToArray();
         var pending = (await context.Database.GetPendingMigrationsAsync(cancellationToken)).ToArray();
         var stopwatch = Stopwatch.StartNew();
-        await context.Database.MigrateAsync(cancellationToken);
+        if (migrateModule is null)
+        {
+            await context.Database.MigrateAsync(cancellationToken);
+        }
+        else
+        {
+            await migrateModule(runtime, context, cancellationToken);
+        }
         stopwatch.Stop();
         var after = (await context.Database.GetAppliedMigrationsAsync(cancellationToken)).ToArray();
         return new ModuleMigrationReport(
@@ -255,5 +263,7 @@ public sealed class DatabaseMigratorRunner(
 
     private static bool IsAuthAdoptionBlocker(string error) =>
         error.StartsWith("Auth recognized legacy", StringComparison.Ordinal) ||
-        error.StartsWith("Auth has a complete schema", StringComparison.Ordinal);
+        error.StartsWith("Auth has a complete schema", StringComparison.Ordinal) ||
+        error.StartsWith("Auth history contains foreign or unknown MigrationId", StringComparison.Ordinal) &&
+        AuthLegacyMigrationManifest.AllLegacyIds.Any(id => error.Contains($"'{id}'", StringComparison.Ordinal));
 }

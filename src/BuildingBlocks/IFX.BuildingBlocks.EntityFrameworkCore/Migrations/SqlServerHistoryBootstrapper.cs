@@ -327,7 +327,7 @@ public sealed class SqlServerHistoryBootstrapper
     {
         if (string.IsNullOrWhiteSpace(identifier) ||
             !identifier.All(character => char.IsAsciiLetterOrDigit(character) || character == '_') ||
-            !char.IsAsciiLetter(identifier[0]))
+            !(char.IsAsciiLetter(identifier[0]) || identifier[0] == '_'))
         {
             throw new HistoryBootstrapException($"Invalid {kind} identifier in migration catalog.");
         }

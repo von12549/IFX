@@ -43,6 +43,9 @@ execution, validation, and evidence explicitly module-owned.
   version-matched SQL artifacts automated, and local/NAS deployment ordering enforced.
 - Phase 6 complete: Expand/Contract review, destructive-migration policy enforcement, partial
   upgrade recovery, exceptional rollback and immutable upgrade audit controls established.
+- Phase 7 complete: SQL Server 2022 migration matrix covers fresh/shared/legacy/historyless/partial,
+  previous-release, concurrency, failure recovery and split migration/runtime permissions; CI now
+  runs solution build, pending-model checks, SQL artifacts and the live matrix.
 
 ## Phase discipline
 
