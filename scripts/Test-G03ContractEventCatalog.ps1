@@ -25,7 +25,7 @@ function Test-Catalog($catalog) {
     foreach ($name in @('identity', 'compatibility', 'dtoPolicy', 'breakingChange', 'baseline', 'deprecation')) {
         if ($null -eq $catalog.sourcePolicy.$name) { Add-Error 'policy-node' "sourcePolicy.$name" "Required policy '$name' is missing." }
     }
-    foreach ($name in @('owners', 'modules', 'consumers', 'protocols', 'publicSurface', 'contractDependencyPolicy', 'sharedPrimitives', 'waivers', 'changeRecords')) {
+    foreach ($name in @('owners', 'modules', 'consumers', 'approvalPolicy', 'protocols', 'publicSurface', 'contractDependencyPolicy', 'sharedPrimitives', 'waivers', 'changeRecords')) {
         if ($null -eq $catalog.$name) { Add-Error 'required-node' $name "Required node '$name' is missing." }
     }
     Test-Unique @($catalog.owners) 'id' 'owners'
@@ -50,6 +50,12 @@ function Test-Catalog($catalog) {
         if ($consumer.kind -notin @('internal-module', 'external-service', 'external-client')) { Add-Error 'consumer-kind' "consumers.$($consumer.id).kind" 'Invalid consumer kind.' }
         if ($consumer.kind -eq 'internal-module' -and $consumer.module -notin $moduleIds) { Add-Error 'module-reference' "consumers.$($consumer.id).module" "Unknown module '$($consumer.module)'." }
         if ([string]::IsNullOrWhiteSpace($consumer.evidence) -or [string]::IsNullOrWhiteSpace($consumer.lastConfirmedAt)) { Add-Error 'consumer-evidence' "consumers.$($consumer.id)" 'Evidence and lastConfirmedAt are required.' }
+    }
+    foreach ($changeClass in @('New', 'Compatible', 'Conditional', 'Breaking', 'SharedPrimitiveOrEnvelope', 'Deprecated', 'Retired')) {
+        if (@($catalog.approvalPolicy.reviewers.$changeClass).Count -eq 0) { Add-Error 'reviewer-policy' "approvalPolicy.reviewers.$changeClass" 'Reviewer set is required.' }
+    }
+    if ([string]::IsNullOrWhiteSpace($catalog.approvalPolicy.externalConfirmation) -or [string]::IsNullOrWhiteSpace($catalog.approvalPolicy.emergency)) {
+        Add-Error 'approval-policy' 'approvalPolicy' 'External confirmation and emergency paths are required.'
     }
     foreach ($protocol in @($catalog.protocols)) {
         $path = "protocols.$($protocol.identity)"

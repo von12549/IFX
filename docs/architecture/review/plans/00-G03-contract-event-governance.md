@@ -271,11 +271,17 @@ Phase 4 证据：[`shared-contract-primitives.md`](../gates/G03/shared-contract-
 - [ ] **Phase 5 完成**：每类变更都有可执行审批路径，Provider 与 Consumer 责任清晰且不会转移给 ApiHost。
 
 - [ ] G03-5.1 为每个模块和 Platform Messaging 指定真实 owner/backup owner，并映射到仓库实际审批能力。
-- [ ] G03-5.2 定义新增、Compatible、Conditional、Breaking、shared primitive/envelope、Deprecated 和 Retired 所需 reviewer 集合。
-- [ ] G03-5.3 确保任何 Active contract/event 至少由 Provider 与首个 Consumer 双方批准。
-- [ ] G03-5.4 将 Change Record 纳入 PR 流程；Breaking change 无 ADR/迁移计划、发布顺序和回退路径时不得合并。
-- [ ] G03-5.5 建立 consumer confirmation 与定期复核机制，外部 consumer 的 last-confirmed-at 过期后触发告警而非静默删除。
-- [ ] G03-5.6 建立紧急安全/监管变更路径，要求显式影响清单、协调发布和事后 ADR，不允许借紧急名义复用 identity。
+- [x] G03-5.2 定义新增、Compatible、Conditional、Breaking、shared primitive/envelope、Deprecated 和 Retired 所需 reviewer 集合。
+- [x] G03-5.3 确保任何 Active contract/event 至少由 Provider 与首个 Consumer 双方批准。
+- [x] G03-5.4 将 Change Record 纳入 PR 流程；Breaking change 无 ADR/迁移计划、发布顺序和回退路径时不得合并。
+- [x] G03-5.5 建立 consumer confirmation 与定期复核机制，外部 consumer 的 last-confirmed-at 过期后触发告警而非静默删除。
+- [x] G03-5.6 建立紧急安全/监管变更路径，要求显式影响清单、协调发布和事后 ADR，不允许借紧急名义复用 identity。
+
+Phase 5 当前为 PRE-READY：[`G03-phase5-pre-ready.md`](../evidence/gates/G03/G03-phase5-pre-ready.md)、
+[`ownership-and-change-approval.md`](../gates/G03/ownership-and-change-approval.md)、
+[`G03-phase5-guard-report.json`](../evidence/gates/G03/G03-phase5-guard-report.json) 与
+[`G03-phase5-layerguard-report.json`](../evidence/gates/G03/G03-phase5-layerguard-report.json)。仓库证据只解析出一位
+当前维护者，不能虚构独立 backup owner；须在首次 Proposed → Active 或 Gate 关闭前由 repository owner 指定并回访。
 
 ## Phase 6 — 建立兼容性与目录自动化
 

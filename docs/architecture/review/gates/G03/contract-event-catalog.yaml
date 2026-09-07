@@ -113,6 +113,23 @@
       "lastConfirmedAt": "2026-09-08"
     }
   ],
+  "approvalPolicy": {
+    "codeownersHandle": "@von12549",
+    "backupOwner": null,
+    "backupAssignmentStatus": "required-before-active-or-gate-close",
+    "reviewers": {
+      "New": ["provider-owner", "first-consumer-owner"],
+      "Compatible": ["provider-owner", "affected-consumer-owner"],
+      "Conditional": ["provider-owner", "all-affected-consumer-owners", "architecture-owner"],
+      "Breaking": ["provider-owner", "all-affected-consumer-owners", "platform-owner-if-shared", "architecture-owner"],
+      "SharedPrimitiveOrEnvelope": ["platform-messaging-owner", "all-affected-module-owners", "architecture-owner"],
+      "Deprecated": ["provider-owner", "all-consumer-owners"],
+      "Retired": ["provider-owner", "all-consumer-owners", "architecture-owner"]
+    },
+    "activeAdmission": "Provider and first consumer approvals plus source/snapshot/test evidence are mandatory.",
+    "externalConfirmation": "Check at least every 90 days; stale confirmation alerts and blocks retire but never silently deletes a consumer.",
+    "emergency": "Security/regulatory emergency changes require an impact inventory, coordinated release and rollback, and a post-incident ADR. An incompatible change always receives a new identity."
+  },
   "protocols": [
     {
       "identity": "crm.account-compliance.v1",
