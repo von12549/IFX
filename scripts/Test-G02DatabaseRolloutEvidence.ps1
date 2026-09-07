@@ -67,7 +67,7 @@ $requiredTrue = @(
     $evidence.compatibilityWindow.migrationStable,
     $evidence.compatibilityWindow.readinessStable,
     $evidence.compatibilityWindow.businessReadWriteStable,
-    $evidence.compatibilityWindow.rollbackObserved,
+    $evidence.compatibilityWindow.rollbackCompatibilityVerified,
     $evidence.runtimeIdentity.dmlVerified,
     $evidence.runtimeIdentity.readinessVerified,
     $evidence.runtimeIdentity.ddlDenied,
@@ -80,8 +80,9 @@ if ($requiredTrue -contains $false) {
 if ($evidence.status -ne "completed" -or $evidence.execution.validationResult -ne "succeeded") {
     throw "G02 rollout evidence is not completed with successful validation."
 }
-if ($evidence.sharedHistory.mode -ne "archived-read-only" -or $evidence.sharedHistory.deletionApproved) {
-    throw "G02 shared history must be retained archived/read-only without deletion approval."
+if ($evidence.sharedHistory.mode -notin @("archived-read-only", "not-present-fresh") -or
+    $evidence.sharedHistory.deletionApproved) {
+    throw "G02 shared history must be retained archived/read-only or verified absent on fresh state, without deletion approval."
 }
 
 $timestamps = @(

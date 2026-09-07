@@ -1,0 +1,72 @@
+{
+  "Mode": "DryRun",
+  "StartedAt": "2026-09-07T16:27:42.2684525+00:00",
+  "FinishedAt": "2026-09-07T16:27:43.280619+00:00",
+  "Result": "succeeded",
+  "FailurePoint": null,
+  "Errors": [],
+  "HistoryBootstrap": {
+    "Classification": 0,
+    "Modules": [
+      {
+        "Module": "Auth",
+        "Schema": "auth",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": [
+          "20260327075710_InitialCreate",
+          "20260327075811_InitialSeed",
+          "20260413100000_CrmPolicyDefinitionSeeds",
+          "20260420042950_AlterAuditColumnsToDateTimeOffset"
+        ]
+      },
+      {
+        "Module": "CRM",
+        "Schema": "crm",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": [
+          "20260413120000_InitialCreate",
+          "20260420043006_AlterAuditColumnsToDateTimeOffset"
+        ]
+      },
+      {
+        "Module": "Registry",
+        "Schema": "registry",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": [
+          "20260413120300_InitialCreate",
+          "20260413191525_AddProduct",
+          "20260420043017_AlterAuditColumnsToDateTimeOffset"
+        ]
+      },
+      {
+        "Module": "Holdings",
+        "Schema": "holdings",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": [
+          "20260413120100_InitialCreate",
+          "20260420043031_AlterAuditColumnsToDateTimeOffset"
+        ]
+      },
+      {
+        "Module": "Transaction",
+        "Schema": "transaction",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": [
+          "20260413120200_InitialCreate",
+          "20260418123443_AddOrderInstructionModel",
+          "20260420043039_AlterAuditColumnsToDateTimeOffset"
+        ]
+      }
+    ],
+    "Errors": [],
+    "CanApply": true,
+    "HasChanges": false
+  },
+  "AuthLegacyAdoption": null,
+  "Modules": []
+}

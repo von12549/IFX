@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "status": "completed",
+  "releaseId": "g02-phase8-2807fdb694",
+  "environment": "docker:ifx-sqlserver/IFXDb_G02_Rehearsal_20260908022645",
+  "changeTicket": "codex-thread:user-approved-controlled-docker-rehearsal:2026-09-08",
+  "approvals": {
+    "architecture": "codex-thread:user-approved-controlled-docker-rehearsal:2026-09-08",
+    "database": "codex-thread:user-approved-controlled-docker-rehearsal:2026-09-08",
+    "operations": "codex-thread:user-approved-controlled-docker-rehearsal:2026-09-08"
+  },
+  "artifacts": {
+    "migrationManifestSha256": "32244a8b03a69278317ccf78f7f50c6976ab3e70d6ffcc91027cee12eee8bec4",
+    "releaseManifestSha256": "8ab02399fddb786515ee47551d9ad6560b6bc1475ad40d3a0f455f912e88bc80",
+    "artifactManifestSha256": "d2d7c8c5c4d3fa7c5ab3a0ed767a56b379ff7f1bec14d829154473e240382493"
+  },
+  "preflight": {
+    "reportReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/preflight.json",
+    "reportSha256": "8a4ff789e8888d24c073bd434329b4a2f2b1fc515d650379cbabf75808ac545c",
+    "classification": 0,
+    "historyMappingReviewed": true,
+    "fingerprintReviewed": true,
+    "reviewedBy": "automated-rehearsal-with-user-approved-scope",
+    "reviewedAt": "2026-09-07T16:26:45.7579132+00:00"
+  },
+  "restorePoint": {
+    "identifier": "/var/opt/mssql/data/IFXDb_G02_Rehearsal_20260908022645.bak",
+    "restoreVerified": true,
+    "restoreVerificationReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/restore-verification.json",
+    "verifiedAt": "2026-09-07T16:27:44.2925177+00:00"
+  },
+  "execution": {
+    "migrationJobReference": "docker-image:ifx-database-migrator:g02-phase8",
+    "applyReportReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/apply.json",
+    "applyReportSha256": "87ca601a5af0a1987fa9ea10a06f4e79dc9dd397a16a5c60d4d16398ea9e9c8c",
+    "validationReportReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/validation.json",
+    "validationReportSha256": "c1f496a31fed6e473af4a1d9ec13b2938aba06342cf4a3b6e9745daf978b6239",
+    "validationResult": "succeeded",
+    "apiStartedAfterValidation": true,
+    "operator": "automated-controlled-docker-rehearsal",
+    "startedAt": "2026-09-07T16:26:45.7579132+00:00",
+    "finishedAt": "2026-09-07T16:28:01.2328542+00:00"
+  },
+  "compatibilityWindow": {
+    "startedAt": "2026-09-07T16:26:45.7579132+00:00",
+    "finishedAt": "2026-09-07T16:28:01.2328542+00:00",
+    "migrationStable": true,
+    "readinessStable": true,
+    "businessReadWriteStable": true,
+    "rollbackCompatibilityVerified": true,
+    "smokeTestReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/permission-report.json",
+    "rollbackVerificationReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/api-readiness-report.json"
+  },
+  "runtimeIdentity": {
+    "permissionReportReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/permission-report.json",
+    "dmlVerified": true,
+    "readinessVerified": true,
+    "ddlDenied": true,
+    "legacyRuntimeMigrationEntryPointsAbsent": true
+  },
+  "sharedHistory": {
+    "mode": "not-present-fresh",
+    "archiveReference": "docs/architecture/review/evidence/gates/G02/phase8-docker-rehearsal/preflight.json",
+    "rowsPreserved": true,
+    "deletionApproved": false
+  }
+}

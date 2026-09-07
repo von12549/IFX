@@ -114,9 +114,18 @@ public sealed class DatabaseMigratorManifestTests
             "IFX.DatabaseMigrator.csproj"));
 
         project.Should().Contain("<OutputType>Exe</OutputType>");
+        project.Should().Contain("<InvariantGlobalization>false</InvariantGlobalization>");
         project.Should().NotContain("Microsoft.AspNetCore");
         project.Should().NotContain(".Composition");
         project.Should().NotContain("BackgroundJobs");
+
+        var dockerfile = File.ReadAllText(Path.Combine(
+            RepositoryRoot(),
+            "src",
+            "DatabaseMigrator",
+            "IFX.DatabaseMigrator",
+            "Dockerfile"));
+        dockerfile.Should().Contain("mcr.microsoft.com/dotnet/aspnet:8.0 AS final");
     }
 
     private static MigrationManifest LoadManifest() => MigrationManifest.Load(

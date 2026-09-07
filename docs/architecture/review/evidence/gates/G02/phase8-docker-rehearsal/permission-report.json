@@ -1,0 +1,15 @@
+{
+  "database": "IFXDb_G02_Rehearsal_20260908022645",
+  "migrationIdentity": {
+    "ddl": "passed",
+    "secretRecorded": false
+  },
+  "runtimeIdentity": {
+    "dml": "passed",
+    "readiness": "passed",
+    "ddl": "denied",
+    "sqlErrorObserved": true,
+    "secretRecorded": false
+  },
+  "checkedAt": "2026-09-07T16:27:55.0236312+00:00"
+}

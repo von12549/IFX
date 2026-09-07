@@ -1,0 +1,109 @@
+{
+  "Mode": "Apply",
+  "StartedAt": "2026-09-07T16:27:50.4535537+00:00",
+  "FinishedAt": "2026-09-07T16:27:51.5997419+00:00",
+  "Result": "succeeded",
+  "FailurePoint": null,
+  "Errors": [],
+  "HistoryBootstrap": {
+    "Classification": 2,
+    "Modules": [
+      {
+        "Module": "Auth",
+        "Schema": "auth",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": []
+      },
+      {
+        "Module": "CRM",
+        "Schema": "crm",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": []
+      },
+      {
+        "Module": "Registry",
+        "Schema": "registry",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": []
+      },
+      {
+        "Module": "Holdings",
+        "Schema": "holdings",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": []
+      },
+      {
+        "Module": "Transaction",
+        "Schema": "transaction",
+        "CreateHistoryTable": false,
+        "RowsToInsert": [],
+        "PendingMigrationIds": []
+      }
+    ],
+    "Errors": [],
+    "CanApply": true,
+    "HasChanges": false
+  },
+  "AuthLegacyAdoption": null,
+  "Modules": [
+    {
+      "Module": "Auth",
+      "Schema": "auth",
+      "HistoryTable": "auth.__EFMigrationsHistory",
+      "BeforeVersion": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+      "AfterVersion": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+      "PendingBefore": [],
+      "AppliedIds": [],
+      "DurationMilliseconds": 5,
+      "Result": "applied"
+    },
+    {
+      "Module": "CRM",
+      "Schema": "crm",
+      "HistoryTable": "crm.__EFMigrationsHistory",
+      "BeforeVersion": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+      "AfterVersion": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+      "PendingBefore": [],
+      "AppliedIds": [],
+      "DurationMilliseconds": 2,
+      "Result": "applied"
+    },
+    {
+      "Module": "Registry",
+      "Schema": "registry",
+      "HistoryTable": "registry.__EFMigrationsHistory",
+      "BeforeVersion": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+      "AfterVersion": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+      "PendingBefore": [],
+      "AppliedIds": [],
+      "DurationMilliseconds": 3,
+      "Result": "applied"
+    },
+    {
+      "Module": "Holdings",
+      "Schema": "holdings",
+      "HistoryTable": "holdings.__EFMigrationsHistory",
+      "BeforeVersion": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+      "AfterVersion": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+      "PendingBefore": [],
+      "AppliedIds": [],
+      "DurationMilliseconds": 2,
+      "Result": "applied"
+    },
+    {
+      "Module": "Transaction",
+      "Schema": "transaction",
+      "HistoryTable": "transaction.__EFMigrationsHistory",
+      "BeforeVersion": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+      "AfterVersion": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+      "PendingBefore": [],
+      "AppliedIds": [],
+      "DurationMilliseconds": 2,
+      "Result": "applied"
+    }
+  ]
+}

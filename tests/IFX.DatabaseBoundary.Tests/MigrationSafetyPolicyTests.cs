@@ -84,9 +84,9 @@ public sealed class MigrationSafetyPolicyTests
         root.GetProperty("preflight").GetProperty("fingerprintReviewed").GetBoolean().Should().BeFalse();
         root.GetProperty("restorePoint").GetProperty("restoreVerified").GetBoolean().Should().BeFalse();
         root.GetProperty("execution").GetProperty("validationResult").GetString().Should().Be("<succeeded>");
-        root.GetProperty("compatibilityWindow").GetProperty("rollbackObserved").GetBoolean().Should().BeFalse();
+        root.GetProperty("compatibilityWindow").GetProperty("rollbackCompatibilityVerified").GetBoolean().Should().BeFalse();
         root.GetProperty("runtimeIdentity").GetProperty("ddlDenied").GetBoolean().Should().BeFalse();
-        root.GetProperty("sharedHistory").GetProperty("mode").GetString().Should().Be("<archived-read-only>");
+        root.GetProperty("sharedHistory").GetProperty("mode").GetString().Should().Be("<archived-read-only-or-not-present-fresh>");
         File.Exists(Path.Combine(RepositoryRoot(), "scripts", "Test-G02DatabaseRolloutEvidence.ps1"))
             .Should().BeTrue();
     }

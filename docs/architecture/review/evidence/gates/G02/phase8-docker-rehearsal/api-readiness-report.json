@@ -1,0 +1,15 @@
+{
+  "database": "IFXDb_G02_Rehearsal_20260908022645",
+  "startedAfterMigrationValidation": true,
+  "initial": {
+    "container": "ifx-g02-api-2807fdb694",
+    "statusCode": 200,
+    "checkedAt": "2026-09-07T16:27:58.0612856+00:00"
+  },
+  "compatibleRestart": {
+    "container": "ifx-g02-api-2807fdb694",
+    "statusCode": 200,
+    "checkedAt": "2026-09-07T16:28:01.2258151+00:00"
+  },
+  "databaseDownInvoked": false
+}

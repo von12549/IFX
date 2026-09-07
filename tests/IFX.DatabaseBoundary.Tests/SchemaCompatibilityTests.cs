@@ -83,6 +83,10 @@ public sealed class SchemaCompatibilityTests
         program.Should().NotContain("GetServices<IAppMigrator>");
         program.Should().NotContain("MigrateAsync(");
         project.Should().Contain("deployment\\release-manifest.json");
+        var healthChecks = File.ReadAllText(Path.Combine(
+            root, "src", "ApiHost", "IFX.ApiHost", "Configuration", "HealthCheckConfiguration.cs"));
+        healthChecks.Should().Contain("/health/database");
+        healthChecks.Should().Contain("registration.Tags.Contains(\"database\")");
     }
 
     [Fact]

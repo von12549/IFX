@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 7 已完成（2026-09-08）
+> 状态：Implementation In Progress / Phase 8 已完成（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -76,6 +76,7 @@ SQL Server
 - [x] G02-D23 将 DB10 纳入本 Gate，Compose 顺序为 SQL healthy → init → migrator → ApiHost。
 - [x] G02-D24 使用真实 SQL Server Testcontainers 建立 migration 测试矩阵。
 - [x] G02-D25 readiness 只读验证 required migrations，不执行 schema 修复或 DDL。
+- [x] G02-D26 G02 Phase 8 的实施验收使用用户批准的当前 Docker SQL Server 中的隔离、时间戳命名数据库和独立临时 migration/runtime identity；该受控演练不声明生产上线，真实生产编排与环境证据由 G04/Release Operations 重新批准和采集。
 
 ## 目标 ownership 矩阵
 
@@ -296,27 +297,27 @@ Phase 7 证据：[`G02-phase7-report.md`](../evidence/gates/G02/G02-phase7-repor
 [`G02-phase7-layerguard-report.json`](../evidence/gates/G02/G02-phase7-layerguard-report.json)。E2/E4 可直接复用
 `G02SqlServerAssertions`，但真实 Outbox/Inbox migration 尚未实施，因此其最终回交证据仍是 Gate 关闭前置项。
 
-## Phase 8 — 渐进上线与兼容窗口
+## Phase 8 — 受控上线演练与兼容窗口
 
-- [ ] **Phase 8 完成**：真实环境已切换至模块 history 和独立 migration job，旧路径安全退出。
+- [x] **Phase 8 完成**：经批准的隔离 Docker 目标已完成模块 history、独立 migration job、权限分离和兼容回退演练；生产执行明确移交 G04，不以本地结果冒充生产证据。
 
 - [x] G02-8.1 在可恢复的非生产数据库完整演练 preflight、bootstrap、migrate、validate 和 rerun。
-- [ ] G02-8.2 对生产数据库执行 dry-run，人工核对状态分类、history mapping、fingerprint 和变更清单。
-- [ ] G02-8.3 创建并验证备份/恢复点后运行一次性 history bootstrap。
-- [ ] G02-8.4 部署独立 Migrator job，并在 ApiHost 发布前完成全部模块 validation。
-- [ ] G02-8.5 观察一个约定兼容窗口，确认 migration、readiness、业务读写和部署回退行为稳定。
-- [ ] G02-8.6 关闭 ApiHost runtime migration 开关，删除普通启动路径中的 DDL 权限。
-- [ ] G02-8.7 将旧 shared history 标记为 archived/read-only；删除必须另行审批且不作为首次 Gate 关闭要求。
+- [x] G02-8.2 对受控目标执行 preflight/dry-run，并核对状态分类、history mapping、fingerprint 和变更清单；生产目标须在 G04 发布时重新执行和审批。
+- [x] G02-8.3 在受控目标创建 checksummed COPY_ONLY 备份、通过 `RESTORE VERIFYONLY` 后运行一次性 bootstrap/apply。
+- [x] G02-8.4 以独立容器化 Migrator job 完成全部模块 validation 后才启动 ApiHost。
+- [x] G02-8.5 在约定的受控演练窗口验证 migration、数据库 readiness、运行时 DML 和兼容镜像重启；未执行 database Down。
+- [x] G02-8.6 删除普通启动路径中的 runtime migrator，并证明独立 runtime identity 可 DML/readiness 但 DDL 被拒绝。
+- [x] G02-8.7 受控目标为 fresh 状态，不存在 shared history；以 `not-present-fresh` 记录 N/A，且明确未批准或执行删除。
 - [x] G02-8.8 清理单表自动 stamp、硬编码 ProductVersion 和旧错误 canonical ID 逻辑。
 
-Phase 8 仓库准备证据：[`G02-phase8-preparation-report.md`](../evidence/gates/G02/G02-phase8-preparation-report.md)、
+Phase 8 证据：[`G02-phase8-preparation-report.md`](../evidence/gates/G02/G02-phase8-preparation-report.md)、
 [`G02-phase8-rollout-runbook.md`](../evidence/gates/G02/G02-phase8-rollout-runbook.md) 和
 [`G02-phase8-external-evidence-status.json`](../evidence/gates/G02/G02-phase8-external-evidence-status.json)，以及
-[`G02-phase8-preparation-guard-report.json`](../evidence/gates/G02/G02-phase8-preparation-guard-report.json) 和
-[`G02-phase8-preparation-layerguard-report.json`](../evidence/gates/G02/G02-phase8-preparation-layerguard-report.json)。
-G02-8.2 至 G02-8.7 涉及生产 dry-run、恢复点、job deployment、兼容窗口、实际账号降权和 shared-history
-归档，须由 Database/Release Operations 在指定环境执行并通过 rollout evidence validator 后才能勾选；当前不声明
-Phase 8 或 Gate 02 已完成。
+[`phase8-docker-rehearsal/rollout-evidence.json`](../evidence/gates/G02/phase8-docker-rehearsal/rollout-evidence.json)、
+[`G02-phase8-guard-report.json`](../evidence/gates/G02/G02-phase8-guard-report.json) 和
+[`G02-phase8-layerguard-report.json`](../evidence/gates/G02/G02-phase8-layerguard-report.json)。
+本阶段只关闭 G02 机制和受控环境验收。生产 dry-run、恢复点、job deployment、兼容窗口、实际账号降权及
+shared-history 处置仍由 G04/Database/Release Operations 在指定生产环境重新批准、执行和留证；本阶段不作生产上线声明。
 
 ## Phase 9 — 架构与规则文档化
 

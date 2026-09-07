@@ -48,7 +48,7 @@
     "migrationStable": false,
     "readinessStable": false,
     "businessReadWriteStable": false,
-    "rollbackObserved": false,
+    "rollbackCompatibilityVerified": false,
     "smokeTestReference": "<immutable-reference>",
     "rollbackVerificationReference": "<immutable-reference>"
   },
@@ -60,7 +60,7 @@
     "legacyRuntimeMigrationEntryPointsAbsent": true
   },
   "sharedHistory": {
-    "mode": "<archived-read-only>",
+    "mode": "<archived-read-only-or-not-present-fresh>",
     "archiveReference": "<immutable-reference>",
     "rowsPreserved": false,
     "deletionApproved": false

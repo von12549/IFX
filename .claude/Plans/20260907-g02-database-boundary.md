@@ -24,8 +24,8 @@ execution, validation, and evidence explicitly module-owned.
 7. Phase 6 — codify Expand/Contract, partial-upgrade, recovery, and audit procedures.
 8. Phase 7 — run the SQL Server migration matrix, including concurrency, permissions, legacy,
    failure injection, and E2/E4 reusable assertions.
-9. Phase 8 — prepare environment rollout evidence; never claim production actions that were not
-   actually performed.
+9. Phase 8 — complete the user-approved isolated Docker rollout rehearsal; retain production
+   execution and approval as a G04/Release Operations responsibility.
 10. Phase 9/10 — complete bilingual design/evidence and close only the conditions supported by
     real implementation and approvals.
 
@@ -46,10 +46,11 @@ execution, validation, and evidence explicitly module-owned.
 - Phase 7 complete: SQL Server 2022 migration matrix covers fresh/shared/legacy/historyless/partial,
   previous-release, concurrency, failure recovery and split migration/runtime permissions; CI now
   runs solution build, pending-model checks, SQL artifacts and the live matrix.
-- Phase 8 repository preparation complete: the recoverable non-production sequence is rehearsed,
-  obsolete runtime migrator entry points are removed, and a fail-closed production evidence package
-  is ready. Production dry-run, restore point, rollout, observation, permission and archive evidence
-  remains environment-owned and must not be marked complete without actual records.
+- Phase 8 complete for the approved controlled target: a timestamped database and separate ephemeral
+  migration/runtime identities exercised preflight, dry-run, verified backup, apply/validate/rerun,
+  DML/DDL separation and database-only API readiness across a restart. The evidence is sanitized and
+  validator-approved. This does not claim production rollout; G04/Release Operations must separately
+  approve and capture the production execution.
 
 ## Phase discipline
 

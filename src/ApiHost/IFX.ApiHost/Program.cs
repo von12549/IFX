@@ -81,7 +81,7 @@ try
     app.UseBackgroundJobsDashboard();
 
     // Map endpoints
-    app.MapAuthHealthCheckEndpoints();  // /health, /health/ready
+    app.MapAuthHealthCheckEndpoints();  // /health, /health/database, /health/ready
 
     // Map module endpoints (via IModuleInstaller discovery)
     var installers = app.Services.GetServices<IModuleInstaller>();

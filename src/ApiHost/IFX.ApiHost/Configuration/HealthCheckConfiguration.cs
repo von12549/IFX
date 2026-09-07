@@ -79,7 +79,18 @@ public static class HealthCheckConfiguration
             }
         });
 
-        // Simple health check endpoint for Kubernetes readiness probes
+        // Database-only release gate. External dependencies such as Cognito must not mask schema readiness.
+        builder.MapHealthChecks("/health/database", new HealthCheckOptions
+        {
+            Predicate = registration => registration.Tags.Contains("database"),
+            ResponseWriter = async (context, report) =>
+            {
+                context.Response.ContentType = "text/plain";
+                await context.Response.WriteAsync(report.Status.ToString());
+            }
+        });
+
+        // Aggregate readiness for the complete application and its external dependencies.
         builder.MapHealthChecks("/health/ready", new HealthCheckOptions
         {
             Predicate = _ => true,

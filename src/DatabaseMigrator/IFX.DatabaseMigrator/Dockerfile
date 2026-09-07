@@ -6,7 +6,7 @@ RUN dotnet publish src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrato
     --output /app/publish \
     /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "IFX.DatabaseMigrator.dll"]

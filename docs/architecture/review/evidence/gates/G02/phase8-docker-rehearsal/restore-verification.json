@@ -1,0 +1,8 @@
+{
+  "database": "IFXDb_G02_Rehearsal_20260908022645",
+  "backup": "/var/opt/mssql/data/IFXDb_G02_Rehearsal_20260908022645.bak",
+  "copyOnly": true,
+  "checksum": true,
+  "restoreVerifyOnly": "passed",
+  "verifiedAt": "2026-09-07T16:27:44.2925177+00:00"
+}
