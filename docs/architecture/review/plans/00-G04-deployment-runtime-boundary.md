@@ -239,15 +239,19 @@ Phase 1 证据：[`ADR-G04-001`](../gates/G04/ADR-G04-001-deployment-runtime-bou
 
 ## Phase 2 — 建立 API / Worker Runtime Roles
 
-- [ ] **Phase 2 完成**：同一 release 可确定地运行 API、Worker 或本地 all-in-one，且不会误启动其他角色能力。
+- [x] **Phase 2 完成**：同一 release 可确定地运行 API、Worker 或本地 all-in-one，且不会误启动其他角色能力。
 
-- [ ] G04-2.1 建立 Runtime Role 配置与启动验证，未知 role、空 Worker 或不安全生产 `all` 组合 fail fast。
-- [ ] G04-2.2 将 Hangfire client 与 Server 注册拆开；API 只 enqueue，Worker 才启动 Server。
-- [ ] G04-2.3 将 Outbox Dispatcher、message consumer 和 recurring registration 分成独立 capability flags，并验证合法组合。
-- [ ] G04-2.4 Worker 加载所需模块 Application/Infrastructure/Contracts/Composition，但不加载或映射业务 Presentation endpoints。
-- [ ] G04-2.5 为 API 与 Worker 提供独立 management endpoint 和 role-specific health，不让 Worker 暴露业务 HTTP。
-- [ ] G04-2.6 保留 `all` 供本地与集成测试，证明其行为等价于同版本 API+Worker，但生产默认禁用。
-- [ ] G04-2.7 验证 API/Worker 只能锁步使用同一业务 release，不支持按模块独立选择版本。
+- [x] G04-2.1 建立 Runtime Role 配置与启动验证，未知 role、空 Worker 或不安全生产 `all` 组合 fail fast。
+- [x] G04-2.2 将 Hangfire client 与 Server 注册拆开；API 只 enqueue，Worker 才启动 Server。
+- [x] G04-2.3 将 Outbox Dispatcher、message consumer 和 recurring registration 分成独立 capability flags，并验证合法组合。Dispatcher/consumer flags 默认关闭，等待 E3 提供真实实现。
+- [x] G04-2.4 Worker 加载所需模块 Application/Infrastructure/Contracts/Composition，但不映射业务 Presentation endpoints；Presentation assembly 仍由同一锁步 artifact 链接，不形成可选模块。
+- [x] G04-2.5 为 API 与 Worker 提供受保护的 `/management/runtime` endpoint；role-specific probe 聚合在 Phase 6 完成，Worker 不映射业务 HTTP。
+- [x] G04-2.6 保留 `all` 供本地与集成测试，证明其 capability 是同版本 API+Worker 的并集；生产默认拒绝，除非显式批准。
+- [x] G04-2.7 验证 API/Worker 只能锁步使用同一 `ifx-host` artifact 和 release manifest，不支持按模块独立选择版本。
+
+Phase 2 证据：`RuntimeProfileResolverTests`、Compose API/Worker 同 artifact 配置、
+[`G04-phase2-guard-report.json`](../evidence/gates/G04/G04-phase2-guard-report.json) 与
+[`G04-phase2-layerguard-report.json`](../evidence/gates/G04/G04-phase2-layerguard-report.json)。
 
 ## Phase 3 — 重构确定性启动与依赖分类
 

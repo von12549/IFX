@@ -75,6 +75,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
+      - Runtime__Role=api
       # Database connections
       - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
       - ConnectionStrings__BackgroundJobsDatabase=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
@@ -101,7 +102,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION:-ap-southeast-2}
       # Background Jobs (Hangfire)
-      - BackgroundJobs__EnableDashboard=true
+      - BackgroundJobs__EnableDashboard=false
       - BackgroundJobs__WorkerCount=${HANGFIRE_WORKER_COUNT:-4}
       - BackgroundJobs__ServerName=${HANGFIRE_SERVER_NAME:-auth-api-worker}
       - BackgroundJobs__Queues__0=${HANGFIRE_QUEUE_0:-default}
@@ -133,6 +134,49 @@ services:
       - ifx-network
     restart: unless-stopped
 
+  ifx-worker:
+    build:
+      context: .
+      dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - Runtime__Role=worker
+      - ConnectionStrings__AuthDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__BackgroundJobsDatabase=Server=sqlserver,1433;Database=BackgroundJobsDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__CrmDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__HoldingsDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__TransactionDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - ConnectionStrings__RegistryDatabase=Server=sqlserver,1433;Database=IFXDb;User Id=${RUNTIME_DB_USER:-sa};Password=${RUNTIME_DB_PASSWORD:-YourStrong@Pass123};TrustServerCertificate=True;MultipleActiveResultSets=true
+      - Authentication__Provider=${AUTHENTICATION_PROVIDER:-Cognito}
+      - CognitoSettings__UserPoolId=${COGNITO_USER_POOL_ID}
+      - CognitoSettings__ClientId=${COGNITO_CLIENT_ID}
+      - CognitoSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
+      - CognitoSettings__Region=${COGNITO_REGION:-ap-southeast-2}
+      - CognitoOidcSettings__Domain=${COGNITO_OIDC_DOMAIN}
+      - CognitoOidcSettings__ClientId=${COGNITO_CLIENT_ID}
+      - CognitoOidcSettings__ClientSecret=${COGNITO_CLIENT_SECRET}
+      - CognitoOidcSettings__CallbackUrl=${COGNITO_OIDC_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/callback}
+      - CognitoOidcSettings__LogoutCallbackUrl=${COGNITO_OIDC_LOGOUT_CALLBACK_URL:-http://localhost:5010/api/v1/auth/oauth/logout-callback}
+      - CognitoOidcSettings__FrontendCallbackUrl=${COGNITO_OIDC_FRONTEND_CALLBACK_URL:-http://localhost:8030/callback}
+      - BackgroundJobs__EnableDashboard=true
+      - BackgroundJobs__WorkerCount=${HANGFIRE_WORKER_COUNT:-4}
+      - BackgroundJobs__Queues__0=${HANGFIRE_QUEUE_0:-default}
+      - BackgroundJobs__Queues__1=${HANGFIRE_QUEUE_1:-email}
+      - BackgroundJobs__Queues__2=${HANGFIRE_QUEUE_2:-report}
+      - Notifications__SendGrid__ApiKey=${SENDGRID_API_KEY:-}
+      - Opa__BaseUrl=${OPA_BASE_URL:-http://opa:8181}
+      - Opa__Enabled=${OPA_ENABLED:-true}
+      - Opa__FailClosed=${OPA_FAIL_CLOSED:-true}
+    depends_on:
+      ifx-database-migrator:
+        condition: service_completed_successfully
+      opa:
+        condition: service_started
+    networks:
+      - ifx-network
+    restart: unless-stopped
+
   ifx-frontend:
     build:
       context: src/Frontend/IFX.FrontEnd
@@ -147,7 +191,8 @@ services:
     environment:
       - VITE_API_URL=http://localhost:5010
     depends_on:
-      - ifx-api
+      ifx-api:
+        condition: service_started
     networks:
       - ifx-network
     restart: unless-stopped

@@ -1,6 +1,7 @@
 # ADR-G04-001: Deployment and runtime boundary
 
-Status: Accepted  
+Status: Accepted
+
 Date: 2026-09-08
 
 ## Decision

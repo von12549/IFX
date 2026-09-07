@@ -27,6 +27,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             // Add test configuration - must override all required settings
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
+                ["Runtime:Role"] = "api",
                 ["ConnectionStrings:AuthDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["ConnectionStrings:CrmDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",
                 ["ConnectionStrings:RegistryDatabase"] = "Server=localhost;Database=TestDb;Integrated Security=true;TrustServerCertificate=true;",

@@ -13,6 +13,7 @@ using IFX.Platform.BackgroundJobs.Composition;
 using IFX.Platform.Messaging.Composition;
 using IFX.Platform.Notifications.Composition;
 using Serilog;
+using IFX.ApiHost.Runtime;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -26,6 +27,8 @@ try
     Log.Information("Starting Auth API");
 
     var builder = WebApplication.CreateBuilder(args);
+    var runtimeProfile = RuntimeProfileResolver.Resolve(builder.Configuration, builder.Environment);
+    builder.Services.AddSingleton(runtimeProfile);
 
     // Add Serilog
     builder.Host.UseSerilog();
@@ -40,7 +43,11 @@ try
 
     // Register platform services
     builder.Services.AddMessaging();
-    builder.Services.AddBackgroundJobs(builder.Configuration);
+    builder.Services.AddBackgroundJobsClient(builder.Configuration);
+    if (runtimeProfile.Capabilities.HangfireServer)
+    {
+        builder.Services.AddBackgroundJobsServer(builder.Configuration);
+    }
     builder.Services.AddNotificationsOptional(builder.Configuration);
 
     // Add API infrastructure (via configuration modules)
@@ -78,17 +85,29 @@ try
     app.UseAuthorization();
 
     // Background jobs dashboard
-    app.UseBackgroundJobsDashboard();
+    if (runtimeProfile.Capabilities.HangfireServer)
+    {
+        app.UseBackgroundJobsDashboard();
+    }
 
     // Map endpoints
     app.MapAuthHealthCheckEndpoints();  // /health, /health/database, /health/ready
 
-    // Map module endpoints (via IModuleInstaller discovery)
-    var installers = app.Services.GetServices<IModuleInstaller>();
-    foreach (var installer in installers)
+    app.MapGet("/management/runtime", (RuntimeProfile profile) => Results.Ok(new
     {
-        Log.Information("Mapping endpoints for {Module} module", installer.ModuleName);
-        installer.MapEndpoints(app);
+        role = profile.RoleName,
+        capabilities = profile.Capabilities
+    })).RequireAuthorization();
+
+    if (runtimeProfile.Capabilities.Api)
+    {
+        // Business endpoints are mapped only by api/all roles.
+        var installers = app.Services.GetServices<IModuleInstaller>();
+        foreach (var installer in installers)
+        {
+            Log.Information("Mapping endpoints for {Module} module", installer.ModuleName);
+            installer.MapEndpoints(app);
+        }
     }
 
     app.Run();

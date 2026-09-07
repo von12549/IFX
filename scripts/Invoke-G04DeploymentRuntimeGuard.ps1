@@ -42,6 +42,18 @@ if ($Phase -ge 1) {
     $checks.manifestValidation = $manifestReport.result -eq 'passed'
 }
 
+if ($Phase -ge 2) {
+    $program = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
+    $backgroundJobs = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs')
+    $compose = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docker-compose.yml')
+    $checks.runtimeProfileResolverExists = Test-Path (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/RuntimeProfileResolver.cs')
+    $checks.apiEndpointMappingIsRoleGated = $program -match 'if \(runtimeProfile\.Capabilities\.Api\)[\s\S]*?installer\.MapEndpoints'
+    $checks.hangfireClientServerSplit = ($backgroundJobs -match 'AddBackgroundJobsClient') -and ($backgroundJobs -match 'AddBackgroundJobsServer')
+    $checks.hangfireServerIsRoleGated = $program -match 'if \(runtimeProfile\.Capabilities\.HangfireServer\)[\s\S]*?AddBackgroundJobsServer'
+    $checks.sameArtifactApiWorkerCompose = ($compose -match 'ifx-api:[\s\S]*?dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile') -and ($compose -match 'ifx-worker:[\s\S]*?dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile')
+    $checks.workerRoleConfigured = $compose -match 'ifx-worker:[\s\S]*?Runtime__Role=worker'
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

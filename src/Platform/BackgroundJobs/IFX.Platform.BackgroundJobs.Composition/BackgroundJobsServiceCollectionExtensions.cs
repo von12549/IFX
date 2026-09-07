@@ -19,7 +19,7 @@ public static class BackgroundJobsServiceCollectionExtensions
     /// <param name="services">The service collection.</param>
     /// <param name="configuration">The configuration.</param>
     /// <returns>The service collection for chaining.</returns>
-    public static IServiceCollection AddBackgroundJobs(
+    public static IServiceCollection AddBackgroundJobsClient(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -62,7 +62,29 @@ public static class BackgroundJobsServiceCollectionExtensions
                 SchemaName = "hangfire"
             }));
 
-        // Add the Hangfire server
+        // Server execution is registered separately by the worker/all runtime role.
+        services.AddScoped<IBackgroundJobService, HangfireBackgroundJobService>();
+
+        return services;
+    }
+
+    /// <summary>
+    /// Adds Hangfire Server execution for worker-capable runtime roles.
+    /// The client must be registered first.
+    /// </summary>
+    public static IServiceCollection AddBackgroundJobsServer(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var settings = configuration
+            .GetSection(BackgroundJobsSettings.SectionName)
+            .Get<BackgroundJobsSettings>() ?? new BackgroundJobsSettings();
+
+        if (!settings.Enabled)
+        {
+            return services;
+        }
+
         services.AddHangfireServer(options =>
         {
             options.WorkerCount = settings.WorkerCount;
@@ -76,9 +98,14 @@ public static class BackgroundJobsServiceCollectionExtensions
             }
         });
 
-        // Register our abstraction
-        services.AddScoped<IBackgroundJobService, HangfireBackgroundJobService>();
-
         return services;
     }
+
+    /// <summary>
+    /// Compatibility helper for local callers that intentionally use all-in-one mode.
+    /// </summary>
+    public static IServiceCollection AddBackgroundJobs(
+        this IServiceCollection services,
+        IConfiguration configuration) =>
+        services.AddBackgroundJobsClient(configuration).AddBackgroundJobsServer(configuration);
 }
