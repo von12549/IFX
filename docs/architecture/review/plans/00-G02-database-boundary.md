@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 2 已完成（2026-09-07）
+> 状态：Implementation In Progress / Phase 3 已完成（2026-09-07）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -198,16 +198,20 @@ Phase 2 证据：[`G02-phase2-report.md`](../evidence/gates/G02/G02-phase2-repor
 
 ## Phase 3 — 修复 Auth Squash 与 Legacy Adoption
 
-- [ ] **Phase 3 完成**：所有已知 Auth 历史状态都可安全规范化，未知状态不会被自动覆盖。
+- [x] **Phase 3 完成**：所有已知 Auth 历史状态都可安全规范化，未知状态不会被自动覆盖。
 
-- [ ] G02-3.1 将 Auth canonical ID 修正为真实的 `20260327075710_InitialCreate`。
-- [ ] G02-3.2 为 14 个 pre-squash IDs 建立受版本控制的 legacy manifest。
-- [ ] G02-3.3 将错误 ID `20260317145706_InitialCreate` 定义为仅用于识别和修复的 legacy alias。
-- [ ] G02-3.4 建立 Auth baseline schema fingerprint，覆盖关键表、列、PK、FK、unique constraints 和 indexes。
-- [ ] G02-3.5 只有 fingerprint 完整匹配时才允许把 legacy/EnsureCreated 状态 adopt 为 canonical migration。
-- [ ] G02-3.6 将 legacy history 删除、canonical 插入和验证放入同一个受控事务。
-- [ ] G02-3.7 移除长期运行 Migrator 中“检查单表后自动 stamp”的逻辑。
-- [ ] G02-3.8 为正确 current、14-ID legacy、错误 alias、partial legacy 和重复运行分别建立测试。
+- [x] G02-3.1 将 Auth canonical ID 修正为真实的 `20260327075710_InitialCreate`。
+- [x] G02-3.2 为 14 个 pre-squash IDs 建立受版本控制的 legacy manifest。
+- [x] G02-3.3 将错误 ID `20260317145706_InitialCreate` 定义为仅用于识别和修复的 legacy alias。
+- [x] G02-3.4 建立 Auth baseline schema fingerprint，覆盖关键表、列、PK、FK、unique constraints 和 indexes。
+- [x] G02-3.5 只有 fingerprint 完整匹配时才允许把 legacy/EnsureCreated 状态 adopt 为 canonical migration。
+- [x] G02-3.6 将 legacy history 删除、canonical 插入和验证放入同一个受控事务。
+- [x] G02-3.7 移除长期运行 Migrator 中“检查单表后自动 stamp”的逻辑。
+- [x] G02-3.8 为正确 current、14-ID legacy、错误 alias、partial legacy 和重复运行分别建立测试。
+
+Phase 3 证据：[`G02-phase3-report.md`](../evidence/gates/G02/G02-phase3-report.md)、
+[`G02-phase3-guard-report.json`](../evidence/gates/G02/G02-phase3-guard-report.json) 和
+[`G02-phase3-layerguard-report.json`](../evidence/gates/G02/G02-phase3-layerguard-report.json)。
 
 ## Phase 4 — 建立 IFX.DatabaseMigrator 与模块 Manifest
 

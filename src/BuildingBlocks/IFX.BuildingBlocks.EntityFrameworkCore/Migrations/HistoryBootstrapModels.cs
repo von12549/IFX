@@ -23,7 +23,8 @@ public sealed record ModuleMigrationCatalog(
     string Schema,
     int Order,
     IReadOnlyList<string> MigrationIds,
-    IReadOnlyList<string> RequiredTables);
+    IReadOnlyList<string> RequiredTables,
+    IReadOnlyList<string>? LegacyMigrationIds = null);
 
 public sealed record ModuleHistoryState(
     bool Exists,

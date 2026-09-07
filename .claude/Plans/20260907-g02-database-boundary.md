@@ -35,6 +35,8 @@ execution, validation, and evidence explicitly module-owned.
 - Phase 1 complete: module schema ownership and dedicated connection boundaries.
 - Phase 2 complete: per-schema EF histories and transactional, fail-closed history bootstrap;
   live SQL Server behavior remains scheduled for the Phase 7 matrix.
+- Phase 3 complete: Auth canonical/legacy normalization, full relational fingerprinting, and
+  removal of single-table automatic stamping from long-running migrators.
 
 ## Phase discipline
 

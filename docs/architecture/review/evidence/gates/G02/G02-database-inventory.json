@@ -4903,18 +4903,6 @@
   "staticScan": {
     "RawSqlFindings": [
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Composition/EFMigrator.cs",
-        "Line": 90,
-        "Kind": "raw-sql",
-        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
-      },
-      {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Composition/EFMigrator.cs",
-        "Line": 98,
-        "Kind": "raw-sql",
-        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
-      },
-      {
         "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 156,
         "Kind": "raw-sql",
@@ -5159,54 +5147,6 @@
         "Line": 73,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
-      },
-      {
-        "Path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Persistence/CrmMigrator.cs",
-        "Line": 33,
-        "Kind": "raw-sql",
-        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
-      },
-      {
-        "Path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Persistence/CrmMigrator.cs",
-        "Line": 38,
-        "Kind": "raw-sql",
-        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
-      },
-      {
-        "Path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsMigrator.cs",
-        "Line": 33,
-        "Kind": "raw-sql",
-        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
-      },
-      {
-        "Path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Persistence/HoldingsMigrator.cs",
-        "Line": 38,
-        "Kind": "raw-sql",
-        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
-      },
-      {
-        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Persistence/RegistryMigrator.cs",
-        "Line": 33,
-        "Kind": "raw-sql",
-        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
-      },
-      {
-        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Persistence/RegistryMigrator.cs",
-        "Line": 38,
-        "Kind": "raw-sql",
-        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
-      },
-      {
-        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Persistence/TransactionMigrator.cs",
-        "Line": 33,
-        "Kind": "raw-sql",
-        "Excerpt": "var exists = (await db.Database.SqlQueryRaw\u003Cint\u003E("
-      },
-      {
-        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Persistence/TransactionMigrator.cs",
-        "Line": 38,
-        "Kind": "raw-sql",
-        "Excerpt": "await db.Database.ExecuteSqlRawAsync("
       }
     ],
     "SchemaQualifiedTableReferences": [
@@ -5670,6 +5610,1770 @@
       "CollectionProcedure": "Environment inventory must map every module key to server/database identity and document DDL/DML grants without exporting connection strings or secrets."
     },
     "CurrentIdentityBoundary": "Current Compose uses the same DB_USER/DB_PASSWORD variables for runtime startup migrations; migration/runtime identity separation is not yet implemented."
+  },
+  "authLegacy": {
+    "LegacyIds": [
+      "20251222160950_InitialCreate",
+      "20251224110859_AddBirthDateToUsers",
+      "20260106033815_AddUserRoles",
+      "20260107055630_AddSsoUserRole",
+      "20260110091959_AddIssuerToUsers",
+      "20260110095019_RenameColumn_CognitoUserId_To_Subject",
+      "20260111031731_AddIdpTable",
+      "20260111120403_RenameSchemaFromCognitoToAuth",
+      "20260111122753_SplitUserTableIntoUserAndUserIdentity",
+      "20260111123319_DropUsersBackupTable",
+      "20260114025631_AddIdpTypeColumn",
+      "20260114125506_AddIsPrimaryToIdp",
+      "20260116100000_AddPendingRole",
+      "20260123042554_AddEmailVerificationToken"
+    ],
+    "WrongAlias": "20260317145706_InitialCreate",
+    "CanonicalId": "20260327075710_InitialCreate",
+    "CanonicalProductVersion": "8.0.0",
+    "BaselineSchemaFingerprint": {
+      "Schema": "auth",
+      "Tables": [
+        {
+          "Name": "Departments",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Departments",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Departments_Tenants_TenantId",
+              "Columns": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Departments_TenantId_Name",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "TenantId",
+                "Name"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "EmailVerificationTokens",
+          "Columns": [
+            {
+              "Name": "Code",
+              "StoreType": "nvarchar(6)",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "Email",
+              "StoreType": "nvarchar(256)",
+              "IsNullable": false
+            },
+            {
+              "Name": "ExpiresAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IsUsed",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "TokenHash",
+              "StoreType": "nvarchar(64)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "UsedAt",
+              "StoreType": "datetime2",
+              "IsNullable": true
+            },
+            {
+              "Name": "UserIdentityId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_EmailVerificationTokens",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_EmailVerificationTokens_UserIdentities_UserIdentityId",
+              "Columns": [
+                "UserIdentityId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "UserIdentities",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_EmailVerificationTokens_ExpiresAt",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "ExpiresAt"
+              ]
+            },
+            {
+              "Name": "IX_EmailVerificationTokens_UserIdentityId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserIdentityId"
+              ]
+            },
+            {
+              "Name": "IX_EmailVerificationTokens_UserIdentityId_Code",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserIdentityId",
+                "Code"
+              ]
+            },
+            {
+              "Name": "UQ_EmailVerificationTokens_TokenHash",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "TokenHash"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "GlobalRoles",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_GlobalRoles",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "UX_GlobalRoles_Name",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "Name"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Idps",
+          "Columns": [
+            {
+              "Name": "AllowedAlgs",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Authority",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "AutoProvisionEnabled",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "ClaimMapping",
+              "StoreType": "nvarchar(4000)",
+              "IsNullable": false
+            },
+            {
+              "Name": "ClockSkewSeconds",
+              "StoreType": "int",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(1000)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Enabled",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "ExpectedAudiences",
+              "StoreType": "nvarchar(2000)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IdpType",
+              "StoreType": "nvarchar(20)",
+              "IsNullable": false
+            },
+            {
+              "Name": "IsPrimary",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "Issuer",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "LoginUrl",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "RequiredScopes",
+              "StoreType": "nvarchar(1000)",
+              "IsNullable": false
+            },
+            {
+              "Name": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Idps",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Idps_Tenants_TenantId",
+              "Columns": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Idps_Enabled",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "Enabled"
+              ]
+            },
+            {
+              "Name": "IX_Idps_IsPrimary",
+              "IsUnique": true,
+              "Filter": "[IsPrimary] = 1",
+              "Columns": [
+                "IsPrimary"
+              ]
+            },
+            {
+              "Name": "IX_Idps_Issuer",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "Issuer"
+              ]
+            },
+            {
+              "Name": "IX_Idps_TenantId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "TenantId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "LoginEvents",
+          "Columns": [
+            {
+              "Name": "AccessToken",
+              "StoreType": "nvarchar(2048)",
+              "IsNullable": true
+            },
+            {
+              "Name": "CognitoSessionId",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": true
+            },
+            {
+              "Name": "DeviceBrowser",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "DeviceOS",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "DeviceType",
+              "StoreType": "nvarchar(50)",
+              "IsNullable": false
+            },
+            {
+              "Name": "FailureReason",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": true
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "IsNullable": false
+            },
+            {
+              "Name": "IsBot",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "LoginTimestamp",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "RefreshToken",
+              "StoreType": "nvarchar(2048)",
+              "IsNullable": true
+            },
+            {
+              "Name": "Success",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "TokenExpiresAt",
+              "StoreType": "datetime2",
+              "IsNullable": true
+            },
+            {
+              "Name": "UserAgent",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_LoginEvents",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_LoginEvents_LoginEvents_LoginEventId",
+              "Columns": [
+                "Id"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "LoginEvents",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_LoginEvents_LoginTimestamp",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "LoginTimestamp"
+              ]
+            },
+            {
+              "Name": "IX_LoginEvents_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            },
+            {
+              "Name": "IX_LoginEvents_UserId_LoginTimestamp",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId",
+                "LoginTimestamp"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "LogoutEvents",
+          "Columns": [
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "IsNullable": false
+            },
+            {
+              "Name": "LogoutTimestamp",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "Reason",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "SessionDuration",
+              "StoreType": "time",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_LogoutEvents",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "IX_LogoutEvents_LogoutTimestamp",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "LogoutTimestamp"
+              ]
+            },
+            {
+              "Name": "IX_LogoutEvents_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Permissions",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Permissions",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "IX_Permissions_Name",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "Name"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "PolicyDefinitions",
+          "Columns": [
+            {
+              "Name": "Action",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "ConditionsJson",
+              "StoreType": "nvarchar(max)",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedById",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": true
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IsActive",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(200)",
+              "IsNullable": false
+            },
+            {
+              "Name": "ResourceType",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Scope",
+              "StoreType": "int",
+              "IsNullable": false
+            },
+            {
+              "Name": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedById",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_PolicyDefinitions",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "IX_PolicyDefinitions_TenantId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "TenantId"
+              ]
+            },
+            {
+              "Name": "UX_PolicyDefinitions_Scope_Tenant_Resource_Action",
+              "IsUnique": true,
+              "Filter": "[TenantId] IS NOT NULL",
+              "Columns": [
+                "Scope",
+                "TenantId",
+                "ResourceType",
+                "Action"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "RegistrationFlowEvents",
+          "Columns": [
+            {
+              "Name": "ConfirmationCode",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": true
+            },
+            {
+              "Name": "Email",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "FailureReason",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": true
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "IsNullable": false
+            },
+            {
+              "Name": "RegistrationConfirmedAt",
+              "StoreType": "datetime2",
+              "IsNullable": true
+            },
+            {
+              "Name": "RegistrationInitiatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "Status",
+              "StoreType": "nvarchar(50)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Username",
+              "StoreType": "nvarchar(50)",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RegistrationFlowEvents",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "IX_RegistrationFlowEvents_Email",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "Email"
+              ]
+            },
+            {
+              "Name": "IX_RegistrationFlowEvents_RegistrationInitiatedAt",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "RegistrationInitiatedAt"
+              ]
+            },
+            {
+              "Name": "IX_RegistrationFlowEvents_Status",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "Status"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "RoleGroupRoles",
+          "Columns": [
+            {
+              "Name": "RoleGroupId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "RolesId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RoleGroupRoles",
+              "IsPrimary": true,
+              "Columns": [
+                "RoleGroupId",
+                "RolesId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_RoleGroupRoles_RoleGroups_RoleGroupId",
+              "Columns": [
+                "RoleGroupId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "RoleGroups",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_RoleGroupRoles_Roles_RolesId",
+              "Columns": [
+                "RolesId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Roles",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RoleGroupRoles_RolesId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "RolesId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "RoleGroups",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RoleGroups",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_RoleGroups_Tenants_TenantId",
+              "Columns": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RoleGroups_TenantId_Name",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "TenantId",
+                "Name"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "RolePermissions",
+          "Columns": [
+            {
+              "Name": "PermissionsId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "RoleId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_RolePermissions",
+              "IsPrimary": true,
+              "Columns": [
+                "PermissionsId",
+                "RoleId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_RolePermissions_Permissions_PermissionsId",
+              "Columns": [
+                "PermissionsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Permissions",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_RolePermissions_Roles_RoleId",
+              "Columns": [
+                "RoleId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Roles",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_RolePermissions_RoleId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "RoleId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Roles",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(50)",
+              "IsNullable": false
+            },
+            {
+              "Name": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Roles",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Roles_Tenants_TenantId",
+              "Columns": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Roles_TenantId_Name",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "TenantId",
+                "Name"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Tenants",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Name",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Tenants",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "IX_Tenants_Name",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "Name"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserActivityLogs",
+          "Columns": [
+            {
+              "Name": "ActivityType",
+              "StoreType": "nvarchar(50)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Description",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IpAddress",
+              "StoreType": "nvarchar(45)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Metadata",
+              "StoreType": "nvarchar(max)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Timestamp",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserActivityLogs",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [],
+          "Indexes": [
+            {
+              "Name": "IX_UserActivityLogs_Timestamp",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "Timestamp"
+              ]
+            },
+            {
+              "Name": "IX_UserActivityLogs_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            },
+            {
+              "Name": "IX_UserActivityLogs_UserId_Timestamp",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId",
+                "Timestamp"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserDepartments",
+          "Columns": [
+            {
+              "Name": "DepartmentsId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserDepartments",
+              "IsPrimary": true,
+              "Columns": [
+                "DepartmentsId",
+                "UserId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserDepartments_Departments_DepartmentsId",
+              "Columns": [
+                "DepartmentsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Departments",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_UserDepartments_Users_UserId",
+              "Columns": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserDepartments_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserGlobalRoles",
+          "Columns": [
+            {
+              "Name": "AssignedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "GlobalRoleId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserGlobalRoles",
+              "IsPrimary": true,
+              "Columns": [
+                "UserId",
+                "GlobalRoleId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserGlobalRoles_GlobalRoles_GlobalRoleId",
+              "Columns": [
+                "GlobalRoleId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "GlobalRoles",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_UserGlobalRoles_Users_UserId",
+              "Columns": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserGlobalRoles_GlobalRoleId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "GlobalRoleId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserIdentities",
+          "Columns": [
+            {
+              "Name": "BirthDate",
+              "StoreType": "nvarchar(10)",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "Email",
+              "StoreType": "nvarchar(255)",
+              "IsNullable": false
+            },
+            {
+              "Name": "EmailVerified",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "FirstName",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IdpId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "Issuer",
+              "StoreType": "nvarchar(500)",
+              "IsNullable": false
+            },
+            {
+              "Name": "LastName",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "LastSyncedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "PhoneNumber",
+              "StoreType": "nvarchar(20)",
+              "IsNullable": false
+            },
+            {
+              "Name": "PhoneNumberVerified",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "Subject",
+              "StoreType": "nvarchar(100)",
+              "IsNullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserIdentities",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserIdentities_Idps_IdpId",
+              "Columns": [
+                "IdpId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Idps",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_UserIdentities_Users_UserId",
+              "Columns": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserIdentities_IdpId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "IdpId"
+              ]
+            },
+            {
+              "Name": "IX_UserIdentities_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            },
+            {
+              "Name": "UQ_UserIdentity_Issuer_Subject",
+              "IsUnique": true,
+              "Filter": null,
+              "Columns": [
+                "Issuer",
+                "Subject"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserRoleGroups",
+          "Columns": [
+            {
+              "Name": "RoleGroupsId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserRoleGroups",
+              "IsPrimary": true,
+              "Columns": [
+                "RoleGroupsId",
+                "UserId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserRoleGroups_RoleGroups_RoleGroupsId",
+              "Columns": [
+                "RoleGroupsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "RoleGroups",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_UserRoleGroups_Users_UserId",
+              "Columns": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserRoleGroups_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserRoles",
+          "Columns": [
+            {
+              "Name": "RolesId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserRoles",
+              "IsPrimary": true,
+              "Columns": [
+                "RolesId",
+                "UserId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserRoles_Roles_RolesId",
+              "Columns": [
+                "RolesId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Roles",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_UserRoles_Users_UserId",
+              "Columns": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserRoles_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "Users",
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "DisplayName",
+              "StoreType": "nvarchar(200)",
+              "IsNullable": false
+            },
+            {
+              "Name": "Id",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "IsActive",
+              "StoreType": "bit",
+              "IsNullable": false
+            },
+            {
+              "Name": "PrimaryTenantId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": true
+            },
+            {
+              "Name": "UpdatedAt",
+              "StoreType": "datetime2",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Users",
+              "IsPrimary": true,
+              "Columns": [
+                "Id"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Users_Tenants_PrimaryTenantId",
+              "Columns": [
+                "PrimaryTenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Users_PrimaryTenantId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "PrimaryTenantId"
+              ]
+            }
+          ]
+        },
+        {
+          "Name": "UserTenants",
+          "Columns": [
+            {
+              "Name": "TenantsId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            },
+            {
+              "Name": "UserId",
+              "StoreType": "uniqueidentifier",
+              "IsNullable": false
+            }
+          ],
+          "Keys": [
+            {
+              "Name": "PK_UserTenants",
+              "IsPrimary": true,
+              "Columns": [
+                "TenantsId",
+                "UserId"
+              ]
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_UserTenants_Tenants_TenantsId",
+              "Columns": [
+                "TenantsId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            },
+            {
+              "Name": "FK_UserTenants_Users_UserId",
+              "Columns": [
+                "UserId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Users",
+              "PrincipalColumns": [
+                "Id"
+              ]
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_UserTenants_UserId",
+              "IsUnique": false,
+              "Filter": null,
+              "Columns": [
+                "UserId"
+              ]
+            }
+          ]
+        }
+      ]
+    }
   },
   "knownDatabaseStates": [
     {

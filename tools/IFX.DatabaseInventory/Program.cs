@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using IFX.Modules.Auth.Infrastructure.Persistence;
+using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.Holdings.Infrastructure.Persistence;
 using IFX.Modules.Registry.Infrastructure.Persistence;
@@ -45,7 +46,7 @@ var moduleSpecs = new ModuleSpec[]
 var modules = moduleSpecs.Select(spec => InspectModule(root, spec)).ToArray();
 var staticScan = ScanSources(root, moduleSpecs);
 var connectionSurfaces = InspectConnectionSurfaces(root, moduleSpecs);
-var authLegacy = InspectAuthLegacy(root);
+var authLegacy = InspectAuthLegacy();
 
 var report = new
 {
@@ -61,6 +62,7 @@ var report = new
     modules,
     staticScan,
     connectionSurfaces,
+    authLegacy,
     knownDatabaseStates = new object[]
     {
         new { name = "fresh", signal = "No module tables and no migration history", classification = "safe", action = "Apply canonical module migrations" },
@@ -399,17 +401,16 @@ static ConnectionSurfaceReport InspectConnectionSurfaces(string root, IReadOnlyL
         "Current Compose uses the same DB_USER/DB_PASSWORD variables for runtime startup migrations; migration/runtime identity separation is not yet implemented.");
 }
 
-static AuthLegacyReport InspectAuthLegacy(string root)
+static AuthLegacyReport InspectAuthLegacy()
 {
-    var path = Path.Combine(root, "src", "Modules", "Auth", "IFX.Modules.Auth.Composition", "EFMigrator.cs");
-    var text = File.ReadAllText(path);
-    var ids = Regex.Matches(text, "\\\"(?<id>\\d{14}_[A-Za-z0-9_]+)\\\"")
-        .Select(match => match.Groups["id"].Value)
-        .ToArray();
+    using var context = new IfxDbContext(SqlOptions<IfxDbContext>());
+    var fingerprint = AuthBaselineSchemaFingerprint.Create(context);
     return new AuthLegacyReport(
-        ids.Take(14).ToArray(),
-        ids.Skip(14).FirstOrDefault() ?? "<missing>",
-        "20260327075710_InitialCreate");
+        AuthLegacyMigrationManifest.PreSquashMigrationIds.ToArray(),
+        AuthLegacyMigrationManifest.IncorrectSquashAlias,
+        AuthLegacyMigrationManifest.CanonicalInitialCreateId,
+        AuthLegacyMigrationManifest.GetCanonicalProductVersion(context),
+        fingerprint);
 }
 
 static IReadOnlyList<(int Line, string Excerpt)> FindLines(string text, string pattern)
@@ -521,7 +522,12 @@ internal sealed record ConnectionSetting(string Key, string State, string Databa
 internal sealed record ComposeFile(string Path, ComposeConnection[] Entries);
 internal sealed record ComposeConnection(string Key, string Database, bool UsesEnvironmentCredentials);
 internal sealed record ExternalEvidenceGap(string Owner, string CollectionProcedure);
-internal sealed record AuthLegacyReport(string[] LegacyIds, string WrongAlias, string CanonicalId);
+internal sealed record AuthLegacyReport(
+    string[] LegacyIds,
+    string WrongAlias,
+    string CanonicalId,
+    string CanonicalProductVersion,
+    IFX.BuildingBlocks.EntityFrameworkCore.Migrations.SchemaFingerprint BaselineSchemaFingerprint);
 
 internal sealed record Arguments(string Root, string Output, string ManifestOutput)
 {

@@ -18,11 +18,14 @@ public static partial class HistoryBootstrapPlanner
             .GroupBy(item => item.Id, StringComparer.Ordinal)
             .Where(group => group.Count() == 1)
             .ToDictionary(group => group.Key, group => group.Single().Catalog, StringComparer.Ordinal);
+        var recognizedLegacyIds = orderedCatalogs
+            .SelectMany(catalog => catalog.LegacyMigrationIds ?? [])
+            .ToHashSet(StringComparer.Ordinal);
 
         ValidateRows("shared history", snapshot.SharedHistory, errors);
         foreach (var row in snapshot.SharedHistory)
         {
-            if (!migrationOwners.ContainsKey(row.MigrationId))
+            if (!migrationOwners.ContainsKey(row.MigrationId) && !recognizedLegacyIds.Contains(row.MigrationId))
             {
                 errors.Add($"Shared history contains unknown MigrationId '{row.MigrationId}'.");
             }
@@ -71,8 +74,21 @@ public static partial class HistoryBootstrapPlanner
                 .Where(row => ownedIds.Contains(row.MigrationId))
                 .OrderBy(row => row.MigrationId, StringComparer.Ordinal)
                 .ToArray();
+            var sharedLegacyRows = snapshot.SharedHistory
+                .Where(row => (catalog.LegacyMigrationIds ?? []).Contains(row.MigrationId, StringComparer.Ordinal))
+                .ToArray();
 
-            if ((sharedRows.Length > 0 || history.Rows.Count > 0) && schemaState != ModuleSchemaState.Complete)
+            if (sharedLegacyRows.Length > 0 &&
+                !history.Rows.Any(row => string.Equals(
+                    row.MigrationId,
+                    catalog.MigrationIds[0],
+                    StringComparison.Ordinal)))
+            {
+                errors.Add($"{catalog.Module} recognized legacy history requires normalization before bootstrap.");
+            }
+
+            if ((sharedRows.Length > 0 || sharedLegacyRows.Length > 0 || history.Rows.Count > 0) &&
+                schemaState != ModuleSchemaState.Complete)
             {
                 errors.Add(
                     $"{catalog.Module} history claims applied migrations but its schema fingerprint is not complete.");
@@ -193,6 +209,23 @@ public static partial class HistoryBootstrapPlanner
                      .Where(group => group.Count() > 1))
         {
             yield return $"MigrationId '{duplicate.Key}' has duplicate ownership.";
+        }
+
+        foreach (var duplicate in catalogs
+                     .SelectMany(catalog => (catalog.LegacyMigrationIds ?? [])
+                         .Select(id => (Id: id, catalog.Module)))
+                     .GroupBy(item => item.Id, StringComparer.Ordinal)
+                     .Where(group => group.Count() > 1))
+        {
+            yield return $"Legacy MigrationId '{duplicate.Key}' has duplicate ownership.";
+        }
+
+        var currentIds = catalogs.SelectMany(catalog => catalog.MigrationIds).ToHashSet(StringComparer.Ordinal);
+        foreach (var collision in catalogs.SelectMany(catalog => catalog.LegacyMigrationIds ?? [])
+                     .Where(currentIds.Contains)
+                     .Distinct(StringComparer.Ordinal))
+        {
+            yield return $"Legacy MigrationId '{collision}' collides with the current catalog.";
         }
     }
 
