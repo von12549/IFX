@@ -26,6 +26,8 @@ This directory records the source-verified current architecture and the proposed
 |---|---|---|
 | Current architecture / 当前架构 | [current-architecture.zh-CN.md](current-architecture.zh-CN.md) | [current-architecture.en.md](current-architecture.en.md) |
 | Target Contracts/Adapters/Events architecture / 目标架构 | [target-contracts-adapters-events.zh-CN.md](target-contracts-adapters-events.zh-CN.md) | [target-contracts-adapters-events.en.md](target-contracts-adapters-events.en.md) |
+| G01 transaction boundary / 事务边界 | [G01 中文](gates/G01/transaction-boundary.zh-CN.md) | [G01 English](gates/G01/transaction-boundary.en.md) |
+| G02 database boundary / 数据库边界 | [G02 中文](gates/G02/database-boundary.zh-CN.md) | [G02 English](gates/G02/database-boundary.en.md) |
 
 ## Implementation plans / 实施计划
 
@@ -44,6 +46,11 @@ This directory records the source-verified current architecture and the proposed
 | 04 | [Target synchronous Contract flow / 目标同步 Contract 流程图](diagrams/04-target-synchronous-contract-flow.md) |
 | 05 | [Target durable Integration Event flow / 目标可靠事件流程图](diagrams/05-target-integration-event-flow.md) |
 | 06 | [Target DI composition flow / 目标 DI 装配流程图](diagrams/06-target-di-composition-flow.md) |
+| 07 | [G02 database architecture / 数据库架构图](gates/G02/diagrams/database-architecture.svg) |
+| 08 | [G02 history bootstrap state / History Bootstrap 状态机](gates/G02/diagrams/history-bootstrap.svg) |
+| 09 | [G02 production migration flow / 生产迁移流程](gates/G02/diagrams/production-migration-flow.svg) |
+| 10 | [G02 failure recovery / 失败恢复状态图](gates/G02/diagrams/failure-recovery.svg) |
+| 11 | [G02 Expand/Contract sequence / Expand/Contract 时序图](gates/G02/diagrams/expand-contract.svg) |
 
 ## Recommended reading order / 建议阅读顺序
 

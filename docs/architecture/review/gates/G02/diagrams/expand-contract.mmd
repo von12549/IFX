@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant DB as Module schema
+    participant Old as Old application
+    participant New as New application
+    participant Ops as Release operations
+
+    Ops->>DB: Expand migration - additive and compatible
+    DB-->>Ops: Validate required and compatible IDs
+    Old->>DB: Continue old reads and writes
+    Ops->>New: Deploy compatible consumer then producer
+    New->>DB: Read old and new forms, write transition form
+    Ops->>DB: Backfill with a separate resumable job
+    New->>DB: Switch reads to new form
+    Ops->>Old: Drain all old instances and backlog
+    Ops->>DB: Contract migration after approval
+    Note over DB,Ops: Image rollback never implies database Down

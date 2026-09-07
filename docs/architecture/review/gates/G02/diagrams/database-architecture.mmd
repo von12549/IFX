@@ -1,0 +1,22 @@
+flowchart TB
+    M[IFX modular monolith release]
+    MIG[One-shot IFX.DatabaseMigrator]
+    API[ApiHost runtime - no DDL]
+
+    M --> MIG
+    M --> API
+    MIG -->|migration identity| PDB
+    API -->|runtime identity| PDB
+
+    subgraph PDB[SQL Server / shared physical IFXDb]
+        A[auth\nIfxDbContext\nauth.__EFMigrationsHistory\nOutbox/Inbox owned by Auth]
+        C[crm\nCrmDbContext\ncrm.__EFMigrationsHistory\nOutbox/Inbox owned by CRM]
+        R[registry\nRegistryDbContext\nregistry.__EFMigrationsHistory\nOutbox/Inbox owned by Registry]
+        H[holdings\nHoldingsDbContext\nholdings.__EFMigrationsHistory\nOutbox/Inbox owned by Holdings]
+        T[transaction\nTransactionDbContext\ntransaction.__EFMigrationsHistory\nOutbox/Inbox owned by Transaction]
+    end
+
+    A -. no cross-schema FK, join, trigger, procedure or write .- C
+    C -. communicate through Contracts or Events .- R
+    R -. future split uses its existing connection key .- H
+    H -. ownership remains module-local .- T

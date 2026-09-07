@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 8 已完成（2026-09-08）
+> 状态：Implementation In Progress / Phase 9 已完成（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -321,20 +321,28 @@ shared-history 处置仍由 G04/Database/Release Operations 在指定生产环�
 
 ## Phase 9 — 架构与规则文档化
 
-- [ ] **Phase 9 完成**：数据库边界、迁移机制、部署和恢复规则已形成可维护的中英文图文基线。
+- [x] **Phase 9 完成**：数据库边界、迁移机制、部署和恢复规则已形成可维护的中英文图文基线。
 
-- [ ] G02-9.1 创建中文设计文档 `docs/architecture/review/gates/G02/database-boundary.zh-CN.md`。
-- [ ] G02-9.2 创建对应英文文档 `docs/architecture/review/gates/G02/database-boundary.en.md`，保持决策编号一致。
-- [ ] G02-9.3 文档解释物理共库与逻辑分库、schema ownership、禁止跨 schema 访问及未来分库接缝。
-- [ ] G02-9.4 创建数据库边界架构图，展示模块、DbContext、schema、history、连接和 Outbox/Inbox ownership。
-- [ ] G02-9.5 创建 History Bootstrap 流程图和状态机，覆盖 fresh/current/legacy/unknown/partial。
-- [ ] G02-9.6 创建 production migration deployment 流程图，展示 CI artifact、lock、执行顺序、validation 和 ApiHost gate。
-- [ ] G02-9.7 创建失败恢复状态图，覆盖 partial upgrade、lock timeout、migration failure、rollback 与 roll-forward。
-- [ ] G02-9.8 创建 Expand/Contract 时序图，说明旧/新应用版本和 schema 的兼容窗口。
-- [ ] G02-9.9 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
-- [ ] G02-9.10 文档包含 manifest schema、命令示例、dry-run 输出、常见错误、禁止模式和运行手册。
-- [ ] G02-9.11 将每条数据库规则映射到 model test、migration test、CI check、readiness 或人工审批。
-- [ ] G02-9.12 更新架构索引、Gate Plan 和 TODO 反向链接，并完成中英文一致性审查。
+- [x] G02-9.1 创建中文设计文档 `docs/architecture/review/gates/G02/database-boundary.zh-CN.md`。
+- [x] G02-9.2 创建对应英文文档 `docs/architecture/review/gates/G02/database-boundary.en.md`，保持决策编号一致。
+- [x] G02-9.3 文档解释物理共库与逻辑分库、schema ownership、禁止跨 schema 访问及未来分库接缝。
+- [x] G02-9.4 创建数据库边界架构图，展示模块、DbContext、schema、history、连接和 Outbox/Inbox ownership。
+- [x] G02-9.5 创建 History Bootstrap 流程图和状态机，覆盖 fresh/current/legacy/unknown/partial。
+- [x] G02-9.6 创建 production migration deployment 流程图，展示 CI artifact、lock、执行顺序、validation 和 ApiHost gate。
+- [x] G02-9.7 创建失败恢复状态图，覆盖 partial upgrade、lock timeout、migration failure、rollback 与 roll-forward。
+- [x] G02-9.8 创建 Expand/Contract 时序图，说明旧/新应用版本和 schema 的兼容窗口。
+- [x] G02-9.9 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
+- [x] G02-9.10 文档包含 manifest schema、命令示例、dry-run 输出、常见错误、禁止模式和运行手册。
+- [x] G02-9.11 将每条数据库规则映射到 model test、migration test、CI check、readiness 或人工审批。
+- [x] G02-9.12 更新架构索引、Gate Plan 和 TODO 反向链接，并完成中英文一致性审查。
+
+Phase 9 交付：[`database-boundary.zh-CN.md`](../gates/G02/database-boundary.zh-CN.md)、
+[`database-boundary.en.md`](../gates/G02/database-boundary.en.md)、
+[`ADR-G02-001`](../gates/G02/ADR-G02-001-module-database-ownership.md) 和
+[`G02-phase9-report.md`](../evidence/gates/G02/G02-phase9-report.md)，以及
+[`G02-phase9-guard-report.json`](../evidence/gates/G02/G02-phase9-guard-report.json) 和
+[`G02-phase9-layerguard-report.json`](../evidence/gates/G02/G02-phase9-layerguard-report.json)。五张图均保存 Mermaid、SVG 和 PNG，
+并由 `DatabaseBoundaryDocumentationTests` 验证双语关键契约和渲染产物。
 
 ## Phase 10 — Gate 关闭与 Plan 00 交接
 

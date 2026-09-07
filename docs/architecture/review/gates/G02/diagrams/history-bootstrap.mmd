@@ -1,0 +1,23 @@
+stateDiagram-v2
+    [*] --> Inspect
+    Inspect --> Fresh: no schema and no history
+    Inspect --> CurrentShared: recognized shared history
+    Inspect --> KnownLegacy: recognized legacy or Auth alias
+    Inspect --> CurrentModule: module histories current
+    Inspect --> FailClosed: unknown, mixed, partial or fingerprint mismatch
+
+    Fresh --> PlanMigrations
+    CurrentShared --> CopyExactOwnership: preserve ProductVersion
+    KnownLegacy --> VerifyFingerprint
+    VerifyFingerprint --> NormalizeCanonical: complete match
+    VerifyFingerprint --> FailClosed: incomplete match
+    CopyExactOwnership --> ModuleHistories
+    NormalizeCanonical --> ModuleHistories
+    CurrentModule --> PlanMigrations
+    ModuleHistories --> PlanMigrations
+    PlanMigrations --> ApplyPending: approved apply mode
+    PlanMigrations --> [*]: preflight or dry-run
+    ApplyPending --> Validate
+    Validate --> [*]: all required IDs present
+    Validate --> FailClosed: ownership or pending mismatch
+    FailClosed --> [*]: non-zero exit, no automatic repair

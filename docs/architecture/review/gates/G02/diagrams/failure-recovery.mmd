@@ -1,0 +1,22 @@
+stateDiagram-v2
+    [*] --> Running
+    Running --> LockTimeout: lock not acquired
+    Running --> PartialUpgrade: module migration failed or process stopped
+    Running --> ValidationFailed: post-apply validation failed
+    Running --> Compatible: apply and validation passed
+
+    LockTimeout --> InspectOwner
+    InspectOwner --> PreflightAgain: owner completed or aborted
+    PartialUpgrade --> FreezeRelease
+    ValidationFailed --> FreezeRelease
+    FreezeRelease --> ClassifyDatabase
+    ClassifyDatabase --> RollForward: state understood and artifact reviewed
+    ClassifyDatabase --> RestoreCandidate: roll-forward cannot meet incident objective
+    RestoreCandidate --> RestoreApproved: verified restore point and three-party approval
+    RestoreApproved --> PreflightAgain
+    RollForward --> PreflightAgain
+    PreflightAgain --> Running
+    Compatible --> AppRollbackCheck
+    AppRollbackCheck --> Compatible: old image schema-compatible
+    AppRollbackCheck --> FreezeRelease: incompatible old image
+    Compatible --> [*]

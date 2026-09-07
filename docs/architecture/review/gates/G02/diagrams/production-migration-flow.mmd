@@ -1,0 +1,18 @@
+flowchart TD
+    CI[Immutable release bundle\nAPI + Worker + Migrator\nmanifests + reviewed SQL]
+    APPROVE[Architecture / Database / Operations approval]
+    PREFLIGHT[Preflight and dry-run review]
+    RESTORE[Create and verify restore point]
+    LOCK[Acquire database application lock]
+    BOOT[History bootstrap when classified safe]
+    MODULES[Auth -> CRM -> Registry -> Holdings -> Transaction]
+    VALIDATE[Validate schema, ownership, history and pending IDs]
+    WORKER[Deploy compatible Worker consumers and wait Ready]
+    API[Roll API producers and check readiness]
+    OBSERVE[Smoke tests and compatibility observation]
+
+    CI --> APPROVE --> PREFLIGHT
+    PREFLIGHT -->|unexpected state| STOP[Stop release and preserve evidence]
+    PREFLIGHT -->|approved| RESTORE --> LOCK --> BOOT --> MODULES --> VALIDATE
+    VALIDATE -->|failed| STOP
+    VALIDATE -->|passed| WORKER --> API --> OBSERVE

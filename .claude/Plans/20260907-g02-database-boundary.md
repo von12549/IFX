@@ -51,6 +51,10 @@ execution, validation, and evidence explicitly module-owned.
   DML/DDL separation and database-only API readiness across a restart. The evidence is sanitized and
   validator-approved. This does not claim production rollout; G04/Release Operations must separately
   approve and capture the production execution.
+- Phase 9 complete: accepted ADR plus Chinese/English database-boundary baselines cover ownership,
+  bootstrap, manifest/commands, deployment/recovery, forbidden modes and rule-to-evidence mapping.
+  Five Mermaid diagrams have checked SVG/PNG renderings, and automated tests keep both languages and
+  their diagram artifacts aligned.
 
 ## Phase discipline
 

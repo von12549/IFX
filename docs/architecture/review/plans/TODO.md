@@ -13,11 +13,15 @@
 | DP2 | [`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) | Module Manifest 已由 Gate 04 定义并验收。 |
 | DP7 | [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) C5.4 | 进程内 Adapter 的远程替换接缝属于 Contracts/Adapters 重构。 |
 | OPS4 | [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) | 权威目录、依赖图与 waiver 生命周期统一由 Gate 03 治理。 |
-| NEXT1 | [`00-G02-database-boundary.md`](00-G02-database-boundary.md) | 数据库边界评审及计划已完成。 |
+| NEXT1 | [`00-G02-database-boundary.md`](00-G02-database-boundary.md)；[中文基线](../gates/G02/database-boundary.zh-CN.md) / [English baseline](../gates/G02/database-boundary.en.md) | 数据库边界评审、实施计划与中英文图文基线已完成；最终关闭仍按计划接收 E2/E4 证据。 |
 | NEXT2 | [`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md) | 事务边界评审及计划已完成。 |
 | NEXT3 | [`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) | 部署/运行边界评审及计划已完成。 |
 
 ## Topic 1 — 数据库边界：独立 DbContext、migration 与 schema
+
+已实施的 DB1–DB4、DB9–DB11 以 [G02 Gate Plan](00-G02-database-boundary.md)、
+[ADR-G02-001](../gates/G02/ADR-G02-001-module-database-ownership.md) 和
+[G02 双语基线](../gates/G02/database-boundary.zh-CN.md)为准。以下项目保持为后续范围。
 
 - [ ] **Topic 1 完成**：全部事项已转为正式计划或有证据地完成。
 
