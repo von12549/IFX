@@ -24,6 +24,22 @@ public sealed class RuntimeLifecycle
     public void MarkStopping() => Set(RuntimeLifecycleState.Stopping, "G04-STOPPING");
     public void MarkTerminated() => Set(RuntimeLifecycleState.Terminated, "G04-TERMINATED");
 
-    private void Set(RuntimeLifecycleState state, string reasonCode) =>
-        Volatile.Write(ref _snapshot, new RuntimeLifecycleSnapshot(state, reasonCode, DateTimeOffset.UtcNow));
+    private void Set(RuntimeLifecycleState state, string reasonCode)
+    {
+        while (true)
+        {
+            var current = Snapshot;
+            if (current.State is RuntimeLifecycleState.Stopping or RuntimeLifecycleState.Terminated &&
+                state is not RuntimeLifecycleState.Terminated)
+            {
+                return;
+            }
+
+            var next = new RuntimeLifecycleSnapshot(state, reasonCode, DateTimeOffset.UtcNow);
+            if (ReferenceEquals(Interlocked.CompareExchange(ref _snapshot, next, current), current))
+            {
+                return;
+            }
+        }
+    }
 }

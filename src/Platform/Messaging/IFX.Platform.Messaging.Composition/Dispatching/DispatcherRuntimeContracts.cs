@@ -12,6 +12,16 @@ public interface IModuleDispatcherRuntime
     Task<bool> CompleteAsync(DispatchLease lease, CancellationToken cancellationToken);
 }
 
+/// <summary>
+/// Process-wide signal checked before dispatcher claims, consumer fetches, and scheduler registration.
+/// Existing in-flight work may finish, but no new durable work may be acquired after draining starts.
+/// </summary>
+public interface IRuntimeDrainSignal
+{
+    bool AcceptingNewWork { get; }
+    CancellationToken DrainToken { get; }
+}
+
 public sealed record DispatchClaimRequest(
     string LeaseOwner,
     DateTimeOffset Now,

@@ -68,6 +68,8 @@ services:
   ifx-api:
     image: ${IFX_API_IMAGE:-von12549/ifx-api:latest}
     container_name: IFX-api
+    stop_signal: SIGTERM
+    stop_grace_period: 45s
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
@@ -131,6 +133,8 @@ services:
 
   ifx-worker:
     image: ${IFX_API_IMAGE:-von12549/ifx-api:latest}
+    stop_signal: SIGTERM
+    stop_grace_period: 45s
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080

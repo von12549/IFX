@@ -35,6 +35,15 @@ try
     builder.Services.AddSingleton(runtimeManifests.Modules);
     builder.Services.AddSingleton(runtimeManifests.Release);
     builder.Services.AddSingleton<RuntimeLifecycle>();
+    var drainOptions = builder.Configuration
+        .GetSection(RuntimeDrainOptions.SectionName)
+        .Get<RuntimeDrainOptions>() ?? new RuntimeDrainOptions();
+    drainOptions.Validate();
+    builder.Services.AddSingleton(drainOptions);
+    builder.Services.AddSingleton<RuntimeDrainCoordinator>();
+    builder.Services.AddSingleton<IFX.Platform.Messaging.Composition.Dispatching.IRuntimeDrainSignal>(
+        services => services.GetRequiredService<RuntimeDrainCoordinator>());
+    builder.Services.Configure<HostOptions>(options => options.ShutdownTimeout = drainOptions.ProcessGrace);
 
     // Add Serilog
     builder.Host.UseSerilog();
@@ -66,6 +75,7 @@ try
     builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
     builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
     builder.Services.AddHostedService<StartupDependencyMonitor>();
+    builder.Services.AddHostedService<RuntimeDrainHostedService>();
 
     var app = builder.Build();
     var orderedInstallers = StartupBoundaryVerifier.ValidateComposition(
@@ -77,6 +87,7 @@ try
     // Configure middleware pipeline
     app.UseMiddleware<RequestLoggingMiddleware>();
     app.UseMiddleware<ExceptionHandlingMiddleware>();
+    app.UseMiddleware<RuntimeDrainMiddleware>();
 
     if (app.Environment.IsDevelopment())
     {

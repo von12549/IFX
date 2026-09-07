@@ -80,6 +80,23 @@ if ($Phase -ge 4) {
     $checks.leaseConformanceDocumented = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase4-lease-conformance.md')
 }
 
+if ($Phase -ge 5) {
+    $program = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
+    $drainCoordinator = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs')
+    $drainOptions = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainOptions.cs')
+    $compose = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docker-compose.yml')
+    $checks.sharedDrainSignalRegistered = ($program -match 'RuntimeDrainCoordinator') -and ($program -match 'IRuntimeDrainSignal')
+    $checks.newWorkRejectedAtomically = ($drainCoordinator -match 'TryBeginOperation') -and ($drainCoordinator -match 'Interlocked\.Exchange\(ref _draining')
+    $checks.inFlightDrainBounded = ($drainCoordinator -match 'WaitForIdleAsync') -and ($drainCoordinator -match 'CancelAfter\(timeout\)')
+    $checks.strictDrainBudgetsValidated = ($drainOptions -match 'OperationBudget') -and
+        ($drainOptions -match 'HandlerBudget') -and
+        ($drainOptions -match 'LeaseBudget') -and
+        ($drainOptions -match 'ProcessGrace') -and
+        ($drainOptions -match 'OrchestratorKill')
+    $checks.composeUsesBoundedSigterm = ($compose -match 'stop_signal: SIGTERM') -and ($compose -match 'stop_grace_period: 45s')
+    $checks.phase5EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G04/G04-phase5-drain-conformance.md')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G04'

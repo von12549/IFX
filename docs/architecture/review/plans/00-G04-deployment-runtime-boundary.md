@@ -291,15 +291,19 @@ Phase 4 证据：[`G04-phase4-lease-conformance.md`](../evidence/gates/G04/G04-p
 
 ## Phase 5 — 建立优雅关闭与接管
 
-- [ ] **Phase 5 完成**：API、Worker 与 all-in-one 在部署和故障终止时停止领取新工作，并保留可恢复状态。
+- [ ] **Phase 5 PRE-READY**：API、Worker 与 all-in-one 的 Host drain 已实现并验证；真实 Dispatcher/Inbox 的故障接管等待 E3/E4。
 
-- [ ] G04-5.1 实现统一 drain coordinator，在 shutdown 开始时原子设置 NotReady 并拒绝新的 claim/schedule/fetch。
-- [ ] G04-5.2 配置负载均衡 drain，停止新 HTTP 请求后允许 in-flight request 在预算内完成。
-- [ ] G04-5.3 Dispatcher 在 drain 中完成已确认发送的条件更新；未确认发送不得猜测 delivered。
-- [ ] G04-5.4 Hangfire 与 Consumer 停止取新工作并遵守 cancellation；无法完成的任务保留平台可重新领取状态。
-- [ ] G04-5.5 根据实测确定 operation、handler、lease、process grace、orchestrator kill 的严格递增预算与 renewal 限制。
-- [ ] G04-5.6 配置 Host、Compose 和目标 orchestrator 的 stop signal/grace period，并验证日志/trace 在退出前有界 flush。
-- [ ] G04-5.7 对 forced kill、网络中断和进程 crash 验证 lease expiry、Hangfire recovery 与 Inbox 幂等接管。
+- [x] G04-5.1 实现统一 drain coordinator，在 shutdown 开始时原子设置 NotReady 并拒绝新的 claim/schedule/fetch；E3 loops 通过 `IRuntimeDrainSignal` 接入。
+- [x] G04-5.2 配置负载均衡 drain，停止新 HTTP 请求后允许 in-flight request 在预算内完成；health 端点保持可探测。
+- [ ] G04-5.3 Dispatcher 在 drain 中完成已确认发送的条件更新；未确认发送不得猜测 delivered。Host contract 已就绪，真实行为等待 E3。
+- [x] G04-5.4 Hangfire 随 Host cancellation 停止领取，Consumer 获得统一 drain token；真实 consumer durable recovery 等待 E3。
+- [x] G04-5.5 以自动化边界测试验证 operation、handler、lease、process grace、orchestrator kill 的严格递增预算；生产负载校准仍列为交接项。
+- [x] G04-5.6 配置 Host 与 Compose 的 SIGTERM/45s grace，并为有界 drain 保留 telemetry flush 预算；目标生产 orchestrator 参数仍需运维确认。
+- [ ] G04-5.7 reference SQL 已验证 lease expiry，Hangfire 使用持久 storage；真实 Dispatcher crash 与 Inbox 幂等接管等待 E3/E4。
+
+Phase 5 证据：[`G04-phase5-drain-conformance.md`](../evidence/gates/G04/G04-phase5-drain-conformance.md)、
+`RuntimeDrainCoordinatorTests`、[`G04-phase5-guard-report.json`](../evidence/gates/G04/G04-phase5-guard-report.json) 与
+[`G04-phase5-layerguard-report.json`](../evidence/gates/G04/G04-phase5-layerguard-report.json)。
 
 ## Phase 6 — 重建 Health、Startup 与 Readiness
 

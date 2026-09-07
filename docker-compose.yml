@@ -72,6 +72,8 @@ services:
       context: .
       dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile
     container_name: IFX-api
+    stop_signal: SIGTERM
+    stop_grace_period: 45s
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
@@ -137,6 +139,8 @@ services:
     build:
       context: .
       dockerfile: src/ApiHost/IFX.ApiHost/Dockerfile
+    stop_signal: SIGTERM
+    stop_grace_period: 45s
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
