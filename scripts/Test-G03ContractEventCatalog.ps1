@@ -25,7 +25,7 @@ function Test-Catalog($catalog) {
     foreach ($name in @('identity', 'compatibility', 'dtoPolicy', 'breakingChange', 'baseline', 'deprecation')) {
         if ($null -eq $catalog.sourcePolicy.$name) { Add-Error 'policy-node' "sourcePolicy.$name" "Required policy '$name' is missing." }
     }
-    foreach ($name in @('owners', 'modules', 'consumers', 'approvalPolicy', 'protocols', 'publicSurface', 'contractDependencyPolicy', 'sharedPrimitives', 'waivers', 'changeRecords')) {
+    foreach ($name in @('owners', 'modules', 'consumers', 'approvalPolicy', 'protocols', 'publicSurface', 'contractDependencyPolicy', 'sharedPrimitives', 'waiverPolicy', 'waivers', 'changeRecords')) {
         if ($null -eq $catalog.$name) { Add-Error 'required-node' $name "Required node '$name' is missing." }
     }
     Test-Unique @($catalog.owners) 'id' 'owners'
@@ -121,6 +121,18 @@ function Test-Catalog($catalog) {
     if ($catalog.contractDependencyPolicy.default -ne 'BCL-only' -or -not $catalog.contractDependencyPolicy.runtimeSeparation.mustNotBeReferencedByModuleContracts) {
         Add-Error 'contract-allowlist' 'contractDependencyPolicy' 'Contracts must default to BCL-only and reject Messaging runtime references.'
     }
+    if ($catalog.waiverPolicy.maximumDays -ne 90 -or @($catalog.waiverPolicy.unwaivable).Count -eq 0) { Add-Error 'waiver-policy' 'waiverPolicy' 'A 90-day maximum and explicit unwaivable categories are required.' }
+    foreach ($waiver in @($catalog.waivers)) {
+        $path = "waivers.$($waiver.id)"
+        foreach ($required in @('owner','reason','risk','createdAt','expiresAt','removalCondition','linkedPlanItem','category')) { if ([string]::IsNullOrWhiteSpace($waiver.$required)) { Add-Error 'waiver-metadata' "$path.$required" "$required is required." } }
+        if ($waiver.owner -notin $ownerIds) { Add-Error 'owner-reference' "$path.owner" "Unknown owner '$($waiver.owner)'." }
+        if ($waiver.category -in @($catalog.waiverPolicy.unwaivable)) { Add-Error 'waiver-unwaivable' "$path.category" 'This category cannot be waived.' }
+        if ($waiver.createdAt -and $waiver.expiresAt) {
+            $created = [DateOnly]::Parse($waiver.createdAt); $expires = [DateOnly]::Parse($waiver.expiresAt); $asOf = [DateOnly]::Parse($catalog.asOf)
+            if ($expires.DayNumber - $created.DayNumber -gt $catalog.waiverPolicy.maximumDays) { Add-Error 'waiver-duration' "$path.expiresAt" 'Waiver exceeds maximum duration.' }
+            if ($expires -lt $asOf) { Add-Error 'waiver-expired' "$path.expiresAt" 'Waiver is expired.' }
+        }
+    }
     return @($errors)
 }
 
@@ -137,7 +149,9 @@ if ($SelfTest) {
         @{ name = 'broken reference'; mutate = { param($x) $x.protocols[0].provider = 'unknown-module' }; expected = 'module-reference' },
         @{ name = 'C4 exposure'; mutate = { param($x) $x.protocols[0].fields[0].classification = 'C4' }; expected = 'secret-forbidden' },
         @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[0].lifecycle = 'Active' }; expected = 'active-admission' },
-        @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' }
+        @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' },
+        @{ name = 'expired waiver'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-08-01';expiresAt='2026-09-01';removalCondition='remove';linkedPlanItem='test';category='temporary-tool-gap'}) }; expected = 'waiver-expired' },
+        @{ name = 'unwaivable exposure'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-09-01';expiresAt='2026-09-30';removalCondition='remove';linkedPlanItem='test';category='C4-exposure'}) }; expected = 'waiver-unwaivable' }
     )
     foreach ($case in $cases) {
         $copy = ($catalogText | ConvertFrom-Json -Depth 100)

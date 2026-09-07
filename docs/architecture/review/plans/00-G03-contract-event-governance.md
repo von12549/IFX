@@ -306,15 +306,22 @@ Phase 6 当前为 PRE-READY：[`G03-phase6-pre-ready.md`](../evidence/gates/G03/
 
 ## Phase 7 — Waiver、LayerGuard 与 CI 接缝
 
-- [ ] **Phase 7 完成**：治理目录成为 LayerGuard 和 CI 的输入，例外可追责、会到期且不能掩盖不可豁免问题。
+- [x] **Phase 7 完成**：治理目录成为 LayerGuard 和 CI 的输入，例外可追责、会到期且不能掩盖不可豁免问题。
 
-- [ ] G03-7.1 定义 waiver schema：owner、reason、risk、created-at、expires-at、removal condition 和 linked plan item。
-- [ ] G03-7.2 验证 waiver 默认不超过 90 天或命名里程碑，以较早者为准；续期视为新评审。
-- [ ] G03-7.3 将无 owner/consumer、内部模型泄漏、C4/未批准 C3 暴露和 identity 复用设为不可豁免；获批 C3 State Transfer 属于受控准入而非 waiver。
-- [ ] G03-7.4 向 LayerGuard 子计划交付 module ownership、Contract role、Adapter provider allowlist 与 shared primitives allowlist 的机器可读输入。
-- [ ] G03-7.5 禁止 LayerGuard 配置手工复制一份会漂移的 ownership 数据；若工具不能直接读取目录，建立一致性生成/校验步骤。
-- [ ] G03-7.6 为 catalog/API/schema/contract tests、LayerGuard 和 owner approval 定义统一 CI 入口与失败报告。
-- [ ] G03-7.7 证明过期 waiver、未知项目、未知 public type、orphan Active event 和扫描异常都会使严格 CI 失败。
+- [x] G03-7.1 定义 waiver schema：owner、reason、risk、created-at、expires-at、removal condition 和 linked plan item。
+- [x] G03-7.2 验证 waiver 默认不超过 90 天或命名里程碑，以较早者为准；续期视为新评审。
+- [x] G03-7.3 将无 owner/consumer、内部模型泄漏、C4/未批准 C3 暴露和 identity 复用设为不可豁免；获批 C3 State Transfer 属于受控准入而非 waiver。
+- [x] G03-7.4 向 LayerGuard 子计划交付 module ownership、Contract role、Adapter provider allowlist 与 shared primitives allowlist 的机器可读输入。
+- [x] G03-7.5 禁止 LayerGuard 配置手工复制一份会漂移的 ownership 数据；若工具不能直接读取目录，建立一致性生成/校验步骤。
+- [x] G03-7.6 为 catalog/API/schema/contract tests、LayerGuard 和 owner approval 定义统一 CI 入口与失败报告。
+- [x] G03-7.7 证明过期 waiver、未知项目、未知 public type、orphan Active event 和扫描异常都会使严格 CI 失败。
+
+Phase 7 证据：[`layerguard-governance-input.json`](../gates/G03/generated/layerguard-governance-input.json)、
+[`G03-phase7-layerguard-handoff-report.json`](../evidence/gates/G03/G03-phase7-layerguard-handoff-report.json)、
+[`G03-phase7-report.md`](../evidence/gates/G03/G03-phase7-report.md)、
+[`G03-phase7-guard-report.json`](../evidence/gates/G03/G03-phase7-guard-report.json) 与
+[`G03-phase7-layerguard-report.json`](../evidence/gates/G03/G03-phase7-layerguard-report.json)。Plan 03 L5.1 负责最终工具直接消费，
+本 Phase 交付唯一生成输入与漂移校验，不宣称下游迁移已经完成。
 
 ## Phase 8 — 架构与规则文档化
 

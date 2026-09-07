@@ -303,6 +303,13 @@
     {"id":"messaging.event-envelope.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Carries the Gate 05-approved immutable logical event identity, producer, tenant scope, correlation, causation, content type, and optional W3C trace carrier.","bclTypes":["Guid","string","int","DateTimeOffset","nullable BCL value"],"serialization":"Canonical V1 field names and UTC DateTimeOffset; retry/replay preserve the frozen value.","compatibility":"Optional additions require defaults and unknown-field tests; required/type/meaning changes require a parallel V2.","linkedPlan":"00-G05-context-sensitive-data-boundary.md:G05-1.6;02-reliable-integration-events.md:E1.3"},
     {"id":"messaging.schema-identity.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Represents a stable catalog event identity and positive major schema version independently of CLR type names.","bclTypes":["string","int"],"serialization":"Lowercase catalog identity ending in .vN plus positive integer major version.","compatibility":"Active identity is immutable and Retired identity remains reserved forever.","linkedPlan":"02-reliable-integration-events.md:E1.1-E1.9"}
   ],
+  "waiverPolicy": {
+    "maximumDays": 90,
+    "milestoneRule": "Expiry is the earlier of 90 days after creation or the named milestone date.",
+    "renewal": "A renewal is a new review and may not mutate historical approval evidence.",
+    "unwaivable": ["missing-owner", "missing-consumer", "internal-model-exposure", "C4-exposure", "unapproved-C3-exposure", "identity-reuse"],
+    "approvedC3StateTransfer": "Controlled admission with owner, consumer, purpose, protection, retention and expiry; never represented as a waiver."
+  },
   "waivers": [],
   "changeRecords": [
     {"id":"G03-CR-001","identity":"crm.account-compliance.v1","classification":"New","summary":"Establish the first capability-specific CRM account compliance contract.","providerOwner":"xiaolong-feng","affectedConsumers":["transaction-application"],"compatibilityEvidence":"Initial Proposed baseline; no prior formal version.","releaseOrder":"Provider contract and Transaction adapter migrate atomically in Plan 01 before Active promotion.","rollback":"Retain the legacy Reader path until V1 validation is complete.","status":"Proposed"},

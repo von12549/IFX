@@ -48,6 +48,7 @@ if ($Phase -ge 2) {
 }
 $sourceReconciliation = $true
 $deterministicSnapshots = $true
+$layerGuardHandoff = $true
 if ($Phase -ge 6) {
     $sourceReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-source-reconciliation.json"
     & (Join-Path $PSScriptRoot 'Invoke-G03SourceReconciliation.ps1') -ReportPath $sourceReportPath
@@ -60,6 +61,12 @@ if ($Phase -ge 6) {
     & (Join-Path $PSScriptRoot 'Invoke-G03CompatibilitySnapshots.ps1')
     $secondSnapshotHash = "$((Get-FileHash $apiPath -Algorithm SHA256).Hash)|$((Get-FileHash $schemaPath -Algorithm SHA256).Hash)"
     $deterministicSnapshots = $firstSnapshotHash -eq $secondSnapshotHash
+}
+if ($Phase -ge 7) {
+    $handoffReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-layerguard-handoff-report.json"
+    & (Join-Path $PSScriptRoot 'Test-G03LayerGuardGovernance.ps1') -ReportPath $handoffReportPath
+    $handoffResult = Get-Content -Raw -LiteralPath $handoffReportPath | ConvertFrom-Json -Depth 100
+    $layerGuardHandoff = $handoffResult.result -eq 'passed'
 }
 
 $checks = [ordered]@{
@@ -75,6 +82,7 @@ $checks = [ordered]@{
     publicSurfaceReconciliation = $surfaceReconciled
     sourceCatalogReconciliation = $sourceReconciliation
     deterministicCompatibilitySnapshots = $deterministicSnapshots
+    layerGuardGovernanceHandoff = $layerGuardHandoff
 }
 
 $report = [ordered]@{
