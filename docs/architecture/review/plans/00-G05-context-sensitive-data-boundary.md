@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Architecture Decisions Approved / 待实施
+> 状态：Implementation In Progress / Phase 0 baseline
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -148,14 +148,19 @@ Dispatcher -> transport headers -> Consumer Inbound Adapter
 
 ## Phase 0 — 建立暴露面与数据流基线
 
-- [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有不采集运行值的确定性证据。
 
-- [ ] G05-0.1 盘点所有 HTTP headers、middleware、claims transformation、ICurrentUser 使用、job/handler scope 和日志 enrichment 路径。
-- [ ] G05-0.2 盘点所有同步 Reader/Contract-like DTO、Integration Event、日志模板、trace/metric、错误响应和诊断 endpoint。
-- [ ] G05-0.3 对 Outbox/Inbox/dead-letter/replay 尚未实现的状态作显式标记，不把设计目标记作当前能力。
-- [ ] G05-0.4 记录当前 EventId/OccurredAt 构造方式、TenantId payload 重复、异常吞噬和日志/错误原文暴露样例。
-- [ ] G05-0.5 对 Auth token 持久化和 identifier logging 建立独立安全 finding、owner、严重级别和修复/升级路径。
-- [ ] G05-0.6 保存当前 build、相关测试、LayerGuard、公共 schema 和敏感字段扫描结果作为基线。
+- [x] G05-0.1 盘点所有 HTTP headers、middleware、claims transformation、ICurrentUser 使用、job/handler scope 和日志 enrichment 路径。
+- [x] G05-0.2 盘点所有同步 Reader/Contract-like DTO、Integration Event、日志调用点、trace/metric、错误响应和诊断 endpoint。
+- [x] G05-0.3 对 Outbox/Inbox/dead-letter/replay 尚未实现的状态作显式标记，不把设计目标记作当前能力。
+- [x] G05-0.4 记录当前 EventId/OccurredAt 构造方式、敏感公共字段、租户回退和日志/错误原文暴露位置。
+- [x] G05-0.5 对 Auth token 持久化、identifier logging、租户静默回退和 exception message 暴露建立独立 security finding、owner、严重级别和关闭触发器。
+- [x] G05-0.6 保存 build/test/LayerGuard 基线、公共 schema 和敏感字段位置扫描；生成物只含结构元数据，不含运行值。
+
+Phase 0 证据：[`G05-phase0-baseline.md`](../evidence/gates/G05/G05-phase0-baseline.md)、
+[`G05-context-inventory.json`](../evidence/gates/G05/G05-context-inventory.json) 与
+[`G05-phase0-guard-report.json`](../evidence/gates/G05/G05-phase0-guard-report.json)、
+[`G05-phase0-layerguard-report.json`](../evidence/gates/G05/G05-phase0-layerguard-report.json)。
 
 ## Phase 1 — 建立最小 Context 与 Envelope 协议原语
 
