@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "phase": 8,
+  "result": "passed",
+  "checks": {
+    "bilingualDocumentsPresent": true,
+    "bilingualIdentitiesMatch": true,
+    "localLinksResolve": true,
+    "mermaidSvgPngTriplets": true,
+    "responsibilityAndEvidenceSections": true
+  },
+  "counts": {
+    "documents": 2,
+    "diagrams": 5,
+    "renderedAssets": 10
+  },
+  "failures": {
+    "identities": [],
+    "links": [],
+    "diagrams": []
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "result": "passed",
+  "mode": "baseline",
+  "counts": {
+    "owners": 1,
+    "modules": 6,
+    "consumers": 2,
+    "protocols": 4,
+    "publicSurface": 46,
+    "legacyInternalize": 20,
+    "legacyReplace": 6,
+    "legacyRemove": 20,
+    "sharedPrimitives": 3,
+    "changeRecords": 4,
+    "graphEdges": 4,
+    "syncCycles": 0,
+    "mixedCycles": 0,
+    "errors": 0
+  },
+  "checks": {
+    "schema": true,
+    "uniqueIdentity": true,
+    "referenceIntegrity": true,
+    "fieldClassification": true,
+    "dependencyCycles": true,
+    "selfTests": true
+  },
+  "graph": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "kind": "sync",
+      "provider": "crm",
+      "consumer": "transaction",
+      "consumerId": "transaction-application"
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "kind": "sync",
+      "provider": "registry",
+      "consumer": "transaction",
+      "consumerId": "transaction-application"
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "kind": "event",
+      "provider": "transaction",
+      "consumer": "holdings",
+      "consumerId": "holdings-application"
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "kind": "event",
+      "provider": "registry",
+      "consumer": "holdings",
+      "consumerId": "holdings-application"
+    }
+  ],
+  "selfTests": [
+    {
+      "name": "duplicate identity",
+      "expected": "duplicate-id",
+      "passed": true
+    },
+    {
+      "name": "missing owner",
+      "expected": "owner-reference",
+      "passed": true
+    },
+    {
+      "name": "missing consumer",
+      "expected": "missing-consumer",
+      "passed": true
+    },
+    {
+      "name": "broken reference",
+      "expected": "module-reference",
+      "passed": true
+    },
+    {
+      "name": "C4 exposure",
+      "expected": "secret-forbidden",
+      "passed": true
+    },
+    {
+      "name": "orphan Active protocol",
+      "expected": "active-admission",
+      "passed": true
+    },
+    {
+      "name": "illegal lifecycle",
+      "expected": "lifecycle",
+      "passed": true
+    },
+    {
+      "name": "expired waiver",
+      "expected": "waiver-expired",
+      "passed": true
+    },
+    {
+      "name": "unwaivable exposure",
+      "expected": "waiver-unwaivable",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

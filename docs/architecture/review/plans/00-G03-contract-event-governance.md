@@ -1,6 +1,6 @@
 # Plan 00 / Gate 03：Contract / Event Ownership 治理实施计划
 
-> 状态：Architecture Decisions Approved / 待实施
+> 状态：PRE-READY / Phase 0–4、7–8 已完成；Phase 5/6/9 等待下游迁移、backup owner 与最终审批（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 catalog/graph/allowlist/waiver policy 在 03-A1 绑定为权威规则输入。
@@ -350,25 +350,32 @@ Phase 8 证据：[`contract-event-governance.zh-CN.md`](../gates/G03/contract-ev
 
 - [ ] **Phase 9 完成**：Gate 03 已批准关闭，Contracts、Events 和 LayerGuard 实施具有唯一治理输入。
 
-- [ ] G03-9.1 对照 GOV1、GOV2、GOV5 附上 catalog、owner、consumer、兼容、自动化和文档证据。
-- [ ] G03-9.2 确认两个同步能力和两个事件均满足 Proposed → Active 准入，或明确记录仍阻塞的具体条件。
-- [ ] G03-9.3 确认所有其他现有公共类型都有 LegacyPendingMigration 处置项且未超过到期时间。
-- [ ] G03-9.4 向 Contracts 子计划交付 sync surface、DTO 分类、V1 identity、shared primitive allowlist 与兼容基线规则。
-- [ ] G03-9.5 向 Event 子计划交付 event inventory、producer/consumer、schema identity、版本策略和 Messaging.Contracts 分层要求。
-- [ ] G03-9.6 向 LayerGuard 子计划交付 ownership graph、合法 Adapter 边、catalog/allowlist schema 和 waiver policy。
+- [x] G03-9.1 对照 GOV1、GOV2、GOV5 附上 catalog、owner、consumer、兼容、自动化和文档证据。
+- [x] G03-9.2 确认两个同步能力和两个事件均满足 Proposed → Active 准入，或明确记录仍阻塞的具体条件。
+- [x] G03-9.3 确认所有其他现有公共类型都有 LegacyPendingMigration 处置项且未超过到期时间。
+- [x] G03-9.4 向 Contracts 子计划交付 sync surface、DTO 分类、V1 identity、shared primitive allowlist 与兼容基线规则。
+- [x] G03-9.5 向 Event 子计划交付 event inventory、producer/consumer、schema identity、版本策略和 Messaging.Contracts 分层要求。
+- [x] G03-9.6 向 LayerGuard 子计划交付 ownership graph、合法 Adapter 边、catalog/allowlist schema 和 waiver policy。
 - [ ] G03-9.7 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 3 相关事项，仅在全部实施、验证与文档完成后操作。
 - [ ] G03-9.8 由模块 owner、Consumer owner、Platform Messaging 和架构负责人共同批准 Gate 关闭。
 
+Phase 9 当前为 PRE-READY：[`G03-closeout.md`](../evidence/gates/G03/G03-closeout.md)、
+[`G03-phase9-status.json`](../evidence/gates/G03/G03-phase9-status.json)、
+[`Plan 01 handoff`](../gates/G03/handoffs/plan01-contracts-handoff.md)、
+[`Plan 02 handoff`](../gates/G03/handoffs/plan02-events-handoff.md) 与
+[`Plan 03 handoff`](../gates/G03/handoffs/plan03-layerguard-handoff.md)。Phase 9 guard 的通过只表示关闭状态、
+owner、回访条件和交接证据自洽，不表示 `readyForClosure=true`。`00-prerequisites.md` 与 G03-9.8 保持未勾选。
+
 ## Definition of Done
 
-- [ ] G03-DD01 所有现有 Reader、方法、DTO 和 Event 均已登记、分类并有唯一 owner。
+- [x] G03-DD01 所有现有 Reader、方法、DTO 和 Event 均已登记、分类并有唯一 owner。
 - [ ] G03-DD02 所有 Active Contract/Event 均有真实 Consumer、稳定 identity、版本、生命周期和兼容测试。
-- [ ] G03-DD03 无证据公共表面均处于有 owner、有期限、有后续计划的 LegacyPendingMigration，而非伪装成 Active。
+- [x] G03-DD03 无证据公共表面均处于有 owner、有期限、有后续计划的 LegacyPendingMigration，而非伪装成 Active。
 - [ ] G03-DD04 `IFX.Platform.Messaging.Contracts` 的职责和 BCL-only allowlist 已冻结，运行时 bus/handler/DI 不泄漏到模块 Contracts。
-- [ ] G03-DD05 Catalog、源码、API/schema snapshot 和依赖图可自动对账，非法变化与孤立 Active event 会失败。
-- [ ] G03-DD06 Provider/Consumer 审批、Change Record、并行版本、废弃窗口和外部 consumer 复核流程可执行。
+- [x] G03-DD05 Catalog、源码、API/schema snapshot 和依赖图可自动对账，非法变化与孤立 Active event 会失败。
+- [x] G03-DD06 Provider/Consumer 审批、Change Record、并行版本、废弃窗口和外部 consumer 复核流程可执行。
 - [ ] G03-DD07 LayerGuard/CI 获得唯一 governance source；过期 waiver 和扫描异常不能静默通过。
-- [ ] G03-DD08 中英文说明、架构图、流程图、状态图、模板和规则验证映射全部完成并审核。
+- [x] G03-DD08 中英文说明、架构图、流程图、状态图、模板和规则验证映射全部完成并审核。
 
 ## 回退与例外原则
 

@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "phase": 9,
+  "result": "passed",
+  "closureStatus": "pre-ready",
+  "readyForClosure": false,
+  "checkedAt": "2026-09-08",
+  "checks": {
+    "allLegacyItemsHaveDisposition": true,
+    "noLegacyDeadlineExceeded": true,
+    "downstreamHandoffPackagesPresent": true,
+    "closeoutDocumentPresent": true,
+    "closeoutLinksResolve": true,
+    "blockersCarryOwnerAndRevisit": true
+  },
+  "counts": {
+    "protocols": 4,
+    "activeProtocols": 0,
+    "legacyItems": 46,
+    "overdueLegacyItems": 0,
+    "blockers": 6
+  },
+  "blockers": [
+    {
+      "code": "backup-owner-unassigned",
+      "owner": "repository-maintainer",
+      "revisitWhen": "before first Proposed-to-Active transition or Gate closure",
+      "currentEvidence": "approvalPolicy.backupOwner is null"
+    },
+    {
+      "code": "protocols-not-active",
+      "owner": "Plans 01/02 provider and consumer owners",
+      "revisitWhen": "after physical V1 source, snapshots, behavior tests, reconciliation, and approvals",
+      "currentEvidence": "crm.account-compliance.v1, ifx.registry.class-status-changed.v1, ifx.transaction.transaction-processed.v1, registry.class-subscription-availability.v1"
+    },
+    {
+      "code": "behavior-tests-pending",
+      "owner": "Plans 01/02 implementers",
+      "revisitWhen": "when real provider Contracts and consumer Adapters exist",
+      "currentEvidence": "G03-6.5 and G03-6.6 remain open"
+    },
+    {
+      "code": "messaging-contract-runtime-split-pending",
+      "owner": "Plan 02 Platform Messaging owner",
+      "revisitWhen": "when the BCL-only Contracts and runtime projects are created and dependency-tested",
+      "currentEvidence": "one or both target projects are absent"
+    },
+    {
+      "code": "layerguard-direct-consumption-pending",
+      "owner": "Plan 03 L5.1 owner",
+      "revisitWhen": "when Gate policy binding starts",
+      "currentEvidence": "generated handoff exists; L5.1 direct consumption is open"
+    },
+    {
+      "code": "closure-approvals-pending",
+      "owner": "module, consumer, Platform Messaging, and architecture owners",
+      "revisitWhen": "after all technical blockers are cleared",
+      "currentEvidence": "G03-9.8 remains open"
+    }
+  ],
+  "missingHandoffs": [],
+  "brokenLinks": []
+}

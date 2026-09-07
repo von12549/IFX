@@ -50,6 +50,8 @@ $sourceReconciliation = $true
 $deterministicSnapshots = $true
 $layerGuardHandoff = $true
 $documentationPassed = $true
+$closeoutAuditPassed = $true
+$closeoutStatus = $null
 if ($Phase -ge 6) {
     $sourceReportPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G03/G03-phase$Phase-source-reconciliation.json"
     & (Join-Path $PSScriptRoot 'Invoke-G03SourceReconciliation.ps1') -ReportPath $sourceReportPath
@@ -75,6 +77,13 @@ if ($Phase -ge 8) {
     $documentationResult = Get-Content -Raw -LiteralPath $documentationReportPath | ConvertFrom-Json -Depth 100
     $documentationPassed = $documentationResult.result -eq 'passed'
 }
+if ($Phase -ge 9) {
+    $closeoutReportPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G03/G03-phase9-status.json'
+    & (Join-Path $PSScriptRoot 'Test-G03CloseoutReadiness.ps1') -ReportPath $closeoutReportPath
+    $closeoutResult = Get-Content -Raw -LiteralPath $closeoutReportPath | ConvertFrom-Json -Depth 100
+    $closeoutAuditPassed = $closeoutResult.result -eq 'passed'
+    $closeoutStatus = $closeoutResult.closureStatus
+}
 
 $checks = [ordered]@{
     deterministicInventory = $firstHash -eq $secondHash
@@ -91,6 +100,7 @@ $checks = [ordered]@{
     deterministicCompatibilitySnapshots = $deterministicSnapshots
     layerGuardGovernanceHandoff = $layerGuardHandoff
     bilingualDocumentationAndRenderedDiagrams = $documentationPassed
+    closeoutReadinessAudit = $closeoutAuditPassed
 }
 
 $report = [ordered]@{
@@ -102,6 +112,7 @@ $report = [ordered]@{
     counts = $inventory.counts
     sha256 = [ordered]@{ inventory = $secondHash }
     failures = [ordered]@{ missingCatalogSurface = $missingCatalogSurface; unknownCatalogSurface = $unknownCatalogSurface }
+    closureStatus = $closeoutStatus
 }
 
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $resolvedReportPath) | Out-Null

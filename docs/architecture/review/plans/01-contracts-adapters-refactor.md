@@ -5,6 +5,7 @@
 > 相关架构：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > 治理前置：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 提供权威目录、V1 identity、版本/废弃政策和 shared primitives allowlist。
 > G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [public API snapshot](../gates/G03/snapshots/G03-sync-api-snapshot.json)；完成真实 source/Adapter/behavior tests 后回交 Active 准入证据。
+> 可执行交接包：[`G03 -> Plan 01 handoff`](../gates/G03/handoffs/plan01-contracts-handoff.md)，含 owner、26 项 Reader/method/DTO 处置、回访条件和回交清单。
 > 上下文与数据前置：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 提供 ContractRequestContext、ExecutionScope、tenant/consumer 验证、C0-C4 分类与 conformance suite。
 > 门禁前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0/03-A1 已完成，Gate policy 已绑定，正式 B1 已保存且完整迁移门禁在 CI 禁止新增违规。
 
