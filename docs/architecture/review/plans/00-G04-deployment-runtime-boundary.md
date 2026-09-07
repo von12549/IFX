@@ -204,15 +204,20 @@ flush telemetry and exit before orchestrator kill timeout
 
 ## Phase 0 — 建立部署与运行基线
 
-- [ ] **Phase 0 完成**：所有当前 deployable、嵌入式 runtime、启动动作和 probe 行为均有可复查证据。
+- [x] **Phase 0 完成**：所有当前 deployable、嵌入式 runtime、启动动作和 probe 行为均有可复查证据。
 
-- [ ] G04-0.1 枚举 executable/image/container/one-shot job/managed dependency，并区分 source module、assembly、process、artifact、release 和 deployment boundary。
-- [ ] G04-0.2 保存 ApiHost 模块/Platform 注册、migration、endpoint mapping、Hangfire Server 和 messaging 当前启动顺序。
-- [ ] G04-0.3 盘点所有 IHostedService/BackgroundService、线程、scheduler、queue、recurring registration 和 shutdown token 使用。
-- [ ] G04-0.4 盘点 Compose/NAS/其他环境的 depends_on、restart、replica、healthcheck、stop signal、grace period 和 identity 配置。
-- [ ] G04-0.5 记录 `/health`、`/health/ready` 当前检查集合、响应、权限和外部依赖调用，并保存误判场景。
-- [ ] G04-0.6 生成当前单实例/多实例运行图，列出 HTTP scaling 对 Hangfire/未来 Dispatcher 并发的隐式放大。
-- [ ] G04-0.7 保存当前 release、startup、shutdown 和 failure 基线，明确尚未实现的目标能力而不伪造验证结果。
+- [x] G04-0.1 枚举 executable/image/container/one-shot job/managed dependency，并区分 source module、assembly、process、artifact、release 和 deployment boundary。
+- [x] G04-0.2 保存 ApiHost 模块/Platform 注册、migration、endpoint mapping、Hangfire Server 和 messaging 当前启动顺序。
+- [x] G04-0.3 盘点所有 IHostedService/BackgroundService、线程、scheduler、queue、recurring registration 和 shutdown token 使用。
+- [x] G04-0.4 盘点 Compose/NAS/其他环境的 depends_on、restart、replica、healthcheck、stop signal、grace period 和 identity 配置。
+- [x] G04-0.5 记录 `/health`、`/health/ready` 当前检查集合、响应、权限和外部依赖调用，并保存误判场景。
+- [x] G04-0.6 生成当前单实例/多实例运行图，列出 HTTP scaling 对 Hangfire/未来 Dispatcher 并发的隐式放大。
+- [x] G04-0.7 保存当前 release、startup、shutdown 和 failure 基线，明确尚未实现的目标能力而不伪造验证结果。
+
+Phase 0 证据：[`G04-phase0-baseline.md`](../evidence/gates/G04/G04-phase0-baseline.md)、
+[`G04-runtime-inventory.json`](../evidence/gates/G04/G04-runtime-inventory.json)、
+[`G04-phase0-guard-report.json`](../evidence/gates/G04/G04-phase0-guard-report.json) 与
+[`G04-phase0-layerguard-report.json`](../evidence/gates/G04/G04-phase0-layerguard-report.json)。
 
 ## Phase 1 — 冻结业务部署边界与 Manifest
 

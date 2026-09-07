@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "phase": 0,
+  "result": "passed",
+  "checks": {
+    "deterministicInventory": true,
+    "fiveRequiredBusinessModules": true,
+    "deployableInventoryComplete": true,
+    "currentHangfireCouplingRecorded": true,
+    "currentProbeConflationRecorded": true,
+    "currentOrchestrationRecorded": true,
+    "knownTargetGapsNotMisrepresented": true,
+    "phaseBaselineExists": true
+  },
+  "sha256": {
+    "inventory": "363e83b69194c104ef17915aeb73743bfd652cb604041b09c33c43ad058a949a"
+  }
+}
