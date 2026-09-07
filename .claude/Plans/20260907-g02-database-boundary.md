@@ -55,6 +55,10 @@ execution, validation, and evidence explicitly module-owned.
   bootstrap, manifest/commands, deployment/recovery, forbidden modes and rule-to-evidence mapping.
   Five Mermaid diagrams have checked SVG/PNG renderings, and automated tests keep both languages and
   their diagram artifacts aligned.
+- Phase 10 closeout preparation complete and G02 is PRE-READY: DB1–DB4/DB9–DB11 are mapped and the
+  prerequisite checklist is closed; G01 alignment and the Plan 02 E2/E4 database callback are explicit.
+  Final Phase 10 closure remains open until E2/E4 real Outbox/Inbox migrations, G04 production
+  orchestration evidence and Architecture/Database/Operations sign-off exist.
 
 ## Phase discipline
 

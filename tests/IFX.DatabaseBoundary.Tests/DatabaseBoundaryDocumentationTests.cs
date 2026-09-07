@@ -60,6 +60,30 @@ public sealed class DatabaseBoundaryDocumentationTests
         }
     }
 
+    [Fact]
+    public void Closeout_is_pre_ready_and_requires_event_and_runtime_callbacks()
+    {
+        var root = RepositoryRoot();
+        var gatePlan = File.ReadAllText(Path.Combine(
+            root, "docs", "architecture", "review", "plans", "00-G02-database-boundary.md"));
+        var prerequisites = File.ReadAllText(Path.Combine(
+            root, "docs", "architecture", "review", "plans", "00-prerequisites.md"));
+        var eventPlan = File.ReadAllText(Path.Combine(
+            root, "docs", "architecture", "review", "plans", "02-reliable-integration-events.md"));
+        var closeout = File.ReadAllText(Path.Combine(
+            root, "docs", "architecture", "review", "evidence", "gates", "G02", "G02-closeout.md"));
+
+        prerequisites.Should().Contain("[x] **Gate 2 前置放行**");
+        gatePlan.Should().Contain("> 状态：PRE-READY");
+        gatePlan.Should().Contain("- [ ] G02-10.6");
+        gatePlan.Should().Contain("- [ ] G02-DD06");
+        eventPlan.Should().Contain("E0.10");
+        eventPlan.Should().Contain("E8.10");
+        eventPlan.Should().Contain("E-D11");
+        closeout.Should().Contain("There is no G02-specific waiver");
+        closeout.Should().Contain("G04 returns production release orchestration evidence");
+    }
+
     private static void AssertArtifact(string directory, string name, string extension, string marker)
     {
         var path = Path.Combine(directory, name + extension);

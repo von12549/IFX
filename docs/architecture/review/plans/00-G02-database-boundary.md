@@ -1,6 +1,6 @@
 # Plan 00 / Gate 02：数据库边界实施计划
 
-> 状态：Implementation In Progress / Phase 9 已完成（2026-09-08）
+> 状态：PRE-READY / Phase 0–9 已完成；Phase 10 等待 E2/E4、G04 与最终签字（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -348,23 +348,30 @@ Phase 9 交付：[`database-boundary.zh-CN.md`](../gates/G02/database-boundary.z
 
 - [ ] **Phase 10 完成**：Gate 02 已批准关闭，并为 Contracts/Event 实施提供稳定数据库边界。
 
-- [ ] G02-10.1 对照 DB1–DB4、DB9–DB11 附上 ADR、代码、migration、测试、部署和文档证据。
-- [ ] G02-10.2 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 2 相关事项，仅在全部实施和文档完成后操作。
-- [ ] G02-10.3 确认 Gate 01 的本地事务规则与本 Gate 的 DbContext/schema ownership 完全一致。
-- [ ] G02-10.4 向 Event 子计划交付每模块 Outbox/Inbox 表归属、migration 与测试接缝。
-- [ ] G02-10.5 将数据库账号最小权限、租户生命周期、跨模块 read model 和未来物理分库继续保留在 TODO。
+- [x] G02-10.1 对照 DB1–DB4、DB9–DB11 附上 ADR、代码、migration、测试、部署和文档证据。
+- [x] G02-10.2 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 2 相关事项，仅在全部实施和文档完成后操作。
+- [x] G02-10.3 确认 Gate 01 的本地事务规则与本 Gate 的 DbContext/schema ownership 完全一致。
+- [x] G02-10.4 向 Event 子计划交付每模块 Outbox/Inbox 表归属、migration 与测试接缝。
+- [x] G02-10.5 将数据库账号最小权限、租户生命周期、跨模块 read model 和未来物理分库继续保留在 TODO。
 - [ ] G02-10.6 记录 waiver、owner、到期日和删除条件，并由架构、数据库和运维负责人批准 Gate 关闭。
+
+Phase 10 当前证据：[`G02-closeout.md`](../evidence/gates/G02/G02-closeout.md) 和
+[`G02-phase10-status.json`](../evidence/gates/G02/G02-phase10-status.json)，以及
+[`G02-phase10-guard-report.json`](../evidence/gates/G02/G02-phase10-guard-report.json) 和
+[`G02-phase10-layerguard-report.json`](../evidence/gates/G02/G02-phase10-layerguard-report.json)。DB 前置放行与核心实现已经完成；
+最终关闭仍有三个显式硬条件：Plan 02 E2/E4 真实 Outbox/Inbox 数据库证据、G04 production
+Migrator → Worker → API 编排证据，以及 Architecture/Database/Operations 最终签字。
 
 ## Definition of Done
 
-- [ ] G02-DD01 五个模块具有独立 DbContext、schema、connection key、migration assembly 和 schema 内 history。
-- [ ] G02-DD02 数据库不存在未批准的跨模块 FK、navigation、join、trigger、procedure 或直接写入。
-- [ ] G02-DD03 Auth legacy、错误 squash ID、shared history 和 EnsureCreated adoption 均安全且可重复处理。
-- [ ] G02-DD04 `IFX.DatabaseMigrator` 独立执行、全局互斥、失败阻断、可重跑并输出完整报告。
-- [ ] G02-DD05 生产 ApiHost 不执行 DDL，只读 readiness 能识别 required migration 缺失。
+- [x] G02-DD01 五个模块具有独立 DbContext、schema、connection key、migration assembly 和 schema 内 history。
+- [x] G02-DD02 数据库不存在未批准的跨模块 FK、navigation、join、trigger、procedure 或直接写入。
+- [x] G02-DD03 Auth legacy、错误 squash ID、shared history 和 EnsureCreated adoption 均安全且可重复处理。
+- [x] G02-DD04 `IFX.DatabaseMigrator` 独立执行、全局互斥、失败阻断、可重跑并输出完整报告。
+- [x] G02-DD05 生产 ApiHost 不执行 DDL，只读 readiness 能识别 required migration 缺失。
 - [ ] G02-DD06 Compose 和生产部署均保证 database/init/migrator/Worker/API 的确定顺序，并与 Gate 04 consumer-first 编排一致。
-- [ ] G02-DD07 真实 SQL Server migration matrix、故障测试、build 和架构检查全部通过。
-- [ ] G02-DD08 中英文说明、架构图、流程图、状态图和规则验证映射全部完成并审核。
+- [x] G02-DD07 真实 SQL Server migration matrix、故障测试、build 和架构检查全部通过。
+- [x] G02-DD08 中英文说明、架构图、流程图、状态图和规则验证映射全部完成并审核。
 
 ## 回退原则
 

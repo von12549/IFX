@@ -1,0 +1,58 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "phase": 10,
+  "date": "2026-09-08",
+  "result": "pre-ready-awaiting-dependent-evidence",
+  "completed": [
+    "G02-10.1",
+    "G02-10.2",
+    "G02-10.3",
+    "G02-10.4",
+    "G02-10.5",
+    "G02-DD01",
+    "G02-DD02",
+    "G02-DD03",
+    "G02-DD04",
+    "G02-DD05",
+    "G02-DD07",
+    "G02-DD08"
+  ],
+  "pending": [
+    {
+      "id": "G02-10.6",
+      "owner": "Architecture/Database/Operations",
+      "condition": "Approve after Plan 02 E2/E4 and G04 callbacks are linked"
+    },
+    {
+      "id": "G02-DD06",
+      "owner": "G04/Release Operations",
+      "condition": "Production Migrator-to-Worker-to-API orchestration evidence"
+    }
+  ],
+  "dependentCallbacks": [
+    {
+      "id": "Plan02-E8.10",
+      "owner": "Plan 02 E2/E4",
+      "condition": "Real module Outbox/Inbox entities, migrations and SQL Server conformance evidence"
+    },
+    {
+      "id": "G04-G02-callback",
+      "owner": "G04/Release Operations",
+      "condition": "Production restore point, validation, consumer-first deployment and recovery evidence"
+    }
+  ],
+  "waivers": [],
+  "productionClaimed": false,
+  "verification": {
+    "solutionBuildErrors": 0,
+    "solutionTestsPassed": 904,
+    "databaseBoundaryTestsPassed": 93,
+    "g02Guard": "passed",
+    "layerGuard": "baseline-clean",
+    "layerGuardMatched": 116,
+    "layerGuardNew": 0,
+    "layerGuardStale": 0,
+    "layerGuardSelfTestsPassed": 178
+  }
+}

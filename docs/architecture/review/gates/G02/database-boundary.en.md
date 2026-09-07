@@ -1,6 +1,6 @@
 # G02 Module database boundary
 
-> Status: G02 phases 0–9 implemented; final closure awaits Plan 02 E2/E4 evidence and Phase 10 approval.
+> Status: G02 phases 0–9 implemented and PRE-READY; final closure awaits Plan 02 E2/E4 evidence, G04 production orchestration evidence, and Phase 10 approval.
 > Chinese version: [database-boundary.zh-CN.md](database-boundary.zh-CN.md)
 > Decision record: [ADR-G02-001](ADR-G02-001-module-database-ownership.md)
 
@@ -157,4 +157,3 @@ and [failure runbook](../../evidence/gates/G02/G02-phase6-recovery-runbook.md).
 
 Evidence starts at the [G02 evidence directory](../../evidence/gates/G02/) and the controlled rehearsal
 is recorded in [rollout-evidence.json](../../evidence/gates/G02/phase8-docker-rehearsal/rollout-evidence.json).
-

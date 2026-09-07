@@ -45,19 +45,24 @@
 
 ## Gate 2 — 数据库边界最小集
 
-- [ ] **Gate 2 前置放行**：模块 DbContext/schema/history、Migrator 和未来 Outbox/Inbox ownership 已确定且可执行；真实消息表 migration 由 E2/E4 创建并回交测试证据。
+- [x] **Gate 2 前置放行**：模块 DbContext/schema/history、Migrator 和未来 Outbox/Inbox ownership 已确定且可执行；真实消息表 migration 由 E2/E4 创建并回交测试证据。
 
 实施与最终验收：[`00-G02-database-boundary.md`](00-G02-database-boundary.md)。架构决策已经确认；前置放行不要求提前创建尚未设计的消息表。
 
-- [ ] DB1 形成数据库边界 ADR：近期保持同一 `IFXDb` 实例，但每模块独立 DbContext、schema 和 migration ownership，禁止跨模块 DbContext/表访问。
-- [ ] DB2 修复 Auth migration 标识不一致，并兼容已存在的 legacy/错误 squash history 状态。
-- [ ] DB3 决定并落实每模块 migrations history table 策略，例如 `auth.__EFMigrationsHistory`，避免共享 `dbo.__EFMigrationsHistory` 造成耦合或碰撞。
-- [ ] DB4 为每个 DbContext 增加并测试 `HasDefaultSchema` 防护，确保模块新实体不会落入错误 schema。
-- [ ] DB9 确定生产 migration 的执行主体、互斥、失败与回滚流程；若从 ApiHost 启动迁出，准备受控 deployment job。
-- [ ] DB10 修正容器启动依赖：SQL Server healthy → init completed → Migrator completed → ApiHost。
-- [ ] DB11 建立关系数据库 migration 测试：fresh install、逐版本 upgrade、legacy stamp、多个 DbContext 共库和重复执行。
-- [ ] DB-G1 明确生产方 Outbox 与消费方 Inbox 分别归属各自模块 DbContext/schema，不创建共享 Messaging DbContext。
-- [ ] DB-G2 保存 schema ownership 表、migration 测试报告和部署流程，作为 Event 子计划 E2/E4 的输入证据。
+- [x] DB1 形成数据库边界 ADR：近期保持同一 `IFXDb` 实例，但每模块独立 DbContext、schema 和 migration ownership，禁止跨模块 DbContext/表访问。
+- [x] DB2 修复 Auth migration 标识不一致，并兼容已存在的 legacy/错误 squash history 状态。
+- [x] DB3 决定并落实每模块 migrations history table 策略，例如 `auth.__EFMigrationsHistory`，避免共享 `dbo.__EFMigrationsHistory` 造成耦合或碰撞。
+- [x] DB4 为每个 DbContext 增加并测试 `HasDefaultSchema` 防护，确保模块新实体不会落入错误 schema。
+- [x] DB9 确定生产 migration 的执行主体、互斥、失败与回滚流程；若从 ApiHost 启动迁出，准备受控 deployment job。
+- [x] DB10 修正容器启动依赖：SQL Server healthy → init completed → Migrator completed → ApiHost。
+- [x] DB11 建立关系数据库 migration 测试：fresh install、逐版本 upgrade、legacy stamp、多个 DbContext 共库和重复执行。
+- [x] DB-G1 明确生产方 Outbox 与消费方 Inbox 分别归属各自模块 DbContext/schema，不创建共享 Messaging DbContext。
+- [x] DB-G2 保存 schema ownership 表、migration 测试报告和部署流程，作为 Event 子计划 E2/E4 的输入证据。
+
+Gate 2 前置证据：[`../gates/G02/ADR-G02-001-module-database-ownership.md`](../gates/G02/ADR-G02-001-module-database-ownership.md)、
+[`../gates/G02/database-boundary.zh-CN.md`](../gates/G02/database-boundary.zh-CN.md) 和
+[`../evidence/gates/G02/G02-closeout.md`](../evidence/gates/G02/G02-closeout.md)。前置放行已完成；
+Gate 最终关闭仍等待 Plan 02 E2/E4、G04 生产编排回交和最终三方签字。
 
 ## Gate 3 — Contract / Event Ownership 治理
 

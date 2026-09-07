@@ -1,6 +1,6 @@
 # G02 模块数据库边界
 
-> 状态：G02 Phase 0–9 已实施；最终关闭等待 Plan 02 E2/E4 回交证据及 Phase 10 批准。
+> 状态：G02 Phase 0–9 已实施并达到 PRE-READY；最终关闭等待 Plan 02 E2/E4、G04 生产编排回交证据及 Phase 10 批准。
 > English version: [database-boundary.en.md](database-boundary.en.md)
 > 决策记录：[ADR-G02-001](ADR-G02-001-module-database-ownership.md)
 
@@ -148,4 +148,3 @@ DDL/访问、共享 Messaging DbContext、未经审核的 destructive SQL、在�
 
 证据索引从 [G02 evidence 目录](../../evidence/gates/G02/)开始；受控演练记录在
 [rollout-evidence.json](../../evidence/gates/G02/phase8-docker-rehearsal/rollout-evidence.json)。
-
