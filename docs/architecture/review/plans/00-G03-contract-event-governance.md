@@ -181,14 +181,19 @@ Author updates protocol + catalog + Change Record + tests
 
 ## Phase 0 — 建立可复查基线
 
-- [ ] **Phase 0 完成**：公共源码、运行路径、消费者和现有治理能力已形成可重复生成的基线。
+- [x] **Phase 0 完成**：公共源码、运行路径、消费者和现有治理能力已形成可重复生成的基线。
 
-- [ ] G03-0.1 枚举所有 `*.Abstractions` 项目、公开类型、方法、DTO、事件、继承关系和 package/project references，排除生成目录。
-- [ ] G03-0.2 分别扫描每个同步方法的调用者，以及每个事件的声明、发布、subscription 和 handler，禁止把 producer 自用视为 consumer 证据。
-- [ ] G03-0.3 保存当前项目引用图和源码 namespace 图，突出 Transaction.Application 与 Holdings.Application 的 foreign Abstractions 依赖。
-- [ ] G03-0.4 盘点已有 owner、CODEOWNERS/审批、API diff、serialization snapshot、schema registry 和 CI 能力，记录缺口。
-- [ ] G03-0.5 为所有外部/动态消费者建立调查路径；找不到源码的 consumer 只有提供系统、owner、版本和接入证据后才成立。
-- [ ] G03-0.6 将基线脚本、输入范围、commit SHA、生成时间和结果保存为可重现证据。
+- [x] G03-0.1 枚举所有 `*.Abstractions` 项目、公开类型、方法、DTO、事件、继承关系和 package/project references，排除生成目录。
+- [x] G03-0.2 分别扫描每个同步方法的调用者，以及每个事件的声明、发布、subscription 和 handler，禁止把 producer 自用视为 consumer 证据。
+- [x] G03-0.3 保存当前项目引用图和源码 namespace 图，突出 Transaction.Application 与 Holdings.Application 的 foreign Abstractions 依赖。
+- [x] G03-0.4 盘点已有 owner、CODEOWNERS/审批、API diff、serialization snapshot、schema registry 和 CI 能力，记录缺口。
+- [x] G03-0.5 为所有外部/动态消费者建立调查路径；找不到源码的 consumer 只有提供系统、owner、版本和接入证据后才成立。
+- [x] G03-0.6 将基线脚本、输入范围、commit SHA、生成时间和结果保存为可重现证据。
+
+Phase 0 证据：[`G03-phase0-baseline.md`](../evidence/gates/G03/G03-phase0-baseline.md)、
+[`G03-contract-event-inventory.json`](../evidence/gates/G03/G03-contract-event-inventory.json)、
+[`G03-phase0-guard-report.json`](../evidence/gates/G03/G03-phase0-guard-report.json) 与
+[`G03-phase0-layerguard-report.json`](../evidence/gates/G03/G03-phase0-layerguard-report.json)。
 
 ## Phase 1 — 建立模块能力、数据与消费目录
 

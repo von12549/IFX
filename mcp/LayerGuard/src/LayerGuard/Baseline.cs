@@ -145,6 +145,15 @@ public static class Baseline
     }
 
     private static string HashFile(string path) => File.Exists(path)
-        ? Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant()
-        : Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(path))).ToLowerInvariant();
+        ? HashText(File.ReadAllText(path))
+        : HashText(path);
+
+    // Git can materialize the same policy with LF or CRLF in different worktrees. A baseline is
+    // bound to policy semantics, not to the checkout's line-ending convention.
+    private static string HashText(string value)
+    {
+        var normalized = value.Replace("\r\n", "\n", StringComparison.Ordinal)
+            .Replace('\r', '\n');
+        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(normalized))).ToLowerInvariant();
+    }
 }

@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "phase": 0,
+  "result": "passed",
+  "checks": {
+    "deterministicInventory": true,
+    "exactAbstractionProjectCount": true,
+    "exactReaderCount": true,
+    "exactReaderMethodCount": true,
+    "exactDtoCount": true,
+    "exactIntegrationEventCount": true,
+    "messagingSurfaceInventoried": true,
+    "generatedDirectoriesExcluded": true
+  },
+  "counts": {
+    "abstractionProjects": 4,
+    "readers": 4,
+    "readerMethods": 15,
+    "dtos": 7,
+    "integrationEvents": 20,
+    "messagingAbstractionTypes": 4,
+    "abstractionProjectEdges": 42
+  },
+  "sha256": {
+    "inventory": "4c3484d8194c5e55b967282906bc81b1e0c80e387d47129aaba5be7dbe4a1aa2"
+  }
+}

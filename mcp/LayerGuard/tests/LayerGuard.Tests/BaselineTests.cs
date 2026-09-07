@@ -65,6 +65,37 @@ public class BaselineTests
     }
 
     [Fact]
+    public void Ruleset_hash_is_stable_across_line_endings()
+    {
+        var sourcePath = Path.Combine(Path.GetTempPath(), $"layerguard-policy-{Guid.NewGuid():N}.json");
+        var baselinePath = Path.Combine(Path.GetTempPath(), $"layerguard-{Guid.NewGuid():N}.json");
+        try
+        {
+            File.WriteAllText(sourcePath, "{\n  \"requireRings\": false\n}\n");
+            var original = Fixtures.Check(Fixtures.BootstrapArchitecture);
+            var report = original with { Ruleset = original.Ruleset with { Source = sourcePath } };
+            var baseline = Baseline.Snapshot(
+                report,
+                "architecture-team",
+                "bootstrap debt",
+                DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+                "Remove after migration"
+            );
+            Baseline.Write(baseline, baselinePath);
+
+            File.WriteAllText(sourcePath, "{\r\n  \"requireRings\": false\r\n}\r\n");
+
+            var applied = Baseline.Apply(report, baselinePath);
+            Assert.Equal("baseline-clean", applied.Verdict);
+        }
+        finally
+        {
+            File.Delete(sourcePath);
+            File.Delete(baselinePath);
+        }
+    }
+
+    [Fact]
     public void Removed_findings_are_reported_as_stale_baseline_debt()
     {
         var report = Fixtures.Check(Fixtures.BootstrapArchitecture);
