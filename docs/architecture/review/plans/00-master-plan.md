@@ -1,6 +1,6 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Gate 1–5 PRE-READY 前置放行完成 / M0.2–M0.4 决策已确认，M0.5 ownership 待完成 / 03-A1 待实施（2026-09-08）
+> 状态：Gate 1–5 PRE-READY 前置放行完成 / Master Phase 0 已完成 / 03-A1 待实施（2026-09-08）
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
@@ -91,14 +91,26 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 0 — 建立基线与冻结架构决策
 
-- [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [x] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
 - [x] M0.2 评审并确认上方 M-C01 至 M-C12；确认记录：[`../evidence/plan00-phase0-architecture-decisions.md`](../evidence/plan00-phase0-architecture-decisions.md)。
 - [x] M0.3 采用渐进式物理命名迁移：先建立 `*.Contracts` 项目/兼容 namespace 与最小 shim，逐项迁移消费者后，在 Plan 01 Phase 6 删除 `*.Abstractions` 与过期 shim；不执行不可分割的一次性全仓重命名。
 - [x] M0.4 Integration Adapter 初期保留在消费方 `Infrastructure/Integrations/<Provider>`；仅当数量、技术栈或独立部署约束显著增加且有批准记录时拆为独立项目，两种形态均由 LayerGuard 精确识别。
-- [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
+- [x] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。责任矩阵与接受记录：[`../evidence/plan00-phase0-architecture-decisions.md`](../evidence/plan00-phase0-architecture-decisions.md)。
 - [x] M0.6 记录 Gate 前置放行后的构建、事务/migration 测试与 B0.5 结果，作为 03-A1 和后续“无回归”输入；正式架构差异仍以 B1/B4 为准。证据：[`../evidence/plan00-prerequisite-release.md`](../evidence/plan00-prerequisite-release.md)。
+
+### M0.5 责任矩阵
+
+| 工作流 | Delivery owner | 目标里程碑 | 验收人 |
+| --- | --- | --- | --- |
+| Plan 03 — LayerGuard policy binding | `@von12549` | 03-A1 / 正式 B1 | Junxi (`@jimkeecn`) |
+| Plan 01 — Contracts / Ports / Adapters | `@von12549` | B2 | Junxi (`@jimkeecn`) |
+| Plan 02 — Reliable Integration Events | `@von12549` | B3 | Junxi (`@jimkeecn`) |
+| G01/G02 事务与数据库回交 | `@von12549` | Plan 02 E2/E4 回交并通过 G01/G02 conformance | Junxi (`@jimkeecn`) |
+
+上述验收职责已于 2026-09-08 被接受。这里的验收人负责子计划里程碑验收；Gate Final Closure
+仍须满足各 Gate 已定义的多角色批准，不因本矩阵而降级为单人批准。
 
 ## Phase 1 — 绑定 Gate Policy 并建立正式 B1 基线
 

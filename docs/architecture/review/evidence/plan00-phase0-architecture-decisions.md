@@ -2,7 +2,7 @@
 
 Date: 2026-09-08
 Decision authority: repository owner (`@von12549`)
-Status: M0.2–M0.4 confirmed; M0.5 remains open
+Status: Master Phase 0 complete (M0.1–M0.6)
 
 ## Confirmed decisions
 
@@ -17,9 +17,17 @@ Status: M0.2–M0.4 confirmed; M0.5 remains open
    adapter volume, technology isolation, or deployment constraints justify it and the change has an
    approved record. LayerGuard must validate either physical form using the same adapter role.
 
-## Retained control
+## M0.5 ownership and acceptance
 
-M0.5 is not complete until Plans 01, 02, and 03 each have a recorded delivery owner, target
-milestone, and accepting party, and the existing database/transaction prerequisites have named
-accountability. A delivery owner may own multiple plans. Final Gate approval remains multi-role and
-cannot be inferred from assignment of a single delivery owner.
+| Workstream | Delivery owner | Target milestone | Accepting party |
+| --- | --- | --- | --- |
+| Plan 03 — LayerGuard policy binding | repository owner (`@von12549`) | 03-A1 / formal B1 | Junxi (`@jimkeecn`, `jimkeecn@gmail.com`) |
+| Plan 01 — Contracts / Ports / Adapters | repository owner (`@von12549`) | B2 | Junxi (`@jimkeecn`, `jimkeecn@gmail.com`) |
+| Plan 02 — Reliable Integration Events | repository owner (`@von12549`) | B3 | Junxi (`@jimkeecn`, `jimkeecn@gmail.com`) |
+| G01/G02 transaction and database hand-back | repository owner (`@von12549`) | Plan 02 E2/E4 G01/G02 conformance hand-back | Junxi (`@jimkeecn`, `jimkeecn@gmail.com`) |
+
+Junxi's acceptance of the accepting-party role was confirmed on 2026-09-08. This acceptance is
+separate from, and in addition to, the previously recorded G03 backup-owner assignment.
+
+The accepting party verifies the listed delivery milestones. Final Gate closure remains subject to
+the multi-role approvals defined by each Gate and cannot be inferred from this M0.5 assignment.
