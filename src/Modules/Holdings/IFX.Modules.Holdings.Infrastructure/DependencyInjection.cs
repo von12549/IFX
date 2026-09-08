@@ -43,6 +43,7 @@ public static class DependencyInjection
         services.AddKeyedScoped<ITransactionExecutor, HoldingsTransactionExecutor>(typeof(HoldingsTransactionOwner));
         services.AddKeyedScoped<ITransactionParticipant, HoldingsInboxParticipant>(typeof(HoldingsTransactionOwner));
         services.AddScoped<IHoldingsInboxPort, HoldingsInboxPort>();
+        services.AddScoped<IFX.Platform.Messaging.Runtime.IModuleInboxDiagnosticStore, HoldingsInboxDiagnosticStore>();
         services.AddScoped<IFX.Platform.Messaging.Runtime.IInboundIntegrationEventHandler, HoldingsInboundIntegrationEventHandler>();
         services.AddHttpContextAccessor();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();

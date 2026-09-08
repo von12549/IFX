@@ -65,7 +65,19 @@ try
     // Register platform primitives before the required module topology.
     builder.Services.AddReliableMessaging(
         runtimeInstanceIdentity.Value,
-        runtimeProfile.Capabilities.Dispatcher);
+        runtimeProfile.Capabilities.Dispatcher,
+        health =>
+        {
+            var section = builder.Configuration.GetSection("Messaging:Health");
+            health.WarningAge = section.GetValue("WarningAge", health.WarningAge);
+            health.CriticalAge = section.GetValue("CriticalAge", health.CriticalAge);
+            health.WarningCount = section.GetValue("WarningCount", health.WarningCount);
+            health.CriticalCount = section.GetValue("CriticalCount", health.CriticalCount);
+            health.WarningDeadLetters = section.GetValue("WarningDeadLetters", health.WarningDeadLetters);
+            health.CriticalDeadLetters = section.GetValue("CriticalDeadLetters", health.CriticalDeadLetters);
+            health.CriticalStorageUtilization = section.GetValue("CriticalStorageUtilization", health.CriticalStorageUtilization);
+            health.RetryAfter = section.GetValue("RetryAfter", health.RetryAfter);
+        });
     builder.Services.AddBackgroundJobsClient(builder.Configuration);
     if (runtimeProfile.Capabilities.HangfireServer)
     {
@@ -79,6 +91,7 @@ try
     builder.Services.AddRegistryModule(builder.Configuration);
     builder.Services.AddHoldingsModule(builder.Configuration);
     builder.Services.AddTransactionModule(builder.Configuration);
+    builder.Services.AddMessagingOperationsControlPlane();
     builder.Services.AddApplicationPipeline();
     // Add API infrastructure (via configuration modules)
     builder.Services.AddOpaClient(builder.Configuration);
@@ -133,6 +146,7 @@ try
 
     // Map endpoints
     app.MapAuthHealthCheckEndpoints();
+    app.MapMessagingOperationsEndpoints();
 
     app.MapGet("/management/runtime", (RuntimeProfile profile, RuntimeInstanceIdentity instance) => Results.Ok(new
     {

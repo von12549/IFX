@@ -43,7 +43,11 @@ public static class HealthCheckConfiguration
             .AddCheck<DatabaseSchemaCompatibilityHealthCheck>(
                 name: "Database schema compatibility",
                 failureStatus: HealthStatus.Unhealthy,
-                tags: new[] { "database", "schema", "readiness", "readiness-critical", "api", "worker", "all" });
+                tags: new[] { "database", "schema", "readiness", "readiness-critical", "api", "worker", "all" })
+            .AddCheck<MessagingOutboxHealthCheck>(
+                name: "Messaging Outbox",
+                failureStatus: HealthStatus.Unhealthy,
+                tags: new[] { "messaging", "outbox", "readiness", "readiness-critical", "worker", "all" });
 
         return services;
     }

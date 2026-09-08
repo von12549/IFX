@@ -43,13 +43,17 @@
     "remainingForB4": 32
   },
   "openRepositoryItems": [
-    "dispatcher rate metrics, registered health contributor, and complete crash-window matrix",
-    "consumer concurrency, ordering, handler-crash, invalid-trace, scope-cleanup, and downstream-causation tests",
-    "projection freshness, rebuild, degradation, and data lifecycle decisions",
-    "Inbox diagnostics, authorized audited replay, compatibility gate, alerts, and ReprocessingRequest",
-    "full SQL concurrency, end-to-end fault, parallel-tenant, and sensitive-sentinel suites",
-    "before-after and rollout diagrams plus complete rule-to-evidence mapping"
+    "raw broker adapter malformed-trace restart test when a broker transport is introduced",
+    "authorized and audited ReprocessingRequest design for exceptional forced business reprocessing",
+    "full HTTP/broker fault, parallel-tenant, and sensitive-sentinel release suites"
   ],
+  "postB3RepositoryHardening": {
+    "evidence": "docs/architecture/review/evidence/plan02/step2-repository-hardening.md",
+    "solutionTests": { "passed": 1077, "failed": 0, "skipped": 0 },
+    "databaseBoundaryTests": { "passed": 105, "failed": 0 },
+    "integrationTests": { "passed": 142, "failed": 0 },
+    "layerGuard": { "testsPassed": 189, "matched": 32, "new": 0, "stale": 0 }
+  },
   "openExternalConditions": [
     "production capacity and alert threshold calibration",
     "consumer-first production rollout and rollback rehearsal",

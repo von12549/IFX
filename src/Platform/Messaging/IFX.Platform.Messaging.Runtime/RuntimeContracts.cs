@@ -28,12 +28,36 @@ public sealed record OutboxDiagnosticRecord(
     Guid EventId,
     string ModuleId,
     string EventType,
+    int SchemaVersion,
     Guid? TenantId,
     DateTimeOffset OccurredAt,
     string State,
     int AttemptCount,
     DateTimeOffset? DeliveredAt,
     string? LastErrorCode);
+
+public sealed record InboxDiagnosticQuery(
+    Guid? EventId = null,
+    DateTimeOffset? From = null,
+    DateTimeOffset? To = null,
+    string? EventType = null,
+    Guid? TenantId = null,
+    int Limit = 100);
+
+public sealed record InboxDiagnosticRecord(
+    Guid EventId,
+    string ModuleId,
+    string ConsumerId,
+    string EventType,
+    Guid TenantId,
+    DateTimeOffset CompletedAt);
+
+public interface IModuleInboxDiagnosticStore
+{
+    string ModuleId { get; }
+
+    Task<IReadOnlyList<InboxDiagnosticRecord>> QueryAsync(InboxDiagnosticQuery query, CancellationToken cancellationToken);
+}
 
 public interface IModuleOutboxStore
 {
@@ -58,7 +82,9 @@ public sealed record OutboxBacklogSnapshot(
     TimeSpan OldestPendingAge,
     long RetryCount,
     long DeadLetterCount,
-    DateTimeOffset? LastSucceeded);
+    DateTimeOffset? LastSucceeded,
+    long LeasedCount = 0,
+    long ExpiredLeaseCount = 0);
 
 public interface IIntegrationEventSender
 {

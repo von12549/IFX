@@ -21,12 +21,11 @@ the whole statement. Partial items remain open and carry their missing acceptanc
 
 | Group | Open items | Required completion evidence |
 | --- | --- | --- |
-| Dispatcher observability/recovery | E3.7–E3.9 | rate metrics, per-module health registration, complete three-crash-window tests |
-| Consumer hardening | E4.8–E4.10 | concurrent duplicate, ordering, handler crash, invalid trace, scope cleanup and downstream causation tests |
-| Projection/data lifecycle | E5.2, E5.4–E5.7 | freshness/TOCTOU decision, rebuild/degrade policy, causation loop control and deployed retention/security controls |
-| Operations | E6.1–E6.3, E6.5, E6.7 | Inbox diagnostics, authorized/audited replay, handler compatibility gate, alerts and ReprocessingRequest |
-| Release validation | E7.2–E7.6, E7.8 | SQL concurrency, full end-to-end/fault matrix, consumer-first rehearsal and G05 tenant/sentinel suite |
-| Documentation/approval | E8.3, E8.5, E8.8–E8.10, E-D06–E-D11 | before/after and rollout diagrams, complete evidence map, production records and final owner signatures |
+| Consumer hardening | E4.9 | a future raw broker adapter must prove malformed trace restart; the current typed in-process boundary rejects malformed Envelope construction |
+| Projection/data lifecycle | E5.7 | deployed access/encryption/retention/deletion controls and attestations |
+| Operations | E6.5, E6.7 | production exporter/alert routes and an authorized ReprocessingRequest design |
+| Release validation | E7.3–E7.6, E7.8 | full HTTP/broker fault matrix, consumer-first rehearsal, old-path production observation and G05 tenant/sentinel suite |
+| Documentation/approval | E8.9–E8.10, E-D06, E-D08, E-D10–E-D11 | production records, sensitive-data deployment proof, Gate handback and final owner signatures |
 
-The Master Phase 3 checkbox denotes the B3 migration checkpoint only. It must not be interpreted as
-Plan 02 final closure; all aggregate Phase 3–8 checkboxes remain open until the groups above pass.
+Plan 02 remains open until the groups above pass. Repository hardening completed after the original B3
+checkpoint is tracked in `step2-repository-hardening.md`; Phase 3 is now complete in repository scope.

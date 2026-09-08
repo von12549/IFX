@@ -9,6 +9,7 @@ public sealed class OutboxDispatcherHostedService(
     IServiceScopeFactory scopeFactory,
     IIntegrationEventSender transport,
     IRuntimeDrainSignal drain,
+    MessagingTelemetry telemetry,
     IOptions<OutboxDispatcherOptions> options,
     string leaseOwner,
     ILogger<OutboxDispatcherHostedService> logger) : BackgroundService
@@ -34,24 +35,30 @@ public sealed class OutboxDispatcherHostedService(
             var leases = await store.ClaimAsync(new OutboxClaimRequest(leaseOwner, now, now + _options.LeaseDuration, _options.BatchSize), cancellationToken);
             foreach (var lease in leases)
             {
+                telemetry.RecordAttempt(store.ModuleId);
                 try
                 {
                     using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, drain.DrainToken);
                     timeout.CancelAfter(_options.SendTimeout);
                     await transport.SendAsync(lease.Message, timeout.Token);
-                    await store.CompleteAsync(lease, DateTimeOffset.UtcNow, cancellationToken);
+                    var deliveredAt = DateTimeOffset.UtcNow;
+                    await store.CompleteAsync(lease, deliveredAt, cancellationToken);
+                    telemetry.RecordSuccess(store.ModuleId, deliveredAt);
                     logger.LogInformation("Outbox delivered {ModuleId} {EventType} {EventId}", store.ModuleId, lease.Message.Envelope.EventType, lease.Message.Envelope.EventId);
                 }
                 catch (Exception exception) when (!cancellationToken.IsCancellationRequested)
                 {
-                    var attempt = Math.Max(1, await RetryAttemptAsync(store, lease, exception, cancellationToken));
+                    var (attempt, deadLetter) = await RetryAttemptAsync(store, lease, exception, cancellationToken);
+                    telemetry.RecordFailure(store.ModuleId, deadLetter);
                     logger.LogWarning(exception, "Outbox delivery failed {ModuleId} {EventType} attempt {Attempt}", store.ModuleId, lease.Message.Envelope.EventType, attempt);
                 }
             }
+
+            telemetry.RecordBacklog(await store.ObserveAsync(DateTimeOffset.UtcNow, cancellationToken));
         }
     }
 
-    private async Task<int> RetryAttemptAsync(IModuleOutboxStore store, OutboxDispatchLease lease, Exception exception, CancellationToken cancellationToken)
+    private async Task<(int Attempt, bool DeadLetter)> RetryAttemptAsync(IModuleOutboxStore store, OutboxDispatchLease lease, Exception exception, CancellationToken cancellationToken)
     {
         var attempt = lease.AttemptCount;
         var deadLetter = attempt >= _options.MaximumAttempts;
@@ -59,7 +66,7 @@ public sealed class OutboxDispatcherHostedService(
         var backoff = TimeSpan.FromSeconds(Math.Min(Math.Pow(2, exponent), _options.MaximumBackoff.TotalSeconds));
         var jitter = TimeSpan.FromMilliseconds(Random.Shared.Next(0, 500));
         await store.FailAsync(lease, DateTimeOffset.UtcNow + backoff + jitter, exception.GetType().Name, deadLetter, cancellationToken);
-        return attempt;
+        return (Math.Max(1, attempt), deadLetter);
     }
 
     private static OutboxDispatcherOptions Validate(OutboxDispatcherOptions options)

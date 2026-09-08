@@ -83,7 +83,7 @@ Producer Application
 
 ## Phase 3 — 提交后 Dispatcher 与可替换 Transport
 
-- [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [x] E3.1 按 Gate 04 实现 Outbox Dispatcher：只读取已提交记录，使用短事务有界 claim、唯一 LeaseOwner/LeaseUntil/concurrency token、事务外发送与条件完成。
 - [x] E3.2 在 `worker`/`all` role 启动 Dispatcher，按 Gate 04 定义多 Worker 实例竞争、critical loop failure 和优雅 drain；`api` role 不启动 Dispatcher。
@@ -91,9 +91,9 @@ Producer Application
 - [x] E3.4 修复总线错误语义：handler/transport 失败不得被吞掉，必须反馈给重试状态机。
 - [x] E3.5 实现指数退避、最大尝试次数、抖动与可配置超时，避免热循环和级联故障。
 - [x] E3.6 明确 Outbox 的 delivered、retrying、dead-lettered 状态转换和并发更新策略。
-- [ ] E3.7 增加 backlog、oldest age、success/failure rate、retry count 与 dead-letter count 指标及结构化日志。（部分完成：snapshot 与安全结构化日志已有；正式 rate metrics/exporter 未接入。）
-- [ ] E3.8 验证进程在“发送前、发送后标记前、标记后”三个时点崩溃时均不会丢失已提交事件。（部分完成：lease expiry/reclaim 已验证；完整三窗口矩阵待补。）
-- [ ] E3.9 实现 per-module backlog/lease/last-success Health Contributor 和 warning/critical backpressure 接缝。（部分完成：observe/backpressure policy 已有；Health Contributor/endpoint 未注册。）
+- [x] E3.7 增加 backlog、oldest age、success/failure rate、retry count 与 dead-letter count 指标及结构化日志；BCL `Meter` 使用固定 meter/dimension 名称，可由部署时的标准 exporter 订阅。
+- [x] E3.8 验证进程在“发送前、发送后标记前、标记后”三个时点崩溃时均不会丢失已提交事件；发送后标记前允许同 EventId 重投并由 Inbox 吸收。
+- [x] E3.9 实现 per-module backlog/lease/last-success Health Contributor 和 warning/critical backpressure 接缝，并在 worker/all readiness 中注册。
 - [x] E3.10 Dispatcher 逐字段复制冻结 Envelope 到 transport carrier，不重新生成 EventId/Correlation/Causation/Tenant/OccurredAt；日志和指标不得输出 payload 或原始高基数敏感值。
 
 ## Phase 4 — 消费方 Inbound Adapter、Inbox 与幂等
@@ -107,33 +107,33 @@ Producer Application
 - [x] E4.5 在同一本地事务内完成 Inbox 去重判定、消费方业务变更与 Inbox 完成记录。
 - [x] E4.6 当前两个 Holdings consumer 只产生同一数据库事务内的业务变更，没有外部非事务副作用；因此 B3 记为 N/A。未来引入通知、支付或远程调用时必须重新打开并设计下游幂等协议。
 - [x] E4.7 明确业务拒绝、暂时故障、永久无效 schema 与未知事件类型各自的 ack/retry/dead-letter 行为。
-- [ ] E4.8 添加重复、并发重复、乱序、跨租户和处理器崩溃测试。（部分完成：重复和跨租户路径已有；真实 Holdings 并发重复、乱序和 handler crash 待补。）
+- [x] E4.8 添加重复、并发重复、乱序、跨租户和处理器崩溃测试；并发竞态由唯一 Inbox marker 判定持久化胜者，失败事务只有观察到胜者 marker 才按重复确认。
 - [ ] E4.9 Inbound Adapter 在 Inbox/Application 前验证 producer、type/version、EventId、TenantScope、Correlation/Causation；非法业务上下文进入 quarantine，非法 trace 只创建新 span。（部分完成：producer/schema/tenant 验证已有；非法 trace 重启 span 的真实 Adapter 测试待补。）
-- [ ] E4.10 使用 EventId 作为 consumer OperationId 建立隔离 ExecutionContext；下游 Event 保留 CorrelationId 并以入站 EventId 为 CausationId，finally 清理 scope。（部分完成：EventId → OperationId 已实现；scope cleanup 与下游 event causation 测试待补。）
+- [x] E4.10 使用 EventId 作为 consumer OperationId 建立隔离 ExecutionContext；下游 Event 保留 CorrelationId 并以入站 EventId 为 CausationId，finally 清理 scope；成功和异常路径均有测试。
 
 ## Phase 5 — 事件内容与投影策略改进
 
 - [ ] **Phase 5 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [x] E5.1 评审 `TransactionProcessed` 的事实语义、字段最小性、版本和重放安全性，并发布稳定 v1。
-- [ ] E5.2 为 Class 状态变化决定使用同步查询、事件投影或二者组合，并明确新鲜度与 TOCTOU 风险。
+- [x] E5.2 Class 状态变化采用 Registry 事实事件驱动的 Holdings 本地保护投影；写路径只依赖本地冻结状态，诊断/补偿可同步核对 Registry，并明确最终一致与 TOCTOU 风险。
 - [x] E5.3 决定本里程碑不建立 KYC 本地投影，继续使用 Plan 01 的同步 `AccountCompliance` Contract；若未来改变该决定，必须新开 projection/bootstrap 设计。
-- [ ] E5.4 定义投影 bootstrap、断点续传、重建、版本切换与最终一致状态下的业务降级策略。
-- [ ] E5.5 为会触发后续命令的事件处理定义 correlation/causation 链，避免循环发布无法诊断。
-- [ ] E5.6 明确事件数据删除、隐私与审计保留策略，不让 payload 成为不可治理的数据副本。
+- [x] E5.4 定义 Class 状态保护投影的 bootstrap、EventId checkpoint、重建、版本切换与最终一致状态下的 fail-safe 降级策略；见双语设计的“投影与数据生命周期”。
+- [x] E5.5 为会触发后续命令的事件处理定义 correlation/causation 链与 loop guard：保留 CorrelationId、下游 CausationId=入站 EventId、重复链由 Inbox 截止。
+- [x] E5.6 明确事件数据删除、隐私与审计保留策略：payload 仅含 C0–C2 最小事实，诊断不返回 payload，删除按模块数据生命周期与法定 hold 协调。
 - [ ] E5.7 将 Outbox、Inbox、broker、dead-letter、replay 和诊断存储按 payload 最高分类配置访问、加密、保留和删除；C3 State Transfer 例外可追责且会到期。
 
 ## Phase 6 — 失败恢复、回放与运维
 
 - [ ] **Phase 6 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E6.1 提供按 EventId、时间区间、事件类型和租户查询 Outbox/Inbox 状态的受控诊断能力。
-- [ ] E6.2 提供 dead-letter 审核和单条/批量重试流程，并要求权限、审计与 dry-run。
-- [ ] E6.3 定义重复回放的安全门槛，回放前验证目标 handler 版本与幂等保证。
+- [x] E6.1 提供按 EventId、时间区间、事件类型和租户查询 Outbox/Inbox 状态的受控平台作用域诊断端点，结果不含 payload。
+- [x] E6.2 提供 dead-letter 单条/有界批量审核与重试端点，分别要求 read/preview/execute 权限，所有 replay 请求写审计且支持 dry-run。
+- [x] E6.3 回放前只允许已登记的目标 handler 版本；当前登记项均由 `(ConsumerId, EventId)` Inbox 保证幂等，不兼容版本 fail closed。
 - [x] E6.4 建立生产方与消费方 reconciliation 作业或手册，用于发现永久遗漏和投影漂移。
-- [ ] E6.5 设置 backlog age、连续失败、dead-letter 增长和 dispatcher 停止的告警阈值。
+- [ ] E6.5 设置 backlog age、连续失败、dead-letter 增长和 dispatcher 停止的告警阈值。（部分完成：仓库已提供 counters/gauges、warning/critical 阈值和 readiness contributor；生产 exporter/alert route 校准仍待执行。）
 - [x] E6.6 编写故障手册，覆盖数据库不可用、transport 不可用、毒消息、schema 不兼容和积压恢复。
-- [ ] E6.7 replay 保留原 EventId/Envelope；已完成 Inbox 继续去重，强制重处理使用有权限和审计的 ReprocessingRequest，不换 ID 绕过幂等。
+- [ ] E6.7 replay 保留原 EventId/Envelope，已完成 Inbox 继续去重且有自动化证明；强制重处理的独立 ReprocessingRequest 尚未设计，禁止换 ID 绕过幂等。
 - [x] E6.8 B3 没有启用 Compatibility Adapter；记为 N/A。Dispatcher 不补写上下文；未来引入兼容适配器时必须先登记 owner、来源、provenance、指标和到期日。
 
 ## Phase 7 — 测试、渐进发布与旧路径移除
@@ -141,7 +141,7 @@ Producer Application
 - [ ] **Phase 7 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [x] E7.1 添加 Outbox/Inbox repository、dispatcher、Adapter 与 handler 单元/组件测试。
-- [ ] E7.2 添加包含真实关系数据库的集成测试，覆盖事务 rollback、唯一约束和并发 claim。
+- [x] E7.2 添加包含真实 SQL Server 的集成测试，覆盖事务 rollback、Inbox 唯一约束/并发重复、并发 claim 和分区顺序。
 - [ ] E7.3 添加端到端测试，证明源提交最终导致消费方状态变化，并能容忍重复与短暂故障。
 - [ ] E7.4 执行故障注入测试，覆盖进程终止、连接中断、超时、部分批次和重启恢复。
 - [ ] E7.5 执行 Gate 04 consumer-first 顺序：先部署兼容旧/新 schema 的 Worker consumers，再部署 API producers；定义去重、观测窗口和唯一权威路径。
@@ -155,12 +155,12 @@ Producer Application
 
 - [x] E8.1 编写完整中文设计说明，解释 Event ownership、Envelope、Outbox、Dispatcher、Transport、Inbox、Inbound Adapter 与 Consumer 的职责。
 - [x] E8.2 编写与中文内容一致的英文设计说明，并建立双向链接。
-- [ ] E8.3 保存改造前后事件架构图，标明模块、数据库、运行角色、事务边界和可替换 Transport。
+- [x] E8.3 保存改造前后事件架构图，标明模块、数据库、运行角色、事务边界和可替换 Transport。
 - [x] E8.4 保存 Producer → Outbox → Dispatcher → Transport → Inbox → Consumer 的正常时序图。
-- [ ] E8.5 保存失败、重试、dead-letter、replay、reconciliation 和 consumer-first rollout 的状态/流程图。
+- [x] E8.5 保存失败、重试、dead-letter、replay、reconciliation 和 consumer-first rollout 的状态/流程图；Plan 02 recovery 图与 G04 consumer-first 图共同构成证据。
 - [x] E8.6 说明 Gate 01/02 的本地事务与数据库边界，以及 Gate 05 context/敏感数据规则如何约束事件通道。
 - [x] E8.7 保存 Mermaid 源文件及可审阅的 SVG/PNG 渲染结果，并执行链接和视觉检查。
-- [ ] E8.8 将事件规则映射到 schema、测试、指标、告警、runbook、Gate 证据或有到期日的 waiver，并更新架构索引。
+- [x] E8.8 将事件规则映射到 schema、测试、指标、告警、runbook 与 Gate 证据；见 [`step2-repository-hardening.md`](../evidence/plan02/step2-repository-hardening.md)，生产校准项明确保持开放。
 - [ ] E8.9 在 E2/E4 完成后执行 G01 对称回交：将真实模块 Outbox/Inbox entity、migration、关系数据库 conformance 与故障测试报告链接到 [`G01-closeout.md`](../evidence/gates/G01/G01-closeout.md)，确认复用 G01 的 `ITransactionParticipant`、`TransactionProfile.Inbox` 和唯一事务政策且未复制另一套 Behavior/Executor 协议；据此回写 [`00-G01-transaction-boundary.md`](00-G01-transaction-boundary.md) 的 G01-9.3、G01-DD05 和状态，并发起 Architecture/Application/Infrastructure 三方最终签字。上述回交未完成时不得关闭 Plan 02 或 G01。
 - [ ] E8.10 在 E2/E4 完成后执行 G02 对称回交：把每个真实 Outbox/Inbox entity、EF mapping、module-owned migration、schema-local history、fresh/upgrade/rollback/重复运行和数据库 metadata 报告链接到 [`G02-closeout.md`](../evidence/gates/G02/G02-closeout.md)，运行 `G02SqlServerAssertions` 并确认没有共享 Messaging DbContext、跨 schema FK/DDL/访问或新的 runtime migration 路径；据此回写 [`00-G02-database-boundary.md`](00-G02-database-boundary.md) 的 Phase 10、G02-DD06 和状态，并发起 Architecture/Database/Operations 三方最终签字。上述回交未完成时不得关闭 Plan 02 或 G02。
 
@@ -172,9 +172,9 @@ Producer Application
 - [x] E-D04 Inbox 与业务变更在消费方本地事务内完成，重复消息不产生重复业务效果。
 - [x] E-D05 事件 schema 可版本化、可兼容、可追踪且不泄漏内部模型。
 - [ ] E-D06 崩溃窗口、毒消息、回放、积压与告警均有自动化测试或演练证据。
-- [ ] E-D07 Event Envelope、transport 和 Consumer ExecutionContext 的 Correlation/Causation/Tenant/Trace 语义与 Gate 05 一致，retry/replay 不改变逻辑身份。
+- [x] E-D07 Event Envelope、transport 和 Consumer ExecutionContext 的 Correlation/Causation/Tenant/Trace 语义与 Gate 05 一致，retry/replay 不改变逻辑身份；raw invalid-trace restart 由 G05 conformance 覆盖，当前 typed in-process transport 不接收非法 Envelope。
 - [ ] E-D08 Event、Outbox/Inbox、dead-letter、日志和 trace 满足字段分类；C4 零暴露，C3 仅有批准且受控的状态传输。
-- [ ] E-D09 中英文说明、架构图、正常/失败流程图和规则证据完整且与实现一致。
+- [x] E-D09 中英文说明、架构图、正常/失败流程图和规则证据完整且与实现一致。
 - [ ] E-D10 E2/E4 的真实实现证据已按 E8.9 回交 G01，G01-9.3 与 G01-DD05 已有可审计链接，并已进入三方最终签字流程。
 - [ ] E-D11 E2/E4 的真实数据库实现证据已按 E8.10 回交 G02，G02 Phase 10 与 G02-DD06 已有可审计链接，并已进入三方最终签字流程。
 ## G05 反向链接

@@ -68,7 +68,9 @@ public sealed class RegistryOutboxStore(RegistryDbContext dbContext) : IModuleOu
             oldest is null ? TimeSpan.Zero : now - oldest.Value,
             await pending.LongCountAsync(message => message.AttemptCount > 1, cancellationToken),
             await dbContext.OutboxMessages.LongCountAsync(message => message.State == OutboxStates.DeadLettered, cancellationToken),
-            await dbContext.OutboxMessages.Where(message => message.DeliveredAt != null).MaxAsync(message => message.DeliveredAt, cancellationToken));
+            await dbContext.OutboxMessages.Where(message => message.DeliveredAt != null).MaxAsync(message => message.DeliveredAt, cancellationToken),
+            await pending.LongCountAsync(message => message.LeaseUntil != null && message.LeaseUntil >= now, cancellationToken),
+            await pending.LongCountAsync(message => message.LeaseUntil != null && message.LeaseUntil < now, cancellationToken));
     }
 
     public async Task<IReadOnlyList<OutboxDiagnosticRecord>> QueryAsync(OutboxDiagnosticQuery query, CancellationToken cancellationToken)
@@ -81,7 +83,7 @@ public sealed class RegistryOutboxStore(RegistryDbContext dbContext) : IModuleOu
         if (query.TenantId is { } tenantId) messages = messages.Where(message => message.TenantId == tenantId);
         var limit = Math.Clamp(query.Limit, 1, 500);
         return await messages.OrderByDescending(message => message.OccurredAt).Take(limit)
-            .Select(message => new OutboxDiagnosticRecord(message.EventId, ModuleId, message.EventType, message.TenantId, message.OccurredAt, message.State, message.AttemptCount, message.DeliveredAt, message.LastErrorCode))
+            .Select(message => new OutboxDiagnosticRecord(message.EventId, ModuleId, message.EventType, message.SchemaVersion, message.TenantId, message.OccurredAt, message.State, message.AttemptCount, message.DeliveredAt, message.LastErrorCode))
             .ToListAsync(cancellationToken);
     }
 

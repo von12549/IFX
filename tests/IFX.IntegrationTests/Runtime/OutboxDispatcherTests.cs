@@ -14,11 +14,13 @@ public sealed class OutboxDispatcherTests
         var message = LogicalMessage();
         var store = new FakeStore(Lease(message, 1));
         var sender = new FakeSender();
-        await DispatchAsync(store, sender, maximumAttempts: 3);
+        var telemetry = await DispatchAsync(store, sender, maximumAttempts: 3);
 
         sender.Messages.Should().ContainSingle().Which.Should().Be(message);
         store.Completed.Should().ContainSingle().Which.Message.Should().Be(message);
         store.Failures.Should().BeEmpty();
+        telemetry.Snapshot(store.ModuleId).Should().Match<MessagingTelemetrySnapshot>(snapshot =>
+            snapshot.DeliveryAttempts == 1 && snapshot.DeliverySuccesses == 1 && snapshot.DeliveryFailures == 0);
     }
 
     [Fact]
@@ -27,13 +29,14 @@ public sealed class OutboxDispatcherTests
         var message = LogicalMessage();
         var store = new FakeStore(Lease(message, 1));
         var sender = new FakeSender(new TimeoutException("transport unavailable"));
-        await DispatchAsync(store, sender, maximumAttempts: 3);
+        var telemetry = await DispatchAsync(store, sender, maximumAttempts: 3);
 
         store.Failures.Should().ContainSingle();
         var failure = store.Failures.Single();
         failure.Lease.Message.Should().Be(message);
         failure.DeadLetter.Should().BeFalse();
         failure.ErrorCode.Should().Be(nameof(TimeoutException));
+        telemetry.Snapshot(store.ModuleId).DeliveryFailures.Should().Be(1);
     }
 
     [Fact]
@@ -45,18 +48,64 @@ public sealed class OutboxDispatcherTests
         store.Failures.Should().ContainSingle().Which.DeadLetter.Should().BeTrue();
     }
 
-    private static async Task DispatchAsync(FakeStore store, FakeSender sender, int maximumAttempts)
+    [Fact]
+    public async Task Crash_before_send_recovers_without_losing_the_logical_message()
+    {
+        var message = LogicalMessage();
+        var store = new StatefulStore(message);
+
+        await DispatchAsync(store, new FakeSender(new TimeoutException("crash before send")), maximumAttempts: 3);
+        var recoveredSender = new FakeSender();
+        await DispatchAsync(store, recoveredSender, maximumAttempts: 3);
+
+        recoveredSender.Messages.Should().ContainSingle().Which.Envelope.EventId.Should().Be(message.Envelope.EventId);
+        store.Delivered.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Crash_after_send_before_completion_redelivers_the_same_event_id()
+    {
+        var message = LogicalMessage();
+        var store = new StatefulStore(message) { FailNextCompletionBeforeMark = true };
+        var sender = new FakeSender();
+
+        await DispatchAsync(store, sender, maximumAttempts: 3);
+        await DispatchAsync(store, sender, maximumAttempts: 3);
+
+        sender.Messages.Select(item => item.Envelope.EventId).Should().Equal(message.Envelope.EventId, message.Envelope.EventId);
+        store.Delivered.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Completed_marker_prevents_redelivery_after_restart()
+    {
+        var message = LogicalMessage();
+        var store = new StatefulStore(message);
+        var firstSender = new FakeSender();
+
+        await DispatchAsync(store, firstSender, maximumAttempts: 3);
+        var restartedSender = new FakeSender();
+        await DispatchAsync(store, restartedSender, maximumAttempts: 3);
+
+        firstSender.Messages.Should().ContainSingle();
+        restartedSender.Messages.Should().BeEmpty();
+    }
+
+    private static async Task<MessagingTelemetry> DispatchAsync(IModuleOutboxStore store, FakeSender sender, int maximumAttempts)
     {
         var services = new ServiceCollection().AddSingleton<IModuleOutboxStore>(store).BuildServiceProvider();
+        var telemetry = new MessagingTelemetry();
         var dispatcher = new OutboxDispatcherHostedService(
             services.GetRequiredService<IServiceScopeFactory>(),
             sender,
             new OpenDrainSignal(),
+            telemetry,
             Options.Create(new OutboxDispatcherOptions { MaximumAttempts = maximumAttempts }),
             "worker-test",
             NullLogger<OutboxDispatcherHostedService>.Instance);
         await dispatcher.DispatchOnceAsync(CancellationToken.None);
         await services.DisposeAsync();
+        return telemetry;
     }
 
     private static OutboxLogicalMessage LogicalMessage()
@@ -110,6 +159,43 @@ public sealed class OutboxDispatcherTests
 
         public Task<OutboxBacklogSnapshot> ObserveAsync(DateTimeOffset now, CancellationToken cancellationToken) =>
             Task.FromResult(new OutboxBacklogSnapshot(ModuleId, 0, TimeSpan.Zero, 0, 0, null));
+
+        public Task<IReadOnlyList<OutboxDiagnosticRecord>> QueryAsync(OutboxDiagnosticQuery query, CancellationToken cancellationToken) =>
+            Task.FromResult<IReadOnlyList<OutboxDiagnosticRecord>>([]);
+
+        public Task<bool> ReplayDeadLetterAsync(Guid eventId, DateTimeOffset requestedAt, CancellationToken cancellationToken) => Task.FromResult(false);
+    }
+
+    private sealed class StatefulStore(OutboxLogicalMessage message) : IModuleOutboxStore
+    {
+        private int _attempt;
+        public string ModuleId => "transaction";
+        public bool Delivered { get; private set; }
+        public bool FailNextCompletionBeforeMark { get; set; }
+
+        public Task<IReadOnlyList<OutboxDispatchLease>> ClaimAsync(OutboxClaimRequest request, CancellationToken cancellationToken)
+        {
+            if (Delivered) return Task.FromResult<IReadOnlyList<OutboxDispatchLease>>([]);
+            _attempt++;
+            return Task.FromResult<IReadOnlyList<OutboxDispatchLease>>([Lease(message, _attempt)]);
+        }
+
+        public Task CompleteAsync(OutboxDispatchLease lease, DateTimeOffset deliveredAt, CancellationToken cancellationToken)
+        {
+            if (FailNextCompletionBeforeMark)
+            {
+                FailNextCompletionBeforeMark = false;
+                throw new TimeoutException("completion marker unavailable");
+            }
+
+            Delivered = true;
+            return Task.CompletedTask;
+        }
+
+        public Task FailAsync(OutboxDispatchLease lease, DateTimeOffset nextAttemptAt, string errorCode, bool deadLetter, CancellationToken cancellationToken) => Task.CompletedTask;
+
+        public Task<OutboxBacklogSnapshot> ObserveAsync(DateTimeOffset now, CancellationToken cancellationToken) =>
+            Task.FromResult(new OutboxBacklogSnapshot(ModuleId, Delivered ? 0 : 1, TimeSpan.Zero, Math.Max(0, _attempt - 1), 0, Delivered ? now : null));
 
         public Task<IReadOnlyList<OutboxDiagnosticRecord>> QueryAsync(OutboxDiagnosticQuery query, CancellationToken cancellationToken) =>
             Task.FromResult<IReadOnlyList<OutboxDiagnosticRecord>>([]);

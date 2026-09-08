@@ -9,6 +9,7 @@ using IFX.Modules.Transaction.Contracts.V1.Events;
 using IFX.Platform.Messaging.Contracts.Messaging;
 using IFX.Platform.Messaging.Runtime;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.Holdings.Infrastructure.Integrations;
 
@@ -72,6 +73,22 @@ public sealed class HoldingsInboundIntegrationEventHandler(
         catch (JsonException)
         {
             await QuarantineAsync(envelope, "G05-EVENT-PAYLOAD-INVALID", cancellationToken);
+        }
+        catch (DbUpdateException)
+        {
+            // A concurrent delivery can pass the optimistic Inbox read in both transactions.
+            // The losing transaction is rolled back by the transaction behavior; acknowledge it
+            // only after the durable winner's Inbox marker can be observed.
+            dbContext.ChangeTracker.Clear();
+            var consumerId = envelope.EventType == TransactionProcessedV1.EventType
+                ? "holdings.transaction-processed.v1"
+                : "holdings.class-status-changed.v1";
+            if (!await dbContext.InboxMessages.AsNoTracking().AnyAsync(
+                    item => item.ConsumerId == consumerId && item.EventId == envelope.EventId,
+                    cancellationToken))
+            {
+                throw;
+            }
         }
     }
 
