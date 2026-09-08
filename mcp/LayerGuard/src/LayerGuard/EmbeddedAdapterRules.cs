@@ -27,7 +27,8 @@ public static class EmbeddedAdapterRules
             var targetText = name.ToString();
             var target = ImportRules.DeclaringProject(targetText, projects);
             if (target is null || target.Ring != Ring.Contracts || target.Module is null
-                || string.Equals(node.Module, target.Module, StringComparison.OrdinalIgnoreCase))
+                || string.Equals(node.Module, target.Module, StringComparison.OrdinalIgnoreCase)
+                || ruleset.IsSharedPrimitiveReference(node, target.Name))
                 continue;
             if (name.Parent is NameSyntax parent && parent.ToString().Contains(targetText, StringComparison.Ordinal))
                 continue;

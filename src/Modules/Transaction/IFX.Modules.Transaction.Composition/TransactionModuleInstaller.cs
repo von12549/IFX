@@ -1,6 +1,9 @@
 using App.Abstractions;
 using IFX.Modules.Transaction.Application;
+using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Infrastructure;
+using IFX.Modules.Transaction.Infrastructure.Integrations.CRM;
+using IFX.Modules.Transaction.Infrastructure.Integrations.Registry;
 using IFX.Modules.Transaction.Infrastructure.Persistence;
 using IFX.Modules.Transaction.Presentation.Extensions;
 using Microsoft.AspNetCore.Routing;
@@ -19,6 +22,8 @@ public sealed class TransactionModuleInstaller : IModuleInstaller
         Log.Information("[{Module}] Registering module services...", ModuleName);
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
+        services.AddScoped<IAccountCompliancePort, AccountComplianceAdapter>();
+        services.AddScoped<IClassSubscriptionAvailabilityPort, ClassSubscriptionAvailabilityAdapter>();
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;
     }

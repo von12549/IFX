@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e404c889-fd07-41a8-a504-872fe8bf57be" name="von12@DESKTOP-OVPKDKR 2026-09-08 19:21:47" runUser="DESKTOP-OVPKDKR\von12" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-08T19:21:47.5220996+10:00" queuing="2026-09-08T19:21:47.5220999+10:00" start="2026-09-08T19:21:46.7786080+10:00" finish="2026-09-08T19:21:47.5994283+10:00" />
+  <TestSettings name="default" id="29979554-aed7-47e2-9639-cb8283b1652e">
+    <Deployment runDeploymentRoot="von12_DESKTOP-OVPKDKR_2026-09-08_19_21_47" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="11e41ea0-7eae-485d-9f7e-77392f9ade93" testId="59e2c917-135a-b68c-a548-66d7361a40e4" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithValidClaims_ReturnsTuple" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0084973" startTime="2026-09-08T19:21:47.4781272+10:00" endTime="2026-09-08T19:21:47.4781371+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="11e41ea0-7eae-485d-9f7e-77392f9ade93" />
+    <UnitTestResult executionId="42204d80-c338-465b-a6de-b4077f545e61" testId="8a3cf5fc-14a7-393d-bf5c-f87f48c25e15" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithMissingIssuer_ReturnsNullIssuer" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0001249" startTime="2026-09-08T19:21:47.4803664+10:00" endTime="2026-09-08T19:21:47.4803664+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="42204d80-c338-465b-a6de-b4077f545e61" />
+    <UnitTestResult executionId="e055c25a-5622-4719-8668-408abefc3c79" testId="1c219cb5-1e79-2b07-3882-91930f975d6c" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithIPv6Address_ReturnsIpAddress" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0002313" startTime="2026-09-08T19:21:47.4800866+10:00" endTime="2026-09-08T19:21:47.4800867+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e055c25a-5622-4719-8668-408abefc3c79" />
+    <UnitTestResult executionId="cc857235-3b56-4010-8f7a-359be4b886c4" testId="77a3f5ca-461f-b899-162d-dff9b87c4866" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithLoopbackAddress_ReturnsIpAddress" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0000945" startTime="2026-09-08T19:21:47.4802766+10:00" endTime="2026-09-08T19:21:47.4802766+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc857235-3b56-4010-8f7a-359be4b886c4" />
+    <UnitTestResult executionId="e5e4056a-b2b1-44f2-bd8b-6aede43619f5" testId="284fa792-2f85-97c0-ca42-e328dd4a4eab" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithEmptyClaimsPrincipal_ReturnsNulls" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0000952" startTime="2026-09-08T19:21:47.4803033+10:00" endTime="2026-09-08T19:21:47.4803033+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e5e4056a-b2b1-44f2-bd8b-6aede43619f5" />
+    <UnitTestResult executionId="3db69f99-cdbf-47c8-90a3-b2ffbaec0225" testId="23455a3e-35ee-5d67-813e-f2ec96111843" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithMissingSubject_ReturnsNullSubject" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0001325" startTime="2026-09-08T19:21:47.4803406+10:00" endTime="2026-09-08T19:21:47.4803407+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3db69f99-cdbf-47c8-90a3-b2ffbaec0225" />
+    <UnitTestResult executionId="959dd418-d2a2-4fd1-a754-b047a8697659" testId="c4604920-6a80-9c45-3b3c-3057af2e0032" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithNullRemoteIpAddress_ReturnsUnknown" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0000925" startTime="2026-09-08T19:21:47.4803293+10:00" endTime="2026-09-08T19:21:47.4803293+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="959dd418-d2a2-4fd1-a754-b047a8697659" />
+    <UnitTestResult executionId="aaedb499-f323-47ac-a13b-3f2332a3fd2b" testId="f2ed7335-ebe1-23af-cd6d-b9ccae5ae301" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithNoClaims_ReturnsNulls" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0002772" startTime="2026-09-08T19:21:47.4802438+10:00" endTime="2026-09-08T19:21:47.4802439+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aaedb499-f323-47ac-a13b-3f2332a3fd2b" />
+    <UnitTestResult executionId="66508396-e919-4717-9583-82676bdde762" testId="88e70cdb-2093-26df-b05a-2d55de50bb99" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithValidRemoteIpAddress_ReturnsIpAddress" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0078204" startTime="2026-09-08T19:21:47.4794972+10:00" endTime="2026-09-08T19:21:47.4794972+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66508396-e919-4717-9583-82676bdde762" />
+    <UnitTestResult executionId="99322836-5951-4590-9128-dbe45001120a" testId="5902bc12-a1f4-4c56-e546-38a7acdf5a41" testName="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithMultipleIdentities_ReturnsFirstClaims" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0002026" startTime="2026-09-08T19:21:47.4996016+10:00" endTime="2026-09-08T19:21:47.4996018+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="99322836-5951-4590-9128-dbe45001120a" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithNullRemoteIpAddress_ReturnsUnknown" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="c4604920-6a80-9c45-3b3c-3057af2e0032">
+      <Execution id="959dd418-d2a2-4fd1-a754-b047a8697659" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests" name="GetIpAddress_WithNullRemoteIpAddress_ReturnsUnknown" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithEmptyClaimsPrincipal_ReturnsNulls" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="284fa792-2f85-97c0-ca42-e328dd4a4eab">
+      <Execution id="e5e4056a-b2b1-44f2-bd8b-6aede43619f5" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests" name="GetIssuerAndSubject_WithEmptyClaimsPrincipal_ReturnsNulls" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithNoClaims_ReturnsNulls" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="f2ed7335-ebe1-23af-cd6d-b9ccae5ae301">
+      <Execution id="aaedb499-f323-47ac-a13b-3f2332a3fd2b" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests" name="GetIssuerAndSubject_WithNoClaims_ReturnsNulls" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithMissingSubject_ReturnsNullSubject" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="23455a3e-35ee-5d67-813e-f2ec96111843">
+      <Execution id="3db69f99-cdbf-47c8-90a3-b2ffbaec0225" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests" name="GetIssuerAndSubject_WithMissingSubject_ReturnsNullSubject" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithIPv6Address_ReturnsIpAddress" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="1c219cb5-1e79-2b07-3882-91930f975d6c">
+      <Execution id="e055c25a-5622-4719-8668-408abefc3c79" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests" name="GetIpAddress_WithIPv6Address_ReturnsIpAddress" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithMissingIssuer_ReturnsNullIssuer" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="8a3cf5fc-14a7-393d-bf5c-f87f48c25e15">
+      <Execution id="42204d80-c338-465b-a6de-b4077f545e61" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests" name="GetIssuerAndSubject_WithMissingIssuer_ReturnsNullIssuer" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithLoopbackAddress_ReturnsIpAddress" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="77a3f5ca-461f-b899-162d-dff9b87c4866">
+      <Execution id="cc857235-3b56-4010-8f7a-359be4b886c4" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests" name="GetIpAddress_WithLoopbackAddress_ReturnsIpAddress" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests.GetIpAddress_WithValidRemoteIpAddress_ReturnsIpAddress" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="88e70cdb-2093-26df-b05a-2d55de50bb99">
+      <Execution id="66508396-e919-4717-9583-82676bdde762" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.HttpContextExtensionsTests" name="GetIpAddress_WithValidRemoteIpAddress_ReturnsIpAddress" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithMultipleIdentities_ReturnsFirstClaims" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="5902bc12-a1f4-4c56-e546-38a7acdf5a41">
+      <Execution id="99322836-5951-4590-9128-dbe45001120a" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests" name="GetIssuerAndSubject_WithMultipleIdentities_ReturnsFirstClaims" />
+    </UnitTest>
+    <UnitTest name="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests.GetIssuerAndSubject_WithValidClaims_ReturnsTuple" storage="d:\ifx\tests\ifx.modules.auth.presentation.tests\bin\debug\net8.0\ifx.modules.auth.presentation.tests.dll" id="59e2c917-135a-b68c-a548-66d7361a40e4">
+      <Execution id="11e41ea0-7eae-485d-9f7e-77392f9ade93" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Modules.Auth.Presentation.Tests\bin\Debug\net8.0\IFX.Modules.Auth.Presentation.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Modules.Auth.Presentation.Tests.Extensions.ClaimsPrincipalExtensionsTests" name="GetIssuerAndSubject_WithValidClaims_ReturnsTuple" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="59e2c917-135a-b68c-a548-66d7361a40e4" executionId="11e41ea0-7eae-485d-9f7e-77392f9ade93" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8a3cf5fc-14a7-393d-bf5c-f87f48c25e15" executionId="42204d80-c338-465b-a6de-b4077f545e61" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1c219cb5-1e79-2b07-3882-91930f975d6c" executionId="e055c25a-5622-4719-8668-408abefc3c79" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="77a3f5ca-461f-b899-162d-dff9b87c4866" executionId="cc857235-3b56-4010-8f7a-359be4b886c4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="284fa792-2f85-97c0-ca42-e328dd4a4eab" executionId="e5e4056a-b2b1-44f2-bd8b-6aede43619f5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="23455a3e-35ee-5d67-813e-f2ec96111843" executionId="3db69f99-cdbf-47c8-90a3-b2ffbaec0225" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c4604920-6a80-9c45-3b3c-3057af2e0032" executionId="959dd418-d2a2-4fd1-a754-b047a8697659" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f2ed7335-ebe1-23af-cd6d-b9ccae5ae301" executionId="aaedb499-f323-47ac-a13b-3f2332a3fd2b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="88e70cdb-2093-26df-b05a-2d55de50bb99" executionId="66508396-e919-4717-9583-82676bdde762" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5902bc12-a1f4-4c56-e546-38a7acdf5a41" executionId="99322836-5951-4590-9128-dbe45001120a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="10" executed="10" passed="10" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.28)&#xD;
+[xUnit.net 00:00:00.06]   Discovering: IFX.Modules.Auth.Presentation.Tests&#xD;
+[xUnit.net 00:00:00.14]   Discovered:  IFX.Modules.Auth.Presentation.Tests&#xD;
+[xUnit.net 00:00:00.14]   Starting:    IFX.Modules.Auth.Presentation.Tests&#xD;
+[xUnit.net 00:00:00.25]   Finished:    IFX.Modules.Auth.Presentation.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

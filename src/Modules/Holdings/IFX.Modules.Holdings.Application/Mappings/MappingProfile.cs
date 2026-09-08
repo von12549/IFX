@@ -1,5 +1,5 @@
 using AutoMapper;
-using IFX.Modules.Holdings.Abstractions.DTOs;
+using IFX.Modules.Holdings.Application.DTOs;
 using IFX.Modules.Holdings.Domain.Entities;
 
 namespace IFX.Modules.Holdings.Application.Mappings;

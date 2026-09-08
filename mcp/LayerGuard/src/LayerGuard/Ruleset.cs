@@ -172,7 +172,7 @@ public sealed class Ruleset
         && providers.Contains(provider, StringComparer.OrdinalIgnoreCase);
 
     public bool IsSharedPrimitiveReference(ProjectNode source, string targetName) =>
-        source.Ring == Ring.Contracts
+        source.Ring is not (Ring.Domain or Ring.Outside)
         && !SharedPrimitiveProjects.Contains(source.Name, StringComparer.OrdinalIgnoreCase)
         && SharedPrimitiveProjects.Contains(targetName, StringComparer.OrdinalIgnoreCase);
 

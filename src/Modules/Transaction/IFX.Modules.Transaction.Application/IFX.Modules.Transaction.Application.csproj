@@ -19,7 +19,5 @@
     <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Abstractions\IFX.Platform.Messaging.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Abstractions\IFX.Modules.Transaction.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Domain\IFX.Modules.Transaction.Domain.csproj" />
-    <ProjectReference Include="..\..\CRM\IFX.Modules.CRM.Abstractions\IFX.Modules.CRM.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Registry\IFX.Modules.Registry.Abstractions\IFX.Modules.Registry.Abstractions.csproj" />
   </ItemGroup>
 </Project>

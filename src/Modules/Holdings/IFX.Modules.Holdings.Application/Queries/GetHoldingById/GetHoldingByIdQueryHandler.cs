@@ -1,6 +1,6 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Holdings.Abstractions.DTOs;
+using IFX.Modules.Holdings.Application.DTOs;
 using IFX.Modules.Holdings.Application.Common;
 using IFX.Modules.Holdings.Application.Common.Authorization;
 using IFX.Modules.Holdings.Application.Interfaces;

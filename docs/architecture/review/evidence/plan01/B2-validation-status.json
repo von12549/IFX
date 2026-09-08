@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "plan": "01-contracts-adapters-refactor",
+  "milestone": "B2",
+  "result": "passed",
+  "checkedAt": "2026-09-08",
+  "checks": {
+    "currentBaselineClean": true,
+    "b1Improvement": true,
+    "baselineFrozen": true,
+    "activeSyncContracts": true,
+    "eventsRemainOpen": true,
+    "legacySurfaceDisposition": true,
+    "applicationIsolation": true,
+    "g03Handback": true,
+    "noCopiedGateAuthority": true,
+    "visualEvidence": true
+  },
+  "metrics": {
+    "findings": 103,
+    "clusters": 40,
+    "baselineMatched": 103,
+    "baselineNew": 0,
+    "baselineStale": 0
+  },
+  "failedChecks": [],
+  "remainingScope": [
+    "Plan 02",
+    "B3",
+    "B4",
+    "Gate Final Closure"
+  ]
+}

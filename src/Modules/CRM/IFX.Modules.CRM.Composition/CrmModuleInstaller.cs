@@ -1,5 +1,7 @@
 using App.Abstractions;
 using IFX.Modules.CRM.Application;
+using IFX.Modules.CRM.Application.Contracts;
+using IFX.Modules.CRM.Contracts.V1;
 using IFX.Modules.CRM.Infrastructure;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.CRM.Presentation.Extensions;
@@ -23,6 +25,7 @@ public sealed class CrmModuleInstaller : IModuleInstaller
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
+        services.AddScoped<IAccountComplianceContract, AccountComplianceContract>();
 
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;

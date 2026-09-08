@@ -98,6 +98,9 @@ public static class ImportRules
         if (!declaring.InScope || declaring.FullPath == node.FullPath)
             return null;
 
+        if (ruleset.IsSharedPrimitiveReference(node, declaring.Name))
+            return null;
+
         if (ruleset.Allows(node.Ring, declaring.Ring)
             && ruleset.AllowsOwnership(node.Ring, declaring.Ring, node.Module, declaring.Module))
             return null;

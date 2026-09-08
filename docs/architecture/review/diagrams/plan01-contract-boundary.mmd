@@ -1,0 +1,21 @@
+flowchart LR
+  subgraph BEFORE[Before B2]
+    TA0[Transaction.Application] --> R0[CRM / Registry Abstractions Readers]
+    R0 --> DB0[(Provider DbContext)]
+  end
+  subgraph AFTER[After B2]
+    TA[Transaction.Application] --> P[Consumer-owned Ports]
+    TI[Transaction.Infrastructure Adapter] -. implements .-> P
+    TI --> C[Provider-owned V1 Contracts]
+    PA[Provider.Application Facade] -. implements .-> C
+    PA --> DP[Provider data Port]
+    PI[Provider.Infrastructure] -. implements .-> DP
+    PI --> DB[(Provider database)]
+    EC[Trusted ExecutionContext] --> TI
+    TI -->|fresh request / correlation + causation| PA
+  end
+  ROOT[ApiHost] --> TC[Transaction.Composition]
+  ROOT --> PC[Provider.Composition]
+  TC --> TI
+  PC --> PA
+  HTTP[Future HTTP or gRPC Adapter] -. replacement seam .-> P

@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Modules\CRM\IFX.Modules.CRM.Application\IFX.Modules.CRM.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CRM\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

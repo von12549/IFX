@@ -1,5 +1,7 @@
 using App.Abstractions;
 using IFX.Modules.Registry.Application;
+using IFX.Modules.Registry.Application.Contracts;
+using IFX.Modules.Registry.Contracts.V1;
 using IFX.Modules.Registry.Infrastructure;
 using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Modules.Registry.Presentation.Extensions;
@@ -23,6 +25,7 @@ public sealed class RegistryModuleInstaller : IModuleInstaller
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
+        services.AddScoped<IClassSubscriptionAvailabilityContract, ClassSubscriptionAvailabilityContract>();
 
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;

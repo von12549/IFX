@@ -19,17 +19,20 @@ jobs:
       - name: Reconcile G03 catalog and generated LayerGuard input
         shell: pwsh
         run: ./scripts/Invoke-G03ContractEventGuard.ps1 -Phase 7 -ReportPath artifacts/layerguard/g03-policy-input.json
-      - name: Run complete 03-A1 policy gate
+      - name: Revalidate immutable 03-A1 acceptance evidence
         shell: pwsh
-        run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b1-ci.json
-      - name: Validate 03-A1 acceptance evidence
+        run: ./scripts/Test-03A1PolicyBinding.ps1 -StatusPath artifacts/layerguard/03-a1-status.json
+      - name: Run current B2 policy gate
         shell: pwsh
-        run: ./scripts/Test-03A1PolicyBinding.ps1 -LayerGuardReportPath artifacts/layerguard/b1-ci.json -StatusPath artifacts/layerguard/03-a1-status.json
+        run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b2-ci.json
+      - name: Validate Plan 01 B2 evidence and milestone boundaries
+        shell: pwsh
+        run: ./scripts/Test-Plan01B2Evidence.ps1 -LayerGuardReportPath artifacts/layerguard/b2-ci.json -StatusPath artifacts/layerguard/plan01-b2-status.json
       - name: Upload LayerGuard report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: layerguard-b1
+          name: layerguard-b2
           path: artifacts/layerguard
           if-no-files-found: warn
       - name: Upload Plan 00 prerequisite evidence

@@ -56,13 +56,13 @@ $allSourceFiles = @(Get-ChildItem (Join-Path $repositoryRoot 'src') -Recurse -Fi
     Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } |
     Sort-Object FullName)
 
-$abstractionProjects = @(Get-ChildItem (Join-Path $repositoryRoot 'src/Modules') -Recurse -File -Filter '*.csproj' |
-    Where-Object { $_.BaseName -like '*.Abstractions' } |
+$contractProjects = @(Get-ChildItem (Join-Path $repositoryRoot 'src/Modules') -Recurse -File -Filter '*.csproj' |
+    Where-Object { $_.BaseName -like '*.Abstractions' -or $_.BaseName -like '*.Contracts' } |
     Sort-Object FullName)
 
 $projects = @()
 $surfaces = @()
-foreach ($projectFile in $abstractionProjects) {
+foreach ($projectFile in $contractProjects) {
     [xml] $projectXml = Get-Content -Raw -LiteralPath $projectFile.FullName
     $projectName = $projectFile.BaseName
     $module = ($projectName -split '\.')[2]
@@ -149,7 +149,8 @@ foreach ($projectFile in $allProjects) {
     [xml] $xml = Get-Content -Raw -LiteralPath $projectFile.FullName
     foreach ($reference in @($xml.Project.ItemGroup.ProjectReference.Include | Where-Object { $_ })) {
         $target = [System.IO.Path]::GetFileNameWithoutExtension($reference)
-        if ($target -like '*.Abstractions' -or $projectFile.BaseName -like '*.Abstractions') {
+        if ($target -like '*.Abstractions' -or $target -like '*.Contracts' -or
+            $projectFile.BaseName -like '*.Abstractions' -or $projectFile.BaseName -like '*.Contracts') {
             $projectEdges += [ordered]@{ from = $projectFile.BaseName; to = $target }
         }
     }
@@ -180,7 +181,8 @@ $report = [ordered]@{
         generator = 'scripts/Invoke-G03ContractEventInventory.ps1'
     }
     counts = [ordered]@{
-        abstractionProjects = $projects.Count
+        abstractionProjects = @($projects | Where-Object name -like '*.Abstractions').Count
+        contractProjects = @($projects | Where-Object name -like '*.Contracts').Count
         readers = @($surfaces | Where-Object kind -eq 'reader').Count
         readerMethods = @($surfaces.methods | Where-Object { $null -ne $_ }).Count
         dtos = @($surfaces | Where-Object kind -eq 'dto').Count
@@ -188,7 +190,8 @@ $report = [ordered]@{
         messagingAbstractionTypes = $messagingTypes.Count
         abstractionProjectEdges = $projectEdges.Count
     }
-    abstractionProjects = $projects
+    abstractionProjects = @($projects | Where-Object name -like '*.Abstractions')
+    contractProjects = @($projects | Where-Object name -like '*.Contracts')
     publicSurface = @($surfaces | Sort-Object module, kind, name)
     messagingAbstractions = $messagingTypes
     projectEdges = @($projectEdges | Sort-Object from, to)

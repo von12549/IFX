@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $ReportPath,
+    [string] $BaselinePath = 'mcp/LayerGuard/baselines/b2.json',
     [switch] $SkipTests
 )
 
@@ -10,10 +11,10 @@ $toolProject = Join-Path $repositoryRoot 'mcp/LayerGuard/src/LayerGuard/LayerGua
 $toolSolution = Join-Path $repositoryRoot 'mcp/LayerGuard/LayerGuard.slnx'
 $sourceRoot = Join-Path $repositoryRoot 'src'
 $policy = Join-Path $sourceRoot 'layerguard.json'
-$baseline = Join-Path $repositoryRoot 'mcp/LayerGuard/baselines/b1.json'
+$baseline = if ([IO.Path]::IsPathRooted($BaselinePath)) { $BaselinePath } else { Join-Path $repositoryRoot $BaselinePath }
 
 if ([string]::IsNullOrWhiteSpace($ReportPath)) {
-    $ReportPath = Join-Path $repositoryRoot 'artifacts/layerguard/b1-latest.json'
+    $ReportPath = Join-Path $repositoryRoot 'artifacts/layerguard/b2-latest.json'
 }
 elseif (-not [System.IO.Path]::IsPathRooted($ReportPath)) {
     $ReportPath = Join-Path $repositoryRoot $ReportPath
@@ -23,14 +24,14 @@ $reportDirectory = Split-Path -Parent $ReportPath
 New-Item -ItemType Directory -Force -Path $reportDirectory | Out-Null
 
 if (-not $SkipTests) {
-    dotnet test $toolSolution
+    dotnet test $toolSolution --no-restore
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
 dotnet run --no-restore --project $toolProject -- check $sourceRoot --config $policy --baseline $baseline --format json --report $ReportPath --quiet
 $checkExitCode = $LASTEXITCODE
 if ($checkExitCode -eq 0) {
-    Write-Host "LayerGuard 03-A1 policy gate passed. Report: $ReportPath"
+    Write-Host "LayerGuard current milestone policy gate passed. Report: $ReportPath"
 }
 else {
     Write-Error "LayerGuard found a new/stale violation or invalid baseline. Report: $ReportPath"

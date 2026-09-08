@@ -1,7 +1,7 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.Holdings.Abstractions.DTOs;
+using IFX.Modules.Holdings.Application.DTOs;
 using IFX.Modules.Holdings.Application.Interfaces;
 using IFX.Modules.Holdings.Application.Queries.GetHoldingById;
 using IFX.Modules.Holdings.Domain.Entities;

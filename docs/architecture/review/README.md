@@ -2,9 +2,9 @@
 
 # IFX 模块通信架构评审
 
-This directory records the source-verified current architecture and the proposed Contracts/Adapters/Events target architecture. It is the baseline for later planning; it does not by itself authorize or represent an implementation change.
+This directory records the source-verified architecture and its governed migration. Plan 01 synchronous Contracts/Ports/Adapters reached B2; Plan 02 events and later closure milestones remain open.
 
-本目录记录经源码核对的当前架构，以及讨论形成的 Contracts/Adapters/Events 目标架构。它是后续计划的基础和参考，本身不代表已经实施，也不构成代码修改授权。
+本目录记录经源码核对的架构及受治理的迁移状态。Plan 01 同步 Contracts/Ports/Adapters 已到达 B2；Plan 02 事件与后续关闭里程碑仍保持开放。
 
 ## Baseline / 基线
 
@@ -12,13 +12,13 @@ This directory records the source-verified current architecture and the proposed
 - Architecture style: ASP.NET Core 8 modular monolith
 - Deployment: one ApiHost process
 - Current persistence: one DbContext, migrations set, and SQL schema per business module
-- Target status: proposed and not implemented
+- Target status: synchronous boundary implemented at B2; reliable events remain proposed for B3
 
 - 仓库源码基线：提交 `308d548`
 - 架构风格：ASP.NET Core 8 模块化单体
 - 部署方式：单一 ApiHost 进程
 - 当前持久化：每个业务模块拥有独立 DbContext、迁移集合和 SQL schema
-- 目标方案状态：讨论建议，尚未实现
+- 目标方案状态：同步边界已在 B2 实施；可靠事件仍待 B3
 
 ## Full documents / 完整说明文档
 
@@ -26,6 +26,7 @@ This directory records the source-verified current architecture and the proposed
 |---|---|---|
 | Current architecture / 当前架构 | [current-architecture.zh-CN.md](current-architecture.zh-CN.md) | [current-architecture.en.md](current-architecture.en.md) |
 | Target Contracts/Adapters/Events architecture / 目标架构 | [target-contracts-adapters-events.zh-CN.md](target-contracts-adapters-events.zh-CN.md) | [target-contracts-adapters-events.en.md](target-contracts-adapters-events.en.md) |
+| Plan 01 B2 implementation / Plan 01 B2 实施基线 | [Plan 01 中文](plan01-contracts-adapters-boundary.zh-CN.md) | [Plan 01 English](plan01-contracts-adapters-boundary.en.md) |
 | G01 transaction boundary / 事务边界 | [G01 中文](gates/G01/transaction-boundary.zh-CN.md) | [G01 English](gates/G01/transaction-boundary.en.md) |
 | G02 database boundary / 数据库边界 | [G02 中文](gates/G02/database-boundary.zh-CN.md) | [G02 English](gates/G02/database-boundary.en.md) |
 | G03 Contract/Event governance / Contract/Event 治理 | [G03 中文](gates/G03/contract-event-governance.zh-CN.md) | [G03 English](gates/G03/contract-event-governance.en.md) |
@@ -58,6 +59,7 @@ This directory records the source-verified current architecture and the proposed
 | 13 | [G03 lifecycle and legacy migration / 生命周期与 legacy 迁移](gates/G03/diagrams/lifecycle-migration.svg) |
 | 14 | [G03 compatibility decision / 兼容判定](gates/G03/diagrams/compatibility-decision.svg) |
 | 15 | [G03 V1/V2 migration / V1/V2 迁移时序](gates/G03/diagrams/v1-v2-migration.svg) |
+| B2 | [Plan 01 implemented contract boundary / Plan 01 已实施同步边界](diagrams/plan01-contract-boundary.svg) |
 | 16 | [G03 change approval / 变更审批](gates/G03/diagrams/change-approval.svg) |
 | 17 | [G04 deployment boundary / 部署边界](gates/G04/diagrams/deployment-boundary.svg) |
 | 18 | [G04 runtime topology / 运行拓扑](gates/G04/diagrams/runtime-topology.svg) |

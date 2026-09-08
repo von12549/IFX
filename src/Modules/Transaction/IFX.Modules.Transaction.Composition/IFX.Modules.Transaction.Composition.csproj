@@ -9,9 +9,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
-    <ProjectReference Include="..\IFX.Modules.Transaction.Abstractions\IFX.Modules.Transaction.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Application\IFX.Modules.Transaction.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Infrastructure\IFX.Modules.Transaction.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\CRM\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
+    <ProjectReference Include="..\..\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Presentation\IFX.Modules.Transaction.Presentation.csproj" />
     <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj" />
   </ItemGroup>

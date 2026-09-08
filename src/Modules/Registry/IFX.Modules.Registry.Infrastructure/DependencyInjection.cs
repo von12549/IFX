@@ -1,11 +1,10 @@
-using IFX.Modules.Registry.Abstractions.Interfaces;
 using IFX.Modules.Registry.Application.Interfaces;
+using IFX.Modules.Registry.Application.Ports;
 using IFX.BuildingBlocks.Application.Transactions;
 using IFX.Modules.Registry.Application.Transactions;
 using IFX.Modules.Registry.Domain.Repositories;
 using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Modules.Registry.Infrastructure.Repositories;
-using IFX.Modules.Registry.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,8 +40,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, RegistryUnitOfWork>();
         services.AddKeyedScoped<ITransactionExecutor, RegistryTransactionExecutor>(typeof(RegistryTransactionOwner));
 
-        // Register RegistryReader (cross-module anti-corruption layer)
-        services.AddScoped<IRegistryReader, RegistryReader>();
+        services.AddScoped<IClassSubscriptionDataPort, Integrations.ClassSubscriptionDataAdapter>();
 
         // Note: ICurrentUser, IPermissionChecker, IResourceAuthorizationService, IAbacPolicyResolver,
         // IIntegrationEventBus and ABAC engine/registry are registered by the Auth module and shared

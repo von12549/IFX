@@ -7,8 +7,8 @@
   [`01-contracts-adapters-refactor.md`](../../../plans/01-contracts-adapters-refactor.md).
 - Revisit trigger: the first real provider `Contracts.V1` or consumer Integration Adapter, and again
   before either G03 synchronous Contract changes from Proposed to Active.
-- This handoff supplies conformance rules and fake-carrier proof only. It is not evidence that the
-  CRM/Registry providers or Transaction consumer adapters have migrated.
+- The original handoff supplied conformance rules and fake-carrier proof. Plan 01 returned real
+  CRM/Registry provider and Transaction adapter evidence at B2.
 
 ## Required inputs
 
@@ -31,11 +31,14 @@
   cancellation, timeout and unavailable cases.
 - Provider/consumer approvals, G03 source reconciliation and the B2 LayerGuard comparison.
 
-Until those artifacts return, G05 records this handoff as pending downstream evidence.
+Those artifacts returned on 2026-09-08; G05 accepts the Plan 01 downstream evidence without
+claiming Plan 02 event carriers or production runtime proof.
 
 ## G05 repository package delivered 2026-09-08
 
 - BCL-only `ContractRequestContext`, strong identifiers, trusted `ExecutionContext` and source policy.
 - Contract construction/validation policy, stable results, fake direct/JSON carrier suite, Phase 9 unified
   verification, and bilingual decision/rule mapping.
-- Handoff state: `delivered-repository-inputs / pending-real-carrier-return`.
+- Handoff state: `plan01-real-carrier-return-accepted / plan02-and-production-evidence-pending`.
+- Return evidence: [`B2-status.json`](../../../evidence/plan01/B2-status.json) and
+  [`B2-gate-handback.md`](../../../evidence/plan01/B2-gate-handback.md).

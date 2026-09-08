@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "plan": "01-contracts-adapters-refactor",
+  "milestone": "B2",
+  "result": "passed",
+  "completedAt": "2026-09-08",
+  "scope": "repository implementation and automation; no production-runtime claim",
+  "outcomes": {
+    "activeSyncContracts": 2,
+    "retiredReaders": 4,
+    "retiredReaderMethods": 15,
+    "retiredPublicDtos": 7,
+    "remainingLegacyEvents": 20,
+    "transactionApplicationForeignContractReferences": 0,
+    "newLayerGuardViolationsAgainstB1": 0
+  },
+  "tests": {
+    "solutionBuild": "passed",
+    "crmApplication": { "passed": 37, "failed": 0 },
+    "registryApplication": { "passed": 42, "failed": 0 },
+    "realContractAdapterComposition": { "passed": 6, "failed": 0 },
+    "layerGuard": { "passed": 189, "failed": 0 },
+    "fullSolution": { "passed": 1059, "failed": 0, "skipped": 0 }
+  },
+  "layerGuard": {
+    "toolVersion": "0.4.0-a1",
+    "b1Comparison": { "matched": 103, "new": 0, "stale": 13, "violations": 103 },
+    "b2": { "matched": 103, "new": 0, "stale": 0, "clusters": 40, "verdict": "baseline-clean" },
+    "policyHash": "944a7a5e636334bf8fdf979b736e631be878cc790a7b2aa72cdf07fae1ff2081",
+    "configurationChanged": false,
+    "gateAuthorityCopiedIntoConfiguration": false
+  },
+  "gates": {
+    "G03": "plan01-return-accepted",
+    "G05": "plan01-real-carrier-return-accepted"
+  },
+  "evidence": [
+    "docs/architecture/review/evidence/layerguard/B2-vs-B1-report.json",
+    "docs/architecture/review/evidence/layerguard/B2-report.json",
+    "docs/architecture/review/evidence/layerguard/B2-dependency-graph.json",
+    "docs/architecture/review/evidence/gates/G03/G03-B2-guard-report.json",
+    "docs/architecture/review/evidence/plan01/g05-verification/verification-summary.json",
+    "docs/architecture/review/evidence/plan01/B2-gate-handback.md"
+  ],
+  "remainingScope": ["Plan 02", "B3", "B4", "Gate Final Closure"]
+}

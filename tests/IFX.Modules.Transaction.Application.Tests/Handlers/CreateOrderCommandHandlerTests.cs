@@ -2,11 +2,10 @@ using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.CRM.Abstractions.Interfaces;
-using IFX.Modules.Registry.Abstractions.Interfaces;
 using IFX.Modules.Transaction.Application.Commands.CreateOrder;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
+using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Domain.Entities;
 using IFX.Modules.Transaction.Domain.Repositories;
 using IFX.Platform.Messaging.Abstractions;
@@ -21,8 +20,8 @@ public class CreateOrderCommandHandlerTests
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<ICrmReader> _crmReader = new();
-    private readonly Mock<IRegistryReader> _registryReader = new();
+    private readonly Mock<IAccountCompliancePort> _accountCompliance = new();
+    private readonly Mock<IClassSubscriptionAvailabilityPort> _classSubscriptionAvailability = new();
     private readonly Mock<ICommittedEventBuffer> _eventBuffer = new();
     private readonly Mock<ILogger<CreateOrderCommandHandler>> _logger = new();
     private readonly CreateOrderCommandHandler _handler;
@@ -56,13 +55,13 @@ public class CreateOrderCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _crmReader.Setup(c => c.IsInvestmentAccountKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
-        _registryReader.Setup(r => r.IsClassOpenForSubscriptionAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _accountCompliance.Setup(c => c.IsApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _classSubscriptionAvailability.Setup(r => r.IsOpenAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
         _mapper.Setup(m => m.Map<OrderDto>(It.IsAny<Order>())).Returns(MakeOrderDto());
 
         _handler = new CreateOrderCommandHandler(
             _unitOfWork.Object, _mapper.Object, _currentUser.Object,
-            _authorizationService.Object, _crmReader.Object, _registryReader.Object,
+            _authorizationService.Object, _accountCompliance.Object, _classSubscriptionAvailability.Object,
             _eventBuffer.Object, _logger.Object);
     }
 
@@ -109,7 +108,7 @@ public class CreateOrderCommandHandlerTests
     [Fact]
     public async Task Handle_WhenKycNotApproved_ReturnsFailure()
     {
-        _crmReader.Setup(c => c.IsInvestmentAccountKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        _accountCompliance.Setup(c => c.IsApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         var result = await _handler.Handle(SubscriptionCommand(), CancellationToken.None);
 
@@ -121,7 +120,7 @@ public class CreateOrderCommandHandlerTests
     [Fact]
     public async Task Handle_WhenClassNotOpenForSubscription_ReturnsFailure()
     {
-        _registryReader.Setup(r => r.IsClassOpenForSubscriptionAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        _classSubscriptionAvailability.Setup(r => r.IsOpenAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         var result = await _handler.Handle(SubscriptionCommand(), CancellationToken.None);
 

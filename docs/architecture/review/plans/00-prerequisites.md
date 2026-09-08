@@ -1,6 +1,6 @@
 # Plan 00 前置：事务、数据库与运行边界准入条件
 
-> 状态：PRE-READY 与 03-A1 LG-POLICY-READY 已完成；Plan 01/02 可开始（2026-09-08）
+> 状态：PRE-READY、03-A1 LG-POLICY-READY 与 Plan 01/B2 已完成；Plan 02/B3 及 Gate 最终关闭保持开放（2026-09-08）
 > 后续计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：从 [`TODO.md`](TODO.md) 提取的强依赖或必须提前冻结的事项
 > 准入规则：先完成 LayerGuard 03-A0 Core Bootstrap，再实施本文件 Gate 01–05；全部 Gate 达到“前置放行”后执行 03-A1 Policy Binding，随后才进入 Contracts/Events 正式迁移；Gate 的“最终关闭”在真实下游实现验收后完成。

@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：PRE-READY / Phase 11 handoff complete, final closure blocked by downstream and production evidence
+> 状态：PRE-READY / Plan 01 real synchronous carriers returned at B2; Plan 02, production evidence, and final approval remain open
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -366,6 +366,8 @@ Phase 11 当前证据：[`G05-phase11-handoff.md`](../evidence/gates/G05/G05-pha
 [`ops-evidence-map-v1.json`](../gates/G05/ops-evidence-map-v1.json)、
 [`open-items-v1.json`](../gates/G05/open-items-v1.json) 及四份 [`handoffs`](../gates/G05/handoffs/)。
 审计通过但 `readyForClosure=false`；G05-11.8 和 Phase 11 保持未勾选，G05-11.6 仅表示前置放行。
+Plan 01 的真实同步 carrier、provider/consumer validation 与 B2 对比已由
+[`B2 Gate handback`](../evidence/plan01/B2-gate-handback.md) 回交；该回交不替代 Plan 02 event carrier、生产安全或最终批准。
 
 ## Definition of Done
 

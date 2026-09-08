@@ -10,6 +10,8 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Domain\IFX.Modules.CRM.Domain.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Abstractions\IFX.Modules.CRM.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
   </ItemGroup>
 

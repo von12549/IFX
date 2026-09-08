@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "gate": "G03",
   "result": "passed",
-  "mode": "baseline",
+  "mode": "migration",
   "counts": {
-    "sourceSurface": 46,
-    "catalogSurface": 46,
+    "sourceSurface": 20,
+    "catalogSurface": 20,
     "protocols": 4,
     "unregistered": 0,
     "missingSource": 0,

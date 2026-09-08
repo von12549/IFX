@@ -10,7 +10,7 @@
     "sharedAllowlistPresent": true,
     "waiverPolicyPresent": true
   },
-  "sha256": "6f0b258621aaa0c10dabe4b2b421e78afc5b1d667a94f9445d31eb2d691bdad3",
+  "sha256": "b220348741dd1b590c38d4f49e135ea95c41267a69f011d775ec683f6af92eed",
   "counts": {
     "modules": 6,
     "edges": 4,

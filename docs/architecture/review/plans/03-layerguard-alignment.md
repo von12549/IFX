@@ -9,7 +9,7 @@
 > G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [generated governance input](../gates/G03/generated/layerguard-governance-input.json)；L5.1 必须直接消费并验证 catalog hash，不能复制 ownership 配置。
 > 可执行交接包：[`G03 -> Plan 03 handoff`](../gates/G03/handoffs/plan03-layerguard-handoff.md)，含 owner、L5.1/B1–B4 回访条件、fail-closed 清单和回交证据。
 > 上下文输入：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 在 03-A1 提供 Context/Messaging schema primitive allowlist、Contract/Event 声明与禁止框架规则；字段分类和值传播由专用 validator/tests 负责。
-> 当前控制点：`src/layerguard.json` 使用 03-A1 target policy，直接校验 G03/G04/G05 artifact 与组合 hash；正式 B1 已冻结，后续 B2/B3/B4 必须保持相同目标语义。
+> 当前控制点：`src/layerguard.json` 继续使用 03-A1 target policy 并直接校验 G03/G04/G05 artifact；B1 保持不可变，Plan 01 已冻结正式 B2，B3/B4 仍须保持同一目标语义。
 
 ## 目标依赖矩阵
 
@@ -131,14 +131,14 @@
 
 - [ ] **Phase 6 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] L6.1 随子计划 1 迁移 CRM/Registry → Transaction 同步依赖并清除对应 Application foreign Contract 违规。
-- [ ] L6.2 子计划 1 完成后使用 B1 的目标规则语义生成 B2 报告，说明每条依赖边的新增、消除或保留原因。
+- [x] L6.1 随子计划 1 迁移 CRM/Registry → Transaction 同步依赖并清除对应 Application foreign Contract 违规。
+- [x] L6.2 子计划 1 完成后使用 B1 的目标规则语义生成 B2 报告：103 matched、0 new、13 stale；正式 B2 为 103 matched、0 new、0 stale。证据：[`B2 handback`](../evidence/plan01/B2-gate-handback.md)。
 - [ ] L6.3 随子计划 2 迁移 Holdings 外部事件 handler 并清除 Application foreign Event Contract 违规。
 - [ ] L6.4 子计划 2 完成后使用相同目标规则语义生成 B3 报告，并与 B1/B2 对比。
 - [ ] L6.5 修复 Contracts 的框架/实现泄漏、未使用公共表面及 ApiHost/Composition 装配越界。
 - [ ] L6.6 修复 CurrentUser/context 迁移后的引用和声明位置违规，验证 context primitive allowlist 未扩大为通用 SharedKernel 许可。
-- [ ] L6.7 将 LayerGuard 结果与 Gate 03 catalog/source reconciliation 串联，防止配置复制 ownership 数据后发生漂移。
-- [ ] L6.8 将 Gate 05 catalog/schema/security test 结果与 LayerGuard 报告共同发布，但失败来源和责任规则保持可区分。
+- [x] L6.7 将 LayerGuard 结果与 Gate 03 catalog/source reconciliation 串联，防止配置复制 ownership 数据后发生漂移。
+- [x] L6.8 将 Gate 05 catalog/schema/security test 结果与 LayerGuard 报告共同发布，但失败来源和责任规则保持可区分。
 - [ ] L6.9 审核全部例外；缺少 owner、风险、到期日、删除条件或超过默认期限的 waiver 不得进入严格模式，不可豁免规则不得建立例外。
 
 ## Phase 7 — 清零违规并开启严格 CI 门禁

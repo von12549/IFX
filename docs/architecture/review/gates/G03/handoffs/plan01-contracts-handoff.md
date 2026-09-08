@@ -7,14 +7,14 @@
 - Delivery owner: Plan 01 implementer, approved by the recorded accountable owner. Junxi /
   `@jimkeecn` is the authorized backup owner recorded by G03.
 - Revisit trigger: the first PR that creates a provider `*.Contracts.V1` project or replaces a
-  legacy Reader/DTO. Revisit again before either sync identity is changed from Proposed to Active.
+  legacy Reader/DTO. Revisit completed at B2 when both synchronous identities became Active.
 
 ## Authoritative inputs
 
 - [`contract-event-catalog.yaml`](../contract-event-catalog.yaml) is the only ownership, identity,
   field-classification, lifecycle, and disposition source.
-- [`G03-sync-api-snapshot.json`](../snapshots/G03-sync-api-snapshot.json) is a pre-Active shape
-  baseline, not proof that the physical source exists.
+- [`G03-sync-api-snapshot.json`](../snapshots/G03-sync-api-snapshot.json) is the current source-backed
+  Active shape baseline.
 - [`compatibility-policy.md`](../compatibility-policy.md),
   [`shared-contract-primitives.md`](../shared-contract-primitives.md), and the Change Record template
   define admission and migration mechanics.
@@ -22,7 +22,7 @@
 Plan 01 owns 4 Readers, 15 Reader methods, and 7 DTOs. The catalog dispositions are: Readers = 2
 Replace/2 Internalize; methods = 2 Replace/10 Internalize/3 Remove; DTOs = 7 Internalize. The two
 admitted candidates are `crm.account-compliance.v1` and
-`registry.class-subscription-availability.v1`, both CRM/Registry -> Transaction and both Proposed.
+`registry.class-subscription-availability.v1`, both CRM/Registry -> Transaction and both Active at B2.
 
 ## Required implementation and returned evidence
 
@@ -40,3 +40,12 @@ admitted candidates are `crm.account-compliance.v1` and
 
 Do not return a green build alone as compatibility evidence, and do not mark G03 Active while a
 consumer still calls legacy Abstractions.
+
+## B2 return accepted 2026-09-08
+
+All 26 Reader/method/DTO records are Retired with source reconciliation; the two capability
+contracts are source-backed and Active. Provider and consumer compatibility tests, current API
+snapshots, G03 validation, LayerGuard B2 comparison, and the complete handback are indexed in
+[`B2-status.json`](../../../evidence/plan01/B2-status.json) and
+[`B2-gate-handback.md`](../../../evidence/plan01/B2-gate-handback.md). Event protocols remain
+Proposed and are owned by Plan 02/B3.

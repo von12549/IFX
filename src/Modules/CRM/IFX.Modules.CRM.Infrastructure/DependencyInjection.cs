@@ -4,14 +4,13 @@ using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Interfaces;
 using IFX.Modules.CRM.Application.Interfaces;
+using IFX.Modules.CRM.Application.Ports;
 using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Authorization;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.CRM.Infrastructure.Repositories;
-using IFX.Modules.CRM.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,8 +55,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, CrmUnitOfWork>();
         services.AddKeyedScoped<ITransactionExecutor, CrmTransactionExecutor>(typeof(CrmTransactionOwner));
 
-        // CrmReader (cross-module read service)
-        services.AddScoped<ICrmReader, CrmReader>();
+        services.AddScoped<IAccountComplianceDataPort, Integrations.AccountComplianceDataAdapter>();
 
         // Authorization
         services.AddHttpContextAccessor();

@@ -37,14 +37,14 @@ $unknownCatalogSurface = @()
 if ($Phase -ge 2) {
     $catalog = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
     $sourceKeys = @()
-    foreach ($surface in @($inventory.publicSurface)) {
+    foreach ($surface in @($inventory.publicSurface | Where-Object project -like '*.Abstractions')) {
         $sourceKeys += "$($surface.project)|$($surface.name)|"
         foreach ($method in @($surface.methods)) { $sourceKeys += "$($surface.project)|$($surface.name)|$($method.name)" }
     }
-    $catalogKeys = @($catalog.publicSurface | ForEach-Object { "$($_.project)|$($_.type)|$($_.member)" })
+    $catalogKeys = @($catalog.publicSurface | Where-Object lifecycle -eq 'LegacyPendingMigration' | ForEach-Object { "$($_.project)|$($_.type)|$($_.member)" })
     $missingCatalogSurface = @($sourceKeys | Where-Object { $_ -notin $catalogKeys } | Sort-Object -Unique)
     $unknownCatalogSurface = @($catalogKeys | Where-Object { $_ -notin $sourceKeys } | Sort-Object -Unique)
-    $surfaceReconciled = $missingCatalogSurface.Count -eq 0 -and $unknownCatalogSurface.Count -eq 0 -and $catalogKeys.Count -eq 46
+    $surfaceReconciled = $missingCatalogSurface.Count -eq 0 -and $unknownCatalogSurface.Count -eq 0 -and $catalogKeys.Count -eq 20
 }
 $sourceReconciliation = $true
 $deterministicSnapshots = $true
@@ -88,9 +88,9 @@ if ($Phase -ge 9) {
 $checks = [ordered]@{
     deterministicInventory = $firstHash -eq $secondHash
     exactAbstractionProjectCount = $inventory.counts.abstractionProjects -eq 4
-    exactReaderCount = $inventory.counts.readers -eq 4
-    exactReaderMethodCount = $inventory.counts.readerMethods -eq 15
-    exactDtoCount = $inventory.counts.dtos -eq 7
+    exactReaderCount = $inventory.counts.readers -eq 2
+    exactReaderMethodCount = $inventory.counts.readerMethods -eq 2
+    exactDtoCount = $inventory.counts.dtos -eq 0
     exactIntegrationEventCount = $inventory.counts.integrationEvents -eq 20
     messagingSurfaceInventoried = $inventory.counts.messagingAbstractionTypes -eq 4
     generatedDirectoriesExcluded = @($inventory.publicSurface.declaration.file | Where-Object { $_ -match '(^|/)(bin|obj)/' }).Count -eq 0

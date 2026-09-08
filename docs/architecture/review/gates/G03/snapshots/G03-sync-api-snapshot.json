@@ -1,13 +1,13 @@
 {
   "formatVersion": 1,
-  "status": "proposed-pre-active-baseline",
+  "status": "authoritative-current",
   "protocols": [
     {
       "identity": "crm.account-compliance.v1",
       "version": 1,
-      "lifecycle": "Proposed",
-      "legacySourceSignature": "Task<bool> IsInvestmentAccountKycApprovedAsync(Guid investmentAccountId, Guid tenantId, CancellationToken ct = default);",
-      "targetNamespace": "IFX.Modules.Crm.Contracts.V1",
+      "lifecycle": "Active",
+      "sourceSignature": "Task<AccountComplianceResponse> CheckAsync( AccountComplianceRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
+      "targetNamespace": "IFX.Modules.CRM.Contracts.V1",
       "fields": [
         {
           "name": "investmentAccountId",
@@ -29,8 +29,8 @@
     {
       "identity": "registry.class-subscription-availability.v1",
       "version": 1,
-      "lifecycle": "Proposed",
-      "legacySourceSignature": "Task<bool> IsClassOpenForSubscriptionAsync(Guid classId, Guid tenantId, CancellationToken ct = default);",
+      "lifecycle": "Active",
+      "sourceSignature": "Task<ClassSubscriptionAvailabilityResponse> CheckAsync( ClassSubscriptionAvailabilityRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
       "targetNamespace": "IFX.Modules.Registry.Contracts.V1",
       "fields": [
         {

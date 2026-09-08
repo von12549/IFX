@@ -2,10 +2,10 @@ using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.CRM.Abstractions.Interfaces;
 using IFX.Modules.Transaction.Application.Commands.CreateRedemption;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
+using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Domain.Repositories;
 using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
@@ -20,7 +20,7 @@ public class CreateRedemptionCommandHandlerTests
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<ICrmReader> _crmReader = new();
+    private readonly Mock<IAccountCompliancePort> _accountCompliance = new();
     private readonly Mock<ICommittedEventBuffer> _eventBuffer = new();
     private readonly Mock<ILogger<CreateRedemptionCommandHandler>> _logger = new();
     private readonly CreateRedemptionCommandHandler _handler;
@@ -48,11 +48,11 @@ public class CreateRedemptionCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _crmReader.Setup(c => c.IsInvestmentAccountKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _accountCompliance.Setup(c => c.IsApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
         _handler = new CreateRedemptionCommandHandler(
             _unitOfWork.Object, _mapper.Object, _currentUser.Object,
-            _authorizationService.Object, _crmReader.Object, _eventBuffer.Object, _logger.Object);
+            _authorizationService.Object, _accountCompliance.Object, _eventBuffer.Object, _logger.Object);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class CreateRedemptionCommandHandlerTests
     [Fact]
     public async Task Handle_WhenInvestmentAccountKycNotApproved_ReturnsFailure()
     {
-        _crmReader.Setup(c => c.IsInvestmentAccountKycApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        _accountCompliance.Setup(c => c.IsApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         var result = await _handler.Handle(ValidCommand, CancellationToken.None);
 

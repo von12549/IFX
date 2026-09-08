@@ -1,11 +1,11 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Interfaces;
 using IFX.Modules.Transaction.Abstractions.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
+using IFX.Modules.Transaction.Application.Ports;
 using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -19,16 +19,16 @@ public class CreateRedemptionCommandHandler : IRequestHandler<CreateRedemptionCo
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
-    private readonly ICrmReader _crmReader;
+    private readonly IAccountCompliancePort _accountCompliance;
     private readonly ICommittedEventBuffer _eventBuffer;
     private readonly ILogger<CreateRedemptionCommandHandler> _logger;
-    public CreateRedemptionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ICrmReader crmReader, ICommittedEventBuffer eventBuffer, ILogger<CreateRedemptionCommandHandler> logger)
+    public CreateRedemptionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, IAccountCompliancePort accountCompliance, ICommittedEventBuffer eventBuffer, ILogger<CreateRedemptionCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currentUser = currentUser;
         _authorizationService = authorizationService;
-        _crmReader = crmReader;
+        _accountCompliance = accountCompliance;
         _eventBuffer = eventBuffer;
         _logger = logger;
     }
@@ -41,7 +41,7 @@ public class CreateRedemptionCommandHandler : IRequestHandler<CreateRedemptionCo
                 return Result<TransactionDto>.Failure("Tenant context required.");
             var tenantId = _currentUser.TenantId.Value;
             // Validate KYC — must be approved to redeem
-            if (!await _crmReader.IsInvestmentAccountKycApprovedAsync(request.InvestmentAccountId, tenantId, cancellationToken))
+            if (!await _accountCompliance.IsApprovedAsync(request.InvestmentAccountId, tenantId, cancellationToken))
                 return Result<TransactionDto>.Failure("Investment account KYC is not approved.");
             var tx = TxEntity.CreateRedemption(tenantId, request.InvestmentAccountId, request.FundId, request.ClassId, request.Amount, request.TradeDate);
             tx.CreatedBy = _currentUser.UserId;

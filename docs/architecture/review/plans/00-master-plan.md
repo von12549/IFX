@@ -1,11 +1,11 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Master Phase 0、03-A1 / LG-POLICY-READY 已完成；Plan 01/02 可开始（2026-09-08）
+> 状态：Master Phase 0、03-A1 与 Plan 01/B2 已完成；Plan 02/B3、B4 与 Gate Final Closure 保持开放（2026-09-08）
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
 > G04 运行基线：[中文](../gates/G04/deployment-runtime-boundary.zh-CN.md) / [English](../gates/G04/deployment-runtime-boundary.en.md)；[PRE-READY closeout](../evidence/gates/G04/G04-phase12-handoff.md) 未关闭 Gate，最终关闭依赖 E3/E4/E6、G05、L5.1/L5.2、生产演练与五方批准。
-> G05 上下文与敏感数据基线：[中文](../gates/G05/context-sensitive-data-boundary.zh-CN.md) / [English](../gates/G05/context-sensitive-data-boundary.en.md)；repository conformance 不替代 Plan 01/02 真实载体、03-A1 或生产安全证据。
+> G05 上下文与敏感数据基线：[中文](../gates/G05/context-sensitive-data-boundary.zh-CN.md) / [English](../gates/G05/context-sensitive-data-boundary.en.md)；Plan 01 真实同步载体已回交，仍不替代 Plan 02 event carrier 或生产安全证据。
 > 计划概述与审查结论：[`README.md`](README.md)
 > 进度规则：只有当某项的实现、验证与必要文档证据均已完成时，才勾选该项；Phase 内全部项目完成后，才勾选 Phase。
 
@@ -125,14 +125,14 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 2 — 建立 Contracts / Ports / Adapters 编译期边界
 
-- [ ] **Phase 2 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 2 完成**：Plan 01 已于 2026-09-08 完成并冻结正式 B2；Plan 02/B3、B4 与 Gate Final Closure 保持开放。
 
-- [ ] M2.1 以 Gate 03 权威目录、ownership、V1 identity/shared primitives allowlist，以及 Gate 05 ContractRequestContext、ExecutionScope 和字段分类为输入，执行子计划 1 的迁移。
-- [ ] M2.2 优先迁移当前真实同步依赖：CRM 的 KYC 校验与 Registry 的 Class subscription 状态查询。
-- [ ] M2.3 清除 Transaction.Application 对 CRM/Registry Contracts 的直接项目引用，并用依赖图验证。
-- [ ] M2.4 清理未被生产代码消费的公共 Reader，避免为了假想扩展面继续暴露公共查询模型。
-- [ ] M2.5 分离 Application 内部 DTO 与公共 Contract DTO，按 capability 最小化字段并应用 Gate 05 C0-C4 分类，防止公共模型成为内部用例模型或敏感数据捷径。
-- [ ] M2.6 完成子计划 1 的单元、DI、集成和架构测试，使用同一新版门禁生成 B2 报告并与 B1 对比后，勾选本 Phase。
+- [x] M2.1 以 Gate 03 权威目录、ownership、V1 identity/shared primitives allowlist，以及 Gate 05 ContractRequestContext、ExecutionScope 和字段分类为输入，执行子计划 1 的迁移。
+- [x] M2.2 优先迁移当前真实同步依赖：CRM 的 KYC 校验与 Registry 的 Class subscription 状态查询。
+- [x] M2.3 清除 Transaction.Application 对 CRM/Registry Contracts 的直接项目引用，并用依赖图验证。
+- [x] M2.4 清理未被生产代码消费的公共 Reader，避免为了假想扩展面继续暴露公共查询模型。
+- [x] M2.5 分离 Application 内部 DTO 与公共 Contract DTO，按 capability 最小化字段并应用 Gate 05 C0-C4 分类，防止公共模型成为内部用例模型或敏感数据捷径。
+- [x] M2.6 完成子计划 1 的单元、DI、集成和架构测试，使用同一新版门禁生成 B2 报告并与 B1 对比后，勾选本 Phase。证据：[`B2 status`](../evidence/plan01/B2-status.json) 与 [`Gate handback`](../evidence/plan01/B2-gate-handback.md)。
 
 ## Phase 3 — 建立可靠 Integration Event 通道
 

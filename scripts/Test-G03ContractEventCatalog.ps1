@@ -21,7 +21,7 @@ function Test-Catalog($catalog) {
     }
 
     if ($catalog.formatVersion -ne 1) { Add-Error 'format-version' 'formatVersion' 'Only formatVersion 1 is supported.' }
-    if ($catalog.mode -notin @('baseline', 'strict')) { Add-Error 'mode' 'mode' 'Mode must be baseline or strict.' }
+    if ($catalog.mode -notin @('baseline', 'migration', 'strict')) { Add-Error 'mode' 'mode' 'Mode must be baseline, migration, or strict.' }
     foreach ($name in @('identity', 'compatibility', 'dtoPolicy', 'breakingChange', 'baseline', 'deprecation')) {
         if ($null -eq $catalog.sourcePolicy.$name) { Add-Error 'policy-node' "sourcePolicy.$name" "Required policy '$name' is missing." }
     }
@@ -116,7 +116,8 @@ function Test-Catalog($catalog) {
     foreach ($surface in @($catalog.publicSurface)) {
         $path = "publicSurface.$($surface.id)"
         if ($surface.owner -notin $ownerIds) { Add-Error 'owner-reference' "$path.owner" "Unknown owner '$($surface.owner)'." }
-        if ($surface.lifecycle -ne 'LegacyPendingMigration') { Add-Error 'legacy-lifecycle' "$path.lifecycle" 'Baseline public surfaces must remain LegacyPendingMigration until source migration evidence exists.' }
+        if ($surface.lifecycle -notin @('LegacyPendingMigration', 'Retired')) { Add-Error 'legacy-lifecycle' "$path.lifecycle" 'Historical public surfaces must be pending migration or retired.' }
+        if ($surface.lifecycle -eq 'Retired' -and [string]::IsNullOrWhiteSpace($surface.migrationEvidence)) { Add-Error 'legacy-retirement-evidence' "$path.migrationEvidence" 'Retired public surfaces require migration evidence.' }
         if ($surface.disposition -notin @('Internalize', 'Replace', 'Remove')) { Add-Error 'legacy-disposition' "$path.disposition" 'Disposition must be Internalize, Replace, or Remove.' }
         foreach ($required in @('project', 'type', 'linkedPlan', 'expiresAt', 'removalCondition')) {
             if ([string]::IsNullOrWhiteSpace($surface.$required)) { Add-Error 'legacy-metadata' "$path.$required" "$required is required." }
@@ -180,7 +181,8 @@ function Test-Catalog($catalog) {
             }
         }
 
-        if ($surface.kind -in @('legacy-dto', 'legacy-event')) {
+        $catalogSurface = $catalog.publicSurface | Where-Object id -eq $surface.id | Select-Object -First 1
+        if ($surface.kind -in @('legacy-dto', 'legacy-event') -and $catalogSurface.lifecycle -ne 'Retired') {
             $sourceFile = Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Modules') -Recurse -File -Filter "$($surface.source).cs" |
                 Where-Object { $_.FullName -match '\.Abstractions\\(DTOs|Events)\\' } | Select-Object -First 1
             if ($null -eq $sourceFile) {
@@ -295,7 +297,7 @@ if ($SelfTest) {
         @{ name = 'incomplete C4 semantics'; mutate = { param($x) $x.fieldGovernance.c4Denylist = @($x.fieldGovernance.c4Denylist | Where-Object { $_ -ne 'private key' }) }; expected = 'c4-denylist' },
         @{ name = 'C3 without exception'; mutate = { param($x) ($x.fieldSurfaces | Where-Object id -eq 'crm.dto.investor-summary').fields[2].PSObject.Properties.Remove('exceptionRef') }; expected = 'field-exception' },
         @{ name = 'expired C3 field exception'; mutate = { param($x) $x.fieldExceptions[0].expiresAt = '2026-09-01' }; expected = 'field-exception-expired' },
-        @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[0].lifecycle = 'Active' }; expected = 'active-admission' },
+        @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[2].lifecycle = 'Active' }; expected = 'active-admission' },
         @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' },
         @{ name = 'expired waiver'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-08-01';expiresAt='2026-09-01';removalCondition='remove';linkedPlanItem='test';category='temporary-tool-gap'}) }; expected = 'waiver-expired' },
         @{ name = 'unwaivable exposure'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-09-01';expiresAt='2026-09-30';removalCondition='remove';linkedPlanItem='test';category='C4-exposure'}) }; expected = 'waiver-unwaivable' }

@@ -17,8 +17,10 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
-    <ProjectReference Include="..\IFX.Modules.Transaction.Abstractions\IFX.Modules.Transaction.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Application\IFX.Modules.Transaction.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.Transaction.Domain\IFX.Modules.Transaction.Domain.csproj" />
+    <ProjectReference Include="..\..\CRM\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
+    <ProjectReference Include="..\..\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
   </ItemGroup>
 </Project>

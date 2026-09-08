@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ApiHost\IFX.ApiHost\IFX.ApiHost.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CRM\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
     <ProjectReference Include="..\..\src\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
     <ProjectReference Include="..\..\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Abstractions\IFX.Platform.BackgroundJobs.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Platform\Notifications\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj" />

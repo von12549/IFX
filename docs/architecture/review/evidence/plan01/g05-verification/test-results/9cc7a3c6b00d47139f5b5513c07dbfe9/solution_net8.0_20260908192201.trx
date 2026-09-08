@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="0900be45-ab2d-4c17-8f5d-fe27df13e602" name="von12@DESKTOP-OVPKDKR 2026-09-08 19:21:52" runUser="DESKTOP-OVPKDKR\von12" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-08T19:21:52.1725105+10:00" queuing="2026-09-08T19:21:52.1725109+10:00" start="2026-09-08T19:21:50.4133647+10:00" finish="2026-09-08T19:21:52.2910133+10:00" />
+  <TestSettings name="default" id="057ed251-c4d5-472a-9b1f-356ba1cba03c">
+    <Deployment runDeploymentRoot="von12_DESKTOP-OVPKDKR_2026-09-08_19_21_52" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2335a6b3-6ca6-45da-8300-9774b145d15a" testId="393533ca-56cc-a72a-4ec4-f4cd4a7de71e" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Unexpected_exception_propagates_and_clears_pending_events" computerName="DESKTOP-OVPKDKR" duration="00:00:00.1063300" startTime="2026-09-08T19:21:52.0950449+10:00" endTime="2026-09-08T19:21:52.0950453+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2335a6b3-6ca6-45da-8300-9774b145d15a" />
+    <UnitTestResult executionId="790b4184-ad9e-42cb-8546-0fddde655d06" testId="f4bea2ea-c2d4-cc53-b1eb-35d9408de4ab" testName="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests.Duplicate_pipeline_registration_fails_fast" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0083854" startTime="2026-09-08T19:21:52.0100159+10:00" endTime="2026-09-08T19:21:52.0100163+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="790b4184-ad9e-42cb-8546-0fddde655d06" />
+    <UnitTestResult executionId="d6184f95-0ec8-4035-86c4-6f130a2f9e34" testId="9c7de85e-ca84-f030-fc5a-32bd01a4b636" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Persistence_retry_reprepares_records_without_rerunning_handler_or_dispatch" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0059584" startTime="2026-09-08T19:21:52.1480477+10:00" endTime="2026-09-08T19:21:52.1480477+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d6184f95-0ec8-4035-86c4-6f130a2f9e34" />
+    <UnitTestResult executionId="3eb1dfcc-c746-46a8-95da-06fc89effaae" testId="e29c5af5-0db9-1cf4-288b-ace76e994052" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Inbox_profile_runs_handler_and_participant_inside_atomic_transaction" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0030908" startTime="2026-09-08T19:21:52.1209895+10:00" endTime="2026-09-08T19:21:52.1209900+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3eb1dfcc-c746-46a8-95da-06fc89effaae" />
+    <UnitTestResult executionId="abc2d6c0-f086-4de0-8e1b-aa5364a1d6df" testId="16ffa648-d159-5219-cd02-e79e3bd9ebc7" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Deferred_failure_discards_without_persisting_or_dispatching" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0039090" startTime="2026-09-08T19:21:52.1272369+10:00" endTime="2026-09-08T19:21:52.1272373+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="abc2d6c0-f086-4de0-8e1b-aa5364a1d6df" />
+    <UnitTestResult executionId="23c70e81-66b1-46a6-8d35-f313ee4dc2c4" testId="068c6790-17be-9f9a-dbc0-a6904160224a" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Deferred_success_persists_once_then_dispatches" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0040191" startTime="2026-09-08T19:21:52.1177710+10:00" endTime="2026-09-08T19:21:52.1177713+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23c70e81-66b1-46a6-8d35-f313ee4dc2c4" />
+    <UnitTestResult executionId="70ef91b7-0d48-4d46-9cb4-4694c4c55815" testId="8b471223-5818-ee58-d463-b1cff451060c" testName="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests.Multiple_executors_for_one_owner_fail_fast" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0392833" startTime="2026-09-08T19:21:52.0493852+10:00" endTime="2026-09-08T19:21:52.0493856+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="70ef91b7-0d48-4d46-9cb4-4694c4c55815" />
+    <UnitTestResult executionId="05d853c7-e678-46f3-9edb-1da0bf0f24f1" testId="0b6c1a49-80df-a04f-72d0-648a04160c76" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Query_bypasses_transaction_resolution" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0123368" startTime="2026-09-08T19:21:52.1486460+10:00" endTime="2026-09-08T19:21:52.1486461+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="05d853c7-e678-46f3-9edb-1da0bf0f24f1" />
+    <UnitTestResult executionId="25e5702b-e212-4e2d-8746-f050815d8ae1" testId="ed5cf2bd-a2a2-7906-55a6-94d9d879d249" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Resolution_failure_happens_before_handler_execution" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0181448" startTime="2026-09-08T19:21:52.1135318+10:00" endTime="2026-09-08T19:21:52.1135322+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25e5702b-e212-4e2d-8746-f050815d8ae1" />
+    <UnitTestResult executionId="0602d68f-20ec-4c67-9434-58bc90067d78" testId="40a4e802-f9c6-e74a-8791-e4ee6fa0114b" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Inbox_failure_rolls_back_semantically_and_does_not_dispatch" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0020901" startTime="2026-09-08T19:21:52.1231963+10:00" endTime="2026-09-08T19:21:52.1231968+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0602d68f-20ec-4c67-9434-58bc90067d78" />
+    <UnitTestResult executionId="288e0b64-a293-473d-8de2-e0e32092f6ec" testId="15a4c098-4916-5c48-8d46-65732cd11c95" testName="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests.Registers_each_shared_behavior_once_in_the_required_order" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0113950" startTime="2026-09-08T19:21:52.0022018+10:00" endTime="2026-09-08T19:21:52.0022196+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="288e0b64-a293-473d-8de2-e0e32092f6ec" />
+    <UnitTestResult executionId="42249a51-f3d9-4ac2-89d7-512387b7f8a7" testId="2848297a-99d4-7d95-dc1d-313d44bde111" testName="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Cancellation_propagates_without_becoming_a_failure_result" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0028109" startTime="2026-09-08T19:21:52.1479269+10:00" endTime="2026-09-08T19:21:52.1479270+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="42249a51-f3d9-4ac2-89d7-512387b7f8a7" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Cancellation_propagates_without_becoming_a_failure_result" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="2848297a-99d4-7d95-dc1d-313d44bde111">
+      <Execution id="42249a51-f3d9-4ac2-89d7-512387b7f8a7" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Cancellation_propagates_without_becoming_a_failure_result" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Deferred_failure_discards_without_persisting_or_dispatching" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="16ffa648-d159-5219-cd02-e79e3bd9ebc7">
+      <Execution id="abc2d6c0-f086-4de0-8e1b-aa5364a1d6df" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Deferred_failure_discards_without_persisting_or_dispatching" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Inbox_profile_runs_handler_and_participant_inside_atomic_transaction" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="e29c5af5-0db9-1cf4-288b-ace76e994052">
+      <Execution id="3eb1dfcc-c746-46a8-95da-06fc89effaae" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Inbox_profile_runs_handler_and_participant_inside_atomic_transaction" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Resolution_failure_happens_before_handler_execution" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="ed5cf2bd-a2a2-7906-55a6-94d9d879d249">
+      <Execution id="25e5702b-e212-4e2d-8746-f050815d8ae1" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Resolution_failure_happens_before_handler_execution" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Query_bypasses_transaction_resolution" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="0b6c1a49-80df-a04f-72d0-648a04160c76">
+      <Execution id="05d853c7-e678-46f3-9edb-1da0bf0f24f1" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Query_bypasses_transaction_resolution" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests.Registers_each_shared_behavior_once_in_the_required_order" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="15a4c098-4916-5c48-8d46-65732cd11c95">
+      <Execution id="288e0b64-a293-473d-8de2-e0e32092f6ec" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests" name="Registers_each_shared_behavior_once_in_the_required_order" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Persistence_retry_reprepares_records_without_rerunning_handler_or_dispatch" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="9c7de85e-ca84-f030-fc5a-32bd01a4b636">
+      <Execution id="d6184f95-0ec8-4035-86c4-6f130a2f9e34" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Persistence_retry_reprepares_records_without_rerunning_handler_or_dispatch" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Deferred_success_persists_once_then_dispatches" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="068c6790-17be-9f9a-dbc0-a6904160224a">
+      <Execution id="23c70e81-66b1-46a6-8d35-f313ee4dc2c4" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Deferred_success_persists_once_then_dispatches" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Inbox_failure_rolls_back_semantically_and_does_not_dispatch" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="40a4e802-f9c6-e74a-8791-e4ee6fa0114b">
+      <Execution id="0602d68f-20ec-4c67-9434-58bc90067d78" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Inbox_failure_rolls_back_semantically_and_does_not_dispatch" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests.Duplicate_pipeline_registration_fails_fast" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="f4bea2ea-c2d4-cc53-b1eb-35d9408de4ab">
+      <Execution id="790b4184-ad9e-42cb-8546-0fddde655d06" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests" name="Duplicate_pipeline_registration_fails_fast" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests.Multiple_executors_for_one_owner_fail_fast" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="8b471223-5818-ee58-d463-b1cff451060c">
+      <Execution id="70ef91b7-0d48-4d46-9cb4-4694c4c55815" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.PipelineRegistrationTests" name="Multiple_executors_for_one_owner_fail_fast" />
+    </UnitTest>
+    <UnitTest name="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests.Unexpected_exception_propagates_and_clears_pending_events" storage="d:\ifx\tests\ifx.buildingblocks.application.tests\bin\debug\net8.0\ifx.buildingblocks.application.tests.dll" id="393533ca-56cc-a72a-4ec4-f4cd4a7de71e">
+      <Execution id="2335a6b3-6ca6-45da-8300-9774b145d15a" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.BuildingBlocks.Application.Tests\bin\Debug\net8.0\IFX.BuildingBlocks.Application.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.BuildingBlocks.Application.Tests.TransactionBehaviorTests" name="Unexpected_exception_propagates_and_clears_pending_events" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="393533ca-56cc-a72a-4ec4-f4cd4a7de71e" executionId="2335a6b3-6ca6-45da-8300-9774b145d15a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4bea2ea-c2d4-cc53-b1eb-35d9408de4ab" executionId="790b4184-ad9e-42cb-8546-0fddde655d06" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9c7de85e-ca84-f030-fc5a-32bd01a4b636" executionId="d6184f95-0ec8-4035-86c4-6f130a2f9e34" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e29c5af5-0db9-1cf4-288b-ace76e994052" executionId="3eb1dfcc-c746-46a8-95da-06fc89effaae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16ffa648-d159-5219-cd02-e79e3bd9ebc7" executionId="abc2d6c0-f086-4de0-8e1b-aa5364a1d6df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="068c6790-17be-9f9a-dbc0-a6904160224a" executionId="23c70e81-66b1-46a6-8d35-f313ee4dc2c4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b471223-5818-ee58-d463-b1cff451060c" executionId="70ef91b7-0d48-4d46-9cb4-4694c4c55815" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0b6c1a49-80df-a04f-72d0-648a04160c76" executionId="05d853c7-e678-46f3-9edb-1da0bf0f24f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ed5cf2bd-a2a2-7906-55a6-94d9d879d249" executionId="25e5702b-e212-4e2d-8746-f050815d8ae1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="40a4e802-f9c6-e74a-8791-e4ee6fa0114b" executionId="0602d68f-20ec-4c67-9434-58bc90067d78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15a4c098-4916-5c48-8d46-65732cd11c95" executionId="288e0b64-a293-473d-8de2-e0e32092f6ec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2848297a-99d4-7d95-dc1d-313d44bde111" executionId="42249a51-f3d9-4ac2-89d7-512387b7f8a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="12" executed="12" passed="12" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.28)&#xD;
+[xUnit.net 00:00:00.13]   Discovering: IFX.BuildingBlocks.Application.Tests&#xD;
+[xUnit.net 00:00:00.16]   Discovered:  IFX.BuildingBlocks.Application.Tests&#xD;
+[xUnit.net 00:00:00.17]   Starting:    IFX.BuildingBlocks.Application.Tests&#xD;
+[xUnit.net 00:00:00.44]   Finished:    IFX.BuildingBlocks.Application.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

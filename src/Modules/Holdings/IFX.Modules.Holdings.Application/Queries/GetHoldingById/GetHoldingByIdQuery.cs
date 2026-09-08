@@ -1,4 +1,4 @@
-using IFX.Modules.Holdings.Abstractions.DTOs;
+using IFX.Modules.Holdings.Application.DTOs;
 using IFX.Modules.Holdings.Application.Common;
 using MediatR;
 

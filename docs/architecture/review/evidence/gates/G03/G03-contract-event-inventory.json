@@ -17,12 +17,13 @@
   },
   "counts": {
     "abstractionProjects": 4,
-    "readers": 4,
-    "readerMethods": 15,
-    "dtos": 7,
+    "contractProjects": 2,
+    "readers": 2,
+    "readerMethods": 2,
+    "dtos": 0,
     "integrationEvents": 20,
     "messagingAbstractionTypes": 4,
-    "abstractionProjectEdges": 42
+    "abstractionProjectEdges": 47
   },
   "abstractionProjects": [
     {
@@ -62,43 +63,44 @@
       "packageReferences": []
     }
   ],
+  "contractProjects": [
+    {
+      "name": "IFX.Modules.CRM.Contracts",
+      "module": "CRM",
+      "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Context.Contracts"
+      ],
+      "packageReferences": []
+    },
+    {
+      "name": "IFX.Modules.Registry.Contracts",
+      "module": "Registry",
+      "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Context.Contracts"
+      ],
+      "packageReferences": []
+    }
+  ],
   "publicSurface": [
     {
       "project": "IFX.Modules.CRM.Abstractions",
       "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.DTOs",
-      "name": "InvestorSummaryDto",
-      "kind": "dto",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/DTOs/InvestorSummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Interfaces/ICrmReader.cs",
-        "line": 8,
-        "kind": "reference",
-        "evidence": "Task<InvestorSummaryDto?> GetInvestorByIdAsync(Guid investorId, Guid tenantId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "TransactionCreatedEvent",
+      "namespace": "IFX.Modules.CRM.Abstractions.Events",
+      "name": "InvestmentAccountCreatedEvent",
       "kind": "integration-event",
       "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionCreatedEvent.cs",
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/InvestmentAccountCreatedEvent.cs",
         "line": 5
       },
       "baseType": "IntegrationEvent",
       "methods": [],
       "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/CreateRedemption/CreateRedemptionCommandHandler.cs",
-        "line": 49,
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/InvestmentAccounts/Commands/CreateInvestmentAccount/CreateInvestmentAccountCommandHandler.cs",
+        "line": 45,
         "kind": "reference",
-        "evidence": "_eventBuffer.Add(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount));"
+        "evidence": "_eventBuffer.Add(new InvestmentAccountCreatedEvent(account.Id, account.TenantId, account.AccountNumber, account.AccountType.ToString()));"
       }
     },
     {
@@ -134,7 +136,7 @@
       "methods": [],
       "sourceSites": {
         "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/CreateOrder/CreateOrderCommandHandler.cs",
-        "line": 73,
+        "line": 72,
         "kind": "reference",
         "evidence": "_eventBuffer.Add(new OrderSubmittedEvent(order.Id, tenantId, order.OrderType.ToString(), order.OrderReference, order.Legs.Count));"
       }
@@ -197,101 +199,33 @@
       }
     },
     {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.DTOs",
-      "name": "TransactionSummaryDto",
-      "kind": "dto",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/DTOs/TransactionSummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Interfaces/ITransactionReader.cs",
-        "line": 7,
-        "kind": "reference",
-        "evidence": "Task<TransactionSummaryDto?> GetTransactionByIdAsync(Guid transactionId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.DTOs",
-      "name": "OrderSummaryDto",
-      "kind": "dto",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/DTOs/OrderSummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Interfaces/ITransactionReader.cs",
-        "line": 8,
-        "kind": "reference",
-        "evidence": "Task<OrderSummaryDto?> GetOrderByIdAsync(Guid orderId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
+      "project": "IFX.Modules.Registry.Contracts",
       "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Interfaces",
-      "name": "IRegistryReader",
+      "namespace": "IFX.Modules.Registry.Contracts.V1",
+      "name": "IClassSubscriptionAvailabilityContract",
       "kind": "reader",
       "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Interfaces/IRegistryReader.cs",
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Contracts/V1/IClassSubscriptionAvailabilityContract.cs",
         "line": 5
       },
       "baseType": null,
       "methods": [
         {
-          "name": "GetFundByIdAsync",
-          "signature": "Task<FundSummaryDto?> GetFundByIdAsync(Guid fundId, Guid tenantId, CancellationToken ct = default);",
+          "name": "CheckAsync",
+          "signature": "Task<ClassSubscriptionAvailabilityResponse> CheckAsync( ClassSubscriptionAvailabilityRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
           "callSites": {
-            "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Services/RegistryReader.cs",
-            "line": 17,
+            "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
+            "line": 18,
             "kind": "reference",
-            "evidence": "public async Task<FundSummaryDto?> GetFundByIdAsync(Guid fundId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "GetClassByIdAsync",
-          "signature": "Task<ClassSummaryDto?> GetClassByIdAsync(Guid classId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Services/RegistryReader.cs",
-            "line": 34,
-            "kind": "reference",
-            "evidence": "public async Task<ClassSummaryDto?> GetClassByIdAsync(Guid classId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "IsClassOpenForSubscriptionAsync",
-          "signature": "Task<bool> IsClassOpenForSubscriptionAsync(Guid classId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Services/RegistryReader.cs",
-            "line": 53,
-            "kind": "reference",
-            "evidence": "public async Task<bool> IsClassOpenForSubscriptionAsync(Guid classId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "FundExistsAsync",
-          "signature": "Task<bool> FundExistsAsync(Guid fundId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Services/RegistryReader.cs",
-            "line": 61,
-            "kind": "reference",
-            "evidence": "public async Task<bool> FundExistsAsync(Guid fundId, Guid tenantId, CancellationToken ct = default)"
+            "evidence": "public async Task<AccountComplianceResponse> CheckAsync("
           }
         }
       ],
       "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/DependencyInjection.cs",
-        "line": 45,
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/Contracts/ClassSubscriptionAvailabilityContract.cs",
+        "line": 11,
         "kind": "reference",
-        "evidence": "services.AddScoped<IRegistryReader, RegistryReader>();"
+        "evidence": "IExecutionContextScopeFactory scopeFactory) : IClassSubscriptionAvailabilityContract"
       }
     },
     {
@@ -371,25 +305,6 @@
       }
     },
     {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "TransactionProcessedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionProcessedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs",
-        "line": 9,
-        "kind": "handler",
-        "evidence": "public class TransactionProcessedEventHandler : IIntegrationEventHandler<TransactionProcessedEvent>"
-      }
-    },
-    {
       "project": "IFX.Modules.Registry.Abstractions",
       "module": "Registry",
       "namespace": "IFX.Modules.Registry.Abstractions.Events",
@@ -411,89 +326,20 @@
     {
       "project": "IFX.Modules.Registry.Abstractions",
       "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.DTOs",
-      "name": "FundSummaryDto",
-      "kind": "dto",
+      "namespace": "IFX.Modules.Registry.Abstractions.Events",
+      "name": "ClassCreatedEvent",
+      "kind": "integration-event",
       "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/DTOs/FundSummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Interfaces/IRegistryReader.cs",
-        "line": 7,
-        "kind": "reference",
-        "evidence": "Task<FundSummaryDto?> GetFundByIdAsync(Guid fundId, Guid tenantId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.DTOs",
-      "name": "ClassSummaryDto",
-      "kind": "dto",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/DTOs/ClassSummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Interfaces/IRegistryReader.cs",
-        "line": 8,
-        "kind": "reference",
-        "evidence": "Task<ClassSummaryDto?> GetClassByIdAsync(Guid classId, Guid tenantId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.Holdings.Abstractions",
-      "module": "Holdings",
-      "namespace": "IFX.Modules.Holdings.Abstractions.Interfaces",
-      "name": "IHoldingsReader",
-      "kind": "reader",
-      "declaration": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Abstractions/Interfaces/IHoldingsReader.cs",
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/ClassCreatedEvent.cs",
         "line": 5
       },
-      "baseType": null,
-      "methods": [
-        {
-          "name": "GetHoldingByIdAsync",
-          "signature": "Task<HoldingSummaryDto?> GetHoldingByIdAsync(Guid holdingId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Services/HoldingsReader.cs",
-            "line": 20,
-            "kind": "reference",
-            "evidence": "public async Task<HoldingSummaryDto?> GetHoldingByIdAsync(Guid holdingId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "GetHoldingsByInvestmentAccountAsync",
-          "signature": "Task<IReadOnlyList<HoldingSummaryDto>> GetHoldingsByInvestmentAccountAsync(Guid tenantId, Guid investmentAccountId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Services/HoldingsReader.cs",
-            "line": 26,
-            "kind": "reference",
-            "evidence": "public async Task<IReadOnlyList<HoldingSummaryDto>> GetHoldingsByInvestmentAccountAsync(Guid tenantId, Guid investmentAccountId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "GetHoldingsByClassAsync",
-          "signature": "Task<IReadOnlyList<HoldingSummaryDto>> GetHoldingsByClassAsync(Guid tenantId, Guid classId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Services/HoldingsReader.cs",
-            "line": 32,
-            "kind": "reference",
-            "evidence": "public async Task<IReadOnlyList<HoldingSummaryDto>> GetHoldingsByClassAsync(Guid tenantId, Guid classId, CancellationToken ct = default)"
-          }
-        }
-      ],
+      "baseType": "IntegrationEvent",
+      "methods": [],
       "sourceSites": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/DependencyInjection.cs",
-        "line": 42,
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/FundClasses/Commands/CreateClass/CreateClassCommandHandler.cs",
+        "line": 54,
         "kind": "reference",
-        "evidence": "services.AddScoped<IHoldingsReader, HoldingsReader>();"
+        "evidence": "_eventBuffer.Add(new ClassCreatedEvent(fundClass.Id, fundClass.FundId, fundClass.TenantId, fundClass.ClassCode));"
       }
     },
     {
@@ -511,92 +357,33 @@
       "sourceSites": null
     },
     {
-      "project": "IFX.Modules.Holdings.Abstractions",
-      "module": "Holdings",
-      "namespace": "IFX.Modules.Holdings.Abstractions.DTOs",
-      "name": "HoldingSummaryDto",
-      "kind": "dto",
-      "declaration": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Abstractions/DTOs/HoldingSummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Abstractions/Interfaces/IHoldingsReader.cs",
-        "line": 7,
-        "kind": "reference",
-        "evidence": "Task<HoldingSummaryDto?> GetHoldingByIdAsync(Guid holdingId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
+      "project": "IFX.Modules.CRM.Contracts",
       "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Interfaces",
-      "name": "ICrmReader",
+      "namespace": "IFX.Modules.CRM.Contracts.V1",
+      "name": "IAccountComplianceContract",
       "kind": "reader",
       "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Interfaces/ICrmReader.cs",
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs",
         "line": 5
       },
       "baseType": null,
       "methods": [
         {
-          "name": "GetPartyByIdAsync",
-          "signature": "Task<PartySummaryDto?> GetPartyByIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default);",
+          "name": "CheckAsync",
+          "signature": "Task<AccountComplianceResponse> CheckAsync( AccountComplianceRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
           "callSites": {
-            "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Services/CrmReader.cs",
+            "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
             "line": 18,
             "kind": "reference",
-            "evidence": "public async Task<PartySummaryDto?> GetPartyByIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "GetInvestorByIdAsync",
-          "signature": "Task<InvestorSummaryDto?> GetInvestorByIdAsync(Guid investorId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Services/CrmReader.cs",
-            "line": 33,
-            "kind": "reference",
-            "evidence": "public async Task<InvestorSummaryDto?> GetInvestorByIdAsync(Guid investorId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "IsInvestorKycApprovedAsync",
-          "signature": "Task<bool> IsInvestorKycApprovedAsync(Guid investorId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Services/CrmReader.cs",
-            "line": 50,
-            "kind": "reference",
-            "evidence": "public async Task<bool> IsInvestorKycApprovedAsync(Guid investorId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "IsInvestmentAccountKycApprovedAsync",
-          "signature": "Task<bool> IsInvestmentAccountKycApprovedAsync(Guid investmentAccountId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Services/CrmReader.cs",
-            "line": 56,
-            "kind": "reference",
-            "evidence": "public async Task<bool> IsInvestmentAccountKycApprovedAsync(Guid investmentAccountId, Guid tenantId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "PartyExistsAsync",
-          "signature": "Task<bool> PartyExistsAsync(Guid partyId, Guid tenantId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Services/CrmReader.cs",
-            "line": 76,
-            "kind": "reference",
-            "evidence": "public async Task<bool> PartyExistsAsync(Guid partyId, Guid tenantId, CancellationToken ct = default)"
+            "evidence": "public async Task<AccountComplianceResponse> CheckAsync("
           }
         }
       ],
       "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/DependencyInjection.cs",
-        "line": 60,
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
+        "line": 11,
         "kind": "reference",
-        "evidence": "services.AddScoped<ICrmReader, CrmReader>();"
+        "evidence": "IExecutionContextScopeFactory scopeFactory) : IAccountComplianceContract"
       }
     },
     {
@@ -695,110 +482,41 @@
       }
     },
     {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "InvestmentAccountCreatedEvent",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "module": "Transaction",
+      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
+      "name": "TransactionCreatedEvent",
       "kind": "integration-event",
       "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/InvestmentAccountCreatedEvent.cs",
+        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionCreatedEvent.cs",
         "line": 5
       },
       "baseType": "IntegrationEvent",
       "methods": [],
       "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/InvestmentAccounts/Commands/CreateInvestmentAccount/CreateInvestmentAccountCommandHandler.cs",
-        "line": 45,
+        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/CreateRedemption/CreateRedemptionCommandHandler.cs",
+        "line": 49,
         "kind": "reference",
-        "evidence": "_eventBuffer.Add(new InvestmentAccountCreatedEvent(account.Id, account.TenantId, account.AccountNumber, account.AccountType.ToString()));"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.DTOs",
-      "name": "PartySummaryDto",
-      "kind": "dto",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/DTOs/PartySummaryDto.cs",
-        "line": 3
-      },
-      "baseType": null,
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Interfaces/ICrmReader.cs",
-        "line": 7,
-        "kind": "reference",
-        "evidence": "Task<PartySummaryDto?> GetPartyByIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default);"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "ClassCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/ClassCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/FundClasses/Commands/CreateClass/CreateClassCommandHandler.cs",
-        "line": 54,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new ClassCreatedEvent(fundClass.Id, fundClass.FundId, fundClass.TenantId, fundClass.ClassCode));"
+        "evidence": "_eventBuffer.Add(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount));"
       }
     },
     {
       "project": "IFX.Modules.Transaction.Abstractions",
       "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Interfaces",
-      "name": "ITransactionReader",
-      "kind": "reader",
+      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
+      "name": "TransactionProcessedEvent",
+      "kind": "integration-event",
       "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Interfaces/ITransactionReader.cs",
+        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionProcessedEvent.cs",
         "line": 5
       },
-      "baseType": null,
-      "methods": [
-        {
-          "name": "GetTransactionByIdAsync",
-          "signature": "Task<TransactionSummaryDto?> GetTransactionByIdAsync(Guid transactionId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Services/TransactionReader.cs",
-            "line": 14,
-            "kind": "reference",
-            "evidence": "public async Task<TransactionSummaryDto?> GetTransactionByIdAsync(Guid transactionId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "GetOrderByIdAsync",
-          "signature": "Task<OrderSummaryDto?> GetOrderByIdAsync(Guid orderId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Services/TransactionReader.cs",
-            "line": 21,
-            "kind": "reference",
-            "evidence": "public async Task<OrderSummaryDto?> GetOrderByIdAsync(Guid orderId, CancellationToken ct = default)"
-          }
-        },
-        {
-          "name": "GetOrdersByInvestmentAccountAsync",
-          "signature": "Task<IReadOnlyList<OrderSummaryDto>> GetOrdersByInvestmentAccountAsync(Guid tenantId, Guid investmentAccountId, CancellationToken ct = default);",
-          "callSites": {
-            "file": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Services/TransactionReader.cs",
-            "line": 31,
-            "kind": "reference",
-            "evidence": "public async Task<IReadOnlyList<OrderSummaryDto>> GetOrdersByInvestmentAccountAsync("
-          }
-        }
-      ],
+      "baseType": "IntegrationEvent",
+      "methods": [],
       "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/DependencyInjection.cs",
-        "line": 43,
-        "kind": "reference",
-        "evidence": "services.AddScoped<ITransactionReader, TransactionReader>();"
+        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs",
+        "line": 9,
+        "kind": "handler",
+        "evidence": "public class TransactionProcessedEventHandler : IIntegrationEventHandler<TransactionProcessedEvent>"
       }
     }
   ],
@@ -842,12 +560,20 @@
       "to": "App.Abstractions"
     },
     {
-      "from": "IFX.Modules.Registry.Infrastructure",
+      "from": "IFX.Modules.Registry.Composition",
       "to": "App.Abstractions"
     },
     {
+      "from": "IFX.Modules.Registry.Composition",
+      "to": "IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Contracts",
+      "to": "IFX.Platform.Context.Contracts"
+    },
+    {
       "from": "IFX.Modules.Registry.Infrastructure",
-      "to": "IFX.Modules.Registry.Abstractions"
+      "to": "App.Abstractions"
     },
     {
       "from": "IFX.Modules.Transaction.Abstractions",
@@ -862,28 +588,32 @@
       "to": "IFX.Modules.Transaction.Abstractions"
     },
     {
-      "from": "IFX.Modules.Transaction.Application",
-      "to": "IFX.Modules.CRM.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Transaction.Application",
-      "to": "IFX.Modules.Registry.Abstractions"
-    },
-    {
       "from": "IFX.Modules.Transaction.Composition",
       "to": "App.Abstractions"
     },
     {
       "from": "IFX.Modules.Transaction.Composition",
-      "to": "IFX.Modules.Transaction.Abstractions"
+      "to": "IFX.Modules.CRM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "to": "IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "to": "IFX.Modules.Registry.Contracts"
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
-      "to": "App.Abstractions"
+      "to": "IFX.Modules.CRM.Contracts"
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
-      "to": "IFX.Modules.Transaction.Abstractions"
+      "to": "IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "IFX.Platform.Context.Contracts"
     },
     {
       "from": "IFX.Platform.BackgroundJobs.Abstractions",
@@ -910,20 +640,24 @@
       "to": "IFX.Platform.Shared"
     },
     {
-      "from": "IFX.Modules.Registry.Composition",
-      "to": "IFX.Modules.Registry.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Registry.Composition",
+      "from": "IFX.Modules.Transaction.Infrastructure",
       "to": "App.Abstractions"
     },
     {
+      "from": "IFX.Platform.Notifications.Composition",
+      "to": "IFX.Platform.Notifications.Abstractions"
+    },
+    {
       "from": "IFX.Modules.Registry.Application",
-      "to": "IFX.Modules.Registry.Abstractions"
+      "to": "IFX.Modules.Registry.Contracts"
     },
     {
       "from": "IFX.Modules.Registry.Abstractions",
       "to": "IFX.Platform.Messaging.Abstractions"
+    },
+    {
+      "from": "IFX.BuildingBlocks.Application",
+      "to": "IFX.Platform.Context.Contracts"
     },
     {
       "from": "IFX.Modules.Auth.Composition",
@@ -946,24 +680,32 @@
       "to": "IFX.Modules.CRM.Abstractions"
     },
     {
+      "from": "IFX.Modules.CRM.Application",
+      "to": "IFX.Modules.CRM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "to": "IFX.Platform.Context.Contracts"
+    },
+    {
       "from": "IFX.Modules.CRM.Composition",
       "to": "App.Abstractions"
     },
     {
+      "from": "IFX.Modules.Registry.Application",
+      "to": "IFX.Modules.Registry.Abstractions"
+    },
+    {
       "from": "IFX.Modules.CRM.Composition",
-      "to": "IFX.Modules.CRM.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.CRM.Infrastructure",
-      "to": "IFX.Modules.CRM.Abstractions"
-    },
-    {
-      "from": "IFX.Platform.Notifications.Composition",
-      "to": "IFX.Platform.Notifications.Abstractions"
+      "to": "IFX.Modules.CRM.Contracts"
     },
     {
       "from": "IFX.Modules.CRM.Infrastructure",
       "to": "App.Abstractions"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Abstractions",
+      "to": "IFX.Platform.Messaging.Abstractions"
     },
     {
       "from": "IFX.Modules.Holdings.Application",
@@ -994,12 +736,8 @@
       "to": "App.Abstractions"
     },
     {
-      "from": "IFX.Modules.Holdings.Infrastructure",
-      "to": "IFX.Modules.Holdings.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Holdings.Abstractions",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "from": "IFX.Modules.CRM.Contracts",
+      "to": "IFX.Platform.Context.Contracts"
     },
     {
       "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",
@@ -1007,7 +745,7 @@
     }
   ],
   "governanceCapabilities": {
-    "codeowners": false,
+    "codeowners": true,
     "apiDiff": false,
     "serializationSnapshots": true,
     "contractCatalog": true,

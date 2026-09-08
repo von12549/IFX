@@ -98,6 +98,16 @@ public class GatePolicyBindingTests
     }
 
     [Fact]
+    public void Bound_shared_context_primitives_are_allowed_without_becoming_provider_edges()
+    {
+        var report = Analyzer.Analyze(Repo("src"), Repo("src/layerguard.json"));
+
+        Assert.DoesNotContain(report.Violations, violation =>
+            violation.ToProject == "IFX.Platform.Context.Contracts" &&
+            violation.Rule is OwnershipRules.ScopeRule or EmbeddedAdapterRules.ProviderRule);
+    }
+
+    [Fact]
     public void Bound_waiver_policy_rejects_overlong_and_unwaivable_entries()
     {
         var report = Analyzer.Analyze(Repo("src"), Repo("src/layerguard.json"));

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Plan 01 B2 contract boundary</title><desc id="desc">Before and after dependency boundary, trusted request context flow, and replaceable adapter seam.</desc>
+  <rect width="1400" height="760" fill="#08111f"/><style>text{font-family:Segoe UI,Arial,sans-serif;fill:#e8eef7}.h{font-size:28px;font-weight:700}.s{font-size:18px;font-weight:600}.b{font-size:15px}.box{fill:#13243b;stroke:#66d9ef;stroke-width:2;rx:12}.port{fill:#25304b;stroke:#f7c948;stroke-width:2;rx:12}.old{fill:#2a1d2f;stroke:#ff7aa2;stroke-width:2;rx:12}.line{stroke:#9fb3c8;stroke-width:3;fill:none;marker-end:url(#a)}.dash{stroke:#f7c948;stroke-width:3;fill:none;stroke-dasharray:9 7;marker-end:url(#a)}</style>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9fb3c8"/></marker></defs>
+  <text x="50" y="52" class="h">Plan 01 · B2 Contracts / Ports / Adapters</text>
+  <text x="55" y="105" class="s">Before: application reaches provider Reader</text><rect x="55" y="130" width="260" height="75" class="old"/><text x="78" y="175" class="b">Transaction.Application</text><rect x="420" y="130" width="310" height="75" class="old"/><text x="445" y="160" class="b">CRM / Registry Abstractions</text><text x="445" y="185" class="b">generic Reader + public DTOs</text><path d="M315 168H420" class="line"/><text x="770" y="172" class="b" fill="#ff9db8">Retired at B2</text>
+  <line x1="50" y1="245" x2="1350" y2="245" stroke="#334e68" stroke-width="2"/>
+  <text x="55" y="292" class="s">After: consumer owns the port; outer adapter is the only bridge</text>
+  <rect x="55" y="330" width="250" height="80" class="box"/><text x="77" y="365" class="b">Transaction.Application</text><text x="77" y="390" class="b">use cases</text>
+  <rect x="385" y="330" width="220" height="80" class="port"/><text x="420" y="365" class="b">Consumer Ports</text><text x="410" y="390" class="b">boolean capability</text><path d="M305 370H385" class="line"/>
+  <rect x="385" y="485" width="220" height="90" class="box"/><text x="407" y="520" class="b">Transaction.Infrastructure</text><text x="430" y="547" class="b">Integration Adapter</text><path d="M495 485V410" class="dash"/>
+  <rect x="690" y="485" width="235" height="90" class="port"/><text x="725" y="520" class="b">Provider Contracts V1</text><text x="720" y="547" class="b">BCL + Context only</text><path d="M605 530H690" class="line"/>
+  <rect x="1010" y="330" width="270" height="80" class="box"/><text x="1047" y="365" class="b">Provider.Application</text><text x="1042" y="390" class="b">validation + capability</text><path d="M1145 410V485H925" class="dash"/>
+  <rect x="1010" y="485" width="270" height="90" class="box"/><text x="1035" y="520" class="b">Provider.Infrastructure</text><text x="1045" y="547" class="b">local data-port adapter</text><path d="M1145 485V410" class="line"/>
+  <rect x="65" y="640" width="300" height="70" class="box"/><text x="91" y="670" class="b">Trusted ExecutionContext</text><text x="91" y="695" class="b">tenant / actor / correlation</text><path d="M365 675H495V575" class="line"/>
+  <rect x="480" y="640" width="285" height="70" class="port"/><text x="505" y="670" class="b">Future HTTP/gRPC Adapter</text><text x="505" y="695" class="b">replaces outer Port impl only</text><path d="M480 675H335V410" class="dash"/>
+  <rect x="950" y="640" width="330" height="70" class="box"/><text x="980" y="670" class="b">ApiHost → module Composition</text><text x="980" y="695" class="b">single business release</text><path d="M1115 640V575" class="line"/>
+</svg>

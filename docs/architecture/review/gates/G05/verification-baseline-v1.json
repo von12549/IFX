@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "gate": "G05",
   "owner": "xiaolong-feng",
-  "status": "pre-active-repository-verification",
+  "status": "plan01-b2-repository-verification",
   "minimumSolutionTests": 1041,
   "requiredResults": {
     "catalog": "passed",
@@ -26,5 +26,5 @@
     "HttpContextBoundaryTests",
     "SensitiveObservabilityTests"
   ],
-  "truthfulBoundary": "repository automation plus LayerGuard 03-A1/B1 only; real Plan 01/02 carriers, B2/B3/B4, production telemetry and final approvals remain external"
+  "truthfulBoundary": "repository automation plus real Plan 01 synchronous carriers and LayerGuard B2; Plan 02 event carriers, B3/B4, production telemetry and final approvals remain external"
 }

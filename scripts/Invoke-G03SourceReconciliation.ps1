@@ -13,11 +13,11 @@ try {
     $catalog = Get-Content -Raw -LiteralPath $catalogPath | ConvertFrom-Json -Depth 100
 
     $sourceKeys = @()
-    foreach ($surface in @($inventory.publicSurface)) {
+    foreach ($surface in @($inventory.publicSurface | Where-Object project -like '*.Abstractions')) {
         $sourceKeys += "$($surface.project)|$($surface.name)|"
         foreach ($method in @($surface.methods)) { $sourceKeys += "$($surface.project)|$($surface.name)|$($method.name)" }
     }
-    $catalogKeys = @($catalog.publicSurface | ForEach-Object { "$($_.project)|$($_.type)|$($_.member)" })
+    $catalogKeys = @($catalog.publicSurface | Where-Object lifecycle -eq 'LegacyPendingMigration' | ForEach-Object { "$($_.project)|$($_.type)|$($_.member)" })
     $unregistered = @($sourceKeys | Where-Object { $_ -notin $catalogKeys } | Sort-Object -Unique)
     $missingSource = @($catalogKeys | Where-Object { $_ -notin $sourceKeys } | Sort-Object -Unique)
     $protocolEvidence = @()
@@ -31,7 +31,7 @@ try {
             $consumerModule = ($catalog.consumers | Where-Object id -eq $protocol.consumers[0]).module
             $consumerName = ($catalog.modules | Where-Object id -eq $consumerModule).name
             $consumerRoot = Join-Path $repositoryRoot "src/Modules/$consumerName"
-            @((Get-ChildItem $consumerRoot -Recurse -File -Filter '*.cs' | Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } | Select-String -SimpleMatch $protocol.source.member)).Count -gt 0
+            @((Get-ChildItem $consumerRoot -Recurse -File -Filter '*.cs' | Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } | Select-String -SimpleMatch $protocol.source.type)).Count -gt 0
         }
         $protocolEvidence += [ordered]@{ identity = $protocol.identity; sourceExists = $sourceExists; memberExists = $memberExists; currentConsumerSiteExists = $consumerEvidence }
     }
