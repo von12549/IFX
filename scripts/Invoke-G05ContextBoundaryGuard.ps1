@@ -126,6 +126,25 @@ if ($Phase -ge 4) {
     $checks.phase4LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json')
 }
 
+if ($Phase -ge 5) {
+    $eventPolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/event-propagation-conformance-v1.json') | ConvertFrom-Json -Depth 20
+    $eventSchema = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json') | ConvertFrom-Json -Depth 20
+    $eventFixture = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json') | ConvertFrom-Json -Depth 20
+    $eventTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.Platform.ProtocolContracts.Tests/EventPropagationConformanceTests.cs')
+    $requiredEnvelopeFields = @('envelopeVersion', 'eventId', 'eventType', 'schemaVersion', 'occurredAt', 'producer', 'scope', 'correlationId', 'causationId', 'contentType', 'provenance')
+    $expectedConsumerOrder = @('producerAllowlist', 'envelopeAndSchemaVersion', 'eventIdentity', 'scopeAndTenant', 'correlationAndCausation', 'contentType', 'trace')
+    $checks.eventEnvelopeSchemaAndGoldenExist = $eventSchema.'$id' -eq 'urn:ifx:messaging:event-envelope:v1' -and @($requiredEnvelopeFields | Where-Object { $_ -notin $eventSchema.required }).Count -eq 0 -and $eventSchema.additionalProperties -and $eventFixture.envelopeVersion -eq 1 -and $eventFixture.eventType -match '^ifx\..+\.v1$'
+    $checks.eventProducerUsesTrustedExecutionContext = $eventPolicy.producerConstruction.producer -match 'trusted runtime' -and $eventTests -match 'ConformanceEventProducer' -and $eventTests -match 'context\.CorrelationId\.Value' -and $eventTests -match 'context\.OperationId\.Value'
+    $checks.outboxLogicalAndDeliveryDataAreSeparated = (@($eventPolicy.physicalSeparation.immutableLogical) -join ',') -eq 'envelope,payload' -and @($eventPolicy.physicalSeparation.mutableDelivery).Count -eq 4 -and $eventTests -match 'class FakeOutboxRecord' -and $eventTests -match 'class EventDeliveryMetadata'
+    $checks.transportMappingAndConsumerOrderAreFixed = @($eventPolicy.transportHeaders).Count -eq 14 -and (@($eventPolicy.consumerValidationOrder) -join ',') -eq ($expectedConsumerOrder -join ',') -and $eventTests -match 'static class FakeEventDispatcher' -and $eventTests -match 'class FakeInboundEventAdapter'
+    $checks.consumerEventExecutionSemanticsAreExplicit = $eventPolicy.consumerExecution.operationId -eq 'inbound EventId' -and $eventPolicy.consumerExecution.causationId -match 'inbound EventId' -and $eventTests -match 'new OperationId\(eventId\)' -and $eventTests -match 'new CausationId\(eventId\)'
+    $checks.retryReplayTraceAndTenantConformanceExist = $eventTests -match 'RetryAndReplay_PreserveLogicalEnvelopeAndPayload' -and $eventTests -match 'InvalidTrace_RestartsTraceWithoutRejectingBusinessEvent' -and $eventTests -match 'InvalidTenant_IsQuarantinedBeforeInboxOrApplication'
+    $checks.plan02EventContextHandoffExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md')
+    $checks.realMessagingDurabilityNotMisrepresented = $eventPolicy.status -eq 'pre-active-fake-carrier-conformance' -and $eventPolicy.realDurabilityEvidence -match 'required from Plan 02'
+    $checks.phase5EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase5-event-propagation.md')
+    $checks.phase5LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

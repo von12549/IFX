@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ifx:messaging:event-envelope:v1",
+  "title": "IFX Event Envelope V1",
+  "type": "object",
+  "required": [
+    "envelopeVersion",
+    "eventId",
+    "eventType",
+    "schemaVersion",
+    "occurredAt",
+    "producer",
+    "scope",
+    "correlationId",
+    "causationId",
+    "contentType",
+    "provenance"
+  ],
+  "properties": {
+    "envelopeVersion": { "const": 1 },
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "type": "string", "pattern": "^ifx\\.[a-z0-9-]+(?:\\.[a-z0-9-]+)+\\.v[1-9][0-9]*$" },
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "occurredAt": { "type": "string", "format": "date-time", "description": "UTC DateTimeOffset only" },
+    "producer": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{0,127}$" },
+    "scope": { "enum": ["tenant", "platform"] },
+    "tenantId": { "type": ["string", "null"], "format": "uuid" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "causationId": { "type": "string", "format": "uuid" },
+    "contentType": { "const": "application/json" },
+    "traceParent": { "type": ["string", "null"] },
+    "traceState": { "type": ["string", "null"] },
+    "provenance": { "enum": ["trusted", "synthesized"] }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "owner": "xiaolong-feng",
+  "status": "pre-active-fake-carrier-conformance",
+  "schema": "schemas/event-envelope-v1.schema.json",
+  "goldenFixture": "fixtures/event-envelope-v1.golden.json",
+  "producerConstruction": {
+    "eventId": "new once when the logical event is created",
+    "occurredAt": "UTC DateTimeOffset captured once",
+    "producer": "trusted runtime configuration, never business payload",
+    "scopeActor": "trusted current ExecutionContext",
+    "correlationId": "copy current ExecutionContext correlation identifier",
+    "causationId": "copy current ExecutionContext operation identifier",
+    "trace": "bounded snapshot captured once"
+  },
+  "physicalSeparation": {
+    "immutableLogical": ["envelope", "payload"],
+    "mutableDelivery": ["attemptCount", "lease", "nextAttemptAt", "lastErrorCode"],
+    "rule": "retry and replay mutate delivery metadata only"
+  },
+  "transportHeaders": [
+    "ifx-envelope-version",
+    "ifx-event-id",
+    "ifx-event-type",
+    "ifx-schema-version",
+    "ifx-occurred-at",
+    "ifx-producer",
+    "ifx-scope",
+    "ifx-tenant-id",
+    "ifx-correlation-id",
+    "ifx-causation-id",
+    "content-type",
+    "traceparent",
+    "tracestate",
+    "ifx-provenance"
+  ],
+  "consumerValidationOrder": [
+    "producerAllowlist",
+    "envelopeAndSchemaVersion",
+    "eventIdentity",
+    "scopeAndTenant",
+    "correlationAndCausation",
+    "contentType",
+    "trace"
+  ],
+  "consumerExecution": {
+    "operationId": "inbound EventId",
+    "correlationId": "validated inbound CorrelationId",
+    "causationId": "inbound EventId for downstream work and events",
+    "invalidTrace": "restart technical trace without rejecting the business event",
+    "invalidTenant": "quarantine before Inbox or Application"
+  },
+  "realDurabilityEvidence": "required from Plan 02; the fake Outbox/carrier/Inbox is not a durable implementation"
+}

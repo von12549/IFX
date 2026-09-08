@@ -43,6 +43,25 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 2 — immutable execution context lifetime, composition ownership and source rules.
 - [x] Phase 3 — HTTP trace, correlation and fail-closed tenant entry.
 - [x] Phase 4 — synchronous Contract context conformance.
+- [x] Phase 5 — Event Envelope and fake Outbox/carrier/Inbox propagation conformance.
+
+## Phase 5 acceptance
+
+- Event Envelope V1 has an authoritative JSON schema and deterministic golden fixture covering
+  required/optional fields, canonical identity, UTC occurrence time and unknown-field behavior.
+- Producer construction captures a fresh EventId, UTC occurrence, trusted configured producer,
+  tenant scope, correlation/causation and bounded trace snapshot exactly once.
+- Fake Outbox records physically distinguish immutable logical envelope/payload from mutable attempt,
+  lease, retry and error metadata; retry and replay preserve logical bytes.
+- Dispatcher maps the frozen envelope to transport headers. The inbound Adapter validates trusted
+  producer and business context before Inbox/Application, restarts malformed technical trace and
+  quarantines malformed tenant context.
+- Consumer execution uses inbound EventId as OperationId, preserves CorrelationId and uses that
+  EventId as downstream causation; Inbox deduplicates by consumer plus EventId.
+- The Plan 02 handoff requires the suite to run against real database Outbox/Inbox, Dispatcher and
+  transport. Fake success is not recorded as durability or Active event evidence.
+- 50/50 protocol/conformance tests, 1007/1007 solution tests and 179/179 LayerGuard tests passed;
+  the full build has 0 errors and the unchanged 20 warnings.
 
 ## Phase 4 acceptance
 

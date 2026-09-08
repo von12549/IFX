@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 4 Contract context conformance
+> 状态：Implementation In Progress / Phase 5 Event propagation conformance
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -229,15 +229,23 @@ Phase 4 证据：[`contract-context-conformance-v1.json`](../gates/G05/contract-
 
 ## Phase 5 — 建立 Event Envelope 与传播 Conformance
 
-- [ ] **Phase 5 完成**：Event schema 与运行时 carrier 的职责清晰，逻辑 Envelope 在 retry/replay 中保持不变。
+- [x] **Phase 5 完成**：Event schema 与运行时 carrier 的职责清晰，逻辑 Envelope 在 retry/replay 中保持不变。
 
-- [ ] G05-5.1 实现或生成 Event Envelope V1 schema/golden fixture，并验证 required/optional、canonical name、UTC DateTimeOffset 和 unknown-field 行为。
-- [ ] G05-5.2 定义 producer 在本地执行上下文中生成 EventId、OccurredAt、Producer、TenantScope、Correlation/Causation 与 trace snapshot 的规则。
-- [ ] G05-5.3 定义 Outbox record 对 immutable Envelope、payload 与 mutable delivery metadata 的物理分离要求。
-- [ ] G05-5.4 定义 transport header 映射和 Consumer Adapter 验证；Producer identity 由可信 runtime 注入，不由业务 payload 自报。
-- [ ] G05-5.5 定义 Consumer ExecutionContext：OperationId 使用入站 EventId，Correlation 不变，下游事件 CausationId 使用入站 EventId。
-- [ ] G05-5.6 建立 fake Outbox/carrier/Inbox conformance harness，验证 retry/replay identity、损坏 trace 恢复与损坏 tenant 拒绝。
-- [ ] G05-5.7 将同一 suite 交给子计划 2，在真实数据库 Outbox/Inbox、Dispatcher 和 transport 上重新执行。
+- [x] G05-5.1 实现或生成 Event Envelope V1 schema/golden fixture，并验证 required/optional、canonical name、UTC DateTimeOffset 和 unknown-field 行为。
+- [x] G05-5.2 定义 producer 在本地执行上下文中生成 EventId、OccurredAt、Producer、TenantScope、Correlation/Causation 与 trace snapshot 的规则。
+- [x] G05-5.3 定义 Outbox record 对 immutable Envelope、payload 与 mutable delivery metadata 的物理分离要求。
+- [x] G05-5.4 定义 transport header 映射和 Consumer Adapter 验证；Producer identity 由可信 runtime 注入，不由业务 payload 自报。
+- [x] G05-5.5 定义 Consumer ExecutionContext：OperationId 使用入站 EventId，Correlation 不变，下游事件 CausationId 使用入站 EventId。
+- [x] G05-5.6 建立 fake Outbox/carrier/Inbox conformance harness，验证 retry/replay identity、损坏 trace 恢复与损坏 tenant 拒绝。
+- [x] G05-5.7 将同一 suite 交给子计划 2，在真实数据库 Outbox/Inbox、Dispatcher 和 transport 上重新执行。
+
+Phase 5 证据：[`Event Envelope V1 schema`](../gates/G05/schemas/event-envelope-v1.schema.json)、
+[`golden fixture`](../gates/G05/fixtures/event-envelope-v1.golden.json)、
+[`event-propagation-conformance-v1.json`](../gates/G05/event-propagation-conformance-v1.json)、
+[`Plan 02 handoff`](../gates/G05/handoffs/plan02-event-context-handoff.md)、
+[`G05-phase5-event-propagation.md`](../evidence/gates/G05/G05-phase5-event-propagation.md)、
+[`G05-phase5-guard-report.json`](../evidence/gates/G05/G05-phase5-guard-report.json) 与
+[`G05-phase5-layerguard-report.json`](../evidence/gates/G05/G05-phase5-layerguard-report.json)。
 
 ## Phase 6 — 建立字段分类、最小化与整改目录
 
