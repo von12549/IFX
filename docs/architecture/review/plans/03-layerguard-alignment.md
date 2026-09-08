@@ -179,3 +179,6 @@
 - [ ] L-D08 LayerGuard 与 Gate 05 Catalog/schema/security/runtime tests 分工清晰，任一门禁失败都不能由另一门禁的绿色结果掩盖。
 - [ ] L-D09 中英文规则说明、依赖图、检查流程图、模式状态图及正反例完整且与门禁实现一致。
 - [ ] L-D10 新版迁移门禁在其他代码改造前启用；B1/B4 使用相同目标规则语义并形成可复查的前后对比。
+## G05 反向链接
+
+03-A1 只绑定 G05 的项目/依赖/类型结构规则；字段分类、敏感值、传播和 replay 语义继续由 G03 catalog 与 G05 schema/runtime/security tests 负责。边界与回交要求见 [G05 双语设计](../gates/G05/context-sensitive-data-boundary.zh-CN.md)。

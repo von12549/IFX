@@ -1,0 +1,16 @@
+flowchart TD
+    Start[Inbound request or message] --> Source{Trusted source?}
+    Source -- No --> Deny[Reject: source or producer denied]
+    Source -- Yes --> Scope{Declared scope}
+    Scope -- Public --> Public[No tenant context]
+    Scope -- Platform --> Admin{Authorized platform actor?}
+    Admin -- No --> Deny
+    Admin -- Yes --> Platform[Platform scope]
+    Scope -- Tenant --> Explicit{Explicit tenant present?}
+    Explicit -- Malformed or duplicate --> DenyTenant[Reject: tenant invalid]
+    Explicit -- Yes --> Member{Actor may access tenant?}
+    Explicit -- No --> Primary{Exactly one trusted primary tenant?}
+    Primary -- No --> DenyTenant
+    Primary -- Yes --> Tenant[Tenant scope]
+    Member -- No --> DenyTenant
+    Member -- Yes --> Tenant

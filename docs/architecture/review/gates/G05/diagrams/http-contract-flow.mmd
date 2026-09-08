@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant C as Client
+    participant H as HTTP Adapter
+    participant A as Consumer Application
+    participant CA as Contract Adapter
+    participant P as Provider
+    C->>H: request plus authentication facts
+    H->>H: create trace, correlation, operation, tenant scope
+    H->>A: trusted ExecutionContext
+    A->>CA: Port call
+    CA->>CA: create fresh RequestId and ContractRequestContext
+    CA->>P: versioned minimum context
+    P->>P: validate consumer, version, scope, actor/source, tenant
+    P-->>CA: stable result code
+    CA-->>A: transport-neutral result
+    A-->>H: safe result
+    H-->>C: stable error code plus CorrelationId

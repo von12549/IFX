@@ -157,3 +157,6 @@ Contracts 是模块对其他模块承诺的最小公共表面，不是 Applicati
 - [ ] C-D07 所有同步调用使用已验证 ContractRequestContext，Correlation/Causation/Tenant scope 在嵌套和异常场景语义一致。
 - [ ] C-D08 所有 Active Contract 字段有 C0-C4 分类和 purpose，C4 零暴露，C3 只有批准例外。
 - [ ] C-D09 中英文说明、架构图、流程图、映射表和规则证据完整且与实现一致。
+## G05 反向链接
+
+同步 Contract 必须消费 G05 的最小 `ContractRequestContext`、可信 ExecutionContext、tenant/consumer validation、C0-C4 准入与安全错误规则；回交条件见 [G05 双语设计](../gates/G05/context-sensitive-data-boundary.zh-CN.md) 和 [Plan 01 handoff](../gates/G05/handoffs/plan01-contract-context-handoff.md)。

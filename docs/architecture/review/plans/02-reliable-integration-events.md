@@ -168,3 +168,6 @@ Producer Application
 - [ ] E-D09 中英文说明、架构图、正常/失败流程图和规则证据完整且与实现一致。
 - [ ] E-D10 E2/E4 的真实实现证据已按 E8.9 回交 G01，G01-9.3 与 G01-DD05 已有可审计链接，并已进入三方最终签字流程。
 - [ ] E-D11 E2/E4 的真实数据库实现证据已按 E8.10 回交 G02，G02 Phase 10 与 G02-DD06 已有可审计链接，并已进入三方最终签字流程。
+## G05 反向链接
+
+真实 Outbox/Inbox/Dispatcher、quarantine/dead-letter/replay 必须实现 G05 Event Envelope、pre-Inbox 验证、失败矩阵、敏感诊断与兼容到期规则；回交条件见 [G05 双语设计](../gates/G05/context-sensitive-data-boundary.zh-CN.md) 和 [Plan 02 handoff](../gates/G05/handoffs/plan02-event-context-handoff.md)。

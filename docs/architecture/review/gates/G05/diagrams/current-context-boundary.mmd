@@ -1,0 +1,11 @@
+flowchart LR
+    Client[HTTP client] --> Headers[Headers and claims]
+    Headers --> Host[ApiHost middleware]
+    Host --> Current[Trusted ExecutionContext]
+    Current --> App[Module Application]
+    App --> Legacy[Legacy Reader or in-memory event]
+    Legacy --> Other[Other module]
+    App --> Logs[Operational logs]
+    note1[Current limit: no durable Outbox, Inbox, quarantine, or replay]:::warn
+    Legacy -.-> note1
+    classDef warn fill:#fff3cd,stroke:#8a6d3b,color:#1f1f1f

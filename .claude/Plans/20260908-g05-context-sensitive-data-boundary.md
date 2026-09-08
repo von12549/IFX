@@ -48,6 +48,22 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 7 — safe operational observability, governed audit separation and Auth secret-retention remediation.
 - [x] Phase 8 — stable failure, quarantine, replay and expiring compatibility conformance.
 - [x] Phase 9 — one local/CI repository verification entry point with hash-linked evidence.
+- [x] Phase 10 — bilingual design, rendered diagrams, matrices, rule mapping and backlinks.
+
+## Phase 10 acceptance
+
+- Chinese and English design documents carry the same ten G05 decision IDs, terminology and PRE-READY
+  boundary, including identifier lifecycles and forbidden substitutions.
+- Six Mermaid sources and matching SVG/PNG renders cover current/target architecture, HTTP/Contract,
+  Event/Outbox/transport/Inbox/downstream flow, tenant trust decisions and failure/replay state.
+- Visual QA caught and corrected a state-label parse defect; all final nodes, branches, lifelines and
+  terminal states are present and readable.
+- Failure and C0-C4 admission matrices, observability/error/compatibility operations, security status,
+  and rule-to-owner/code/catalog/test/metric/approval mapping are independently reviewable.
+- Architecture indexes, prerequisites, master plan and the three atomic plans contain G05 links and
+  ownership-preserving handoff boundaries.
+- Documentation validation, cumulative G05 Phase 10 guard and 179/179 LayerGuard tests passed. The
+  Phase 9 1041/1041 solution-test baseline remains applicable because Phase 10 changes no runtime code.
 
 ## Phase 9 acceptance
 

@@ -258,6 +258,27 @@ if ($Phase -ge 9) {
     $checks.phase9AutomationEvidenceExists = (Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-automation.md')) -and (Test-Path $verificationSummaryPath) -and (Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-layerguard-report.json')) -and $verificationSummary.result -eq 'passed' -and $verificationSummary.phase -eq 9 -and $verificationSummary.solutionTests.passed -ge $verificationBaseline.minimumSolutionTests
 }
 
+if ($Phase -ge 10) {
+    $zhDesign = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md')
+    $enDesign = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md')
+    $documentationReport = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase10-documentation-report.json') | ConvertFrom-Json -Depth 20
+    $diagramSources = @(Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/diagrams') -File -Filter '*.mmd')
+    $zhDecisions = @([regex]::Matches($zhDesign, 'G05-D\d{2}') | ForEach-Object Value | Select-Object -Unique | Sort-Object)
+    $enDecisions = @([regex]::Matches($enDesign, 'G05-D\d{2}') | ForEach-Object Value | Select-Object -Unique | Sort-Object)
+    $diagramTriplets = @($diagramSources | Where-Object { (Test-Path ([IO.Path]::ChangeExtension($_.FullName, 'svg'))) -and (Test-Path ([IO.Path]::ChangeExtension($_.FullName, 'png'))) })
+
+    $checks.bilingualDesignDecisionsAreConsistent = ($zhDecisions -join ',') -eq ($enDecisions -join ',') -and $zhDecisions.Count -eq 10 -and $documentationReport.checks.decisionIdsConsistent
+    $checks.terminologyLifecycleAndForbiddenSubstitutionAreDocumented = $documentationReport.checks.terminologyAndLifecycleTablesExist -and $zhDesign -match 'CorrelationId' -and $zhDesign -match 'OperationId' -and $zhDesign -match 'CausationId' -and $zhDesign -match 'EventId' -and $zhDesign -match 'TenantScope'
+    $checks.contextTrustAndFlowDiagramsAreRendered = $diagramSources.Count -eq 6 -and $diagramTriplets.Count -eq 6 -and $documentationReport.checks.requiredFlowsAreDocumented
+    $checks.failureClassificationAndAdmissionMatricesAreDocumented = $zhDesign -match '失败矩阵' -and $enDesign -match 'Failure matrix' -and $documentationReport.checks.classificationAdmissionMatrixExists
+    $checks.observabilityCompatibilityAndSecurityOperationsAreDocumented = $zhDesign -match 'Production pseudonym key' -and $enDesign -match 'Compatibility Adapter' -and $zhDesign -match 'Auth token-retention migration' -and $enDesign -match 'quarantine/dead-letter'
+    $checks.ruleMappingLinksOwnersCodeTestsMetricsAndApprovals = $documentationReport.checks.ruleMappingPresent -and $zhDesign -match 'Owner' -and $zhDesign -match 'Catalog/Schema' -and $zhDesign -match 'Metric/人工证据' -and $enDesign -match 'Metric/manual evidence'
+    $checks.documentationIndexesAndBacklinksAreComplete = $documentationReport.checks.architectureIndexesLinkG05 -and $documentationReport.checks.prerequisiteAndMasterLinkG05 -and $documentationReport.checks.downstreamPlansLinkBack
+    $checks.documentationPreReadyBoundaryIsTruthful = $documentationReport.checks.preReadyScopeExplicit -and $zhDesign -match '8 组 C3 例外' -and $enDesign -match 'Eight C3 exceptions remain Pending/PendingRemoval'
+    $checks.phase10EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase10-documentation.md')
+    $checks.phase10LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

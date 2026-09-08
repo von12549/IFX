@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 9 unified repository automation
+> 状态：Implementation In Progress / Phase 10 bilingual architecture documentation
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -326,18 +326,25 @@ Phase 9 证据：[`verification-baseline-v1.json`](../gates/G05/verification-bas
 
 ## Phase 10 — 架构与规则文档化
 
-- [ ] **Phase 10 完成**：所有设计、规则、图、目录与测试证据均可独立审阅，中文和英文含义一致。
+- [x] **Phase 10 完成**：所有设计、规则、图、目录与测试证据均可独立审阅，中文和英文含义一致。
 
-- [ ] G05-10.1 创建中文设计文档 `docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md`。
-- [ ] G05-10.2 创建对应英文文档 `docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md`，保持决策编号和术语一致。
-- [ ] G05-10.3 创建 Correlation/Operation/Causation/Event/Trace/Tenant 术语表、生命周期表和禁止替代表。
-- [ ] G05-10.4 创建当前/目标上下文架构图，以及 HTTP、Contract、Outbox/transport/Inbox、downstream event 的流程图。
-- [ ] G05-10.5 创建 trust boundary、tenant selection、context rejection、retry/dead-letter/replay 状态图与失败矩阵。
-- [ ] G05-10.6 创建 C0-C4 分类、Contract/Event/日志/trace/审计准入矩阵和字段级 catalog。
-- [ ] G05-10.7 创建日志脱敏、错误响应、Compatibility Adapter 和安全 finding 的操作/整改说明。
-- [ ] G05-10.8 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
-- [ ] G05-10.9 将每条规则映射到 owner、代码位置、Catalog validator、LayerGuard、schema/security/integration test、指标或人工审批。
-- [ ] G05-10.10 更新架构索引、前置/总计划和三个原子计划的双向链接，完成中英文一致性与安全评审。
+- [x] G05-10.1 创建中文设计文档 `docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md`。
+- [x] G05-10.2 创建对应英文文档 `docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md`，保持决策编号和术语一致。
+- [x] G05-10.3 创建 Correlation/Operation/Causation/Event/Trace/Tenant 术语表、生命周期表和禁止替代表。
+- [x] G05-10.4 创建当前/目标上下文架构图，以及 HTTP、Contract、Outbox/transport/Inbox、downstream event 的流程图。
+- [x] G05-10.5 创建 trust boundary、tenant selection、context rejection、retry/dead-letter/replay 状态图与失败矩阵。
+- [x] G05-10.6 创建 C0-C4 分类、Contract/Event/日志/trace/审计准入矩阵和字段级 catalog。
+- [x] G05-10.7 创建日志脱敏、错误响应、Compatibility Adapter 和安全 finding 的操作/整改说明。
+- [x] G05-10.8 Mermaid 源文件与可直接查看的 SVG/PNG 一并保存，并完成渲染检查。
+- [x] G05-10.9 将每条规则映射到 owner、代码位置、Catalog validator、LayerGuard、schema/security/integration test、指标或人工审批。
+- [x] G05-10.10 更新架构索引、前置/总计划和三个原子计划的双向链接，完成中英文一致性与安全评审。
+
+Phase 10 证据：[中文设计](../gates/G05/context-sensitive-data-boundary.zh-CN.md)、
+[English design](../gates/G05/context-sensitive-data-boundary.en.md)、
+[`G05-phase10-documentation.md`](../evidence/gates/G05/G05-phase10-documentation.md)、
+[`G05-phase10-documentation-report.json`](../evidence/gates/G05/G05-phase10-documentation-report.json)、
+[`G05-phase10-guard-report.json`](../evidence/gates/G05/G05-phase10-guard-report.json) 与
+[`G05-phase10-layerguard-report.json`](../evidence/gates/G05/G05-phase10-layerguard-report.json)。
 
 ## Phase 11 — Gate 关闭与子计划交接
 

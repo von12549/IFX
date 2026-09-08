@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "phase": 10,
+  "result": "passed",
+  "mermaidCliVersion": "11.17.0",
+  "checks": {
+    "bilingualDocumentsExist": true,
+    "decisionIdsConsistent": true,
+    "terminologyAndLifecycleTablesExist": true,
+    "allSixDiagramSourcesRendered": true,
+    "requiredFlowsAreDocumented": true,
+    "classificationAdmissionMatrixExists": true,
+    "ruleMappingPresent": true,
+    "preReadyScopeExplicit": true,
+    "architectureIndexesLinkG05": true,
+    "prerequisiteAndMasterLinkG05": true,
+    "downstreamPlansLinkBack": true
+  }
+}

@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant A as Producer Application
+    participant O as Module Outbox
+    participant D as Dispatcher
+    participant T as Transport
+    participant V as Inbound Adapter
+    participant I as Consumer Inbox
+    participant C as Consumer Application
+    A->>O: freeze Event Envelope and payload in local transaction
+    O->>D: immutable logical bytes plus delivery state
+    D->>T: map frozen headers and payload
+    T->>V: at-least-once delivery
+    V->>V: validate type, version, IDs, producer, tenant
+    alt permanent or security failure
+        V-->>V: quarantine, audit, bounded alert
+    else valid event
+        V->>I: dedupe by consumer plus EventId
+        I->>C: ExecutionContext with OperationId = EventId
+        C-->>O: downstream event with causation = inbound EventId
+    end

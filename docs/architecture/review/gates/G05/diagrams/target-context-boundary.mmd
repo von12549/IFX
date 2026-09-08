@@ -1,0 +1,14 @@
+flowchart LR
+    Ingress[Trusted ingress Adapter] --> Exec[Immutable ExecutionContext]
+    Exec --> App[Consumer Application Port]
+    App --> Contract[Provider Contract Adapter]
+    App --> Outbox[(Module-owned Outbox)]
+    Outbox --> Dispatcher[Dispatcher and carrier]
+    Dispatcher --> Validate[Pre-Inbox validation]
+    Validate --> Inbox[(Consumer-owned Inbox)]
+    Inbox --> Consumer[Consumer Application]
+    Validate --> Quarantine[(Quarantine or dead-letter)]
+    Exec --> Telemetry[Central redaction boundary]
+    Catalog[G03 field catalog] -. admission .-> Contract
+    Catalog -. admission .-> Outbox
+    LayerGuard[LayerGuard] -. structure .-> App

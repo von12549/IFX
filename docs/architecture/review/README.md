@@ -30,6 +30,7 @@ This directory records the source-verified current architecture and the proposed
 | G02 database boundary / 数据库边界 | [G02 中文](gates/G02/database-boundary.zh-CN.md) | [G02 English](gates/G02/database-boundary.en.md) |
 | G03 Contract/Event governance / Contract/Event 治理 | [G03 中文](gates/G03/contract-event-governance.zh-CN.md) | [G03 English](gates/G03/contract-event-governance.en.md) |
 | G04 deployment/runtime boundary / 部署与运行边界 | [G04 中文](gates/G04/deployment-runtime-boundary.zh-CN.md) | [G04 English](gates/G04/deployment-runtime-boundary.en.md) |
+| G05 context/sensitive-data boundary / 上下文与敏感数据边界 | [G05 中文](gates/G05/context-sensitive-data-boundary.zh-CN.md) | [G05 English](gates/G05/context-sensitive-data-boundary.en.md) |
 
 ## Implementation plans / 实施计划
 
@@ -64,6 +65,12 @@ This directory records the source-verified current architecture and the proposed
 | 20 | [G04 dispatcher and backpressure / Dispatcher 与背压](gates/G04/diagrams/dispatcher-backpressure.svg) |
 | 21 | [G04 consumer-first release / Consumer-first 发布](gates/G04/diagrams/consumer-first-release.svg) |
 | 22 | [G04 failure and rollback / 失败与回退](gates/G04/diagrams/failure-rollback.svg) |
+| 23 | [G05 current context boundary / 当前上下文边界](gates/G05/diagrams/current-context-boundary.svg) |
+| 24 | [G05 target context boundary / 目标上下文边界](gates/G05/diagrams/target-context-boundary.svg) |
+| 25 | [G05 HTTP and Contract flow / HTTP 与 Contract 流程](gates/G05/diagrams/http-contract-flow.svg) |
+| 26 | [G05 Event context flow / Event 上下文流程](gates/G05/diagrams/event-context-flow.svg) |
+| 27 | [G05 tenant trust decision / Tenant 信任判定](gates/G05/diagrams/tenant-trust-decision.svg) |
+| 28 | [G05 failure and replay state / 失败与重放状态](gates/G05/diagrams/failure-replay-state.svg) |
 
 ## Recommended reading order / 建议阅读顺序
 

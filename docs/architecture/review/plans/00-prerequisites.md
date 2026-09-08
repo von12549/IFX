@@ -99,6 +99,8 @@ G04 仓库内可实现基线已完成；[`PRE-READY closeout`](../evidence/gates
 - [ ] **Gate 5 前置放行**：公共同步调用和事件 schema 所需的追踪、租户、失败及敏感数据规则已冻结，最小 primitives/catalog extension/conformance 要求可供子计划使用。
 
 实施与最终验收：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md)。三组架构决策已经确认；真实 Contract/Event carrier 由子计划实施并回交证据。
+G05 双语设计与可渲染流程基线见[中文](../gates/G05/context-sensitive-data-boundary.zh-CN.md)与
+[English](../gates/G05/context-sensitive-data-boundary.en.md)；当前为 PRE-READY，不提前代表真实载体或生产批准。
 
 - [ ] OPS1 统一 CorrelationId、OperationId、CausationId、EventId、显式 Tenant/Platform scope 和 W3C trace 在 HTTP、同步 Contract、Outbox、transport 与 Inbox 间的传播及失败规则。
 - [ ] OPS3 建立 C0-C4 Contract/Event/日志/trace/审计字段分级、目的限制与双层脱敏规则，禁止凭据和非必要个人数据进入公共 payload。

@@ -5,6 +5,7 @@
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
 > G04 运行基线：[中文](../gates/G04/deployment-runtime-boundary.zh-CN.md) / [English](../gates/G04/deployment-runtime-boundary.en.md)；[PRE-READY closeout](../evidence/gates/G04/G04-phase12-handoff.md) 未关闭 Gate，最终关闭依赖 E3/E4/E6、G05、L5.1/L5.2、生产演练与五方批准。
+> G05 上下文与敏感数据基线：[中文](../gates/G05/context-sensitive-data-boundary.zh-CN.md) / [English](../gates/G05/context-sensitive-data-boundary.en.md)；repository conformance 不替代 Plan 01/02 真实载体、03-A1 或生产安全证据。
 > 计划概述与审查结论：[`README.md`](README.md)
 > 进度规则：只有当某项的实现、验证与必要文档证据均已完成时，才勾选该项；Phase 内全部项目完成后，才勾选 Phase。
 

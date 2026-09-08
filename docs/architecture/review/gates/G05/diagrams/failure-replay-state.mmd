@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> Validate
+    Validate --> Continue: Diagnostic
+    Validate --> Reject: Client
+    Validate --> Complete: Business
+    Validate --> Retry: Transient
+    Validate --> Quarantine: Permanent
+    Validate --> SecurityHold: Security
+    Retry --> Validate: bounded retry, same logical bytes
+    Retry --> Quarantine: attempts exhausted
+    SecurityHold --> AuditAlert: safe audit and bounded alert
+    Quarantine --> Replay: approved replay
+    Replay --> Duplicate: completed Inbox, same EventId
+    Replay --> Validate: incomplete Inbox, same EventId
+    Quarantine --> Reprocess: separately approved request
+    Reprocess --> Validate: new RequestId, original EventId unchanged
+    Continue --> [*]
+    Reject --> [*]
+    Complete --> [*]
+    Duplicate --> [*]
+    AuditAlert --> [*]
