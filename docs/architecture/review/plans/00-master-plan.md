@@ -1,6 +1,6 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Gate 1–5 PRE-READY 前置放行完成 / Master Phase 0 决策评审与 03-A1 待实施（2026-09-08）
+> 状态：Gate 1–5 PRE-READY 前置放行完成 / M0.2–M0.4 决策已确认，M0.5 ownership 待完成 / 03-A1 待实施（2026-09-08）
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
@@ -32,18 +32,18 @@
 
 ## 关键架构约束
 
-- [ ] M-C01 提供方拥有并版本化自己的公共 `Contracts`；Contracts 只表达模块能力和已发生的公共事实。
-- [ ] M-C02 提供方 Application 实现自身同步 Contract；模块 Composition 负责把实现注册到根 DI 容器。
-- [ ] M-C03 消费方 Application 只依赖自己定义的 Port，不直接引用其他模块的 Contracts。
-- [ ] M-C04 消费方的 Integration Adapter 位于外层，引用“自己的 Application Port + 提供方 Contracts”，并完成协议/模型转换。
-- [ ] M-C05 Presentation 是入站 HTTP Adapter，可以含路由、认证和协议映射；它与 Contracts 都不得包含业务规则或直接访问 DbContext。
-- [ ] M-C06 Domain Event 与 Integration Event 分离；Integration Event 是跨边界、可版本化、可重复投递的公共事实。
-- [ ] M-C07 ApiHost 仅承担组合根和宿主职责，不实现模块业务逻辑，也不代替模块实现 Contracts。
-- [ ] M-C08 每个模块保持自己的数据和本地事务边界；跨模块工作流不宣称共享 ACID 原子性。
-- [ ] M-C09 所有架构和规则设计完成后必须文档化，至少包含设计解释、架构图、关键流程图、失败/状态说明及规则到验证机制的映射。
-- [ ] M-C10 五个业务模块保持同一后端发布边界；同 release 的 API/Worker Runtime Roles 可独立扩容，但不能独立选择业务模块版本。
-- [ ] M-C11 业务关联、单次操作、直接因果、事件身份、W3C trace 和租户 scope 使用不同语义；所有入口由可信 Adapter 建立显式 ExecutionContext。
-- [ ] M-C12 Contract/Event 公共字段必须完成 C0-C4 分类和目的登记；C4 Secret 零暴露，普通日志/trace 不成为敏感数据旁路。
+- [x] M-C01 提供方拥有并版本化自己的公共 `Contracts`；Contracts 只表达模块能力和已发生的公共事实。
+- [x] M-C02 提供方 Application 实现自身同步 Contract；模块 Composition 负责把实现注册到根 DI 容器。
+- [x] M-C03 消费方 Application 只依赖自己定义的 Port，不直接引用其他模块的 Contracts。
+- [x] M-C04 消费方的 Integration Adapter 位于外层，引用“自己的 Application Port + 提供方 Contracts”，并完成协议/模型转换。
+- [x] M-C05 Presentation 是入站 HTTP Adapter，可以含路由、认证和协议映射；它与 Contracts 都不得包含业务规则或直接访问 DbContext。
+- [x] M-C06 Domain Event 与 Integration Event 分离；Integration Event 是跨边界、可版本化、可重复投递的公共事实。
+- [x] M-C07 ApiHost 仅承担组合根和宿主职责，不实现模块业务逻辑，也不代替模块实现 Contracts。
+- [x] M-C08 每个模块保持自己的数据和本地事务边界；跨模块工作流不宣称共享 ACID 原子性。
+- [x] M-C09 所有架构和规则设计完成后必须文档化，至少包含设计解释、架构图、关键流程图、失败/状态说明及规则到验证机制的映射。
+- [x] M-C10 五个业务模块保持同一后端发布边界；同 release 的 API/Worker Runtime Roles 可独立扩容，但不能独立选择业务模块版本。
+- [x] M-C11 业务关联、单次操作、直接因果、事件身份、W3C trace 和租户 scope 使用不同语义；所有入口由可信 Adapter 建立显式 ExecutionContext。
+- [x] M-C12 Contract/Event 公共字段必须完成 C0-C4 分类和目的登记；C4 Secret 零暴露，普通日志/trace 不成为敏感数据旁路。
 
 ## 依赖与实施顺序
 
@@ -94,9 +94,9 @@ Gate 1-5 最终关闭 + 总体验收
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
 - [x] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
-- [ ] M0.2 评审并确认上方 M-C01 至 M-C12；未达成一致的项目记录为 ADR 决策，不直接进入实现。
-- [ ] M0.3 决定 `Contracts` 的物理命名迁移策略：一次性项目重命名，或先兼容 namespace/package、后移除 `Abstractions`。
-- [ ] M0.4 决定 Integration Adapter 的物理组织：保留在 `Infrastructure/Integrations`，或拆分独立项目；选择须能被 LayerGuard 精确验证。
+- [x] M0.2 评审并确认上方 M-C01 至 M-C12；确认记录：[`../evidence/plan00-phase0-architecture-decisions.md`](../evidence/plan00-phase0-architecture-decisions.md)。
+- [x] M0.3 采用渐进式物理命名迁移：先建立 `*.Contracts` 项目/兼容 namespace 与最小 shim，逐项迁移消费者后，在 Plan 01 Phase 6 删除 `*.Abstractions` 与过期 shim；不执行不可分割的一次性全仓重命名。
+- [x] M0.4 Integration Adapter 初期保留在消费方 `Infrastructure/Integrations/<Provider>`；仅当数量、技术栈或独立部署约束显著增加且有批准记录时拆为独立项目，两种形态均由 LayerGuard 精确识别。
 - [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
 - [x] M0.6 记录 Gate 前置放行后的构建、事务/migration 测试与 B0.5 结果，作为 03-A1 和后续“无回归”输入；正式架构差异仍以 B1/B4 为准。证据：[`../evidence/plan00-prerequisite-release.md`](../evidence/plan00-prerequisite-release.md)。
 

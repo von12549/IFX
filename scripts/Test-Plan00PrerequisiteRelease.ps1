@@ -22,7 +22,10 @@ $checks = [ordered]@{
     policyReadyStillOpen = $prerequisites -match '(?m)^- \[ \] \*\*LG-POLICY-READY\*\*' -and @(1..3 | Where-Object { $prerequisites -notmatch "(?m)^- \[ \] LG-D0$_ " }).Count -eq 0
     finalClosureStillOpen = $prerequisites -match '(?m)^- \[ \] \*\*Gate 最终关闭\*\*'
     masterPrerequisiteReleased = $master -match '(?m)^- \[x\] M-PRE '
-    masterPhase0StillHonest = $master -match '(?m)^- \[ \] \*\*Phase 0 完成\*\*' -and $master -match '(?m)^- \[ \] M0\.2 ' -and $master -match '(?m)^- \[ \] M0\.5 '
+    masterPhase0StillHonest =
+        $master -match '(?m)^- \[ \] \*\*Phase 0 完成\*\*' -and
+        @(2..4 | Where-Object { $master -notmatch "(?m)^- \[x\] M0\.$_ " }).Count -eq 0 -and
+        $master -match '(?m)^- \[ \] M0\.5 '
     masterPhase1StillOpen = $master -match '(?m)^- \[ \] \*\*Phase 1 完成\*\*' -and $master -match '(?m)^- \[ \] M1\.1 '
     gatePlansSeparateReleaseFromClosure =
         $g03Plan -match '(?m)^- \[x\] G03-9\.7 ' -and $g03Plan -match '(?m)^- \[ \] G03-9\.8 ' -and
@@ -44,7 +47,7 @@ $report = [ordered]@{
     checkedAt = '2026-09-08'
     checks = $checks
     retainedBlockers = [ordered]@{ G03 = $g03Status.counts.blockers; G04 = @($g04Status.blockers).Count; G05 = $g05Status.counts.blockers }
-    next = 'Complete Master Phase 0 decisions and ownership, then execute Plan 03 Phase 5 / 03-A1 and save formal B1.'
+    next = 'Complete M0.5 delivery ownership, milestones, and accepting parties, then execute Plan 03 Phase 5 / 03-A1 and save formal B1.'
 }
 
 $resolvedReportPath = if ([IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Repo $ReportPath }
