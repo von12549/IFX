@@ -119,7 +119,7 @@
     "opsEvidenceMapCoversRequiredOutcomes": true,
     "allOpenExceptionsAndFindingsAreGoverned": true,
     "closeoutAuditPassesWithoutClaimingClosure": true,
-    "gateAndFinalApprovalRemainUnchecked": true,
+    "prerequisiteReleasedAndFinalApprovalOpen": true,
     "productionAndDownstreamEvidenceNotMisrepresented": true,
     "phase11HandoffEvidenceExists": true,
     "phase11LayerGuardEvidenceExists": true

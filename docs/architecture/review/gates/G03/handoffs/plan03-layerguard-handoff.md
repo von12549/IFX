@@ -4,8 +4,8 @@
 
 - Recorded accountable owner: `xiaolong-feng` / repository handle `@von12549`, acting for the
   catalog and repository-maintainer roles.
-- Delivery owner: Plan 03 L5.1 implementer, approved by the accountable owner. An independent backup
-  owner is not evidenced and remains a G03 closure blocker.
+- Delivery owner: Plan 03 L5.1 implementer, approved by the accountable owner. Junxi /
+  `@jimkeecn` is the authorized backup owner recorded by G03.
 - Revisit trigger: immediately when Plan 03 L5.1 begins, again after Plan 01 (B2) and Plan 02 (B3),
   and before strict B4/zero-unwaived-debt mode is enabled.
 

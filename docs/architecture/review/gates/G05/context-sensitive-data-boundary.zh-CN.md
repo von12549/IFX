@@ -145,7 +145,7 @@ Amount/Units/NAV/KYC 等 C2/C3 仅在目录登记的投影目的、加密、访�
 | D04 | Plan 01 | ContractRequestContext | G03 Contract entries | Contract conformance | real carrier pending |
 | D05 | Plan 02 | EventEnvelope | V1 schema/golden | event conformance | real Outbox pending |
 | D06 | Plan 02 | pre-Inbox policy | failure policy | failure matrix tests | producer/tenant metrics |
-| D07 | G03/Security | field catalog | sole G03 validator | 13 mutation tests | C3 approvals |
+| D07 | G03/Security | field catalog | sole G03 validator | 15 mutation tests | C3 approvals |
 | D08 | Security/Ops | redactor/sink policy | observability policy | sentinel tests | production attestations pending |
 | D09 | Plan 02/Ops | replay/compat policy | adapter registry | replay/expiry tests | audit/alert pending |
 | D10 | Architecture | unified script/workflow | verification baseline | G05 + LayerGuard + TRX | final approvals pending |
@@ -155,4 +155,3 @@ Amount/Units/NAV/KYC 等 C2/C3 仅在目录登记的投影目的、加密、访�
 仓库内 C4 暴露已阻断，Auth secret columns 已有 roll-forward 删除 migration，普通 telemetry 的 sentinel 测试通过。8 组 C3 例外仍是 Pending/PendingRemoval，不视为批准。生产 pseudonym key、sink ACL、retention/deletion、tamper-evidence、audit query、真实 alert 与 migration 执行证据仍待补充。
 
 本设计处于 PRE-READY。最终关闭必须同时取得 Plan 01 真实 Contract carriers、Plan 02 durable Outbox/Inbox/Dispatcher/quarantine/replay、LayerGuard 03-A1 直接 policy binding、G04 runtime handoff，以及架构、模块、Platform、安全和运维批准。
-

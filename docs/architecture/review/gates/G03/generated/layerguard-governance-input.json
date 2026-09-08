@@ -1,31 +1,37 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "7fa7a5e77846d04e7b26815cc2aca03a91a6beaf9672d6de33fae30ba7861318",
+  "catalogSha256": "dc0a865a2471291f7c2015f8ab4b90f7734782d07e42ab17b91d1261dd70ac88",
   "moduleOwnership": [
     {
       "module": "Auth",
-      "owner": "xiaolong-feng"
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
     },
     {
       "module": "CRM",
-      "owner": "xiaolong-feng"
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
     },
     {
       "module": "Holdings",
-      "owner": "xiaolong-feng"
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
     },
     {
       "module": "Platform Messaging",
-      "owner": "xiaolong-feng"
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
     },
     {
       "module": "Registry",
-      "owner": "xiaolong-feng"
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
     },
     {
       "module": "Transaction",
-      "owner": "xiaolong-feng"
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
     }
   ],
   "contractRoles": {

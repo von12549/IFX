@@ -19,15 +19,9 @@
     "activeProtocols": 0,
     "legacyItems": 46,
     "overdueLegacyItems": 0,
-    "blockers": 6
+    "blockers": 5
   },
   "blockers": [
-    {
-      "code": "backup-owner-unassigned",
-      "owner": "repository-maintainer",
-      "revisitWhen": "before first Proposed-to-Active transition or Gate closure",
-      "currentEvidence": "approvalPolicy.backupOwner is null"
-    },
     {
       "code": "protocols-not-active",
       "owner": "Plans 01/02 provider and consumer owners",

@@ -30,11 +30,11 @@ $checks = [ordered]@{
     repositoryVerificationPassed = $verification.result -eq 'passed' -and $verification.solutionTests.passed -ge 1041 -and $verification.solutionTests.failed -eq 0
     realContractAndMessagingEvidenceStillPending = -not $inventory.messagingCapabilities.durableOutboxImplemented -and -not $inventory.messagingCapabilities.durableInboxImplemented -and -not $inventory.messagingCapabilities.deadLetterOrQuarantineImplemented -and -not $inventory.messagingCapabilities.replayOrReprocessingImplemented
     productionSecurityEvidenceStillPending = $observability.productionEvidence.status -eq 'pending' -and $observability.authTokenPersistence.deploymentStatus -match '^pending '
-    blockersAreOwnedRiskedAndRevisitable = @($openItems.blockers).Count -ge 8 -and @($openItems.blockers | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.risk) -or [string]::IsNullOrWhiteSpace($_.revisitWhen) -or @($_.blocks).Count -eq 0 }).Count -eq 0
+    blockersAreOwnedRiskedAndRevisitable = @($openItems.blockers).Count -ge 7 -and @($openItems.blockers | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.risk) -or [string]::IsNullOrWhiteSpace($_.revisitWhen) -or @($_.blocks).Count -eq 0 }).Count -eq 0
     everyC3ExceptionIsTrackedWithExpiry = ($catalogExceptionIds -join ',') -eq ($openExceptionIds -join ',') -and @($openItems.fieldExceptions).Count -eq 8 -and @($openItems.fieldExceptions | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.risk) -or [string]::IsNullOrWhiteSpace($_.expiresAt) -or @($_.blocks).Count -eq 0 }).Count -eq 0
-    g03BackupOwnerRiskIsCarried = $backupOwnerBlocker.Count -eq 1 -and 'G05-B06' -in @($openItems.blockers.code)
-    prerequisiteGateRemainsOpen = $prerequisites -match '(?m)^- \[ \] \*\*Gate 5 前置放行\*\*'
-    phase11AndFinalApprovalRemainOpen = $master -match '(?m)^- \[ \] \*\*Phase 11 完成\*\*' -and $master -match '(?m)^- \[ \] G05-11\.6' -and $master -match '(?m)^- \[ \] G05-11\.8'
+    g03BackupOwnerAssignmentResolved = $backupOwnerBlocker.Count -eq 0 -and -not [string]::IsNullOrWhiteSpace($catalog.approvalPolicy.backupOwner) -and 'G05-B06' -notin @($openItems.blockers.code)
+    prerequisiteGateReleased = $prerequisites -match '(?m)^- \[x\] \*\*Gate 5 前置放行\*\*'
+    phase11AndFinalApprovalRemainOpen = $master -match '(?m)^- \[ \] \*\*Phase 11 完成\*\*' -and $master -match '(?m)^- \[x\] G05-11\.6' -and $master -match '(?m)^- \[ \] G05-11\.8'
 }
 
 $report = [ordered]@{

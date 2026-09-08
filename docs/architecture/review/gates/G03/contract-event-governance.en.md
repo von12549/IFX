@@ -135,5 +135,5 @@ approvals from every affected module.
 The automation entry point is `scripts/Invoke-G03ContractEventGuard.ps1`. Phase 8 additionally checks
 bilingual identity consistency, links, Mermaid/SVG/PNG triplets, and PNG signatures. Direct
 LayerGuard consumption remains Plan 03 L5.1; real provider/consumer behavior tests and Active
-promotion return from Plans 01/02. This Gate remains PRE-READY until those conditions, a backup
-owner, and closure approvals exist.
+promotion return from Plans 01/02. The backup owner was assigned on 2026-09-08; this Gate remains
+PRE-READY until the remaining downstream conditions and closure approvals are satisfied.

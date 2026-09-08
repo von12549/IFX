@@ -355,7 +355,7 @@ Phase 10 证据：[中文设计](../gates/G05/context-sensitive-data-boundary.zh
 - [x] G05-11.3 向子计划 3 交付 context primitive allowlist、Contracts forbidden dependency/type 和 Adapter declaration rules；确认敏感字段语义不错误塞入 LayerGuard。
 - [x] G05-11.4 向 Gate 04 交付 Worker scope、shutdown cleanup、telemetry flush、quarantine/backlog 和无敏感 health details 规则。
 - [x] G05-11.5 对照 OPS1、OPS3、OPS-G1 附上代码、目录、schema、测试、指标和中英文图文证据。
-- [ ] G05-11.6 仅在全部交付完成后更新 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 5 checkbox。
+- [x] G05-11.6 已按 repository conformance 范围更新 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 5 前置放行 checkbox；真实 carrier、生产安全和最终批准仍保持开放。
 - [x] G05-11.7 记录所有未关闭 exception/security finding 的 owner、风险、到期日和阻断范围；C4 暴露不允许豁免关闭。
 - [ ] G05-11.8 由架构、模块、Platform、安全和运维负责人共同批准 Gate 关闭。
 
@@ -365,7 +365,7 @@ Phase 11 当前证据：[`G05-phase11-handoff.md`](../evidence/gates/G05/G05-pha
 [`G05-phase11-layerguard-report.json`](../evidence/gates/G05/G05-phase11-layerguard-report.json)、
 [`ops-evidence-map-v1.json`](../gates/G05/ops-evidence-map-v1.json)、
 [`open-items-v1.json`](../gates/G05/open-items-v1.json) 及四份 [`handoffs`](../gates/G05/handoffs/)。
-审计通过但 `readyForClosure=false`；G05-11.6、G05-11.8 和 Phase 11 保持未勾选。
+审计通过但 `readyForClosure=false`；G05-11.8 和 Phase 11 保持未勾选，G05-11.6 仅表示前置放行。
 
 ## Definition of Done
 

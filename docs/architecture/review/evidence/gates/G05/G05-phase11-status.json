@@ -14,14 +14,14 @@
     "productionSecurityEvidenceStillPending": true,
     "blockersAreOwnedRiskedAndRevisitable": true,
     "everyC3ExceptionIsTrackedWithExpiry": true,
-    "g03BackupOwnerRiskIsCarried": true,
-    "prerequisiteGateRemainsOpen": true,
+    "g03BackupOwnerAssignmentResolved": true,
+    "prerequisiteGateReleased": true,
     "phase11AndFinalApprovalRemainOpen": true
   },
   "counts": {
     "handoffs": 4,
     "opsRequirements": 3,
-    "blockers": 8,
+    "blockers": 7,
     "c3Exceptions": 8,
     "solutionTests": 1041
   },
@@ -81,17 +81,6 @@
       "revisitWhen": "before production migration execution",
       "blocks": [
         "production approval",
-        "G05 closure"
-      ]
-    },
-    {
-      "code": "G05-B06",
-      "owner": "G03 repository maintainer",
-      "risk": "high: approvalPolicy.backupOwner is unassigned",
-      "expiresAt": "2026-12-01",
-      "revisitWhen": "before first Proposed-to-Active transition",
-      "blocks": [
-        "G03 closure",
         "G05 closure"
       ]
     },

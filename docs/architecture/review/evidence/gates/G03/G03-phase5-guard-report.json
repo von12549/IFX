@@ -13,7 +13,12 @@
     "messagingSurfaceInventoried": true,
     "generatedDirectoriesExcluded": true,
     "catalogValidation": true,
-    "publicSurfaceReconciliation": true
+    "publicSurfaceReconciliation": true,
+    "sourceCatalogReconciliation": true,
+    "deterministicCompatibilitySnapshots": true,
+    "layerGuardGovernanceHandoff": true,
+    "bilingualDocumentationAndRenderedDiagrams": true,
+    "closeoutReadinessAudit": true
   },
   "counts": {
     "abstractionProjects": 4,
@@ -30,5 +35,6 @@
   "failures": {
     "missingCatalogSurface": [],
     "unknownCatalogSurface": []
-  }
+  },
+  "closureStatus": null
 }

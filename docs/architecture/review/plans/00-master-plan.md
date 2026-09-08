@@ -1,6 +1,6 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Draft / 待评审
+> 状态：Gate 1–5 PRE-READY 前置放行完成 / Master Phase 0 决策评审与 03-A1 待实施（2026-09-08）
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
@@ -87,18 +87,18 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Plan 00 Gate 准入门槛
 
-- [ ] M-PRE 在 M-BOOT 后完成 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 1–5 前置放行和 PRE-READY 验收；随后执行 03-A1，Gate 最终关闭可依赖原子子计划的真实实现证据，但必须在总计划最终验收前完成。
+- [x] M-PRE 在 M-BOOT 后完成 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 1–5 前置放行和 PRE-READY 验收；随后执行 03-A1，Gate 最终关闭可依赖原子子计划的真实实现证据，但必须在总计划最终验收前完成。证据：[`../evidence/plan00-prerequisite-release.md`](../evidence/plan00-prerequisite-release.md)。
 
 ## Phase 0 — 建立基线与冻结架构决策
 
 - [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
+- [x] M0.1 对现有项目引用、跨模块接口、DI 注册、事件发布者和处理器生成可复查清单，并保存基线证据。
 - [ ] M0.2 评审并确认上方 M-C01 至 M-C12；未达成一致的项目记录为 ADR 决策，不直接进入实现。
 - [ ] M0.3 决定 `Contracts` 的物理命名迁移策略：一次性项目重命名，或先兼容 namespace/package、后移除 `Abstractions`。
 - [ ] M0.4 决定 Integration Adapter 的物理组织：保留在 `Infrastructure/Integrations`，或拆分独立项目；选择须能被 LayerGuard 精确验证。
 - [ ] M0.5 为三份子计划指定负责人、目标里程碑和验收人，并确认数据库/事务前置项的负责人。
-- [ ] M0.6 记录 Gate 前置放行后的构建、事务/migration 测试与 B0.5 结果，作为 03-A1 和后续“无回归”输入；正式架构差异仍以 B1/B4 为准。
+- [x] M0.6 记录 Gate 前置放行后的构建、事务/migration 测试与 B0.5 结果，作为 03-A1 和后续“无回归”输入；正式架构差异仍以 B1/B4 为准。证据：[`../evidence/plan00-prerequisite-release.md`](../evidence/plan00-prerequisite-release.md)。
 
 ## Phase 1 — 绑定 Gate Policy 并建立正式 B1 基线
 

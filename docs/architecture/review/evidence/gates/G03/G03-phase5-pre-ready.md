@@ -1,4 +1,4 @@
-# G03 Phase 5 PRE-READY: ownership and approval
+# G03 Phase 5: ownership and approval
 
 Implemented and verified:
 
@@ -11,12 +11,12 @@ Implemented and verified:
 - emergency security/regulatory impact, coordinated release, rollback, post-incident ADR, and
   no-identity-reuse policy.
 
-Not complete: a distinct, authorized backup owner cannot be derived from Git history. The only
-proven current maintainer is Xiaolong Feng / `@von12549`. Owner action is to nominate and authorize
-a backup for the governed modules and Platform Messaging, then update `owners`, module backup
-references, CODEOWNERS, and approval evidence. Revisit before the first Proposed -> Active
-promotion or G03 closeout, whichever comes first.
+Completed on 2026-09-08: Xiaolong Feng / `@von12549` remains the accountable owner and Junxi /
+`@jimkeecn` is the designated backup owner for all governed modules and Platform Messaging. The
+backup GitHub identity has repository write permission and is mapped in `owners`, every module's
+`backupOwner`, `approvalPolicy`, and `.github/CODEOWNERS`. The dated authorization is recorded in
+[`G03-backup-owner-assignment.md`](G03-backup-owner-assignment.md).
 
-Phase 5 therefore remains PRE-READY rather than falsely complete. Its G03 policy guard,
-LayerGuard (179 tests; B0.5 baseline-clean), solution build (0 errors), and all 904 solution tests
-pass, but those technical checks cannot manufacture organizational approval.
+Phase 5 is complete. This assignment provides governance continuity but does not replace Provider
+and Consumer approvals or satisfy the downstream evidence required for Active promotion and G03
+final closure.

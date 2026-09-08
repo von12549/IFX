@@ -36,11 +36,11 @@ Verification on this commit candidate passed: Phase 12 closeout validator, conso
 
 No repository default is accepted as a permanent production value. Replica/concurrency capacity belongs to Platform Operations; lease/retry/backpressure thresholds belong to Platform Messaging and Observability; startup/drain/rollout budgets belong to Operations and Database; scheduler authority and network policy belong to Platform Operations and Security. Their due milestone and production-like validation environment are recorded in the status JSON.
 
-The G03 backup-owner omission remains a related governance risk but is not relabelled as a G04 implementation result. G01/G02 also remain open wherever E2/E4 or production release evidence has not been handed back.
+The G03 backup-owner omission was resolved on 2026-09-08 and is not a G04 implementation result. G01/G02 remain open wherever E2/E4 or production release evidence has not been handed back.
 
 ## Close rule
 
-Only after G04-B01 through G04-B06 have linked evidence may the five approval groups complete G04-B07. Until then, Phase 12, Gate 4 prerequisite release, unresolved Definition of Done items and final approval remain unchecked.
+Gate 4 prerequisite release is complete because the runtime policy and reference conformance inputs are stable for 03-A1. Only after G04-B01 through G04-B06 have linked evidence may the five approval groups complete G04-B07; until then, Phase 12, unresolved Definition of Done items and final approval remain unchecked.
 
 ## G05 hand-back received
 

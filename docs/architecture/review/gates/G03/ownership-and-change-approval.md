@@ -15,10 +15,12 @@ blocks retirement; it does not erase the consumer. Emergency security/regulatory
 records affected identities/consumers, coordinates release and rollback, assigns a post-incident
 ADR, and uses a new identity for incompatible semantics.
 
-## Open assignment condition
+## Backup assignment
 
-Only one current accountable repository maintainer can be established from repository evidence.
-A genuinely independent backup owner has not been authorized. The catalog records this as
-`required-before-active-or-gate-close`; it must be supplied by the repository owner before any
-Proposed protocol is promoted or G03 is approved closed. Inventing or silently assigning a backup
-would not be valid governance evidence.
+Xiaolong Feng / `@von12549` remains the accountable owner. On 2026-09-08 the repository owner
+designated and authorized Junxi / `@jimkeecn` as the backup owner for all governed modules,
+Platform Messaging, the G03 catalog, and its guard scripts. The GitHub identity has repository
+write permission and is routed through `.github/CODEOWNERS`; the dated assignment is recorded in
+[`G03-backup-owner-assignment.md`](../../evidence/gates/G03/G03-backup-owner-assignment.md).
+
+Backup review does not replace the Provider and Consumer approvals required for Active admission.

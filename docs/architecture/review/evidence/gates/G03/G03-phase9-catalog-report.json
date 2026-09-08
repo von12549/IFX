@@ -4,7 +4,7 @@
   "result": "passed",
   "mode": "baseline",
   "counts": {
-    "owners": 1,
+    "owners": 2,
     "modules": 6,
     "consumers": 2,
     "protocols": 4,
@@ -12,7 +12,11 @@
     "legacyInternalize": 20,
     "legacyReplace": 6,
     "legacyRemove": 20,
-    "sharedPrimitives": 3,
+    "fieldSurfaces": 32,
+    "fields": 167,
+    "c3Fields": 11,
+    "fieldExceptions": 8,
+    "sharedPrimitives": 6,
     "changeRecords": 4,
     "graphEdges": 4,
     "syncCycles": 0,
@@ -23,7 +27,9 @@
     "schema": true,
     "uniqueIdentity": true,
     "referenceIntegrity": true,
+    "backupOwnership": true,
     "fieldClassification": true,
+    "sensitiveFieldGovernance": true,
     "dependencyCycles": true,
     "selfTests": true
   },
@@ -69,6 +75,16 @@
       "passed": true
     },
     {
+      "name": "missing backup owner",
+      "expected": "backup-owner-reference",
+      "passed": true
+    },
+    {
+      "name": "self backup owner",
+      "expected": "backup-owner-reference",
+      "passed": true
+    },
+    {
       "name": "missing consumer",
       "expected": "missing-consumer",
       "passed": true
@@ -81,6 +97,26 @@
     {
       "name": "C4 exposure",
       "expected": "secret-forbidden",
+      "passed": true
+    },
+    {
+      "name": "missing field inventory",
+      "expected": "field-surface-missing",
+      "passed": true
+    },
+    {
+      "name": "incomplete C4 semantics",
+      "expected": "c4-denylist",
+      "passed": true
+    },
+    {
+      "name": "C3 without exception",
+      "expected": "field-exception",
+      "passed": true
+    },
+    {
+      "name": "expired C3 field exception",
+      "expected": "field-exception-expired",
       "passed": true
     },
     {

@@ -15,7 +15,7 @@
     "handoffNamesEveryBlocker": true,
     "phase12NotFalselyClosed": true,
     "finalApprovalUnchecked": true,
-    "prerequisiteGateUnchecked": true,
+    "prerequisiteGateReleased": true,
     "phase12EvidenceLinked": true
   }
 }

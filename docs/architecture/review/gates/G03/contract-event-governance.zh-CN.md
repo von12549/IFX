@@ -128,5 +128,5 @@ identity reuse 不可豁免。C3 State Transfer 是受控准入而不是 waiver�
 
 自动化入口是 `scripts/Invoke-G03ContractEventGuard.ps1`；Phase 8 还验证双语 identity 一致、链接、
 Mermaid/SVG/PNG triplet 和 PNG signature。最终 LayerGuard 直接消费由 Plan 03 L5.1 实施；真实
-provider/consumer behavior tests 与 Active promotion 由 Plans 01/02 回交。本 Gate 在这些条件和
-backup owner/批准满足前保持 PRE-READY。
+provider/consumer behavior tests 与 Active promotion 由 Plans 01/02 回交。backup owner 已于
+2026-09-08 指定；本 Gate 在其余下游条件和最终批准满足前保持 PRE-READY。

@@ -145,7 +145,7 @@ C2/C3 Amount, Units, NAV, and KYC data require the cataloged projection purpose,
 | D04 | Plan 01 | ContractRequestContext | G03 Contract entries | Contract conformance | real carrier pending |
 | D05 | Plan 02 | EventEnvelope | V1 schema/golden | event conformance | real Outbox pending |
 | D06 | Plan 02 | pre-Inbox policy | failure policy | failure matrix tests | producer/tenant metrics |
-| D07 | G03/Security | field catalog | sole G03 validator | 13 mutation tests | C3 approvals |
+| D07 | G03/Security | field catalog | sole G03 validator | 15 mutation tests | C3 approvals |
 | D08 | Security/Ops | redactor/sink policy | observability policy | sentinel tests | production attestations pending |
 | D09 | Plan 02/Ops | replay/compat policy | adapter registry | replay/expiry tests | audit/alert pending |
 | D10 | Architecture | unified script/workflow | verification baseline | G05 + LayerGuard + TRX | final approvals pending |

@@ -42,7 +42,7 @@ $checks.verificationRecorded = $status.verification.closeoutValidator -eq 'passe
 $checks.handoffNamesEveryBlocker = @($status.blockers.id | Where-Object { $handoff -notmatch [regex]::Escape($_) }).Count -eq 0
 $checks.phase12NotFalselyClosed = $plan -match '- \[ \] \*\*Phase 12 PRE-READY' -and $plan -notmatch '- \[x\] \*\*Phase 12'
 $checks.finalApprovalUnchecked = $plan -match '- \[ \] G04-12\.8'
-$checks.prerequisiteGateUnchecked = $prerequisite -match '- \[ \] \*\*Gate 4 前置放行\*\*'
+$checks.prerequisiteGateReleased = $prerequisite -match '- \[x\] \*\*Gate 4 前置放行\*\*'
 $checks.phase12EvidenceLinked = $plan -match 'G04-phase12-handoff\.md' -and $plan -match 'G04-phase12-status\.json'
 
 $report = [ordered]@{

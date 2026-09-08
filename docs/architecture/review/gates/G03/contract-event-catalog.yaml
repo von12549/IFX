@@ -49,6 +49,13 @@
       "contact": "xiaolong@cxisoftware.com.au",
       "repositoryEvidence": "git log --format=%an <%ae>",
       "approvalRole": "repository-maintainer"
+    },
+    {
+      "id": "junxi",
+      "name": "Junxi",
+      "contact": "jimkeecn@gmail.com",
+      "repositoryEvidence": "Repository owner authorization dated 2026-09-08; GitHub @jimkeecn has write role on von12549/authSampleProject",
+      "approvalRole": "backup-repository-maintainer"
     }
   ],
   "modules": [
@@ -56,6 +63,7 @@
       "id": "auth",
       "name": "Auth",
       "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
       "capabilities": ["identity", "authentication", "subject-and-external-identity-mapping"],
       "dataFacts": ["identity subjects", "credentials", "external identity mappings"]
     },
@@ -63,6 +71,7 @@
       "id": "crm",
       "name": "CRM",
       "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
       "capabilities": ["party", "investor", "investment-account", "account-compliance"],
       "dataFacts": ["party", "investor", "investment account", "KYC and compliance"]
     },
@@ -70,6 +79,7 @@
       "id": "registry",
       "name": "Registry",
       "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
       "capabilities": ["product", "fund", "fund-class", "class-subscription-availability"],
       "dataFacts": ["product", "fund", "fund class", "subscription status"]
     },
@@ -77,6 +87,7 @@
       "id": "transaction",
       "name": "Transaction",
       "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
       "capabilities": ["order", "transaction-processing"],
       "dataFacts": ["order instruction", "transaction lifecycle"]
     },
@@ -84,6 +95,7 @@
       "id": "holdings",
       "name": "Holdings",
       "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
       "capabilities": ["position", "holding-freeze"],
       "dataFacts": ["holding", "position", "holding freeze state"]
     },
@@ -91,6 +103,7 @@
       "id": "platform-messaging",
       "name": "Platform Messaging",
       "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
       "capabilities": ["message-schema-primitives", "runtime-event-delivery"],
       "dataFacts": ["transport-neutral envelope semantics", "delivery attempt state"]
     }
@@ -115,8 +128,10 @@
   ],
   "approvalPolicy": {
     "codeownersHandle": "@von12549",
-    "backupOwner": null,
-    "backupAssignmentStatus": "required-before-active-or-gate-close",
+    "backupOwner": "junxi",
+    "backupCodeownersHandle": "@jimkeecn",
+    "backupAssignmentStatus": "assigned-and-authorized",
+    "backupAssignmentEvidence": "docs/architecture/review/evidence/gates/G03/G03-backup-owner-assignment.md",
     "reviewers": {
       "New": ["provider-owner", "first-consumer-owner"],
       "Compatible": ["provider-owner", "affected-consumer-owner"],

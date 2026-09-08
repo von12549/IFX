@@ -41,8 +41,32 @@ function Test-Catalog($catalog) {
             Add-Error 'owner-incomplete' "owners.$($owner.id)" 'Owner name, contact, and repositoryEvidence are required.'
         }
     }
+    $backupOwnerId = $catalog.approvalPolicy.backupOwner
+    if ([string]::IsNullOrWhiteSpace($backupOwnerId) -or $backupOwnerId -notin $ownerIds) {
+        Add-Error 'backup-owner-reference' 'approvalPolicy.backupOwner' "Backup owner '$backupOwnerId' must reference a registered owner."
+    }
+    if ([string]::IsNullOrWhiteSpace($catalog.approvalPolicy.backupCodeownersHandle) -or
+        [string]::IsNullOrWhiteSpace($catalog.approvalPolicy.backupAssignmentEvidence)) {
+        Add-Error 'backup-owner-evidence' 'approvalPolicy' 'Backup CODEOWNERS handle and assignment evidence are required.'
+    } else {
+        $backupEvidencePath = Join-Path $repositoryRoot $catalog.approvalPolicy.backupAssignmentEvidence
+        if (-not (Test-Path -LiteralPath $backupEvidencePath)) {
+            Add-Error 'backup-owner-evidence' 'approvalPolicy.backupAssignmentEvidence' 'Backup assignment evidence does not exist.'
+        }
+    }
+    $codeownersPath = Join-Path $repositoryRoot '.github/CODEOWNERS'
+    $codeowners = if (Test-Path -LiteralPath $codeownersPath) { Get-Content -Raw -LiteralPath $codeownersPath } else { '' }
+    foreach ($governedPath in @('/src/Modules/Auth/', '/src/Modules/CRM/', '/src/Modules/Registry/', '/src/Modules/Transaction/', '/src/Modules/Holdings/', '/src/Platform/Messaging/', '/docs/architecture/review/gates/G03/', '/scripts/*G03*')) {
+        $routingLine = @($codeowners -split "`r?`n" | Where-Object { $_ -match ('^' + [regex]::Escape($governedPath) + '\s') })
+        if ($routingLine.Count -ne 1 -or $routingLine[0] -notmatch [regex]::Escape($catalog.approvalPolicy.backupCodeownersHandle)) {
+            Add-Error 'backup-codeowners' '.github/CODEOWNERS' "Governed path '$governedPath' must route to the approved backup handle."
+        }
+    }
     foreach ($module in @($catalog.modules)) {
         if ($module.owner -notin $ownerIds) { Add-Error 'owner-reference' "modules.$($module.id).owner" "Unknown owner '$($module.owner)'." }
+        if ($module.backupOwner -notin $ownerIds -or $module.backupOwner -eq $module.owner -or $module.backupOwner -ne $backupOwnerId) {
+            Add-Error 'backup-owner-reference' "modules.$($module.id).backupOwner" "Backup owner '$($module.backupOwner)' must reference the distinct approved backup owner."
+        }
         if (@($module.capabilities).Count -eq 0 -or @($module.dataFacts).Count -eq 0) { Add-Error 'module-ownership' "modules.$($module.id)" 'Capabilities and dataFacts are required.' }
     }
     foreach ($consumer in @($catalog.consumers)) {
@@ -262,6 +286,8 @@ if ($SelfTest) {
     $cases = @(
         @{ name = 'duplicate identity'; mutate = { param($x) $x.protocols += $x.protocols[0] }; expected = 'duplicate-id' },
         @{ name = 'missing owner'; mutate = { param($x) $x.protocols[0].owner = 'unknown-owner' }; expected = 'owner-reference' },
+        @{ name = 'missing backup owner'; mutate = { param($x) $x.approvalPolicy.backupOwner = $null }; expected = 'backup-owner-reference' },
+        @{ name = 'self backup owner'; mutate = { param($x) $x.modules[0].backupOwner = $x.modules[0].owner }; expected = 'backup-owner-reference' },
         @{ name = 'missing consumer'; mutate = { param($x) $x.protocols[0].consumers = @() }; expected = 'missing-consumer' },
         @{ name = 'broken reference'; mutate = { param($x) $x.protocols[0].provider = 'unknown-module' }; expected = 'module-reference' },
         @{ name = 'C4 exposure'; mutate = { param($x) $x.protocols[0].fields[0].classification = 'C4' }; expected = 'secret-forbidden' },
@@ -331,7 +357,7 @@ $report = [ordered]@{
     result = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }
     mode = $catalog.mode
     counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; fieldSurfaces = @($catalog.fieldSurfaces).Count; fields = $fieldCount; c3Fields = $c3FieldCount; fieldExceptions = @($catalog.fieldExceptions).Count; sharedPrimitives = @($catalog.sharedPrimitives).Count; changeRecords = @($catalog.changeRecords).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
-    checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference', 'field-exception-reference', 'sensitive-use-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata', 'field-surface-missing', 'field-source-drift') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; sensitiveFieldGovernance = @('classification-policy', 'c4-denylist', 'field-exception', 'field-exception-metadata', 'field-exception-approval', 'sensitive-use-metadata', 'minimization-evidence') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
+    checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference', 'field-exception-reference', 'sensitive-use-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; backupOwnership = @('backup-owner-reference', 'backup-owner-evidence', 'backup-codeowners') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata', 'field-surface-missing', 'field-source-drift') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; sensitiveFieldGovernance = @('classification-policy', 'c4-denylist', 'field-exception', 'field-exception-metadata', 'field-exception-approval', 'sensitive-use-metadata', 'minimization-evidence') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
     graph = $graphEdges
     selfTests = $selfTestResults
     errors = $errors

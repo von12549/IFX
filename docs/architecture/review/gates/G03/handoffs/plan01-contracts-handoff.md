@@ -4,8 +4,8 @@
 
 - Recorded accountable owner: `xiaolong-feng` / repository handle `@von12549`, acting for the CRM,
   Registry, Transaction, Holdings, and repository-maintainer roles recorded in the catalog.
-- Delivery owner: Plan 01 implementer, approved by the recorded accountable owner. No independent
-  backup owner is currently evidenced; assigning one remains a G03 closure blocker.
+- Delivery owner: Plan 01 implementer, approved by the recorded accountable owner. Junxi /
+  `@jimkeecn` is the authorized backup owner recorded by G03.
 - Revisit trigger: the first PR that creates a provider `*.Contracts.V1` project or replaces a
   legacy Reader/DTO. Revisit again before either sync identity is changed from Proposed to Active.
 

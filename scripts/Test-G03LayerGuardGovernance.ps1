@@ -14,7 +14,7 @@ $input = Get-Content -Raw -LiteralPath $outputPath | ConvertFrom-Json -Depth 100
 $checks = [ordered]@{
     deterministic = $firstHash -eq $secondHash
     sourceIsCatalog = $input.source -eq 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
-    moduleOwnersPresent = @($input.moduleOwnership | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) }).Count -eq 0
+    moduleOwnersPresent = @($input.moduleOwnership | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.backupOwner) -or $_.owner -eq $_.backupOwner }).Count -eq 0
     providerGraphPresent = @($input.adapterEdges).Count -eq 4
     sharedAllowlistPresent = @($input.sharedPrimitiveProjects).Count -eq 2 -and
         'IFX.Platform.Context.Contracts' -in $input.sharedPrimitiveProjects -and

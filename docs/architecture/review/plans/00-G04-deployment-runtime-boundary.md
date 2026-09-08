@@ -1,6 +1,6 @@
 # Plan 00 / Gate 04：部署与运行边界实施计划
 
-> 状态：Architecture Decisions Approved / 待实施
+> 状态：PRE-READY / 仓库运行基线与前置放行完成，最终关闭等待下游及生产证据（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Composition/API/Worker Runtime Role matrix 在 03-A1 绑定。
@@ -429,7 +429,7 @@ Phase 11 证据：[`G04-phase11-documentation.md`](../evidence/gates/G04/G04-pha
 - [x] G04-12.3 向 Gate 02 交付 Migrator/schema readiness 与发布编排接口；生产执行证据仍由 G04-B06 回交。
 - [x] G04-12.4 向 Event 子计划交付 Runtime Role、instance identity、lease、shutdown、consumer-first、health 和 backpressure 规则；E3/E4/E6 为 G04-B01 至 B03。
 - [x] G04-12.5 向 LayerGuard 子计划交付 API/Worker Runtime Host 只能引用 Composition/host primitives 的编译期要求；L5.1/L5.2 与 B1/B4 为 G04-B05。
-- [ ] G04-12.6 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 4 相关事项，仅在全部实施、验证与文档完成后操作。
+- [x] G04-12.6 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 4 前置放行事项；E3/E4/E6、生产演练和最终批准继续由 blocker/DoD 跟踪。
 - [x] G04-12.7 在机器可读状态中记录未解决的生产平台特有参数、owner、到期里程碑和 production-like 验证环境，不使用永久默认值掩盖。
 - [ ] G04-12.8 由架构、模块、Platform、数据库和运维负责人共同批准 Gate 关闭。
 
@@ -447,7 +447,7 @@ Phase 12 PRE-READY 证据：[`G04-phase12-handoff.md`](../evidence/gates/G04/G04
 - [ ] G04-DD06 live/startup/ready/details 按 role 和 criticality 正确聚合，无副作用且不泄漏敏感信息。
 - [ ] G04-DD07 database → Worker consumer → API producer → scheduler → cleanup 顺序及失败回退由 CI/CD 或演练验证。
 - [ ] G04-DD08 backlog age、retry/dead-letter、lease、last success 和 backpressure 具有指标、阈值、告警与恢复手册。
-- [ ] G04-DD09 中英文说明、架构图、流程图、状态图、时序图、失败矩阵和规则验证映射全部完成并审核。
+- [x] G04-DD09 中英文说明、架构图、流程图、状态图、时序图、失败矩阵和规则验证映射全部完成并审核。
 
 ## 回退与运行安全原则
 

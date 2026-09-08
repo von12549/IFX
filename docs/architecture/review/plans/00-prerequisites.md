@@ -1,6 +1,6 @@
 # Plan 00 前置：事务、数据库与运行边界准入条件
 
-> 状态：Draft / 待评审
+> 状态：PRE-READY 前置放行完成 / 03-A1 LG-POLICY-READY 待实施（2026-09-08）
 > 后续计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：从 [`TODO.md`](TODO.md) 提取的强依赖或必须提前冻结的事项
 > 准入规则：先完成 LayerGuard 03-A0 Core Bootstrap，再实施本文件 Gate 01–05；全部 Gate 达到“前置放行”后执行 03-A1 Policy Binding，随后才进入 Contracts/Events 正式迁移；Gate 的“最终关闭”在真实下游实现验收后完成。
@@ -14,7 +14,7 @@
 ## 里程碑语义
 
 - [x] **LG-BOOTSTRAP**：Gate 01 实施前完成 LayerGuard 03-A0，保存 B0/B0.5 并对不依赖 Gate artifact 的确定性规则阻断新增违规。证据：[`../evidence/03-a0-layerguard-bootstrap.md`](../evidence/03-a0-layerguard-bootstrap.md)。
-- [ ] **PRE-READY 前置放行**：在 03-A0 保护下完成 Gate 1–5 的批准决策、阻塞修复、ownership、协议接缝和可执行验收要求。
+- [x] **PRE-READY 前置放行**：在 03-A0 保护下完成 Gate 1–5 的批准决策、阻塞修复、ownership、协议接缝和可执行验收要求。证据：[`../evidence/plan00-prerequisite-release.md`](../evidence/plan00-prerequisite-release.md)。
 - [ ] **LG-POLICY-READY**：PRE-READY 后完成 03-A1，将 Gate 输出绑定到完整目标规则，保存正式 B1 并启用完整“禁止新增违规”门禁。
 - [ ] **Gate 最终关闭**：对应原子子计划完成真实代码迁移并回交证据后，才勾选各 Gate Plan 的全部 Phase 与 Definition of Done。
 
@@ -66,21 +66,21 @@ Gate 最终关闭仍等待 Plan 02 E2/E4、G04 生产编排回交和最终三方
 
 ## Gate 3 — Contract / Event Ownership 治理
 
-- [ ] **Gate 3 前置放行**：现有和目标公共能力/事件均已盘点，Active candidate 有唯一 owner、真实消费者及可执行兼容策略，迁移项有期限。
+- [x] **Gate 3 前置放行**：现有和目标公共能力/事件均已盘点，Active candidate 有唯一 owner、真实消费者及可执行兼容策略，迁移项有期限。
 
 实施与最终验收：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md)。目录和准入规则先放行，真实 V1 schema/consumer 迁移后再最终关闭。
 G03 图文治理基线见[中文](../gates/G03/contract-event-governance.zh-CN.md)与
-[English](../gates/G03/contract-event-governance.en.md)；当前为 PRE-READY，尚未勾选最终放行。
+[English](../gates/G03/contract-event-governance.en.md)；治理输入已获前置放行，Active promotion 与 Gate 最终关闭仍等待下游证据。
 
-- [ ] GOV1 为每个模块建立业务能力、数据 ownership、同步 Contracts、发布事件和消费事件目录。
-- [ ] GOV2 建立 Contract/Event owner 与变更评审机制；新增公共表面必须有真实消费者、版本策略和废弃方式。
-- [ ] GOV5 为共享 primitives 建立最小 allowlist，防止 Contracts 依赖新的通用 SharedKernel 或泄漏内部模型。
-- [ ] GOV-G1 对 CRM KYC、Registry subscription availability 与 `TransactionProcessed` 明确 provider、consumer、同步/异步选择和新鲜度要求。
-- [ ] GOV-G2 保存并自动验证批准后的能力/事件目录，作为 Contracts 分类、Event schema 和 LayerGuard allowlist 的唯一治理输入。
+- [x] GOV1 为每个模块建立业务能力、数据 ownership、同步 Contracts、发布事件和消费事件目录。
+- [x] GOV2 建立 Contract/Event owner 与变更评审机制；新增公共表面必须有真实消费者、版本策略和废弃方式。
+- [x] GOV5 为共享 primitives 建立最小 allowlist，防止 Contracts 依赖新的通用 SharedKernel 或泄漏内部模型。
+- [x] GOV-G1 对 CRM KYC、Registry subscription availability 与 `TransactionProcessed` 明确 provider、consumer、同步/异步选择和新鲜度要求。
+- [x] GOV-G2 保存并自动验证批准后的能力/事件目录，作为 Contracts 分类、Event schema 和 LayerGuard allowlist 的唯一治理输入。
 
 ## Gate 4 — 部署与运行假设
 
-- [ ] **Gate 4 前置放行**：单体部署假设、API/Worker Runtime Role、Dispatcher lease protocol、migration 顺序和 health/backpressure contract 已冻结并可做 conformance 验证。
+- [x] **Gate 4 前置放行**：单体部署假设、API/Worker Runtime Role、Dispatcher lease protocol、migration 顺序和 health/backpressure contract 已冻结并可做 conformance 验证。
 
 实施与最终验收：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md)。Runtime 基础先放行；真实 Dispatcher 和 backlog 信号由 E3/E6 实现后回交最终证据。
 中英文实现基线见[中文](../gates/G04/deployment-runtime-boundary.zh-CN.md)与
@@ -92,28 +92,35 @@ G03 图文治理基线见[中文](../gates/G03/contract-event-governance.zh-CN.m
 - [x] DP5 定义模块与消息通道的 health/readiness 信号，包括 dispatcher 状态、Outbox backlog age 和必要依赖可用性。
 - [x] DP-G1 保存当前/目标 Deployment Unit Catalog、单实例/多实例运行图、API/Worker roles、部署顺序和失败矩阵，作为 Dispatcher 设计与生产上线依据。
 
-G04 仓库内可实现基线已完成；[`PRE-READY closeout`](../evidence/gates/G04/G04-phase12-handoff.md) 明确保留 E3/E4/E6、G05、L5.1/L5.2、生产演练与五方批准，因此上方 Gate 4 前置放行仍不勾选。
+G04 仓库内可实现基线已完成，因此 Gate 4 获得前置放行；[`PRE-READY closeout`](../evidence/gates/G04/G04-phase12-handoff.md)
+中的 E3/E4/E6、G05 runtime hand-back、L5.1/L5.2、生产演练与五方批准只约束 Gate 最终关闭，不反向阻塞 03-A1。
 
 ## Gate 5 — 关联信息与敏感数据规则
 
-- [ ] **Gate 5 前置放行**：公共同步调用和事件 schema 所需的追踪、租户、失败及敏感数据规则已冻结，最小 primitives/catalog extension/conformance 要求可供子计划使用。
+- [x] **Gate 5 前置放行**：公共同步调用和事件 schema 所需的追踪、租户、失败及敏感数据规则已冻结，最小 primitives/catalog extension/conformance 要求可供子计划使用。
 
 实施与最终验收：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md)。三组架构决策已经确认；真实 Contract/Event carrier 由子计划实施并回交证据。
 G05 双语设计与可渲染流程基线见[中文](../gates/G05/context-sensitive-data-boundary.zh-CN.md)与
 [English](../gates/G05/context-sensitive-data-boundary.en.md)；当前为 PRE-READY，不提前代表真实载体或生产批准。
 
-- [ ] OPS1 统一 CorrelationId、OperationId、CausationId、EventId、显式 Tenant/Platform scope 和 W3C trace 在 HTTP、同步 Contract、Outbox、transport 与 Inbox 间的传播及失败规则。
-- [ ] OPS3 建立 C0-C4 Contract/Event/日志/trace/审计字段分级、目的限制与双层脱敏规则，禁止凭据和非必要个人数据进入公共 payload。
-- [ ] OPS-G1 将已批准规则映射到 BCL-only ContractRequestContext、Event Envelope、可信 ExecutionContext 和字段目录，并建立 schema/security/conformance tests。
-- [ ] OPS-G2 对 invalid/missing context、tenant mismatch、producer/schema failure、retry/replay、parallel scope 和 Compatibility Adapter 建立失败矩阵与测试。
-- [ ] OPS-G3 保存中英文设计说明、上下文/信任边界架构图、HTTP/Contract/Event 流程图、数据准入矩阵和规则到门禁映射。
+- [x] OPS1 统一 CorrelationId、OperationId、CausationId、EventId、显式 Tenant/Platform scope 和 W3C trace 在 HTTP、同步 Contract、Outbox、transport 与 Inbox 间的传播及失败规则。
+- [x] OPS3 建立 C0-C4 Contract/Event/日志/trace/审计字段分级、目的限制与双层脱敏规则，禁止凭据和非必要个人数据进入公共 payload。
+- [x] OPS-G1 将已批准规则映射到 BCL-only ContractRequestContext、Event Envelope、可信 ExecutionContext 和字段目录，并建立 schema/security/conformance tests。
+- [x] OPS-G2 对 invalid/missing context、tenant mismatch、producer/schema failure、retry/replay、parallel scope 和 Compatibility Adapter 建立失败矩阵与测试。
+- [x] OPS-G3 保存中英文设计说明、上下文/信任边界架构图、HTTP/Contract/Event 流程图、数据准入矩阵和规则到门禁映射。
 
-## 最终准入验收
+## PRE-READY 前置放行验收
 
 - [x] PRE-D01 LayerGuard 03-A0 已在 Gate 01 前完成，B0/B0.5、工具版本、bootstrap 规则和执行结果可追踪。
-- [ ] PRE-D02 没有通过共享 DbContext、共享事务或共享内部模型来规避边界问题。
-- [ ] PRE-D03 Event 子计划中 TX4/TX5 对应的实现仍由 E2/E4 跟踪，没有因前置决策被错误标记为已实现。
-- [ ] PRE-D04 Plan 00 的架构假设、计划顺序和 LayerGuard 目标矩阵已根据前置决策更新。
-- [ ] PRE-D05 Gate 1–5 均达到前置放行，且输出有链接、负责人、批准记录和明确的下游实现 owner。
-- [ ] PRE-D06 每个 Gate 的架构与规则设计均已形成设计解释、架构图、流程图和必要状态图，并完成技术审查。
-- [ ] PRE-D07 构建、事务和 migration 测试基线已保存；03-A1 已绑定 Gate policy 并生成正式 B1，之后才允许开始 Contracts/Events；尚未完成的 Gate 最终验收项均有唯一回交路径。
+- [x] PRE-D02 没有通过共享 DbContext、共享事务或共享内部模型来规避边界问题。
+- [x] PRE-D03 Event 子计划中 TX4/TX5 对应的实现仍由 E2/E4 跟踪，没有因前置决策被错误标记为已实现。
+- [x] PRE-D04 Plan 00 的架构假设、计划顺序和 LayerGuard 目标矩阵已根据前置决策更新。
+- [x] PRE-D05 Gate 1–5 均达到前置放行，且输出有链接、负责人、批准记录和明确的下游实现 owner。
+- [x] PRE-D06 每个 Gate 的架构与规则设计均已形成设计解释、架构图、流程图和必要状态图，并完成技术审查。
+- [x] PRE-D07 构建、事务、migration 与 B0.5 测试基线已保存；尚未完成的 Gate 最终验收项均有唯一回交路径。
+
+## LG-POLICY-READY 验收
+
+- [ ] LG-D01 03-A1 已直接绑定 Gate 03 catalog/allowlist、Gate 04 Runtime Role 和 Gate 05 context policy，并生成正式 B1。
+- [ ] LG-D02 完整目标规则已进入 CI；历史 baseline 可受控暂存，但新增违规、未知项目、扫描异常和过期 waiver 必须失败。
+- [ ] LG-D03 只有 LG-D01/LG-D02 完成后才允许开始 Plan 01/02 的真实 Contracts/Events 迁移。

@@ -16,7 +16,7 @@ $handoff = [ordered]@{
     formatVersion = 1
     source = 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
     catalogSha256 = (Get-FileHash $catalogPath -Algorithm SHA256).Hash.ToLowerInvariant()
-    moduleOwnership = @($catalog.modules | Sort-Object id | ForEach-Object { [ordered]@{ module = $_.name; owner = $_.owner } })
+    moduleOwnership = @($catalog.modules | Sort-Object id | ForEach-Object { [ordered]@{ module = $_.name; owner = $_.owner; backupOwner = $_.backupOwner } })
     contractRoles = [ordered]@{ provider = 'Contracts'; consumerPort = 'Application'; consumerAdapter = 'IntegrationAdapter' }
     providerContracts = $providerContracts
     adapterEdges = @($catalog.protocols | Sort-Object identity | ForEach-Object { $protocol=$_; foreach($consumerId in @($protocol.consumers)) { $consumer=$catalog.consumers|Where-Object id -eq $consumerId; [ordered]@{ identity=$protocol.identity; kind=$protocol.kind; consumer=$consumer.module; provider=$protocol.provider } } })

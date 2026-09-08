@@ -30,3 +30,6 @@ The Gate remains PRE-READY. Phase 8 documentation does not satisfy the missing b
 Plans 01/02 provider/consumer behavior tests, Active admission, physical Messaging Contracts/runtime
 split, Plan 03 direct consumption, or final multi-role approvals.
 
+Subsequent update: the backup-owner condition was resolved on 2026-09-08 by the authorized Junxi /
+`@jimkeecn` assignment. The remaining downstream and approval conditions are unchanged.
+

@@ -10,7 +10,7 @@ and Event primitives, trusted scoped execution, fail-closed HTTP tenant entry, C
 conformance, the sole G03 field classification, safe operational observability, Auth secret-retention
 remediation, failure/replay/compatibility rules, unified CI verification, and bilingual rendered design.
 
-The exact repository baseline passed 1041/1041 solution tests, 179/179 LayerGuard tests, all 13 G03
+The exact repository baseline passed 1041/1041 solution tests, 179/179 LayerGuard tests, all 15 G03
 catalog mutation tests, migration safety, documentation validation, and cumulative G05 guards. These
 results are mapped to OPS1, OPS3, and OPS-G1 in `ops-evidence-map-v1.json`.
 
@@ -25,16 +25,17 @@ results are mapped to OPS1, OPS3, and OPS-G1 in `ops-evidence-map-v1.json`.
 
 ## Why the Gate remains open
 
-`G05-phase11-status.json` is a passing audit whose `readyForClosure` value is false. It confirms eight
+`G05-phase11-status.json` is a passing audit whose `readyForClosure` value is false. It confirms seven
 owned technical/approval blockers and all eight C3 exceptions with owner, risk, expiry or revisit
 trigger, and blocking scope. In particular:
 
 - Plan 01 has not returned real synchronous carriers and Plan 02 has not implemented durable messaging.
-- LayerGuard 03-A1 direct policy binding and the G03 backup owner remain open.
+- LayerGuard 03-A1 direct policy binding remains open; the G03 backup-owner blocker was resolved on 2026-09-08.
 - Production key custody, sink ACL, retention/deletion, tamper evidence, access audit, alerting, and
   secret-column migration execution are unattested.
 - Eight C3 exceptions remain Pending/PendingRemoval until 2026-12-01.
 - Architecture, module, Platform, Security, and Operations approval references do not exist yet.
 
-Accordingly, Phase 11, G05-11.6, G05-11.8, and the prerequisite Gate 5 checkbox remain unchecked. This
-is the intended fail-closed outcome, not a failed repository implementation.
+Accordingly, Gate 5 prerequisite release and G05-11.6 are complete for repository conformance, while
+Phase 11 and G05-11.8 remain unchecked. This preserves the intended fail-closed final outcome without
+blocking 03-A1 on downstream implementation.

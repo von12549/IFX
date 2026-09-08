@@ -4,8 +4,8 @@
 
 - Recorded accountable owner: `xiaolong-feng` / repository handle `@von12549`, acting for Registry,
   Transaction, Holdings, Platform Messaging, and the repository-maintainer roles in the catalog.
-- Delivery owner: Plan 02 implementer, approved by the recorded accountable owner. The independent
-  backup-owner slot is unassigned and remains a G03 closure blocker.
+- Delivery owner: Plan 02 implementer, approved by the recorded accountable owner. Junxi /
+  `@jimkeecn` is the authorized backup owner recorded by G03.
 - Revisit trigger: the first PR that creates `IFX.Platform.Messaging.Contracts`, a V1 provider event,
   an Outbox/Inbox migration, or a Holdings inbound Adapter. Revisit before either event identity is
   promoted to Active and before the legacy unversioned event is removed.

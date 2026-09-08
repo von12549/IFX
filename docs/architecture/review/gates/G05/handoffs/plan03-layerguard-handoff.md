@@ -31,4 +31,4 @@ responsibilities. LayerGuard must link these reports but must not claim semantic
 - L5.1 direct catalog consumption and hash verification tests.
 - L5.2 Context/Messaging declaration and forbidden-framework rules.
 - B1/B4 reports showing no policy bypass and the explicit semantic not-checked list.
-- Resolution of G03 `approvalPolicy.backupOwner` before Proposed-to-Active promotion.
+- Verification that G03 `approvalPolicy.backupOwner` resolves to the authorized `junxi` owner record.

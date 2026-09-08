@@ -6,7 +6,7 @@
   "minimumSolutionTests": 1041,
   "requiredResults": {
     "catalog": "passed",
-    "catalogMutationSelfTests": 13,
+    "catalogMutationSelfTests": 15,
     "migrationSafety": "passed",
     "g05GuardPhase": 9,
     "layerGuardVerdict": "baseline-clean",
