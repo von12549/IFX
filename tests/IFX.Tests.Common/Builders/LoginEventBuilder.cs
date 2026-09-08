@@ -9,10 +9,6 @@ public class LoginEventBuilder
     private string _userAgent = TestConstants.ValidUserAgent;
     private bool _success = true;
     private string? _failureReason;
-    private string? _cognitoSessionId;
-    private string? _accessToken;
-    private string? _refreshToken;
-    private DateTime? _tokenExpiresAt;
 
     public LoginEventBuilder WithUserId(Guid userId)
     {
@@ -46,20 +42,6 @@ public class LoginEventBuilder
         return this;
     }
 
-    public LoginEventBuilder WithCognitoSessionId(string sessionId)
-    {
-        _cognitoSessionId = sessionId;
-        return this;
-    }
-
-    public LoginEventBuilder WithTokens(string accessToken, string refreshToken, DateTime expiresAt)
-    {
-        _accessToken = accessToken;
-        _refreshToken = refreshToken;
-        _tokenExpiresAt = expiresAt;
-        return this;
-    }
-
     public LoginEvent Build()
     {
         if (_success)
@@ -67,11 +49,7 @@ public class LoginEventBuilder
             return LoginEvent.CreateSuccess(
                 _userId,
                 _ipAddress,
-                _userAgent,
-                _cognitoSessionId,
-                _accessToken,
-                _refreshToken,
-                _tokenExpiresAt);
+                _userAgent);
         }
 
         return LoginEvent.CreateFailure(

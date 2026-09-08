@@ -42,9 +42,9 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Res
             _logger.LogInformation("Order cancelled: {OrderId}", order.Id);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }
-        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException)
         {
-            return Result<OrderDto>.Failure(ex.Message);
+            return Result<OrderDto>.Failure("The requested state transition is not allowed.");
         }
     }
 }

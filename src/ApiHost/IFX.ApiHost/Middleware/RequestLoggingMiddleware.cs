@@ -18,7 +18,7 @@ public class RequestLoggingMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var stopwatch = Stopwatch.StartNew();
-        var requestPath = context.Request.Path;
+        var routeName = context.GetEndpoint()?.DisplayName ?? "unmatched";
         var requestMethod = context.Request.Method;
         var correlationId = HttpCorrelationMiddleware.GetCorrelation(context).ToString("D");
 
@@ -28,9 +28,9 @@ public class RequestLoggingMiddleware
         });
 
         _logger.LogInformation(
-            "HTTP {Method} {Path} started [CorrelationId: {CorrelationId}]",
+            "HTTP {Method} {RouteName} started [CorrelationId: {CorrelationId}]",
             requestMethod,
-            requestPath,
+            routeName,
             correlationId);
 
         try
@@ -54,9 +54,9 @@ public class RequestLoggingMiddleware
 
             _logger.Log(
                 logLevel,
-                "HTTP {Method} {Path} responded {StatusCode} in {ElapsedMilliseconds}ms [CorrelationId: {CorrelationId}, OperationId: {OperationId}]",
+                "HTTP {Method} {RouteName} responded {StatusCode} in {ElapsedMilliseconds}ms [CorrelationId: {CorrelationId}, OperationId: {OperationId}]",
                 requestMethod,
-                requestPath,
+                routeName,
                 statusCode,
                 elapsedMilliseconds,
                 correlationId,

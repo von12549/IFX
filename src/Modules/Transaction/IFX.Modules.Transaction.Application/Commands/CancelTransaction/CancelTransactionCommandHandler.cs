@@ -45,9 +45,9 @@ public class CancelTransactionCommandHandler : IRequestHandler<CancelTransaction
             _logger.LogInformation("Transaction cancelled: {TransactionId}", tx.Id);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));
         }
-        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException)
         {
-            return Result<TransactionDto>.Failure(ex.Message);
+            return Result<TransactionDto>.Failure("The requested state transition is not allowed.");
         }
     }
 }

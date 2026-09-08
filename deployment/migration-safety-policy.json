@@ -44,6 +44,20 @@
       "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be",
       "disposition": "pre-gate-baseline",
       "signals": ["alter-column-lock-and-conversion"]
+    },
+    {
+      "module": "Auth",
+      "migrationId": "20260908015924_RemoveLoginEventSecrets",
+      "sourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+      "disposition": "approved",
+      "approvalScope": "repository migration artifact only; production execution remains separately gated",
+      "approvals": {
+        "architecture": "repository-owner G05 phase execution authorization 2026-09-08",
+        "database": "repository-owner G05 phase execution authorization 2026-09-08"
+      },
+      "restorePointRequired": true,
+      "dataLossAssessment": "Intentionally deletes persisted access/refresh credentials, Cognito session identifiers and token-expiry metadata; no business entity or authentication outcome record is deleted.",
+      "signals": ["destructive-or-rename-ddl"]
     }
   ]
 }

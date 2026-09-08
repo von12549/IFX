@@ -58,6 +58,18 @@
               "alter-column-lock-and-conversion"
             ]
           }
+        },
+        {
+          "MigrationId": "20260908015924_RemoveLoginEventSecrets",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "SourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "destructive-or-rename-ddl"
+            ]
+          }
         }
       ]
     },

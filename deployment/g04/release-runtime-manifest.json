@@ -33,11 +33,11 @@
     },
     "schemaReleaseManifest": {
       "path": "deployment/release-manifest.json",
-      "sha256": "8ab02399fddb786515ee47551d9ad6560b6bc1475ad40d3a0f455f912e88bc80"
+      "sha256": "1813f3e9ea47a45413f8e198933060b212a83d1553b3529bfd022b795708d212"
     },
     "migrationManifest": {
       "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
-      "sha256": "32244a8b03a69278317ccf78f7f50c6976ab3e70d6ffcc91027cee12eee8bec4"
+      "sha256": "43a4124c8e4df1a951cb3c7f0fbe8bf7e7983d2fa8fcd10f459959076e825fd5"
     },
     "releaseOrchestration": {
       "path": "deployment/g04/release-orchestration.json",

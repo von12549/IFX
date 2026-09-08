@@ -33,7 +33,7 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             var signedOut = await _identityProvider.SignOutAsync(request.AccessToken);
             if (!signedOut)
             {
-                _logger.LogWarning("Failed to sign out user {Issuer}/{Subject} from Cognito", request.Issuer, request.Subject);
+                _logger.LogWarning("Identity provider sign-out failed");
             }
 
             // Get the most recent successful login to calculate session duration
@@ -44,9 +44,9 @@ public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Resul
             var logoutEvent = LogoutEvent.Create(user.Id, request.IpAddress, loginTimestamp, "Manual");
             await _unitOfWork.LogoutEvents.AddAsync(logoutEvent, cancellationToken);
             // Create activity log
-            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Logout, $"User logged out from {request.IpAddress}", request.IpAddress, $"{{\"sessionDuration\": \"{logoutEvent.SessionDuration}\"}}");
+            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Logout, "User logout completed", request.IpAddress, $"{{\"sessionDuration\": \"{logoutEvent.SessionDuration}\"}}");
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
-            _logger.LogInformation("User {Issuer}/{Subject} logged out successfully. Session duration: {Duration}", request.Issuer, request.Subject, logoutEvent.SessionDuration);
+            _logger.LogInformation("User logout completed in {Duration}", logoutEvent.SessionDuration);
             return Result<bool>.Success(true);
         }
     }

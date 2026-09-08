@@ -41,7 +41,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             if (user == null)
             {
                 // Create failed login event for unknown user
-                _logger.LogWarning("Login attempt for non-existent user {Email}", request.Email);
+                _logger.LogWarning("Login attempt rejected because the local user was not found");
                 return Result<LoginUserResponse>.Failure("Invalid email or password");
             }
 
@@ -50,10 +50,10 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             if (!authResult.Success)
             {
                 // Create failed login event
-                var failedLoginEvent = LoginEvent.CreateFailure(user.Id, request.IpAddress, request.UserAgent, authResult.ErrorMessage ?? "Authentication failed");
+                var failedLoginEvent = LoginEvent.CreateFailure(user.Id, request.IpAddress, request.UserAgent, "authentication_failed");
                 await _unitOfWork.LoginEvents.AddAsync(failedLoginEvent, cancellationToken);
-                _logger.LogWarning("Failed login attempt for user {Email}: {Reason}", request.Email, authResult.ErrorMessage);
-                return Result<LoginUserResponse>.Failure(authResult.ErrorMessage ?? "Invalid email or password");
+                _logger.LogWarning("Login attempt rejected by the identity provider");
+                return Result<LoginUserResponse>.Failure("Invalid email or password");
             }
 
             // Extract issuer and subject from IdToken
@@ -63,7 +63,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             var subject = idToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
             if (string.IsNullOrEmpty(subject))
             {
-                _logger.LogError("Subject claim not found in IdToken for user {Email}", request.Email);
+                _logger.LogError("Identity provider response did not contain a subject claim");
                 return Result<LoginUserResponse>.Failure("Authentication failed");
             }
 
@@ -71,7 +71,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             var authenticatedUser = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(issuer, subject, cancellationToken);
             if (authenticatedUser == null || authenticatedUser.Id != user.Id)
             {
-                _logger.LogWarning("User mismatch: DB user {UserId} vs authenticated user {Subject}", user.Id, subject);
+                _logger.LogWarning("Authenticated identity did not match the local user");
                 return Result<LoginUserResponse>.Failure("Authentication failed");
             }
 
@@ -96,14 +96,13 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
                 }
             }
 
-            // Create successful login event with tokens
-            var tokenExpiresAt = DateTime.UtcNow.AddSeconds(authResult.ExpiresIn);
-            var loginEvent = LoginEvent.CreateSuccess(user.Id, request.IpAddress, request.UserAgent, cognitoSessionId: null, accessToken: authResult.AccessToken, refreshToken: authResult.RefreshToken, tokenExpiresAt: tokenExpiresAt);
+            // Tokens are returned to the caller only and are never persisted in audit history.
+            var loginEvent = LoginEvent.CreateSuccess(user.Id, request.IpAddress, request.UserAgent);
             await _unitOfWork.LoginEvents.AddAsync(loginEvent, cancellationToken);
             // Create activity log
-            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Login, $"User logged in from {request.IpAddress}", request.IpAddress);
+            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Login, "User login succeeded", request.IpAddress);
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
-            _logger.LogInformation("User {Email} logged in successfully", request.Email);
+            _logger.LogInformation("User login succeeded");
             // Map user to DTO
             var userProfile = _mapper.Map<UserProfileDto>(user);
             return Result<LoginUserResponse>.Success(new LoginUserResponse { AccessToken = authResult.AccessToken!, RefreshToken = authResult.RefreshToken!, IdToken = authResult.IdToken!, ExpiresIn = authResult.ExpiresIn, UserProfile = userProfile });

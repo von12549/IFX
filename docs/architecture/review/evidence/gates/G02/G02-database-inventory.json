@@ -1052,18 +1052,6 @@
           "CheckConstraints": [],
           "Columns": [
             {
-              "Name": "AccessToken",
-              "Column": "AccessToken",
-              "StoreType": "nvarchar(2048)",
-              "Nullable": true
-            },
-            {
-              "Name": "CognitoSessionId",
-              "Column": "CognitoSessionId",
-              "StoreType": "nvarchar(100)",
-              "Nullable": true
-            },
-            {
               "Name": "FailureReason",
               "Column": "FailureReason",
               "StoreType": "nvarchar(255)",
@@ -1088,22 +1076,10 @@
               "Nullable": false
             },
             {
-              "Name": "RefreshToken",
-              "Column": "RefreshToken",
-              "StoreType": "nvarchar(2048)",
-              "Nullable": true
-            },
-            {
               "Name": "Success",
               "Column": "Success",
               "StoreType": "bit",
               "Nullable": false
-            },
-            {
-              "Name": "TokenExpiresAt",
-              "Column": "TokenExpiresAt",
-              "StoreType": "datetimeoffset",
-              "Nullable": true
             },
             {
               "Name": "UserAgent",
@@ -2047,6 +2023,18 @@
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908015924_RemoveLoginEventSecrets",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "SourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+          "Risk": {
+            "Level": "high",
+            "Signals": [
+              "destructive-or-rename-ddl"
             ]
           }
         }
@@ -5566,6 +5554,16 @@
             "UsesEnvironmentCredentials": false
           },
           {
+            "Key": "AuthDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "BackgroundJobsDatabase",
+            "Database": "BackgroundJobsDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
             "Key": "BackgroundJobsDatabase",
             "Database": "BackgroundJobsDb",
             "UsesEnvironmentCredentials": false
@@ -5581,6 +5579,16 @@
             "UsesEnvironmentCredentials": false
           },
           {
+            "Key": "CrmDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
             "Key": "HoldingsDatabase",
             "Database": "IFXDb",
             "UsesEnvironmentCredentials": false
@@ -5597,6 +5605,16 @@
           },
           {
             "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "TransactionDatabase",
             "Database": "IFXDb",
             "UsesEnvironmentCredentials": false
           },
@@ -5626,6 +5644,16 @@
             "UsesEnvironmentCredentials": false
           },
           {
+            "Key": "AuthDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "BackgroundJobsDatabase",
+            "Database": "BackgroundJobsDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
             "Key": "BackgroundJobsDatabase",
             "Database": "BackgroundJobsDb",
             "UsesEnvironmentCredentials": false
@@ -5641,6 +5669,16 @@
             "UsesEnvironmentCredentials": false
           },
           {
+            "Key": "CrmDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "HoldingsDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
             "Key": "HoldingsDatabase",
             "Database": "IFXDb",
             "UsesEnvironmentCredentials": false
@@ -5657,6 +5695,16 @@
           },
           {
             "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "RegistryDatabase",
+            "Database": "IFXDb",
+            "UsesEnvironmentCredentials": false
+          },
+          {
+            "Key": "TransactionDatabase",
             "Database": "IFXDb",
             "UsesEnvironmentCredentials": false
           },
@@ -6072,7 +6120,7 @@
             {
               "Name": "IX_Idps_IsPrimary",
               "IsUnique": true,
-              "Filter": "[IsPrimary] = 1",
+              "Filter": "isprimary=1",
               "Columns": [
                 "IsPrimary"
               ]
@@ -6183,19 +6231,7 @@
               ]
             }
           ],
-          "ForeignKeys": [
-            {
-              "Name": "FK_LoginEvents_LoginEvents_LoginEventId",
-              "Columns": [
-                "Id"
-              ],
-              "PrincipalSchema": "auth",
-              "PrincipalTable": "LoginEvents",
-              "PrincipalColumns": [
-                "Id"
-              ]
-            }
-          ],
+          "ForeignKeys": [],
           "Indexes": [
             {
               "Name": "IX_LoginEvents_LoginTimestamp",
@@ -6428,7 +6464,7 @@
             {
               "Name": "UX_PolicyDefinitions_Scope_Tenant_Resource_Action",
               "IsUnique": true,
-              "Filter": "[TenantId] IS NOT NULL",
+              "Filter": "tenantidisnotnull",
               "Columns": [
                 "Scope",
                 "TenantId",

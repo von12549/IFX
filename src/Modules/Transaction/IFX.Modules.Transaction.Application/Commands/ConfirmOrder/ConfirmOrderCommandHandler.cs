@@ -45,7 +45,7 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, R
             {
                 var leg = order.Legs.FirstOrDefault(l => l.Id == legRequest.TransactionId);
                 if (leg == null)
-                    return Result<OrderDto>.Failure($"Transaction leg {legRequest.TransactionId} not found on this order.");
+                    return Result<OrderDto>.Failure("A transaction leg was not found on this order.");
                 DealingPriceDetails? priceDetails = null;
                 if (!string.IsNullOrWhiteSpace(legRequest.PriceType))
                     priceDetails = DealingPriceDetails.Create(legRequest.PriceType, legRequest.NAVPrice, leg.Currency);
@@ -66,9 +66,9 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, R
             _logger.LogInformation("Order confirmed: {OrderId}", order.Id);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }
-        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException)
         {
-            return Result<OrderDto>.Failure(ex.Message);
+            return Result<OrderDto>.Failure("The requested state transition is not allowed.");
         }
     }
 }

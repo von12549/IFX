@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "owner": "xiaolong-feng",
+  "operationalSink": {
+    "fieldPolicy": "allowlisted bounded C0/C1 fields only",
+    "c2": "keyed HMAC pseudonym with visible non-secret rotation key ID",
+    "c3": "redact",
+    "c4": "drop",
+    "unknown": "redact",
+    "exceptions": "discard exception message, data and stack; retain bounded exception type as FailureType",
+    "forbiddenPayloads": ["request body", "response body", "Contract", "Event", "SQL parameters", "third-party response body"]
+  },
+  "traceAndMetrics": {
+    "spanNames": "static route or operation names only",
+    "tagsAndBaggage": "same field classifier as logs; baggage is disabled for sensitive values",
+    "metricLabels": ["operation", "outcome", "reasonCode", "module", "schemaVersion"],
+    "forbiddenLabels": ["UserId", "TenantId", "ResourceId", "email", "IP", "CorrelationId", "EventId"],
+    "requestResponseBodyCapture": false,
+    "sqlParameterCapture": false,
+    "efSensitiveDataLogging": false
+  },
+  "externalErrors": {
+    "schema": ["errorCode", "safeMessage", "correlationId"],
+    "validationDetails": "stable property key plus Invalid value; no rejected value or validator prose",
+    "exceptionMessages": false,
+    "providerBodies": false
+  },
+  "securityAuditSink": {
+    "separateFromOperationalLogs": true,
+    "writers": ["authenticated security decision service", "Auth compliance workflow"],
+    "readers": ["Security", "Compliance"],
+    "immutability": "append-only with tamper-evident platform control required in production",
+    "retention": "approved security/compliance schedule; production value pending Security and Legal",
+    "deletion": "approved legal/subject process with tombstone audit; no ad-hoc operator deletion",
+    "query": "authorized, audited, purpose-bound query only",
+    "rawIpOrSubject": "audit-only when approved; never copied to operational logs"
+  },
+  "authTokenPersistence": {
+    "sourceStatus": "resolved",
+    "migrationId": "20260908015924_RemoveLoginEventSecrets",
+    "removedColumns": ["AccessToken", "RefreshToken", "CognitoSessionId", "TokenExpiresAt"],
+    "deploymentStatus": "pending database safety approval and verified restore point",
+    "dataLossAssessment": "intentional destruction of persisted credentials and session material; no business record is deleted",
+    "rollback": "roll forward only; Down must never be used to restore secret storage"
+  },
+  "productionEvidence": {
+    "status": "pending",
+    "required": ["external pseudonym key management and rotation", "sink ACL", "retention/deletion configuration", "tamper-evidence", "access audit"]
+  }
+}

@@ -14,7 +14,8 @@
         { "migrationId": "20260327075710_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045" },
         { "migrationId": "20260327075811_InitialSeed", "productVersion": "8.0.0", "sourceSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e" },
         { "migrationId": "20260413100000_CrmPolicyDefinitionSeeds", "productVersion": "8.0.0", "sourceSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b" },
-        { "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980" }
+        { "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980" },
+        { "migrationId": "20260908015924_RemoveLoginEventSecrets", "productVersion": "8.0.0", "sourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639" }
       ]
     },
     {

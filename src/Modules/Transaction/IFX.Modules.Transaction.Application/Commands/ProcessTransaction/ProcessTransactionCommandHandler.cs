@@ -46,9 +46,9 @@ public class ProcessTransactionCommandHandler : IRequestHandler<ProcessTransacti
             _logger.LogInformation("Transaction processed: {TransactionId} Units={Units} NAV={NAVPrice}", tx.Id, tx.Units, tx.NAVPrice);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));
         }
-        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException)
         {
-            return Result<TransactionDto>.Failure(ex.Message);
+            return Result<TransactionDto>.Failure("The requested state transition is not allowed.");
         }
     }
 }

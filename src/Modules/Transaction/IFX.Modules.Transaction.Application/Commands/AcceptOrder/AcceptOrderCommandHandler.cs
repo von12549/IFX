@@ -46,9 +46,9 @@ public class AcceptOrderCommandHandler : IRequestHandler<AcceptOrderCommand, Res
             _logger.LogInformation("Order accepted: {OrderId} DealRef={DealReference}", order.Id, order.DealReference);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }
-        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException)
         {
-            return Result<OrderDto>.Failure(ex.Message);
+            return Result<OrderDto>.Failure("The requested state transition is not allowed.");
         }
     }
 }

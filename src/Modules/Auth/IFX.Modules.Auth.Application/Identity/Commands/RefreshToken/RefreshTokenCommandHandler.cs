@@ -31,8 +31,8 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             var cognitoResult = await _identityProvider.RefreshTokenAsync(request.RefreshToken, request.Username);
             if (!cognitoResult.Success)
             {
-                _logger.LogWarning("Failed to refresh token: {ErrorMessage}", cognitoResult.ErrorMessage);
-                return Result<RefreshTokenResponse>.Failure(cognitoResult.ErrorMessage ?? "Failed to refresh token");
+                _logger.LogWarning("Token refresh was rejected by the identity provider");
+                return Result<RefreshTokenResponse>.Failure("Failed to refresh token");
             }
 
             // Get user info from Cognito using the new access token
@@ -55,18 +55,17 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(primaryIdp.Issuer, subject, cancellationToken);
             if (user == null)
             {
-                _logger.LogWarning("User not found for Issuer {Issuer} and Subject {Subject}", primaryIdp.Issuer, subject);
+                _logger.LogWarning("Token refresh identity did not match a local user");
                 return Result<RefreshTokenResponse>.Failure("User not found");
             }
 
-            // Create new LoginEvent for token refresh
-            var loginEvent = LoginEvent.CreateSuccess(user.Id, request.IpAddress ?? "Unknown", "Token Refresh", // DeviceInfo not available on refresh
- cognitoSessionId: null, cognitoResult.AccessToken, cognitoResult.RefreshToken, DateTimeOffset.UtcNow.AddSeconds(cognitoResult.ExpiresIn));
+            // Record the outcome only; refreshed credentials never enter persistence.
+            var loginEvent = LoginEvent.CreateSuccess(user.Id, request.IpAddress ?? "Unknown", "Token Refresh");
             await _unitOfWork.LoginEvents.AddAsync(loginEvent, cancellationToken);
             // Create UserActivityLog
-            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Login, $"Token refreshed for user {user.DisplayName}", request.IpAddress ?? "Unknown");
+            var activityLog = UserActivityLog.Create(user.Id, ActivityType.Login, "Token refresh succeeded", request.IpAddress ?? "Unknown");
             await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
-            _logger.LogInformation("Token refreshed successfully for Subject {Subject}", subject);
+            _logger.LogInformation("Token refresh succeeded");
             // Map user to DTO
             var userProfileDto = _mapper.Map<UserProfileDto>(user);
             return Result<RefreshTokenResponse>.Success(new RefreshTokenResponse { AccessToken = cognitoResult.AccessToken, IdToken = cognitoResult.IdToken, RefreshToken = cognitoResult.RefreshToken, ExpiresIn = cognitoResult.ExpiresIn, TokenType = cognitoResult.TokenType, ExpiresAt = DateTime.UtcNow.AddSeconds(cognitoResult.ExpiresIn), UserProfile = userProfileDto });

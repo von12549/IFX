@@ -30,29 +30,10 @@ public class LoginEventTests
     }
 
     [Fact]
-    public void CreateSuccess_WithTokens_StoresTokens()
+    public void PublicShape_DoesNotExposePersistedCredentialFields()
     {
-        // Arrange
-        var userId = Guid.NewGuid();
-        var accessToken = "access-token-123";
-        var refreshToken = "refresh-token-456";
-        var expiresAt = DateTime.UtcNow.AddHours(1);
-
-        // Act
-        var loginEvent = LoginEvent.CreateSuccess(
-            userId,
-            TestConstants.ValidIpAddress,
-            TestConstants.ValidUserAgent,
-            cognitoSessionId: "session-123",
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-            tokenExpiresAt: expiresAt);
-
-        // Assert
-        loginEvent.CognitoSessionId.Should().Be("session-123");
-        loginEvent.AccessToken.Should().Be(accessToken);
-        loginEvent.RefreshToken.Should().Be(refreshToken);
-        loginEvent.TokenExpiresAt.Should().BeCloseTo(expiresAt, TimeSpan.FromSeconds(1));
+        typeof(LoginEvent).GetProperties().Select(property => property.Name).Should().NotContain(
+            ["CognitoSessionId", "AccessToken", "RefreshToken", "TokenExpiresAt"]);
     }
 
     [Fact]
@@ -73,9 +54,6 @@ public class LoginEventTests
         loginEvent.Should().NotBeNull();
         loginEvent.Success.Should().BeFalse();
         loginEvent.FailureReason.Should().Be(failureReason);
-        loginEvent.AccessToken.Should().BeNull();
-        loginEvent.RefreshToken.Should().BeNull();
-        loginEvent.TokenExpiresAt.Should().BeNull();
     }
 
     [Fact]
@@ -125,26 +103,6 @@ public class LoginEventTests
         // Assert
         loginEvent.Success.Should().BeFalse();
         loginEvent.FailureReason.Should().Be(reason);
-    }
-
-    [Fact]
-    public void Builder_WithTokens_StoresTokens()
-    {
-        // Arrange
-        var accessToken = "access-123";
-        var refreshToken = "refresh-456";
-        var expiresAt = DateTime.UtcNow.AddHours(1);
-
-        // Act
-        var loginEvent = new LoginEventBuilder()
-            .AsSuccess()
-            .WithTokens(accessToken, refreshToken, expiresAt)
-            .Build();
-
-        // Assert
-        loginEvent.AccessToken.Should().Be(accessToken);
-        loginEvent.RefreshToken.Should().Be(refreshToken);
-        loginEvent.TokenExpiresAt.Should().BeCloseTo(expiresAt, TimeSpan.FromSeconds(1));
     }
 
     [Fact]

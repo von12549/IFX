@@ -38,22 +38,19 @@ public class SendGridEmailService : IEmailService
                     ? values.FirstOrDefault()
                     : null;
 
-                _logger.LogInformation("Email sent successfully to {To}, MessageId: {MessageId}",
-                    message.To, messageId);
+                _logger.LogInformation("Email delivery accepted with {MessageId}", messageId);
 
                 return EmailResult.Success(messageId);
             }
 
-            var body = await response.Body.ReadAsStringAsync(cancellationToken);
-            _logger.LogError("Failed to send email to {To}. Status: {Status}, Body: {Body}",
-                message.To, response.StatusCode, body);
+            _logger.LogError("Email delivery failed with {Status}", response.StatusCode);
 
-            return EmailResult.Failure($"SendGrid returned {response.StatusCode}: {body}");
+            return EmailResult.Failure("email_provider_rejected");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Exception while sending email to {To}", message.To);
-            return EmailResult.Failure(ex.Message);
+            _logger.LogError("Email delivery failed with {FailureType}", ex.GetType().Name);
+            return EmailResult.Failure("email_provider_unavailable");
         }
     }
 
@@ -88,22 +85,20 @@ public class SendGridEmailService : IEmailService
                     ? values.FirstOrDefault()
                     : null;
 
-                _logger.LogInformation("Templated email sent successfully to {To} using template {TemplateId}, MessageId: {MessageId}",
-                    message.To, message.TemplateId, messageId);
+                _logger.LogInformation("Templated email delivery accepted for {TemplateId} with {MessageId}",
+                    message.TemplateId, messageId);
 
                 return EmailResult.Success(messageId);
             }
 
-            var body = await response.Body.ReadAsStringAsync(cancellationToken);
-            _logger.LogError("Failed to send templated email to {To}. Status: {Status}, Body: {Body}",
-                message.To, response.StatusCode, body);
+            _logger.LogError("Templated email delivery failed with {Status}", response.StatusCode);
 
-            return EmailResult.Failure($"SendGrid returned {response.StatusCode}: {body}");
+            return EmailResult.Failure("email_provider_rejected");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Exception while sending templated email to {To}", message.To);
-            return EmailResult.Failure(ex.Message);
+            _logger.LogError("Templated email delivery failed with {FailureType}", ex.GetType().Name);
+            return EmailResult.Failure("email_provider_unavailable");
         }
     }
 

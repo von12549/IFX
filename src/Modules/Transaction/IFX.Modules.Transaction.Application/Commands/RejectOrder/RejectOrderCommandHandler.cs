@@ -46,9 +46,9 @@ public class RejectOrderCommandHandler : IRequestHandler<RejectOrderCommand, Res
             _logger.LogInformation("Order rejected: {OrderId} Reason={Reason}", order.Id, request.Reason);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }
-        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException ex)
+        catch (IFX.BuildingBlocks.Domain.DomainRuleViolationException)
         {
-            return Result<OrderDto>.Failure(ex.Message);
+            return Result<OrderDto>.Failure("The requested state transition is not allowed.");
         }
     }
 }

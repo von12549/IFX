@@ -168,6 +168,40 @@ if ($Phase -ge 6) {
     $checks.phase6LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase6-layerguard-report.json')
 }
 
+if ($Phase -ge 7) {
+    $observabilityPolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/observability-security-policy.json') | ConvertFrom-Json -Depth 30
+    $redactorSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/BuildingBlocks/IFX.BuildingBlocks.Application/Observability/SensitiveTelemetryRedactor.cs')
+    $sinkSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Observability/SensitiveLogEventSink.cs')
+    $factorySource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Observability/SensitiveTelemetryRedactorFactory.cs')
+    $programSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
+    $requestLoggingSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Middleware/RequestLoggingMiddleware.cs')
+    $exceptionSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs')
+    $observabilityTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs')
+    $httpBoundaryTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs')
+    $loginEventSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/LoginEvent.cs')
+    $loginEventConfiguration = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs')
+    $authSnapshot = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs')
+    $tokenMigration = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs')
+    $notificationSource = @(
+        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs'))
+        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs'))
+        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoOidcService.cs'))
+    ) -join "`n"
+    $transactionHandlers = @(Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands') -Recurse -File -Filter '*Handler.cs' | Get-Content -Raw) -join "`n"
+    $removedTokenMembers = @('AccessToken', 'RefreshToken', 'CognitoSessionId', 'TokenExpiresAt')
+    $checks.centralOperationalSinkEnforcesClassifier = $programSource -match 'SensitiveLogEventSink' -and $sinkSource -match 'TelemetryValueHandling\.Drop' -and $sinkSource -match 'exception: null' -and $redactorSource -match 'HMACSHA256' -and $redactorSource -match 'TelemetrySignal\.MetricLabel or TelemetrySignal\.Baggage'
+    $checks.productionPseudonymKeyFailsClosedAndSupportsRotation = $factorySource -match 'PseudonymKeyId' -and $factorySource -match 'PseudonymKeyBase64' -and $factorySource -match 'environment\.IsProduction\(\)' -and $factorySource -match 'Production observability pseudonym key configuration is required' -and $observabilityTests -match 'Pseudonym_key_rotation_changes_output_without_exposing_source_value'
+    $checks.rawRequestPathAndSdkPayloadsAreNotLogged = $requestLoggingSource -notmatch 'Request\.Path' -and $notificationSource -notmatch '\{To\}|\{Subject\}|\{Response\}' -and $notificationSource -notmatch 'LogError\(ex' -and $notificationSource -notmatch 'ex\.Message'
+    $checks.externalErrorsAreStableAndSafe = $observabilityPolicy.externalErrors.exceptionMessages -eq $false -and $observabilityPolicy.externalErrors.providerBodies -eq $false -and $exceptionSource -notmatch 'response\.Error = exception\.Message' -and $transactionHandlers -notmatch 'Failure\(ex\.Message\)' -and $exceptionSource -match 'CorrelationId'
+    $checks.auditSinkGovernanceIsIndependentAndComplete = $observabilityPolicy.securityAuditSink.separateFromOperationalLogs -eq $true -and @('writers', 'readers', 'immutability', 'retention', 'deletion', 'query' | Where-Object { [string]::IsNullOrWhiteSpace($observabilityPolicy.securityAuditSink.$_) }).Count -eq 0
+    $checks.traceMetricAndBaggagePolicyIsBounded = $observabilityPolicy.traceAndMetrics.requestResponseBodyCapture -eq $false -and $observabilityPolicy.traceAndMetrics.sqlParameterCapture -eq $false -and $observabilityPolicy.traceAndMetrics.efSensitiveDataLogging -eq $false -and @($observabilityPolicy.traceAndMetrics.forbiddenLabels).Count -ge 7 -and $observabilityTests -match 'TelemetrySignal\.Baggage' -and $observabilityTests -match 'TelemetrySignal\.MetricLabel'
+    $checks.authTokenPersistenceIsRemovedInCodeAndMigration = @($removedTokenMembers | Where-Object { $loginEventSource -match [regex]::Escape($_) -or $loginEventConfiguration -match [regex]::Escape($_) -or $authSnapshot -match [regex]::Escape($_) }).Count -eq 0 -and ([regex]::Matches($tokenMigration, 'migrationBuilder\.DropColumn')).Count -eq 4 -and @($removedTokenMembers | Where-Object { -not $tokenMigration.Contains("name: `"$($_)`"") }).Count -eq 0
+    $checks.destructiveMigrationApprovalIsNotMisrepresented = $observabilityPolicy.authTokenPersistence.sourceStatus -eq 'resolved' -and $observabilityPolicy.authTokenPersistence.deploymentStatus -match '^pending ' -and $observabilityPolicy.authTokenPersistence.rollback -match 'Down must never' -and $observabilityPolicy.productionEvidence.status -eq 'pending'
+    $checks.capturedSentinelCoverageExists = $observabilityTests -match 'Captured_sink_removes_sensitive_values_payloads_and_exception_details' -and $observabilityTests -match 'g05-sentinel@example\.invalid' -and $httpBoundaryTests -match 'Diagnostic_endpoint_does_not_echo_sensitive_query_sentinels' -and (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Middleware/ExceptionHandlingHttpEndToEndTests.cs')) -match 'secret database detail'
+    $checks.phase7EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase7-observability-security.md')
+    $checks.phase7LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase7-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

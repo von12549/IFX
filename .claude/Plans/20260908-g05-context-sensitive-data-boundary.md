@@ -45,6 +45,28 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 4 — synchronous Contract context conformance.
 - [x] Phase 5 — Event Envelope and fake Outbox/carrier/Inbox propagation conformance.
 - [x] Phase 6 — sole-catalog field classification, minimization and exception governance.
+- [x] Phase 7 — safe operational observability, governed audit separation and Auth secret-retention remediation.
+
+## Phase 7 acceptance
+
+- A central sink applies a default-redact allowlist: C2 values use keyed HMAC with a visible rotation
+  key ID, C3 values are redacted, C4 values are removed, and exception message/data/stack never reach
+  operational destinations. Production fails closed unless an external 256-bit key and key ID exist.
+- Request logs use route names rather than raw paths. No-op/SendGrid email and Cognito OIDC logging no
+  longer emits recipients, subjects, bodies, provider responses or raw SDK exceptions.
+- Trace tags use the same classifier; sensitive metric labels and baggage are dropped. Policy disables
+  body, SQL-parameter and EF-sensitive-data capture and defines a bounded label set.
+- External middleware errors retain stable code, safe message and correlation ID. Transaction Results
+  and OIDC failures no longer return domain/provider exception prose.
+- Security/compliance audit data has separate writer/reader, append-only/tamper-evidence, retention,
+  deletion and purpose-bound query rules. Production sink evidence remains pending.
+- Auth `LoginEvent` no longer models or writes access token, refresh token, Cognito session ID or token
+  expiry. Migration `20260908015924_RemoveLoginEventSecrets` drops the four nullable columns; applying
+  this contract migration remains blocked on database safety approval and a verified restore point.
+- Captured-sink, key-rotation, trace/metric/baggage, safe-error and diagnostic-endpoint sentinel tests
+  cover the emitted and externally visible boundaries.
+- Full verification passed: 1017/1017 solution tests, 179/179 LayerGuard tests, zero build errors,
+  no pending Auth model change, and the 15-migration safety/catalog checks.
 
 ## Phase 6 acceptance
 

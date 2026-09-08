@@ -39,7 +39,7 @@ public class NoOpEmailServiceTests
     }
 
     [Fact]
-    public async Task SendEmailAsync_LogsMessageDetails()
+    public async Task SendEmailAsync_DoesNotLogMessageDetails()
     {
         // Arrange
         var message = new EmailMessage
@@ -57,7 +57,10 @@ public class NoOpEmailServiceTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("test@example.com") && v.ToString()!.Contains("Important Subject")),
+                It.Is<It.IsAnyType>((v, t) =>
+                    !v.ToString()!.Contains("test@example.com") &&
+                    !v.ToString()!.Contains("Important Subject") &&
+                    !v.ToString()!.Contains("Body content")),
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);
@@ -88,7 +91,7 @@ public class NoOpEmailServiceTests
     }
 
     [Fact]
-    public async Task SendTemplatedEmailAsync_LogsTemplateDetails()
+    public async Task SendTemplatedEmailAsync_DoesNotLogTemplateDetails()
     {
         // Arrange
         var message = new TemplatedEmailMessage
@@ -105,7 +108,9 @@ public class NoOpEmailServiceTests
             x => x.Log(
                 LogLevel.Information,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString()!.Contains("user@example.com") && v.ToString()!.Contains("d-welcome-template")),
+                It.Is<It.IsAnyType>((v, t) =>
+                    !v.ToString()!.Contains("user@example.com") &&
+                    !v.ToString()!.Contains("d-welcome-template")),
                 It.IsAny<Exception?>(),
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
             Times.Once);

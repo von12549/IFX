@@ -170,6 +170,22 @@ public sealed class HttpContextBoundaryTests(CustomWebApplicationFactory factory
         platformResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
+    [Fact]
+    public async Task Diagnostic_endpoint_does_not_echo_sensitive_query_sentinels()
+    {
+        const string email = "diagnostic-g05@example.invalid";
+        const string token = "diagnostic-g05-secret-token";
+        using var configured = CreateGlobalAdministratorFactory(TestAuthHandler.DefaultTenantId);
+        using var client = CreateAuthenticatedClient(configured, "Role:list");
+
+        var response = await client.GetAsync(
+            $"/management/runtime?email={Uri.EscapeDataString(email)}&access_token={Uri.EscapeDataString(token)}");
+        var body = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        body.Should().NotContain(email).And.NotContain(token);
+    }
+
     private Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory<Program> CreateGlobalAdministratorFactory(Guid tenantId) =>
         factory.WithWebHostBuilder(builder => builder.ConfigureServices(services =>
         {

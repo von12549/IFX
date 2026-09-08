@@ -12,21 +12,12 @@ public class LoginEvent : BaseEntity
     public string IpAddress { get; private set; } = string.Empty;
     public DeviceInfo DeviceInfo { get; private set; } = null!;
     public string UserAgent { get; private set; } = string.Empty;
-    public string? CognitoSessionId { get; private set; }
-    public string? AccessToken { get; private set; }
-    public string? RefreshToken { get; private set; }
-    public DateTimeOffset? TokenExpiresAt { get; private set; }
-
     private LoginEvent() { } // For EF Core
 
     public static LoginEvent CreateSuccess(
         Guid userId,
         string ipAddress,
-        string userAgent,
-        string? cognitoSessionId = null,
-        string? accessToken = null,
-        string? refreshToken = null,
-        DateTimeOffset? tokenExpiresAt = null)
+        string userAgent)
     {
         return new LoginEvent
         {
@@ -36,11 +27,7 @@ public class LoginEvent : BaseEntity
             FailureReason = null,
             IpAddress = ipAddress,
             DeviceInfo = DeviceInfo.Parse(userAgent),
-            UserAgent = userAgent,
-            CognitoSessionId = cognitoSessionId,
-            AccessToken = accessToken,
-            RefreshToken = refreshToken,
-            TokenExpiresAt = tokenExpiresAt
+            UserAgent = userAgent
         };
     }
 
@@ -58,11 +45,7 @@ public class LoginEvent : BaseEntity
             FailureReason = failureReason,
             IpAddress = ipAddress,
             DeviceInfo = DeviceInfo.Parse(userAgent),
-            UserAgent = userAgent,
-            CognitoSessionId = null,
-            AccessToken = null,
-            RefreshToken = null,
-            TokenExpiresAt = null
+            UserAgent = userAgent
         };
     }
 }

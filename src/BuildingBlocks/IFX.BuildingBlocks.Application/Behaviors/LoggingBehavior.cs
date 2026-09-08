@@ -26,9 +26,9 @@ public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior
             logger.LogInformation("Cancelled {RequestName}", requestName);
             throw;
         }
-        catch (Exception exception)
+        catch (Exception)
         {
-            logger.LogError(exception, "Unhandled failure while processing {RequestName}", requestName);
+            logger.LogError("Unhandled failure while processing {RequestName}", requestName);
             throw;
         }
     }

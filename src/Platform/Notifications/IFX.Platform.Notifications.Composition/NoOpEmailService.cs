@@ -6,7 +6,7 @@ namespace IFX.Platform.Notifications.Composition;
 
 /// <summary>
 /// No-op implementation of <see cref="IEmailService"/> for development/testing.
-/// Logs email sends but does not actually send emails.
+/// Records only bounded delivery events and does not actually send emails.
 /// </summary>
 public class NoOpEmailService : IEmailService
 {
@@ -19,20 +19,14 @@ public class NoOpEmailService : IEmailService
 
     public Task<EmailResult> SendEmailAsync(EmailMessage message, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation(
-            "[NoOp] Would send email to {To}, Subject: {Subject}",
-            message.To,
-            message.Subject);
+        _logger.LogInformation("[NoOp] Email delivery accepted");
 
         return Task.FromResult(EmailResult.Success("noop-message-id"));
     }
 
     public Task<EmailResult> SendTemplatedEmailAsync(TemplatedEmailMessage message, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation(
-            "[NoOp] Would send templated email to {To}, Template: {TemplateId}",
-            message.To,
-            message.TemplateId);
+        _logger.LogInformation("[NoOp] Templated email delivery accepted");
 
         return Task.FromResult(EmailResult.Success("noop-message-id"));
     }
@@ -41,12 +35,9 @@ public class NoOpEmailService : IEmailService
     {
         var results = new List<EmailResult>();
 
-        foreach (var message in messages)
+        foreach (var _ in messages)
         {
-            _logger.LogInformation(
-                "[NoOp] Would send batch email to {To}, Subject: {Subject}",
-                message.To,
-                message.Subject);
+            _logger.LogInformation("[NoOp] Batch email delivery accepted");
 
             results.Add(EmailResult.Success("noop-message-id"));
         }

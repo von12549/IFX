@@ -77,7 +77,7 @@ public class SendGridEmailServiceTests
         // Assert
         Assert.False(result.IsSuccess);
         Assert.Null(result.MessageId);
-        Assert.Contains("BadRequest", result.ErrorMessage);
+        Assert.Equal("email_provider_rejected", result.ErrorMessage);
     }
 
     [Fact]
@@ -100,7 +100,7 @@ public class SendGridEmailServiceTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal("Network error", result.ErrorMessage);
+        Assert.Equal("email_provider_unavailable", result.ErrorMessage);
     }
 
     [Fact]

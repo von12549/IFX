@@ -32,17 +32,6 @@ public class LoginEventConfiguration : IEntityTypeConfiguration<LoginEvent>
             .IsRequired()
             .HasMaxLength(500);
 
-        builder.Property(le => le.CognitoSessionId)
-            .HasMaxLength(100);
-
-        builder.Property(le => le.AccessToken)
-            .HasMaxLength(2048); // JWT tokens can be long
-
-        builder.Property(le => le.RefreshToken)
-            .HasMaxLength(2048);
-
-        builder.Property(le => le.TokenExpiresAt);
-
         // DeviceInfo as owned entity (value object)
         builder.OwnsOne(le => le.DeviceInfo, deviceInfo =>
         {

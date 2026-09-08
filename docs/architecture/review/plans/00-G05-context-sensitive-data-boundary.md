@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 6 field classification and minimization
+> 状态：Implementation In Progress / Phase 7 safe observability and token-retention remediation
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -268,16 +268,22 @@ Phase 6 证据：Gate 03 唯一 [`contract-event-catalog.yaml`](../gates/G03/con
 
 ## Phase 7 — 重建日志、Trace、审计与错误安全
 
-- [ ] **Phase 7 完成**：普通运维数据不再成为敏感信息旁路，审计数据有独立治理。
+- [x] **Phase 7 完成**：普通运维数据不再成为敏感信息旁路，审计数据有独立治理。
 
-- [ ] G05-7.1 定义集中日志字段 allowlist、C2 keyed-HMAC pseudonym、C3 redact 和 C4 drop 策略；密钥轮换不暴露原值。
-- [ ] G05-7.2 清理 username/email/issuer/subject/IP/UserId/TenantId/ResourceId 等现有日志，按运维或审计用途迁移。
-- [ ] G05-7.3 禁止日志记录完整 request/response/Contract/Event/exception payload；第三方 SDK exception 经过安全过滤。
-- [ ] G05-7.4 建立独立 security/compliance audit sink 的权限、不可篡改、retention、deletion 和查询规则。
-- [ ] G05-7.5 限制 span name、tag、baggage、metric label 的敏感值和基数；禁止 SQL 参数与 body 默认采集。
-- [ ] G05-7.6 统一外部 ErrorCode/safe message/CorrelationId schema，移除 Argument/KeyNotFound/Result/SDK exception 原文外泄。
-- [ ] G05-7.7 解决或正式升级 Auth access/refresh token 持久化 finding；Gate 关闭前不得以普通审计需求批准长期保存 Secret。
-- [ ] G05-7.8 使用捕获 sink 和 sentinel 数据测试日志、trace、metric、error response 与诊断 endpoint。
+- [x] G05-7.1 定义集中日志字段 allowlist、C2 keyed-HMAC pseudonym、C3 redact 和 C4 drop 策略；密钥轮换不暴露原值。
+- [x] G05-7.2 清理 username/email/issuer/subject/IP/UserId/TenantId/ResourceId 等现有日志，按运维或审计用途迁移。
+- [x] G05-7.3 禁止日志记录完整 request/response/Contract/Event/exception payload；第三方 SDK exception 经过安全过滤。
+- [x] G05-7.4 建立独立 security/compliance audit sink 的权限、不可篡改、retention、deletion 和查询规则。
+- [x] G05-7.5 限制 span name、tag、baggage、metric label 的敏感值和基数；禁止 SQL 参数与 body 默认采集。
+- [x] G05-7.6 统一外部 ErrorCode/safe message/CorrelationId schema，移除 Argument/KeyNotFound/Result/SDK exception 原文外泄。
+- [x] G05-7.7 解决或正式升级 Auth access/refresh token 持久化 finding；Gate 关闭前不得以普通审计需求批准长期保存 Secret。
+- [x] G05-7.8 使用捕获 sink 和 sentinel 数据测试日志、trace、metric、error response 与诊断 endpoint。
+
+Phase 7 证据：[`observability-security-policy.json`](../gates/G05/observability-security-policy.json)、
+[`G05-phase7-observability-security.md`](../evidence/gates/G05/G05-phase7-observability-security.md)、
+[`G05-phase7-guard-report.json`](../evidence/gates/G05/G05-phase7-guard-report.json) 和
+[`G05-phase7-layerguard-report.json`](../evidence/gates/G05/G05-phase7-layerguard-report.json)。令牌列删除迁移已进入版本化清单，
+但生产执行仍要求数据库安全审批与已验证 restore point；该外部条件未被记作已完成。
 
 ## Phase 8 — 落实失败、Quarantine、Replay 与兼容规则
 

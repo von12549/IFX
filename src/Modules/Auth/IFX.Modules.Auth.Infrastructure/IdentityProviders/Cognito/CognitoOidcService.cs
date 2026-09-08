@@ -87,7 +87,7 @@ public class CognitoOidcService : IOidcAuthService
             var cacheKey = $"{StateCacheKeyPrefix}{state}";
             if (!_cache.TryGetValue<OAuthStateEntry>(cacheKey, out var stateEntry))
             {
-                _logger.LogWarning("Invalid or expired state parameter: {State}", state);
+                _logger.LogWarning("Invalid or expired OAuth state");
                 return new OidcTokenResult
                 {
                     Success = false,
@@ -125,15 +125,13 @@ public class CognitoOidcService : IOidcAuthService
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogWarning("Token exchange failed: {StatusCode} - {Response}",
-                    response.StatusCode, responseContent);
+                _logger.LogWarning("Token exchange failed with {StatusCode}", response.StatusCode);
 
-                var errorResponse = JsonSerializer.Deserialize<TokenErrorResponse>(responseContent);
                 return new OidcTokenResult
                 {
                     Success = false,
-                    Error = errorResponse?.Error ?? "token_exchange_failed",
-                    ErrorDescription = errorResponse?.ErrorDescription ?? "Failed to exchange authorization code"
+                    Error = "token_exchange_failed",
+                    ErrorDescription = "Failed to exchange authorization code"
                 };
             }
 
@@ -162,7 +160,9 @@ public class CognitoOidcService : IOidcAuthService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error exchanging authorization code for tokens");
+            _logger.LogError(
+                "Error exchanging authorization code for tokens with {FailureType}",
+                ex.GetType().Name);
             return new OidcTokenResult
             {
                 Success = false,
@@ -184,8 +184,7 @@ public class CognitoOidcService : IOidcAuthService
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogWarning("UserInfo request failed: {StatusCode} - {Response}",
-                    response.StatusCode, responseContent);
+                _logger.LogWarning("UserInfo request failed with {StatusCode}", response.StatusCode);
                 throw new InvalidOperationException($"Failed to get user info: {response.StatusCode}");
             }
 
@@ -195,7 +194,7 @@ public class CognitoOidcService : IOidcAuthService
                 throw new InvalidOperationException("Invalid userinfo response");
             }
 
-            _logger.LogInformation("Successfully retrieved user info for subject {Subject}", userInfoResponse.Sub);
+            _logger.LogInformation("Successfully retrieved user info");
 
             return new OidcUserInfo
             {
@@ -212,7 +211,7 @@ public class CognitoOidcService : IOidcAuthService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting user info");
+            _logger.LogError("Error getting user info with {FailureType}", ex.GetType().Name);
             throw;
         }
     }

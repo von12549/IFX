@@ -15,19 +15,26 @@ using IFX.Platform.Notifications.Composition;
 using Serilog;
 using IFX.ApiHost.Runtime;
 using IFX.BuildingBlocks.Application.Context;
+using IFX.BuildingBlocks.Application.Observability;
+using IFX.ApiHost.Observability;
 
-// Configure Serilog
-Log.Logger = new LoggerConfiguration()
+var builder = WebApplication.CreateBuilder(args);
+
+// All application logs pass through the value/classification boundary before reaching a sink.
+var telemetryOutput = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("logs/auth-api-.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+var telemetryRedactor = SensitiveTelemetryRedactorFactory.Create(builder.Configuration, builder.Environment);
+Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
+    .WriteTo.Sink(new SensitiveLogEventSink(telemetryOutput, telemetryRedactor))
     .CreateLogger();
 
 try
 {
     Log.Information("Starting Auth API");
 
-    var builder = WebApplication.CreateBuilder(args);
     var runtimeProfile = RuntimeProfileResolver.Resolve(builder.Configuration, builder.Environment);
     builder.Services.AddSingleton(runtimeProfile);
     var runtimeInstanceIdentity = RuntimeInstanceIdentity.Create(runtimeProfile.Role);
