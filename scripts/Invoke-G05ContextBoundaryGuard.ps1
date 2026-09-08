@@ -232,6 +232,32 @@ if ($Phase -ge 8) {
     $checks.phase8LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json')
 }
 
+if ($Phase -ge 9) {
+    $verificationPath = Join-Path $repositoryRoot 'scripts/Invoke-G05Verification.ps1'
+    $workflowPath = Join-Path $repositoryRoot '.github/workflows/g05-context-boundary.yml'
+    $baselinePath = Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/verification-baseline-v1.json'
+    $catalogValidator = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'scripts/Test-G03ContractEventCatalog.ps1')
+    $verificationSource = Get-Content -Raw -LiteralPath $verificationPath
+    $workflowSource = Get-Content -Raw -LiteralPath $workflowPath
+    $verificationBaseline = Get-Content -Raw -LiteralPath $baselinePath | ConvertFrom-Json -Depth 20
+    $requiredSuites = @(
+        'ContextIdentifierTests', 'ContractRequestContextTests', 'EventEnvelopeV1Tests',
+        'ContractContextConformanceTests', 'EventPropagationConformanceTests',
+        'FailureReplayCompatibilityConformanceTests', 'ExecutionContextAccessorTests',
+        'HttpContextBoundaryTests', 'SensitiveObservabilityTests'
+    )
+
+    $checks.singleLocalCiVerificationEntryPointExists = (Test-Path $verificationPath) -and $workflowSource -match 'Invoke-G05Verification\.ps1' -and $workflowSource -match 'upload-artifact' -and $workflowSource -match 'artifacts/g05'
+    $checks.verificationComposesExistingAuthorities = $verificationSource -match 'Test-G03ContractEventCatalog\.ps1' -and $verificationSource -match 'Invoke-LayerGuard\.ps1' -and $verificationSource -match 'Test-MigrationSafetyPolicy\.ps1' -and $verificationSource -match 'Invoke-G05ContextBoundaryGuard\.ps1.*-Phase 9'
+    $checks.verificationBuildsAndRunsCompleteSolution = $verificationSource -match 'dotnet build' -and $verificationSource -match 'dotnet test' -and $verificationSource -match 'IFX\.sln' -and $verificationSource -match 'LogFilePrefix=solution' -and $verificationSource -match 'minimumSolutionTests'
+    $checks.requiredProtocolRuntimeAndSecuritySuitesAreBound = @($requiredSuites | Where-Object { $_ -notin $verificationBaseline.requiredSuites }).Count -eq 0 -and @($requiredSuites | Where-Object { -not (Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'tests') -Recurse -File -Filter "$_.cs") }).Count -eq 0
+    $checks.expiredExceptionAndCompatibilityRulesFailClosed = $catalogValidator -match 'field-exception-expired' -and $catalogValidator -match 'expired C3 field exception' -and $failureTests -match 'compatibility_adapter_expired'
+    $checks.verificationBaselineIsTruthfulAndBounded = $verificationBaseline.status -eq 'pre-active-repository-verification' -and $verificationBaseline.minimumSolutionTests -ge 1041 -and $verificationBaseline.requiredResults.layerGuardNewViolations -eq 0 -and $verificationBaseline.truthfulBoundary -match 'Plan 01/02'
+    $verificationSummaryPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-verification-summary.json'
+    $verificationSummary = Get-Content -Raw -LiteralPath $verificationSummaryPath | ConvertFrom-Json -Depth 20
+    $checks.phase9AutomationEvidenceExists = (Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-automation.md')) -and (Test-Path $verificationSummaryPath) -and (Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-layerguard-report.json')) -and $verificationSummary.result -eq 'passed' -and $verificationSummary.phase -eq 9 -and $verificationSummary.solutionTests.passed -ge $verificationBaseline.minimumSolutionTests
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

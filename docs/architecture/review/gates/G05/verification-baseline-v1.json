@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "owner": "xiaolong-feng",
+  "status": "pre-active-repository-verification",
+  "minimumSolutionTests": 1041,
+  "requiredResults": {
+    "catalog": "passed",
+    "catalogMutationSelfTests": 13,
+    "migrationSafety": "passed",
+    "g05GuardPhase": 9,
+    "layerGuardVerdict": "baseline-clean",
+    "layerGuardNewViolations": 0,
+    "layerGuardStaleViolations": 0,
+    "solutionFailed": 0,
+    "buildErrors": 0
+  },
+  "requiredSuites": [
+    "ContextIdentifierTests",
+    "ContractRequestContextTests",
+    "EventEnvelopeV1Tests",
+    "ContractContextConformanceTests",
+    "EventPropagationConformanceTests",
+    "FailureReplayCompatibilityConformanceTests",
+    "ExecutionContextAccessorTests",
+    "HttpContextBoundaryTests",
+    "SensitiveObservabilityTests"
+  ],
+  "truthfulBoundary": "repository automation only; real Plan 01/02 carriers, production telemetry, LayerGuard 03-A1 and approvals remain external"
+}

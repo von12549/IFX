@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "phase": 9,
+  "result": "passed",
+  "scope": "repository-automation-no-production-claim",
+  "completedAt": "2026-09-08T02:55:14.1283016+00:00",
+  "checks": {
+    "baselineFormat": true,
+    "catalog": true,
+    "catalogMutationSelfTests": true,
+    "migrationSafety": true,
+    "cumulativeG05": true,
+    "layerGuard": true,
+    "solutionTests": true
+  },
+  "solutionTests": {
+    "total": 1041,
+    "executed": 1041,
+    "passed": 1041,
+    "failed": 0,
+    "skipped": 0
+  },
+  "reports": {
+    "catalog": "artifacts/g05/catalog-security.json",
+    "migrationSafety": "artifacts/g05/migration-safety.json",
+    "contextBoundary": "G05-phase9-guard-report.json",
+    "layerGuard": "G05-phase9-layerguard-report.json",
+    "trxDirectory": "artifacts/g05/test-results/78359133cb3e4b2c8af6b96a743d6732"
+  },
+  "sha256": {
+    "baseline": "235e2ecdd7c275867db55648a42a1e9afe752aee8ffb0642981f99ba6973ca28",
+    "catalog": "05b11b5796408167594e4caa5454813cdc8819f9a577bcdb3ef519d8c991a028",
+    "migrationSafety": "5a9bed58154a1b081c106cd513ef08bb7e6b5d5dc76a868c7cfb9a3ffe27cc94",
+    "contextBoundary": "7e57fb93b8d69c6ef253effee0a0eb8bb2734dece05a319d39ad82900aaebd9a",
+    "layerGuard": "9d77f3d49bf5448aeef760b81b9326a4c5e1ea8748d9384bab28d6df404e38ac"
+  },
+  "truthfulBoundary": "repository automation only; real Plan 01/02 carriers, production telemetry, LayerGuard 03-A1 and approvals remain external"
+}

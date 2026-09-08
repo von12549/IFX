@@ -47,6 +47,23 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 6 — sole-catalog field classification, minimization and exception governance.
 - [x] Phase 7 — safe operational observability, governed audit separation and Auth secret-retention remediation.
 - [x] Phase 8 — stable failure, quarantine, replay and expiring compatibility conformance.
+- [x] Phase 9 — one local/CI repository verification entry point with hash-linked evidence.
+
+## Phase 9 acceptance
+
+- `scripts/Invoke-G05Verification.ps1` is the one local and CI entry point. It runs the existing G03
+  catalog/security validator, migration safety, cumulative G05 guard, LayerGuard, solution build and
+  complete solution tests, then emits TRX and a hash-linked summary.
+- The G03 validator remains the only field semantic authority and now rejects expired C3 field
+  exceptions. Its 13 mutation self-tests cover unknown/missing schema, C4, C3 governance, lifecycle,
+  expired exceptions and expired/unwaivable waivers.
+- Contract/Event reflection, schema, golden/unknown-field, HTTP/Contract/Event propagation, context
+  cleanup, retry/replay and observability/dead-letter sentinel suites are bound through the full solution.
+- The checked-in workflow invokes exactly the local script and uploads the complete artifact directory
+  on success or failure. A versioned baseline prevents silent test loss and preserves the PRE-ACTIVE
+  boundary.
+- Unified verification passed: 1041/1041 solution tests, 179/179 LayerGuard tests, all 13 catalog
+  mutation self-tests, migration safety, cumulative G05 Phase 9 guard and zero build errors.
 
 ## Phase 8 acceptance
 

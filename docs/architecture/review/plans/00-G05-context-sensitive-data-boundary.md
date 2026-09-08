@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 8 failure, replay and compatibility conformance
+> 状态：Implementation In Progress / Phase 9 unified repository automation
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -305,17 +305,24 @@ fake-carrier conformance；真实 durable quarantine、Inbox、dead-letter 与 r
 
 ## Phase 9 — 自动化门禁与测试矩阵
 
-- [ ] **Phase 9 完成**：结构、schema、敏感数据和运行传播由各自适合的自动化机制阻断。
+- [x] **Phase 9 完成**：结构、schema、敏感数据和运行传播由各自适合的自动化机制阻断。
 
-- [ ] G05-9.1 在 Gate 03 的唯一 catalog validator 中实现字段分类完整性、consumer/purpose、exception 引用和降级审批规则；Gate 05 不创建平行 validator。
-- [ ] G05-9.2 建立 Contract/Event reflection/schema tests，验证 primitive allowlist、序列化 shape、golden files、未知字段和版本兼容。
-- [ ] G05-9.3 建立 security schema tests：未分类字段、C4 字段、未批准 C3、可疑自由文本和 forbidden type/name 失败。
-- [ ] G05-9.4 建立 HTTP → Application → Contract harness 的 correlation/operation/causation/tenant/trace 传播测试。
-- [ ] G05-9.5 建立 Event producer → fake/real Outbox → transport → Inbox → downstream Event 的传播与错误矩阵测试。
-- [ ] G05-9.6 建立 retry、replay、parallel tenant、异常、取消和 scope cleanup 测试，验证 Envelope immutability 与无上下文泄漏。
-- [ ] G05-9.7 建立敏感 sentinel 测试，捕获日志、trace、metrics、errors、dead-letter diagnostics，证明禁止值不存在。
-- [ ] G05-9.8 将依赖/框架泄漏规则交给 LayerGuard，将字段和值语义留在 catalog/schema/runtime tests；两类 CI 报告相互链接。
-- [ ] G05-9.9 提供本地与 CI 相同的单一验证入口并保存基线；扫描异常、未知 schema 或过期 exception 必须失败。
+- [x] G05-9.1 在 Gate 03 的唯一 catalog validator 中实现字段分类完整性、consumer/purpose、exception 引用和降级审批规则；Gate 05 不创建平行 validator。
+- [x] G05-9.2 建立 Contract/Event reflection/schema tests，验证 primitive allowlist、序列化 shape、golden files、未知字段和版本兼容。
+- [x] G05-9.3 建立 security schema tests：未分类字段、C4 字段、未批准 C3、可疑自由文本和 forbidden type/name 失败。
+- [x] G05-9.4 建立 HTTP → Application → Contract harness 的 correlation/operation/causation/tenant/trace 传播测试。
+- [x] G05-9.5 建立 Event producer → fake/real Outbox → transport → Inbox → downstream Event 的传播与错误矩阵测试。
+- [x] G05-9.6 建立 retry、replay、parallel tenant、异常、取消和 scope cleanup 测试，验证 Envelope immutability 与无上下文泄漏。
+- [x] G05-9.7 建立敏感 sentinel 测试，捕获日志、trace、metrics、errors、dead-letter diagnostics，证明禁止值不存在。
+- [x] G05-9.8 将依赖/框架泄漏规则交给 LayerGuard，将字段和值语义留在 catalog/schema/runtime tests；两类 CI 报告相互链接。
+- [x] G05-9.9 提供本地与 CI 相同的单一验证入口并保存基线；扫描异常、未知 schema 或过期 exception 必须失败。
+
+Phase 9 证据：[`verification-baseline-v1.json`](../gates/G05/verification-baseline-v1.json)、
+[`G05-phase9-automation.md`](../evidence/gates/G05/G05-phase9-automation.md)、
+[`G05-phase9-verification-summary.json`](../evidence/gates/G05/G05-phase9-verification-summary.json)、
+[`G05-phase9-guard-report.json`](../evidence/gates/G05/G05-phase9-guard-report.json) 与
+[`G05-phase9-layerguard-report.json`](../evidence/gates/G05/G05-phase9-layerguard-report.json)。CI 与本地均调用
+`scripts/Invoke-G05Verification.ps1`；结果仍限定为 repository automation，不代表 Plan 01/02 真实载体或生产证据。
 
 ## Phase 10 — 架构与规则文档化
 

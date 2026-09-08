@@ -193,6 +193,13 @@ function Test-Catalog($catalog) {
         if ($exception.approvalStatus -eq 'Approved' -and [string]::IsNullOrWhiteSpace($exception.approvalEvidence)) {
             Add-Error 'field-exception-approval' "$path.approvalEvidence" 'Approved C3 exposure requires evidence.'
         }
+        if ($exception.expiresAt) {
+            $exceptionExpiry = [DateOnly]::Parse($exception.expiresAt)
+            $catalogDate = [DateOnly]::Parse($catalog.asOf)
+            if ($exceptionExpiry -lt $catalogDate) {
+                Add-Error 'field-exception-expired' "$path.expiresAt" 'C3 field exception is expired.'
+            }
+        }
     }
 
     foreach ($policy in @($catalog.sensitiveUsePolicies)) {
@@ -261,6 +268,7 @@ if ($SelfTest) {
         @{ name = 'missing field inventory'; mutate = { param($x) $x.fieldSurfaces = @($x.fieldSurfaces | Where-Object id -ne 'crm.dto.investor-summary') }; expected = 'field-surface-missing' },
         @{ name = 'incomplete C4 semantics'; mutate = { param($x) $x.fieldGovernance.c4Denylist = @($x.fieldGovernance.c4Denylist | Where-Object { $_ -ne 'private key' }) }; expected = 'c4-denylist' },
         @{ name = 'C3 without exception'; mutate = { param($x) ($x.fieldSurfaces | Where-Object id -eq 'crm.dto.investor-summary').fields[2].PSObject.Properties.Remove('exceptionRef') }; expected = 'field-exception' },
+        @{ name = 'expired C3 field exception'; mutate = { param($x) $x.fieldExceptions[0].expiresAt = '2026-09-01' }; expected = 'field-exception-expired' },
         @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[0].lifecycle = 'Active' }; expected = 'active-admission' },
         @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' },
         @{ name = 'expired waiver'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-08-01';expiresAt='2026-09-01';removalCondition='remove';linkedPlanItem='test';category='temporary-tool-gap'}) }; expected = 'waiver-expired' },
