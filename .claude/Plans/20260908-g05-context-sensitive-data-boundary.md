@@ -35,3 +35,19 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - Token persistence, identifier logging, unsafe tenant fallback and raw exception exposure have explicit owners, severity and resolution triggers.
 - The inventory records that durable Outbox/Inbox/dead-letter/replay are not current capabilities.
 - Solution build/tests, LayerGuard and the G05 Phase 0 guard pass with warning debt reported unchanged.
+
+## Progress
+
+- [x] Phase 0 — deterministic value-free context/security baseline.
+- [x] Phase 1 — BCL-only Context and Messaging protocol primitives.
+- [x] Phase 2 — immutable execution context lifetime, composition ownership and source rules.
+- [ ] Phase 3 — HTTP trace, correlation and fail-closed tenant entry.
+
+## Phase 2 acceptance
+
+- Application exposes one transport-neutral immutable execution-context read port and one scope factory.
+- Root composition owns the unique singleton-safe `AsyncLocal` implementation; no singleton field stores a current context value.
+- Push/pop nesting, reverse disposal, exception/cancellation cleanup, parallel tenant isolation and detached-work suppression are tested.
+- Auth HTTP identity facts and tenant selection are separate from `CurrentUser` orchestration.
+- HTTP, scheduled job, dispatcher, message delivery and controlled management sources have explicit actor/source/scope builders and missing-context behavior.
+- Solution build passed with 0 errors and the unchanged 20 warnings; 972/972 solution tests and 179/179 LayerGuard tests passed.

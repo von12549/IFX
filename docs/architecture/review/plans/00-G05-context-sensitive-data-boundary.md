@@ -180,14 +180,19 @@ Phase 1 证据：[`G05-phase1-protocol-primitives.md`](../evidence/gates/G05/G05
 
 ## Phase 2 — 重构可信 Execution Context 与生命周期
 
-- [ ] **Phase 2 完成**：Application 可在 HTTP、Worker 和 Event 场景读取一致的不可变 context，且不存在跨 scope 泄漏。
+- [x] **Phase 2 完成**：Application 可在 HTTP、Worker 和 Event 场景读取一致的不可变 context，且不存在跨 scope 泄漏。
 
-- [ ] G05-2.1 定义 Application-facing execution-context accessor/port，并把 transport-specific 建立逻辑留在外层。
-- [ ] G05-2.2 将当前 Auth.Infrastructure `CurrentUser` 的身份事实、tenant membership 与 HTTP accessor 职责拆分，避免 Auth 实现成为所有模块的运行上下文宿主。
-- [ ] G05-2.3 由 root composition 注册 context factory/accessor；验证 scoped 生命周期、缺失上下文失败和唯一实现。
-- [ ] G05-2.4 为 HTTP、scheduled job、dispatcher、message delivery 和受控管理命令分别定义 Actor/Source/Scope 建立规则。
-- [ ] G05-2.5 若使用 AsyncLocal，实现 push/pop/finally 清理和嵌套 scope 恢复；禁止 singleton 保存当前 context。
-- [ ] G05-2.6 测试并行 tenant、嵌套 Contract 调用、取消、异常、fire-and-forget 和 scope disposal，证明上下文不串扰。
+- [x] G05-2.1 定义 Application-facing execution-context accessor/port，并把 transport-specific 建立逻辑留在外层。
+- [x] G05-2.2 将当前 Auth.Infrastructure `CurrentUser` 的身份事实、tenant membership 与 HTTP accessor 职责拆分，避免 Auth 实现成为所有模块的运行上下文宿主。
+- [x] G05-2.3 由 root composition 注册 context factory/accessor；验证 scoped 生命周期、缺失上下文失败和唯一实现。
+- [x] G05-2.4 为 HTTP、scheduled job、dispatcher、message delivery 和受控管理命令分别定义 Actor/Source/Scope 建立规则。
+- [x] G05-2.5 若使用 AsyncLocal，实现 push/pop/finally 清理和嵌套 scope 恢复；禁止 singleton 保存当前 context。
+- [x] G05-2.6 测试并行 tenant、嵌套 Contract 调用、取消、异常、fire-and-forget 和 scope disposal，证明上下文不串扰。
+
+Phase 2 证据：[`G05-phase2-execution-context.md`](../evidence/gates/G05/G05-phase2-execution-context.md)、
+[`execution-context-sources.json`](../gates/G05/execution-context-sources.json)、
+[`G05-phase2-guard-report.json`](../evidence/gates/G05/G05-phase2-guard-report.json) 与
+[`G05-phase2-layerguard-report.json`](../evidence/gates/G05/G05-phase2-layerguard-report.json)。
 
 ## Phase 3 — 建立 HTTP Trace、Correlation 与 Tenant 入口
 

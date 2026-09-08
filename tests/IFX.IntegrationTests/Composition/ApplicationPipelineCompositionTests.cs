@@ -1,4 +1,5 @@
 using IFX.BuildingBlocks.Application.Behaviors;
+using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.Application.Transactions;
 using IFX.IntegrationTests.Fixtures;
 using IFX.Modules.Auth.Application.Authorization.Tenants.Commands.CreateTenant;
@@ -19,6 +20,18 @@ namespace IFX.IntegrationTests.Composition;
 public sealed class ApplicationPipelineCompositionTests(CustomWebApplicationFactory factory)
     : IClassFixture<CustomWebApplicationFactory>
 {
+    [Fact]
+    public void Real_ApiHost_exposes_one_execution_context_owner_through_both_ports()
+    {
+        var accessors = factory.Services.GetServices<IExecutionContextAccessor>().ToArray();
+        var factories = factory.Services.GetServices<IExecutionContextScopeFactory>().ToArray();
+        var concrete = factory.Services.GetRequiredService<IFX.ApiHost.Runtime.ExecutionContextAccessor>();
+
+        accessors.Should().ContainSingle().Which.Should().BeSameAs(concrete);
+        factories.Should().ContainSingle().Which.Should().BeSameAs(concrete);
+        concrete.HasCurrent.Should().BeFalse();
+    }
+
     [Theory]
     [InlineData(typeof(CreateTenantCommand))]
     [InlineData(typeof(GetAllIdpsQuery))]

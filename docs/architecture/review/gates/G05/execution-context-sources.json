@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "policy": "execution-context-source-rules",
+  "sources": [
+    {
+      "source": "http",
+      "owner": "ApiHost HTTP context middleware",
+      "actorRule": "validated authenticated user or explicit anonymous system actor",
+      "scopeRule": "validated tenant membership or explicitly authorized platform scope",
+      "sourceRule": "api endpoint identity and version",
+      "builderBoundary": "transport adapter before Application dispatch",
+      "missingContextBehavior": "fail closed before Application execution"
+    },
+    {
+      "source": "scheduled-job",
+      "owner": "job registration and executor adapter",
+      "actorRule": "registered service or system actor",
+      "scopeRule": "tenant or platform scope declared by the job registration",
+      "sourceRule": "scheduler and job identity",
+      "builderBoundary": "job activation before handler invocation",
+      "missingContextBehavior": "reject execution and record a value-free diagnostic"
+    },
+    {
+      "source": "dispatcher",
+      "owner": "durable dispatcher adapter from Plan 02",
+      "actorRule": "validated service or system actor from the durable record",
+      "scopeRule": "scope copied from the validated durable envelope",
+      "sourceRule": "dispatcher identity and version",
+      "builderBoundary": "record lease before delivery attempt",
+      "missingContextBehavior": "quarantine the record when the carrier exists"
+    },
+    {
+      "source": "message-delivery",
+      "owner": "message delivery adapter from Plan 02",
+      "actorRule": "actor accepted only from a validated Event Envelope",
+      "scopeRule": "delivery scope must exactly match the validated envelope",
+      "sourceRule": "producer identity retained with receiver identity recorded separately",
+      "builderBoundary": "Inbox validation before consumer invocation",
+      "missingContextBehavior": "reject or quarantine before consumer execution"
+    },
+    {
+      "source": "management-command",
+      "owner": "controlled management command adapter",
+      "actorRule": "authenticated user or registered service actor",
+      "scopeRule": "explicit tenant or platform scope with authorization evidence",
+      "sourceRule": "management surface and command identity",
+      "builderBoundary": "authorization boundary before command dispatch",
+      "missingContextBehavior": "deny execution and emit an auditable value-free outcome"
+    }
+  ]
+}

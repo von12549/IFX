@@ -14,6 +14,7 @@ using IFX.Platform.Messaging.Composition;
 using IFX.Platform.Notifications.Composition;
 using Serilog;
 using IFX.ApiHost.Runtime;
+using IFX.BuildingBlocks.Application.Context;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -42,6 +43,9 @@ try
     drainOptions.Validate();
     builder.Services.AddSingleton(drainOptions);
     builder.Services.AddSingleton<RuntimeDrainCoordinator>();
+    builder.Services.AddSingleton<ExecutionContextAccessor>();
+    builder.Services.AddSingleton<IExecutionContextAccessor>(services => services.GetRequiredService<ExecutionContextAccessor>());
+    builder.Services.AddSingleton<IExecutionContextScopeFactory>(services => services.GetRequiredService<ExecutionContextAccessor>());
     builder.Services.AddSingleton<IFX.Platform.Messaging.Composition.Dispatching.IRuntimeDrainSignal>(
         services => services.GetRequiredService<RuntimeDrainCoordinator>());
     builder.Services.Configure<HostOptions>(options => options.ShutdownTimeout = drainOptions.ProcessGrace);

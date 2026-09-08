@@ -60,6 +60,25 @@ if ($Phase -ge 1) {
     $checks.phase1LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json')
 }
 
+if ($Phase -ge 2) {
+    $applicationContextPath = Join-Path $repositoryRoot 'src/BuildingBlocks/IFX.BuildingBlocks.Application/Context'
+    $applicationContextSource = @(Get-ChildItem -LiteralPath $applicationContextPath -File -Filter '*.cs' | Get-Content -Raw) -join "`n"
+    $runtimeAccessorPath = Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs'
+    $runtimeAccessorSource = Get-Content -Raw -LiteralPath $runtimeAccessorPath
+    $programSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
+    $currentUserSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/CurrentUser.cs')
+    $sourcePolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/execution-context-sources.json') | ConvertFrom-Json -Depth 20
+    $checks.applicationContextPortIsTransportNeutral = $applicationContextSource -match 'interface IExecutionContextAccessor' -and $applicationContextSource -match 'sealed record ExecutionContextSnapshot' -and $applicationContextSource -notmatch 'Microsoft\.AspNetCore|ClaimsPrincipal|HttpContext|MediatR'
+    $checks.runtimeAccessorHasBoundedAsyncLocalLifetime = $runtimeAccessorSource -match 'AsyncLocal<ScopeFrame\?>' -and $runtimeAccessorSource -match 'using var scope = Push\(context\)' -and $runtimeAccessorSource -match 'ExecutionContext\.SuppressFlow\(\)' -and $runtimeAccessorSource -match 'disposed in reverse order'
+    $checks.rootCompositionOwnsUniqueImplementation = ([regex]::Matches($programSource, 'AddSingleton<ExecutionContextAccessor>\(\)')).Count -eq 1 -and $programSource -match 'AddSingleton<IExecutionContextAccessor>' -and $programSource -match 'AddSingleton<IExecutionContextScopeFactory>'
+    $checks.currentUserHttpResponsibilitiesAreSplit = $currentUserSource -notmatch 'IHttpContextAccessor|ClaimsPrincipal|HttpContext' -and (Test-Path (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/HttpIdentityFacts.cs')) -and (Test-Path (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/HttpTenantSelection.cs'))
+    $checks.fiveExecutionSourcesHaveFailClosedRules = @($sourcePolicy.sources).Count -eq 5 -and @($sourcePolicy.sources | Where-Object { [string]::IsNullOrWhiteSpace($_.source) -or [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.actorRule) -or [string]::IsNullOrWhiteSpace($_.scopeRule) -or [string]::IsNullOrWhiteSpace($_.sourceRule) -or [string]::IsNullOrWhiteSpace($_.builderBoundary) -or [string]::IsNullOrWhiteSpace($_.missingContextBehavior) }).Count -eq 0
+    $checks.executionContextIsolationTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs')
+    $checks.authFactSplitTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.Modules.Auth.Infrastructure.Tests/Authorization/HttpContextFactTests.cs')
+    $checks.phase2EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md')
+    $checks.phase2LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

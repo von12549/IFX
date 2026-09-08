@@ -1,50 +1,46 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace IFX.Modules.Auth.Infrastructure.Authorization;
 
 /// <summary>
-/// Reads the current user's identity and permissions from the ClaimsPrincipal.
-/// Permission and user_id claims are injected per-request by UserPermissionClaimsTransformation.
-/// tenant_id is added by the same transformation after provisioning.
+/// Composes the current user's request facts and persisted global roles.
+/// Identity and tenant facts are supplied by dedicated outer adapters.
 /// GlobalRoles are loaded lazily from DB (per-request) with a 5-minute cross-request cache.
 /// </summary>
 public class CurrentUser : ICurrentUser
 {
     private static readonly TimeSpan GlobalRolesCacheTtl = TimeSpan.FromMinutes(5);
 
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly HttpIdentityFacts _identityFacts;
+    private readonly HttpTenantSelection _tenantSelection;
     private readonly IfxDbContext _dbContext;
     private readonly IMemoryCache _cache;
 
     private IReadOnlyList<string>? _globalRoles;
 
     public CurrentUser(
-        IHttpContextAccessor httpContextAccessor,
+        HttpIdentityFacts identityFacts,
+        HttpTenantSelection tenantSelection,
         IfxDbContext dbContext,
         IMemoryCache cache)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _identityFacts = identityFacts;
+        _tenantSelection = tenantSelection;
         _dbContext = dbContext;
         _cache = cache;
     }
 
-    private System.Security.Claims.ClaimsPrincipal? Principal =>
-        _httpContextAccessor.HttpContext?.User;
-
-    public bool IsAuthenticated =>
-        Principal?.Identity?.IsAuthenticated == true;
+    public bool IsAuthenticated => _identityFacts.IsAuthenticated;
 
     public Guid UserId
     {
         get
         {
-            var value = Principal?.FindFirst("user_id")?.Value;
-            return Guid.TryParse(value, out var id) ? id : Guid.Empty;
+            return _identityFacts.UserId;
         }
     }
 
@@ -52,42 +48,19 @@ public class CurrentUser : ICurrentUser
     {
         get
         {
-            // Prefer X-Tenant-Id header (tenant switcher selection), validated against user's tenant memberships
-            var headerValue = _httpContextAccessor.HttpContext?.Request.Headers["X-Tenant-Id"].FirstOrDefault();
-            if (Guid.TryParse(headerValue, out var headerId))
-            {
-                var allowedTenants = Principal?.FindAll("tenant").Select(c => c.Value).ToHashSet() ?? [];
-                if (allowedTenants.Contains(headerId.ToString()))
-                    return headerId;
-            }
-
-            // Fall back to primary tenant from JWT claims
-            var claimValue = Principal?.FindFirst("tenant_id")?.Value;
-            return Guid.TryParse(claimValue, out var id) ? id : null;
+            return _tenantSelection.ResolveTenantId();
         }
     }
 
-    public IReadOnlyCollection<string> Departments =>
-        Principal?.FindAll("department").Select(c => c.Value).ToList() ?? [];
+    public IReadOnlyCollection<string> Departments => _identityFacts.Departments;
 
-    public IReadOnlyCollection<string> Roles =>
-        Principal?.FindAll(System.Security.Claims.ClaimTypes.Role)
-            .Concat(Principal.FindAll("role"))
-            .Select(c => c.Value)
-            .Distinct()
-            .ToList() ?? [];
+    public IReadOnlyCollection<string> Roles => _identityFacts.Roles;
 
-    public IReadOnlyCollection<string> Permissions =>
-        Principal?.FindAll("permission").Select(c => c.Value).ToList() ?? [];
+    public IReadOnlyCollection<string> Permissions => _identityFacts.Permissions;
 
     public bool MfaEnabled
     {
-        get
-        {
-            // Check AMR (Authentication Methods References) claim for MFA indicators
-            var amr = Principal?.FindAll("amr").Select(c => c.Value).ToList() ?? [];
-            return amr.Contains("mfa") || amr.Contains("otp") || amr.Contains("hwk");
-        }
+        get => _identityFacts.MfaEnabled;
     }
 
     public IReadOnlyList<string> GlobalRoles
