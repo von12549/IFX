@@ -67,6 +67,13 @@ public sealed record BaselineSummary(
     int TotalEntries
 );
 
+public sealed record FindingCluster(
+    string FromProject,
+    string ToProject,
+    IReadOnlyList<string> Rules,
+    int Findings
+);
+
 public sealed record Violation(
     string Id,
     string Rule,
@@ -117,7 +124,13 @@ public sealed record ScopeInfo(
     int ProjectsOutside
 );
 
-public sealed record RulesetInfo(string Source, IReadOnlyDictionary<string, string[]> AllowedDependencies);
+public sealed record RulesetInfo(
+    string Source,
+    string Hash,
+    IReadOnlyDictionary<string, string[]> AllowedDependencies,
+    IReadOnlyList<PolicyBindingInfo> PolicyBindings,
+    WaiverPolicyInfo? WaiverPolicy
+);
 
 public sealed record Report(
     string Tool,
@@ -129,8 +142,10 @@ public sealed record Report(
     string Verdict,
     int ViolationCount,
     IReadOnlyList<Violation> Violations,
+    IReadOnlyList<FindingCluster> Clusters,
     IReadOnlyList<ProjectSummary> Projects,
     IReadOnlyList<ProjectSummary> Outside,
     IReadOnlyList<string> NotChecked,
+    long DurationMs,
     BaselineSummary? Baseline = null
 );

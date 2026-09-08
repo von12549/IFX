@@ -19,8 +19,8 @@
     {
       "id": "OPS-G1",
       "repositoryEvidence": ["ContractRequestContext", "EventEnvelope V1 schema and golden", "verification-baseline-v1.json", "bilingual design and six rendered diagrams"],
-      "tests": ["1041 solution tests", "179 LayerGuard tests", "cumulative G05 guard"],
-      "pending": ["LayerGuard 03-A1 direct binding", "final architecture/module/Platform/security/operations approvals"]
+      "tests": ["1041 solution tests", "188 LayerGuard tests", "cumulative G05 guard", "03-A1 LG-POLICY-READY acceptance"],
+      "pending": ["LayerGuard B2/B3/B4 strict closure", "final architecture/module/Platform/security/operations approvals"]
     }
   ]
 }

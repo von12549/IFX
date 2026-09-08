@@ -428,7 +428,7 @@ Phase 11 证据：[`G04-phase11-documentation.md`](../evidence/gates/G04/G04-pha
 - [x] G04-12.2 确认五个业务模块仍为一个发布边界，而 API/Worker 角色和独立 infrastructure 没有伪装成业务独立部署。
 - [x] G04-12.3 向 Gate 02 交付 Migrator/schema readiness 与发布编排接口；生产执行证据仍由 G04-B06 回交。
 - [x] G04-12.4 向 Event 子计划交付 Runtime Role、instance identity、lease、shutdown、consumer-first、health 和 backpressure 规则；E3/E4/E6 为 G04-B01 至 B03。
-- [x] G04-12.5 向 LayerGuard 子计划交付 API/Worker Runtime Host 只能引用 Composition/host primitives 的编译期要求；L5.1/L5.2 与 B1/B4 为 G04-B05。
+- [x] G04-12.5 向 LayerGuard 子计划交付 API/Worker Runtime Host 只能引用 Composition/host primitives 的编译期要求；03-A1/L5.1/L5.2 与 B1 已于 2026-09-08 回交，B2/B3/B4 继续由 G04-B05 跟踪。
 - [x] G04-12.6 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 4 前置放行事项；E3/E4/E6、生产演练和最终批准继续由 blocker/DoD 跟踪。
 - [x] G04-12.7 在机器可读状态中记录未解决的生产平台特有参数、owner、到期里程碑和 production-like 验证环境，不使用永久默认值掩盖。
 - [ ] G04-12.8 由架构、模块、Platform、数据库和运维负责人共同批准 Gate 关闭。

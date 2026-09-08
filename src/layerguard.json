@@ -1,9 +1,14 @@
 {
   "_": [
-    "03-A0 bootstrap policy: deterministic rules only; Gate-owned policy is bound in 03-A1.",
+    "03-A1 target policy: Gate-owned facts are loaded and hash-verified from their authoritative artifacts.",
     "Abstractions is recognized as Contracts during migration, but new legacy projects are forbidden.",
-    "Historical findings are baselined; the unified check fails on new findings."
+    "B1 historical findings are baselined under the G03 waiver policy; the unified check fails on new or stale findings."
   ],
+  "gatePolicies": {
+    "g03Governance": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+    "g04RuntimeManifest": "deployment/g04/release-runtime-manifest.json",
+    "g05ContextPolicy": "docs/architecture/review/gates/G05/context-protocol-v1.json"
+  },
   "rings": {
     "Domain": ["IFX.Modules.*.Domain"],
     "Contracts": ["IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.Platform.*.Contracts", "IFX.Platform.*.Abstractions"],
@@ -48,7 +53,6 @@
     { "from": "Composition", "to": "Infrastructure", "ownership": "own" },
     { "from": "RuntimeHost", "to": "Composition", "ownership": "any" }
   ],
-  "providerContracts": {},
   "transitiveBoundaryRoles": ["Composition"],
   "embeddedAdapterNamespaces": ["IFX.Modules.*.Infrastructure.Integrations*"],
   "forbiddenProjectNames": ["*.Abstractions"],

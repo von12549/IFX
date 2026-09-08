@@ -2,7 +2,7 @@
 
 > Status: PRE-READY (2026-09-08)  
 > Authoritative inputs: ADR-G04-001, `deployment/g04/*`, and the Gate 02 migration policy  
-> Final closure still depends on Plan 02 E3/E4/E6, Gate 05, Plan 03 L5.1, production rehearsal, and owner approvals
+> Final closure still depends on Plan 02 E3/E4/E6, Gate 05, Plan 03 B2/B3/B4, production rehearsal, and owner approvals; 03-A1/B1 has returned
 
 ## Decisions
 
@@ -65,7 +65,7 @@ The versioned failure matrix chooses stop, old-replica retention, takeover, scop
 | G04-D07 | health endpoint/snapshot tests and authentication; Gate 05 sentinel remains final |
 | G04-D08 | backpressure policy tests; E3/E6 signals and alerts remain final |
 | G04-D09 | orchestration/failure validators; production evidence and approvals remain final |
-| compile-time Host boundary | LayerGuard B0.5; Plan 03 L5.1/B1/B4 final binding |
+| compile-time Host boundary | LayerGuard 03-A1/B1 is bound; B2/B3/B4 continue under the same target semantics |
 
 ## Runbooks and open closure items
 

@@ -35,12 +35,12 @@ public static class Baseline
     public static Report Apply(Report report, string path, DateOnly? today = null)
     {
         var fullPath = Paths.Normalize(path);
-        var baseline = Read(fullPath, today ?? DateOnly.FromDateTime(DateTime.UtcNow));
+        var baseline = Read(fullPath, today ?? DateOnly.FromDateTime(DateTime.UtcNow), report.Ruleset.WaiverPolicy);
         if (!string.Equals(baseline.ToolVersion, report.ToolVersion, StringComparison.Ordinal))
             throw new InvalidDataException(
                 $"{fullPath} was created by {baseline.ToolVersion}, but this run uses {report.ToolVersion}. Regenerate it after review."
             );
-        var activeRulesetHash = HashFile(report.Ruleset.Source);
+        var activeRulesetHash = report.Ruleset.Hash;
         if (!string.Equals(baseline.RulesetHash, activeRulesetHash, StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException(
                 $"{fullPath} does not match the active ruleset hash. Review the policy change and regenerate the baseline."
@@ -63,30 +63,50 @@ public static class Baseline
         string reason,
         DateOnly expiresOn,
         string removalCriteria
-    ) => new(
-        1,
-        report.ToolVersion,
-        report.Ruleset.Source,
-        HashFile(report.Ruleset.Source),
-        report.Violations.Select(violation => new BaselineEntry(
+    )
+    {
+        var createdOn = DateOnly.FromDateTime(DateTime.UtcNow);
+        var policy = report.Ruleset.WaiverPolicy;
+        if (string.IsNullOrWhiteSpace(owner) || owner.StartsWith("--", StringComparison.Ordinal))
+            throw new InvalidDataException("Baseline owner must identify the accountable owner and cannot be an option token.");
+        if (string.IsNullOrWhiteSpace(reason) || string.IsNullOrWhiteSpace(removalCriteria))
+            throw new InvalidDataException("Baseline reason and removal criteria are required.");
+        if (policy is not null && expiresOn > createdOn.AddDays(policy.MaximumDays))
+            throw new InvalidDataException(
+                $"Baseline expiry {expiresOn:yyyy-MM-dd} exceeds the Gate maximum of {policy.MaximumDays} days."
+            );
+        var unwaivable = report.Violations.FirstOrDefault(violation =>
+            policy?.UnwaivableRules.Contains(violation.Rule, StringComparer.Ordinal) == true);
+        if (unwaivable is not null)
+            throw new InvalidDataException(
+                $"{unwaivable.Rule} finding {unwaivable.Id} is unwaivable under the bound Gate policy."
+            );
+
+        return new(
+            1,
+            report.ToolVersion,
+            report.Ruleset.Source,
+            report.Ruleset.Hash,
+            report.Violations.Select(violation => new BaselineEntry(
                 Fingerprint(violation),
                 violation.Rule,
                 violation.FromProject,
                 violation.ToProject,
                 owner,
                 reason,
-                DateOnly.FromDateTime(DateTime.UtcNow),
+                createdOn,
                 expiresOn,
                 removalCriteria
             ))
             .OrderBy(entry => entry.Fingerprint, StringComparer.Ordinal)
             .ToList()
-    );
+        );
+    }
 
     public static void Write(BaselineFile baseline, string path) =>
         File.WriteAllText(Paths.Normalize(path), JsonSerializer.Serialize(baseline, Options) + Environment.NewLine);
 
-    public static BaselineFile Read(string path, DateOnly today)
+    public static BaselineFile Read(string path, DateOnly today, WaiverPolicyInfo? policy = null)
     {
         var baseline = JsonSerializer.Deserialize<BaselineFile>(
             File.ReadAllText(path),
@@ -110,6 +130,14 @@ public static class Baseline
                 );
             if (entry.ExpiresOn < entry.CreatedOn)
                 throw new InvalidDataException($"{path} entry {entry.Fingerprint} expires before it was created.");
+            if (policy is not null && entry.ExpiresOn > entry.CreatedOn.AddDays(policy.MaximumDays))
+                throw new InvalidDataException(
+                    $"{path} entry {entry.Fingerprint} exceeds the Gate maximum of {policy.MaximumDays} days."
+                );
+            if (policy?.UnwaivableRules.Contains(entry.Rule, StringComparer.Ordinal) == true)
+                throw new InvalidDataException(
+                    $"{path} entry {entry.Fingerprint} waives unwaivable rule {entry.Rule}."
+                );
             if (entry.ExpiresOn < today)
                 throw new InvalidDataException(
                     $"{path} entry {entry.Fingerprint} expired on {entry.ExpiresOn:yyyy-MM-dd}."
@@ -144,16 +172,4 @@ public static class Baseline
         return Path.GetFileName(path);
     }
 
-    private static string HashFile(string path) => File.Exists(path)
-        ? HashText(File.ReadAllText(path))
-        : HashText(path);
-
-    // Git can materialize the same policy with LF or CRLF in different worktrees. A baseline is
-    // bound to policy semantics, not to the checkout's line-ending convention.
-    private static string HashText(string value)
-    {
-        var normalized = value.Replace("\r\n", "\n", StringComparison.Ordinal)
-            .Replace('\r', '\n');
-        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(normalized))).ToLowerInvariant();
-    }
 }

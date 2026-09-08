@@ -19,7 +19,7 @@
     "activeProtocols": 0,
     "legacyItems": 46,
     "overdueLegacyItems": 0,
-    "blockers": 5
+    "blockers": 4
   },
   "blockers": [
     {
@@ -39,12 +39,6 @@
       "owner": "Plan 02 Platform Messaging owner",
       "revisitWhen": "when the BCL-only Contracts and runtime projects are created and dependency-tested",
       "currentEvidence": "one or both target projects are absent"
-    },
-    {
-      "code": "layerguard-direct-consumption-pending",
-      "owner": "Plan 03 L5.1 owner",
-      "revisitWhen": "when Gate policy binding starts",
-      "currentEvidence": "generated handoff exists; L5.1 direct consumption is open"
     },
     {
       "code": "closure-approvals-pending",

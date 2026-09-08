@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace LayerGuard;
 
 /// One verdict, from every rule the ruleset states. The rule families live in their own files;
@@ -9,10 +11,11 @@ namespace LayerGuard;
 public static class Analyzer
 {
     public const string ToolName = "layerguard";
-    public const string ToolVersion = "0.3.0-a0";
+    public const string ToolVersion = "0.4.0-a1";
 
     public static Report Analyze(string path, string? configPath)
     {
+        var timer = Stopwatch.StartNew();
         var ruleset = Ruleset.Load(path, configPath);
         var graph = ProjectGraph.Build(path, ruleset);
 
@@ -211,6 +214,19 @@ public static class Analyzer
             ))
             .ToList();
 
+        var clusters = ordered
+            .GroupBy(violation => new { violation.FromProject, violation.ToProject })
+            .Select(group => new FindingCluster(
+                group.Key.FromProject,
+                group.Key.ToProject,
+                group.Select(violation => violation.Rule).Distinct(StringComparer.Ordinal).Order().ToArray(),
+                group.Count()
+            ))
+            .OrderByDescending(cluster => cluster.Findings)
+            .ThenBy(cluster => cluster.FromProject, StringComparer.Ordinal)
+            .ThenBy(cluster => cluster.ToProject, StringComparer.Ordinal)
+            .ToList();
+
         Record(
             ruleset.RuleRefs.Count > 0,
             "every numbered rule of this codebase's own rulebook",
@@ -233,22 +249,27 @@ public static class Analyzer
             ),
             Ruleset: new RulesetInfo(
                 ruleset.Source,
+                ruleset.PolicyHash,
                 ruleset.AllowedDependencies.ToDictionary(
                     pair => pair.Key.ToString(),
                     pair => pair.Value.Select(ring => ring.ToString()).ToArray()
-                )
+                ),
+                ruleset.PolicyBindings,
+                ruleset.WaiverPolicy
             ),
             Rulebook: rulebook,
             Verdict: ordered.Count == 0 ? "clean" : "violations",
             ViolationCount: ordered.Count,
             Violations: ordered,
+            Clusters: clusters,
             Projects: inScope.Select(Summarize).ToList(),
             Outside: entryNodes
                 .Where(node => !node.InScope)
                 .Select(Summarize)
                 .OrderBy(project => project.Name)
                 .ToList(),
-            NotChecked: notChecked
+            NotChecked: notChecked,
+            DurationMs: timer.ElapsedMilliseconds
         );
     }
 

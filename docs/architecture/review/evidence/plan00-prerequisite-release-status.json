@@ -4,7 +4,7 @@
   "result": "passed",
   "milestone": "PRE-READY",
   "prerequisiteReleased": true,
-  "lgPolicyReady": false,
+  "lgPolicyReady": true,
   "gateFinalClosure": false,
   "checkedAt": "2026-09-08",
   "checks": {
@@ -12,20 +12,20 @@
     "preReadyReleased": true,
     "allFiveGatesReleased": true,
     "preReadyAcceptanceComplete": true,
-    "policyReadyStillOpen": true,
+    "policyReadyComplete": true,
     "finalClosureStillOpen": true,
     "masterPrerequisiteReleased": true,
     "masterPhase0Complete": true,
-    "masterPhase1StillOpen": true,
+    "masterPhase1Complete": true,
     "gatePlansSeparateReleaseFromClosure": true,
     "noGateFalselyClosed": true,
     "downstreamBlockersRemainVisible": true,
     "evidenceDocumentExists": true
   },
   "retainedBlockers": {
-    "G03": 5,
+    "G03": 4,
     "G04": 7,
     "G05": 7
   },
-  "next": "Execute Plan 03 Phase 5 / 03-A1 and save formal B1; do not begin Plan 01/02 physical migration before 03-A1 passes."
+  "next": "Begin Plan 01 Contracts / Ports / Adapters migration under the frozen B1 target policy, then save B2 before Plan 02/B3."
 }

@@ -26,5 +26,5 @@
     "HttpContextBoundaryTests",
     "SensitiveObservabilityTests"
   ],
-  "truthfulBoundary": "repository automation only; real Plan 01/02 carriers, production telemetry, LayerGuard 03-A1 and approvals remain external"
+  "truthfulBoundary": "repository automation plus LayerGuard 03-A1/B1 only; real Plan 01/02 carriers, B2/B3/B4, production telemetry and final approvals remain external"
 }

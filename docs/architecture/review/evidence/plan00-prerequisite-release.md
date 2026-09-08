@@ -35,9 +35,9 @@ required to close G01–G05.
 ## Boundary after release
 
 - `M-PRE` and Gate 1–5 prerequisite checkboxes are complete.
-- `LG-POLICY-READY`, 03-A1, B1, Plan 01, Plan 02, B2/B3/B4 and every Gate Final Closure remain open.
+- `LG-POLICY-READY`, 03-A1 and formal B1 completed on 2026-09-08; Plan 01/02, B2/B3/B4 and every Gate Final Closure remain open.
 - Master Phase 0 is complete: M-C01–M-C12, the physical migration choices, and Plan 01/02/03
   delivery/acceptance ownership and milestones were confirmed on 2026-09-08. Plan 03 03-A1 is the
-  next authorized implementation step; no Contracts/Events migration may start until 03-A1 is complete.
+  completed next. Contracts/Events migration may now start under the B1 target policy.
 
 Machine-readable validation: [`plan00-prerequisite-release-status.json`](plan00-prerequisite-release-status.json).

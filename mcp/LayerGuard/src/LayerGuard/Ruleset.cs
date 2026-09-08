@@ -13,6 +13,10 @@ public sealed class Ruleset
     public const string FileName = "layerguard.json";
 
     public required string Source { get; init; }
+    public required string PolicyHash { get; init; }
+    public IReadOnlyList<PolicyBindingInfo> PolicyBindings { get; init; } = [];
+    public WaiverPolicyInfo? WaiverPolicy { get; init; }
+    public IReadOnlyList<string> SharedPrimitiveProjects { get; init; } = [];
     public required IReadOnlyDictionary<Ring, string[]> RingPatterns { get; init; }
     public required IReadOnlyDictionary<Ring, Ring[]> AllowedDependencies { get; init; }
     public IReadOnlyList<ReferenceScopeRule> ReferenceScopes { get; init; } = [];
@@ -117,6 +121,7 @@ public sealed class Ruleset
         new()
         {
             Source = "built-in default",
+            PolicyHash = GatePolicyLoader.CompositeHash([]),
             RingPatterns = new Dictionary<Ring, string[]>
             {
                 [Ring.Domain] = ["*.Domain"],
@@ -165,6 +170,11 @@ public sealed class Ruleset
     public bool IsApprovedProvider(string consumer, string provider) =>
         ProviderContracts.TryGetValue(consumer, out var providers)
         && providers.Contains(provider, StringComparer.OrdinalIgnoreCase);
+
+    public bool IsSharedPrimitiveReference(ProjectNode source, string targetName) =>
+        source.Ring == Ring.Contracts
+        && !SharedPrimitiveProjects.Contains(source.Name, StringComparer.OrdinalIgnoreCase)
+        && SharedPrimitiveProjects.Contains(targetName, StringComparer.OrdinalIgnoreCase);
 
     public string? ModuleOf(ProjectFile file, Ring role)
     {
@@ -260,17 +270,29 @@ public sealed class Ruleset
             throw new InvalidDataException($"{path} is empty");
 
         Validate(document, path);
+        var gatePolicies = GatePolicyLoader.Load(document.GatePolicies, path);
+        ValidateGateRoleBinding(document, path);
+        if (document.GatePolicies is not null && (document.ProviderContracts?.Count ?? 0) > 0)
+            throw new InvalidDataException(
+                $"{path} must not copy providerContracts when gatePolicies is configured; consume the G03 governance input directly."
+            );
+        var providerContracts = document.GatePolicies is null
+            ? document.ProviderContracts ?? new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+            : gatePolicies.ProviderContracts;
 
         return new Ruleset
         {
             Source = path,
+            PolicyHash = gatePolicies.CompositeHash,
+            PolicyBindings = gatePolicies.Bindings,
+            WaiverPolicy = gatePolicies.WaiverPolicy,
+            SharedPrimitiveProjects = gatePolicies.SharedPrimitiveProjects,
             RingPatterns = ToRingMap(document.Rings) ?? Default.RingPatterns,
             AllowedDependencies = ToDependencyMap(document.AllowedDependencies) ?? Default.AllowedDependencies,
             ReferenceScopes = document.ReferenceScopes ?? [],
             ModulePatterns = document.Ownership?.ModulePatterns ?? [],
             RequireKnownOwnership = document.Ownership?.RequireKnown ?? false,
-            ProviderContracts = document.ProviderContracts
-                ?? new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase),
+            ProviderContracts = providerContracts,
             ForbiddenProjectNames = document.ForbiddenProjectNames ?? [],
             ForbiddenNamespaces = ToRingMap(document.ForbiddenNamespaces) ?? new Dictionary<Ring, string[]>(),
             ForbiddenSymbols = ToRingMap(document.ForbiddenSymbols) ?? new Dictionary<Ring, string[]>(),
@@ -400,6 +422,23 @@ public sealed class Ruleset
             throw new InvalidDataException($"{path} contains duplicate declaration namespace rule `{duplicateNamespace.Key}`.");
     }
 
+    private static void ValidateGateRoleBinding(RulesetDocument document, string path)
+    {
+        if (document.GatePolicies is null)
+            return;
+        foreach (var role in new[] { Ring.Composition.ToString(), Ring.RuntimeHost.ToString() })
+            if (document.Rings?.ContainsKey(role) != true)
+                throw new InvalidDataException($"{path} must bind the G04 `{role}` project role.");
+        if (document.AllowedDependencies is null
+            || !document.AllowedDependencies.TryGetValue(Ring.RuntimeHost.ToString(), out var allowed)
+            || allowed is null
+            || allowed.Length != 1
+            || !allowed[0].Equals(Ring.Composition.ToString(), StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException(
+                $"{path} must bind G04 RuntimeHost references to Composition only."
+            );
+    }
+
     private static IReadOnlyDictionary<Ring, string[]>? ToRingMap(Dictionary<string, string[]>? raw) =>
         raw is null ? null : raw.ToDictionary(pair => ParseRing(pair.Key), pair => pair.Value);
 
@@ -431,6 +470,7 @@ public sealed class Ruleset
         ReferenceScopeRule[]? ReferenceScopes,
         OwnershipDocument? Ownership,
         Dictionary<string, string[]>? ProviderContracts,
+        GatePolicyPaths? GatePolicies,
         string[]? ForbiddenProjectNames,
         Dictionary<string, string[]>? ForbiddenNamespaces,
         Dictionary<string, string[]>? ForbiddenSymbols,

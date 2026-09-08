@@ -48,6 +48,8 @@ public static class OwnershipRules
                 continue;
             if (!ruleset.Allows(node.Ring, target.Ring))
                 continue;
+            if (ruleset.IsSharedPrimitiveReference(node, target.Name))
+                continue;
             if (ruleset.AllowsOwnership(node.Ring, target.Ring, node.Module, target.Module))
                 continue;
 

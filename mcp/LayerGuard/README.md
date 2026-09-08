@@ -32,7 +32,21 @@ event payload types; and BCL-only context/envelope type allowlists.
 Migration baselines use exact fingerprints, require owner/reason/dates/removal criteria, reject
 expired or stale entries, and fail on new findings. `*.Abstractions` is recognized as the
 migration form of `Contracts`, while a separate rule forbids adding another legacy project.
-Gate-owned catalogs and final allowlists are intentionally deferred to 03-A1.
+The preserved B0.5 artifact remains historical and is not the formal migration comparison point.
+
+## IFX 03-A1 Gate Policy Binding
+
+Version `0.4.0-a1` loads the G03 generated governance view, verifies it against the sole catalog,
+verifies the G04 release manifest and every artifact hash it binds, and loads the G05 BCL-only
+Context/Messaging policy. Provider edges and shared primitive admissions come from G03 rather than
+being copied into `src/layerguard.json`. The report includes every bound artifact/hash, a composite
+policy hash, dependency-edge finding clusters, the applied waiver policy, and scan duration.
+
+The B1 baseline is bound to that composite hash. A Gate artifact or target configuration change
+therefore requires explicit B1 review/regeneration; unreadable inputs, hash drift, unknown roles,
+overlong/expired waivers, unwaivable findings, new findings, stale findings, or scan failures fail
+closed. Field classification, runtime values, tenant/trace behavior, redaction, delivery, and replay
+semantics remain explicitly delegated to G03/G05 validators and behavior tests.
 
 ---
 
@@ -316,8 +330,8 @@ The same answers, without an MCP client:
 ```bash
 layerguard check src/Modules                     # every rule the rule file states
 layerguard check src/Modules --format json
-layerguard check src --baseline mcp/LayerGuard/baselines/b0.5.json --report artifacts/layerguard.json
-layerguard snapshot src --output baseline.json --owner architecture-team --expires 2026-12-31
+layerguard check src --baseline mcp/LayerGuard/baselines/b1.json --report artifacts/layerguard.json
+layerguard snapshot src --config src/layerguard.json --output baseline.json --owner '@von12549' --expires 2026-12-07
 layerguard scan  src/Modules --select packages   # facts, no verdicts
 layerguard scan  src/Modules --select declarations --ring Application --name "*Handler"
 layerguard rules                                 # the rules in force

@@ -1,6 +1,6 @@
 # Plan 00 前置：事务、数据库与运行边界准入条件
 
-> 状态：PRE-READY 前置放行完成 / 03-A1 LG-POLICY-READY 待实施（2026-09-08）
+> 状态：PRE-READY 与 03-A1 LG-POLICY-READY 已完成；Plan 01/02 可开始（2026-09-08）
 > 后续计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：从 [`TODO.md`](TODO.md) 提取的强依赖或必须提前冻结的事项
 > 准入规则：先完成 LayerGuard 03-A0 Core Bootstrap，再实施本文件 Gate 01–05；全部 Gate 达到“前置放行”后执行 03-A1 Policy Binding，随后才进入 Contracts/Events 正式迁移；Gate 的“最终关闭”在真实下游实现验收后完成。
@@ -15,7 +15,7 @@
 
 - [x] **LG-BOOTSTRAP**：Gate 01 实施前完成 LayerGuard 03-A0，保存 B0/B0.5 并对不依赖 Gate artifact 的确定性规则阻断新增违规。证据：[`../evidence/03-a0-layerguard-bootstrap.md`](../evidence/03-a0-layerguard-bootstrap.md)。
 - [x] **PRE-READY 前置放行**：在 03-A0 保护下完成 Gate 1–5 的批准决策、阻塞修复、ownership、协议接缝和可执行验收要求。证据：[`../evidence/plan00-prerequisite-release.md`](../evidence/plan00-prerequisite-release.md)。
-- [ ] **LG-POLICY-READY**：PRE-READY 后完成 03-A1，将 Gate 输出绑定到完整目标规则，保存正式 B1 并启用完整“禁止新增违规”门禁。
+- [x] **LG-POLICY-READY**：PRE-READY 后完成 03-A1，将 Gate 输出绑定到完整目标规则，保存正式 B1 并启用完整“禁止新增违规”门禁。证据：[`../evidence/03-a1-layerguard-policy-binding.md`](../evidence/03-a1-layerguard-policy-binding.md)。
 - [ ] **Gate 最终关闭**：对应原子子计划完成真实代码迁移并回交证据后，才勾选各 Gate Plan 的全部 Phase 与 Definition of Done。
 
 同一实现只有一个 owner：例如 Event 子计划 E2/E4 实现真实 Outbox/Inbox，Gate 01 只定义和验证事务接缝；Event E3 实现真实 Dispatcher，Gate 04 只定义 Runtime Role、lease、health 和运行 conformance。
@@ -121,6 +121,6 @@ G05 双语设计与可渲染流程基线见[中文](../gates/G05/context-sensiti
 
 ## LG-POLICY-READY 验收
 
-- [ ] LG-D01 03-A1 已直接绑定 Gate 03 catalog/allowlist、Gate 04 Runtime Role 和 Gate 05 context policy，并生成正式 B1。
-- [ ] LG-D02 完整目标规则已进入 CI；历史 baseline 可受控暂存，但新增违规、未知项目、扫描异常和过期 waiver 必须失败。
-- [ ] LG-D03 只有 LG-D01/LG-D02 完成后才允许开始 Plan 01/02 的真实 Contracts/Events 迁移。
+- [x] LG-D01 03-A1 已直接绑定 Gate 03 catalog/allowlist、Gate 04 Runtime Role 和 Gate 05 context policy，并生成正式 B1。
+- [x] LG-D02 完整目标规则已进入 CI；历史 baseline 可受控暂存，但新增违规、未知项目、扫描异常和过期 waiver 必须失败。
+- [x] LG-D03 LG-D01/LG-D02 已完成，Plan 01/02 的真实 Contracts/Events 迁移现可开始。

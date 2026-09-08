@@ -1,6 +1,6 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Gate 1–5 PRE-READY 前置放行完成 / Master Phase 0 已完成 / 03-A1 待实施（2026-09-08）
+> 状态：Master Phase 0、03-A1 / LG-POLICY-READY 已完成；Plan 01/02 可开始（2026-09-08）
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
@@ -114,14 +114,14 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 1 — 绑定 Gate Policy 并建立正式 B1 基线
 
-- [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。证据：[`../evidence/03-a1-layerguard-policy-binding.md`](../evidence/03-a1-layerguard-policy-binding.md)。
 
-- [ ] M1.1 执行子计划 3 Phase 5，将 Gate 03 ownership/catalog/allowlist、Gate 04 Runtime Role 和 Gate 05 context policy 绑定到 03-A0 已建立的规则能力。
-- [ ] M1.2 验证 LayerGuard 与 Gate validator 的职责不重叠：静态依赖/声明由 LayerGuard 检查，字段、值、传播和运行行为由专用 tests 检查。
-- [ ] M1.3 在 Contracts/Events 尚未改造的代码上运行完整目标规则，生成按真实依赖边聚类的正式 B1 基线。
-- [ ] M1.4 保存 B1 使用的 LayerGuard 版本、目标规则语义、配置、Gate artifact/catalog/allowlist 快照与运行参数，保证最终 B4 可比较。
-- [ ] M1.5 将完整迁移门禁接入 CI：历史违规可由受控 baseline 暂存，但新增违规、未知项目、扫描异常和过期 waiver 必须失败。
-- [ ] M1.6 明确 B0/B0.5 只用于工具演进审查，正式架构改造前后对比以相同目标规则语义的 B1/B4 为准。
+- [x] M1.1 子计划 3 Phase 5 已把 Gate 03 ownership/catalog/allowlist、Gate 04 Runtime Role 和 Gate 05 context policy 绑定到规则能力。
+- [x] M1.2 LayerGuard 与 Gate validator 职责已分离：静态依赖/声明由 LayerGuard，字段、值、传播和运行行为由专用 tests 检查。
+- [x] M1.3 已在 Contracts/Events 改造前代码上运行完整目标规则，并生成按 44 条真实依赖边聚类的正式 B1。
+- [x] M1.4 B1 已保存工具版本、目标规则、组合 policy hash、12 个 Gate artifact/hash、运行参数语义与性能结果。
+- [x] M1.5 完整迁移门禁已接入 CI：受控 B1 暂存历史 finding，新增/陈旧 finding、未知 role、扫描异常、hash 漂移和不合法 waiver 均失败。
+- [x] M1.6 B0/B0.5 保留为工具演进证据；正式架构改造前后比较固定使用 B1/B4 的相同目标规则语义。
 
 ## Phase 2 — 建立 Contracts / Ports / Adapters 编译期边界
 

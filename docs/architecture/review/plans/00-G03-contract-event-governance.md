@@ -321,8 +321,7 @@ Phase 7 证据：[`layerguard-governance-input.json`](../gates/G03/generated/lay
 [`G03-phase7-layerguard-handoff-report.json`](../evidence/gates/G03/G03-phase7-layerguard-handoff-report.json)、
 [`G03-phase7-report.md`](../evidence/gates/G03/G03-phase7-report.md)、
 [`G03-phase7-guard-report.json`](../evidence/gates/G03/G03-phase7-guard-report.json) 与
-[`G03-phase7-layerguard-report.json`](../evidence/gates/G03/G03-phase7-layerguard-report.json)。Plan 03 L5.1 负责最终工具直接消费，
-本 Phase 交付唯一生成输入与漂移校验，不宣称下游迁移已经完成。
+[`G03-phase7-layerguard-report.json`](../evidence/gates/G03/G03-phase7-layerguard-report.json)。Plan 03 L5.1 已于 2026-09-08 回交直接消费、projection/hash 校验和正式 B1；本 Phase 不宣称 B2/B3 或下游迁移已经完成。
 
 ## Phase 8 — 架构与规则文档化
 
@@ -375,7 +374,7 @@ owner、回访条件和交接证据自洽，不表示 `readyForClosure=true`。`
 - [ ] G03-DD04 `IFX.Platform.Messaging.Contracts` 的职责和 BCL-only allowlist 已冻结，运行时 bus/handler/DI 不泄漏到模块 Contracts。
 - [x] G03-DD05 Catalog、源码、API/schema snapshot 和依赖图可自动对账，非法变化与孤立 Active event 会失败。
 - [x] G03-DD06 Provider/Consumer 审批、Change Record、并行版本、废弃窗口和外部 consumer 复核流程可执行。
-- [ ] G03-DD07 LayerGuard/CI 获得唯一 governance source；过期 waiver 和扫描异常不能静默通过。
+- [x] G03-DD07 LayerGuard/CI 获得唯一 governance source；过期 waiver、hash/projection 漂移和扫描异常不能静默通过。证据：[`../evidence/03-a1-layerguard-policy-binding.md`](../evidence/03-a1-layerguard-policy-binding.md)。
 - [x] G03-DD08 中英文说明、架构图、流程图、状态图、模板和规则验证映射全部完成并审核。
 
 ## 回退与例外原则

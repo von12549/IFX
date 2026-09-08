@@ -2,7 +2,7 @@
 
 > 状态：PRE-READY（2026-09-08）  
 > 权威输入：ADR-G04-001、`deployment/g04/*`、Gate 02 migration policy  
-> 最终关闭仍依赖：Plan 02 E3/E4/E6、Gate 05、Plan 03 L5.1、生产演练与负责人批准
+> 最终关闭仍依赖：Plan 02 E3/E4/E6、Gate 05、Plan 03 B2/B3/B4、生产演练与负责人批准；03-A1/B1 已回交
 
 ## 决策
 
@@ -65,7 +65,7 @@ consumer-first 发布要求 V2 Worker 先能消费 V1/V2，全部 Ready 后才�
 | G04-D07 | health endpoint/snapshot tests、认证；Gate 05 sentinel 是最终条件 |
 | G04-D08 | backpressure policy tests；E3/E6 真实指标与告警是最终条件 |
 | G04-D09 | orchestration/failure validators；生产 release evidence 与批准是最终条件 |
-| 编译期 host 边界 | LayerGuard B0.5；Plan 03 L5.1/B1/B4 最终绑定 |
+| 编译期 host 边界 | LayerGuard 03-A1/B1 已绑定；B2/B3/B4 继续验证相同目标语义 |
 
 ## 运行手册与未关闭项
 

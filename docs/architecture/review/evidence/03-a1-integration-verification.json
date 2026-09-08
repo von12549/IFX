@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "plan": "03-A1",
+  "result": "passed",
+  "scope": "repository-automation-no-production-claim",
+  "checkedAt": "2026-09-08",
+  "checks": {
+    "g03CatalogAndMutationSelfTests": true,
+    "g02MigrationSafety": true,
+    "g05CumulativeGuard": true,
+    "layerGuard": true,
+    "solutionBuild": true,
+    "solutionTests": true
+  },
+  "layerGuardTests": {
+    "passed": 188,
+    "failed": 0
+  },
+  "solutionBuild": {
+    "errors": 0,
+    "warnings": 20,
+    "warningPolicy": "Known package, nullability and obsolete-endpoint warnings remain visible and are not claimed as 03-A1 success."
+  },
+  "solutionTests": {
+    "total": 1041,
+    "passed": 1041,
+    "failed": 0,
+    "skipped": 0
+  },
+  "truthfulBoundary": "Repository automation plus LayerGuard 03-A1/B1 only; real Plan 01/02 carriers, B2/B3/B4, production telemetry and final approvals remain external."
+}

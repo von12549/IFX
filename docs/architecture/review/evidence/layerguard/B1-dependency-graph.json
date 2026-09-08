@@ -1,0 +1,2256 @@
+{
+  "tool": "layerguard",
+  "toolVersion": "0.4.0-a1",
+  "ruleset": "D:\\IFX\\src\\layerguard.json",
+  "scope": {
+    "root": "D:\\IFX\\src",
+    "rootKind": "directory",
+    "projectsLoaded": 48,
+    "projectsInScope": 41,
+    "projectsOutside": 7
+  },
+  "projectEdges": [
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Auth.Composition",
+      "toRole": "Composition",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.CRM.Composition",
+      "toRole": "Composition",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Holdings.Composition",
+      "toRole": "Composition",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Registry.Composition",
+      "toRole": "Composition",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Transaction.Composition",
+      "toRole": "Composition",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.BackgroundJobs.Composition",
+      "toRole": "Composition",
+      "toModule": "BackgroundJobs"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Notifications.Composition",
+      "toRole": "Composition",
+      "toModule": "Notifications"
+    },
+    {
+      "from": "IFX.BuildingBlocks.Application",
+      "fromRole": "Outside",
+      "fromModule": "BuildingBlocks",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context"
+    },
+    {
+      "from": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "fromRole": "Outside",
+      "fromModule": "BuildingBlocks",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "DatabaseMigrator",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "DatabaseMigrator",
+      "to": "IFX.Modules.Auth.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "DatabaseMigrator",
+      "to": "IFX.Modules.CRM.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "DatabaseMigrator",
+      "to": "IFX.Modules.Holdings.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "DatabaseMigrator",
+      "to": "IFX.Modules.Registry.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "DatabaseMigrator",
+      "to": "IFX.Modules.Transaction.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Domain",
+      "toRole": "Domain",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.Modules.Auth.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth"
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs"
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.Notifications.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Notifications"
+    },
+    {
+      "from": "IFX.Modules.CRM.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "CRM",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Domain",
+      "toRole": "Domain",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Application",
+      "toRole": "Application",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Presentation",
+      "toRole": "Presentation",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.CRM.Domain",
+      "fromRole": "Domain",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Application",
+      "toRole": "Application",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.CRM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Application",
+      "toRole": "Application",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Domain",
+      "toRole": "Domain",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Application",
+      "toRole": "Application",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Application",
+      "toRole": "Application",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Domain",
+      "toRole": "Domain",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Application",
+      "toRole": "Application",
+      "toModule": "Holdings"
+    },
+    {
+      "from": "IFX.Modules.Registry.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Registry",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Domain",
+      "toRole": "Domain",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Application",
+      "toRole": "Application",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Registry.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Application",
+      "toRole": "Application",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Registry.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Application",
+      "toRole": "Application",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Transaction",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Domain",
+      "toRole": "Domain",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Application",
+      "toRole": "Application",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Application",
+      "toRole": "Application",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Domain",
+      "toRole": "Domain",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Application",
+      "toRole": "Application",
+      "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "fromRole": "Composition",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "fromRole": "Composition",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "toRole": "Infrastructure",
+      "toModule": "BackgroundJobs"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "fromRole": "Composition",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "fromRole": "Infrastructure",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs"
+    },
+    {
+      "from": "IFX.Platform.Messaging.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Messaging",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Platform.Messaging.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Messaging",
+      "to": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "toRole": "Infrastructure",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "fromRole": "Infrastructure",
+      "fromModule": "Messaging",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "fromRole": "Infrastructure",
+      "fromModule": "Messaging",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Notifications.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Notifications"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "toRole": "Infrastructure",
+      "toModule": "Notifications"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "fromRole": "Infrastructure",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Notifications.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Notifications"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "fromRole": "Infrastructure",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform"
+    }
+  ],
+  "namespaceEdges": [
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 9
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 5
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth",
+      "uses": 3
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Auth.Composition",
+      "toRole": "Composition",
+      "toModule": "Auth",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Auth.Domain",
+      "toRole": "Domain",
+      "toModule": "Auth",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.CRM.Composition",
+      "toRole": "Composition",
+      "toModule": "CRM",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Holdings.Composition",
+      "toRole": "Composition",
+      "toModule": "Holdings",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Registry.Composition",
+      "toRole": "Composition",
+      "toModule": "Registry",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Modules.Transaction.Composition",
+      "toRole": "Composition",
+      "toModule": "Transaction",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.BackgroundJobs.Composition",
+      "toRole": "Composition",
+      "toModule": "BackgroundJobs",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging",
+      "uses": 2
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Notifications.Composition",
+      "toRole": "Composition",
+      "toModule": "Notifications",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 48
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 60
+    },
+    {
+      "from": "IFX.Modules.Auth.Application",
+      "fromRole": "Application",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Domain",
+      "toRole": "Domain",
+      "toModule": "Auth",
+      "uses": 48
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Auth",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Auth",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Auth.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 15
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 7
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 10
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth",
+      "uses": 15
+    },
+    {
+      "from": "IFX.Modules.Auth.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Domain",
+      "toRole": "Domain",
+      "toModule": "Auth",
+      "uses": 44
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 14
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Application",
+      "toModule": "Auth",
+      "uses": 84
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Domain",
+      "toRole": "Domain",
+      "toModule": "Auth",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Auth.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.Notifications.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Notifications",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.CRM.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "CRM",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 31
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 36
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Domain",
+      "toRole": "Domain",
+      "toModule": "CRM",
+      "uses": 30
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "fromRole": "Application",
+      "fromModule": "CRM",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Application",
+      "toRole": "Application",
+      "toModule": "CRM",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "CRM",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Presentation",
+      "toRole": "Presentation",
+      "toModule": "CRM",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Domain",
+      "fromRole": "Domain",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 12
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Application",
+      "toRole": "Application",
+      "toModule": "CRM",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Domain",
+      "toRole": "Domain",
+      "toModule": "CRM",
+      "uses": 43
+    },
+    {
+      "from": "IFX.Modules.CRM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "CRM",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Application",
+      "toRole": "Application",
+      "toModule": "CRM",
+      "uses": 35
+    },
+    {
+      "from": "IFX.Modules.CRM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.CRM.Domain",
+      "toRole": "Domain",
+      "toModule": "CRM",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Holdings.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 5
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Holdings",
+      "uses": 9
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Domain",
+      "toRole": "Domain",
+      "toModule": "Holdings",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Application",
+      "fromRole": "Application",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Application",
+      "toRole": "Application",
+      "toModule": "Holdings",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Holdings",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Holdings",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Messaging.Composition",
+      "toRole": "Composition",
+      "toModule": "Messaging",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Holdings",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Application",
+      "toRole": "Application",
+      "toModule": "Holdings",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Domain",
+      "toRole": "Domain",
+      "toModule": "Holdings",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Holdings.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Holdings",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.Holdings.Application",
+      "toRole": "Application",
+      "toModule": "Holdings",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Registry.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Registry",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 17
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 17
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Domain",
+      "toRole": "Domain",
+      "toModule": "Registry",
+      "uses": 10
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "fromRole": "Application",
+      "fromModule": "Registry",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Application",
+      "toRole": "Application",
+      "toModule": "Registry",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Registry",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Registry",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Application",
+      "toRole": "Application",
+      "toModule": "Registry",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Domain",
+      "toRole": "Domain",
+      "toModule": "Registry",
+      "uses": 12
+    },
+    {
+      "from": "IFX.Modules.Registry.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Application",
+      "toRole": "Application",
+      "toModule": "Registry",
+      "uses": 16
+    },
+    {
+      "from": "IFX.Modules.Registry.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.Registry.Domain",
+      "toRole": "Domain",
+      "toModule": "Registry",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Transaction.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Transaction",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 7
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 23
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 16
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.CRM.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "CRM",
+      "uses": 5
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Registry.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Registry",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction",
+      "uses": 10
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Domain",
+      "toRole": "Domain",
+      "toModule": "Transaction",
+      "uses": 9
+    },
+    {
+      "from": "IFX.Modules.Transaction.Application",
+      "fromRole": "Application",
+      "fromModule": "Transaction",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 10
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "App.Abstractions",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Application",
+      "toRole": "Application",
+      "toModule": "Transaction",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "Transaction",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Presentation",
+      "toRole": "Presentation",
+      "toModule": "Transaction",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Domain",
+      "fromRole": "Domain",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Transaction",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Application",
+      "toRole": "Application",
+      "toModule": "Transaction",
+      "uses": 4
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Domain",
+      "toRole": "Domain",
+      "toModule": "Transaction",
+      "uses": 10
+    },
+    {
+      "from": "IFX.Modules.Transaction.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Transaction",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.Transaction.Application",
+      "toRole": "Application",
+      "toModule": "Transaction",
+      "uses": 15
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "fromRole": "Composition",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "fromRole": "Composition",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "toRole": "Infrastructure",
+      "toModule": "BackgroundJobs",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "fromRole": "Composition",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "fromRole": "Infrastructure",
+      "fromModule": "BackgroundJobs",
+      "to": "IFX.Platform.BackgroundJobs.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Messaging.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Messaging",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Messaging.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Messaging",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Messaging.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Messaging",
+      "to": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "toRole": "Infrastructure",
+      "toModule": "Messaging",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "fromRole": "Infrastructure",
+      "fromModule": "Messaging",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Messaging.Infrastructure.InMemory",
+      "fromRole": "Infrastructure",
+      "fromModule": "Messaging",
+      "to": "IFX.Platform.Messaging.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Messaging",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Platform.Notifications.Abstractions",
+      "fromRole": "Contracts",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Notifications.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Notifications.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Notifications",
+      "uses": 3
+    },
+    {
+      "from": "IFX.Platform.Notifications.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "toRole": "Infrastructure",
+      "toModule": "Notifications",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "fromRole": "Infrastructure",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Notifications.Abstractions",
+      "toRole": "Contracts",
+      "toModule": "Notifications",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "fromRole": "Infrastructure",
+      "fromModule": "Notifications",
+      "to": "IFX.Platform.Shared",
+      "toRole": "Outside",
+      "toModule": "Platform",
+      "uses": 2
+    }
+  ],
+  "outsideProjects": [
+    "App.Abstractions",
+    "IFX.BuildingBlocks.Application",
+    "IFX.BuildingBlocks.Domain",
+    "IFX.BuildingBlocks.EntityFrameworkCore",
+    "IFX.BuildingBlocks.Security",
+    "IFX.DatabaseMigrator",
+    "IFX.Platform.Shared"
+  ]
+}

@@ -2,14 +2,14 @@
 
 > G04 反向链接：L5.1/B1/B4 必须约束 Runtime Host 仅引用 Composition/host primitives；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
 
-> 状态：03-A0 Core Bootstrap 已完成；03-A1 / 03-B 待实施
+> 状态：03-A0 Core Bootstrap 与 03-A1 Gate Policy Binding 已完成；03-B 待实施
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 执行位置：03-A0 在 Gate 01–05 之前；03-A1 在 Gate 前置放行之后；03-B 在子计划 1/2 之后。
 > 治理输入：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 在 03-A1 提供 module ownership、合法 provider/consumer 边、shared primitives allowlist 和 waiver policy。
 > G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [generated governance input](../gates/G03/generated/layerguard-governance-input.json)；L5.1 必须直接消费并验证 catalog hash，不能复制 ownership 配置。
 > 可执行交接包：[`G03 -> Plan 03 handoff`](../gates/G03/handoffs/plan03-layerguard-handoff.md)，含 owner、L5.1/B1–B4 回访条件、fail-closed 清单和回交证据。
 > 上下文输入：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 在 03-A1 提供 Context/Messaging schema primitive allowlist、Contract/Event 声明与禁止框架规则；字段分类和值传播由专用 validator/tests 负责。
-> 当前问题：`src/layerguard.json` 只认识 Domain/Application/Presentation/Infrastructure，并通过 blanket `sameModule: ["*.Abstractions"]` 禁止所有层引用本模块 Abstractions；这既无法表达新目标，也与现状存在漂移。
+> 当前控制点：`src/layerguard.json` 使用 03-A1 target policy，直接校验 G03/G04/G05 artifact 与组合 hash；正式 B1 已冻结，后续 B2/B3/B4 必须保持相同目标语义。
 
 ## 目标依赖矩阵
 
@@ -115,17 +115,17 @@
 
 ## Phase 5 — 绑定 Gate Policy 并保存正式改造前基线
 
-- [ ] **Phase 5 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 5 完成**：本 Phase 下全部项目均已完成并附有证据。证据：[`../evidence/03-a1-layerguard-policy-binding.md`](../evidence/03-a1-layerguard-policy-binding.md)。
 
-- [ ] L5.1 将 Gate 03 的 module ownership、provider/consumer graph、声明位置、shared primitives allowlist 和 waiver policy 接入唯一治理输入。
-- [ ] L5.2 将 Gate 04 的 Composition、API/Worker Runtime Role 和静态允许/禁止边绑定到 project role 配置。
-- [ ] L5.3 将 Gate 05 的 Context/Messaging primitives、禁止框架类型和门禁职责表绑定到规则；字段和值仍由专用 validator/tests 负责。
-- [ ] L5.4 更新 `src/layerguard.json` 的 rings、project patterns、allowed/forbidden references 与规则说明，不复制可从权威 Gate artifact 读取的数据。
-- [ ] L5.5 用完整新规则在 Contracts/Events 改造前代码上运行报告，按真实依赖边而不是错误数量聚类违规。
-- [ ] L5.6 建立正式 B1 migration baseline：历史违规可以暂存但新增违规必须失败；每项 baseline 需要 owner、原因、到期日和删除条件。
-- [ ] L5.7 将完整工具测试、仓库扫描和 catalog reconciliation 加入 CI；过期 waiver、未知项目、扫描异常和新增违规必须失败。
-- [ ] L5.8 对 Gate policy、配置或规则代码变更要求相应正反 fixture；若目标规则语义变化，必须重跑受影响基线并记录原因。
-- [ ] L5.9 保存 B1 报告及 LayerGuard 版本、规则配置、Gate artifact/catalog/allowlist 快照、运行参数和性能结果，作为 B2/B3/B4 的固定对照。
+- [x] L5.1 Gate 03 module ownership、provider/consumer graph、shared primitives、backup owner 与 waiver policy 由生成视图和 catalog 双向校验后直接加载；配置不复制 provider graph。
+- [x] L5.2 Gate 04 release runtime manifest、全部绑定 artifact hash、`api/worker/all` role 和 RuntimeHost → Composition-only 规则已接入并 fail closed。
+- [x] L5.3 Gate 05 Context/Messaging project、BCL-only policy 与禁止框架类别已绑定；字段、值、传播、安全输出和 replay 行为仍明确交给专用 validator/tests。
+- [x] L5.4 `src/layerguard.json` 已切换为 03-A1 target policy，并只保存物理 ring/pattern 与工具规则解释；Gate ownership/provider/allowlist 数据来自绑定 artifact。
+- [x] L5.5 完整规则在 Contracts/Events 改造前代码上生成 116 个历史 finding，并按 44 条真实 from/to 依赖边聚类。
+- [x] L5.6 正式 B1 migration baseline 已建立：116/116 matched、0 new、0 stale；每项含 owner、原因、创建/到期日和删除条件，且受 90 天和不可豁免规则约束。
+- [x] L5.7 CI 运行 G03 Phase 7 reconciliation、完整 LayerGuard tests 和 B1 repository scan；输入不可读、hash 漂移、未知 role、扫描失败、过期/超期 waiver、新增或陈旧 baseline 均失败。
+- [x] L5.8 Gate policy binding 已增加正反测试，覆盖 catalog hash/projection、G04 hash、G05 BCL-only、未知 role、policy hash、waiver 上限与不可豁免规则。
+- [x] L5.9 B1 报告保存 LayerGuard `0.4.0-a1`、组合 policy hash、12 个绑定 artifact/hash、运行参数语义、44 个 finding clusters 与扫描耗时，作为 B2/B3/B4 固定对照。
 
 ## Phase 6 — 跟随 Contracts / Events 迁移并清理违规
 

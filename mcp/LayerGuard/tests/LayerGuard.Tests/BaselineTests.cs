@@ -6,6 +6,22 @@ namespace LayerGuard.Tests;
 public class BaselineTests
 {
     [Fact]
+    public void Snapshot_rejects_an_option_token_as_owner()
+    {
+        var report = Fixtures.Check(Fixtures.BootstrapArchitecture);
+
+        var error = Assert.Throws<InvalidDataException>(() => Baseline.Snapshot(
+            report,
+            "--expires",
+            "bootstrap debt",
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            "Remove after migration"
+        ));
+
+        Assert.Contains("owner", error.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void Snapshot_suppresses_only_matching_historical_findings()
     {
         var report = Fixtures.Check(Fixtures.BootstrapArchitecture);
@@ -72,8 +88,7 @@ public class BaselineTests
         try
         {
             File.WriteAllText(sourcePath, "{\n  \"requireRings\": false\n}\n");
-            var original = Fixtures.Check(Fixtures.BootstrapArchitecture);
-            var report = original with { Ruleset = original.Ruleset with { Source = sourcePath } };
+            var report = Analyzer.Analyze(Fixtures.PathTo(Fixtures.BootstrapArchitecture), sourcePath);
             var baseline = Baseline.Snapshot(
                 report,
                 "architecture-team",
@@ -85,7 +100,9 @@ public class BaselineTests
 
             File.WriteAllText(sourcePath, "{\r\n  \"requireRings\": false\r\n}\r\n");
 
-            var applied = Baseline.Apply(report, baselinePath);
+            var materializedWithDifferentLineEndings = Analyzer.Analyze(
+                Fixtures.PathTo(Fixtures.BootstrapArchitecture), sourcePath);
+            var applied = Baseline.Apply(materializedWithDifferentLineEndings, baselinePath);
             Assert.Equal("baseline-clean", applied.Verdict);
         }
         finally
@@ -114,6 +131,34 @@ public class BaselineTests
             var applied = Baseline.Apply(reduced, path);
             Assert.Equal("baseline-drift", applied.Verdict);
             Assert.Equal(1, applied.Baseline!.Stale);
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
+    [Fact]
+    public void Bound_policy_hash_drift_requires_baseline_regeneration()
+    {
+        var report = Fixtures.Check(Fixtures.BootstrapArchitecture);
+        var baseline = Baseline.Snapshot(
+            report,
+            "architecture-team",
+            "bootstrap debt",
+            DateOnly.FromDateTime(DateTime.UtcNow.AddDays(30)),
+            "Remove after migration"
+        );
+        var path = Path.Combine(Path.GetTempPath(), $"layerguard-{Guid.NewGuid():N}.json");
+        try
+        {
+            Baseline.Write(baseline, path);
+            var changed = report with
+            {
+                Ruleset = report.Ruleset with { Hash = new string('0', 64) },
+            };
+            var error = Assert.Throws<InvalidDataException>(() => Baseline.Apply(changed, path));
+            Assert.Contains("active ruleset hash", error.Message);
         }
         finally
         {

@@ -52,12 +52,12 @@
     },
     {
       "code": "G05-B03",
-      "owner": "Plan 03 L5.1/L5.2 owner",
-      "risk": "high: Gate policy is not directly bound into LayerGuard 03-A1",
+      "owner": "Plan 03 strict-closure owner",
+      "risk": "medium: B2/B3 real-carrier comparisons and B4 zero-unwaived-debt proof are not complete",
       "expiresAt": null,
-      "revisitWhen": "before Contracts/Events migration starts",
+      "revisitWhen": "after Plans 01/02 and before B4 strict closure",
       "blocks": [
-        "LG-POLICY-READY",
+        "B4",
         "G05 closure"
       ]
     },

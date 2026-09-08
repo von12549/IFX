@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "plan": "03-A1",
+  "result": "passed",
+  "milestone": "LG-POLICY-READY",
+  "checkedAt": "2026-09-08",
+  "checks": {
+    "toolVersion": true,
+    "baselineClean": true,
+    "findingInventory": true,
+    "baselineMatch": true,
+    "gateBindings": true,
+    "policyHashFrozen": true,
+    "waiverPolicyBound": true,
+    "baselineAccountability": true,
+    "baselineLifetime": true,
+    "noUnwaivableDebt": true,
+    "directGateConfiguration": true,
+    "semanticExclusionsExplicit": true,
+    "phase5Accepted": true,
+    "masterPhase1Accepted": true,
+    "prerequisiteReleased": true,
+    "ciFailClosed": true
+  },
+  "metrics": {
+    "findings": 116,
+    "clusters": 44,
+    "bindings": 12,
+    "baselineMatched": 116,
+    "baselineNew": 0,
+    "baselineStale": 0,
+    "durationMs": 3028
+  },
+  "policyHash": "1d66f672e4bd2f66fc4f4d8301ac35497ea606ed9ac6ee5be49375d367669940",
+  "failedChecks": [],
+  "remainingScope": [
+    "03-B2",
+    "03-B3",
+    "03-B4",
+    "Gate Final Closure"
+  ]
+}

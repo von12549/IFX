@@ -15,7 +15,7 @@ $status = Get-Content -Raw -LiteralPath $statusPath | ConvertFrom-Json -Depth 30
 $handoff = Get-Content -Raw -LiteralPath $handoffPath
 $plan = Get-Content -Raw -LiteralPath $planPath
 $prerequisite = Get-Content -Raw -LiteralPath $prerequisitePath
-$expectedDependencies = @('Plan 02 E3', 'Plan 02 E4', 'Plan 02 E6', 'Gate 05', 'Plan 03 L5.1/L5.2 and B1/B4', 'Production-like release rehearsal', 'Final approval')
+$expectedDependencies = @('Plan 02 E3', 'Plan 02 E4', 'Plan 02 E6', 'Gate 05', 'Plan 03 B2/B3/B4 strict closure', 'Production-like release rehearsal', 'Final approval')
 
 $checks = [ordered]@{}
 $checks.statusIsPreReady = $status.status -eq 'PRE-READY'

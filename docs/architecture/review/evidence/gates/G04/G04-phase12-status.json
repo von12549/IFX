@@ -77,13 +77,13 @@
     },
     {
       "id": "G04-B05",
-      "dependency": "Plan 03 L5.1/L5.2 and B1/B4",
+      "dependency": "Plan 03 B2/B3/B4 strict closure",
       "owner": "LayerGuard and Architecture",
-      "revisitTrigger": "03-A1 policy binding starts from the approved G03/G04 governance inputs.",
+      "revisitTrigger": "Plans 01/02 return B2/B3 and Plan 03 begins B4 strict closure.",
       "requiredEvidence": [
-        "Runtime Host compile-time rules bound to Composition and host primitives",
-        "Catalog/hash binding without copied ownership configuration",
-        "B1/B4 pass report and forbidden-edge fixtures"
+        "B2/B3 use the same Runtime Host and Gate policy semantics as returned B1",
+        "B4 proves zero unwaived policy bypass",
+        "Strict-mode approval references the frozen B1 composite policy hash"
       ]
     },
     {

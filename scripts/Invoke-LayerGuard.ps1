@@ -10,10 +10,10 @@ $toolProject = Join-Path $repositoryRoot 'mcp/LayerGuard/src/LayerGuard/LayerGua
 $toolSolution = Join-Path $repositoryRoot 'mcp/LayerGuard/LayerGuard.slnx'
 $sourceRoot = Join-Path $repositoryRoot 'src'
 $policy = Join-Path $sourceRoot 'layerguard.json'
-$baseline = Join-Path $repositoryRoot 'mcp/LayerGuard/baselines/b0.5.json'
+$baseline = Join-Path $repositoryRoot 'mcp/LayerGuard/baselines/b1.json'
 
 if ([string]::IsNullOrWhiteSpace($ReportPath)) {
-    $ReportPath = Join-Path $repositoryRoot 'artifacts/layerguard/b0.5-latest.json'
+    $ReportPath = Join-Path $repositoryRoot 'artifacts/layerguard/b1-latest.json'
 }
 elseif (-not [System.IO.Path]::IsPathRooted($ReportPath)) {
     $ReportPath = Join-Path $repositoryRoot $ReportPath
@@ -27,10 +27,10 @@ if (-not $SkipTests) {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
-dotnet run --project $toolProject -- check $sourceRoot --config $policy --baseline $baseline --format json --report $ReportPath --quiet
+dotnet run --no-restore --project $toolProject -- check $sourceRoot --config $policy --baseline $baseline --format json --report $ReportPath --quiet
 $checkExitCode = $LASTEXITCODE
 if ($checkExitCode -eq 0) {
-    Write-Host "LayerGuard 03-A0 passed. Report: $ReportPath"
+    Write-Host "LayerGuard 03-A1 policy gate passed. Report: $ReportPath"
 }
 else {
     Write-Error "LayerGuard found a new/stale violation or invalid baseline. Report: $ReportPath"

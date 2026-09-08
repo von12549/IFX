@@ -19,7 +19,7 @@ Messaging primitives remain Proposed.
 | GOV2 owner and change review | catalog owners/consumers/approval policy, CODEOWNERS, PR template, Change Record, breaking-version templates, and dated backup assignment | Complete governance path; final multi-role approvals remain pending |
 | GOV5 minimal shared primitives | BCL-only dependency policy, three Proposed Messaging primitives, catalog negative tests | Policy frozen; physical Contracts/runtime split is pending in Plan 02 |
 | GOV-G1 real relationships | two sync and two event candidates with provider, consumer, purpose, freshness, authorization, failures, fields | All remain Proposed pending real source and behavior evidence |
-| GOV-G2 single validated input | catalog validator, source reconciliation, snapshots, generated LayerGuard input with catalog hash, CI workflow | CI seam exists; Plan 03 L5.1 direct consumption is pending |
+| GOV-G2 single validated input | catalog validator, source reconciliation, snapshots, generated LayerGuard input with catalog hash, CI workflow and formal B1 | Plan 03 L5.1 direct consumption returned; B2/B3 and final approval remain pending |
 
 Primary evidence:
 
@@ -40,7 +40,6 @@ Primary evidence:
 | Four protocols have 0 Active entries | Plans 01/02 provider and consumer owners | Physical V1 source, snapshots, tests, reconciliation, Change Records, and approvals exist |
 | G03-6.5 provider and G03-6.6 consumer behavior suites absent | Plans 01/02 implementers | Real Provider Contracts and Consumer Adapters exist |
 | Messaging Contracts/runtime split absent | Plan 02 Platform Messaging owner | Both target projects and dependency tests exist |
-| LayerGuard direct governance consumption absent | Plan 03 L5.1 owner | Gate policy binding begins and catalog/hash input is consumed fail-closed |
 | Final module/consumer/Platform/Architecture approvals absent | All named approval roles | Every technical blocker is cleared |
 
 The machine-readable audit owns this same list so future re-evaluation cannot silently omit a
@@ -53,7 +52,7 @@ plan, removal condition, and 2026-12-01 deadline; 0 are overdue.
    source-derived public API snapshots, and approvals.
 2. Execute Plan 02 handoff and return the Messaging split, durable event path, source-derived
    serialization snapshots, compatibility/idempotency tests, and approvals.
-3. Execute Plan 03 L5.1 and return direct catalog/hash consumption, fixtures, and B1/B2/B3 evidence.
+3. Use the returned Plan 03 L5.1/B1 policy unchanged for B2/B3 and return both comparison reports.
 4. Only when the readiness report becomes `ready-for-approval`, obtain module owner, Consumer owner,
    Platform Messaging, and architecture signatures; then update Phase 6/9, Definition of Done,
    and the Gate 3 final-closure status in the same reviewed change.

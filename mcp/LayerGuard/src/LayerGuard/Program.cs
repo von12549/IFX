@@ -108,7 +108,11 @@ static string Require(string[] positional, string usage) =>
 static string? ValueOf(string[] args, string name)
 {
     var index = Array.IndexOf(args, name);
-    return index >= 0 && index + 1 < args.Length ? args[index + 1] : null;
+    if (index < 0 || index + 1 >= args.Length)
+        return null;
+
+    var value = args[index + 1];
+    return value.StartsWith("--", StringComparison.Ordinal) ? null : value;
 }
 
 public static partial class Program

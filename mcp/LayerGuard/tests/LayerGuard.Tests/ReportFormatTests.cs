@@ -21,6 +21,7 @@ public class ReportFormatTests
         Assert.EndsWith("Hop.Carrier.csproj", violation.GetProperty("fixAt").GetProperty("file").GetString());
         Assert.True(violation.GetProperty("fixAt").GetProperty("line").GetInt32() > 0);
         Assert.NotEmpty(violation.GetProperty("path").EnumerateArray());
+        Assert.NotEmpty(json.RootElement.GetProperty("clusters").EnumerateArray());
     }
 
     [Fact]

@@ -35,5 +35,10 @@ expiry, and unwaivable categories.
 5. Return positive/negative fixtures, report links, catalog hash, and proof that G03 CI and the main
    LayerGuard workflow cannot silently skip a scan failure.
 
-The current generated handoff and CI seam satisfy G03 Phase 7, but do not satisfy Plan 03 L5.1 or
-G03 final closure by themselves.
+## 03-A1 return — 2026-09-08
+
+Plan 03 L5.1 returned direct generated-view/catalog reconciliation, catalog hash verification,
+provider projection and backup-owner checks, Gate-bound positive/negative tests, B1 and CI evidence:
+[`03-a1-layerguard-policy-binding.md`](../../../evidence/03-a1-layerguard-policy-binding.md). G03-DD07
+is now satisfied. G03 remains PRE-READY because physical V1 sources, Active provider/consumer
+evidence, Messaging runtime separation, B2/B3 and final multi-role approvals remain open.

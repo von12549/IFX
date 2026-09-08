@@ -105,6 +105,8 @@ public static class ReferenceRules
     {
         if (allowed is null || allowed.Any(pattern => Ruleset.Matches(targetName, pattern)))
             return null;
+        if (ruleset.IsSharedPrimitiveReference(node, targetName))
+            return null;
         if (target is not null && target.InScope && !ruleset.Allows(node.Ring, target.Ring))
             return null;
 

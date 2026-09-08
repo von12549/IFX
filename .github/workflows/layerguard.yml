@@ -16,15 +16,21 @@ jobs:
       - name: Validate Plan 00 prerequisite release semantics
         shell: pwsh
         run: ./scripts/Test-Plan00PrerequisiteRelease.ps1 -ReportPath artifacts/plan00/prerequisite-release.json
-      - name: Run deterministic 03-A0 gate
+      - name: Reconcile G03 catalog and generated LayerGuard input
         shell: pwsh
-        run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b0.5-ci.json
+        run: ./scripts/Invoke-G03ContractEventGuard.ps1 -Phase 7 -ReportPath artifacts/layerguard/g03-policy-input.json
+      - name: Run complete 03-A1 policy gate
+        shell: pwsh
+        run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b1-ci.json
+      - name: Validate 03-A1 acceptance evidence
+        shell: pwsh
+        run: ./scripts/Test-03A1PolicyBinding.ps1 -LayerGuardReportPath artifacts/layerguard/b1-ci.json -StatusPath artifacts/layerguard/03-a1-status.json
       - name: Upload LayerGuard report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: layerguard-b0.5
-          path: artifacts/layerguard/b0.5-ci.json
+          name: layerguard-b1
+          path: artifacts/layerguard
           if-no-files-found: warn
       - name: Upload Plan 00 prerequisite evidence
         if: always()

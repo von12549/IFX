@@ -28,7 +28,7 @@ Verification on this commit candidate passed: Phase 12 closeout validator, conso
 | G04-B02 / Plan 02 E4 | Consuming modules | First real Inbox/adapter is ready | Atomic completion, duplicate absorption, crash/order/tenant evidence |
 | G04-B03 / Plan 02 E6 | Observability + Platform Operations | Real messaging metrics exist | Dashboards, thresholds, alerts and silent-stop recovery exercise |
 | G04-B04 / G05 | Security + Platform + Architecture | Context/classification/sentinel implementation lands | Endpoint sentinel, worker scope, telemetry and quarantine evidence |
-| G04-B05 / Plan 03 L5.1/L5.2 | LayerGuard + Architecture | 03-A1 policy binding starts | G03/G04 hash-bound Runtime Host rules and B1/B4 report |
+| G04-B05 / Plan 03 B2/B3/B4 | LayerGuard + Architecture | Plans 01/02 return their comparisons | Same-policy B2/B3 and zero-unwaived B4; 03-A1/B1 returned on 2026-09-08 |
 | G04-B06 / release rehearsal | Operations + Database + Platform + modules | Production-candidate staging release exists | Ordered rollout, drain/kill, capacity, network, rollback and observation evidence |
 | G04-B07 / approval | Architecture + modules + Platform + Database + Operations | B01-B06 are closed | Named, dated approval references and final checklist review |
 

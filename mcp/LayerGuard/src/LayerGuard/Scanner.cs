@@ -41,10 +41,13 @@ public static class Scanner
         );
         var rules = new RulesetInfo(
             ruleset.Source,
+            ruleset.PolicyHash,
             ruleset.AllowedDependencies.ToDictionary(
                 pair => pair.Key.ToString(),
                 pair => pair.Value.Select(r => r.ToString()).ToArray()
-            )
+            ),
+            ruleset.PolicyBindings,
+            ruleset.WaiverPolicy
         );
 
         bool NameWanted(string name) => namePattern is null || Ruleset.Matches(name, namePattern);
