@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Registry.Abstractions.Events;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;
 using IFX.Modules.Registry.Application.Funds.DTOs;
 using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -44,7 +42,6 @@ public class CreateFundCommandHandler : IRequestHandler<CreateFundCommand, Resul
                 fund.SetProduct(request.ProductId.Value);
             fund.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Funds.AddAsync(fund, cancellationToken);
-            _eventBuffer.Add(new FundCreatedEvent(fund.Id, fund.TenantId, fund.FundCode, fund.FundName));
             _logger.LogInformation("Fund created: {FundCode} in tenant {TenantId}", fund.FundCode, fund.TenantId);
             return Result<FundDto>.Success(_mapper.Map<FundDto>(fund));
         }

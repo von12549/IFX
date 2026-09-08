@@ -4,7 +4,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Abstractions\IFX.Platform.Messaging.Abstractions.csproj" />
-  </ItemGroup>
 </Project>

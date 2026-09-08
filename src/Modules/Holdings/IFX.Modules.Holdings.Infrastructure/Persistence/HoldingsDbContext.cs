@@ -1,6 +1,7 @@
 using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Holdings.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using IFX.Modules.Holdings.Infrastructure.Messaging;
 
 namespace IFX.Modules.Holdings.Infrastructure.Persistence;
 
@@ -9,6 +10,8 @@ public class HoldingsDbContext : DbContext
     public HoldingsDbContext(DbContextOptions<HoldingsDbContext> options) : base(options) { }
 
     public DbSet<Holding> Holdings => Set<Holding>();
+    public DbSet<HoldingsInboxMessage> InboxMessages => Set<HoldingsInboxMessage>();
+    public DbSet<HoldingsQuarantinedMessage> QuarantinedMessages => Set<HoldingsQuarantinedMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

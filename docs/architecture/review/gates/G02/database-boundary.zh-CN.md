@@ -1,6 +1,6 @@
 # G02 模块数据库边界
 
-> 状态：G02 Phase 0–9 已实施并达到 PRE-READY；最终关闭等待 Plan 02 E2/E4、G04 生产编排回交证据及 Phase 10 批准。
+> 状态：G02 Phase 0–9 与 Plan 02/B3 真实 Outbox/Inbox 仓库回交已实施；最终关闭等待 G04 生产编排证据及 Phase 10 批准。
 > English version: [database-boundary.en.md](database-boundary.en.md)
 > 决策记录：[ADR-G02-001](ADR-G02-001-module-database-ownership.md)
 
@@ -144,7 +144,7 @@ DDL/访问、共享 Messaging DbContext、未经审核的 destructive SQL、在�
 | Required schema 采用只读 readiness | `/health/database`、`SchemaCompatibilityHealthCheckTests` |
 | Destructive/Contract 变化必须审核 | Migration safety policy 及架构/数据库/运维批准 |
 | 禁止跨模块编译/数据访问 | LayerGuard B0.5、数据库 metadata assertions、人工 SQL review |
-| 真实模块 Outbox/Inbox ownership 和原子性 | Plan 02 E2/E4 回访 G01/G02（待完成） |
+| 真实模块 Outbox/Inbox ownership 和原子性 | Plan 02 E2/E4 已在 B3 回交；生产编排/最终批准开放 |
 
 证据索引从 [G02 evidence 目录](../../evidence/gates/G02/)开始；受控演练记录在
 [rollout-evidence.json](../../evidence/gates/G02/phase8-docker-rehearsal/rollout-evidence.json)。

@@ -2,9 +2,9 @@
 
 # IFX 模块通信架构评审
 
-This directory records the source-verified architecture and its governed migration. Plan 01 synchronous Contracts/Ports/Adapters reached B2; Plan 02 events and later closure milestones remain open.
+This directory records the source-verified architecture and its governed migration. Plan 01 synchronous Contracts/Ports/Adapters reached B2 and Plan 02 reliable events reached the repository B3 checkpoint; B4 and production-dependent Gate closure remain open.
 
-本目录记录经源码核对的架构及受治理的迁移状态。Plan 01 同步 Contracts/Ports/Adapters 已到达 B2；Plan 02 事件与后续关闭里程碑仍保持开放。
+本目录记录经源码核对的架构及受治理的迁移状态。Plan 01 同步 Contracts/Ports/Adapters 已到达 B2，Plan 02 可靠事件已到达仓库 B3 检查点；B4 与依赖生产证据的 Gate 关闭仍保持开放。
 
 ## Baseline / 基线
 
@@ -12,13 +12,13 @@ This directory records the source-verified architecture and its governed migrati
 - Architecture style: ASP.NET Core 8 modular monolith
 - Deployment: one ApiHost process
 - Current persistence: one DbContext, migrations set, and SQL schema per business module
-- Target status: synchronous boundary implemented at B2; reliable events remain proposed for B3
+- Target status: synchronous boundary implemented at B2; reliable events implemented at repository B3
 
 - 仓库源码基线：提交 `308d548`
 - 架构风格：ASP.NET Core 8 模块化单体
 - 部署方式：单一 ApiHost 进程
 - 当前持久化：每个业务模块拥有独立 DbContext、迁移集合和 SQL schema
-- 目标方案状态：同步边界已在 B2 实施；可靠事件仍待 B3
+- 目标方案状态：同步边界已在 B2 实施；可靠事件已在仓库 B3 实施
 
 ## Full documents / 完整说明文档
 
@@ -27,6 +27,7 @@ This directory records the source-verified architecture and its governed migrati
 | Current architecture / 当前架构 | [current-architecture.zh-CN.md](current-architecture.zh-CN.md) | [current-architecture.en.md](current-architecture.en.md) |
 | Target Contracts/Adapters/Events architecture / 目标架构 | [target-contracts-adapters-events.zh-CN.md](target-contracts-adapters-events.zh-CN.md) | [target-contracts-adapters-events.en.md](target-contracts-adapters-events.en.md) |
 | Plan 01 B2 implementation / Plan 01 B2 实施基线 | [Plan 01 中文](plan01-contracts-adapters-boundary.zh-CN.md) | [Plan 01 English](plan01-contracts-adapters-boundary.en.md) |
+| Plan 02 B3 implementation / Plan 02 B3 实施基线 | [Plan 02 中文](plan02-reliable-events.zh-CN.md) | [Plan 02 English](plan02-reliable-events.en.md) |
 | G01 transaction boundary / 事务边界 | [G01 中文](gates/G01/transaction-boundary.zh-CN.md) | [G01 English](gates/G01/transaction-boundary.en.md) |
 | G02 database boundary / 数据库边界 | [G02 中文](gates/G02/database-boundary.zh-CN.md) | [G02 English](gates/G02/database-boundary.en.md) |
 | G03 Contract/Event governance / Contract/Event 治理 | [G03 中文](gates/G03/contract-event-governance.zh-CN.md) | [G03 English](gates/G03/contract-event-governance.en.md) |
@@ -73,6 +74,9 @@ This directory records the source-verified architecture and its governed migrati
 | 26 | [G05 Event context flow / Event 上下文流程](gates/G05/diagrams/event-context-flow.svg) |
 | 27 | [G05 tenant trust decision / Tenant 信任判定](gates/G05/diagrams/tenant-trust-decision.svg) |
 | 28 | [G05 failure and replay state / 失败与重放状态](gates/G05/diagrams/failure-replay-state.svg) |
+| B3-A | [Plan 02 implemented reliable-event architecture / Plan 02 已实施可靠事件架构](diagrams/plan02-reliable-events-architecture.svg) |
+| B3-S | [Plan 02 delivery sequence / Plan 02 投递时序](diagrams/plan02-reliable-events-sequence.svg) |
+| B3-R | [Plan 02 failure and recovery / Plan 02 失败与恢复](diagrams/plan02-reliable-events-recovery.svg) |
 
 ## Recommended reading order / 建议阅读顺序
 

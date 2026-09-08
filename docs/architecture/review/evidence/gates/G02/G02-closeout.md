@@ -70,3 +70,18 @@ are deliberately absent until the required callbacks exist.
 - Plan 02 E2/E4 and E8.10 return real Outbox/Inbox database evidence.
 - G04 returns production release orchestration evidence and closes G02-DD06.
 - Architecture, Database and Operations owners approve Phase 10 after both callbacks are linked.
+
+## Plan 02 / B3 return — 2026-09-08
+
+The E2/E4 database callback is complete in repository scope. Transaction and Registry each add an
+owned `OutboxMessages` table; Holdings adds owned `InboxMessages` and `InboxQuarantineMessages`
+tables with `(ConsumerId, EventId)` uniqueness. All objects are mapped by their module DbContext,
+use schema-local migration history, and introduce no shared Messaging DbContext, cross-schema FK,
+runtime DDL path, or application SQL across schemas.
+
+The release manifest now binds 18 migration IDs. Fresh, previous-release upgrade, rollback,
+idempotent rerun, metadata ownership and zero-pending validation pass in the 102-test SQL Server
+boundary suite. The upgrade bootstrapper now validates the table set appropriate to the highest
+actually applied migration, preserving fail-closed handling of falsely claimed current schemas.
+See the [B3 Gate handback](../../plan02/B3-gate-handback.md). G02-DD06 still awaits the production
+Migrator → Worker → API rehearsal and final Architecture/Database/Operations signatures.

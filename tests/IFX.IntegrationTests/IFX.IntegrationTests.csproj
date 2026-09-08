@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\src\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
     <ProjectReference Include="..\..\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Abstractions\IFX.Platform.BackgroundJobs.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Platform\Notifications\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\IFX.Platform.Messaging.Runtime.csproj" />
     <ProjectReference Include="..\IFX.Tests.Common\IFX.Tests.Common.csproj" />
   </ItemGroup>
 

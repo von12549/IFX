@@ -55,7 +55,7 @@ try
     builder.Services.AddSingleton<IExecutionContextScopeFactory>(services => services.GetRequiredService<ExecutionContextAccessor>());
     builder.Services.Configure<HttpContextBoundaryOptions>(
         builder.Configuration.GetSection(HttpContextBoundaryOptions.SectionName));
-    builder.Services.AddSingleton<IFX.Platform.Messaging.Composition.Dispatching.IRuntimeDrainSignal>(
+    builder.Services.AddSingleton<IMessagingDrainSignal>(
         services => services.GetRequiredService<RuntimeDrainCoordinator>());
     builder.Services.Configure<HostOptions>(options => options.ShutdownTimeout = drainOptions.ProcessGrace);
 
@@ -63,7 +63,9 @@ try
     builder.Host.UseSerilog();
 
     // Register platform primitives before the required module topology.
-    builder.Services.AddMessaging();
+    builder.Services.AddReliableMessaging(
+        runtimeInstanceIdentity.Value,
+        runtimeProfile.Capabilities.Dispatcher);
     builder.Services.AddBackgroundJobsClient(builder.Configuration);
     if (runtimeProfile.Capabilities.HangfireServer)
     {
@@ -78,7 +80,6 @@ try
     builder.Services.AddHoldingsModule(builder.Configuration);
     builder.Services.AddTransactionModule(builder.Configuration);
     builder.Services.AddApplicationPipeline();
-
     // Add API infrastructure (via configuration modules)
     builder.Services.AddOpaClient(builder.Configuration);
     builder.Services.AddAuthAuthentication(builder.Configuration);

@@ -32,7 +32,7 @@
       "identity": "ifx.registry.class-status-changed.v1",
       "version": 1,
       "kind": "event",
-      "lifecycle": "Proposed",
+      "lifecycle": "Active",
       "fields": [
         {
           "name": "classId",
@@ -41,11 +41,6 @@
         },
         {
           "name": "fundId",
-          "required": true,
-          "classification": "C2"
-        },
-        {
-          "name": "tenantId",
           "required": true,
           "classification": "C2"
         },
@@ -66,15 +61,10 @@
       "identity": "ifx.transaction.transaction-processed.v1",
       "version": 1,
       "kind": "event",
-      "lifecycle": "Proposed",
+      "lifecycle": "Active",
       "fields": [
         {
           "name": "transactionId",
-          "required": true,
-          "classification": "C2"
-        },
-        {
-          "name": "tenantId",
           "required": true,
           "classification": "C2"
         },

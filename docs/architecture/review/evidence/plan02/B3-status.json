@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "milestone": "B3",
+  "date": "2026-09-08",
+  "branch": "feature/architecture-boundary-implementation",
+  "baseCommit": "aa86103948ff102cd193c5e8e7e26bb48fd02473",
+  "status": "repository-scope-complete",
+  "protocols": {
+    "activeV1Events": 2,
+    "retiredLegacyEvents": 20,
+    "payloadTenantIdFields": 0
+  },
+  "database": {
+    "manifestMigrationCount": 18,
+    "newProducerOutboxMigrations": 2,
+    "newConsumerInboxMigrations": 1,
+    "databaseBoundaryTests": { "passed": 102, "failed": 0 },
+    "pendingModelChanges": {
+      "TransactionDbContext": false,
+      "RegistryDbContext": false,
+      "HoldingsDbContext": false
+    }
+  },
+  "verification": {
+    "solutionBuild": { "errors": 0, "warnings": 14, "warningDisposition": "pre-existing dependency version and advisory warnings" },
+    "solutionTests": { "assemblies": 19, "passed": 1062, "failed": 0, "skipped": 0 },
+    "protocolContractTests": { "passed": 77, "failed": 0 },
+    "layerGuardTests": { "passed": 189, "failed": 0 },
+    "g03Catalog": "passed",
+    "g03SourceReconciliation": "passed",
+    "g03Phase6Guard": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "layerGuard": {
+    "baseline": "mcp/LayerGuard/baselines/b3.json",
+    "rulesetHash": "f72933a0679a791d739fb18dea4c938c079571d7ddef3f134406453672b7081c",
+    "matched": 32,
+    "new": 0,
+    "stale": 0,
+    "b2Findings": 103,
+    "removedSinceB2": 71,
+    "remainingForB4": 32
+  },
+  "openExternalConditions": [
+    "production capacity and alert threshold calibration",
+    "consumer-first production rollout and rollback rehearsal",
+    "production broker and operator audit integration",
+    "final multi-owner Gate approvals",
+    "Plan 03 B4 removal of retained historical LayerGuard findings"
+  ]
+}

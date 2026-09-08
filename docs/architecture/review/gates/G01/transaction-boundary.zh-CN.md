@@ -1,6 +1,6 @@
 # G01 模块本地事务边界
 
-> 状态：G01 主体已实施；真实 Outbox/Inbox 验收等待 Plan 02 E2/E4。
+> 状态：G01 主体与 Plan 02/B3 真实 Outbox/Inbox 仓库回交已实施；最终三方签字保持开放。
 > 对应英文版：[transaction-boundary.en.md](transaction-boundary.en.md)
 > 决策记录：[ADR-G01-001](ADR-G01-001-transaction-executor-split.md)
 
@@ -82,6 +82,6 @@ public async Task<Result<ThingDto>> Handle(CreateThingCommand command, Cancellat
 | Behavior 唯一注册、顺序、五模块 executor 实际隔离调用 | `ApplicationPipelineCompositionTests`（真实 ApiHost） |
 | 结构化 400、403、安全 409/500、取消不记错 | `ExceptionHandlingMiddlewareTests`、`ExceptionHandlingHttpEndToEndTests` |
 | 跨层和跨模块引用 | `scripts/Invoke-LayerGuard.ps1 -Mode B0.5` |
-| 真实 Outbox/Inbox 原子性、唯一约束、崩溃窗口 | Plan 02 E2/E4（未关闭） |
+| 真实 Outbox/Inbox 原子性、唯一约束、崩溃窗口 | Plan 02 E2/E4 已在 B3 回交；最终签字开放 |
 
 迁移基线与燃尽数字在 [G01-baseline.md](../../evidence/gates/G01/G01-baseline.md)，关闭证据索引在 [G01-closeout.md](../../evidence/gates/G01/G01-closeout.md)，最新机器可读守卫报告在 [G01-guard-report.json](../../evidence/gates/G01/G01-guard-report.json)。

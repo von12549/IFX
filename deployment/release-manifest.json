@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "releaseVersion": "g02-phase5",
-  "migrationCatalogSha256": "43a4124c8e4df1a951cb3c7f0fbe8bf7e7983d2fa8fcd10f459959076e825fd5",
+  "releaseVersion": "plan02-b3",
+  "migrationCatalogSha256": "69662a1e78ba4e6e20333010c862b494404dbd5b3c9d78b487523f005de828ce",
   "modules": [
     {
       "moduleName": "Auth",
@@ -35,11 +35,12 @@
       "schema": "registry",
       "historyTable": "__EFMigrationsHistory",
       "runtimeConnectionKey": "RegistryDatabase",
-      "requiredMigrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationId": "20260908100951_Plan02ReliableOutbox",
       "requiredMigrationIds": [
         "20260413120300_InitialCreate",
         "20260413191525_AddProduct",
-        "20260420043017_AlterAuditColumnsToDateTimeOffset"
+        "20260420043017_AlterAuditColumnsToDateTimeOffset",
+        "20260908100951_Plan02ReliableOutbox"
       ],
       "compatibleAdditionalMigrationIds": []
     },
@@ -48,10 +49,11 @@
       "schema": "holdings",
       "historyTable": "__EFMigrationsHistory",
       "runtimeConnectionKey": "HoldingsDatabase",
-      "requiredMigrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationId": "20260908100954_Plan02ReliableInbox",
       "requiredMigrationIds": [
         "20260413120100_InitialCreate",
-        "20260420043031_AlterAuditColumnsToDateTimeOffset"
+        "20260420043031_AlterAuditColumnsToDateTimeOffset",
+        "20260908100954_Plan02ReliableInbox"
       ],
       "compatibleAdditionalMigrationIds": []
     },
@@ -60,11 +62,12 @@
       "schema": "transaction",
       "historyTable": "__EFMigrationsHistory",
       "runtimeConnectionKey": "TransactionDatabase",
-      "requiredMigrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationId": "20260908100947_Plan02ReliableOutbox",
       "requiredMigrationIds": [
         "20260413120200_InitialCreate",
         "20260418123443_AddOrderInstructionModel",
-        "20260420043039_AlterAuditColumnsToDateTimeOffset"
+        "20260420043039_AlterAuditColumnsToDateTimeOffset",
+        "20260908100947_Plan02ReliableOutbox"
       ],
       "compatibleAdditionalMigrationIds": []
     }

@@ -2,7 +2,7 @@
 
 > G04 反向链接：E3/E4/E6 必须重跑 lease、drain、health、backpressure 与 consumer-first conformance；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
 
-> 状态：Draft / 待评审
+> 状态：B3 仓库实现完成；生产告警校准、consumer-first 演练与最终 Gate 签字保持开放（2026-09-08）
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。
 > G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [serialization golden snapshot](../gates/G03/snapshots/G03-serialization-golden.json)；完成真实 Envelope/Outbox/Inbox/behavior tests 后回交 Active 准入证据。
@@ -10,6 +10,15 @@
 > 运行前置：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 API/Worker roles、instance identity、多实例 lease、health、drain、backpressure 和 consumer-first 发布顺序。
 > 上下文与数据前置：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 定义 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类、失败矩阵和 conformance suite。
 > 门禁前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0/03-A1 已完成并保存正式 B1；事件迁移全过程不得新增未登记依赖或通过放宽规则绕过 B1。
+
+## B3 验收切片
+
+B3 已完成事件迁移的仓库可验证范围：两个 provider-owned V1 schema、producer-local
+Transactional Outbox、Worker Dispatcher、Holdings Inbound Adapter/Inbox/quarantine、受控诊断与
+replay、G01–G05 对称回交，以及 B3 LayerGuard 基线。证据见
+[`B3-status.json`](../evidence/plan02/B3-status.json) 和
+[`B3-gate-handback.md`](../evidence/plan02/B3-gate-handback.md)。下方未勾选项是完整 Plan 02 的
+生产运维关闭条件或增强项，不阻塞仓库 B3，但继续阻止 Plan 02/Gate Final Closure。
 
 ## 目标流程
 
@@ -29,48 +38,48 @@ Producer Application
 
 ## Phase 0 — 事件盘点与语义决策
 
-- [ ] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 0 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E0.1 从 Gate 03 权威目录导入所有事件类型、发布点、处理器、模块所有者、触发事务和实际消费者，并与源码对账；新增或重分类先更新目录。
-- [ ] E0.2 将现有事件分类为 Domain Event、Integration Event、进程内通知或错误地用于状态传输的消息。
-- [ ] E0.3 为每个 Integration Event 明确“已发生的事实”、生产方、消费方、交付要求和可接受延迟。
-- [ ] E0.4 识别当前 Transaction 在 `SaveChanges` 后、`TransactionBehavior` 提交前调用 `PublishAsync` 的崩溃与可见性窗口。
-- [ ] E0.5 识别当前 `InMemoryIntegrationEventBus` 顺序调用且吞掉 handler 异常造成的不可重试、假成功问题。
-- [ ] E0.6 明确事件顺序要求：默认只保证同聚合/同分区内的必要顺序，不声明全局顺序。
-- [ ] E0.7 明确保留期、重复容忍、敏感字段、事件大小和 schema 兼容政策。
-- [ ] E0.8 验证前置计划 Gate 1 的事务语义已经批准；未通过时不得进入 Outbox/Inbox 实现。
-- [ ] E0.9 从 Gate 05 导入每个 Event/Envelope 字段的分类、purpose、consumer、retention、replay 和日志规则，并标记需删除的 Name、AccountNumber、自由文本和重复 TenantId。
-- [ ] E0.10 从 Gate 02 导入模块 schema/DbContext/connection/history ownership 矩阵、独立 Migrator 顺序及 `G02SqlServerAssertions`；Outbox/Inbox migration 必须只修改所属模块 schema，并进入同一 manifest、fresh/upgrade 和零 pending 验收。
+- [x] E0.1 从 Gate 03 权威目录导入所有事件类型、发布点、处理器、模块所有者、触发事务和实际消费者，并与源码对账；新增或重分类先更新目录。
+- [x] E0.2 将现有事件分类为 Domain Event、Integration Event、进程内通知或错误地用于状态传输的消息。
+- [x] E0.3 为每个 Integration Event 明确“已发生的事实”、生产方、消费方、交付要求和可接受延迟。
+- [x] E0.4 识别当前 Transaction 在 `SaveChanges` 后、`TransactionBehavior` 提交前调用 `PublishAsync` 的崩溃与可见性窗口。
+- [x] E0.5 识别当前 `InMemoryIntegrationEventBus` 顺序调用且吞掉 handler 异常造成的不可重试、假成功问题。
+- [x] E0.6 明确事件顺序要求：默认只保证同聚合/同分区内的必要顺序，不声明全局顺序。
+- [x] E0.7 明确保留期、重复容忍、敏感字段、事件大小和 schema 兼容政策。
+- [x] E0.8 验证前置计划 Gate 1 的事务语义已经批准；未通过时不得进入 Outbox/Inbox 实现。
+- [x] E0.9 从 Gate 05 导入每个 Event/Envelope 字段的分类、purpose、consumer、retention、replay 和日志规则，并标记需删除的 Name、AccountNumber、自由文本和重复 TenantId。
+- [x] E0.10 从 Gate 02 导入模块 schema/DbContext/connection/history ownership 矩阵、独立 Migrator 顺序及 `G02SqlServerAssertions`；Outbox/Inbox migration 必须只修改所属模块 schema，并进入同一 manifest、fresh/upgrade 和零 pending 验收。
 
 ## Phase 1 — 定义事件契约与 Envelope
 
-- [ ] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 1 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E1.1 将生产方拥有且已通过 Gate 03 准入的 Integration Event schema 放入生产方 Contracts，并与 Domain Event 类型完全分离。
-- [ ] E1.2 采用过去时、业务事实命名，禁止把“请执行某操作”的命令伪装为事件。
-- [ ] E1.3 复用 Gate 05 统一 Envelope：EventId、EventType、SchemaVersion、OccurredAt、Producer、TenantScope、CorrelationId、CausationId、ContentType 与可选 W3C trace carrier。
-- [ ] E1.4 Actor/Source 使用最小引用且由可信 runtime 注入；禁止认证凭据、ClaimsPrincipal、角色列表和调用方自报授权进入事件。
-- [ ] E1.5 确保 payload 不引用 Domain Entity、EF 类型、内部枚举实现或消费方模型。
-- [ ] E1.6 为向后兼容、并行版本、未知字段和废弃窗口建立可自动验证的规则。
-- [ ] E1.7 评审 CRM 当前事件是否足以构建账户 KYC 投影；若不足，设计最小事实事件或明确继续使用同步 Contract。
-- [ ] E1.8 为关键事件保存序列化 golden files，作为 schema 回归基线。
-- [ ] E1.9 建立 BCL-only `IFX.Platform.Messaging.Contracts` schema primitives；bus、handler、dispatcher、DI、serializer 和 broker 端口/实现不得进入模块 Contracts 依赖。
-- [ ] E1.10 对每个字段执行 C0-C4 分类和最小化；C4 禁止，C3 仅允许获批 State Transfer Event，Notification Event 默认不携带 Restricted 数据。
-- [ ] E1.11 运行 Gate 05 schema/security conformance suite，并验证 payload TenantId 仅在其本身为业务事实时重复且与 Envelope 一致。
+- [x] E1.1 将生产方拥有且已通过 Gate 03 准入的 Integration Event schema 放入生产方 Contracts，并与 Domain Event 类型完全分离。
+- [x] E1.2 采用过去时、业务事实命名，禁止把“请执行某操作”的命令伪装为事件。
+- [x] E1.3 复用 Gate 05 统一 Envelope：EventId、EventType、SchemaVersion、OccurredAt、Producer、TenantScope、CorrelationId、CausationId、ContentType 与可选 W3C trace carrier。
+- [x] E1.4 Actor/Source 使用最小引用且由可信 runtime 注入；禁止认证凭据、ClaimsPrincipal、角色列表和调用方自报授权进入事件。
+- [x] E1.5 确保 payload 不引用 Domain Entity、EF 类型、内部枚举实现或消费方模型。
+- [x] E1.6 为向后兼容、并行版本、未知字段和废弃窗口建立可自动验证的规则。
+- [x] E1.7 评审 CRM 当前事件是否足以构建账户 KYC 投影；若不足，设计最小事实事件或明确继续使用同步 Contract。
+- [x] E1.8 为关键事件保存序列化 golden files，作为 schema 回归基线。
+- [x] E1.9 建立 BCL-only `IFX.Platform.Messaging.Contracts` schema primitives；bus、handler、dispatcher、DI、serializer 和 broker 端口/实现不得进入模块 Contracts 依赖。
+- [x] E1.10 对每个字段执行 C0-C4 分类和最小化；C4 禁止，C3 仅允许获批 State Transfer Event，Notification Event 默认不携带 Restricted 数据。
+- [x] E1.11 运行 Gate 05 schema/security conformance suite，并验证 payload TenantId 仅在其本身为业务事实时重复且与 Envelope 一致。
 
 ## Phase 2 — 生产方 Transactional Outbox
 
-- [ ] **Phase 2 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 2 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] E2.1 为每个事件生产模块设计自己 schema 内的 Outbox 表、EF 映射和 migration，不建立跨模块表依赖。
-- [ ] E2.2 定义 Outbox 状态、尝试次数、下一次尝试时间、锁租约、创建/发布时间和最后错误字段。
-- [ ] E2.3 在 Application/Domain 完成业务结果后生成 Integration Event snapshot，不把可变实体交给异步发布器。
-- [ ] E2.4 在同一 DbContext、本地数据库事务内原子写入业务变更与 Outbox 记录。
-- [ ] E2.5 移除业务 handler 中提交前直接 `PublishAsync` 的路径，确保 rollback 时没有可投递 Outbox。
-- [ ] E2.6 验证前置计划 TX2/TX3 的 commit/rollback 语义在 Outbox 写入路径中仍然成立，防止失败结果及其 Outbox 被提交。
-- [ ] E2.7 处理序列化失败，使业务事务明确失败并产生可诊断错误，而不是提交一半状态。
-- [ ] E2.8 添加数据库级测试，证明业务数据与 Outbox 在成功时同时存在、失败时同时不存在。
-- [ ] E2.9 在 Outbox 写入时冻结 Gate 05 Envelope/trace snapshot，物理区分 immutable logical message 与 mutable delivery attempt/lease/error metadata。
+- [x] E2.1 为每个事件生产模块设计自己 schema 内的 Outbox 表、EF 映射和 migration，不建立跨模块表依赖。
+- [x] E2.2 定义 Outbox 状态、尝试次数、下一次尝试时间、锁租约、创建/发布时间和最后错误字段。
+- [x] E2.3 在 Application/Domain 完成业务结果后生成 Integration Event snapshot，不把可变实体交给异步发布器。
+- [x] E2.4 在同一 DbContext、本地数据库事务内原子写入业务变更与 Outbox 记录。
+- [x] E2.5 移除业务 handler 中提交前直接 `PublishAsync` 的路径，确保 rollback 时没有可投递 Outbox。
+- [x] E2.6 验证前置计划 TX2/TX3 的 commit/rollback 语义在 Outbox 写入路径中仍然成立，防止失败结果及其 Outbox 被提交。
+- [x] E2.7 处理序列化失败，使业务事务明确失败并产生可诊断错误，而不是提交一半状态。
+- [x] E2.8 添加数据库级测试，证明业务数据与 Outbox 在成功时同时存在、失败时同时不存在。
+- [x] E2.9 在 Outbox 写入时冻结 Gate 05 Envelope/trace snapshot，物理区分 immutable logical message 与 mutable delivery attempt/lease/error metadata。
 
 ## Phase 3 — 提交后 Dispatcher 与可替换 Transport
 

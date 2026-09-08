@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Registry.Abstractions.Events;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;
 using IFX.Modules.Registry.Application.FundClasses.DTOs;
 using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -51,7 +49,6 @@ public class CreateClassCommandHandler : IRequestHandler<CreateClassCommand, Res
 
             fundClass.CreatedBy = _currentUser.UserId;
             await _unitOfWork.FundClasses.AddAsync(fundClass, cancellationToken);
-            _eventBuffer.Add(new ClassCreatedEvent(fundClass.Id, fundClass.FundId, fundClass.TenantId, fundClass.ClassCode));
             _logger.LogInformation("FundClass created: {ClassCode} for fund {FundId}", fundClass.ClassCode, fundClass.FundId);
             return Result<FundClassDto>.Success(_mapper.Map<FundClassDto>(fundClass));
         }

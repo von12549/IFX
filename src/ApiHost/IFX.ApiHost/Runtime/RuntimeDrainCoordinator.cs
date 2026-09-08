@@ -1,8 +1,8 @@
-using IFX.Platform.Messaging.Composition.Dispatching;
+using IFX.Platform.Messaging.Composition;
 
 namespace IFX.ApiHost.Runtime;
 
-public sealed class RuntimeDrainCoordinator(RuntimeLifecycle lifecycle) : IRuntimeDrainSignal
+public sealed class RuntimeDrainCoordinator(RuntimeLifecycle lifecycle) : IMessagingDrainSignal
 {
     private readonly CancellationTokenSource _drain = new();
     private TaskCompletionSource _idle = CompletedSource();

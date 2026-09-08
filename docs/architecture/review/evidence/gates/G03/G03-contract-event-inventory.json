@@ -17,49 +17,41 @@
   },
   "counts": {
     "abstractionProjects": 4,
-    "contractProjects": 2,
+    "contractProjects": 3,
     "readers": 2,
     "readerMethods": 2,
     "dtos": 0,
-    "integrationEvents": 20,
+    "integrationEvents": 2,
     "messagingAbstractionTypes": 4,
-    "abstractionProjectEdges": 47
+    "abstractionProjectEdges": 46
   },
   "abstractionProjects": [
     {
       "name": "IFX.Modules.CRM.Abstractions",
       "module": "CRM",
       "path": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/IFX.Modules.CRM.Abstractions.csproj",
-      "projectReferences": [
-        "IFX.Platform.Messaging.Abstractions"
-      ],
+      "projectReferences": [],
       "packageReferences": []
     },
     {
       "name": "IFX.Modules.Holdings.Abstractions",
       "module": "Holdings",
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Abstractions/IFX.Modules.Holdings.Abstractions.csproj",
-      "projectReferences": [
-        "IFX.Platform.Messaging.Abstractions"
-      ],
+      "projectReferences": [],
       "packageReferences": []
     },
     {
       "name": "IFX.Modules.Registry.Abstractions",
       "module": "Registry",
       "path": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/IFX.Modules.Registry.Abstractions.csproj",
-      "projectReferences": [
-        "IFX.Platform.Messaging.Abstractions"
-      ],
+      "projectReferences": [],
       "packageReferences": []
     },
     {
       "name": "IFX.Modules.Transaction.Abstractions",
       "module": "Transaction",
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/IFX.Modules.Transaction.Abstractions.csproj",
-      "projectReferences": [
-        "IFX.Platform.Messaging.Abstractions"
-      ],
+      "projectReferences": [],
       "packageReferences": []
     }
   ],
@@ -78,124 +70,69 @@
       "module": "Registry",
       "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj",
       "projectReferences": [
-        "IFX.Platform.Context.Contracts"
+        "IFX.Platform.Context.Contracts",
+        "IFX.Platform.Messaging.Contracts"
+      ],
+      "packageReferences": []
+    },
+    {
+      "name": "IFX.Modules.Transaction.Contracts",
+      "module": "Transaction",
+      "path": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Messaging.Contracts"
       ],
       "packageReferences": []
     }
   ],
   "publicSurface": [
     {
-      "project": "IFX.Modules.CRM.Abstractions",
+      "project": "IFX.Modules.CRM.Contracts",
       "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "InvestmentAccountCreatedEvent",
-      "kind": "integration-event",
+      "namespace": "IFX.Modules.CRM.Contracts.V1",
+      "name": "IAccountComplianceContract",
+      "kind": "reader",
       "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/InvestmentAccountCreatedEvent.cs",
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs",
         "line": 5
       },
-      "baseType": "IntegrationEvent",
-      "methods": [],
+      "baseType": null,
+      "methods": [
+        {
+          "name": "CheckAsync",
+          "signature": "Task<AccountComplianceResponse> CheckAsync( AccountComplianceRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
+          "callSites": {
+            "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
+            "line": 18,
+            "kind": "reference",
+            "evidence": "public async Task<AccountComplianceResponse> CheckAsync("
+          }
+        }
+      ],
       "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/InvestmentAccounts/Commands/CreateInvestmentAccount/CreateInvestmentAccountCommandHandler.cs",
-        "line": 45,
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
+        "line": 11,
         "kind": "reference",
-        "evidence": "_eventBuffer.Add(new InvestmentAccountCreatedEvent(account.Id, account.TenantId, account.AccountNumber, account.AccountType.ToString()));"
+        "evidence": "IExecutionContextScopeFactory scopeFactory) : IAccountComplianceContract"
       }
     },
     {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "TransactionCancelledEvent",
+      "project": "IFX.Modules.Registry.Contracts",
+      "module": "Registry",
+      "namespace": "IFX.Modules.Registry.Contracts.V1.Events",
+      "name": "ClassStatusChangedV1",
       "kind": "integration-event",
       "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionCancelledEvent.cs",
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Contracts/Events/V1/ClassStatusChangedV1.cs",
         "line": 5
       },
-      "baseType": "IntegrationEvent",
+      "baseType": "IIntegrationEventV1",
       "methods": [],
       "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/CancelTransaction/CancelTransactionCommandHandler.cs",
-        "line": 44,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new TransactionCancelledEvent(tx.Id, tx.TenantId));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "OrderSubmittedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/OrderSubmittedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/CreateOrder/CreateOrderCommandHandler.cs",
-        "line": 72,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new OrderSubmittedEvent(order.Id, tenantId, order.OrderType.ToString(), order.OrderReference, order.Legs.Count));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "OrderRejectedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/OrderRejectedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/RejectOrder/RejectOrderCommandHandler.cs",
-        "line": 45,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new OrderRejectedEvent(order.Id, order.TenantId, request.Reason));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "OrderConfirmedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/OrderConfirmedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/ConfirmOrder/ConfirmOrderCommandHandler.cs",
-        "line": 65,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new OrderConfirmedEvent(order.Id, order.TenantId, order.OrderType.ToString(), order.Legs[0].InvestmentAccountId));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "OrderAcceptedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/OrderAcceptedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/AcceptOrder/AcceptOrderCommandHandler.cs",
-        "line": 45,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new OrderAcceptedEvent(order.Id, order.TenantId, order.DealReference!));"
+        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboundIntegrationEventHandler.cs",
+        "line": 23,
+        "kind": "handler",
+        "evidence": "TransactionProcessedV1.EventType or ClassStatusChangedV1.EventType;"
       }
     },
     {
@@ -229,329 +166,49 @@
       }
     },
     {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "ProductStatusChangedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/ProductStatusChangedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/Products/Commands/DeleteProduct/DeleteProductCommandHandler.cs",
-        "line": 39,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new ProductStatusChangedEvent(product.Id, product.TenantId, product.Status.ToString()));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "ProductCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/ProductCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/Products/Commands/CreateProduct/CreateProductCommandHandler.cs",
-        "line": 45,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new ProductCreatedEvent(product.Id, product.TenantId, product.ProductCode, product.ProductName));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "FundStatusChangedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/FundStatusChangedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/Funds/Commands/DeleteFund/DeleteFundCommandHandler.cs",
-        "line": 44,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new FundStatusChangedEvent(fund.Id, fund.TenantId, oldStatus, fund.Status.ToString()));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "FundCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/FundCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/Funds/Commands/CreateFund/CreateFundCommandHandler.cs",
-        "line": 47,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new FundCreatedEvent(fund.Id, fund.TenantId, fund.FundCode, fund.FundName));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "ClassStatusChangedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/ClassStatusChangedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/ClassStatusChangedEventHandler.cs",
-        "line": 8,
-        "kind": "handler",
-        "evidence": "public class ClassStatusChangedEventHandler : IIntegrationEventHandler<ClassStatusChangedEvent>"
-      }
-    },
-    {
-      "project": "IFX.Modules.Registry.Abstractions",
-      "module": "Registry",
-      "namespace": "IFX.Modules.Registry.Abstractions.Events",
-      "name": "ClassCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Abstractions/Events/ClassCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Registry/IFX.Modules.Registry.Application/FundClasses/Commands/CreateClass/CreateClassCommandHandler.cs",
-        "line": 54,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new ClassCreatedEvent(fundClass.Id, fundClass.FundId, fundClass.TenantId, fundClass.ClassCode));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Holdings.Abstractions",
-      "module": "Holdings",
-      "namespace": "IFX.Modules.Holdings.Abstractions.Events",
-      "name": "HoldingFrozenEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Abstractions/Events/HoldingFrozenEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": null
-    },
-    {
-      "project": "IFX.Modules.CRM.Contracts",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Contracts.V1",
-      "name": "IAccountComplianceContract",
-      "kind": "reader",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs",
-        "line": 5
-      },
-      "baseType": null,
-      "methods": [
-        {
-          "name": "CheckAsync",
-          "signature": "Task<AccountComplianceResponse> CheckAsync( AccountComplianceRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
-          "callSites": {
-            "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
-            "line": 18,
-            "kind": "reference",
-            "evidence": "public async Task<AccountComplianceResponse> CheckAsync("
-          }
-        }
-      ],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Contracts/AccountComplianceContract.cs",
-        "line": 11,
-        "kind": "reference",
-        "evidence": "IExecutionContextScopeFactory scopeFactory) : IAccountComplianceContract"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "PartyStatusChangedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/PartyStatusChangedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Parties/Commands/DeleteParty/DeletePartyCommandHandler.cs",
-        "line": 40,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new PartyStatusChangedEvent(party.Id, party.TenantId, oldStatus, party.Status.ToString()));"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "PartyRelationshipCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/PartyRelationshipCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Parties/Commands/CreatePartyRelationship/CreatePartyRelationshipCommandHandler.cs",
-        "line": 46,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new PartyRelationshipCreatedEvent(relationship.Id, tenantId, relationship.FromPartyId, relationship.ToPartyId, relationship.RelationshipType.ToString()));"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "PartyCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/PartyCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Parties/Commands/CreateParty/CreatePartyCommandHandler.cs",
-        "line": 44,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new PartyCreatedEvent(party.Id, party.TenantId, party.PartyCode, party.Name));"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "InvestorKycStatusChangedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/InvestorKycStatusChangedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Investors/Commands/UpdateInvestorKyc/UpdateInvestorKycCommandHandler.cs",
-        "line": 44,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new InvestorKycStatusChangedEvent(investor.Id, investor.TenantId, oldStatus, investor.KycStatus.ToString()));"
-      }
-    },
-    {
-      "project": "IFX.Modules.CRM.Abstractions",
-      "module": "CRM",
-      "namespace": "IFX.Modules.CRM.Abstractions.Events",
-      "name": "InvestorCreatedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Abstractions/Events/InvestorCreatedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/CRM/IFX.Modules.CRM.Application/Investors/Commands/CreateInvestor/CreateInvestorCommandHandler.cs",
-        "line": 44,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new InvestorCreatedEvent(investor.Id, investor.TenantId, investor.InvestorCode, investor.Name));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
+      "project": "IFX.Modules.Transaction.Contracts",
       "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "TransactionCreatedEvent",
+      "namespace": "IFX.Modules.Transaction.Contracts.V1.Events",
+      "name": "TransactionProcessedV1",
       "kind": "integration-event",
       "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionCreatedEvent.cs",
+        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/Events/V1/TransactionProcessedV1.cs",
         "line": 5
       },
-      "baseType": "IntegrationEvent",
+      "baseType": "IIntegrationEventV1",
       "methods": [],
       "sourceSites": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands/CreateRedemption/CreateRedemptionCommandHandler.cs",
-        "line": 49,
-        "kind": "reference",
-        "evidence": "_eventBuffer.Add(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount));"
-      }
-    },
-    {
-      "project": "IFX.Modules.Transaction.Abstractions",
-      "module": "Transaction",
-      "namespace": "IFX.Modules.Transaction.Abstractions.Events",
-      "name": "TransactionProcessedEvent",
-      "kind": "integration-event",
-      "declaration": {
-        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Abstractions/Events/TransactionProcessedEvent.cs",
-        "line": 5
-      },
-      "baseType": "IntegrationEvent",
-      "methods": [],
-      "sourceSites": {
-        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs",
-        "line": 9,
+        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboundIntegrationEventHandler.cs",
+        "line": 23,
         "kind": "handler",
-        "evidence": "public class TransactionProcessedEventHandler : IIntegrationEventHandler<TransactionProcessedEvent>"
+        "evidence": "TransactionProcessedV1.EventType or ClassStatusChangedV1.EventType;"
       }
     }
   ],
   "messagingAbstractions": [
     {
-      "name": "IIntegrationEvent",
-      "kind": "interface",
-      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Abstractions/IIntegrationEvent.cs",
-      "packageReferences": [
-        "Microsoft.Extensions.DependencyInjection.Abstractions"
-      ]
-    },
-    {
-      "name": "IIntegrationEventBus",
-      "kind": "interface",
-      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Abstractions/IIntegrationEventBus.cs",
-      "packageReferences": [
-        "Microsoft.Extensions.DependencyInjection.Abstractions"
-      ]
-    },
-    {
-      "name": "IIntegrationEventHandler",
-      "kind": "interface",
-      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Abstractions/IIntegrationEventHandler.cs",
-      "packageReferences": [
-        "Microsoft.Extensions.DependencyInjection.Abstractions"
-      ]
-    },
-    {
-      "name": "IntegrationEvent",
+      "name": "EventEnvelope",
       "kind": "record",
-      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Abstractions/IntegrationEvent.cs",
-      "packageReferences": [
-        "Microsoft.Extensions.DependencyInjection.Abstractions"
-      ]
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs",
+      "packageReferences": []
+    },
+    {
+      "name": "EventIdentifier",
+      "kind": "record struct",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs",
+      "packageReferences": []
+    },
+    {
+      "name": "EventSchemaIdentity",
+      "kind": "record",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs",
+      "packageReferences": []
+    },
+    {
+      "name": "IIntegrationEventV1",
+      "kind": "interface",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs",
+      "packageReferences": []
     }
   ],
   "projectEdges": [
@@ -560,28 +217,16 @@
       "to": "App.Abstractions"
     },
     {
-      "from": "IFX.Modules.Registry.Composition",
-      "to": "App.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Registry.Composition",
-      "to": "IFX.Modules.Registry.Contracts"
-    },
-    {
-      "from": "IFX.Modules.Registry.Contracts",
-      "to": "IFX.Platform.Context.Contracts"
-    },
-    {
       "from": "IFX.Modules.Registry.Infrastructure",
       "to": "App.Abstractions"
     },
     {
-      "from": "IFX.Modules.Transaction.Abstractions",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "to": "IFX.Modules.Registry.Contracts"
     },
     {
       "from": "IFX.Modules.Transaction.Application",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "to": "IFX.Modules.Transaction.Contracts"
     },
     {
       "from": "IFX.Modules.Transaction.Application",
@@ -596,12 +241,20 @@
       "to": "IFX.Modules.CRM.Contracts"
     },
     {
-      "from": "IFX.Modules.Registry.Application",
-      "to": "IFX.Platform.Context.Contracts"
-    },
-    {
       "from": "IFX.Modules.Transaction.Composition",
       "to": "IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Contracts",
+      "to": "IFX.Platform.Messaging.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "App.Abstractions"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "IFX.Modules.Transaction.Contracts"
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
@@ -628,32 +281,32 @@
       "to": "IFX.Platform.BackgroundJobs.Abstractions"
     },
     {
-      "from": "IFX.Platform.Messaging.Composition",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "from": "IFX.Platform.Messaging.Runtime",
+      "to": "IFX.Platform.Messaging.Contracts"
     },
     {
-      "from": "IFX.Platform.Messaging.Infrastructure.InMemory",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "from": "IFX.Platform.Messaging.Runtime",
+      "to": "IFX.Platform.Context.Contracts"
     },
     {
       "from": "IFX.Platform.Notifications.Abstractions",
       "to": "IFX.Platform.Shared"
     },
     {
-      "from": "IFX.Modules.Transaction.Infrastructure",
-      "to": "App.Abstractions"
+      "from": "IFX.Modules.Registry.Contracts",
+      "to": "IFX.Platform.Messaging.Contracts"
     },
     {
-      "from": "IFX.Platform.Notifications.Composition",
-      "to": "IFX.Platform.Notifications.Abstractions"
+      "from": "IFX.Modules.Registry.Contracts",
+      "to": "IFX.Platform.Context.Contracts"
     },
     {
-      "from": "IFX.Modules.Registry.Application",
+      "from": "IFX.Modules.Registry.Composition",
       "to": "IFX.Modules.Registry.Contracts"
     },
     {
-      "from": "IFX.Modules.Registry.Abstractions",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "from": "IFX.Modules.Registry.Composition",
+      "to": "App.Abstractions"
     },
     {
       "from": "IFX.BuildingBlocks.Application",
@@ -672,10 +325,6 @@
       "to": "IFX.Platform.Notifications.Abstractions"
     },
     {
-      "from": "IFX.Modules.CRM.Abstractions",
-      "to": "IFX.Platform.Messaging.Abstractions"
-    },
-    {
       "from": "IFX.Modules.CRM.Application",
       "to": "IFX.Modules.CRM.Abstractions"
     },
@@ -692,36 +341,20 @@
       "to": "App.Abstractions"
     },
     {
-      "from": "IFX.Modules.Registry.Application",
-      "to": "IFX.Modules.Registry.Abstractions"
-    },
-    {
       "from": "IFX.Modules.CRM.Composition",
       "to": "IFX.Modules.CRM.Contracts"
     },
     {
-      "from": "IFX.Modules.CRM.Infrastructure",
-      "to": "App.Abstractions"
+      "from": "IFX.Platform.Notifications.Composition",
+      "to": "IFX.Platform.Notifications.Abstractions"
     },
     {
-      "from": "IFX.Modules.Holdings.Abstractions",
-      "to": "IFX.Platform.Messaging.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Holdings.Application",
-      "to": "IFX.Platform.Messaging.Abstractions"
+      "from": "IFX.Modules.CRM.Contracts",
+      "to": "IFX.Platform.Context.Contracts"
     },
     {
       "from": "IFX.Modules.Holdings.Application",
       "to": "IFX.Modules.Holdings.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Holdings.Application",
-      "to": "IFX.Modules.Registry.Abstractions"
-    },
-    {
-      "from": "IFX.Modules.Holdings.Application",
-      "to": "IFX.Modules.Transaction.Abstractions"
     },
     {
       "from": "IFX.Modules.Holdings.Composition",
@@ -736,8 +369,28 @@
       "to": "App.Abstractions"
     },
     {
-      "from": "IFX.Modules.CRM.Contracts",
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "to": "IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "to": "IFX.Modules.Transaction.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "to": "IFX.Modules.Registry.Abstractions"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "to": "IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
       "to": "IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "to": "App.Abstractions"
     },
     {
       "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",

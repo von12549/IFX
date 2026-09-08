@@ -7,7 +7,6 @@ using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
 
@@ -69,7 +68,7 @@ public class CreateSwitchCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         _transactions.Verify(r => r.AddAsync(It.IsAny<TxEntity>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

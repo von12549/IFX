@@ -64,3 +64,16 @@ unchanged historical findings are recorded separately in `G01-layerguard-policy.
   conformance expectations without creating another transaction policy.
 - G01-9.6: Architecture, Application, and Infrastructure owners must jointly sign off the final
   Gate closure after the E2/E4 evidence is linked.
+
+## Plan 02 / B3 return — 2026-09-08
+
+Plan 02 has now returned the real E2/E4 implementation. Transaction and Registry own their Outbox
+entities/migrations and attach pending logical messages through the existing
+`ITransactionParticipant`; Holdings owns its Inbox/quarantine and executes through the existing
+`TransactionProfile.Inbox`. No parallel Behavior, executor, or transaction protocol was added.
+
+`Plan02ReliableMessagingSqlServerTests` proves successful business+Outbox commit, rollback with no
+deliverable row, lease-expiry reclaim, stale-owner rejection, dead-letter/replay identity, and
+Holdings business+Inbox apply-once behavior on SQL Server. See the
+[B3 Gate handback](../../plan02/B3-gate-handback.md). G01-9.3/DD05 repository evidence is accepted;
+only the named final Architecture/Application/Infrastructure signatures remain open.

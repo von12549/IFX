@@ -32,9 +32,10 @@ function Get-SourceSites([string] $Symbol, [string] $DeclarationPath) {
             $lineEnd = $content.IndexOf("`n", $match.Index)
             if ($lineEnd -lt 0) { $lineEnd = $content.Length }
             $line = $content.Substring($lineStart, $lineEnd - $lineStart).Trim()
-            $kind = if ($line -match 'PublishAsync') {
+            $kind = if ($line -match '(PublishAsync|eventBuffer\.Add|eventSource\.Add)') {
                 'producer'
-            } elseif ($content -match "IIntegrationEventHandler\s*<\s*$([regex]::Escape($Symbol))\s*>") {
+            } elseif ($content -match "IIntegrationEventHandler\s*<\s*$([regex]::Escape($Symbol))\s*>" -or
+                      $content -match 'IInboundIntegrationEventHandler') {
                 'handler'
             } elseif ($line -match '^using\s') {
                 'import'
@@ -86,11 +87,11 @@ foreach ($projectFile in $contractProjects) {
     foreach ($sourceFile in $sourceFiles) {
         $content = Get-Content -Raw -LiteralPath $sourceFile.FullName
         $namespace = [regex]::Match($content, '(?m)^namespace\s+([^;]+);').Groups[1].Value
-        $declaration = [regex]::Match($content, '(?m)^public\s+(?:(?:abstract|sealed)\s+)?(interface|record(?:\s+class)?|class|enum)\s+([A-Za-z0-9_]+)')
+        $declaration = [regex]::Match($content, '(?m)^public\s+(?:(?:abstract|sealed|partial|readonly)\s+)*(interface|record(?:\s+(?:class|struct))?|class|enum)\s+([A-Za-z0-9_]+)')
         if (-not $declaration.Success) { continue }
         $kind = $declaration.Groups[1].Value
         $name = $declaration.Groups[2].Value
-        $surfaceKind = if ($content -match ':\s*IntegrationEvent\b') {
+        $surfaceKind = if ($content -match ':\s*(?:IntegrationEvent|IIntegrationEventV1)\b') {
             'integration-event'
         } elseif ($kind -eq 'interface') {
             'reader'
@@ -121,18 +122,19 @@ foreach ($projectFile in $contractProjects) {
                 file = Get-RelativePath $sourceFile.FullName
                 line = Get-LineNumber $content $declaration.Index
             }
-            baseType = if ($content -match ':\s*IntegrationEvent\b') { 'IntegrationEvent' } else { $null }
+            baseType = if ($content -match ':\s*IIntegrationEventV1\b') { 'IIntegrationEventV1' } elseif ($content -match ':\s*IntegrationEvent\b') { 'IntegrationEvent' } else { $null }
             methods = $methods
             sourceSites = Get-SourceSites $name (Get-RelativePath $sourceFile.FullName)
         }
     }
 }
 
-$messagingProjectPath = Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Abstractions/IFX.Platform.Messaging.Abstractions.csproj'
+$messagingProjectPath = Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj'
 [xml] $messagingProject = Get-Content -Raw -LiteralPath $messagingProjectPath
-$messagingTypes = @(Get-ChildItem (Split-Path -Parent $messagingProjectPath) -File -Filter '*.cs' | Sort-Object Name | ForEach-Object {
+$messagingTypes = @(Get-ChildItem (Split-Path -Parent $messagingProjectPath) -Recurse -File -Filter '*.cs' |
+    Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } | Sort-Object FullName | ForEach-Object {
     $content = Get-Content -Raw -LiteralPath $_.FullName
-    $declaration = [regex]::Match($content, '(?m)^public\s+(?:(?:abstract|sealed)\s+)?(interface|record|class)\s+([A-Za-z0-9_]+)')
+    $declaration = [regex]::Match($content, '(?m)^public\s+(?:(?:abstract|sealed|partial|readonly)\s+)*(interface|record(?:\s+(?:class|struct))?|class)\s+([A-Za-z0-9_]+)')
     if ($declaration.Success) {
         [ordered]@{
             name = $declaration.Groups[2].Value

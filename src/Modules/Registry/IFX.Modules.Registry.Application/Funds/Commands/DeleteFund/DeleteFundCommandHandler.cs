@@ -1,11 +1,9 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Registry.Abstractions.Events;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;
 using IFX.Modules.Registry.Application.Funds.DTOs;
 using IFX.Modules.Registry.Application.Interfaces;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -41,7 +39,6 @@ public class DeleteFundCommandHandler : IRequestHandler<DeleteFundCommand, Resul
                 return Result<FundDto>.Failure("Fund not found.");
             var oldStatus = fund.Status.ToString();
             fund.Close();
-            _eventBuffer.Add(new FundStatusChangedEvent(fund.Id, fund.TenantId, oldStatus, fund.Status.ToString()));
             _logger.LogInformation("Fund closed: {FundId}", fund.Id);
             return Result<FundDto>.Success(_mapper.Map<FundDto>(fund));
         }

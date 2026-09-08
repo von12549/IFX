@@ -1,0 +1,33 @@
+flowchart LR
+  subgraph API[API role]
+    TC[Transaction Application]
+    RC[Registry Application]
+  end
+  subgraph TDB[transaction schema / local transaction]
+    TD[(Business data)]
+    TO[(Outbox)]
+  end
+  subgraph RDB[registry schema / local transaction]
+    RD[(Business data)]
+    RO[(Outbox)]
+  end
+  subgraph WORKER[worker or all role]
+    D[Bounded claim and lease Dispatcher]
+    X[Replaceable transport]
+    A[Holdings inbound adapter]
+  end
+  subgraph HDB[holdings schema / local transaction]
+    HI[(Inbox unique ConsumerId plus EventId)]
+    HP[(Holding projection)]
+    HQ[(Quarantine)]
+  end
+  TC --> TD
+  TC --> TO
+  RC --> RD
+  RC --> RO
+  TO --> D
+  RO --> D
+  D --> X --> A
+  A --> HI
+  A --> HP
+  A -. invalid context .-> HQ

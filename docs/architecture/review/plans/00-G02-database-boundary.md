@@ -2,7 +2,7 @@
 
 > G04 反向链接：生产 schema gate 必须先于 Worker consumer/API producer，失败不得自动 Down；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
 
-> 状态：PRE-READY / Phase 0–9 已完成；Phase 10 等待 E2/E4、G04 与最终签字（2026-09-08）
+> 状态：PRE-READY / Phase 0–9 与 Plan 02/B3 E2/E4 回交已完成；Phase 10 等待 G04 生产编排与最终签字（2026-09-08）
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -361,8 +361,9 @@ Phase 10 当前证据：[`G02-closeout.md`](../evidence/gates/G02/G02-closeout.m
 [`G02-phase10-status.json`](../evidence/gates/G02/G02-phase10-status.json)，以及
 [`G02-phase10-guard-report.json`](../evidence/gates/G02/G02-phase10-guard-report.json) 和
 [`G02-phase10-layerguard-report.json`](../evidence/gates/G02/G02-phase10-layerguard-report.json)。DB 前置放行与核心实现已经完成；
-最终关闭仍有三个显式硬条件：Plan 02 E2/E4 真实 Outbox/Inbox 数据库证据、G04 production
-Migrator → Worker → API 编排证据，以及 Architecture/Database/Operations 最终签字。
+Plan 02 E2/E4 真实 Outbox/Inbox 数据库证据已由
+[`B3 Gate handback`](../evidence/plan02/B3-gate-handback.md) 回交。最终关闭仍有两个显式硬条件：
+G04 production Migrator → Worker → API 编排证据，以及 Architecture/Database/Operations 最终签字。
 
 ## Definition of Done
 

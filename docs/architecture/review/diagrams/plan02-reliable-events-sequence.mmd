@@ -1,0 +1,23 @@
+sequenceDiagram
+  participant P as Producer Application
+  participant DB as Producer DbContext
+  participant O as Module Outbox
+  participant D as Worker Dispatcher
+  participant T as Transport
+  participant A as Holdings Adapter
+  participant I as Holdings Inbox
+  participant H as Holdings Application
+  P->>DB: mutate business state
+  P->>O: freeze Envelope and payload
+  DB->>DB: commit business plus Outbox
+  D->>O: short claim transaction and lease
+  O-->>D: immutable logical message
+  D->>T: send outside transaction
+  T->>A: scoped delivery
+  A->>A: validate producer schema tenant
+  A->>H: isolated context and internal command
+  H->>I: dedupe and complete
+  H->>DB: commit projection plus Inbox
+  A-->>T: success or duplicate ack
+  T-->>D: success
+  D->>O: conditional Delivered update

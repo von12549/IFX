@@ -9,3 +9,15 @@ public sealed record IntegrationEventMetadata(
     Guid TenantId,
     string? CorrelationId,
     string? CausationId);
+
+public interface IInboxCommand
+{
+    string ConsumerId { get; }
+
+    IntegrationEventMetadata Metadata { get; }
+}
+
+public interface IInboxOperationResult
+{
+    bool WasDuplicate { get; }
+}

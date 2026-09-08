@@ -2,6 +2,7 @@ using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Transaction.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
+using IFX.Modules.Transaction.Infrastructure.Messaging;
 
 namespace IFX.Modules.Transaction.Infrastructure.Persistence;
 
@@ -11,6 +12,7 @@ public class TransactionDbContext : DbContext
 
     public DbSet<TxEntity> Transactions => Set<TxEntity>();
     public DbSet<Order> Orders => Set<Order>();
+    public DbSet<TransactionOutboxMessage> OutboxMessages => Set<TransactionOutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

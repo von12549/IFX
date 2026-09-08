@@ -1,6 +1,6 @@
 # Plan 00 / Gate 01：事务边界实施计划
 
-> 状态：Technical Closeout Complete / 等待 E2/E4 真实绑定回交与三方最终签字
+> 状态：Technical Closeout Complete / E2/E4 真实绑定已由 Plan 02/B3 回交，仅等待三方最终签字
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成并保存 B0.5；本 Gate 新增的确定性静态违规必须立即失败。
@@ -271,7 +271,7 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 
 - [x] G01-9.1 对照 TX1–TX5 逐项附上 ADR、代码、测试和文档证据。
 - [x] G01-9.2 在 [`00-prerequisites.md`](00-prerequisites.md) 勾选 Gate 1 及 TX1–TX5，仅在实施和文档全部完成后操作。
-- [ ] G01-9.3 确认 Event 子计划 E2/E4 使用本 Gate 定义的事务接缝，没有复制另一套事务政策。
+- [x] G01-9.3 确认 Event 子计划 E2/E4 使用本 Gate 定义的事务接缝，没有复制另一套事务政策。证据：[`B3 Gate handback`](../evidence/plan02/B3-gate-handback.md)。
 - [x] G01-9.4 将未阻塞 Plan 00 的 TOCTOU、Saga、补偿和高级事务需求保留在 TODO，并明确后续 owner。
 - [x] G01-9.5 记录最终偏差、临时 waiver、到期日和删除条件；无 owner 的 waiver 不允许关闭 Gate。
 - [ ] G01-9.6 由架构负责人、Application 负责人和 Infrastructure 负责人共同确认 Gate 关闭。
@@ -282,7 +282,7 @@ Ambiguous commit result-> system error   -> idempotent retry/reconciliation
 - [x] G01-DD02 Handler 不负责最终 SaveChanges、事务控制或 Integration Event transport 发布。
 - [x] G01-DD03 Failure、异常、取消和 commit 不确定性均有明确、经过测试的处理语义。
 - [x] G01-DD04 默认事务只覆盖本地持久化阶段，特殊强一致事务显式且不包含外部调用。
-- [ ] G01-DD05 Outbox/Inbox 的模块本地原子接缝和 conformance suite 已建立；E2/E4 的真实实现通过同一 suite，且不存在共享或跨模块事务。
+- [x] G01-DD05 Outbox/Inbox 的模块本地原子接缝和 conformance suite 已建立；E2/E4 的真实实现通过同一 suite，且不存在共享或跨模块事务。
 - [x] G01-DD06 optimistic concurrency、唯一约束和幂等策略覆盖已识别的高风险写入。
 - [x] G01-DD07 关系数据库、故障注入、完整 build/test 和架构检查全部通过。
 - [x] G01-DD08 中英文设计说明、架构图、流程图、状态图和规则到自动化检查的映射均已完成并审核。

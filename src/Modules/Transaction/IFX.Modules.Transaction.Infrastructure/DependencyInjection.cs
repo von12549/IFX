@@ -13,6 +13,7 @@ using IFX.Modules.Transaction.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IFX.Modules.Transaction.Infrastructure.Messaging;
 
 namespace IFX.Modules.Transaction.Infrastructure;
 
@@ -38,6 +39,8 @@ public static class DependencyInjection
         services.AddScoped<IOrderRepository, EfOrderRepository>();
         services.AddScoped<IUnitOfWork, TransactionUnitOfWork>();
         services.AddKeyedScoped<ITransactionExecutor, TransactionModuleExecutor>(typeof(TransactionModuleOwner));
+        services.AddKeyedScoped<ITransactionParticipant, TransactionOutboxParticipant>(typeof(TransactionModuleOwner));
+        services.AddScoped<IFX.Platform.Messaging.Runtime.IModuleOutboxStore, TransactionOutboxStore>();
 
         services.AddHttpContextAccessor();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();

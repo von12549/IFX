@@ -1,11 +1,9 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Transaction.Abstractions.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -42,7 +40,6 @@ public class AcceptOrderCommandHandler : IRequestHandler<AcceptOrderCommand, Res
             order.Accept(request.DealReference, request.ExpectedTradeDate, request.ExpectedSettlementDate);
             order.UpdatedBy = _currentUser.UserId;
             _unitOfWork.Orders.Update(order);
-            _eventBuffer.Add(new OrderAcceptedEvent(order.Id, order.TenantId, order.DealReference!));
             _logger.LogInformation("Order accepted: {OrderId} DealRef={DealReference}", order.Id, order.DealReference);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }

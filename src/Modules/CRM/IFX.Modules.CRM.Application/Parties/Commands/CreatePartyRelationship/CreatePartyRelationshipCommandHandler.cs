@@ -1,11 +1,9 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Enums;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -43,7 +41,6 @@ public class CreatePartyRelationshipCommandHandler : IRequestHandler<CreateParty
             var relationship = PartyRelationship.Create(tenantId, request.FromPartyId, request.ToPartyId, request.RelationshipType, request.EffectiveDate);
             relationship.CreatedBy = _currentUser.UserId;
             await _unitOfWork.PartyRelationships.AddAsync(relationship, cancellationToken);
-            _eventBuffer.Add(new PartyRelationshipCreatedEvent(relationship.Id, tenantId, relationship.FromPartyId, relationship.ToPartyId, relationship.RelationshipType.ToString()));
             _logger.LogInformation("PartyRelationship {Type} created: {From} -> {To}", request.RelationshipType, request.FromPartyId, request.ToPartyId);
             return Result<Unit>.Success(Unit.Value);
         }

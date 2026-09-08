@@ -1,6 +1,6 @@
 # G01 Module-local transaction boundary
 
-> Status: the G01 core is implemented; final real Outbox/Inbox acceptance awaits Plan 02 E2/E4.
+> Status: the G01 core and Plan 02/B3 real Outbox/Inbox repository handback are implemented; final three-party approval remains open.
 > Chinese version: [transaction-boundary.zh-CN.md](transaction-boundary.zh-CN.md)
 > Decision record: [ADR-G01-001](ADR-G01-001-transaction-executor-split.md)
 
@@ -82,6 +82,6 @@ Command handlers must not call `SaveChangesAsync`, Begin/Commit/Rollback, `Publi
 | Unique behavior registration/order and actual isolation calls for five module executors | `ApplicationPipelineCompositionTests` against the real ApiHost |
 | Structured 400, 403, safe 409/500, cancellation logging | `ExceptionHandlingMiddlewareTests`, `ExceptionHandlingHttpEndToEndTests` |
 | Layer and cross-module references | `scripts/Invoke-LayerGuard.ps1 -Mode B0.5` |
-| Real Outbox/Inbox atomicity, uniqueness, and crash windows | Plan 02 E2/E4 (open) |
+| Real Outbox/Inbox atomicity, uniqueness, and crash windows | Returned by Plan 02 E2/E4 at B3; final approval open |
 
 See [G01-baseline.md](../../evidence/gates/G01/G01-baseline.md), the [G01 closeout evidence](../../evidence/gates/G01/G01-closeout.md), and the latest [G01-guard-report.json](../../evidence/gates/G01/G01-guard-report.json).

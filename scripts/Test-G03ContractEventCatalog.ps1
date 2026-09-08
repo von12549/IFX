@@ -297,7 +297,7 @@ if ($SelfTest) {
         @{ name = 'incomplete C4 semantics'; mutate = { param($x) $x.fieldGovernance.c4Denylist = @($x.fieldGovernance.c4Denylist | Where-Object { $_ -ne 'private key' }) }; expected = 'c4-denylist' },
         @{ name = 'C3 without exception'; mutate = { param($x) ($x.fieldSurfaces | Where-Object id -eq 'crm.dto.investor-summary').fields[2].PSObject.Properties.Remove('exceptionRef') }; expected = 'field-exception' },
         @{ name = 'expired C3 field exception'; mutate = { param($x) $x.fieldExceptions[0].expiresAt = '2026-09-01' }; expected = 'field-exception-expired' },
-        @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[2].lifecycle = 'Active' }; expected = 'active-admission' },
+        @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[2].lifecycle = 'Active'; $x.protocols[2].PSObject.Properties.Remove('admissionEvidence') }; expected = 'active-admission' },
         @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' },
         @{ name = 'expired waiver'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-08-01';expiresAt='2026-09-01';removalCondition='remove';linkedPlanItem='test';category='temporary-tool-gap'}) }; expected = 'waiver-expired' },
         @{ name = 'unwaivable exposure'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-09-01';expiresAt='2026-09-30';removalCondition='remove';linkedPlanItem='test';category='C4-exposure'}) }; expected = 'waiver-unwaivable' }

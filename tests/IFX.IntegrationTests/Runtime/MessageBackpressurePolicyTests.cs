@@ -1,4 +1,4 @@
-using IFX.Platform.Messaging.Composition.Dispatching;
+using IFX.Platform.Messaging.Runtime;
 
 namespace IFX.IntegrationTests.Runtime;
 

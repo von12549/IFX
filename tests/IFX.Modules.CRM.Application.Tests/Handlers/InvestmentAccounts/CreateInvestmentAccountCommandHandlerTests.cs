@@ -8,7 +8,6 @@ using IFX.Modules.CRM.Application.InvestmentAccounts.DTOs;
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Enums;
 using IFX.Modules.CRM.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.CRM.Application.Tests.Handlers.InvestmentAccounts;
@@ -58,7 +57,7 @@ public class CreateInvestmentAccountCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         _accounts.Verify(r => r.AddAsync(It.IsAny<InvestmentAccount>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

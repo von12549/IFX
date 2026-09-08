@@ -5,7 +5,6 @@ using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Parties.Commands.CreatePartyRelationship;
 using IFX.Modules.CRM.Domain.Enums;
 using IFX.Modules.CRM.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.CRM.Application.Tests.Handlers.Parties;
@@ -57,7 +56,7 @@ public class CreatePartyRelationshipCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         _relationships.Verify(r => r.AddAsync(It.IsAny<Domain.Entities.PartyRelationship>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

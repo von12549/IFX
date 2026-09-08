@@ -17,6 +17,7 @@ namespace IFX.Modules.Holdings.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("holdings")
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -55,6 +56,7 @@ namespace IFX.Modules.Holdings.Infrastructure.Migrations
                         .HasColumnType("decimal(18,8)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
+                        .IsConcurrencyToken()
                         .HasColumnType("datetimeoffset");
 
                     b.Property<Guid?>("UpdatedBy")
@@ -73,6 +75,68 @@ namespace IFX.Modules.Holdings.Infrastructure.Migrations
                         .HasDatabaseName("IX_Holdings_TenantId_InvestmentAccountId_ClassId");
 
                     b.ToTable("Holdings", "holdings");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Holdings.Infrastructure.Messaging.HoldingsInboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CompletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ConsumerId")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsumerId", "EventId")
+                        .IsUnique();
+
+                    b.ToTable("InboxMessages", "holdings");
+                });
+
+            modelBuilder.Entity("IFX.Modules.Holdings.Infrastructure.Messaging.HoldingsQuarantinedMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTimeOffset>("QuarantinedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ReasonCode")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuarantinedAt");
+
+                    b.ToTable("IntegrationEventQuarantine", "holdings");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,12 +1,11 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Transaction.Abstractions.Events;
+using IFX.Modules.Transaction.Contracts.V1.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Domain.ValueObjects;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -59,10 +58,9 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, R
             // Publish processed events for each confirmed leg (Holdings will update balances)
             foreach (var leg in order.Legs.Where(l => l.Units.HasValue))
             {
-                _eventBuffer.Add(new TransactionProcessedEvent(leg.Id, leg.TenantId, leg.Type.ToString(), leg.InvestmentAccountId, leg.ClassId, null, leg.Units!.Value, leg.NAVPrice!.Value));
+                _eventBuffer.Add(new TransactionProcessedV1(leg.Id, leg.Type.ToString(), leg.InvestmentAccountId, leg.ClassId, null, leg.Units!.Value, leg.NAVPrice!.Value));
             }
 
-            _eventBuffer.Add(new OrderConfirmedEvent(order.Id, order.TenantId, order.OrderType.ToString(), order.Legs[0].InvestmentAccountId));
             _logger.LogInformation("Order confirmed: {OrderId}", order.Id);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }

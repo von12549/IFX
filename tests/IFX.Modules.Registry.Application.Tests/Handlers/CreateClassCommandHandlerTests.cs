@@ -8,7 +8,6 @@ using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Domain.Entities;
 using IFX.Modules.Registry.Domain.Enums;
 using IFX.Modules.Registry.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Registry.Application.Tests.Handlers;
@@ -66,7 +65,7 @@ public class CreateClassCommandHandlerTests
         result.Value!.ClassCode.Should().Be("CLASS-A");
         _fundClasses.Verify(r => r.AddAsync(It.IsAny<FundClass>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

@@ -1,11 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Registry.Abstractions.Events;
+using IFX.Modules.Registry.Contracts.V1.Events;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;
 using IFX.Modules.Registry.Application.FundClasses.DTOs;
 using IFX.Modules.Registry.Application.Interfaces;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -43,7 +42,7 @@ public class DeleteClassCommandHandler : IRequestHandler<DeleteClassCommand, Res
                 return Result<FundClassDto>.Failure("Fund class does not belong to the specified fund.");
             var oldStatus = fundClass.Status.ToString();
             fundClass.Close();
-            _eventBuffer.Add(new ClassStatusChangedEvent(fundClass.Id, fundClass.FundId, fundClass.TenantId, oldStatus, fundClass.Status.ToString()));
+            _eventBuffer.Add(new ClassStatusChangedV1(fundClass.Id, fundClass.FundId, oldStatus, fundClass.Status.ToString()));
             _logger.LogInformation("FundClass closed: {ClassId}", fundClass.Id);
             return Result<FundClassDto>.Success(_mapper.Map<FundClassDto>(fundClass));
         }

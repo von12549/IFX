@@ -23,6 +23,8 @@
     <ProjectReference Include="..\..\src\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\src\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
     <ProjectReference Include="..\..\src\Platform\Messaging\IFX.Platform.Messaging.Contracts\IFX.Platform.Messaging.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Transaction\IFX.Modules.Transaction.Contracts\IFX.Modules.Transaction.Contracts.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="FluentAssertions" />

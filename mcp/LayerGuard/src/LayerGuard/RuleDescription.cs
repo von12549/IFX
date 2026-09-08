@@ -10,6 +10,9 @@ public static class RuleDescription
         Ring.Application,
         Ring.Presentation,
         Ring.Infrastructure,
+        Ring.Runtime,
+        Ring.Composition,
+        Ring.RuntimeHost,
     ];
 
     public static string Render(Ruleset ruleset)

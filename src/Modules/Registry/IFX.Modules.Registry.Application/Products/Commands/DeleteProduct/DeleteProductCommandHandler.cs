@@ -1,9 +1,7 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Registry.Abstractions.Events;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;
 using IFX.Modules.Registry.Application.Interfaces;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -36,7 +34,6 @@ public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand,
             if (product == null)
                 return Result<bool>.Failure("Product not found.");
             product.Close();
-            _eventBuffer.Add(new ProductStatusChangedEvent(product.Id, product.TenantId, product.Status.ToString()));
             _logger.LogInformation("Product closed: {ProductId}", product.Id);
             return Result<bool>.Success(true);
         }

@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Investors.DTOs;
 using IFX.Modules.CRM.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -41,7 +39,6 @@ public class CreateInvestorCommandHandler : IRequestHandler<CreateInvestorComman
             var investor = Investor.Create(_currentUser.TenantId.Value, request.InvestorCode, request.Name, request.LegalStructure, request.TaxResidencyCountry, request.PartyId);
             investor.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Investors.AddAsync(investor, cancellationToken);
-            _eventBuffer.Add(new InvestorCreatedEvent(investor.Id, investor.TenantId, investor.InvestorCode, investor.Name));
             _logger.LogInformation("Investor created: {InvestorCode} in tenant {TenantId}", investor.InvestorCode, investor.TenantId);
             return Result<InvestorDto>.Success(_mapper.Map<InvestorDto>(investor));
         }

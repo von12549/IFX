@@ -7,7 +7,6 @@ using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Domain.Entities;
 using IFX.Modules.Transaction.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Transaction.Application.Tests.Handlers;
@@ -64,7 +63,7 @@ public class AcceptOrderCommandHandlerTests
         order.Status.Should().Be(Domain.Enums.OrderStatus.Accepted);
         order.DealReference.Should().Be("DEAL-001");
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

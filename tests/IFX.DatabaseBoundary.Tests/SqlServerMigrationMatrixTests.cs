@@ -58,7 +58,7 @@ public sealed class SqlServerMigrationMatrixTests(SqlServerMigrationFixture fixt
 
         AssertSucceeded(first);
         first.Modules.Select(module => module.Module).Should().Equal(ExpectedModules);
-        first.Modules.Sum(module => module.AppliedIds.Count).Should().Be(15);
+        first.Modules.Sum(module => module.AppliedIds.Count).Should().Be(18);
         AssertSucceeded(second);
         second.Modules.Should().OnlyContain(module => module.AppliedIds.Count == 0);
         (await ScalarAsync<int>(connectionString, """
@@ -107,7 +107,7 @@ public sealed class SqlServerMigrationMatrixTests(SqlServerMigrationFixture fixt
         AssertSucceeded(result);
         result.HistoryBootstrap!.Classification.ToString().Should().Be("CurrentSharedHistory");
         (await ScalarAsync<int>(connectionString, "SELECT COUNT(*) FROM [dbo].[__EFMigrationsHistory];"))
-            .Should().Be(15);
+            .Should().Be(18);
         (await QueryStringsAsync(
                 connectionString,
                 "SELECT CONCAT([MigrationId], N'|', [ProductVersion]) FROM [dbo].[__EFMigrationsHistory] ORDER BY [MigrationId];"))
@@ -289,7 +289,7 @@ public sealed class SqlServerMigrationMatrixTests(SqlServerMigrationFixture fixt
 
         foreach (var result in results) AssertSucceeded(result);
         results.Select(result => result.Modules.Sum(module => module.AppliedIds.Count))
-            .Should().BeEquivalentTo([0, 15]);
+            .Should().BeEquivalentTo([0, 18]);
         await AssertCurrentHistoriesAsync(connectionString);
 
         await using var owner = await DatabaseMigrationLock.AcquireAsync(connectionString, TimeSpan.FromSeconds(2), CancellationToken.None);

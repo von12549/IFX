@@ -1,13 +1,11 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Transaction.Abstractions.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -69,7 +67,6 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
             foreach (var leg in order.Legs)
                 leg.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Orders.AddAsync(order, cancellationToken);
-            _eventBuffer.Add(new OrderSubmittedEvent(order.Id, tenantId, order.OrderType.ToString(), order.OrderReference, order.Legs.Count));
             _logger.LogInformation("Order created: {OrderId} Type={OrderType} Legs={LegCount}", order.Id, order.OrderType, order.Legs.Count);
             return Result<OrderDto>.Success(_mapper.Map<OrderDto>(order));
         }

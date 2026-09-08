@@ -1,6 +1,6 @@
 # G05 Context and Sensitive Data Boundary
 
-Status: PRE-READY (repository rules and conformance are complete; real Contract/Event carriers, production evidence, and approvals remain pending)  
+Status: PRE-READY (real Contract and Event repository carriers returned at B2/B3; production evidence and final approvals remain open)
 Date: 2026-09-08  
 Owner: xiaolong-feng
 
@@ -143,15 +143,15 @@ C2/C3 Amount, Units, NAV, and KYC data require the cataloged projection purpose,
 | D02 | ApiHost/Platform | ExecutionContextAccessor | source policy | accessor tests | scope cleanup |
 | D03 | ApiHost | HTTP middleware | route scope policy | HTTP boundary tests | tenant rejection |
 | D04 | Plan 01 | ContractRequestContext | G03 Contract entries | Contract conformance | real carrier pending |
-| D05 | Plan 02 | EventEnvelope | V1 schema/golden | event conformance | real Outbox pending |
-| D06 | Plan 02 | pre-Inbox policy | failure policy | failure matrix tests | producer/tenant metrics |
+| D05 | Plan 02 | EventEnvelope + producer-local Outbox | V1 schema/golden | event + SQL conformance | B3 repository complete; production broker open |
+| D06 | Plan 02 | pre-Inbox adapter + quarantine | failure policy | failure matrix tests | B3 repository complete; production metrics open |
 | D07 | G03/Security | field catalog | sole G03 validator | 15 mutation tests | C3 approvals |
 | D08 | Security/Ops | redactor/sink policy | observability policy | sentinel tests | production attestations pending |
-| D09 | Plan 02/Ops | replay/compat policy | adapter registry | replay/expiry tests | audit/alert pending |
+| D09 | Plan 02/Ops | replay/compat policy | adapter registry | replay identity tests | repository replay complete; audit/alert pending |
 | D10 | Architecture | unified script/workflow | verification baseline | G05 + LayerGuard + TRX | final approvals pending |
 
 ## Security review and remaining conditions
 
 Repository C4 exposure is blocked, Auth secret columns have a roll-forward deletion migration, and ordinary telemetry sentinel tests pass. Eight C3 exceptions remain Pending/PendingRemoval and are not approvals. Production pseudonym key, sink ACL, retention/deletion, tamper evidence, audit-query, real alert, and migration-execution evidence remain pending.
 
-This design is PRE-READY. Final closure requires Plan 01 real Contract carriers, Plan 02 durable Outbox/Inbox/Dispatcher/quarantine/replay, LayerGuard 03-A1 direct policy binding, the G04 runtime handoff, and approvals from architecture, module, Platform, security, and operations owners.
+This design is PRE-READY. Plan 01 real Contract carriers, Plan 02 durable Outbox/Inbox/Dispatcher/quarantine/replay, and the LayerGuard B3 handback are present. Final closure still requires G04 production runtime/alert/rehearsal evidence and approvals from architecture, module, Platform, security, and operations owners.

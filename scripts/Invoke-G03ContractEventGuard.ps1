@@ -44,7 +44,8 @@ if ($Phase -ge 2) {
     $catalogKeys = @($catalog.publicSurface | Where-Object lifecycle -eq 'LegacyPendingMigration' | ForEach-Object { "$($_.project)|$($_.type)|$($_.member)" })
     $missingCatalogSurface = @($sourceKeys | Where-Object { $_ -notin $catalogKeys } | Sort-Object -Unique)
     $unknownCatalogSurface = @($catalogKeys | Where-Object { $_ -notin $sourceKeys } | Sort-Object -Unique)
-    $surfaceReconciled = $missingCatalogSurface.Count -eq 0 -and $unknownCatalogSurface.Count -eq 0 -and $catalogKeys.Count -eq 20
+    $expectedLegacySurfaceCount = if ($Phase -ge 6) { 0 } else { 20 }
+    $surfaceReconciled = $missingCatalogSurface.Count -eq 0 -and $unknownCatalogSurface.Count -eq 0 -and $catalogKeys.Count -eq $expectedLegacySurfaceCount
 }
 $sourceReconciliation = $true
 $deterministicSnapshots = $true
@@ -91,7 +92,7 @@ $checks = [ordered]@{
     exactReaderCount = $inventory.counts.readers -eq 2
     exactReaderMethodCount = $inventory.counts.readerMethods -eq 2
     exactDtoCount = $inventory.counts.dtos -eq 0
-    exactIntegrationEventCount = $inventory.counts.integrationEvents -eq 20
+    exactIntegrationEventCount = $inventory.counts.integrationEvents -eq $(if ($Phase -ge 6) { 2 } else { 20 })
     messagingSurfaceInventoried = $inventory.counts.messagingAbstractionTypes -eq 4
     generatedDirectoriesExcluded = @($inventory.publicSurface.declaration.file | Where-Object { $_ -match '(^|/)(bin|obj)/' }).Count -eq 0
     catalogValidation = $catalogPassed

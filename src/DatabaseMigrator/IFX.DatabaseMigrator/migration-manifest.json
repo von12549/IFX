@@ -42,7 +42,8 @@
       "migrations": [
         { "migrationId": "20260413120300_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "2b9983bacf6695594c5616552e13ac50240a5991ed842e5438e968cf23de6d31" },
         { "migrationId": "20260413191525_AddProduct", "productVersion": "8.0.0", "sourceSha256": "86d12070d5212c13c4efb108cfcdd29332ea9d318be034e89135137da722ca15" },
-        { "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd" }
+        { "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd" },
+        { "migrationId": "20260908100951_Plan02ReliableOutbox", "productVersion": "8.0.0", "sourceSha256": "50707ede8720138eb32f509a12b1ce39556acbc5eb91dfac75258f92d4c70242" }
       ]
     },
     {
@@ -55,7 +56,8 @@
       "dependsOn": [],
       "migrations": [
         { "migrationId": "20260413120100_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "95593d59a104c3d414c39a66e470ce7f07cce525f58841a7b71d6639f1eae5f2" },
-        { "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83" }
+        { "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83" },
+        { "migrationId": "20260908100954_Plan02ReliableInbox", "productVersion": "8.0.0", "sourceSha256": "5975de1347c5f2ab2a59d42cdb6b2558f39efaea3a84830b212208fe01d1f375" }
       ]
     },
     {
@@ -69,7 +71,8 @@
       "migrations": [
         { "migrationId": "20260413120200_InitialCreate", "productVersion": "8.0.0", "sourceSha256": "8cd83761a6ad71ad0f9eaba090b2d600f8e42f3f88cba6f5ab555d9c99c5671c" },
         { "migrationId": "20260418123443_AddOrderInstructionModel", "productVersion": "8.0.0", "sourceSha256": "bf87f5cc66d112776079bf0acd330890f655f76320612303f61a13169382c23f" },
-        { "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be" }
+        { "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset", "productVersion": "8.0.0", "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be" },
+        { "migrationId": "20260908100947_Plan02ReliableOutbox", "productVersion": "8.0.0", "sourceSha256": "c25e2a7d28a81d7d784b4c2e4d4b0d0c7a46c62c52059b2ce7d1564a20ad9dda" }
       ]
     }
   ]

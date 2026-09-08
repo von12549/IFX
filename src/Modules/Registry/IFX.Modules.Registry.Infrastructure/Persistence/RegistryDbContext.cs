@@ -1,6 +1,7 @@
 using IFX.BuildingBlocks.Domain;
 using IFX.Modules.Registry.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using IFX.Modules.Registry.Infrastructure.Messaging;
 
 namespace IFX.Modules.Registry.Infrastructure.Persistence;
 
@@ -13,6 +14,7 @@ public class RegistryDbContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Fund> Funds => Set<Fund>();
     public DbSet<FundClass> FundClasses => Set<FundClass>();
+    public DbSet<RegistryOutboxMessage> OutboxMessages => Set<RegistryOutboxMessage>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

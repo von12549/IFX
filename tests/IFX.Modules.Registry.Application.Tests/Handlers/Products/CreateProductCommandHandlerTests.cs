@@ -8,7 +8,6 @@ using IFX.Modules.Registry.Application.Products.DTOs;
 using IFX.Modules.Registry.Domain.Entities;
 using IFX.Modules.Registry.Domain.Enums;
 using IFX.Modules.Registry.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Registry.Application.Tests.Handlers.Products;
@@ -58,7 +57,7 @@ public class CreateProductCommandHandlerTests
         result.Value!.ProductCode.Should().Be("PROD001");
         _products.Verify(r => r.AddAsync(It.IsAny<Product>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

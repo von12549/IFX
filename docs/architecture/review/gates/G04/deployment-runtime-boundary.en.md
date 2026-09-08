@@ -2,7 +2,7 @@
 
 > Status: PRE-READY (2026-09-08)  
 > Authoritative inputs: ADR-G04-001, `deployment/g04/*`, and the Gate 02 migration policy  
-> Final closure still depends on Plan 02 E3/E4/E6, Gate 05, Plan 03 B2/B3/B4, production rehearsal, and owner approvals; 03-A1/B1 has returned
+> Plan 02/B3 repository runtime evidence has returned; final closure still depends on production broker/alert/consumer-first rehearsal, Gate 05, Plan 03 B4, and owner approvals
 
 ## Decisions
 

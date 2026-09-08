@@ -1,11 +1,9 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Investors.DTOs;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -41,7 +39,6 @@ public class UpdateInvestorKycCommandHandler : IRequestHandler<UpdateInvestorKyc
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("investor", "update", resourceAttributes, ct: cancellationToken);
             var oldStatus = investor.KycStatus.ToString();
             investor.UpdateKyc(request.KycStatus);
-            _eventBuffer.Add(new InvestorKycStatusChangedEvent(investor.Id, investor.TenantId, oldStatus, investor.KycStatus.ToString()));
             _logger.LogInformation("Investor KYC updated: {InvestorId} -> {KycStatus}", request.InvestorId, request.KycStatus);
             return Result<InvestorDto>.Success(_mapper.Map<InvestorDto>(investor));
         }

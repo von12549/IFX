@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Transaction.Abstractions.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Application.Ports;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
@@ -49,7 +47,6 @@ public class CreateTransferCommandHandler : IRequestHandler<CreateTransferComman
             var tx = TxEntity.CreateTransfer(tenantId, request.InvestmentAccountId, request.FundId, request.ClassId, request.TargetClassId, request.Amount, request.TradeDate);
             tx.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Transactions.AddAsync(tx, cancellationToken);
-            _eventBuffer.Add(new TransactionCreatedEvent(tx.Id, tenantId, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.Amount));
             _logger.LogInformation("Transfer created: {TransactionId}", tx.Id);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));
         }

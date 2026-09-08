@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "milestone": "B3",
+  "baseline": "mcp/LayerGuard/baselines/b3.json",
+  "comparisonBaseline": "mcp/LayerGuard/baselines/b2.json",
+  "policySemantics": "B1 target policy retained; B3 adds the governed Runtime ring required by the G03 Messaging Contracts/runtime split and refreshes bound G03/G04 artifact hashes without broadening RuntimeHost access.",
+  "rulesetHashes": {
+    "b2": "944a7a5e636334bf8fdf979b736e631be878cc790a7b2aa72cdf07fae1ff2081",
+    "b3": "f72933a0679a791d739fb18dea4c938c079571d7ddef3f134406453672b7081c"
+  },
+  "findingFingerprints": {
+    "b2": 103,
+    "b3": 32,
+    "retained": 32,
+    "removed": 71,
+    "new": 0
+  },
+  "b3Gate": {
+    "matched": 32,
+    "new": 0,
+    "stale": 0,
+    "projectsInScope": 43,
+    "verdict": "baseline-clean"
+  },
+  "explanation": [
+    "All 20 legacy event declarations and their direct publish/handler dependencies were removed.",
+    "The two admitted provider-owned V1 schemas are in Contracts and Holdings consumes them only from an approved embedded inbound-adapter namespace.",
+    "The API host reaches dispatcher implementation through Messaging.Composition; RuntimeHost remains Composition-only.",
+    "The obsolete Messaging.Abstractions and Messaging.Infrastructure.InMemory projects were removed from the solution and source tree.",
+    "The remaining 32 historical findings belong to Plan 03 strict closure and no B3 finding is newly waived."
+  ]
+}

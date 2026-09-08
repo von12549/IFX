@@ -1,9 +1,7 @@
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.Interfaces;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -37,7 +35,6 @@ public class DeletePartyCommandHandler : IRequestHandler<DeletePartyCommand, Res
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("party", "delete", resourceAttributes, ct: cancellationToken);
             var oldStatus = party.Status.ToString();
             party.Close();
-            _eventBuffer.Add(new PartyStatusChangedEvent(party.Id, party.TenantId, oldStatus, party.Status.ToString()));
             _logger.LogInformation("Party closed: {PartyId}", request.PartyId);
             return Result<bool>.Success(true);
         }

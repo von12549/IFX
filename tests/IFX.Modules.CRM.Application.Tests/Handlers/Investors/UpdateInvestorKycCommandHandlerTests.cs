@@ -8,7 +8,6 @@ using IFX.Modules.CRM.Application.Investors.DTOs;
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Enums;
 using IFX.Modules.CRM.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.CRM.Application.Tests.Handlers.Investors;
@@ -56,7 +55,7 @@ public class UpdateInvestorKycCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         investor.KycStatus.Should().Be(KycStatus.Approved);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]
@@ -84,19 +83,14 @@ public class UpdateInvestorKycCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_PublishesEventWithOldAndNewStatus()
+    public async Task Handle_KeepsKycAsSynchronousContractAndDoesNotPublishAnIncompleteEvent()
     {
         var investor = Investor.Create(TenantId, "INV001", "John Doe", PartyLegalStructure.Individual);
         investor.UpdateKyc(KycStatus.Pending); // ensure known old status
         _investors.Setup(r => r.GetByIdAsync(investor.Id, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(investor);
 
-        IIntegrationEvent? publishedEvent = null;
-        _eventBuffer
-            .Setup(e => e.Add(It.IsAny<IIntegrationEvent>()))
-            .Callback<IIntegrationEvent>(evt => publishedEvent = evt);
-
         await _handler.Handle(new UpdateInvestorKycCommand(investor.Id, KycStatus.Approved), CancellationToken.None);
 
-        publishedEvent.Should().NotBeNull();
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 }

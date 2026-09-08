@@ -7,7 +7,7 @@ using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Domain.Entities;
 using IFX.Modules.Transaction.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
+using IFX.Modules.Transaction.Contracts.V1.Events;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Transaction.Application.Tests.Handlers;
@@ -72,8 +72,7 @@ public class ConfirmOrderCommandHandlerTests
         order.Status.Should().Be(Domain.Enums.OrderStatus.PriceConfirmed);
         order.Legs[0].NAVPrice.Should().Be(10m);
         order.Legs[0].Units.Should().Be(1000m);
-        // Two events: TransactionProcessedEvent + OrderConfirmedEvent
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Exactly(2));
+        _eventBuffer.Verify(e => e.Add(It.IsAny<TransactionProcessedV1>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 

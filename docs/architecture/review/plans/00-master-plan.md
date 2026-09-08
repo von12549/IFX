@@ -1,6 +1,6 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Master Phase 0、03-A1 与 Plan 01/B2 已完成；Plan 02/B3、B4 与 Gate Final Closure 保持开放（2026-09-08）
+> 状态：Master Phase 0、03-A1、Plan 01/B2 与 Plan 02/B3 仓库检查点已完成；B4 与 Gate Final Closure 保持开放（2026-09-08）
 > 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
@@ -125,7 +125,7 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 2 — 建立 Contracts / Ports / Adapters 编译期边界
 
-- [x] **Phase 2 完成**：Plan 01 已于 2026-09-08 完成并冻结正式 B2；Plan 02/B3、B4 与 Gate Final Closure 保持开放。
+- [x] **Phase 2 完成**：Plan 01 已于 2026-09-08 完成并冻结正式 B2；B3 已由 Plan 02 接续完成，B4 与 Gate Final Closure 保持开放。
 
 - [x] M2.1 以 Gate 03 权威目录、ownership、V1 identity/shared primitives allowlist，以及 Gate 05 ContractRequestContext、ExecutionScope 和字段分类为输入，执行子计划 1 的迁移。
 - [x] M2.2 优先迁移当前真实同步依赖：CRM 的 KYC 校验与 Registry 的 Class subscription 状态查询。
@@ -136,14 +136,14 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 3 — 建立可靠 Integration Event 通道
 
-- [ ] **Phase 3 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 3 完成**：Plan 02 已于 2026-09-08 完成仓库内实现并冻结正式 B3；生产容量/告警校准、发布演练与最终 Gate 签字作为外部关闭条件保持开放。证据：[`B3 status`](../evidence/plan02/B3-status.json) 与 [`Gate handback`](../evidence/plan02/B3-gate-handback.md)。
 
-- [ ] M3.1 以 Gate 03 事件目录/版本政策和 Gate 05 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类为输入，执行子计划 2；schema primitives 与运行时端口保持分离。
-- [ ] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
-- [ ] M3.3 按 Gate 04 Worker role、唯一 instance identity 和多实例 claim/lease 规则实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
-- [ ] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter；Adapter 先验证 producer/schema/tenant/context，再建立隔离的 ExecutionContext 并映射为内部命令。
-- [ ] M3.5 实现 Inbox 去重及“消费方业务数据 + Inbox”本地原子保存。
-- [ ] M3.6 完成崩溃窗口、重复投递、毒消息、上下文传播/隔离、敏感字段、回放和端到端测试，使用同一新版门禁生成 B3 报告并与 B2 对比后，勾选本 Phase。
+- [x] M3.1 以 Gate 03 事件目录/版本政策和 Gate 05 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类为输入，执行子计划 2；schema primitives 与运行时端口保持分离。
+- [x] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
+- [x] M3.3 按 Gate 04 Worker role、唯一 instance identity 和多实例 claim/lease 规则实现提交后 Dispatcher、重试和失败状态，并保留可替换 transport 的边界。
+- [x] M3.4 将外部事件处理从消费方 Application 移入入站 Integration Adapter；Adapter 先验证 producer/schema/tenant/context，再建立隔离的 ExecutionContext 并映射为内部命令。
+- [x] M3.5 实现 Inbox 去重及“消费方业务数据 + Inbox”本地原子保存。
+- [x] M3.6 完成崩溃窗口、重复投递、毒消息、上下文传播/隔离、敏感字段、回放和端到端测试，使用同一新版门禁生成 B3 报告并与 B2 对比后，勾选本 Phase。
 
 ## Phase 4 — 收紧 LayerGuard 并形成 CI 门禁
 

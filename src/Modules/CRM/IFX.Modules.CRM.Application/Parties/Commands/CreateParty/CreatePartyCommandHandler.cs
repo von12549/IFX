@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Parties.DTOs;
 using IFX.Modules.CRM.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -41,7 +39,6 @@ public class CreatePartyCommandHandler : IRequestHandler<CreatePartyCommand, Res
             var party = Party.Create(_currentUser.TenantId.Value, request.PartyCode, request.Name, request.LegalStructure);
             party.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Parties.AddAsync(party, cancellationToken);
-            _eventBuffer.Add(new PartyCreatedEvent(party.Id, party.TenantId, party.PartyCode, party.Name));
             _logger.LogInformation("Party created: {PartyCode} in tenant {TenantId}", party.PartyCode, party.TenantId);
             return Result<PartyDto>.Success(_mapper.Map<PartyDto>(party));
         }

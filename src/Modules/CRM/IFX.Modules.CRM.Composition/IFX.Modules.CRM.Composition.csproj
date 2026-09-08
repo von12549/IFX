@@ -16,7 +16,6 @@
     <ProjectReference Include="..\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Presentation\IFX.Modules.CRM.Presentation.csproj" />
-    <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Composition\IFX.Platform.Messaging.Composition.csproj" />
   </ItemGroup>
 
 </Project>

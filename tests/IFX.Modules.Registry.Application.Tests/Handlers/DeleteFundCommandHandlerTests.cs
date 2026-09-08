@@ -8,7 +8,6 @@ using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Domain.Entities;
 using IFX.Modules.Registry.Domain.Enums;
 using IFX.Modules.Registry.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Registry.Application.Tests.Handlers;
@@ -55,7 +54,7 @@ public class DeleteFundCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         fund.Status.Should().Be(FundStatus.Closed);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]
@@ -70,7 +69,7 @@ public class DeleteFundCommandHandlerTests
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Contain("not found");
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Never);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

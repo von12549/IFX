@@ -1,12 +1,8 @@
 using App.Abstractions;
 using IFX.Modules.Holdings.Application;
-using IFX.Modules.Holdings.Application.EventHandlers;
 using IFX.Modules.Holdings.Infrastructure;
 using IFX.Modules.Holdings.Infrastructure.Persistence;
 using IFX.Modules.Holdings.Presentation.Extensions;
-using IFX.Modules.Registry.Abstractions.Events;
-using IFX.Modules.Transaction.Abstractions.Events;
-using IFX.Platform.Messaging.Composition;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,9 +20,6 @@ public sealed class HoldingsModuleInstaller : IModuleInstaller
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        // Register integration event handlers
-        services.AddIntegrationEventHandler<TransactionProcessedEvent, TransactionProcessedEventHandler>();
-        services.AddIntegrationEventHandler<ClassStatusChangedEvent, ClassStatusChangedEventHandler>();
 
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;

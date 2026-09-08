@@ -1,0 +1,16 @@
+flowchart LR
+  subgraph OUTBOX[Producer delivery state]
+    P[Pending] -->|bounded claim| L[Leased]
+    L -->|send and conditional complete| D[Delivered]
+    L -->|transient failure or lease expiry| P
+    L -->|maximum attempts| DL[Dead-lettered]
+    DL -->|authorized replay; preserve EventId| P
+  end
+  subgraph CONSUMER[Consumer decision]
+    V[Validate producer, schema, tenant] -->|invalid context or payload| Q[Quarantine]
+    V -->|valid| I{Inbox key exists?}
+    I -->|yes| DU[Duplicate no-op]
+    I -->|no| A[Commit business plus Inbox]
+    I -->|business rejection| Q
+  end
+  L -. same immutable logical message .-> V

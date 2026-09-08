@@ -1,6 +1,6 @@
 # G03 Contract / Event 治理基线
 
-> 状态：PRE-READY。本文解释权威目录；事实以
+> 状态：PRE-READY；Plan 01/B2 与 Plan 02/B3 真实协议已回交，最终多人批准保持开放。本文解释权威目录；事实以
 > [`contract-event-catalog.yaml`](contract-event-catalog.yaml) 为准。四个 V1 identity 仍为
 > `Proposed`，不得据本文宣称真实 Contracts、Adapters 或可靠事件通道已经实施。
 
@@ -32,8 +32,8 @@ consumer，必须删除而非提升为协议。
 | --- | --- | --- | --- | --- |
 | `crm.account-compliance.v1` | sync | CRM -> Transaction | Proposed | Plan 01 |
 | `registry.class-subscription-availability.v1` | sync | Registry -> Transaction | Proposed | Plan 01 |
-| `ifx.transaction.transaction-processed.v1` | event | Transaction -> Holdings | Proposed | Plan 02 |
-| `ifx.registry.class-status-changed.v1` | event | Registry -> Holdings | Proposed | Plan 02 |
+| `ifx.transaction.transaction-processed.v1` | event | Transaction -> Holdings | Active | Plan 02/B3 |
+| `ifx.registry.class-status-changed.v1` | event | Registry -> Holdings | Active | Plan 02/B3 |
 
 任何 identity 只有在真实 `Contracts.V1` 源码、public API/serialization snapshot、provider 与
 consumer 行为测试、catalog reconciliation 和审批同时存在后才能变为 Active。

@@ -13,3 +13,12 @@ public interface ICommittedEventBuffer
 
     void Clear();
 }
+
+/// <summary>
+/// Transaction participant seam used by a module-owned Outbox. Reading drains the current
+/// command's immutable event snapshots; transport code never sees this process-local buffer.
+/// </summary>
+public interface IPendingIntegrationEventSource
+{
+    IReadOnlyList<object> Drain();
+}

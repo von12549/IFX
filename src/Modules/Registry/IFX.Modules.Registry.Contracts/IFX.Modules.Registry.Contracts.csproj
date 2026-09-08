@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Contracts\IFX.Platform.Messaging.Contracts.csproj" />
   </ItemGroup>
 </Project>

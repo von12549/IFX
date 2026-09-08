@@ -1,6 +1,6 @@
 # G02 Module database boundary
 
-> Status: G02 phases 0–9 implemented and PRE-READY; final closure awaits Plan 02 E2/E4 evidence, G04 production orchestration evidence, and Phase 10 approval.
+> Status: G02 phases 0–9 and the Plan 02/B3 real Outbox/Inbox repository handback are implemented; final closure awaits G04 production orchestration evidence and Phase 10 approval.
 > Chinese version: [database-boundary.zh-CN.md](database-boundary.zh-CN.md)
 > Decision record: [ADR-G02-001](ADR-G02-001-module-database-ownership.md)
 
@@ -153,7 +153,7 @@ and [failure runbook](../../evidence/gates/G02/G02-phase6-recovery-runbook.md).
 | Required schema is read-only readiness | `/health/database`, `SchemaCompatibilityHealthCheckTests` |
 | Destructive/Contract change requires review | migration safety policy and architecture/database/operations approval |
 | Cross-module compile/data access stays forbidden | LayerGuard B0.5, database metadata assertions, manual SQL review |
-| Real module Outbox/Inbox ownership and atomicity | Plan 02 E2/E4 callback to G01/G02 (open) |
+| Real module Outbox/Inbox ownership and atomicity | Returned by Plan 02 E2/E4 at B3; production orchestration/final approval open |
 
 Evidence starts at the [G02 evidence directory](../../evidence/gates/G02/) and the controlled rehearsal
 is recorded in [rollout-evidence.json](../../evidence/gates/G02/phase8-docker-rehearsal/rollout-evidence.json).

@@ -6,7 +6,6 @@ using IFX.Modules.Transaction.Application.Commands.CancelTransaction;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
 
@@ -64,7 +63,7 @@ public class CancelTransactionCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]
@@ -116,6 +115,6 @@ public class CancelTransactionCommandHandlerTests
         var result = await _handler.Handle(new CancelTransactionCommand(tx.Id), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Never);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 }

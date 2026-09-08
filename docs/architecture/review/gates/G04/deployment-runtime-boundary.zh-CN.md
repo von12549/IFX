@@ -2,7 +2,7 @@
 
 > 状态：PRE-READY（2026-09-08）  
 > 权威输入：ADR-G04-001、`deployment/g04/*`、Gate 02 migration policy  
-> 最终关闭仍依赖：Plan 02 E3/E4/E6、Gate 05、Plan 03 B2/B3/B4、生产演练与负责人批准；03-A1/B1 已回交
+> Plan 02/B3 仓库运行时证据已回交；最终关闭仍依赖：生产 broker/告警/consumer-first 演练、Gate 05、Plan 03 B4 与负责人批准
 
 ## 决策
 

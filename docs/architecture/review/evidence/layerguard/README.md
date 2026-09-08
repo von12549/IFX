@@ -16,3 +16,10 @@ G03/G04/G05 artifacts and their composite hash, 116 historical findings grouped 
 dependency-edge clusters, the G03 90-day waiver policy, explicit semantic exclusions, and runtime
 performance. B2/B3/B4 must retain this target policy semantics or record and regenerate an approved
 baseline after a policy change.
+
+`B3-report.json`, `B3-dependency-graph.json`, and `B3-vs-B2-report.json` are the Plan 02 event
+migration checkpoint. B3 adds the governed Messaging `Runtime` ring required by the approved G03
+Contracts/runtime split while preserving RuntimeHost → Composition-only access. The obsolete
+Messaging Abstractions/InMemory projects and 20 legacy event surfaces are gone. The checkpoint is
+baseline-clean at 32 matched, 0 new, 0 stale; 71 of B2's 103 findings were removed and the remaining
+32 stay owned by Plan 03/B4 strict closure.

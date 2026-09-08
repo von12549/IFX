@@ -8,7 +8,6 @@ using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Domain.Entities;
 using IFX.Modules.Transaction.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.Transaction.Application.Tests.Handlers;
@@ -73,7 +72,7 @@ public class CreateOrderCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         _orders.Verify(r => r.AddAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

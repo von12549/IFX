@@ -64,3 +64,17 @@ plan, removal condition, and 2026-12-01 deadline; 0 are overdue.
 - LayerGuard: 179 tests passed; B0.5 `baseline-clean`, 116 matched, 0 new, 0 stale.
 - Solution build: passed with 0 errors and 20 pre-existing warnings.
 - Solution tests: 904 passed, 0 failed, 0 skipped.
+
+## Plan 01/B2 and Plan 02/B3 returns — 2026-09-08
+
+The earlier PRE-READY counts above are retained as the historical Gate snapshot. Current source and
+the authoritative catalog now contain two Active synchronous V1 protocols and two Active event V1
+protocols. Plan 02 retired all 20 legacy event surfaces, added the two provider-owned schemas,
+separated BCL-only Messaging Contracts from Runtime, and returned provider/consumer behavior plus
+serialization evidence. Phase-6 catalog, source reconciliation, and guard reports all pass.
+
+B3 LayerGuard is baseline-clean at 32 matched / 0 new / 0 stale and removes 71 findings from B2.
+The technical blockers “event candidates have no Active source,” “event behavior suites absent,”
+and “Messaging Contracts/runtime split absent” are cleared. Final module/consumer/Platform/
+Architecture approvals remain open, so this callback does not retroactively mark G03 finally closed.
+See the [B3 Gate handback](../../plan02/B3-gate-handback.md).

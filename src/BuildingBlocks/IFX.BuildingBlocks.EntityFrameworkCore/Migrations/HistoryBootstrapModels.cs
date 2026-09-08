@@ -24,7 +24,8 @@ public sealed record ModuleMigrationCatalog(
     int Order,
     IReadOnlyList<string> MigrationIds,
     IReadOnlyList<string> RequiredTables,
-    IReadOnlyList<string>? LegacyMigrationIds = null);
+    IReadOnlyList<string>? LegacyMigrationIds = null,
+    IReadOnlyDictionary<string, IReadOnlyList<string>>? RequiredTablesByMigration = null);
 
 public sealed record ModuleHistoryState(
     bool Exists,

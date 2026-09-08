@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.CRM.Abstractions.Events;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;
 using IFX.Modules.CRM.Application.InvestmentAccounts.DTOs;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -42,7 +40,6 @@ public class CreateInvestmentAccountCommandHandler : IRequestHandler<CreateInves
             var account = InvestmentAccount.Create(tenantId, request.AccountNumber, request.AccountType, request.CertificateDate);
             account.CreatedBy = _currentUser.UserId;
             await _unitOfWork.InvestmentAccounts.AddAsync(account, cancellationToken);
-            _eventBuffer.Add(new InvestmentAccountCreatedEvent(account.Id, account.TenantId, account.AccountNumber, account.AccountType.ToString()));
             _logger.LogInformation("InvestmentAccount created: {AccountNumber}", account.AccountNumber);
             return Result<InvestmentAccountDto>.Success(_mapper.Map<InvestmentAccountDto>(account));
         }

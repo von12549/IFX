@@ -28,8 +28,8 @@ public static class RuntimeProfileResolver
         var defaults = role switch
         {
             RuntimeRole.Api => new RuntimeCapabilities(true, true, false, false, false, false),
-            RuntimeRole.Worker => new RuntimeCapabilities(false, true, true, false, false, false),
-            RuntimeRole.All => new RuntimeCapabilities(true, true, true, false, false, false),
+            RuntimeRole.Worker => new RuntimeCapabilities(false, true, true, true, true, false),
+            RuntimeRole.All => new RuntimeCapabilities(true, true, true, true, true, false),
             _ => throw new ArgumentOutOfRangeException(nameof(role))
         };
 

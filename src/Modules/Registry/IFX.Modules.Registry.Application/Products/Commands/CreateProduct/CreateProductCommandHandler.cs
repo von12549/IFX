@@ -1,12 +1,10 @@
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
-using IFX.Modules.Registry.Abstractions.Events;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;
 using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Application.Products.DTOs;
 using IFX.Modules.Registry.Domain.Entities;
-using IFX.Platform.Messaging.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using IFX.BuildingBlocks.Application.Events;
@@ -42,7 +40,6 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             var product = Product.Create(tenantId.Value, request.ProductCode, request.ProductName, request.ProductType, request.BaseCurrency, request.InceptionDate, request.ApirCode, request.Isin, request.RegulatorSchemeNumber, request.PdsReference, request.IssuerName);
             product.CreatedBy = _currentUser.UserId;
             await _unitOfWork.Products.AddAsync(product, cancellationToken);
-            _eventBuffer.Add(new ProductCreatedEvent(product.Id, product.TenantId, product.ProductCode, product.ProductName));
             _logger.LogInformation("Product created: {ProductCode} in tenant {TenantId}", product.ProductCode, product.TenantId);
             return Result<ProductDto>.Success(_mapper.Map<ProductDto>(product));
         }

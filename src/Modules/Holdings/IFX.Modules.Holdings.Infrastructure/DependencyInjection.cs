@@ -13,6 +13,10 @@ using IFX.Modules.Holdings.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IFX.Modules.Holdings.Application.Integrations;
+using IFX.Modules.Holdings.Application.Ports;
+using IFX.Modules.Holdings.Infrastructure.Messaging;
+using IFX.Modules.Holdings.Infrastructure.Integrations;
 
 namespace IFX.Modules.Holdings.Infrastructure;
 
@@ -37,6 +41,9 @@ public static class DependencyInjection
         services.AddScoped<IHoldingRepository, EfHoldingRepository>();
         services.AddScoped<IUnitOfWork, HoldingsUnitOfWork>();
         services.AddKeyedScoped<ITransactionExecutor, HoldingsTransactionExecutor>(typeof(HoldingsTransactionOwner));
+        services.AddKeyedScoped<ITransactionParticipant, HoldingsInboxParticipant>(typeof(HoldingsTransactionOwner));
+        services.AddScoped<IHoldingsInboxPort, HoldingsInboxPort>();
+        services.AddScoped<IFX.Platform.Messaging.Runtime.IInboundIntegrationEventHandler, HoldingsInboundIntegrationEventHandler>();
         services.AddHttpContextAccessor();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
 

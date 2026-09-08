@@ -1,6 +1,6 @@
 # G03 Contract / Event governance baseline
 
-> Status: PRE-READY. This document explains the authoritative catalog; factual governance data lives
+> Status: PRE-READY; Plan 01/B2 and Plan 02/B3 real protocols have returned, while final multi-owner approval remains open. This document explains the authoritative catalog; factual governance data lives
 > only in [`contract-event-catalog.yaml`](contract-event-catalog.yaml). All four V1 identities remain
 > `Proposed`. This document does not claim that physical Contracts, Adapters, or reliable delivery
 > have been implemented.
@@ -34,8 +34,8 @@ consumer and must be removed rather than promoted.
 | --- | --- | --- | --- | --- |
 | `crm.account-compliance.v1` | sync | CRM -> Transaction | Proposed | Plan 01 |
 | `registry.class-subscription-availability.v1` | sync | Registry -> Transaction | Proposed | Plan 01 |
-| `ifx.transaction.transaction-processed.v1` | event | Transaction -> Holdings | Proposed | Plan 02 |
-| `ifx.registry.class-status-changed.v1` | event | Registry -> Holdings | Proposed | Plan 02 |
+| `ifx.transaction.transaction-processed.v1` | event | Transaction -> Holdings | Active | Plan 02/B3 |
+| `ifx.registry.class-status-changed.v1` | event | Registry -> Holdings | Active | Plan 02/B3 |
 
 An identity becomes Active only after physical `Contracts.V1` source, public API/serialization
 snapshots, provider and consumer behavior tests, catalog reconciliation, and approvals all exist.

@@ -137,10 +137,15 @@ public sealed class SqlServerHistoryBootstrapper
                 ? await ReadHistoryRowsAsync(connection, transaction, catalog.Schema, cancellationToken)
                 : [];
             histories[catalog.Module] = new ModuleHistoryState(historyExists, rows);
+            var effectiveAppliedIds = rows
+                .Concat(sharedRows.Where(row => catalog.MigrationIds.Contains(row.MigrationId, StringComparer.Ordinal)))
+                .Select(row => row.MigrationId)
+                .ToHashSet(StringComparer.Ordinal);
             schemas[catalog.Module] = await ReadSchemaStateAsync(
                 connection,
                 transaction,
                 catalog,
+                effectiveAppliedIds,
                 cancellationToken);
         }
 
@@ -266,14 +271,20 @@ public sealed class SqlServerHistoryBootstrapper
         DbConnection connection,
         DbTransaction? transaction,
         ModuleMigrationCatalog catalog,
+        IReadOnlySet<string> appliedMigrationIds,
         CancellationToken cancellationToken)
     {
-        if (catalog.RequiredTables.Count == 0)
+        var latestAppliedId = catalog.MigrationIds.LastOrDefault(appliedMigrationIds.Contains);
+        var requiredTables = latestAppliedId is not null &&
+            catalog.RequiredTablesByMigration?.TryGetValue(latestAppliedId, out var migrationTables) == true
+                ? migrationTables
+                : catalog.RequiredTables;
+        if (requiredTables.Count == 0)
         {
             return ModuleSchemaState.Absent;
         }
 
-        var parameterNames = catalog.RequiredTables
+        var parameterNames = requiredTables
             .Select((_, index) => $"@table{index}")
             .ToArray();
         var sql = $"""
@@ -284,16 +295,16 @@ public sealed class SqlServerHistoryBootstrapper
             """;
         await using var command = CreateCommand(connection, transaction, sql);
         AddParameter(command, "@schema", catalog.Schema);
-        for (var index = 0; index < catalog.RequiredTables.Count; index++)
+        for (var index = 0; index < requiredTables.Count; index++)
         {
-            AddParameter(command, parameterNames[index], catalog.RequiredTables[index]);
+            AddParameter(command, parameterNames[index], requiredTables[index]);
         }
 
         var count = Convert.ToInt32(await command.ExecuteScalarAsync(cancellationToken));
         return count switch
         {
             0 => ModuleSchemaState.Absent,
-            _ when count == catalog.RequiredTables.Count => ModuleSchemaState.Complete,
+            _ when count == requiredTables.Count => ModuleSchemaState.Complete,
             _ => ModuleSchemaState.Partial
         };
     }

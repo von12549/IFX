@@ -8,7 +8,6 @@ using IFX.Modules.CRM.Application.Parties.DTOs;
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Enums;
 using IFX.Modules.CRM.Domain.Repositories;
-using IFX.Platform.Messaging.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Modules.CRM.Application.Tests.Handlers.Parties;
@@ -56,7 +55,7 @@ public class CreatePartyCommandHandlerTests
         result.Value!.PartyCode.Should().Be("PTY001");
         _parties.Verify(r => r.AddAsync(It.IsAny<Party>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<IIntegrationEvent>()), Times.Once);
+        _eventBuffer.Invocations.Should().BeEmpty();
     }
 
     [Fact]

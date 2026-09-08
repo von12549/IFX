@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "phase": 6,
+  "result": "passed",
+  "checks": {
+    "deterministicInventory": true,
+    "exactAbstractionProjectCount": true,
+    "exactReaderCount": true,
+    "exactReaderMethodCount": true,
+    "exactDtoCount": true,
+    "exactIntegrationEventCount": true,
+    "messagingSurfaceInventoried": true,
+    "generatedDirectoriesExcluded": true,
+    "catalogValidation": true,
+    "publicSurfaceReconciliation": true,
+    "sourceCatalogReconciliation": true,
+    "deterministicCompatibilitySnapshots": true,
+    "layerGuardGovernanceHandoff": true,
+    "bilingualDocumentationAndRenderedDiagrams": true,
+    "closeoutReadinessAudit": true
+  },
+  "counts": {
+    "abstractionProjects": 4,
+    "contractProjects": 3,
+    "readers": 2,
+    "readerMethods": 2,
+    "dtos": 0,
+    "integrationEvents": 2,
+    "messagingAbstractionTypes": 4,
+    "abstractionProjectEdges": 46
+  },
+  "sha256": {
+    "inventory": "0ad505aff8e3ed2c1f4db15356edca761f65c71f1ac021b007da9e0adb369e2d"
+  },
+  "failures": {
+    "missingCatalogSurface": [],
+    "unknownCatalogSurface": []
+  },
+  "closureStatus": null
+}
