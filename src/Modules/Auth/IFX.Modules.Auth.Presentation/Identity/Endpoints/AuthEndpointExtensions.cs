@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -10,6 +11,7 @@ public static class AuthEndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/auth")
             .WithTags("Authentication")
+            .WithMetadata(ExecutionScopeRequirement.Public)
             ;
 
         group.MapPost("/register", AuthEndpoints.Register)

@@ -26,7 +26,8 @@ public sealed class ExceptionHandlingMiddlewareTests
 
         context.Response.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
         body.RootElement.GetProperty("error").GetString().Should().Be("One or more validation errors occurred.");
-        body.RootElement.GetProperty("errors").GetProperty("Email").GetArrayLength().Should().Be(2);
+        body.RootElement.GetProperty("errorCode").GetString().Should().Be("validation_failed");
+        body.RootElement.GetProperty("errors").GetProperty("Email").GetArrayLength().Should().Be(1);
         body.RootElement.GetProperty("errors").GetProperty("Name").GetArrayLength().Should().Be(1);
     }
 

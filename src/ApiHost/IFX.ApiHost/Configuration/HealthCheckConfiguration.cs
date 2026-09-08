@@ -1,5 +1,6 @@
 using IFX.ApiHost.HealthChecks;
 using IFX.ApiHost.Runtime;
+using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -55,14 +56,14 @@ public static class HealthCheckConfiguration
             var failed = snapshot.State == RuntimeLifecycleState.Terminated ||
                 snapshot.ReasonCode == "G04-WORKER-CRITICAL-LOOP-FAILED";
             return Probe(failed ? 503 : 200, failed ? snapshot.ReasonCode : "G04-LIVE");
-        });
+        }).WithMetadata(ExecutionScopeRequirement.Public);
 
         builder.MapGet("/health/startup", (RuntimeLifecycle lifecycle) =>
         {
             var snapshot = lifecycle.Snapshot;
             var started = snapshot.State != RuntimeLifecycleState.Starting;
             return Probe(started ? 200 : 503, started ? "G04-STARTED" : "G04-STARTING");
-        });
+        }).WithMetadata(ExecutionScopeRequirement.Public);
 
         builder.MapGet("/health/ready", (RuntimeLifecycle lifecycle, HealthSnapshotStore store) =>
         {
@@ -70,7 +71,7 @@ public static class HealthCheckConfiguration
             var ready = runtime.State is RuntimeLifecycleState.Ready or RuntimeLifecycleState.Degraded;
             var reason = ready ? store.Snapshot.ReasonCode : runtime.ReasonCode;
             return Probe(ready ? 200 : 503, reason);
-        });
+        }).WithMetadata(ExecutionScopeRequirement.Public);
 
         // Compatibility aggregate: intentionally contains no contributor detail.
         builder.MapGet("/health", (RuntimeLifecycle lifecycle) =>
@@ -78,13 +79,13 @@ public static class HealthCheckConfiguration
             var snapshot = lifecycle.Snapshot;
             var ready = snapshot.State is RuntimeLifecycleState.Ready or RuntimeLifecycleState.Degraded;
             return Probe(ready ? 200 : 503, snapshot.ReasonCode);
-        });
+        }).WithMetadata(ExecutionScopeRequirement.Public);
 
         // Gate 02 database-only release gate.
         builder.MapHealthChecks("/health/database", new HealthCheckOptions
         {
             Predicate = registration => registration.Tags.Contains("database")
-        });
+        }).WithMetadata(ExecutionScopeRequirement.Public);
 
         builder.MapGet("/health/details", (
             RuntimeLifecycle lifecycle,
@@ -116,7 +117,9 @@ public static class HealthCheckConfiguration
                     item.DurationMilliseconds
                 })
             });
-        }).RequireAuthorization();
+        })
+            .WithMetadata(ExecutionScopeRequirement.Platform)
+            .RequireAuthorization();
 
         return builder;
     }

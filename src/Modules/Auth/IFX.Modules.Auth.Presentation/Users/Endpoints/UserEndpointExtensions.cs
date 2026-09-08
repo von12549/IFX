@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -11,6 +12,7 @@ public static class UserEndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/user")
             .WithTags("User")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization()
             ;
 

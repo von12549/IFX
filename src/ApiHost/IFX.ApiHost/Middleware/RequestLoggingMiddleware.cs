@@ -20,13 +20,18 @@ public class RequestLoggingMiddleware
         var stopwatch = Stopwatch.StartNew();
         var requestPath = context.Request.Path;
         var requestMethod = context.Request.Method;
-        var requestId = context.TraceIdentifier;
+        var correlationId = HttpCorrelationMiddleware.GetCorrelation(context).ToString("D");
+
+        using var logScope = _logger.BeginScope(new Dictionary<string, object>
+        {
+            ["CorrelationId"] = correlationId
+        });
 
         _logger.LogInformation(
-            "HTTP {Method} {Path} started [RequestId: {RequestId}]",
+            "HTTP {Method} {Path} started [CorrelationId: {CorrelationId}]",
             requestMethod,
             requestPath,
-            requestId);
+            correlationId);
 
         try
         {
@@ -37,6 +42,9 @@ public class RequestLoggingMiddleware
             stopwatch.Stop();
             var statusCode = context.Response.StatusCode;
             var elapsedMilliseconds = stopwatch.ElapsedMilliseconds;
+            var operationId = context.Items.TryGetValue(HttpExecutionContextMiddleware.OperationItemKey, out var value)
+                ? value?.ToString() ?? "unavailable"
+                : "unavailable";
 
             var logLevel = statusCode >= 500
                 ? LogLevel.Error
@@ -46,12 +54,13 @@ public class RequestLoggingMiddleware
 
             _logger.Log(
                 logLevel,
-                "HTTP {Method} {Path} responded {StatusCode} in {ElapsedMilliseconds}ms [RequestId: {RequestId}]",
+                "HTTP {Method} {Path} responded {StatusCode} in {ElapsedMilliseconds}ms [CorrelationId: {CorrelationId}, OperationId: {OperationId}]",
                 requestMethod,
                 requestPath,
                 statusCode,
                 elapsedMilliseconds,
-                requestId);
+                correlationId,
+                operationId);
         }
     }
 }

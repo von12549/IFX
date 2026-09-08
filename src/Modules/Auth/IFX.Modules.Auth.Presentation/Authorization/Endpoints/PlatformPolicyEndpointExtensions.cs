@@ -1,4 +1,5 @@
 using IFX.Modules.Auth.Presentation.Extensions;
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -11,6 +12,7 @@ public static class PlatformPolicyEndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/platform/policy")
             .WithTags("Platform Policy")
+            .WithMetadata(ExecutionScopeRequirement.Platform)
             .RequireAuthorization();
 
         group.MapGet("/", PlatformPolicyEndpoints.GetPlatformPolicies)

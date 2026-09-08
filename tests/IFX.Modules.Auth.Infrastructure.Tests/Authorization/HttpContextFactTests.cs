@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using IFX.BuildingBlocks.Application.Context;
 using IFX.Modules.Auth.Infrastructure.Authorization;
+using IFX.Platform.Context.Contracts;
 using Microsoft.AspNetCore.Http;
 
 namespace IFX.Modules.Auth.Infrastructure.Tests.Authorization;
@@ -31,16 +33,20 @@ public sealed class HttpContextFactTests
     }
 
     [Fact]
-    public void Tenant_selection_accepts_an_explicit_member_tenant()
+    public void Tenant_selection_reads_only_the_trusted_execution_scope()
     {
-        var primaryTenantId = Guid.NewGuid();
         var selectedTenantId = Guid.NewGuid();
-        var accessor = CreateAccessor(
-            new Claim("tenant_id", primaryTenantId.ToString("D")),
-            new Claim("tenant", selectedTenantId.ToString("D")));
-        accessor.HttpContext!.Request.Headers["X-Tenant-Id"] = selectedTenantId.ToString("D");
-        var facts = new HttpIdentityFacts(accessor);
-        var selection = new HttpTenantSelection(accessor, facts);
+        var context = new ExecutionContextSnapshot(
+            CorrelationId.New(),
+            OperationId.New(),
+            causationId: null,
+            ExecutionScope.ForTenant(new TenantScope(selectedTenantId)),
+            new ActorReference(ActorKind.User, Guid.NewGuid().ToString("D")),
+            new SourceReference("ifx", "test", 1));
+        var accessor = new Mock<IExecutionContextAccessor>();
+        accessor.SetupGet(candidate => candidate.HasCurrent).Returns(true);
+        accessor.SetupGet(candidate => candidate.Current).Returns(context);
+        var selection = new ExecutionTenantSelection(accessor.Object);
 
         selection.ResolveTenantId().Should().Be(selectedTenantId);
     }

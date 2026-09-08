@@ -16,7 +16,7 @@ public class CurrentUser : ICurrentUser
     private static readonly TimeSpan GlobalRolesCacheTtl = TimeSpan.FromMinutes(5);
 
     private readonly HttpIdentityFacts _identityFacts;
-    private readonly HttpTenantSelection _tenantSelection;
+    private readonly ExecutionTenantSelection _tenantSelection;
     private readonly IfxDbContext _dbContext;
     private readonly IMemoryCache _cache;
 
@@ -24,7 +24,7 @@ public class CurrentUser : ICurrentUser
 
     public CurrentUser(
         HttpIdentityFacts identityFacts,
-        HttpTenantSelection tenantSelection,
+        ExecutionTenantSelection tenantSelection,
         IfxDbContext dbContext,
         IMemoryCache cache)
     {

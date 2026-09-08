@@ -1,6 +1,7 @@
 using IFX.Modules.CRM.Presentation.InvestmentAccounts.Endpoints;
 using IFX.Modules.CRM.Presentation.Investors.Endpoints;
 using IFX.Modules.CRM.Presentation.Parties.Endpoints;
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -15,6 +16,7 @@ public static class EndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/party")
             .WithTags("Party")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         group.MapGet("/",
@@ -149,6 +151,7 @@ public static class EndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/investor")
             .WithTags("Investor")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         group.MapGet("/",
@@ -240,6 +243,7 @@ public static class EndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/investment-account")
             .WithTags("InvestmentAccount")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         group.MapGet("/",

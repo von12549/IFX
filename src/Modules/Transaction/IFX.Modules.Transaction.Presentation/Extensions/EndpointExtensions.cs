@@ -1,5 +1,6 @@
 using IFX.Modules.Transaction.Presentation.Orders.Endpoints;
 using IFX.Modules.Transaction.Presentation.Transactions.Endpoints;
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -11,7 +12,9 @@ public static class EndpointExtensions
     public static IEndpointRouteBuilder MapTransactionEndpoints(this IEndpointRouteBuilder builder)
     {
         // Order endpoints
-        var orderGroup = builder.MapGroup("/api/v1").WithTags("Orders");
+        var orderGroup = builder.MapGroup("/api/v1")
+            .WithTags("Orders")
+            .WithMetadata(ExecutionScopeRequirement.Tenant);
 
         orderGroup.MapGet("/order", OrderEndpoints.GetOrders)
             .RequireAuthorization()
@@ -42,7 +45,9 @@ public static class EndpointExtensions
             .RequirePermission("Order:delete");
 
         // Transaction endpoints (backward compatible)
-        var group = builder.MapGroup("/api/v1").WithTags("Transactions");
+        var group = builder.MapGroup("/api/v1")
+            .WithTags("Transactions")
+            .WithMetadata(ExecutionScopeRequirement.Tenant);
 
         group.MapGet("/transaction", TransactionEndpoints.GetTransactions)
             .RequireAuthorization()

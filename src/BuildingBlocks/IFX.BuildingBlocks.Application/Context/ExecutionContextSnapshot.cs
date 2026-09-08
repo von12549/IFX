@@ -44,4 +44,49 @@ public sealed record ExecutionContextSnapshot
     public ActorReference Actor { get; }
     public SourceReference Source { get; }
     public ContextProvenance Provenance { get; }
+
+    public bool IsTenantScope => Scope.IsTenant;
+
+    public Guid? TenantId => Scope.TenantId;
+
+    public static ExecutionContextSnapshot ForTenant(
+        Guid correlationId,
+        Guid operationId,
+        Guid? causationId,
+        Guid tenantId,
+        string actorKind,
+        string actorId,
+        string sourceSystem,
+        string sourceComponent,
+        int sourceVersion) => new(
+        new CorrelationId(correlationId),
+        new OperationId(operationId),
+        causationId is { } cause ? new CausationId(cause) : null,
+        ExecutionScope.ForTenant(new TenantScope(tenantId)),
+        new ActorReference(ParseActorKind(actorKind), actorId),
+        new SourceReference(sourceSystem, sourceComponent, sourceVersion));
+
+    public static ExecutionContextSnapshot ForPlatform(
+        Guid correlationId,
+        Guid operationId,
+        Guid? causationId,
+        string actorKind,
+        string actorId,
+        string sourceSystem,
+        string sourceComponent,
+        int sourceVersion) => new(
+        new CorrelationId(correlationId),
+        new OperationId(operationId),
+        causationId is { } cause ? new CausationId(cause) : null,
+        ExecutionScope.ForPlatform(new PlatformScope()),
+        new ActorReference(ParseActorKind(actorKind), actorId),
+        new SourceReference(sourceSystem, sourceComponent, sourceVersion));
+
+    private static ActorKind ParseActorKind(string value) => value switch
+    {
+        "user" => ActorKind.User,
+        "service" => ActorKind.Service,
+        "system" => ActorKind.System,
+        _ => throw new ArgumentException("Actor kind is not supported.", nameof(value))
+    };
 }

@@ -1,4 +1,7 @@
 ﻿using App.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
+using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Platform.BackgroundJobs.Abstractions;
@@ -42,6 +45,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 ["CognitoSettings:Region"] = "us-east-1",
                 // Identity provider selection
                 ["Authentication:Provider"] = "Cognito",
+                ["Opa:Enabled"] = "false",
                 // CognitoOidcSettings for OAuth
                 ["CognitoOidcSettings:Domain"] = "test-domain.auth.us-east-1.amazoncognito.com",
                 ["CognitoOidcSettings:ClientId"] = "test-client-id",
@@ -172,6 +176,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         {
             // Remove UserPermissionClaimsTransformation to prevent DB calls during test auth
             services.RemoveAll<IClaimsTransformation>();
+            services.RemoveAll<IResourceAuthorizationService>();
+            services.AddScoped<IResourceAuthorizationService, AllowAllResourceAuthorizationService>();
 
             // Override the default auth scheme with the test handler
             services.AddAuthentication(TestAuthHandler.SchemeName)
@@ -226,6 +232,32 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             db.Idps.Add(idp);
             db.SaveChanges();
         }
+    }
+
+    private sealed class AllowAllResourceAuthorizationService : IResourceAuthorizationService
+    {
+        public Task AuthorizeAsync<TResource>(
+            string? requiredPermission,
+            string decisionPath,
+            TResource resourceAttributes,
+            string action,
+            CancellationToken ct = default)
+            where TResource : OpaResourceAttributesBase => Task.CompletedTask;
+
+        public Task AuthorizeWithPolicyAsync<TResource>(
+            AbacPolicy policy,
+            TResource resourceAttributes,
+            IDictionary<string, object>? parameters = null,
+            CancellationToken ct = default)
+            where TResource : OpaResourceAttributesBase => Task.CompletedTask;
+
+        public Task AuthorizeWithResolvedPolicyAsync<TResource>(
+            string resourceType,
+            string action,
+            TResource resourceAttributes,
+            IDictionary<string, object>? parameters = null,
+            CancellationToken ct = default)
+            where TResource : OpaResourceAttributesBase => Task.CompletedTask;
     }
 
     private static void RemoveHangfireServices(IServiceCollection services)

@@ -46,6 +46,8 @@ try
     builder.Services.AddSingleton<ExecutionContextAccessor>();
     builder.Services.AddSingleton<IExecutionContextAccessor>(services => services.GetRequiredService<ExecutionContextAccessor>());
     builder.Services.AddSingleton<IExecutionContextScopeFactory>(services => services.GetRequiredService<ExecutionContextAccessor>());
+    builder.Services.Configure<HttpContextBoundaryOptions>(
+        builder.Configuration.GetSection(HttpContextBoundaryOptions.SectionName));
     builder.Services.AddSingleton<IFX.Platform.Messaging.Composition.Dispatching.IRuntimeDrainSignal>(
         services => services.GetRequiredService<RuntimeDrainCoordinator>());
     builder.Services.Configure<HostOptions>(options => options.ShutdownTimeout = drainOptions.ProcessGrace);
@@ -90,8 +92,10 @@ try
         runtimeProfile);
 
     // Configure middleware pipeline
-    app.UseMiddleware<RequestLoggingMiddleware>();
     app.UseMiddleware<ExceptionHandlingMiddleware>();
+    app.UseMiddleware<HttpTraceContextMiddleware>();
+    app.UseMiddleware<HttpCorrelationMiddleware>();
+    app.UseMiddleware<RequestLoggingMiddleware>();
     app.UseMiddleware<RuntimeDrainMiddleware>();
 
     if (app.Environment.IsDevelopment())
@@ -110,6 +114,7 @@ try
     app.UseHttpsRedirection();
     app.UseCors("AllowAll");
     app.UseAuthentication();
+    app.UseMiddleware<HttpExecutionContextMiddleware>();
     app.UseAuthorization();
 
     // Background jobs dashboard
@@ -126,7 +131,9 @@ try
         role = profile.RoleName,
         instance = instance.Value,
         capabilities = profile.Capabilities
-    })).RequireAuthorization();
+    }))
+        .WithMetadata(ExecutionScopeRequirement.Platform)
+        .RequireAuthorization();
 
     if (runtimeProfile.Capabilities.Api)
     {

@@ -36,7 +36,9 @@ public sealed class ExceptionHandlingHttpEndToEndTests : IDisposable
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         body!.Errors.Should().ContainKey("Email");
-        body.Errors!["Email"].Should().ContainSingle().Which.Should().Be("Email is required.");
+        body.Errors!["Email"].Should().ContainSingle().Which.Should().Be("Invalid value.");
+        body.ErrorCode.Should().Be("validation_failed");
+        Guid.TryParseExact(body.CorrelationId, "D", out _).Should().BeTrue();
     }
 
     [Fact]

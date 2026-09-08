@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 0 baseline
+> 状态：Implementation In Progress / Phase 3 HTTP boundary
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -196,15 +196,19 @@ Phase 2 证据：[`G05-phase2-execution-context.md`](../evidence/gates/G05/G05-p
 
 ## Phase 3 — 建立 HTTP Trace、Correlation 与 Tenant 入口
 
-- [ ] **Phase 3 完成**：每个 HTTP 请求在进入 Application 前具有可验证的 trace、correlation、actor 和显式 execution scope。
+- [x] **Phase 3 完成**：每个 HTTP 请求在进入 Application 前具有可验证的 trace、correlation、actor 和显式 execution scope。
 
-- [ ] G05-3.1 按 D18 顺序调整 middleware，确保 exception、Activity、correlation、logging、authentication、tenant context、authorization 的建立次序确定。
-- [ ] G05-3.2 公共入口生成内部 CorrelationId；验证外部 ClientRequestId，配置受信任网关传播策略，并回传规范化内部 ID。
-- [ ] G05-3.3 使用 W3C Activity 传播 trace；非法 `traceparent` 建立新 trace，不将 trace failure 转为业务失败。
-- [ ] G05-3.4 解析 `X-Tenant-Id` 的 absent、malformed、duplicate、unauthorized 与 primary fallback；显式错误不得回退。
-- [ ] G05-3.5 为 TenantScope 与 PlatformScope 建立 endpoint metadata/policy，禁止以 nullable TenantId 隐式推断权限。
-- [ ] G05-3.6 统一 `tenant_context_invalid`、`tenant_access_denied` 等 error code 与安全响应，不返回内部 exception message。
-- [ ] G05-3.7 添加 HTTP 集成测试，覆盖匿名/认证、多租户、Global Admin、无效 header、反向代理和 response correlation。
+- [x] G05-3.1 按 D18 顺序调整 middleware，确保 exception、Activity、correlation、logging、authentication、tenant context、authorization 的建立次序确定。
+- [x] G05-3.2 公共入口生成内部 CorrelationId；验证外部 ClientRequestId，配置受信任网关传播策略，并回传规范化内部 ID。
+- [x] G05-3.3 使用 W3C Activity 传播 trace；非法 `traceparent` 建立新 trace，不将 trace failure 转为业务失败。
+- [x] G05-3.4 解析 `X-Tenant-Id` 的 absent、malformed、duplicate、unauthorized 与 primary fallback；显式错误不得回退。
+- [x] G05-3.5 为 TenantScope 与 PlatformScope 建立 endpoint metadata/policy，禁止以 nullable TenantId 隐式推断权限。
+- [x] G05-3.6 统一 `tenant_context_invalid`、`tenant_access_denied` 等 error code 与安全响应，不返回内部 exception message。
+- [x] G05-3.7 添加 HTTP 集成测试，覆盖匿名/认证、多租户、Global Admin、无效 header、反向代理和 response correlation。
+
+Phase 3 证据：[`G05-phase3-http-boundary.md`](../evidence/gates/G05/G05-phase3-http-boundary.md)、
+[`G05-phase3-guard-report.json`](../evidence/gates/G05/G05-phase3-guard-report.json) 与
+[`G05-phase3-layerguard-report.json`](../evidence/gates/G05/G05-phase3-layerguard-report.json)。
 
 ## Phase 4 — 建立同步 Contract Context Conformance
 

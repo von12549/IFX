@@ -1,6 +1,7 @@
 using IFX.Modules.Registry.Presentation.FundClasses.Endpoints;
 using IFX.Modules.Registry.Presentation.Funds.Endpoints;
 using IFX.Modules.Registry.Presentation.Products.Endpoints;
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -15,6 +16,7 @@ public static class EndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/product")
             .WithTags("Product")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         group.MapGet("/",
@@ -80,6 +82,7 @@ public static class EndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/fund")
             .WithTags("Fund")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         group.MapGet("/",
@@ -132,6 +135,7 @@ public static class EndpointExtensions
     {
         var group = builder.MapGroup("/api/v1/fund/{fundId}/class")
             .WithTags("FundClass")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         group.MapGet("/",

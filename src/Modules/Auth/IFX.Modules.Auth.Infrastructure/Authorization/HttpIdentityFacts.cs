@@ -1,9 +1,10 @@
 using System.Security.Claims;
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Http;
 
 namespace IFX.Modules.Auth.Infrastructure.Authorization;
 
-public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor)
+public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor) : IExecutionIdentityFacts
 {
     public ClaimsPrincipal? Principal => httpContextAccessor.HttpContext?.User;
 

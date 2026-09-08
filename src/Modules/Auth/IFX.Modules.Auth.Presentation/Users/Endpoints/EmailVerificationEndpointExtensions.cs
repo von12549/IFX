@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -10,7 +11,8 @@ public static class EmailVerificationEndpointExtensions
     {
         // Public endpoints (no authentication required)
         var publicGroup = builder.MapGroup("/api/v1/auth/email")
-            .WithTags("Email Verification");
+            .WithTags("Email Verification")
+            .WithMetadata(ExecutionScopeRequirement.Public);
 
         publicGroup.MapPost("/verify", EmailVerificationEndpoints.VerifyEmail)
             .WithName("VerifyEmail")
@@ -29,6 +31,7 @@ public static class EmailVerificationEndpointExtensions
         // Authenticated endpoints
         var authenticatedGroup = builder.MapGroup("/api/v1/user/email")
             .WithTags("Email Verification")
+            .WithMetadata(ExecutionScopeRequirement.Tenant)
             .RequireAuthorization();
 
         authenticatedGroup.MapPost("/send-verification", EmailVerificationEndpoints.SendVerification)

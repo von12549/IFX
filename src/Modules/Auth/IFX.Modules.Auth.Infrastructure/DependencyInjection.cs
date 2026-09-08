@@ -1,6 +1,7 @@
 ﻿using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
 using IFX.BuildingBlocks.Application.Transactions;
+using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
@@ -83,7 +84,8 @@ public static class DependencyInjection
         // Register shared authorization services
         services.AddHttpContextAccessor();
         services.AddScoped<HttpIdentityFacts>();
-        services.AddScoped<HttpTenantSelection>();
+        services.AddScoped<IExecutionIdentityFacts>(services => services.GetRequiredService<HttpIdentityFacts>());
+        services.AddScoped<ExecutionTenantSelection>();
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IPermissionChecker, PermissionChecker>();
         services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();

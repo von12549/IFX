@@ -41,7 +41,17 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 0 — deterministic value-free context/security baseline.
 - [x] Phase 1 — BCL-only Context and Messaging protocol primitives.
 - [x] Phase 2 — immutable execution context lifetime, composition ownership and source rules.
-- [ ] Phase 3 — HTTP trace, correlation and fail-closed tenant entry.
+- [x] Phase 3 — HTTP trace, correlation and fail-closed tenant entry.
+- [ ] Phase 4 — synchronous Contract context conformance.
+
+## Phase 3 acceptance
+
+- Middleware ordering is exception, W3C trace, internal correlation, logging, authentication, execution context and authorization.
+- Public ingress always creates a canonical internal correlation ID; trusted gateway propagation is disabled by default and requires an enabled exact-address allowlist.
+- Every module route group declares Tenant, Platform or Public execution-scope metadata; sensitive paths without metadata fail closed.
+- Tenant absence, malformed/duplicate values, membership denial, primary fallback and explicit Global Administrator targeting have stable outcomes.
+- External exception responses use safe messages, stable error codes and correlation IDs without returning exception text.
+- 12/12 HTTP boundary tests, 984/984 solution tests and 179/179 LayerGuard tests pass; the full build has 0 errors and the unchanged 20 warnings.
 
 ## Phase 2 acceptance
 

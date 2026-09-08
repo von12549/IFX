@@ -32,7 +32,7 @@ public class ExceptionHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception occurred: {Message}", ex.Message);
+            _logger.LogError(ex, "An unhandled exception occurred.");
             await HandleExceptionAsync(context, ex);
         }
     }
@@ -45,49 +45,58 @@ public class ExceptionHandlingMiddleware
         var response = new ErrorResponse
         {
             Success = false,
+            ErrorCode = "internal_error",
             Error = message,
+            CorrelationId = HttpCorrelationMiddleware.GetCorrelation(context).ToString("D"),
             Timestamp = DateTimeOffset.UtcNow
         };
 
         if (exception is ValidationException validationException)
         {
             statusCode = HttpStatusCode.BadRequest;
+            response.ErrorCode = "validation_failed";
             response.Error = "One or more validation errors occurred.";
             response.Errors = validationException.Errors
                 .GroupBy(failure => failure.PropertyName)
                 .ToDictionary(
                     group => group.Key,
-                    group => group.Select(failure => failure.ErrorMessage).Distinct().ToArray());
+                    group => group.Select(_ => "Invalid value.").Distinct().ToArray());
         }
         else if (exception is ForbiddenException)
         {
             statusCode = HttpStatusCode.Forbidden;
-            response.Error = exception.Message;
+            response.ErrorCode = "access_denied";
+            response.Error = "Access is denied.";
         }
         else if (exception is ConcurrencyConflictException)
         {
             statusCode = HttpStatusCode.Conflict;
+            response.ErrorCode = "concurrency_conflict";
             response.Error = "The resource was changed by another request. Reload it before retrying.";
         }
         else if (exception is TransactionCommitOutcomeUnknownException)
         {
             statusCode = HttpStatusCode.ServiceUnavailable;
+            response.ErrorCode = "transaction_outcome_unknown";
             response.Error = "The operation outcome could not be confirmed. Reconcile it before retrying.";
         }
         else if (exception is ArgumentException or ArgumentNullException)
         {
             statusCode = HttpStatusCode.BadRequest;
-            response.Error = exception.Message;
+            response.ErrorCode = "invalid_request";
+            response.Error = "The request is invalid.";
         }
         else if (exception is UnauthorizedAccessException)
         {
             statusCode = HttpStatusCode.Unauthorized;
+            response.ErrorCode = "unauthorized";
             response.Error = "Unauthorized access.";
         }
         else if (exception is KeyNotFoundException)
         {
             statusCode = HttpStatusCode.NotFound;
-            response.Error = exception.Message;
+            response.ErrorCode = "resource_not_found";
+            response.Error = "The requested resource was not found.";
         }
 
         context.Response.ContentType = "application/json";
@@ -106,7 +115,9 @@ public class ErrorResponse
 {
     public bool Success { get; set; }
     public object? Data { get; set; }
+    public string ErrorCode { get; set; } = string.Empty;
     public string? Error { get; set; }
+    public string CorrelationId { get; set; } = string.Empty;
     public Dictionary<string, string[]>? Errors { get; set; }
     public DateTimeOffset Timestamp { get; set; }
 }

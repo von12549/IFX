@@ -1,4 +1,5 @@
 using IFX.Modules.Holdings.Presentation.Holdings.Endpoints;
+using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -9,7 +10,9 @@ public static class EndpointExtensions
 {
     public static IEndpointRouteBuilder MapHoldingEndpoints(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/api/v1").WithTags("Holdings");
+        var group = builder.MapGroup("/api/v1")
+            .WithTags("Holdings")
+            .WithMetadata(ExecutionScopeRequirement.Tenant);
 
         group.MapGet("/holding", HoldingEndpoints.GetHoldings)
             .RequireAuthorization()

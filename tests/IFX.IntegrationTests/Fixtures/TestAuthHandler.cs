@@ -16,6 +16,9 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
 {
     public const string SchemeName = "Test";
     public const string PermissionsHeader = "X-Test-Permissions";
+    public const string TenantsHeader = "X-Test-Tenants";
+    public static readonly Guid DefaultUserId = Guid.Parse("10000000-0000-4000-8000-000000000001");
+    public static readonly Guid DefaultTenantId = Guid.Parse("20000000-0000-4000-8000-000000000001");
 
     /// <summary>Sentinel sent when the client is authenticated but has no permissions.</summary>
     private const string NoPermissionsMarker = "-";
@@ -35,7 +38,19 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
         {
             new(ClaimTypes.NameIdentifier, "test-user-id"),
             new(ClaimTypes.Name, "testuser"),
+            new("user_id", DefaultUserId.ToString("D")),
+            new("tenant_id", DefaultTenantId.ToString("D")),
+            new("tenant", DefaultTenantId.ToString("D"))
         };
+
+        foreach (var tenant in Request.Headers[TenantsHeader].ToString()
+                     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            if (Guid.TryParseExact(tenant, "D", out var tenantId) && tenantId != Guid.Empty)
+            {
+                claims.Add(new Claim("tenant", tenantId.ToString("D")));
+            }
+        }
 
         var permissionsValue = Request.Headers[PermissionsHeader].ToString();
         foreach (var perm in permissionsValue.Split(',', StringSplitOptions.RemoveEmptyEntries))
