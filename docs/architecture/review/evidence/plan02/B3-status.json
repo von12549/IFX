@@ -5,7 +5,7 @@
   "date": "2026-09-08",
   "branch": "feature/architecture-boundary-implementation",
   "baseCommit": "aa86103948ff102cd193c5e8e7e26bb48fd02473",
-  "status": "repository-scope-complete",
+  "status": "core-repository-checkpoint-complete-plan-open",
   "protocols": {
     "activeV1Events": 2,
     "retiredLegacyEvents": 20,
@@ -42,6 +42,14 @@
     "removedSinceB2": 71,
     "remainingForB4": 32
   },
+  "openRepositoryItems": [
+    "dispatcher rate metrics, registered health contributor, and complete crash-window matrix",
+    "consumer concurrency, ordering, handler-crash, invalid-trace, scope-cleanup, and downstream-causation tests",
+    "projection freshness, rebuild, degradation, and data lifecycle decisions",
+    "Inbox diagnostics, authorized audited replay, compatibility gate, alerts, and ReprocessingRequest",
+    "full SQL concurrency, end-to-end fault, parallel-tenant, and sensitive-sentinel suites",
+    "before-after and rollout diagrams plus complete rule-to-evidence mapping"
+  ],
   "openExternalConditions": [
     "production capacity and alert threshold calibration",
     "consumer-first production rollout and rollback rehearsal",

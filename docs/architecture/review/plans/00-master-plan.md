@@ -136,7 +136,7 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 3 — 建立可靠 Integration Event 通道
 
-- [x] **Phase 3 完成**：Plan 02 已于 2026-09-08 完成仓库内实现并冻结正式 B3；生产容量/告警校准、发布演练与最终 Gate 签字作为外部关闭条件保持开放。证据：[`B3 status`](../evidence/plan02/B3-status.json) 与 [`Gate handback`](../evidence/plan02/B3-gate-handback.md)。
+- [x] **Phase 3 / B3 检查点完成**：Plan 02 已于 2026-09-08 完成 B3 核心迁移；该标记不是 Plan 02 最终关闭。详细计划 Phase 3–8 的强化项、生产容量/告警校准、发布演练与最终 Gate 签字保持开放。证据：[`B3 status`](../evidence/plan02/B3-status.json)、[`checklist reconciliation`](../evidence/plan02/phase3-8-checklist-reconciliation.md) 与 [`Gate handback`](../evidence/plan02/B3-gate-handback.md)。
 
 - [x] M3.1 以 Gate 03 事件目录/版本政策和 Gate 05 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类为输入，执行子计划 2；schema primitives 与运行时端口保持分离。
 - [x] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
