@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "owner": "xiaolong-feng",
+  "status": "pre-active-conformance",
+  "consumerConstruction": {
+    "requestId": "new non-empty identifier for every invocation and retry attempt",
+    "correlationId": "copy the trusted current ExecutionContext correlation identifier",
+    "causationId": "copy the trusted current ExecutionContext operation identifier",
+    "scopeActor": "copy trusted scope and actor; never reconstruct from request payload",
+    "source": "use the registered consumer adapter identity, never caller-supplied source",
+    "forbidden": ["token", "ClaimsPrincipal", "roles", "permissions", "caller authorization result"]
+  },
+  "providerValidationOrder": [
+    "consumerAllowlist",
+    "version",
+    "scope",
+    "actorSource",
+    "tenantResource"
+  ],
+  "stableResults": [
+    "contract_context_invalid",
+    "contract_consumer_denied",
+    "contract_tenant_mismatch",
+    "contract_timeout",
+    "contract_cancelled",
+    "contract_unavailable"
+  ],
+  "providerExecution": {
+    "operationId": "new non-empty identifier at the provider boundary",
+    "correlationId": "copy only after validation",
+    "causationId": "copy the validated inbound causation identifier",
+    "authorization": "provider evaluates authorization from trusted local facts"
+  },
+  "carrierRule": "in-process, HTTP and gRPC carriers must execute the same conformance suite without changing the consumer Application Port",
+  "realCarrierEvidence": "required from Plan 01; fake carriers are not production migration evidence"
+}

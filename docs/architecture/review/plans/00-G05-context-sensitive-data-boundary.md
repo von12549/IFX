@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 3 HTTP boundary
+> 状态：Implementation In Progress / Phase 4 Contract context conformance
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -212,14 +212,20 @@ Phase 3 证据：[`G05-phase3-http-boundary.md`](../evidence/gates/G05/G05-phase
 
 ## Phase 4 — 建立同步 Contract Context Conformance
 
-- [ ] **Phase 4 完成**：未来所有进程内或进程外 Contract Adapter 使用同一语义，且 Provider 在信任边界重新验证。
+- [x] **Phase 4 完成**：未来所有进程内或进程外 Contract Adapter 使用同一语义，且 Provider 在信任边界重新验证。
 
-- [ ] G05-4.1 定义 Consumer Adapter 如何从 ExecutionContext 生成新 RequestId、继承 CorrelationId 并设置 CausationId。
-- [ ] G05-4.2 定义 Provider Adapter 对 consumer allowlist、context version、scope、actor/source 和 tenant/resource 一致性的验证顺序。
-- [ ] G05-4.3 定义 `contract_context_invalid`、`contract_consumer_denied`、tenant mismatch、timeout、cancel 和 unavailable 的稳定结果映射。
-- [ ] G05-4.4 建立进程内 conformance Adapter/harness，证明未来 HTTP/gRPC carrier 替换不影响 Consumer Application Port。
-- [ ] G05-4.5 验证 ContractRequestContext 不接受 token、ClaimsPrincipal、角色全集或调用方自报的授权结果。
-- [ ] G05-4.6 将 conformance suite 交给子计划 1，要求每个实际 Adapter 和 Provider capability 执行相同测试。
+- [x] G05-4.1 定义 Consumer Adapter 如何从 ExecutionContext 生成新 RequestId、继承 CorrelationId 并设置 CausationId。
+- [x] G05-4.2 定义 Provider Adapter 对 consumer allowlist、context version、scope、actor/source 和 tenant/resource 一致性的验证顺序。
+- [x] G05-4.3 定义 `contract_context_invalid`、`contract_consumer_denied`、tenant mismatch、timeout、cancel 和 unavailable 的稳定结果映射。
+- [x] G05-4.4 建立进程内 conformance Adapter/harness，证明未来 HTTP/gRPC carrier 替换不影响 Consumer Application Port。
+- [x] G05-4.5 验证 ContractRequestContext 不接受 token、ClaimsPrincipal、角色全集或调用方自报的授权结果。
+- [x] G05-4.6 将 conformance suite 交给子计划 1，要求每个实际 Adapter 和 Provider capability 执行相同测试。
+
+Phase 4 证据：[`contract-context-conformance-v1.json`](../gates/G05/contract-context-conformance-v1.json)、
+[`Plan 01 handoff`](../gates/G05/handoffs/plan01-contract-context-handoff.md)、
+[`G05-phase4-contract-context.md`](../evidence/gates/G05/G05-phase4-contract-context.md)、
+[`G05-phase4-guard-report.json`](../evidence/gates/G05/G05-phase4-guard-report.json) 与
+[`G05-phase4-layerguard-report.json`](../evidence/gates/G05/G05-phase4-layerguard-report.json)。
 
 ## Phase 5 — 建立 Event Envelope 与传播 Conformance
 

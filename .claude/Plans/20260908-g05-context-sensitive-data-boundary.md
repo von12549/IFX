@@ -42,7 +42,22 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 1 — BCL-only Context and Messaging protocol primitives.
 - [x] Phase 2 — immutable execution context lifetime, composition ownership and source rules.
 - [x] Phase 3 — HTTP trace, correlation and fail-closed tenant entry.
-- [ ] Phase 4 — synchronous Contract context conformance.
+- [x] Phase 4 — synchronous Contract context conformance.
+
+## Phase 4 acceptance
+
+- Each consumer invocation creates a fresh RequestId, inherits trusted CorrelationId and uses the
+  current OperationId as direct causation; source identity comes from Adapter configuration.
+- Provider conformance fixes the validation order as consumer allowlist, version, scope,
+  actor/source and tenant/resource consistency, then creates a new child operation.
+- Stable context, consumer denial, tenant mismatch, timeout, cancellation and unavailable outcomes
+  are verified without exposing transport exceptions through the Application Port.
+- Direct in-process and JSON round-trip fake carriers execute through the same consumer Port and
+  produce the same result; unknown caller-asserted roles/authorization do not affect the provider.
+- The Plan 01 handoff requires these tests for both proposed real providers and every actual carrier;
+  fake-carrier success is not recorded as real Contract migration evidence.
+- 38/38 protocol/conformance tests, 995/995 solution tests and 179/179 LayerGuard tests passed; the
+  full build has 0 errors and the unchanged 20 warnings.
 
 ## Phase 3 acceptance
 

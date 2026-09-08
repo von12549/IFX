@@ -109,6 +109,23 @@ if ($Phase -ge 3) {
     $checks.phase3LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json')
 }
 
+if ($Phase -ge 4) {
+    $conformancePolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/contract-context-conformance-v1.json') | ConvertFrom-Json -Depth 20
+    $conformanceTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs')
+    $contractContextSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs')
+    $expectedValidationOrder = @('consumerAllowlist', 'version', 'scope', 'actorSource', 'tenantResource')
+    $expectedResults = @('contract_context_invalid', 'contract_consumer_denied', 'contract_tenant_mismatch', 'contract_timeout', 'contract_cancelled', 'contract_unavailable')
+    $checks.consumerContextConstructionIsExplicit = $conformancePolicy.consumerConstruction.requestId -match 'every invocation' -and $conformancePolicy.consumerConstruction.correlationId -match 'ExecutionContext' -and $conformancePolicy.consumerConstruction.causationId -match 'operation identifier' -and $conformanceTests -match 'Guid\.NewGuid\(\)' -and $conformanceTests -match 'executionContext\.OperationId\.Value'
+    $checks.providerValidationOrderIsFixed = (@($conformancePolicy.providerValidationOrder) -join ',') -eq ($expectedValidationOrder -join ',') -and $conformanceTests -match 'ValidationTrace\.Add\("consumerAllowlist"\)' -and $conformanceTests -match 'ValidationTrace\.Add\("tenantResource"\)'
+    $checks.contractFailureResultsAreStable = @($expectedResults | Where-Object { $_ -notin $conformancePolicy.stableResults }).Count -eq 0 -and @($expectedResults | Where-Object { $conformanceTests -notmatch [regex]::Escape($_) }).Count -eq 0
+    $checks.fakeCarriersShareOneApplicationPort = $conformanceTests -match 'interface IAccountCompliancePort' -and $conformanceTests -match 'DirectContractCarrier' -and $conformanceTests -match 'JsonRoundTripContractCarrier' -and $conformanceTests -match 'CarrierSubstitution_DoesNotChangeConsumerApplicationPort'
+    $checks.contractContextCarriesNoCallerAuthorization = $contractContextSource -notmatch 'public .*?(Token|ClaimsPrincipal|Roles|Permissions|AuthorizationGranted)' -and $conformanceTests -match 'ContractRequestContext_HasNoCallerAssertedSecurityPayload' -and @($conformancePolicy.consumerConstruction.forbidden).Count -eq 5
+    $checks.plan01ContractContextHandoffExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md')
+    $checks.realContractCarrierNotMisrepresented = $conformancePolicy.status -eq 'pre-active-conformance' -and $conformancePolicy.realCarrierEvidence -match 'required from Plan 01'
+    $checks.phase4EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase4-contract-context.md')
+    $checks.phase4LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase4-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'
