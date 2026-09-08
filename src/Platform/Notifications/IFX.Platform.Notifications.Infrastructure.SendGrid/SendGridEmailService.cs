@@ -1,5 +1,5 @@
-using IFX.Platform.Notifications.Abstractions;
-using IFX.Platform.Notifications.Abstractions.Models;
+using IFX.Platform.Notifications.Contracts;
+using IFX.Platform.Notifications.Contracts.Models;
 using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;

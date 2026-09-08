@@ -1,5 +1,5 @@
 using System.Net;
-using IFX.Platform.Notifications.Abstractions.Models;
+using IFX.Platform.Notifications.Contracts.Models;
 using IFX.Platform.Notifications.Infrastructure.SendGrid;
 using Microsoft.Extensions.Logging;
 using Moq;

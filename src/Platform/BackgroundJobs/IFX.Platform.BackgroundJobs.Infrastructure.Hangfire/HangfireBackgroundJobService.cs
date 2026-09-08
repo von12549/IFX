@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using IFX.Platform.BackgroundJobs.Abstractions;
+using IFX.Platform.BackgroundJobs.Contracts;
 using Hangfire;
 using Hangfire.Common;
 using Hangfire.States;

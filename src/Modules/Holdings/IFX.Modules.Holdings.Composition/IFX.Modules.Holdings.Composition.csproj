@@ -9,7 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
-    <ProjectReference Include="..\IFX.Modules.Holdings.Abstractions\IFX.Modules.Holdings.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Application\IFX.Modules.Holdings.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Infrastructure\IFX.Modules.Holdings.Infrastructure.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Presentation\IFX.Modules.Holdings.Presentation.csproj" />

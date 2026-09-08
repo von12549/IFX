@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj" />
-    <ProjectReference Include="..\..\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Abstractions\IFX.Platform.BackgroundJobs.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Contracts\IFX.Platform.BackgroundJobs.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Contracts\IFX.Platform.BackgroundJobs.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Notifications\IFX.Platform.Notifications.Contracts\IFX.Platform.Notifications.Contracts.csproj" />
     <ProjectReference Include="..\IFX.Modules.Auth.Application\IFX.Modules.Auth.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.Auth.Infrastructure\IFX.Modules.Auth.Infrastructure.csproj" />
     <ProjectReference Include="..\IFX.Modules.Auth.Presentation\IFX.Modules.Auth.Presentation.csproj" />

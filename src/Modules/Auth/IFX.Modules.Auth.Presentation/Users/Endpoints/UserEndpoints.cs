@@ -1,6 +1,7 @@
 using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
 using IFX.Modules.Auth.Application.Identity.Commands.SyncUser;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Users.Commands.UpdateUserProfile;
 using IFX.Modules.Auth.Application.Users.Queries.GetUserActivityLog;
 using IFX.Modules.Auth.Application.Users.Queries.GetUserLoginHistory;
@@ -8,9 +9,6 @@ using IFX.Modules.Auth.Application.Users.Queries.GetUserProfile;
 using IFX.Modules.Auth.Presentation.Extensions;
 using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
-using IFX.Platform.BackgroundJobs.Abstractions;
-using IFX.Platform.Notifications.Abstractions;
-using IFX.Platform.Notifications.Abstractions.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +49,7 @@ public static class UserEndpoints
     public static async Task<IResult> UpdateProfile(
         [FromBody] UpdateUserProfileRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] IBackgroundJobService backgroundJobService,
+        [FromServices] IAuthEmailJobScheduler emailJobs,
         [FromServices] IEmailVerificationService emailVerificationService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<UserEndpointsLogCategory> logger,
@@ -113,18 +111,8 @@ public static class UserEndpoints
                     userName, verificationResult.Value.Code, verificationLink, TokenValidityMinutes);
 
                 // Enqueue email job
-                var jobId = backgroundJobService.Enqueue<IEmailService>(
-                    service => service.SendEmailAsync(
-                        new EmailMessage
-                        {
-                            To = verificationResult.Value.Email,
-                            ToName = userName,
-                            Subject = "Verify your new email address",
-                            HtmlBody = htmlBody,
-                            PlainTextBody = plainTextBody
-                        },
-                        default),
-                    "email");
+                var jobId = emailJobs.Enqueue(new AuthEmailJob(
+                    verificationResult.Value.Email, userName, "Verify your new email address", htmlBody, plainTextBody));
 
                 logger.LogInformation(
                     "Email verification job {JobId} enqueued after email change for user {Issuer}/{Subject}",

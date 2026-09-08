@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Platform.Notifications.Contracts\IFX.Platform.Notifications.Contracts.csproj" />
     <ProjectReference Include="..\IFX.Platform.Notifications.Infrastructure.SendGrid\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj" />
   </ItemGroup>
 

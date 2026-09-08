@@ -3,7 +3,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.Registry.Domain\IFX.Modules.Registry.Domain.csproj" />
-    <ProjectReference Include="..\IFX.Modules.Registry.Abstractions\IFX.Modules.Registry.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
@@ -15,7 +14,6 @@
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="12.4.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
   </ItemGroup>
 

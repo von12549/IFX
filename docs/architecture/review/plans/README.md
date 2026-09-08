@@ -187,6 +187,8 @@ Event 解决的是跨边界事实传播和可靠最终送达，不提供跨模�
 
 LayerGuard 只检查静态依赖、声明和框架泄漏；字段值、敏感数据、运行时传播与 schema 兼容由 Gate 03/05 的 catalog/schema/security/conformance tests 负责，任何一侧的绿色结果都不能掩盖另一侧失败。
 
+B4 仓库内严格收口已于 2026-09-09 完成：116 → 103 → 32 → 0 finding，空 baseline 已进入默认本地/CI 路径。参见[中文规则](../layerguard-strict-boundaries.zh-CN.md)、[English rules](../layerguard-strict-boundaries.en.md) 与 [B4 证据](../evidence/03-b-layerguard-strict-closure.md)。架构负责人 L7.7 批准仍保持开放，不由代码证据代签。
+
 ## 仍留在后续计划中的相关工作
 
 以下事项与本轮方向相关，但不是实施 Contracts/Adapters/Events/LayerGuard 的必要前置，因此保留在 [`TODO.md`](TODO.md) 中，进入实施前需要另行评审和计划化：

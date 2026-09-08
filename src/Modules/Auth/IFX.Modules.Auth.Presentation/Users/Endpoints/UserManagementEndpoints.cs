@@ -1,4 +1,5 @@
 using IFX.Modules.Auth.Application.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Users.Commands.AssignDepartmentToUser;
 using IFX.Modules.Auth.Application.Users.Commands.AssignRoleGroupsToUser;
 using IFX.Modules.Auth.Application.Users.Commands.AssignRolesToUser;
@@ -12,9 +13,6 @@ using IFX.Modules.Auth.Application.Users.Queries.GetAllUsers;
 using IFX.Modules.Auth.Application.Users.Queries.GetUserById;
 using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
-using IFX.Platform.BackgroundJobs.Abstractions;
-using IFX.Platform.Notifications.Abstractions;
-using IFX.Platform.Notifications.Abstractions.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -105,7 +103,7 @@ public static class UserManagementEndpoints
     public static async Task<IResult> SendTestEmail(
         Guid userId,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] IBackgroundJobService backgroundJobService,
+        [FromServices] IAuthEmailJobScheduler emailJobs,
         [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin sending test email to user: {UserId}", userId);
@@ -132,18 +130,12 @@ public static class UserManagementEndpoints
         var userName = user.DisplayName ?? "User";
 
         // Enqueue email job on "email" queue
-        var jobId = backgroundJobService.Enqueue<IEmailService>(
-            service => service.SendEmailAsync(
-                new EmailMessage
-                {
-                    To = userEmail,
-                    ToName = userName,
-                    Subject = "Test Email from IFX",
-                    HtmlBody = $"<h1>Hello {userName}!</h1><p>This is a test email sent from IFX.</p><p>If you received this email, your email configuration is working correctly.</p>",
-                    PlainTextBody = $"Hello {userName}!\n\nThis is a test email sent from IFX.\n\nIf you received this email, your email configuration is working correctly."
-                },
-                default),
-            "email");
+        var jobId = emailJobs.Enqueue(new AuthEmailJob(
+            userEmail,
+            userName,
+            "Test Email from IFX",
+            $"<h1>Hello {userName}!</h1><p>This is a test email sent from IFX.</p><p>If you received this email, your email configuration is working correctly.</p>",
+            $"Hello {userName}!\n\nThis is a test email sent from IFX.\n\nIf you received this email, your email configuration is working correctly."));
 
         logger.LogInformation("Test email job {JobId} enqueued for user {UserId} ({Email})", jobId, userId, userEmail);
 

@@ -1,4 +1,3 @@
-using IFX.Modules.Auth.Domain.Identity;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -9,7 +8,7 @@ public class IdpConfigurationEntry
     public Guid IdpId { get; init; }
     public string Issuer { get; init; } = string.Empty;
     public string Authority { get; init; } = string.Empty;
-    public IdpType IdpType { get; init; }
+    public string IdpType { get; init; } = string.Empty;
     public bool AutoProvisionEnabled { get; init; }
     public List<string> ExpectedAudiences { get; init; } = new();
     public List<string> AllowedAlgorithms { get; init; } = new();

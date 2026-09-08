@@ -1,5 +1,5 @@
-using IFX.Platform.Notifications.Abstractions;
-using IFX.Platform.Notifications.Abstractions.Models;
+using IFX.Platform.Notifications.Contracts;
+using IFX.Platform.Notifications.Contracts.Models;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Platform.Notifications.Composition;

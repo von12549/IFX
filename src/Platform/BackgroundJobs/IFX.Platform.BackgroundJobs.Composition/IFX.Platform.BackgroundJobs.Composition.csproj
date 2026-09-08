@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\IFX.Platform.Shared\IFX.Platform.Shared.csproj" />
-    <ProjectReference Include="..\IFX.Platform.BackgroundJobs.Abstractions\IFX.Platform.BackgroundJobs.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Platform.BackgroundJobs.Contracts\IFX.Platform.BackgroundJobs.Contracts.csproj" />
     <ProjectReference Include="..\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj" />
   </ItemGroup>
 

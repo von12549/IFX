@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\IFX.Platform.Shared\IFX.Platform.Shared.csproj" />
-    <ProjectReference Include="..\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj" />
+    <ProjectReference Include="..\IFX.Platform.Notifications.Contracts\IFX.Platform.Notifications.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>

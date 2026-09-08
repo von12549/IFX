@@ -1,4 +1,4 @@
-using IFX.Platform.BackgroundJobs.Abstractions;
+using IFX.Platform.BackgroundJobs.Contracts;
 using IFX.Platform.BackgroundJobs.Infrastructure.Hangfire;
 using IFX.Platform.Shared.Constants;
 using Hangfire;

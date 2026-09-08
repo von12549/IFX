@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Platform\Notifications\IFX.Platform.Notifications.Infrastructure.SendGrid\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj" />
-    <ProjectReference Include="..\..\src\Platform\Notifications\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Platform\Notifications\IFX.Platform.Notifications.Contracts\IFX.Platform.Notifications.Contracts.csproj" />
     <ProjectReference Include="..\..\src\Platform\Notifications\IFX.Platform.Notifications.Composition\IFX.Platform.Notifications.Composition.csproj" />
   </ItemGroup>
 

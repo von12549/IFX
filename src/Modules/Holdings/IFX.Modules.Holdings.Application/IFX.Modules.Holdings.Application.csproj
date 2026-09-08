@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
-    <ProjectReference Include="..\IFX.Modules.Holdings.Abstractions\IFX.Modules.Holdings.Abstractions.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Domain\IFX.Modules.Holdings.Domain.csproj" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 {
   "_": [
     "03-A1 target policy: Gate-owned facts are loaded and hash-verified from their authoritative artifacts.",
-    "Abstractions is recognized as Contracts during migration, but new legacy projects are forbidden.",
+    "Strict B4 policy recognizes Contracts only; legacy module/platform Abstractions projects are forbidden.",
     "B1 historical findings are baselined under the G03 waiver policy; the unified check fails on new or stale findings."
   ],
   "gatePolicies": {
@@ -11,7 +11,7 @@
   },
   "rings": {
     "Domain": ["IFX.Modules.*.Domain"],
-    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.Platform.*.Contracts", "IFX.Platform.*.Abstractions"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
     "Application": ["IFX.Modules.*.Application"],
     "Presentation": ["IFX.Modules.*.Presentation"],
     "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
@@ -64,10 +64,10 @@
   "allowedReferences": {
     "Domain": ["IFX.BuildingBlocks.Domain"],
     "Contracts": [],
-    "Application": ["IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
-    "Presentation": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.Modules.*.Domain"],
-    "IntegrationAdapter": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.Platform.*.Contracts", "IFX.Platform.*.Abstractions"],
-    "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.Modules.*.Abstractions", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
+    "Application": ["IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
+    "Presentation": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Domain"],
+    "IntegrationAdapter": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
     "Runtime": ["IFX.Platform.*.Contracts", "IFX.BuildingBlocks.*"],
     "Composition": ["IFX.Modules.*", "IFX.Platform.*", "App.Abstractions", "IFX.BuildingBlocks.*"],
     "RuntimeHost": ["*.Composition", "App.Abstractions", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Security"]

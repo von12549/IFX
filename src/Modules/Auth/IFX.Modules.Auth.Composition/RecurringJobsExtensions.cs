@@ -1,5 +1,5 @@
 using IFX.Modules.Auth.Application.Identity.Interfaces;
-using IFX.Platform.BackgroundJobs.Abstractions;
+using IFX.Platform.BackgroundJobs.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 

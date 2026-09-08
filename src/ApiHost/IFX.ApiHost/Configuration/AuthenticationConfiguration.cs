@@ -19,7 +19,6 @@ public static class AuthenticationConfiguration
         services.AddMemoryCache();
         services.AddSingleton<IdpConfigurationService>();
         services.AddSingleton<IIdpConfigurationService>(sp => sp.GetRequiredService<IdpConfigurationService>());
-        services.AddSingleton<Modules.Auth.Application.Identity.Interfaces.IIdpCacheInvalidator>(sp => sp.GetRequiredService<IdpConfigurationService>());
         services.AddScoped<DynamicJwtBearerEvents>();
 
         // Add HttpContextAccessor for claims transformation

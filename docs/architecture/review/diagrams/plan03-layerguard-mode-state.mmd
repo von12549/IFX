@@ -1,0 +1,10 @@
+stateDiagram-v2
+  [*] --> Bootstrap: B0.5
+  Bootstrap --> PolicyBound: 03-A1 / B1 = 116
+  PolicyBound --> ContractsMigrated: B2 = 103
+  ContractsMigrated --> EventsMigrated: B3 = 32
+  EventsMigrated --> Strict: remove compatibility / B4 = 0
+  Strict --> Failed: any finding, stale entry, expiry, hash drift, scan error
+  Failed --> Strict: repair and rerun
+  Strict --> ApprovalPending: repository evidence complete
+  ApprovalPending --> Approved: architecture owner signs L7.7

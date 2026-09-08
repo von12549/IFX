@@ -6,6 +6,7 @@ using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Application.Transactions;
 using IFX.Modules.Auth.Domain.Authorization;
@@ -39,9 +40,15 @@ public static class DependencyInjection
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.Timeout = TimeSpan.FromSeconds(30);
         });
+        services.AddHttpClient("OidcUserInfo", client =>
+        {
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
 
         // Register shared OIDC services
         services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();
+        services.AddScoped<IOidcUserInfoClient, OidcUserInfoClient>();
         services.AddScoped<IEmailVerificationService, EmailVerificationService>();
         services.AddScoped<IEmailVerificationCleanupService, EmailVerificationCleanupService>();
 

@@ -4,6 +4,8 @@ on:
   pull_request:
   push:
     branches: [main]
+  schedule:
+    - cron: '17 3 * * 1'
 
 jobs:
   architecture-boundaries:
@@ -22,17 +24,17 @@ jobs:
       - name: Revalidate immutable 03-A1 acceptance evidence
         shell: pwsh
         run: ./scripts/Test-03A1PolicyBinding.ps1 -StatusPath artifacts/layerguard/03-a1-status.json
-      - name: Run current B2 policy gate
+      - name: Run B4 strict policy gate
         shell: pwsh
-        run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b2-ci.json
-      - name: Validate Plan 01 B2 evidence and milestone boundaries
+        run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b4-ci.json
+      - name: Validate Plan 03 B4 strict closure
         shell: pwsh
-        run: ./scripts/Test-Plan01B2Evidence.ps1 -LayerGuardReportPath artifacts/layerguard/b2-ci.json -StatusPath artifacts/layerguard/plan01-b2-status.json
+        run: ./scripts/Test-Plan03B4StrictClosure.ps1 -LayerGuardReportPath artifacts/layerguard/b4-ci.json -StatusPath artifacts/layerguard/plan03-b4-status.json
       - name: Upload LayerGuard report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: layerguard-b2
+          name: layerguard-b4-strict
           path: artifacts/layerguard
           if-no-files-found: warn
       - name: Upload Plan 00 prerequisite evidence

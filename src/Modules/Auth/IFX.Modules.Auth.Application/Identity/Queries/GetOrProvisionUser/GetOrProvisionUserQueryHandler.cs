@@ -1,10 +1,8 @@
-using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using IFX.Modules.Auth.Application.Identity.Commands.ProvisionSsoUser;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -16,20 +14,20 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMediator _mediator;
     private readonly IOidcDiscoveryService _discoveryService;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IOidcUserInfoClient _userInfoClient;
     private readonly ILogger<GetOrProvisionUserQueryHandler> _logger;
 
     public GetOrProvisionUserQueryHandler(
         IUnitOfWork unitOfWork,
         IMediator mediator,
         IOidcDiscoveryService discoveryService,
-        IHttpClientFactory httpClientFactory,
+        IOidcUserInfoClient userInfoClient,
         ILogger<GetOrProvisionUserQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mediator = mediator;
         _discoveryService = discoveryService;
-        _httpClientFactory = httpClientFactory;
+        _userInfoClient = userInfoClient;
         _logger = logger;
     }
 
@@ -103,31 +101,22 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
 
                 if (!string.IsNullOrEmpty(discoveryDoc.UserInfoEndpoint))
                 {
-                    var httpClient = _httpClientFactory.CreateClient("OidcUserInfo");
-                    httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", request.AccessToken);
+                    var userInfo = await _userInfoClient.GetAsync(
+                        discoveryDoc.UserInfoEndpoint,
+                        request.AccessToken,
+                        cancellationToken);
 
-                    var response = await httpClient.GetAsync(discoveryDoc.UserInfoEndpoint, cancellationToken);
-
-                    if (response.IsSuccessStatusCode)
+                    if (userInfo is not null)
                     {
-                        var content = await response.Content.ReadAsStringAsync(cancellationToken);
-                        var userInfo = JsonSerializer.Deserialize<UserInfoResponse>(content);
-
-                        email = userInfo?.Email;
-                        firstName = userInfo?.GivenName;
-                        lastName = userInfo?.FamilyName;
-                        emailVerified = userInfo?.IsEmailVerified ?? false;
+                        email = userInfo.Email;
+                        firstName = userInfo.GivenName;
+                        lastName = userInfo.FamilyName;
+                        emailVerified = userInfo.EmailVerified;
 
                         _logger.LogInformation(
                             "Retrieved user info for {Subject}: email={Email}",
-                            request.Subject, email);
-                    }
-                    else
-                    {
-                        _logger.LogWarning(
-                            "UserInfo request failed: {StatusCode}",
-                            response.StatusCode);
+                            request.Subject,
+                            email);
                     }
                 }
                 else
@@ -225,33 +214,4 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
         }
     }
 
-    /// <summary>
-    /// OIDC UserInfo response model
-    /// </summary>
-    private class UserInfoResponse
-    {
-        [JsonPropertyName("sub")]
-        public string? Sub { get; set; }
-
-        [JsonPropertyName("email")]
-        public string? Email { get; set; }
-
-        [JsonPropertyName("email_verified")]
-        public string? EmailVerified { get; set; }
-
-        [JsonPropertyName("given_name")]
-        public string? GivenName { get; set; }
-
-        [JsonPropertyName("family_name")]
-        public string? FamilyName { get; set; }
-
-        [JsonPropertyName("name")]
-        public string? Name { get; set; }
-
-        /// <summary>
-        /// Parses email_verified as boolean (handles string "true"/"false" from Cognito)
-        /// </summary>
-        public bool IsEmailVerified =>
-            string.Equals(EmailVerified, "true", StringComparison.OrdinalIgnoreCase);
-    }
 }

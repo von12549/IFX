@@ -116,11 +116,23 @@ public class GatePolicyBindingTests
             report, "owner", "reason", overlong, "remove after migration"));
         Assert.Contains("maximum of 90 days", expiryError.Message);
 
-        var unwaivableFinding = report.Violations[0] with
-        {
-            Id = "TEST",
-            Rule = OwnershipRules.UnknownOwnershipRule,
-        };
+        var evidence = new SourceSpan("fixture.csproj", 1, "<Project />");
+        var unwaivableFinding = new Violation(
+            "TEST",
+            OwnershipRules.UnknownOwnershipRule,
+            "breaks",
+            "Unknown ownership is not waivable",
+            "IFX.Modules.Consumer.Application",
+            "Application",
+            "Consumer",
+            "IFX.Modules.Unknown.Contracts",
+            "Contracts",
+            null,
+            "direct project reference",
+            ["IFX.Modules.Consumer.Application", "IFX.Modules.Unknown.Contracts"],
+            evidence,
+            evidence,
+            "Register ownership in the authoritative catalog.");
         var unwaivableReport = report with { Violations = [unwaivableFinding], ViolationCount = 1 };
         var waiverError = Assert.Throws<InvalidDataException>(() => Baseline.Snapshot(
             unwaivableReport,

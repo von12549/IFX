@@ -1,4 +1,6 @@
 using App.Abstractions;
+using IFX.Modules.Auth.Application.Identity.Ports;
+using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application;
 using IFX.Modules.Auth.Infrastructure;
 using IFX.Modules.Auth.Infrastructure.IdentityProviders.Auth0;
@@ -27,6 +29,12 @@ namespace IFX.Modules.Auth.Composition
 
             services.AddApplicationServices();
             services.AddInfrastructureServices(configuration);
+            services.AddScoped<IAuthEmailJobScheduler, AuthEmailJobScheduler>();
+            services.AddScoped<IAuthIdpConfigurationReader, AuthIdpConfigurationReader>();
+            services.AddScoped<IAuthUserProvisioningFacade, AuthUserProvisioningFacade>();
+            services.AddSingleton<AuthIdpCacheSignal>();
+            services.AddSingleton<IIdpCacheInvalidator>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());
+            services.AddSingleton<IAuthIdpCacheVersion>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());
 
             var provider = configuration["Authentication:Provider"] ?? "Cognito";
             switch (provider.ToLowerInvariant())

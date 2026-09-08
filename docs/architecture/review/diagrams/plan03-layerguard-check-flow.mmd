@@ -1,0 +1,12 @@
+flowchart LR
+  CAT[G03 catalog/source reconcile] --> LOAD[Load G03/G04/G05]
+  LOAD --> HASH{Hashes valid?}
+  HASH -- no --> FAIL[Fail closed]
+  HASH -- yes --> DISCOVER[Discover projects + ownership]
+  DISCOVER --> GRAPH[Build direct/transitive graph]
+  GRAPH --> SOURCE[Analyze imports/declarations/types]
+  SOURCE --> RULES[Apply ring/ownership/payload rules]
+  RULES --> BASE{B4 baseline: 0 entries}
+  BASE -- finding --> FAIL
+  BASE -- clean --> REPORT[Publish LayerGuard report]
+  REPORT --> SEM[G03/G05 semantic reports stay separate]

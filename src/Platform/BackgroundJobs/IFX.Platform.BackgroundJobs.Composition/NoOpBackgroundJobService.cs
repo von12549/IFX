@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using IFX.Platform.BackgroundJobs.Abstractions;
+using IFX.Platform.BackgroundJobs.Contracts;
 using Microsoft.Extensions.Logging;
 
 namespace IFX.Platform.BackgroundJobs.Composition;

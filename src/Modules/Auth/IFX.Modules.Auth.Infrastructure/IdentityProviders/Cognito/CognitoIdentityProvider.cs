@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
@@ -155,6 +156,8 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             var response = await _cognitoClient.InitiateAuthAsync(request);
 
+            var idToken = new JwtSecurityTokenHandler().ReadJwtToken(response.AuthenticationResult.IdToken);
+
             _logger.LogInformation("User {Username} authenticated successfully in Cognito", username);
 
             return new AuthTokenResult
@@ -164,6 +167,8 @@ public class CognitoIdentityProvider : IIdentityProvider
                 IdToken = response.AuthenticationResult.IdToken,
                 RefreshToken = response.AuthenticationResult.RefreshToken,
                 ExpiresIn = response.AuthenticationResult.ExpiresIn,
+                Issuer = idToken.Issuer,
+                Subject = idToken.Claims.FirstOrDefault(claim => claim.Type == "sub")?.Value,
                 ErrorMessage = null
             };
         }

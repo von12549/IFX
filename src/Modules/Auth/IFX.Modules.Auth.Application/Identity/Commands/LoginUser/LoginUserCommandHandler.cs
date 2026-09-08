@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Identity.DTOs;
 using IFX.Modules.Auth.Application.Users.DTOs;
@@ -56,12 +55,10 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
                 return Result<LoginUserResponse>.Failure("Invalid email or password");
             }
 
-            // Extract issuer and subject from IdToken
-            var jwtHandler = new JwtSecurityTokenHandler();
-            var idToken = jwtHandler.ReadJwtToken(authResult.IdToken!);
-            var issuer = idToken.Issuer;
-            var subject = idToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-            if (string.IsNullOrEmpty(subject))
+            // Token parsing belongs to the identity-provider adapter.
+            var issuer = authResult.Issuer;
+            var subject = authResult.Subject;
+            if (string.IsNullOrEmpty(issuer) || string.IsNullOrEmpty(subject))
             {
                 _logger.LogError("Identity provider response did not contain a subject claim");
                 return Result<LoginUserResponse>.Failure("Authentication failed");

@@ -2,13 +2,11 @@ using IFX.Modules.Auth.Application.Identity.Commands.ResendEmailVerification;
 using IFX.Modules.Auth.Application.Identity.Commands.SendEmailVerification;
 using IFX.Modules.Auth.Application.Identity.Commands.VerifyEmail;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
+using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Presentation.Extensions;
 using IFX.Modules.Auth.Presentation.Users.Requests;
 using IFX.Modules.Auth.Presentation.Models.Responses;
-using IFX.Platform.BackgroundJobs.Abstractions;
-using IFX.Platform.Notifications.Abstractions;
-using IFX.Platform.Notifications.Abstractions.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -102,7 +100,7 @@ public static class EmailVerificationEndpoints
     public static async Task<IResult> SendVerification(
         [FromServices] IMediator mediator,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] IBackgroundJobService backgroundJobService,
+        [FromServices] IAuthEmailJobScheduler emailJobs,
         [FromServices] IEmailVerificationService emailVerificationService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<EmailVerificationEndpointsLogCategory> logger,
@@ -153,18 +151,8 @@ public static class EmailVerificationEndpoints
             userName, result.Value.Code, verificationLink, TokenValidityMinutes);
 
         // Enqueue email job
-        var jobId = backgroundJobService.Enqueue<IEmailService>(
-            service => service.SendEmailAsync(
-                new EmailMessage
-                {
-                    To = result.Value.Email,
-                    ToName = userName,
-                    Subject = "Verify your email address",
-                    HtmlBody = htmlBody,
-                    PlainTextBody = plainTextBody
-                },
-                default),
-            "email");
+        var jobId = emailJobs.Enqueue(new AuthEmailJob(
+            result.Value.Email, userName, "Verify your email address", htmlBody, plainTextBody));
 
         logger.LogInformation(
             "Email verification job {JobId} enqueued for user {UserId} ({Email})",
@@ -183,7 +171,7 @@ public static class EmailVerificationEndpoints
     public static async Task<IResult> ResendVerification(
         [FromServices] IMediator mediator,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] IBackgroundJobService backgroundJobService,
+        [FromServices] IAuthEmailJobScheduler emailJobs,
         [FromServices] IEmailVerificationService emailVerificationService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<EmailVerificationEndpointsLogCategory> logger,
@@ -234,18 +222,8 @@ public static class EmailVerificationEndpoints
             userName, result.Value.Code, verificationLink, TokenValidityMinutes);
 
         // Enqueue email job
-        var jobId = backgroundJobService.Enqueue<IEmailService>(
-            service => service.SendEmailAsync(
-                new EmailMessage
-                {
-                    To = result.Value.Email,
-                    ToName = userName,
-                    Subject = "Verify your email address",
-                    HtmlBody = htmlBody,
-                    PlainTextBody = plainTextBody
-                },
-                default),
-            "email");
+        var jobId = emailJobs.Enqueue(new AuthEmailJob(
+            result.Value.Email, userName, "Verify your email address", htmlBody, plainTextBody));
 
         logger.LogInformation(
             "Email verification resend job {JobId} enqueued for user {UserId} ({Email})",

@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "milestone": "B4-strict",
+  "generatedOn": "2026-09-09",
+  "toolVersion": "0.4.0-a1",
+  "baseline": "mcp/LayerGuard/baselines/b4.json",
+  "series": [
+    {
+      "milestone": "B1",
+      "rulesetHash": "1d66f672e4bd2f66fc4f4d8301ac35497ea606ed9ac6ee5be49375d367669940",
+      "findings": 116,
+      "clusters": 44,
+      "projectsInScope": 41
+    },
+    {
+      "milestone": "B2",
+      "rulesetHash": "944a7a5e636334bf8fdf979b736e631be878cc790a7b2aa72cdf07fae1ff2081",
+      "findings": 103,
+      "clusters": 40,
+      "projectsInScope": 43
+    },
+    {
+      "milestone": "B3",
+      "rulesetHash": "f72933a0679a791d739fb18dea4c938c079571d7ddef3f134406453672b7081c",
+      "findings": 32,
+      "clusters": 19,
+      "projectsInScope": 43
+    },
+    {
+      "milestone": "B4",
+      "rulesetHash": "d551a6c18c030466d934ee7c900bc2260dc1b93d69ad499d9770f095ea651bf2",
+      "findings": 0,
+      "clusters": 0,
+      "projectsInScope": 39
+    }
+  ],
+  "reduction": {
+    "b1ToB4": 116,
+    "b2ToB4": 103,
+    "b3ToB4": 32,
+    "remainingWaivers": 0
+  },
+  "policyEvolution": [
+    "B2 retained the B1 target architecture and removed the first 13 synchronous-boundary findings.",
+    "B3 added the governed Messaging Runtime role required by the approved G03 split, refreshed bound artifact hashes, and removed 71 more findings.",
+    "B4 removed only the migration-time module/platform *.Abstractions recognition after all legacy projects and namespaces were deleted; the target dependency semantics were not broadened.",
+    "B4 retains the forbidden-project-name rule, uses an empty baseline, and blocks every future finding."
+  ],
+  "projectCountExplanation": "B4 removes four empty module Abstractions projects. Replacing two platform Abstractions projects with two platform Contracts projects is count-neutral, so scope decreases from 43 to 39.",
+  "verdict": "strict-clean"
+}

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $ReportPath,
-    [string] $BaselinePath = 'mcp/LayerGuard/baselines/b2.json',
+    [string] $BaselinePath = 'mcp/LayerGuard/baselines/b4.json',
     [switch] $SkipTests
 )
 
@@ -14,7 +14,7 @@ $policy = Join-Path $sourceRoot 'layerguard.json'
 $baseline = if ([IO.Path]::IsPathRooted($BaselinePath)) { $BaselinePath } else { Join-Path $repositoryRoot $BaselinePath }
 
 if ([string]::IsNullOrWhiteSpace($ReportPath)) {
-    $ReportPath = Join-Path $repositoryRoot 'artifacts/layerguard/b2-latest.json'
+    $ReportPath = Join-Path $repositoryRoot 'artifacts/layerguard/b4-latest.json'
 }
 elseif (-not [System.IO.Path]::IsPathRooted($ReportPath)) {
     $ReportPath = Join-Path $repositoryRoot $ReportPath
@@ -31,7 +31,7 @@ if (-not $SkipTests) {
 dotnet run --no-restore --project $toolProject -- check $sourceRoot --config $policy --baseline $baseline --format json --report $ReportPath --quiet
 $checkExitCode = $LASTEXITCODE
 if ($checkExitCode -eq 0) {
-    Write-Host "LayerGuard current milestone policy gate passed. Report: $ReportPath"
+    Write-Host "LayerGuard B4 strict policy gate passed. Report: $ReportPath"
 }
 else {
     Write-Error "LayerGuard found a new/stale violation or invalid baseline. Report: $ReportPath"

@@ -1,4 +1,4 @@
-using IFX.Platform.Notifications.Abstractions;
+using IFX.Platform.Notifications.Contracts;
 using IFX.Platform.Notifications.Infrastructure.SendGrid;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

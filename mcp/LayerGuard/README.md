@@ -34,6 +34,10 @@ expired or stale entries, and fail on new findings. `*.Abstractions` is recogniz
 migration form of `Contracts`, while a separate rule forbids adding another legacy project.
 The preserved B0.5 artifact remains historical and is not the formal migration comparison point.
 
+At IFX B4 strict closure, module/platform `*.Abstractions` recognition is removed from the active
+policy. The historical B0.5/B1/B2/B3 reports retain the migration record; the active B4 baseline
+contains zero entries, so every finding fails local and CI checks.
+
 ## IFX 03-A1 Gate Policy Binding
 
 Version `0.4.0-a1` loads the G03 generated governance view, verifies it against the sole catalog,

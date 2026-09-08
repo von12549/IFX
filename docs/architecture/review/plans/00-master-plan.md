@@ -147,14 +147,14 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 4 — 收紧 LayerGuard 并形成 CI 门禁
 
-- [ ] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据：[`B4 strict closure`](../evidence/03-b-layerguard-strict-closure.md)。
 
-- [ ] M4.1 执行子计划 3-B，修复 B3 中的剩余违规，但不得通过放宽 B1 已冻结的目标规则制造绿色结果。
-- [ ] M4.2 移除迁移期针对 `*.Abstractions` 的兼容许可，并禁止新建同类项目/namespace。
-- [ ] M4.3 将 Contracts 禁止依赖业务/基础设施框架、Application 禁止外部 Contracts、Adapter 依赖方向等规则设为阻断级别。
-- [ ] M4.4 验证直接和传递依赖、项目引用与 namespace 声明均无法绕过规则。
-- [ ] M4.5 在标准 CI 路径中启用严格 LayerGuard，生成零未豁免违规的 B4 报告，并与 B1/B2/B3 形成可审查前后对比。
-- [ ] M4.6 保持门禁职责清晰：LayerGuard 验证引用/声明/框架泄漏，Gate 03/05 catalog 与 schema/security/runtime tests 验证字段、值和传播语义。
+- [x] M4.1 已执行子计划 3-B，修复 B3 的 32 项剩余 finding；目标依赖语义未放宽。
+- [x] M4.2 已移除迁移期 module/platform `*.Abstractions` 兼容许可，并禁止新建同类项目/namespace。
+- [x] M4.3 Contracts 框架泄漏、Application foreign Contracts、Adapter 依赖方向等规则均为严格阻断。
+- [x] M4.4 工具正反 fixture 与 B4 repository validator 已验证直接/传递引用、项目引用和 namespace 绕过均失败。
+- [x] M4.5 标准 CI 已启用空 baseline 的严格 LayerGuard，B4 为零 finding，并保存 B1/B2/B3/B4 对比。
+- [x] M4.6 门禁职责保持分离：LayerGuard 验证结构，Gate 03/05 validators/tests 验证字段、值和传播语义。
 
 ## Phase 5 — 收尾、发布与架构验收
 

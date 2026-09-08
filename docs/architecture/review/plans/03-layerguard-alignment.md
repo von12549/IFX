@@ -2,7 +2,7 @@
 
 > G04 反向链接：L5.1/B1/B4 必须约束 Runtime Host 仅引用 Composition/host primitives；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
 
-> 状态：03-A0 Core Bootstrap 与 03-A1 Gate Policy Binding 已完成；03-B 待实施
+> 状态：03-A0、03-A1 与 03-B 仓库内严格收口已完成；B4 为 0 finding / 0 waiver，L7.7 架构负责人批准仍待外部签署
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 执行位置：03-A0 在 Gate 01–05 之前；03-A1 在 Gate 前置放行之后；03-B 在子计划 1/2 之后。
 > 治理输入：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 在 03-A1 提供 module ownership、合法 provider/consumer 边、shared primitives allowlist 和 waiver policy。
@@ -129,56 +129,56 @@
 
 ## Phase 6 — 跟随 Contracts / Events 迁移并清理违规
 
-- [ ] **Phase 6 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 6 完成**：本 Phase 下全部项目均已完成并附有证据。证据：[`../evidence/03-b-layerguard-strict-closure.md`](../evidence/03-b-layerguard-strict-closure.md)。
 
 - [x] L6.1 随子计划 1 迁移 CRM/Registry → Transaction 同步依赖并清除对应 Application foreign Contract 违规。
 - [x] L6.2 子计划 1 完成后使用 B1 的目标规则语义生成 B2 报告：103 matched、0 new、13 stale；正式 B2 为 103 matched、0 new、0 stale。证据：[`B2 handback`](../evidence/plan01/B2-gate-handback.md)。
-- [ ] L6.3 随子计划 2 迁移 Holdings 外部事件 handler 并清除 Application foreign Event Contract 违规。
-- [ ] L6.4 子计划 2 完成后使用相同目标规则语义生成 B3 报告，并与 B1/B2 对比。
-- [ ] L6.5 修复 Contracts 的框架/实现泄漏、未使用公共表面及 ApiHost/Composition 装配越界。
-- [ ] L6.6 修复 CurrentUser/context 迁移后的引用和声明位置违规，验证 context primitive allowlist 未扩大为通用 SharedKernel 许可。
+- [x] L6.3 随子计划 2 迁移 Holdings 外部事件 handler 并清除 Application foreign Event Contract 违规。
+- [x] L6.4 子计划 2 完成后使用相同目标规则语义生成 B3 报告，并与 B1/B2 对比。
+- [x] L6.5 修复 Contracts 的框架/实现泄漏、未使用公共表面及 ApiHost/Composition 装配越界。
+- [x] L6.6 修复 CurrentUser/context 迁移后的引用和声明位置违规，验证 context primitive allowlist 未扩大为通用 SharedKernel 许可。
 - [x] L6.7 将 LayerGuard 结果与 Gate 03 catalog/source reconciliation 串联，防止配置复制 ownership 数据后发生漂移。
 - [x] L6.8 将 Gate 05 catalog/schema/security test 结果与 LayerGuard 报告共同发布，但失败来源和责任规则保持可区分。
-- [ ] L6.9 审核全部例外；缺少 owner、风险、到期日、删除条件或超过默认期限的 waiver 不得进入严格模式，不可豁免规则不得建立例外。
+- [x] L6.9 审核全部例外；B4 baseline 为 0 entry，严格模式不保留历史 waiver；缺少治理字段、超过默认期限或不可豁免的 entry 均由门禁拒绝。
 
 ## Phase 7 — 清零违规并开启严格 CI 门禁
 
 - [ ] **Phase 7 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] L7.1 子计划 1 完成后移除 `*.Abstractions` 兼容规则，并验证仓库不存在旧项目/namespace。
-- [ ] L7.2 子计划 2 完成后开启 Integration Event 声明位置与 inbound Adapter 的严格规则。
-- [ ] L7.3 将 CI 从“禁止新增违规”提升为“阻断全部未豁免违规”，记录切换条件和日期。
-- [ ] L7.4 达到零未豁免违规后生成 B4 报告；用固定目标规则语义比较 B1/B2/B3/B4，并解释规则或 baseline 的每次变化。
-- [ ] L7.5 为新模块模板预置 Contracts/Application/Adapters/Composition 的合规结构。
-- [ ] L7.6 建立定期 waiver 审核和依赖图审查，防止配置与代码再次漂移。
+- [x] L7.1 子计划 1 完成后移除 module/platform `*.Abstractions` 兼容规则，并由 B4 validator 验证受管源码不存在旧项目/namespace；G01/G04 批准的 BuildingBlocks `App.Abstractions` 不属于模块 Contract 兼容层。
+- [x] L7.2 子计划 2 完成后开启 Integration Event 声明位置与 inbound Adapter 的严格规则。
+- [x] L7.3 CI 已于 2026-09-09 从“禁止新增违规”提升为 B4 空 baseline 的“阻断全部违规”。
+- [x] L7.4 已生成零未豁免违规 B4 报告，并用固定目标架构语义比较 B1/B2/B3/B4；Runtime ring 与兼容识别变化及 hash 均在对比证据解释。
+- [x] L7.5 新模块模板已预置 Contracts/Application/Ports/Infrastructure.Integrations/Presentation/Composition 合规结构。
+- [x] L7.6 CI 在 PR、main push 与每周 schedule 运行 waiver/输入 hash/依赖图收口检查，配置漂移或 stale/expired entry 失败。
 - [ ] L7.7 由架构负责人确认严格模式、B1/B4 对比和零未豁免违规，并批准完成。
-- [ ] L7.8 汇总最终规则矩阵、违规清零结果、waiver 状态及 Gate 03/05 输入，作为 Phase 8 文档来源。
+- [x] L7.8 已汇总最终规则矩阵、116→103→32→0 清零结果、0 waiver 及 Gate 03/05 输入，作为 Phase 8 文档来源。
 
 ## Phase 8 — 架构与规则文档化
 
-- [ ] **Phase 8 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 8 完成**：本 Phase 下全部仓库文档项目均已完成并附有证据。
 
-- [ ] L8.1 编写完整中文规则说明，解释项目识别、ownership-aware 依赖、声明位置、框架泄漏和 waiver 规则。
-- [ ] L8.2 编写与中文内容一致的英文规则说明，并建立双向链接。
-- [ ] L8.3 保存目标编译期依赖矩阵和项目/模块 ownership 架构图。
-- [ ] L8.4 保存从项目发现、项目图/源码分析、catalog reconciliation 到本地/CI 报告的检查流程图。
-- [ ] L8.5 保存迁移模式到严格模式的状态图，标明启用条件、失败行为和 waiver 到期处理。
-- [ ] L8.6 提供每条核心规则的正例、反例、诊断信息、修复方式和允许的最小例外。
-- [ ] L8.7 说明 Gate 03 权威目录与 Gate 05 context/分类规则如何输入同一门禁，但保持失败责任可区分。
-- [ ] L8.8 保存 Mermaid 源文件及可审阅的 SVG/PNG 渲染结果，并更新规则与架构索引。
+- [x] L8.1 已编写完整中文规则说明，解释项目识别、ownership-aware 依赖、声明位置、框架泄漏和 waiver 规则。
+- [x] L8.2 已编写与中文内容一致的英文规则说明，并建立双向链接。
+- [x] L8.3 已保存目标编译期依赖矩阵和项目/模块 ownership 架构图。
+- [x] L8.4 已保存从 catalog reconciliation、项目发现、项目图/源码分析到本地/CI 报告的检查流程图。
+- [x] L8.5 已保存迁移模式到严格模式的状态图，标明启用条件、失败行为和 waiver 到期处理。
+- [x] L8.6 已提供核心规则正例、反例、诊断、修复方式和最小例外要求。
+- [x] L8.7 已说明 Gate 03 权威目录与 Gate 05 context/分类规则如何输入同一门禁，并保持失败责任可区分。
+- [x] L8.8 已保存三张 Mermaid 源文件及可审阅 SVG/PNG，并更新双语规则文档和证据索引。
 
 ## 完成标准（Definition of Done）
 
-- [ ] L-D01 LayerGuard 能区分 own/foreign Contracts，并准确验证新架构矩阵。
-- [ ] L-D02 Integration Adapter 的有限许可不会扩大为整个 Infrastructure 可访问 foreign Contracts。
-- [ ] L-D03 所有核心规则均有通过与失败 fixture，错误报告可定位和修复。
-- [ ] L-D04 CI 阻断新增和未豁免架构违规，扫描异常不能静默通过。
-- [ ] L-D05 旧 `Abstractions` 兼容规则最终移除，仓库规则与目标文档一致。
-- [ ] L-D06 所有 waiver 都可追责、会过期且有明确删除条件。
-- [ ] L-D07 Contract/Event context 只能依赖 Gate 05 批准的 BCL-only primitives，运行时 HttpContext/Activity/Security/broker 类型不能泄漏进公共 schema 或 Application。
-- [ ] L-D08 LayerGuard 与 Gate 05 Catalog/schema/security/runtime tests 分工清晰，任一门禁失败都不能由另一门禁的绿色结果掩盖。
-- [ ] L-D09 中英文规则说明、依赖图、检查流程图、模式状态图及正反例完整且与门禁实现一致。
-- [ ] L-D10 新版迁移门禁在其他代码改造前启用；B1/B4 使用相同目标规则语义并形成可复查的前后对比。
+- [x] L-D01 LayerGuard 能区分 own/foreign Contracts，并准确验证新架构矩阵。
+- [x] L-D02 Integration Adapter 的有限许可不会扩大为整个 Infrastructure 可访问 foreign Contracts。
+- [x] L-D03 所有核心规则均有通过与失败 fixture，错误报告可定位和修复。
+- [x] L-D04 CI 阻断全部架构违规，扫描异常不能静默通过。
+- [x] L-D05 module/platform `Abstractions` 兼容规则已移除，仓库规则与目标文档一致。
+- [x] L-D06 B4 无 waiver；baseline 引擎仍要求 owner、期限和删除条件并拒绝 stale/expired/不可豁免 entry。
+- [x] L-D07 Contract/Event context 只能依赖 Gate 05 批准的 BCL-only primitives，运行时 HttpContext/Activity/Security/broker 类型不能泄漏进公共 schema 或 Application。
+- [x] L-D08 LayerGuard 与 Gate 05 Catalog/schema/security/runtime tests 分工清晰，任一门禁失败都不能由另一门禁的绿色结果掩盖。
+- [x] L-D09 中英文规则说明、依赖图、检查流程图、模式状态图及正反例完整且与门禁实现一致。
+- [x] L-D10 新版迁移门禁在其他代码改造前启用；B1/B4 保持同一目标架构语义，并对 Runtime role、Gate hash 与严格兼容识别变化形成可复查说明。
 ## G05 反向链接
 
 03-A1 只绑定 G05 的项目/依赖/类型结构规则；字段分类、敏感值、传播和 replay 语义继续由 G03 catalog 与 G05 schema/runtime/security tests 负责。边界与回交要求见 [G05 双语设计](../gates/G05/context-sensitive-data-boundary.zh-CN.md)。

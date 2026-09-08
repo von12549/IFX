@@ -1,4 +1,4 @@
-using IFX.Platform.Notifications.Abstractions.Models;
+using IFX.Platform.Notifications.Contracts.Models;
 using IFX.Platform.Notifications.Composition;
 using Microsoft.Extensions.Logging;
 using Moq;

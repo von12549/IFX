@@ -2,8 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IFX.Modules.Auth.Application\IFX.Modules.Auth.Application.csproj" />
-    <ProjectReference Include="..\..\..\Platform\BackgroundJobs\IFX.Platform.BackgroundJobs.Abstractions\IFX.Platform.BackgroundJobs.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\Platform\Notifications\IFX.Platform.Notifications.Abstractions\IFX.Platform.Notifications.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

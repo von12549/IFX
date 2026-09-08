@@ -23,3 +23,10 @@ Contracts/runtime split while preserving RuntimeHost → Composition-only access
 Messaging Abstractions/InMemory projects and 20 legacy event surfaces are gone. The checkpoint is
 baseline-clean at 32 matched, 0 new, 0 stale; 71 of B2's 103 findings were removed and the remaining
 32 stay owned by Plan 03/B4 strict closure.
+
+`B4-report.json`, `B4-dependency-graph.json`, `B4-vs-B1-B2-B3-report.json`, and
+`B4-validation-status.json` are the Plan 03 strict checkpoint. B4 is baseline-clean at zero
+findings with a zero-entry baseline. The migration-only module/platform `*.Abstractions` ring and
+allow-list patterns are removed, while the forbidden-name rule remains. The default local and CI
+entry points now apply B4 and fail on every new finding. Architecture-owner approval is tracked
+separately and is not implied by repository evidence.

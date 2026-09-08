@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using IFX.ApiHost.Authentication;
-using IFX.Modules.Auth.Application.Identity.Queries.GetOrProvisionUser;
-using MediatR;
+using IFX.Modules.Auth.Composition;
 using Microsoft.AspNetCore.Authentication;
 
 namespace IFX.ApiHost.Authorization;
@@ -55,8 +54,8 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
             var accessToken = httpContext?.Items["AccessToken"]?.ToString()
                 ?? string.Empty;
 
-            // 5. Build query with access token for userinfo fetch
-            var query = new GetOrProvisionUserQuery(
+            // 5. Build a host-boundary request with the access token for userinfo fetch
+            var request = new AuthUserProvisioningRequest(
                 Issuer: issuer,
                 Subject: subject,
                 AccessToken: accessToken,
@@ -65,10 +64,10 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
                 IdpType: idpConfig?.IdpType,
                 IpAddress: httpContext?.Connection.RemoteIpAddress?.ToString());
 
-            // 6. Execute query via MediatR (create scope for scoped services)
+            // 6. Execute through the Auth composition facade (create scope for scoped services)
             using var scope = _serviceProvider.CreateScope();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-            var result = await mediator.Send(query);
+            var authFacade = scope.ServiceProvider.GetRequiredService<IAuthUserProvisioningFacade>();
+            var result = await authFacade.GetOrProvisionAsync(request);
 
             if (!result.IsSuccess)
             {
@@ -80,16 +79,16 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
 
             // 7. Add user_id, tenant_id, tenant (all tenants), role, department, and permission claims
             var identity = new ClaimsIdentity();
-            identity.AddClaim(new Claim("user_id", result.Value!.UserId.ToString()));
-            if (result.Value.PrimaryTenantId.HasValue)
-                identity.AddClaim(new Claim("tenant_id", result.Value.PrimaryTenantId.Value.ToString()));
-            foreach (var tenantId in result.Value.TenantIds)
+            identity.AddClaim(new Claim("user_id", result.UserId.ToString()));
+            if (result.PrimaryTenantId.HasValue)
+                identity.AddClaim(new Claim("tenant_id", result.PrimaryTenantId.Value.ToString()));
+            foreach (var tenantId in result.TenantIds)
                 identity.AddClaim(new Claim("tenant", tenantId.ToString()));
-            foreach (var permission in result.Value.PermissionNames)
+            foreach (var permission in result.PermissionNames)
                 identity.AddClaim(new Claim("permission", permission));
-            foreach (var role in result.Value.RoleNames)
+            foreach (var role in result.RoleNames)
                 identity.AddClaim(new Claim("role", role));
-            foreach (var dept in result.Value.DepartmentNames)
+            foreach (var dept in result.DepartmentNames)
                 identity.AddClaim(new Claim("department", dept));
             principal.AddIdentity(identity);
 

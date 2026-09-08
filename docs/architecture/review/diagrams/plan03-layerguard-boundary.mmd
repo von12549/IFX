@@ -1,0 +1,20 @@
+flowchart LR
+  HOST[Runtime Host] --> COMP[Composition]
+  COMP --> PRES[Presentation]
+  COMP --> INFRA[Infrastructure]
+  COMP --> APP[Application]
+  PRES --> APP
+  APP --> DOMAIN[Domain]
+  APP --> OWN[Own Contracts]
+  INFRA --> APP
+  INFRA --> DOMAIN
+  ADAPTER[Infrastructure.Integrations] -. implements .-> PORT[Application Port]
+  APP --> PORT
+  ADAPTER --> PROVIDER[Approved Provider Contracts]
+  RUNTIME[Platform Runtime] --> PC[Platform Contracts]
+  COMP --> RUNTIME
+  G03[G03 ownership + provider graph] -. governs .-> ADAPTER
+  G04[G04 runtime roles] -. governs .-> HOST
+  G05[G05 BCL primitives] -. governs .-> OWN
+  LEGACY[*.Abstractions]:::bad -. forbidden .-> OWN
+  classDef bad fill:#4a1f2f,stroke:#ff6b8a,color:#fff

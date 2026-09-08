@@ -29,6 +29,8 @@ public class AuthTokenResult
     public int ExpiresIn { get; set; }
     public string TokenType { get; set; } = "Bearer";
     public string? ErrorMessage { get; set; }
+    public string? Issuer { get; set; }
+    public string? Subject { get; set; }
 }
 
 public class ProviderUserInfo
