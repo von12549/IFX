@@ -23,6 +23,9 @@
    CorrelationId, and use the inbound EventId as causation for downstream work/events.
 5. Quarantine invalid tenant/business context before Inbox/Application. Invalid W3C trace restarts
    technical tracing but does not reject an otherwise valid event.
+6. Apply `failure-replay-compatibility-v1.json`: preserve EventId and logical bytes, keep delivery state
+   separate, audit Security failures, use separately approved ReprocessingRequest for forced work, and
+   fail closed on unregistered or expired compatibility adapters.
 
 ## Evidence Plan 02 must return
 
@@ -33,3 +36,10 @@
 - G01/G02/G03/G04 symmetric handbacks, security approvals and B3 LayerGuard comparison.
 
 Until those artifacts return, the G05 evidence remains explicitly pre-Active and non-durable.
+
+## G05 repository package delivered 2026-09-08
+
+- BCL-only Event Envelope V1, schema, golden fixture, fixed pre-Inbox order and stable reason codes.
+- Fake Outbox/carrier/Inbox, retry/replay/quarantine, compatibility expiry, safe diagnostics and bounded
+  metric conformance, plus Phase 9 unified verification and bilingual flow/state documentation.
+- Handoff state: `delivered-repository-inputs / pending-durable-return`.

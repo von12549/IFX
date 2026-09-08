@@ -41,3 +41,10 @@ The G03 backup-owner omission remains a related governance risk but is not relab
 ## Close rule
 
 Only after G04-B01 through G04-B06 have linked evidence may the five approval groups complete G04-B07. Until then, Phase 12, Gate 4 prerequisite release, unresolved Definition of Done items and final approval remain unchecked.
+
+## G05 hand-back received
+
+The G05 repository rules for worker context cleanup, sensitive quarantine/backlog diagnostics, bounded
+metrics, audit/alert separation and telemetry flush expectations are linked in
+[`G05 -> G04 runtime handoff`](../../gates/G05/handoffs/g04-runtime-handoff.md). Real E3/E4/E6 runtime
+evidence remains pending, so this link does not close any G04 blocker.

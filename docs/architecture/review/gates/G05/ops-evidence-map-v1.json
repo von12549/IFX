@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "asOf": "2026-09-08",
+  "status": "repository-complete-downstream-pending",
+  "requirements": [
+    {
+      "id": "OPS1",
+      "repositoryEvidence": ["context-protocol-v1.json", "execution-context-sources.json", "contract-context-conformance-v1.json", "event-propagation-conformance-v1.json"],
+      "tests": ["ExecutionContextAccessorTests", "HttpContextBoundaryTests", "ContractContextConformanceTests", "EventPropagationConformanceTests"],
+      "pending": ["Plan 01 real Contract carriers", "Plan 02 real Outbox/Inbox/transport carriers"]
+    },
+    {
+      "id": "OPS3",
+      "repositoryEvidence": ["G03 contract-event-catalog.yaml", "observability-security-policy.json", "failure-replay-compatibility-v1.json"],
+      "tests": ["SensitiveObservabilityTests", "FailureReplayCompatibilityConformanceTests", "G03 catalog mutation self-tests"],
+      "pending": ["eight C3 approvals or removals", "production telemetry and audit attestations"]
+    },
+    {
+      "id": "OPS-G1",
+      "repositoryEvidence": ["ContractRequestContext", "EventEnvelope V1 schema and golden", "verification-baseline-v1.json", "bilingual design and six rendered diagrams"],
+      "tests": ["1041 solution tests", "179 LayerGuard tests", "cumulative G05 guard"],
+      "pending": ["LayerGuard 03-A1 direct binding", "final architecture/module/Platform/security/operations approvals"]
+    }
+  ]
+}

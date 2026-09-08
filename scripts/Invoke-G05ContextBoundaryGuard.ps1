@@ -279,6 +279,29 @@ if ($Phase -ge 10) {
     $checks.phase10LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json')
 }
 
+if ($Phase -ge 11) {
+    $closeoutStatus = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase11-status.json') | ConvertFrom-Json -Depth 30
+    $openItems = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/open-items-v1.json') | ConvertFrom-Json -Depth 30
+    $opsEvidence = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/ops-evidence-map-v1.json') | ConvertFrom-Json -Depth 30
+    $g05Plan = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/plans/00-G05-context-sensitive-data-boundary.md')
+    $prerequisitePlan = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/plans/00-prerequisites.md')
+    $handoffPaths = @(
+        'docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md',
+        'docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md',
+        'docs/architecture/review/gates/G05/handoffs/plan03-layerguard-handoff.md',
+        'docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md'
+    )
+
+    $checks.fourOwnershipPreservingHandoffsExist = @($handoffPaths | Where-Object { -not (Test-Path (Join-Path $repositoryRoot $_)) }).Count -eq 0 -and @($handoffPaths | Where-Object { (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot $_)) -notmatch 'pending' }).Count -eq 0
+    $checks.opsEvidenceMapCoversRequiredOutcomes = (@($opsEvidence.requirements.id | Sort-Object) -join ',') -eq 'OPS-G1,OPS1,OPS3' -and $opsEvidence.status -eq 'repository-complete-downstream-pending'
+    $checks.allOpenExceptionsAndFindingsAreGoverned = @($openItems.blockers).Count -eq 8 -and @($openItems.fieldExceptions).Count -eq 8 -and @($openItems.blockers | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.risk) -or @($_.blocks).Count -eq 0 }).Count -eq 0 -and @($openItems.fieldExceptions | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.expiresAt) }).Count -eq 0
+    $checks.closeoutAuditPassesWithoutClaimingClosure = $closeoutStatus.result -eq 'passed' -and $closeoutStatus.closureStatus -eq 'pre-ready' -and $closeoutStatus.readyForClosure -eq $false -and $closeoutStatus.counts.blockers -eq 8 -and $closeoutStatus.counts.c3Exceptions -eq 8
+    $checks.gateAndFinalApprovalRemainUnchecked = $prerequisitePlan -match '(?m)^- \[ \] \*\*Gate 5 前置放行\*\*' -and $g05Plan -match '(?m)^- \[ \] \*\*Phase 11 完成\*\*' -and $g05Plan -match '(?m)^- \[ \] G05-11\.6' -and $g05Plan -match '(?m)^- \[ \] G05-11\.8'
+    $checks.productionAndDownstreamEvidenceNotMisrepresented = $closeoutStatus.checks.realContractAndMessagingEvidenceStillPending -and $closeoutStatus.checks.productionSecurityEvidenceStillPending -and $closeoutStatus.checks.g03BackupOwnerRiskIsCarried
+    $checks.phase11HandoffEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase11-handoff.md')
+    $checks.phase11LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase11-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

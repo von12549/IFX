@@ -49,6 +49,18 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 8 — stable failure, quarantine, replay and expiring compatibility conformance.
 - [x] Phase 9 — one local/CI repository verification entry point with hash-linked evidence.
 - [x] Phase 10 — bilingual design, rendered diagrams, matrices, rule mapping and backlinks.
+- [ ] Phase 11 — repository handoffs delivered; final closure blocked and audited PRE-READY.
+
+## Phase 11 repository handoff status
+
+- Plan 01, Plan 02, Plan 03 and G04 handoff packages contain repository inputs, ownership boundaries,
+  revisit triggers and exact evidence that each downstream owner must return.
+- OPS1, OPS3 and OPS-G1 map to code, catalog, schema, tests, metrics and bilingual documentation.
+- Eight technical/approval blockers and all eight C3 exceptions record owner, risk, expiry/revisit and
+  blocking scope. G03's missing backup owner is carried forward explicitly.
+- The closeout audit is expected to pass with `closureStatus=pre-ready` and `readyForClosure=false`.
+  The prerequisite Gate 5 checkbox, Phase 11, production approval and final five-party approval remain
+  unchecked until real Plan 01/02, 03-A1, G04 runtime and production security evidence returns.
 
 ## Phase 10 acceptance
 

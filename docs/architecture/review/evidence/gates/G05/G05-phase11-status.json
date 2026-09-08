@@ -1,0 +1,219 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "phase": 11,
+  "result": "passed",
+  "closureStatus": "pre-ready",
+  "readyForClosure": false,
+  "checkedAt": "2026-09-08",
+  "checks": {
+    "allFourHandoffsExist": true,
+    "opsEvidenceMapCoversRequiredSet": true,
+    "repositoryVerificationPassed": true,
+    "realContractAndMessagingEvidenceStillPending": true,
+    "productionSecurityEvidenceStillPending": true,
+    "blockersAreOwnedRiskedAndRevisitable": true,
+    "everyC3ExceptionIsTrackedWithExpiry": true,
+    "g03BackupOwnerRiskIsCarried": true,
+    "prerequisiteGateRemainsOpen": true,
+    "phase11AndFinalApprovalRemainOpen": true
+  },
+  "counts": {
+    "handoffs": 4,
+    "opsRequirements": 3,
+    "blockers": 8,
+    "c3Exceptions": 8,
+    "solutionTests": 1041
+  },
+  "blockers": [
+    {
+      "code": "G05-B01",
+      "owner": "Plan 01 provider and consumer owners",
+      "risk": "high: unverified tenant and causation behavior on real synchronous carriers",
+      "expiresAt": "2026-12-01",
+      "revisitWhen": "first real Contract provider/Adapter and before Active promotion",
+      "blocks": [
+        "G05 closure",
+        "OPS1",
+        "OPS-G1"
+      ]
+    },
+    {
+      "code": "G05-B02",
+      "owner": "Plan 02 Platform Messaging and module owners",
+      "risk": "critical: no durable Outbox/Inbox/quarantine/replay implementation",
+      "expiresAt": "2026-12-01",
+      "revisitWhen": "first real Outbox/Inbox migration, Dispatcher or transport",
+      "blocks": [
+        "G05 closure",
+        "OPS1",
+        "OPS-G1"
+      ]
+    },
+    {
+      "code": "G05-B03",
+      "owner": "Plan 03 L5.1/L5.2 owner",
+      "risk": "high: Gate policy is not directly bound into LayerGuard 03-A1",
+      "expiresAt": null,
+      "revisitWhen": "before Contracts/Events migration starts",
+      "blocks": [
+        "LG-POLICY-READY",
+        "G05 closure"
+      ]
+    },
+    {
+      "code": "G05-B04",
+      "owner": "Security and Platform Operations",
+      "risk": "critical: production pseudonym key, sink ACL, retention, tamper evidence and access audit are unattested",
+      "expiresAt": null,
+      "revisitWhen": "production-candidate environment",
+      "blocks": [
+        "OPS3",
+        "production approval",
+        "G05 closure"
+      ]
+    },
+    {
+      "code": "G05-B05",
+      "owner": "Database, Security and Operations",
+      "risk": "high: secret-column deletion is not proven on a production target with restore point",
+      "expiresAt": null,
+      "revisitWhen": "before production migration execution",
+      "blocks": [
+        "production approval",
+        "G05 closure"
+      ]
+    },
+    {
+      "code": "G05-B06",
+      "owner": "G03 repository maintainer",
+      "risk": "high: approvalPolicy.backupOwner is unassigned",
+      "expiresAt": "2026-12-01",
+      "revisitWhen": "before first Proposed-to-Active transition",
+      "blocks": [
+        "G03 closure",
+        "G05 closure"
+      ]
+    },
+    {
+      "code": "G05-B07",
+      "owner": "Architecture, module, Platform, Security and Operations approvers",
+      "risk": "high: final gate decision has no named dated approval evidence",
+      "expiresAt": null,
+      "revisitWhen": "after all technical blockers close",
+      "blocks": [
+        "Gate 5 prerequisite checkbox",
+        "G05 closure"
+      ]
+    },
+    {
+      "code": "G05-B08",
+      "owner": "Plan 02 compatibility migration owner",
+      "risk": "medium: legacy context synthesis must not survive its approved window",
+      "expiresAt": "2026-12-01",
+      "revisitWhen": "before compatibility adapter expiry",
+      "blocks": [
+        "adapter extension",
+        "G05 closure if still active"
+      ]
+    }
+  ],
+  "fieldExceptions": [
+    {
+      "exceptionRef": "G05-C3-001",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "Pending",
+      "risk": "high: restricted decision data has no approval evidence",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "C3 admission",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-002",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "high: broad investor identity/KYC surface remains public",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "legacy removal",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-003",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "high: broad party display data remains public",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "legacy removal",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-004",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "critical: account number remains in a legacy event",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "event admission",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-005",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "high: personal name remains in a legacy event",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "event admission",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-006",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "high: KYC state event lacks approved minimal projection use",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "event admission",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-007",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "high: personal name remains in a legacy event",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "event admission",
+        "G05 closure"
+      ]
+    },
+    {
+      "exceptionRef": "G05-C3-008",
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "status": "PendingRemoval",
+      "risk": "high: free-text rejection reason remains in a legacy event",
+      "expiresAt": "2026-12-01",
+      "blocks": [
+        "event admission",
+        "G05 closure"
+      ]
+    }
+  ]
+}

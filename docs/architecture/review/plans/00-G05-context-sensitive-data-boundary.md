@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 10 bilingual architecture documentation
+> 状态：PRE-READY / Phase 11 handoff complete, final closure blocked by downstream and production evidence
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -350,14 +350,22 @@ Phase 10 证据：[中文设计](../gates/G05/context-sensitive-data-boundary.zh
 
 - [ ] **Phase 11 完成**：OPS1、OPS3、OPS-G1 均有实现、测试和文档证据，后续计划没有未声明语义。
 
-- [ ] G05-11.1 向子计划 1 交付 ContractRequestContext、ExecutionContext、tenant/consumer validation、字段最小化和 Contract conformance suite。
-- [ ] G05-11.2 向子计划 2 交付 Event Envelope、Outbox snapshot、transport carrier、Inbox context、retry/replay 和 Event conformance suite。
-- [ ] G05-11.3 向子计划 3 交付 context primitive allowlist、Contracts forbidden dependency/type 和 Adapter declaration rules；确认敏感字段语义不错误塞入 LayerGuard。
-- [ ] G05-11.4 向 Gate 04 交付 Worker scope、shutdown cleanup、telemetry flush、quarantine/backlog 和无敏感 health details 规则。
-- [ ] G05-11.5 对照 OPS1、OPS3、OPS-G1 附上代码、目录、schema、测试、指标和中英文图文证据。
+- [x] G05-11.1 向子计划 1 交付 ContractRequestContext、ExecutionContext、tenant/consumer validation、字段最小化和 Contract conformance suite。
+- [x] G05-11.2 向子计划 2 交付 Event Envelope、Outbox snapshot、transport carrier、Inbox context、retry/replay 和 Event conformance suite。
+- [x] G05-11.3 向子计划 3 交付 context primitive allowlist、Contracts forbidden dependency/type 和 Adapter declaration rules；确认敏感字段语义不错误塞入 LayerGuard。
+- [x] G05-11.4 向 Gate 04 交付 Worker scope、shutdown cleanup、telemetry flush、quarantine/backlog 和无敏感 health details 规则。
+- [x] G05-11.5 对照 OPS1、OPS3、OPS-G1 附上代码、目录、schema、测试、指标和中英文图文证据。
 - [ ] G05-11.6 仅在全部交付完成后更新 [`00-prerequisites.md`](00-prerequisites.md) 的 Gate 5 checkbox。
-- [ ] G05-11.7 记录所有未关闭 exception/security finding 的 owner、风险、到期日和阻断范围；C4 暴露不允许豁免关闭。
+- [x] G05-11.7 记录所有未关闭 exception/security finding 的 owner、风险、到期日和阻断范围；C4 暴露不允许豁免关闭。
 - [ ] G05-11.8 由架构、模块、Platform、安全和运维负责人共同批准 Gate 关闭。
+
+Phase 11 当前证据：[`G05-phase11-handoff.md`](../evidence/gates/G05/G05-phase11-handoff.md)、
+[`G05-phase11-status.json`](../evidence/gates/G05/G05-phase11-status.json)、
+[`G05-phase11-guard-report.json`](../evidence/gates/G05/G05-phase11-guard-report.json)、
+[`G05-phase11-layerguard-report.json`](../evidence/gates/G05/G05-phase11-layerguard-report.json)、
+[`ops-evidence-map-v1.json`](../gates/G05/ops-evidence-map-v1.json)、
+[`open-items-v1.json`](../gates/G05/open-items-v1.json) 及四份 [`handoffs`](../gates/G05/handoffs/)。
+审计通过但 `readyForClosure=false`；G05-11.6、G05-11.8 和 Phase 11 保持未勾选。
 
 ## Definition of Done
 

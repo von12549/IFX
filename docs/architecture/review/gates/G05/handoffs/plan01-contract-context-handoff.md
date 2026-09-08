@@ -32,3 +32,10 @@
 - Provider/consumer approvals, G03 source reconciliation and the B2 LayerGuard comparison.
 
 Until those artifacts return, G05 records this handoff as pending downstream evidence.
+
+## G05 repository package delivered 2026-09-08
+
+- BCL-only `ContractRequestContext`, strong identifiers, trusted `ExecutionContext` and source policy.
+- Contract construction/validation policy, stable results, fake direct/JSON carrier suite, Phase 9 unified
+  verification, and bilingual decision/rule mapping.
+- Handoff state: `delivered-repository-inputs / pending-real-carrier-return`.
