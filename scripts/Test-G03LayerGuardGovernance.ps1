@@ -16,7 +16,9 @@ $checks = [ordered]@{
     sourceIsCatalog = $input.source -eq 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
     moduleOwnersPresent = @($input.moduleOwnership | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) }).Count -eq 0
     providerGraphPresent = @($input.adapterEdges).Count -eq 4
-    sharedAllowlistPresent = @($input.sharedPrimitiveProjects).Count -eq 1
+    sharedAllowlistPresent = @($input.sharedPrimitiveProjects).Count -eq 2 -and
+        'IFX.Platform.Context.Contracts' -in $input.sharedPrimitiveProjects -and
+        'IFX.Platform.Messaging.Contracts' -in $input.sharedPrimitiveProjects
     waiverPolicyPresent = @($input.waiverPolicy.unwaivable).Count -eq 6 -and $input.waiverPolicy.maximumDays -eq 90
 }
 $report = [ordered]@{ formatVersion=1; gate='G03'; result=if($checks.Values -contains $false){'failed'}else{'passed'}; checks=$checks; sha256=$secondHash; counts=[ordered]@{modules=@($input.moduleOwnership).Count; edges=@($input.adapterEdges).Count; sharedProjects=@($input.sharedPrimitiveProjects).Count; waivers=@($input.waivers).Count} }

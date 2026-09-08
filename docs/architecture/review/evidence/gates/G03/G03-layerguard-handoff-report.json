@@ -1,0 +1,20 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "result": "passed",
+  "checks": {
+    "deterministic": true,
+    "sourceIsCatalog": true,
+    "moduleOwnersPresent": true,
+    "providerGraphPresent": true,
+    "sharedAllowlistPresent": true,
+    "waiverPolicyPresent": true
+  },
+  "sha256": "ec28aef146b2da085af29a7f7981c46dca678701182e154647adfcc673e5ec13",
+  "counts": {
+    "modules": 6,
+    "edges": 4,
+    "sharedProjects": 2,
+    "waivers": 0
+  }
+}

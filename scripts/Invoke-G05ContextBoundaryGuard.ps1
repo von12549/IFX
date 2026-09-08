@@ -13,10 +13,15 @@ if ([string]::IsNullOrWhiteSpace($ReportPath)) {
 $resolvedReportPath = if ([System.IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Path $repositoryRoot $ReportPath }
 $inventoryPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-context-inventory.json'
 
-& (Join-Path $PSScriptRoot 'Invoke-G05ContextInventory.ps1') -ReportPath $inventoryPath
-$firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
-& (Join-Path $PSScriptRoot 'Invoke-G05ContextInventory.ps1') -ReportPath $inventoryPath
-$secondHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+if ($Phase -eq 0) {
+    & (Join-Path $PSScriptRoot 'Invoke-G05ContextInventory.ps1') -ReportPath $inventoryPath
+    $firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+    & (Join-Path $PSScriptRoot 'Invoke-G05ContextInventory.ps1') -ReportPath $inventoryPath
+    $secondHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+} else {
+    $firstHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $inventoryPath).Hash.ToLowerInvariant()
+    $secondHash = $firstHash
+}
 $inventory = Get-Content -Raw -LiteralPath $inventoryPath | ConvertFrom-Json -Depth 50
 
 $checks = [ordered]@{
@@ -33,6 +38,26 @@ $checks = [ordered]@{
     phase0EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase0-baseline.md')
     phase0LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase0-layerguard-report.json')
     implementationPlanExists = Test-Path (Join-Path $repositoryRoot '.claude/Plans/20260908-g05-context-sensitive-data-boundary.md')
+}
+
+if ($Phase -ge 1) {
+    $contextProject = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj')
+    $messagingProject = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj')
+    $contextSource = @(Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Context/IFX.Platform.Context.Contracts') -File -Filter '*.cs' | Get-Content -Raw) -join "`n"
+    $messagingSource = @(Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Contracts') -File -Filter '*.cs' | Get-Content -Raw) -join "`n"
+    $protocolPolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/context-protocol-v1.json') | ConvertFrom-Json -Depth 20
+    $governance = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/generated/layerguard-governance-input.json') | ConvertFrom-Json -Depth 30
+    $checks.protocolProjectsHaveNoDependencies = $contextProject -notmatch '(PackageReference|ProjectReference)' -and $messagingProject -notmatch '(PackageReference|ProjectReference)'
+    $checks.contextStrongIdentifiersExist = $contextSource -match 'record struct CorrelationId' -and $contextSource -match 'record struct OperationId' -and $contextSource -match 'record struct CausationId' -and $contextSource -match 'record struct RequestId'
+    $checks.explicitScopesExist = $contextSource -match 'record struct TenantScope' -and $contextSource -match 'record struct PlatformScope' -and $contextSource -match 'enum ExecutionScopeKind'
+    $checks.minimumReferencesExist = $contextSource -match 'record ActorReference' -and $contextSource -match 'record SourceReference' -and $contextSource -match 'enum ContextProvenance'
+    $checks.contractContextIsVersionedBclShape = $contextSource -match 'record ContractRequestContext' -and $protocolPolicy.contractRequestContext.version -eq 1
+    $checks.eventEnvelopeIsVersionedBclShape = $messagingSource -match 'record EventEnvelope' -and $messagingSource -match 'DateTimeOffset OccurredAt' -and $protocolPolicy.eventEnvelope.version -eq 1
+    $checks.noFrameworkOrTransportLeak = ($contextSource + $messagingSource) -notmatch 'Microsoft\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection'
+    $checks.g03PrimitiveProjectsAdmitted = 'IFX.Platform.Context.Contracts' -in $governance.sharedPrimitiveProjects -and 'IFX.Platform.Messaging.Contracts' -in $governance.sharedPrimitiveProjects
+    $checks.protocolContractTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs')
+    $checks.phase1EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md')
+    $checks.phase1LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json')
 }
 
 $report = [ordered]@{

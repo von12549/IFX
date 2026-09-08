@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "2d1862c4f7430778351dbe62ea246d2a8e3454430429016f3a019b50411f8a39",
+  "catalogSha256": "ffcc7dd1a26a2fa6aa91ce61bd29aee7458d67974c05f14a996bf8e20be0e775",
   "moduleOwnership": [
     {
       "module": "Auth",
@@ -70,6 +70,7 @@
     }
   ],
   "sharedPrimitiveProjects": [
+    "IFX.Platform.Context.Contracts",
     "IFX.Platform.Messaging.Contracts"
   ],
   "contractDependencyPolicy": {

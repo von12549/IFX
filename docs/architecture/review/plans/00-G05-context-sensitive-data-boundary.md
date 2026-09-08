@@ -164,15 +164,19 @@ Phase 0 证据：[`G05-phase0-baseline.md`](../evidence/gates/G05/G05-phase0-bas
 
 ## Phase 1 — 建立最小 Context 与 Envelope 协议原语
 
-- [ ] **Phase 1 完成**：标识和 scope 语义由最小 BCL-only 类型表达，且未形成新的业务 SharedKernel。
+- [x] **Phase 1 完成**：标识和 scope 语义由两个零 package/零 project-reference 的 BCL-only 协议项目表达，且未形成新的业务 SharedKernel。
 
-- [ ] G05-1.1 确定 context primitives 的物理项目、namespace、owner、版本和 Gate 03 allowlist 条目；禁止依赖 ASP.NET、Security implementation、MediatR、EF、DI、serializer 或 broker。
-- [ ] G05-1.2 定义强类型 CorrelationId、OperationId、CausationId/EventId 边界和 canonical serialization；禁止 Guid.Empty 与含糊 string identity。
-- [ ] G05-1.3 定义 TenantScope/PlatformScope 判别模型；TenantScope 必须有非空 TenantId，PlatformScope 不伪造 TenantId。
-- [ ] G05-1.4 定义最小 ActorReference、SourceReference 和 ContextProvenance；不包含 display name、email、role/permission 列表或 credential。
-- [ ] G05-1.5 定义 ContractRequestContext 的 required/optional 字段、V1 identity、未知字段和兼容规则。
-- [ ] G05-1.6 定义 Messaging Contracts 中 Event Envelope 的字段、时间类型、版本、content type 和可选 W3C trace carrier。
-- [ ] G05-1.7 为 primitives 建立构造/解析、空值、格式、序列化 round-trip 和禁止依赖测试。
+- [x] G05-1.1 物理项目为 `IFX.Platform.Context.Contracts` 与 `IFX.Platform.Messaging.Contracts`；owner/version/G03 allowlist 已登记，项目不含 package/project reference。
+- [x] G05-1.2 强类型 CorrelationId、OperationId、CausationId、RequestId 与 EventIdentifier 拒绝空值并使用 canonical GUID D text round-trip。
+- [x] G05-1.3 TenantScope/PlatformScope 为显式判别模型；TenantScope 要求非空 TenantId，PlatformScope 不承载 TenantId。
+- [x] G05-1.4 ActorReference、SourceReference 和 ContextProvenance 仅保留 opaque actor、source identity/version 和 provenance，不含 profile、权限或 credential。
+- [x] G05-1.5 ContractRequestContext V1 使用 BCL-only wire shape，required/optional、未知字段和 parallel-major 规则已版本化。
+- [x] G05-1.6 Messaging Contracts 的 EventEnvelope V1 固定 EventId/type/schema、UTC DateTimeOffset、producer、scope、correlation/causation、content type 和可选 W3C trace carrier。
+- [x] G05-1.7 27 项 tests 覆盖构造/解析、空值、canonical round-trip、scope、BCL shape、UTC、schema/producer/trace 及禁止依赖；LayerGuard 无新增违规。
+
+Phase 1 证据：[`G05-phase1-protocol-primitives.md`](../evidence/gates/G05/G05-phase1-protocol-primitives.md)、
+[`context-protocol-v1.json`](../gates/G05/context-protocol-v1.json) 与
+[`G05-phase1-layerguard-report.json`](../evidence/gates/G05/G05-phase1-layerguard-report.json)。
 
 ## Phase 2 — 重构可信 Execution Context 与生命周期
 

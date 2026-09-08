@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "phase": 1,
+  "result": "passed",
+  "checks": {
+    "deterministicInventory": true,
+    "valueFreeInventoryPolicy": true,
+    "sourceInventoryNonEmpty": true,
+    "httpAndTenantSurfacesRecorded": true,
+    "protocolAndEventSurfacesRecorded": true,
+    "loggingAndErrorSurfacesRecorded": true,
+    "missingDurableMessagingNotMisrepresented": true,
+    "legacyEventIdentityRecorded": true,
+    "fourSecurityFindingsOwned": true,
+    "externalEvidenceGapsOwned": true,
+    "phase0EvidenceExists": true,
+    "phase0LayerGuardEvidenceExists": true,
+    "implementationPlanExists": true,
+    "protocolProjectsHaveNoDependencies": true,
+    "contextStrongIdentifiersExist": true,
+    "explicitScopesExist": true,
+    "minimumReferencesExist": true,
+    "contractContextIsVersionedBclShape": true,
+    "eventEnvelopeIsVersionedBclShape": true,
+    "noFrameworkOrTransportLeak": true,
+    "g03PrimitiveProjectsAdmitted": true,
+    "protocolContractTestsExist": true,
+    "phase1EvidenceExists": true,
+    "phase1LayerGuardEvidenceExists": true
+  },
+  "sha256": {
+    "inventory": "bd3a65a50f148b8fa2d0e3c9dbc54da07be171de43c459ee178bdc738622285b"
+  }
+}
