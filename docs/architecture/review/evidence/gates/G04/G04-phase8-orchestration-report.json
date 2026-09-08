@@ -13,6 +13,7 @@
     "workerPrecedesApi": true,
     "cleanupRequiresObservation": true,
     "dataJobsAreSeparateAndOwned": true,
-    "completedEvidenceValid": true
+    "completedEvidenceValid": true,
+    "completedHeaderValid": true
   }
 }

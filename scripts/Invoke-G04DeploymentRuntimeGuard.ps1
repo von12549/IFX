@@ -71,7 +71,7 @@ if ($Phase -ge 4) {
     $program = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
     $backgroundJobs = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs')
     $compose = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docker-compose.yml')
-    $checks.perModuleDispatcherContractExists = Test-Path (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Composition/Dispatching/DispatcherRuntimeContracts.cs')
+    $checks.perModuleDispatcherContractExists = Test-Path (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RuntimeContracts.cs')
     $checks.sqlLeaseReferenceSuiteExists = Test-Path (Join-Path $repositoryRoot 'tests/IFX.DatabaseBoundary.Tests/G04DispatcherLeaseConformanceTests.cs')
     $checks.uniqueRuntimeIdentityCreated = $program -match 'RuntimeInstanceIdentity\.Create'
     $checks.runtimeIdentityOverridesHangfire = ($program -match 'AddBackgroundJobsServer\(builder\.Configuration, runtimeInstanceIdentity\.Value\)') -and ($backgroundJobs -match 'options\.ServerName = runtimeInstanceIdentity')
@@ -85,7 +85,7 @@ if ($Phase -ge 5) {
     $drainCoordinator = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainCoordinator.cs')
     $drainOptions = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/RuntimeDrainOptions.cs')
     $compose = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docker-compose.yml')
-    $checks.sharedDrainSignalRegistered = ($program -match 'RuntimeDrainCoordinator') -and ($program -match 'IRuntimeDrainSignal')
+    $checks.sharedDrainSignalRegistered = ($program -match 'RuntimeDrainCoordinator') -and ($program -match 'IMessagingDrainSignal')
     $checks.newWorkRejectedAtomically = ($drainCoordinator -match 'TryBeginOperation') -and ($drainCoordinator -match 'Interlocked\.Exchange\(ref _draining')
     $checks.inFlightDrainBounded = ($drainCoordinator -match 'WaitForIdleAsync') -and ($drainCoordinator -match 'CancelAfter\(timeout\)')
     $checks.strictDrainBudgetsValidated = ($drainOptions -match 'OperationBudget') -and
@@ -113,9 +113,11 @@ if ($Phase -ge 6) {
 if ($Phase -ge 7) {
     $policyPath = Join-Path $repositoryRoot 'deployment/g04/backpressure-policy.json'
     $policy = Get-Content -Raw -LiteralPath $policyPath | ConvertFrom-Json -Depth 20
-    $implementation = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Composition/Dispatching/MessageBackpressurePolicy.cs')
+    $implementation = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Messaging/IFX.Platform.Messaging.Runtime/MessageBackpressurePolicy.cs')
     $checks.backlogMetricContractComplete = @($policy.requiredDimensions).Count -ge 11
-    $checks.countAloneCannotTripHealth = $implementation -match 'Count is never sufficient by itself'
+    $checks.countAloneCannotTripHealth =
+        ($implementation -match 'OldestPendingAge >= threshold\.CriticalAge && observation\.PendingCount >= threshold\.CriticalCount && stalled') -and
+        ($implementation -match 'OldestPendingAge >= threshold\.WarningAge && observation\.PendingCount >= threshold\.WarningCount')
     $checks.backpressureIsScoped = ($implementation -match 'intent\.ExpandsBacklog') -and ($implementation -match 'item\.ModuleId') -and ($implementation -match 'item\.EventCategory')
     $checks.retrySemanticsStable = ($implementation -match 'G04-BACKPRESSURE-RETRY') -and ($implementation -match 'RetryAfter')
     $checks.syntheticBackpressureTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs')

@@ -160,9 +160,9 @@ Gate 1-5 最终关闭 + 总体验收
 
 - [ ] **Phase 5 完成**：本 Phase 下全部项目均已完成并附有证据。
 
-- [ ] M5.1 删除已废弃的接口、DTO、注册代码、兼容 shim 与旧事件直发代码，确认无生产引用。
-- [ ] M5.2 更新架构图、模块开发指南、Contract/Event 版本策略、上下文/敏感数据规则和故障处理手册。
-- [ ] M5.3 对所有模块执行完整构建、测试、LayerGuard 和关键业务回归，并保存结果。
+- [x] M5.1 已删除模块/平台旧 `Abstractions`、无用引用、跨层注册和旧事件直发路径；B4 扫描确认无受管生产引用。
+- [x] M5.2 已更新架构图、模块模板、Contract/Event 版本与 context/敏感数据规则、LayerGuard 规则和故障手册。
+- [x] M5.3 2026-09-09 完整验证通过：solution 1,077 tests、LayerGuard 189 tests、B4 0 finding/0 waiver；证据见 [`final closure pack`](../evidence/final-closure/README.md)。
 - [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的剩余事项完成或转为具备负责人和时间点的正式计划，已提取事项不得重复维护。
 - [ ] M5.5 由架构与模块负责人共同确认 Definition of Done，并记录最终偏差或临时豁免的到期日。
 - [ ] M5.6 按 Gate 04 顺序演练 Migrator → Worker consumers → API producers → schedules → cleanup，并验证 probes、drain、backpressure 和安全回退。

@@ -12,6 +12,7 @@
     "blockerAccountabilityComplete": true,
     "productionParametersOwned": true,
     "verificationRecorded": true,
+    "b4Returned": true,
     "handoffNamesEveryBlocker": true,
     "phase12NotFalselyClosed": true,
     "finalApprovalUnchecked": true,

@@ -24,11 +24,11 @@ Verification on this commit candidate passed: Phase 12 closeout validator, conso
 
 | Blocker | Owner | Revisit trigger | Required hand-back |
 | --- | --- | --- | --- |
-| G04-B01 / Plan 02 E3 | Platform Messaging + producing modules | First real Dispatcher is integration-ready | Real claim/lease, crash, order, poison and fairness evidence |
-| G04-B02 / Plan 02 E4 | Consuming modules | First real Inbox/adapter is ready | Atomic completion, duplicate absorption, crash/order/tenant evidence |
+| G04-B01 / Plan 02 E3 | Platform Messaging + producing modules | Evidence available; owner acceptance pending | Plan 02 hardening, real SQL claim/lease/order and dispatcher crash-window tests are linked in status JSON |
+| G04-B02 / Plan 02 E4 | Consuming modules | Evidence available; owner acceptance pending | Real SQL atomic Inbox/business completion, duplicate absorption and isolated-context tests are linked in status JSON |
 | G04-B03 / Plan 02 E6 | Observability + Platform Operations | Real messaging metrics exist | Dashboards, thresholds, alerts and silent-stop recovery exercise |
-| G04-B04 / G05 | Security + Platform + Architecture | Context/classification/sentinel implementation lands | Endpoint sentinel, worker scope, telemetry and quarantine evidence |
-| G04-B05 / Plan 03 B2/B3/B4 | LayerGuard + Architecture | Plans 01/02 return their comparisons | Same-policy B2/B3 and zero-unwaived B4; 03-A1/B1 returned on 2026-09-08 |
+| G04-B04 / G05 | Security + Platform + Architecture | Evidence available; joint acceptance pending | G05 runtime handoff plus endpoint/telemetry sentinel and context-boundary tests are linked in status JSON |
+| G04-B05 / Plan 03 B2/B3/B4 | LayerGuard + Architecture | Returned 2026-09-09 | **Closed in repository scope:** B1/B2/B3/B4 comparison, zero finding/waiver B4 and strict CI evidence are linked from `03-b-layerguard-strict-closure.md`; L7.7 architecture signature remains part of final approval, not this technical blocker |
 | G04-B06 / release rehearsal | Operations + Database + Platform + modules | Production-candidate staging release exists | Ordered rollout, drain/kill, capacity, network, rollback and observation evidence |
 | G04-B07 / approval | Architecture + modules + Platform + Database + Operations | B01-B06 are closed | Named, dated approval references and final checklist review |
 
@@ -36,7 +36,7 @@ Verification on this commit candidate passed: Phase 12 closeout validator, conso
 
 No repository default is accepted as a permanent production value. Replica/concurrency capacity belongs to Platform Operations; lease/retry/backpressure thresholds belong to Platform Messaging and Observability; startup/drain/rollout budgets belong to Operations and Database; scheduler authority and network policy belong to Platform Operations and Security. Their due milestone and production-like validation environment are recorded in the status JSON.
 
-The G03 backup-owner omission was resolved on 2026-09-08 and is not a G04 implementation result. G01/G02 remain open wherever E2/E4 or production release evidence has not been handed back.
+The G03 backup-owner omission was resolved on 2026-09-08 and is not a G04 implementation result. G04-B05 was closed by the Plan 03 B4 return on 2026-09-09. G01/G02 remain open wherever production release evidence or final signatures have not been handed back.
 
 ## Close rule
 

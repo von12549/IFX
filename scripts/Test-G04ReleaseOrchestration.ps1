@@ -22,13 +22,37 @@ $dependencyErrors = @($plan.stages | ForEach-Object {
     @($stage.requires | Where-Object { -not $index.ContainsKey($_) -or $index[$_] -ge $index[$stage.stageId] })
 })
 $completedEvidenceValid = $true
+$completedHeaderValid = $true
 if ($RequireCompleted) {
+    $placeholder = '^<.*>$'
+    $completedHeaderValid = $evidence.status -eq 'completed' -and
+        -not [string]::IsNullOrWhiteSpace($evidence.releaseId) -and $evidence.releaseId -notmatch $placeholder -and
+        -not [string]::IsNullOrWhiteSpace($evidence.environment) -and $evidence.environment -notmatch $placeholder -and
+        $evidence.artifactDigest -match '^(sha256:)?[a-fA-F0-9]{64}$' -and
+        $evidence.runtimeManifestSha256 -match '^[a-fA-F0-9]{64}$' -and
+        $evidence.migrationManifestSha256 -match '^[a-fA-F0-9]{64}$'
+
+    foreach ($approval in @('architecture','moduleOwners','platform','database','security','operations')) {
+        $reference = $evidence.approvals.$approval
+        if ([string]::IsNullOrWhiteSpace($reference) -or $reference -match $placeholder -or $reference -notmatch '\d{4}-\d{2}-\d{2}') {
+            $completedHeaderValid = $false
+        }
+    }
+
     $previousCompletion = [DateTimeOffset]::MinValue
     foreach ($stage in $evidence.stages) {
-        if ($stage.status -ne 'succeeded' -or [string]::IsNullOrWhiteSpace($stage.evidence)) { $completedEvidenceValid = $false; break }
-        $started = [DateTimeOffset]::Parse($stage.startedAt)
-        $completed = [DateTimeOffset]::Parse($stage.completedAt)
-        if ($started -lt $previousCompletion -or $completed -lt $started) { $completedEvidenceValid = $false; break }
+        if ($stage.status -ne 'succeeded' -or [string]::IsNullOrWhiteSpace($stage.evidence) -or $stage.evidence -match $placeholder) {
+            $completedEvidenceValid = $false
+            break
+        }
+        $started = [DateTimeOffset]::MinValue
+        $completed = [DateTimeOffset]::MinValue
+        $startedValid = [DateTimeOffset]::TryParse([string] $stage.startedAt, [ref] $started)
+        $completedValid = [DateTimeOffset]::TryParse([string] $stage.completedAt, [ref] $completed)
+        if (-not $startedValid -or -not $completedValid -or $started -lt $previousCompletion -or $completed -lt $started) {
+            $completedEvidenceValid = $false
+            break
+        }
         $previousCompletion = $completed
     }
 }
@@ -42,6 +66,7 @@ $checks = [ordered]@{
     cleanupRequiresObservation = 'observation' -in @($plan.stages | Where-Object stageId -eq 'contract-cleanup').requires
     dataJobsAreSeparateAndOwned = @($plan.dataJobs).Count -eq 4 -and @($plan.dataJobs | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or -not $_.idempotencyRequired -or $_.automatic }).Count -eq 0
     completedEvidenceValid = $completedEvidenceValid
+    completedHeaderValid = $completedHeaderValid
 }
 $report = [ordered]@{
     formatVersion = 1

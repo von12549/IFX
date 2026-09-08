@@ -7,7 +7,14 @@
   "artifactDigest": "<sha256-digest>",
   "runtimeManifestSha256": "<sha256>",
   "migrationManifestSha256": "<sha256>",
-  "approvals": { "architecture": "<reference>", "database": "<reference>", "operations": "<reference>" },
+  "approvals": {
+    "architecture": "<dated-reference>",
+    "moduleOwners": "<dated-reference>",
+    "platform": "<dated-reference>",
+    "database": "<dated-reference>",
+    "security": "<dated-reference>",
+    "operations": "<dated-reference>"
+  },
   "stages": [
     { "stageId": "database-preflight", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },
     { "stageId": "restore-point", "status": "pending", "startedAt": null, "completedAt": null, "evidence": null },

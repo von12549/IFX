@@ -34,11 +34,13 @@ $checks.productionParametersOwned = @($status.productionParameters).Count -ge 4 
     }).Count -eq 0
 $checks.verificationRecorded = $status.verification.closeoutValidator -eq 'passed' -and
     $status.verification.phase12Guard -eq 'passed' -and
-    $status.verification.layerGuard.passed -eq 179 -and
+    $status.verification.layerGuard.passed -eq 189 -and
     $status.verification.layerGuard.failed -eq 0 -and
     $status.verification.solutionBuild.errors -eq 0 -and
-    $status.verification.solutionTests.passed -eq 934 -and
+    $status.verification.solutionTests.passed -eq 1077 -and
     $status.verification.solutionTests.failed -eq 0
+$checks.b4Returned = ($status.blockers | Where-Object id -eq 'G04-B05').state -eq 'closed-repository-evidence-complete' -and
+    @($status.blockers | Where-Object id -eq 'G04-B05').evidence.Count -ge 3
 $checks.handoffNamesEveryBlocker = @($status.blockers.id | Where-Object { $handoff -notmatch [regex]::Escape($_) }).Count -eq 0
 $checks.phase12NotFalselyClosed = $plan -match '- \[ \] \*\*Phase 12 PRE-READY' -and $plan -notmatch '- \[x\] \*\*Phase 12'
 $checks.finalApprovalUnchecked = $plan -match '- \[ \] G04-12\.8'

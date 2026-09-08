@@ -28,7 +28,7 @@
   },
   "ruleset": {
     "source": "D:\\IFX\\src\\layerguard.json",
-    "hash": "d551a6c18c030466d934ee7c900bc2260dc1b93d69ad499d9770f095ea651bf2",
+    "hash": "d4f424b4277bc0e2a75fa1b3f95cca024ea6c5118df4eb5374005eceff7bca6e",
     "allowedDependencies": {
       "Domain": [],
       "Contracts": [],
@@ -81,7 +81,7 @@
       {
         "gate": "G04",
         "source": "D:\\IFX\\deployment\\g04\\release-runtime-manifest.json",
-        "sha256": "8cf81141f3889d83ab392f162216bb178a8841bfa2bf99b0298089ed68f37478"
+        "sha256": "b2d121c71b6e277664a67271185b683dad83c7587aa00328dc1a3a9c8697db28"
       },
       {
         "gate": "G04-moduleManifest",
@@ -616,7 +616,7 @@
     "Gate 05 field classification, purpose and propagation semantics \u2014 delegated to external validators/tests",
     "anything inside a project that matches no layer"
   ],
-  "durationMs": 3098,
+  "durationMs": 2992,
   "baseline": {
     "source": "D:\\IFX\\mcp\\LayerGuard\\baselines\\b4.json",
     "matched": 0,

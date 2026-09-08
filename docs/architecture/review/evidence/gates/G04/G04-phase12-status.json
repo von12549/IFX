@@ -4,7 +4,7 @@
   "status": "PRE-READY",
   "gateClosed": false,
   "approvalGranted": false,
-  "asOf": "2026-09-08",
+  "asOf": "2026-09-09",
   "attainableImplementation": {
     "completePhases": [0, 1, 2, 3, 4, 5, 6, 7, 11],
     "preReadyPhases": [8, 9, 10, 12],
@@ -14,7 +14,7 @@
     "closeoutValidator": "passed",
     "phase12Guard": "passed",
     "layerGuard": {
-      "passed": 179,
+      "passed": 189,
       "failed": 0
     },
     "solutionBuild": {
@@ -24,7 +24,7 @@
       "warningPolicy": "Pre-existing package, nullability and obsolete-endpoint warnings remain visible; no warning was reclassified as success."
     },
     "solutionTests": {
-      "passed": 934,
+      "passed": 1077,
       "failed": 0,
       "skipped": 0
     }
@@ -32,6 +32,7 @@
   "blockers": [
     {
       "id": "G04-B01",
+      "state": "evidence-available-awaiting-owner-acceptance",
       "dependency": "Plan 02 E3",
       "owner": "Platform Messaging with producing module owners",
       "revisitTrigger": "The first real module Outbox Dispatcher is ready for integration acceptance.",
@@ -40,10 +41,16 @@
         "Two-instance claim, renewal, expiry and takeover results against the real dispatcher",
         "Crash-before-send, crash-after-send-before-ack and post-ack restart results",
         "Partition ordering, poison-message and cross-module fairness results"
+      ],
+      "evidence": [
+        "docs/architecture/review/evidence/plan02/step2-repository-hardening.md",
+        "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs",
+        "tests/IFX.IntegrationTests/Runtime/OutboxDispatcherTests.cs"
       ]
     },
     {
       "id": "G04-B02",
+      "state": "evidence-available-awaiting-owner-acceptance",
       "dependency": "Plan 02 E4",
       "owner": "Consuming module owners",
       "revisitTrigger": "The first real module Inbox and inbound integration adapter are ready.",
@@ -51,10 +58,16 @@
         "Duplicate and concurrent-duplicate absorption",
         "Atomic Inbox plus business-state completion",
         "Crash, retry, ordering and tenant-isolation results"
+      ],
+      "evidence": [
+        "docs/architecture/review/evidence/plan02/step2-repository-hardening.md",
+        "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs",
+        "tests/IFX.IntegrationTests/Runtime/HoldingsInboundContextTests.cs"
       ]
     },
     {
       "id": "G04-B03",
+      "state": "open-production-like-calibration",
       "dependency": "Plan 02 E6",
       "owner": "Observability and Platform Operations",
       "revisitTrigger": "Real Outbox, Inbox and dead-letter metrics exist in a production-like environment.",
@@ -66,6 +79,7 @@
     },
     {
       "id": "G04-B04",
+      "state": "evidence-available-awaiting-security-platform-acceptance",
       "dependency": "Gate 05",
       "owner": "Security, Platform and Architecture",
       "revisitTrigger": "G05 context carriers, C0-C4 classification and sentinels are implemented.",
@@ -73,21 +87,34 @@
         "Health and management endpoint sensitive-data sentinel results",
         "Worker scope and telemetry-flush conformance",
         "Quarantine and diagnostic field classification evidence"
+      ],
+      "evidence": [
+        "docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md",
+        "tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs",
+        "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs"
       ]
     },
     {
       "id": "G04-B05",
+      "state": "closed-repository-evidence-complete",
       "dependency": "Plan 03 B2/B3/B4 strict closure",
       "owner": "LayerGuard and Architecture",
       "revisitTrigger": "Plans 01/02 return B2/B3 and Plan 03 begins B4 strict closure.",
       "requiredEvidence": [
         "B2/B3 use the same Runtime Host and Gate policy semantics as returned B1",
         "B4 proves zero unwaived policy bypass",
-        "Strict-mode approval references the frozen B1 composite policy hash"
+        "Strict-mode comparison references the frozen B1 composite policy hash"
+      ],
+      "closedOn": "2026-09-09",
+      "evidence": [
+        "docs/architecture/review/evidence/03-b-layerguard-strict-closure.md",
+        "docs/architecture/review/evidence/layerguard/B4-report.json",
+        "docs/architecture/review/evidence/layerguard/B4-vs-B1-B2-B3-report.json"
       ]
     },
     {
       "id": "G04-B06",
+      "state": "open-production-like-rehearsal",
       "dependency": "Production-like release rehearsal",
       "owner": "Operations, Database, Platform and module owners",
       "revisitTrigger": "A production-candidate release can run in production-like staging.",
@@ -100,6 +127,7 @@
     },
     {
       "id": "G04-B07",
+      "state": "blocked-by-b01-b04-b06-and-signatures",
       "dependency": "Final approval",
       "owner": "Architecture, module, Platform, Database and Operations approvers",
       "revisitTrigger": "G04-B01 through G04-B06 are closed with linked evidence.",
