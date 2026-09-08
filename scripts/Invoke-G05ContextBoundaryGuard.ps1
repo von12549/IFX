@@ -202,6 +202,36 @@ if ($Phase -ge 7) {
     $checks.phase7LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase7-layerguard-report.json')
 }
 
+if ($Phase -ge 8) {
+    $failurePolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json') | ConvertFrom-Json -Depth 30
+    $failureTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.Platform.ProtocolContracts.Tests/FailureReplayCompatibilityConformanceTests.cs')
+    $expectedFailureClasses = @('Diagnostic', 'Client', 'Business', 'Transient', 'Permanent', 'Security')
+    $expectedPreInboxOrder = @('eventType', 'eventVersion', 'eventId', 'producer', 'tenant', 'correlation', 'causation')
+    $expectedReasonCodes = @(
+        'event_type_invalid', 'event_version_unsupported', 'event_id_invalid', 'event_producer_denied',
+        'event_tenant_invalid', 'event_correlation_invalid', 'event_causation_invalid'
+    )
+    $forbiddenSynthesizedFields = @('eventId', 'producer', 'tenantId', 'scope', 'eventType', 'schemaVersion')
+    $requiredMetricNames = @(
+        'ifx_context_validation_total', 'ifx_envelope_validation_total', 'ifx_tenant_rejection_total',
+        'ifx_producer_rejection_total', 'ifx_redaction_total', 'ifx_compatibility_synthesis_total'
+    )
+    $requiredForbiddenLabels = @('tenantId', 'userId', 'eventId', 'correlationId', 'causationId', 'requestId', 'email', 'accountNumber', 'resourceId')
+    $adapter = @($failurePolicy.compatibilityAdapters)[0]
+
+    $checks.failureMatrixHasSixBoundedClasses = (@($failurePolicy.failureMatrix.class) -join ',') -eq ($expectedFailureClasses -join ',') -and @($failurePolicy.failureMatrix | Where-Object { [string]::IsNullOrWhiteSpace($_.action) -or $null -eq $_.retry -or [string]::IsNullOrWhiteSpace($_.exampleCode) }).Count -eq 0 -and $failureTests -match 'FailureMatrix_HasBoundedDisposition'
+    $checks.preInboxValidationOrderAndCodesAreStable = (@($failurePolicy.preInboxValidation.order) -join ',') -eq ($expectedPreInboxOrder -join ',') -and @($expectedReasonCodes | Where-Object { $_ -notin $failurePolicy.preInboxValidation.failures.code -or $failureTests -notmatch [regex]::Escape($_) }).Count -eq 0 -and $failureTests -match 'CoreEnvelopeFailures_AreStableAndOccurBeforeInbox'
+    $checks.traceDamageIsDiagnosticAndNonRejecting = $failurePolicy.preInboxValidation.invalidTrace.class -eq 'Diagnostic' -and $failurePolicy.preInboxValidation.invalidTrace.action -match 'continue' -and $failureTests -match 'InvalidTrace_IsDiagnosticAndRestartsWithoutRejectingTheEvent'
+    $checks.quarantineMetadataIsSafeAndSecurityIsAudited = (@($failurePolicy.quarantine.recordKinds) -join ',') -eq 'quarantine,dead-letter' -and (@($failurePolicy.quarantine.eligibleClasses) -join ',') -eq 'Permanent,Security' -and @($failurePolicy.quarantine.forbiddenDiagnostics).Count -ge 8 -and 'append-security-audit' -in $failurePolicy.quarantine.securityAction -and $failureTests -match 'Quarantine_SeparatesLogicalBytesFromSafeMetadataAndSecurityAudit' -and $failureTests -match 'Deliberately excluded from quarantine diagnostics'
+    $checks.retryAndReplayPreserveLogicalIdentity = $failurePolicy.retryReplay.retry -match 'preserve exact envelope and payload bytes' -and $failurePolicy.retryReplay.deadLetterReplay -match 'preserve the original EventId' -and $failureTests -match 'TransientRetry_ChangesDeliveryStateOnly' -and $failureTests -match 'DeadLetterReplay_PreservesEventIdAndCompletedInboxStillDeduplicates'
+    $checks.forcedReprocessingIsSeparateAndApproved = $failurePolicy.retryReplay.forcedReprocessing -match 'separately approved ReprocessingRequest' -and $failureTests -match 'ForcedReprocessing_UsesSeparatelyApprovedRequestAndNeverMutatesEnvelope' -and $failureTests -match 'ApprovalReference'
+    $checks.compatibilityRegistryIsOwnedBoundedAndExpiring = -not [string]::IsNullOrWhiteSpace($adapter.owner) -and -not [string]::IsNullOrWhiteSpace($adapter.sourceIdentity) -and (@($adapter.allowedSynthesizedFields) -join ',') -eq 'correlationId,causationId' -and $adapter.provenance -eq 'synthesized' -and $adapter.expiryAction -eq 'fail-closed' -and @($forbiddenSynthesizedFields | Where-Object { $_ -notin $failurePolicy.compatibilityRules.neverSynthesize }).Count -eq 0 -and $failureTests -match 'compatibility_adapter_expired'
+    $checks.metricsUseBoundedNamesAndLabelsOnly = @($requiredMetricNames | Where-Object { $_ -notin $failurePolicy.metrics.names }).Count -eq 0 -and @($requiredForbiddenLabels | Where-Object { $_ -notin $failurePolicy.metrics.forbiddenLabels }).Count -eq 0 -and $failureTests -match 'Metrics_AllowOnlyBoundedPolicyLabelsAndRejectRawIdentifiers' -and $failureTests -match 'BoundedValuePattern'
+    $checks.realFailureDurabilityNotMisrepresented = $failurePolicy.status -eq 'pre-active-fake-carrier-conformance' -and $failurePolicy.realDurabilityEvidence -match 'required from Plan 02' -and $failurePolicy.realDurabilityEvidence -match 'not durable implementations'
+    $checks.phase8EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase8-failure-replay-compatibility.md')
+    $checks.phase8LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

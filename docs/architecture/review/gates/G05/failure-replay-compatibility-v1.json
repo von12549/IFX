@@ -1,0 +1,75 @@
+{
+  "formatVersion": 1,
+  "owner": "xiaolong-feng",
+  "status": "pre-active-fake-carrier-conformance",
+  "failureMatrix": [
+    { "class": "Diagnostic", "retry": false, "action": "continue-with-safe-diagnostic", "exampleCode": "event_trace_restarted" },
+    { "class": "Client", "retry": false, "action": "reject-request", "exampleCode": "contract_context_invalid" },
+    { "class": "Business", "retry": false, "action": "complete-with-business-result", "exampleCode": "business_rule_rejected" },
+    { "class": "Transient", "retry": true, "action": "bounded-retry", "exampleCode": "event_delivery_unavailable" },
+    { "class": "Permanent", "retry": false, "action": "quarantine", "exampleCode": "event_version_unsupported" },
+    { "class": "Security", "retry": false, "action": "quarantine-audit-alert", "exampleCode": "event_tenant_invalid" }
+  ],
+  "preInboxValidation": {
+    "order": ["eventType", "eventVersion", "eventId", "producer", "tenant", "correlation", "causation"],
+    "failures": [
+      { "field": "eventType", "code": "event_type_invalid", "class": "Permanent" },
+      { "field": "eventVersion", "code": "event_version_unsupported", "class": "Permanent" },
+      { "field": "eventId", "code": "event_id_invalid", "class": "Permanent" },
+      { "field": "producer", "code": "event_producer_denied", "class": "Security" },
+      { "field": "tenant", "code": "event_tenant_invalid", "class": "Security" },
+      { "field": "correlation", "code": "event_correlation_invalid", "class": "Permanent" },
+      { "field": "causation", "code": "event_causation_invalid", "class": "Permanent" }
+    ],
+    "invalidTrace": { "code": "event_trace_restarted", "class": "Diagnostic", "action": "restart-technical-trace-and-continue" },
+    "rule": "validation completes before Inbox write or Application execution"
+  },
+  "quarantine": {
+    "recordKinds": ["quarantine", "dead-letter"],
+    "eligibleClasses": ["Permanent", "Security"],
+    "immutableLogical": ["envelopeBytes", "payloadBytes"],
+    "mutableDelivery": ["attemptCount", "lease", "lastErrorCode"],
+    "safeMetadata": ["reasonCode", "failureClass", "sourceIdentity", "firstDetectedAt", "lastDetectedAt", "detectionCount", "alertKey"],
+    "forbiddenDiagnostics": ["payload", "exceptionMessage", "exceptionStack", "rawHeader", "tenantId", "eventId", "correlationId", "causationId"],
+    "securityAction": ["append-security-audit", "emit-bounded-alert"],
+    "permanentAction": ["emit-bounded-alert"]
+  },
+  "retryReplay": {
+    "retry": "mutate delivery metadata only; preserve exact envelope and payload bytes",
+    "deadLetterReplay": "preserve the original EventId and logical bytes",
+    "completedInbox": "consumer plus EventId remains the deduplication key",
+    "forcedReprocessing": "create a separately approved ReprocessingRequest with its own RequestId and OriginalEventId; never mutate the original envelope"
+  },
+  "compatibilityAdapters": [
+    {
+      "adapterId": "legacy-event-correlation-v1",
+      "owner": "xiaolong-feng",
+      "sourceIdentity": "ifx.legacy-event-import",
+      "allowedSynthesizedFields": ["correlationId", "causationId"],
+      "provenance": "synthesized",
+      "metricReasonCode": "legacy_context_synthesized",
+      "expiresAt": "2026-12-01T00:00:00Z",
+      "expiryAction": "fail-closed"
+    }
+  ],
+  "compatibilityRules": {
+    "neverSynthesize": ["eventId", "producer", "tenantId", "scope", "eventType", "schemaVersion"],
+    "registrationRequired": true,
+    "expiryRequired": true,
+    "expiredCode": "compatibility_adapter_expired"
+  },
+  "metrics": {
+    "names": [
+      "ifx_context_validation_total",
+      "ifx_envelope_validation_total",
+      "ifx_tenant_rejection_total",
+      "ifx_producer_rejection_total",
+      "ifx_redaction_total",
+      "ifx_compatibility_synthesis_total"
+    ],
+    "allowedLabels": ["boundary", "failure_class", "reason_code", "result", "provenance", "adapter_id"],
+    "forbiddenLabels": ["tenantId", "userId", "eventId", "correlationId", "causationId", "requestId", "email", "accountNumber", "resourceId"],
+    "rule": "labels are bounded policy identifiers only; raw sensitive and high-cardinality values are forbidden"
+  },
+  "realDurabilityEvidence": "required from Plan 02; these fake quarantine, Inbox, retry and replay carriers are not durable implementations"
+}

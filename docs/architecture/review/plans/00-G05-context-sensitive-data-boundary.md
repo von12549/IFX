@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 7 safe observability and token-retention remediation
+> 状态：Implementation In Progress / Phase 8 failure, replay and compatibility conformance
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -287,15 +287,21 @@ Phase 7 证据：[`observability-security-policy.json`](../gates/G05/observabili
 
 ## Phase 8 — 落实失败、Quarantine、Replay 与兼容规则
 
-- [ ] **Phase 8 完成**：所有上下文错误具有稳定分类，不会被无限 retry、静默修补或跨 tenant 继续执行。
+- [x] **Phase 8 完成**：所有上下文错误具有稳定分类，不会被无限 retry、静默修补或跨 tenant 继续执行。
 
-- [ ] G05-8.1 实现 D19/D21 失败矩阵，区分 Diagnostic、Client、Business、Transient、Permanent 与 Security。
-- [ ] G05-8.2 对 Event type/version/EventId/producer/tenant/correlation/causation 建立 pre-Inbox 验证和 stable reason code。
-- [ ] G05-8.3 对 permanent/security message 建立 quarantine/dead-letter metadata、审计和告警；诊断字段仍受分类与脱敏约束。
-- [ ] G05-8.4 验证 transient retry 不改变 Envelope；attempt、lease 和 last error 仅改变 delivery state。
-- [ ] G05-8.5 定义并测试 dead-letter replay 保留 EventId；已完成 Inbox 继续去重，强制重处理走独立 ReprocessingRequest。
-- [ ] G05-8.6 建立 Compatibility Adapter 注册表、owner、来源、允许补充字段、`Synthesized` provenance、指标和强制到期。
-- [ ] G05-8.7 采集 context/envelope/tenant/producer/redaction/compatibility 指标；metric labels 不含原始高基数或敏感值。
+- [x] G05-8.1 实现 D19/D21 失败矩阵，区分 Diagnostic、Client、Business、Transient、Permanent 与 Security。
+- [x] G05-8.2 对 Event type/version/EventId/producer/tenant/correlation/causation 建立 pre-Inbox 验证和 stable reason code。
+- [x] G05-8.3 对 permanent/security message 建立 quarantine/dead-letter metadata、审计和告警；诊断字段仍受分类与脱敏约束。
+- [x] G05-8.4 验证 transient retry 不改变 Envelope；attempt、lease 和 last error 仅改变 delivery state。
+- [x] G05-8.5 定义并测试 dead-letter replay 保留 EventId；已完成 Inbox 继续去重，强制重处理走独立 ReprocessingRequest。
+- [x] G05-8.6 建立 Compatibility Adapter 注册表、owner、来源、允许补充字段、`Synthesized` provenance、指标和强制到期。
+- [x] G05-8.7 采集 context/envelope/tenant/producer/redaction/compatibility 指标；metric labels 不含原始高基数或敏感值。
+
+Phase 8 证据：[`failure-replay-compatibility-v1.json`](../gates/G05/failure-replay-compatibility-v1.json)、
+[`G05-phase8-failure-replay-compatibility.md`](../evidence/gates/G05/G05-phase8-failure-replay-compatibility.md)、
+[`G05-phase8-guard-report.json`](../evidence/gates/G05/G05-phase8-guard-report.json) 与
+[`G05-phase8-layerguard-report.json`](../evidence/gates/G05/G05-phase8-layerguard-report.json)。本 Phase 建立的是
+fake-carrier conformance；真实 durable quarantine、Inbox、dead-letter 与 replay 仍必须由 Plan 02 提供实现证据。
 
 ## Phase 9 — 自动化门禁与测试矩阵
 

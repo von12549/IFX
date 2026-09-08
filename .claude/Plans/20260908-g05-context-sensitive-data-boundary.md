@@ -46,6 +46,29 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 5 — Event Envelope and fake Outbox/carrier/Inbox propagation conformance.
 - [x] Phase 6 — sole-catalog field classification, minimization and exception governance.
 - [x] Phase 7 — safe operational observability, governed audit separation and Auth secret-retention remediation.
+- [x] Phase 8 — stable failure, quarantine, replay and expiring compatibility conformance.
+
+## Phase 8 acceptance
+
+- The authoritative failure matrix distinguishes Diagnostic, Client, Business, Transient, Permanent
+  and Security outcomes with one bounded retry/action disposition for each class.
+- Event type, version, EventId, producer, tenant, correlation and causation validation occurs in a
+  fixed pre-Inbox order and returns stable reason codes. Invalid trace is diagnostic: it restarts the
+  technical trace and does not reject an otherwise valid business event.
+- Permanent and Security failures enter quarantine with immutable logical bytes and bounded metadata;
+  Security also creates a safe audit and alert. Payload, raw headers, identifiers and exception prose
+  are forbidden from diagnostics.
+- Transient retry changes delivery state only. Dead-letter replay keeps the original EventId and a
+  completed Inbox remains deduplicated by consumer plus EventId. Forced work uses an independently
+  identified and approved ReprocessingRequest.
+- The compatibility registry records adapter ID, owner, exact source identity, the two permitted
+  synthesized fields, Synthesized provenance, metric reason, expiry and fail-closed expiry behavior.
+  Event identity, producer, tenant, scope, type and version can never be synthesized.
+- Six bounded metric families cover context, envelope, tenant, producer, redaction and compatibility;
+  raw identifiers and sensitive/high-cardinality labels are rejected.
+- 74/74 protocol/conformance tests, 1041/1041 solution tests and 179/179 LayerGuard tests passed. The
+  build has zero errors. These fake carriers are not durable messaging evidence; Plan 02 remains the
+  owner of real quarantine, Inbox, dead-letter and replay implementation.
 
 ## Phase 7 acceptance
 
