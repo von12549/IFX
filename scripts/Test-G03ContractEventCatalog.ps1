@@ -25,7 +25,7 @@ function Test-Catalog($catalog) {
     foreach ($name in @('identity', 'compatibility', 'dtoPolicy', 'breakingChange', 'baseline', 'deprecation')) {
         if ($null -eq $catalog.sourcePolicy.$name) { Add-Error 'policy-node' "sourcePolicy.$name" "Required policy '$name' is missing." }
     }
-    foreach ($name in @('owners', 'modules', 'consumers', 'approvalPolicy', 'protocols', 'publicSurface', 'contractDependencyPolicy', 'sharedPrimitives', 'waiverPolicy', 'waivers', 'changeRecords')) {
+    foreach ($name in @('owners', 'modules', 'consumers', 'approvalPolicy', 'protocols', 'publicSurface', 'fieldGovernance', 'fieldSurfaces', 'fieldExceptions', 'sensitiveUsePolicies', 'migrationRecommendations', 'eventMinimizationReviews', 'contractDependencyPolicy', 'sharedPrimitives', 'waiverPolicy', 'waivers', 'changeRecords')) {
         if ($null -eq $catalog.$name) { Add-Error 'required-node' $name "Required node '$name' is missing." }
     }
     Test-Unique @($catalog.owners) 'id' 'owners'
@@ -78,6 +78,9 @@ function Test-Catalog($catalog) {
             foreach ($required in @('purpose', 'retention', 'logPolicy')) {
                 if ([string]::IsNullOrWhiteSpace($field.$required)) { Add-Error 'field-metadata' "$fieldPath.$required" "$required is required." }
             }
+            if ($field.classification -eq 'C3' -and [string]::IsNullOrWhiteSpace($field.exceptionRef)) {
+                Add-Error 'field-exception' "$fieldPath.exceptionRef" 'C3 fields require an exception reference.'
+            }
         }
         if ($protocol.lifecycle -eq 'Active') {
             $requiredEvidence = @('source', 'apiOrSchemaSnapshot', 'providerContractTests', 'consumerCompatibilityTests', 'providerApproval', 'consumerApprovals')
@@ -97,6 +100,113 @@ function Test-Catalog($catalog) {
         if ($surface.expiresAt -and [DateOnly]::Parse($surface.expiresAt) -gt [DateOnly]::Parse($catalog.sourcePolicy.legacyDeadline)) { Add-Error 'legacy-expiry' "$path.expiresAt" 'Surface expiry exceeds the catalog legacy deadline.' }
         if ($surface.disposition -eq 'Replace' -and $surface.member -and [string]::IsNullOrWhiteSpace($surface.targetIdentity)) { Add-Error 'replacement-target' "$path.targetIdentity" 'A replaced callable/event requires targetIdentity.' }
         if ($surface.targetIdentity -and $surface.targetIdentity -notin @($catalog.protocols.identity)) { Add-Error 'protocol-reference' "$path.targetIdentity" "Unknown target protocol '$($surface.targetIdentity)'." }
+    }
+
+    Test-Unique @($catalog.fieldSurfaces) 'id' 'fieldSurfaces'
+    Test-Unique @($catalog.fieldExceptions) 'id' 'fieldExceptions'
+    $classificationNames = @('C0', 'C1', 'C2', 'C3', 'C4')
+    foreach ($classification in $classificationNames) {
+        if ([string]::IsNullOrWhiteSpace($catalog.fieldGovernance.classifications.$classification) -or
+            [string]::IsNullOrWhiteSpace($catalog.fieldGovernance.logPolicyByClassification.$classification)) {
+            Add-Error 'classification-policy' "fieldGovernance.$classification" 'Every C0-C4 classification requires semantics and a logging policy.'
+        }
+    }
+    $denylistText = @($catalog.fieldGovernance.c4Denylist) -join '|'
+    foreach ($semantic in @('password', 'token', 'authorization', 'cookie', 'otp', 'api secret', 'client secret', 'private key', 'connection string')) {
+        if ($denylistText -notmatch [regex]::Escape($semantic)) { Add-Error 'c4-denylist' 'fieldGovernance.c4Denylist' "Missing C4 semantic '$semantic'." }
+    }
+
+    $dataSurfaces = @($catalog.publicSurface | Where-Object kind -in @('dto', 'integration-event'))
+    foreach ($surface in $dataSurfaces) {
+        if ($surface.id -notin @($catalog.fieldSurfaces.id)) {
+            Add-Error 'field-surface-missing' "fieldSurfaces.$($surface.id)" 'Every legacy public DTO/Event requires a field inventory.'
+        }
+    }
+    foreach ($protocol in @($catalog.protocols)) {
+        $surface = $catalog.fieldSurfaces | Where-Object id -eq $protocol.identity | Select-Object -First 1
+        if ($null -eq $surface -or -not $surface.fieldsFromProtocol) {
+            Add-Error 'field-surface-missing' "fieldSurfaces.$($protocol.identity)" 'Every target protocol must inherit its authoritative protocol field inventory.'
+        }
+    }
+
+    $allFieldRefs = [Collections.Generic.List[string]]::new()
+    $c3FieldRefs = [Collections.Generic.List[object]]::new()
+    foreach ($surface in @($catalog.fieldSurfaces)) {
+        $path = "fieldSurfaces.$($surface.id)"
+        if (@($surface.consumers).Count -eq 0 -or [string]::IsNullOrWhiteSpace($surface.retention)) {
+            Add-Error 'field-surface-metadata' $path 'Consumers and retention are required for every field surface.'
+        }
+        $fields = if ($surface.fieldsFromProtocol) {
+            @($catalog.protocols | Where-Object identity -eq $surface.id | Select-Object -First 1).fields
+        } else { @($surface.fields) }
+        if (@($fields).Count -eq 0) { Add-Error 'field-surface-empty' "$path.fields" 'Field inventory must not be empty.' }
+        Test-Unique @($fields) 'name' "$path.fields"
+        foreach ($field in @($fields)) {
+            $fieldPath = "$path.fields.$($field.name)"
+            $fieldRef = "$($surface.id)/$($field.name)"
+            $allFieldRefs.Add($fieldRef)
+            if ($field.classification -notin $classificationNames) { Add-Error 'field-classification' $fieldPath 'Field classification must be C0-C4.' }
+            if ($field.classification -eq 'C4') { Add-Error 'secret-forbidden' $fieldPath 'C4 is never allowed in a public Contract/Event.' }
+            if ([string]::IsNullOrWhiteSpace($field.purpose) -or $field.required -isnot [bool]) { Add-Error 'field-metadata' $fieldPath 'Purpose and boolean requiredness are mandatory.' }
+            $resolvedLogPolicy = if ([string]::IsNullOrWhiteSpace($field.logPolicy)) { $catalog.fieldGovernance.logPolicyByClassification.($field.classification) } else { $field.logPolicy }
+            if ([string]::IsNullOrWhiteSpace($resolvedLogPolicy)) { Add-Error 'field-metadata' "$fieldPath.logPolicy" 'A local or inherited logging policy is required.' }
+            if ($field.classification -eq 'C3') {
+                if ([string]::IsNullOrWhiteSpace($field.exceptionRef)) { Add-Error 'field-exception' "$fieldPath.exceptionRef" 'C3 fields require an exception reference.' }
+                $c3FieldRefs.Add([ordered]@{ fieldRef = $fieldRef; exceptionRef = $field.exceptionRef })
+            }
+        }
+
+        if ($surface.kind -in @('legacy-dto', 'legacy-event')) {
+            $sourceFile = Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Modules') -Recurse -File -Filter "$($surface.source).cs" |
+                Where-Object { $_.FullName -match '\.Abstractions\\(DTOs|Events)\\' } | Select-Object -First 1
+            if ($null -eq $sourceFile) {
+                Add-Error 'field-source-missing' "$path.source" "Cannot find source for '$($surface.source)'."
+            } else {
+                $sourceText = Get-Content -Raw -LiteralPath $sourceFile.FullName
+                $match = [regex]::Match($sourceText, "public\s+record\s+$([regex]::Escape($surface.source))\s*\((?<parameters>.*?)\)\s*(?::|;)", [Text.RegularExpressions.RegexOptions]::Singleline)
+                $parameters = if ($match.Success) { ($match.Groups['parameters'].Value -replace '//[^\r\n]*', '') -split ',' } else { @() }
+                $sourceFields = @($parameters | ForEach-Object { if ($_ -match '([A-Za-z_][A-Za-z0-9_]*)\s*$') { $Matches[1] } })
+                $inventoryFields = @($fields.name)
+                if ((@($sourceFields | Sort-Object) -join ',') -ne (@($inventoryFields | Sort-Object) -join ',')) {
+                    Add-Error 'field-source-drift' "$path.fields" "Inventory fields do not match source: $($sourceFields -join ', ')."
+                }
+            }
+        }
+    }
+
+    $exceptionIds = @($catalog.fieldExceptions.id)
+    foreach ($item in $c3FieldRefs) {
+        if ($item.exceptionRef -notin $exceptionIds) { Add-Error 'field-exception-reference' $item.fieldRef "Unknown exception '$($item.exceptionRef)'."; continue }
+        $exception = $catalog.fieldExceptions | Where-Object id -eq $item.exceptionRef | Select-Object -First 1
+        if ($item.fieldRef -notin @($exception.fieldRefs)) { Add-Error 'field-exception-reference' $item.fieldRef 'Exception does not list the C3 field.' }
+    }
+    foreach ($exception in @($catalog.fieldExceptions)) {
+        $path = "fieldExceptions.$($exception.id)"
+        if ($exception.owner -notin $ownerIds) { Add-Error 'owner-reference' "$path.owner" "Unknown owner '$($exception.owner)'." }
+        foreach ($required in @('approverRole', 'approvalStatus', 'expiresAt', 'revocationCondition')) {
+            if ([string]::IsNullOrWhiteSpace($exception.$required)) { Add-Error 'field-exception-metadata' "$path.$required" "$required is required." }
+        }
+        if (@($exception.compensatingControls).Count -eq 0) { Add-Error 'field-exception-metadata' "$path.compensatingControls" 'Compensating controls are required.' }
+        foreach ($fieldRef in @($exception.fieldRefs)) {
+            if ($fieldRef -notin $allFieldRefs) { Add-Error 'field-exception-reference' "$path.fieldRefs" "Unknown field '$fieldRef'." }
+        }
+        if ($exception.approvalStatus -eq 'Approved' -and [string]::IsNullOrWhiteSpace($exception.approvalEvidence)) {
+            Add-Error 'field-exception-approval' "$path.approvalEvidence" 'Approved C3 exposure requires evidence.'
+        }
+    }
+
+    foreach ($policy in @($catalog.sensitiveUsePolicies)) {
+        $path = "sensitiveUsePolicies.$($policy.id)"
+        foreach ($required in @('purpose', 'encryption', 'access', 'retention', 'deletion', 'replay')) {
+            if ([string]::IsNullOrWhiteSpace($policy.$required)) { Add-Error 'sensitive-use-metadata' "$path.$required" "$required is required." }
+        }
+        if (@($policy.consumers).Count -eq 0) { Add-Error 'sensitive-use-metadata' "$path.consumers" 'Consumers are required.' }
+        foreach ($fieldRef in @($policy.fieldRefs)) {
+            if ($fieldRef -notin $allFieldRefs) { Add-Error 'sensitive-use-reference' "$path.fieldRefs" "Unknown field '$fieldRef'." }
+        }
+    }
+    if (@($catalog.migrationRecommendations).Count -lt 2 -or @($catalog.eventMinimizationReviews).Count -lt 5) {
+        Add-Error 'minimization-evidence' 'migrationRecommendations' 'Capability split and event minimization reviews are required.'
     }
     Test-Unique @($catalog.changeRecords) 'id' 'changeRecords'
     foreach ($record in @($catalog.changeRecords)) {
@@ -148,6 +258,9 @@ if ($SelfTest) {
         @{ name = 'missing consumer'; mutate = { param($x) $x.protocols[0].consumers = @() }; expected = 'missing-consumer' },
         @{ name = 'broken reference'; mutate = { param($x) $x.protocols[0].provider = 'unknown-module' }; expected = 'module-reference' },
         @{ name = 'C4 exposure'; mutate = { param($x) $x.protocols[0].fields[0].classification = 'C4' }; expected = 'secret-forbidden' },
+        @{ name = 'missing field inventory'; mutate = { param($x) $x.fieldSurfaces = @($x.fieldSurfaces | Where-Object id -ne 'crm.dto.investor-summary') }; expected = 'field-surface-missing' },
+        @{ name = 'incomplete C4 semantics'; mutate = { param($x) $x.fieldGovernance.c4Denylist = @($x.fieldGovernance.c4Denylist | Where-Object { $_ -ne 'private key' }) }; expected = 'c4-denylist' },
+        @{ name = 'C3 without exception'; mutate = { param($x) ($x.fieldSurfaces | Where-Object id -eq 'crm.dto.investor-summary').fields[2].PSObject.Properties.Remove('exceptionRef') }; expected = 'field-exception' },
         @{ name = 'orphan Active protocol'; mutate = { param($x) $x.protocols[0].lifecycle = 'Active' }; expected = 'active-admission' },
         @{ name = 'illegal lifecycle'; mutate = { param($x) $x.protocols[0].lifecycle = 'LegacyPendingMigration' }; expected = 'lifecycle' },
         @{ name = 'expired waiver'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-08-01';expiresAt='2026-09-01';removalCondition='remove';linkedPlanItem='test';category='temporary-tool-gap'}) }; expected = 'waiver-expired' },
@@ -197,13 +310,20 @@ $mixedCycles = @(Find-Cycles $graphEdges)
 if ($syncCycles.Count -gt 0) { $errors += [ordered]@{ code = 'sync-cycle'; path = 'protocols'; message = "Synchronous dependency cycle: $($syncCycles -join ', ')." } }
 if ($mixedCycles.Count -gt 0) { $errors += [ordered]@{ code = 'mixed-cycle'; path = 'protocols'; message = "Mixed dependency cycle requires explicit reviewed workflow: $($mixedCycles -join ', ')." } }
 
+$fieldCount = 0
+$c3FieldCount = 0
+foreach ($surface in @($catalog.fieldSurfaces)) {
+    $fields = if ($surface.fieldsFromProtocol) { @(($catalog.protocols | Where-Object identity -eq $surface.id | Select-Object -First 1).fields) } else { @($surface.fields) }
+    $fieldCount += @($fields).Count
+    $c3FieldCount += @($fields | Where-Object classification -eq 'C3').Count
+}
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G03'
     result = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }
     mode = $catalog.mode
-    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; sharedPrimitives = @($catalog.sharedPrimitives).Count; changeRecords = @($catalog.changeRecords).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
-    checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
+    counts = [ordered]@{ owners = @($catalog.owners).Count; modules = @($catalog.modules).Count; consumers = @($catalog.consumers).Count; protocols = @($catalog.protocols).Count; publicSurface = @($catalog.publicSurface).Count; legacyInternalize = @($catalog.publicSurface | Where-Object disposition -eq 'Internalize').Count; legacyReplace = @($catalog.publicSurface | Where-Object disposition -eq 'Replace').Count; legacyRemove = @($catalog.publicSurface | Where-Object disposition -eq 'Remove').Count; fieldSurfaces = @($catalog.fieldSurfaces).Count; fields = $fieldCount; c3Fields = $c3FieldCount; fieldExceptions = @($catalog.fieldExceptions).Count; sharedPrimitives = @($catalog.sharedPrimitives).Count; changeRecords = @($catalog.changeRecords).Count; graphEdges = $graphEdges.Count; syncCycles = $syncCycles.Count; mixedCycles = $mixedCycles.Count; errors = $errors.Count }
+    checks = [ordered]@{ schema = $errors.Count -eq 0; uniqueIdentity = 'duplicate-id' -notin @($errors.code); referenceIntegrity = @('owner-reference', 'module-reference', 'consumer-reference', 'field-exception-reference', 'sensitive-use-reference') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; fieldClassification = @('field-classification', 'secret-forbidden', 'field-metadata', 'field-surface-missing', 'field-source-drift') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; sensitiveFieldGovernance = @('classification-policy', 'c4-denylist', 'field-exception', 'field-exception-metadata', 'field-exception-approval', 'sensitive-use-metadata', 'minimization-evidence') | Where-Object { $_ -in @($errors.code) } | Measure-Object | Select-Object -ExpandProperty Count | ForEach-Object { $_ -eq 0 }; dependencyCycles = $syncCycles.Count -eq 0 -and $mixedCycles.Count -eq 0; selfTests = (-not $SelfTest) -or @($selfTestResults | Where-Object passed -eq $false).Count -eq 0 }
     graph = $graphEdges
     selfTests = $selfTestResults
     errors = $errors

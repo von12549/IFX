@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "ffcc7dd1a26a2fa6aa91ce61bd29aee7458d67974c05f14a996bf8e20be0e775",
+  "catalogSha256": "7fa7a5e77846d04e7b26815cc2aca03a91a6beaf9672d6de33fae30ba7861318",
   "moduleOwnership": [
     {
       "module": "Auth",

@@ -145,6 +145,29 @@ if ($Phase -ge 5) {
     $checks.phase5LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase5-layerguard-report.json')
 }
 
+if ($Phase -ge 6) {
+    $catalogPath = Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
+    $catalog = Get-Content -Raw -LiteralPath $catalogPath | ConvertFrom-Json -Depth 100
+    $catalogReport = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase6-catalog-report.json') | ConvertFrom-Json -Depth 100
+    $layerGuardInput = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/generated/layerguard-governance-input.json') | ConvertFrom-Json -Depth 100
+    $classifiedFields = @()
+    foreach ($surface in @($catalog.fieldSurfaces)) {
+        $fields = if ($surface.fieldsFromProtocol) { @(($catalog.protocols | Where-Object identity -eq $surface.id | Select-Object -First 1).fields) } else { @($surface.fields) }
+        $classifiedFields += @($fields | ForEach-Object { [ordered]@{ surface = $surface.id; name = $_.name; classification = $_.classification; exceptionRef = $_.exceptionRef } })
+    }
+    $denylistText = @($catalog.fieldGovernance.c4Denylist) -join '|'
+    $checks.g03CatalogRemainsSoleFieldAuthority = $catalog.fieldGovernance.authority -match 'sole admission source' -and $catalogReport.result -eq 'passed' -and $catalogReport.checks.sensitiveFieldGovernance
+    $checks.allTargetLegacyAndEnvelopeFieldsAreClassified = @($catalog.fieldSurfaces).Count -eq 32 -and @($classifiedFields).Count -eq 167 -and @($catalog.fieldSurfaces | Where-Object kind -like 'legacy-*').Count -eq 27 -and @($catalog.publicSurface | Where-Object kind -in @('dto', 'integration-event')).Count -eq 27
+    $checks.noC4AndAllC3HaveGovernedExceptions = @($classifiedFields | Where-Object classification -eq 'C4').Count -eq 0 -and @($classifiedFields | Where-Object { $_.classification -eq 'C3' -and [string]::IsNullOrWhiteSpace($_.exceptionRef) }).Count -eq 0 -and @($catalog.fieldExceptions).Count -eq 8
+    $checks.c4SemanticDenylistIsComplete = @('password', 'token', 'authorization', 'cookie', 'otp', 'api secret', 'client secret', 'private key', 'connection string' | Where-Object { $denylistText -notmatch [regex]::Escape($_) }).Count -eq 0
+    $checks.capabilitySplitAndEventMinimizationAreRecorded = @($catalog.migrationRecommendations).Count -ge 2 -and @($catalog.eventMinimizationReviews).Count -ge 5 -and 'crm.dto.investor-summary' -in @($catalog.migrationRecommendations.surfaceId)
+    $checks.sensitiveFinancialAndComplianceUsesAreGoverned = @($catalog.sensitiveUsePolicies).Count -eq 2 -and @($catalog.sensitiveUsePolicies | Where-Object { [string]::IsNullOrWhiteSpace($_.encryption) -or [string]::IsNullOrWhiteSpace($_.access) -or [string]::IsNullOrWhiteSpace($_.retention) -or [string]::IsNullOrWhiteSpace($_.deletion) -or [string]::IsNullOrWhiteSpace($_.replay) }).Count -eq 0
+    $checks.pendingSecurityApprovalIsNotMisrepresented = @($catalog.fieldExceptions | Where-Object approvalStatus -eq 'Approved').Count -eq 0 -and @($catalog.fieldExceptions | Where-Object { $_.approvalStatus -notin @('Pending', 'PendingRemoval') }).Count -eq 0
+    $checks.layerGuardGovernanceHashMatchesCatalog = $layerGuardInput.catalogSha256 -eq (Get-FileHash -Algorithm SHA256 -LiteralPath $catalogPath).Hash.ToLowerInvariant()
+    $checks.phase6EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase6-field-classification.md')
+    $checks.phase6LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase6-layerguard-report.json')
+}
+
 $report = [ordered]@{
     formatVersion = 1
     gate = 'G05'

@@ -44,6 +44,25 @@ Implement `docs/architecture/review/plans/00-G05-context-sensitive-data-boundary
 - [x] Phase 3 — HTTP trace, correlation and fail-closed tenant entry.
 - [x] Phase 4 — synchronous Contract context conformance.
 - [x] Phase 5 — Event Envelope and fake Outbox/carrier/Inbox propagation conformance.
+- [x] Phase 6 — sole-catalog field classification, minimization and exception governance.
+
+## Phase 6 acceptance
+
+- The existing G03 machine-readable catalog remains the sole authority and its existing validator is
+  extended; no competing field catalog or validation path was introduced.
+- 167 fields across 32 surfaces are classified: 27 legacy DTO/Event sources, 4 target protocols and
+  Event Envelope V1. Source reconciliation covers all 134 legacy source fields.
+- C4 is absent and semantic deny rules cover passwords, tokens, authorization, cookies, OTP,
+  API/client secrets, private keys and connection strings regardless of naming tricks.
+- All 11 C3 fields link to 8 governed exception records with owner, approver role, expiry,
+  compensating controls and revocation condition. Their approvals remain Pending/PendingRemoval and
+  therefore still block admission/closure.
+- Investor/Class broad summaries have capability-specific recommendations; nonessential event names,
+  account numbers, codes, free text and duplicate tenant fields have explicit removal decisions.
+- Financial position and compliance uses record consumer, purpose, encryption, access, retention,
+  deletion and replay policy.
+- G03 catalog validation and all 12 mutation self-tests passed; 1007/1007 solution tests and 179/179
+  LayerGuard tests passed. The build has 0 errors and the unchanged 20 warnings.
 
 ## Phase 5 acceptance
 

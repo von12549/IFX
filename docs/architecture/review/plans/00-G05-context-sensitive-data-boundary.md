@@ -1,6 +1,6 @@
 # Plan 00 / Gate 05：关联上下文与敏感数据边界实施计划
 
-> 状态：Implementation In Progress / Phase 5 Event propagation conformance
+> 状态：Implementation In Progress / Phase 6 field classification and minimization
 > 上级前置计划：[`00-prerequisites.md`](00-prerequisites.md)
 > 上级总计划：[`00-master-plan.md`](00-master-plan.md)
 > 工具前置：[`03-layerguard-alignment.md`](03-layerguard-alignment.md) 03-A0 已完成；本 Gate 产出的 Context/Messaging primitive 和禁止类型 policy 在 03-A1 绑定。
@@ -249,15 +249,22 @@ Phase 5 证据：[`Event Envelope V1 schema`](../gates/G05/schemas/event-envelop
 
 ## Phase 6 — 建立字段分类、最小化与整改目录
 
-- [ ] **Phase 6 完成**：每个公共字段都有业务目的和准入结论，Secret 与非必要 Restricted 数据被阻断。
+- [x] **Phase 6 完成**：每个公共字段都有业务目的和准入结论，Secret 与非必要 Restricted 数据被阻断。
 
-- [ ] G05-6.1 向 Gate 03 所有的唯一 catalog/validator 贡献字段分类扩展：classification、purpose、consumer、requiredness、retention、log policy 和 exception reference；不得建立第二份目录或 validator。
-- [ ] G05-6.2 对所有现有公共 Reader DTO、目标 Contract DTO、Event Envelope 和 payload 字段逐一完成 C0-C4 分类。
-- [ ] G05-6.3 将 `InvestorSummaryDto` 等通用表面拆分为 capability-specific 迁移建议，明确姓名、KYC、税务等字段的真实消费者。
-- [ ] G05-6.4 评审并计划移除 Event 中非必要 Name、AccountNumber、Code、自由文本 RejectionReason 和重复 TenantId。
-- [ ] G05-6.5 对确需 Amount/Units/NAV/KYC 等 C2/C3 数据的 Event 记录 consumer、投影目的、加密、访问、retention、deletion 和 replay policy。
-- [ ] G05-6.6 建立 C4 denylist 与语义规则，覆盖 password、token、authorization、cookie、OTP、API/client secret、private key 和 connection string。
-- [ ] G05-6.7 为所有 C3/State Transfer 例外要求 owner、批准人、到期日、补偿控制和撤销条件。
+- [x] G05-6.1 向 Gate 03 所有的唯一 catalog/validator 贡献字段分类扩展：classification、purpose、consumer、requiredness、retention、log policy 和 exception reference；不得建立第二份目录或 validator。
+- [x] G05-6.2 对所有现有公共 Reader DTO、目标 Contract DTO、Event Envelope 和 payload 字段逐一完成 C0-C4 分类。
+- [x] G05-6.3 将 `InvestorSummaryDto` 等通用表面拆分为 capability-specific 迁移建议，明确姓名、KYC、税务等字段的真实消费者。
+- [x] G05-6.4 评审并计划移除 Event 中非必要 Name、AccountNumber、Code、自由文本 RejectionReason 和重复 TenantId。
+- [x] G05-6.5 对确需 Amount/Units/NAV/KYC 等 C2/C3 数据的 Event 记录 consumer、投影目的、加密、访问、retention、deletion 和 replay policy。
+- [x] G05-6.6 建立 C4 denylist 与语义规则，覆盖 password、token、authorization、cookie、OTP、API/client secret、private key 和 connection string。
+- [x] G05-6.7 为所有 C3/State Transfer 例外要求 owner、批准人、到期日、补偿控制和撤销条件。
+
+Phase 6 证据：Gate 03 唯一 [`contract-event-catalog.yaml`](../gates/G03/contract-event-catalog.yaml)、
+[`G05-phase6-field-classification.md`](../evidence/gates/G05/G05-phase6-field-classification.md)、
+[`G05-phase6-catalog-report.json`](../evidence/gates/G05/G05-phase6-catalog-report.json)、
+[`G05-phase6-guard-report.json`](../evidence/gates/G05/G05-phase6-guard-report.json) 与
+[`G05-phase6-layerguard-report.json`](../evidence/gates/G05/G05-phase6-layerguard-report.json)。8 组 C3
+例外的 Security 审批仍为 Pending/PendingRemoval，不因本 Phase 的治理完备而视为已批准。
 
 ## Phase 7 — 重建日志、Trace、审计与错误安全
 
