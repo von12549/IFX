@@ -35,6 +35,7 @@ $schema = ReadJson $SchemaPath
 $registry = ReadJson $RegistryPath
 $catalog = ReadJson $CatalogPath
 $graph = ReadJson $GraphPath
+$baseline = ReadJson 'docs/architecture/review/evidence/plan04/phase0-baseline-inputs.json'
 $approved = @($registry.approvedCrossModuleQueryConsumers)
 $publicSchemas = @($registry.publicProjectionSchemas)
 $references = @($registry.references)
@@ -108,7 +109,7 @@ $checks = [ordered]@{
 }
 $failed = @($checks.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object Key)
 $inventory = [ordered]@{
-    formatVersion = 1; plan = '04-module-boundary-evolution'; slice = 'P04-S5'; generatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ssK')
+    formatVersion = 1; plan = '04-module-boundary-evolution'; slice = 'P04-S5'; asOf = $baseline.capturedAt
     approvedCrossModuleQueryConsumerCount = $approved.Count; publicProjectionSchemaCount = $publicSchemas.Count
     references = $references; schemaValidationResults = $schemaValidationResults; referenceProtocolResults = $referenceProtocolResults; referenceImplementation = $referenceImplementation
     physicalCrossModuleEdges = @($graph.physicalCrossModuleEdges); forbiddenPhysicalEdges = $forbiddenPhysicalEdges

@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "generatedAt": "2026-09-10T02:21:28+10:00",
+  "asOf": "2026-09-10",
   "strategy": "explicit-tenant-predicate",
   "repositoryFileCount": 33,
   "businessRepositoryFileCount": 18,

@@ -1,6 +1,6 @@
 # 子计划 4：模块边界演进与租户查询治理
 
-> 状态：IN PROGRESS — Phase 0、1、4、5 的仓库治理已完成；Phase 2、3 具名职能审批及 Phase 6–8 仍待实施
+> 状态：IN PROGRESS — Phase 0、1、4–6 的仓库治理已完成；Phase 2、3 具名职能审批及 Phase 7–8 仍待实施
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：[`TODO.md`](TODO.md) Topic 1、3、4 的当前阶段可执行目标
 > 前置证据：Gate 02 module-owned DbContext/schema、Gate 03 权威 provider/consumer graph、Gate 04 共同业务发布边界、Gate 05 tenant/privacy policy、LayerGuard B4 严格依赖图
@@ -138,15 +138,15 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 6 — 自动化治理与负向证明
 
-- [ ] **Phase 6 完成**：四项目标的关键规则均有自动化正反证据并进入统一验证入口。
+- [x] **Phase 6 完成**：四项目标的关键规则均有自动化正反证据并进入统一验证入口。证据：[`P04-S6`](../evidence/plan04/P04-S6-automated-governance.md) 与 [`machine status`](../evidence/plan04/phase6-governance-status.json)。
 
-- [ ] ME6.1 新增 Plan 04 validator，绑定 B4 graph、G03 catalog、G04 module manifest 和本计划决策 artifact 的 hash。
-- [ ] ME6.2 为未登记跨模块引用、dependency cycle、未知 module owner 和 catalog/graph drift 添加失败 fixture。
-- [ ] ME6.3 为不满足硬门槛的提取申请、评分替代硬门槛、缺失回退和未经批准状态跃迁添加失败 fixture。
-- [ ] ME6.4 为漏 tenant predicate、nullable/default tenant、普通接口 bypass、未授权 cross-tenant query 和隐式 tenant context 添加失败测试。
-- [ ] ME6.5 为跨 DbContext/table join、未登记 projection、重复业务效果、重建漂移和敏感字段超集添加失败测试。
-- [ ] ME6.6 验证 LayerGuard、专用 validator 和行为测试职责互补，任何一侧绿色结果不能掩盖另一侧失败。
-- [ ] ME6.7 将验证接入本地/CI，上传 machine-readable reports；输入缺失、hash 漂移或扫描异常必须失败。
+- [x] ME6.1 新增 Plan 04 validator，绑定 B4 graph、G03 catalog、G04 module manifest 和本计划决策 artifact 的 hash。
+- [x] ME6.2 为未登记跨模块引用、dependency cycle、未知 module owner 和 catalog/graph drift 添加失败 fixture。
+- [x] ME6.3 为不满足硬门槛的提取申请、评分替代硬门槛、缺失回退和未经批准状态跃迁添加失败 fixture。
+- [x] ME6.4 为漏 tenant predicate、nullable/default tenant、普通接口 bypass、未授权 cross-tenant query 和隐式 tenant context 添加失败测试。
+- [x] ME6.5 为跨 DbContext/table join、未登记 projection、重复业务效果、重建漂移和敏感字段超集添加失败测试。
+- [x] ME6.6 验证 LayerGuard、专用 validator 和行为测试职责互补，任何一侧绿色结果不能掩盖另一侧失败。
+- [x] ME6.7 将验证接入本地/CI，上传 machine-readable reports；输入缺失、hash 漂移或扫描异常必须失败。
 
 ## Phase 7 — 仓库采用与证据收口
 

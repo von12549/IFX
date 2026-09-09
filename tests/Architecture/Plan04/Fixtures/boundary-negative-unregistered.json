@@ -1,0 +1,1 @@
+{"formatVersion":1,"nodes":[{"id":"crm","owner":"owner"},{"id":"transaction","owner":"owner"}],"edges":[{"from":"crm","to":"transaction","registered":false}],"hashesMatch":true,"expectedErrors":["unregistered-cross-module-edge"]}

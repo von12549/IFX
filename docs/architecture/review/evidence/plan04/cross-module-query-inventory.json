@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S5",
-  "generatedAt": "2026-09-10T02:31:58+10:00",
+  "asOf": "2026-09-10",
   "approvedCrossModuleQueryConsumerCount": 0,
   "publicProjectionSchemaCount": 0,
   "references": [

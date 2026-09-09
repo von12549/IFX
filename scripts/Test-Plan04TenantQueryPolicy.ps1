@@ -54,6 +54,7 @@ function Validate-Fixture([string] $text) {
 
 $policy = Get-Content -Raw -LiteralPath (Repo $PolicyPath) | ConvertFrom-Json -Depth 100
 $registry = Get-Content -Raw -LiteralPath (Repo $BypassRegistryPath) | ConvertFrom-Json -Depth 100
+$baseline = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/evidence/plan04/phase0-baseline-inputs.json') | ConvertFrom-Json -Depth 100
 $repositoryFiles = @(Get-ChildItem -LiteralPath (Repo 'src/Modules') -Recurse -File -Filter '*Repository.cs' |
     Where-Object FullName -Match 'Infrastructure.*[\\/]Repositories')
 $businessFiles = @($repositoryFiles | Where-Object FullName -Match 'Modules[\\/](CRM|Registry|Holdings|Transaction)[\\/]')
@@ -187,7 +188,7 @@ foreach ($fixture in $fixtureExpectations.Keys) {
 
 $inventory = [ordered]@{
     formatVersion = 1
-    generatedAt = (Get-Date).ToString('yyyy-MM-ddTHH:mm:ssK')
+    asOf = $baseline.capturedAt
     strategy = $policy.defaultStrategy
     repositoryFileCount = $repositoryFiles.Count
     businessRepositoryFileCount = $businessFiles.Count
