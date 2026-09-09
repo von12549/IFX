@@ -1,6 +1,7 @@
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Persistence;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.CRM.Infrastructure.Repositories;
@@ -11,10 +12,14 @@ public class EfTrustInvestorProfileRepository : ITrustInvestorProfileRepository
 
     public EfTrustInvestorProfileRepository(CrmDbContext context) => _context = context;
 
-    public async Task<TrustInvestorProfile?> GetByInvestorIdAsync(Guid investorId, CancellationToken ct = default)
+    public async Task<TrustInvestorProfile?> GetByInvestorIdAsync(Guid investorId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.TrustInvestorProfiles
-            .FirstOrDefaultAsync(p => p.InvestorId == investorId, ct);
+            .FirstOrDefaultAsync(
+                p => p.InvestorId == investorId &&
+                     _context.Investors.Any(i => i.Id == p.InvestorId && i.TenantId == tenantId),
+                ct);
     }
 
     public async Task AddAsync(TrustInvestorProfile profile, CancellationToken ct = default)

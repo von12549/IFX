@@ -55,7 +55,7 @@ public class AcceptOrderCommandHandlerTests
     public async Task Handle_WithSubmittedOrder_AcceptsAndPublishesEvent()
     {
         var order = CreateSubmittedOrder();
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var result = await _handler.Handle(new AcceptOrderCommand(order.Id, "DEAL-001", null, null), CancellationToken.None);
 
@@ -69,7 +69,7 @@ public class AcceptOrderCommandHandlerTests
     [Fact]
     public async Task Handle_WhenOrderNotFound_ReturnsFailure()
     {
-        _orders.Setup(r => r.GetByIdWithLegsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
 
         var result = await _handler.Handle(new AcceptOrderCommand(Guid.NewGuid(), "DEAL-001", null, null), CancellationToken.None);
 
@@ -82,7 +82,7 @@ public class AcceptOrderCommandHandlerTests
     public async Task Handle_WhenOrderBelongsToDifferentTenant_ReturnsFailure()
     {
         var order = Order.CreateSubscriptionOrder(Guid.NewGuid(), "ORD-001", Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 10000m, "AUD", TradeDate);
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var result = await _handler.Handle(new AcceptOrderCommand(order.Id, "DEAL-001", null, null), CancellationToken.None);
 
@@ -95,7 +95,7 @@ public class AcceptOrderCommandHandlerTests
     {
         var order = CreateSubmittedOrder();
         order.Accept("DEAL-ORIGINAL");
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var result = await _handler.Handle(new AcceptOrderCommand(order.Id, "DEAL-NEW", null, null), CancellationToken.None);
 

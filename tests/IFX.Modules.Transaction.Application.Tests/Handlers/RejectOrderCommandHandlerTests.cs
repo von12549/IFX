@@ -53,7 +53,7 @@ public class RejectOrderCommandHandlerTests
     public async Task Handle_WithSubmittedOrder_RejectsAndPublishesEvent()
     {
         var order = CreateSubmittedOrder();
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var result = await _handler.Handle(new RejectOrderCommand(order.Id, "Unknown ISIN"), CancellationToken.None);
 
@@ -66,7 +66,7 @@ public class RejectOrderCommandHandlerTests
     [Fact]
     public async Task Handle_WhenOrderNotFound_ReturnsFailure()
     {
-        _orders.Setup(r => r.GetByIdWithLegsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
 
         var result = await _handler.Handle(new RejectOrderCommand(Guid.NewGuid(), "reason"), CancellationToken.None);
 
@@ -80,7 +80,7 @@ public class RejectOrderCommandHandlerTests
         var order = CreateSubmittedOrder();
         order.Accept("DEAL-001");
         order.Confirm();
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var result = await _handler.Handle(new RejectOrderCommand(order.Id, "too late"), CancellationToken.None);
 

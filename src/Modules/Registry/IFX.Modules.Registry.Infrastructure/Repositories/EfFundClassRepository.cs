@@ -1,6 +1,7 @@
 using IFX.Modules.Registry.Domain.Entities;
 using IFX.Modules.Registry.Domain.Repositories;
 using IFX.Modules.Registry.Infrastructure.Persistence;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.Registry.Infrastructure.Repositories;
@@ -16,28 +17,32 @@ public class EfFundClassRepository : IFundClassRepository
 
     public async Task<FundClass?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.FundClasses
             .FirstOrDefaultAsync(fc => fc.Id == id && fc.TenantId == tenantId, ct);
     }
 
     public async Task<List<FundClass>> GetByFundIdAsync(Guid fundId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.FundClasses
             .Where(fc => fc.FundId == fundId && fc.TenantId == tenantId)
             .OrderBy(fc => fc.ClassCode)
             .ToListAsync(ct);
     }
 
-    public async Task<bool> CodeExistsAsync(string classCode, Guid fundId, CancellationToken ct = default)
+    public async Task<bool> CodeExistsAsync(string classCode, Guid fundId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.FundClasses
-            .AnyAsync(fc => fc.ClassCode == classCode.ToUpperInvariant() && fc.FundId == fundId, ct);
+            .AnyAsync(fc => fc.ClassCode == classCode.ToUpperInvariant() && fc.FundId == fundId && fc.TenantId == tenantId, ct);
     }
 
-    public async Task<bool> CodeExistsAsync(string classCode, Guid fundId, Guid excludeId, CancellationToken ct = default)
+    public async Task<bool> CodeExistsAsync(string classCode, Guid fundId, Guid tenantId, Guid excludeId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.FundClasses
-            .AnyAsync(fc => fc.ClassCode == classCode.ToUpperInvariant() && fc.FundId == fundId && fc.Id != excludeId, ct);
+            .AnyAsync(fc => fc.ClassCode == classCode.ToUpperInvariant() && fc.FundId == fundId && fc.TenantId == tenantId && fc.Id != excludeId, ct);
     }
 
     public async Task AddAsync(FundClass fundClass, CancellationToken ct = default)

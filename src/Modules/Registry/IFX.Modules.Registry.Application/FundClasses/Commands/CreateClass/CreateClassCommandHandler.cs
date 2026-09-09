@@ -38,7 +38,7 @@ public class CreateClassCommandHandler : IRequestHandler<CreateClassCommand, Res
             var fund = await _unitOfWork.Funds.GetByIdAsync(request.FundId, tenantId.Value, cancellationToken);
             if (fund == null)
                 return Result<FundClassDto>.Failure("Fund not found.");
-            if (await _unitOfWork.FundClasses.CodeExistsAsync(request.ClassCode, request.FundId, cancellationToken))
+            if (await _unitOfWork.FundClasses.CodeExistsAsync(request.ClassCode, request.FundId, tenantId.Value, cancellationToken))
                 return Result<FundClassDto>.Failure($"Class code '{request.ClassCode}' already exists for this fund.");
             var fundClass = FundClass.Create(request.FundId, tenantId.Value, request.ClassCode, request.ClassName, request.Currency, request.NavFrequency);
             // Apply optional fee fields via Update (keeps fee logic in domain entity)

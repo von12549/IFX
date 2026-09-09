@@ -1,6 +1,7 @@
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Persistence;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.CRM.Infrastructure.Repositories;
@@ -13,6 +14,7 @@ public class EfPartyInvestmentAccountLinkRepository : IPartyInvestmentAccountLin
 
     public async Task<IReadOnlyList<PartyInvestmentAccountLink>> GetLinksByAccountIdAsync(Guid accountId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.PartyInvestmentAccountLinks
             .Where(l => l.InvestmentAccountId == accountId && l.TenantId == tenantId)
             .OrderBy(l => l.LinkOrder)
@@ -21,6 +23,7 @@ public class EfPartyInvestmentAccountLinkRepository : IPartyInvestmentAccountLin
 
     public async Task<IReadOnlyList<PartyInvestmentAccountLink>> GetLinksByPartyIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.PartyInvestmentAccountLinks
             .Where(l => l.PartyId == partyId && l.TenantId == tenantId)
             .ToListAsync(ct);
@@ -28,6 +31,7 @@ public class EfPartyInvestmentAccountLinkRepository : IPartyInvestmentAccountLin
 
     public async Task<PartyInvestmentAccountLink?> GetAsync(Guid partyId, Guid accountId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.PartyInvestmentAccountLinks
             .FirstOrDefaultAsync(l => l.PartyId == partyId && l.InvestmentAccountId == accountId && l.TenantId == tenantId, ct);
     }

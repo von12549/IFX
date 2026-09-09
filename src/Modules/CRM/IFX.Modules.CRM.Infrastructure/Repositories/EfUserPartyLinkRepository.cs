@@ -1,6 +1,7 @@
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Persistence;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.CRM.Infrastructure.Repositories;
@@ -13,18 +14,21 @@ public class EfUserPartyLinkRepository : IUserPartyLinkRepository
 
     public async Task<UserPartyLink?> GetByUserIdAsync(Guid userId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.UserPartyLinks
             .FirstOrDefaultAsync(l => l.UserId == userId && l.TenantId == tenantId, ct);
     }
 
     public async Task<UserPartyLink?> GetByPartyIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.UserPartyLinks
             .FirstOrDefaultAsync(l => l.PartyId == partyId && l.TenantId == tenantId, ct);
     }
 
     public async Task<IReadOnlyList<UserPartyLink>> GetAllByPartyIdAsync(Guid partyId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.UserPartyLinks
             .Where(l => l.PartyId == partyId && l.TenantId == tenantId)
             .ToListAsync(ct);

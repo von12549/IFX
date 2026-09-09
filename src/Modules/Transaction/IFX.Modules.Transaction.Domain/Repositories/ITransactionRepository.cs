@@ -4,7 +4,7 @@ namespace IFX.Modules.Transaction.Domain.Repositories;
 
 public interface ITransactionRepository
 {
-    Task<TxEntity?> GetByIdAsync(Guid transactionId, CancellationToken ct = default);
+    Task<TxEntity?> GetByIdAsync(Guid tenantId, Guid transactionId, CancellationToken ct = default);
     Task<IReadOnlyList<TxEntity>> GetByTenantAsync(Guid tenantId, CancellationToken ct = default);
     Task<IReadOnlyList<TxEntity>> GetByInvestmentAccountAsync(Guid tenantId, Guid investmentAccountId, CancellationToken ct = default);
     Task AddAsync(TxEntity transaction, CancellationToken ct = default);

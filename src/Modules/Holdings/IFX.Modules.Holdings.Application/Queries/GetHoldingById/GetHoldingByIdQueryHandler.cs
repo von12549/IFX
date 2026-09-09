@@ -28,10 +28,13 @@ public class GetHoldingByIdQueryHandler : IRequestHandler<GetHoldingByIdQuery, R
     {
         try
         {
-            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
-                "holding", "read", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
+            if (_currentUser.TenantId is not { } tenantId)
+                return Result<HoldingSummaryDto>.Failure("Tenant context required.");
 
-            var holding = await _unitOfWork.Holdings.GetByIdAsync(request.HoldingId, cancellationToken);
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync(
+                "holding", "read", new TenantScopeResourceAttributes(tenantId), ct: cancellationToken);
+
+            var holding = await _unitOfWork.Holdings.GetByIdAsync(tenantId, request.HoldingId, cancellationToken);
             if (holding == null)
                 return Result<HoldingSummaryDto>.Failure($"Holding {request.HoldingId} not found.");
 

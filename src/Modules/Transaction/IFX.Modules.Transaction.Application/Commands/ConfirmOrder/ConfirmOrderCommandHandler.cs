@@ -35,7 +35,7 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, R
         {
             if (_currentUser.TenantId == null)
                 return Result<OrderDto>.Failure("Tenant context required.");
-            var order = await _unitOfWork.Orders.GetByIdWithLegsAsync(request.OrderId, cancellationToken);
+            var order = await _unitOfWork.Orders.GetByIdWithLegsAsync(_currentUser.TenantId.Value, request.OrderId, cancellationToken);
             if (order == null || order.TenantId != _currentUser.TenantId.Value)
                 return Result<OrderDto>.Failure("Order not found.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("order", "update", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);

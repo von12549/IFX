@@ -47,7 +47,7 @@ public class GetHoldingByIdQueryHandlerTests
     public async Task Handle_WhenHoldingExists_ReturnsDto()
     {
         var holding = Holding.Create(TenantId, Guid.NewGuid(), Guid.NewGuid());
-        _holdings.Setup(r => r.GetByIdAsync(holding.Id, It.IsAny<CancellationToken>())).ReturnsAsync(holding);
+        _holdings.Setup(r => r.GetByIdAsync(TenantId, holding.Id, It.IsAny<CancellationToken>())).ReturnsAsync(holding);
         _mapper.Setup(m => m.Map<HoldingSummaryDto>(holding)).Returns(MakeDto(holding.Id));
 
         var result = await _handler.Handle(new GetHoldingByIdQuery(holding.Id), CancellationToken.None);
@@ -60,7 +60,7 @@ public class GetHoldingByIdQueryHandlerTests
     public async Task Handle_WhenHoldingNotFound_ReturnsFailure()
     {
         var missingId = Guid.NewGuid();
-        _holdings.Setup(r => r.GetByIdAsync(missingId, It.IsAny<CancellationToken>())).ReturnsAsync((Holding?)null);
+        _holdings.Setup(r => r.GetByIdAsync(TenantId, missingId, It.IsAny<CancellationToken>())).ReturnsAsync((Holding?)null);
 
         var result = await _handler.Handle(new GetHoldingByIdQuery(missingId), CancellationToken.None);
 

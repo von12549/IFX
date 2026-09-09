@@ -34,7 +34,7 @@ public class ProcessTransactionCommandHandler : IRequestHandler<ProcessTransacti
         {
             if (_currentUser.TenantId == null)
                 return Result<TransactionDto>.Failure("Tenant context required.");
-            var tx = await _unitOfWork.Transactions.GetByIdAsync(request.TransactionId, cancellationToken);
+            var tx = await _unitOfWork.Transactions.GetByIdAsync(_currentUser.TenantId.Value, request.TransactionId, cancellationToken);
             if (tx == null || tx.TenantId != _currentUser.TenantId.Value)
                 return Result<TransactionDto>.Failure("Transaction not found.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("transaction", "process", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);

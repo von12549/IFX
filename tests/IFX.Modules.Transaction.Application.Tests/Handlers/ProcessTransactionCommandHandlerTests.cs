@@ -59,7 +59,7 @@ public class ProcessTransactionCommandHandlerTests
     public async Task Handle_WithPendingTransaction_ProcessesAndPublishesEvent()
     {
         var tx = CreatePendingSubscription();
-        _transactions.Setup(r => r.GetByIdAsync(tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
+        _transactions.Setup(r => r.GetByIdAsync(TenantId, tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
         _mapper.Setup(m => m.Map<TransactionDto>(tx)).Returns(MakeDto());
 
         var result = await _handler.Handle(new ProcessTransactionCommand(tx.Id, 10m), CancellationToken.None);
@@ -75,7 +75,7 @@ public class ProcessTransactionCommandHandlerTests
     public async Task Handle_WhenTransactionNotFound_ReturnsFailure()
     {
         var missingId = Guid.NewGuid();
-        _transactions.Setup(r => r.GetByIdAsync(missingId, It.IsAny<CancellationToken>())).ReturnsAsync((TxEntity?)null);
+        _transactions.Setup(r => r.GetByIdAsync(TenantId, missingId, It.IsAny<CancellationToken>())).ReturnsAsync((TxEntity?)null);
 
         var result = await _handler.Handle(new ProcessTransactionCommand(missingId, 10m), CancellationToken.None);
 
@@ -91,7 +91,7 @@ public class ProcessTransactionCommandHandlerTests
             Guid.NewGuid(), // different tenant
             Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             10000m, DateOnly.FromDateTime(DateTime.UtcNow));
-        _transactions.Setup(r => r.GetByIdAsync(tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
+        _transactions.Setup(r => r.GetByIdAsync(TenantId, tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
 
         var result = await _handler.Handle(new ProcessTransactionCommand(tx.Id, 10m), CancellationToken.None);
 
@@ -115,7 +115,7 @@ public class ProcessTransactionCommandHandlerTests
     {
         var tx = CreatePendingSubscription();
         tx.Process(5m); // already processed
-        _transactions.Setup(r => r.GetByIdAsync(tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
+        _transactions.Setup(r => r.GetByIdAsync(TenantId, tx.Id, It.IsAny<CancellationToken>())).ReturnsAsync(tx);
 
         var result = await _handler.Handle(new ProcessTransactionCommand(tx.Id, 10m), CancellationToken.None);
 

@@ -59,7 +59,7 @@ public class ConfirmOrderCommandHandlerTests
     {
         var order = CreateAcceptedOrder();
         var legId = order.Legs[0].Id;
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var legs = new List<OrderLegConfirmation>
         {
@@ -79,7 +79,7 @@ public class ConfirmOrderCommandHandlerTests
     [Fact]
     public async Task Handle_WhenOrderNotFound_ReturnsFailure()
     {
-        _orders.Setup(r => r.GetByIdWithLegsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Order?)null);
 
         var result = await _handler.Handle(new ConfirmOrderCommand(Guid.NewGuid(), []), CancellationToken.None);
 
@@ -91,7 +91,7 @@ public class ConfirmOrderCommandHandlerTests
     public async Task Handle_WhenOrderNotYetAccepted_ReturnsFailure()
     {
         var order = Order.CreateSubscriptionOrder(TenantId, "ORD-001", Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 10000m, "AUD", TradeDate);
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var result = await _handler.Handle(new ConfirmOrderCommand(order.Id, []), CancellationToken.None);
 
@@ -103,7 +103,7 @@ public class ConfirmOrderCommandHandlerTests
     public async Task Handle_WhenLegNotFoundOnOrder_ReturnsFailure()
     {
         var order = CreateAcceptedOrder();
-        _orders.Setup(r => r.GetByIdWithLegsAsync(order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
+        _orders.Setup(r => r.GetByIdWithLegsAsync(TenantId, order.Id, It.IsAny<CancellationToken>())).ReturnsAsync(order);
 
         var legs = new List<OrderLegConfirmation> { new(Guid.NewGuid(), 10m, 1000m, null, null) };
 

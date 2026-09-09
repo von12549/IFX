@@ -23,7 +23,7 @@ public class GetOrderByIdQueryHandler : IRequestHandler<GetOrderByIdQuery, Resul
         if (_currentUser.TenantId == null)
             return Result<OrderDto>.Failure("Tenant context required.");
 
-        var order = await _unitOfWork.Orders.GetByIdWithLegsAsync(request.OrderId, cancellationToken);
+        var order = await _unitOfWork.Orders.GetByIdWithLegsAsync(_currentUser.TenantId.Value, request.OrderId, cancellationToken);
         if (order == null || order.TenantId != _currentUser.TenantId.Value)
             return Result<OrderDto>.Failure("Order not found.");
 

@@ -29,7 +29,7 @@ public class GetTransactionByIdQueryHandler : IRequestHandler<GetTransactionById
             if (_currentUser.TenantId == null)
                 return Result<TransactionDto>.Failure("Tenant context required.");
 
-            var tx = await _unitOfWork.Transactions.GetByIdAsync(request.TransactionId, cancellationToken);
+            var tx = await _unitOfWork.Transactions.GetByIdAsync(_currentUser.TenantId.Value, request.TransactionId, cancellationToken);
             if (tx == null || tx.TenantId != _currentUser.TenantId.Value)
                 return Result<TransactionDto>.Failure("Transaction not found.");
 

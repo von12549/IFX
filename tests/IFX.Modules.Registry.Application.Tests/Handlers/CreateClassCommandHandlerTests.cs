@@ -46,7 +46,7 @@ public class CreateClassCommandHandlerTests
 
         var fund = Fund.Create(TenantId, "FUND001", "Growth Fund", FundType.UCITS, "USD", new DateOnly(2024, 1, 1));
         _funds.Setup(r => r.GetByIdAsync(FundId, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(fund);
-        _fundClasses.Setup(r => r.CodeExistsAsync(It.IsAny<string>(), FundId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
+        _fundClasses.Setup(r => r.CodeExistsAsync(It.IsAny<string>(), FundId, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(false);
 
         _handler = new CreateClassCommandHandler(
             _unitOfWork.Object, _mapper.Object, _currentUser.Object,
@@ -96,7 +96,7 @@ public class CreateClassCommandHandlerTests
     [Fact]
     public async Task Handle_WhenClassCodeAlreadyExists_ReturnsFailure()
     {
-        _fundClasses.Setup(r => r.CodeExistsAsync("CLASS-A", FundId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _fundClasses.Setup(r => r.CodeExistsAsync("CLASS-A", FundId, TenantId, It.IsAny<CancellationToken>())).ReturnsAsync(true);
 
         var result = await _handler.Handle(ValidCommand, CancellationToken.None);
 

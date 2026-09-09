@@ -1,6 +1,7 @@
 using IFX.Modules.Registry.Domain.Entities;
 using IFX.Modules.Registry.Domain.Repositories;
 using IFX.Modules.Registry.Infrastructure.Persistence;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.Registry.Infrastructure.Repositories;
@@ -16,12 +17,14 @@ public class EfFundRepository : IFundRepository
 
     public async Task<Fund?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.Funds
             .FirstOrDefaultAsync(f => f.Id == id && f.TenantId == tenantId, ct);
     }
 
     public async Task<List<Fund>> GetByTenantIdAsync(Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.Funds
             .Where(f => f.TenantId == tenantId)
             .OrderBy(f => f.FundCode)
@@ -30,12 +33,14 @@ public class EfFundRepository : IFundRepository
 
     public async Task<bool> CodeExistsAsync(string fundCode, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.Funds
             .AnyAsync(f => f.FundCode == fundCode.ToUpperInvariant() && f.TenantId == tenantId, ct);
     }
 
     public async Task<bool> CodeExistsAsync(string fundCode, Guid tenantId, Guid excludeId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.Funds
             .AnyAsync(f => f.FundCode == fundCode.ToUpperInvariant() && f.TenantId == tenantId && f.Id != excludeId, ct);
     }

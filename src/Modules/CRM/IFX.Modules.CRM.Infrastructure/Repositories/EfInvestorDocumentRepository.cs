@@ -1,6 +1,7 @@
 using IFX.Modules.CRM.Domain.Entities;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Persistence;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IFX.Modules.CRM.Infrastructure.Repositories;
@@ -13,6 +14,7 @@ public class EfInvestorDocumentRepository : IInvestorDocumentRepository
 
     public async Task<IReadOnlyList<InvestorDocument>> GetByInvestorIdAsync(Guid investorId, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.InvestorDocuments
             .Where(d => d.InvestorId == investorId && d.TenantId == tenantId)
             .ToListAsync(ct);
@@ -20,6 +22,7 @@ public class EfInvestorDocumentRepository : IInvestorDocumentRepository
 
     public async Task<InvestorDocument?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.InvestorDocuments
             .FirstOrDefaultAsync(d => d.Id == id && d.TenantId == tenantId, ct);
     }
