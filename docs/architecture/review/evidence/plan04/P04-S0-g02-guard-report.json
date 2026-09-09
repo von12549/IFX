@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "gate": "G02",
+  "phase": 10,
+  "result": "passed",
+  "checks": {
+    "deterministicInventory": true,
+    "deterministicManifest": true,
+    "exactModuleSet": true,
+    "everyModuleHasMigrations": true,
+    "uniqueMigrationIds": true,
+    "schemaOwnership": true,
+    "generatedEvidenceContainsNoSecrets": true
+  },
+  "counts": {
+    "modules": 5,
+    "entityTypes": 46,
+    "uniqueTables": 40,
+    "keys": 46,
+    "foreignKeys": 42,
+    "checkConstraints": 0,
+    "migrations": 15,
+    "rawSqlFindings": 43,
+    "schemaQualifiedTableReferences": 56,
+    "crossSchemaFindings": 0,
+    "secretFindings": 0
+  },
+  "sha256": {
+    "inventory": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
+    "manifest": "b9f3c1a07b0fb9033bcf1cd0452292651bf9f121b5f7611a6ac4e112bee60ac2"
+  },
+  "failures": {
+    "missingModules": [],
+    "unexpectedModules": [],
+    "duplicateMigrationIds": [],
+    "schemaViolations": [],
+    "secretFindings": []
+  }
+}

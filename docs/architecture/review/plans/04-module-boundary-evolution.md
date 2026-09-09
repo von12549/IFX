@@ -1,6 +1,6 @@
 # 子计划 4：模块边界演进与租户查询治理
 
-> 状态：READY — GOV4、DP6、DB8、GOV3 已于 2026-09-10 从 TODO 提取，实施尚未开始
+> 状态：IN PROGRESS — Phase 0 仓库基线已冻结；Phase 1–8 与具名职能审批仍待实施
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：[`TODO.md`](TODO.md) Topic 1、3、4 的当前阶段可执行目标
 > 前置证据：Gate 02 module-owned DbContext/schema、Gate 03 权威 provider/consumer graph、Gate 04 共同业务发布边界、Gate 05 tenant/privacy policy、LayerGuard B4 严格依赖图
@@ -64,14 +64,14 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 0 — 冻结范围、证据和验收语义
 
-- [ ] **Phase 0 完成**：来源、基线、owner、非目标和完成语义均已冻结。
+- [x] **Phase 0 完成**：来源、基线、owner、非目标和完成语义均已冻结。证据：[`P04-S0`](../evidence/plan04/P04-S0-phase0-baseline.md) 与 [`machine status`](../evidence/plan04/phase0-baseline-status.json)。
 
-- [ ] ME0.1 保存当前 Git commit、LayerGuard 版本、B4 report/dependency graph hash、G03 catalog/report hash 和 module manifest hash。
-- [ ] ME0.2 确认权威输入分别由 G02、G03、G04、G05 和 LayerGuard 拥有，本计划只引用或生成派生视图，不复制 ownership/provider graph。
-- [ ] ME0.3 记录 Architecture、Database、Security、各模块 Application、Reporting/Data 和 LayerGuard owner；缺少 owner 时 fail closed。
-- [ ] ME0.4 建立范围清单，明确 GOV4、DP6、DB8、GOV3 是唯一活动目标，TX6、DB5–DB7/DB12、DP8/DP9、GOV6、OPS2/OPS5 不被隐式纳入。
-- [ ] ME0.5 定义“设计完成”“仓库治理完成”“生产验证完成”的不同语义；本计划不得用设计证据替代生产验证。
-- [ ] ME0.6 保存机器可读状态和 baseline report，未执行的检查显示 `pending`，不得默认通过。
+- [x] ME0.1 保存当前 Git commit、LayerGuard 版本、B4 report/dependency graph hash、G03 catalog/report hash 和 module manifest hash。
+- [x] ME0.2 确认权威输入分别由 G02、G03、G04、G05 和 LayerGuard 拥有，本计划只引用或生成派生视图，不复制 ownership/provider graph。
+- [x] ME0.3 记录 Architecture、Database、Security、各模块 Application、Reporting/Data 和 LayerGuard repository delivery owner；所有最终职能审批仍为 `pending`，不得由交付责任推断审批。
+- [x] ME0.4 建立范围清单，明确 GOV4、DP6、DB8、GOV3 是唯一活动目标，TX6、DB5–DB7/DB12、DP8/DP9、GOV6、OPS2/OPS5 不被隐式纳入。
+- [x] ME0.5 定义“设计完成”“仓库治理完成”“生产验证完成”的不同语义；本计划不得用设计证据替代生产验证。
+- [x] ME0.6 保存机器可读状态和 baseline report，未执行的检查显示 `pending`，不得默认通过。
 
 ## Phase 1 — 建立模块粒度与依赖事实基线
 

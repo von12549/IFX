@@ -1,0 +1,208 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "slice": "P04-S0",
+  "capturedAt": "2026-09-10",
+  "baselineCommit": "40d3cd38505c14557567d7cc81f4ef51e8293d3c",
+  "layerGuard": {
+    "toolVersion": "0.4.0-a1",
+    "milestone": "B4-strict",
+    "expectedVerdict": "baseline-clean",
+    "expectedViolationCount": 0,
+    "expectedWaiverCount": 0,
+    "expectedProjectsInScope": 39
+  },
+  "authorities": [
+    {
+      "authority": "G02",
+      "owns": [
+        "module DbContext and schema ownership",
+        "migration ownership and history",
+        "cross-schema database prohibition"
+      ],
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+          "sha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+          "sha256": "b9f3c1a07b0fb9033bcf1cd0452292651bf9f121b5f7611a6ac4e112bee60ac2"
+        }
+      ]
+    },
+    {
+      "authority": "G03",
+      "owns": [
+        "module capability and data-fact ownership",
+        "Contract and Event provider-consumer graph",
+        "protocol lifecycle and field catalog"
+      ],
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "da823fa435018e4567d779a276c0ac5007da2672f26e35fbc5a0b1bc76be8ea0"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json",
+          "sha256": "ff23f76b58f4722dd133c4069521ae2897997bf51bb42ee6a63720ef7a0e37ea"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json",
+          "sha256": "597cf51cb6d33cc8ec1539f5c6f59bd8f16ffc83c01f616be31ee33af1597e72"
+        }
+      ]
+    },
+    {
+      "authority": "G04",
+      "owns": [
+        "required module release identity",
+        "runtime capability and endpoint-group manifest",
+        "common business release boundary"
+      ],
+      "artifacts": [
+        {
+          "path": "deployment/g04/module-manifest.json",
+          "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G04/G04-phase12-status.json",
+          "sha256": "03a57c3c924823b5adc3f6587d3094a8a0c81501528c87dcf15673837d5d04a9"
+        }
+      ]
+    },
+    {
+      "authority": "G05",
+      "owns": [
+        "trusted ExecutionContext and tenant scope",
+        "context and sensitive-field classification",
+        "production security evidence gaps"
+      ],
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G05/context-protocol-v1.json",
+          "sha256": "d7cb3d0cca54154a76235d96c292e2a719302d920d8a8cea4c5ec084dad7825a"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/execution-context-sources.json",
+          "sha256": "9482c9eb33e6955d731119634de61fe60a55c93701dd78f0c5bb6b489c229fdb"
+        },
+        {
+          "path": "docs/architecture/review/gates/G05/open-items-v1.json",
+          "sha256": "8d744e8da8e03fa2b367cc564fdbc515bab3207a22a0be46fe27ff0b367337d7"
+        }
+      ]
+    },
+    {
+      "authority": "LayerGuard-B4",
+      "owns": [
+        "project and namespace dependency graph",
+        "static boundary policy and strict baseline"
+      ],
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+          "sha256": "4b654011c45839a5fb48d95d799780221e734f70aea4706bb6181a267cbf47b9"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
+          "sha256": "1cf5a645ddd9ef429c2597a9464b575eb37317a2b2706bf6f93116016632be36"
+        },
+        {
+          "path": "src/layerguard.json",
+          "sha256": "bea9f900bbf10aa96a28b9973fdaa685dd405633270efe02347c99102c972404"
+        }
+      ]
+    }
+  ],
+  "owners": [
+    {
+      "responsibility": "architecture",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/evidence/plan00-phase0-architecture-decisions.md",
+      "approvalStatus": "pending"
+    },
+    {
+      "responsibility": "database",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/evidence/plan00-phase0-architecture-decisions.md",
+      "approvalStatus": "pending-database-role-approval"
+    },
+    {
+      "responsibility": "security",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md",
+      "approvalStatus": "pending-security-role-approval"
+    },
+    {
+      "responsibility": "auth-application",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G03/contract-event-catalog.yaml#modules/auth",
+      "approvalStatus": "pending"
+    },
+    {
+      "responsibility": "crm-application",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G03/contract-event-catalog.yaml#modules/crm",
+      "approvalStatus": "pending"
+    },
+    {
+      "responsibility": "registry-application",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G03/contract-event-catalog.yaml#modules/registry",
+      "approvalStatus": "pending"
+    },
+    {
+      "responsibility": "transaction-application",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G03/contract-event-catalog.yaml#modules/transaction",
+      "approvalStatus": "pending"
+    },
+    {
+      "responsibility": "holdings-application",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G03/contract-event-catalog.yaml#modules/holdings",
+      "approvalStatus": "pending"
+    },
+    {
+      "responsibility": "reporting-data",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/evidence/plan00-phase0-architecture-decisions.md",
+      "approvalStatus": "pending-reporting-data-role-approval"
+    },
+    {
+      "responsibility": "layerguard",
+      "deliveryOwner": "xiaolong-feng",
+      "contact": "@von12549",
+      "evidence": "docs/architecture/review/gates/G03/handoffs/plan03-layerguard-handoff.md",
+      "approvalStatus": "pending-architecture-acceptance"
+    }
+  ],
+  "activeScope": ["GOV4", "DP6", "DB8", "GOV3"],
+  "excludedScope": ["TX6", "DB5", "DB6", "DB7", "DB12", "DP8", "DP9", "GOV6", "OPS2", "OPS5"],
+  "completionSemantics": {
+    "designComplete": "Approved repository design, schemas, fixtures and decision records exist; no runtime or production capability is implied.",
+    "repositoryGovernanceComplete": "Source, validators, tests and repository evidence conform on the frozen inputs; named functional approvals and production evidence remain separate.",
+    "productionValidationComplete": "A named target environment has immutable runtime, data, security, observability and approval evidence. No Plan 04 repository artifact may set this state by itself."
+  },
+  "claims": {
+    "microserviceExtraction": "not-claimed",
+    "productionRls": "not-claimed",
+    "productionReporting": "not-claimed",
+    "productionSlo": "not-claimed",
+    "namedFunctionalApproval": "not-claimed"
+  }
+}

@@ -5135,6 +5135,18 @@
         "Line": 73,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
+      },
+      {
+        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Messaging/RegistryOutboxStore.cs",
+        "Line": 15,
+        "Kind": "raw-sql",
+        "Excerpt": "var candidates = await dbContext.OutboxMessages.FromSqlInterpolated($$\u0022\u0022\u0022"
+      },
+      {
+        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Messaging/TransactionOutboxStore.cs",
+        "Line": 15,
+        "Kind": "raw-sql",
+        "Excerpt": "var candidates = await dbContext.OutboxMessages.FromSqlInterpolated($$\u0022\u0022\u0022"
       }
     ],
     "SchemaQualifiedTableReferences": [
@@ -5449,6 +5461,30 @@
         "Line": 664,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027\u0022);"
+      },
+      {
+        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Messaging/RegistryOutboxStore.cs",
+        "Line": 17,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "FROM [registry].[OutboxMessages] AS [candidate] WITH (UPDLOCK, READPAST, ROWLOCK)"
+      },
+      {
+        "Path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Messaging/RegistryOutboxStore.cs",
+        "Line": 22,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [registry].[OutboxMessages] AS [earlier]"
+      },
+      {
+        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Messaging/TransactionOutboxStore.cs",
+        "Line": 17,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "FROM [transaction].[OutboxMessages] AS [candidate] WITH (UPDLOCK, READPAST, ROWLOCK)"
+      },
+      {
+        "Path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Messaging/TransactionOutboxStore.cs",
+        "Line": 22,
+        "Kind": "schema-qualified-table-reference",
+        "Excerpt": "SELECT 1 FROM [transaction].[OutboxMessages] AS [earlier]"
       }
     ],
     "DatabaseObjectDefinitions": [],
