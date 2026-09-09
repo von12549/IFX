@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "sourcePlan": "04-module-boundary-evolution",
+  "gate": "G05",
+  "received": ["trusted tenant query guard", "platform cross-tenant authorization/audit boundary", "projection minimisation and lifecycle policy"],
+  "evidence": ["docs/architecture/review/evidence/plan04/phase4-tenant-query-status.json", "docs/architecture/review/evidence/plan04/phase5-projection-status.json"],
+  "productionClaims": {"tenantDeletionMatrix": "pending-GOV6", "productionSecurityAcceptance": "not-claimed", "reportingPrivacyAcceptance": "not-claimed"},
+  "gateClosureChanged": false
+}

@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "sourcePlan": "04-module-boundary-evolution",
+  "gate": "G04",
+  "received": ["DP6 extraction hard gates", "default modular-monolith decision", "DP8/DP9 handoff preconditions"],
+  "evidence": ["docs/architecture/review/evidence/plan04/phase3-extraction-policy-status.json", "docs/architecture/review/evidence/plan04/phase6-governance-status.json"],
+  "currentReleaseBoundary": "single-required-five-module-release",
+  "approvedExtractionCandidates": 0,
+  "gateClosureChanged": false
+}

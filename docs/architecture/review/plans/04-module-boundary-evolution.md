@@ -1,6 +1,6 @@
 # 子计划 4：模块边界演进与租户查询治理
 
-> 状态：IN PROGRESS — Phase 0、1、4–6 的仓库治理已完成；Phase 2、3 具名职能审批及 Phase 7–8 仍待实施
+> 状态：PRE-READY — Phase 0、1、4–7 的仓库工作已完成；Phase 2、3 具名职能审批及 Phase 8 文档收口仍待完成
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：[`TODO.md`](TODO.md) Topic 1、3、4 的当前阶段可执行目标
 > 前置证据：Gate 02 module-owned DbContext/schema、Gate 03 权威 provider/consumer graph、Gate 04 共同业务发布边界、Gate 05 tenant/privacy policy、LayerGuard B4 严格依赖图
@@ -150,15 +150,15 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 7 — 仓库采用与证据收口
 
-- [ ] **Phase 7 完成**：当前仓库符合批准政策，所有例外可追责且没有被误报为生产能力。
+- [ ] **Phase 7 完成**：仓库 reconciliation 与全套验证已通过，但 GOV4/DP6 具名职能审批仍为 pending，因此不把政策称为“已批准”。证据：[`P04-S7`](../evidence/plan04/P04-S7-repository-reconciliation.md) 与 [`machine status`](../evidence/plan04/phase7-reconciliation-status.json)。
 
-- [ ] ME7.1 对五个模块运行 GOV4 审计并关闭或登记全部 `revisit-boundary` 发现。
-- [ ] ME7.2 使用 DP6 policy 评估当前模块；默认结论保持 modular monolith，除非某候选具备全部证据和批准。
-- [ ] ME7.3 对全部 tenant-aware Repository/Contract/query 执行 DB8 reconciliation，修复违规并登记有期限的合法管理例外。
-- [ ] ME7.4 对当前跨模块查询执行 GOV3 reconciliation，证明不存在跨 DbContext join；已登记 projection 满足 owner/schema/rebuild/privacy 要求。
-- [ ] ME7.5 运行 targeted、module、integration、database-boundary、LayerGuard 和全解方案测试，记录基线与零新增违规。
-- [ ] ME7.6 记录 global query filter 和 RLS 的当前决策及生产复审条件；未部署能力必须明确显示 `not-claimed`。
-- [ ] ME7.7 将 GOV4、DP6、DB8、GOV3 结果回写 G02/G03/G04/G05 evidence index，不提前关闭其生产依赖项。
+- [x] ME7.1 对五个模块运行 GOV4 审计；当前无 `revisit-boundary` 发现，五个具名结论均已记录。
+- [x] ME7.2 使用 DP6 policy 评估当前模块；默认结论保持 modular monolith，当前无候选获批。
+- [x] ME7.3 对全部 tenant-aware Repository/Contract/query 执行 DB8 reconciliation，违规为零，五个合法管理例外均有 owner、期限、权限、审计和范围上限。
+- [x] ME7.4 对当前跨模块查询执行 GOV3 reconciliation，证明不存在跨 DbContext join；当前无批准 projection，Holdings 仅为 reference-only。
+- [x] ME7.5 运行 targeted、module、integration、database-boundary、LayerGuard 和全解方案测试；19 个 test assembly 共 1108/1108 通过，LayerGuard 189/189 且 39 个项目零违规。
+- [x] ME7.6 记录 global query filter 为 `not-selected`、RLS 为 `deferred-not-claimed` 及生产复审条件。
+- [x] ME7.7 将 GOV4、DP6、DB8、GOV3 结果回写 G02/G03/G04/G05 evidence handback，且所有 `gateClosureChanged` 均为 `false`。
 
 ## Phase 8 — 架构、规则与关闭文档化
 
