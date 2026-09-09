@@ -10,10 +10,12 @@ public class DeleteDepartmentCommandHandler : IRequestHandler<DeleteDepartmentCo
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<DeleteDepartmentCommandHandler> _logger;
-    public DeleteDepartmentCommandHandler(IUnitOfWork unitOfWork, IResourceAuthorizationService authorizationService, ILogger<DeleteDepartmentCommandHandler> logger)
+    public DeleteDepartmentCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<DeleteDepartmentCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -21,7 +23,8 @@ public class DeleteDepartmentCommandHandler : IRequestHandler<DeleteDepartmentCo
     public async Task<Result<bool>> Handle(DeleteDepartmentCommand request, CancellationToken cancellationToken)
     {
         {
-            var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, tenantId, cancellationToken);
             if (department == null)
                 return Result<bool>.Failure("Department not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("department", "delete", new DepartmentResourceAttributes(department.Id, department.TenantId, department.CreatedBy), ct: cancellationToken);

@@ -2,9 +2,9 @@ namespace IFX.Modules.Auth.Domain.Authorization;
 
 public interface IRoleRepository
 {
-    Task<Role?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
-    Task<Role?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
-    Task<Role?> GetByIdWithPermissionsAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Role?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
+    Task<Role?> GetByNameAsync(string name, Guid tenantId, CancellationToken cancellationToken = default);
+    Task<Role?> GetByIdWithPermissionsAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<List<Role>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default);
     Task<List<Role>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default);
     Task AddAsync(Role role, CancellationToken cancellationToken = default);

@@ -10,10 +10,12 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Resul
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<DeleteRoleCommandHandler> _logger;
-    public DeleteRoleCommandHandler(IUnitOfWork unitOfWork, IResourceAuthorizationService authorizationService, ILogger<DeleteRoleCommandHandler> logger)
+    public DeleteRoleCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<DeleteRoleCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -21,7 +23,8 @@ public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, Resul
     public async Task<Result<bool>> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
         {
-            var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId, tenantId, cancellationToken);
             if (role == null)
                 return Result<bool>.Failure("Role not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("role", "delete", new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy), ct: cancellationToken);

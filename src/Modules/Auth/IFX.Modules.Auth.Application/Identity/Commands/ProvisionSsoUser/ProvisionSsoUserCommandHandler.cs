@@ -32,7 +32,12 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
 
             // Always assign "PendingUser" role for auto-provisioned users
             const string roleName = "PendingUser";
-            var userRole = await _unitOfWork.Roles.GetByNameAsync(roleName, cancellationToken);
+            var idp = await _unitOfWork.Idps.GetEnabledByIssuerAsync(request.Issuer, cancellationToken);
+            if (idp is null || idp.Id != request.IdpId)
+            {
+                return Result<ProvisionSsoUserResponse>.Failure("Identity provider is not enabled or does not match the trusted issuer.");
+            }
+            var userRole = await _unitOfWork.Roles.GetByNameAsync(roleName, idp.TenantId, cancellationToken);
             if (userRole == null)
             {
                 _logger.LogError("'{RoleName}' role not found in database", roleName);

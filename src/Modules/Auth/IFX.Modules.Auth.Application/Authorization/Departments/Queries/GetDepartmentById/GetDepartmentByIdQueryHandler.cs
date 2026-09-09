@@ -14,19 +14,22 @@ public class GetDepartmentByIdQueryHandler : IRequestHandler<GetDepartmentByIdQu
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<GetDepartmentByIdQueryHandler> _logger;
 
-    public GetDepartmentByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<GetDepartmentByIdQueryHandler> logger)
+    public GetDepartmentByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<GetDepartmentByIdQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
 
     public async Task<Result<DepartmentDto>> Handle(GetDepartmentByIdQuery request, CancellationToken cancellationToken)
     {
-        var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, cancellationToken);
+        var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+        var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, tenantId, cancellationToken);
         if (department == null)
             return Result<DepartmentDto>.Failure("Department not found");
 

@@ -46,7 +46,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             }
 
             // Get default "User" role
-            var userRole = await _unitOfWork.Roles.GetByNameAsync("User", cancellationToken);
+            var userRole = await _unitOfWork.Roles.GetByNameAsync("User", primaryIdp.TenantId, cancellationToken);
             if (userRole == null)
             {
                 _logger.LogError("Default 'User' role not found in database");

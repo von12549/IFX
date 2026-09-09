@@ -10,10 +10,12 @@ public class RemoveRoleFromRoleGroupCommandHandler : IRequestHandler<RemoveRoleF
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<RemoveRoleFromRoleGroupCommandHandler> _logger;
-    public RemoveRoleFromRoleGroupCommandHandler(IUnitOfWork unitOfWork, IResourceAuthorizationService authorizationService, ILogger<RemoveRoleFromRoleGroupCommandHandler> logger)
+    public RemoveRoleFromRoleGroupCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<RemoveRoleFromRoleGroupCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -21,7 +23,8 @@ public class RemoveRoleFromRoleGroupCommandHandler : IRequestHandler<RemoveRoleF
     public async Task<Result<bool>> Handle(RemoveRoleFromRoleGroupCommand request, CancellationToken cancellationToken)
     {
         {
-            var group = await _unitOfWork.RoleGroups.GetByIdWithRolesAsync(request.RoleGroupId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var group = await _unitOfWork.RoleGroups.GetByIdWithRolesAsync(request.RoleGroupId, tenantId, cancellationToken);
             if (group == null)
                 return Result<bool>.Failure("Role group not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("rolegroup", "manage", new RoleGroupResourceAttributes(group.Id, group.TenantId, group.CreatedBy), ct: cancellationToken);

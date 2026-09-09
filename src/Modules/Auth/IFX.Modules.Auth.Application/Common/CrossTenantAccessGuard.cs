@@ -27,3 +27,16 @@ public static class CrossTenantAccessGuard
         }
     }
 }
+
+public static class TenantAccessGuard
+{
+    public static Guid RequireTenant(ICurrentUser currentUser)
+    {
+        if (!currentUser.IsAuthenticated || currentUser.TenantId is not { } tenantId || tenantId == Guid.Empty)
+        {
+            throw new ForbiddenException("A trusted tenant execution scope is required.");
+        }
+
+        return tenantId;
+    }
+}

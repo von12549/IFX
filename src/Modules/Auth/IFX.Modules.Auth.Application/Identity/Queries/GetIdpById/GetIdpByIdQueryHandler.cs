@@ -14,12 +14,14 @@ public class GetIdpByIdQueryHandler : IRequestHandler<GetIdpByIdQuery, Result<Id
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<GetIdpByIdQueryHandler> _logger;
 
-    public GetIdpByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<GetIdpByIdQueryHandler> logger)
+    public GetIdpByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<GetIdpByIdQueryHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -28,7 +30,8 @@ public class GetIdpByIdQueryHandler : IRequestHandler<GetIdpByIdQuery, Result<Id
     {
         try
         {
-            var idp = await _unitOfWork.Idps.GetByIdAsync(request.IdpId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var idp = await _unitOfWork.Idps.GetByIdAsync(request.IdpId, tenantId, cancellationToken);
 
             if (idp == null)
                 return Result<IdpDto>.Failure("Identity Provider not found");

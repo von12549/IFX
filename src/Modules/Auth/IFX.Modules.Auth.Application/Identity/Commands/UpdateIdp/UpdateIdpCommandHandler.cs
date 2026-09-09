@@ -14,11 +14,13 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<UpdateIdpCommandHandler> _logger;
-    public UpdateIdpCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<UpdateIdpCommandHandler> logger)
+    public UpdateIdpCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<UpdateIdpCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -27,7 +29,8 @@ public class UpdateIdpCommandHandler : IRequestHandler<UpdateIdpCommand, Result<
     {
         {
             // Fetch existing IdP
-            var idp = await _unitOfWork.Idps.GetByIdAsync(request.IdpId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var idp = await _unitOfWork.Idps.GetByIdAsync(request.IdpId, tenantId, cancellationToken);
             if (idp == null)
             {
                 return Result<IdpDto>.Failure("Identity Provider not found");

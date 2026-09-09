@@ -1,0 +1,3 @@
+public Task<Entity?> GetAsync(Guid tenantId = default) {
+    return query.FirstOrDefaultAsync(x => x.TenantId == tenantId);
+}

@@ -23,6 +23,8 @@ public class AssignRolesToUserCommandHandlerTests
     {
         _unitOfWork.Setup(u => u.Users).Returns(_users.Object);
         _unitOfWork.Setup(u => u.Roles).Returns(_roles.Object);
+        _currentUser.SetupGet(u => u.IsAuthenticated).Returns(true);
+        _currentUser.SetupGet(u => u.TenantId).Returns(Guid.NewGuid());
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(),
@@ -41,7 +43,7 @@ public class AssignRolesToUserCommandHandlerTests
         var role = new RoleBuilder().AsUser().Build();
         _users.Setup(u => u.GetByIdWithRolesAndGroupsAsync(user.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(user);
-        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<CancellationToken>())).ReturnsAsync(role);
+        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(role);
 
         var result = await _handler.Handle(
             new AssignRolesToUserCommand(user.Id, [role.Id]), CancellationToken.None);
@@ -71,7 +73,7 @@ public class AssignRolesToUserCommandHandlerTests
         var missingRoleId = Guid.NewGuid();
         _users.Setup(u => u.GetByIdWithRolesAndGroupsAsync(user.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(user);
-        _roles.Setup(r => r.GetByIdAsync(missingRoleId, It.IsAny<CancellationToken>())).ReturnsAsync((Role?)null);
+        _roles.Setup(r => r.GetByIdAsync(missingRoleId, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync((Role?)null);
 
         var result = await _handler.Handle(
             new AssignRolesToUserCommand(user.Id, [missingRoleId]), CancellationToken.None);

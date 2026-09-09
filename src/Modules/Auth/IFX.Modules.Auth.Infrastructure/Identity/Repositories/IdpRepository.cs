@@ -15,10 +15,11 @@ public class IdpRepository : IIdpRepository
         _context = context;
     }
 
-    public async Task<Idp?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Idp?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.Idps
-            .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(i => i.Id == id && i.TenantId == tenantId, cancellationToken);
     }
 
     public async Task<Idp?> GetByIssuerAsync(string issuer, CancellationToken cancellationToken = default)

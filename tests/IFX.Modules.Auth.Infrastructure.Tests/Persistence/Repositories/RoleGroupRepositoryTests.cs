@@ -33,7 +33,7 @@ public class RoleGroupRepositoryTests : IDisposable
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
 
-        var result = await _repository.GetByIdAsync(group.Id);
+        var result = await _repository.GetByIdAsync(group.Id, group.TenantId);
 
         result.Should().NotBeNull();
         result!.Name.Should().Be("Managers");
@@ -42,7 +42,19 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task GetByIdAsync_WithNonExistingGroup_ReturnsNull()
     {
-        var result = await _repository.GetByIdAsync(Guid.NewGuid());
+        var result = await _repository.GetByIdAsync(Guid.NewGuid(), Guid.NewGuid());
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_WithDifferentTenant_ReturnsNull()
+    {
+        var group = RoleGroup.Create("Managers", "Manager group", Guid.NewGuid());
+        await _context.RoleGroups.AddAsync(group);
+        await _context.SaveChangesAsync();
+
+        var result = await _repository.GetByIdAsync(group.Id, Guid.NewGuid());
+
         result.Should().BeNull();
     }
 
@@ -53,7 +65,7 @@ public class RoleGroupRepositoryTests : IDisposable
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();
 
-        var result = await _repository.GetByNameAsync("Admins");
+        var result = await _repository.GetByNameAsync("Admins", group.TenantId);
 
         result.Should().NotBeNull();
         result!.Name.Should().Be("Admins");
@@ -62,7 +74,7 @@ public class RoleGroupRepositoryTests : IDisposable
     [Fact]
     public async Task GetByNameAsync_WithNonExistingGroup_ReturnsNull()
     {
-        var result = await _repository.GetByNameAsync("NonExistent");
+        var result = await _repository.GetByNameAsync("NonExistent", Guid.NewGuid());
         result.Should().BeNull();
     }
 
@@ -82,7 +94,7 @@ public class RoleGroupRepositoryTests : IDisposable
         savedGroup.AddRole(role);
         await _context.SaveChangesAsync();
 
-        var result = await _repository.GetByIdWithRolesAsync(group.Id);
+        var result = await _repository.GetByIdWithRolesAsync(group.Id, group.TenantId);
 
         result.Should().NotBeNull();
         result!.Roles.Should().HaveCount(1);

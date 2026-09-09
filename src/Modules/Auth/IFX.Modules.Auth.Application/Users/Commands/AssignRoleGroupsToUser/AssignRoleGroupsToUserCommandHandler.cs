@@ -23,13 +23,14 @@ public class AssignRoleGroupsToUserCommandHandler : IRequestHandler<AssignRoleGr
     public async Task<Result<bool>> Handle(AssignRoleGroupsToUserCommand request, CancellationToken cancellationToken)
     {
         {
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
             var user = await _unitOfWork.Users.GetByIdWithRolesAndGroupsAsync(request.UserId, cancellationToken);
             if (user == null)
                 return Result<bool>.Failure("User not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("user", "manage", new UserResourceAttributes(user.Id, _currentUser.TenantId), ct: cancellationToken);
             foreach (var groupId in request.RoleGroupIds)
             {
-                var group = await _unitOfWork.RoleGroups.GetByIdAsync(groupId, cancellationToken);
+                var group = await _unitOfWork.RoleGroups.GetByIdAsync(groupId, tenantId, cancellationToken);
                 if (group == null)
                     return Result<bool>.Failure($"Role group {groupId} not found");
                 user.AddRoleGroup(group);

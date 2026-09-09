@@ -67,4 +67,27 @@ public sealed class CrossTenantAccessGuardTests
         currentUser.SetupGet(x => x.Permissions).Returns(permissions);
         return currentUser;
     }
+
+    [Fact]
+    public void RequireTenant_WithTrustedTenant_ReturnsTenant()
+    {
+        var tenantId = Guid.NewGuid();
+        var currentUser = CreateCurrentUser(true, Guid.NewGuid(), [], []);
+        currentUser.SetupGet(x => x.TenantId).Returns(tenantId);
+
+        TenantAccessGuard.RequireTenant(currentUser.Object).Should().Be(tenantId);
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void RequireTenant_WithoutTrustedTenant_FailsClosed(bool authenticated)
+    {
+        var currentUser = CreateCurrentUser(authenticated, Guid.NewGuid(), [], []);
+        currentUser.SetupGet(x => x.TenantId).Returns((Guid?)null);
+
+        var action = () => TenantAccessGuard.RequireTenant(currentUser.Object);
+
+        action.Should().Throw<ForbiddenException>();
+    }
 }

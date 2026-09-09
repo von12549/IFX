@@ -112,16 +112,16 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 4 — DB8 tenant-aware Repository / Contract 规范
 
-- [ ] **Phase 4 完成**：tenant query 默认策略、例外、旁路和自动化验证均已实现。
+- [x] **Phase 4 完成**：tenant query 默认策略、例外、旁路和自动化验证均已实现。证据：[`P04-S4`](../evidence/plan04/P04-S4-db8-tenant-query-governance.md) 与 [`machine status`](../evidence/plan04/phase4-tenant-query-status.json)；SQL Server RLS 仍为 `deferred-not-claimed`。
 
-- [ ] ME4.1 盘点所有模块 Repository/Contract/query 的 tenant 参数、predicate、nullable scope、platform scope 和跨租户管理入口。
-- [ ] ME4.2 定义 tenant-scoped Repository 方法必须接收非空 tenant identity，并在数据查询中显式约束；禁止默认租户、空值回退和仅靠调用方口头约定。
-- [ ] ME4.3 定义 platform/cross-tenant 查询使用独立命名接口、独立权限、purpose、审计和有界结果，不复用普通 tenant method 的 bypass flag。
-- [ ] ME4.4 评估 EF global query filter：覆盖收益、后台作业/迁移/管理路径、测试可见性、`IgnoreQueryFilters` 旁路和隐式上下文风险。
-- [ ] ME4.5 评估 SQL Server RLS：连接身份/SESSION_CONTEXT、connection pooling、Migrator、运维 break-glass、性能和测试成本；记录采用、延后或拒绝决定及复审触发条件。
-- [ ] ME4.6 建立允许的 bypass registry，至少包含 owner、purpose、权限、审计、最大范围、到期和负向测试；普通代码不得直接使用旁路 API。
-- [ ] ME4.7 修复当前范围内违反最终规范的 Repository/Contract/query，并为同租户、跨租户、缺失 tenant、伪造 tenant 和 platform scope 添加测试。
-- [ ] ME4.8 增加静态/语义 validator；未识别查询模式报告为人工审查项，扫描失败不得绿色通过。
+- [x] ME4.1 盘点所有模块 Repository/Contract/query 的 tenant 参数、predicate、nullable scope、platform scope 和跨租户管理入口。
+- [x] ME4.2 定义 tenant-scoped Repository 方法必须接收非空 tenant identity，并在数据查询中显式约束；禁止默认租户、空值回退和仅靠调用方口头约定。
+- [x] ME4.3 定义 platform/cross-tenant 查询使用独立命名接口、独立权限、purpose、审计和有界结果，不复用普通 tenant method 的 bypass flag。
+- [x] ME4.4 评估 EF global query filter：覆盖收益、后台作业/迁移/管理路径、测试可见性、`IgnoreQueryFilters` 旁路和隐式上下文风险。
+- [x] ME4.5 评估 SQL Server RLS：连接身份/SESSION_CONTEXT、connection pooling、Migrator、运维 break-glass、性能和测试成本；记录采用、延后或拒绝决定及复审触发条件。
+- [x] ME4.6 建立允许的 bypass registry，至少包含 owner、purpose、权限、审计、最大范围、到期和负向测试；普通代码不得直接使用旁路 API。
+- [x] ME4.7 修复当前范围内违反最终规范的 Repository/Contract/query，并为同租户、跨租户、缺失 tenant、伪造 tenant 和 platform scope 添加测试。
+- [x] ME4.8 增加静态/语义 validator；未识别查询模式报告为人工审查项，扫描失败不得绿色通过。
 
 ## Phase 5 — GOV3 跨模块 read model / projection
 

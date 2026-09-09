@@ -29,7 +29,9 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
     public async Task<Result<PolicyDefinitionDto>> Handle(UpdatePolicyCommand request, CancellationToken cancellationToken)
     {
         {
-            var policy = await _unitOfWork.PolicyDefinitions.GetByIdAsync(request.PolicyId, cancellationToken);
+            var policy = _currentUser.TenantId is { } tenantId
+                ? await _unitOfWork.PolicyDefinitions.GetTenantByIdAsync(request.PolicyId, tenantId, cancellationToken)
+                : await _unitOfWork.PolicyDefinitions.GetPlatformByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<PolicyDefinitionDto>.Failure("Policy not found.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "update", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);

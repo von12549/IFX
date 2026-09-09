@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "policyId": "DB8-tenant-query-v1",
+  "defaultStrategy": "explicit-tenant-predicate",
+  "tenantIdentity": {
+    "source": "trusted-execution-context",
+    "type": "non-empty-guid",
+    "nullableAllowed": false,
+    "defaultAllowed": false,
+    "callerSuppliedTenantTrusted": false,
+    "repositoryGuard": "TenantQueryGuard.Require"
+  },
+  "tenantQueryRequirements": [
+    "repository-contract-accepts-tenant-id",
+    "repository-rejects-empty-tenant-id",
+    "database-query-contains-tenant-predicate",
+    "authorization-does-not-replace-query-filter"
+  ],
+  "crossTenantRequirements": {
+    "separateNamedEntryPoint": true,
+    "bypassFlagAllowed": false,
+    "trustedActorRequired": true,
+    "allowedGlobalRoles": ["PlatformAdmin", "PlatformSupport", "PlatformAuditor"],
+    "requiredPermission": "Platform.GlobalRole:manage",
+    "purposeRequired": true,
+    "structuredAuditRequired": true,
+    "maximumRows": 500,
+    "registryRequired": true,
+    "expiryRequired": true
+  },
+  "globalQueryFilterDecision": {
+    "status": "not-selected",
+    "reason": "Current DbContexts do not own a trusted request-scoped tenant provider and Auth contains deliberately platform- and identity-scoped entities. An implicit ambient filter would obscure test behavior and make administrative bypass correctness depend on IgnoreQueryFilters.",
+    "risks": [
+      "ambient-context-capture",
+      "background-job-and-migrator-scope",
+      "IgnoreQueryFilters-bypass",
+      "mixed-platform-and-tenant-entities"
+    ],
+    "revisitWhen": [
+      "trusted-tenant-provider-is-dbcontext-lifetime-safe",
+      "platform-paths-use-separate-dbcontext-or-query-service",
+      "IgnoreQueryFilters-is-statically-blocked-and-audited",
+      "behavior-tests-make-filtering-visible"
+    ],
+    "owner": "database-and-platform"
+  },
+  "rlsDecision": {
+    "status": "deferred-not-claimed",
+    "reason": "Target SQL Server identity, role separation and production-equivalent SESSION_CONTEXT behavior are not yet approved under DB5.",
+    "requiredBeforeAdoption": [
+      "application-and-migrator-credentials-separated",
+      "SESSION_CONTEXT-set-and-cleared-for-pooled-connections",
+      "break-glass-role-owned-and-audited",
+      "query-plan-and-performance-baseline",
+      "production-equivalent-isolation-tests"
+    ],
+    "revisitTrigger": "DB5 target-platform decision or first production tenant-isolation review",
+    "owner": "database-and-security"
+  },
+  "identityAndPlatformClassifications": [
+    {"classification": "tenant-owned", "examples": ["Role", "RoleGroup", "Department", "PolicyDefinition", "CRM", "Registry", "Transaction", "Holdings"]},
+    {"classification": "platform-catalog", "examples": ["Tenant", "Permission", "GlobalRole", "platform PolicyDefinition"]},
+    {"classification": "identity-bootstrap", "examples": ["UserIdentity issuer/subject", "EmailVerificationToken", "Idp issuer discovery"]},
+    {"classification": "multi-tenant-identity", "examples": ["User with tenant memberships"]}
+  ]
+}

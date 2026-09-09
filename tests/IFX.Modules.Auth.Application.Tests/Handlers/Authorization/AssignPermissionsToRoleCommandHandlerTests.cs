@@ -17,6 +17,7 @@ public class AssignPermissionsToRoleCommandHandlerTests
     private readonly Mock<IPermissionRepository> _permissions = new();
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
+    private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<ILogger<AssignPermissionsToRoleCommandHandler>> _logger = new();
     private readonly AssignPermissionsToRoleCommandHandler _handler;
 
@@ -24,6 +25,8 @@ public class AssignPermissionsToRoleCommandHandlerTests
     {
         _unitOfWork.Setup(u => u.Roles).Returns(_roles.Object);
         _unitOfWork.Setup(u => u.Permissions).Returns(_permissions.Object);
+        _currentUser.SetupGet(u => u.IsAuthenticated).Returns(true);
+        _currentUser.SetupGet(u => u.TenantId).Returns(Guid.NewGuid());
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(),
@@ -32,7 +35,7 @@ public class AssignPermissionsToRoleCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _handler = new AssignPermissionsToRoleCommandHandler(_unitOfWork.Object, _mapper.Object, _authorizationService.Object, _logger.Object);
+        _handler = new AssignPermissionsToRoleCommandHandler(_unitOfWork.Object, _mapper.Object, _currentUser.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]
@@ -40,7 +43,7 @@ public class AssignPermissionsToRoleCommandHandlerTests
     {
         var role = new RoleBuilder().AsAdmin().Build();
         var permission = Permission.Create("Role.Read", "Read roles");
-        _roles.Setup(r => r.GetByIdWithPermissionsAsync(role.Id, It.IsAny<CancellationToken>()))
+        _roles.Setup(r => r.GetByIdWithPermissionsAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(role);
         _permissions.Setup(p => p.GetByIdAsync(permission.Id, It.IsAny<CancellationToken>()))
                     .ReturnsAsync(permission);
@@ -56,7 +59,7 @@ public class AssignPermissionsToRoleCommandHandlerTests
     [Fact]
     public async Task Handle_WhenRoleNotFound_ReturnsFailure()
     {
-        _roles.Setup(r => r.GetByIdWithPermissionsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        _roles.Setup(r => r.GetByIdWithPermissionsAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync((Role?)null);
 
         var result = await _handler.Handle(
@@ -71,7 +74,7 @@ public class AssignPermissionsToRoleCommandHandlerTests
     {
         var role = new RoleBuilder().AsAdmin().Build();
         var missingPermId = Guid.NewGuid();
-        _roles.Setup(r => r.GetByIdWithPermissionsAsync(role.Id, It.IsAny<CancellationToken>()))
+        _roles.Setup(r => r.GetByIdWithPermissionsAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync(role);
         _permissions.Setup(p => p.GetByIdAsync(missingPermId, It.IsAny<CancellationToken>()))
                     .ReturnsAsync((Permission?)null);

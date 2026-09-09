@@ -12,6 +12,7 @@ public class DeletePolicyCommandHandlerTests
 {
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IPolicyDefinitionRepository> _policies = new();
+    private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
     private readonly Mock<IAbacPolicyCache> _policyCache = new();
     private readonly Mock<ILogger<DeletePolicyCommandHandler>> _logger = new();
@@ -28,7 +29,7 @@ public class DeletePolicyCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _handler = new DeletePolicyCommandHandler(_unitOfWork.Object, _authorizationService.Object, _policyCache.Object, _logger.Object);
+        _handler = new DeletePolicyCommandHandler(_unitOfWork.Object, _currentUser.Object, _authorizationService.Object, _policyCache.Object, _logger.Object);
     }
 
     [Fact]
@@ -38,8 +39,9 @@ public class DeletePolicyCommandHandlerTests
         var existing = PolicyDefinition.Create(
             PolicyScope.Tenant, Guid.NewGuid(), "Read Own Profile", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
+        _currentUser.Setup(c => c.TenantId).Returns(existing.TenantId);
 
-        _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
+        _policies.Setup(p => p.GetTenantByIdAsync(policyId, existing.TenantId!.Value, It.IsAny<CancellationToken>()))
                  .ReturnsAsync(existing);
 
         var result = await _handler.Handle(new DeletePolicyCommand(policyId), CancellationToken.None);
@@ -53,7 +55,8 @@ public class DeletePolicyCommandHandlerTests
     [Fact]
     public async Task Handle_WhenPolicyNotFound_ReturnsFailure()
     {
-        _policies.Setup(p => p.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        _currentUser.Setup(c => c.TenantId).Returns(Guid.NewGuid());
+        _policies.Setup(p => p.GetTenantByIdAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                  .ReturnsAsync((PolicyDefinition?)null);
 
         var result = await _handler.Handle(new DeletePolicyCommand(Guid.NewGuid()), CancellationToken.None);
@@ -70,8 +73,9 @@ public class DeletePolicyCommandHandlerTests
         var existing = PolicyDefinition.Create(
             PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
+        _currentUser.Setup(c => c.TenantId).Returns((Guid?)null);
 
-        _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
+        _policies.Setup(p => p.GetPlatformByIdAsync(policyId, It.IsAny<CancellationToken>()))
                  .ReturnsAsync(existing);
 
         var result = await _handler.Handle(new DeletePolicyCommand(policyId), CancellationToken.None);

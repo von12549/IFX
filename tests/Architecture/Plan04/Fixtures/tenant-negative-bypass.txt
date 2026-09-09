@@ -1,0 +1,3 @@
+public Task<List<Entity>> GetAsync(bool bypassTenantFilter) {
+    return bypassTenantFilter ? query.IgnoreQueryFilters().ToListAsync() : query.ToListAsync();
+}

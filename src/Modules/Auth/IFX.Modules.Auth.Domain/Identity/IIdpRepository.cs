@@ -4,7 +4,7 @@ namespace IFX.Modules.Auth.Domain.Identity;
 
 public interface IIdpRepository
 {
-    Task<Idp?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Idp?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default);
     Task<Idp?> GetByIssuerAsync(string issuer, CancellationToken cancellationToken = default);
     Task<Idp?> GetPrimaryIdpAsync(CancellationToken cancellationToken = default);
     Task<List<Idp>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default);

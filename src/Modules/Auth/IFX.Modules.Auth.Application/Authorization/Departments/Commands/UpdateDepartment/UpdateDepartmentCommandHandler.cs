@@ -13,11 +13,13 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<UpdateDepartmentCommandHandler> _logger;
-    public UpdateDepartmentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<UpdateDepartmentCommandHandler> logger)
+    public UpdateDepartmentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<UpdateDepartmentCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -25,7 +27,8 @@ public class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCo
     public async Task<Result<DepartmentDto>> Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
     {
         {
-            var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, tenantId, cancellationToken);
             if (department == null)
                 return Result<DepartmentDto>.Failure("Department not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("department", "update", new DepartmentResourceAttributes(department.Id, department.TenantId, department.CreatedBy), ct: cancellationToken);

@@ -50,8 +50,9 @@ public class UpdatePolicyCommandHandlerTests
         var policyId = Guid.NewGuid();
         var existing = PolicyDefinition.Create(PolicyScope.Tenant, tenantId, "Old Name", "user", "read",
             "[{\"TemplateName\":\"SameTenant\",\"Parameters\":null}]", null);
+        _currentUser.Setup(c => c.TenantId).Returns(tenantId);
 
-        _policies.Setup(p => p.GetByIdAsync(policyId, It.IsAny<CancellationToken>()))
+        _policies.Setup(p => p.GetTenantByIdAsync(policyId, tenantId, It.IsAny<CancellationToken>()))
                  .ReturnsAsync(existing);
 
         var result = await _handler.Handle(
@@ -68,7 +69,8 @@ public class UpdatePolicyCommandHandlerTests
     [Fact]
     public async Task Handle_WhenPolicyNotFound_ReturnsFailure()
     {
-        _policies.Setup(p => p.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        _currentUser.Setup(c => c.TenantId).Returns(Guid.NewGuid());
+        _policies.Setup(p => p.GetTenantByIdAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                  .ReturnsAsync((PolicyDefinition?)null);
 
         var result = await _handler.Handle(

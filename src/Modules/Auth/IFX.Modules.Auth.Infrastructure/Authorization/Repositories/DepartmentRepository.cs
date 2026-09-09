@@ -14,10 +14,13 @@ public class DepartmentRepository : IDepartmentRepository
         _context = context;
     }
 
-    public async Task<Department?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Departments
+    public async Task<Department?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.Require(tenantId);
+        return await _context.Departments
             .Include(d => d.Tenant)
-            .FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(d => d.Id == id && d.TenantId == tenantId, cancellationToken);
+    }
 
     public async Task<List<Department>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default)
     {

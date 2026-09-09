@@ -14,17 +14,26 @@ public class RoleRepository : IRoleRepository
         _context = context;
     }
 
-    public async Task<Role?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Roles.FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+    public async Task<Role?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.Require(tenantId);
+        return await _context.Roles.FirstOrDefaultAsync(r => r.Id == id && r.TenantId == tenantId, cancellationToken);
+    }
 
-    public async Task<Role?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
-        => await _context.Roles.FirstOrDefaultAsync(r => r.Name == name, cancellationToken);
+    public async Task<Role?> GetByNameAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.Require(tenantId);
+        return await _context.Roles.FirstOrDefaultAsync(r => r.Name == name && r.TenantId == tenantId, cancellationToken);
+    }
 
-    public async Task<Role?> GetByIdWithPermissionsAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Roles
+    public async Task<Role?> GetByIdWithPermissionsAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.Require(tenantId);
+        return await _context.Roles
             .Include(r => r.Tenant)
             .Include(r => r.Permissions)
-            .FirstOrDefaultAsync(r => r.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(r => r.Id == id && r.TenantId == tenantId, cancellationToken);
+    }
 
     public async Task<List<Role>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default)
     {

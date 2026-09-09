@@ -37,7 +37,7 @@ public class UpdateRoleCommandHandlerTests
     public async Task Handle_WithExistingRole_UpdatesAndReturnsDto()
     {
         var role = new RoleBuilder().WithName("OldName").WithDescription("Old desc").Build();
-        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<CancellationToken>())).ReturnsAsync(role);
+        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(role);
         _mapper.Setup(m => m.Map<RoleDto>(It.IsAny<Role>())).Returns(new RoleDto { Name = "NewName" });
 
         var result = await _handler.Handle(
@@ -50,7 +50,7 @@ public class UpdateRoleCommandHandlerTests
     [Fact]
     public async Task Handle_WhenRoleNotFound_ReturnsFailure()
     {
-        _roles.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+        _roles.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
               .ReturnsAsync((Role?)null);
 
         var result = await _handler.Handle(
@@ -64,7 +64,7 @@ public class UpdateRoleCommandHandlerTests
     public async Task Handle_WhenNewNameAlreadyExists_ReturnsFailure()
     {
         var role = new RoleBuilder().WithName("OldName").Build();
-        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<CancellationToken>())).ReturnsAsync(role);
+        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(role);
         _roles.Setup(r => r.NameExistsAsync("TakenName", role.TenantId, role.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(true);
 
@@ -79,7 +79,7 @@ public class UpdateRoleCommandHandlerTests
     public async Task Handle_WhenNameUnchanged_SkipsNameCheck()
     {
         var role = new RoleBuilder().WithName("SameName").Build();
-        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<CancellationToken>())).ReturnsAsync(role);
+        _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(role);
         _mapper.Setup(m => m.Map<RoleDto>(It.IsAny<Role>())).Returns(new RoleDto { Name = "SameName" });
 
         var result = await _handler.Handle(

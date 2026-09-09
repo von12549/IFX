@@ -25,7 +25,7 @@ public class UpdateRoleGroupCommandHandler : IRequestHandler<UpdateRoleGroupComm
     public async Task<Result<RoleGroupDto>> Handle(UpdateRoleGroupCommand request, CancellationToken cancellationToken)
     {
         {
-            var group = await _unitOfWork.RoleGroups.GetByIdAsync(request.RoleGroupId, cancellationToken);
+            var group = await _unitOfWork.RoleGroups.GetByIdAsync(request.RoleGroupId, request.TenantId, cancellationToken);
             if (group == null)
                 return Result<RoleGroupDto>.Failure("Role group not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("rolegroup", "update", new RoleGroupResourceAttributes(group.Id, group.TenantId, group.CreatedBy), ct: cancellationToken);

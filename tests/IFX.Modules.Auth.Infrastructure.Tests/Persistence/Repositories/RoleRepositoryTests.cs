@@ -37,7 +37,7 @@ public class RoleRepositoryTests : IDisposable
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetByIdAsync(role.Id);
+        var result = await _repository.GetByIdAsync(role.Id, role.TenantId);
 
         // Assert
         result.Should().NotBeNull();
@@ -48,9 +48,21 @@ public class RoleRepositoryTests : IDisposable
     public async Task GetByIdAsync_WithNonExistingRole_ReturnsNull()
     {
         // Act
-        var result = await _repository.GetByIdAsync(Guid.NewGuid());
+        var result = await _repository.GetByIdAsync(Guid.NewGuid(), Guid.NewGuid());
 
         // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_WithDifferentTenant_ReturnsNull()
+    {
+        var role = new RoleBuilder().AsAdmin().Build();
+        await _context.Roles.AddAsync(role);
+        await _context.SaveChangesAsync();
+
+        var result = await _repository.GetByIdAsync(role.Id, Guid.NewGuid());
+
         result.Should().BeNull();
     }
 
@@ -63,7 +75,7 @@ public class RoleRepositoryTests : IDisposable
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetByNameAsync(TestConstants.Roles.User);
+        var result = await _repository.GetByNameAsync(TestConstants.Roles.User, role.TenantId);
 
         // Assert
         result.Should().NotBeNull();
@@ -74,7 +86,7 @@ public class RoleRepositoryTests : IDisposable
     public async Task GetByNameAsync_WithNonExistingRole_ReturnsNull()
     {
         // Act
-        var result = await _repository.GetByNameAsync("NonExistent");
+        var result = await _repository.GetByNameAsync("NonExistent", Guid.NewGuid());
 
         // Assert
         result.Should().BeNull();

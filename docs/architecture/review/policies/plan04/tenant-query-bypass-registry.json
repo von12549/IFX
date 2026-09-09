@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "registryId": "DB8-cross-tenant-bypass-v1",
+  "entries": [
+    {
+      "id": "auth-platform-users-across-tenants",
+      "owner": "xiaolong-feng",
+      "purpose": "platform-user-inventory",
+      "permission": "Platform.GlobalRole:manage",
+      "audit": "structured warning with purpose, actorUserId, maxRows and returned tenant-group count",
+      "maximumRows": 500,
+      "expiresAt": "2026-12-31",
+      "repositoryMethod": "IUserRepository.GetAcrossTenantsWithTenantsAsync",
+      "handler": "GetAllUsersAcrossTenantsQueryHandler",
+      "endpoint": "/api/v1/platform/cross-tenant/users"
+    },
+    {
+      "id": "auth-platform-roles-across-tenants",
+      "owner": "xiaolong-feng",
+      "purpose": "platform-role-inventory",
+      "permission": "Platform.GlobalRole:manage",
+      "audit": "structured warning with purpose, actorUserId, maxRows and returned tenant-group count",
+      "maximumRows": 500,
+      "expiresAt": "2026-12-31",
+      "repositoryMethod": "IRoleRepository.GetAcrossTenantsAsync",
+      "handler": "GetAllRolesAcrossTenantsQueryHandler",
+      "endpoint": "/api/v1/platform/cross-tenant/roles"
+    },
+    {
+      "id": "auth-platform-role-groups-across-tenants",
+      "owner": "xiaolong-feng",
+      "purpose": "platform-role-group-inventory",
+      "permission": "Platform.GlobalRole:manage",
+      "audit": "structured warning with purpose, actorUserId, maxRows and returned tenant-group count",
+      "maximumRows": 500,
+      "expiresAt": "2026-12-31",
+      "repositoryMethod": "IRoleGroupRepository.GetAcrossTenantsAsync",
+      "handler": "GetAllRoleGroupsAcrossTenantsQueryHandler",
+      "endpoint": "/api/v1/platform/cross-tenant/rolegroups"
+    },
+    {
+      "id": "auth-platform-departments-across-tenants",
+      "owner": "xiaolong-feng",
+      "purpose": "platform-department-inventory",
+      "permission": "Platform.GlobalRole:manage",
+      "audit": "structured warning with purpose, actorUserId, maxRows and returned tenant-group count",
+      "maximumRows": 500,
+      "expiresAt": "2026-12-31",
+      "repositoryMethod": "IDepartmentRepository.GetAcrossTenantsAsync",
+      "handler": "GetAllDepartmentsAcrossTenantsQueryHandler",
+      "endpoint": "/api/v1/platform/cross-tenant/departments"
+    },
+    {
+      "id": "auth-platform-idps-across-tenants",
+      "owner": "xiaolong-feng",
+      "purpose": "platform-idp-inventory",
+      "permission": "Platform.GlobalRole:manage",
+      "audit": "structured warning with purpose, actorUserId, maxRows and returned tenant-group count",
+      "maximumRows": 500,
+      "expiresAt": "2026-12-31",
+      "repositoryMethod": "IIdpRepository.GetAcrossTenantsAsync",
+      "handler": "GetAllIdpsAcrossTenantsQueryHandler",
+      "endpoint": "/api/v1/platform/cross-tenant/idps"
+    }
+  ]
+}

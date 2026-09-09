@@ -25,7 +25,7 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Resul
     public async Task<Result<RoleDto>> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
         {
-            var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId, cancellationToken);
+            var role = await _unitOfWork.Roles.GetByIdAsync(request.RoleId, request.TenantId, cancellationToken);
             if (role == null)
                 return Result<RoleDto>.Failure("Role not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("role", "update", new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy), ct: cancellationToken);

@@ -13,11 +13,13 @@ public class AssignPermissionsToRoleCommandHandler : IRequestHandler<AssignPermi
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<AssignPermissionsToRoleCommandHandler> _logger;
-    public AssignPermissionsToRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IResourceAuthorizationService authorizationService, ILogger<AssignPermissionsToRoleCommandHandler> logger)
+    public AssignPermissionsToRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<AssignPermissionsToRoleCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _logger = logger;
     }
@@ -25,7 +27,8 @@ public class AssignPermissionsToRoleCommandHandler : IRequestHandler<AssignPermi
     public async Task<Result<RoleDetailDto>> Handle(AssignPermissionsToRoleCommand request, CancellationToken cancellationToken)
     {
         {
-            var role = await _unitOfWork.Roles.GetByIdWithPermissionsAsync(request.RoleId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var role = await _unitOfWork.Roles.GetByIdWithPermissionsAsync(request.RoleId, tenantId, cancellationToken);
             if (role == null)
                 return Result<RoleDetailDto>.Failure("Role not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("role", "manage", new RoleResourceAttributes(role.Id, role.TenantId, role.CreatedBy), ct: cancellationToken);

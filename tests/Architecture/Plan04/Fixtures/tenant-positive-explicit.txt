@@ -1,0 +1,4 @@
+public Task<Entity?> GetAsync(Guid tenantId) {
+    TenantQueryGuard.Require(tenantId);
+    return query.FirstOrDefaultAsync(x => x.TenantId == tenantId);
+}

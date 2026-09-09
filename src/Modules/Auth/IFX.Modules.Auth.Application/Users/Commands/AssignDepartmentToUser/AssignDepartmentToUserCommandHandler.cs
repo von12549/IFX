@@ -1,4 +1,5 @@
 using IFX.Modules.Auth.Application.Common;
+using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -7,10 +8,12 @@ namespace IFX.Modules.Auth.Application.Users.Commands.AssignDepartmentToUser;
 public class AssignDepartmentToUserCommandHandler : IRequestHandler<AssignDepartmentToUserCommand, Result<bool>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUser _currentUser;
     private readonly ILogger<AssignDepartmentToUserCommandHandler> _logger;
-    public AssignDepartmentToUserCommandHandler(IUnitOfWork unitOfWork, ILogger<AssignDepartmentToUserCommandHandler> logger)
+    public AssignDepartmentToUserCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, ILogger<AssignDepartmentToUserCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
         _logger = logger;
     }
 
@@ -20,7 +23,8 @@ public class AssignDepartmentToUserCommandHandler : IRequestHandler<AssignDepart
             var user = await _unitOfWork.Users.GetByIdWithTenantsAndDepartmentsAsync(request.UserId, cancellationToken);
             if (user == null)
                 return Result<bool>.Failure("User not found");
-            var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, cancellationToken);
+            var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
+            var department = await _unitOfWork.Departments.GetByIdAsync(request.DepartmentId, tenantId, cancellationToken);
             if (department == null)
                 return Result<bool>.Failure("Department not found");
             // Enforce: user must belong to the department's tenant

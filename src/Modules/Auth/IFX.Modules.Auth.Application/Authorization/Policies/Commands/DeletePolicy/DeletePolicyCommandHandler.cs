@@ -12,11 +12,13 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ICurrentUser _currentUser;
     private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<DeletePolicyCommandHandler> _logger;
-    public DeletePolicyCommandHandler(IUnitOfWork unitOfWork, IResourceAuthorizationService authorizationService, IAbacPolicyCache policyCache, ILogger<DeletePolicyCommandHandler> logger)
+    public DeletePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, IAbacPolicyCache policyCache, ILogger<DeletePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
         _authorizationService = authorizationService;
         _policyCache = policyCache;
         _logger = logger;
@@ -25,7 +27,9 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
     public async Task<Result<bool>> Handle(DeletePolicyCommand request, CancellationToken cancellationToken)
     {
         {
-            var policy = await _unitOfWork.PolicyDefinitions.GetByIdAsync(request.PolicyId, cancellationToken);
+            var policy = _currentUser.TenantId is { } tenantId
+                ? await _unitOfWork.PolicyDefinitions.GetTenantByIdAsync(request.PolicyId, tenantId, cancellationToken)
+                : await _unitOfWork.PolicyDefinitions.GetPlatformByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<bool>.Failure("Policy not found.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "delete", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
