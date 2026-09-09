@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "recordId": "fixture-negative-missing-owner",
+  "fixtureOnly": true,
+  "module": "registry",
+  "currentState": "observe",
+  "targetState": "candidate",
+  "businessOwner": "",
+  "dataOwner": "fixture-data-owner",
+  "operationsOwner": "fixture-operations-owner",
+  "hardGates": [],
+  "evidenceScores": [],
+  "currentBaseline": "fixture",
+  "expectedBenefits": "fixture",
+  "additionalOperatingCosts": "fixture",
+  "contractMigration": "fixture",
+  "dataMigration": "fixture",
+  "rollbackPath": "fixture",
+  "modularMonolithAlternative": "fixture",
+  "approvals": [],
+  "expectedErrors": ["owner-missing", "hard-gates-incomplete", "scores-incomplete", "transition-approvals-incomplete"]
+}

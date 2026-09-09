@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "recordId": "fixture-negative-no-rollback",
+  "fixtureOnly": true,
+  "module": "crm",
+  "currentState": "retain",
+  "targetState": "observe",
+  "businessOwner": "fixture-business-owner",
+  "dataOwner": "fixture-data-owner",
+  "operationsOwner": "fixture-operations-owner",
+  "hardGates": [
+    {"id": "HG1", "passed": true, "evidence": "fixture"},
+    {"id": "HG2", "passed": true, "evidence": "fixture"},
+    {"id": "HG3", "passed": true, "evidence": "fixture"},
+    {"id": "HG4", "passed": true, "evidence": "fixture"},
+    {"id": "HG5", "passed": true, "evidence": "fixture"},
+    {"id": "HG6", "passed": true, "evidence": "fixture"},
+    {"id": "HG7", "passed": true, "evidence": "fixture"}
+  ],
+  "evidenceScores": [
+    {"id": "team-autonomy", "value": 1, "evidence": "fixture"},
+    {"id": "scaling-difference", "value": 1, "evidence": "fixture"},
+    {"id": "release-frequency", "value": 1, "evidence": "fixture"},
+    {"id": "failure-isolation-benefit", "value": 1, "evidence": "fixture"},
+    {"id": "data-migration-complexity", "value": 1, "evidence": "fixture"},
+    {"id": "latency-availability-fit", "value": 1, "evidence": "fixture"},
+    {"id": "compliance-requirement", "value": 1, "evidence": "fixture"}
+  ],
+  "currentBaseline": "fixture",
+  "expectedBenefits": "fixture",
+  "additionalOperatingCosts": "fixture",
+  "contractMigration": "fixture",
+  "dataMigration": "fixture",
+  "rollbackPath": "",
+  "modularMonolithAlternative": "fixture retain",
+  "approvals": [],
+  "expectedErrors": ["application-evidence-incomplete", "transition-approvals-incomplete"]
+}

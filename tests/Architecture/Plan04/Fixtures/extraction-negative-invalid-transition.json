@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "recordId": "fixture-negative-invalid-transition",
+  "fixtureOnly": true,
+  "module": "holdings",
+  "currentState": "retain",
+  "targetState": "executing",
+  "businessOwner": "fixture-business-owner",
+  "dataOwner": "fixture-data-owner",
+  "operationsOwner": "fixture-operations-owner",
+  "hardGates": [],
+  "evidenceScores": [],
+  "currentBaseline": "fixture",
+  "expectedBenefits": "fixture",
+  "additionalOperatingCosts": "fixture",
+  "contractMigration": "fixture",
+  "dataMigration": "fixture",
+  "rollbackPath": "fixture rollback",
+  "modularMonolithAlternative": "fixture retain",
+  "approvals": [],
+  "expectedErrors": ["hard-gates-incomplete", "scores-incomplete", "invalid-state-transition"]
+}

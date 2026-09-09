@@ -101,13 +101,13 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 - [ ] **Phase 3 完成**：提取政策可执行、可审计，并明确当前模块化单体仍是默认部署选择。
 
-- [ ] ME3.1 建立硬门槛：单一业务 owner、单一数据 owner、无共享 ACID 要求、版本化协议、已知一致性模型、独立安全边界和具名运行 owner。
-- [ ] ME3.2 建立证据维度：团队自治、扩缩容差异、发布频率、故障隔离收益、数据迁移复杂度、延迟/可用性预算和合规要求。
-- [ ] ME3.3 定义评分仅用于排序；任一硬门槛失败时，即使总分较高也不得提取。
-- [ ] ME3.4 要求候选提供现状基线、预期收益、额外运行成本、契约/数据迁移、回退路径和“保持单体”的比较方案。
-- [ ] ME3.5 定义从 `retain` → `observe` → `candidate` → `approved` → `executing` → `extracted` 的状态机和批准权限。
-- [ ] ME3.6 定义批准后才触发 DP8/DP9；认证、服务发现、resilience、独立 package cadence 未设计前不得进入执行态。
-- [ ] ME3.7 建立 decision-record schema、正反 fixture 和 validator，拒绝缺 owner、缺数据边界、共享事务或无回退的提取申请。
+- [x] ME3.1 建立硬门槛：单一业务 owner、单一数据 owner、无共享 ACID 要求、版本化协议、已知一致性模型、独立安全边界和具名运行 owner。
+- [x] ME3.2 建立证据维度：团队自治、扩缩容差异、发布频率、故障隔离收益、数据迁移复杂度、延迟/可用性预算和合规要求。
+- [x] ME3.3 定义评分仅用于排序；任一硬门槛失败时，即使总分较高也不得提取。
+- [x] ME3.4 要求候选提供现状基线、预期收益、额外运行成本、契约/数据迁移、回退路径和“保持单体”的比较方案。
+- [x] ME3.5 定义从 `retain` → `observe` → `candidate` → `approved` → `executing` → `extracted` 的状态机和批准权限。
+- [x] ME3.6 定义批准后才触发 DP8/DP9；认证、服务发现、resilience、独立 package cadence 未设计前不得进入执行态。
+- [x] ME3.7 建立 decision-record schema、正反 fixture 和 validator，拒绝缺 owner、缺数据边界、共享事务或无回退的提取申请。
 - [ ] ME3.8 Architecture、模块 owner、Platform、Database、Security 和 Operations 批准政策；批准政策不代表批准任何具体模块拆分。
 
 ## Phase 4 — DB8 tenant-aware Repository / Contract 规范

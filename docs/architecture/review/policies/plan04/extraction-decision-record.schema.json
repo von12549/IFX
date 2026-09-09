@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ifx.local/architecture/plan04/extraction-decision-record.schema.json",
+  "title": "IFX DP6 Microservice Extraction Decision Record",
+  "type": "object",
+  "required": [
+    "formatVersion", "recordId", "module", "currentState", "targetState", "businessOwner",
+    "dataOwner", "operationsOwner", "hardGates", "evidenceScores", "currentBaseline",
+    "expectedBenefits", "additionalOperatingCosts", "contractMigration", "dataMigration",
+    "rollbackPath", "modularMonolithAlternative", "approvals"
+  ],
+  "properties": {
+    "formatVersion": {"const": 1},
+    "recordId": {"type": "string", "minLength": 1},
+    "module": {"enum": ["auth", "crm", "registry", "transaction", "holdings"]},
+    "currentState": {"enum": ["retain", "observe", "candidate", "approved", "executing", "extracted"]},
+    "targetState": {"enum": ["retain", "observe", "candidate", "approved", "executing", "extracted"]},
+    "businessOwner": {"type": "string", "minLength": 1},
+    "dataOwner": {"type": "string", "minLength": 1},
+    "operationsOwner": {"type": "string", "minLength": 1},
+    "hardGates": {"type": "array", "minItems": 7},
+    "evidenceScores": {"type": "array", "minItems": 7},
+    "currentBaseline": {"type": "string", "minLength": 1},
+    "expectedBenefits": {"type": "string", "minLength": 1},
+    "additionalOperatingCosts": {"type": "string", "minLength": 1},
+    "contractMigration": {"type": "string", "minLength": 1},
+    "dataMigration": {"type": "string", "minLength": 1},
+    "rollbackPath": {"type": "string", "minLength": 1},
+    "modularMonolithAlternative": {"type": "string", "minLength": 1},
+    "approvals": {"type": "array"}
+  },
+  "additionalProperties": true
+}

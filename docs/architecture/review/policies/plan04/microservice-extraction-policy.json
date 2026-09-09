@@ -1,0 +1,72 @@
+{
+  "formatVersion": 1,
+  "policyId": "DP6-microservice-extraction-v1",
+  "defaultDeployment": "modular-monolith",
+  "hardGates": [
+    {"id": "HG1", "name": "single-business-owner", "required": true},
+    {"id": "HG2", "name": "single-data-owner", "required": true},
+    {"id": "HG3", "name": "no-shared-acid-requirement", "required": true},
+    {"id": "HG4", "name": "versioned-protocols", "required": true},
+    {"id": "HG5", "name": "known-consistency-model", "required": true},
+    {"id": "HG6", "name": "independent-security-boundary", "required": true},
+    {"id": "HG7", "name": "named-operations-owner", "required": true}
+  ],
+  "evidenceDimensions": [
+    {"id": "team-autonomy", "weight": 3, "minimum": 0, "maximum": 5},
+    {"id": "scaling-difference", "weight": 2, "minimum": 0, "maximum": 5},
+    {"id": "release-frequency", "weight": 2, "minimum": 0, "maximum": 5},
+    {"id": "failure-isolation-benefit", "weight": 3, "minimum": 0, "maximum": 5},
+    {"id": "data-migration-complexity", "weight": -3, "minimum": 0, "maximum": 5},
+    {"id": "latency-availability-fit", "weight": 3, "minimum": 0, "maximum": 5},
+    {"id": "compliance-requirement", "weight": 3, "minimum": 0, "maximum": 5}
+  ],
+  "scorePolicy": {
+    "purpose": "rank review-ready candidates only",
+    "mayOverrideHardGate": false,
+    "approvalThreshold": null,
+    "calculation": "sum(value * weight)",
+    "requiredEvidencePerDimension": true
+  },
+  "applicationRequirements": [
+    "currentBaseline",
+    "expectedBenefits",
+    "additionalOperatingCosts",
+    "contractMigration",
+    "dataMigration",
+    "rollbackPath",
+    "modularMonolithAlternative"
+  ],
+  "states": ["retain", "observe", "candidate", "approved", "executing", "extracted"],
+  "transitions": [
+    {"from": "retain", "to": "observe", "approvals": ["architecture", "module-owner"]},
+    {"from": "observe", "to": "retain", "approvals": ["architecture", "module-owner"]},
+    {"from": "observe", "to": "candidate", "approvals": ["architecture", "module-owner"]},
+    {"from": "candidate", "to": "observe", "approvals": ["architecture", "module-owner"]},
+    {"from": "candidate", "to": "approved", "approvals": ["architecture", "module-owner", "platform", "database", "security", "operations"]},
+    {"from": "approved", "to": "candidate", "approvals": ["architecture", "module-owner", "operations"]},
+    {"from": "approved", "to": "executing", "approvals": ["architecture", "module-owner", "platform", "database", "security", "operations", "release-operations"]},
+    {"from": "executing", "to": "approved", "approvals": ["architecture", "module-owner", "operations", "release-operations"]},
+    {"from": "executing", "to": "extracted", "approvals": ["architecture", "module-owner", "platform", "database", "security", "operations", "release-operations"]}
+  ],
+  "executionPrerequisites": {
+    "requiredState": "approved",
+    "handoffs": ["DP8-runtime-resilience", "DP9-package-cadence"],
+    "mustExistBeforeExecuting": [
+      "service-authentication-and-authorization",
+      "service-discovery-and-routing",
+      "timeout-retry-circuit-breaker-policy",
+      "independent-observability-and-on-call",
+      "independent-package-and-version-cadence",
+      "data-migration-and-rollback-rehearsal"
+    ]
+  },
+  "rollbackRule": "A rejected or failed assessment returns to the modular monolith without weakening Contract, data or transaction boundaries.",
+  "approvals": [
+    {"role": "architecture", "approver": null, "status": "pending", "evidence": null},
+    {"role": "module-owner", "approver": null, "status": "pending", "evidence": null},
+    {"role": "platform", "approver": null, "status": "pending", "evidence": null},
+    {"role": "database", "approver": null, "status": "pending", "evidence": null},
+    {"role": "security", "approver": null, "status": "pending", "evidence": null},
+    {"role": "operations", "approver": null, "status": "pending", "evidence": null}
+  ]
+}

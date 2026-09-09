@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "recordId": "fixture-valid-candidate",
+  "fixtureOnly": true,
+  "module": "registry",
+  "currentState": "observe",
+  "targetState": "candidate",
+  "businessOwner": "fixture-business-owner",
+  "dataOwner": "fixture-data-owner",
+  "operationsOwner": "fixture-operations-owner",
+  "hardGates": [
+    {"id": "HG1", "passed": true, "evidence": "fixture single business owner"},
+    {"id": "HG2", "passed": true, "evidence": "fixture single data owner"},
+    {"id": "HG3", "passed": true, "evidence": "fixture no shared ACID"},
+    {"id": "HG4", "passed": true, "evidence": "fixture versioned protocols"},
+    {"id": "HG5", "passed": true, "evidence": "fixture known eventual consistency"},
+    {"id": "HG6", "passed": true, "evidence": "fixture independent security boundary"},
+    {"id": "HG7", "passed": true, "evidence": "fixture named operations owner"}
+  ],
+  "evidenceScores": [
+    {"id": "team-autonomy", "value": 3, "evidence": "fixture evidence"},
+    {"id": "scaling-difference", "value": 2, "evidence": "fixture evidence"},
+    {"id": "release-frequency", "value": 2, "evidence": "fixture evidence"},
+    {"id": "failure-isolation-benefit", "value": 3, "evidence": "fixture evidence"},
+    {"id": "data-migration-complexity", "value": 4, "evidence": "fixture evidence"},
+    {"id": "latency-availability-fit", "value": 2, "evidence": "fixture evidence"},
+    {"id": "compliance-requirement", "value": 1, "evidence": "fixture evidence"}
+  ],
+  "currentBaseline": "fixture modular-monolith baseline",
+  "expectedBenefits": "fixture benefit",
+  "additionalOperatingCosts": "fixture operating cost",
+  "contractMigration": "fixture versioned migration",
+  "dataMigration": "fixture owned-schema migration",
+  "rollbackPath": "fixture return to the unchanged modular-monolith path",
+  "modularMonolithAlternative": "fixture retain with narrower edges",
+  "approvals": [
+    {"role": "architecture", "approver": "fixture-architecture", "status": "approved", "evidence": "fixture-only"},
+    {"role": "module-owner", "approver": "fixture-module", "status": "approved", "evidence": "fixture-only"}
+  ]
+}
