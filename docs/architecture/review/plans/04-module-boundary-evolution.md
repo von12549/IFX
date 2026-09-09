@@ -89,12 +89,12 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 - [ ] **Phase 2 完成**：GOV4 的逐模块结论、风险、owner 和复审触发条件均已批准并有证据。
 
-- [ ] ME2.1 验证同步环、异步反馈环和 mixed cycle；区分业务流程回路与编译期循环，不以“当前为零”替代未来门禁。
-- [ ] ME2.2 审核 CRM → Transaction、Registry → Transaction、Transaction/Registry → Holdings 的方向是否与 capability/data ownership 一致。
-- [ ] ME2.3 识别高 fan-in/out、共同发布热点、共享数据假设、跨模块变更频率和 owner 重叠；记录是否意味着边界错误或仅是合法协作。
-- [ ] ME2.4 为每个业务模块给出 `retain`、`narrow-edge`、`revisit-boundary` 或 `extraction-candidate` 结论，不允许无证据的 `split-now`。
-- [ ] ME2.5 对 `revisit-boundary` 建立问题、负责人、期限和修复选项；不得用 shared DbContext、shared transaction 或公共 Domain model 缓解耦合。
-- [ ] ME2.6 定义新增协议边、循环、owner 变化、数据 ownership 冲突和高频联合修改的复审触发条件。
+- [x] ME2.1 验证同步环、异步反馈环和 mixed cycle；区分业务流程回路与编译期循环，不以“当前为零”替代未来门禁。
+- [x] ME2.2 审核 CRM → Transaction、Registry → Transaction、Transaction/Registry → Holdings 的方向是否与 capability/data ownership 一致。
+- [x] ME2.3 识别高 fan-in/out、共同发布热点、共享数据假设、跨模块变更频率和 owner 重叠；记录是否意味着边界错误或仅是合法协作。
+- [x] ME2.4 为每个业务模块给出 `retain`、`narrow-edge`、`revisit-boundary` 或 `extraction-candidate` 结论，不允许无证据的 `split-now`。
+- [x] ME2.5 对 `revisit-boundary` 建立问题、负责人、期限和修复选项；当前审计无 `revisit-boundary` 结论；不得用 shared DbContext、shared transaction 或公共 Domain model 缓解耦合。
+- [x] ME2.6 定义新增协议边、循环、owner 变化、数据 ownership 冲突和高频联合修改的复审触发条件。
 - [ ] ME2.7 Architecture 与受影响模块 owner 审核报告；GOV4 仅在所有模块都有具名结论时关闭。
 
 ## Phase 3 — DP6 Microservice 提取门槛
