@@ -1,0 +1,12 @@
+flowchart TD
+  A[Inbound adapter] --> B[Trusted G05 ExecutionContext]
+  B --> C{Execution scope}
+  C -->|Tenant| D[Non-null tenantId]
+  D --> E[TenantQueryGuard.Require]
+  E --> F[Explicit TenantId predicate]
+  C -->|Platform| G[Separate AcrossTenants endpoint]
+  G --> H[Trusted actor + platform role + permission]
+  H --> I[Purpose + structured audit + max 500]
+  C -->|Missing/forged| X[Fail closed]
+  D -->|Nullable/default/bypass flag| X
+  H -->|Unauthorized| X

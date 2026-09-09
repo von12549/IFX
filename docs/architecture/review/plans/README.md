@@ -4,7 +4,7 @@
 > 总计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置 Gate：[`00-prerequisites.md`](00-prerequisites.md)
 > 后续事项：[`TODO.md`](TODO.md)
-> 当前阶段后续计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md)
+> 当前阶段后续计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) — 仓库验证通过，具名审批前 PRE-READY
 
 ## 一句话理解本次改造
 
@@ -197,7 +197,7 @@ B4 仓库内严格收口已于 2026-09-09 完成：116 → 103 → 32 → 0 find
 
 计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md)
 
-该计划承接当前不依赖生产平台即可执行的 GOV4、DP6、DB8、GOV3：用 G03/B4 权威图审计模块粒度，定义未来 Microservice 提取硬门槛，建立 tenant-aware Repository/Contract 规范，并选择 owned projection/read-model 作为跨模块查询模式。它不会实际拆分服务、启用生产 RLS 或臆造报表需求；相应生产和业务依赖仍留在 TODO。
+该计划承接当前不依赖生产平台即可执行的 GOV4、DP6、DB8、GOV3：仓库实现、统一门禁、双语设计与全套测试已通过，具名职能审批前保持 PRE-READY。它没有实际拆分服务、启用生产 RLS 或臆造报表需求；相应生产和业务依赖仍留在 TODO。设计见[中文](../module-boundary-evolution.zh-CN.md) / [English](../module-boundary-evolution.en.md)，证据见 [Plan 04 index](../evidence/plan04/README.md)。
 
 ## 仍留在后续计划中的相关工作
 

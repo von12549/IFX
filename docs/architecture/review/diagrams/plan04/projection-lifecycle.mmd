@@ -1,0 +1,12 @@
+flowchart LR
+  S[Source owner\nminimum versioned facts] --> Q[Durable transport]
+  Q --> I[Query-owner Inbox\nidempotency + tenant]
+  I --> P[Versioned owned projection]
+  P --> API[Eventually consistent query/API]
+  P --> R[Reconciliation + drift detection]
+  R -->|Mismatch| B[Stop consumption\nretain source + checkpoint]
+  B --> F[Fix / compatible schema]
+  F --> X[Bootstrap or full rebuild]
+  X --> C[Incremental catch-up]
+  C --> R
+  P -. forbidden .-> J[Cross-DbContext/table fallback]

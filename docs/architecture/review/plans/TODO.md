@@ -1,6 +1,6 @@
 # 后续架构讨论 TODO
 
-> 状态：Backlog；当前阶段 GOV4、DP6、DB8、GOV3 已于 2026-09-10 提取至子计划 4
+> 状态：Backlog；当前阶段 GOV4、DP6、DB8、GOV3 已于 2026-09-10 提取至子计划 4，仓库验证已通过且具名审批前保持 PRE-READY
 > 目的：记录本轮 Contracts / Adapters / Events / LayerGuard 计划之外，讨论中已经识别但尚未形成完整实施计划的事项。
 > 使用方式：每一项进入实施前应补充现状证据、目标决策、独立计划、负责人和验收标准。
 > 已提取前置项：TX1–TX5、DB1–DB4/DB9–DB11、GOV1/GOV2/GOV5、DP1/DP3/DP4/DP5、OPS1/OPS3 已移动至 [`00-prerequisites.md`](00-prerequisites.md)，不在本 TODO 重复维护。其他已计划化事项记录在下表，也不再保留第二套进度复选框。
@@ -20,7 +20,7 @@
 | DP6 | [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) Phase 3、6、8 | 先定义可执行的 Microservice 提取门槛，不授权实际拆分。 |
 | GOV3 | [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) Phase 5–8 | owned projection/read-model 规则与禁止跨 DbContext join 由新计划唯一维护。 |
 | GOV4 | [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) Phase 1–2、6–8 | 现有 G03/B4 证据足以启动模块粒度和依赖方向正式审计。 |
-| NEXT4 | [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) Phase 0、8 | 当前获准事项已移动到唯一正式计划，并保留本反向链接和提取日期。 |
+| NEXT4 | [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) Phase 0、8；[证据索引](../evidence/plan04/README.md) | 当前获准事项已移动到唯一正式计划；仓库实现和文档已完成，审批只在正式计划维护，本 TODO 不复制 checklist。 |
 
 ## Topic 1 — 数据库边界：独立 DbContext、migration 与 schema
 

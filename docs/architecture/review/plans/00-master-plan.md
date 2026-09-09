@@ -1,6 +1,6 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Master Phase 0、03-A1、Plan 01/B2、Plan 02/B3 与 B4 仓库检查点已完成；Plan 02 目标环境关闭和 Gate Final Closure 保持开放；子计划 4 已 READY（2026-09-10）
+> 状态：Master Phase 0、03-A1、Plan 01/B2、Plan 02/B3 与 B4 仓库检查点已完成；Plan 02 目标环境关闭和 Gate Final Closure 保持开放；子计划 4 仓库验证已通过并保持 PRE-READY（2026-09-10）
 > 范围：编译期边界、模块间同步契约、集成事件、LayerGuard 规则，以及 B4 后续的模块边界/租户查询治理
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
@@ -28,7 +28,7 @@
 | [`03-layerguard-alignment.md`](03-layerguard-alignment.md) | 首先建立新版 LayerGuard、改造前基线和迁移门禁；最后清零并开启严格模式 | 新依赖矩阵可自动验证，并且仓库零未豁免违规 |
 | [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) | `Abstractions` → `Contracts/Ports/Adapters`；Contracts 与 Application 职责；现有代码迁移 | Application 不再直接引用其他模块 Contracts；所有跨模块同步调用经消费方 Port 与 Adapter |
 | [`02-reliable-integration-events.md`](02-reliable-integration-events.md) | Integration Event 契约、Outbox/Inbox、投递、重试与运维 | 提交后发布、至少一次投递、消费幂等、失败可恢复 |
-| [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) | GOV4 模块边界审计、DP6 提取门槛、DB8 tenant query、GOV3 owned projection | 依赖方向、提取决策、租户查询和跨模块读取均有可执行治理与证据 |
+| [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) | GOV4 模块边界审计、DP6 提取门槛、DB8 tenant query、GOV3 owned projection | 仓库治理/1108 tests/B4 已通过；具名职能审批前保持 PRE-READY |
 | [`TODO.md`](TODO.md) | 尚未提取的数据库生命周期、跨模块一致性、进程外拆分和运行治理 | 满足输入条件后转化为后续评审与实施计划 |
 
 ## 关键架构约束

@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "mappings": [
+    {"rule":"GOV4 module ownership and dependency direction","enforcement":["LayerGuard B4","Test-Plan04Phase1Inventory.ps1","Test-Plan04Phase2Audit.ps1"],"behaviorEvidence":["module application/domain test projects"],"owner":"architecture + affected module owners","gateHandback":"G03/G04"},
+    {"rule":"DP6 hard gates cannot be overridden by score","enforcement":["Test-Plan04ExtractionPolicy.ps1","extraction negative fixtures"],"behaviorEvidence":["no module enters approved/executing state"],"owner":"architecture + module + platform + database + security + operations","gateHandback":"G04"},
+    {"rule":"tenant query requires trusted non-null scope and explicit predicate","enforcement":["Test-Plan04TenantQueryPolicy.ps1","TenantQueryGuard"],"behaviorEvidence":["application and infrastructure tenant isolation tests"],"owner":"database + security + module application","gateHandback":"G02/G05"},
+    {"rule":"cross-tenant query uses separate authorized audited bounded entry","enforcement":["CrossTenantAccessGuard","tenant-query-bypass-registry.json","Test-Plan04TenantQueryPolicy.ps1"],"behaviorEvidence":["Auth platform query authorization and repository tests"],"owner":"security + auth application","gateHandback":"G02/G05"},
+    {"rule":"cross-module read uses local Contract or registered owned projection","enforcement":["LayerGuard B4","Test-Plan04ProjectionPolicy.ps1","projection-registration.schema.json"],"behaviorEvidence":["Contract adapter composition and Holdings Inbox tests"],"owner":"architecture + query owner + source data owner + reporting/data + security/privacy","gateHandback":"G02/G03/G05"},
+    {"rule":"missing input, unknown pattern, or hash drift fails closed","enforcement":["Test-Plan04Governance.ps1","plan04-governance-lock.json","CI plan04-governance workflow"],"behaviorEvidence":["boundary hash-drift and unknown-owner fixtures"],"owner":"architecture + LayerGuard delivery owner","gateHandback":"G03/G04"}
+  ],
+  "claimBoundary": {"productionRls":"not-claimed","productionReporting":"not-claimed","microserviceExtraction":"not-claimed","namedFunctionalApproval":"pending"}
+}

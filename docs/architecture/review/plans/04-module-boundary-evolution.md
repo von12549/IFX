@@ -1,6 +1,6 @@
 # 子计划 4：模块边界演进与租户查询治理
 
-> 状态：PRE-READY — Phase 0、1、4–7 的仓库工作已完成；Phase 2、3 具名职能审批及 Phase 8 文档收口仍待完成
+> 状态：PRE-READY — Phase 0、1、4–8 的仓库工作已完成；Phase 2、3、7、8 的完成状态仅等待具名职能审批，生产能力未声明
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：[`TODO.md`](TODO.md) Topic 1、3、4 的当前阶段可执行目标
 > 前置证据：Gate 02 module-owned DbContext/schema、Gate 03 权威 provider/consumer graph、Gate 04 共同业务发布边界、Gate 05 tenant/privacy policy、LayerGuard B4 严格依赖图
@@ -162,28 +162,28 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 8 — 架构、规则与关闭文档化
 
-- [ ] **Phase 8 完成**：中英文设计、图、规则、证据和批准完整，原 TODO 项已按唯一位置关闭。
+- [ ] **Phase 8 完成**：中英文设计、图、规则、证据与计划索引均已完成，但 ME8.7 具名批准仍为 pending，因此整体保持 PRE-READY。证据：[`evidence index`](../evidence/plan04/README.md) 与 [`machine status`](../evidence/plan04/phase8-documentation-status.json)。
 
-- [ ] ME8.1 编写完整中文设计，解释模块粒度、提取门槛、tenant query 和 projection ownership。
-- [ ] ME8.2 编写语义一致的英文设计，并建立双向链接。
-- [ ] ME8.3 保存当前模块/协议/数据依赖图和模块粒度决策图。
-- [ ] ME8.4 保存 Microservice extraction decision flow/state 图，标明硬门槛、评分、批准和 DP8/DP9 handoff。
-- [ ] ME8.5 保存 tenant query trust/bypass flow 和 projection normal/rebuild/reconciliation 流程图。
-- [ ] ME8.6 保存规则到 LayerGuard、validator、测试、owner 和 Gate evidence 的映射。
+- [x] ME8.1 编写完整中文设计，解释模块粒度、提取门槛、tenant query 和 projection ownership。
+- [x] ME8.2 编写语义一致的英文设计，并建立双向链接。
+- [x] ME8.3 保存当前模块/协议/数据依赖图和模块粒度决策图。
+- [x] ME8.4 保存 Microservice extraction decision flow/state 图，标明硬门槛、评分、批准和 DP8/DP9 handoff。
+- [x] ME8.5 保存 tenant query trust/bypass flow 和 projection normal/rebuild/reconciliation 流程图。
+- [x] ME8.6 保存规则到 LayerGuard、validator、测试、owner 和 Gate evidence 的映射。
 - [ ] ME8.7 记录所有具名、带日期批准；缺少批准时本计划保持 PRE-READY。
-- [ ] ME8.8 更新总计划、计划索引和 TODO 提取记录；不得恢复第二套进度复选框。
+- [x] ME8.8 更新总计划、计划索引和 TODO 提取记录；未恢复第二套进度复选框。
 
 ## 完成标准（Definition of Done）
 
-- [ ] ME-D01 GOV4 对每个业务模块给出有证据、owner 和复审条件的粒度/方向结论。
-- [ ] ME-D02 权威协议图与项目/namespace 依赖图可重复生成，未知边、循环和输入漂移 fail closed。
-- [ ] ME-D03 DP6 同时包含不可绕过的硬门槛、证据评分、状态机、批准和回退要求。
-- [ ] ME-D04 没有具体模块因为完成 DP6 policy 而被误报为已批准或已提取。
-- [ ] ME-D05 tenant-scoped Repository/Contract/query 默认 fail closed；跨租户能力只能经独立、受权、审计和有界入口。
-- [ ] ME-D06 global query filter 与 RLS 有明确决定、风险、owner 和复审触发条件，未部署项显示 `not-claimed`。
-- [ ] ME-D07 跨模块读取只使用批准的同步 Contract 或 owned projection，不直接 join 外部 DbContext/table。
-- [ ] ME-D08 projection 具有 tenant partition、幂等、版本、重建、对账、失败恢复和 G05 数据生命周期规则。
-- [ ] ME-D09 核心规则有正反测试并进入 CI；LayerGuard、validator、行为测试之间没有责任空洞。
+- [x] ME-D01 GOV4 对每个业务模块给出有证据、owner 和复审条件的粒度/方向结论。
+- [x] ME-D02 权威协议图与项目/namespace 依赖图可重复生成，未知边、循环和输入漂移 fail closed。
+- [x] ME-D03 DP6 同时包含不可绕过的硬门槛、证据评分、状态机、批准和回退要求。
+- [x] ME-D04 没有具体模块因为完成 DP6 policy 而被误报为已批准或已提取。
+- [x] ME-D05 tenant-scoped Repository/Contract/query 默认 fail closed；跨租户能力只能经独立、受权、审计和有界入口。
+- [x] ME-D06 global query filter 与 RLS 有明确决定、风险、owner 和复审触发条件，未部署项显示 `not-claimed`。
+- [x] ME-D07 跨模块读取只使用批准的同步 Contract 或 owned projection，不直接 join 外部 DbContext/table。
+- [x] ME-D08 任何未来 projection 注册必须具备 tenant partition、幂等、版本、重建、对账、失败恢复和 G05 数据生命周期规则；当前无批准 projection，不虚构产品实例。
+- [x] ME-D09 核心规则有正反测试并进入 CI；LayerGuard、validator、行为测试之间没有责任空洞。
 - [ ] ME-D10 中英文文档、架构/流程/状态图、机器可读报告、Gate 回交和具名批准完整。
 
 ## Gate 回交与后续触发
@@ -196,7 +196,7 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## 安全与回退原则
 
-- [ ] ME-R01 新 tenant guard 造成兼容问题时，只能回退到上一条已批准的显式 tenant policy，不得回退到默认/空 tenant。
-- [ ] ME-R02 projection rollout 失败时停止新消费、保留 durable source/checkpoint，并通过修复后重建或 roll-forward 恢复，不跨库直接查询兜底。
-- [ ] ME-R03 提取评估或试验失败时默认保持当前 modular monolith；不得为保留试验成果而放宽 Contract、数据或事务边界。
-- [ ] ME-R04 任何治理 artifact/hash 不一致时停止判定，重新生成并审核，不手工修改派生报告制造绿色结果。
+- [x] ME-R01 新 tenant guard 造成兼容问题时，只能回退到上一条已批准的显式 tenant policy，不得回退到默认/空 tenant。
+- [x] ME-R02 projection rollout 失败时停止新消费、保留 durable source/checkpoint，并通过修复后重建或 roll-forward 恢复，不跨库直接查询兜底。
+- [x] ME-R03 提取评估或试验失败时默认保持当前 modular monolith；不得为保留试验成果而放宽 Contract、数据或事务边界。
+- [x] ME-R04 任何治理 artifact/hash 不一致时停止判定，重新生成并审核，不手工修改派生报告制造绿色结果。

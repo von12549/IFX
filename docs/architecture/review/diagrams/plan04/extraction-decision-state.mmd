@@ -1,0 +1,11 @@
+stateDiagram-v2
+  [*] --> retain
+  retain --> observe: review trigger + owner
+  observe --> candidate: all hard gates + evidence
+  candidate --> approved: named functional approvals
+  approved --> executing: DP8 + DP9 ready
+  executing --> extracted: migration + acceptance
+  observe --> retain: evidence insufficient
+  candidate --> retain: hard gate fails
+  approved --> retain: rollback / approval withdrawn
+  executing --> retain: safe rollback to modular monolith

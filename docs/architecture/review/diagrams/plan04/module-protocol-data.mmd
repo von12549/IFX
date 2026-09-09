@@ -1,0 +1,11 @@
+flowchart LR
+  CRM[CRM\ncrm schema] -->|crm.account-compliance.v1| TX[Transaction\ntransaction schema]
+  REG[Registry\nregistry schema] -->|registry.class-subscription-availability.v1| TX
+  TX -->|ifx.transaction.transaction-processed.v1| HOLD[Holdings\nholdings schema]
+  REG -->|ifx.registry.class-status-changed.v1| HOLD
+  AUTH[Auth\nauth schema]
+  HOST[Shared ApiHost / Worker / business release] -. composition only .-> AUTH
+  HOST -.-> CRM
+  HOST -.-> REG
+  HOST -.-> TX
+  HOST -.-> HOLD

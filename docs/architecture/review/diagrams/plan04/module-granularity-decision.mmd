@@ -1,0 +1,9 @@
+flowchart TD
+  A[Authority-derived facts\nG02 + G03 + G04 + B4] --> B{Ownership conflict, cycle,\nforeign data, or sustained coupling?}
+  B -->|No| C[retain]
+  B -->|Legal edge can be reduced| D[narrow-edge]
+  B -->|Boundary question with owner/date| E[revisit-boundary]
+  B -->|Benefit evidence and all hard gates| F[extraction-candidate]
+  F --> G[DP6 approvals]
+  G -->|Approved plus DP8/DP9| H[execution planning]
+  G -->|Missing/rejected| C
