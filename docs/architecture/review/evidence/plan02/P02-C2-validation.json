@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C2",
+  "item": "E5.7",
+  "result": "repository-passed-target-evidence-pending",
+  "repositoryChecks": {
+    "formatAndFailClosed": true,
+    "soleAuthoritiesReferenced": true,
+    "classificationCeilingIsC2AndC4Denied": true,
+    "catalogEventsRespectDeclaredCeiling": true,
+    "allStoresCovered": true,
+    "leastPrivilegeRolesComplete": true,
+    "diagnosticAndReplayBypassesDenied": true,
+    "transportEncryptionFailsClosed": true,
+    "atRestSecretsAndRotationCovered": true,
+    "lifecycleInventoryCompleteButApprovalPending": true,
+    "pendingAndLegalHoldSafetyDefined": true,
+    "c3StateTransferDefaultsToDeny": true,
+    "closureContractRequiresTargetEvidence": true
+  },
+  "targetChecks": {
+    "formatAndCompletedTargetIdentity": false,
+    "policyDigestMatches": false,
+    "noTemplatePlaceholdersRemain": false,
+    "accessEvidenceComplete": false,
+    "encryptionEvidenceComplete": false,
+    "lifecycleEvidenceComplete": false,
+    "c3EvidenceComplete": false,
+    "namedApprovalsComplete": false,
+    "captureTimestampResolved": false
+  },
+  "failedRepositoryChecks": [],
+  "failedTargetChecks": [
+    "formatAndCompletedTargetIdentity",
+    "policyDigestMatches",
+    "noTemplatePlaceholdersRemain",
+    "accessEvidenceComplete",
+    "encryptionEvidenceComplete",
+    "lifecycleEvidenceComplete",
+    "c3EvidenceComplete",
+    "namedApprovalsComplete",
+    "captureTimestampResolved"
+  ],
+  "policySha256": "d2ef74dfe9f999ce6219597b880d77ca87e7e601b18680e32d34c0e0699bb27c",
+  "evidencePath": "deployment/plan02/messaging-data-controls-evidence-template.json",
+  "checklistMayClose": false,
+  "nextAction": "Populate a copy of the target evidence template from the production-candidate environment, obtain named approvals, and rerun with -RequireTargetEvidence."
+}

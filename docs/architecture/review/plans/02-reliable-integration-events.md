@@ -123,7 +123,7 @@ Producer Application
 - [x] E5.4 定义 Class 状态保护投影的 bootstrap、EventId checkpoint、重建、版本切换与最终一致状态下的 fail-safe 降级策略；见双语设计的“投影与数据生命周期”。
 - [x] E5.5 为会触发后续命令的事件处理定义 correlation/causation 链与 loop guard：保留 CorrelationId、下游 CausationId=入站 EventId、重复链由 Inbox 截止。
 - [x] E5.6 明确事件数据删除、隐私与审计保留策略：payload 仅含 C0–C2 最小事实，诊断不返回 payload，删除按模块数据生命周期与法定 hold 协调。
-- [ ] E5.7 将 Outbox、Inbox、broker、dead-letter、replay 和诊断存储按 payload 最高分类配置访问、加密、保留和删除；C3 State Transfer 例外可追责且会到期。
+- [ ] E5.7 将 Outbox、Inbox、broker、dead-letter、replay 和诊断存储按 payload 最高分类配置访问、加密、保留和删除；C3 State Transfer 例外可追责且会到期。（P02-C2 已完成 fail-closed 仓库策略、证据模板和验证器；目标 ACL/加密/生命周期演练及 Security、Database、Operations、Legal/data-owner 批准仍待补，见 [`P02-C2 evidence`](../evidence/plan02/P02-C2-data-controls.md)。）
 
 ## Phase 6 — 失败恢复、回放与运维
 

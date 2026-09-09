@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C2",
+  "item": "E5.7",
+  "asOf": "2026-09-09",
+  "result": "repository-passed-target-evidence-pending",
+  "checklistMayClose": false,
+  "phase5Complete": false,
+  "repository": {
+    "failClosedPolicy": "deployment/plan02/messaging-data-controls.json",
+    "targetEvidenceTemplate": "deployment/plan02/messaging-data-controls-evidence-template.json",
+    "validator": "scripts/Test-Plan02C2DataControls.ps1",
+    "storageClassesCovered": 7,
+    "workloadCapabilitiesDefined": 5,
+    "currentPayloadCeiling": "C2",
+    "activeC3StateTransferExceptions": 0,
+    "c3Default": "deny",
+    "validationResult": "passed"
+  },
+  "reusedEvidence": {
+    "diagnosticsExcludePayload": true,
+    "replayAuthorizationAndAuditPortsExist": true,
+    "controlledDockerRuntimeDdlDenied": true,
+    "controlledDockerUsesSeparateTargetCapabilities": false
+  },
+  "missingTargetEvidence": [
+    "immutable production-candidate release and environment identity",
+    "separate database, broker, diagnostic and replay identities with positive and negative ACL tests",
+    "TLS certificate validation plus database, broker, backup and diagnostic-sink encryption attestations",
+    "external secret/key management and rotation evidence",
+    "approved retention schedule and retention, tenant-deletion, legal-hold and restore drills",
+    "unregistered and expired C3 State Transfer denial on the target",
+    "named dated Security, Database, Platform Operations and Legal/data-owner approvals"
+  ],
+  "strictClosureCommand": "pwsh -NoProfile -File scripts/Test-Plan02C2DataControls.ps1 -EvidencePath <immutable-target-evidence.json> -ReportPath <immutable-validation-report.json> -RequireTargetEvidence",
+  "nextSliceAfterClosure": "P02-C3 / E6.5 and E6.7 operations decisions"
+}

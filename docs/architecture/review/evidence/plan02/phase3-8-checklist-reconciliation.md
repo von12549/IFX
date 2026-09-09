@@ -21,7 +21,7 @@ the whole statement. Partial items remain open and carry their missing acceptanc
 
 | Group | Open items | Required completion evidence |
 | --- | --- | --- |
-| Projection/data lifecycle | E5.7 | deployed access/encryption/retention/deletion controls and attestations |
+| Projection/data lifecycle | E5.7 | P02-C2 repository policy/validator passed; deployed access/encryption/retention/deletion controls, drills and named attestations remain required |
 | Operations | E6.5, E6.7 | production exporter/alert routes and an authorized ReprocessingRequest design |
 | Release validation | E7.3–E7.6, E7.8 | full HTTP/broker fault matrix, consumer-first rehearsal, old-path production observation and G05 tenant/sentinel suite |
 | Documentation/approval | E8.9–E8.10, E-D06, E-D08, E-D10–E-D11 | production records, sensitive-data deployment proof, Gate handback and final owner signatures |

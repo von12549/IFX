@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "controlSet": "P02-C2",
+  "status": "pending",
+  "releaseId": "<immutable-production-candidate-release-id>",
+  "environment": "<target-environment>",
+  "policySha256": "<64-lowercase-hex>",
+  "access": {
+    "workloadIdentityConfigurationReference": "<immutable-reference>",
+    "databaseAclReference": "<immutable-reference>",
+    "brokerAclReference": "<immutable-reference>",
+    "diagnosticAclReference": "<immutable-reference>",
+    "accessAuditReference": "<immutable-reference>",
+    "positivePermissionTestReference": "<immutable-reference>",
+    "negativePermissionTestReference": "<immutable-reference>",
+    "separateWorkloadIdentitiesVerified": false,
+    "sharedAdministratorRuntimeIdentityAbsent": false,
+    "diagnosticPayloadReadDenied": false,
+    "directReplayTableDmlDenied": false
+  },
+  "encryption": {
+    "databaseTransportReference": "<immutable-reference>",
+    "brokerTransportReference": "<immutable-reference>",
+    "atRestConfigurationReference": "<immutable-reference>",
+    "backupEncryptionReference": "<immutable-reference>",
+    "diagnosticSinkEncryptionReference": "<immutable-reference>",
+    "externalSecretStoreReference": "<immutable-reference>",
+    "keyRotationReference": "<immutable-reference>",
+    "tls12OrLaterVerified": false,
+    "certificateValidationVerified": false,
+    "atRestCoverageVerified": false,
+    "plaintextRepositorySecretAbsent": false
+  },
+  "lifecycle": {
+    "approvedScheduleReference": "<immutable-reference>",
+    "retentionConfigurationReference": "<immutable-reference>",
+    "deletionJobReference": "<immutable-reference>",
+    "retentionRehearsalReference": "<immutable-reference>",
+    "tenantDeletionRehearsalReference": "<immutable-reference>",
+    "legalHoldRehearsalReference": "<immutable-reference>",
+    "restoreDrillReference": "<immutable-reference>",
+    "pendingMessagesAgeDeleteDenied": false,
+    "replayWindowPreserved": false,
+    "legalHoldSuspendsDeletion": false,
+    "deletionAuditVerified": false
+  },
+  "c3StateTransfer": {
+    "activeExceptionCount": 0,
+    "registryReference": "<immutable-reference-or-policy-default-deny>",
+    "unregisteredTransferDenied": false,
+    "expiredTransferDenied": false
+  },
+  "approvals": {
+    "security": "<named-dated-approval-reference>",
+    "database": "<named-dated-approval-reference>",
+    "platformOperations": "<named-dated-approval-reference>",
+    "legalOrDataOwner": "<named-dated-approval-reference>"
+  },
+  "capturedAt": "<ISO-8601-timestamp>"
+}

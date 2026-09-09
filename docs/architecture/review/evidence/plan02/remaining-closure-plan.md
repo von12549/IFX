@@ -28,7 +28,7 @@
 | 项目 | 当前状态 | 关闭所需结果 | 主要责任方 |
 | --- | --- | --- | --- |
 | E4.9 | **已关闭（P02-C1，2026-09-09）** | 生产 raw receiver 已验证非法 carrier、quarantine disposition、新 root span、身份保持和 handler 前置顺序 | Platform Messaging、Holdings、Security/G05 conformance |
-| E5.7 | 分类原则已完成；目标平台配置未完成 | 最小权限、传输/静态加密、保留/删除、legal hold 和 C3 例外证据 | Security、Database、Platform、模块 owner |
+| E5.7 | **P02-C2 仓库基线通过；目标证据待补** | 已有 fail-closed 策略/模板/验证器；仍需真实最小权限、传输/静态加密、保留/删除、legal hold、C3 负面测试和四方批准 | Security、Database、Platform Operations、Legal/data owner |
 | E6.5 | 指标、readiness 和版本化阈值已完成；生产校准未完成 | exporter/dashboard、阈值、告警路由、silent-stop 触发和恢复证据 | Observability、Platform Operations、Messaging |
 | E6.7 | immutable replay 和 Inbox 去重已完成；forced reprocessing 未决 | 正式决定“不支持”，或实现独立且受审计的 `ReprocessingRequest` | Product、Architecture、Operations、模块 owner |
 | E7.3 | 组件与 SQL 测试已完成 | 源提交到消费方状态变化的真实 transport E2E，覆盖重复和短暂故障 | Test Engineering、生产/消费模块、Messaging |
@@ -56,6 +56,11 @@ P02-C1 已将 typed in-process transport 改为经过 transport-neutral raw carr
 6. 证据见 [`P02-C1-inbound-conformance.md`](P02-C1-inbound-conformance.md)，E4.9 与 Phase 4 已勾选。
 
 ### 3.2 E5.7：数据访问、加密、保留与删除
+
+仓库侧已完成 [`P02-C2 target messaging data controls`](P02-C2-data-controls.md)：七类存储、
+五种工作负载能力、加密/密钥、生命周期、tenant deletion/legal hold 和默认拒绝的 C3
+State Transfer 均有机器可验证策略与目标证据模板。严格验证当前按设计失败，因为尚未提供真实
+production-candidate 环境证据；因此 E5.7 与 Phase 5 保持未勾选。
 
 处理步骤：
 
@@ -148,7 +153,7 @@ Migrator → Worker → API 证据、关闭 G02-DD06，并取得 Architecture、
 后续工作按以下六个可独立审计的切片推进，每次只关闭一个切片：
 
 1. **[x] P02-C1 / Adapter conformance**：raw carrier seam、E4.9 和 Phase 4 已于 2026-09-09 完成。
-2. **P02-C2 / Data controls**：完成 E5.7 的目标访问、加密、保留和删除证据。
+2. **[进行中] P02-C2 / Data controls**：仓库控制契约已完成；填充真实目标证据并通过 strict validator 后关闭 E5.7/Phase 5。
 3. **P02-C3 / Operations decisions**：完成 E6.5 校准，并对 E6.7 作出正式决定/实现。
 4. **P02-C4 / Full-path validation**：完成 E7.3、E7.4、E7.8。
 5. **P02-C5 / Release rehearsal**：完成 E7.5、E7.6、G04-B03/B06 和 observation/cleanup。

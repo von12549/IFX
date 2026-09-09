@@ -35,7 +35,7 @@ identity and attach immutable references only.
 
 | Items | Why they are not checked |
 | --- | --- |
-| E5.7 | Target access, encryption, retention, deletion, and expiring C3 state-transfer controls require production platform configuration. |
+| E5.7 | P02-C2 fail-closed policy, evidence template and validator exist; target ACL/encryption/key/lifecycle drills and Security/Database/Operations/Legal-data-owner attestations remain required. |
 | E6.5 | Repository metrics/readiness exist; exporter, alert route, and threshold calibration require target telemetry. |
 | E6.7 | Immutable replay is proven; an independent forced `ReprocessingRequest` remains an explicit product/governance decision and ID-changing bypass stays forbidden. |
 | E7.3–E7.6, E7.8 | Full transport E2E, process/network fault injection, consumer-first rehearsal, observed threshold acceptance, old-path closure, and the complete G05 sentinel suite require production-like execution. |

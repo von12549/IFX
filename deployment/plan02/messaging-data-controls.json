@@ -1,0 +1,130 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "controlSet": "P02-C2",
+  "status": "repository-baseline-target-attestation-pending",
+  "failClosed": true,
+  "authorities": {
+    "fieldCatalog": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+    "observabilityPolicy": "docs/architecture/review/gates/G05/observability-security-policy.json",
+    "operationsRunbook": "docs/architecture/review/runbooks/plan02-reliable-events.md"
+  },
+  "classification": {
+    "currentEventPayloadCeiling": "C2",
+    "c4Allowed": false,
+    "unknownFields": "deny",
+    "storageInheritsHighestPayloadClassification": true
+  },
+  "stores": [
+    { "id": "producer-outbox", "classification": "C2", "logicalBytes": true, "systemOfRecord": false },
+    { "id": "consumer-inbox", "classification": "C2", "logicalBytes": false, "systemOfRecord": false },
+    { "id": "broker", "classification": "C2", "logicalBytes": true, "systemOfRecord": false },
+    { "id": "dead-letter", "classification": "C2", "logicalBytes": true, "systemOfRecord": false },
+    { "id": "quarantine", "classification": "C2", "logicalBytes": false, "systemOfRecord": false },
+    { "id": "replay-audit", "classification": "C2", "logicalBytes": false, "systemOfRecord": false },
+    { "id": "diagnostics", "classification": "C2", "logicalBytes": false, "systemOfRecord": false }
+  ],
+  "access": {
+    "separateWorkloadIdentitiesRequired": true,
+    "sharedAdministratorRuntimeIdentityAllowed": false,
+    "directHumanTableAccessAllowed": false,
+    "assignments": [
+      {
+        "id": "producer",
+        "allow": ["insert own Outbox in the producer local transaction"],
+        "deny": ["claim", "dispatch", "replay", "read payload through diagnostics"]
+      },
+      {
+        "id": "dispatcher",
+        "allow": ["select and update owned Outbox delivery state", "read owned Outbox logical bytes for transport"],
+        "deny": ["write producer business tables", "delete Outbox rows", "mutate logical bytes"]
+      },
+      {
+        "id": "consumer",
+        "allow": ["insert owned Inbox and quarantine rows in the consumer transaction"],
+        "deny": ["read producer Outbox", "replay", "cross-tenant processing"]
+      },
+      {
+        "id": "diagnostics",
+        "allow": ["query approved metadata projection"],
+        "deny": ["read payload", "read raw carrier headers", "mutate messaging stores"]
+      },
+      {
+        "id": "replay-operator",
+        "allow": ["invoke the audited replay operation after authorization"],
+        "deny": ["direct table DML", "mint replacement EventId", "export payload"]
+      }
+    ],
+    "accessAuditRequired": true,
+    "negativePermissionTestsRequired": true
+  },
+  "encryption": {
+    "inTransit": {
+      "required": true,
+      "minimumTls": "1.2",
+      "certificateValidationRequired": true,
+      "trustServerCertificateAllowedInProduction": false
+    },
+    "atRest": {
+      "required": true,
+      "covers": ["database", "broker", "dead-letter", "quarantine", "replay-audit", "backup", "diagnostic-sink"],
+      "externalKeyManagementRequired": true,
+      "rotationEvidenceRequired": true
+    },
+    "secrets": {
+      "externalSecretStoreRequired": true,
+      "plaintextRepositorySecretAllowed": false,
+      "rotationEvidenceRequired": true
+    }
+  },
+  "lifecycle": {
+    "approvalStatus": "pending-security-legal-and-data-owner-approval",
+    "proposedSchedules": [
+      { "store": "producer-outbox", "state": "Delivered", "proposedDuration": "P30D", "action": "delete logical bytes and delivery row" },
+      { "store": "producer-outbox", "state": "Pending", "proposedDuration": null, "action": "retain until delivered or dead-lettered; never age-delete" },
+      { "store": "consumer-inbox", "state": "Completed", "proposedDuration": "P97D", "action": "delete only after the 90-day replay window plus 7-day safety margin" },
+      { "store": "broker", "state": "AvailableOrInFlight", "proposedDuration": "P7D", "action": "provider expiry after bounded delivery attempts" },
+      { "store": "dead-letter", "state": "Unresolved", "proposedDuration": "P90D", "action": "review, replay or dispose through an audited decision" },
+      { "store": "quarantine", "state": "Unresolved", "proposedDuration": "P90D", "action": "review and dispose through an audited decision" },
+      { "store": "replay-audit", "state": "Completed", "proposedDuration": "P365D", "action": "archive or delete under the approved audit schedule" },
+      { "store": "diagnostics", "state": "Recorded", "proposedDuration": "P30D", "action": "delete from the operational sink" }
+    ],
+    "legalHold": {
+      "suspendsDeletion": true,
+      "payloadExpansionAllowed": false,
+      "releaseRequiresAuditedAuthorization": true
+    },
+    "tenantDeletion": {
+      "requiresSourceDomainDeletionAuthorization": true,
+      "requiresReconciliationBeforeDeletion": true,
+      "legalHoldTakesPrecedence": true,
+      "deletesPayloadBearingCopiesWhenNotHeld": true,
+      "tombstoneContainsPayload": false
+    },
+    "deletionExecutionMustBeAudited": true,
+    "restoreDrillRequired": true
+  },
+  "c3StateTransfer": {
+    "default": "deny",
+    "activeExceptions": [],
+    "requiredExceptionFields": [
+      "id",
+      "owner",
+      "purpose",
+      "fields",
+      "producer",
+      "consumers",
+      "approvals",
+      "expiresAt",
+      "revocationCondition",
+      "deletionCondition"
+    ],
+    "expiredExceptionBehavior": "fail-closed"
+  },
+  "closure": {
+    "targetEvidenceTemplate": "deployment/plan02/messaging-data-controls-evidence-template.json",
+    "validator": "scripts/Test-Plan02C2DataControls.ps1",
+    "requiresImmutableTargetReferences": true,
+    "requiresNamedApprovals": ["security", "database", "platformOperations", "legalOrDataOwner"]
+  }
+}

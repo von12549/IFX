@@ -16,6 +16,7 @@
   },
   "plan02": {
     "closedSlices": ["P02-C1/E4.9"],
+    "inProgressSlices": ["P02-C2/E5.7: repository baseline passed; target evidence pending"],
     "openChecklistItems": ["E5.7", "E6.5", "E6.7", "E7.3", "E7.4", "E7.5", "E7.6", "E7.8", "E8.9", "E8.10"],
     "openDefinitionOfDone": ["E-D06", "E-D08", "E-D10", "E-D11"],
     "phaseCompletionBoxesOpen": [5, 6, 7, 8]
@@ -23,6 +24,7 @@
   "missingInputs": [
     "production-candidate release identity and immutable digests",
     "production-like staging execution context and approved identities",
+    "P02-C2 immutable target ACL, encryption/key, retention/deletion/legal-hold drill evidence and named Security/Database/Operations/Legal-data-owner approvals",
     "target replica/concurrency and alert-threshold calibration",
     "completed nine-stage release evidence with fault/drain/rollback observations",
     "named dated Architecture/module/Platform/Database/Security/Operations approvals",
@@ -30,6 +32,7 @@
     "owner and due milestone for any TODO item declared blocking final acceptance"
   ],
   "evidenceTemplate": "deployment/g04/release-evidence-template.json",
+  "plan02DataControlsTemplate": "deployment/plan02/messaging-data-controls-evidence-template.json",
   "plan02DetailedClosurePlan": "docs/architecture/review/evidence/plan02/remaining-closure-plan.md",
   "completionValidator": "scripts/Test-G04ReleaseOrchestration.ps1 -RequireCompleted",
   "productionClaimed": false,
