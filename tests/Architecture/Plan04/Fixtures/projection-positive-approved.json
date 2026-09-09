@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "id": "approved-reporting-example",
+  "status": "approved",
+  "queryOwner": "reporting-query-owner",
+  "dataOwner": "transaction",
+  "consumer": "approved-reporting-consumer",
+  "sourceProtocols": ["ifx.transaction.transaction-processed.v1"],
+  "store": {"schemaVersion": 1, "schema": "reporting", "table": "TransactionSummary", "tenantPartitionKey": "TenantId"},
+  "semantics": {"inbox": "reporting.Inbox", "idempotencyKey": "ConsumerId+EventId", "ordering": "per aggregate", "freshnessObjective": "documented", "eventualConsistencyDisclosure": "documented"},
+  "lifecycle": {"bootstrap": "documented", "backfill": "documented", "rebuild": "documented", "incrementalCatchup": "documented", "checkpoint": "documented", "reconciliation": "documented", "driftDetection": "documented", "sourceRetentionDependency": "documented"},
+  "failureRecovery": {"sourceUnavailable": "retry", "consumerUnavailable": "durable retry", "duplicate": "dedupe", "outOfOrder": "reject/reconcile", "poison": "quarantine", "partialRebuild": "resume", "incompatibleSchema": "stop"},
+  "privacy": {"classification": "C2", "minimalFields": ["TenantId"], "access": "authorized", "encryption": "required", "retention": "approved", "deletion": "propagated", "logging": "pseudonymized", "sourceFieldSuperset": false},
+  "approvals": [
+    {"role": "architecture", "status": "approved", "approver": "named", "evidence": "approval-ref"},
+    {"role": "query-owner", "status": "approved", "approver": "named", "evidence": "approval-ref"},
+    {"role": "source-data-owner", "status": "approved", "approver": "named", "evidence": "approval-ref"},
+    {"role": "reporting-data", "status": "approved", "approver": "named", "evidence": "approval-ref"},
+    {"role": "security-privacy", "status": "approved", "approver": "named", "evidence": "approval-ref"}
+  ]
+}

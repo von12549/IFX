@@ -1,0 +1,1 @@
+{"formatVersion":1,"id":"not-in-registry","status":"approved","queryOwner":"reporting","dataOwner":"transaction","consumer":"report","sourceProtocols":["ifx.transaction.transaction-processed.v1"],"registrationPresent":false}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ifx.local/schemas/plan04/projection-registration-v1.json",
+  "title": "Plan 04 owned projection registration",
+  "type": "object",
+  "required": ["formatVersion", "id", "status", "queryOwner", "dataOwner", "consumer", "sourceProtocols", "store", "semantics", "lifecycle", "failureRecovery", "privacy", "approvals"],
+  "properties": {
+    "formatVersion": {"const": 1},
+    "id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "approved", "suspended", "retired", "reference-only"]},
+    "queryOwner": {"type": "string", "minLength": 1},
+    "dataOwner": {"type": "string", "minLength": 1},
+    "consumer": {"type": "string", "minLength": 1},
+    "sourceProtocols": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "store": {
+      "type": "object",
+      "required": ["schemaVersion", "schema", "table", "tenantPartitionKey"],
+      "properties": {"schemaVersion": {"type": "integer", "minimum": 1}, "schema": {"type": "string", "minLength": 1}, "table": {"type": "string", "minLength": 1}, "tenantPartitionKey": {"const": "TenantId"}},
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "object",
+      "required": ["inbox", "idempotencyKey", "ordering", "freshnessObjective", "eventualConsistencyDisclosure"],
+      "properties": {"inbox": {"type": "string", "minLength": 1}, "idempotencyKey": {"type": "string", "minLength": 1}, "ordering": {"type": "string", "minLength": 1}, "freshnessObjective": {"type": "string", "minLength": 1}, "eventualConsistencyDisclosure": {"type": "string", "minLength": 1}},
+      "additionalProperties": false
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["bootstrap", "backfill", "rebuild", "incrementalCatchup", "checkpoint", "reconciliation", "driftDetection", "sourceRetentionDependency"],
+      "properties": {"bootstrap": {"type": "string", "minLength": 1}, "backfill": {"type": "string", "minLength": 1}, "rebuild": {"type": "string", "minLength": 1}, "incrementalCatchup": {"type": "string", "minLength": 1}, "checkpoint": {"type": "string", "minLength": 1}, "reconciliation": {"type": "string", "minLength": 1}, "driftDetection": {"type": "string", "minLength": 1}, "sourceRetentionDependency": {"type": "string", "minLength": 1}},
+      "additionalProperties": false
+    },
+    "failureRecovery": {
+      "type": "object",
+      "required": ["sourceUnavailable", "consumerUnavailable", "duplicate", "outOfOrder", "poison", "partialRebuild", "incompatibleSchema"],
+      "properties": {"sourceUnavailable": {"type": "string", "minLength": 1}, "consumerUnavailable": {"type": "string", "minLength": 1}, "duplicate": {"type": "string", "minLength": 1}, "outOfOrder": {"type": "string", "minLength": 1}, "poison": {"type": "string", "minLength": 1}, "partialRebuild": {"type": "string", "minLength": 1}, "incompatibleSchema": {"type": "string", "minLength": 1}},
+      "additionalProperties": false
+    },
+    "privacy": {
+      "type": "object",
+      "required": ["classification", "minimalFields", "access", "encryption", "retention", "deletion", "logging"],
+      "properties": {"classification": {"enum": ["C0", "C1", "C2", "C3", "C4"]}, "minimalFields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "access": {"type": "string", "minLength": 1}, "encryption": {"type": "string", "minLength": 1}, "retention": {"type": "string", "minLength": 1}, "deletion": {"type": "string", "minLength": 1}, "logging": {"type": "string", "minLength": 1}, "sourceFieldSuperset": {"const": false}},
+      "additionalProperties": false
+    },
+    "approvals": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["role", "status"],
+        "properties": {"role": {"enum": ["architecture", "query-owner", "source-data-owner", "reporting-data", "security-privacy"]}, "status": {"enum": ["pending", "approved", "rejected", "not-required-reference"]}, "approver": {"type": "string", "minLength": 1}, "evidence": {"type": "string", "minLength": 1}},
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "approved"}}}, "then": {"properties": {"approvals": {"contains": {"required": ["status", "approver", "evidence"], "properties": {"status": {"const": "approved"}}}, "minContains": 5}}}}
+  ],
+  "additionalProperties": false
+}

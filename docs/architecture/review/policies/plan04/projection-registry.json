@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "registryId": "GOV3-projection-registry-v1",
+  "approvedCrossModuleQueryConsumers": [],
+  "publicProjectionSchemas": [],
+  "references": [
+    {
+      "formatVersion": 1,
+      "id": "holdings-event-consumer",
+      "status": "reference-only",
+      "queryOwner": "holdings-application",
+      "dataOwner": "holdings",
+      "consumer": "holdings-domain-state",
+      "sourceProtocols": ["ifx.transaction.transaction-processed.v1", "ifx.registry.class-status-changed.v1"],
+      "store": {"schemaVersion": 1, "schema": "holdings", "table": "Holdings", "tenantPartitionKey": "TenantId"},
+      "semantics": {
+        "inbox": "holdings.InboxMessages",
+        "idempotencyKey": "ConsumerId+EventId unique index",
+        "ordering": "No global ordering claim; handlers apply domain transitions and reject unsupported facts.",
+        "freshnessObjective": "Inherited from messaging runtime; no reporting SLO claimed.",
+        "eventualConsistencyDisclosure": "Not a reporting API; downstream state is eventually consistent."
+      },
+      "lifecycle": {
+        "bootstrap": "Not implemented for a reporting projection.",
+        "backfill": "Not implemented for a reporting projection.",
+        "rebuild": "Not claimed; reference is limited to delivery/idempotency.",
+        "incrementalCatchup": "Durable consumer resumes through messaging runtime.",
+        "checkpoint": "Inbox ConsumerId+EventId marker.",
+        "reconciliation": "Domain/integration tests only; no reporting reconciliation claimed.",
+        "driftDetection": "Protocol and database-boundary validators.",
+        "sourceRetentionDependency": "Not established; cannot approve a reporting consumer from this reference."
+      },
+      "failureRecovery": {
+        "sourceUnavailable": "Retry through durable transport; no cross-database fallback.",
+        "consumerUnavailable": "Durable delivery retries after recovery.",
+        "duplicate": "Inbox marker prevents duplicate business effect.",
+        "outOfOrder": "Unsupported domain transitions are rejected; no universal ordering guarantee claimed.",
+        "poison": "Messaging failure diagnostics; operator action required.",
+        "partialRebuild": "Not implemented and not claimed.",
+        "incompatibleSchema": "Versioned protocol handler rejects unsupported payloads."
+      },
+      "privacy": {
+        "classification": "C2",
+        "minimalFields": ["TenantId", "InvestmentAccountId", "ClassId", "Units", "AverageCost", "Status"],
+        "access": "Holdings module authorization and tenant predicates.",
+        "encryption": "Platform/database baseline; no additional production claim.",
+        "retention": "Pending DB6/Data Owner decision.",
+        "deletion": "Pending DB7/GOV6; reference cannot bypass tenant deletion.",
+        "logging": "No payload or subject identifier in routine logs."
+      },
+      "approvals": [
+        {"role": "architecture", "status": "not-required-reference"},
+        {"role": "query-owner", "status": "not-required-reference"},
+        {"role": "source-data-owner", "status": "not-required-reference"},
+        {"role": "reporting-data", "status": "not-required-reference"},
+        {"role": "security-privacy", "status": "not-required-reference"}
+      ]
+    }
+  ]
+}

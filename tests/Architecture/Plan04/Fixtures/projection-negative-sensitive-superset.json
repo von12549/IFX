@@ -1,0 +1,1 @@
+{"formatVersion":1,"id":"privacy-superset","status":"approved","queryOwner":"reporting","dataOwner":"transaction","consumer":"report","sourceProtocols":["ifx.transaction.transaction-processed.v1"],"privacy":{"classification":"C4","minimalFields":["TenantId","CredentialSecret"],"sourceFieldSuperset":true}}

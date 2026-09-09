@@ -1,0 +1,112 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "slice": "P04-S5",
+  "result": "repository-passed-no-reporting-product-claimed",
+  "checkedAt": "2026-09-10",
+  "policySha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+  "schemaSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+  "registrySha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+  "inventorySha256": "b41ab86e158325c027c23a24193ec1c791de59870a98726536dd93799acf5ba5",
+  "catalogSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
+  "dependencyGraphSha256": "e257b3cb5b8086d1dd1546282ebf5d10d45ed82e9cb38643db92cc0fa7909549",
+  "checks": {
+    "noProjectionWithoutApprovedConsumer": true,
+    "allowedPathsAreClosedSet": true,
+    "crossDatabaseReadsForbidden": true,
+    "registrationSchemaRequiresLifecyclePrivacyAndApprovals": true,
+    "approvedConsumerInventoryIsExplicitlyEmpty": true,
+    "holdingsIsReferenceOnly": true,
+    "registryEntriesConformToSchema": true,
+    "referenceProtocolsAreActiveInG03": true,
+    "holdingsReferenceHasTenantInboxAndIdempotency": true,
+    "noForbiddenPhysicalModuleEdges": true,
+    "noSourceFileUsesMultipleModuleDbContexts": true,
+    "negativeFixturesPass": true,
+    "privacyAndRollbackAreFailClosed": true
+  },
+  "fixtureResults": [
+    {
+      "fixture": "projection-positive-approved.json",
+      "expectedErrors": [],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "fixture": "projection-negative-cross-dbcontext.json",
+      "expectedErrors": [
+        "cross-dbcontext-or-table-join",
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk"
+      ],
+      "actualErrors": [
+        "cross-dbcontext-or-table-join",
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "projection-negative-unregistered.json",
+      "expectedErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk",
+        "unregistered-projection"
+      ],
+      "actualErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk",
+        "unregistered-projection"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "projection-negative-duplicate-effect.json",
+      "expectedErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk"
+      ],
+      "actualErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "projection-negative-rebuild-drift.json",
+      "expectedErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk"
+      ],
+      "actualErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "projection-negative-sensitive-superset.json",
+      "expectedErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk",
+        "sensitive-field-superset"
+      ],
+      "actualErrors": [
+        "duplicate-business-effect-risk",
+        "rebuild-drift-risk",
+        "sensitive-field-superset"
+      ],
+      "passed": true
+    }
+  ],
+  "metrics": {
+    "approvedConsumers": 0,
+    "publicSchemas": 0,
+    "referenceImplementations": 1,
+    "forbiddenEdges": 0,
+    "crossDbContextFiles": 0
+  },
+  "productionReportingValidation": "not-run-not-claimed",
+  "approvals": "pending-for-any-future-consumer",
+  "failedChecks": []
+}

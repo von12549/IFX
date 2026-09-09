@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "policyId": "GOV3-owned-projection-v1",
+  "defaultDecision": "no-projection-without-approved-consumer",
+  "allowedReadPaths": ["local-versioned-contract", "registered-owned-projection"],
+  "forbiddenReadPaths": ["cross-dbcontext-join", "cross-module-table-join", "foreign-module-entity-reference", "shared-reporting-schema-without-owner"],
+  "ownership": {
+    "queryOwnerOwnsProjection": true,
+    "sourceOwnerPublishesVersionedFactsOnly": true,
+    "sourceTablesAndDbContextExposed": false,
+    "singleDataOwnerRequired": true
+  },
+  "registrationRequiredFields": [
+    "queryOwner", "dataOwner", "consumer", "sourceProtocols", "store", "semantics",
+    "lifecycle", "failureRecovery", "privacy", "approvals"
+  ],
+  "semantics": {
+    "tenantPartitionRequired": true,
+    "inboxAndIdempotencyRequired": true,
+    "orderingDecisionRequired": true,
+    "freshnessObjectiveRequired": true,
+    "eventualConsistencyDisclosureRequired": true,
+    "schemaVersionRequired": true
+  },
+  "lifecycleRequired": ["bootstrap", "backfill", "rebuild", "incrementalCatchup", "checkpoint", "reconciliation", "driftDetection", "sourceRetentionDependency"],
+  "failureRecoveryRequired": ["sourceUnavailable", "consumerUnavailable", "duplicate", "outOfOrder", "poison", "partialRebuild", "incompatibleSchema"],
+  "privacy": {
+    "classificationScale": ["C0", "C1", "C2", "C3", "C4"],
+    "minimumRequired": ["classification", "minimalFields", "access", "encryption", "retention", "deletion", "logging"],
+    "supersetOfSourceAllowed": false,
+    "deletionBypassAllowed": false
+  },
+  "approvalRoles": ["architecture", "query-owner", "source-data-owner", "reporting-data", "security-privacy"],
+  "rollout": "Start consumption only after registration is approved; on failure stop new consumption, retain durable source/checkpoint and roll forward through rebuild/catch-up. Never fall back to cross-database reads.",
+  "referenceImplementation": {
+    "id": "holdings-event-consumer",
+    "use": "delivery, inbox idempotency and tenant propagation reference only",
+    "notEvidenceOf": ["approved-reporting-consumer", "rebuild-completeness", "source-retention-sufficiency", "production-report-acceptance"]
+  }
+}

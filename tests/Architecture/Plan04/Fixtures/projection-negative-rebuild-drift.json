@@ -1,0 +1,1 @@
+{"formatVersion":1,"id":"rebuild-drift","status":"approved","queryOwner":"reporting","dataOwner":"transaction","consumer":"report","sourceProtocols":["ifx.transaction.transaction-processed.v1"],"lifecycle":{"rebuild":"manual","reconciliation":"","driftDetection":""}}

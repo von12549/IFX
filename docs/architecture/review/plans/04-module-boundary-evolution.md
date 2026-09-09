@@ -1,6 +1,6 @@
 # 子计划 4：模块边界演进与租户查询治理
 
-> 状态：IN PROGRESS — Phase 0 仓库基线已冻结；Phase 1–8 与具名职能审批仍待实施
+> 状态：IN PROGRESS — Phase 0、1、4、5 的仓库治理已完成；Phase 2、3 具名职能审批及 Phase 6–8 仍待实施
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 来源：[`TODO.md`](TODO.md) Topic 1、3、4 的当前阶段可执行目标
 > 前置证据：Gate 02 module-owned DbContext/schema、Gate 03 权威 provider/consumer graph、Gate 04 共同业务发布边界、Gate 05 tenant/privacy policy、LayerGuard B4 严格依赖图
@@ -125,16 +125,16 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 5 — GOV3 跨模块 read model / projection
 
-- [ ] **Phase 5 完成**：跨模块查询有唯一批准模式、ownership 和生命周期，不依赖跨 DbContext join。
+- [x] **Phase 5 完成**：跨模块查询的唯一允许模式、ownership 和生命周期已建立并自动验证；当前无批准 consumer，因此未创建公共 schema、未声明报表产品。证据：[`P04-S5`](../evidence/plan04/P04-S5-gov3-owned-projection.md) 与 [`machine status`](../evidence/plan04/phase5-projection-status.json)。
 
-- [ ] ME5.1 盘点当前与已批准的跨模块报表/查询 consumer；没有 consumer 的候选不得创建公共 projection schema。
-- [ ] ME5.2 选择由查询用例 owner 管理的独立 read model/projection；源模块只发布最小版本化事实，不暴露表、DbContext 或内部 Entity。
-- [ ] ME5.3 定义 projection schema、tenant partition、Inbox/idempotency、顺序、freshness、eventual-consistency UI/API 语义和 schema version。
-- [ ] ME5.4 定义 bootstrap/backfill、全量重建、增量 catch-up、checkpoint、reconciliation、漂移检测和源事件保留依赖。
-- [ ] ME5.5 定义源模块/consumer 不可用、重复、乱序、poison、部分重建和 schema 不兼容时的失败与恢复。
-- [ ] ME5.6 应用 G05 最小化、C0–C4 分类、访问、加密、保留、删除和日志规则；projection 不成为隐私删除旁路。
-- [ ] ME5.7 以现有 Holdings event projection 作为可靠投递/幂等参考，但明确它不是跨模块报表产品，也不自动满足新 projection 的 consumer 验收。
-- [ ] ME5.8 建立 architecture decision 和 registration schema；任何跨模块 query 必须选择 local Contract 或 registered projection，禁止跨 DbContext/table join。
+- [x] ME5.1 盘点当前与已批准的跨模块报表/查询 consumer；结果为零，没有创建公共 projection schema。
+- [x] ME5.2 选择由查询用例 owner 管理的独立 read model/projection；源模块只发布最小版本化事实，不暴露表、DbContext 或内部 Entity。
+- [x] ME5.3 定义 projection schema、tenant partition、Inbox/idempotency、顺序、freshness、eventual-consistency UI/API 语义和 schema version。
+- [x] ME5.4 定义 bootstrap/backfill、全量重建、增量 catch-up、checkpoint、reconciliation、漂移检测和源事件保留依赖。
+- [x] ME5.5 定义源模块/consumer 不可用、重复、乱序、poison、部分重建和 schema 不兼容时的失败与恢复。
+- [x] ME5.6 应用 G05 最小化、C0–C4 分类、访问、加密、保留、删除和日志规则；projection 不成为隐私删除旁路。
+- [x] ME5.7 以现有 Holdings event consumer 作为可靠投递/幂等参考，并明确它不是跨模块报表产品，也不自动满足新 projection 的 consumer 验收。
+- [x] ME5.8 建立 architecture decision 和 registration schema；任何跨模块 query 必须选择 local Contract 或 registered projection，禁止跨 DbContext/table join。
 
 ## Phase 6 — 自动化治理与负向证明
 
