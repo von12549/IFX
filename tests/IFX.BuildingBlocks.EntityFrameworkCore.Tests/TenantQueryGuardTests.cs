@@ -21,4 +21,20 @@ public sealed class TenantQueryGuardTests
             .WithParameterName("tenantId")
             .WithMessage("Tenant-scoped queries require a non-empty tenant identity.*");
     }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(501)]
+    public void RequireBoundedLimit_WithUnboundedValue_FailsClosed(int maxRows)
+    {
+        var action = () => IFX.BuildingBlocks.EntityFrameworkCore.TenantQueryGuard.RequireBoundedLimit(maxRows);
+
+        action.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public void RequireBoundedLimit_WithMaximum_ReturnsLimit()
+    {
+        IFX.BuildingBlocks.EntityFrameworkCore.TenantQueryGuard.RequireBoundedLimit(500).Should().Be(500);
+    }
 }

@@ -33,10 +33,9 @@ public class GetAllDepartmentsAcrossTenantsQueryHandler
     {
         try
         {
-            if (_currentUser.GlobalRoles.Count == 0)
-                throw new ForbiddenException("GlobalRole required for cross-tenant access.");
+            CrossTenantAccessGuard.Require(_currentUser);
 
-            var departments = await _unitOfWork.Departments.GetAllAsync(cancellationToken);
+            var departments = await _unitOfWork.Departments.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 
             var groups = departments
                 .Where(d => d.Tenant != null && d.TenantId != _currentUser.TenantId)
@@ -50,7 +49,9 @@ public class GetAllDepartmentsAcrossTenantsQueryHandler
                 })
                 .ToList();
 
-            _logger.LogInformation("Retrieved departments across {TenantCount} tenants", groups.Count);
+            _logger.LogWarning(
+                "Cross-tenant query {Purpose} executed by {ActorUserId}; limit {MaxRows}; returned {TenantCount} tenant groups",
+                "platform-department-inventory", _currentUser.UserId, CrossTenantAccessGuard.MaximumRows, groups.Count);
             return Result<CrossTenantResultDto<DepartmentDto>>.Success(
                 new CrossTenantResultDto<DepartmentDto> { Tenants = groups });
         }

@@ -100,7 +100,7 @@ public class RoleGroupRepositoryTests : IDisposable
             RoleGroup.Create("Developers", "Dev group", tenant.Id));
         await _context.SaveChangesAsync();
 
-        var result = await _repository.GetAllAsync();
+        var result = await _repository.GetAcrossTenantsAsync(500);
 
         result.Should().HaveCount(2);
         result.Select(g => g.Name).Should().Contain("Managers").And.Contain("Developers");

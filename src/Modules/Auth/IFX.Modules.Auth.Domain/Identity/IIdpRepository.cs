@@ -7,7 +7,7 @@ public interface IIdpRepository
     Task<Idp?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     Task<Idp?> GetByIssuerAsync(string issuer, CancellationToken cancellationToken = default);
     Task<Idp?> GetPrimaryIdpAsync(CancellationToken cancellationToken = default);
-    Task<List<Idp>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<List<Idp>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default);
     Task<List<Idp>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default);
     Task<List<Idp>> GetEnabledAsync(CancellationToken cancellationToken = default);
     Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken cancellationToken = default);

@@ -33,10 +33,9 @@ public class GetAllUsersAcrossTenantsQueryHandler
     {
         try
         {
-            if (_currentUser.GlobalRoles.Count == 0)
-                throw new ForbiddenException("GlobalRole required for cross-tenant access.");
+            CrossTenantAccessGuard.Require(_currentUser);
 
-            var users = await _unitOfWork.Users.GetAllUsersWithTenantsAsync(cancellationToken);
+            var users = await _unitOfWork.Users.GetAcrossTenantsWithTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 
             // A user belonging to multiple tenants appears in each relevant group.
             var groups = users
@@ -56,7 +55,9 @@ public class GetAllUsersAcrossTenantsQueryHandler
                 })
                 .ToList();
 
-            _logger.LogInformation("Retrieved users across {TenantCount} tenants", groups.Count);
+            _logger.LogWarning(
+                "Cross-tenant query {Purpose} executed by {ActorUserId}; limit {MaxRows}; returned {TenantCount} tenant groups",
+                "platform-user-inventory", _currentUser.UserId, CrossTenantAccessGuard.MaximumRows, groups.Count);
             return Result<CrossTenantResultDto<UserProfileDto>>.Success(
                 new CrossTenantResultDto<UserProfileDto> { Tenants = groups });
         }

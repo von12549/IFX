@@ -33,10 +33,9 @@ public class GetAllRoleGroupsAcrossTenantsQueryHandler
     {
         try
         {
-            if (_currentUser.GlobalRoles.Count == 0)
-                throw new ForbiddenException("GlobalRole required for cross-tenant access.");
+            CrossTenantAccessGuard.Require(_currentUser);
 
-            var groups_raw = await _unitOfWork.RoleGroups.GetAllAsync(cancellationToken);
+            var groups_raw = await _unitOfWork.RoleGroups.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 
             var groups = groups_raw
                 .Where(g => g.Tenant != null && g.TenantId != _currentUser.TenantId)
@@ -50,7 +49,9 @@ public class GetAllRoleGroupsAcrossTenantsQueryHandler
                 })
                 .ToList();
 
-            _logger.LogInformation("Retrieved role groups across {TenantCount} tenants", groups.Count);
+            _logger.LogWarning(
+                "Cross-tenant query {Purpose} executed by {ActorUserId}; limit {MaxRows}; returned {TenantCount} tenant groups",
+                "platform-role-group-inventory", _currentUser.UserId, CrossTenantAccessGuard.MaximumRows, groups.Count);
             return Result<CrossTenantResultDto<RoleGroupDto>>.Success(
                 new CrossTenantResultDto<RoleGroupDto> { Tenants = groups });
         }

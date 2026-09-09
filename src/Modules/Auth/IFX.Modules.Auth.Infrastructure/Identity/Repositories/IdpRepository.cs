@@ -1,5 +1,6 @@
 ﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Identity;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 // Repository interface is in IFX.Modules.Auth.Domain.Identity
 using Microsoft.EntityFrameworkCore;
 
@@ -26,17 +27,20 @@ public class IdpRepository : IIdpRepository
             .FirstOrDefaultAsync(i => i.Issuer == issuer, cancellationToken);
     }
 
-    public async Task<List<Idp>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<List<Idp>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default)
     {
+        TenantQueryGuard.RequireBoundedLimit(maxRows);
         return await _context.Idps
             .Include(i => i.Tenant)
             .AsNoTracking()
-            .OrderBy(i => i.Name)
+            .OrderBy(i => i.Id)
+            .Take(maxRows)
             .ToListAsync(cancellationToken);
     }
 
     public async Task<List<Idp>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)
     {
+        TenantQueryGuard.Require(tenantId);
         return await _context.Idps
             .Include(i => i.Tenant)
             .Where(i => i.TenantId == tenantId)

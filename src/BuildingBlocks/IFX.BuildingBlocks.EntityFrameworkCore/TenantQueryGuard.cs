@@ -11,4 +11,17 @@ public static class TenantQueryGuard
 
         return tenantId;
     }
+
+    public static int RequireBoundedLimit(int maxRows, int maximumAllowed = 500)
+    {
+        if (maxRows < 1 || maxRows > maximumAllowed)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(maxRows),
+                maxRows,
+                $"Cross-tenant query limit must be between 1 and {maximumAllowed} rows.");
+        }
+
+        return maxRows;
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using IFX.Modules.Auth.Infrastructure.Persistence;
 using IFX.Modules.Auth.Domain.Users;
+using IFX.BuildingBlocks.EntityFrameworkCore;
 // Repository interface is in same namespace (IFX.Modules.Auth.Domain.Users)
 using Microsoft.EntityFrameworkCore;
 
@@ -100,6 +101,7 @@ public class UserRepository : IUserRepository
         int pageSize,
         CancellationToken cancellationToken = default)
     {
+        TenantQueryGuard.Require(tenantId);
         var query = _context.Users
             .Include(u => u.Roles)
             .Include(u => u.RoleGroups).ThenInclude(g => g.Roles)
@@ -119,12 +121,17 @@ public class UserRepository : IUserRepository
         return (users, totalCount);
     }
 
-    public async Task<List<User>> GetAllUsersWithTenantsAsync(CancellationToken cancellationToken = default)
-        => await _context.Users
+    public async Task<List<User>> GetAcrossTenantsWithTenantsAsync(int maxRows, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.RequireBoundedLimit(maxRows);
+        return await _context.Users
             .Include(u => u.Tenants)
             .Include(u => u.Identities)
             .AsNoTracking()
+            .OrderBy(u => u.Id)
+            .Take(maxRows)
             .ToListAsync(cancellationToken);
+    }
 
     public async Task<bool> ExistsAsync(string email, CancellationToken cancellationToken = default)
     {

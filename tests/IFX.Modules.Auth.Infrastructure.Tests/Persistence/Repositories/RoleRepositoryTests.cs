@@ -134,7 +134,7 @@ public class RoleRepositoryTests : IDisposable
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetAllAsync();
+        var result = await _repository.GetAcrossTenantsAsync(500);
 
         // Assert
         result.Should().HaveCount(2);

@@ -33,10 +33,9 @@ public class GetAllIdpsAcrossTenantsQueryHandler
     {
         try
         {
-            if (_currentUser.GlobalRoles.Count == 0)
-                throw new ForbiddenException("GlobalRole required for cross-tenant access.");
+            CrossTenantAccessGuard.Require(_currentUser);
 
-            var idps = await _unitOfWork.Idps.GetAllAsync(cancellationToken);
+            var idps = await _unitOfWork.Idps.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 
             var groups = idps
                 .Where(i => i.Tenant != null && i.TenantId != _currentUser.TenantId)
@@ -50,7 +49,9 @@ public class GetAllIdpsAcrossTenantsQueryHandler
                 })
                 .ToList();
 
-            _logger.LogInformation("Retrieved IdPs across {TenantCount} tenants", groups.Count);
+            _logger.LogWarning(
+                "Cross-tenant query {Purpose} executed by {ActorUserId}; limit {MaxRows}; returned {TenantCount} tenant groups",
+                "platform-idp-inventory", _currentUser.UserId, CrossTenantAccessGuard.MaximumRows, groups.Count);
             return Result<CrossTenantResultDto<IdpDto>>.Success(
                 new CrossTenantResultDto<IdpDto> { Tenants = groups });
         }
