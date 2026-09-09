@@ -9,7 +9,7 @@ State: **BLOCKED ON EXTERNAL EXECUTION AND NAMED APPROVALS**
 - Plan 01/B2 synchronous Contracts/Ports/Adapters migration.
 - Plan 02/B3 durable module Outbox/Inbox/Dispatcher and repository hardening.
 - Plan 03/B4 strict LayerGuard: 0 findings, 0 waivers, 39 governed projects.
-- Full solution: 1,089 tests passed, 0 failed.
+- Full solution: 1,091 tests passed, 0 failed.
 - LayerGuard tool suite: 189 tests passed, 0 failed.
 - G01 and G02 received the real E2/E4 repository callback; their final signatures and the G04
   production release callback remain open.
@@ -38,7 +38,7 @@ the capability as unsupported. It must remain disabled; any future capability re
 | --- | --- |
 | E5.7 | P02-C2 fail-closed policy, evidence template and validator exist; target ACL/encryption/key/lifecycle drills and Security/Database/Operations/Legal-data-owner attestations remain required. |
 | E6.5 | Repository metrics/readiness exist; exporter, alert route, and threshold calibration require target telemetry. |
-| E7.3–E7.6, E7.8 | Full transport E2E, process/network fault injection, consumer-first rehearsal, observed threshold acceptance, old-path closure, and the complete G05 sentinel suite require production-like execution. |
+| E7.3–E7.6, E7.8 | P02-C4 repository SQL full path, ack-loss/partial-batch/fault and G05 bindings pass; real transport E2E, process/network/SQL fault injection, target sentinel suite, consumer-first rehearsal, observed threshold acceptance and old-path closure require production-like execution. |
 | E8.9–E8.10 | G01/G02 repository callbacks exist; their named final approval workflows remain open. |
 | E-D06, E-D08, E-D10, E-D11 | These roll up the unresolved fault/alert, target data-control, and final-signature evidence above. |
 

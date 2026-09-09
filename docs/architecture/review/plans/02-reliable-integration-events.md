@@ -135,7 +135,7 @@ Producer Application
 - [x] E6.4 建立生产方与消费方 reconciliation 作业或手册，用于发现永久遗漏和投影漂移。
 - [ ] E6.5 设置 backlog age、连续失败、dead-letter 增长和 dispatcher 停止的告警阈值。（P02-C3 已补齐连续失败与低流量 silent-dispatcher 指标、reason code、health 和测试；生产 exporter/dashboard/alert route、目标拓扑校准及四类故障触发/恢复证据仍待执行，见 [`P02-C3 evidence`](../evidence/plan02/P02-C3-operations-decisions.md)。）
 - [x] E6.6 编写故障手册，覆盖数据库不可用、transport 不可用、毒消息、schema 不兼容和积压恢复。
-- [x] E6.7 replay 保留原 EventId/Envelope，已完成 Inbox 继续去重且有自动化证明；Plan02-v1 正式决定不支持 forced business reprocessing，不提供 `ReprocessingRequest` contract/endpoint，禁止换 ID 或修改 Inbox 绕过幂等；未来能力必须新开 Plan/ADR 和独立审批。证据：[`reprocessing policy`](../../../deployment/plan02/reprocessing-policy.json)。
+- [x] E6.7 replay 保留原 EventId/Envelope，已完成 Inbox 继续去重且有自动化证明；Plan02-v1 正式决定不支持 forced business reprocessing，不提供 `ReprocessingRequest` contract/endpoint，禁止换 ID 或修改 Inbox 绕过幂等；未来能力必须新开 Plan/ADR 和独立审批。证据：[`reprocessing policy`](../../../../deployment/plan02/reprocessing-policy.json)。
 - [x] E6.8 B3 没有启用 Compatibility Adapter；记为 N/A。Dispatcher 不补写上下文；未来引入兼容适配器时必须先登记 owner、来源、provenance、指标和到期日。
 
 ## Phase 7 — 测试、渐进发布与旧路径移除
@@ -144,12 +144,12 @@ Producer Application
 
 - [x] E7.1 添加 Outbox/Inbox repository、dispatcher、Adapter 与 handler 单元/组件测试。
 - [x] E7.2 添加包含真实 SQL Server 的集成测试，覆盖事务 rollback、Inbox 唯一约束/并发重复、并发 claim 和分区顺序。
-- [ ] E7.3 添加端到端测试，证明源提交最终导致消费方状态变化，并能容忍重复与短暂故障。
-- [ ] E7.4 执行故障注入测试，覆盖进程终止、连接中断、超时、部分批次和重启恢复。
+- [ ] E7.3 添加端到端测试，证明源提交最终导致消费方状态变化，并能容忍重复与短暂故障。（P02-C4 已增加真实 SQL、真实 Dispatcher/raw adapter/Inbox/业务状态的 ack-loss 重投仓库测试；真实 broker/transport 的 production-equivalent E2E 仍待执行。）
+- [ ] E7.4 执行故障注入测试，覆盖进程终止、连接中断、超时、部分批次和重启恢复。（P02-C4 仓库矩阵已覆盖发送前/后 crash window、ack loss、timeout、partial batch、lease takeover、poison/quarantine 和 restart；进程/网络/SQL 的目标环境注入证据仍待执行。）
 - [ ] E7.5 执行 Gate 04 consumer-first 顺序：先部署兼容旧/新 schema 的 Worker consumers，再部署 API producers；定义去重、观测窗口和唯一权威路径。
 - [ ] E7.6 在指标达到验收门槛后关闭旧的同步直发/直接 handler 路径，并删除无用注册。
 - [x] E7.7 将实际 schema、版本、发布/消费责任人、兼容状态和 retire 证据回写 Gate 03 权威目录，并更新运维 runbook。
-- [ ] E7.8 运行 Gate 05 的 HTTP/producer → Outbox → transport → Inbox → downstream Event 传播、retry/replay immutability、parallel tenant isolation 和敏感 sentinel 测试。
+- [ ] E7.8 运行 Gate 05 的 HTTP/producer → Outbox → transport → Inbox → downstream Event 传播、retry/replay immutability、parallel tenant isolation 和敏感 sentinel 测试。（P02-C4 已绑定现有 G05 repository suites 与新增 SQL 全路径；完整目标环境传播、并行租户和 logs/traces/errors/health/dead-letter/quarantine sentinel 证据仍待执行。）
 
 ## Phase 8 — 架构与规则文档化
 

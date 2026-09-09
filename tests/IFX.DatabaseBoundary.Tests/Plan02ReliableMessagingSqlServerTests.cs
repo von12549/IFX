@@ -20,6 +20,8 @@ using IFX.Platform.Messaging.Contracts.Messaging;
 using IFX.Platform.Messaging.Runtime;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Xunit;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
 
@@ -173,6 +175,101 @@ public sealed class Plan02ReliableMessagingSqlServerTests(SqlServerMigrationFixt
     }
 
     [Fact]
+    public async Task Committed_outbox_event_eventually_changes_consumer_state_once_after_ack_loss()
+    {
+        var connectionString = await fixture.CreateDatabaseAsync("plan02_full_path_ack_loss");
+        var tenantId = Guid.NewGuid();
+        var execution = TestExecutionContextAccessor.ForTenant(tenantId);
+        var services = new ServiceCollection();
+        services.AddLogging();
+        services.AddSingleton<IExecutionContextAccessor>(execution);
+        services.AddSingleton<IExecutionContextScopeFactory>(execution);
+        services.AddMessagingRuntime();
+        services.AddApplicationServices();
+        services.AddApplicationPipeline();
+        services.AddDbContext<TransactionDbContext>(options =>
+            options.UseSqlServer(connectionString, sql => sql.MigrationsHistoryTable("__EFMigrationsHistory", "transaction")));
+        services.AddDbContext<HoldingsDbContext>(options =>
+            options.UseSqlServer(connectionString, sql => sql.MigrationsHistoryTable("__EFMigrationsHistory", "holdings")));
+        services.AddScoped<IModuleOutboxStore, TransactionOutboxStore>();
+        services.AddScoped<IHoldingRepository, EfHoldingRepository>();
+        services.AddScoped<IUnitOfWork, HoldingsUnitOfWork>();
+        services.AddKeyedScoped<ITransactionExecutor, HoldingsTransactionExecutor>(typeof(HoldingsTransactionOwner));
+        services.AddKeyedScoped<ITransactionParticipant, HoldingsInboxParticipant>(typeof(HoldingsTransactionOwner));
+        services.AddScoped<IHoldingsInboxPort, HoldingsInboxPort>();
+        services.AddScoped<IInboundIntegrationEventHandler, HoldingsInboundIntegrationEventHandler>();
+        await using var provider = services.BuildServiceProvider();
+
+        await using (var setup = provider.CreateAsyncScope())
+        {
+            await setup.ServiceProvider.GetRequiredService<TransactionDbContext>().Database.MigrateAsync();
+            await setup.ServiceProvider.GetRequiredService<HoldingsDbContext>().Database.MigrateAsync();
+        }
+
+        Guid eventId;
+        await using (var producer = provider.CreateAsyncScope())
+        {
+            var context = producer.ServiceProvider.GetRequiredService<TransactionDbContext>();
+            var source = producer.ServiceProvider.GetRequiredService<BufferedIntegrationEventSource>();
+            var participant = new TransactionOutboxParticipant(
+                context,
+                source,
+                producer.ServiceProvider.GetRequiredService<IOutboxMessageFactory>(),
+                execution);
+            var transactionEntity = NewTransaction(tenantId);
+            await using var transaction = await context.Database.BeginTransactionAsync();
+            context.Transactions.Add(transactionEntity);
+            source.Add(ToEvent(transactionEntity));
+            await participant.PrepareAsync(new object(), new object(), CancellationToken.None);
+            await context.SaveChangesAsync();
+            await transaction.CommitAsync();
+            eventId = (await context.OutboxMessages.SingleAsync()).EventId;
+        }
+
+        var faultingTransport = new DeliverThenLoseFirstAcknowledgementSender(
+            provider.GetRequiredService<IIntegrationEventSender>());
+        using var telemetry = new MessagingTelemetry();
+        var dispatcher = new OutboxDispatcherHostedService(
+            provider.GetRequiredService<IServiceScopeFactory>(),
+            faultingTransport,
+            new OpenDrainSignal(),
+            telemetry,
+            Options.Create(new OutboxDispatcherOptions { MaximumAttempts = 3, BatchSize = 10 }),
+            "worker-full-path",
+            NullLogger<OutboxDispatcherHostedService>.Instance);
+
+        await dispatcher.DispatchOnceAsync(CancellationToken.None);
+
+        await using (var retry = provider.CreateAsyncScope())
+        {
+            var context = retry.ServiceProvider.GetRequiredService<TransactionDbContext>();
+            var outbox = await context.OutboxMessages.SingleAsync();
+            outbox.State.Should().Be("Pending");
+            outbox.AttemptCount.Should().Be(1);
+            outbox.NextAttemptAt = DateTimeOffset.UtcNow.AddMinutes(-1);
+            await context.SaveChangesAsync();
+        }
+
+        await dispatcher.DispatchOnceAsync(CancellationToken.None);
+
+        await using var verification = provider.CreateAsyncScope();
+        var transactionContext = verification.ServiceProvider.GetRequiredService<TransactionDbContext>();
+        var holdingsContext = verification.ServiceProvider.GetRequiredService<HoldingsDbContext>();
+        var outboxRecord = await transactionContext.OutboxMessages.SingleAsync();
+        var holding = await holdingsContext.Holdings.SingleAsync();
+        var inbox = await holdingsContext.InboxMessages.SingleAsync();
+
+        outboxRecord.EventId.Should().Be(eventId);
+        outboxRecord.State.Should().Be("Delivered");
+        outboxRecord.AttemptCount.Should().Be(2);
+        faultingTransport.EventIds.Should().Equal(eventId, eventId);
+        holding.TenantId.Should().Be(tenantId);
+        holding.Units.Should().Be(10m);
+        inbox.EventId.Should().Be(eventId);
+        inbox.TenantId.Should().Be(tenantId);
+    }
+
+    [Fact]
     public async Task Concurrent_duplicate_delivery_commits_one_business_effect_and_one_inbox_marker()
     {
         var connectionString = await fixture.CreateDatabaseAsync("plan02_inbox_concurrent_duplicate");
@@ -291,6 +388,29 @@ public sealed class Plan02ReliableMessagingSqlServerTests(SqlServerMigrationFixt
             if (Interlocked.Increment(ref _arrivals) == 2) _ready.TrySetResult();
             await _ready.Task.WaitAsync(TimeSpan.FromSeconds(10));
         }
+    }
+
+    private sealed class DeliverThenLoseFirstAcknowledgementSender(IIntegrationEventSender inner)
+        : IIntegrationEventSender
+    {
+        private int _attempt;
+        public List<Guid> EventIds { get; } = [];
+
+        public async Task SendAsync(OutboxLogicalMessage message, CancellationToken cancellationToken)
+        {
+            EventIds.Add(message.Envelope.EventId);
+            await inner.SendAsync(message, cancellationToken);
+            if (Interlocked.Increment(ref _attempt) == 1)
+            {
+                throw new TimeoutException("transport acknowledgement was lost after delivery");
+            }
+        }
+    }
+
+    private sealed class OpenDrainSignal : IRuntimeDrainSignal
+    {
+        public bool AcceptingNewWork => true;
+        public CancellationToken DrainToken => CancellationToken.None;
     }
 
     private sealed class BarrierInboxPort(HoldingsDbContext dbContext, DuplicateReadBarrier barrier) : IHoldingsInboxPort

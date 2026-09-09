@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "controlSet": "P02-C4-E7.3-E7.4-E7.8",
+  "status": "pending",
+  "releaseId": "<immutable-production-candidate-release-id>",
+  "environment": "<production-equivalent-environment>",
+  "artifactDigest": "<sha256:64-lowercase-hex>",
+  "transport": {
+    "implementation": "<broker-or-transport-product-and-version>",
+    "topologyReference": "<immutable-reference>",
+    "networkPolicyReference": "<immutable-reference>"
+  },
+  "fullPathScenarios": [
+    { "id": "source-commit-to-consumer-state", "passed": false, "eventIdentityPreserved": false, "consumerStateVerified": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "duplicate-after-ack-loss", "passed": false, "eventIdentityPreserved": false, "consumerStateVerified": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "transient-transport-recovery", "passed": false, "eventIdentityPreserved": false, "consumerStateVerified": false, "evidenceReference": "<immutable-reference>" }
+  ],
+  "faultScenarios": [
+    { "id": "terminate-before-send", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "terminate-after-send-before-ack", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "terminate-after-completion", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "transport-connection-interruption", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "sql-connection-interruption", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "handler-timeout", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "partial-batch", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "forced-worker-kill-and-lease-takeover", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "poison-and-quarantine", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "restart-recovery", "injected": false, "durableTruthPreserved": false, "recovered": false, "evidenceReference": "<immutable-reference>" }
+  ],
+  "g05Conformance": {
+    "httpProducerToDownstreamPassed": false,
+    "retryReplayImmutabilityPassed": false,
+    "parallelTenantIsolationPassed": false,
+    "boundedIdentityDimensionsOnly": false,
+    "evidenceReference": "<immutable-reference>",
+    "sentinelSurfaces": [
+      { "surface": "logs", "sentinelAbsent": false, "evidenceReference": "<immutable-reference>" },
+      { "surface": "traces", "sentinelAbsent": false, "evidenceReference": "<immutable-reference>" },
+      { "surface": "errors", "sentinelAbsent": false, "evidenceReference": "<immutable-reference>" },
+      { "surface": "health", "sentinelAbsent": false, "evidenceReference": "<immutable-reference>" },
+      { "surface": "dead-letter", "sentinelAbsent": false, "evidenceReference": "<immutable-reference>" },
+      { "surface": "quarantine", "sentinelAbsent": false, "evidenceReference": "<immutable-reference>" }
+    ]
+  },
+  "approvals": {
+    "testEngineering": "<named-dated-approval-reference>",
+    "platformMessaging": "<named-dated-approval-reference>",
+    "security": "<named-dated-approval-reference>",
+    "producerModuleOwner": "<named-dated-approval-reference>",
+    "consumerModuleOwner": "<named-dated-approval-reference>",
+    "database": "<named-dated-approval-reference>",
+    "operations": "<named-dated-approval-reference>"
+  },
+  "startedAt": "<ISO-8601-timestamp>",
+  "completedAt": "<ISO-8601-timestamp>"
+}

@@ -1,0 +1,55 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C4",
+  "result": "repository-passed-target-full-path-pending",
+  "e7_3": {
+    "result": "target-real-transport-pending",
+    "checklistMayClose": false
+  },
+  "e7_4": {
+    "result": "target-fault-matrix-pending",
+    "checklistMayClose": false
+  },
+  "e7_8": {
+    "result": "target-g05-suite-pending",
+    "checklistMayClose": false
+  },
+  "phase7MayClose": false,
+  "repositoryChecks": {
+    "sqlCommitAndFullPathCovered": true,
+    "duplicateAndIdentityCovered": true,
+    "leaseAndRestartCovered": true,
+    "ackLossAndPartialBatchCovered": true,
+    "boundedFailurePathsCovered": true,
+    "rawTransportAndContextCovered": true,
+    "g05RepositorySuitesCovered": true,
+    "checklistReflectsTargetPending": true,
+    "runbookBindsStrictTargetGate": true,
+    "readinessReflectsTargetPending": true
+  },
+  "targetChecks": {
+    "completedTargetIdentity": false,
+    "realTransportResolved": false,
+    "noTemplatePlaceholdersRemain": false,
+    "fullPathScenariosComplete": false,
+    "faultMatrixComplete": false,
+    "g05PropagationAndIsolationComplete": false,
+    "sensitiveSentinelMatrixComplete": false,
+    "namedApprovalsComplete": false,
+    "timestampsCompleteAndOrdered": false
+  },
+  "failedRepositoryChecks": [],
+  "failedTargetChecks": [
+    "completedTargetIdentity",
+    "realTransportResolved",
+    "noTemplatePlaceholdersRemain",
+    "fullPathScenariosComplete",
+    "faultMatrixComplete",
+    "g05PropagationAndIsolationComplete",
+    "sensitiveSentinelMatrixComplete",
+    "namedApprovalsComplete",
+    "timestampsCompleteAndOrdered"
+  ],
+  "nextAction": "Run the full path, fault matrix and G05 sentinel suite in the selected production-equivalent environment, then rerun with -RequireTargetEvidence."
+}

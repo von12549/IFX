@@ -24,7 +24,7 @@
       "warningPolicy": "Pre-existing package, nullability and obsolete-endpoint warnings remain visible; no warning was reclassified as success."
     },
     "solutionTests": {
-      "passed": 1089,
+      "passed": 1091,
       "failed": 0,
       "skipped": 0
     }

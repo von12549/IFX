@@ -17,7 +17,7 @@
 - Worker Dispatcher、claim/lease、retry、dead-letter、replay 和 backpressure 接缝；
 - Holdings Inbound Adapter、Inbox、quarantine 和消费方本地事务；
 - G01/G02/G03/G04/G05 仓库证据回交；
-- solution 1,089 tests、LayerGuard 189 tests，以及 B4 0 finding / 0 waiver。
+- solution 1,091 tests、LayerGuard 189 tests，以及 B4 0 finding / 0 waiver。
 
 未完成的不是 B3 核心实现，而是完整 Plan 02 的真实 transport、目标平台数据控制、
 告警校准、production-like 故障/发布演练和负责人签字。P02-C1 已关闭 Phase 4；Phase 5–8 及完整 Plan 02
@@ -31,11 +31,11 @@
 | E5.7 | **P02-C2 仓库基线通过；目标证据待补** | 已有 fail-closed 策略/模板/验证器；仍需真实最小权限、传输/静态加密、保留/删除、legal hold、C3 负面测试和四方批准 | Security、Database、Platform Operations、Legal/data owner |
 | E6.5 | **P02-C3 仓库信号完整；目标校准待补** | 已增加连续失败和低流量 silent-dispatcher 指标/health/测试；仍需 exporter/dashboard、目标阈值、告警路由、触发和恢复证据 | Observability、Platform Operations、Messaging |
 | E6.7 | **已关闭（P02-C3，2026-09-09）** | Plan02-v1 正式不支持 forced business reprocessing；immutable replay/Inbox 去重保持唯一恢复语义，未来能力必须新 Plan/ADR | Product/Architecture repository decision、Operations、模块 owner |
-| E7.3 | 组件与 SQL 测试已完成 | 源提交到消费方状态变化的真实 transport E2E，覆盖重复和短暂故障 | Test Engineering、生产/消费模块、Messaging |
-| E7.4 | 仓库 crash-window/reference fixture 已完成 | 进程、网络、SQL、timeout、partial batch、takeover 和恢复演练 | Test Engineering、Operations、Database、Messaging |
+| E7.3 | **P02-C4 仓库全路径通过；真实 transport 待补** | 新增真实 SQL、Dispatcher、raw adapter、Inbox/状态变化与 ack-loss 重投；仍需真实 broker/transport E2E | Test Engineering、生产/消费模块、Messaging |
+| E7.4 | **P02-C4 仓库故障矩阵通过；目标注入待补** | crash-window、timeout、partial batch、takeover、poison/quarantine、restart 已自动化；仍需进程/网络/SQL 目标注入 | Test Engineering、Operations、Database、Messaging |
 | E7.5 | consumer-first DAG 和证据模板已完成 | production-like Migrator → Worker → API → scheduler → observation → cleanup 记录 | Release Operations、Database、Platform、模块 owner |
 | E7.6 | 旧直发代码已基本删除 | 观测窗口证明指标达标、零旧版本需求和唯一权威路径后完成 cleanup | Architecture、模块 owner、Operations |
-| E7.8 | context/sentinel 组件测试已完成 | 完整 HTTP → Outbox → transport → Inbox → downstream、租户隔离和敏感数据套件 | Security、Platform、Test Engineering、模块 owner |
+| E7.8 | **P02-C4 仓库 G05 套件通过；目标矩阵待补** | repository propagation/identity/sentinel 套件已绑定；仍需完整目标链路、并行租户和六类 surface sentinel 证据 | Security、Platform、Test Engineering、模块 owner |
 | E8.9 | G01 仓库回交已接受 | 生产/演练链接及 Architecture/Application/Infrastructure 三方签字 | G01 approvers |
 | E8.10 | G02 仓库回交已接受 | G04 发布回交、G02-DD06 关闭及 Architecture/Database/Operations 三方签字 | G02 approvers、Release Operations |
 
@@ -155,7 +155,7 @@ Migrator → Worker → API 证据、关闭 G02-DD06，并取得 Architecture、
 1. **[x] P02-C1 / Adapter conformance**：raw carrier seam、E4.9 和 Phase 4 已于 2026-09-09 完成。
 2. **[进行中] P02-C2 / Data controls**：仓库控制契约已完成；填充真实目标证据并通过 strict validator 后关闭 E5.7/Phase 5。
 3. **[进行中] P02-C3 / Operations decisions**：E6.7 已按“不支持 forced reprocessing”关闭；E6.5 仓库信号已补齐，目标校准待生产等价环境。
-4. **P02-C4 / Full-path validation**：完成 E7.3、E7.4、E7.8。
+4. **[进行中] P02-C4 / Full-path validation**：仓库 SQL 全路径、ack-loss 重投、partial batch 与 G05 suite binding 已完成；真实 transport、目标故障注入和 sentinel 矩阵待生产等价环境。
 5. **P02-C5 / Release rehearsal**：完成 E7.5、E7.6、G04-B03/B06 和 observation/cleanup。
 6. **P02-C6 / Gate approvals**：完成 E8.9、E8.10、E-D06/E-D08/E-D10/E-D11 及最终签字。
 

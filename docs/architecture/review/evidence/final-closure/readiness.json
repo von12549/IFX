@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
-  "asOf": "2026-09-09",
+  "asOf": "2026-09-10",
   "status": "blocked-external-input-required",
   "repository": {
-    "solutionTests": { "passed": 1089, "failed": 0 },
+    "solutionTests": { "passed": 1091, "failed": 0 },
     "layerGuardTests": { "passed": 189, "failed": 0 },
     "b4": { "findings": 0, "waivers": 0, "projectsInScope": 39 },
     "b4Commit": "892ec8e"
@@ -19,7 +19,8 @@
     "closedChecklistItems": ["E4.9", "E6.7"],
     "inProgressSlices": [
       "P02-C2/E5.7: repository baseline passed; target evidence pending",
-      "P02-C3/E6.5: repository alert signals complete; target calibration pending"
+      "P02-C3/E6.5: repository alert signals complete; target calibration pending",
+      "P02-C4/E7.3,E7.4,E7.8: repository full path and fault suites passed; target execution pending"
     ],
     "openChecklistItems": ["E5.7", "E6.5", "E7.3", "E7.4", "E7.5", "E7.6", "E7.8", "E8.9", "E8.10"],
     "openDefinitionOfDone": ["E-D06", "E-D08", "E-D10", "E-D11"],
@@ -30,6 +31,7 @@
     "production-like staging execution context and approved identities",
     "P02-C2 immutable target ACL, encryption/key, retention/deletion/legal-hold drill evidence and named Security/Database/Operations/Legal-data-owner approvals",
     "target replica/concurrency and alert-threshold calibration",
+    "P02-C4 real transport full path, target fault injection and six-surface G05 sentinel evidence",
     "completed nine-stage release evidence with fault/drain/rollback observations",
     "named dated Architecture/module/Platform/Database/Security/Operations approvals",
     "architecture-owner approval for Plan 03 L7.7",
@@ -38,6 +40,7 @@
   "evidenceTemplate": "deployment/g04/release-evidence-template.json",
   "plan02DataControlsTemplate": "deployment/plan02/messaging-data-controls-evidence-template.json",
   "plan02AlertCalibrationTemplate": "deployment/plan02/messaging-alert-calibration-evidence-template.json",
+  "plan02FullPathValidationTemplate": "deployment/plan02/full-path-validation-evidence-template.json",
   "plan02DetailedClosurePlan": "docs/architecture/review/evidence/plan02/remaining-closure-plan.md",
   "completionValidator": "scripts/Test-G04ReleaseOrchestration.ps1 -RequireCompleted",
   "productionClaimed": false,

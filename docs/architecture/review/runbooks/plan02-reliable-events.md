@@ -32,3 +32,20 @@
 For reconciliation, compare producer delivered EventIds with Holdings Inbox EventIds within the agreed window, then classify missing rows as pending, dead-lettered, quarantined, or an actual projection drift. Do not join module schemas in application SQL; export bounded identifiers through an authorized operations job.
 
 Deploy consumer-first: migrate Holdings Inbox/quarantine and start compatible Worker consumers; observe readiness; migrate producer Outboxes; then enable Registry/Transaction producers. Rollback stops new production but keeps consumers and all already-created V1 rows until drained.
+
+## Full-path rehearsal evidence
+
+Use `deployment/plan02/full-path-validation-evidence-template.json` only after a production-equivalent
+environment and real transport are selected. Record the immutable release, topology and network-policy
+references; execute the complete full-path and ten-scenario fault matrix; then run the HTTP-to-downstream,
+parallel-tenant and six-surface G05 sentinel suite. Never mark a scenario complete from the in-process
+repository carrier alone.
+
+Close E7.3, E7.4 and E7.8 only when this command passes against an immutable completed record:
+
+```powershell
+pwsh -NoProfile -File scripts/Test-Plan02C4FullPath.ps1 `
+  -EvidencePath <immutable-full-path-evidence.json> `
+  -ReportPath <immutable-validation-report.json> `
+  -RequireTargetEvidence
+```

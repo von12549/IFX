@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C4",
+  "asOf": "2026-09-10",
+  "result": "repository-passed-target-full-path-pending",
+  "phase7Complete": false,
+  "checklistItems": {
+    "E7.3": { "result": "repository-full-path-passed-real-transport-pending", "checklistClosed": false },
+    "E7.4": { "result": "repository-fault-matrix-passed-target-injection-pending", "checklistClosed": false },
+    "E7.8": { "result": "repository-g05-suites-passed-target-matrix-pending", "checklistClosed": false }
+  },
+  "repositoryEvidence": {
+    "sqlFullPath": "Committed_outbox_event_eventually_changes_consumer_state_once_after_ack_loss",
+    "partialBatch": "Partial_batch_failure_does_not_block_other_partitions",
+    "sourceCommitAndOutboxAtomic": true,
+    "dispatcherRawAdapterInboxConsumerState": true,
+    "ackLossRedeliverySameEventId": true,
+    "duplicateBusinessEffectPrevented": true,
+    "leaseTakeoverAndRestart": true,
+    "poisonAndQuarantine": true,
+    "g05RepositorySuitesBound": true
+  },
+  "verification": {
+    "targetedDispatcherTests": { "passed": 7, "failed": 0 },
+    "targetedSqlFullPathTests": { "passed": 1, "failed": 0 },
+    "integrationTests": { "passed": 155, "failed": 0 },
+    "databaseBoundaryTests": { "passed": 106, "failed": 0 },
+    "solutionTests": { "passed": 1091, "failed": 0, "skipped": 0 },
+    "layerGuardTests": { "passed": 189, "failed": 0 },
+    "strictLayerGuardFindings": 0
+  },
+  "targetEvidenceTemplate": "deployment/plan02/full-path-validation-evidence-template.json",
+  "missingTargetEvidence": [
+    "immutable production-candidate release and production-equivalent environment identity",
+    "real broker or transport topology and network policy",
+    "source commit to consumer-state E2E plus duplicate and transient-recovery evidence",
+    "ten-scenario process, network, SQL, timeout, partial-batch, takeover, poison and restart fault matrix",
+    "HTTP/producer to downstream propagation and retry/replay identity evidence",
+    "parallel tenant isolation and logs, traces, errors, health, dead-letter and quarantine sentinel evidence",
+    "named dated Test Engineering, Messaging, Security, producer, consumer, Database and Operations approvals"
+  ],
+  "strictClosureCommand": "pwsh -NoProfile -File scripts/Test-Plan02C4FullPath.ps1 -EvidencePath <immutable-full-path-evidence.json> -ReportPath <immutable-validation-report.json> -RequireTargetEvidence",
+  "nextSlice": "P02-C5 / E7.5 and E7.6 release rehearsal and old-path closure"
+}

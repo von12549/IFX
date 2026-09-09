@@ -93,7 +93,30 @@ public sealed class OutboxDispatcherTests
         restartedSender.Messages.Should().BeEmpty();
     }
 
-    private static async Task<MessagingTelemetry> DispatchAsync(IModuleOutboxStore store, FakeSender sender, int maximumAttempts)
+    [Fact]
+    public async Task Partial_batch_failure_does_not_block_other_partitions()
+    {
+        var first = LogicalMessage();
+        var failed = LogicalMessage();
+        var last = LogicalMessage();
+        var store = new FakeStore(Lease(first, 1), Lease(failed, 1), Lease(last, 1));
+        var sender = new SelectiveFaultSender(failed.Envelope.EventId);
+
+        var telemetry = await DispatchAsync(store, sender, maximumAttempts: 3);
+
+        sender.EventIds.Should().Equal(first.Envelope.EventId, failed.Envelope.EventId, last.Envelope.EventId);
+        store.Completed.Select(item => item.Message.Envelope.EventId)
+            .Should().Equal(first.Envelope.EventId, last.Envelope.EventId);
+        store.Failures.Should().ContainSingle().Which.Lease.Message.Envelope.EventId.Should().Be(failed.Envelope.EventId);
+        telemetry.Snapshot(store.ModuleId).Should().Match<MessagingTelemetrySnapshot>(snapshot =>
+            snapshot.DeliveryAttempts == 3 && snapshot.DeliverySuccesses == 2 &&
+            snapshot.DeliveryFailures == 1 && snapshot.ConsecutiveFailures == 0);
+    }
+
+    private static async Task<MessagingTelemetry> DispatchAsync(
+        IModuleOutboxStore store,
+        IIntegrationEventSender sender,
+        int maximumAttempts)
     {
         var services = new ServiceCollection().AddSingleton<IModuleOutboxStore>(store).BuildServiceProvider();
         var telemetry = new MessagingTelemetry();
@@ -135,6 +158,19 @@ public sealed class OutboxDispatcherTests
         {
             Messages.Add(message);
             return failure is null ? Task.CompletedTask : Task.FromException(failure);
+        }
+    }
+
+    private sealed class SelectiveFaultSender(Guid failingEventId) : IIntegrationEventSender
+    {
+        public List<Guid> EventIds { get; } = [];
+
+        public Task SendAsync(OutboxLogicalMessage message, CancellationToken cancellationToken)
+        {
+            EventIds.Add(message.Envelope.EventId);
+            return message.Envelope.EventId == failingEventId
+                ? Task.FromException(new TimeoutException("partition transport interruption"))
+                : Task.CompletedTask;
         }
     }
 
