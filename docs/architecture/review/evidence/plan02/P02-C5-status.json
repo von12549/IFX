@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C5",
+  "asOf": "2026-09-10",
+  "result": "repository-passed-release-rehearsal-pending",
+  "phase7Complete": false,
+  "checklistItems": {
+    "E7.5": { "result": "repository-consumer-first-gate-passed-target-rehearsal-pending", "checklistClosed": false },
+    "E7.6": { "result": "repository-authoritative-path-passed-observation-and-cleanup-pending", "checklistClosed": false }
+  },
+  "repositoryEvidence": {
+    "exactNineStageOrder": true,
+    "workerPrecedesApi": true,
+    "cleanupRequiresObservationAndZeroDemand": true,
+    "apiWorkerRoleSeparation": true,
+    "producerUsesTransactionalBuffer": true,
+    "dispatcherOwnsTransportSend": true,
+    "rawReceiverOwnsInboundHandlerDispatch": true
+  },
+  "verification": {
+    "validator": "scripts/Test-Plan02C5ReleaseClosure.ps1",
+    "repositoryResult": "passed",
+    "solutionTests": { "passed": 1091, "failed": 0, "skipped": 0 },
+    "integrationTests": { "passed": 155, "failed": 0 },
+    "databaseBoundaryTests": { "passed": 106, "failed": 0 },
+    "layerGuardTests": { "passed": 189, "failed": 0 },
+    "strictLayerGuardFindings": 0
+  },
+  "targetEvidenceTemplate": "deployment/plan02/release-closure-evidence-template.json",
+  "missingTargetEvidence": [
+    "selected production platform, immutable release identity, artifact digest and production-equivalent environment",
+    "completed and hash-bound P02-C3 alert-calibration, P02-C4 full-path and G04 release records for the same release",
+    "consumer-first rolling rollout with Worker readiness preceding API producer rollout",
+    "single scheduler authority plus network-policy and total-capacity evidence",
+    "accepted observation window with stable messaging metrics and zero duplicate effect, data loss and old-version demand",
+    "SIGTERM drain, forced termination, backpressure recovery, rollback and roll-forward evidence",
+    "post-observation removal of legacy code, registrations and configuration plus smoke verification",
+    "named dated Architecture, producer, consumer, Messaging, Platform Operations, Database, Security and Release Operations approvals"
+  ],
+  "strictClosureCommand": "pwsh -NoProfile -File scripts/Test-Plan02C5ReleaseClosure.ps1 -ClosureEvidencePath <immutable-p02-c5-record.json> -ReleaseEvidencePath <immutable-g04-release-record.json> -AlertEvidencePath <immutable-p02-c3-record.json> -FullPathEvidencePath <immutable-p02-c4-record.json> -ReportPath <immutable-validation-report.json> -RequireTargetEvidence",
+  "nextSlice": "P02-C6 / E8.9, E8.10 and final Gate handbacks after target-dependent slices close"
+}

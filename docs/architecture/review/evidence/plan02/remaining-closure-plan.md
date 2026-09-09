@@ -33,8 +33,8 @@
 | E6.7 | **已关闭（P02-C3，2026-09-09）** | Plan02-v1 正式不支持 forced business reprocessing；immutable replay/Inbox 去重保持唯一恢复语义，未来能力必须新 Plan/ADR | Product/Architecture repository decision、Operations、模块 owner |
 | E7.3 | **P02-C4 仓库全路径通过；真实 transport 待补** | 新增真实 SQL、Dispatcher、raw adapter、Inbox/状态变化与 ack-loss 重投；仍需真实 broker/transport E2E | Test Engineering、生产/消费模块、Messaging |
 | E7.4 | **P02-C4 仓库故障矩阵通过；目标注入待补** | crash-window、timeout、partial batch、takeover、poison/quarantine、restart 已自动化；仍需进程/网络/SQL 目标注入 | Test Engineering、Operations、Database、Messaging |
-| E7.5 | consumer-first DAG 和证据模板已完成 | production-like Migrator → Worker → API → scheduler → observation → cleanup 记录 | Release Operations、Database、Platform、模块 owner |
-| E7.6 | 旧直发代码已基本删除 | 观测窗口证明指标达标、零旧版本需求和唯一权威路径后完成 cleanup | Architecture、模块 owner、Operations |
+| E7.5 | **P02-C5 仓库 consumer-first 门禁通过；目标演练待补** | 同一 release 的 C3/C4/G04 证据、production-like Migrator → Worker → API → scheduler → observation → cleanup 记录 | Release Operations、Database、Platform、模块 owner |
+| E7.6 | **P02-C5 仓库权威路径门禁通过；目标 cleanup 待补** | 观测窗口证明指标达标、零旧 consumer/API/schema 需求、单 scheduler 和零旧路径流量后完成 cleanup | Architecture、模块 owner、Operations |
 | E7.8 | **P02-C4 仓库 G05 套件通过；目标矩阵待补** | repository propagation/identity/sentinel 套件已绑定；仍需完整目标链路、并行租户和六类 surface sentinel 证据 | Security、Platform、Test Engineering、模块 owner |
 | E8.9 | G01 仓库回交已接受 | 生产/演练链接及 Architecture/Application/Infrastructure 三方签字 | G01 approvers |
 | E8.10 | G02 仓库回交已接受 | G04 发布回交、G02-DD06 关闭及 Architecture/Database/Operations 三方签字 | G02 approvers、Release Operations |
@@ -112,7 +112,8 @@ C0–C4 sentinel。三项报告都完成后，才能进入发布关闭。
 
 ### 3.6 E7.5/E7.6：consumer-first 发布与旧路径关闭
 
-使用 `deployment/g04/release-evidence-template.json` 创建 release-specific 不可变证据，严格执行：
+使用 `deployment/g04/release-evidence-template.json` 与
+`deployment/plan02/release-closure-evidence-template.json` 创建 release-specific 不可变证据，严格执行：
 
 1. database preflight；
 2. verified restore point；
@@ -126,7 +127,9 @@ C0–C4 sentinel。三项报告都完成后，才能进入发布关闭。
 
 演练同时覆盖 rolling rollout、SIGTERM drain、forced termination、backpressure、网络策略、总容量、
 安全回退和 roll-forward。只有当 observation 证明 backlog/retry/dead-letter 稳定、无旧 consumer/API/schema
-需求且唯一权威路径成立，才可勾选 E7.5、E7.6 和 Phase 7。
+需求且唯一权威路径成立，才可勾选 E7.5、E7.6。P02-C5 strict validator 还要求同一 release/environment
+的 P02-C3 alert calibration、P02-C4 full-path 和 G04 release record 均已完成并通过 SHA-256 绑定。
+Phase 7 只有在 E7.3、E7.4、E7.8 也关闭后才能勾选。
 
 ### 3.7 E8.9/E8.10：跨 Gate 回交和签字
 
@@ -156,7 +159,7 @@ Migrator → Worker → API 证据、关闭 G02-DD06，并取得 Architecture、
 2. **[进行中] P02-C2 / Data controls**：仓库控制契约已完成；填充真实目标证据并通过 strict validator 后关闭 E5.7/Phase 5。
 3. **[进行中] P02-C3 / Operations decisions**：E6.7 已按“不支持 forced reprocessing”关闭；E6.5 仓库信号已补齐，目标校准待生产等价环境。
 4. **[进行中] P02-C4 / Full-path validation**：仓库 SQL 全路径、ack-loss 重投、partial batch 与 G05 suite binding 已完成；真实 transport、目标故障注入和 sentinel 矩阵待生产等价环境。
-5. **P02-C5 / Release rehearsal**：完成 E7.5、E7.6、G04-B03/B06 和 observation/cleanup。
+5. **[进行中] P02-C5 / Release rehearsal**：仓库 consumer-first/权威路径门禁和严格证据契约已完成；E7.5、E7.6、G04-B03/B06 仍待 production-equivalent observation/cleanup。
 6. **P02-C6 / Gate approvals**：完成 E8.9、E8.10、E-D06/E-D08/E-D10/E-D11 及最终签字。
 
 每个切片完成时必须同时：保存机器可读报告、链接不可变外部证据、更新主 checklist、运行相关 guard，

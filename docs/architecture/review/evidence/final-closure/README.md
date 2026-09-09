@@ -38,7 +38,7 @@ the capability as unsupported. It must remain disabled; any future capability re
 | --- | --- |
 | E5.7 | P02-C2 fail-closed policy, evidence template and validator exist; target ACL/encryption/key/lifecycle drills and Security/Database/Operations/Legal-data-owner attestations remain required. |
 | E6.5 | Repository metrics/readiness exist; exporter, alert route, and threshold calibration require target telemetry. |
-| E7.3–E7.6, E7.8 | P02-C4 repository SQL full path, ack-loss/partial-batch/fault and G05 bindings pass; real transport E2E, process/network/SQL fault injection, target sentinel suite, consumer-first rehearsal, observed threshold acceptance and old-path closure require production-like execution. |
+| E7.3–E7.6, E7.8 | P02-C4 repository SQL full path, ack-loss/partial-batch/fault/G05 bindings and P02-C5 consumer-first/authoritative-path gates pass; real transport E2E, target fault/sentinel suites, ordered rehearsal, accepted observation and post-observation old-path cleanup require production-like execution. |
 | E8.9–E8.10 | G01/G02 repository callbacks exist; their named final approval workflows remain open. |
 | E-D06, E-D08, E-D10, E-D11 | These roll up the unresolved fault/alert, target data-control, and final-signature evidence above. |
 
@@ -51,8 +51,9 @@ Detailed item-by-item acceptance and the six closure slices are maintained in th
 
 ## Required rehearsal order
 
-Copy `deployment/g04/release-evidence-template.json` to an immutable release-specific evidence
-record and execute exactly:
+Copy `deployment/g04/release-evidence-template.json` and
+`deployment/plan02/release-closure-evidence-template.json` to immutable release-specific evidence
+records and execute exactly:
 
 1. database preflight;
 2. restore point;
@@ -76,6 +77,14 @@ EventId to bypass deduplication, or execute an unreviewed database Down migratio
   -EvidencePath <immutable-release-evidence.json> `
   -ReportPath <immutable-validation-report.json> `
   -RequireCompleted
+
+./scripts/Test-Plan02C5ReleaseClosure.ps1 `
+  -ClosureEvidencePath <immutable-p02-c5-record.json> `
+  -ReleaseEvidencePath <immutable-g04-release-record.json> `
+  -AlertEvidencePath <immutable-p02-c3-record.json> `
+  -FullPathEvidencePath <immutable-p02-c4-record.json> `
+  -ReportPath <immutable-validation-report.json> `
+  -RequireTargetEvidence
 
 ./scripts/Invoke-LayerGuard.ps1
 ./scripts/Test-Plan03B4StrictClosure.ps1

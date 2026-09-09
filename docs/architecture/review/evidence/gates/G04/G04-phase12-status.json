@@ -4,7 +4,7 @@
   "status": "PRE-READY",
   "gateClosed": false,
   "approvalGranted": false,
-  "asOf": "2026-09-09",
+  "asOf": "2026-09-10",
   "attainableImplementation": {
     "completePhases": [0, 1, 2, 3, 4, 5, 6, 7, 11],
     "preReadyPhases": [8, 9, 10, 12],
@@ -123,6 +123,11 @@
         "Rolling rollout, SIGTERM/drain, forced termination and rollback exercise",
         "Network-policy, scheduler-authority and total-capacity validation",
         "Completed release evidence manifest with observation-window approval"
+      ],
+      "evidence": [
+        "docs/architecture/review/evidence/plan02/P02-C5-release-closure.md",
+        "deployment/plan02/release-closure-evidence-template.json",
+        "scripts/Test-Plan02C5ReleaseClosure.ps1"
       ]
     },
     {

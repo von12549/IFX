@@ -49,3 +49,28 @@ pwsh -NoProfile -File scripts/Test-Plan02C4FullPath.ps1 `
   -ReportPath <immutable-validation-report.json> `
   -RequireTargetEvidence
 ```
+
+## Consumer-first release closure
+
+After a production platform and immutable production-candidate release are selected, copy
+`deployment/plan02/release-closure-evidence-template.json`. Bind it to the completed P02-C3 alert,
+P02-C4 full-path and G04 release records by SHA-256. Execute the G04 order exactly; Worker compatibility
+and readiness must complete before API producer rollout begins, and exactly one scheduler authority may
+be active.
+
+Keep the observation window open for its approved minimum duration. Accept cleanup only when calibrated
+backlog/retry/dead-letter thresholds remain stable, duplicate business effects and data loss are zero,
+and old consumer, API and schema demand are all zero. 旧路径关闭不得早于观测窗口完成。Remove legacy
+code, registrations and configuration only then, followed by a smoke test and named approvals.
+
+Close E7.5 and E7.6 only when this command passes:
+
+```powershell
+pwsh -NoProfile -File scripts/Test-Plan02C5ReleaseClosure.ps1 `
+  -ClosureEvidencePath <immutable-p02-c5-record.json> `
+  -ReleaseEvidencePath <immutable-g04-release-record.json> `
+  -AlertEvidencePath <immutable-p02-c3-record.json> `
+  -FullPathEvidencePath <immutable-p02-c4-record.json> `
+  -ReportPath <immutable-validation-report.json> `
+  -RequireTargetEvidence
+```

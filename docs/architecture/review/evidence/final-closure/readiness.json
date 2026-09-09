@@ -20,7 +20,8 @@
     "inProgressSlices": [
       "P02-C2/E5.7: repository baseline passed; target evidence pending",
       "P02-C3/E6.5: repository alert signals complete; target calibration pending",
-      "P02-C4/E7.3,E7.4,E7.8: repository full path and fault suites passed; target execution pending"
+      "P02-C4/E7.3,E7.4,E7.8: repository full path and fault suites passed; target execution pending",
+      "P02-C5/E7.5,E7.6: repository consumer-first and authoritative-path gates passed; target rehearsal, observation and cleanup pending"
     ],
     "openChecklistItems": ["E5.7", "E6.5", "E7.3", "E7.4", "E7.5", "E7.6", "E7.8", "E8.9", "E8.10"],
     "openDefinitionOfDone": ["E-D06", "E-D08", "E-D10", "E-D11"],
@@ -32,7 +33,7 @@
     "P02-C2 immutable target ACL, encryption/key, retention/deletion/legal-hold drill evidence and named Security/Database/Operations/Legal-data-owner approvals",
     "target replica/concurrency and alert-threshold calibration",
     "P02-C4 real transport full path, target fault injection and six-surface G05 sentinel evidence",
-    "completed nine-stage release evidence with fault/drain/rollback observations",
+    "P02-C5 completed nine-stage consumer-first release evidence with fault/drain/rollback observations, zero old-version demand and post-observation cleanup",
     "named dated Architecture/module/Platform/Database/Security/Operations approvals",
     "architecture-owner approval for Plan 03 L7.7",
     "owner and due milestone for any TODO item declared blocking final acceptance"
@@ -41,8 +42,9 @@
   "plan02DataControlsTemplate": "deployment/plan02/messaging-data-controls-evidence-template.json",
   "plan02AlertCalibrationTemplate": "deployment/plan02/messaging-alert-calibration-evidence-template.json",
   "plan02FullPathValidationTemplate": "deployment/plan02/full-path-validation-evidence-template.json",
+  "plan02ReleaseClosureTemplate": "deployment/plan02/release-closure-evidence-template.json",
   "plan02DetailedClosurePlan": "docs/architecture/review/evidence/plan02/remaining-closure-plan.md",
-  "completionValidator": "scripts/Test-G04ReleaseOrchestration.ps1 -RequireCompleted",
+  "completionValidator": "scripts/Test-Plan02C5ReleaseClosure.ps1 -RequireTargetEvidence",
   "productionClaimed": false,
   "approvalClaimed": false
 }

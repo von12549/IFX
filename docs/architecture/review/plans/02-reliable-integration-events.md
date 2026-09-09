@@ -146,8 +146,8 @@ Producer Application
 - [x] E7.2 添加包含真实 SQL Server 的集成测试，覆盖事务 rollback、Inbox 唯一约束/并发重复、并发 claim 和分区顺序。
 - [ ] E7.3 添加端到端测试，证明源提交最终导致消费方状态变化，并能容忍重复与短暂故障。（P02-C4 已增加真实 SQL、真实 Dispatcher/raw adapter/Inbox/业务状态的 ack-loss 重投仓库测试；真实 broker/transport 的 production-equivalent E2E 仍待执行。）
 - [ ] E7.4 执行故障注入测试，覆盖进程终止、连接中断、超时、部分批次和重启恢复。（P02-C4 仓库矩阵已覆盖发送前/后 crash window、ack loss、timeout、partial batch、lease takeover、poison/quarantine 和 restart；进程/网络/SQL 的目标环境注入证据仍待执行。）
-- [ ] E7.5 执行 Gate 04 consumer-first 顺序：先部署兼容旧/新 schema 的 Worker consumers，再部署 API producers；定义去重、观测窗口和唯一权威路径。
-- [ ] E7.6 在指标达到验收门槛后关闭旧的同步直发/直接 handler 路径，并删除无用注册。
+- [ ] E7.5 执行 Gate 04 consumer-first 顺序：先部署兼容旧/新 schema 的 Worker consumers，再部署 API producers；定义去重、观测窗口和唯一权威路径。（P02-C5 已验证九阶段 DAG、角色隔离和仓库权威路径；production-equivalent consumer-first 演练、单 scheduler 与观测记录仍待执行，见 [`P02-C5 evidence`](../evidence/plan02/P02-C5-release-closure.md)。）
+- [ ] E7.6 在指标达到验收门槛后关闭旧的同步直发/直接 handler 路径，并删除无用注册。（P02-C5 已增加 fail-closed 证据契约；必须先完成同一 release 的 C3/C4/G04 记录，并在观测窗口证明零旧 consumer/API/schema 需求后才可 cleanup。）
 - [x] E7.7 将实际 schema、版本、发布/消费责任人、兼容状态和 retire 证据回写 Gate 03 权威目录，并更新运维 runbook。
 - [ ] E7.8 运行 Gate 05 的 HTTP/producer → Outbox → transport → Inbox → downstream Event 传播、retry/replay immutability、parallel tenant isolation 和敏感 sentinel 测试。（P02-C4 已绑定现有 G05 repository suites 与新增 SQL 全路径；完整目标环境传播、并行租户和 logs/traces/errors/health/dead-letter/quarantine sentinel 证据仍待执行。）
 

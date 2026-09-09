@@ -1,0 +1,72 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "controlSet": "P02-C5-E7.5-E7.6",
+  "status": "pending",
+  "releaseId": "<immutable-production-candidate-release-id>",
+  "environment": "<production-equivalent-environment>",
+  "artifactDigest": "<sha256-digest>",
+  "g04ReleaseEvidenceSha256": "<64-lowercase-hex>",
+  "alertCalibrationEvidenceSha256": "<64-lowercase-hex>",
+  "fullPathEvidenceSha256": "<64-lowercase-hex>",
+  "authoritativePath": {
+    "producerPath": "module-business-transaction-to-module-outbox",
+    "dispatchPath": "worker-outbox-dispatcher-to-approved-transport",
+    "inboundPath": "raw-receiver-to-inbox-and-consumer-transaction",
+    "schedulerAuthorityCount": 0,
+    "legacySynchronousSenderRegistrations": 0,
+    "legacyDirectHandlerRegistrations": 0,
+    "legacyPathTrafficCount": 0,
+    "inventoryReference": "<immutable-reference>",
+    "runtimeVerificationReference": "<immutable-reference>"
+  },
+  "observationWindow": {
+    "startedAt": "<ISO-8601-timestamp>",
+    "completedAt": "<ISO-8601-timestamp>",
+    "minimumDurationMinutes": 0,
+    "actualDurationMinutes": 0,
+    "acceptedCalibratedThresholds": false,
+    "backlogStable": false,
+    "retryRateStable": false,
+    "deadLetterGrowthStable": false,
+    "duplicateBusinessEffectCount": 0,
+    "dataLossDetected": true,
+    "oldConsumerDemandCount": 0,
+    "oldApiDemandCount": 0,
+    "oldSchemaDemandCount": 0,
+    "metricsReference": "<immutable-reference>",
+    "demandAnalysisReference": "<immutable-reference>"
+  },
+  "rehearsalExercises": [
+    { "id": "rolling-consumer-first", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "sigterm-drain", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "forced-termination", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "backpressure-recovery", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "network-policy", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "total-capacity", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "safe-rollback", "passed": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "roll-forward", "passed": false, "evidenceReference": "<immutable-reference>" }
+  ],
+  "cleanup": {
+    "performed": false,
+    "startedAt": "<ISO-8601-timestamp>",
+    "completedAt": "<ISO-8601-timestamp>",
+    "legacyCodeRemoved": false,
+    "legacyRegistrationsRemoved": false,
+    "legacyConfigurationRemoved": false,
+    "postCleanupSmokePassed": false,
+    "changeReference": "<immutable-reference>",
+    "verificationReference": "<immutable-reference>"
+  },
+  "approvals": {
+    "architecture": "<named-dated-approval-reference>",
+    "producerModuleOwner": "<named-dated-approval-reference>",
+    "consumerModuleOwner": "<named-dated-approval-reference>",
+    "platformMessaging": "<named-dated-approval-reference>",
+    "platformOperations": "<named-dated-approval-reference>",
+    "database": "<named-dated-approval-reference>",
+    "security": "<named-dated-approval-reference>",
+    "releaseOperations": "<named-dated-approval-reference>"
+  },
+  "capturedAt": "<ISO-8601-timestamp>"
+}
