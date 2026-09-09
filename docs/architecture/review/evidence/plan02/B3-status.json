@@ -43,22 +43,25 @@
     "remainingForB4": 32
   },
   "openRepositoryItems": [
-    "raw broker adapter malformed-trace restart test when a broker transport is introduced",
     "authorized and audited ReprocessingRequest design for exceptional forced business reprocessing",
     "full HTTP/broker fault, parallel-tenant, and sensitive-sentinel release suites"
   ],
   "postB3RepositoryHardening": {
     "evidence": "docs/architecture/review/evidence/plan02/step2-repository-hardening.md",
-    "solutionTests": { "passed": 1077, "failed": 0, "skipped": 0 },
+    "solutionTests": { "passed": 1085, "failed": 0, "skipped": 0 },
     "databaseBoundaryTests": { "passed": 105, "failed": 0 },
-    "integrationTests": { "passed": 142, "failed": 0 },
-    "layerGuard": { "testsPassed": 189, "matched": 32, "new": 0, "stale": 0 }
+    "integrationTests": { "passed": 150, "failed": 0 },
+    "layerGuard": { "testsPassed": 189, "matched": 32, "new": 0, "stale": 0 },
+    "p02C1": {
+      "result": "passed",
+      "item": "E4.9",
+      "evidence": "docs/architecture/review/evidence/plan02/P02-C1-status.json"
+    }
   },
   "openExternalConditions": [
     "production capacity and alert threshold calibration",
     "consumer-first production rollout and rollback rehearsal",
     "production broker and operator audit integration",
-    "final multi-owner Gate approvals",
-    "Plan 03 B4 removal of retained historical LayerGuard findings"
+    "final multi-owner Gate approvals"
   ]
 }

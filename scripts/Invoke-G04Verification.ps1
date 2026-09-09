@@ -17,6 +17,7 @@ if (-not $SkipRestore) {
 & (Join-Path $PSScriptRoot 'Invoke-G04DeploymentRuntimeGuard.ps1') -Phase 10 -ReportPath (Join-Path $resolvedOutput 'guard.json')
 & (Join-Path $PSScriptRoot 'Test-G04ReleaseOrchestration.ps1') -ReportPath (Join-Path $resolvedOutput 'orchestration.json')
 & (Join-Path $PSScriptRoot 'Test-G04FailureMatrix.ps1') -ReportPath (Join-Path $resolvedOutput 'failure-matrix.json')
+& (Join-Path $PSScriptRoot 'Test-Plan02C1InboundConformance.ps1') -ReportPath (Join-Path $resolvedOutput 'plan02-c1.json')
 & (Join-Path $PSScriptRoot 'Invoke-LayerGuard.ps1') -ReportPath (Join-Path $resolvedOutput 'layerguard.json')
 
 & dotnet build (Join-Path $repositoryRoot 'IFX.sln') --no-restore

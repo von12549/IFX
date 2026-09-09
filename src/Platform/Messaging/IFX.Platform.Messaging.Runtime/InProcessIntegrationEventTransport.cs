@@ -1,23 +1,16 @@
-using Microsoft.Extensions.DependencyInjection;
-
 namespace IFX.Platform.Messaging.Runtime;
 
-public sealed class InProcessIntegrationEventTransport(IServiceScopeFactory scopeFactory) : IIntegrationEventSender
+public sealed class InProcessIntegrationEventTransport(IInboundIntegrationEventReceiver receiver) : IIntegrationEventSender
 {
     public async Task SendAsync(OutboxLogicalMessage message, CancellationToken cancellationToken)
     {
-        await using var scope = scopeFactory.CreateAsyncScope();
-        var handlers = scope.ServiceProvider.GetServices<IInboundIntegrationEventHandler>()
-            .Where(handler => handler.CanHandle(message.Envelope.EventType, message.Envelope.SchemaVersion))
-            .ToArray();
-        if (handlers.Length == 0)
+        var result = await receiver.ReceiveAsync(
+            IntegrationEventTransportCodec.Encode(message),
+            cancellationToken);
+        if (result.Disposition != InboundIntegrationEventDisposition.Accepted)
         {
-            throw new InvalidOperationException($"No inbound adapter is registered for '{message.Envelope.EventType}'.");
-        }
-
-        foreach (var handler in handlers)
-        {
-            await handler.HandleAsync(message, cancellationToken);
+            throw new InvalidOperationException(
+                $"Inbound integration event was not accepted. ReasonCode={result.ReasonCode}.");
         }
     }
 }

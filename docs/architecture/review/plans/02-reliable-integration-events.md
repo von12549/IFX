@@ -2,7 +2,7 @@
 
 > G04 反向链接：E3/E4/E6 必须重跑 lease、drain、health、backpressure 与 consumer-first conformance；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
 
-> 状态：B3 核心仓库检查点完成；Phase 3–8 的强化、生产验收与最终 Gate 签字保持开放（2026-09-08）
+> 状态：B3 核心仓库检查点与 P02-C1/Phase 4 已完成；Phase 5–8 的生产验收与最终 Gate 签字保持开放（2026-09-09）
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。
 > G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [serialization golden snapshot](../gates/G03/snapshots/G03-serialization-golden.json)；完成真实 Envelope/Outbox/Inbox/behavior tests 后回交 Active 准入证据。
@@ -100,7 +100,7 @@ Producer Application
 
 ## Phase 4 — 消费方 Inbound Adapter、Inbox 与幂等
 
-- [ ] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据。
+- [x] **Phase 4 完成**：本 Phase 下全部项目均已完成并附有证据；见 [`P02-C1 inbound conformance`](../evidence/plan02/P02-C1-inbound-conformance.md)。
 
 - [x] E4.1 将当前直接位于 Holdings.Application 的外部事件 handler 迁移至 Holdings 外层 Inbound Integration Adapter。
 - [x] E4.2 让 Adapter 引用生产方 Contracts，并把外部 event DTO 映射为 Holdings.Application 自有 command。
@@ -110,7 +110,7 @@ Producer Application
 - [x] E4.6 当前两个 Holdings consumer 只产生同一数据库事务内的业务变更，没有外部非事务副作用；因此 B3 记为 N/A。未来引入通知、支付或远程调用时必须重新打开并设计下游幂等协议。
 - [x] E4.7 明确业务拒绝、暂时故障、永久无效 schema 与未知事件类型各自的 ack/retry/dead-letter 行为。
 - [x] E4.8 添加重复、并发重复、乱序、跨租户和处理器崩溃测试；并发竞态由唯一 Inbox marker 判定持久化胜者，失败事务只有观察到胜者 marker 才按重复确认。
-- [ ] E4.9 Inbound Adapter 在 Inbox/Application 前验证 producer、type/version、EventId、TenantScope、Correlation/Causation；非法业务上下文进入 quarantine，非法 trace 只创建新 span。（部分完成：producer/schema/tenant 验证已有；非法 trace 重启 span 的真实 Adapter 测试待补。）
+- [x] E4.9 Inbound Adapter 在 Inbox/Application 前验证 producer、type/version、EventId、TenantScope、Correlation/Causation；生产 in-process sender 现经 raw carrier receiver，非法业务上下文返回 quarantine disposition，非法 traceparent/tracestate 被清除并创建新 consumer root span，逻辑身份保持不变。
 - [x] E4.10 使用 EventId 作为 consumer OperationId 建立隔离 ExecutionContext；下游 Event 保留 CorrelationId 并以入站 EventId 为 CausationId，finally 清理 scope；成功和异常路径均有测试。
 
 ## Phase 5 — 事件内容与投影策略改进
@@ -174,7 +174,7 @@ Producer Application
 - [x] E-D04 Inbox 与业务变更在消费方本地事务内完成，重复消息不产生重复业务效果。
 - [x] E-D05 事件 schema 可版本化、可兼容、可追踪且不泄漏内部模型。
 - [ ] E-D06 崩溃窗口、毒消息、回放、积压与告警均有自动化测试或演练证据。
-- [x] E-D07 Event Envelope、transport 和 Consumer ExecutionContext 的 Correlation/Causation/Tenant/Trace 语义与 Gate 05 一致，retry/replay 不改变逻辑身份；raw invalid-trace restart 由 G05 conformance 覆盖，当前 typed in-process transport 不接收非法 Envelope。
+- [x] E-D07 Event Envelope、transport 和 Consumer ExecutionContext 的 Correlation/Causation/Tenant/Trace 语义与 Gate 05 一致，retry/replay 不改变逻辑身份；P02-C1 的生产 raw receiver 已证明 invalid trace restart 和业务身份保持。
 - [ ] E-D08 Event、Outbox/Inbox、dead-letter、日志和 trace 满足字段分类；C4 零暴露，C3 仅有批准且受控的状态传输。
 - [x] E-D09 中英文说明、架构图、正常/失败流程图和规则证据完整且与实现一致。
 - [ ] E-D10 E2/E4 的真实实现证据已按 E8.9 回交 G01，G01-9.3 与 G01-DD05 已有可审计链接，并已进入三方最终签字流程。

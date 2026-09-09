@@ -136,7 +136,7 @@ Gate 1-5 最终关闭 + 总体验收
 
 ## Phase 3 — 建立可靠 Integration Event 通道
 
-- [x] **Phase 3 / B3 检查点完成**：Plan 02 已于 2026-09-08 完成 B3 核心迁移；该标记不是 Plan 02 最终关闭。详细计划 Phase 3–8 的强化项、生产容量/告警校准、发布演练与最终 Gate 签字保持开放。证据：[`B3 status`](../evidence/plan02/B3-status.json)、[`checklist reconciliation`](../evidence/plan02/phase3-8-checklist-reconciliation.md) 与 [`Gate handback`](../evidence/plan02/B3-gate-handback.md)。
+- [x] **Phase 3 / B3 检查点完成**：Plan 02 已于 2026-09-08 完成 B3 核心迁移，P02-C1 又于 2026-09-09 关闭 E4.9/Phase 4；该标记不是 Plan 02 最终关闭。详细计划 Phase 5–8 的生产数据控制、容量/告警校准、发布演练与最终 Gate 签字保持开放。证据：[`B3 status`](../evidence/plan02/B3-status.json)、[`P02-C1`](../evidence/plan02/P02-C1-inbound-conformance.md)、[`checklist reconciliation`](../evidence/plan02/phase3-8-checklist-reconciliation.md) 与 [`Gate handback`](../evidence/plan02/B3-gate-handback.md)。
 
 - [x] M3.1 以 Gate 03 事件目录/版本政策和 Gate 05 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类为输入，执行子计划 2；schema primitives 与运行时端口保持分离。
 - [x] M3.2 实现生产方本地事务内“业务数据 + Outbox”原子保存，移除提交前直接发布路径。
@@ -162,7 +162,7 @@ Gate 1-5 最终关闭 + 总体验收
 
 - [x] M5.1 已删除模块/平台旧 `Abstractions`、无用引用、跨层注册和旧事件直发路径；B4 扫描确认无受管生产引用。
 - [x] M5.2 已更新架构图、模块模板、Contract/Event 版本与 context/敏感数据规则、LayerGuard 规则和故障手册。
-- [x] M5.3 2026-09-09 完整验证通过：solution 1,077 tests、LayerGuard 189 tests、B4 0 finding/0 waiver；证据见 [`final closure pack`](../evidence/final-closure/README.md)。
+- [x] M5.3 2026-09-09 完整验证通过：solution 1,085 tests、LayerGuard 189 tests、B4 0 finding/0 waiver；证据见 [`final closure pack`](../evidence/final-closure/README.md)。
 - [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的剩余事项完成或转为具备负责人和时间点的正式计划，已提取事项不得重复维护。
 - [ ] M5.5 由架构与模块负责人共同确认 Definition of Done，并记录最终偏差或临时豁免的到期日。
 - [ ] M5.6 按 Gate 04 顺序演练 Migrator → Worker consumers → API producers → schedules → cleanup，并验证 probes、drain、backpressure 和安全回退。

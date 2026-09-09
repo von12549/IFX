@@ -11,6 +11,7 @@ public static class MessagingServiceCollectionExtensions
         services.AddScoped<ICommittedEventBuffer>(provider => provider.GetRequiredService<BufferedIntegrationEventSource>());
         services.AddScoped<IPendingIntegrationEventSource>(provider => provider.GetRequiredService<BufferedIntegrationEventSource>());
         services.AddScoped<IOutboxMessageFactory, OutboxMessageFactory>();
+        services.AddSingleton<IInboundIntegrationEventReceiver, RawIntegrationEventReceiver>();
         services.AddSingleton<IIntegrationEventSender, InProcessIntegrationEventTransport>();
         services.AddSingleton<MessagingTelemetry>();
         return services;

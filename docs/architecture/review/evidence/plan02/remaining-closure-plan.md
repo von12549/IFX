@@ -17,17 +17,17 @@
 - Worker Dispatcher、claim/lease、retry、dead-letter、replay 和 backpressure 接缝；
 - Holdings Inbound Adapter、Inbox、quarantine 和消费方本地事务；
 - G01/G02/G03/G04/G05 仓库证据回交；
-- solution 1,077 tests、LayerGuard 189 tests，以及 B4 0 finding / 0 waiver。
+- solution 1,085 tests、LayerGuard 189 tests，以及 B4 0 finding / 0 waiver。
 
 未完成的不是 B3 核心实现，而是完整 Plan 02 的真实 transport、目标平台数据控制、
-告警校准、production-like 故障/发布演练和负责人签字。因此 Phase 4–8 及完整 Plan 02
+告警校准、production-like 故障/发布演练和负责人签字。P02-C1 已关闭 Phase 4；Phase 5–8 及完整 Plan 02
 仍不得标记完成。
 
 ## 2. 未勾选项总表
 
 | 项目 | 当前状态 | 关闭所需结果 | 主要责任方 |
 | --- | --- | --- | --- |
-| E4.9 | producer/schema/tenant 验证已完成；raw invalid-trace 未验证 | 真实 transport Adapter 的非法 carrier、quarantine、新 span 和无污染测试 | Platform Messaging、首个 Adapter owner、Security |
+| E4.9 | **已关闭（P02-C1，2026-09-09）** | 生产 raw receiver 已验证非法 carrier、quarantine disposition、新 root span、身份保持和 handler 前置顺序 | Platform Messaging、Holdings、Security/G05 conformance |
 | E5.7 | 分类原则已完成；目标平台配置未完成 | 最小权限、传输/静态加密、保留/删除、legal hold 和 C3 例外证据 | Security、Database、Platform、模块 owner |
 | E6.5 | 指标、readiness 和版本化阈值已完成；生产校准未完成 | exporter/dashboard、阈值、告警路由、silent-stop 触发和恢复证据 | Observability、Platform Operations、Messaging |
 | E6.7 | immutable replay 和 Inbox 去重已完成；forced reprocessing 未决 | 正式决定“不支持”，或实现独立且受审计的 `ReprocessingRequest` | Product、Architecture、Operations、模块 owner |
@@ -43,17 +43,17 @@
 
 ### 3.1 E4.9：真实 Inbound Adapter 与非法 trace
 
-当前 typed in-process transport 无法构造非法原始 Envelope，因此不能用它证明 transport
-边界会安全处理错误的 `traceparent`/`tracestate`。
+P02-C1 已将 typed in-process transport 改为经过 transport-neutral raw carrier receiver，能够在
+生产边界安全处理错误的 `traceparent`/`tracestate`。
 
 处理步骤：
 
-1. 确定首个真实 transport Adapter，或先建立与目标 broker carrier 等价的 raw-adapter conformance fixture。
-2. 在 Inbox/Application 之前验证 producer、type/version、EventId、TenantScope、Correlation/Causation 和 trace carrier。
-3. 注入非法业务上下文，证明消息进入 quarantine，Inbox 和业务 handler 均未执行。
-4. 只让 trace 非法，证明 Adapter 丢弃非法 trace、创建新 span，同时按批准规则保留逻辑 correlation/causation/tenant。
-5. 检查日志、trace、错误和 quarantine 诊断不输出原始敏感 carrier 或 payload。
-6. 保存 Adapter 测试、运行报告和 Security/G05 接受记录后勾选 E4.9 与 Phase 4。
+1. `IntegrationEventTransportCodec` 把冻结 Envelope 映射为 raw headers/payload。
+2. `RawIntegrationEventReceiver` 在 handler 前验证 core business context。
+3. 非法业务上下文返回稳定 quarantine disposition，handler 不执行。
+4. 非法 trace 被丢弃并创建新 consumer root span；Correlation/Causation/Tenant/EventId 保持。
+5. 当前 in-process sender 已使用该边界；未来 broker Adapter 复用同一 receiver port。
+6. 证据见 [`P02-C1-inbound-conformance.md`](P02-C1-inbound-conformance.md)，E4.9 与 Phase 4 已勾选。
 
 ### 3.2 E5.7：数据访问、加密、保留与删除
 
@@ -147,7 +147,7 @@ Migrator → Worker → API 证据、关闭 G02-DD06，并取得 Architecture、
 
 后续工作按以下六个可独立审计的切片推进，每次只关闭一个切片：
 
-1. **P02-C1 / Adapter conformance**：选择 raw carrier seam，完成 E4.9。
+1. **[x] P02-C1 / Adapter conformance**：raw carrier seam、E4.9 和 Phase 4 已于 2026-09-09 完成。
 2. **P02-C2 / Data controls**：完成 E5.7 的目标访问、加密、保留和删除证据。
 3. **P02-C3 / Operations decisions**：完成 E6.5 校准，并对 E6.7 作出正式决定/实现。
 4. **P02-C4 / Full-path validation**：完成 E7.3、E7.4、E7.8。

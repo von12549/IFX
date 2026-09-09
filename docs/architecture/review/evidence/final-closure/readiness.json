@@ -3,7 +3,7 @@
   "asOf": "2026-09-09",
   "status": "blocked-external-input-required",
   "repository": {
-    "solutionTests": { "passed": 1077, "failed": 0 },
+    "solutionTests": { "passed": 1085, "failed": 0 },
     "layerGuardTests": { "passed": 189, "failed": 0 },
     "b4": { "findings": 0, "waivers": 0, "projectsInScope": 39 },
     "b4Commit": "892ec8e"
@@ -15,9 +15,10 @@
     "blockedFinalApproval": ["G04-B07"]
   },
   "plan02": {
-    "openChecklistItems": ["E4.9", "E5.7", "E6.5", "E6.7", "E7.3", "E7.4", "E7.5", "E7.6", "E7.8", "E8.9", "E8.10"],
+    "closedSlices": ["P02-C1/E4.9"],
+    "openChecklistItems": ["E5.7", "E6.5", "E6.7", "E7.3", "E7.4", "E7.5", "E7.6", "E7.8", "E8.9", "E8.10"],
     "openDefinitionOfDone": ["E-D06", "E-D08", "E-D10", "E-D11"],
-    "phaseCompletionBoxesOpen": [4, 5, 6, 7, 8]
+    "phaseCompletionBoxesOpen": [5, 6, 7, 8]
   },
   "missingInputs": [
     "production-candidate release identity and immutable digests",

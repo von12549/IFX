@@ -21,11 +21,14 @@ the whole statement. Partial items remain open and carry their missing acceptanc
 
 | Group | Open items | Required completion evidence |
 | --- | --- | --- |
-| Consumer hardening | E4.9 | a future raw broker adapter must prove malformed trace restart; the current typed in-process boundary rejects malformed Envelope construction |
 | Projection/data lifecycle | E5.7 | deployed access/encryption/retention/deletion controls and attestations |
 | Operations | E6.5, E6.7 | production exporter/alert routes and an authorized ReprocessingRequest design |
 | Release validation | E7.3–E7.6, E7.8 | full HTTP/broker fault matrix, consumer-first rehearsal, old-path production observation and G05 tenant/sentinel suite |
 | Documentation/approval | E8.9–E8.10, E-D06, E-D08, E-D10–E-D11 | production records, sensitive-data deployment proof, Gate handback and final owner signatures |
+
+Consumer hardening E4.9 and Phase 4 closed on 2026-09-09 through the production raw-carrier receiver,
+invalid trace restart tests and retained Holdings producer quarantine path; see
+[`P02-C1-inbound-conformance.md`](P02-C1-inbound-conformance.md).
 
 Plan 02 remains open until the groups above pass. Repository hardening completed after the original B3
 checkpoint is tracked in `step2-repository-hardening.md`; Phase 3 is now complete in repository scope.

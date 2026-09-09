@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C1",
+  "item": "E4.9",
+  "asOf": "2026-09-09",
+  "result": "passed",
+  "phase4Complete": true,
+  "boundary": {
+    "rawCarrier": "IFX.Platform.Messaging.Runtime.InboundIntegrationEventMessage",
+    "receiverPort": "IFX.Platform.Messaging.Runtime.IInboundIntegrationEventReceiver",
+    "implementation": "IFX.Platform.Messaging.Runtime.RawIntegrationEventReceiver",
+    "currentSenderUsesBoundary": true,
+    "futureBrokerNeutral": true,
+    "productionBrokerClaimed": false
+  },
+  "acceptance": {
+    "coreContextValidatedBeforeHandler": true,
+    "invalidBusinessContextDisposition": "quarantined",
+    "invalidTraceAccepted": true,
+    "invalidTraceFieldsDiscarded": true,
+    "newConsumerRootSpanCreated": true,
+    "logicalIdentityPreserved": true,
+    "rawCarrierValuesLogged": false,
+    "holdingsProducerQuarantineRetained": true
+  },
+  "verification": {
+    "solutionTests": { "passed": 1085, "failed": 0, "skipped": 0 },
+    "integrationTests": { "passed": 150, "failed": 0 },
+    "protocolContractTests": { "passed": 77, "failed": 0 },
+    "filteredSqlServerTests": { "passed": 6, "failed": 0 },
+    "layerGuardTests": { "passed": 189, "failed": 0 },
+    "layerGuard": { "projectsInScope": 39, "findings": 0, "waivers": 0 }
+  },
+  "evidence": [
+    "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs",
+    "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/InProcessIntegrationEventTransport.cs",
+    "tests/IFX.IntegrationTests/Runtime/InboundIntegrationEventTransportAdapterTests.cs",
+    "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs",
+    "docs/architecture/review/evidence/plan02/P02-C1-inbound-conformance.md",
+    "docs/architecture/review/evidence/plan02/P02-C1-validation.json"
+  ],
+  "nextSlice": "P02-C2 / E5.7 target data controls"
+}
