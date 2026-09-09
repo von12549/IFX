@@ -45,6 +45,8 @@ identity and attach immutable references only.
 
 Consequently, the Phase 4–8 completion boxes and the overall Plan 02 completion box remain
 unchecked. They are not stale checkmarks; each is gated by one or more rows above.
+Detailed item-by-item acceptance and the six closure slices are maintained in the
+[`Plan 02 remaining closure plan`](../plan02/remaining-closure-plan.md).
 
 ## Required rehearsal order
 

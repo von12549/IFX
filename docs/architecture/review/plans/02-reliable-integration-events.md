@@ -19,6 +19,8 @@ replay、G01–G05 对称回交，以及 B3 LayerGuard 基线。证据见
 [`B3-status.json`](../evidence/plan02/B3-status.json) 和
 [`B3-gate-handback.md`](../evidence/plan02/B3-gate-handback.md)。下方未勾选项是完整 Plan 02 的
 生产运维关闭条件或增强项，不阻塞仓库 B3，但继续阻止 Plan 02/Gate Final Closure。
+逐项原因、验收证据和执行顺序见
+[`Plan 02 剩余关闭计划`](../evidence/plan02/remaining-closure-plan.md)。
 
 ## 目标流程
 

@@ -29,6 +29,7 @@
     "owner and due milestone for any TODO item declared blocking final acceptance"
   ],
   "evidenceTemplate": "deployment/g04/release-evidence-template.json",
+  "plan02DetailedClosurePlan": "docs/architecture/review/evidence/plan02/remaining-closure-plan.md",
   "completionValidator": "scripts/Test-G04ReleaseOrchestration.ps1 -RequireCompleted",
   "productionClaimed": false,
   "approvalClaimed": false
