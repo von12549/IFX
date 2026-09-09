@@ -16,7 +16,9 @@ public sealed record MessagingModuleHealth(
     long LeasedCount,
     long ExpiredLeaseCount,
     DateTimeOffset? LastSucceeded,
-    double ProcessingRatePerSecond);
+    double ProcessingRatePerSecond,
+    long ConsecutiveFailures,
+    double DispatcherSilenceSeconds);
 
 public sealed class MessagingHealthThresholds
 {
@@ -28,12 +30,17 @@ public sealed class MessagingHealthThresholds
     public long CriticalDeadLetters { get; set; } = 10;
     public double CriticalStorageUtilization { get; set; } = 0.85;
     public TimeSpan RetryAfter { get; set; } = TimeSpan.FromSeconds(30);
+    public long WarningConsecutiveFailures { get; set; } = 3;
+    public long CriticalConsecutiveFailures { get; set; } = 10;
+    public TimeSpan WarningSilence { get; set; } = TimeSpan.FromMinutes(2);
+    public TimeSpan CriticalSilence { get; set; } = TimeSpan.FromMinutes(5);
 
     internal BacklogThreshold ToRuntimeThreshold()
     {
         var threshold = new BacklogThreshold(
             WarningAge, CriticalAge, WarningCount, CriticalCount,
-            WarningDeadLetters, CriticalDeadLetters, CriticalStorageUtilization, RetryAfter);
+            WarningDeadLetters, CriticalDeadLetters, CriticalStorageUtilization, RetryAfter,
+            WarningConsecutiveFailures, CriticalConsecutiveFailures, WarningSilence, CriticalSilence);
         _ = MessageBackpressurePolicy.Evaluate(
             new MessageBacklogObservation("validation", "integration", 0, TimeSpan.Zero, 0, 0, null, 0, 0, 0, 0),
             threshold,
@@ -62,7 +69,13 @@ internal sealed class RuntimeMessagingHealthProbe(
         {
             var backlog = await store.ObserveAsync(now, cancellationToken);
             telemetry.RecordBacklog(backlog);
-            var rate = telemetry.Snapshot(store.ModuleId).ProcessingRatePerSecond;
+            var telemetrySnapshot = telemetry.Snapshot(store.ModuleId);
+            var rate = telemetrySnapshot.ProcessingRatePerSecond;
+            var dispatcherSilence = backlog.PendingCount == 0
+                ? TimeSpan.Zero
+                : backlog.LastSucceeded is { } lastSucceeded
+                    ? now - lastSucceeded
+                    : backlog.OldestPendingAge;
             var evaluation = MessageBackpressurePolicy.Evaluate(
                 new MessageBacklogObservation(
                     store.ModuleId,
@@ -75,7 +88,8 @@ internal sealed class RuntimeMessagingHealthProbe(
                     rate,
                     StorageUtilization: 0,
                     ExpiredLeaseCount: backlog.ExpiredLeaseCount,
-                    DuplicateRate: 0),
+                    DuplicateRate: 0,
+                    ConsecutiveFailures: telemetrySnapshot.ConsecutiveFailures),
                 threshold,
                 now);
             results.Add(new MessagingModuleHealth(
@@ -94,7 +108,9 @@ internal sealed class RuntimeMessagingHealthProbe(
                 backlog.LeasedCount,
                 backlog.ExpiredLeaseCount,
                 backlog.LastSucceeded,
-                rate));
+                rate,
+                telemetrySnapshot.ConsecutiveFailures,
+                dispatcherSilence.TotalSeconds));
         }
 
         return results;

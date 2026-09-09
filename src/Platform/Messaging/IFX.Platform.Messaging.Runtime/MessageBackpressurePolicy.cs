@@ -5,11 +5,14 @@ public enum BacklogSeverity { Healthy, Warning, Critical }
 public sealed record MessageBacklogObservation(
     string ModuleId, string EventCategory, long PendingCount, TimeSpan OldestPendingAge,
     long RetryCount, long DeadLetterCount, DateTimeOffset? LastSucceeded,
-    double ProcessingRatePerSecond, double StorageUtilization, long ExpiredLeaseCount, double DuplicateRate);
+    double ProcessingRatePerSecond, double StorageUtilization, long ExpiredLeaseCount, double DuplicateRate,
+    long ConsecutiveFailures = 0);
 
 public sealed record BacklogThreshold(
     TimeSpan WarningAge, TimeSpan CriticalAge, long WarningCount, long CriticalCount,
-    long WarningDeadLetters, long CriticalDeadLetters, double CriticalStorageUtilization, TimeSpan RetryAfter);
+    long WarningDeadLetters, long CriticalDeadLetters, double CriticalStorageUtilization, TimeSpan RetryAfter,
+    long WarningConsecutiveFailures, long CriticalConsecutiveFailures,
+    TimeSpan WarningSilence, TimeSpan CriticalSilence);
 
 public sealed record BacklogEvaluation(
     string ModuleId, string EventCategory, BacklogSeverity Severity, string ReasonCode,
@@ -24,14 +27,31 @@ public static class MessageBackpressurePolicy
     {
         Validate(observation, threshold);
         var stalled = observation.ProcessingRatePerSecond <= 0;
-        var critical = observation.DeadLetterCount >= threshold.CriticalDeadLetters ||
+        var dispatcherSilence = observation.PendingCount == 0
+            ? TimeSpan.Zero
+            : observation.LastSucceeded is { } lastSucceeded
+                ? now - lastSucceeded
+                : observation.OldestPendingAge;
+        var criticalFailures = observation.ConsecutiveFailures >= threshold.CriticalConsecutiveFailures;
+        var warningFailures = observation.ConsecutiveFailures >= threshold.WarningConsecutiveFailures;
+        var criticalSilence = stalled && dispatcherSilence >= threshold.CriticalSilence;
+        var warningSilence = stalled && dispatcherSilence >= threshold.WarningSilence;
+        var criticalBacklog = observation.DeadLetterCount >= threshold.CriticalDeadLetters ||
             observation.StorageUtilization >= threshold.CriticalStorageUtilization ||
             (observation.OldestPendingAge >= threshold.CriticalAge && observation.PendingCount >= threshold.CriticalCount && stalled);
-        var warning = observation.DeadLetterCount >= threshold.WarningDeadLetters ||
+        var warningBacklog = observation.DeadLetterCount >= threshold.WarningDeadLetters ||
             (observation.OldestPendingAge >= threshold.WarningAge && observation.PendingCount >= threshold.WarningCount);
+        var critical = criticalFailures || criticalSilence || criticalBacklog;
+        var warning = warningFailures || warningSilence || warningBacklog;
         var severity = critical ? BacklogSeverity.Critical : warning ? BacklogSeverity.Warning : BacklogSeverity.Healthy;
         return new BacklogEvaluation(observation.ModuleId, observation.EventCategory, severity,
-            severity switch { BacklogSeverity.Critical => "G04-BACKLOG-CRITICAL", BacklogSeverity.Warning => "G04-BACKLOG-WARNING", _ => "G04-BACKLOG-HEALTHY" },
+            criticalFailures ? "G04-DELIVERY-FAILURES-CRITICAL" :
+            criticalBacklog ? "G04-BACKLOG-CRITICAL" :
+            criticalSilence ? "G04-DISPATCHER-SILENT-CRITICAL" :
+            warningFailures ? "G04-DELIVERY-FAILURES-WARNING" :
+            warningBacklog ? "G04-BACKLOG-WARNING" :
+            warningSilence ? "G04-DISPATCHER-SILENT-WARNING" :
+            "G04-BACKLOG-HEALTHY",
             now, threshold.RetryAfter);
     }
 
@@ -52,6 +72,8 @@ public static class MessageBackpressurePolicy
         if (threshold.WarningAge <= TimeSpan.Zero || threshold.WarningAge >= threshold.CriticalAge ||
             threshold.WarningCount < 0 || threshold.WarningCount >= threshold.CriticalCount ||
             threshold.WarningDeadLetters < 0 || threshold.WarningDeadLetters >= threshold.CriticalDeadLetters ||
+            threshold.WarningConsecutiveFailures <= 0 || threshold.WarningConsecutiveFailures >= threshold.CriticalConsecutiveFailures ||
+            threshold.WarningSilence <= TimeSpan.Zero || threshold.WarningSilence >= threshold.CriticalSilence ||
             threshold.CriticalStorageUtilization is <= 0 or > 1 || threshold.RetryAfter <= TimeSpan.Zero)
             throw new InvalidOperationException("G04-BACKPRESSURE-THRESHOLD-INVALID");
     }

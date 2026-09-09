@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "controlSet": "P02-C3-E6.5",
+  "status": "pending",
+  "releaseId": "<immutable-production-candidate-release-id>",
+  "environment": "<production-equivalent-environment>",
+  "backpressurePolicySha256": "<64-lowercase-hex>",
+  "topology": {
+    "workerReplicaCount": 0,
+    "dispatcherConcurrencyPerReplica": 0,
+    "trafficProfileReference": "<immutable-reference>",
+    "baselineWindowReference": "<immutable-reference>"
+  },
+  "telemetry": {
+    "exporterConfigurationReference": "<immutable-reference>",
+    "dashboardReference": "<immutable-reference>",
+    "alertRuleReference": "<immutable-reference>",
+    "alertRouteReference": "<immutable-reference>",
+    "runbookReference": "<immutable-reference>",
+    "dimensionsVerified": false,
+    "sensitiveLabelsAbsent": false
+  },
+  "calibratedThresholds": {
+    "warningAge": "<hh:mm:ss>",
+    "criticalAge": "<hh:mm:ss>",
+    "warningCount": 0,
+    "criticalCount": 0,
+    "warningDeadLetters": 0,
+    "criticalDeadLetters": 0,
+    "criticalStorageUtilization": 0,
+    "warningConsecutiveFailures": 0,
+    "criticalConsecutiveFailures": 0,
+    "warningSilence": "<hh:mm:ss>",
+    "criticalSilence": "<hh:mm:ss>"
+  },
+  "faultScenarios": [
+    { "id": "transport-unavailable", "triggered": false, "routed": false, "acknowledged": false, "runbookLinked": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "sql-unavailable", "triggered": false, "routed": false, "acknowledged": false, "runbookLinked": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "consumer-failure", "triggered": false, "routed": false, "acknowledged": false, "runbookLinked": false, "recovered": false, "evidenceReference": "<immutable-reference>" },
+    { "id": "silent-dispatcher", "triggered": false, "routed": false, "acknowledged": false, "runbookLinked": false, "recovered": false, "evidenceReference": "<immutable-reference>" }
+  ],
+  "approvals": {
+    "observability": "<named-dated-approval-reference>",
+    "platformOperations": "<named-dated-approval-reference>",
+    "platformMessaging": "<named-dated-approval-reference>"
+  },
+  "capturedAt": "<ISO-8601-timestamp>"
+}

@@ -10,6 +10,8 @@ public sealed record MessagingTelemetrySnapshot(
     long DeliverySuccesses,
     long DeliveryFailures,
     long DeadLettered,
+    long ConsecutiveFailures,
+    double SecondsSinceLastSuccess,
     double ProcessingRatePerSecond,
     OutboxBacklogSnapshot? Backlog);
 
@@ -37,6 +39,8 @@ public sealed class MessagingTelemetry : IDisposable
         _meter.CreateObservableGauge("ifx.messaging.backlog.dead_letters", ObserveDeadLetters, unit: "{message}");
         _meter.CreateObservableGauge("ifx.messaging.backlog.leased", ObserveLeased, unit: "{message}");
         _meter.CreateObservableGauge("ifx.messaging.backlog.expired_leases", ObserveExpiredLeases, unit: "{message}");
+        _meter.CreateObservableGauge("ifx.messaging.delivery.consecutive_failures", ObserveConsecutiveFailures, unit: "{failure}");
+        _meter.CreateObservableGauge("ifx.messaging.delivery.seconds_since_success", ObserveSecondsSinceSuccess, unit: "s");
         _meter.CreateObservableGauge("ifx.messaging.delivery.rate", ObserveRates, unit: "{message}/s");
     }
 
@@ -78,8 +82,10 @@ public sealed class MessagingTelemetry : IDisposable
     private IEnumerable<Measurement<long>> ObserveDeadLetters() => ObserveLong(static snapshot => snapshot.Backlog?.DeadLetterCount ?? 0);
     private IEnumerable<Measurement<long>> ObserveLeased() => ObserveLong(static snapshot => snapshot.Backlog?.LeasedCount ?? 0);
     private IEnumerable<Measurement<long>> ObserveExpiredLeases() => ObserveLong(static snapshot => snapshot.Backlog?.ExpiredLeaseCount ?? 0);
+    private IEnumerable<Measurement<long>> ObserveConsecutiveFailures() => ObserveLong(static snapshot => snapshot.ConsecutiveFailures);
 
     private IEnumerable<Measurement<double>> ObserveOldestAge() => ObserveDouble(static snapshot => snapshot.Backlog?.OldestPendingAge.TotalSeconds ?? 0);
+    private IEnumerable<Measurement<double>> ObserveSecondsSinceSuccess() => ObserveDouble(static snapshot => snapshot.SecondsSinceLastSuccess);
     private IEnumerable<Measurement<double>> ObserveRates() => ObserveDouble(static snapshot => snapshot.ProcessingRatePerSecond);
 
     private IEnumerable<Measurement<long>> ObserveLong(Func<MessagingTelemetrySnapshot, long> value) =>
@@ -95,18 +101,30 @@ public sealed class MessagingTelemetry : IDisposable
         private long _successes;
         private long _failures;
         private long _deadLettered;
+        private long _consecutiveFailures;
+        private DateTimeOffset? _firstAttemptAt;
+        private DateTimeOffset? _lastSucceededAt;
         private long _rateBaselineSuccesses;
         private DateTimeOffset _rateBaselineAt = DateTimeOffset.UtcNow;
         private double _rate;
         private OutboxBacklogSnapshot? _backlog;
 
-        public void RecordAttempt() { lock (_sync) _attempts++; }
+        public void RecordAttempt()
+        {
+            lock (_sync)
+            {
+                _attempts++;
+                _firstAttemptAt ??= DateTimeOffset.UtcNow;
+            }
+        }
 
         public void RecordSuccess(DateTimeOffset now)
         {
             lock (_sync)
             {
                 _successes++;
+                _consecutiveFailures = 0;
+                _lastSucceededAt = now;
                 RefreshRate(now);
             }
         }
@@ -116,6 +134,7 @@ public sealed class MessagingTelemetry : IDisposable
             lock (_sync)
             {
                 _failures++;
+                _consecutiveFailures++;
                 if (deadLetter) _deadLettered++;
             }
         }
@@ -127,7 +146,10 @@ public sealed class MessagingTelemetry : IDisposable
             lock (_sync)
             {
                 RefreshRate(now);
-                return new(moduleId, _attempts, _successes, _failures, _deadLettered, _rate, _backlog);
+                var activityStartedAt = _lastSucceededAt ?? _firstAttemptAt;
+                var secondsSinceSuccess = activityStartedAt is null ? 0 : Math.Max(0, (now - activityStartedAt.Value).TotalSeconds);
+                return new(moduleId, _attempts, _successes, _failures, _deadLettered,
+                    _consecutiveFailures, secondsSinceSuccess, _rate, _backlog);
             }
         }
 

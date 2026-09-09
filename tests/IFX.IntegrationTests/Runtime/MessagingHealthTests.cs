@@ -23,6 +23,8 @@ public sealed class MessagingHealthTests
             thresholds.CriticalCount = 20;
             thresholds.WarningDeadLetters = 1;
             thresholds.CriticalDeadLetters = 10;
+            thresholds.WarningSilence = TimeSpan.FromMinutes(30);
+            thresholds.CriticalSilence = TimeSpan.FromHours(1);
         });
         services.AddSingleton<IModuleOutboxStore>(new HealthStore(
             new OutboxBacklogSnapshot("transaction", pending, TimeSpan.FromMinutes(pending), 2, deadLetters, null, 1, 1)));
@@ -34,6 +36,7 @@ public sealed class MessagingHealthTests
         result.ReasonCode.Should().Be(expectedReason);
         result.LeasedCount.Should().Be(1);
         result.ExpiredLeaseCount.Should().Be(1);
+        result.DispatcherSilenceSeconds.Should().Be(TimeSpan.FromMinutes(pending).TotalSeconds);
     }
 
     [Fact]
@@ -45,6 +48,26 @@ public sealed class MessagingHealthTests
             thresholds.WarningCount = thresholds.CriticalCount);
 
         act.Should().Throw<InvalidOperationException>().WithMessage("G04-BACKPRESSURE-THRESHOLD-INVALID");
+    }
+
+    [Fact]
+    public async Task Probe_surfaces_consecutive_delivery_failures()
+    {
+        var services = new ServiceCollection();
+        services.AddReliableMessaging("test", dispatcherEnabled: false);
+        services.AddSingleton<IModuleOutboxStore>(new HealthStore(
+            new OutboxBacklogSnapshot("transaction", 0, TimeSpan.Zero, 0, 0, DateTimeOffset.UtcNow)));
+        await using var provider = services.BuildServiceProvider();
+        var telemetry = provider.GetRequiredService<MessagingTelemetry>();
+        telemetry.RecordFailure("transaction", false);
+        telemetry.RecordFailure("transaction", false);
+        telemetry.RecordFailure("transaction", false);
+
+        var result = (await provider.GetRequiredService<IMessagingHealthProbe>().CheckAsync(CancellationToken.None)).Single();
+
+        result.Severity.Should().Be(MessagingHealthSeverity.Warning);
+        result.ReasonCode.Should().Be("G04-DELIVERY-FAILURES-WARNING");
+        result.ConsecutiveFailures.Should().Be(3);
     }
 
     private sealed class HealthStore(OutboxBacklogSnapshot snapshot) : IModuleOutboxStore

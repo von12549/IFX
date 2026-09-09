@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C3",
+  "result": "decision-passed-alert-calibration-pending",
+  "e6_7": {
+    "result": "passed-no-forced-reprocessing",
+    "checklistMayClose": true
+  },
+  "e6_5": {
+    "result": "target-calibration-pending",
+    "checklistMayClose": false
+  },
+  "phase6MayClose": false,
+  "repositoryChecks": {
+    "noForcedReprocessingDecisionAccepted": true,
+    "prohibitedBypassesComplete": true,
+    "futureChangeIsSeparatelyGated": true,
+    "noReprocessingContractOrEndpointExists": true,
+    "immutableDeadLetterReplayEnforced": true,
+    "immutableReplayAndInboxDedupeTested": true,
+    "alertDimensionsAndThresholdsComplete": true,
+    "consecutiveFailureAndSilenceSignalsImplemented": true,
+    "checklistReflectsPartialClosure": true,
+    "closurePackReflectsDecision": true,
+    "readinessReflectsPartialClosure": true
+  },
+  "targetChecks": {
+    "completedTargetIdentity": false,
+    "policyDigestMatches": false,
+    "noTemplatePlaceholdersRemain": false,
+    "topologyAndBaselineResolved": false,
+    "exporterDashboardRouteAndRunbookResolved": false,
+    "calibratedThresholdsOrdered": false,
+    "faultScenariosComplete": false,
+    "namedApprovalsComplete": false,
+    "captureTimestampResolved": false
+  },
+  "failedRepositoryChecks": [],
+  "failedTargetChecks": [
+    "completedTargetIdentity",
+    "policyDigestMatches",
+    "noTemplatePlaceholdersRemain",
+    "topologyAndBaselineResolved",
+    "exporterDashboardRouteAndRunbookResolved",
+    "calibratedThresholdsOrdered",
+    "faultScenariosComplete",
+    "namedApprovalsComplete",
+    "captureTimestampResolved"
+  ],
+  "backpressurePolicySha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263",
+  "nextAction": "Populate the production-equivalent alert calibration evidence and rerun with -RequireAlertCalibration."
+}

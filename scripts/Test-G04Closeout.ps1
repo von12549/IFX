@@ -37,7 +37,7 @@ $checks.verificationRecorded = $status.verification.closeoutValidator -eq 'passe
     $status.verification.layerGuard.passed -eq 189 -and
     $status.verification.layerGuard.failed -eq 0 -and
     $status.verification.solutionBuild.errors -eq 0 -and
-    $status.verification.solutionTests.passed -eq 1085 -and
+    $status.verification.solutionTests.passed -eq 1089 -and
     $status.verification.solutionTests.failed -eq 0
 $checks.b4Returned = ($status.blockers | Where-Object id -eq 'G04-B05').state -eq 'closed-repository-evidence-complete' -and
     @($status.blockers | Where-Object id -eq 'G04-B05').evidence.Count -ge 3

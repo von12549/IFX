@@ -24,7 +24,7 @@
 1. Obtain Operations and module-owner authorization and record EventId, reason, requester, target handler version, and expected idempotency behavior in the change/incident record.
 2. Dry-run `QueryAsync` for the exact EventId and confirm `DeadLettered`, correct producer/type/tenant, and a compatible Holdings adapter. Do not retrieve payload into tickets or logs.
 3. Call `ReplayDeadLetterAsync` for that EventId. It retains EventId, Envelope, payload, sequence, and attempt history while resetting only state, next-attempt, lease, and bounded error code.
-4. Observe delivery. A completed Inbox remains a duplicate/no-op. Forced business reprocessing requires a separately designed and approved `ReprocessingRequest`; never mint a new EventId to evade deduplication.
+4. Observe delivery. A completed Inbox remains a duplicate/no-op. Plan02-v1 does not support forced business reprocessing: no `ReprocessingRequest` contract or endpoint exists, and operators must never mint a new EventId or change an Inbox marker to evade deduplication. Any future capability requires a separate Plan/ADR and approvals.
 5. Attach before/after diagnostics and the operator audit record. Batch replay repeats the same checks per item and must be bounded.
 
 ## Reconciliation and rollout

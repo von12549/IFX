@@ -16,10 +16,14 @@
     "releaseBindingsMatch": true,
     "infrastructureOwnersComplete": true,
     "schemaExists": true,
-    "adrExists": true
+    "adrExists": true,
+    "dependencyIdentitiesUnique": true,
+    "dependencyCriticalitiesKnown": true,
+    "backpressureThresholdsOrdered": true,
+    "backpressureDimensionsComplete": true
   },
   "hashes": {
-    "releaseManifest": "fd572c859954199cfbd3dc3e364fca6479a56de1080c403b4bd263e3c4c9d3d8",
+    "releaseManifest": "0efac4f4200cc8aefd625cb2c5fbcfe68152738ea38b8a33d790727bba21a6af",
     "moduleManifest": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
     "deploymentUnitCatalog": "4302bd19a3415fac2d854a108b14223110c549bf5d839c35e1dffbf4e31944e1"
   }

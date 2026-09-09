@@ -20,7 +20,8 @@ public sealed class OutboxDispatcherTests
         store.Completed.Should().ContainSingle().Which.Message.Should().Be(message);
         store.Failures.Should().BeEmpty();
         telemetry.Snapshot(store.ModuleId).Should().Match<MessagingTelemetrySnapshot>(snapshot =>
-            snapshot.DeliveryAttempts == 1 && snapshot.DeliverySuccesses == 1 && snapshot.DeliveryFailures == 0);
+            snapshot.DeliveryAttempts == 1 && snapshot.DeliverySuccesses == 1 &&
+            snapshot.DeliveryFailures == 0 && snapshot.ConsecutiveFailures == 0);
     }
 
     [Fact]
@@ -36,7 +37,8 @@ public sealed class OutboxDispatcherTests
         failure.Lease.Message.Should().Be(message);
         failure.DeadLetter.Should().BeFalse();
         failure.ErrorCode.Should().Be(nameof(TimeoutException));
-        telemetry.Snapshot(store.ModuleId).DeliveryFailures.Should().Be(1);
+        telemetry.Snapshot(store.ModuleId).Should().Match<MessagingTelemetrySnapshot>(snapshot =>
+            snapshot.DeliveryFailures == 1 && snapshot.ConsecutiveFailures == 1);
     }
 
     [Fact]

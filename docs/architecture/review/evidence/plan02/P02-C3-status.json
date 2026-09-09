@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C3",
+  "asOf": "2026-09-09",
+  "result": "decision-passed-alert-calibration-pending",
+  "phase6Complete": false,
+  "e6_7": {
+    "result": "passed-no-forced-reprocessing",
+    "checklistClosed": true,
+    "decision": "forced-business-reprocessing-not-supported",
+    "policy": "deployment/plan02/reprocessing-policy.json",
+    "immutableReplayRetained": true,
+    "completedInboxRemainsDuplicate": true,
+    "replacementEventIdBypassDenied": true,
+    "futureCapabilityRequiresNewPlanAndAdr": true
+  },
+  "e6_5": {
+    "result": "repository-signals-complete-target-calibration-pending",
+    "checklistClosed": false,
+    "backpressurePolicy": "deployment/g04/backpressure-policy.json",
+    "targetEvidenceTemplate": "deployment/plan02/messaging-alert-calibration-evidence-template.json",
+    "consecutiveFailureSignal": true,
+    "silentDispatcherSignal": true,
+    "targetExporterConfigured": false,
+    "targetAlertRouteConfigured": false,
+    "targetFaultEvidenceComplete": false
+  },
+  "verification": {
+    "targetedIntegrationTests": { "passed": 19, "failed": 0 },
+    "integrationTests": { "passed": 154, "failed": 0 },
+    "solutionTests": { "passed": 1089, "failed": 0, "skipped": 0 },
+    "layerGuardTests": { "passed": 189, "failed": 0 },
+    "strictLayerGuardFindings": 0
+  },
+  "missingTargetEvidence": [
+    "production-equivalent worker replica and dispatcher concurrency topology",
+    "representative synthetic traffic baseline",
+    "metrics exporter, dashboard, alert rule and alert route configuration",
+    "calibrated thresholds approved by Observability, Platform Operations and Platform Messaging",
+    "transport, SQL, consumer and silent-dispatcher trigger, acknowledgement, runbook and recovery evidence"
+  ],
+  "strictClosureCommand": "pwsh -NoProfile -File scripts/Test-Plan02C3Operations.ps1 -AlertEvidencePath <immutable-alert-evidence.json> -ReportPath <immutable-validation-report.json> -RequireAlertCalibration",
+  "nextSliceAfterClosure": "P02-C4 / E7.3, E7.4 and E7.8 full-path validation"
+}

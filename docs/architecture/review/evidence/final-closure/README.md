@@ -9,7 +9,7 @@ State: **BLOCKED ON EXTERNAL EXECUTION AND NAMED APPROVALS**
 - Plan 01/B2 synchronous Contracts/Ports/Adapters migration.
 - Plan 02/B3 durable module Outbox/Inbox/Dispatcher and repository hardening.
 - Plan 03/B4 strict LayerGuard: 0 findings, 0 waivers, 39 governed projects.
-- Full solution: 1,085 tests passed, 0 failed.
+- Full solution: 1,089 tests passed, 0 failed.
 - LayerGuard tool suite: 189 tests passed, 0 failed.
 - G01 and G02 received the real E2/E4 repository callback; their final signatures and the G04
   production release callback remain open.
@@ -28,8 +28,9 @@ identity and attach immutable references only.
    readiness, drain, and backpressure thresholds.
 4. Named and dated approval references from Architecture, module owners, Platform, Database,
    Security, and Operations.
-5. Governance disposition for the still-open Plan 02 forced `ReprocessingRequest` capability and
-   the TODO items that block final acceptance; unsupported forced reprocessing must remain disabled.
+
+The Plan02-v1 forced-reprocessing decision is no longer an external input: P02-C3 formally records
+the capability as unsupported. It must remain disabled; any future capability requires a new Plan/ADR.
 
 ## Plan 02 checklist items intentionally left open
 
@@ -37,13 +38,14 @@ identity and attach immutable references only.
 | --- | --- |
 | E5.7 | P02-C2 fail-closed policy, evidence template and validator exist; target ACL/encryption/key/lifecycle drills and Security/Database/Operations/Legal-data-owner attestations remain required. |
 | E6.5 | Repository metrics/readiness exist; exporter, alert route, and threshold calibration require target telemetry. |
-| E6.7 | Immutable replay is proven; an independent forced `ReprocessingRequest` remains an explicit product/governance decision and ID-changing bypass stays forbidden. |
 | E7.3–E7.6, E7.8 | Full transport E2E, process/network fault injection, consumer-first rehearsal, observed threshold acceptance, old-path closure, and the complete G05 sentinel suite require production-like execution. |
 | E8.9–E8.10 | G01/G02 repository callbacks exist; their named final approval workflows remain open. |
 | E-D06, E-D08, E-D10, E-D11 | These roll up the unresolved fault/alert, target data-control, and final-signature evidence above. |
 
 P02-C1/E4.9 closed Phase 4 on 2026-09-09. Consequently, the Phase 5–8 completion boxes and the overall Plan 02 completion box remain
 unchecked. They are not stale checkmarks; each is gated by one or more rows above.
+P02-C3 closed E6.7 through the accepted Plan02-v1 decision not to support forced business reprocessing;
+E6.5 and Phase 6 remain open pending production-equivalent alert calibration.
 Detailed item-by-item acceptance and the six closure slices are maintained in the
 [`Plan 02 remaining closure plan`](../plan02/remaining-closure-plan.md).
 

@@ -133,9 +133,9 @@ Producer Application
 - [x] E6.2 提供 dead-letter 单条/有界批量审核与重试端点，分别要求 read/preview/execute 权限，所有 replay 请求写审计且支持 dry-run。
 - [x] E6.3 回放前只允许已登记的目标 handler 版本；当前登记项均由 `(ConsumerId, EventId)` Inbox 保证幂等，不兼容版本 fail closed。
 - [x] E6.4 建立生产方与消费方 reconciliation 作业或手册，用于发现永久遗漏和投影漂移。
-- [ ] E6.5 设置 backlog age、连续失败、dead-letter 增长和 dispatcher 停止的告警阈值。（部分完成：仓库已提供 counters/gauges、warning/critical 阈值和 readiness contributor；生产 exporter/alert route 校准仍待执行。）
+- [ ] E6.5 设置 backlog age、连续失败、dead-letter 增长和 dispatcher 停止的告警阈值。（P02-C3 已补齐连续失败与低流量 silent-dispatcher 指标、reason code、health 和测试；生产 exporter/dashboard/alert route、目标拓扑校准及四类故障触发/恢复证据仍待执行，见 [`P02-C3 evidence`](../evidence/plan02/P02-C3-operations-decisions.md)。）
 - [x] E6.6 编写故障手册，覆盖数据库不可用、transport 不可用、毒消息、schema 不兼容和积压恢复。
-- [ ] E6.7 replay 保留原 EventId/Envelope，已完成 Inbox 继续去重且有自动化证明；强制重处理的独立 ReprocessingRequest 尚未设计，禁止换 ID 绕过幂等。
+- [x] E6.7 replay 保留原 EventId/Envelope，已完成 Inbox 继续去重且有自动化证明；Plan02-v1 正式决定不支持 forced business reprocessing，不提供 `ReprocessingRequest` contract/endpoint，禁止换 ID 或修改 Inbox 绕过幂等；未来能力必须新开 Plan/ADR 和独立审批。证据：[`reprocessing policy`](../../../deployment/plan02/reprocessing-policy.json)。
 - [x] E6.8 B3 没有启用 Compatibility Adapter；记为 N/A。Dispatcher 不补写上下文；未来引入兼容适配器时必须先登记 owner、来源、provenance、指标和到期日。
 
 ## Phase 7 — 测试、渐进发布与旧路径移除

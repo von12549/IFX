@@ -48,9 +48,9 @@
   ],
   "postB3RepositoryHardening": {
     "evidence": "docs/architecture/review/evidence/plan02/step2-repository-hardening.md",
-    "solutionTests": { "passed": 1085, "failed": 0, "skipped": 0 },
+    "solutionTests": { "passed": 1089, "failed": 0, "skipped": 0 },
     "databaseBoundaryTests": { "passed": 105, "failed": 0 },
-    "integrationTests": { "passed": 150, "failed": 0 },
+    "integrationTests": { "passed": 154, "failed": 0 },
     "layerGuard": { "testsPassed": 189, "matched": 32, "new": 0, "stale": 0 },
     "p02C1": {
       "result": "passed",

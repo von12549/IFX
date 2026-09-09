@@ -5,7 +5,8 @@ namespace IFX.IntegrationTests.Runtime;
 public sealed class MessageBackpressurePolicyTests
 {
     private static readonly BacklogThreshold Threshold = new(
-        TimeSpan.FromMinutes(2), TimeSpan.FromMinutes(10), 500, 5000, 1, 10, 0.85, TimeSpan.FromSeconds(30));
+        TimeSpan.FromMinutes(2), TimeSpan.FromMinutes(10), 500, 5000, 1, 10, 0.85, TimeSpan.FromSeconds(30),
+        3, 10, TimeSpan.FromMinutes(2), TimeSpan.FromMinutes(5));
 
     [Fact]
     public void Evaluate_DoesNotUseMessageCountAlone()
@@ -34,6 +35,35 @@ public sealed class MessageBackpressurePolicyTests
             .Should().Be(BacklogSeverity.Warning);
         MessageBackpressurePolicy.Evaluate(Observation(deadLetters: 10), Threshold, DateTimeOffset.UtcNow).Severity
             .Should().Be(BacklogSeverity.Critical);
+    }
+
+    [Theory]
+    [InlineData(3, BacklogSeverity.Warning, "G04-DELIVERY-FAILURES-WARNING")]
+    [InlineData(10, BacklogSeverity.Critical, "G04-DELIVERY-FAILURES-CRITICAL")]
+    public void Evaluate_ConsecutiveFailures_HasExplicitSeverity(
+        long failures,
+        BacklogSeverity severity,
+        string reasonCode)
+    {
+        var result = MessageBackpressurePolicy.Evaluate(
+            Observation(consecutiveFailures: failures),
+            Threshold,
+            DateTimeOffset.UtcNow);
+
+        result.Severity.Should().Be(severity);
+        result.ReasonCode.Should().Be(reasonCode);
+    }
+
+    [Fact]
+    public void Evaluate_SilentDispatcher_DoesNotRequireHighMessageVolume()
+    {
+        var result = MessageBackpressurePolicy.Evaluate(
+            Observation(count: 1, age: TimeSpan.FromMinutes(6), rate: 0, lastSucceeded: null),
+            Threshold,
+            DateTimeOffset.UtcNow);
+
+        result.Severity.Should().Be(BacklogSeverity.Critical);
+        result.ReasonCode.Should().Be("G04-DISPATCHER-SILENT-CRITICAL");
     }
 
     [Fact]
@@ -66,16 +96,19 @@ public sealed class MessageBackpressurePolicyTests
         long count = 0,
         TimeSpan? age = null,
         double rate = 10,
-        long deadLetters = 0) => new(
+        long deadLetters = 0,
+        long consecutiveFailures = 0,
+        DateTimeOffset? lastSucceeded = default) => new(
             module,
             category,
             count,
             age ?? TimeSpan.Zero,
             RetryCount: 0,
             DeadLetterCount: deadLetters,
-            LastSucceeded: DateTimeOffset.UtcNow,
+            LastSucceeded: lastSucceeded ?? (count == 0 ? DateTimeOffset.UtcNow : null),
             ProcessingRatePerSecond: rate,
             StorageUtilization: 0.1,
             ExpiredLeaseCount: 0,
-            DuplicateRate: 0);
+            DuplicateRate: 0,
+            ConsecutiveFailures: consecutiveFailures);
 }

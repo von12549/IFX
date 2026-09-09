@@ -45,7 +45,7 @@
     },
     "backpressurePolicy": {
       "path": "deployment/g04/backpressure-policy.json",
-      "sha256": "1edf02f7ed4c3fd3b9d880fde18deca0e4168d96bd83c0ae27bec40ee2aaf1cd"
+      "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
     },
     "failureMatrix": {
       "path": "deployment/g04/failure-matrix.json",

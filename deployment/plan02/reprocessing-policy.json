@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "decisionId": "P02-C3-D1",
+  "status": "accepted",
+  "effectiveAt": "2026-09-09",
+  "milestone": "Plan02-v1",
+  "accountableOwner": "xiaolong-feng/@von12549",
+  "decision": "forced-business-reprocessing-not-supported",
+  "rationale": [
+    "Immutable dead-letter replay already preserves EventId and the complete logical Envelope.",
+    "A completed consumer Inbox must remain authoritative for idempotency.",
+    "Re-running an accepted business effect needs separate product semantics and downstream side-effect controls that are outside this milestone."
+  ],
+  "supportedOperations": [
+    "authorized diagnostic query without payload",
+    "authorized dry-run of an immutable dead-letter replay",
+    "authorized audited replay of the original EventId and Envelope",
+    "producer-consumer reconciliation"
+  ],
+  "prohibitedOperations": [
+    "force a completed Inbox item through the business handler again",
+    "mint a replacement EventId to evade Inbox deduplication",
+    "modify or delete an Inbox marker to force execution",
+    "mutate original logical bytes during replay",
+    "direct operator DML against messaging tables"
+  ],
+  "enforcement": {
+    "reprocessingRequestContractExists": false,
+    "reprocessingEndpointExists": false,
+    "deadLetterReplayRequiresOriginalEventId": true,
+    "deadLetterReplayRequiresAuthorization": true,
+    "deadLetterReplayIsAudited": true,
+    "completedInboxRemainsDuplicate": true,
+    "unknownCapabilityBehavior": "deny"
+  },
+  "futureChangeGate": {
+    "newPlanAndAdrRequired": true,
+    "separateRequestIdentityRequired": true,
+    "originalEventIdReferenceRequired": true,
+    "productAndArchitectureApprovalRequired": true,
+    "moduleOwnerApprovalRequired": true,
+    "securityAndOperationsApprovalRequired": true,
+    "downstreamSideEffectAnalysisRequired": true,
+    "dedicatedIdempotencyAndAuditTestsRequired": true
+  },
+  "approval": {
+    "scope": "repository milestone decision",
+    "authority": "repository owner direction to execute P02-C3 after the no-forced-reprocessing recommendation",
+    "immutableRecord": "git commit containing this policy"
+  }
+}

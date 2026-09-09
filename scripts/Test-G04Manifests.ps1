@@ -36,8 +36,11 @@ $checks = [ordered]@{
     adrExists = Test-Path (Repo 'docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md')
     dependencyIdentitiesUnique = @($dependencies.dependencies.dependencyId | Select-Object -Unique).Count -eq @($dependencies.dependencies).Count
     dependencyCriticalitiesKnown = @($dependencies.dependencies | Where-Object criticality -notin @('startup-fatal','readiness-critical','capability-critical','optional','operational')).Count -eq 0
-    backpressureThresholdsOrdered = ([TimeSpan]::Parse($backpressure.thresholds.warningAge) -lt [TimeSpan]::Parse($backpressure.thresholds.criticalAge)) -and ($backpressure.thresholds.warningCount -lt $backpressure.thresholds.criticalCount)
-    backpressureDimensionsComplete = @('moduleId','eventCategory','pendingCount','oldestPendingAge','retryCount','deadLetterCount','lastSucceeded','processingRatePerSecond','storageUtilization','expiredLeaseCount','duplicateRate' | Where-Object { $_ -notin $backpressure.requiredDimensions }).Count -eq 0
+    backpressureThresholdsOrdered = ([TimeSpan]::Parse($backpressure.thresholds.warningAge) -lt [TimeSpan]::Parse($backpressure.thresholds.criticalAge)) -and
+        ($backpressure.thresholds.warningCount -lt $backpressure.thresholds.criticalCount) -and
+        ($backpressure.thresholds.warningConsecutiveFailures -lt $backpressure.thresholds.criticalConsecutiveFailures) -and
+        ([TimeSpan]::Parse($backpressure.thresholds.warningSilence) -lt [TimeSpan]::Parse($backpressure.thresholds.criticalSilence))
+    backpressureDimensionsComplete = @('moduleId','eventCategory','pendingCount','oldestPendingAge','retryCount','deadLetterCount','lastSucceeded','processingRatePerSecond','storageUtilization','expiredLeaseCount','duplicateRate','consecutiveFailures','dispatcherSilence' | Where-Object { $_ -notin $backpressure.requiredDimensions }).Count -eq 0
 }
 $report = [ordered]@{ formatVersion=1; gate='G04'; phase=1; result=if($checks.Values -contains $false){'failed'}else{'passed'}; checks=$checks; hashes=[ordered]@{releaseManifest=$second;moduleManifest=Sha 'deployment/g04/module-manifest.json';deploymentUnitCatalog=Sha 'deployment/g04/deployment-unit-catalog.json'} }
 $resolved = Repo $ReportPath

@@ -3,7 +3,7 @@
   "toolVersion": "0.4.0-a1",
   "checked": [
     "project references",
-    "import directives in 894 source files",
+    "import directives in 895 source files",
     "which packages a ring may hold",
     "which projects a ring may name",
     "which packages a ring may never hold",
@@ -28,7 +28,7 @@
   },
   "ruleset": {
     "source": "D:\\IFX\\src\\layerguard.json",
-    "hash": "d4f424b4277bc0e2a75fa1b3f95cca024ea6c5118df4eb5374005eceff7bca6e",
+    "hash": "f75f859ef5acf2d3679a55b6cecf367cb3b1bba6028ed1ee612d5095da3a9548",
     "allowedDependencies": {
       "Domain": [],
       "Contracts": [],
@@ -81,7 +81,7 @@
       {
         "gate": "G04",
         "source": "D:\\IFX\\deployment\\g04\\release-runtime-manifest.json",
-        "sha256": "b2d121c71b6e277664a67271185b683dad83c7587aa00328dc1a3a9c8697db28"
+        "sha256": "0efac4f4200cc8aefd625cb2c5fbcfe68152738ea38b8a33d790727bba21a6af"
       },
       {
         "gate": "G04-moduleManifest",
@@ -116,7 +116,7 @@
       {
         "gate": "G04-backpressurePolicy",
         "source": "D:\\IFX\\deployment\\g04\\backpressure-policy.json",
-        "sha256": "1edf02f7ed4c3fd3b9d880fde18deca0e4168d96bd83c0ae27bec40ee2aaf1cd"
+        "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
       },
       {
         "gate": "G04-failureMatrix",
@@ -616,7 +616,7 @@
     "Gate 05 field classification, purpose and propagation semantics \u2014 delegated to external validators/tests",
     "anything inside a project that matches no layer"
   ],
-  "durationMs": 2992,
+  "durationMs": 2661,
   "baseline": {
     "source": "D:\\IFX\\mcp\\LayerGuard\\baselines\\b4.json",
     "matched": 0,

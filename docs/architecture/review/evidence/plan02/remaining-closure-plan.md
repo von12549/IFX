@@ -17,7 +17,7 @@
 - Worker Dispatcher、claim/lease、retry、dead-letter、replay 和 backpressure 接缝；
 - Holdings Inbound Adapter、Inbox、quarantine 和消费方本地事务；
 - G01/G02/G03/G04/G05 仓库证据回交；
-- solution 1,085 tests、LayerGuard 189 tests，以及 B4 0 finding / 0 waiver。
+- solution 1,089 tests、LayerGuard 189 tests，以及 B4 0 finding / 0 waiver。
 
 未完成的不是 B3 核心实现，而是完整 Plan 02 的真实 transport、目标平台数据控制、
 告警校准、production-like 故障/发布演练和负责人签字。P02-C1 已关闭 Phase 4；Phase 5–8 及完整 Plan 02
@@ -29,8 +29,8 @@
 | --- | --- | --- | --- |
 | E4.9 | **已关闭（P02-C1，2026-09-09）** | 生产 raw receiver 已验证非法 carrier、quarantine disposition、新 root span、身份保持和 handler 前置顺序 | Platform Messaging、Holdings、Security/G05 conformance |
 | E5.7 | **P02-C2 仓库基线通过；目标证据待补** | 已有 fail-closed 策略/模板/验证器；仍需真实最小权限、传输/静态加密、保留/删除、legal hold、C3 负面测试和四方批准 | Security、Database、Platform Operations、Legal/data owner |
-| E6.5 | 指标、readiness 和版本化阈值已完成；生产校准未完成 | exporter/dashboard、阈值、告警路由、silent-stop 触发和恢复证据 | Observability、Platform Operations、Messaging |
-| E6.7 | immutable replay 和 Inbox 去重已完成；forced reprocessing 未决 | 正式决定“不支持”，或实现独立且受审计的 `ReprocessingRequest` | Product、Architecture、Operations、模块 owner |
+| E6.5 | **P02-C3 仓库信号完整；目标校准待补** | 已增加连续失败和低流量 silent-dispatcher 指标/health/测试；仍需 exporter/dashboard、目标阈值、告警路由、触发和恢复证据 | Observability、Platform Operations、Messaging |
+| E6.7 | **已关闭（P02-C3，2026-09-09）** | Plan02-v1 正式不支持 forced business reprocessing；immutable replay/Inbox 去重保持唯一恢复语义，未来能力必须新 Plan/ADR | Product/Architecture repository decision、Operations、模块 owner |
 | E7.3 | 组件与 SQL 测试已完成 | 源提交到消费方状态变化的真实 transport E2E，覆盖重复和短暂故障 | Test Engineering、生产/消费模块、Messaging |
 | E7.4 | 仓库 crash-window/reference fixture 已完成 | 进程、网络、SQL、timeout、partial batch、takeover 和恢复演练 | Test Engineering、Operations、Database、Messaging |
 | E7.5 | consumer-first DAG 和证据模板已完成 | production-like Migrator → Worker → API → scheduler → observation → cleanup 记录 | Release Operations、Database、Platform、模块 owner |
@@ -85,16 +85,16 @@ production-candidate 环境证据；因此 E5.7 与 Phase 5 保持未勾选。
 
 ### 3.4 E6.7：强制重处理决策
 
-普通 replay 已固定原 EventId/Envelope，不能通过换 ID 绕过 Inbox 去重。必须在以下两种方案中
-作出正式选择：
+普通 replay 已固定原 EventId/Envelope，不能通过换 ID 绕过 Inbox 去重。P02-C3 已正式选择：
 
-- **不支持 forced reprocessing**：记录 Architecture/Product 决定，保持 execute capability 关闭，
-  明确只支持 immutable replay 与 reconciliation，并将该项按批准的 N/A 关闭。
+- **[x] 不支持 forced reprocessing**：Plan02-v1 只支持 immutable replay 与 reconciliation；
+  `ReprocessingRequest` contract/endpoint 不存在，具体禁止项与未来 change gate 见
+  [`reprocessing-policy.json`](../../../../../deployment/plan02/reprocessing-policy.json)。
 - **支持独立 `ReprocessingRequest`**：使用独立 request identity，引用 OriginalEventId、ConsumerId、
   原因、工单、请求人/批准人、目标 handler version、dry-run、幂等键和完整审计；不得修改原消息，
   且必须单独处理下游非幂等副作用。
 
-无正式决定和验收测试时，E6.7 与 Phase 6 保持未勾选。
+E6.7 已按正式“不支持”决定关闭。E6.5 的目标校准仍未完成，因此 Phase 6 保持未勾选。
 
 ### 3.5 E7.3/E7.4/E7.8：全链路和故障验证
 
@@ -154,7 +154,7 @@ Migrator → Worker → API 证据、关闭 G02-DD06，并取得 Architecture、
 
 1. **[x] P02-C1 / Adapter conformance**：raw carrier seam、E4.9 和 Phase 4 已于 2026-09-09 完成。
 2. **[进行中] P02-C2 / Data controls**：仓库控制契约已完成；填充真实目标证据并通过 strict validator 后关闭 E5.7/Phase 5。
-3. **P02-C3 / Operations decisions**：完成 E6.5 校准，并对 E6.7 作出正式决定/实现。
+3. **[进行中] P02-C3 / Operations decisions**：E6.7 已按“不支持 forced reprocessing”关闭；E6.5 仓库信号已补齐，目标校准待生产等价环境。
 4. **P02-C4 / Full-path validation**：完成 E7.3、E7.4、E7.8。
 5. **P02-C5 / Release rehearsal**：完成 E7.5、E7.6、G04-B03/B06 和 observation/cleanup。
 6. **P02-C6 / Gate approvals**：完成 E8.9、E8.10、E-D06/E-D08/E-D10/E-D11 及最终签字。
