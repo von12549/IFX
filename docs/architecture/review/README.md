@@ -39,6 +39,7 @@ This directory records the source-verified architecture and its governed migrati
 - [Plan overview and review conclusions / 计划概述与审查结论](plans/README.md)
 - [Master plan / 总计划](plans/00-master-plan.md)
 - [Prerequisite gates / 前置 Gate](plans/00-prerequisites.md)
+- [Plan 04 module-boundary evolution / 子计划 4 模块边界演进](plans/04-module-boundary-evolution.md)
 - [Deferred work / 后续 TODO](plans/TODO.md)
 
 ## Diagrams / 图表

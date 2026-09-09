@@ -4,6 +4,7 @@
 > 总计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置 Gate：[`00-prerequisites.md`](00-prerequisites.md)
 > 后续事项：[`TODO.md`](TODO.md)
+> 当前阶段后续计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md)
 
 ## 一句话理解本次改造
 
@@ -13,7 +14,7 @@
 
 ## 审查范围与结论
 
-本次审查覆盖 `plans` 目录中的总计划、Plan 00 前置计划、Gate 01–05、三个原子子计划和后续 TODO。审查按“职责是否唯一、依赖是否闭合、规则是否一致、完成证据是否可追踪、后续事项是否重复”五个方面进行。
+原始审查覆盖 `plans` 目录中的总计划、Plan 00 前置计划、Gate 01–05、三个原子迁移子计划和后续 TODO。2026-09-10 又从 TODO 提取 GOV4、DP6、DB8、GOV3，形成不依赖生产平台决策即可启动的子计划 4。审查继续按“职责是否唯一、依赖是否闭合、规则是否一致、完成证据是否可追踪、后续事项是否重复”五个方面进行。
 
 审查后的结论是：计划主体没有缺失；已发现的循环依赖、规则冲突和重复 backlog 已在当前版本中消除。当前仍有 Gate 与子计划交叉引用，但这些是刻意保留的“规则定义 → 真实实现 → 证据回交”关系，不是两套并行实施清单。
 
@@ -58,6 +59,9 @@ Gate 01-05：在 bootstrap 门禁下完成规则与基础并达到 PRE-READY
                              v
                  Gate Final Closure + 总体验收
 ```
+
+子计划 4 在 B4 后作为独立后续治理轨道启动，可与生产依赖的 Gate Final Closure 并行；它不回写或
+重定义 B1–B4，也不以仓库设计证据替代目标环境验收。
 
 关键的唯一 owner 如下：
 
@@ -189,16 +193,22 @@ LayerGuard 只检查静态依赖、声明和框架泄漏；字段值、敏感数
 
 B4 仓库内严格收口已于 2026-09-09 完成：116 → 103 → 32 → 0 finding，空 baseline 已进入默认本地/CI 路径。参见[中文规则](../layerguard-strict-boundaries.zh-CN.md)、[English rules](../layerguard-strict-boundaries.en.md) 与 [B4 证据](../evidence/03-b-layerguard-strict-closure.md)。架构负责人 L7.7 批准仍保持开放，不由代码证据代签。
 
+## 主体 9：模块边界演进与查询治理（子计划 4）
+
+计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md)
+
+该计划承接当前不依赖生产平台即可执行的 GOV4、DP6、DB8、GOV3：用 G03/B4 权威图审计模块粒度，定义未来 Microservice 提取硬门槛，建立 tenant-aware Repository/Contract 规范，并选择 owned projection/read-model 作为跨模块查询模式。它不会实际拆分服务、启用生产 RLS 或臆造报表需求；相应生产和业务依赖仍留在 TODO。
+
 ## 仍留在后续计划中的相关工作
 
 以下事项与本轮方向相关，但不是实施 Contracts/Adapters/Events/LayerGuard 的必要前置，因此保留在 [`TODO.md`](TODO.md) 中，进入实施前需要另行评审和计划化：
 
 | 领域 | 后续工作 |
 | --- | --- |
-| 数据库 | 每模块生产 credential/schema 权限；Tenant 删除/停用生命周期与 reconciliation；tenant-aware repository、global filter/RLS 评估；未来物理拆库、复制、报表和恢复。 |
+| 数据库 | 每模块生产 credential/schema 权限；Tenant 删除/停用生命周期与 reconciliation；未来物理拆库、复制、报表和恢复。DB8 已转入子计划 4。 |
 | 跨模块事务 | KYC/Class 先查后写的 TOCTOU 控制；Saga/补偿状态机、超时、人工干预和审计；针对补偿流程的故障注入。 |
-| Microservice 提取 | 提取门槛；拆分后的认证、发现、超时、重试、熔断和 observability；独立 Contracts package/version cadence，避免 lockstep deployment。 |
-| 模块治理 | 跨模块报表 read model/projection；模块粒度和循环依赖复审；租户生命周期、保留、隐私删除和审计责任矩阵。 |
+| Microservice 提取 | 拆分后的认证、发现、超时、重试、熔断和 observability；独立 Contracts package/version cadence，避免 lockstep deployment。DP6 已转入子计划 4。 |
+| 模块治理 | 租户生命周期、保留、隐私删除和审计责任矩阵。GOV3/GOV4 已转入子计划 4。 |
 | 运行治理 | 在本轮指标契约之上设置 SLI/SLO、error budget 和责任人；建立跨 Gate 的定期 game day。 |
 
 这些后续事项不得通过跨 DbContext join、共享事务、共享内部 Domain 类型、默认租户或放宽 LayerGuard 来临时绕过。

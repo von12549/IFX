@@ -1,7 +1,7 @@
 # Contracts / Adapters / Events 架构改进总计划
 
-> 状态：Master Phase 0、03-A1、Plan 01/B2 与 Plan 02/B3 仓库检查点已完成；B4 与 Gate Final Closure 保持开放（2026-09-08）
-> 范围：编译期边界、模块间同步契约、集成事件与 LayerGuard 规则
+> 状态：Master Phase 0、03-A1、Plan 01/B2、Plan 02/B3 与 B4 仓库检查点已完成；Plan 02 目标环境关闭和 Gate Final Closure 保持开放；子计划 4 已 READY（2026-09-10）
+> 范围：编译期边界、模块间同步契约、集成事件、LayerGuard 规则，以及 B4 后续的模块边界/租户查询治理
 > 基线：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > G03 治理基线：[中文](../gates/G03/contract-event-governance.zh-CN.md) / [English](../gates/G03/contract-event-governance.en.md)；权威事实仅来自 [catalog](../gates/G03/contract-event-catalog.yaml)。
 > G04 运行基线：[中文](../gates/G04/deployment-runtime-boundary.zh-CN.md) / [English](../gates/G04/deployment-runtime-boundary.en.md)；[PRE-READY closeout](../evidence/gates/G04/G04-phase12-handoff.md) 未关闭 Gate，最终关闭依赖 E3/E4/E6、G05、L5.1/L5.2、生产演练与五方批准。
@@ -28,7 +28,8 @@
 | [`03-layerguard-alignment.md`](03-layerguard-alignment.md) | 首先建立新版 LayerGuard、改造前基线和迁移门禁；最后清零并开启严格模式 | 新依赖矩阵可自动验证，并且仓库零未豁免违规 |
 | [`01-contracts-adapters-refactor.md`](01-contracts-adapters-refactor.md) | `Abstractions` → `Contracts/Ports/Adapters`；Contracts 与 Application 职责；现有代码迁移 | Application 不再直接引用其他模块 Contracts；所有跨模块同步调用经消费方 Port 与 Adapter |
 | [`02-reliable-integration-events.md`](02-reliable-integration-events.md) | Integration Event 契约、Outbox/Inbox、投递、重试与运维 | 提交后发布、至少一次投递、消费幂等、失败可恢复 |
-| [`TODO.md`](TODO.md) | 本轮未展开的数据库、事务、部署等边界 | 转化为后续评审与实施计划 |
+| [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) | GOV4 模块边界审计、DP6 提取门槛、DB8 tenant query、GOV3 owned projection | 依赖方向、提取决策、租户查询和跨模块读取均有可执行治理与证据 |
+| [`TODO.md`](TODO.md) | 尚未提取的数据库生命周期、跨模块一致性、进程外拆分和运行治理 | 满足输入条件后转化为后续评审与实施计划 |
 
 ## 关键架构约束
 
@@ -80,6 +81,9 @@ Gate 1-5 决策 + 阻塞基础 + conformance 要求
       v
 Gate 1-5 最终关闭 + 总体验收
 ```
+
+子计划 4 是 B4 后可独立推进的后续治理轨道：它与生产依赖的 Gate Final Closure 并行，不改变上述
+四个原始迁移控制点，也不把仓库政策完成等同于生产平台验收。
 
 ## LayerGuard Bootstrap 准入门槛
 
@@ -163,7 +167,7 @@ Gate 1-5 最终关闭 + 总体验收
 - [x] M5.1 已删除模块/平台旧 `Abstractions`、无用引用、跨层注册和旧事件直发路径；B4 扫描确认无受管生产引用。
 - [x] M5.2 已更新架构图、模块模板、Contract/Event 版本与 context/敏感数据规则、LayerGuard 规则和故障手册。
 - [x] M5.3 2026-09-09 完整验证通过：solution 1,091 tests、LayerGuard 189 tests、B4 0 finding/0 waiver；证据见 [`final closure pack`](../evidence/final-closure/README.md)。
-- [ ] M5.4 审核 `TODO.md`：将阻塞当前验收的剩余事项完成或转为具备负责人和时间点的正式计划，已提取事项不得重复维护。
+- [ ] M5.4 审核 `TODO.md`：GOV4、DP6、DB8、GOV3 已于 2026-09-10 提取到子计划 4；其余阻塞当前验收的事项仍须完成或转为具备负责人和时间点的正式计划，已提取事项不得重复维护。
 - [ ] M5.5 由架构与模块负责人共同确认 Definition of Done，并记录最终偏差或临时豁免的到期日。
 - [ ] M5.6 按 Gate 04 顺序演练 Migrator → Worker consumers → API producers → schedules → cleanup，并验证 probes、drain、backpressure 和安全回退。
 
