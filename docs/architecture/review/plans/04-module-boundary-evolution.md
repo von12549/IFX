@@ -75,15 +75,15 @@ Gate 03 capability/data ownership + B4 project/namespace graph
 
 ## Phase 1 — 建立模块粒度与依赖事实基线
 
-- [ ] **Phase 1 完成**：模块、数据、协议和运行依赖事实均可由权威输入重建。
+- [x] **Phase 1 完成**：模块、数据、协议和运行依赖事实均可由权威输入重建。证据：[`P04-S1`](../evidence/plan04/P04-S1-module-boundary-inventory.md) 与 [`machine status`](../evidence/plan04/phase1-inventory-status.json)。
 
-- [ ] ME1.1 从 G03 catalog 生成 capability、data fact、sync Contract、Event provider/consumer 边，不手工维护第二张协议图。
-- [ ] ME1.2 从 B4 dependency graph 生成 project 与 namespace edge，区分同模块层间依赖、合法跨模块 Contract/Event 边、Platform 依赖和 host composition。
-- [ ] ME1.3 将 Auth、CRM、Registry、Transaction、Holdings 的 schema、runtime capability、endpoint group 和发布版本与 G04 module manifest 对账。
-- [ ] ME1.4 盘点跨模块同步调用、异步事实、共享原语、共同变更热点和未登记 runtime/config/data coupling。
-- [ ] ME1.5 计算每模块 fan-in/fan-out、同步/异步边数量、变化耦合、数据 ownership 清晰度和独立测试能力；指标只用于审查，不自动决定拆分。
-- [ ] ME1.6 对未识别项目、未知模块、catalog/graph 漂移、跨 schema 数据访问或无法归属的边采用 fail-closed。
-- [ ] ME1.7 保存 machine-readable inventory、依赖图和人类可审查摘要，并验证可重复生成。
+- [x] ME1.1 从 G03 catalog 生成 capability、data fact、sync Contract、Event provider/consumer 边，不手工维护第二张协议图。
+- [x] ME1.2 从 B4 dependency graph 生成 project 与 namespace edge，区分同模块层间依赖、合法跨模块 Contract/Event 边、Platform 依赖和 host composition。
+- [x] ME1.3 将 Auth、CRM、Registry、Transaction、Holdings 的 schema、runtime capability、endpoint group 和发布版本与 G04 module manifest 对账。
+- [x] ME1.4 盘点跨模块同步调用、异步事实、共享原语、共同变更热点和未登记 runtime/config/data coupling。
+- [x] ME1.5 计算每模块 fan-in/fan-out、同步/异步边数量、变化耦合、数据 ownership 清晰度和独立测试能力；指标只用于审查，不自动决定拆分。
+- [x] ME1.6 对未识别项目、未知模块、catalog/graph 漂移、跨 schema 数据访问或无法归属的边采用 fail-closed。
+- [x] ME1.7 保存 machine-readable inventory、依赖图和人类可审查摘要，并验证可重复生成。
 
 ## Phase 2 — GOV4 模块粒度与依赖方向审计
 

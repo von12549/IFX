@@ -1,0 +1,286 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "slice": "P04-S1",
+  "authority": {
+    "protocolGraph": "G03",
+    "projectAndNamespaceGraph": "LayerGuard-B4",
+    "dataOwnership": "G02",
+    "releaseBoundary": "G04"
+  },
+  "nodes": [
+    {
+      "id": "auth",
+      "owner": "xiaolong-feng",
+      "schema": "auth",
+      "releaseVersion": "1.0.0",
+      "capabilities": [
+        "identity",
+        "authentication",
+        "subject-and-external-identity-mapping"
+      ],
+      "dataFacts": [
+        "identity subjects",
+        "credentials",
+        "external identity mappings"
+      ]
+    },
+    {
+      "id": "crm",
+      "owner": "xiaolong-feng",
+      "schema": "crm",
+      "releaseVersion": "1.0.0",
+      "capabilities": [
+        "party",
+        "investor",
+        "investment-account",
+        "account-compliance"
+      ],
+      "dataFacts": [
+        "party",
+        "investor",
+        "investment account",
+        "KYC and compliance"
+      ]
+    },
+    {
+      "id": "registry",
+      "owner": "xiaolong-feng",
+      "schema": "registry",
+      "releaseVersion": "1.0.0",
+      "capabilities": [
+        "product",
+        "fund",
+        "fund-class",
+        "class-subscription-availability"
+      ],
+      "dataFacts": [
+        "product",
+        "fund",
+        "fund class",
+        "subscription status"
+      ]
+    },
+    {
+      "id": "transaction",
+      "owner": "xiaolong-feng",
+      "schema": "transaction",
+      "releaseVersion": "1.0.0",
+      "capabilities": [
+        "order",
+        "transaction-processing"
+      ],
+      "dataFacts": [
+        "order instruction",
+        "transaction lifecycle"
+      ]
+    },
+    {
+      "id": "holdings",
+      "owner": "xiaolong-feng",
+      "schema": "holdings",
+      "releaseVersion": "1.0.0",
+      "capabilities": [
+        "position",
+        "holding-freeze"
+      ],
+      "dataFacts": [
+        "holding",
+        "position",
+        "holding freeze state"
+      ]
+    }
+  ],
+  "protocolEdges": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "kind": "sync",
+      "lifecycle": "Active",
+      "provider": "crm",
+      "consumer": "transaction",
+      "consumerId": "transaction-application",
+      "sourceProject": "IFX.Modules.CRM.Contracts",
+      "executionScope": "tenant"
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "kind": "event",
+      "lifecycle": "Active",
+      "provider": "registry",
+      "consumer": "holdings",
+      "consumerId": "holdings-application",
+      "sourceProject": "IFX.Modules.Registry.Contracts",
+      "executionScope": "tenant-envelope"
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "kind": "event",
+      "lifecycle": "Active",
+      "provider": "transaction",
+      "consumer": "holdings",
+      "consumerId": "holdings-application",
+      "sourceProject": "IFX.Modules.Transaction.Contracts",
+      "executionScope": "tenant-envelope"
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "kind": "sync",
+      "lifecycle": "Active",
+      "provider": "registry",
+      "consumer": "transaction",
+      "consumerId": "transaction-application",
+      "sourceProject": "IFX.Modules.Registry.Contracts",
+      "executionScope": "tenant"
+    }
+  ],
+  "physicalCrossModuleEdges": [
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.Registry.Contracts",
+      "toRole": "Contracts",
+      "toModule": "registry",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "ifx.registry.class-status-changed.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.Transaction.Contracts",
+      "toRole": "Contracts",
+      "toModule": "transaction",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "ifx.transaction.transaction-processed.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.CRM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "crm",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "crm.account-compliance.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.Registry.Contracts",
+      "toRole": "Contracts",
+      "toModule": "registry",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "registry.class-subscription-availability.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.CRM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "crm",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "crm.account-compliance.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.Registry.Contracts",
+      "toRole": "Contracts",
+      "toModule": "registry",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "registry.class-subscription-availability.v1"
+    }
+  ],
+  "moduleMetrics": [
+    {
+      "module": "auth",
+      "metrics": {
+        "projectCount": 5,
+        "independentTestProjectCount": 4,
+        "physicalFanInModules": 0,
+        "physicalFanOutModules": 0,
+        "physicalCrossModuleEdgeCount": 0,
+        "synchronousProvided": 0,
+        "synchronousConsumed": 0,
+        "eventsProvided": 0,
+        "eventsConsumed": 0,
+        "commitsInHistoryWindow": 41
+      }
+    },
+    {
+      "module": "crm",
+      "metrics": {
+        "projectCount": 6,
+        "independentTestProjectCount": 2,
+        "physicalFanInModules": 1,
+        "physicalFanOutModules": 0,
+        "physicalCrossModuleEdgeCount": 2,
+        "synchronousProvided": 1,
+        "synchronousConsumed": 0,
+        "eventsProvided": 0,
+        "eventsConsumed": 0,
+        "commitsInHistoryWindow": 16
+      }
+    },
+    {
+      "module": "registry",
+      "metrics": {
+        "projectCount": 6,
+        "independentTestProjectCount": 2,
+        "physicalFanInModules": 2,
+        "physicalFanOutModules": 0,
+        "physicalCrossModuleEdgeCount": 3,
+        "synchronousProvided": 1,
+        "synchronousConsumed": 0,
+        "eventsProvided": 1,
+        "eventsConsumed": 0,
+        "commitsInHistoryWindow": 16
+      }
+    },
+    {
+      "module": "transaction",
+      "metrics": {
+        "projectCount": 6,
+        "independentTestProjectCount": 2,
+        "physicalFanInModules": 1,
+        "physicalFanOutModules": 2,
+        "physicalCrossModuleEdgeCount": 5,
+        "synchronousProvided": 0,
+        "synchronousConsumed": 2,
+        "eventsProvided": 1,
+        "eventsConsumed": 0,
+        "commitsInHistoryWindow": 18
+      }
+    },
+    {
+      "module": "holdings",
+      "metrics": {
+        "projectCount": 5,
+        "independentTestProjectCount": 2,
+        "physicalFanInModules": 0,
+        "physicalFanOutModules": 2,
+        "physicalCrossModuleEdgeCount": 2,
+        "synchronousProvided": 0,
+        "synchronousConsumed": 0,
+        "eventsProvided": 0,
+        "eventsConsumed": 2,
+        "commitsInHistoryWindow": 15
+      }
+    }
+  ],
+  "failClosedFindings": {
+    "unknownSourceModules": [],
+    "unregisteredCrossModuleProjectEdges": [],
+    "crossSchemaDataAccess": []
+  }
+}
