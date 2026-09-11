@@ -1,4 +1,4 @@
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Platform.Messaging.Composition;
 
 namespace IFX.ApiHost.Messaging;

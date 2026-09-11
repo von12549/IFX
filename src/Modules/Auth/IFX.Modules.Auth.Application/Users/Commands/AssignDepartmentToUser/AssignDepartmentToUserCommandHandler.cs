@@ -1,5 +1,5 @@
 using IFX.Modules.Auth.Application.Common;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Auth.Application.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;

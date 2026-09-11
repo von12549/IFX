@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using IFX.Modules.Holdings.Application;
 using IFX.Modules.Holdings.Infrastructure;
 using IFX.Modules.Holdings.Infrastructure.Persistence;

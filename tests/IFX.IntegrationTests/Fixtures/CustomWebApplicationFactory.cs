@@ -1,5 +1,5 @@
-﻿using App.Abstractions;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+﻿using IFX.BuildingBlocks.Composition;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Identity.Interfaces;

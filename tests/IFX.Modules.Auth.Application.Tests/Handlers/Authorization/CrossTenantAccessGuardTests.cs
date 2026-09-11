@@ -1,5 +1,5 @@
 using FluentAssertions;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Domain.Authorization;

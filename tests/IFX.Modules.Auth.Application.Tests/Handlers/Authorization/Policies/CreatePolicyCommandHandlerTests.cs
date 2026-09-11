@@ -1,5 +1,5 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.CreatePolicy;
 using IFX.Modules.Auth.Application.Authorization.Policies.DTOs;

@@ -3,7 +3,7 @@ using IFX.Modules.Auth.Application.Authorization.Tenants.DTOs;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Interfaces;
 using IFX.Modules.Auth.Domain.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application;

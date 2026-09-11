@@ -28,7 +28,7 @@
   },
   "ruleset": {
     "source": "D:\\IFX\\src\\layerguard.json",
-    "hash": "f75f859ef5acf2d3679a55b6cecf367cb3b1bba6028ed1ee612d5095da3a9548",
+    "hash": "9022019e86b49192cf6c96cb438014d263903af1a85ccaf9bf44a25222dbb935",
     "allowedDependencies": {
       "Domain": [],
       "Contracts": [],
@@ -553,20 +553,20 @@
   ],
   "outside": [
     {
-      "name": "App.Abstractions",
-      "ring": "Outside",
-      "module": "BuildingBlocks",
-      "file": "D:\\IFX\\src\\BuildingBlocks\\App.Abstractions\\App.Abstractions.csproj",
-      "directProjectReferences": 0,
-      "packages": 0
-    },
-    {
       "name": "IFX.BuildingBlocks.Application",
       "ring": "Outside",
       "module": "BuildingBlocks",
       "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Application\\IFX.BuildingBlocks.Application.csproj",
       "directProjectReferences": 1,
       "packages": 4
+    },
+    {
+      "name": "IFX.BuildingBlocks.Composition",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Composition\\IFX.BuildingBlocks.Composition.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
     },
     {
       "name": "IFX.BuildingBlocks.Domain",
@@ -616,7 +616,7 @@
     "Gate 05 field classification, purpose and propagation semantics \u2014 delegated to external validators/tests",
     "anything inside a project that matches no layer"
   ],
-  "durationMs": 2947,
+  "durationMs": 2942,
   "baseline": {
     "source": "D:\\IFX\\mcp\\LayerGuard\\baselines\\b4.json",
     "matched": 0,

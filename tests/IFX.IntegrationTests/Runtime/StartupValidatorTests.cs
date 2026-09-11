@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using IFX.ApiHost.Runtime;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;

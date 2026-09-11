@@ -58,7 +58,7 @@ $checks = [ordered]@{
     authorityHashesMatchPhase0 = $inventory.inputs.g02DatabaseInventorySha256 -eq '0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5' -and
         $inventory.inputs.g03CatalogSha256 -eq '07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429' -and
         $inventory.inputs.g04ModuleManifestSha256 -eq '4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860' -and
-        $inventory.inputs.b4DependencyGraphSha256 -eq '1cf5a645ddd9ef429c2597a9464b575eb37317a2b2706bf6f93116016632be36'
+        $inventory.inputs.b4DependencyGraphSha256 -eq 'b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506'
 }
 
 $failed = @($checks.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object Key)

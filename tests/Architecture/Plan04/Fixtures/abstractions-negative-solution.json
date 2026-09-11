@@ -10,8 +10,12 @@
     "IFX.Platform.BackgroundJobs.Contracts.csproj",
     "IFX.Platform.Context.Contracts.csproj",
     "IFX.Platform.Messaging.Contracts.csproj",
-    "IFX.Platform.Notifications.Contracts.csproj"
+    "IFX.Platform.Notifications.Contracts.csproj",
+    "App.Abstractions.csproj"
   ],
+  "ambiguousCompositionArtifacts": ["src/BuildingBlocks/App.Abstractions"],
+  "legacyAuthorizationNamespaces": [],
   "layerGuardEnforcesRetirement": false,
-  "expectedErrors": ["contracts-project-missing-from-solution", "layerguard-retirement-rule-missing", "legacy-abstractions-solution-entry"]
+  "layerGuardNamingIsCurrent": false,
+  "expectedErrors": ["ambiguous-composition-abstractions-name", "composition-project-missing-from-solution", "contracts-project-missing-from-solution", "layerguard-composition-name-stale", "layerguard-retirement-rule-missing", "legacy-abstractions-solution-entry"]
 }

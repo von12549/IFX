@@ -69,8 +69,8 @@
     "IntegrationAdapter": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
     "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
     "Runtime": ["IFX.Platform.*.Contracts", "IFX.BuildingBlocks.*"],
-    "Composition": ["IFX.Modules.*", "IFX.Platform.*", "App.Abstractions", "IFX.BuildingBlocks.*"],
-    "RuntimeHost": ["*.Composition", "App.Abstractions", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Security"]
+    "Composition": ["IFX.Modules.*", "IFX.Platform.*", "IFX.BuildingBlocks.*"],
+    "RuntimeHost": ["*.Composition", "IFX.BuildingBlocks.Composition", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Security"]
   },
   "allowedPackages": {
     "Domain": [],

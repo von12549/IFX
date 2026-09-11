@@ -10,8 +10,12 @@
     "IFX.Platform.BackgroundJobs.Contracts.csproj",
     "IFX.Platform.Context.Contracts.csproj",
     "IFX.Platform.Messaging.Contracts.csproj",
-    "IFX.Platform.Notifications.Contracts.csproj"
+    "IFX.Platform.Notifications.Contracts.csproj",
+    "IFX.BuildingBlocks.Composition.csproj"
   ],
+  "ambiguousCompositionArtifacts": [],
+  "legacyAuthorizationNamespaces": ["fixture.cs:1"],
   "layerGuardEnforcesRetirement": true,
-  "expectedErrors": ["legacy-abstractions-directory", "legacy-abstractions-project"]
+  "layerGuardNamingIsCurrent": true,
+  "expectedErrors": ["legacy-abstractions-directory", "legacy-abstractions-project", "legacy-authorization-abstractions-namespace"]
 }

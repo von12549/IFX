@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

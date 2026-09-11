@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Composition\IFX.BuildingBlocks.Composition.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Application\IFX.Modules.CRM.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
     <ProjectReference Include="..\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj" />

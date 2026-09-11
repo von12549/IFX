@@ -1,5 +1,5 @@
 using AutoMapper;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.Modules.Auth.Application.Authorization.Departments.DTOs;
 using IFX.Modules.Auth.Application.Common;

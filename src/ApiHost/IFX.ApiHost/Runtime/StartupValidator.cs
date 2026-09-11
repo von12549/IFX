@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Routing;
 

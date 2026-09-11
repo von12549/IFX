@@ -8,7 +8,7 @@
     "g02DatabaseInventorySha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
     "g03CatalogSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
     "g04ModuleManifestSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
-    "b4DependencyGraphSha256": "1cf5a645ddd9ef429c2597a9464b575eb37317a2b2706bf6f93116016632be36"
+    "b4DependencyGraphSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506"
   },
   "modules": [
     {
@@ -374,7 +374,7 @@
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -385,7 +385,7 @@
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
-      "to": "IFX.BuildingBlocks.Application",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -627,7 +627,7 @@
       "from": "IFX.Modules.Auth.Composition",
       "fromRole": "Composition",
       "fromModule": "auth",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -814,7 +814,7 @@
       "from": "IFX.Modules.CRM.Composition",
       "fromRole": "Composition",
       "fromModule": "crm",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -968,7 +968,7 @@
       "from": "IFX.Modules.Holdings.Composition",
       "fromRole": "Composition",
       "fromModule": "holdings",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -1166,7 +1166,7 @@
       "from": "IFX.Modules.Registry.Composition",
       "fromRole": "Composition",
       "fromModule": "registry",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -1364,7 +1364,7 @@
       "from": "IFX.Modules.Transaction.Composition",
       "fromRole": "Composition",
       "fromModule": "transaction",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": null,
@@ -1696,20 +1696,20 @@
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 2,
+      "uses": 10,
       "classification": "outside-or-platform"
     },
     {
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
-      "to": "IFX.BuildingBlocks.Application",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 10,
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -1829,7 +1829,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 60,
+      "uses": 63,
       "classification": "outside-or-platform"
     },
     {
@@ -1839,14 +1839,14 @@
       "to": "IFX.Modules.Auth.Domain",
       "toRole": "Domain",
       "toModule": "auth",
-      "uses": 48,
+      "uses": 49,
       "classification": "same-module-layer"
     },
     {
       "from": "IFX.Modules.Auth.Composition",
       "fromRole": "Composition",
       "fromModule": "auth",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": 2,
@@ -1939,7 +1939,7 @@
       "to": "IFX.BuildingBlocks.EntityFrameworkCore",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 7,
+      "uses": 13,
       "classification": "outside-or-platform"
     },
     {
@@ -1949,7 +1949,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 10,
+      "uses": 9,
       "classification": "outside-or-platform"
     },
     {
@@ -2066,7 +2066,7 @@
       "from": "IFX.Modules.CRM.Composition",
       "fromRole": "Composition",
       "fromModule": "crm",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": 2,
@@ -2159,7 +2159,7 @@
       "to": "IFX.BuildingBlocks.EntityFrameworkCore",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 1,
+      "uses": 13,
       "classification": "outside-or-platform"
     },
     {
@@ -2169,7 +2169,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 6,
+      "uses": 5,
       "classification": "outside-or-platform"
     },
     {
@@ -2256,7 +2256,7 @@
       "from": "IFX.Modules.Holdings.Composition",
       "fromRole": "Composition",
       "fromModule": "holdings",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": 2,
@@ -2329,7 +2329,7 @@
       "to": "IFX.BuildingBlocks.EntityFrameworkCore",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 1,
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -2339,7 +2339,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 6,
+      "uses": 5,
       "classification": "outside-or-platform"
     },
     {
@@ -2476,7 +2476,7 @@
       "from": "IFX.Modules.Registry.Composition",
       "fromRole": "Composition",
       "fromModule": "registry",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": 2,
@@ -2579,7 +2579,7 @@
       "to": "IFX.BuildingBlocks.EntityFrameworkCore",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 1,
+      "uses": 4,
       "classification": "outside-or-platform"
     },
     {
@@ -2706,7 +2706,7 @@
       "from": "IFX.Modules.Transaction.Composition",
       "fromRole": "Composition",
       "fromModule": "transaction",
-      "to": "App.Abstractions",
+      "to": "IFX.BuildingBlocks.Composition",
       "toRole": "Outside",
       "toModule": "buildingblocks",
       "uses": 2,
@@ -2789,7 +2789,7 @@
       "to": "IFX.BuildingBlocks.EntityFrameworkCore",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 1,
+      "uses": 3,
       "classification": "outside-or-platform"
     },
     {
@@ -2799,7 +2799,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 6,
+      "uses": 5,
       "classification": "outside-or-platform"
     },
     {
@@ -2969,7 +2969,7 @@
       "to": "IFX.Platform.Messaging.Contracts",
       "toRole": "Contracts",
       "toModule": "messaging",
-      "uses": 3,
+      "uses": 4,
       "classification": "outside-or-platform"
     },
     {

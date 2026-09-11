@@ -8,7 +8,7 @@
     <PackageReference Include="Serilog" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\App.Abstractions\App.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Composition\IFX.BuildingBlocks.Composition.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Application\IFX.Modules.Holdings.Application.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Infrastructure\IFX.Modules.Holdings.Infrastructure.csproj" />
     <ProjectReference Include="..\IFX.Modules.Holdings.Presentation\IFX.Modules.Holdings.Presentation.csproj" />

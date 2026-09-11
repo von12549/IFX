@@ -1,4 +1,4 @@
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IFX.ApiHost.Authorization;

@@ -4,7 +4,7 @@
   "slice": "P04-S6",
   "checkedAt": "2026-09-11",
   "result": "repository-passed-approvals-and-production-not-claimed",
-  "governanceLockSha256": "14eecbcd2abe7163f57a87c00fcd00a6780f2d8079cb66798560af134f34bb7f",
+  "governanceLockSha256": "bf87ba4f0cd494c6192723b2095b31161fcafd07c39dcf55318a3db88292f1a6",
   "checks": {
     "allPhaseValidatorsPassIndependently": true,
     "authorityAndDecisionHashesMatch": true,
@@ -53,8 +53,8 @@
     {
       "authority": "LayerGuard-B4",
       "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
-      "expectedSha256": "1cf5a645ddd9ef429c2597a9464b575eb37317a2b2706bf6f93116016632be36",
-      "actualSha256": "1cf5a645ddd9ef429c2597a9464b575eb37317a2b2706bf6f93116016632be36",
+      "expectedSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506",
+      "actualSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506",
       "passed": true
     },
     {
@@ -74,8 +74,8 @@
     {
       "authority": null,
       "path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json",
-      "expectedSha256": "730aa050fea55cfed58083026b45f3d4715911a8cee9d174b86e74534ce34e95",
-      "actualSha256": "730aa050fea55cfed58083026b45f3d4715911a8cee9d174b86e74534ce34e95",
+      "expectedSha256": "906eb12b85a5685b24f66dd7260fb8d87d24776322c933192d73f377985539c1",
+      "actualSha256": "906eb12b85a5685b24f66dd7260fb8d87d24776322c933192d73f377985539c1",
       "passed": true
     },
     {

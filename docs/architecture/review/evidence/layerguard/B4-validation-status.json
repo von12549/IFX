@@ -3,7 +3,7 @@
   "plan": "03-layerguard-alignment",
   "milestone": "B4-strict",
   "result": "passed",
-  "checkedAt": "2026-09-09",
+  "checkedAt": "2026-09-11",
   "checks": {
     "strictReportClean": true,
     "emptyBaseline": true,

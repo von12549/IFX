@@ -1,4 +1,4 @@
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 
 namespace IFX.Modules.Auth.Infrastructure.Authorization;
 

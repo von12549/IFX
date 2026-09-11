@@ -93,7 +93,7 @@ public sealed class SchemaCompatibilityTests
     public void Legacy_runtime_migrator_contract_and_module_implementations_are_removed()
     {
         var root = RepositoryRoot();
-        File.Exists(Path.Combine(root, "src", "BuildingBlocks", "App.Abstractions", "IAppMigrator.cs"))
+        File.Exists(Path.Combine(root, "src", "BuildingBlocks", "IFX.BuildingBlocks.Composition", "IAppMigrator.cs"))
             .Should().BeFalse();
         var moduleSources = Directory.EnumerateFiles(
             Path.Combine(root, "src", "Modules"),

@@ -72,7 +72,7 @@ See [Getting Started](docs/development/getting-started.md) for detailed setup.
 src/
 ├── ApiHost/IFX.ApiHost/             # Host application
 ├── BuildingBlocks/
-│   ├── App.Abstractions/            # Shared interfaces (IModuleInstaller, IAppMigrator)
+│   ├── IFX.BuildingBlocks.Composition/ # Module installation and endpoint composition SPI
 │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA client, ABAC)
 ├── WebUI/IFX.WebUI/                 # Demo OAuth client (HTML/JS)
 ├── Modules/

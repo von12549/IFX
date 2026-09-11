@@ -1,6 +1,6 @@
 using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.Transaction.Application.Commands.ConfirmOrder;
 using IFX.Modules.Transaction.Application.DTOs;

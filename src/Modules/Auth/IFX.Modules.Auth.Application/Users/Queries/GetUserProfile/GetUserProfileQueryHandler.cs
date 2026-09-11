@@ -1,4 +1,4 @@
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Auth.Application.Common;
 using IFX.Modules.Auth.Application.Users.Authorization;
 using IFX.Modules.Auth.Application.Users.DTOs;

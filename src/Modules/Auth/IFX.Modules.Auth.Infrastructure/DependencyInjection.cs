@@ -4,7 +4,6 @@ using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.Auth.Application.Identity.Interfaces;
 using IFX.Modules.Auth.Application.Identity.Ports;
 using IFX.Modules.Auth.Application.Interfaces;

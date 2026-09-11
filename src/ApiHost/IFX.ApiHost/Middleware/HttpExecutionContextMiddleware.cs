@@ -1,5 +1,5 @@
 using IFX.BuildingBlocks.Application.Context;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 
 namespace IFX.ApiHost.Middleware;
 

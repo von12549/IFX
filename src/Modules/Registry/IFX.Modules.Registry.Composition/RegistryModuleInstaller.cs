@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using IFX.Modules.Registry.Application;
 using IFX.Modules.Registry.Application.Contracts;
 using IFX.Modules.Registry.Contracts.V1;

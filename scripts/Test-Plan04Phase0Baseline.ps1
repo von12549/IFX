@@ -24,14 +24,18 @@ $b4Status = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/eviden
 $artifactChecks = @()
 foreach ($authority in @($baseline.authorities)) {
     foreach ($artifact in @($authority.artifacts)) {
+        $refresh = @($baseline.authorityRefreshes | Where-Object authority -EQ $authority.authority |
+            ForEach-Object { $_.artifacts } | Where-Object path -EQ $artifact.path | Select-Object -Last 1)
+        $expectedSha256 = if ($refresh.Count -eq 1) { [string]$refresh[0].sha256 } else { [string]$artifact.sha256 }
         $exists = Test-Path -LiteralPath (Repo $artifact.path) -PathType Leaf
         $actual = if ($exists) { Sha256 $artifact.path } else { $null }
         $artifactChecks += [ordered]@{
             authority = $authority.authority
             path = $artifact.path
-            expectedSha256 = $artifact.sha256
+            expectedSha256 = $expectedSha256
             actualSha256 = $actual
-            result = if ($exists -and $actual -eq $artifact.sha256) { 'passed' } else { 'failed' }
+            binding = if ($refresh.Count -eq 1) { 'reviewed-authority-refresh' } else { 'phase0-freeze' }
+            result = if ($exists -and $actual -eq $expectedSha256) { 'passed' } else { 'failed' }
         }
     }
 }
@@ -56,6 +60,10 @@ $checks = [ordered]@{
     authoritySetIsExact = @(Compare-Object $requiredAuthorities $authorityNames).Count -eq 0 -and
         @($authorityNames | Group-Object | Where-Object Count -ne 1).Count -eq 0
     authorityArtifactsAreHashBound = @($artifactChecks | Where-Object result -ne 'passed').Count -eq 0
+    authorityRefreshesAreAppendOnlyAndScoped = @($baseline.authorityRefreshes | Where-Object {
+        $_.authority -notin $requiredAuthorities -or [string]::IsNullOrWhiteSpace([string]$_.capturedAt) -or
+        [string]::IsNullOrWhiteSpace([string]$_.reason) -or @($_.artifacts).Count -eq 0
+    }).Count -eq 0
     ownerSetIsExactAndNamed = @(Compare-Object $requiredOwners $ownerNames).Count -eq 0 -and
         @($baseline.owners | Where-Object {
             [string]::IsNullOrWhiteSpace($_.deliveryOwner) -or [string]::IsNullOrWhiteSpace($_.contact) -or

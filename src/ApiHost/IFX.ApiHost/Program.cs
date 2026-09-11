@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using IFX.BuildingBlocks.Application;
 using IFX.ApiHost.Configuration;
 using IFX.ApiHost.Middleware;

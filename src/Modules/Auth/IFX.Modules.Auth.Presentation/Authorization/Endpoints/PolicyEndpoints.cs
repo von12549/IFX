@@ -1,4 +1,4 @@
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.CreatePolicy;
 using IFX.Modules.Auth.Domain.Authorization;
 using IFX.Modules.Auth.Application.Authorization.Policies.Commands.DeletePolicy;

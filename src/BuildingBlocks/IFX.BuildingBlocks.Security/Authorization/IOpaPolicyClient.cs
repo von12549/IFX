@@ -1,6 +1,6 @@
 using IFX.BuildingBlocks.Security.Authorization.Models;
 
-namespace IFX.BuildingBlocks.Security.Authorization.Abstractions;
+namespace IFX.BuildingBlocks.Security.Authorization;
 
 public interface IOpaPolicyClient
 {

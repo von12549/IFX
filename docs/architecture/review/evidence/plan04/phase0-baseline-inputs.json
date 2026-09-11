@@ -119,6 +119,27 @@
       ]
     }
   ],
+  "authorityRefreshes": [
+    {
+      "capturedAt": "2026-09-11",
+      "authority": "LayerGuard-B4",
+      "reason": "Reviewed terminology cleanup renamed App.Abstractions to IFX.BuildingBlocks.Composition without changing the 39-project boundary or introducing findings.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+          "sha256": "53e37f92c89bf57729b15f3b96411aafdc56f3de7239766389034dc6fb36c368"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
+          "sha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506"
+        },
+        {
+          "path": "src/layerguard.json",
+          "sha256": "fe790cf3402f5644bb83e64535b39914fa32b40cfdbf7221f53cb42829884bf4"
+        }
+      ]
+    }
+  ],
   "owners": [
     {
       "responsibility": "architecture",

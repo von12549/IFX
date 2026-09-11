@@ -23,6 +23,12 @@ The B4 input is LayerGuard `0.4.0-a1`, 39 in-scope projects, zero findings and z
 The G03 input contains five business modules and four Active protocols: CRM and Registry synchronous
 Contracts into Transaction, plus Registry and Transaction Events into Holdings.
 
+On 2026-09-11, an append-only `LayerGuard-B4` authority refresh recorded the reviewed terminology
+change from `App.Abstractions` to `IFX.BuildingBlocks.Composition`. The refreshed B4 report and graph
+retain the original boundary shape: 39 in-scope projects, zero findings and zero baseline entries.
+The original Phase 0 hashes remain in the manifest; validators resolve the latest explicitly recorded
+authority refresh and reject unrecorded drift.
+
 ## Owner and approval semantics
 
 Xiaolong Feng / `@von12549` is the named repository delivery owner for Architecture, Database,

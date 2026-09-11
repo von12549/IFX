@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S2",
   "asOf": "2026-09-10",
-  "inventorySha256": "44e944ad3fb320033e183edfcd5715dd164f540e38c35fabc257bc117e1ebcdf",
+  "inventorySha256": "5dfca4b70ef3228100e42eef6c2a1a2ad1944f540d2839e7e669f80ddff5269e",
   "decisionPolicy": {
     "allowedConclusions": ["retain", "narrow-edge", "revisit-boundary", "extraction-candidate"],
     "forbiddenConclusion": "split-now",

@@ -16,6 +16,7 @@ $requiredContracts = @(
     'IFX.Platform.Messaging.Contracts',
     'IFX.Platform.Notifications.Contracts'
 )
+$requiredCompositionProject = 'IFX.BuildingBlocks.Composition'
 
 function ValidateState([object] $state) {
     $errors = [Collections.Generic.HashSet[string]]::new()
@@ -24,7 +25,11 @@ function ValidateState([object] $state) {
     if (@($state.projectReferences | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-reference') }
     if (@($state.solutionProjects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-solution-entry') }
     if (@($requiredContracts | Where-Object { $_ -notin @($state.solutionProjects | ForEach-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) }) }).Count -gt 0) { [void]$errors.Add('contracts-project-missing-from-solution') }
+    if (@($state.ambiguousCompositionArtifacts).Count -gt 0) { [void]$errors.Add('ambiguous-composition-abstractions-name') }
+    if (@($state.legacyAuthorizationNamespaces).Count -gt 0) { [void]$errors.Add('legacy-authorization-abstractions-namespace') }
+    if ($requiredCompositionProject -notin @($state.solutionProjects | ForEach-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) })) { [void]$errors.Add('composition-project-missing-from-solution') }
     if ($state.layerGuardEnforcesRetirement -ne $true) { [void]$errors.Add('layerguard-retirement-rule-missing') }
+    if ($state.layerGuardNamingIsCurrent -ne $true) { [void]$errors.Add('layerguard-composition-name-stale') }
     @($errors | Sort-Object)
 }
 
@@ -44,12 +49,40 @@ $projectReferences = @(
 )
 $layerGuard = Get-Content -Raw -LiteralPath (Repo 'src/layerguard.json') | ConvertFrom-Json -Depth 100
 $layerGuardEnforcesRetirement = '*.Abstractions' -in @($layerGuard.forbiddenProjectNames) -and @($layerGuard.ruleRefs | Where-Object { $_.ref -eq 'L1.2' -and 'PROJECT-NAME-FORBIDDEN' -in @($_.rules) }).Count -eq 1
+$allProjectFiles = @(Get-ChildItem -LiteralPath (Repo 'src') -File -Recurse -Filter '*.csproj')
+$allProjectReferences = @(
+    @('src', 'tests') | ForEach-Object {
+        Get-ChildItem -LiteralPath (Repo $_) -File -Recurse -Filter '*.csproj' | ForEach-Object {
+            [xml]$projectXml = Get-Content -Raw -LiteralPath $_.FullName
+            @($projectXml.Project.ItemGroup.ProjectReference) | Where-Object { $null -ne $_ } | ForEach-Object { [string]$_.Include }
+        }
+    }
+)
+$ambiguousCompositionArtifacts = @(
+    @(Get-ChildItem -LiteralPath (Repo 'src/BuildingBlocks') -Directory -Recurse | Where-Object Name -EQ 'App.Abstractions' | ForEach-Object FullName)
+    @($allProjectFiles | Where-Object BaseName -EQ 'App.Abstractions' | ForEach-Object FullName)
+    @($allProjectReferences | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -eq 'App.Abstractions' })
+    @($solutionProjects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -eq 'App.Abstractions' })
+)
+$legacyAuthorizationNamespaces = @(
+    @('src', 'tests') | ForEach-Object {
+        Get-ChildItem -LiteralPath (Repo $_) -File -Recurse -Filter '*.cs' |
+            Select-String -SimpleMatch 'IFX.BuildingBlocks.Security.Authorization.Abstractions' |
+            ForEach-Object { "$($_.Path):$($_.LineNumber)" }
+    }
+)
+$layerGuardNamingIsCurrent = 'App.Abstractions' -notin @($layerGuard.allowedReferences.Composition) -and
+    'App.Abstractions' -notin @($layerGuard.allowedReferences.RuntimeHost) -and
+    $requiredCompositionProject -in @($layerGuard.allowedReferences.RuntimeHost)
 $repositoryState = [ordered]@{
     directories = $directories
     projects = $projects
     projectReferences = $projectReferences
     solutionProjects = $solutionProjects
+    ambiguousCompositionArtifacts = $ambiguousCompositionArtifacts
+    legacyAuthorizationNamespaces = $legacyAuthorizationNamespaces
     layerGuardEnforcesRetirement = $layerGuardEnforcesRetirement
+    layerGuardNamingIsCurrent = $layerGuardNamingIsCurrent
 }
 $repositoryErrors = @(ValidateState $repositoryState)
 $missingContracts = @($requiredContracts | Where-Object { $_ -notin @($solutionProjects | ForEach-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) }) })
@@ -68,7 +101,11 @@ $checks = [ordered]@{
     noLegacyAbstractionsReferences = @($repositoryErrors | Where-Object { $_ -eq 'legacy-abstractions-reference' }).Count -eq 0
     noLegacyAbstractionsSolutionEntries = @($repositoryErrors | Where-Object { $_ -eq 'legacy-abstractions-solution-entry' }).Count -eq 0
     requiredContractsAreExplicitSolutionProjects = $missingContracts.Count -eq 0
+    compositionProjectNameIsUnambiguous = @($repositoryErrors | Where-Object { $_ -eq 'ambiguous-composition-abstractions-name' }).Count -eq 0
+    authorizationNamespaceNameIsUnambiguous = @($repositoryErrors | Where-Object { $_ -eq 'legacy-authorization-abstractions-namespace' }).Count -eq 0
+    compositionProjectIsExplicitlyInSolution = @($repositoryErrors | Where-Object { $_ -eq 'composition-project-missing-from-solution' }).Count -eq 0
     layerGuardRetirementRuleIsBound = $layerGuardEnforcesRetirement
+    layerGuardCompositionNameIsCurrent = $layerGuardNamingIsCurrent
     positiveAndNegativeFixturesPass = $fixtureResults.Count -eq 4 -and @($fixtureResults | Where-Object passed -ne $true).Count -eq 0 -and @($fixtureResults | Where-Object { @($_.actualErrors).Count -eq 0 }).Count -eq 1
 }
 $failed = @($checks.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object Key)
@@ -84,8 +121,10 @@ $status = [ordered]@{
     legacySolutionEntries = @($solutionProjects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern })
     requiredContracts = $requiredContracts
     missingContracts = $missingContracts
+    ambiguousCompositionArtifacts = $ambiguousCompositionArtifacts
+    legacyAuthorizationNamespaces = $legacyAuthorizationNamespaces
     fixtureResults = $fixtureResults
-    exclusions = @('App.Abstractions composition SPI (renamed separately)', 'IFX.BuildingBlocks.Security.Authorization.Abstractions namespace (renamed separately)', 'Microsoft.Extensions.*.Abstractions packages', 'G03 retired identity reservations', 'LayerGuard fixtures and historical baselines')
+    exclusions = @('Microsoft.Extensions.*.Abstractions packages', 'G03 retired identity reservations', 'LayerGuard fixtures and historical baselines')
     failedChecks = $failed
 }
 $resolvedStatus = Repo $StatusPath

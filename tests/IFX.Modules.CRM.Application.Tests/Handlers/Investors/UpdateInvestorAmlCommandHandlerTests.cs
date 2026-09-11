@@ -1,5 +1,5 @@
 using AutoMapper;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Investors.Commands.UpdateInvestorAml;

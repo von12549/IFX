@@ -1,4 +1,4 @@
-using App.Abstractions;
+using IFX.BuildingBlocks.Composition;
 using IFX.Modules.Transaction.Application;
 using IFX.Modules.Transaction.Application.Ports;
 using IFX.Modules.Transaction.Infrastructure;

@@ -10,8 +10,12 @@
     "IFX.Platform.BackgroundJobs.Contracts.csproj",
     "IFX.Platform.Context.Contracts.csproj",
     "IFX.Platform.Messaging.Contracts.csproj",
-    "IFX.Platform.Notifications.Contracts.csproj"
+    "IFX.Platform.Notifications.Contracts.csproj",
+    "IFX.BuildingBlocks.Composition.csproj"
   ],
+  "ambiguousCompositionArtifacts": [],
+  "legacyAuthorizationNamespaces": [],
   "layerGuardEnforcesRetirement": true,
+  "layerGuardNamingIsCurrent": true,
   "expectedErrors": []
 }

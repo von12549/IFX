@@ -1,7 +1,7 @@
 using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.BuildingBlocks.Security.Authorization.Models;
 using Microsoft.AspNetCore.Http;

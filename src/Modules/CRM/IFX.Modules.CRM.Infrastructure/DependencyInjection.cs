@@ -3,7 +3,6 @@ using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
 using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
-using IFX.BuildingBlocks.Security.Authorization.Abstractions;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Ports;
 using IFX.Modules.CRM.Application.Transactions;

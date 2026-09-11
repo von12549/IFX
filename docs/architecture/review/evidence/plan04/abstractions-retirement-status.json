@@ -9,7 +9,11 @@
     "noLegacyAbstractionsReferences": true,
     "noLegacyAbstractionsSolutionEntries": true,
     "requiredContractsAreExplicitSolutionProjects": true,
+    "compositionProjectNameIsUnambiguous": true,
+    "authorizationNamespaceNameIsUnambiguous": true,
+    "compositionProjectIsExplicitlyInSolution": true,
     "layerGuardRetirementRuleIsBound": true,
+    "layerGuardCompositionNameIsCurrent": true,
     "positiveAndNegativeFixturesPass": true
   },
   "legacyDirectories": [],
@@ -26,16 +30,20 @@
     "IFX.Platform.Notifications.Contracts"
   ],
   "missingContracts": [],
+  "ambiguousCompositionArtifacts": [],
+  "legacyAuthorizationNamespaces": [],
   "fixtureResults": [
     {
       "fixture": "abstractions-negative-directory-project.json",
       "expectedErrors": [
         "legacy-abstractions-directory",
-        "legacy-abstractions-project"
+        "legacy-abstractions-project",
+        "legacy-authorization-abstractions-namespace"
       ],
       "actualErrors": [
         "legacy-abstractions-directory",
-        "legacy-abstractions-project"
+        "legacy-abstractions-project",
+        "legacy-authorization-abstractions-namespace"
       ],
       "passed": true
     },
@@ -52,12 +60,18 @@
     {
       "fixture": "abstractions-negative-solution.json",
       "expectedErrors": [
+        "ambiguous-composition-abstractions-name",
+        "composition-project-missing-from-solution",
         "contracts-project-missing-from-solution",
+        "layerguard-composition-name-stale",
         "layerguard-retirement-rule-missing",
         "legacy-abstractions-solution-entry"
       ],
       "actualErrors": [
+        "ambiguous-composition-abstractions-name",
+        "composition-project-missing-from-solution",
         "contracts-project-missing-from-solution",
+        "layerguard-composition-name-stale",
         "layerguard-retirement-rule-missing",
         "legacy-abstractions-solution-entry"
       ],
@@ -71,8 +85,6 @@
     }
   ],
   "exclusions": [
-    "App.Abstractions composition SPI (renamed separately)",
-    "IFX.BuildingBlocks.Security.Authorization.Abstractions namespace (renamed separately)",
     "Microsoft.Extensions.*.Abstractions packages",
     "G03 retired identity reservations",
     "LayerGuard fixtures and historical baselines"
