@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "directories": [],
+  "projects": [],
+  "projectReferences": [],
+  "solutionProjects": [
+    "IFX.Modules.CRM.Abstractions.csproj",
+    "IFX.Modules.Registry.Contracts.csproj",
+    "IFX.Modules.Transaction.Contracts.csproj",
+    "IFX.Platform.BackgroundJobs.Contracts.csproj",
+    "IFX.Platform.Context.Contracts.csproj",
+    "IFX.Platform.Messaging.Contracts.csproj",
+    "IFX.Platform.Notifications.Contracts.csproj"
+  ],
+  "layerGuardEnforcesRetirement": false,
+  "expectedErrors": ["contracts-project-missing-from-solution", "layerguard-retirement-rule-missing", "legacy-abstractions-solution-entry"]
+}

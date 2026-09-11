@@ -5,7 +5,7 @@
 The unified repository gate passed with the bounded result
 `repository-passed-approvals-and-production-not-claimed`.
 
-`Test-Plan04Governance.ps1` executes all six Plan 04 slice validators as
+`Test-Plan04Governance.ps1` executes all seven Plan 04 validators as
 independent checks. It then verifies the frozen LayerGuard B4 graph, G03
 catalog, G04 module manifest and Plan 04 decision artifacts against
 [`plan04-governance-lock.json`](../../policies/plan04/plan04-governance-lock.json).
@@ -28,6 +28,14 @@ The unified boundary fixtures reject:
 - a dependency cycle;
 - an unknown or ownerless module; and
 - authority hash drift.
+
+The Abstractions retirement fixtures additionally reject legacy module or
+platform directories, projects, project references and solution entries. They
+also require every approved Contracts project to be registered explicitly in
+the solution and verify that LayerGuard L1.2 remains bound to the forbidden
+project-name rule. Third-party package names, historical G03 identity
+reservations and dedicated LayerGuard fixtures are outside this repository
+hygiene check.
 
 The DP6 fixtures separately reject missing owners, shared ACID, hard-gate score
 override, missing rollback and invalid state transitions. DB8 fixtures reject a

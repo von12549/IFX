@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S8",
-  "checkedAt": "2026-09-10",
+  "checkedAt": "2026-09-11",
   "result": "documentation-passed-plan-pre-ready",
   "checks": {
     "bilingualDesignsLinkEachOther": true,
@@ -42,7 +42,7 @@
       "mermaidSyntax": true
     }
   ],
-  "ruleMappings": 6,
+  "ruleMappings": 7,
   "approvals": {
     "GOV4": "pending",
     "DP6": "pending",

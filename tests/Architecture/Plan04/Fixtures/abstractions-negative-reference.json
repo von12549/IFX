@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "directories": [],
+  "projects": [],
+  "projectReferences": ["../IFX.Platform.Messaging.Abstractions/IFX.Platform.Messaging.Abstractions.csproj"],
+  "solutionProjects": [
+    "IFX.Modules.CRM.Contracts.csproj",
+    "IFX.Modules.Registry.Contracts.csproj",
+    "IFX.Modules.Transaction.Contracts.csproj",
+    "IFX.Platform.BackgroundJobs.Contracts.csproj",
+    "IFX.Platform.Context.Contracts.csproj",
+    "IFX.Platform.Messaging.Contracts.csproj",
+    "IFX.Platform.Notifications.Contracts.csproj"
+  ],
+  "layerGuardEnforcesRetirement": true,
+  "expectedErrors": ["legacy-abstractions-reference"]
+}

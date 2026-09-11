@@ -42,6 +42,7 @@ $validatorScripts = @(
     'Test-Plan04ExtractionPolicy.ps1',
     'Test-Plan04TenantQueryPolicy.ps1',
     'Test-Plan04ProjectionPolicy.ps1'
+    'Test-AbstractionsRetirement.ps1'
 )
 $validatorResults = @()
 foreach ($scriptName in $validatorScripts) {
@@ -66,7 +67,7 @@ foreach ($file in @(Get-ChildItem -LiteralPath (Repo 'tests/Architecture/Plan04/
 }
 
 $checks = [ordered]@{
-    allPhaseValidatorsPassIndependently = $validatorResults.Count -eq 6 -and @($validatorResults | Where-Object passed -ne $true).Count -eq 0
+    allPhaseValidatorsPassIndependently = $validatorResults.Count -eq 7 -and @($validatorResults | Where-Object passed -ne $true).Count -eq 0
     authorityAndDecisionHashesMatch = $hashResults.Count -ge 10 -and @($hashResults | Where-Object passed -ne $true).Count -eq 0
     boundaryPositiveAndNegativeFixturesPass = $fixtureResults.Count -eq 5 -and @($fixtureResults | Where-Object passed -ne $true).Count -eq 0 -and @($fixtureResults | Where-Object { @($_.actualErrors).Count -eq 0 }).Count -eq 1
     layerGuardValidatorAndBehaviorChecksAreComplementary = @('Test-Plan04Phase1Inventory.ps1','Test-Plan04TenantQueryPolicy.ps1','Test-Plan04ProjectionPolicy.ps1' | Where-Object { $_ -notin $validatorResults.validator }).Count -eq 0

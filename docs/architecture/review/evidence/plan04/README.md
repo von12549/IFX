@@ -17,6 +17,7 @@
 - [P04-S4 DB8 tenant queries](P04-S4-db8-tenant-query-governance.md) / [status](phase4-tenant-query-status.json)
 - [P04-S5 GOV3 projection](P04-S5-gov3-owned-projection.md) / [status](phase5-projection-status.json)
 - [P04-S6 automation](P04-S6-automated-governance.md) / [status](phase6-governance-status.json)
+- [Legacy Abstractions retirement status](abstractions-retirement-status.json)
 - [P04-S7 reconciliation](P04-S7-repository-reconciliation.md) / [status](phase7-reconciliation-status.json)
 - [P04-S8 documentation status](phase8-documentation-status.json)
 
