@@ -17,8 +17,44 @@ public sealed class G04DispatcherLeaseConformanceTests(SqlServerMigrationFixture
             ClaimAsync(connectionString, "worker-a", now, 4),
             ClaimAsync(connectionString, "worker-b", now, 4));
 
-        claims.SelectMany(x => x).Should().HaveCount(8).And.OnlyHaveUniqueItems(x => x.EventId);
+        claims.SelectMany(x => x).Should().NotBeEmpty().And.OnlyHaveUniqueItems(x => x.EventId);
         claims.Should().OnlyContain(batch => batch.Count <= 4);
+
+        // READPAST may skip rows locked while the other transaction scans/sorts.
+        // After both commits, poll once per worker without advancing lease time.
+        var nextA = await ClaimAsync(connectionString, "worker-a", now, 4);
+        var nextB = await ClaimAsync(connectionString, "worker-b", now, 4);
+        nextA.Should().HaveCountLessThanOrEqualTo(4);
+        nextB.Should().HaveCountLessThanOrEqualTo(4);
+        claims.SelectMany(x => x).Concat(nextA).Concat(nextB)
+            .Should().HaveCount(8).And.OnlyHaveUniqueItems(x => x.EventId);
+        (await ClaimAsync(connectionString, "worker-a", now, 4)).Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Rows_skipped_under_contention_are_claimed_after_locks_release()
+    {
+        var connectionString = await CreateFixtureAsync("locked_scan", 4);
+        var now = DateTimeOffset.UtcNow;
+        await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync();
+        await using var transaction = (SqlTransaction)await connection.BeginTransactionAsync();
+        await using var command = connection.CreateCommand();
+        command.Transaction = transaction;
+        command.CommandText = "SELECT [EventId] FROM [g04].[ReferenceOutbox] WITH (UPDLOCK, ROWLOCK);";
+        var lockedIds = new List<Guid>();
+        await using (var reader = await command.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync()) lockedIds.Add(reader.GetGuid(0));
+        }
+        lockedIds.Should().HaveCount(4);
+
+        (await ClaimAsync(connectionString, "worker-b", now, 4)).Should().BeEmpty();
+        await transaction.CommitAsync();
+
+        var claimed = await ClaimAsync(connectionString, "worker-b", now, 4);
+        claimed.Select(row => row.EventId).Should().BeEquivalentTo(lockedIds);
+        (await ClaimAsync(connectionString, "worker-a", now, 4)).Should().BeEmpty();
     }
 
     [Fact]

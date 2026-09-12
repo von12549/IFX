@@ -31,7 +31,8 @@ public sealed class EventEnvelopeV1Tests
     [Fact]
     public void Constructor_WithNonUtcOccurrence_Throws()
     {
-        var act = () => CreateEnvelope(DateTimeOffset.Now);
+        var nonUtcOccurrence = new DateTimeOffset(2026, 9, 12, 12, 0, 0, TimeSpan.FromHours(10));
+        var act = () => CreateEnvelope(nonUtcOccurrence);
 
         act.Should().Throw<ArgumentException>();
     }
