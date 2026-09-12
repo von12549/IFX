@@ -68,12 +68,12 @@ if (!request.TenantId.HasValue)
 
 ## Migration Commands
 
-**IMPORTANT:** Always run from Infrastructure directory with startup project flag. Always pass `--context` when multiple DbContexts exist in the solution.
+**IMPORTANT:** The following commands run from the repository root and create migrations only. Always pass `--context`; apply schema changes through the controlled `scripts/Invoke-DatabaseMigrator.ps1` workflow.
 
 ```bash
-# Auth module
+# IAM module (physical schema remains auth)
 dotnet ef migrations add MigrationName --context IfxDbContext \
-  --project src/Modules/Auth/IFX.Modules.Auth.Infrastructure \
+  --project src/Modules/IAM/IFX.Modules.IAM.Infrastructure \
   --startup-project src/ApiHost/IFX.ApiHost
 
 # CRM module

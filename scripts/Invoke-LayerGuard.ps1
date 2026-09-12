@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $ReportPath,
-    [string] $BaselinePath = 'mcp/LayerGuard/baselines/b4.json',
+    [string] $BaselinePath = 'mcp/LayerGuard/baselines/plan05.json',
     [switch] $SkipTests
 )
 
@@ -23,6 +23,10 @@ elseif (-not [System.IO.Path]::IsPathRooted($ReportPath)) {
 $reportDirectory = Split-Path -Parent $ReportPath
 New-Item -ItemType Directory -Force -Path $reportDirectory | Out-Null
 
+# LayerGuard is a separate solution; restoring IFX.sln does not restore this tool.
+dotnet restore $toolSolution
+if ($LASTEXITCODE -ne 0) { throw "LayerGuard dependency restore failed with exit code $LASTEXITCODE." }
+
 if (-not $SkipTests) {
     dotnet test $toolSolution --no-restore
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -31,7 +35,7 @@ if (-not $SkipTests) {
 dotnet run --no-restore --project $toolProject -- check $sourceRoot --config $policy --baseline $baseline --format json --report $ReportPath --quiet
 $checkExitCode = $LASTEXITCODE
 if ($checkExitCode -eq 0) {
-    Write-Host "LayerGuard B4 strict policy gate passed. Report: $ReportPath"
+    Write-Host "LayerGuard strict policy gate passed ($BaselinePath). Report: $ReportPath"
 }
 else {
     Write-Error "LayerGuard found a new/stale violation or invalid baseline. Report: $ReportPath"

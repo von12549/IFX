@@ -48,9 +48,10 @@ public static class BackgroundJobsServiceCollectionExtensions
         services.AddSingleton(settings);
 
         // Configure Hangfire
-        services.AddHangfire(config => config
+        services.AddHangfire((provider, config) => config
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()
+            .UseTypeResolver(new BackgroundJobTypeResolver(provider.GetServices<BackgroundJobTypeAlias>()).Resolve)
             .UseRecommendedSerializerSettings()
             .UseSqlServerStorage(settings.ConnectionString, new SqlServerStorageOptions
             {

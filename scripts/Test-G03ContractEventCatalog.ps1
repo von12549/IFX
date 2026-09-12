@@ -32,6 +32,7 @@ function Test-Catalog($catalog) {
     Test-Unique @($catalog.modules) 'id' 'modules'
     Test-Unique @($catalog.consumers) 'id' 'consumers'
     Test-Unique @($catalog.protocols) 'identity' 'protocols'
+    Test-Unique (@($catalog.protocols) + @($catalog.infrastructureProtocols | Where-Object { $null -ne $_ })) 'identity' 'all-protocols'
     Test-Unique @($catalog.publicSurface) 'id' 'publicSurface'
     $ownerIds = @($catalog.owners.id)
     $moduleIds = @($catalog.modules.id)
@@ -56,7 +57,7 @@ function Test-Catalog($catalog) {
     }
     $codeownersPath = Join-Path $repositoryRoot '.github/CODEOWNERS'
     $codeowners = if (Test-Path -LiteralPath $codeownersPath) { Get-Content -Raw -LiteralPath $codeownersPath } else { '' }
-    foreach ($governedPath in @('/src/Modules/Auth/', '/src/Modules/CRM/', '/src/Modules/Registry/', '/src/Modules/Transaction/', '/src/Modules/Holdings/', '/src/Platform/Messaging/', '/docs/architecture/review/gates/G03/', '/scripts/*G03*')) {
+    foreach ($governedPath in @('/src/Modules/IAM/', '/src/Modules/CRM/', '/src/Modules/Registry/', '/src/Modules/Transaction/', '/src/Modules/Holdings/', '/src/Platform/Messaging/', '/docs/architecture/review/gates/G03/', '/scripts/*G03*')) {
         $routingLine = @($codeowners -split "`r?`n" | Where-Object { $_ -match ('^' + [regex]::Escape($governedPath) + '\s') })
         if ($routingLine.Count -ne 1 -or $routingLine[0] -notmatch [regex]::Escape($catalog.approvalPolicy.backupCodeownersHandle)) {
             Add-Error 'backup-codeowners' '.github/CODEOWNERS' "Governed path '$governedPath' must route to the approved backup handle."
@@ -110,6 +111,23 @@ function Test-Catalog($catalog) {
             $requiredEvidence = @('source', 'apiOrSchemaSnapshot', 'providerContractTests', 'consumerCompatibilityTests', 'providerApproval', 'consumerApprovals')
             foreach ($evidence in $requiredEvidence) {
                 if ($null -eq $protocol.admissionEvidence.$evidence -or @($protocol.admissionEvidence.$evidence).Count -eq 0) { Add-Error 'active-admission' "$path.admissionEvidence.$evidence" 'Active protocol admission evidence is required.' }
+            }
+        }
+    }
+    foreach ($protocol in @($catalog.infrastructureProtocols | Where-Object { $null -ne $_ })) {
+        $path = "infrastructureProtocols.$($protocol.identity)"
+        if ($protocol.provider -notin $moduleIds -or $protocol.owner -notin $ownerIds -or
+            @($protocol.consumers).Count -eq 0 -or @($protocol.consumers | Where-Object { $_ -notin $consumerIds }).Count -gt 0) {
+            Add-Error 'infrastructure-owner' $path 'Infrastructure protocol requires registered provider, owner and consumers.'
+        }
+        if ($protocol.kind -ne 'in-process-sensitive' -or $protocol.retention -ne 'request-or-login-transaction' -or
+            $protocol.durable -ne $false -or $protocol.logPolicy -ne 'never' -or @($protocol.tests).Count -eq 0 -or
+            @($protocol.fields).Count -eq 0 -or [string]::IsNullOrWhiteSpace($protocol.purpose)) {
+            Add-Error 'infrastructure-sensitive-boundary' $path 'Sensitive technical interfaces must be transient, in-process, unlogged and tested; they are not public business protocols.'
+        }
+        foreach ($field in $protocol.fields) {
+            if ($field.classification -notin @('C0','C1','C2','C3','C4') -or [string]::IsNullOrWhiteSpace($field.purpose)) {
+                Add-Error 'infrastructure-field' $path 'Every technical field needs a classification and purpose.'
             }
         }
     }
@@ -302,6 +320,13 @@ if ($SelfTest) {
         @{ name = 'expired waiver'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-08-01';expiresAt='2026-09-01';removalCondition='remove';linkedPlanItem='test';category='temporary-tool-gap'}) }; expected = 'waiver-expired' },
         @{ name = 'unwaivable exposure'; mutate = { param($x) $x.waivers=@([pscustomobject]@{id='W1';owner='xiaolong-feng';reason='test';risk='test';createdAt='2026-09-01';expiresAt='2026-09-30';removalCondition='remove';linkedPlanItem='test';category='C4-exposure'}) }; expected = 'waiver-unwaivable' }
     )
+    if (@($catalog.infrastructureProtocols).Count -gt 0) {
+        $cases += @(
+            @{ name = 'durable credential protocol'; mutate = { param($x) $x.infrastructureProtocols[0].durable = $true }; expected = 'infrastructure-sensitive-boundary' },
+            @{ name = 'logged credential protocol'; mutate = { param($x) $x.infrastructureProtocols[0].logPolicy = 'allow' }; expected = 'infrastructure-sensitive-boundary' },
+            @{ name = 'unknown credential consumer'; mutate = { param($x) $x.infrastructureProtocols[0].consumers = @('unknown') }; expected = 'infrastructure-owner' }
+        )
+    }
     foreach ($case in $cases) {
         $copy = ($catalogText | ConvertFrom-Json -Depth 100)
         & $case.mutate $copy

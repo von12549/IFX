@@ -1,7 +1,8 @@
 using AutoFixture;
-using IFX.Modules.Auth.Domain.Authorization;
-using IFX.Modules.Auth.Domain.Identity;
-using IFX.Modules.Auth.Domain.Users;
+using IFX.Modules.IAM.Domain.Access;
+using IFX.Modules.IAM.Domain.Tenancy;
+using IFX.Modules.IAM.Domain.Identity;
+using IFX.Modules.IAM.Domain.Users;
 
 namespace IFX.Tests.Common.Fixtures;
 

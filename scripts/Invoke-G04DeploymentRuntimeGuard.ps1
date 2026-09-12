@@ -58,7 +58,7 @@ if ($Phase -ge 3) {
     $program = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
     $monitor = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/StartupDependencyMonitor.cs')
     $checks.manifestsLoadedBeforeBuild = $program.IndexOf('RuntimeManifestLoader.Load', [StringComparison]::Ordinal) -lt $program.IndexOf('builder.Build()', [StringComparison]::Ordinal)
-    $checks.platformRegisteredBeforeModules = $program.IndexOf('builder.Services.AddMessaging()', [StringComparison]::Ordinal) -lt $program.IndexOf('builder.Services.AddAuthModule', [StringComparison]::Ordinal)
+    $checks.platformRegisteredBeforeModules = $program.IndexOf('builder.Services.AddMessaging()', [StringComparison]::Ordinal) -lt $program.IndexOf('builder.Services.AddIamModule', [StringComparison]::Ordinal)
     $checks.manifestOrdersEndpointMapping = $program -match 'orderedInstallers[\s\S]*?installer\.MapEndpoints'
     $checks.compositionValidatedAfterBuild = $program -match 'builder\.Build\(\)[\s\S]*?StartupBoundaryVerifier\.ValidateComposition'
     $checks.endpointCollisionValidated = $program -match 'StartupBoundaryVerifier\.ValidateEndpointIdentity'

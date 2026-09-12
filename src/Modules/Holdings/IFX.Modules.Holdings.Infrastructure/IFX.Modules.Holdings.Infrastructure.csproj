@@ -22,4 +22,5 @@
     <ProjectReference Include="..\..\Transaction\IFX.Modules.Transaction.Contracts\IFX.Modules.Transaction.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Runtime\IFX.Platform.Messaging.Runtime.csproj" />
   </ItemGroup>
+  <ItemGroup><ProjectReference Include="..\..\IAM\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" /></ItemGroup>
 </Project>

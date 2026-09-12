@@ -7,7 +7,11 @@ param(
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
 $catalog = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
-$inventory = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G03/G03-contract-event-inventory.json') | ConvertFrom-Json -Depth 100
+$temporaryInventory = Join-Path ([IO.Path]::GetTempPath()) "g03-snapshot-$([Guid]::NewGuid().ToString('N')).json"
+try {
+    & (Join-Path $PSScriptRoot 'Invoke-G03ContractEventInventory.ps1') -ReportPath $temporaryInventory -BaselineCommit HEAD
+    $inventory = Get-Content -Raw -LiteralPath $temporaryInventory | ConvertFrom-Json -Depth 100
+} finally { Remove-Item -LiteralPath $temporaryInventory -Force -ErrorAction SilentlyContinue }
 
 $api = [ordered]@{
     formatVersion = 1; status = 'authoritative-current'
@@ -16,7 +20,7 @@ $api = [ordered]@{
         $surface = $inventory.publicSurface | Where-Object { $_.project -eq $protocol.source.project -and $_.name -eq $protocol.source.type } | Select-Object -First 1
         $method = $surface.methods | Where-Object name -eq $protocol.source.member | Select-Object -First 1
         $moduleName = ($catalog.modules | Where-Object id -eq $protocol.provider | Select-Object -First 1).name
-        [ordered]@{ identity = $protocol.identity; version = $protocol.version; lifecycle = $protocol.lifecycle; sourceSignature = $method.signature; targetNamespace = "IFX.Modules.$moduleName.Contracts.V$($protocol.version)"; fields = @($protocol.fields | Select-Object name, required, classification) }
+        [ordered]@{ identity = $protocol.identity; version = $protocol.version; lifecycle = $protocol.lifecycle; sourceSignature = $method.signature; targetNamespace = "$($protocol.source.project).V$($protocol.version)"; fields = @($protocol.fields | Select-Object name, required, classification) }
     })
 }
 $serialization = [ordered]@{

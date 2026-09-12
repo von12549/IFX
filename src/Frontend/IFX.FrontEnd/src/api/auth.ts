@@ -8,10 +8,7 @@ export const authApi = {
   confirm: (data: ConfirmRequest) =>
     apiClient.post('/api/v1/auth/confirm', data),
 
-  getAuthorizeUrl: () =>
-    apiClient.get<{ data: { authorizationUrl: string; state: string } }>(
-      '/api/v1/auth/oauth/authorize?response_mode=json'
-    ),
+  getLoginUrl: () => apiClient.getUri({ url: '/api/v1/auth/oauth/authorize' }),
 
   logout: (accessToken: string, refreshToken: string) =>
     apiClient.post('/api/v1/auth/logout', { accessToken, refreshToken }),

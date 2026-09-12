@@ -1,13 +1,14 @@
 param(
     [string] $ReportPath = "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
     [string] $ManifestPath = "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
-    [switch] $NoBuild
+    [switch] $NoBuild,
+    [ValidateSet('Debug','Release')][string] $Configuration = 'Debug'
 )
 
 $ErrorActionPreference = "Stop"
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
 $project = Join-Path $repositoryRoot "tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj"
-$arguments = @("run", "--project", $project)
+$arguments = @("run", "--project", $project, "--configuration", $Configuration)
 if ($NoBuild) {
     $arguments += "--no-build"
 }

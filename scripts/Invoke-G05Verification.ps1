@@ -21,6 +21,11 @@ if (-not $SkipRestore) {
     Assert-LastExitCode 'G05 solution restore failed.'
 }
 
+# Migration safety invokes the inventory tool with -NoBuild. Build the solution
+# (including IFX.DatabaseInventory) before any consumer assumes its outputs exist.
+& dotnet build $solutionPath --no-restore
+Assert-LastExitCode 'G05 solution build failed.'
+
 $catalogReportPath = Join-Path $resolvedOutput 'catalog-security.json'
 & (Join-Path $PSScriptRoot 'Test-G03ContractEventCatalog.ps1') -ReportPath $catalogReportPath -SelfTest
 Assert-LastExitCode 'G05 catalog/security validation failed.'
@@ -38,9 +43,6 @@ Assert-LastExitCode 'G05 LayerGuard validation failed.'
 $g05ReportPath = Join-Path $resolvedOutput 'context-boundary.json'
 & (Join-Path $PSScriptRoot 'Invoke-G05ContextBoundaryGuard.ps1') -Phase 9 -ReportPath $g05ReportPath
 Assert-LastExitCode 'G05 cumulative context-boundary validation failed.'
-
-& dotnet build $solutionPath --no-restore
-Assert-LastExitCode 'G05 solution build failed.'
 
 & dotnet test $solutionPath --no-build --no-restore --results-directory $testRunDirectory --logger 'trx;LogFilePrefix=solution'
 Assert-LastExitCode 'G05 solution tests failed.'
@@ -68,7 +70,9 @@ $failedSelfTests = @($catalogReport.selfTests | Where-Object passed -ne $true)
 $checks = [ordered]@{
     baselineFormat = $baseline.formatVersion -eq 1 -and $baseline.gate -eq 'G05'
     catalog = $catalogReport.result -eq $baseline.requiredResults.catalog
-    catalogMutationSelfTests = @($catalogReport.selfTests).Count -eq $baseline.requiredResults.catalogMutationSelfTests -and $failedSelfTests.Count -eq 0
+    catalogMutationSelfTests = @($catalogReport.selfTests).Count -eq $baseline.requiredResults.catalogMutationSelfTests -and
+        $failedSelfTests.Count -eq 0 -and
+        (@($catalogReport.selfTests.name | Sort-Object) -join '|') -eq (@($baseline.requiredCatalogMutationNames | Sort-Object) -join '|')
     migrationSafety = $migrationReport.result -eq $baseline.requiredResults.migrationSafety
     cumulativeG05 = $g05Report.result -eq 'passed' -and $g05Report.phase -eq $baseline.requiredResults.g05GuardPhase
     layerGuard = $layerGuardReport.verdict -eq $baseline.requiredResults.layerGuardVerdict -and $layerGuardReport.baseline.new -eq $baseline.requiredResults.layerGuardNewViolations -and $layerGuardReport.baseline.stale -eq $baseline.requiredResults.layerGuardStaleViolations

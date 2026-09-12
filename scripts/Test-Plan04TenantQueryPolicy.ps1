@@ -86,19 +86,19 @@ $sourceText = ($sourceFiles | ForEach-Object { Get-Content -Raw -LiteralPath $_.
 $ignoreQueryFiltersCount = @([regex]::Matches($sourceText, '\.IgnoreQueryFilters\s*\(')).Count
 $ordinaryBypassFlagCount = @([regex]::Matches($contractText, 'bypassTenant|ignoreTenant')).Count
 $tenantOwnedContractExpectations = [ordered]@{
-    'src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleRepository.cs' = @(
+    'src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleRepository.cs' = @(
         'GetByIdAsync\(Guid id, Guid tenantId',
         'GetByNameAsync\(string name, Guid tenantId',
         'GetByIdWithPermissionsAsync\(Guid id, Guid tenantId')
-    'src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleGroupRepository.cs' = @(
+    'src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleGroupRepository.cs' = @(
         'GetByIdAsync\(Guid id, Guid tenantId',
         'GetByNameAsync\(string name, Guid tenantId',
         'GetByIdWithRolesAsync\(Guid id, Guid tenantId')
-    'src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IDepartmentRepository.cs' = @(
+    'src/Modules/IAM/IFX.Modules.IAM.Domain/Tenancy/IDepartmentRepository.cs' = @(
         'GetByIdAsync\(Guid id, Guid tenantId')
-    'src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IPolicyDefinitionRepository.cs' = @(
+    'src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IPolicyDefinitionRepository.cs' = @(
         'GetTenantByIdAsync\(Guid id, Guid tenantId')
-    'src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IIdpRepository.cs' = @(
+    'src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/IIdpRepository.cs' = @(
         'GetByIdAsync\(Guid id, Guid tenantId')
     'src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/IIndividualInvestorProfileRepository.cs' = @(
         'GetByInvestorIdAsync\(Guid investorId, Guid tenantId')
@@ -144,7 +144,7 @@ foreach ($entry in @($registry.entries)) {
     $handlerOk = $handlerText -match 'CrossTenantAccessGuard\.Require' -and
         $handlerText -match [regex]::Escape([string]$entry.purpose) -and
         $handlerText -match 'ActorUserId'
-    $endpointText = Get-Content -Raw -LiteralPath (Repo 'src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/GlobalRoleEndpointExtensions.cs')
+    $endpointText = Get-Content -Raw -LiteralPath (Repo 'src/Modules/IAM/IFX.Modules.IAM.Presentation/Access/Endpoints/GlobalRoleEndpointExtensions.cs')
     $endpointRoute = ([string]$entry.endpoint).Replace('/api/v1/platform', '')
     $endpointOk = $endpointText -match [regex]::Escape($endpointRoute) -and
         $endpointText -match 'ExecutionScopeRequirement\.Platform' -and

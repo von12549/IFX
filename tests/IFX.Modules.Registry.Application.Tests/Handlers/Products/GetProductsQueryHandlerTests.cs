@@ -1,6 +1,7 @@
+using IFX.Modules.Registry.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Application.Products.DTOs;
 using IFX.Modules.Registry.Application.Products.Queries.GetProducts;
@@ -30,7 +31,7 @@ public class GetProductsQueryHandlerTests
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

@@ -17,97 +17,14 @@
       "Order": 10,
       "Schema": "auth",
       "DefaultSchema": "auth",
-      "DbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
-      "MigrationAssembly": "IFX.Modules.Auth.Infrastructure",
+      "DbContext": "IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext",
+      "MigrationAssembly": "IFX.Modules.IAM.Infrastructure",
       "ConnectionKey": "AuthDatabase",
       "TargetHistory": "auth.__EFMigrationsHistory",
-      "ContextSource": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/IfxDbContext.cs",
+      "ContextSource": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/IfxDbContext.cs",
       "Entities": [
         {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.Department",
-          "Table": "Departments",
-          "Schema": "auth",
-          "Owned": false,
-          "PrimaryKey": [
-            "Id"
-          ],
-          "Keys": [
-            {
-              "Name": "PK_Departments",
-              "Properties": [
-                "Id"
-              ],
-              "Primary": true
-            }
-          ],
-          "Indexes": [
-            {
-              "Name": "IX_Departments_TenantId_Name",
-              "Properties": [
-                "TenantId",
-                "Name"
-              ],
-              "Unique": true
-            }
-          ],
-          "ForeignKeys": [
-            {
-              "Name": "FK_Departments_Tenants_TenantId",
-              "Properties": [
-                "TenantId"
-              ],
-              "PrincipalSchema": "auth",
-              "PrincipalTable": "Tenants"
-            }
-          ],
-          "CheckConstraints": [],
-          "Columns": [
-            {
-              "Name": "CreatedAt",
-              "Column": "CreatedAt",
-              "StoreType": "datetimeoffset",
-              "Nullable": false
-            },
-            {
-              "Name": "CreatedBy",
-              "Column": "CreatedBy",
-              "StoreType": "uniqueidentifier",
-              "Nullable": true
-            },
-            {
-              "Name": "Description",
-              "Column": "Description",
-              "StoreType": "nvarchar(255)",
-              "Nullable": false
-            },
-            {
-              "Name": "Id",
-              "Column": "Id",
-              "StoreType": "uniqueidentifier",
-              "Nullable": false
-            },
-            {
-              "Name": "Name",
-              "Column": "Name",
-              "StoreType": "nvarchar(100)",
-              "Nullable": false
-            },
-            {
-              "Name": "TenantId",
-              "Column": "TenantId",
-              "StoreType": "uniqueidentifier",
-              "Nullable": false
-            },
-            {
-              "Name": "UpdatedAt",
-              "Column": "UpdatedAt",
-              "StoreType": "datetimeoffset",
-              "Nullable": false
-            }
-          ]
-        },
-        {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.GlobalRole",
+          "Entity": "IFX.Modules.IAM.Domain.Access.GlobalRole",
           "Table": "GlobalRoles",
           "Schema": "auth",
           "Owned": false,
@@ -168,7 +85,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.Permission",
+          "Entity": "IFX.Modules.IAM.Domain.Access.Permission",
           "Table": "Permissions",
           "Schema": "auth",
           "Owned": false,
@@ -229,7 +146,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.PolicyDefinition",
+          "Entity": "IFX.Modules.IAM.Domain.Access.PolicyDefinition",
           "Table": "PolicyDefinitions",
           "Schema": "auth",
           "Owned": false,
@@ -348,7 +265,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.Role",
+          "Entity": "IFX.Modules.IAM.Domain.Access.Role",
           "Table": "Roles",
           "Schema": "auth",
           "Owned": false,
@@ -431,7 +348,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.RoleGroup",
+          "Entity": "IFX.Modules.IAM.Domain.Access.RoleGroup",
           "Table": "RoleGroups",
           "Schema": "auth",
           "Owned": false,
@@ -514,74 +431,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.Tenant",
-          "Table": "Tenants",
-          "Schema": "auth",
-          "Owned": false,
-          "PrimaryKey": [
-            "Id"
-          ],
-          "Keys": [
-            {
-              "Name": "PK_Tenants",
-              "Properties": [
-                "Id"
-              ],
-              "Primary": true
-            }
-          ],
-          "Indexes": [
-            {
-              "Name": "IX_Tenants_Name",
-              "Properties": [
-                "Name"
-              ],
-              "Unique": true
-            }
-          ],
-          "ForeignKeys": [],
-          "CheckConstraints": [],
-          "Columns": [
-            {
-              "Name": "CreatedAt",
-              "Column": "CreatedAt",
-              "StoreType": "datetimeoffset",
-              "Nullable": false
-            },
-            {
-              "Name": "CreatedBy",
-              "Column": "CreatedBy",
-              "StoreType": "uniqueidentifier",
-              "Nullable": true
-            },
-            {
-              "Name": "Description",
-              "Column": "Description",
-              "StoreType": "nvarchar(255)",
-              "Nullable": false
-            },
-            {
-              "Name": "Id",
-              "Column": "Id",
-              "StoreType": "uniqueidentifier",
-              "Nullable": false
-            },
-            {
-              "Name": "Name",
-              "Column": "Name",
-              "StoreType": "nvarchar(100)",
-              "Nullable": false
-            },
-            {
-              "Name": "UpdatedAt",
-              "Column": "UpdatedAt",
-              "StoreType": "datetimeoffset",
-              "Nullable": false
-            }
-          ]
-        },
-        {
-          "Entity": "IFX.Modules.Auth.Domain.Authorization.UserGlobalRole",
+          "Entity": "IFX.Modules.IAM.Domain.Access.UserGlobalRole",
           "Table": "UserGlobalRoles",
           "Schema": "auth",
           "Owned": false,
@@ -649,7 +499,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.DeviceInfo",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.DeviceInfo",
           "Table": "LoginEvents",
           "Schema": "auth",
           "Owned": true,
@@ -711,7 +561,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.EmailVerificationToken",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.EmailVerificationToken",
           "Table": "EmailVerificationTokens",
           "Schema": "auth",
           "Owned": false,
@@ -833,7 +683,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.Idp",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.Idp",
           "Table": "Idps",
           "Schema": "auth",
           "Owned": false,
@@ -1008,7 +858,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.LoginEvent",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.LoginEvent",
           "Table": "LoginEvents",
           "Schema": "auth",
           "Owned": false,
@@ -1096,7 +946,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.LogoutEvent",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.LogoutEvent",
           "Table": "LogoutEvents",
           "Schema": "auth",
           "Owned": false,
@@ -1170,7 +1020,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.RegistrationFlowEvent",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.RegistrationFlowEvent",
           "Table": "RegistrationFlowEvents",
           "Schema": "auth",
           "Owned": false,
@@ -1275,7 +1125,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Identity.UserIdentity",
+          "Entity": "IFX.Modules.IAM.Domain.Identity.UserIdentity",
           "Table": "UserIdentities",
           "Schema": "auth",
           "Owned": false,
@@ -1434,7 +1284,163 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Users.User",
+          "Entity": "IFX.Modules.IAM.Domain.Tenancy.Department",
+          "Table": "Departments",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Departments",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Departments_TenantId_Name",
+              "Properties": [
+                "TenantId",
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [
+            {
+              "Name": "FK_Departments_Tenants_TenantId",
+              "Properties": [
+                "TenantId"
+              ],
+              "PrincipalSchema": "auth",
+              "PrincipalTable": "Tenants"
+            }
+          ],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.IAM.Domain.Tenancy.Tenant",
+          "Table": "Tenants",
+          "Schema": "auth",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_Tenants",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_Tenants_Name",
+              "Properties": [
+                "Name"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedBy",
+              "Column": "CreatedBy",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "Description",
+              "Column": "Description",
+              "StoreType": "nvarchar(255)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "IsActive",
+              "Column": "IsActive",
+              "StoreType": "bit",
+              "Nullable": false
+            },
+            {
+              "Name": "Name",
+              "Column": "Name",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "UpdatedAt",
+              "Column": "UpdatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.IAM.Domain.Users.User",
           "Table": "Users",
           "Schema": "auth",
           "Owned": false,
@@ -1516,7 +1522,7 @@
           ]
         },
         {
-          "Entity": "IFX.Modules.Auth.Domain.Users.UserActivityLog",
+          "Entity": "IFX.Modules.IAM.Domain.Users.UserActivityLog",
           "Table": "UserActivityLogs",
           "Schema": "auth",
           "Owned": false,
@@ -1981,8 +1987,8 @@
         {
           "MigrationId": "20260327075710_InitialCreate",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
-          "SourceSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
+          "SourceSha256": "30a19829d892d09df85774c61e21b64aaa1e7ea47f9ef38ef208cf6506024c13",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -1993,8 +1999,8 @@
         {
           "MigrationId": "20260327075811_InitialSeed",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
-          "SourceSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+          "SourceSha256": "570d253a3cd5141fd69451520ca21a96503db53a26a5a4424ee8c0aa5f53ca45",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -2005,8 +2011,8 @@
         {
           "MigrationId": "20260413100000_CrmPolicyDefinitionSeeds",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
-          "SourceSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+          "SourceSha256": "4116ed80b1d712a8db0baa3204844cd700ab2b487e91eb892261b107ebd3b2c0",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -2017,8 +2023,8 @@
         {
           "MigrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "4c13bd75690e1fa25c7bba455f2230d94ed6c6a0508841be067ae7f6cbbc5b25",
           "Risk": {
             "Level": "high",
             "Signals": [
@@ -2029,12 +2035,24 @@
         {
           "MigrationId": "20260908015924_RemoveLoginEventSecrets",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
-          "SourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "SourceSha256": "ffba17d4123b6e154615c5607442eeb131a218f9feb084f9a674742502f3dc75",
           "Risk": {
             "Level": "high",
             "Signals": [
               "destructive-or-rename-ddl"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260912101127_EnforceActiveTenantMembership",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260912101127_EnforceActiveTenantMembership.cs",
+          "SourceSha256": "87dadf7913030f5cc8645c025fd46917bec023a7fa1f57060a2f531cb4b1457d",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "schema-lock"
             ]
           }
         }
@@ -3552,7 +3570,7 @@
           "MigrationId": "20260413120000_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations/20260413120000_InitialCreate.cs",
-          "SourceSha256": "4d5e5a2496f4d8a61d92f4278a85609a0aeeffae843e789086a14257167b854d",
+          "SourceSha256": "cf96d676d0819aba1baa20abb06d2dd0adbf76e5164cade4027b26df4986cbb4",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -3564,7 +3582,7 @@
           "MigrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations/20260420043006_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b",
+          "SourceSha256": "3194017a4ab0505072d93c7e21d492eb18e122c43ed3cb66fd57f616d6ff44d3",
           "Risk": {
             "Level": "high",
             "Signals": [
@@ -3980,6 +3998,203 @@
               "Nullable": true
             }
           ]
+        },
+        {
+          "Entity": "IFX.Modules.Registry.Infrastructure.Messaging.RegistryOutboxMessage",
+          "Table": "OutboxMessages",
+          "Schema": "registry",
+          "Owned": false,
+          "PrimaryKey": [
+            "EventId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_OutboxMessages",
+              "Properties": [
+                "EventId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_OutboxMessages_PartitionKey_Sequence",
+              "Properties": [
+                "PartitionKey",
+                "Sequence"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_OutboxMessages_State_NextAttemptAt_LeaseUntil",
+              "Properties": [
+                "State",
+                "NextAttemptAt",
+                "LeaseUntil"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AttemptCount",
+              "Column": "AttemptCount",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "CausationId",
+              "Column": "CausationId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "ConcurrencyToken",
+              "Column": "ConcurrencyToken",
+              "StoreType": "rowversion",
+              "Nullable": false
+            },
+            {
+              "Name": "ContentType",
+              "Column": "ContentType",
+              "StoreType": "nvarchar(64)",
+              "Nullable": false
+            },
+            {
+              "Name": "CorrelationId",
+              "Column": "CorrelationId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "DeliveredAt",
+              "Column": "DeliveredAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "EnvelopeVersion",
+              "Column": "EnvelopeVersion",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "EventId",
+              "Column": "EventId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "EventType",
+              "Column": "EventType",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "LastErrorCode",
+              "Column": "LastErrorCode",
+              "StoreType": "nvarchar(128)",
+              "Nullable": true
+            },
+            {
+              "Name": "LeaseOwner",
+              "Column": "LeaseOwner",
+              "StoreType": "nvarchar(max)",
+              "Nullable": true
+            },
+            {
+              "Name": "LeaseUntil",
+              "Column": "LeaseUntil",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "NextAttemptAt",
+              "Column": "NextAttemptAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "OccurredAt",
+              "Column": "OccurredAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "PartitionKey",
+              "Column": "PartitionKey",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "Payload",
+              "Column": "Payload",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "Producer",
+              "Column": "Producer",
+              "StoreType": "nvarchar(128)",
+              "Nullable": false
+            },
+            {
+              "Name": "Provenance",
+              "Column": "Provenance",
+              "StoreType": "nvarchar(24)",
+              "Nullable": false
+            },
+            {
+              "Name": "SchemaVersion",
+              "Column": "SchemaVersion",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Scope",
+              "Column": "Scope",
+              "StoreType": "nvarchar(16)",
+              "Nullable": false
+            },
+            {
+              "Name": "Sequence",
+              "Column": "Sequence",
+              "StoreType": "bigint",
+              "Nullable": false
+            },
+            {
+              "Name": "State",
+              "Column": "State",
+              "StoreType": "nvarchar(24)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "TraceParent",
+              "Column": "TraceParent",
+              "StoreType": "nvarchar(55)",
+              "Nullable": true
+            },
+            {
+              "Name": "TraceState",
+              "Column": "TraceState",
+              "StoreType": "nvarchar(256)",
+              "Nullable": true
+            }
+          ]
         }
       ],
       "Sequences": [],
@@ -3988,7 +4203,7 @@
           "MigrationId": "20260413120300_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260413120300_InitialCreate.cs",
-          "SourceSha256": "2b9983bacf6695594c5616552e13ac50240a5991ed842e5438e968cf23de6d31",
+          "SourceSha256": "5bd46995329c38baa81facba1d520cc9e8d8a170544a8c521e7ee67013af4592",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -4000,7 +4215,7 @@
           "MigrationId": "20260413191525_AddProduct",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260413191525_AddProduct.cs",
-          "SourceSha256": "86d12070d5212c13c4efb108cfcdd29332ea9d318be034e89135137da722ca15",
+          "SourceSha256": "b6a0de666f6a5bd04fef148d62c9cc87e3138ad8ee950910449916aef082551b",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -4013,11 +4228,23 @@
           "MigrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260420043017_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd",
+          "SourceSha256": "bff238b5b8d092b7c698aff21bc93102b2557ff48da108a7d8a7d6c0b01cab02",
           "Risk": {
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100951_Plan02ReliableOutbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260908100951_Plan02ReliableOutbox.cs",
+          "SourceSha256": "733a14c9d7488683686f40f4d2f53b981c10ae7a7b62736c4cb3246a5767df9f",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }
@@ -4148,6 +4375,135 @@
               "Nullable": true
             }
           ]
+        },
+        {
+          "Entity": "IFX.Modules.Holdings.Infrastructure.Messaging.HoldingsInboxMessage",
+          "Table": "InboxMessages",
+          "Schema": "holdings",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_InboxMessages",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_InboxMessages_ConsumerId_EventId",
+              "Properties": [
+                "ConsumerId",
+                "EventId"
+              ],
+              "Unique": true
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "CompletedAt",
+              "Column": "CompletedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "ConsumerId",
+              "Column": "ConsumerId",
+              "StoreType": "nvarchar(128)",
+              "Nullable": false
+            },
+            {
+              "Name": "EventId",
+              "Column": "EventId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "EventType",
+              "Column": "EventType",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            }
+          ]
+        },
+        {
+          "Entity": "IFX.Modules.Holdings.Infrastructure.Messaging.HoldingsQuarantinedMessage",
+          "Table": "IntegrationEventQuarantine",
+          "Schema": "holdings",
+          "Owned": false,
+          "PrimaryKey": [
+            "Id"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_IntegrationEventQuarantine",
+              "Properties": [
+                "Id"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_IntegrationEventQuarantine_QuarantinedAt",
+              "Properties": [
+                "QuarantinedAt"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "EventId",
+              "Column": "EventId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "EventType",
+              "Column": "EventType",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "Id",
+              "Column": "Id",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "QuarantinedAt",
+              "Column": "QuarantinedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "ReasonCode",
+              "Column": "ReasonCode",
+              "StoreType": "nvarchar(128)",
+              "Nullable": false
+            }
+          ]
         }
       ],
       "Sequences": [],
@@ -4156,7 +4512,7 @@
           "MigrationId": "20260413120100_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260413120100_InitialCreate.cs",
-          "SourceSha256": "95593d59a104c3d414c39a66e470ce7f07cce525f58841a7b71d6639f1eae5f2",
+          "SourceSha256": "4770882df9d0ad619725b0d3283f99e216ab38a5d3717d2fc0930bcad581b2a8",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -4168,11 +4524,23 @@
           "MigrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260420043031_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83",
+          "SourceSha256": "210a64990ff5686ce14654fa2c07360113650c1d2992110971ec93c38ba84131",
           "Risk": {
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100954_Plan02ReliableInbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260908100954_Plan02ReliableInbox.cs",
+          "SourceSha256": "1813c9904f8dfb946a7e9d5ad76c010383a76eb73997cc6d56dd07152284ada9",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }
@@ -4843,6 +5211,203 @@
               "Nullable": false
             }
           ]
+        },
+        {
+          "Entity": "IFX.Modules.Transaction.Infrastructure.Messaging.TransactionOutboxMessage",
+          "Table": "OutboxMessages",
+          "Schema": "transaction",
+          "Owned": false,
+          "PrimaryKey": [
+            "EventId"
+          ],
+          "Keys": [
+            {
+              "Name": "PK_OutboxMessages",
+              "Properties": [
+                "EventId"
+              ],
+              "Primary": true
+            }
+          ],
+          "Indexes": [
+            {
+              "Name": "IX_OutboxMessages_PartitionKey_Sequence",
+              "Properties": [
+                "PartitionKey",
+                "Sequence"
+              ],
+              "Unique": true
+            },
+            {
+              "Name": "IX_OutboxMessages_State_NextAttemptAt_LeaseUntil",
+              "Properties": [
+                "State",
+                "NextAttemptAt",
+                "LeaseUntil"
+              ],
+              "Unique": false
+            }
+          ],
+          "ForeignKeys": [],
+          "CheckConstraints": [],
+          "Columns": [
+            {
+              "Name": "AttemptCount",
+              "Column": "AttemptCount",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "CausationId",
+              "Column": "CausationId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "ConcurrencyToken",
+              "Column": "ConcurrencyToken",
+              "StoreType": "rowversion",
+              "Nullable": false
+            },
+            {
+              "Name": "ContentType",
+              "Column": "ContentType",
+              "StoreType": "nvarchar(64)",
+              "Nullable": false
+            },
+            {
+              "Name": "CorrelationId",
+              "Column": "CorrelationId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "CreatedAt",
+              "Column": "CreatedAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "DeliveredAt",
+              "Column": "DeliveredAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "EnvelopeVersion",
+              "Column": "EnvelopeVersion",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "EventId",
+              "Column": "EventId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": false
+            },
+            {
+              "Name": "EventType",
+              "Column": "EventType",
+              "StoreType": "nvarchar(200)",
+              "Nullable": false
+            },
+            {
+              "Name": "LastErrorCode",
+              "Column": "LastErrorCode",
+              "StoreType": "nvarchar(128)",
+              "Nullable": true
+            },
+            {
+              "Name": "LeaseOwner",
+              "Column": "LeaseOwner",
+              "StoreType": "nvarchar(max)",
+              "Nullable": true
+            },
+            {
+              "Name": "LeaseUntil",
+              "Column": "LeaseUntil",
+              "StoreType": "datetimeoffset",
+              "Nullable": true
+            },
+            {
+              "Name": "NextAttemptAt",
+              "Column": "NextAttemptAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "OccurredAt",
+              "Column": "OccurredAt",
+              "StoreType": "datetimeoffset",
+              "Nullable": false
+            },
+            {
+              "Name": "PartitionKey",
+              "Column": "PartitionKey",
+              "StoreType": "nvarchar(100)",
+              "Nullable": false
+            },
+            {
+              "Name": "Payload",
+              "Column": "Payload",
+              "StoreType": "nvarchar(max)",
+              "Nullable": false
+            },
+            {
+              "Name": "Producer",
+              "Column": "Producer",
+              "StoreType": "nvarchar(128)",
+              "Nullable": false
+            },
+            {
+              "Name": "Provenance",
+              "Column": "Provenance",
+              "StoreType": "nvarchar(24)",
+              "Nullable": false
+            },
+            {
+              "Name": "SchemaVersion",
+              "Column": "SchemaVersion",
+              "StoreType": "int",
+              "Nullable": false
+            },
+            {
+              "Name": "Scope",
+              "Column": "Scope",
+              "StoreType": "nvarchar(16)",
+              "Nullable": false
+            },
+            {
+              "Name": "Sequence",
+              "Column": "Sequence",
+              "StoreType": "bigint",
+              "Nullable": false
+            },
+            {
+              "Name": "State",
+              "Column": "State",
+              "StoreType": "nvarchar(24)",
+              "Nullable": false
+            },
+            {
+              "Name": "TenantId",
+              "Column": "TenantId",
+              "StoreType": "uniqueidentifier",
+              "Nullable": true
+            },
+            {
+              "Name": "TraceParent",
+              "Column": "TraceParent",
+              "StoreType": "nvarchar(55)",
+              "Nullable": true
+            },
+            {
+              "Name": "TraceState",
+              "Column": "TraceState",
+              "StoreType": "nvarchar(256)",
+              "Nullable": true
+            }
+          ]
         }
       ],
       "Sequences": [],
@@ -4851,7 +5416,7 @@
           "MigrationId": "20260413120200_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260413120200_InitialCreate.cs",
-          "SourceSha256": "8cd83761a6ad71ad0f9eaba090b2d600f8e42f3f88cba6f5ab555d9c99c5671c",
+          "SourceSha256": "708630667973a98f8f332c90ef405608a5204ef2ec877140ce638bc997fe56db",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -4863,7 +5428,7 @@
           "MigrationId": "20260418123443_AddOrderInstructionModel",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260418123443_AddOrderInstructionModel.cs",
-          "SourceSha256": "bf87f5cc66d112776079bf0acd330890f655f76320612303f61a13169382c23f",
+          "SourceSha256": "5dadb7e1b8ebe09d984fcf3f94bbb5337c683f3855e1ba8a1b6b7df0acc71475",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -4876,11 +5441,23 @@
           "MigrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260420043039_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be",
+          "SourceSha256": "06a536a25bb6a29a08da8b79e86ecbc7de63ec9a47196e111d6c247bb2d57f42",
           "Risk": {
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100947_Plan02ReliableOutbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260908100947_Plan02ReliableOutbox.cs",
+          "SourceSha256": "f5468548ee4f1d82a4f72e39ae05648ef020b931de7a0bd21adca7c5b25b890a",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }
@@ -4891,247 +5468,247 @@
   "staticScan": {
     "RawSqlFindings": [
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 156,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 163,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 170,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 222,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 277,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 291,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 298,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 312,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 371,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 380,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 396,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 405,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 414,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 423,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 433,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 448,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 464,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 508,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 523,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 559,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 575,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserGlobalRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 578,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 593,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 599,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 610,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[PolicyDefinitions] WHERE [Id] IN (\u0027{PolicyUserReadIFX}\u0027, \u0027{PolicyUserReadPlatform}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 613,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserDepartments] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 616,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserTenants] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 619,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoleGroups] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 622,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 625,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserIdentities] WHERE [Id] = \u0027{AdminUserIdentityId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 628,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Users] WHERE [Id] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 631,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RolePermissions] WHERE [RoleId] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 634,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroupRoles] WHERE [RoleGroupId] = \u0027{RoleGroupTestId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 637,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroups] WHERE [Id] = \u0027{RoleGroupTestId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 640,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Roles] WHERE [Id] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 643,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022\u0022\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 658,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Idps] WHERE [Id] IN (\u0027{IdpIfxCognitoId}\u0027, \u0027{IdpTestExternalId}\u0027, \u0027{IdpVonCognitoId}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 661,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Departments] WHERE [Id] = \u0027{TestDeptId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 664,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
         "Line": 42,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
         "Line": 73,
         "Kind": "raw-sql",
         "Excerpt": "migrationBuilder.Sql($@\u0022"
@@ -5151,313 +5728,313 @@
     ],
     "SchemaQualifiedTableReferences": [
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 157,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 158,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Tenants] ([Id], [Name], [Description], [CreatedBy], [CreatedAt], [UpdatedAt])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 164,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Departments] WHERE [Id] = \u0027{TestDeptId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 165,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Departments] ([Id], [Name], [Description], [TenantId], [CreatedBy], [CreatedAt], [UpdatedAt])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 171,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Idps] WHERE [Id] = \u0027{IdpIfxCognitoId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 172,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Idps]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 187,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Idps] WHERE [Id] = \u0027{IdpTestExternalId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 188,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Idps]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 204,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Idps] WHERE [Id] = \u0027{IdpVonCognitoId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 205,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Idps]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 224,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Permissions] ([Id], [Name], [Description], [CreatedAt], [UpdatedAt])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 273,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "WHERE NOT EXISTS (SELECT 1 FROM [auth].[Permissions] p WHERE p.[Name] = v.[Name])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 279,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Roles] ([Id], [Name], [Description], [TenantId], [CreatedBy], [CreatedAt], [UpdatedAt])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 287,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "WHERE NOT EXISTS (SELECT 1 FROM [auth].[Roles] r WHERE r.[Id] = v.[Id])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 292,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[RoleGroups] WHERE [Id] = \u0027{RoleGroupTestId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 293,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[RoleGroups] ([Id], [Name], [Description], [TenantId], [CreatedBy], [CreatedAt], [UpdatedAt])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 299,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[RoleGroupRoles] ([RoleGroupId], [RolesId])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 307,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "SELECT 1 FROM [auth].[RoleGroupRoles] x"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 313,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[RolePermissions] ([RoleId], [PermissionsId])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 366,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "SELECT 1 FROM [auth].[RolePermissions] x"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 372,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[Users] WHERE [Id] = \u0027{AdminUserId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 373,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[Users]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 381,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[UserIdentities] WHERE [Id] = \u0027{AdminUserIdentityId}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 382,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[UserIdentities]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 398,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "SELECT 1 FROM [auth].[UserRoles]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 400,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[UserRoles] ([RolesId], [UserId])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 407,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "SELECT 1 FROM [auth].[UserRoleGroups]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 409,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[UserRoleGroups] ([RoleGroupsId], [UserId])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 416,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "SELECT 1 FROM [auth].[UserTenants]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 418,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[UserTenants] ([TenantsId], [UserId])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 425,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "SELECT 1 FROM [auth].[UserDepartments]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 427,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[UserDepartments] ([DepartmentsId], [UserId])"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 434,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[PolicyDefinitions] WHERE [Id] = \u0027{PolicyUserReadIFX}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 435,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[PolicyDefinitions]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 449,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "IF NOT EXISTS (SELECT 1 FROM [auth].[PolicyDefinitions] WHERE [Id] = \u0027{PolicyUserReadPlatform}\u0027)"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 450,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "INSERT INTO [auth].[PolicyDefinitions]"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 575,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserGlobalRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 610,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[PolicyDefinitions] WHERE [Id] IN (\u0027{PolicyUserReadIFX}\u0027, \u0027{PolicyUserReadPlatform}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 613,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserDepartments] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 616,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserTenants] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 619,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoleGroups] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 622,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserRoles] WHERE [UserId] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 625,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[UserIdentities] WHERE [Id] = \u0027{AdminUserIdentityId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 628,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Users] WHERE [Id] = \u0027{AdminUserId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 631,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RolePermissions] WHERE [RoleId] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 634,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroupRoles] WHERE [RoleGroupId] = \u0027{RoleGroupTestId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 637,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[RoleGroups] WHERE [Id] = \u0027{RoleGroupTestId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 640,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Roles] WHERE [Id] IN (\u0027{RoleAdminId}\u0027, \u0027{RoleUserId}\u0027, \u0027{RoleSsoUserId}\u0027, \u0027{RolePendingId}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 644,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "DELETE FROM [auth].[Permissions] WHERE [Id] IN ("
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 658,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Idps] WHERE [Id] IN (\u0027{IdpIfxCognitoId}\u0027, \u0027{IdpTestExternalId}\u0027, \u0027{IdpVonCognitoId}\u0027)\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 661,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Departments] WHERE [Id] = \u0027{TestDeptId}\u0027\u0022);"
       },
       {
-        "Path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+        "Path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
         "Line": 664,
         "Kind": "schema-qualified-table-reference",
         "Excerpt": "migrationBuilder.Sql($\u0022DELETE FROM [auth].[Tenants] WHERE [Id] = \u0027{IFXTenantId}\u0027\u0022);"

@@ -1,5 +1,6 @@
+using IFX.Modules.CRM.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.InvestmentAccounts.Commands.LinkAdvisorToInvestmentAccount;
 using IFX.Modules.CRM.Domain.Entities;
@@ -35,7 +36,7 @@ public class LinkAdvisorToAccountCommandHandlerTests
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

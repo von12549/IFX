@@ -1,0 +1,162 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "1677e18",
+  "encoding": "UTF-8 without BOM, LF; raw SHA-256 remains fail-closed",
+  "changes": [
+    {
+      "path": "docs/architecture/review/evidence/plan05/current-dependency-graph.json",
+      "previousSha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810",
+      "actualBeforeSha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810",
+      "lfSha256": "c5db7c13e342f7132141df205e95686ccbfefdbe1b7b1c33dbfe74994bd46db4",
+      "currentSha256": "c5db7c13e342f7132141df205e95686ccbfefdbe1b7b1c33dbfe74994bd46db4",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "previousSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
+      "actualBeforeSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
+      "lfSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+      "currentSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "deployment/g04/module-manifest.json",
+      "previousSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
+      "actualBeforeSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
+      "lfSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
+      "currentSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+      "previousSha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
+      "actualBeforeSha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
+      "lfSha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba",
+      "currentSha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+      "previousSha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7",
+      "actualBeforeSha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7",
+      "lfSha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b",
+      "currentSha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json",
+      "previousSha256": "cd49dca5d916112e940b330fffa8ae768b0d9d376def62067660282f6df51838",
+      "actualBeforeSha256": "cd49dca5d916112e940b330fffa8ae768b0d9d376def62067660282f6df51838",
+      "lfSha256": "c39a6f2b4be11df75a9c84fe36346f159eaf43a825784ac5aa33f7ff1137ab27",
+      "currentSha256": "15348e95e74a5a5bbb8469239da05206efc70d645199f20b2bbf18e63398c0b8",
+      "change": "Derived inventory binding updated; decisions and approval states unchanged"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+      "previousSha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+      "actualBeforeSha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+      "lfSha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+      "currentSha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+      "previousSha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+      "actualBeforeSha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+      "lfSha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+      "currentSha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+      "previousSha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+      "actualBeforeSha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+      "lfSha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+      "currentSha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+      "previousSha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+      "actualBeforeSha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+      "lfSha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+      "currentSha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json",
+      "previousSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+      "actualBeforeSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+      "lfSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+      "currentSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+      "previousSha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+      "actualBeforeSha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+      "lfSha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+      "currentSha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+      "change": "CRLF-to-LF only; logical content unchanged"
+    }
+  ],
+  "originalPhase0AuthoritiesPreserved": true,
+  "frozenReports": [
+    {
+      "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json",
+      "previousSha256": "ff23f76b58f4722dd133c4069521ae2897997bf51bb42ee6a63720ef7a0e37ea",
+      "lfSha256": "18235780b8768f7713fb7a1a1056945f77ad81bbea56d0188409828c1b93f7c2",
+      "committedBytesUnchanged": true
+    },
+    {
+      "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json",
+      "previousSha256": "597cf51cb6d33cc8ec1539f5c6f59bd8f16ffc83c01f616be31ee33af1597e72",
+      "lfSha256": "b9f3d6cc3e8f21b29f67361ca0a9d6a277a118d9493bfee5c8328fe4a0f59a50",
+      "committedBytesUnchanged": true
+    },
+    {
+      "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+      "previousSha256": "53e37f92c89bf57729b15f3b96411aafdc56f3de7239766389034dc6fb36c368",
+      "lfSha256": "d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20",
+      "committedBytesUnchanged": true
+    },
+    {
+      "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
+      "previousSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506",
+      "lfSha256": "4de8876b9252c71b018c0a4ba391079a39aea30024608300059d09c18079e9f2",
+      "committedBytesUnchanged": true
+    }
+  ],
+  "runtimeBindings": [
+    {
+      "path": "deployment/release-manifest.json",
+      "previousSha256": "b712896794946ab63594a578e92d0b153d721307884c8d3f444504b1245a37d0",
+      "currentSha256": "0663fb88f6587bb00910bff97851a3fc485c576330ec596fb682700f9806117d",
+      "committedSourceBytesUnchanged": true,
+      "previousHashMatchesCrlf": true,
+      "reason": "CRLF-to-LF hash binding"
+    },
+    {
+      "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+      "previousSha256": "172a72e3acc24d54d1a650c154599a315b0efc0a9752909d8ac49c154abb6dc0",
+      "currentSha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6",
+      "committedSourceBytesUnchanged": true,
+      "previousHashMatchesCrlf": true,
+      "reason": "CRLF-to-LF hash binding"
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
+      "previousSha256": "90bce9f7862e5350427ea38bf89ffe3cf2f7ca2942b91f0891391b6f74b29bc2",
+      "currentSha256": "50df26397f9a5bd48c0be771dc68bf36519c7e3bc769273c337c8d0b0d5a5652",
+      "committedSourceBytesUnchanged": true,
+      "previousHashMatchesCrlf": false,
+      "reason": "Stale host digest regenerated from unchanged committed project; prior worktree byte encoding was not retained"
+    }
+  ],
+  "emptyBaseline": {
+    "previousHash": "5407814fbb1095e696bc71fedc0d5872a83c70a9dbc45ddd89c7c4ab6173e92d",
+    "currentHash": "c8520babb3d5b0ab916329aa0ef62ab6d4d7b5fac5225f4f7c2d95dc72952210",
+    "unbaselinedViolations": 0,
+    "entries": 0
+  }
+}

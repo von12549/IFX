@@ -1,8 +1,8 @@
 using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using IFX.Modules.Auth.Infrastructure.Persistence;
-using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
+using IFX.Modules.IAM.Infrastructure.Persistence;
+using IFX.Modules.IAM.Infrastructure.Persistence.Migrations.Legacy;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.Holdings.Infrastructure.Persistence;
 using IFX.Modules.Registry.Infrastructure.Persistence;
@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using AuthModuleDatabase = IFX.Modules.Auth.Infrastructure.ModuleDatabase;
+using AuthModuleDatabase = IFX.Modules.IAM.Infrastructure.ModuleDatabase;
 using CrmModuleDatabase = IFX.Modules.CRM.Infrastructure.ModuleDatabase;
 using HoldingsModuleDatabase = IFX.Modules.Holdings.Infrastructure.ModuleDatabase;
 using RegistryModuleDatabase = IFX.Modules.Registry.Infrastructure.ModuleDatabase;
@@ -22,8 +22,8 @@ var root = Path.GetFullPath(options.Root);
 var moduleSpecs = new ModuleSpec[]
 {
     new("Auth", AuthModuleDatabase.Schema, AuthModuleDatabase.ConnectionStringName, 10,
-        "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations",
-        "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/IfxDbContext.cs",
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations",
+        "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/IfxDbContext.cs",
         () => new IfxDbContext(SqlOptions<IfxDbContext>())),
     new("CRM", CrmModuleDatabase.Schema, CrmModuleDatabase.ConnectionStringName, 20,
         "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations",
@@ -88,7 +88,7 @@ var report = new
 var output = Path.GetFullPath(Path.Combine(root, options.Output));
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 var json = JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true });
-File.WriteAllText(output, json + Environment.NewLine);
+File.WriteAllText(output, json.Replace("\r\n", "\n") + "\n");
 
 var manifest = new
 {
@@ -110,7 +110,7 @@ var manifestOutput = Path.GetFullPath(Path.Combine(root, options.ManifestOutput)
 Directory.CreateDirectory(Path.GetDirectoryName(manifestOutput)!);
 File.WriteAllText(
     manifestOutput,
-    JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine);
+    JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n") + "\n");
 
 var violations = modules.SelectMany(module => module.SchemaViolations)
     .Concat(staticScan.CrossSchemaFindings)
@@ -266,7 +266,7 @@ static StaticScanReport ScanSources(string root, IReadOnlyList<ModuleSpec> specs
     {
         var text = File.ReadAllText(path);
         var relative = Relative(root, path);
-        var module = specs.FirstOrDefault(spec => relative.Contains($"Modules/{spec.Name}/", StringComparison.OrdinalIgnoreCase));
+        var module = specs.FirstOrDefault(spec => relative.StartsWith($"src/Modules/{spec.CodeModuleName}/", StringComparison.OrdinalIgnoreCase));
         foreach (var finding in FindLines(text, @"\b(ExecuteSql(?:Raw|Interpolated)?Async|FromSql(?:Raw|Interpolated)?|SqlQueryRaw|migrationBuilder\.Sql)\b"))
         {
             sqlFindings.Add(new SourceFinding(relative, finding.Line, "raw-sql", finding.Excerpt));
@@ -280,7 +280,7 @@ static StaticScanReport ScanSources(string root, IReadOnlyList<ModuleSpec> specs
         foreach (var schema in schemaNames)
         {
             // Bracketed SQL identifiers avoid confusing C# namespaces such as
-            // IFX.Modules.Auth.Domain with database access to the auth schema.
+            // IFX.Modules.IAM.Domain with database access to the auth schema.
             var schemaTablePattern = $@"(?i)\[{Regex.Escape(schema)}\]\s*\.\s*\[[^\]]+\]";
             foreach (var finding in FindLines(text, schemaTablePattern))
             {
@@ -456,7 +456,7 @@ static bool IsBuildOutput(string path) =>
 
 static string Relative(string root, string path) => Path.GetRelativePath(root, path).Replace('\\', '/');
 
-static string Sha256(string path) => Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant();
+static string Sha256(string path) => Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(path).ReplaceLineEndings("\n")))).ToLowerInvariant();
 
 internal sealed record ModuleSpec(
     string Name,
@@ -465,7 +465,11 @@ internal sealed record ModuleSpec(
     int Order,
     string MigrationsPath,
     string ContextPath,
-    Func<DbContext> CreateContext);
+    Func<DbContext> CreateContext)
+{
+    // Persisted schema/history ownership remains Auth; Plan 05 renamed the source owner to IAM.
+    public string CodeModuleName => Name == "Auth" ? "IAM" : Name;
+}
 
 internal sealed record ModuleInventory(
     string Module,

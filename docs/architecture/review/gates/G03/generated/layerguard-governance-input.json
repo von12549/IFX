@@ -1,10 +1,20 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
+  "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
   "moduleOwnership": [
     {
-      "module": "Auth",
+      "module": "IAM",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Authentication",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Authorization",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi"
     },
@@ -40,39 +50,87 @@
     "consumerAdapter": "IntegrationAdapter"
   },
   "providerContracts": {
-    "holdings": [
+    "IAM": [
+      "Authentication",
+      "Authorization"
+    ],
+    "CRM": [
+      "IAM"
+    ],
+    "Holdings": [
+      "IAM",
       "Registry",
       "Transaction"
     ],
-    "transaction": [
+    "Registry": [
+      "IAM"
+    ],
+    "Transaction": [
       "CRM",
+      "IAM",
       "Registry"
     ]
   },
   "adapterEdges": [
     {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "CRM",
+      "provider": "IAM"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "Registry",
+      "provider": "IAM"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "Transaction",
+      "provider": "IAM"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "Holdings",
+      "provider": "IAM"
+    },
+    {
+      "identity": "authentication.identity-protocol.v1",
+      "kind": "in-process-sensitive",
+      "consumer": "IAM",
+      "provider": "Authentication"
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
+      "kind": "sync",
+      "consumer": "IAM",
+      "provider": "Authorization"
+    },
+    {
       "identity": "crm.account-compliance.v1",
       "kind": "sync",
-      "consumer": "transaction",
-      "provider": "crm"
+      "consumer": "Transaction",
+      "provider": "CRM"
     },
     {
       "identity": "ifx.registry.class-status-changed.v1",
       "kind": "event",
-      "consumer": "holdings",
-      "provider": "registry"
+      "consumer": "Holdings",
+      "provider": "Registry"
     },
     {
       "identity": "ifx.transaction.transaction-processed.v1",
       "kind": "event",
-      "consumer": "holdings",
-      "provider": "transaction"
+      "consumer": "Holdings",
+      "provider": "Transaction"
     },
     {
       "identity": "registry.class-subscription-availability.v1",
       "kind": "sync",
-      "consumer": "transaction",
-      "provider": "registry"
+      "consumer": "Transaction",
+      "provider": "Registry"
     }
   ],
   "sharedPrimitiveProjects": [

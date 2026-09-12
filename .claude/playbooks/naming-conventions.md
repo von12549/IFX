@@ -53,10 +53,10 @@ IFX.Modules.{Module}.{Layer}
 
 | Layer | Namespace | Example |
 |-------|-----------|---------|
-| Domain | `.Domain` | `IFX.Modules.Auth.Domain` |
-| Application | `.Application` | `IFX.Modules.Auth.Application` |
-| Infrastructure | `.Infrastructure` | `IFX.Modules.Auth.Infrastructure` |
-| Presentation | `.Presentation` | `IFX.Modules.Auth.Presentation` |
+| Domain | `.Domain` | `IFX.Modules.IAM.Domain` |
+| Application | `.Application` | `IFX.Modules.IAM.Application` |
+| Infrastructure | `.Infrastructure` | `IFX.Modules.IAM.Infrastructure` |
+| Presentation | `.Presentation` | `IFX.Modules.IAM.Presentation` |
 
 ### Folder Structure Within Layers
 

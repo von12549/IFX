@@ -1,0 +1,20 @@
+# Current governance inputs use UTF-8/LF bytes on Windows and Linux.
+# Frozen evidence below retains its committed LF bytes; its original recorded
+# CRLF digests remain in history alongside an explicit LF authority refresh.
+docs/architecture/review/gates/G03/contract-event-catalog.yaml text eol=lf
+docs/architecture/review/gates/G03/generated/layerguard-governance-input.json text eol=lf
+docs/architecture/review/evidence/gates/G02/G02-database-inventory.json text eol=lf
+docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json text eol=lf
+docs/architecture/review/evidence/plan05/current-dependency-graph.json text eol=lf
+docs/architecture/review/evidence/plan04/module-boundary-inventory.json text eol=lf
+docs/architecture/review/evidence/plan04/module-boundary-dependency-graph.json text eol=lf
+docs/architecture/review/evidence/plan04/module-boundary-decisions.json text eol=lf
+docs/architecture/review/policies/plan04/*.json text eol=lf
+deployment/g04/*.json text eol=lf
+deployment/release-manifest.json text eol=lf
+src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json text eol=lf
+src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj text eol=lf
+docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json text eol=lf
+docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json text eol=lf
+docs/architecture/review/evidence/layerguard/B4-report.json text eol=lf
+docs/architecture/review/evidence/layerguard/B4-dependency-graph.json text eol=lf

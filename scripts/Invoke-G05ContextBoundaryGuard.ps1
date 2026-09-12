@@ -66,15 +66,15 @@ if ($Phase -ge 2) {
     $runtimeAccessorPath = Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs'
     $runtimeAccessorSource = Get-Content -Raw -LiteralPath $runtimeAccessorPath
     $programSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Program.cs')
-    $currentUserSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/CurrentUser.cs')
+    $currentUserSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs')
     $sourcePolicy = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G05/execution-context-sources.json') | ConvertFrom-Json -Depth 20
     $checks.applicationContextPortIsTransportNeutral = $applicationContextSource -match 'interface IExecutionContextAccessor' -and $applicationContextSource -match 'sealed record ExecutionContextSnapshot' -and $applicationContextSource -notmatch 'Microsoft\.AspNetCore|ClaimsPrincipal|HttpContext|MediatR'
     $checks.runtimeAccessorHasBoundedAsyncLocalLifetime = $runtimeAccessorSource -match 'AsyncLocal<ScopeFrame\?>' -and $runtimeAccessorSource -match 'using var scope = Push\(context\)' -and $runtimeAccessorSource -match 'ExecutionContext\.SuppressFlow\(\)' -and $runtimeAccessorSource -match 'disposed in reverse order'
     $checks.rootCompositionOwnsUniqueImplementation = ([regex]::Matches($programSource, 'AddSingleton<ExecutionContextAccessor>\(\)')).Count -eq 1 -and $programSource -match 'AddSingleton<IExecutionContextAccessor>' -and $programSource -match 'AddSingleton<IExecutionContextScopeFactory>'
-    $checks.currentUserHttpResponsibilitiesAreSplit = $currentUserSource -notmatch 'IHttpContextAccessor|ClaimsPrincipal|HttpContext' -and (Test-Path (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/HttpIdentityFacts.cs')) -and (Test-Path (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/ExecutionTenantSelection.cs'))
+    $checks.currentUserHttpResponsibilitiesAreSplit = $currentUserSource -notmatch 'IHttpContextAccessor|ClaimsPrincipal|HttpContext' -and (Test-Path (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs')) -and (Test-Path (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs'))
     $checks.fiveExecutionSourcesHaveFailClosedRules = @($sourcePolicy.sources).Count -eq 5 -and @($sourcePolicy.sources | Where-Object { [string]::IsNullOrWhiteSpace($_.source) -or [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.actorRule) -or [string]::IsNullOrWhiteSpace($_.scopeRule) -or [string]::IsNullOrWhiteSpace($_.sourceRule) -or [string]::IsNullOrWhiteSpace($_.builderBoundary) -or [string]::IsNullOrWhiteSpace($_.missingContextBehavior) }).Count -eq 0
     $checks.executionContextIsolationTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs')
-    $checks.authFactSplitTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.Modules.Auth.Infrastructure.Tests/Authorization/HttpContextFactTests.cs')
+    $checks.authFactSplitTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs')
     $checks.phase2EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md')
     $checks.phase2LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json')
 }
@@ -103,7 +103,7 @@ if ($Phase -ge 3) {
     $scopeMetadataCount = ([regex]::Matches($presentationSource, 'WithMetadata\(ExecutionScopeRequirement\.(Tenant|Platform|Public)\)')).Count
     $checks.allModuleRouteGroupsDeclareScopeMetadata = $groupCount -gt 10 -and $groupCount -eq $scopeMetadataCount -and $programSource -match 'WithMetadata\(ExecutionScopeRequirement\.Platform\)'
     $checks.safeStableHttpErrorsExist = $exceptionSource -match 'ErrorCode' -and $exceptionSource -match 'CorrelationId' -and $exceptionSource -notmatch 'response\.Error = exception\.Message' -and $exceptionSource -notmatch '\{Message\}.*ex\.Message'
-    $checks.currentUserTenantComesFromExecutionContext = (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/ExecutionTenantSelection.cs')) -match 'IExecutionContextAccessor'
+    $checks.currentUserTenantComesFromExecutionContext = (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs')) -match 'IExecutionContextAccessor'
     $checks.phase3HttpIntegrationTestsExist = Test-Path (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs')
     $checks.phase3EvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase3-http-boundary.md')
     $checks.phase3LayerGuardEvidenceExists = Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json')
@@ -157,7 +157,14 @@ if ($Phase -ge 6) {
     }
     $denylistText = @($catalog.fieldGovernance.c4Denylist) -join '|'
     $checks.g03CatalogRemainsSoleFieldAuthority = $catalog.fieldGovernance.authority -match 'sole admission source' -and $catalogReport.result -eq 'passed' -and $catalogReport.checks.sensitiveFieldGovernance
-    $checks.allTargetLegacyAndEnvelopeFieldsAreClassified = @($catalog.fieldSurfaces).Count -eq 32 -and @($classifiedFields).Count -eq 165 -and @($catalog.fieldSurfaces | Where-Object kind -like 'legacy-*').Count -eq 27 -and @($catalog.publicSurface | Where-Object kind -in @('dto', 'integration-event')).Count -eq 27
+    # Plan 05 adds two bounded authorization schemas; retain the original 165-field baseline as a separate invariant.
+    $authorizationIdentities = @('auth.resource-authorization.v1', 'authorization.policy-evaluation.v1')
+    $checks.allTargetLegacyAndEnvelopeFieldsAreClassified = @($catalog.fieldSurfaces).Count -eq 34 -and
+        @($classifiedFields | Where-Object surface -notin $authorizationIdentities).Count -eq 165 -and
+        @($classifiedFields | Where-Object surface -eq 'auth.resource-authorization.v1').Count -eq 11 -and
+        @($classifiedFields | Where-Object surface -eq 'authorization.policy-evaluation.v1').Count -eq 24 -and
+        @($catalog.fieldSurfaces | Where-Object kind -like 'legacy-*').Count -eq 27 -and
+        @($catalog.publicSurface | Where-Object kind -in @('dto', 'integration-event')).Count -eq 27
     $checks.noC4AndAllC3HaveGovernedExceptions = @($classifiedFields | Where-Object classification -eq 'C4').Count -eq 0 -and @($classifiedFields | Where-Object { $_.classification -eq 'C3' -and [string]::IsNullOrWhiteSpace($_.exceptionRef) }).Count -eq 0 -and @($catalog.fieldExceptions).Count -eq 8
     $checks.c4SemanticDenylistIsComplete = @('password', 'token', 'authorization', 'cookie', 'otp', 'api secret', 'client secret', 'private key', 'connection string' | Where-Object { $denylistText -notmatch [regex]::Escape($_) }).Count -eq 0
     $checks.capabilitySplitAndEventMinimizationAreRecorded = @($catalog.migrationRecommendations).Count -ge 2 -and @($catalog.eventMinimizationReviews).Count -ge 5 -and 'crm.dto.investor-summary' -in @($catalog.migrationRecommendations.surfaceId)
@@ -179,14 +186,14 @@ if ($Phase -ge 7) {
     $exceptionSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs')
     $observabilityTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs')
     $httpBoundaryTests = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs')
-    $loginEventSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/LoginEvent.cs')
-    $loginEventConfiguration = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs')
-    $authSnapshot = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs')
-    $tokenMigration = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs')
+    $loginEventSource = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/LoginEvent.cs')
+    $loginEventConfiguration = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs')
+    $authSnapshot = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs')
+    $tokenMigration = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs')
     $notificationSource = @(
         (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs'))
         (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs'))
-        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoOidcService.cs'))
+        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs'))
     ) -join "`n"
     $transactionHandlers = @(Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands') -Recurse -File -Filter '*Handler.cs' | Get-Content -Raw) -join "`n"
     $removedTokenMembers = @('AccessToken', 'RefreshToken', 'CognitoSessionId', 'TokenExpiresAt')
@@ -253,7 +260,8 @@ if ($Phase -ge 9) {
     $checks.verificationBuildsAndRunsCompleteSolution = $verificationSource -match 'dotnet build' -and $verificationSource -match 'dotnet test' -and $verificationSource -match 'IFX\.sln' -and $verificationSource -match 'LogFilePrefix=solution' -and $verificationSource -match 'minimumSolutionTests'
     $checks.requiredProtocolRuntimeAndSecuritySuitesAreBound = @($requiredSuites | Where-Object { $_ -notin $verificationBaseline.requiredSuites }).Count -eq 0 -and @($requiredSuites | Where-Object { -not (Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'tests') -Recurse -File -Filter "$_.cs") }).Count -eq 0
     $checks.expiredExceptionAndCompatibilityRulesFailClosed = $catalogValidator -match 'field-exception-expired' -and $catalogValidator -match 'expired C3 field exception' -and $failureTests -match 'compatibility_adapter_expired'
-    $checks.verificationBaselineIsTruthfulAndBounded = $verificationBaseline.status -in @('pre-active-repository-verification', 'plan01-b2-repository-verification') -and $verificationBaseline.minimumSolutionTests -ge 1041 -and $verificationBaseline.requiredResults.layerGuardNewViolations -eq 0 -and $verificationBaseline.truthfulBoundary -match 'Plan 02'
+    $checks.verificationBaselineIsTruthfulAndBounded = $verificationBaseline.status -eq 'plan05-repository-verification' -and $verificationBaseline.minimumSolutionTests -ge 1041 -and $verificationBaseline.requiredResults.layerGuardNewViolations -eq 0 -and $verificationBaseline.truthfulBoundary -match 'Plan 05' -and $verificationBaseline.truthfulBoundary -match 'target data, live IdP, production telemetry and named approvals remain external'
+    $checks.catalogMutationBaselineIncludesCredentialBoundaries = $verificationBaseline.requiredResults.catalogMutationSelfTests -eq 18 -and @($verificationBaseline.requiredCatalogMutationNames | Select-Object -Unique).Count -eq 18 -and @('durable credential protocol', 'logged credential protocol', 'unknown credential consumer' | Where-Object { $_ -notin $verificationBaseline.requiredCatalogMutationNames }).Count -eq 0
     $verificationSummaryPath = Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-verification-summary.json'
     $verificationSummary = Get-Content -Raw -LiteralPath $verificationSummaryPath | ConvertFrom-Json -Depth 20
     $checks.phase9AutomationEvidenceExists = (Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-automation.md')) -and (Test-Path $verificationSummaryPath) -and (Test-Path (Join-Path $repositoryRoot 'docs/architecture/review/evidence/gates/G05/G05-phase9-layerguard-report.json')) -and $verificationSummary.result -eq 'passed' -and $verificationSummary.phase -eq 9 -and $verificationSummary.solutionTests.passed -ge $verificationBaseline.minimumSolutionTests

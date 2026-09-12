@@ -1,0 +1,67 @@
+using AutoMapper;
+using IFX.BuildingBlocks.Security.Authorization;
+using IFX.BuildingBlocks.Security.Authorization.Exceptions;
+using IFX.Modules.IAM.Application.Common;
+using IFX.Modules.IAM.Application.Common.DTOs;
+using IFX.Modules.IAM.Application.Identity.DTOs;
+using IFX.Modules.IAM.Application.Interfaces;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace IFX.Modules.IAM.Application.Identity.Queries.GetAllIdpsAcrossTenants;
+
+public class GetAllIdpsAcrossTenantsQueryHandler
+    : IRequestHandler<GetAllIdpsAcrossTenantsQuery, Result<CrossTenantResultDto<IdpDto>>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly ICurrentUser _currentUser;
+    private readonly IPermissionChecker _permission;
+    private readonly ILogger<GetAllIdpsAcrossTenantsQueryHandler> _logger;
+
+    public GetAllIdpsAcrossTenantsQueryHandler(
+        IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
+        ILogger<GetAllIdpsAcrossTenantsQueryHandler> logger, IPermissionChecker permission)
+    {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _currentUser = currentUser;
+        _permission = permission;
+        _logger = logger;
+    }
+
+    public async Task<Result<CrossTenantResultDto<IdpDto>>> Handle(
+        GetAllIdpsAcrossTenantsQuery request, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await CrossTenantAccessGuard.RequireAsync(_currentUser, _permission, cancellationToken);
+
+            var idps = await _unitOfWork.Idps.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
+
+            var groups = idps
+                .Where(i => i.Tenant != null && i.TenantId != _currentUser.TenantId)
+                .GroupBy(i => i.Tenant!)
+                .OrderBy(g => g.Key.Name)
+                .Select(g => new TenantGroupDto<IdpDto>
+                {
+                    TenantId = g.Key.Id,
+                    TenantName = g.Key.Name,
+                    Items = _mapper.Map<List<IdpDto>>(g.OrderBy(i => i.Name).ToList())
+                })
+                .ToList();
+
+            _logger.LogWarning(
+                "Cross-tenant query {Purpose} executed by {ActorUserId}; limit {MaxRows}; returned {TenantCount} tenant groups",
+                "platform-idp-inventory", _currentUser.UserId, CrossTenantAccessGuard.MaximumRows, groups.Count);
+            return Result<CrossTenantResultDto<IdpDto>>.Success(
+                new CrossTenantResultDto<IdpDto> { Tenants = groups });
+        }
+        catch (ForbiddenException) { throw; }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving IdPs across tenants");
+            return Result<CrossTenantResultDto<IdpDto>>.Failure("An error occurred while retrieving cross-tenant IdPs.");
+        }
+    }
+}

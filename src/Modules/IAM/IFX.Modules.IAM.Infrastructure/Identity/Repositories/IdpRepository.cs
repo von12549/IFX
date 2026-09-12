@@ -1,0 +1,98 @@
+using IFX.Modules.IAM.Infrastructure.Persistence;
+using IFX.Modules.IAM.Domain.Identity;
+using IFX.BuildingBlocks.EntityFrameworkCore;
+// Repository interface is in IFX.Modules.IAM.Domain.Identity
+using Microsoft.EntityFrameworkCore;
+
+namespace IFX.Modules.IAM.Infrastructure.Identity.Repositories;
+
+public class IdpRepository : IIdpRepository
+{
+    private readonly IfxDbContext _context;
+
+    public IdpRepository(IfxDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<Idp?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.Require(tenantId);
+        return await _context.Idps
+            .FirstOrDefaultAsync(i => i.Id == id && i.TenantId == tenantId, cancellationToken);
+    }
+
+    public async Task<Idp?> GetByIssuerAsync(string issuer, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .FirstOrDefaultAsync(i => i.Issuer == issuer, cancellationToken);
+    }
+
+    public async Task<List<Idp>> GetAcrossTenantsAsync(int maxRows, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.RequireBoundedLimit(maxRows);
+        return await _context.Idps
+            .Include(i => i.Tenant)
+            .AsNoTracking()
+            .OrderBy(i => i.Id)
+            .Take(maxRows)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<Idp>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)
+    {
+        TenantQueryGuard.Require(tenantId);
+        return await _context.Idps
+            .Include(i => i.Tenant)
+            .Where(i => i.TenantId == tenantId)
+            .AsNoTracking()
+            .OrderBy(i => i.Name)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<Idp>> GetEnabledAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .Where(i => i.Enabled)
+            .OrderBy(i => i.Name)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Idp?> GetEnabledByIssuerAsync(string issuer, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .AsNoTracking()
+            .Where(i => i.Issuer == issuer && i.Enabled)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task AddAsync(Idp idp, CancellationToken cancellationToken = default)
+    {
+        await _context.Idps.AddAsync(idp, cancellationToken);
+    }
+
+    public async Task<bool> IssuerExistsAsync(string issuer, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .AnyAsync(i => i.Issuer == issuer, cancellationToken);
+    }
+
+    public async Task<bool> IssuerExistsAsync(string issuer, Guid excludeIdpId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .AnyAsync(i => i.Issuer == issuer && i.Id != excludeIdpId, cancellationToken);
+    }
+
+    public async Task<Idp?> GetPrimaryIdpAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Idps
+            .FirstOrDefaultAsync(i => i.IsPrimary && i.Enabled, cancellationToken);
+    }
+
+    public async Task ClearPrimaryFlagAsync(CancellationToken cancellationToken = default)
+    {
+        await _context.Idps
+            .Where(i => i.IsPrimary)
+            .ExecuteUpdateAsync(s => s.SetProperty(i => i.IsPrimary, false), cancellationToken);
+    }
+}

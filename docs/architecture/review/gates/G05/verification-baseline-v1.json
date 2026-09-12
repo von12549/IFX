@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "gate": "G05",
   "owner": "xiaolong-feng",
-  "status": "plan01-b2-repository-verification",
+  "status": "plan05-repository-verification",
   "minimumSolutionTests": 1041,
   "requiredResults": {
     "catalog": "passed",
-    "catalogMutationSelfTests": 15,
+    "catalogMutationSelfTests": 18,
     "migrationSafety": "passed",
     "g05GuardPhase": 9,
     "layerGuardVerdict": "baseline-clean",
@@ -15,6 +15,26 @@
     "solutionFailed": 0,
     "buildErrors": 0
   },
+  "requiredCatalogMutationNames": [
+    "duplicate identity",
+    "missing owner",
+    "missing backup owner",
+    "self backup owner",
+    "missing consumer",
+    "broken reference",
+    "C4 exposure",
+    "missing field inventory",
+    "incomplete C4 semantics",
+    "C3 without exception",
+    "expired C3 field exception",
+    "orphan Active protocol",
+    "illegal lifecycle",
+    "expired waiver",
+    "unwaivable exposure",
+    "durable credential protocol",
+    "logged credential protocol",
+    "unknown credential consumer"
+  ],
   "requiredSuites": [
     "ContextIdentifierTests",
     "ContractRequestContextTests",
@@ -26,5 +46,5 @@
     "HttpContextBoundaryTests",
     "SensitiveObservabilityTests"
   ],
-  "truthfulBoundary": "repository automation plus real Plan 01 synchronous carriers and LayerGuard B2; Plan 02 event carriers, B3/B4, production telemetry and final approvals remain external"
+  "truthfulBoundary": "Plan 05 repository automation includes synchronous/event carriers, current IAM/platform security boundaries and historical B4 evidence; target data, live IdP, production telemetry and named approvals remain external"
 }

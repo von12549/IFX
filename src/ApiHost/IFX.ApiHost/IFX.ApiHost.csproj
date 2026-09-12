@@ -27,9 +27,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.Composition\IFX.BuildingBlocks.Composition.csproj" />
+    <ProjectReference Include="..\..\Platform\Authentication\IFX.Platform.Authentication.Composition\IFX.Platform.Authentication.Composition.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
-    <ProjectReference Include="..\..\Modules\Auth\IFX.Modules.Auth.Composition\IFX.Modules.Auth.Composition.csproj" />
+    <ProjectReference Include="..\..\Modules\IAM\IFX.Modules.IAM.Composition\IFX.Modules.IAM.Composition.csproj" />
     <ProjectReference Include="..\..\Modules\CRM\IFX.Modules.CRM.Composition\IFX.Modules.CRM.Composition.csproj" />
     <ProjectReference Include="..\..\Modules\Registry\IFX.Modules.Registry.Composition\IFX.Modules.Registry.Composition.csproj" />
     <ProjectReference Include="..\..\Modules\Holdings\IFX.Modules.Holdings.Composition\IFX.Modules.Holdings.Composition.csproj" />
@@ -57,4 +58,5 @@
              CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup><ProjectReference Include="..\..\Platform\Authorization\IFX.Platform.Authorization.Composition\IFX.Platform.Authorization.Composition.csproj" /></ItemGroup>
 </Project>

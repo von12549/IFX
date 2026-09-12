@@ -5,8 +5,8 @@
     {
       "module": "Auth",
       "order": 10,
-      "dbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
-      "migrationAssembly": "IFX.Modules.Auth.Infrastructure",
+      "dbContext": "IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext",
+      "migrationAssembly": "IFX.Modules.IAM.Infrastructure",
       "schema": "auth",
       "historyTable": "auth.__EFMigrationsHistory",
       "connectionKey": "AuthDatabase",
@@ -14,8 +14,8 @@
         {
           "MigrationId": "20260327075710_InitialCreate",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
-          "SourceSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
+          "SourceSha256": "30a19829d892d09df85774c61e21b64aaa1e7ea47f9ef38ef208cf6506024c13",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -26,8 +26,8 @@
         {
           "MigrationId": "20260327075811_InitialSeed",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
-          "SourceSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+          "SourceSha256": "570d253a3cd5141fd69451520ca21a96503db53a26a5a4424ee8c0aa5f53ca45",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -38,8 +38,8 @@
         {
           "MigrationId": "20260413100000_CrmPolicyDefinitionSeeds",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
-          "SourceSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+          "SourceSha256": "4116ed80b1d712a8db0baa3204844cd700ab2b487e91eb892261b107ebd3b2c0",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -50,8 +50,8 @@
         {
           "MigrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "4c13bd75690e1fa25c7bba455f2230d94ed6c6a0508841be067ae7f6cbbc5b25",
           "Risk": {
             "Level": "high",
             "Signals": [
@@ -62,12 +62,24 @@
         {
           "MigrationId": "20260908015924_RemoveLoginEventSecrets",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
-          "SourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "SourceSha256": "ffba17d4123b6e154615c5607442eeb131a218f9feb084f9a674742502f3dc75",
           "Risk": {
             "Level": "high",
             "Signals": [
               "destructive-or-rename-ddl"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260912101127_EnforceActiveTenantMembership",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260912101127_EnforceActiveTenantMembership.cs",
+          "SourceSha256": "87dadf7913030f5cc8645c025fd46917bec023a7fa1f57060a2f531cb4b1457d",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "schema-lock"
             ]
           }
         }
@@ -86,7 +98,7 @@
           "MigrationId": "20260413120000_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations/20260413120000_InitialCreate.cs",
-          "SourceSha256": "4d5e5a2496f4d8a61d92f4278a85609a0aeeffae843e789086a14257167b854d",
+          "SourceSha256": "cf96d676d0819aba1baa20abb06d2dd0adbf76e5164cade4027b26df4986cbb4",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -98,7 +110,7 @@
           "MigrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Migrations/20260420043006_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b",
+          "SourceSha256": "3194017a4ab0505072d93c7e21d492eb18e122c43ed3cb66fd57f616d6ff44d3",
           "Risk": {
             "Level": "high",
             "Signals": [
@@ -121,7 +133,7 @@
           "MigrationId": "20260413120300_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260413120300_InitialCreate.cs",
-          "SourceSha256": "2b9983bacf6695594c5616552e13ac50240a5991ed842e5438e968cf23de6d31",
+          "SourceSha256": "5bd46995329c38baa81facba1d520cc9e8d8a170544a8c521e7ee67013af4592",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -133,7 +145,7 @@
           "MigrationId": "20260413191525_AddProduct",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260413191525_AddProduct.cs",
-          "SourceSha256": "86d12070d5212c13c4efb108cfcdd29332ea9d318be034e89135137da722ca15",
+          "SourceSha256": "b6a0de666f6a5bd04fef148d62c9cc87e3138ad8ee950910449916aef082551b",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -146,11 +158,23 @@
           "MigrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260420043017_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd",
+          "SourceSha256": "bff238b5b8d092b7c698aff21bc93102b2557ff48da108a7d8a7d6c0b01cab02",
           "Risk": {
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100951_Plan02ReliableOutbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260908100951_Plan02ReliableOutbox.cs",
+          "SourceSha256": "733a14c9d7488683686f40f4d2f53b981c10ae7a7b62736c4cb3246a5767df9f",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }
@@ -169,7 +193,7 @@
           "MigrationId": "20260413120100_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260413120100_InitialCreate.cs",
-          "SourceSha256": "95593d59a104c3d414c39a66e470ce7f07cce525f58841a7b71d6639f1eae5f2",
+          "SourceSha256": "4770882df9d0ad619725b0d3283f99e216ab38a5d3717d2fc0930bcad581b2a8",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -181,11 +205,23 @@
           "MigrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260420043031_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83",
+          "SourceSha256": "210a64990ff5686ce14654fa2c07360113650c1d2992110971ec93c38ba84131",
           "Risk": {
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100954_Plan02ReliableInbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260908100954_Plan02ReliableInbox.cs",
+          "SourceSha256": "1813c9904f8dfb946a7e9d5ad76c010383a76eb73997cc6d56dd07152284ada9",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }
@@ -204,7 +240,7 @@
           "MigrationId": "20260413120200_InitialCreate",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260413120200_InitialCreate.cs",
-          "SourceSha256": "8cd83761a6ad71ad0f9eaba090b2d600f8e42f3f88cba6f5ab555d9c99c5671c",
+          "SourceSha256": "708630667973a98f8f332c90ef405608a5204ef2ec877140ce638bc997fe56db",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -216,7 +252,7 @@
           "MigrationId": "20260418123443_AddOrderInstructionModel",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260418123443_AddOrderInstructionModel.cs",
-          "SourceSha256": "bf87f5cc66d112776079bf0acd330890f655f76320612303f61a13169382c23f",
+          "SourceSha256": "5dadb7e1b8ebe09d984fcf3f94bbb5337c683f3855e1ba8a1b6b7df0acc71475",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -229,11 +265,23 @@
           "MigrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
           "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260420043039_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be",
+          "SourceSha256": "06a536a25bb6a29a08da8b79e86ecbc7de63ec9a47196e111d6c247bb2d57f42",
           "Risk": {
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100947_Plan02ReliableOutbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260908100947_Plan02ReliableOutbox.cs",
+          "SourceSha256": "f5468548ee4f1d82a4f72e39ae05648ef020b931de7a0bd21adca7c5b25b890a",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }

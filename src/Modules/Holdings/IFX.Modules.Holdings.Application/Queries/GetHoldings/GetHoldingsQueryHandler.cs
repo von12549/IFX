@@ -1,3 +1,4 @@
+using IFX.Modules.Holdings.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Holdings.Application.DTOs;

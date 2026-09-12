@@ -4,7 +4,7 @@
   "businessBoundary": "ifx-backend",
   "hostArtifact": {
     "artifactId": "ifx-host",
-    "digest": "sha256:fb699b8e86efe15b7caf63962b647f2bcb298bd6c3c349bb5bcb37db31088662",
+    "digest": "sha256:50df26397f9a5bd48c0be771dc68bf36519c7e3bc769273c337c8d0b0d5a5652",
     "allowedRoles": [
       "api",
       "worker",
@@ -33,11 +33,11 @@
     },
     "schemaReleaseManifest": {
       "path": "deployment/release-manifest.json",
-      "sha256": "229e97ab4e88ddbc1a5ba3c18ba0c49f31b6d95354f2e462f7e127518ed79017"
+      "sha256": "0663fb88f6587bb00910bff97851a3fc485c576330ec596fb682700f9806117d"
     },
     "migrationManifest": {
       "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
-      "sha256": "69662a1e78ba4e6e20333010c862b494404dbd5b3c9d78b487523f005de828ce"
+      "sha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6"
     },
     "releaseOrchestration": {
       "path": "deployment/g04/release-orchestration.json",

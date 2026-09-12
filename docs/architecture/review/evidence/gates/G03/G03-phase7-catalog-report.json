@@ -5,20 +5,20 @@
   "mode": "migration",
   "counts": {
     "owners": 2,
-    "modules": 6,
-    "consumers": 2,
-    "protocols": 4,
+    "modules": 8,
+    "consumers": 5,
+    "protocols": 6,
     "publicSurface": 46,
     "legacyInternalize": 20,
     "legacyReplace": 6,
     "legacyRemove": 20,
-    "fieldSurfaces": 32,
-    "fields": 167,
+    "fieldSurfaces": 34,
+    "fields": 200,
     "c3Fields": 11,
     "fieldExceptions": 8,
     "sharedPrimitives": 6,
     "changeRecords": 4,
-    "graphEdges": 4,
+    "graphEdges": 9,
     "syncCycles": 0,
     "mixedCycles": 0,
     "errors": 0
@@ -61,6 +61,41 @@
       "provider": "registry",
       "consumer": "holdings",
       "consumerId": "holdings-application"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "crm",
+      "consumerId": "crm-authorization-adapter"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "registry",
+      "consumerId": "registry-authorization-adapter"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "transaction",
+      "consumerId": "transaction-application"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "holdings",
+      "consumerId": "holdings-application"
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
+      "kind": "sync",
+      "provider": "authorization",
+      "consumer": "auth",
+      "consumerId": "iam-identity-adapter"
     }
   ],
   "selfTests": [
@@ -137,6 +172,21 @@
     {
       "name": "unwaivable exposure",
       "expected": "waiver-unwaivable",
+      "passed": true
+    },
+    {
+      "name": "durable credential protocol",
+      "expected": "infrastructure-sensitive-boundary",
+      "passed": true
+    },
+    {
+      "name": "logged credential protocol",
+      "expected": "infrastructure-sensitive-boundary",
+      "passed": true
+    },
+    {
+      "name": "unknown credential consumer",
+      "expected": "infrastructure-owner",
       "passed": true
     }
   ],

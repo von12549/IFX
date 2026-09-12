@@ -138,6 +138,141 @@
           "sha256": "fe790cf3402f5644bb83e64535b39914fa32b40cfdbf7221f53cb42829884bf4"
         }
       ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 1 reviewed Auth code owner rename to IAM; auth wire identity and five module boundaries retained. Historical B4 evidence unchanged.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "fa1302fce04d6af282af2d897cf0f93cdaa77d51ac3dd46b4ce145163f4d57cf"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 2 admits the explicit IAM to Authentication transient sensitive protocol. Business protocols, their C4 prohibition and historical B4 evidence are retained.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "1b58f102a021e6cd94fef230cb20cfd126b54f75b12509767f288b10e732606a"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "70b2dd4fb7f8aa9d91d7690e81d3632d640197627ba6c1e05855a6f293b2e8a7"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 3 registers IAM authorization for four resource modules and platform evaluation for IAM. New protocols remain Proposed pending formal admission. Legacy active protocol identities are unchanged.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "40e28aaf91e8929dda8a8d02df974e1ecf529075ea0125c294b23256a28690ee"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "80a0e6a2b3e598815ee77e9bf3a7f5d1be0d3f372ee63614d3743bd6004bb2f8"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 4 updates the Proposed IAM authorization protocol semantics to mandatory scope plus RBAC plus applicable ABAC, and committed policy reads without cross-request cache. Protocol identities and ownership remain unchanged.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "6d2a958e3f36ea9331e3c0b0398e837258305226c0dfc0a0e12324d039fa8906"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G02",
+      "reason": "Plan 05 Phase 5/6: same five schema owners and 50 entities, one additive tenant status migration (19 total); IAM source mapping and LF-normalized migration hashes. Existing migration bodies and approval metadata are unchanged. Original Phase 0 input hashes remain frozen.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+          "sha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+          "sha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "G03",
+      "reason": "PR 25 CI repair: UTF-8/LF checkout and deterministic serialization; logical catalog, schema ownership and approval states unchanged. Derived handoff hashes refreshed. Original frozen hashes and prior refreshes retained.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "G02",
+      "reason": "PR 25 CI repair: UTF-8/LF checkout and deterministic serialization; logical catalog, schema ownership and approval states unchanged. Derived handoff hashes refreshed. Original frozen hashes and prior refreshes retained.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+          "sha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+          "sha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "G03",
+      "reason": "PR 25 CI repair: retain exact committed historical report bytes (LF) and bind their LF hash. Prior Windows CRLF hashes remain untouched above; the only difference is line endings, with byte/content proof in Plan 05 CI evidence. No historical result, finding or approval changed.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json",
+          "sha256": "18235780b8768f7713fb7a1a1056945f77ad81bbea56d0188409828c1b93f7c2"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json",
+          "sha256": "b9f3d6cc3e8f21b29f67361ca0a9d6a277a118d9493bfee5c8328fe4a0f59a50"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "LayerGuard-B4",
+      "reason": "PR 25 CI repair: retain exact committed historical report bytes (LF) and bind their LF hash. Prior Windows CRLF hashes remain untouched above; the only difference is line endings, with byte/content proof in Plan 05 CI evidence. No historical result, finding or approval changed.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+          "sha256": "d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
+          "sha256": "4de8876b9252c71b018c0a4ba391079a39aea30024608300059d09c18079e9f2"
+        }
+      ]
     }
   ],
   "owners": [
@@ -212,8 +347,24 @@
       "approvalStatus": "pending-architecture-acceptance"
     }
   ],
-  "activeScope": ["GOV4", "DP6", "DB8", "GOV3"],
-  "excludedScope": ["TX6", "DB5", "DB6", "DB7", "DB12", "DP8", "DP9", "GOV6", "OPS2", "OPS5"],
+  "activeScope": [
+    "GOV4",
+    "DP6",
+    "DB8",
+    "GOV3"
+  ],
+  "excludedScope": [
+    "TX6",
+    "DB5",
+    "DB6",
+    "DB7",
+    "DB12",
+    "DP8",
+    "DP9",
+    "GOV6",
+    "OPS2",
+    "OPS5"
+  ],
   "completionSemantics": {
     "designComplete": "Approved repository design, schemas, fixtures and decision records exist; no runtime or production capability is implied.",
     "repositoryGovernanceComplete": "Source, validators, tests and repository evidence conform on the frozen inputs; named functional approvals and production evidence remain separate.",

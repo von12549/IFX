@@ -1,6 +1,8 @@
 # IFX
 
-A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS, dynamic multi-IdP SSO, and a Fund Registry system (CRM, Registry, Holdings, Transaction modules) with a three-tier Product → Fund → FundClass hierarchy.
+An ASP.NET Core 8 modular monolith with Clean Architecture, CQRS, dynamic multi-IdP SSO, and a Fund Registry system (CRM, Registry, Holdings, Transaction modules) with a three-tier Product → Fund → FundClass hierarchy.
+
+Current architecture: [中文](docs/architecture/review/iam-platform-security.zh-CN.md) · [English](docs/architecture/review/iam-platform-security.en.md) · [Plan 05 evidence](docs/architecture/review/evidence/plan05/README.md).
 
 ## Features
 
@@ -10,7 +12,7 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 
 ### Authentication & SSO
 - **OAuth 2.0 with PKCE** — Authorization Code flow; pluggable identity provider adapters
-- **Pluggable Identity Providers** — Cognito and Auth0 adapters; switch provider via `Authentication:Provider` config
+- **Pluggable Identity Providers** — Cognito and Auth0 adapters selected via `Authentication:Provider`; see implementation notes for the inherited Auth0 password-login limitation and pending live-provider validation
 - **Dynamic Multi-IdP SSO** — Database-driven IdP configuration; multiple providers per tenant
 - **OIDC Discovery** — Automatic IdP configuration via well-known endpoints
 - **UserInfo-Based Provisioning** — Fetches user profile from OIDC userinfo endpoint during auto-provisioning
@@ -20,11 +22,11 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 - **Tenant switcher** — React UI tenant switcher drives all admin list views via `X-Tenant-Id` header
 
 ### Authorization
-- **Role-Based Access Control** — Admin, User, SsoUser, Pending roles with JWT claims transformation
-- **ABAC via OPA** — Open Policy Agent for fine-grained, resource-level policy decisions layered on top of RBAC; fail-closed by default
+- **Role-Based Access Control** — Current IAM user, membership and grants reloaded at authorization gates; external role claims do not grant local access
+- **ABAC via OPA** — Open Policy Agent for fine-grained, resource-level policy decisions layered on top of RBAC; evaluation errors and disabled OPA fail closed
 - **Template-Based ABAC** — Reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic Rego policy; no per-resource Rego files needed for new resource types
-- **DB-Backed Policies** — `PolicyDefinition` table stores tenant-level and platform-level rows; 3-tier resolver: tenant DB → platform DB → static fallback → deny
-- **GlobalRole system** — Cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; bypass tenant-scoped RBAC/ABAC and access platform endpoints for cross-tenant data
+- **DB-Backed Policies** — Scoped policies with content-derived versions; documented absence permits defaults, disabled/invalid/unavailable policies deny
+- **GlobalRole system** — Explicit platform-scope grants for PlatformAdmin/PlatformSupport/PlatformAuditor; tenant access still requires current membership and applicable RBAC/ABAC
 
 ### User Management
 - **Full Audit Trail** — Login/logout events, activity logs, registration tracking
@@ -38,12 +40,12 @@ A production-ready ASP.NET Core 8 modular monolith with Clean Architecture, CQRS
 - **Order Instruction Model** — `Order` aggregate root wrapping `Transaction` legs; Calastone STP pattern; lifecycle: Submitted → Accepted → PriceConfirmed | Rejected | Cancelled; external fund identifiers (ISIN/APIR/CUSIP/SEDOL); charge/commission/tax detail columns
 
 ### Platform Services
-- **Integration Events** — In-process `IIntegrationEventBus` (provider-swappable); module contracts live in `.Abstractions` projects
+- **Integration Events** — Reliable Outbox/Inbox delivery with versioned module Contracts and provider adapters
 - **Background Jobs** — Hangfire with fire-and-forget, delayed, and recurring job support
 - **Email Notifications** — SendGrid with HTML/plain-text, templated, and batch sending
 
 ### Developer Experience
-- **829 Tests** — 765 backend (xUnit) + 64 frontend (Vitest) across all layers
+- **Automated verification** — Backend, SQL Server, frontend and architecture gates; current counts and limitations are in [Plan 05 evidence](docs/architecture/review/evidence/plan05/P05-S7-release-validation.md)
 - **DateTimeOffset throughout** — all timestamps use `DateTimeOffset` (not `DateTime`); SQL columns are `datetimeoffset(7)`; JSON responses carry explicit UTC offset (`+00:00`)
 - **Docker Support** — Full stack via `docker-compose up -d` (API + Frontend + SQL Server + OPA)
 - **React Frontend** — Admin UI with role-differentiated views: tenant-scoped CRUD for standard users; GlobalRole users get platform Sidebar nav, permission/policy scope tabs, and lazy-loaded cross-tenant data sections on every management page
@@ -70,81 +72,28 @@ See [Getting Started](docs/development/getting-started.md) for detailed setup.
 
 ```
 src/
-├── ApiHost/IFX.ApiHost/             # Host application
-├── BuildingBlocks/
-│   ├── IFX.BuildingBlocks.Composition/ # Module installation and endpoint composition SPI
-│   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA client, ABAC)
-├── WebUI/IFX.WebUI/                 # Demo OAuth client (HTML/JS)
+├── ApiHost/IFX.ApiHost/             # API / Worker runtime roles
+├── DatabaseMigrator/               # Controlled schema migration
+├── BuildingBlocks/                 # Application/context/composition/security primitives
 ├── Modules/
-│   ├── Auth/                        # Authentication & authorization module
-│   │   ├── Domain/                  # Users, Identity, Authorization subdomains
-│   │   ├── Application/             # CQRS handlers
-│   │   ├── Infrastructure/          # EF Core, Cognito/Auth0 adapters, OIDC
-│   │   ├── Presentation/            # Minimal API endpoints
-│   │   └── Composition/             # Module entry point
-│   ├── CRM/                         # Party & Investor management
-│   │   ├── Abstractions/            # ICrmReader, integration events
-│   │   ├── Domain/                  # Party, Investor, PartyInvestorRelationship entities
-│   │   ├── Application/             # 14 CQRS handlers, validators, AutoMapper
-│   │   ├── Infrastructure/          # CrmDbContext (schema: crm), repositories
-│   │   ├── Presentation/            # 14 endpoints (8 Party, 6 Investor)
-│   │   └── Composition/             # Module entry point
-│   ├── Registry/                    # Product → Fund → FundClass management
-│   │   ├── Abstractions/            # IRegistryReader, integration events (incl. Product events)
-│   │   ├── Domain/                  # Product, Fund, FundClass entities; ProductType/ProductStatus enums
-│   │   ├── Application/             # 16 CQRS handlers (6 Product, 5 Fund, 5 FundClass)
-│   │   ├── Infrastructure/          # RegistryDbContext (schema: registry); AddProduct migration
-│   │   ├── Presentation/            # 16 endpoints (6 Product, 5 Fund, 5 FundClass nested)
-│   │   └── Composition/             # Module entry point
-│   ├── Holdings/                    # Unit ledger (read-only HTTP; event-driven writes)
-│   │   ├── Abstractions/            # IHoldingsReader, HoldingFrozenEvent
-│   │   ├── Domain/                  # Holding entity with ApplySubscription/Redemption/Freeze
-│   │   ├── Application/             # 4 queries + TransactionProcessed/ClassStatusChanged handlers
-│   │   ├── Infrastructure/          # HoldingsDbContext (schema: holdings)
-│   │   ├── Presentation/            # 4 read-only GET endpoints
-│   │   └── Composition/             # Module entry point + event handler registration
-│   └── Transaction/                 # Subscription/Redemption/Transfer/Switch processing
-│       ├── Abstractions/            # ITransactionReader, integration events
-│       ├── Domain/                  # Transaction entity state machine (Pending→Processed→Settled)
-│       ├── Application/             # 6 commands + 2 queries; cross-module KYC + class validation
-│       ├── Infrastructure/          # TransactionDbContext (schema: transaction)
-│       ├── Presentation/            # 8 endpoints
-│       └── Composition/             # Module entry point
-└── Platform/
-    ├── Messaging/                   # Integration event bus (IIntegrationEventBus)
-    │   ├── Abstractions/            # IIntegrationEvent, IIntegrationEventBus, IIntegrationEventHandler
-    │   ├── Infrastructure.InMemory/ # InMemoryIntegrationEventBus (provider-swappable)
-    │   └── Composition/             # AddMessaging(), AddIntegrationEventHandler<>()
-    ├── BackgroundJobs/              # Hangfire background job service
-    │   ├── Abstractions/            # IBackgroundJobService
-    │   ├── Infrastructure.Hangfire/ # Hangfire implementation
-    │   └── Composition/             # DI registration
-    └── Notifications/               # SendGrid email service
-        ├── Abstractions/            # IEmailService
-        ├── Infrastructure.SendGrid/ # SendGrid implementation
-        └── Composition/             # DI registration
-tests/                               # 765 backend tests
-├── IFX.Modules.Auth.Domain.Tests/       # Domain entity tests (106)
-├── IFX.Modules.Auth.Application.Tests/  # Handler + validator tests (225)
-├── IFX.Modules.Auth.Infrastructure.Tests/ # Repository + resolver tests (54)
-├── IFX.Modules.Auth.Presentation.Tests/ # Authorization class tests (10)
-├── IFX.IntegrationTests/               # Permission enforcement + API tests (46)
-├── IFX.Platform.BackgroundJobs.Tests/  # Hangfire service tests (11)
-├── IFX.Platform.Notifications.Tests/   # Email service tests (17)
-├── IFX.Modules.CRM.Domain.Tests/       # CRM domain entity tests
-├── IFX.Modules.CRM.Application.Tests/  # CRM handler tests
-├── IFX.Modules.Registry.Domain.Tests/  # Registry domain entity tests (Fund, FundClass, Product)
-├── IFX.Modules.Registry.Application.Tests/ # Registry handler tests (Product + Fund + FundClass)
-├── IFX.Modules.Holdings.Domain.Tests/  # Holdings domain entity tests
-├── IFX.Modules.Holdings.Application.Tests/ # Holdings handler tests
-├── IFX.Modules.Transaction.Domain.Tests/   # Transaction domain entity tests
-└── IFX.Modules.Transaction.Application.Tests/ # Transaction handler tests
-src/Frontend/IFX.FrontEnd/src/          # 64 frontend tests (Vitest + RTL + MSW)
-├── components/shared/__tests__/        # Chip, Modal, SortableHeader, ProtectedRoute
-├── api/__tests__/                      # tokenStorage / apiClient
-├── contexts/__tests__/                 # AuthContext
-├── pages/__tests__/                    # RoleManagementPage, PermissionManagementPage
-└── pages/auth/__tests__/              # CallbackPage, LoginPage
+│   ├── IAM/                        # Identity, Users, Access, Tenancy
+│   ├── CRM/                        # Party, Investor, InvestmentAccount
+│   ├── Registry/                   # Product, Fund, FundClass
+│   ├── Holdings/                   # Unit ledger
+│   └── Transaction/                # Orders and transactions
+│       # Each module: Domain, Application, Infrastructure,
+│       # Presentation, Composition, versioned Contracts
+├── Platform/
+│   ├── Authentication/             # Contracts, Runtime, Cognito/Auth0, Composition
+│   ├── Authorization/              # Contracts, Runtime, OPA, Composition
+│   ├── Messaging/                  # Reliable delivery and adapters
+│   ├── BackgroundJobs/             # Hangfire and persisted type aliases
+│   └── Notifications/              # Email delivery
+├── Frontend/IFX.FrontEnd/           # React and Vitest
+└── WebUI/IFX.WebUI/                 # Demo OAuth client
+tests/                             # Unit, integration, SQL and boundary tests
+mcp/LayerGuard/                    # Boundary checker and tests
+tools/IFX.DatabaseInventory/       # Governed database/migration inventory
 ```
 
 ## API Overview

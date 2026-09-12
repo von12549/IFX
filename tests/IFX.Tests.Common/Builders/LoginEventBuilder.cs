@@ -1,4 +1,4 @@
-using IFX.Modules.Auth.Domain.Identity;
+using IFX.Modules.IAM.Domain.Identity;
 
 namespace IFX.Tests.Common.Builders;
 

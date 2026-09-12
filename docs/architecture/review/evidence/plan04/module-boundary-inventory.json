@@ -5,15 +5,15 @@
   "asOf": "2026-09-10",
   "historyBaselineCommit": "40d3cd38505c14557567d7cc81f4ef51e8293d3c",
   "inputs": {
-    "g02DatabaseInventorySha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
-    "g03CatalogSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
+    "g02DatabaseInventorySha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba",
+    "g03CatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
     "g04ModuleManifestSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
-    "b4DependencyGraphSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506"
+    "b4DependencyGraphSha256": "c5db7c13e342f7132141df205e95686ccbfefdbe1b7b1c33dbfe74994bd46db4"
   },
   "modules": [
     {
       "id": "auth",
-      "name": "Auth",
+      "name": "IAM",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
       "capabilities": [
@@ -27,7 +27,7 @@
         "external identity mappings"
       ],
       "schema": "auth",
-      "dbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
+      "dbContext": "IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext",
       "releaseVersion": "1.0.0",
       "endpointGroups": [
         "auth",
@@ -55,25 +55,26 @@
         "CognitoOidcSettings"
       ],
       "projects": [
-        "IFX.Modules.Auth.Application",
-        "IFX.Modules.Auth.Composition",
-        "IFX.Modules.Auth.Domain",
-        "IFX.Modules.Auth.Infrastructure",
-        "IFX.Modules.Auth.Presentation"
+        "IFX.Modules.IAM.Application",
+        "IFX.Modules.IAM.Composition",
+        "IFX.Modules.IAM.Contracts",
+        "IFX.Modules.IAM.Domain",
+        "IFX.Modules.IAM.Infrastructure",
+        "IFX.Modules.IAM.Presentation"
       ],
       "tests": [
-        "IFX.Modules.Auth.Application.Tests",
-        "IFX.Modules.Auth.Domain.Tests",
-        "IFX.Modules.Auth.Infrastructure.Tests",
-        "IFX.Modules.Auth.Presentation.Tests"
+        "IFX.Modules.IAM.Application.Tests",
+        "IFX.Modules.IAM.Domain.Tests",
+        "IFX.Modules.IAM.Infrastructure.Tests",
+        "IFX.Modules.IAM.Presentation.Tests"
       ],
       "metrics": {
-        "projectCount": 5,
+        "projectCount": 6,
         "independentTestProjectCount": 4,
-        "physicalFanInModules": 0,
+        "physicalFanInModules": 4,
         "physicalFanOutModules": 0,
-        "physicalCrossModuleEdgeCount": 0,
-        "synchronousProvided": 0,
+        "physicalCrossModuleEdgeCount": 4,
+        "synchronousProvided": 4,
         "synchronousConsumed": 0,
         "eventsProvided": 0,
         "eventsConsumed": 0,
@@ -134,10 +135,10 @@
         "projectCount": 6,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 1,
-        "physicalFanOutModules": 0,
-        "physicalCrossModuleEdgeCount": 2,
+        "physicalFanOutModules": 1,
+        "physicalCrossModuleEdgeCount": 3,
         "synchronousProvided": 1,
-        "synchronousConsumed": 0,
+        "synchronousConsumed": 1,
         "eventsProvided": 0,
         "eventsConsumed": 0,
         "commitsInHistoryWindow": 16
@@ -197,10 +198,10 @@
         "projectCount": 6,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 2,
-        "physicalFanOutModules": 0,
-        "physicalCrossModuleEdgeCount": 3,
+        "physicalFanOutModules": 1,
+        "physicalCrossModuleEdgeCount": 4,
         "synchronousProvided": 1,
-        "synchronousConsumed": 0,
+        "synchronousConsumed": 1,
         "eventsProvided": 1,
         "eventsConsumed": 0,
         "commitsInHistoryWindow": 16
@@ -255,10 +256,10 @@
         "projectCount": 6,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 1,
-        "physicalFanOutModules": 2,
-        "physicalCrossModuleEdgeCount": 5,
+        "physicalFanOutModules": 3,
+        "physicalCrossModuleEdgeCount": 6,
         "synchronousProvided": 0,
-        "synchronousConsumed": 2,
+        "synchronousConsumed": 3,
         "eventsProvided": 1,
         "eventsConsumed": 0,
         "commitsInHistoryWindow": 18
@@ -312,10 +313,10 @@
         "projectCount": 5,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 0,
-        "physicalFanOutModules": 2,
-        "physicalCrossModuleEdgeCount": 2,
+        "physicalFanOutModules": 3,
+        "physicalCrossModuleEdgeCount": 3,
         "synchronousProvided": 0,
-        "synchronousConsumed": 0,
+        "synchronousConsumed": 1,
         "eventsProvided": 0,
         "eventsConsumed": 2,
         "commitsInHistoryWindow": 15
@@ -328,6 +329,46 @@
     }
   ],
   "protocolEdges": [
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "crm",
+      "consumerId": "crm-authorization-adapter",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "holdings",
+      "consumerId": "holdings-application",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "registry",
+      "consumerId": "registry-authorization-adapter",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "transaction",
+      "consumerId": "transaction-application",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
     {
       "identity": "crm.account-compliance.v1",
       "kind": "sync",
@@ -407,17 +448,6 @@
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
-      "to": "IFX.Modules.Auth.Composition",
-      "toRole": "Composition",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "host-composition",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.ApiHost",
-      "fromRole": "RuntimeHost",
-      "fromModule": null,
       "to": "IFX.Modules.CRM.Composition",
       "toRole": "Composition",
       "toModule": "crm",
@@ -440,6 +470,17 @@
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
+      "to": "IFX.Modules.IAM.Composition",
+      "toRole": "Composition",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "fromModule": null,
       "to": "IFX.Modules.Registry.Composition",
       "toRole": "Composition",
       "toModule": "registry",
@@ -454,6 +495,28 @@
       "to": "IFX.Modules.Transaction.Composition",
       "toRole": "Composition",
       "toModule": "transaction",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "fromModule": null,
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "fromModule": null,
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "authorization",
       "uses": null,
       "classification": "host-composition",
       "protocolIdentity": null
@@ -528,17 +591,6 @@
       "from": "IFX.DatabaseMigrator",
       "fromRole": "Outside",
       "fromModule": "databasemigrator",
-      "to": "IFX.Modules.Auth.Infrastructure",
-      "toRole": "Infrastructure",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.DatabaseMigrator",
-      "fromRole": "Outside",
-      "fromModule": "databasemigrator",
       "to": "IFX.Modules.CRM.Infrastructure",
       "toRole": "Infrastructure",
       "toModule": "crm",
@@ -553,6 +605,17 @@
       "to": "IFX.Modules.Holdings.Infrastructure",
       "toRole": "Infrastructure",
       "toModule": "holdings",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.DatabaseMigrator",
+      "fromRole": "Outside",
+      "fromModule": "databasemigrator",
+      "to": "IFX.Modules.IAM.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "auth",
       "uses": null,
       "classification": "outside-or-platform",
       "protocolIdentity": null
@@ -577,182 +640,6 @@
       "toModule": "transaction",
       "uses": null,
       "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Application",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Domain",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Security",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Domain",
-      "toRole": "Domain",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "same-module-layer",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Composition",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "host-composition",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Application",
-      "toRole": "Application",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "same-module-layer",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Infrastructure",
-      "toRole": "Infrastructure",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "same-module-layer",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Presentation",
-      "toRole": "Presentation",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "same-module-layer",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Platform.BackgroundJobs.Contracts",
-      "toRole": "Contracts",
-      "toModule": "backgroundjobs",
-      "uses": null,
-      "classification": "module-to-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Platform.Notifications.Contracts",
-      "toRole": "Contracts",
-      "toModule": "notifications",
-      "uses": null,
-      "classification": "module-to-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Domain",
-      "fromRole": "Domain",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Domain",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Domain",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Security",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": null,
-      "classification": "outside-or-platform",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Application",
-      "toRole": "Application",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "same-module-layer",
-      "protocolIdentity": null
-    },
-    {
-      "from": "IFX.Modules.Auth.Presentation",
-      "fromRole": "Presentation",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Application",
-      "toRole": "Application",
-      "toModule": "auth",
-      "uses": null,
-      "classification": "same-module-layer",
       "protocolIdentity": null
     },
     {
@@ -921,6 +808,17 @@
       "protocolIdentity": null
     },
     {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "crm",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
       "from": "IFX.Modules.CRM.Presentation",
       "fromRole": "Presentation",
       "fromModule": "crm",
@@ -1067,6 +965,17 @@
       "from": "IFX.Modules.Holdings.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
       "to": "IFX.Modules.Registry.Contracts",
       "toRole": "Contracts",
       "toModule": "registry",
@@ -1103,6 +1012,259 @@
       "to": "IFX.Modules.Holdings.Application",
       "toRole": "Application",
       "toModule": "holdings",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Domain",
+      "toRole": "Domain",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Composition",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Application",
+      "toRole": "Application",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Presentation",
+      "toRole": "Presentation",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.BackgroundJobs.Composition",
+      "toRole": "Composition",
+      "toModule": "backgroundjobs",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.BackgroundJobs.Contracts",
+      "toRole": "Contracts",
+      "toModule": "backgroundjobs",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Notifications.Contracts",
+      "toRole": "Contracts",
+      "toModule": "notifications",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Contracts",
+      "fromRole": "Contracts",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Domain",
+      "fromRole": "Domain",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Application",
+      "toRole": "Application",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "module-to-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.IAM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Application",
+      "toRole": "Application",
+      "toModule": "auth",
       "uses": null,
       "classification": "same-module-layer",
       "protocolIdentity": null
@@ -1271,6 +1433,17 @@
       "uses": null,
       "classification": "outside-or-platform",
       "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
     },
     {
       "from": "IFX.Modules.Registry.Infrastructure",
@@ -1485,6 +1658,17 @@
       "from": "IFX.Modules.Transaction.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
       "to": "IFX.Modules.Registry.Contracts",
       "toRole": "Contracts",
       "toModule": "registry",
@@ -1556,6 +1740,138 @@
       "toModule": "transaction",
       "uses": null,
       "classification": "same-module-layer",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "toRole": "Infrastructure",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "toRole": "Infrastructure",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Runtime",
+      "toRole": "Runtime",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "fromRole": "Infrastructure",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "fromRole": "Infrastructure",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authentication.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "toRole": "Infrastructure",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "host-composition",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "outside-or-platform",
+      "protocolIdentity": null
+    },
+    {
+      "from": "IFX.Platform.Authorization.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": null,
+      "classification": "outside-or-platform",
       "protocolIdentity": null
     },
     {
@@ -1729,17 +2045,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 6,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.ApiHost",
-      "fromRole": "RuntimeHost",
-      "fromModule": null,
-      "to": "IFX.Modules.Auth.Composition",
-      "toRole": "Composition",
-      "toModule": "auth",
-      "uses": 3,
+      "uses": 4,
       "classification": "outside-or-platform"
     },
     {
@@ -1766,6 +2072,16 @@
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
       "fromModule": null,
+      "to": "IFX.Modules.IAM.Composition",
+      "toRole": "Composition",
+      "toModule": "auth",
+      "uses": 3,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "fromModule": null,
       "to": "IFX.Modules.Registry.Composition",
       "toRole": "Composition",
       "toModule": "registry",
@@ -1780,6 +2096,16 @@
       "toRole": "Composition",
       "toModule": "transaction",
       "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "fromModule": null,
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "authentication",
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -1813,206 +2139,6 @@
       "classification": "outside-or-platform"
     },
     {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Application",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 48,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Security",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 63,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Application",
-      "fromRole": "Application",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Domain",
-      "toRole": "Domain",
-      "toModule": "auth",
-      "uses": 49,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Composition",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 2,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Application",
-      "toRole": "Application",
-      "toModule": "auth",
-      "uses": 8,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Domain",
-      "toRole": "Domain",
-      "toModule": "auth",
-      "uses": 1,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Infrastructure",
-      "toRole": "Infrastructure",
-      "toModule": "auth",
-      "uses": 3,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Presentation",
-      "toRole": "Presentation",
-      "toModule": "auth",
-      "uses": 3,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Platform.BackgroundJobs.Contracts",
-      "toRole": "Contracts",
-      "toModule": "backgroundjobs",
-      "uses": 2,
-      "classification": "module-to-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Composition",
-      "fromRole": "Composition",
-      "fromModule": "auth",
-      "to": "IFX.Platform.Notifications.Contracts",
-      "toRole": "Contracts",
-      "toModule": "notifications",
-      "uses": 2,
-      "classification": "module-to-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Domain",
-      "fromRole": "Domain",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Domain",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 15,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Application",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 4,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 13,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Security",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 9,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Application",
-      "toRole": "Application",
-      "toModule": "auth",
-      "uses": 17,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Infrastructure",
-      "fromRole": "Infrastructure",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Domain",
-      "toRole": "Domain",
-      "toModule": "auth",
-      "uses": 44,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Presentation",
-      "fromRole": "Presentation",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Application",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 14,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Presentation",
-      "fromRole": "Presentation",
-      "fromModule": "auth",
-      "to": "IFX.BuildingBlocks.Security",
-      "toRole": "Outside",
-      "toModule": "buildingblocks",
-      "uses": 1,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.Modules.Auth.Presentation",
-      "fromRole": "Presentation",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Application",
-      "toRole": "Application",
-      "toModule": "auth",
-      "uses": 87,
-      "classification": "same-module-layer"
-    },
-    {
-      "from": "IFX.Modules.Auth.Presentation",
-      "fromRole": "Presentation",
-      "fromModule": "auth",
-      "to": "IFX.Modules.Auth.Domain",
-      "toRole": "Domain",
-      "toModule": "auth",
-      "uses": 4,
-      "classification": "same-module-layer"
-    },
-    {
       "from": "IFX.Modules.CRM.Application",
       "fromRole": "Application",
       "fromModule": "crm",
@@ -2029,7 +2155,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 36,
+      "uses": 35,
       "classification": "outside-or-platform"
     },
     {
@@ -2139,7 +2265,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 1,
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -2169,7 +2295,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 5,
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -2179,7 +2305,7 @@
       "to": "IFX.Modules.CRM.Application",
       "toRole": "Application",
       "toModule": "crm",
-      "uses": 6,
+      "uses": 8,
       "classification": "same-module-layer"
     },
     {
@@ -2191,6 +2317,26 @@
       "toModule": "crm",
       "uses": 43,
       "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "crm",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": 1,
+      "classification": "cross-module"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "crm",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": 2,
+      "classification": "module-to-platform"
     },
     {
       "from": "IFX.Modules.CRM.Presentation",
@@ -2239,7 +2385,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 5,
+      "uses": 4,
       "classification": "outside-or-platform"
     },
     {
@@ -2309,7 +2455,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 6,
+      "uses": 7,
       "classification": "outside-or-platform"
     },
     {
@@ -2339,7 +2485,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 5,
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -2349,7 +2495,7 @@
       "to": "IFX.Modules.Holdings.Application",
       "toRole": "Application",
       "toModule": "holdings",
-      "uses": 9,
+      "uses": 11,
       "classification": "same-module-layer"
     },
     {
@@ -2361,6 +2507,16 @@
       "toModule": "holdings",
       "uses": 6,
       "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": 1,
+      "classification": "cross-module"
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -2381,6 +2537,16 @@
       "toModule": "transaction",
       "uses": 1,
       "classification": "cross-module"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": 2,
+      "classification": "module-to-platform"
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -2423,6 +2589,296 @@
       "classification": "same-module-layer"
     },
     {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 49,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 59,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": 1,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Domain",
+      "toRole": "Domain",
+      "toModule": "auth",
+      "uses": 69,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": 2,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Composition",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 2,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Application",
+      "toRole": "Application",
+      "toModule": "auth",
+      "uses": 8,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Domain",
+      "toRole": "Domain",
+      "toModule": "auth",
+      "uses": 1,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Infrastructure",
+      "toRole": "Infrastructure",
+      "toModule": "auth",
+      "uses": 1,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Presentation",
+      "toRole": "Presentation",
+      "toModule": "auth",
+      "uses": 4,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "authentication",
+      "uses": 1,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.BackgroundJobs.Composition",
+      "toRole": "Composition",
+      "toModule": "backgroundjobs",
+      "uses": 1,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.BackgroundJobs.Contracts",
+      "toRole": "Contracts",
+      "toModule": "backgroundjobs",
+      "uses": 2,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Notifications.Contracts",
+      "toRole": "Contracts",
+      "toModule": "notifications",
+      "uses": 2,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Contracts",
+      "fromRole": "Contracts",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": 2,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Domain",
+      "fromRole": "Domain",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Domain",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 15,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 6,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 13,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 3,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Application",
+      "toRole": "Application",
+      "toModule": "auth",
+      "uses": 26,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Domain",
+      "toRole": "Domain",
+      "toModule": "auth",
+      "uses": 69,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": 2,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "auth",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": 3,
+      "classification": "module-to-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Application",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 14,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "auth",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.IAM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Application",
+      "toRole": "Application",
+      "toModule": "auth",
+      "uses": 87,
+      "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.IAM.Presentation",
+      "fromRole": "Presentation",
+      "fromModule": "auth",
+      "to": "IFX.Modules.IAM.Domain",
+      "toRole": "Domain",
+      "toModule": "auth",
+      "uses": 6,
+      "classification": "same-module-layer"
+    },
+    {
       "from": "IFX.Modules.Registry.Application",
       "fromRole": "Application",
       "fromModule": "registry",
@@ -2439,7 +2895,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 17,
+      "uses": 16,
       "classification": "outside-or-platform"
     },
     {
@@ -2559,7 +3015,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 4,
+      "uses": 5,
       "classification": "outside-or-platform"
     },
     {
@@ -2586,10 +3042,30 @@
       "from": "IFX.Modules.Registry.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "registry",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "buildingblocks",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": 1,
+      "classification": "cross-module"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
       "to": "IFX.Modules.Registry.Application",
       "toRole": "Application",
       "toModule": "registry",
-      "uses": 6,
+      "uses": 8,
       "classification": "same-module-layer"
     },
     {
@@ -2611,6 +3087,16 @@
       "toModule": "registry",
       "uses": 12,
       "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "context",
+      "uses": 2,
+      "classification": "module-to-platform"
     },
     {
       "from": "IFX.Modules.Registry.Infrastructure",
@@ -2679,7 +3165,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 16,
+      "uses": 15,
       "classification": "outside-or-platform"
     },
     {
@@ -2769,7 +3255,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 7,
+      "uses": 8,
       "classification": "outside-or-platform"
     },
     {
@@ -2799,7 +3285,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "buildingblocks",
-      "uses": 5,
+      "uses": 2,
       "classification": "outside-or-platform"
     },
     {
@@ -2809,6 +3295,16 @@
       "to": "IFX.Modules.CRM.Contracts",
       "toRole": "Contracts",
       "toModule": "crm",
+      "uses": 1,
+      "classification": "cross-module"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
       "uses": 1,
       "classification": "cross-module"
     },
@@ -2829,7 +3325,7 @@
       "to": "IFX.Modules.Transaction.Application",
       "toRole": "Application",
       "toModule": "transaction",
-      "uses": 6,
+      "uses": 8,
       "classification": "same-module-layer"
     },
     {
@@ -2859,7 +3355,7 @@
       "to": "IFX.Platform.Context.Contracts",
       "toRole": "Contracts",
       "toModule": "context",
-      "uses": 2,
+      "uses": 4,
       "classification": "module-to-platform"
     },
     {
@@ -2901,6 +3397,136 @@
       "toModule": "transaction",
       "uses": 15,
       "classification": "same-module-layer"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": 2,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "toRole": "Infrastructure",
+      "toModule": "authentication",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "toRole": "Infrastructure",
+      "toModule": "authentication",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Runtime",
+      "toRole": "Runtime",
+      "toModule": "authentication",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "fromRole": "Infrastructure",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "fromRole": "Infrastructure",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authentication",
+      "uses": 2,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "toRole": "Infrastructure",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "outside-or-platform"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "authorization",
+      "uses": 1,
+      "classification": "outside-or-platform"
     },
     {
       "from": "IFX.Platform.BackgroundJobs.Composition",

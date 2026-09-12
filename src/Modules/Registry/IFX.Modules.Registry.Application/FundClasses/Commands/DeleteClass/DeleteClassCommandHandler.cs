@@ -1,3 +1,4 @@
+using IFX.Modules.Registry.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Registry.Contracts.V1.Events;

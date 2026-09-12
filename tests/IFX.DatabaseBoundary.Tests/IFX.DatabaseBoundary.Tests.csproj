@@ -24,7 +24,7 @@
     <ProjectReference Include="..\..\src\DatabaseMigrator\IFX.DatabaseMigrator\IFX.DatabaseMigrator.csproj" />
     <ProjectReference Include="..\..\src\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\Platform\Messaging\IFX.Platform.Messaging.Runtime\IFX.Platform.Messaging.Runtime.csproj" />
-    <ProjectReference Include="..\..\src\Modules\Auth\IFX.Modules.Auth.Infrastructure\IFX.Modules.Auth.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\IAM\IFX.Modules.IAM.Infrastructure\IFX.Modules.IAM.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\CRM\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Registry\IFX.Modules.Registry.Infrastructure\IFX.Modules.Registry.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\IFX.Modules.Holdings.Infrastructure.csproj" />

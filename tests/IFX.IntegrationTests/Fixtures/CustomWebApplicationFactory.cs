@@ -1,9 +1,11 @@
-﻿using IFX.BuildingBlocks.Composition;
+using IFX.BuildingBlocks.Composition;
+using IFX.BuildingBlocks.Application.Context;
+using IFX.Modules.IAM.Infrastructure.Access;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
-using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.Auth.Application.Identity.Interfaces;
-using IFX.Modules.Auth.Infrastructure.Persistence;
+using IFX.Modules.IAM.Application.Ports.Authorization;
+
+using IFX.Modules.IAM.Application.Identity.Interfaces;
+using IFX.Modules.IAM.Infrastructure.Persistence;
 using IFX.Platform.BackgroundJobs.Contracts;
 using IFX.Platform.Notifications.Contracts;
 using IFX.Platform.Notifications.Contracts.Models;
@@ -86,16 +88,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             });
 
             // Remove the real identity provider service
-            var identityProviderDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(IIdentityProvider));
-
-            if (identityProviderDescriptor != null)
-            {
-                services.Remove(identityProviderDescriptor);
-            }
+            services.RemoveAll<IExternalAccountService>();
+            services.RemoveAll<ICredentialAuthenticationService>();
+            services.RemoveAll<ITokenLifecycleService>();
 
             // Add mock identity provider
-            var mockIdentityProvider = new Mock<IIdentityProvider>();
+            var mockIdentityProvider = new Mock<IExternalAccountService>();
+            var mockCredentials = new Mock<ICredentialAuthenticationService>();
             mockIdentityProvider
                 .Setup(x => x.SignUpAsync(
                     It.IsAny<string>(),
@@ -112,7 +111,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                     UserConfirmed = false
                 });
 
-            mockIdentityProvider
+            mockCredentials
                 .Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(new AuthTokenResult
                 {
@@ -124,6 +123,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 });
 
             services.AddSingleton(mockIdentityProvider.Object);
+            services.AddSingleton(mockCredentials.Object);
+            services.AddSingleton(Mock.Of<ITokenLifecycleService>());
 
             // Clear existing health checks and add mock ones
             var healthCheckDescriptors = services.Where(d =>
@@ -174,10 +175,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
+            // Routing tests inject test identities; production VerifiedIdentityFacts has dedicated storage tests.
+            services.RemoveAll<IExecutionIdentityFacts>();
+            services.AddScoped<RoutingTestIdentityFacts>();
+            services.AddScoped<IExecutionIdentityFacts>(sp => sp.GetRequiredService<RoutingTestIdentityFacts>());
+            services.RemoveAll<ICurrentUser>();
+            services.AddScoped<ICurrentUser, RoutingTestCurrentUser>();
             // Remove UserPermissionClaimsTransformation to prevent DB calls during test auth
             services.RemoveAll<IClaimsTransformation>();
             services.RemoveAll<IResourceAuthorizationService>();
             services.AddScoped<IResourceAuthorizationService, AllowAllResourceAuthorizationService>();
+            services.RemoveAll<IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract>();
+            services.AddScoped<IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract, AllowAllResourceAuthorizationService>();
 
             // Override the default auth scheme with the test handler
             services.AddAuthentication(TestAuthHandler.SchemeName)
@@ -208,10 +217,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         if (!db.Roles.Any())
         {
             var defaultTenantId = Guid.NewGuid();
-            var userRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("User", "Standard user role", defaultTenantId);
-            var adminRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("Admin", "Administrator role", defaultTenantId);
-            var ssoRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("SsoUser", "SSO user role", defaultTenantId);
-            var pendingRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("PendingUser", "Pending user awaiting approval", defaultTenantId);
+            var userRole = IFX.Modules.IAM.Domain.Access.Role.Create("User", "Standard user role", defaultTenantId);
+            var adminRole = IFX.Modules.IAM.Domain.Access.Role.Create("Admin", "Administrator role", defaultTenantId);
+            var ssoRole = IFX.Modules.IAM.Domain.Access.Role.Create("SsoUser", "SSO user role", defaultTenantId);
+            var pendingRole = IFX.Modules.IAM.Domain.Access.Role.Create("PendingUser", "Pending user awaiting approval", defaultTenantId);
 
             db.Roles.AddRange(userRole, adminRole, ssoRole, pendingRole);
             db.SaveChanges();
@@ -220,7 +229,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         // Seed default IdP (IFX Cognito)
         if (!db.Idps.Any())
         {
-            var idp = IFX.Modules.Auth.Domain.Identity.Idp.Create(
+            var idp = IFX.Modules.IAM.Domain.Identity.Idp.Create(
                 name: "IFX Cognito",
                 issuer: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
                 authority: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
@@ -234,22 +243,21 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
     }
 
-    private sealed class AllowAllResourceAuthorizationService : IResourceAuthorizationService
+    private sealed class RoutingTestCurrentUser(RoutingTestIdentityFacts facts, ExecutionTenantSelection selection) : ICurrentUser
     {
-        public Task AuthorizeAsync<TResource>(
-            string? requiredPermission,
-            string decisionPath,
-            TResource resourceAttributes,
-            string action,
-            CancellationToken ct = default)
-            where TResource : OpaResourceAttributesBase => Task.CompletedTask;
-
-        public Task AuthorizeWithPolicyAsync<TResource>(
-            AbacPolicy policy,
-            TResource resourceAttributes,
-            IDictionary<string, object>? parameters = null,
-            CancellationToken ct = default)
-            where TResource : OpaResourceAttributesBase => Task.CompletedTask;
+        public bool IsAuthenticated => facts.IsAuthenticated;
+        public Guid UserId => facts.UserId;
+        public Guid? TenantId => selection.ResolveTenantId();
+        public IReadOnlyCollection<string> Departments => facts.Departments;
+        public IReadOnlyCollection<string> Roles => facts.Roles;
+        public IReadOnlyCollection<string> Permissions => facts.Permissions;
+        public IReadOnlyList<string> GlobalRoles => [];
+        public bool IsGlobalAdmin => false;
+        public bool MfaEnabled => facts.MfaEnabled;
+    }
+    private sealed class AllowAllResourceAuthorizationService : IResourceAuthorizationService, IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract
+    {
+        public Task<IFX.Modules.IAM.Contracts.V1.Authorization.ResourceAuthorizationResponse> AuthorizeAsync(IFX.Modules.IAM.Contracts.V1.Authorization.ResourceAuthorizationRequest request, IFX.Platform.Context.Contracts.Context.ContractRequestContext context, CancellationToken ct = default) => Task.FromResult(new IFX.Modules.IAM.Contracts.V1.Authorization.ResourceAuthorizationResponse(true, "test_only"));
 
         public Task AuthorizeWithResolvedPolicyAsync<TResource>(
             string resourceType,
@@ -257,7 +265,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             TResource resourceAttributes,
             IDictionary<string, object>? parameters = null,
             CancellationToken ct = default)
-            where TResource : OpaResourceAttributesBase => Task.CompletedTask;
+            where TResource : ResourceAttributes => Task.CompletedTask;
     }
 
     private static void RemoveHangfireServices(IServiceCollection services)

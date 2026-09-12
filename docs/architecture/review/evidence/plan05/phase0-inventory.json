@@ -1,0 +1,3921 @@
+{
+  "formatVersion": 1,
+  "plan": "05-iam-platform-security-refactor",
+  "slice": "P05-S0",
+  "baselineCommit": "f29ad32f7b04f21c53fbb1e5e20fd9846e877e69",
+  "scope": "repository-source-and-test-inventory",
+  "sourceCount": 444,
+  "sources": [
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authentication/DynamicJwtBearerEvents.cs",
+      "gitBlob": "0fec299390e17243f98e1cb68f0907b0c7e479a7",
+      "targetResponsibility": "Authentication host adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authentication/IdpConfigurationEntry.cs",
+      "gitBlob": "9573846338698c63b6836b204d28bd3fcbb4cee1",
+      "targetResponsibility": "Authentication host adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authentication/IdpConfigurationService.cs",
+      "gitBlob": "e04c8d04162e1a5a0c5d6f404240a7f0b4c550e4",
+      "targetResponsibility": "Authentication host adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authentication/IIdpConfigurationService.cs",
+      "gitBlob": "790afa806e047468401729c2d6155df17fd92fbe",
+      "targetResponsibility": "Authentication host adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationHandler.cs",
+      "gitBlob": "c6979ca03e1852388538e3d1344cfa027924e0c4",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authorization/PermissionAuthorizationPolicyProvider.cs",
+      "gitBlob": "10f797fdd3ff0aed718cfc4258e744ab16778943",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authorization/PermissionRequirement.cs",
+      "gitBlob": "c97a2d4fd5ae2d0a01ae68e25e5b1ae58008abff",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Authorization/UserPermissionClaimsTransformation.cs",
+      "gitBlob": "5e42294b1666dc599d55b8d4098e0a5e821f40e6",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/ApiHost/IFX.ApiHost/Configuration/AuthenticationConfiguration.cs",
+      "gitBlob": "98fe7c25833f09d5416fba49d4109036ef9d5ed6",
+      "targetResponsibility": "Authentication host adapter",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddSingleton<IdpConfigurationService>();",
+        "services.AddSingleton<IIdpConfigurationService>(sp => sp.GetRequiredService<IdpConfigurationService>());",
+        "services.AddScoped<DynamicJwtBearerEvents>();",
+        "services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)",
+        ".AddJwtBearer(options =>",
+        "services.AddTransient<IClaimsTransformation, UserPermissionClaimsTransformation>();"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Engine/AbacPolicyEngine.cs",
+      "gitBlob": "d1c3117366ae47f16673941fe46d2d8135b5fa8f",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Engine/IAbacPolicyEngine.cs",
+      "gitBlob": "aa0bf1da914c299d3f22b51dbf43398c2ca80b5f",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Policies/AbacCondition.cs",
+      "gitBlob": "c9e5ef006b390483a92a8efe70b94d9b4b7c74a5",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Policies/AbacPolicy.cs",
+      "gitBlob": "fc7699d76e9e14f3cb3784686998a7b222affcc8",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Policies/ResolvedCondition.cs",
+      "gitBlob": "1ecd8a1e981c7a9585025eb4c16da977bd4e871a",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Registry/AbacTemplateRegistry.cs",
+      "gitBlob": "59b98976fe0e02760a1c06dfab09d801a0804396",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Registry/BuiltInTemplates.cs",
+      "gitBlob": "5cdc04a9c08792466ab44f5dc5ce89aba335dd25",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Registry/IAbacTemplateRegistry.cs",
+      "gitBlob": "e792d4738532f9d76911b7c4238cbe54f6dbe981",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Resolver/IAbacPolicyCache.cs",
+      "gitBlob": "46114413fd014ba7d6ee270c5e705c4af7be06bb",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Resolver/IAbacPolicyResolver.cs",
+      "gitBlob": "8c7fcdeb3880a9e3789fcd7910266996aaa7d183",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Resolver/StaticAbacPolicyResolver.cs",
+      "gitBlob": "785c904c747444b7e528f447e077210078106dca",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Templates/ConditionOperator.cs",
+      "gitBlob": "34ad6ee36f6b6593f79fd791b860815dbfe77207",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Templates/ConditionTemplate.cs",
+      "gitBlob": "14e1197f45f51cc0635e859a67889f04a76ca608",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Templates/ConditionValueRef.cs",
+      "gitBlob": "4d21013a7edad49c28de9817ecc32ae5db12e172",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Abac/Templates/ValueRefType.cs",
+      "gitBlob": "3b3b299547024c4e8885d9b093e335b4d3f5ed96",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Exceptions/ForbiddenException.cs",
+      "gitBlob": "da3f6eaafd09bb06827e895e06dc390da8b73c3b",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/ICurrentUser.cs",
+      "gitBlob": "5fdfd9e8980ab4b3cea99e773c78b85e01a3a9d2",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/IOpaPolicyClient.cs",
+      "gitBlob": "92f45a6884d8253311b25a3c8be18e00519d96e7",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/IPermissionChecker.cs",
+      "gitBlob": "bdae3b2422aa3299d118e1c85db15c280c25e8db",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/IResourceAuthorizationService.cs",
+      "gitBlob": "17c483c0f60e0584c8131c02493a19a5f5135f7b",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Models/OpaAuthorizationEnvelope.cs",
+      "gitBlob": "a7e0229379bc52ee35d3f03100a497b4c2fb5d90",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Models/OpaDecisionResponse.cs",
+      "gitBlob": "e67e9514a4ed3450e2b14615b861ad01d0266008",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Models/OpaDecisionResult.cs",
+      "gitBlob": "9f291f54f508759fc61387392c52f7ed4d585d57",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Models/OpaEnvironmentAttributes.cs",
+      "gitBlob": "e8f0f87a3bdd4e94d1128825914ae679c4f24b00",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Models/OpaResourceAttributesBase.cs",
+      "gitBlob": "f2c18191a787e6a61324fc8a1503a7f90a4c5800",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Models/OpaSubjectAttributes.cs",
+      "gitBlob": "d15bcc76fea5e62f670ccf6166e4757c0b4c8f35",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Opa/NullOpaPolicyClient.cs",
+      "gitBlob": "00bf0124aaed7679b95300645b586c1d1cd09669",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Opa/OpaClient.cs",
+      "gitBlob": "14ecb7f3cef7f7bc4d1d7eef1f94e2e72ba65c74",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/Opa/OpaOptions.cs",
+      "gitBlob": "e35a36d978da2318fafeddc3aaed5a947bfe0f64",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/ResourceAuthorizationService.cs",
+      "gitBlob": "823dbf901ef76e9cfbad39e0193f1f014a836187",
+      "targetResponsibility": "Review: Platform evaluator / IAM policy / entry adapter",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj",
+      "gitBlob": "1ee00a60505c97309c5e7f7ae30cc420d3cae9b4",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Authorization/DepartmentResourceAttributes.cs",
+      "gitBlob": "5c2f27f38801eeb10d733ed6f75066a058cab26e",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/CreateDepartment/CreateDepartmentCommand.cs",
+      "gitBlob": "2dd05e99ab8997401506f8a0c39f1a4b3495ec3b",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/CreateDepartment/CreateDepartmentCommandHandler.cs",
+      "gitBlob": "5409a710f6099d7adaead6bfe379a1650c0fd90a",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/CreateDepartment/CreateDepartmentCommandValidator.cs",
+      "gitBlob": "e0ea75874391937163210ca85450f6859e6a49ed",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/DeleteDepartment/DeleteDepartmentCommand.cs",
+      "gitBlob": "a253fa4205c4f97817d764bdc0273f578bdb4ffe",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/DeleteDepartment/DeleteDepartmentCommandHandler.cs",
+      "gitBlob": "ad58583a652083e4a3b2fa0a3fa7e339d8db4297",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/UpdateDepartment/UpdateDepartmentCommand.cs",
+      "gitBlob": "8df4fc0227b6b7fc542a366add47e9b077a28bf4",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/UpdateDepartment/UpdateDepartmentCommandHandler.cs",
+      "gitBlob": "62f3dedffb61f6314fe10262cdcc846bdd61b89e",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Commands/UpdateDepartment/UpdateDepartmentCommandValidator.cs",
+      "gitBlob": "0677c34db507818dc68eb1faff7262f3fa9d67ef",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/DTOs/DepartmentDto.cs",
+      "gitBlob": "6a007ec5fb91a8ec0d8140893276af97416e5b4e",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Queries/GetAllDepartments/GetAllDepartmentsQuery.cs",
+      "gitBlob": "ed7684ffd344a26d14e90cba4fcf72d49779ea2f",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Queries/GetAllDepartments/GetAllDepartmentsQueryHandler.cs",
+      "gitBlob": "e78c4da1b1bad483a9c9fe891d035a29e30cd462",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Queries/GetAllDepartmentsAcrossTenants/GetAllDepartmentsAcrossTenantsQuery.cs",
+      "gitBlob": "fd435af7a290a6fdfc4701aefe31d1c768313503",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Queries/GetAllDepartmentsAcrossTenants/GetAllDepartmentsAcrossTenantsQueryHandler.cs",
+      "gitBlob": "a5fe1aef19e268c63020148b978bada90eaeab97",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Queries/GetDepartmentById/GetDepartmentByIdQuery.cs",
+      "gitBlob": "2b1e8a17bae1d4dfad79d5ae48059b64d4a78434",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Departments/Queries/GetDepartmentById/GetDepartmentByIdQueryHandler.cs",
+      "gitBlob": "ae5bccc004e626b7ee7406c6b18b165b70596494",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Commands/AssignGlobalRole/AssignGlobalRoleCommand.cs",
+      "gitBlob": "661949a21b3a215a76b9e46a771d5eaf94d4d69d",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Commands/AssignGlobalRole/AssignGlobalRoleCommandHandler.cs",
+      "gitBlob": "6415c64108db05ec5afa8947a15926e73b7c837d",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Commands/RemoveGlobalRole/RemoveGlobalRoleCommand.cs",
+      "gitBlob": "f767b810657eb63ebf7aee6d6e45b1de4dd16c36",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Commands/RemoveGlobalRole/RemoveGlobalRoleCommandHandler.cs",
+      "gitBlob": "5e7bef95ea53509625897f856eb4006390508c6d",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/DTOs/GlobalRoleDto.cs",
+      "gitBlob": "eb46bcb7d2d8255af27cd8ab9b6b7cf3b972c28b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Queries/GetUserGlobalRoles/GetUserGlobalRolesQuery.cs",
+      "gitBlob": "d597d49249e6fa0a4d6302f188890d571e38b590",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Queries/GetUserGlobalRoles/GetUserGlobalRolesQueryHandler.cs",
+      "gitBlob": "f2a9fed17d7d082392024c7601d22f9d2007aed1",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Queries/ListGlobalRoles/ListGlobalRolesQuery.cs",
+      "gitBlob": "bf0dee517aaa182e2d859eaf3bba4c9a58c01e89",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/GlobalRoles/Queries/ListGlobalRoles/ListGlobalRolesQueryHandler.cs",
+      "gitBlob": "f58f22d95b05354f3408a3538a6887cceed73318",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/CreatePermission/CreatePermissionCommand.cs",
+      "gitBlob": "7764a0762f62b053571863ccdcccf88970c6eb95",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/CreatePermission/CreatePermissionCommandHandler.cs",
+      "gitBlob": "376f9f821427b25959d56fd73cc1eb036b6de9ac",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/CreatePermission/CreatePermissionCommandValidator.cs",
+      "gitBlob": "9efc733b2dd69ae04ffde2cde20dc7fb1e83b0fb",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/DeletePermission/DeletePermissionCommand.cs",
+      "gitBlob": "a1896e1fdf15d01ecd780f1190897060dd0866bf",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/DeletePermission/DeletePermissionCommandHandler.cs",
+      "gitBlob": "ac4eb0f161f50cdc3fde5d0b10f530dae411f0ff",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/UpdatePermission/UpdatePermissionCommand.cs",
+      "gitBlob": "0ad68b21b889fe610d0cede0023b802a51a1159d",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/UpdatePermission/UpdatePermissionCommandHandler.cs",
+      "gitBlob": "b32954b8f6adde740a40be554e734c3268f84457",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Commands/UpdatePermission/UpdatePermissionCommandValidator.cs",
+      "gitBlob": "1f18f3aca907fbcc2e1b92237f52e9e569e56d3e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/DTOs/PermissionDto.cs",
+      "gitBlob": "506f4b4ad3511a0db893452cbd9190cec2947c22",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Queries/GetAllPermissions/GetAllPermissionsQuery.cs",
+      "gitBlob": "cbd9f81f06f41bb9a0183ed4490381113510b7bc",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Permissions/Queries/GetAllPermissions/GetAllPermissionsQueryHandler.cs",
+      "gitBlob": "3e6fa85a1b4fa0688f3e0d11bd53e12fb4d2fd2e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Authorization/PolicyResourceAttributes.cs",
+      "gitBlob": "efc05e82ace50be32e59d25ff3106a8fa563db81",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/CreatePolicy/CreatePolicyCommand.cs",
+      "gitBlob": "0e4c05909cfca2d15098f9159ea088e5132a30a3",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/CreatePolicy/CreatePolicyCommandHandler.cs",
+      "gitBlob": "bf16959523b041e34795782bc620a73d6ea59889",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/CreatePolicy/CreatePolicyCommandValidator.cs",
+      "gitBlob": "8c37575a16c932853ccdb036d45ed26ee41d0247",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/DeletePolicy/DeletePolicyCommand.cs",
+      "gitBlob": "c441294be90466170613fad06fd83012f6f13531",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/DeletePolicy/DeletePolicyCommandHandler.cs",
+      "gitBlob": "0bdfcc818cb75a5464416aa05c966f7c5ec65535",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/UpdatePolicy/UpdatePolicyCommand.cs",
+      "gitBlob": "8450c5bdf86d775c1932749f4ed2106bac389b27",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/UpdatePolicy/UpdatePolicyCommandHandler.cs",
+      "gitBlob": "356f9fd129a0309068aec0cdd71f03fbc0cc5e10",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Commands/UpdatePolicy/UpdatePolicyCommandValidator.cs",
+      "gitBlob": "3e359e4b3fac6be577df5deb518345e764853113",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/DTOs/PolicyConditionDto.cs",
+      "gitBlob": "88bd09548fb6578c0319310845490cf548e3ffef",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/DTOs/PolicyDefinitionDto.cs",
+      "gitBlob": "f7e9dd294414ed7532e94e4fe8fc726635a06847",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/DTOs/TemplateDto.cs",
+      "gitBlob": "8adae5ee0a6dd2f2e1f878fcada289e9bc1f53c7",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Queries/GetAvailableTemplates/GetAvailableTemplatesQuery.cs",
+      "gitBlob": "5eb38ff856c109913aec27971c3456980afd25cd",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Queries/GetAvailableTemplates/GetAvailableTemplatesQueryHandler.cs",
+      "gitBlob": "66ee405e8023aa66307487b5a098172abc78aa94",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Queries/GetPlatformPolicies/GetPlatformPoliciesQuery.cs",
+      "gitBlob": "d9df73022ef3bb70dd5758228a45864d871dbaf0",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Queries/GetPlatformPolicies/GetPlatformPoliciesQueryHandler.cs",
+      "gitBlob": "2b6a9187bcca0298e1f36f77eb83f06317ef2081",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Queries/GetPolicies/GetPoliciesQuery.cs",
+      "gitBlob": "796921cffc419482c6d948ea7c815ad55440d712",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Policies/Queries/GetPolicies/GetPoliciesQueryHandler.cs",
+      "gitBlob": "363caf3bb019ec401110e75265394625e8745914",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Authorization/RoleGroupResourceAttributes.cs",
+      "gitBlob": "e0eb7de03dd9bc5aa9976c5023c919592c7879f6",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/AssignRolesToRoleGroup/AssignRolesToRoleGroupCommand.cs",
+      "gitBlob": "a884fd0d0a0fbafa6a138adadb4a8051566db936",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/AssignRolesToRoleGroup/AssignRolesToRoleGroupCommandHandler.cs",
+      "gitBlob": "4b0dac965507212361955ecf183d07698a0c0acf",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/CreateRoleGroup/CreateRoleGroupCommand.cs",
+      "gitBlob": "11437c1265dfe28776481d00a79bacb3eba0ab59",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/CreateRoleGroup/CreateRoleGroupCommandHandler.cs",
+      "gitBlob": "d8a21241f8c5ed07607c8284acafda7b52342019",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/CreateRoleGroup/CreateRoleGroupCommandValidator.cs",
+      "gitBlob": "bcfb46d6b3a43e156aaaee72f65b29f39572ca45",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/DeleteRoleGroup/DeleteRoleGroupCommand.cs",
+      "gitBlob": "d099d69cec1499efb40927e73848959dda99ea6c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/DeleteRoleGroup/DeleteRoleGroupCommandHandler.cs",
+      "gitBlob": "2a71cc41b90434076428041faac38b135e1d41d2",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/RemoveRoleFromRoleGroup/RemoveRoleFromRoleGroupCommand.cs",
+      "gitBlob": "1659070e22eeff343a85408abc49855f7764e3f0",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/RemoveRoleFromRoleGroup/RemoveRoleFromRoleGroupCommandHandler.cs",
+      "gitBlob": "1993fba4f1716a1e5d7262ee2e61510b3a547268",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/UpdateRoleGroup/UpdateRoleGroupCommand.cs",
+      "gitBlob": "0f91e610ed6eb19c3cb3ec9d8c6e00b2750df5c4",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/UpdateRoleGroup/UpdateRoleGroupCommandHandler.cs",
+      "gitBlob": "1ace723dd5df9663c0b4e4dc4f4fc82a1156c807",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Commands/UpdateRoleGroup/UpdateRoleGroupCommandValidator.cs",
+      "gitBlob": "b2f8b222ea5f10c35babfcb3fd9bd8f90cd09204",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/DTOs/RoleGroupDto.cs",
+      "gitBlob": "9639b54cafb7db4c7ef2f4b910fe894d64a25c4e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Queries/GetAllRoleGroups/GetAllRoleGroupsQuery.cs",
+      "gitBlob": "5c2bea9635b1d25e62cbd4107d08afa02e1de4e4",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Queries/GetAllRoleGroups/GetAllRoleGroupsQueryHandler.cs",
+      "gitBlob": "bcffc2caaf9a8569d4ec8d2544eca3c33c4dcd7d",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Queries/GetAllRoleGroupsAcrossTenants/GetAllRoleGroupsAcrossTenantsQuery.cs",
+      "gitBlob": "f2b36e75ba98523e8ed28984d97ece178fa1bd7e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/RoleGroups/Queries/GetAllRoleGroupsAcrossTenants/GetAllRoleGroupsAcrossTenantsQueryHandler.cs",
+      "gitBlob": "cdca318098dca4c3b5dba96414f467412bfd2339",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Authorization/RoleResourceAttributes.cs",
+      "gitBlob": "e25cfffefe773bd3a366efd9e42c4b18c7535f44",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/AssignPermissionsToRole/AssignPermissionsToRoleCommand.cs",
+      "gitBlob": "f154a660e47d152c4f99c37d7f0ae44d658692fb",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/AssignPermissionsToRole/AssignPermissionsToRoleCommandHandler.cs",
+      "gitBlob": "052b848b77bab4d0b612e7acb0cfd860d52def3a",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/CreateRole/CreateRoleCommand.cs",
+      "gitBlob": "f106e00b5a6721cc08b76b8ac205f6b5bbd89de7",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/CreateRole/CreateRoleCommandHandler.cs",
+      "gitBlob": "7c9d6854973c6406875f2070d700ad6a71ba6767",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/CreateRole/CreateRoleCommandValidator.cs",
+      "gitBlob": "588bc087a7af593de684224544147409a3c90627",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/DeleteRole/DeleteRoleCommand.cs",
+      "gitBlob": "aa7c75572211f602f56072cc97c00029310f5573",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/DeleteRole/DeleteRoleCommandHandler.cs",
+      "gitBlob": "9825c527dd501af53028fd828be0edfe3327f237",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/RemovePermissionFromRole/RemovePermissionFromRoleCommand.cs",
+      "gitBlob": "340ae3a5aa632b1a5ae0aa085289d9b355b3f27c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/RemovePermissionFromRole/RemovePermissionFromRoleCommandHandler.cs",
+      "gitBlob": "85533e736687fed36e72a60854959748bdd9d240",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/UpdateRole/UpdateRoleCommand.cs",
+      "gitBlob": "f7a53d1ffc977f2902962674367f9e3130ef6f7c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/UpdateRole/UpdateRoleCommandHandler.cs",
+      "gitBlob": "65622403165200b73a374c22c73d5a0a162560cb",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Commands/UpdateRole/UpdateRoleCommandValidator.cs",
+      "gitBlob": "c1dd257f878dfe6706c8cf6c2df1537792b735b4",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/DTOs/RoleDetailDto.cs",
+      "gitBlob": "d1261dc5e530d85a6cb6ce33dd7291693c576906",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/DTOs/RoleDto.cs",
+      "gitBlob": "6637ce521d936ad1e584fad203bf06bbabdb2baa",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Queries/GetAllRoles/GetAllRolesQuery.cs",
+      "gitBlob": "fa3eb6393a1d00bd31e03f7dd9ed2705add9031e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Queries/GetAllRoles/GetAllRolesQueryHandler.cs",
+      "gitBlob": "9ae5cd103e3ad4d4b407749dd2259513ec457a1c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Queries/GetAllRolesAcrossTenants/GetAllRolesAcrossTenantsQuery.cs",
+      "gitBlob": "92d72154ec335fba898572aee419d1619ea85952",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Queries/GetAllRolesAcrossTenants/GetAllRolesAcrossTenantsQueryHandler.cs",
+      "gitBlob": "4ee07f34c1c348f66e08d4a920d43135d13639a7",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Queries/GetRoleById/GetRoleByIdQuery.cs",
+      "gitBlob": "37a8908795e41dbf3e8a90b482332b4f59e6449d",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Roles/Queries/GetRoleById/GetRoleByIdQueryHandler.cs",
+      "gitBlob": "21c319b625d46c1c2adb88ab88a848c044a75a2b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/CreateTenant/CreateTenantCommand.cs",
+      "gitBlob": "417048e00306fae3c173517e085e79ec32b4cd03",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/CreateTenant/CreateTenantCommandHandler.cs",
+      "gitBlob": "a5065b59036acf34260754242c71b118cb183dde",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/CreateTenant/CreateTenantCommandValidator.cs",
+      "gitBlob": "ae7fe3982eb7b9c2f9cbd57b2fab500c7c56c3fc",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/DeleteTenant/DeleteTenantCommand.cs",
+      "gitBlob": "bcf01539145f16d35e2b42a35fb0414a0fddcc82",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/DeleteTenant/DeleteTenantCommandHandler.cs",
+      "gitBlob": "8c57264c66df22aa495a4e767065c02f398e5ae1",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/UpdateTenant/UpdateTenantCommand.cs",
+      "gitBlob": "79513c9ea157109d6b530d67f38a681a016b31e5",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/UpdateTenant/UpdateTenantCommandHandler.cs",
+      "gitBlob": "ea2fcb0d2f8616e56eaabfde4901e1364b180eca",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Commands/UpdateTenant/UpdateTenantCommandValidator.cs",
+      "gitBlob": "c4cefa1daff68f90d76c078ec27a3d28f86af865",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/DTOs/TenantDto.cs",
+      "gitBlob": "ea943e9a67a6758be89c8c0128f3a087ad41dd31",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Queries/GetAllTenants/GetAllTenantsQuery.cs",
+      "gitBlob": "c0be1f11c8f597d8db29039e10b3bb06fa455307",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Queries/GetAllTenants/GetAllTenantsQueryHandler.cs",
+      "gitBlob": "df217ea1e10ba4b53739fd3cbd8b69d5cf790a6c",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Queries/GetTenantById/GetTenantByIdQuery.cs",
+      "gitBlob": "852f0ad5ba3523d28a9ceb39c984de7310cdb749",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Authorization/Tenants/Queries/GetTenantById/GetTenantByIdQueryHandler.cs",
+      "gitBlob": "7cc35b99336b76183b06d86c947f38b54baaa5e4",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Common/Authorization/TenantScopeResourceAttributes.cs",
+      "gitBlob": "9dc87efa5bb4efa41afd6645ab9981dbb84928df",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Common/CrossTenantAccessGuard.cs",
+      "gitBlob": "a6e53be556c2a387b0babc6a2632f00c82ede845",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Common/DTOs/CrossTenantResultDto.cs",
+      "gitBlob": "6943eaa0da0416aa48caeffe7f796b0272dc29c5",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Common/DTOs/TenantGroupDto.cs",
+      "gitBlob": "1fa2627e8d39d404a6de4c9ca767458c4da4e807",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Common/Result.cs",
+      "gitBlob": "f7fa930e9385cdc7d63b1e7f2e84442f88e22a34",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/DependencyInjection.cs",
+      "gitBlob": "a5df1e6b77283d5de419f1de53ca7a156ca06839",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddScoped<IEmailVerificationIssuanceService, EmailVerificationIssuanceService>();"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Authorization/IdpResourceAttributes.cs",
+      "gitBlob": "82c8d6b341623ed5a91a37955cebd5ecbdeced40",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ConfirmRegistration/ConfirmRegistrationCommand.cs",
+      "gitBlob": "4289c354a050156859f34f4a4bbadb97acd0124d",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ConfirmRegistration/ConfirmRegistrationCommandHandler.cs",
+      "gitBlob": "ae89962fdb180cf1fe45ea3ae423ed8b7b2936f4",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ConfirmRegistration/ConfirmRegistrationCommandValidator.cs",
+      "gitBlob": "9c72e346fe2f2eee1e56a03339e4e1cf98ea6e7f",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/CreateIdp/CreateIdpCommand.cs",
+      "gitBlob": "5aaa6aaab181e2e33effd81b2e1bec5ddb96835b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/CreateIdp/CreateIdpCommandHandler.cs",
+      "gitBlob": "e6d61c32f1b12db9c1dc3880f383f015fdbbc38e",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/CreateIdp/CreateIdpCommandValidator.cs",
+      "gitBlob": "bef2769d42bdc2bac21691aa3bc03e182494f42b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/LoginUser/LoginUserCommand.cs",
+      "gitBlob": "54976266cfe72c5206acd9950ecd1ced97ada724",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/LoginUser/LoginUserCommandHandler.cs",
+      "gitBlob": "aa83155ec8dfc93fbc8650f16517ef34eb55c844",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/LoginUser/LoginUserCommandValidator.cs",
+      "gitBlob": "945ba37d66579526e924031c3237cac9fe3a01c5",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/LogoutUser/LogoutUserCommand.cs",
+      "gitBlob": "25dafdd7464703b7a784e73f4d6d806fad89caa2",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/LogoutUser/LogoutUserCommandHandler.cs",
+      "gitBlob": "475cb14ddb7d88cb7da39e062d11fd92748e135a",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/LogoutUser/LogoutUserCommandValidator.cs",
+      "gitBlob": "bce1e5470541a21815391259633a2f943d185cb4",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ProvisionSsoUser/ProvisionSsoUserCommand.cs",
+      "gitBlob": "6755e4ecb172d9d09ba4ab78ddc5fe3bb4fd62db",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs",
+      "gitBlob": "f962d6cc71fa65377fdd54cee10fac98fec0bf77",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ProvisionSsoUser/ProvisionSsoUserCommandValidator.cs",
+      "gitBlob": "02d396b971c3762da6d52085edd18a96f6839c07",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RefreshToken/RefreshTokenCommand.cs",
+      "gitBlob": "62cfff664111c2920ca5dbe3fc63e504780142a1",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RefreshToken/RefreshTokenCommandHandler.cs",
+      "gitBlob": "4d74394a2b928cf54e6743e3a4aa3c9364291dbc",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RefreshToken/RefreshTokenCommandValidator.cs",
+      "gitBlob": "483ff411c462acb435b7f901eaad4b805c24548b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RegisterUser/RegisterUserCommand.cs",
+      "gitBlob": "b9c7c3b5279e7c3ad68fb7d35b2d6fa1554ae8e9",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RegisterUser/RegisterUserCommandHandler.cs",
+      "gitBlob": "391b0ecf31a9c5c97ceb63ad9e90be8a0e746bbc",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RegisterUser/RegisterUserCommandValidator.cs",
+      "gitBlob": "02587e56df4d918914194d8c0ad968d9a49b52b3",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ResendEmailVerification/ResendEmailVerificationCommand.cs",
+      "gitBlob": "1caf7b00e9174e13fb8f7c9b7a12291ebcaa73e7",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ResendEmailVerification/ResendEmailVerificationCommandHandler.cs",
+      "gitBlob": "7ee53ac35d40715cbddd4c32ecbadcd4b82612f4",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ResendEmailVerification/ResendEmailVerificationCommandValidator.cs",
+      "gitBlob": "d1e240579d4812234fbed18d32fe0923349a4154",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RevokeToken/RevokeTokenCommand.cs",
+      "gitBlob": "a944c199d6aa494583c500c7c9637e8f5ac5ddf4",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RevokeToken/RevokeTokenCommandHandler.cs",
+      "gitBlob": "cb33ea64268de9da3151c1c161728dbe8c9d47b6",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/RevokeToken/RevokeTokenCommandValidator.cs",
+      "gitBlob": "77e49782df7116bb439429dbef59baf4e8409afa",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/SendEmailVerification/SendEmailVerificationCommand.cs",
+      "gitBlob": "38292888ac5a51de3f6d25df2291b739e75694fa",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/SendEmailVerification/SendEmailVerificationCommandHandler.cs",
+      "gitBlob": "a24b360973eaa400c0cf9f732967c0df975608de",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/SendEmailVerification/SendEmailVerificationCommandValidator.cs",
+      "gitBlob": "dfdeeaf42fef4b64dd62270127bfbe9908779b87",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/SyncUser/SyncUserCommand.cs",
+      "gitBlob": "810db0bf04b0dd7c829a100f533383fad6513370",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/SyncUser/SyncUserCommandHandler.cs",
+      "gitBlob": "12bca6e9c356032476cb4fd5053ffd098205fb9b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/SyncUser/SyncUserCommandValidator.cs",
+      "gitBlob": "880f3eb49de0eb6fe101c392caa28b8c8bf2045b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/UpdateIdp/UpdateIdpCommand.cs",
+      "gitBlob": "e292c71b1b524eafc968aa53af3e7d3bd323b7d3",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/UpdateIdp/UpdateIdpCommandHandler.cs",
+      "gitBlob": "a7f9ac35e7917f72ce939b9e1a226e87ddff4304",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/UpdateIdp/UpdateIdpCommandValidator.cs",
+      "gitBlob": "925b568b9d3c0af8fc78d9229e43d01bd02c17c4",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/VerifyEmail/VerifyEmailCommand.cs",
+      "gitBlob": "02e72e79ab89165594a46b272d128994852c9442",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/VerifyEmail/VerifyEmailCommandHandler.cs",
+      "gitBlob": "a562e29434c36bd7d3f8caa7147e3157cf7bd4f8",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/VerifyEmail/VerifyEmailCommandValidator.cs",
+      "gitBlob": "9511a4b69cfc26b951aa375c787ea5304728bc2b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/ConfirmRegistrationDto.cs",
+      "gitBlob": "7aba914f08467c6b76f15e0f75d9ce4fd1387919",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/EmailVerificationDto.cs",
+      "gitBlob": "7a40f206e5d8022cb0fd275e9e66dae265c97a87",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/IdpDto.cs",
+      "gitBlob": "3ee9969735f964f0770529875a05560a1e57b615",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/LoginEventDto.cs",
+      "gitBlob": "f5b088eecaca18588f5622802de46bb186743105",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/LoginUserDto.cs",
+      "gitBlob": "c673f26dc5d9105d8010492f252f12245f32ff97",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/ProvisionSsoUserResponse.cs",
+      "gitBlob": "063dc119e80872b852a5dc627895d385ddfc63be",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/RefreshTokenResponse.cs",
+      "gitBlob": "59bcc9302f4b03e940f3c4671864ab721efaf56f",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/RegisterUserDto.cs",
+      "gitBlob": "135c584ff51a899d953efb33c20189a62cfb2563",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/DTOs/UserAuthResult.cs",
+      "gitBlob": "6a9b978c005859662d458e57a0a10b5e3911a5a8",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IEmailVerificationCleanupService.cs",
+      "gitBlob": "7fb1760c60f9d665b64055a0c4ab850906aa31f0",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IEmailVerificationIssuanceService.cs",
+      "gitBlob": "dcc9b2f3e8fcc7a790e36e815e990c263219820b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IEmailVerificationService.cs",
+      "gitBlob": "97d0f3466155ecbf242b9e96ae6fac8bd85ea548",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IIdentityProvider.cs",
+      "gitBlob": "a867601c003580e57dc7e7eb75788f2d63fa593c",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IIdpCacheInvalidator.cs",
+      "gitBlob": "35cfdff9c16fa0374959d1b10ed975a23dd3df49",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IOidcAuthService.cs",
+      "gitBlob": "195eac21ff713c4bfc041aa8743b22f5fa69775e",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IOidcDiscoveryService.cs",
+      "gitBlob": "4b817c59414a443ac0842ef08f1e17715c4893ae",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Ports/IAuthEmailJobScheduler.cs",
+      "gitBlob": "a60c35f1dcf6bc59fe539a21805d13d80a9720ac",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Ports/IOidcUserInfoClient.cs",
+      "gitBlob": "1a13cddb101491497c560e6301410fa0592e97e5",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetAllIdps/GetAllIdpsQuery.cs",
+      "gitBlob": "8c87e9ba5c5bcdabcf88840d7a5143eca5d58cf5",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetAllIdps/GetAllIdpsQueryHandler.cs",
+      "gitBlob": "43ecaf68687f1b7f4a124224bf4afefa73e53207",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetAllIdpsAcrossTenants/GetAllIdpsAcrossTenantsQuery.cs",
+      "gitBlob": "e0aee8d8ad78e6b1a960be6c888154454b6a2c1d",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetAllIdpsAcrossTenants/GetAllIdpsAcrossTenantsQueryHandler.cs",
+      "gitBlob": "8f5ba3a231b25702e5f5e213e9640665ce90b3ef",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetIdpById/GetIdpByIdQuery.cs",
+      "gitBlob": "0001ffb28034d2866c8a60c0af971af1a70ace55",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetIdpById/GetIdpByIdQueryHandler.cs",
+      "gitBlob": "90141cb44e647af016bead6286136d86b5530593",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetOrProvisionUser/GetOrProvisionUserQuery.cs",
+      "gitBlob": "f3a7e9aba10cc80c4d6f9c9ffb5612d126ade30d",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Queries/GetOrProvisionUser/GetOrProvisionUserQueryHandler.cs",
+      "gitBlob": "7f2284f999a8355b90ef7fc0e7bfbfe55830f472",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Services/EmailVerificationIssuanceService.cs",
+      "gitBlob": "d8e3c09d07351cf9ac33b70afe3a14e9c1ba9d2b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/IFX.Modules.Auth.Application.csproj",
+      "gitBlob": "3e658a9e121c8cc1d3ef75aeac53ee0477bcecd2",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Application\\IFX.BuildingBlocks.Application.csproj",
+        "..\\IFX.Modules.Auth.Domain\\IFX.Modules.Auth.Domain.csproj",
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Domain\\IFX.BuildingBlocks.Domain.csproj",
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj"
+      ],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Interfaces/IUnitOfWork.cs",
+      "gitBlob": "756e49f53947fbc8619752d060c1e0925bf8bca0",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Mappings/MappingProfile.cs",
+      "gitBlob": "77506f4442a3cba1622496d0cfb6cc03956fe8cc",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Transactions/AuthTransactionOwner.cs",
+      "gitBlob": "ca0da08e6a2f77bad8c5aa893df9807b50d381e4",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Authorization/UserResourceAttributes.cs",
+      "gitBlob": "a2ba22926eb1e28bdfa98978e70d95b7f9032bc6",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignDepartmentToUser/AssignDepartmentToUserCommand.cs",
+      "gitBlob": "8d4e397fab93a1a5fd4c36ab8a31226b5a803daf",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignDepartmentToUser/AssignDepartmentToUserCommandHandler.cs",
+      "gitBlob": "67dda3c6db4959f0c65829764f9ce88af46a12ef",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignRoleGroupsToUser/AssignRoleGroupsToUserCommand.cs",
+      "gitBlob": "46b5bec30e10a7e074603620a59c338b172ed337",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignRoleGroupsToUser/AssignRoleGroupsToUserCommandHandler.cs",
+      "gitBlob": "814504bfc353aa98cb024a122f1b5f9615d39a2f",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignRolesToUser/AssignRolesToUserCommand.cs",
+      "gitBlob": "13f7a29a1ca6cbc06076799392ff4fb03d61f0ee",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignRolesToUser/AssignRolesToUserCommandHandler.cs",
+      "gitBlob": "8b228d7520f553eb6ec77dc9534fa40f02fabc02",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignTenantToUser/AssignTenantToUserCommand.cs",
+      "gitBlob": "7d9fcdfa59e25db2e3c1a025730df3daa80bc1c7",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/AssignTenantToUser/AssignTenantToUserCommandHandler.cs",
+      "gitBlob": "1d1057d78ec8fbc4af6d99857faa90ae66313bc9",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveDepartmentFromUser/RemoveDepartmentFromUserCommand.cs",
+      "gitBlob": "8cf605a090c199f3338203f3cdd60219b555d352",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveDepartmentFromUser/RemoveDepartmentFromUserCommandHandler.cs",
+      "gitBlob": "c659b2a1da8b41cd1f8126f03163b0825837964d",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveRoleFromUser/RemoveRoleFromUserCommand.cs",
+      "gitBlob": "dca66478af73f4045fd5d5743e6749971412ecad",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveRoleFromUser/RemoveRoleFromUserCommandHandler.cs",
+      "gitBlob": "d6f378b163331977039c1b52b48a0f2421147449",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveRoleGroupFromUser/RemoveRoleGroupFromUserCommand.cs",
+      "gitBlob": "e2e747c731f425e87bff5836bdf486d5762e4851",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveRoleGroupFromUser/RemoveRoleGroupFromUserCommandHandler.cs",
+      "gitBlob": "a7a954f3467ddb6db100f2678dc3018440a944bd",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveTenantFromUser/RemoveTenantFromUserCommand.cs",
+      "gitBlob": "801dbda45fcc342451d8d76279feeb9054ee4c0d",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/RemoveTenantFromUser/RemoveTenantFromUserCommandHandler.cs",
+      "gitBlob": "0730974cc4e90897873da04435b5f89b2650ee25",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/UpdateUserProfile/UpdateUserProfileCommand.cs",
+      "gitBlob": "6a3ef88868d9e97c9ca0b24b334436514d7e2557",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/UpdateUserProfile/UpdateUserProfileCommandHandler.cs",
+      "gitBlob": "b81f567f8da95a98b885f42f4b9df77004ad9b27",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Commands/UpdateUserProfile/UpdateUserProfileCommandValidator.cs",
+      "gitBlob": "262675eb136ad924c53a097f11c06d53e157d550",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/DTOs/UserActivityDto.cs",
+      "gitBlob": "a7f3cae017ebf4d9aa13bda4cc61bb43fc7bc2a0",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/DTOs/UserProfileDto.cs",
+      "gitBlob": "185116bf1c34c05a71e613a54caf803be6e4ad93",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetAllUsers/GetAllUsersQuery.cs",
+      "gitBlob": "e8453f843344cdc6f18dda8c0da08861995116a8",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetAllUsers/GetAllUsersQueryHandler.cs",
+      "gitBlob": "b849bdc9b8ab20e7d80e7ddeca32ef3c5b74b140",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetAllUsersAcrossTenants/GetAllUsersAcrossTenantsQuery.cs",
+      "gitBlob": "24e430d717769f9753d3bd635155300530387960",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetAllUsersAcrossTenants/GetAllUsersAcrossTenantsQueryHandler.cs",
+      "gitBlob": "4f11538dd21747866acc19e56e55860e333d86ae",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserActivityLog/GetUserActivityLogQuery.cs",
+      "gitBlob": "174435de8a3adc657a65b9ee0e581adc9361f4c6",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserActivityLog/GetUserActivityLogQueryHandler.cs",
+      "gitBlob": "871980e780cf3e555e5c153233c37802dc1be6e2",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserById/GetUserByIdQuery.cs",
+      "gitBlob": "6cc113d247506cc3f93fb9e9ea6b52a00b166b59",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserById/GetUserByIdQueryHandler.cs",
+      "gitBlob": "32d1be4e6b3b9da9f7eb72164079c1676df0aae0",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserLoginHistory/GetUserLoginHistoryQuery.cs",
+      "gitBlob": "8caad68c84a09513eaa12321ba497ce86aa5198c",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserLoginHistory/GetUserLoginHistoryQueryHandler.cs",
+      "gitBlob": "1416f54c6a41f87b8ebee49fabf5e8607561e791",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserProfile/GetUserProfileQuery.cs",
+      "gitBlob": "a0c144ca9ea4319f9d3a72a146378b162bbc18d3",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Application/Users/Queries/GetUserProfile/GetUserProfileQueryHandler.cs",
+      "gitBlob": "f6131d4e69617b93bd71251400107c4cdd3f2e92",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Composition/AuthEmailJobScheduler.cs",
+      "gitBlob": "b6908e722b2f8da9b6b49bf25486757e1ec2f0e3",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Composition/AuthHostBoundary.cs",
+      "gitBlob": "6db43f78b7fc25dd00f6c745c51525970dce667c",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Composition/AuthModuleInstaller.cs",
+      "gitBlob": "815000998e2d64f7816d4103263593774721db15",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddScoped<IAuthEmailJobScheduler, AuthEmailJobScheduler>();",
+        "services.AddScoped<IAuthIdpConfigurationReader, AuthIdpConfigurationReader>();",
+        "services.AddScoped<IAuthUserProvisioningFacade, AuthUserProvisioningFacade>();",
+        "services.AddSingleton<AuthIdpCacheSignal>();",
+        "services.AddSingleton<IIdpCacheInvalidator>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());",
+        "services.AddSingleton<IAuthIdpCacheVersion>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Composition/DependencyInjection.cs",
+      "gitBlob": "f067ae827d01347b95b96738e25cc8800a8a53d9",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddSingleton<IModuleInstaller>(_installer);"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Composition/IFX.Modules.Auth.Composition.csproj",
+      "gitBlob": "7b15291206b7062b16c87b5ec62ff2f3f4baf09f",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Composition\\IFX.BuildingBlocks.Composition.csproj",
+        "..\\..\\..\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Contracts\\IFX.Platform.BackgroundJobs.Contracts.csproj",
+        "..\\..\\..\\Platform\\Notifications\\IFX.Platform.Notifications.Contracts\\IFX.Platform.Notifications.Contracts.csproj",
+        "..\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+        "..\\IFX.Modules.Auth.Infrastructure\\IFX.Modules.Auth.Infrastructure.csproj",
+        "..\\IFX.Modules.Auth.Presentation\\IFX.Modules.Auth.Presentation.csproj"
+      ],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Composition/RecurringJobsExtensions.cs",
+      "gitBlob": "f067e2a1f02c7081a4dbec569aa2e486f35227bf",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/Department.cs",
+      "gitBlob": "05ca2de7d90fb5c34ca675a19f14b559a7e0f507",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/GlobalRole.cs",
+      "gitBlob": "c2d6e6d7319d0425d78740c73dae7645fb5c547e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/GlobalRoleNames.cs",
+      "gitBlob": "206c6a67fbe200b4a9f2ef03a26b702c66b3e2b4",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IDepartmentRepository.cs",
+      "gitBlob": "eef7ee3e06130f9ce7b9df3b4f0b831c029885e9",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IGlobalRoleRepository.cs",
+      "gitBlob": "1421056664788e1a326ddd71c3de8bb3bf296ee5",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IPermissionRepository.cs",
+      "gitBlob": "8bb9edb622527859f193786a569844270282ab98",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IPolicyDefinitionRepository.cs",
+      "gitBlob": "36ddf8538df131a79dbc8adef305cd4120444df1",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleGroupRepository.cs",
+      "gitBlob": "4396aa99dbfcbda91fbe3797d40486ae2d64530b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleRepository.cs",
+      "gitBlob": "281e2685456eba1db10fc275f57cd44ae309d676",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/ITenantRepository.cs",
+      "gitBlob": "7c86b2e6396bf2ed2e1ad570e482d066980fd968",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/Permission.cs",
+      "gitBlob": "0908bb1158d07fdcd1aceca53a2291762e2c8358",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/PolicyConditionRecord.cs",
+      "gitBlob": "ac52f80d3cac36e2e5a3d2160ff4912b11b3c6ee",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/PolicyDefinition.cs",
+      "gitBlob": "3db3d9aa4d0bb51705a42f83bdb0cdb01b176cf9",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/PolicyScope.cs",
+      "gitBlob": "4e9e22c4eb4b3fac325f17bdfc5f7d6ced96a84c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/Role.cs",
+      "gitBlob": "c98b2be31b7bdd220a3be1c3eaec9fa5c4785815",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/RoleGroup.cs",
+      "gitBlob": "7bf6569d9ca9b6c9c72ea89e3c49f5a3e726db9c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/Tenant.cs",
+      "gitBlob": "2300378c6899d5e5975520504ce6c4ffb11bdd39",
+      "targetResponsibility": "IAM.Tenancy",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/UserGlobalRole.cs",
+      "gitBlob": "6cc77a4c20d8a1e5c53833b6ce07726e363591e2",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Common/IAuditableEntity.cs",
+      "gitBlob": "5fa768ee33a867e72b4851005e5819e69a6bf8b5",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/DeviceInfo.cs",
+      "gitBlob": "f6eb24fb264f5d30d1f450601d24dd15a211442c",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/EmailVerificationToken.cs",
+      "gitBlob": "bd8a758bfdae0372d26f73b1c86a54cd0d45e502",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/Events/UserLoggedInDomainEvent.cs",
+      "gitBlob": "c57f03eac018b75871ac46183b41d043aa9d0c43",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/Events/UserLoggedOutDomainEvent.cs",
+      "gitBlob": "f822bc71572be9682952a0cc6fa5eb3e849ebae0",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/Idp.cs",
+      "gitBlob": "1a188d92dbd725116844e4fb8cd640b80b9489c0",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IdpType.cs",
+      "gitBlob": "df0bd124723bf904ea7959d1eb31b9008e72c213",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IEmailVerificationTokenRepository.cs",
+      "gitBlob": "827c31d48cec41db9cf48c628610d41718c43204",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IIdpRepository.cs",
+      "gitBlob": "15567077cca6ea782473a67d879ec0006cc5eb46",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/ILoginEventRepository.cs",
+      "gitBlob": "689773ca0309b2156299076889b0b923921558c0",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/ILogoutEventRepository.cs",
+      "gitBlob": "4a83589cc614a9caee91ca7277c7f099123338ae",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IRegistrationFlowEventRepository.cs",
+      "gitBlob": "f3e1e80e9be88092ace16ce47895894eb420fa08",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IUserIdentityRepository.cs",
+      "gitBlob": "0a2bcc30daf0393740937d98456d598a274577fe",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/LoginEvent.cs",
+      "gitBlob": "68b65a30468e546c99f2f83b4eae7e6ba847a1ee",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/LoginResult.cs",
+      "gitBlob": "608ea0f01086175f8723de8746514b03ad40a139",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/LogoutEvent.cs",
+      "gitBlob": "ad89f4d791a5fe9725afb0acfc750bee12ac1445",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/RegistrationFlowEvent.cs",
+      "gitBlob": "5bc872c8f80146b85fc554990a14fb141403419a",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/Subject.cs",
+      "gitBlob": "0370cb921fc2281d7338eb544ba56de348e868bd",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/UserIdentity.cs",
+      "gitBlob": "8a152fe870ca8c625153ebe29aaf9027784922df",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/IFX.Modules.Auth.Domain.csproj",
+      "gitBlob": "17fb5b46d08048c1df09e89c5db01ee20a6e3ad9",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Domain\\IFX.BuildingBlocks.Domain.csproj"
+      ],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/ActivityType.cs",
+      "gitBlob": "5b0abf6a901f2f97ccaf36a97aef92e2421009e7",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/EmailAddress.cs",
+      "gitBlob": "0c31793ee16c91ab1dfce0cad7568c0b9c55f702",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/Events/RegistrationConfirmedDomainEvent.cs",
+      "gitBlob": "a246632a89f6a0119e605c5fad66a628b2965161",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/Events/UserRegisteredDomainEvent.cs",
+      "gitBlob": "db8abf25b5d5ba79b79729fb3de67c4539518181",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/Events/UserSyncedDomainEvent.cs",
+      "gitBlob": "5d19983044b108b86acb9c9a32bbf4ba9316af17",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/IUserActivityLogRepository.cs",
+      "gitBlob": "f6bdca77fda9f129689bac685bfcd022e2f15a6a",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/IUserRepository.cs",
+      "gitBlob": "2853ea81742a93930dbdad4b470dbcf2bdead542",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/RegistrationStatus.cs",
+      "gitBlob": "3e9b05ee2470f4349b53616d4e1cc900e5c88c3d",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/User.cs",
+      "gitBlob": "de62ee68429e8c8c3a98035d982dff8c4a62eb10",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Domain/Users/UserActivityLog.cs",
+      "gitBlob": "68b1ba816672dade65866618092ca5f25e276ed7",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/DepartmentConfiguration.cs",
+      "gitBlob": "10f01edcf5565f414d2b94425f24c623c7a5fb2f",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/GlobalRoleConfiguration.cs",
+      "gitBlob": "fa4eeb6f4f0692158ca762de7acc2ee528bb49c6",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/PermissionConfiguration.cs",
+      "gitBlob": "4e33acfd06dc1f82e766442983164219b6e5c9ba",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/PolicyDefinitionConfiguration.cs",
+      "gitBlob": "f5752c0f438c77f96b94a4ed6bb4cc41f942cef4",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/RoleConfiguration.cs",
+      "gitBlob": "41b4aed37a6d164d9cf21e3aa6688bcb403d1fae",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/RoleGroupConfiguration.cs",
+      "gitBlob": "d29aaf34d7be52225c86d5a411057b86f80c3ce8",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/TenantConfiguration.cs",
+      "gitBlob": "105306a6fb33d9dcde5f34bafe3ad01356e1ee1b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Configurations/UserGlobalRoleConfiguration.cs",
+      "gitBlob": "89ceb95d591cb4056cb91af27517cdcd3ca553c9",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/CurrentUser.cs",
+      "gitBlob": "8f83b1003c7dc0975626c20bbd565d57038f4c0c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/DbAbacPolicyResolver.cs",
+      "gitBlob": "23cdd83c8ee2da92647f50d2a77e634b71181d60",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/ExecutionTenantSelection.cs",
+      "gitBlob": "37307ed649d4503aa0500fc622ec9d84969f4652",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/HttpIdentityFacts.cs",
+      "gitBlob": "4b2f1ca36eae8ea418c5e7af39bccdbfa42e771a",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/PermissionChecker.cs",
+      "gitBlob": "ae1646441489be9ea7b54c3360229f65c4e4606e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/DepartmentRepository.cs",
+      "gitBlob": "65becb7e16eb0e82c302e7869f451ded57dab4a7",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/GlobalRoleRepository.cs",
+      "gitBlob": "6cdc72ae7d59ba92c3d613c7a4feae7bcaafc6fe",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/PermissionRepository.cs",
+      "gitBlob": "e58db1006589dc399213ac5593c6edd7030ab535",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/PolicyDefinitionRepository.cs",
+      "gitBlob": "511524895335974fc19a822a6fbed99d9556d259",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
+      "gitBlob": "fbd283b90c8d5779fe39634a4badf95a996443e7",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
+      "gitBlob": "04472be2ca8d4630897b9d730529766116d046a7",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/TenantRepository.cs",
+      "gitBlob": "1b12712341ade205c4d8e7a74dd86664262360ec",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/DependencyInjection.cs",
+      "gitBlob": "98767fa0762ba3f0e5dd0bbbfc0a126791a6e742",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddHttpClient(\"OidcDiscovery\", client =>",
+        "services.AddHttpClient(\"OidcUserInfo\", client =>",
+        "services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();",
+        "services.AddScoped<IOidcUserInfoClient, OidcUserInfoClient>();",
+        "services.AddScoped<IEmailVerificationService, EmailVerificationService>();",
+        "services.AddScoped<IEmailVerificationCleanupService, EmailVerificationCleanupService>();",
+        "services.AddScoped<IUserRepository, UserRepository>();",
+        "services.AddScoped<IUserIdentityRepository, UserIdentityRepository>();",
+        "services.AddScoped<IRoleRepository, RoleRepository>();",
+        "services.AddScoped<IPermissionRepository, PermissionRepository>();",
+        "services.AddScoped<IRoleGroupRepository, RoleGroupRepository>();",
+        "services.AddScoped<ITenantRepository, TenantRepository>();",
+        "services.AddScoped<IDepartmentRepository, DepartmentRepository>();",
+        "services.AddScoped<ILoginEventRepository, LoginEventRepository>();",
+        "services.AddScoped<ILogoutEventRepository, LogoutEventRepository>();",
+        "services.AddScoped<IRegistrationFlowEventRepository, RegistrationFlowEventRepository>();",
+        "services.AddScoped<IUserActivityLogRepository, UserActivityLogRepository>();",
+        "services.AddScoped<IIdpRepository, IdpRepository>();",
+        "services.AddScoped<IEmailVerificationTokenRepository, EmailVerificationTokenRepository>();",
+        "services.AddScoped<IPolicyDefinitionRepository, PolicyDefinitionRepository>();",
+        "services.AddScoped<IGlobalRoleRepository, GlobalRoleRepository>();",
+        "services.AddScoped<IUnitOfWork, UnitOfWork>();",
+        "services.AddKeyedScoped<ITransactionExecutor, AuthTransactionExecutor>(typeof(AuthTransactionOwner));",
+        "services.AddScoped<HttpIdentityFacts>();",
+        "services.AddScoped<IExecutionIdentityFacts>(services => services.GetRequiredService<HttpIdentityFacts>());",
+        "services.AddScoped<ExecutionTenantSelection>();",
+        "services.AddScoped<ICurrentUser, CurrentUser>();",
+        "services.AddScoped<IPermissionChecker, PermissionChecker>();",
+        "services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();",
+        "services.AddSingleton<IAbacTemplateRegistry>(_ =>",
+        "services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();",
+        "services.AddSingleton<StaticAbacPolicyResolver>();",
+        "services.AddScoped<DbAbacPolicyResolver>();",
+        "services.AddScoped<IAbacPolicyResolver>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());",
+        "services.AddScoped<IAbacPolicyCache>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/IdpConfiguration.cs",
+      "gitBlob": "0b4dd2dda71b1729772e80fd40e7c7b1854867ca",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs",
+      "gitBlob": "8bab606b8924acafbc793be7259357dc65d26577",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/LogoutEventConfiguration.cs",
+      "gitBlob": "4b9857a78ce0af6d67484c0afe9e760a9c0df267",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/RegistrationFlowEventConfiguration.cs",
+      "gitBlob": "3478e3c6f25613ef222d49f3f2c7eb2628dca9fc",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Configurations/UserIdentityConfiguration.cs",
+      "gitBlob": "c1b3bfa7d54b10a82aa95f9d3063749573cde5ca",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/IdpRepository.cs",
+      "gitBlob": "6b86b253dfe59f0ba54c718267042af0a523d79e",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/LoginEventRepository.cs",
+      "gitBlob": "f8e86522a84c214f869a376b9e07f4f242b16fc8",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/LogoutEventRepository.cs",
+      "gitBlob": "83bd1c0d40e3b4bd815098afc5a052ff76db56bb",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/RegistrationFlowEventRepository.cs",
+      "gitBlob": "18bb5d4d385dfa48b971d912a8eec73b6a6ae15f",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/UserIdentityRepository.cs",
+      "gitBlob": "6180a8acd514a2c8d1a62de1151e73bf821da4bb",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Services/OidcDiscoveryService.cs",
+      "gitBlob": "c5144c490f740f4b988195e4fa22c4547252c4c9",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Services/OidcUserInfoClient.cs",
+      "gitBlob": "765e9850ddf7a07b2be773cdd824583c237a4bcc",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Auth0/Auth0IdentityProvider.cs",
+      "gitBlob": "bf77a1b9868cbb72a6d2152b312675535a5e1708",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Auth0/Auth0OidcService.cs",
+      "gitBlob": "2fdef37cb4e07611a9640cffda402c922bb051c7",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Auth0/Auth0Options.cs",
+      "gitBlob": "26e88e26110a826ec991098b43bb16b5423a2b81",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Auth0/Auth0ServiceCollectionExtensions.cs",
+      "gitBlob": "d30cd5a77ba27e2491dc47284b7f680773a87b22",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddHttpClient(\"Auth0Oidc\", client =>",
+        "services.AddScoped<IIdentityProvider, Auth0IdentityProvider>();",
+        "services.AddScoped<IOidcAuthService, Auth0OidcService>();"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoIdentityProvider.cs",
+      "gitBlob": "ea308596eb4cca741a1a5febe46875b5b4913e5b",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoOidcOptions.cs",
+      "gitBlob": "63a4b45a56ab8feaa1947bf7f81511e3aed6c40f",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoOidcService.cs",
+      "gitBlob": "9018cc52931492d744131c34ba735fbf7bd59145",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoOptions.cs",
+      "gitBlob": "a69c4bf5807c25dab28c33a141a945ddf24356db",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IdentityProviders/Cognito/CognitoServiceCollectionExtensions.cs",
+      "gitBlob": "74d01ca04b434ce374e672994bd4102d87552695",
+      "targetResponsibility": "Platform.Authentication",
+      "projectReferences": [],
+      "registrations": [
+        "services.AddSingleton<IAmazonCognitoIdentityProvider>(_ =>",
+        "services.AddHttpClient(\"CognitoOidc\", client =>",
+        "services.AddScoped<IIdentityProvider, CognitoIdentityProvider>();",
+        "services.AddScoped<IOidcAuthService, CognitoOidcService>();"
+      ],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IFX.Modules.Auth.Infrastructure.csproj",
+      "gitBlob": "ad3a2a4fa316d4068bdae86e2be08af7eac884b0",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [
+        "..\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj",
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.EntityFrameworkCore\\IFX.BuildingBlocks.EntityFrameworkCore.csproj",
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Domain\\IFX.BuildingBlocks.Domain.csproj",
+        "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj"
+      ],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/ModuleDatabase.cs",
+      "gitBlob": "3f6ed5556ab25630ab49dcc2130b9921693562fa",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/AuthTransactionExecutor.cs",
+      "gitBlob": "1932a79ce22cd129828fdd039c249492ae6353d8",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/IfxDbContext.cs",
+      "gitBlob": "5e6474efbfa7b3b7b3c21b1c7c7807dc45a45cbd",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
+      "gitBlob": "a36c0c7a99f4f4132f41a35913e9fc904d9f66f5",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.Designer.cs",
+      "gitBlob": "f6d3917ac02f57c2c919279fa40fd99d3c0831cd",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+      "gitBlob": "f075afc76e059a621b3e5f4bb9f13cacba07e789",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.Designer.cs",
+      "gitBlob": "3d9733771842d2fcf73404d65e784b1e220523ce",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+      "gitBlob": "72a897a2baf1d61c5434cd71c2834f3bd655a1f3",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.Designer.cs",
+      "gitBlob": "f914cd9d6deba52e22378ff3d9226a887a88d315",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
+      "gitBlob": "f01301a9cd36adb96f9090c12ab11ac8cff8b0d2",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.Designer.cs",
+      "gitBlob": "33ba43c9fc298003abb3512809e722fd9edb8455",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+      "gitBlob": "eb7e73ea85740f9872af4610fa0d3d6f3d62b36c",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.Designer.cs",
+      "gitBlob": "0558639523590060af57235b281728df08b84b2e",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs",
+      "gitBlob": "c961e4a676a3aa4d8323a0f108c0a405c94712c6",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthBaselineSchemaFingerprint.cs",
+      "gitBlob": "d8caffc1bc13ec2252b4605c8b9742e5c515ef0b",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthLegacyAdoptionModels.cs",
+      "gitBlob": "127ad8c06f67417803528209025e2ce7988150b1",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthLegacyAdoptionPlanner.cs",
+      "gitBlob": "f1a70eaf395553c94dc4da096fe2ba5c9ef70b25",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthLegacyMigrationManifest.cs",
+      "gitBlob": "17405201126304da2079baffb289d034b90d3a80",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthSchemaFingerprintVerifier.cs",
+      "gitBlob": "938956ae79de04b60bf86a00b2fe63cf6b832f53",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/SqlServerAuthLegacyAdopter.cs",
+      "gitBlob": "07a6e2df06c266cf2223c6e2c64188458747abc8",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/UnitOfWork.cs",
+      "gitBlob": "b5df2564ac100c45b5e2a9ed778d17353ed79951",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Configurations/EmailVerificationTokenConfiguration.cs",
+      "gitBlob": "40e9efe92814ecd82ba802e9ebf21acdf51b270c",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Configurations/UserActivityLogConfiguration.cs",
+      "gitBlob": "80021e8b687d90094457394f0a420f4216341136",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Configurations/UserConfiguration.cs",
+      "gitBlob": "747f80e837eeca481a58e5009cbdc7a6b74506bb",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Repositories/EmailVerificationTokenRepository.cs",
+      "gitBlob": "7ea6fa5ede41ae89dbfc507ad07c1d7b65b6fe71",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Repositories/UserActivityLogRepository.cs",
+      "gitBlob": "729bf3e0bb4d36b2d8f8bbcd2cd454712b594290",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Repositories/UserRepository.cs",
+      "gitBlob": "433594494aebcb05775f56a416a0b8e12a0d34e2",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Services/EmailVerificationCleanupService.cs",
+      "gitBlob": "c44f992125186039699ca876a0a4082346b4843a",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Users/Services/EmailVerificationService.cs",
+      "gitBlob": "1d4cf59cd4a8d8892fa1f4eb93d286a07704a2e3",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/DepartmentEndpointExtensions.cs",
+      "gitBlob": "fced33df156886b36b521bc94475c6b3785082f1",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/department\")",
+        "group.MapGet(\"/\",",
+        "group.MapGet(\"/{departmentId}\", DepartmentEndpoints.GetDepartmentById)",
+        "group.MapPost(\"/\", DepartmentEndpoints.CreateDepartment)",
+        "group.MapPut(\"/{departmentId}\", DepartmentEndpoints.UpdateDepartment)",
+        "group.MapDelete(\"/{departmentId}\", DepartmentEndpoints.DeleteDepartment)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/DepartmentEndpoints.cs",
+      "gitBlob": "1ae8f2ed4ae97303d6d6eb3ffbe1416552690201",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/GlobalRoleEndpointExtensions.cs",
+      "gitBlob": "8f38fdda54a1550c93f08379971c170e925149a8",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/platform\")",
+        "group.MapGet(\"/globalroles\", GlobalRoleEndpoints.ListGlobalRoles)",
+        "group.MapGet(\"/users/{userId}/globalroles\", GlobalRoleEndpoints.GetUserGlobalRoles)",
+        "group.MapPost(\"/users/{userId}/globalroles\", GlobalRoleEndpoints.AssignGlobalRole)",
+        "group.MapDelete(\"/users/{userId}/globalroles/{roleId}\", GlobalRoleEndpoints.RemoveGlobalRole)",
+        "group.MapGet(\"/cross-tenant/users\", GlobalRoleEndpoints.GetAllUsersAcrossTenants)",
+        "group.MapGet(\"/cross-tenant/roles\", GlobalRoleEndpoints.GetAllRolesAcrossTenants)",
+        "group.MapGet(\"/cross-tenant/rolegroups\", GlobalRoleEndpoints.GetAllRoleGroupsAcrossTenants)",
+        "group.MapGet(\"/cross-tenant/departments\", GlobalRoleEndpoints.GetAllDepartmentsAcrossTenants)",
+        "group.MapGet(\"/cross-tenant/idps\", GlobalRoleEndpoints.GetAllIdpsAcrossTenants)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/GlobalRoleEndpoints.cs",
+      "gitBlob": "c08c007be0b8eaa00601c6e1c320cf67c805fc51",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/PermissionEndpointExtensions.cs",
+      "gitBlob": "fee7ef9bd6d2f8774a76d29d3672277f2d8929cd",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/permission\")",
+        "group.MapGet(\"/\", PermissionEndpoints.GetAllPermissions)",
+        "group.MapPost(\"/\", PermissionEndpoints.CreatePermission)",
+        "group.MapPut(\"/{permissionId}\", PermissionEndpoints.UpdatePermission)",
+        "group.MapDelete(\"/{permissionId}\", PermissionEndpoints.DeletePermission)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/PermissionEndpoints.cs",
+      "gitBlob": "0ff90b6059d994f67dcf88e184375db46a11222b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/PlatformPolicyEndpointExtensions.cs",
+      "gitBlob": "15a8113b6376114172e5e0eb69f6d8960d10ccea",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/platform/policy\")",
+        "group.MapGet(\"/\", PlatformPolicyEndpoints.GetPlatformPolicies)",
+        "group.MapPost(\"/\", PlatformPolicyEndpoints.CreatePlatformPolicy)",
+        "group.MapPut(\"/{policyId}\", PlatformPolicyEndpoints.UpdatePlatformPolicy)",
+        "group.MapDelete(\"/{policyId}\", PlatformPolicyEndpoints.DeletePlatformPolicy)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/PlatformPolicyEndpoints.cs",
+      "gitBlob": "3d51081e2588dd68c5a3fd7ab58fb2d9fc4185ca",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/PolicyEndpointExtensions.cs",
+      "gitBlob": "8f0bddad203c4b3f1c7b9f676ed2e36a1cec579f",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/policy\")",
+        "group.MapGet(\"/\", PolicyEndpoints.GetPolicies)",
+        "group.MapGet(\"/templates\", PolicyEndpoints.GetAvailableTemplates)",
+        "group.MapPost(\"/\", PolicyEndpoints.CreatePolicy)",
+        "group.MapPut(\"/{policyId}\", PolicyEndpoints.UpdatePolicy)",
+        "group.MapDelete(\"/{policyId}\", PolicyEndpoints.DeletePolicy)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/PolicyEndpoints.cs",
+      "gitBlob": "e1e86ba67d774ff2447075113b3c616c5315108e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/RoleEndpointExtensions.cs",
+      "gitBlob": "29cb2e60cc5581d60a23b02d40e1c3a53a186064",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/role\")",
+        "group.MapGet(\"/{roleId}\", RoleEndpoints.GetRoleById)",
+        "group.MapGet(\"/\", RoleEndpoints.GetAllRoles)",
+        "group.MapPost(\"/\", RoleEndpoints.CreateRole)",
+        "group.MapPut(\"/{roleId}\", RoleEndpoints.UpdateRole)",
+        "group.MapDelete(\"/{roleId}\", RoleEndpoints.DeleteRole)",
+        "group.MapPost(\"/{roleId}/permissions\", RoleEndpoints.AssignPermissionsToRole)",
+        "group.MapDelete(\"/{roleId}/permissions/{permissionId}\", RoleEndpoints.RemovePermissionFromRole)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/RoleEndpoints.cs",
+      "gitBlob": "de42ddb67aa8d0a80420194f3c05ef1addecbeba",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/RoleGroupEndpointExtensions.cs",
+      "gitBlob": "1273533d9b4d04ee3531f23d0017253f8025afec",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/rolegroup\")",
+        "group.MapGet(\"/\", RoleGroupEndpoints.GetAllRoleGroups)",
+        "group.MapPost(\"/\", RoleGroupEndpoints.CreateRoleGroup)",
+        "group.MapPut(\"/{roleGroupId}\", RoleGroupEndpoints.UpdateRoleGroup)",
+        "group.MapDelete(\"/{roleGroupId}\", RoleGroupEndpoints.DeleteRoleGroup)",
+        "group.MapPost(\"/{roleGroupId}/roles\", RoleGroupEndpoints.AssignRolesToRoleGroup)",
+        "group.MapDelete(\"/{roleGroupId}/roles/{roleId}\", RoleGroupEndpoints.RemoveRoleFromRoleGroup)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/RoleGroupEndpoints.cs",
+      "gitBlob": "adac7866656f28c80272f9ff4f2c0d3524ec046c",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/TenantEndpointExtensions.cs",
+      "gitBlob": "5ba426209e5c9377ea3419872f6261f421dd3e58",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/tenant\")",
+        "group.MapGet(\"/\", TenantEndpoints.GetAllTenants)",
+        "group.MapGet(\"/{tenantId}\", TenantEndpoints.GetTenantById)",
+        "group.MapPost(\"/\", TenantEndpoints.CreateTenant)",
+        "group.MapPut(\"/{tenantId}\", TenantEndpoints.UpdateTenant)",
+        "group.MapDelete(\"/{tenantId}\", TenantEndpoints.DeleteTenant)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Endpoints/TenantEndpoints.cs",
+      "gitBlob": "fa640d71eeadf4048a57601408ab1535bbaf4519",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/AssignGlobalRoleRequest.cs",
+      "gitBlob": "1e9c8ab56f6e5e4cbd8a513ba31d31e00c56315b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/AssignPermissionsToRoleRequest.cs",
+      "gitBlob": "707af875be5bcdbcba22df548985e74db9c3f943",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/AssignRolesToRoleGroupRequest.cs",
+      "gitBlob": "524f4de500e3f68dd564bcdb84415f38c2a34bcd",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/CreateDepartmentRequest.cs",
+      "gitBlob": "3d5bf25c3f86fe3223e9ea327f370aee8934b21f",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/CreatePermissionRequest.cs",
+      "gitBlob": "4fb05dfc7d53d95e51c8233b6e86de6f4dc4e3bd",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/CreatePolicyRequest.cs",
+      "gitBlob": "c6e6812cbea9b56c385e08937c12c20754be0104",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/CreateRoleGroupRequest.cs",
+      "gitBlob": "769d8c506873474dc492e6ec6eb0cc217cbc842e",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/CreateRoleRequest.cs",
+      "gitBlob": "f12d1256c48979da64c6fa21b1d3c63002a8f958",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/CreateTenantRequest.cs",
+      "gitBlob": "93de64f4d83034216a8c5c28b97873d85fafc79b",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/UpdateDepartmentRequest.cs",
+      "gitBlob": "07a6e905ad8fc88be67a22b09c3e1dce7262ead3",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/UpdatePermissionRequest.cs",
+      "gitBlob": "ebab06512dba2c27a847a497d1e970f699f32220",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/UpdatePolicyRequest.cs",
+      "gitBlob": "386580cfc3d761279f115ebe1f55b575a3d0d772",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/UpdateRoleGroupRequest.cs",
+      "gitBlob": "093c9a4a744bb161279a459befa4deadd72b5ce8",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/UpdateRoleRequest.cs",
+      "gitBlob": "ac2a4e893aca106ea399c3453477b8f43f62a282",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Authorization/Requests/UpdateTenantRequest.cs",
+      "gitBlob": "4dd9c676dfaaf2ffbc97c454a999d43c20d8b57f",
+      "targetResponsibility": "IAM.Access",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Extensions/ClaimsPrincipalExtensions.cs",
+      "gitBlob": "5c22036020430a4d3f7f83d88c0f13d6bb48b603",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Extensions/HttpContextExtensions.cs",
+      "gitBlob": "7c0cb70b49629952b28d0a47a3ed9276f9de74e4",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Extensions/RouteHandlerBuilderExtensions.cs",
+      "gitBlob": "c4f9d9c049a33a8c4e12f373870bc6c3091c9736",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Endpoints/AuthEndpointExtensions.cs",
+      "gitBlob": "6b4ceb1afc387b53a3afe8ea597bbe63f0921fd1",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/auth\")",
+        "group.MapPost(\"/register\", AuthEndpoints.Register)",
+        "group.MapPost(\"/confirm\", AuthEndpoints.ConfirmRegistration)",
+        "group.MapPost(\"/login\", AuthEndpoints.Login)",
+        "group.MapPost(\"/refresh\", AuthEndpoints.RefreshToken)",
+        "group.MapPost(\"/revoke\", AuthEndpoints.RevokeToken)",
+        "group.MapPost(\"/logout\", AuthEndpoints.Logout)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Endpoints/AuthEndpoints.cs",
+      "gitBlob": "e254337306583ad5cafa513a7344829043344a63",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Endpoints/IdpEndpointExtensions.cs",
+      "gitBlob": "58c65499b9d9b6a32fa2d7799d394c293471dbc6",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/idp\")",
+        "group.MapGet(\"/{idpId}\", IdpEndpoints.GetIdpById)",
+        "group.MapGet(\"/\", IdpEndpoints.GetAllIdps)",
+        "group.MapPost(\"/\", IdpEndpoints.CreateIdp)",
+        "group.MapPut(\"/{idpId}\", IdpEndpoints.UpdateIdp)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Endpoints/IdpEndpoints.cs",
+      "gitBlob": "314863d1751328e80ac051ebf8fd2c28d8dec615",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Endpoints/OAuthEndpointExtensions.cs",
+      "gitBlob": "28c934b3c0d243b1b909c0aac84a9f52bc2355f5",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/auth/oauth\")",
+        "group.MapGet(\"/authorize\", OAuthEndpoints.Authorize)",
+        "group.MapGet(\"/callback\", OAuthEndpoints.Callback)",
+        "group.MapGet(\"/userinfo\", OAuthEndpoints.UserInfo)",
+        "group.MapGet(\"/logout\", OAuthEndpoints.Logout)",
+        "group.MapGet(\"/logout-callback\", OAuthEndpoints.LogoutCallback)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Endpoints/OAuthEndpoints.cs",
+      "gitBlob": "48c72ef804ba507cf6269102e00afb0b44de326f",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/ConfirmRegistrationRequest.cs",
+      "gitBlob": "6540d7a8d0a8cb4626b8dc1b2f3d45011fb7610b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/CreateIdpRequest.cs",
+      "gitBlob": "f10e1bf7aadf42049b8584604f158e1540ae135b",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/LoginRequest.cs",
+      "gitBlob": "098127be8caaaf825207cc67ef0651dd014a8d8a",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/RefreshTokenRequest.cs",
+      "gitBlob": "b5f20a87f9da709d7b2aba880be5a6623490c26a",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/RegisterRequest.cs",
+      "gitBlob": "f3333e8b1440d2b0e7d73edad5742c57188c4b51",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/RevokeTokenRequest.cs",
+      "gitBlob": "ba5a1df46de9ee79645f6a621585b9e2e9e5255e",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Identity/Requests/UpdateIdpRequest.cs",
+      "gitBlob": "f7a8231d77f446d087eb4889bf16d596418e51d5",
+      "targetResponsibility": "IAM.Identity",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/IFX.Modules.Auth.Presentation.csproj",
+      "gitBlob": "9ae35b11ca3f5e8285289e2577abc108ab531bea",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [
+        "..\\IFX.Modules.Auth.Application\\IFX.Modules.Auth.Application.csproj"
+      ],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Models/Responses/ApiResponse.cs",
+      "gitBlob": "cc6d68d616eebf2fb1beec6b74171a2a240eca8a",
+      "targetResponsibility": "IAM composition/persistence/shared internal support",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Endpoints/EmailVerificationEndpointExtensions.cs",
+      "gitBlob": "e4e3df627d0764008819eea4a2d1298fe45ba242",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var publicGroup = builder.MapGroup(\"/api/v1/auth/email\")",
+        "publicGroup.MapPost(\"/verify\", EmailVerificationEndpoints.VerifyEmail)",
+        "publicGroup.MapGet(\"/verify\", EmailVerificationEndpoints.VerifyEmailFromLink)",
+        "var authenticatedGroup = builder.MapGroup(\"/api/v1/user/email\")",
+        "authenticatedGroup.MapPost(\"/send-verification\", EmailVerificationEndpoints.SendVerification)",
+        "authenticatedGroup.MapPost(\"/resend-verification\", EmailVerificationEndpoints.ResendVerification)",
+        "authenticatedGroup.MapGet(\"/verification-status\", EmailVerificationEndpoints.GetVerificationStatus)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Endpoints/EmailVerificationEndpoints.cs",
+      "gitBlob": "2870201caa955f0879c4d3d318b594303451587a",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Endpoints/UserEndpointExtensions.cs",
+      "gitBlob": "025aa8ad661e5f793d73b61c91e5ab6073d7fe78",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/user\")",
+        "group.MapGet(\"/profile\", UserEndpoints.GetProfile)",
+        "group.MapPut(\"/profile\", UserEndpoints.UpdateProfile)",
+        "group.MapGet(\"/login-history\",",
+        "group.MapGet(\"/activity-log\",",
+        "group.MapPost(\"/sync\", UserEndpoints.SyncProfile)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Endpoints/UserEndpoints.cs",
+      "gitBlob": "5f4874f35e477d940799e85260c8cb37b969cf74",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Endpoints/UserManagementEndpointExtensions.cs",
+      "gitBlob": "2fbfb0b6290eaa3d4fa97193db9e0c5bc632f18a",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": [
+        "var group = builder.MapGroup(\"/api/v1/usermanagement\")",
+        "group.MapGet(\"/users/{userId}\", UserManagementEndpoints.GetUserById)",
+        "group.MapGet(\"/users\",",
+        "group.MapPut(\"/users/{userId}\", UserManagementEndpoints.UpdateUserProfile)",
+        "group.MapPost(\"/users/{userId}/send-test-email\", UserManagementEndpoints.SendTestEmail)",
+        "group.MapPost(\"/users/{userId}/roles\", UserManagementEndpoints.AssignRolesToUser)",
+        "group.MapDelete(\"/users/{userId}/roles/{roleId}\", UserManagementEndpoints.RemoveRoleFromUser)",
+        "group.MapPost(\"/users/{userId}/rolegroups\", UserManagementEndpoints.AssignRoleGroupsToUser)",
+        "group.MapDelete(\"/users/{userId}/rolegroups/{roleGroupId}\", UserManagementEndpoints.RemoveRoleGroupFromUser)",
+        "group.MapPost(\"/users/{userId}/tenants\", UserManagementEndpoints.AssignTenantToUser)",
+        "group.MapDelete(\"/users/{userId}/tenants/{tenantId}\", UserManagementEndpoints.RemoveTenantFromUser)",
+        "group.MapPost(\"/users/{userId}/departments\", UserManagementEndpoints.AssignDepartmentToUser)",
+        "group.MapDelete(\"/users/{userId}/departments/{departmentId}\", UserManagementEndpoints.RemoveDepartmentFromUser)"
+      ]
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Endpoints/UserManagementEndpoints.cs",
+      "gitBlob": "5bfb5bfe798c9b428b8662ee8779c022501b9041",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Requests/AssignDepartmentToUserRequest.cs",
+      "gitBlob": "a04195e25639251dbc213689e497ab7b35b5a8af",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Requests/AssignRoleGroupsToUserRequest.cs",
+      "gitBlob": "57a007fc6bedfcd0e9a0063f7a3123315251781b",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Requests/AssignRolesToUserRequest.cs",
+      "gitBlob": "2f5eac84feb82053a149977d46fe7e6c81a495d0",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Requests/AssignTenantToUserRequest.cs",
+      "gitBlob": "4d8de80d2cc0db05eb8c80ebfb3cdc37ba960e6d",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Requests/UpdateUserProfileRequest.cs",
+      "gitBlob": "970b0be56c8db17363325e4093a60b459273ba5e",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    },
+    {
+      "path": "src/Modules/Auth/IFX.Modules.Auth.Presentation/Users/Requests/VerifyEmailRequest.cs",
+      "gitBlob": "6a75dbbb65f5e63b3143f4bb7db4d3609efb6674",
+      "targetResponsibility": "IAM.Users (assignment operations move to Access)",
+      "projectReferences": [],
+      "registrations": [],
+      "endpoints": []
+    }
+  ],
+  "authCatalogEntry": [
+    {
+      "id": "auth",
+      "name": "Auth",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
+      "capabilities": [
+        "identity",
+        "authentication",
+        "subject-and-external-identity-mapping"
+      ],
+      "dataFacts": [
+        "identity subjects",
+        "credentials",
+        "external identity mappings"
+      ]
+    }
+  ],
+  "authRuntimeEntry": [
+    {
+      "moduleId": "auth",
+      "version": "1.0.0",
+      "required": true,
+      "contracts": [],
+      "endpointGroups": [
+        "auth",
+        "oauth",
+        "user",
+        "user-management",
+        "role",
+        "permission",
+        "role-group",
+        "tenant",
+        "department",
+        "idp",
+        "email-verification",
+        "policy",
+        "platform-policy",
+        "global-role"
+      ],
+      "schema": "auth",
+      "configuration": [
+        "Authentication",
+        "CognitoSettings",
+        "CognitoOidcSettings"
+      ],
+      "runtimeCapabilities": [
+        "api",
+        "hangfire-client"
+      ],
+      "shutdownRequirements": [
+        "http-drain",
+        "drain-in-flight",
+        "telemetry-flush"
+      ]
+    }
+  ],
+  "migrationFiles": [
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.Designer.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.Designer.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.Designer.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.Designer.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.Designer.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthBaselineSchemaFingerprint.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthLegacyAdoptionModels.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthLegacyAdoptionPlanner.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthLegacyMigrationManifest.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/AuthSchemaFingerprintVerifier.cs",
+    "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/Legacy/SqlServerAuthLegacyAdopter.cs"
+  ],
+  "testFiles": [
+    "tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests/TenantQueryGuardTests.cs",
+    "tests/IFX.DatabaseBoundary.Tests/AuthLegacyAdoptionTests.cs",
+    "tests/IFX.DatabaseBoundary.Tests/MigrationSafetyPolicyTests.cs",
+    "tests/IFX.DatabaseBoundary.Tests/SqlServerMigrationMatrixTests.cs",
+    "tests/IFX.IntegrationTests/Authorization/PermissionAuthorizationHandlerTests.cs",
+    "tests/IFX.IntegrationTests/Authorization/PermissionAuthorizationPolicyProviderTests.cs",
+    "tests/IFX.IntegrationTests/Endpoints/AuthEndpointTests.cs",
+    "tests/IFX.IntegrationTests/Fixtures/TestAuthHandler.cs",
+    "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs",
+    "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs",
+    "tests/IFX.IntegrationTests/Runtime/HoldingsInboundContextTests.cs",
+    "tests/IFX.IntegrationTests/Runtime/MessageBackpressurePolicyTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Behaviors/ValidationBehaviorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Common/ResultTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/AssignPermissionsToRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/AssignRolesToRoleGroupCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CreatePermissionCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CreateRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CreateRoleGroupCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/CrossTenantAccessGuardTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/DeletePermissionCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/DeleteRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/DeleteRoleGroupCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetAllPermissionsQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetAllRoleGroupsQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetAllRolesQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GetRoleByIdQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GlobalRoles/AssignGlobalRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GlobalRoles/ListGlobalRolesQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/GlobalRoles/RemoveGlobalRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/Policies/CreatePolicyCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/Policies/DeletePolicyCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/Policies/GetPlatformPoliciesQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/Policies/GetPoliciesQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/Policies/UpdatePolicyCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/RemovePermissionFromRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Authorization/UpdateRoleCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/ResendEmailVerificationCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/SendEmailVerificationCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/AssignRoleGroupsToUserCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/AssignRolesToUserCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/GetAllUsersQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/GetUserByIdQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/GetUserProfileQueryHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/RemoveRoleFromUserCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/Users/RemoveRoleGroupFromUserCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Handlers/VerifyEmailCommandHandlerTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/CreatePermissionCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/CreateRoleCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/CreateRoleGroupCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/Policies/CreatePolicyCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/UpdatePermissionCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/UpdateRoleCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/Authorization/UpdateRoleGroupCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/LoginUserCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Application.Tests/Validators/RegisterUserCommandValidatorTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/Entities/EmailVerificationTokenTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/Entities/LoginEventTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/Entities/PolicyDefinitionTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/Entities/RoleTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/Entities/UserIdentityTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/Entities/UserTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/ValueObjects/DeviceInfoTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/ValueObjects/EmailAddressTests.cs",
+    "tests/IFX.Modules.Auth.Domain.Tests/ValueObjects/SubjectTests.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Authorization/DbAbacPolicyResolverTests.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Authorization/HttpContextFactTests.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Fixtures/InMemoryDbContextFixture.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/PermissionRepositoryTests.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/RoleGroupRepositoryTests.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Persistence/Repositories/RoleRepositoryTests.cs",
+    "tests/IFX.Modules.Auth.Infrastructure.Tests/Services/EmailVerificationServiceTests.cs",
+    "tests/IFX.Modules.Auth.Presentation.Tests/Extensions/ClaimsPrincipalExtensionsTests.cs",
+    "tests/IFX.Modules.Auth.Presentation.Tests/Extensions/HttpContextExtensionsTests.cs",
+    "tests/IFX.Platform.ProtocolContracts.Tests/ContextIdentifierTests.cs",
+    "tests/IFX.Platform.ProtocolContracts.Tests/ContractContextConformanceTests.cs",
+    "tests/IFX.Platform.ProtocolContracts.Tests/ContractRequestContextTests.cs"
+  ],
+  "targetDatabase": {
+    "status": "not-inspected",
+    "reason": "No target database selected; no production credentials read. Use the read-only preflight before data cutover."
+  },
+  "authoritativeSources": [
+    "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+    "deployment/g04/module-manifest.json",
+    "src/layerguard.json"
+  ]
+}

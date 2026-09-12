@@ -1,120 +1,34 @@
 # Current IFX architecture / IFX 当前架构
 
-> Status: source baseline at commit `308d548`. This page describes implemented code, not the proposed target.
->
-> 状态：源码基线为提交 `308d548`。本页描述已经实现的代码，不是目标方案。
+Plan 05 repository implementation, 2026-09-12. 本页更新为当前代码；原审查图可从 Git 历史读取，B4 frozen evidence 未改写。
 
-## Host and module structure / 宿主与模块结构
-
-Solid arrows mean compile-time project references. The diagram expands one representative business module; CRM, Registry, Holdings, and Transaction use the same general ring structure. Auth currently has no module-level Abstractions project.
-
-实线箭头表示编译期项目引用。图中展开一个代表性业务模块；CRM、Registry、Holdings 和 Transaction 采用相同的基本分层。Auth 当前没有模块级 Abstractions 项目。
+[中文实现与调用图](../iam-platform-security.zh-CN.md) · [English](../iam-platform-security.en.md) · [Generated project graph](../evidence/plan05/current-dependency-graph.json)
 
 ```mermaid
 flowchart TB
-    Host[IFX.ApiHost]
-
-    Host --> AuthC[Auth.Composition]
-    Host --> CrmC[CRM.Composition]
-    Host --> RegC[Registry.Composition]
-    Host --> HoldC[Holdings.Composition]
-    Host --> TxC[Transaction.Composition]
-    Host --> MsgC[Messaging.Composition]
-    Host --> JobsC[BackgroundJobs.Composition]
-    Host --> NotifyC[Notifications.Composition]
-
-    subgraph Representative[Representative business module]
-        Comp[Composition]
-        Pres[Presentation]
-        App[Application]
-        Dom[Domain]
-        Infra[Infrastructure]
-        Abs[Abstractions]
-
-        Comp --> Pres
-        Comp --> App
-        Comp --> Infra
-        Comp --> Abs
-        Pres --> App
-        App --> Dom
-        App --> Abs
-        Infra --> App
-        Infra --> Dom
-        Infra --> Abs
-    end
-
-    Shared[BuildingBlocks and App.Abstractions]
-    Platform[Platform abstractions]
-    Host --> Shared
-    App --> Shared
-    Infra --> Shared
-    Abs --> Platform
+    H[ApiHost / Worker role] --> IC[IAM.Composition]
+    H --> BC[Business module Compositions]
+    IC --> IAM[IAM Identity / Users / Access / Tenancy]
+    IC --> A[Platform.Authentication Composition]
+    IC --> Z[Platform.Authorization Composition]
+    IAM --> AP[Own Application Ports]
+    AP -. implemented by .-> IA[IAM Infrastructure Adapters]
+    IA --> AT[Authentication.Contracts]
+    IA --> ZT[Authorization.Contracts]
+    BC --> BP[Business Application Ports]
+    BP -. implemented by .-> BA[Business Infrastructure Adapters]
+    BA --> CT[IAM.Contracts]
+    A --> AR[Authentication Runtime + Cognito / Auth0]
+    Z --> ZR[Authorization Runtime + OPA]
+    IAM --> DB[(auth / IfxDbContext)]
+    BC --> BD[(Each module owns its schema)]
+    H --> P[Messaging / BackgroundJobs / Notifications Composition]
 ```
 
-## Implemented cross-module dependencies / 已实现的跨模块依赖
+This is a logical overview. Dotted arrows represent port implementations, not reverse project references. Applications use versioned Contracts rather than foreign module internals. See the generated graph for exact references.
 
-```mermaid
-flowchart LR
-    subgraph CRM[CRM]
-        CrmApp[CRM.Application]
-        CrmAbs[CRM.Abstractions<br/>ICrmReader, DTOs, events]
-        CrmInfra[CRM.Infrastructure<br/>CrmReader]
-        CrmApp --> CrmAbs
-        CrmInfra --> CrmAbs
-    end
+这是职责概览；虚线表达 Port 实现，不表示反向项目引用。Application 通过版本化 Contracts 消费外部能力；精确引用以生成图为准。
 
-    subgraph Registry[Registry]
-        RegApp[Registry.Application]
-        RegAbs[Registry.Abstractions<br/>IRegistryReader, DTOs, events]
-        RegInfra[Registry.Infrastructure<br/>RegistryReader]
-        RegApp --> RegAbs
-        RegInfra --> RegAbs
-    end
+Five schema owners remain: IAM (logical Auth / physical auth), CRM, Registry, Holdings and Transaction. Migrator owns schema changes; API/Worker readiness checks required and explicitly compatible migrations.
 
-    subgraph Transaction[Transaction]
-        TxApp[Transaction.Application]
-        TxAbs[Transaction.Abstractions<br/>ITransactionReader, DTOs, events]
-        TxInfra[Transaction.Infrastructure<br/>TransactionReader]
-        TxApp --> TxAbs
-        TxInfra --> TxAbs
-    end
-
-    subgraph Holdings[Holdings]
-        HoldApp[Holdings.Application]
-        HoldAbs[Holdings.Abstractions<br/>IHoldingsReader, DTOs, events]
-        HoldInfra[Holdings.Infrastructure<br/>HoldingsReader]
-        HoldApp --> HoldAbs
-        HoldInfra --> HoldAbs
-    end
-
-    Msg[Platform.Messaging.Abstractions]
-
-    TxApp -->|synchronous reads| CrmAbs
-    TxApp -->|synchronous reads| RegAbs
-    HoldApp -->|event contracts| TxAbs
-    HoldApp -->|event contracts| RegAbs
-
-    CrmApp --> Msg
-    RegApp --> Msg
-    TxApp --> Msg
-    HoldApp --> Msg
-    CrmAbs --> Msg
-    RegAbs --> Msg
-    TxAbs --> Msg
-    HoldAbs --> Msg
-```
-
-## Current boundary summary / 当前边界摘要
-
-- Compile-time boundary: consumers reference another module's Abstractions, not its Domain, Application, Infrastructure, or Presentation.
-- Database boundary: each business module owns a DbContext, migrations, and SQL schema; the schemas are normally hosted in the same `IFXDb` database.
-- Transaction boundary: module DbContexts do not share an atomic business transaction.
-- Deployment boundary: all modules are loaded into one ApiHost process.
-- Composition boundary: ApiHost explicitly calls each `Add*Module`; `IModuleInstaller` standardizes endpoint mapping but is not dynamic plugin discovery.
-
-- 编译期边界：消费者只引用其他模块的 Abstractions，不引用其 Domain、Application、Infrastructure 或 Presentation。
-- 数据库边界：每个业务模块拥有自己的 DbContext、迁移和 SQL schema；这些 schema 默认位于同一个 `IFXDb` 数据库。
-- 事务边界：模块 DbContext 之间不存在统一的业务原子事务。
-- 部署边界：全部模块由同一个 ApiHost 进程加载。
-- 装配边界：ApiHost 显式调用各个 `Add*Module`；`IModuleInstaller` 统一 Endpoint 映射规范，但不是动态插件发现机制。
-
+五个数据 owner 保持不变。IAM 保留 AuthDatabase、auth 和历史 migration ID；UserTenants 是唯一成员事实，新增 Tenants.IsActive。共享物理库不等于共享 DbContext，运行时不自行迁移 schema。

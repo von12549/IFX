@@ -1,6 +1,7 @@
+using IFX.Modules.Holdings.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.Holdings.Application.DTOs;
 using IFX.Modules.Holdings.Application.Interfaces;
 using IFX.Modules.Holdings.Application.Queries.GetHoldingsByInvestor;
@@ -29,7 +30,7 @@ public class GetHoldingsByInvestorQueryHandlerTests
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "plan": "05",
+  "legacyTypeReferences": [
+    {
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Composition/IamModuleInstaller.cs",
+      "value": "IFX.Modules.Auth.Application.Identity.Interfaces.IEmailVerificationCleanupService, IFX.Modules.Auth.Application",
+      "reason": "Persisted Hangfire InvocationData must resolve through the unique explicit alias to the current IAM interface.",
+      "retireWhen": "Target job inventory proves no queued, scheduled, recurring or retryable job needs the old type."
+    }
+  ],
+  "stableIdentifiers": [
+    { "category": "persistence", "values": ["auth", "AuthDatabase", "IfxDbContext", "auth.__EFMigrationsHistory"], "reason": "Keep physical owner, configuration and migration history stable; source module is IAM." },
+    { "category": "logical-module", "values": ["Auth", "auth"], "reason": "Existing G03/G04 module IDs, runtime installer identity and schema release metadata remain compatible." },
+    { "category": "http-and-config", "values": ["/api/v1/auth", "Authentication:Provider", "CognitoSettings", "CognitoOidcSettings", "Auth0", "Opa"], "reason": "Existing API clients and provider configuration remain valid. Authentication terms are not legacy module ownership." },
+    { "category": "protocol", "values": ["auth.resource-authorization.v1"], "reason": "G03 uses the stable logical module ID. Proposed admission remains pending." },
+    { "category": "historical-tooling", "values": ["scripts/Invoke-Plan05Inventory.ps1", "f29ad32"], "reason": "The Phase 0 inventory deliberately reads the immutable old Auth tree at its pinned baseline." }
+  ],
+  "newDdl": "20260912101127_EnforceActiveTenantMembership",
+  "migrationHashEncoding": "SHA-256 of UTF-8 source text normalized to LF; SQL operations and approval metadata are unchanged by normalization.",
+  "externalValidation": "pending-target-data-and-old-job-inventory"
+}

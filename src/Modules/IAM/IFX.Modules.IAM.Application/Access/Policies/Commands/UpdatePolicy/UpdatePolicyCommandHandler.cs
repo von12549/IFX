@@ -1,0 +1,53 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
+using System.Text.Json;
+using IFX.BuildingBlocks.Security.Authorization;
+using IFX.Modules.IAM.Application.Access.Policies.Authorization;
+using IFX.Modules.IAM.Application.Access.Policies.DTOs;
+using IFX.Modules.IAM.Application.Common;
+using IFX.Modules.IAM.Application.Interfaces;
+using IFX.Modules.IAM.Domain.Access;
+using IFX.Modules.IAM.Domain.Tenancy;
+using MediatR;
+using Microsoft.Extensions.Logging;
+
+namespace IFX.Modules.IAM.Application.Access.Policies.Commands.UpdatePolicy;
+public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, Result<PolicyDefinitionDto>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUser _currentUser;
+    private readonly IResourceAuthorizationService _authorizationService;
+    private readonly ILogger<UpdatePolicyCommandHandler> _logger;
+    public UpdatePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<UpdatePolicyCommandHandler> logger)
+    {
+        _unitOfWork = unitOfWork;
+        _currentUser = currentUser;
+        _authorizationService = authorizationService;
+        _logger = logger;
+    }
+
+    public async Task<Result<PolicyDefinitionDto>> Handle(UpdatePolicyCommand request, CancellationToken cancellationToken)
+    {
+        {
+            var policy = _currentUser.TenantId is { } tenantId
+                ? await _unitOfWork.PolicyDefinitions.GetTenantByIdAsync(request.PolicyId, tenantId, cancellationToken)
+                : await _unitOfWork.PolicyDefinitions.GetPlatformByIdAsync(request.PolicyId, cancellationToken);
+            if (policy is null)
+                return Result<PolicyDefinitionDto>.Failure("Policy not found.");
+            if (policy.Scope == PolicyScope.Platform && !_currentUser.IsGlobalAdmin)
+                return Result<PolicyDefinitionDto>.Failure("Platform policy management requires PlatformAdmin.");
+            if (!PolicyChangeRules.Valid(policy.Scope, policy.ResourceType, policy.Action, request.Conditions))
+                return Result<PolicyDefinitionDto>.Failure("Invalid policy definition.");
+            await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "update", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
+            var conditionsJson = JsonSerializer.Serialize(request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
+            policy.Update(request.Name, conditionsJson, _currentUser.UserId, request.Description);
+            _logger.LogInformation("Policy updated: {PolicyId}", policy.Id);
+            return Result<PolicyDefinitionDto>.Success(MapToDto(policy));
+        }
+    }
+
+    private static PolicyDefinitionDto MapToDto(PolicyDefinition p)
+    {
+        var conditions = JsonSerializer.Deserialize<List<PolicyConditionRecord>>(p.ConditionsJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? [];
+        return new PolicyDefinitionDto(p.Id, p.TenantId, p.Name, p.Description, p.ResourceType, p.Action, conditions.Select(c => new PolicyConditionDto(c.TemplateName, c.Parameters)).ToList(), p.IsActive, IsPlatformDefault: p.Scope == PolicyScope.Platform, p.UpdatedAt, p.Scope);
+    }
+}

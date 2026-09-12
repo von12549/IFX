@@ -4,24 +4,12 @@ import { authApi } from '../../api/auth'
 
 export function LoginPage() {
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const handleLogin = async () => {
+
+  const handleLogin = () => {
     setLoading(true)
-    setError('')
-    try {
-      const resp = await authApi.getAuthorizeUrl()
-      const url = resp.data?.data?.authorizationUrl
-      if (url) {
-        window.location.href = url
-      } else {
-        setError('Failed to get authorization URL')
-      }
-    } catch {
-      setError('Failed to connect to the server. Is the API running?')
-    } finally {
-      setLoading(false)
-    }
+    // Top-level navigation lets the API bind the transaction with an HttpOnly cookie.
+    window.location.href = authApi.getLoginUrl()
   }
 
   return (
@@ -36,7 +24,7 @@ export function LoginPage() {
           <h1>IFX</h1>
         </div>
         <p className="auth-subtitle">Sign in to your account</p>
-        {error && <div className="alert alert-error">{error}</div>}
+
         <button className="btn btn-primary btn-full" onClick={handleLogin} disabled={loading}>
           {loading ? 'Redirecting...' : 'Sign in with IFX Cognito'}
         </button>

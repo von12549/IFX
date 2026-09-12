@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S0",
   "result": "passed",
-  "checkedAt": "2026-09-11",
+  "checkedAt": "2026-09-13",
   "baselineCommit": "40d3cd38505c14557567d7cc81f4ef51e8293d3c",
   "layerGuardVersion": "0.4.0-a1",
   "checks": {
@@ -23,49 +23,49 @@
     {
       "authority": "G02",
       "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
-      "expectedSha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
-      "actualSha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
-      "binding": "phase0-freeze",
+      "expectedSha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba",
+      "actualSha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G02",
       "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
-      "expectedSha256": "b9f3c1a07b0fb9033bcf1cd0452292651bf9f121b5f7611a6ac4e112bee60ac2",
-      "actualSha256": "b9f3c1a07b0fb9033bcf1cd0452292651bf9f121b5f7611a6ac4e112bee60ac2",
-      "binding": "phase0-freeze",
+      "expectedSha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b",
+      "actualSha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-      "expectedSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
-      "actualSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
-      "binding": "phase0-freeze",
+      "expectedSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+      "actualSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
-      "expectedSha256": "da823fa435018e4567d779a276c0ac5007da2672f26e35fbc5a0b1bc76be8ea0",
-      "actualSha256": "da823fa435018e4567d779a276c0ac5007da2672f26e35fbc5a0b1bc76be8ea0",
-      "binding": "phase0-freeze",
+      "expectedSha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649",
+      "actualSha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json",
-      "expectedSha256": "ff23f76b58f4722dd133c4069521ae2897997bf51bb42ee6a63720ef7a0e37ea",
-      "actualSha256": "ff23f76b58f4722dd133c4069521ae2897997bf51bb42ee6a63720ef7a0e37ea",
-      "binding": "phase0-freeze",
+      "expectedSha256": "18235780b8768f7713fb7a1a1056945f77ad81bbea56d0188409828c1b93f7c2",
+      "actualSha256": "18235780b8768f7713fb7a1a1056945f77ad81bbea56d0188409828c1b93f7c2",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json",
-      "expectedSha256": "597cf51cb6d33cc8ec1539f5c6f59bd8f16ffc83c01f616be31ee33af1597e72",
-      "actualSha256": "597cf51cb6d33cc8ec1539f5c6f59bd8f16ffc83c01f616be31ee33af1597e72",
-      "binding": "phase0-freeze",
+      "expectedSha256": "b9f3d6cc3e8f21b29f67361ca0a9d6a277a118d9493bfee5c8328fe4a0f59a50",
+      "actualSha256": "b9f3d6cc3e8f21b29f67361ca0a9d6a277a118d9493bfee5c8328fe4a0f59a50",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
@@ -111,16 +111,16 @@
     {
       "authority": "LayerGuard-B4",
       "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
-      "expectedSha256": "53e37f92c89bf57729b15f3b96411aafdc56f3de7239766389034dc6fb36c368",
-      "actualSha256": "53e37f92c89bf57729b15f3b96411aafdc56f3de7239766389034dc6fb36c368",
+      "expectedSha256": "d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20",
+      "actualSha256": "d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20",
       "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "LayerGuard-B4",
       "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
-      "expectedSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506",
-      "actualSha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506",
+      "expectedSha256": "4de8876b9252c71b018c0a4ba391079a39aea30024608300059d09c18079e9f2",
+      "actualSha256": "4de8876b9252c71b018c0a4ba391079a39aea30024608300059d09c18079e9f2",
       "binding": "reviewed-authority-refresh",
       "result": "passed"
     },

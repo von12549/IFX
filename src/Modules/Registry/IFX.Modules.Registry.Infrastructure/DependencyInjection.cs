@@ -1,3 +1,4 @@
+using IFX.Modules.Registry.Application.Ports.Authorization;
 using IFX.Modules.Registry.Application.Interfaces;
 using IFX.Modules.Registry.Application.Ports;
 using IFX.BuildingBlocks.Application.Transactions;
@@ -49,6 +50,7 @@ public static class DependencyInjection
         // are registered by the Auth module and shared
         // via the common DI container. Registry handlers resolve them from there.
 
+        services.AddScoped<IResourceAuthorizationService, Integrations.ResourceAuthorizationAdapter>();
         return services;
     }
 }

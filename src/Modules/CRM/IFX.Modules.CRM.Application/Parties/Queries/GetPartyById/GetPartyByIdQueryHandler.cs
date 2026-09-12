@@ -1,3 +1,4 @@
+using IFX.Modules.CRM.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
 

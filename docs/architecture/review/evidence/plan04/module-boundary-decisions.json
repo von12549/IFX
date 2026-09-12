@@ -3,9 +3,14 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S2",
   "asOf": "2026-09-10",
-  "inventorySha256": "5dfca4b70ef3228100e42eef6c2a1a2ad1944f540d2839e7e669f80ddff5269e",
+  "inventorySha256": "dbca2e5adba2e537dd3176621053fc91e34a15e4e055f5183cde9210fe52286f",
   "decisionPolicy": {
-    "allowedConclusions": ["retain", "narrow-edge", "revisit-boundary", "extraction-candidate"],
+    "allowedConclusions": [
+      "retain",
+      "narrow-edge",
+      "revisit-boundary",
+      "extraction-candidate"
+    ],
     "forbiddenConclusion": "split-now",
     "metricsUse": "review-signals-only",
     "defaultDeployment": "modular-monolith"
@@ -49,27 +54,83 @@
       "kind": "event",
       "decision": "aligned",
       "basis": "Registry owns class status; Holdings owns the resulting position freeze state."
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "provider": "auth",
+      "consumer": "crm",
+      "kind": "sync",
+      "decision": "aligned",
+      "basis": "IAM selects access policy and subject facts; the resource owner supplies attributes and enforces denial before its operation. Only an outer adapter consumes IAM Contracts."
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "provider": "auth",
+      "consumer": "registry",
+      "kind": "sync",
+      "decision": "aligned",
+      "basis": "IAM selects access policy and subject facts; the resource owner supplies attributes and enforces denial before its operation. Only an outer adapter consumes IAM Contracts."
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "provider": "auth",
+      "consumer": "holdings",
+      "kind": "sync",
+      "decision": "aligned",
+      "basis": "IAM selects access policy and subject facts; the resource owner supplies attributes and enforces denial before its operation. Only an outer adapter consumes IAM Contracts."
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "provider": "auth",
+      "consumer": "transaction",
+      "kind": "sync",
+      "decision": "aligned",
+      "basis": "IAM selects access policy and subject facts; the resource owner supplies attributes and enforces denial before its operation. Only an outer adapter consumes IAM Contracts."
     }
   ],
   "crossCuttingSignals": [
     {
       "signal": "common-release",
-      "modules": ["auth", "crm", "registry", "transaction", "holdings"],
+      "modules": [
+        "auth",
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
       "interpretation": "G04 intentionally keeps one business release; this is deployment coupling, not proof of a wrong domain boundary."
     },
     {
       "signal": "shared-physical-database",
-      "modules": ["auth", "crm", "registry", "transaction", "holdings"],
+      "modules": [
+        "auth",
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
       "interpretation": "G02 preserves one physical database while separate DbContexts and schemas retain data ownership."
     },
     {
       "signal": "single-accountable-owner",
-      "modules": ["auth", "crm", "registry", "transaction", "holdings"],
+      "modules": [
+        "auth",
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
       "interpretation": "The common owner reduces current coordination evidence and creates a bus-factor/review-independence risk; it is not extraction evidence."
     },
     {
       "signal": "recent-cross-module-cochange",
-      "modules": ["auth", "crm", "registry", "transaction", "holdings"],
+      "modules": [
+        "auth",
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
       "interpretation": "The frozen history is dominated by the deliberate Gate/Plan boundary migration, so pair counts require future product-change baselines before they can support a boundary change."
     }
   ],
@@ -78,41 +139,107 @@
       "module": "auth",
       "owner": "xiaolong-feng",
       "conclusion": "retain",
-      "evidence": ["zero registered business protocol edges", "auth schema and DbContext ownership", "four independent test projects"],
-      "risks": ["common release remains", "identity data remains security-sensitive", "single accountable owner"],
-      "revisitTriggers": ["new non-identity capability", "new business protocol consumer", "cross-schema identity access", "independent security/runtime owner approved"]
+      "evidence": [
+        "one registered authorization protocol with four resource-module consumers",
+        "auth schema and one DbContext owner",
+        "four independent IAM test projects"
+      ],
+      "risks": [
+        "common release remains",
+        "identity data remains security-sensitive",
+        "single accountable owner"
+      ],
+      "revisitTriggers": [
+        "new non-identity capability",
+        "new business protocol consumer",
+        "cross-schema identity access",
+        "independent security/runtime owner approved"
+      ]
     },
     {
       "module": "crm",
       "owner": "xiaolong-feng",
       "conclusion": "retain",
-      "evidence": ["owns party/investor/account/compliance facts", "one minimum sync capability into Transaction", "no cross-schema access"],
-      "risks": ["party and compliance capabilities have different sensitivity", "single accountable owner", "common release remains"],
-      "revisitTriggers": ["capability ownership separates by team", "compliance protocol fan-out grows", "independent compliance scaling/SLO evidence", "data ownership conflict"]
+      "evidence": [
+        "owns party/investor/account/compliance facts",
+        "one minimum sync capability into Transaction",
+        "no cross-schema access"
+      ],
+      "risks": [
+        "party and compliance capabilities have different sensitivity",
+        "single accountable owner",
+        "common release remains"
+      ],
+      "revisitTriggers": [
+        "capability ownership separates by team",
+        "compliance protocol fan-out grows",
+        "independent compliance scaling/SLO evidence",
+        "data ownership conflict"
+      ]
     },
     {
       "module": "registry",
       "owner": "xiaolong-feng",
       "conclusion": "retain",
-      "evidence": ["owns product/fund/class/status facts", "one sync and one event capability", "all physical consumers use registered Contracts"],
-      "risks": ["highest current provider fan-in signal", "common release remains", "single accountable owner"],
-      "revisitTriggers": ["provider fan-out materially increases", "product and class ownership split", "high-frequency independent release demand", "data ownership conflict"]
+      "evidence": [
+        "owns product/fund/class/status facts",
+        "one sync and one event capability",
+        "all physical consumers use registered Contracts"
+      ],
+      "risks": [
+        "highest current provider fan-in signal",
+        "common release remains",
+        "single accountable owner"
+      ],
+      "revisitTriggers": [
+        "provider fan-out materially increases",
+        "product and class ownership split",
+        "high-frequency independent release demand",
+        "data ownership conflict"
+      ]
     },
     {
       "module": "transaction",
       "owner": "xiaolong-feng",
       "conclusion": "narrow-edge",
-      "evidence": ["two registered synchronous decisions consumed", "one versioned processed fact published", "consumer-facing references remain in Infrastructure/Composition"],
-      "risks": ["central workflow has the highest combined protocol degree", "synchronous TOCTOU remains a separate TX6 concern", "common release remains"],
-      "revisitTriggers": ["Application references a foreign Contract", "shared ACID request", "new synchronous provider", "workflow ownership moves", "independent failure/scaling evidence"]
+      "evidence": [
+        "two registered synchronous decisions consumed",
+        "one versioned processed fact published",
+        "consumer-facing references remain in Infrastructure/Composition"
+      ],
+      "risks": [
+        "central workflow has the highest combined protocol degree",
+        "synchronous TOCTOU remains a separate TX6 concern",
+        "common release remains"
+      ],
+      "revisitTriggers": [
+        "Application references a foreign Contract",
+        "shared ACID request",
+        "new synchronous provider",
+        "workflow ownership moves",
+        "independent failure/scaling evidence"
+      ]
     },
     {
       "module": "holdings",
       "owner": "xiaolong-feng",
       "conclusion": "retain",
-      "evidence": ["owns position and freeze state", "two registered inbound facts", "Inbox/idempotent consumer path is module-owned"],
-      "risks": ["projection freshness depends on reliable event delivery", "financial lifecycle policy remains externally constrained", "common release remains"],
-      "revisitTriggers": ["new reporting consumer requires a distinct read-model owner", "position and reporting ownership diverge", "event fan-in materially grows", "independent scaling/SLO evidence"]
+      "evidence": [
+        "owns position and freeze state",
+        "two registered inbound facts",
+        "Inbox/idempotent consumer path is module-owned"
+      ],
+      "risks": [
+        "projection freshness depends on reliable event delivery",
+        "financial lifecycle policy remains externally constrained",
+        "common release remains"
+      ],
+      "revisitTriggers": [
+        "new reporting consumer requires a distinct read-model owner",
+        "position and reporting ownership diverge",
+        "event fan-in materially grows",
+        "independent scaling/SLO evidence"
+      ]
     }
   ],
   "revisitBoundaryItems": [],
@@ -126,12 +253,43 @@
     "independent runtime, scaling, failure or compliance requirement"
   ],
   "approvals": [
-    {"role": "architecture", "approver": null, "status": "pending", "evidence": null},
-    {"role": "auth-module", "approver": null, "status": "pending", "evidence": null},
-    {"role": "crm-module", "approver": null, "status": "pending", "evidence": null},
-    {"role": "registry-module", "approver": null, "status": "pending", "evidence": null},
-    {"role": "transaction-module", "approver": null, "status": "pending", "evidence": null},
-    {"role": "holdings-module", "approver": null, "status": "pending", "evidence": null}
+    {
+      "role": "architecture",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "auth-module",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "crm-module",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "registry-module",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "transaction-module",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "holdings-module",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    }
   ],
-  "gov4Closure": "approval-pending"
+  "gov4Closure": "approval-pending",
+  "plan05Review": "Phase 6 removes obsolete Auth assembly-facing names, duplicate platform registration and unused invalidation interfaces. IAM owns current identity facts; five data owners, eight business protocol edges and existing cross-tenant permission gates are unchanged. No sync cycles, implementation leakage or named approval is inferred."
 }

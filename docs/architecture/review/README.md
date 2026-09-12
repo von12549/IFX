@@ -2,11 +2,11 @@
 
 # IFX 模块通信架构评审
 
-This directory records the source-verified architecture and its governed migration. Plan 01 synchronous Contracts/Ports/Adapters reached B2 and Plan 02 reliable events reached the repository B3 checkpoint; B4 and production-dependent Gate closure remain open.
+Current implementation: [IAM and platform security](iam-platform-security.en.md), [Plan 05 evidence](evidence/plan05/README.md). Historical baselines below retain their original scope; repository completion does not close production-dependent gates.
 
-本目录记录经源码核对的架构及受治理的迁移状态。Plan 01 同步 Contracts/Ports/Adapters 已到达 B2，Plan 02 可靠事件已到达仓库 B3 检查点；B4 与依赖生产证据的 Gate 关闭仍保持开放。
+当前实现见 [IAM 与平台安全](iam-platform-security.zh-CN.md) 和 [Plan 05 证据](evidence/plan05/README.md)。下方保留历史基线；仓库完成不等于生产 Gate 关闭。
 
-## Baseline / 基线
+## Original review baseline / 原始审查基线
 
 - Repository source baseline: commit `308d548`
 - Architecture style: ASP.NET Core 8 modular monolith
@@ -26,6 +26,7 @@ This directory records the source-verified architecture and its governed migrati
 |---|---|---|
 | Current architecture / 当前架构 | [current-architecture.zh-CN.md](current-architecture.zh-CN.md) | [current-architecture.en.md](current-architecture.en.md) |
 | Target Contracts/Adapters/Events architecture / 目标架构 | [target-contracts-adapters-events.zh-CN.md](target-contracts-adapters-events.zh-CN.md) | [target-contracts-adapters-events.en.md](target-contracts-adapters-events.en.md) |
+| Platform capabilities and tenant connections / Platform 能力与租户连接讨论 | [讨论记录](platform-capabilities-and-tenant-connections.zh-CN.md) | — |
 | Plan 01 B2 implementation / Plan 01 B2 实施基线 | [Plan 01 中文](plan01-contracts-adapters-boundary.zh-CN.md) | [Plan 01 English](plan01-contracts-adapters-boundary.en.md) |
 | Plan 02 B3 implementation / Plan 02 B3 实施基线 | [Plan 02 中文](plan02-reliable-events.zh-CN.md) | [Plan 02 English](plan02-reliable-events.en.md) |
 | G01 transaction boundary / 事务边界 | [G01 中文](gates/G01/transaction-boundary.zh-CN.md) | [G01 English](gates/G01/transaction-boundary.en.md) |
@@ -40,6 +41,7 @@ This directory records the source-verified architecture and its governed migrati
 - [Master plan / 总计划](plans/00-master-plan.md)
 - [Prerequisite gates / 前置 Gate](plans/00-prerequisites.md)
 - [Plan 04 module-boundary evolution / 子计划 4 模块边界演进](plans/04-module-boundary-evolution.md)
+- [Plan 05 IAM and platform security / 子计划 5 IAM 与平台认证、授权拆分（执行草案）](plans/05-iam-platform-security-refactor.md)
 - [Deferred work / 后续 TODO](plans/TODO.md)
 
 ## Diagrams / 图表
@@ -100,4 +102,3 @@ This directory records the source-verified architecture and its governed migrati
 - 虚线表示实现、绑定或图中明确标注的其他关系。
 - 时序图表示运行时调用和事务时点。
 - Contracts 只是定义，本身没有运行时行为。
-

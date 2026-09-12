@@ -1,7 +1,7 @@
 using FluentAssertions;
 using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
-using IFX.Modules.Auth.Infrastructure.Persistence;
-using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
+using IFX.Modules.IAM.Infrastructure.Persistence;
+using IFX.Modules.IAM.Infrastructure.Persistence.Migrations.Legacy;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 

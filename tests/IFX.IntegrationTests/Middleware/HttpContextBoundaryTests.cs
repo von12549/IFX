@@ -156,7 +156,7 @@ public sealed class HttpContextBoundaryTests(CustomWebApplicationFactory factory
     }
 
     [Fact]
-    public async Task Global_administrator_can_use_explicit_tenant_and_platform_scopes()
+    public async Task Global_administrator_without_membership_is_denied_tenant_scope_but_can_use_platform_scope()
     {
         var selectedTenant = Guid.NewGuid();
         using var configured = CreateGlobalAdministratorFactory(selectedTenant);
@@ -166,7 +166,7 @@ public sealed class HttpContextBoundaryTests(CustomWebApplicationFactory factory
         var tenantResponse = await client.GetAsync("/api/v1/role");
         var platformResponse = await client.GetAsync("/management/runtime");
 
-        tenantResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+        tenantResponse.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         platformResponse.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 

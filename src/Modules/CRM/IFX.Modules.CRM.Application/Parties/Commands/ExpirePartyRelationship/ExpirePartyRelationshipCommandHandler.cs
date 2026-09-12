@@ -1,3 +1,4 @@
+using IFX.Modules.CRM.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.CRM.Application.Common;
 using IFX.Modules.CRM.Application.Common.Authorization;

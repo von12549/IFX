@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using IFX.ApiHost.Authentication;
-using IFX.Modules.Auth.Composition;
+using IFX.Modules.IAM.Composition;
 using Microsoft.AspNetCore.Authentication;
 
 namespace IFX.ApiHost.Authorization;
@@ -28,7 +28,8 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
     public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
         // 1. Check if already transformed (avoid duplicate transformation)
-        if (principal.HasClaim(c => c.Type == "user_id"))
+        if (_httpContextAccessor.HttpContext?.Items[typeof(UserPermissionClaimsTransformation)] is ClaimsPrincipal admitted &&
+            ReferenceEquals(principal, admitted))
         {
             return principal;
         }
@@ -40,7 +41,7 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
         if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(issuer))
         {
             _logger.LogWarning("Missing sub or iss claim in JWT");
-            return principal;
+            return new ClaimsPrincipal();
         }
 
         try
@@ -49,13 +50,15 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
             var httpContext = _httpContextAccessor.HttpContext;
             var idpConfig = httpContext?.Items["IdpConfiguration"]
                 as IdpConfigurationEntry;
+            if (principal.Identity?.IsAuthenticated != true || idpConfig is null || idpConfig.Issuer != issuer)
+                return new ClaimsPrincipal();
 
             // 4. Get access token from HttpContext (set by DynamicJwtBearerEvents)
             var accessToken = httpContext?.Items["AccessToken"]?.ToString()
                 ?? string.Empty;
 
             // 5. Build a host-boundary request with the access token for userinfo fetch
-            var request = new AuthUserProvisioningRequest(
+            var request = new LocalIdentityAdmissionRequest(
                 Issuer: issuer,
                 Subject: subject,
                 AccessToken: accessToken,
@@ -66,7 +69,7 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
 
             // 6. Execute through the Auth composition facade (create scope for scoped services)
             using var scope = _serviceProvider.CreateScope();
-            var authFacade = scope.ServiceProvider.GetRequiredService<IAuthUserProvisioningFacade>();
+            var authFacade = scope.ServiceProvider.GetRequiredService<ILocalIdentityAdmission>();
             var result = await authFacade.GetOrProvisionAsync(request);
 
             if (!result.IsSuccess)
@@ -90,14 +93,17 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
                 identity.AddClaim(new Claim("role", role));
             foreach (var dept in result.DepartmentNames)
                 identity.AddClaim(new Claim("department", dept));
-            principal.AddIdentity(identity);
+            var localPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
+                [new Claim("iss", issuer), new Claim("sub", subject)], principal.Identity!.AuthenticationType, "sub", "role"));
+            localPrincipal.AddIdentity(identity);
+            httpContext!.Items[typeof(UserPermissionClaimsTransformation)] = localPrincipal;
 
-            return principal;
+            return localPrincipal;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error transforming claims for user {Issuer}/{Subject}", issuer, subject);
-            return principal;
+            _logger.LogError("Local identity admission failed with {FailureType}", ex.GetType().Name);
+            return new ClaimsPrincipal();
         }
     }
 }

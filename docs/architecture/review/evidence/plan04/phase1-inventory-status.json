@@ -3,14 +3,14 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S1",
   "result": "passed",
-  "checkedAt": "2026-09-11",
-  "inventorySha256": "5dfca4b70ef3228100e42eef6c2a1a2ad1944f540d2839e7e669f80ddff5269e",
-  "dependencyGraphSha256": "e257b3cb5b8086d1dd1546282ebf5d10d45ed82e9cb38643db92cc0fa7909549",
+  "checkedAt": "2026-09-13",
+  "inventorySha256": "dbca2e5adba2e537dd3176621053fc91e34a15e4e055f5183cde9210fe52286f",
+  "dependencyGraphSha256": "bb2b8cd331e7d46f9827a2dbff7191413bf73658c9c9c3fabf7075293914d596",
   "counts": {
     "modules": 5,
-    "protocols": 4,
-    "projectEdges": 120,
-    "namespaceEdges": 132,
+    "protocols": 8,
+    "projectEdges": 145,
+    "namespaceEdges": 163,
     "coChangePairs": 10,
     "unregisteredEdges": 0,
     "crossSchemaFindings": 0
@@ -19,7 +19,7 @@
     "deterministicGeneration": true,
     "exactBusinessModuleSet": true,
     "modulesReconcileG02G03G04": true,
-    "exactActiveProtocolSet": true,
+    "exactGovernedProtocolSet": true,
     "graphIsAuthorityDerived": true,
     "crossModuleEdgesAreCatalogRegistered": true,
     "noUnknownBusinessModules": true,
@@ -27,7 +27,7 @@
     "metricsAreReviewOnly": true,
     "everyModuleHasIndependentTests": true,
     "sharedRuntimeAndDataCouplingExplicit": true,
-    "authorityHashesMatchPhase0": true
+    "authorityHashesMatchGovernedBindings": true
   },
   "failedChecks": [],
   "interpretation": "Metrics support review only and do not authorize extraction.",

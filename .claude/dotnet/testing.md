@@ -3,24 +3,28 @@
 ## Purpose
 Testing approach, project structure, and patterns.
 
+Project names below are current. Historical counts are not a release assertion; use [Plan 05 final evidence](../../docs/architecture/review/evidence/plan05/P05-S7-release-validation.md).
+
 ---
 
 ## Backend Test Projects
 
-### Auth Module Tests (348 tests)
+### IAM Module Tests
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
 | `IFX.Tests.Common` | Shared utilities, builders, fixtures | - |
-| `IFX.Modules.Auth.Domain.Tests` | Entity and value object tests | 106 |
-| `IFX.Modules.Auth.Application.Tests` | Handler, validator, and behavior tests | 225 |
-| `IFX.Modules.Auth.Infrastructure.Tests` | Repository tests (in-memory EF) | 54 |
-| `IFX.Modules.Auth.Presentation.Tests` | Authorization class unit tests | 10 |
+| `IFX.Modules.IAM.Domain.Tests` | Entity and value object tests | 106 |
+| `IFX.Modules.IAM.Application.Tests` | Handler, validator, and behavior tests | 225 |
+| `IFX.Modules.IAM.Infrastructure.Tests` | Repository tests (in-memory EF) | 54 |
+| `IFX.Modules.IAM.Presentation.Tests` | Authorization class unit tests | 10 |
 
-### Platform Module Tests (28 tests)
+### Platform Module Tests
 
 | Project | Purpose | Tests |
 |---------|---------|-------|
+| `IFX.Platform.Authentication.Tests` | Token/OIDC verification and rejection paths | See evidence |
+| `IFX.Platform.Authorization.Tests` | Bounded facts, evaluation and failure semantics | See evidence |
 | `IFX.Platform.BackgroundJobs.Tests` | Hangfire service tests | 11 |
 | `IFX.Platform.Notifications.Tests` | Email service tests | 17 |
 
@@ -163,7 +167,7 @@ dotnet test IFX.sln
 dotnet test IFX.sln --filter "FullyQualifiedName!~IntegrationTests"
 
 # Specific project
-dotnet test tests/IFX.Modules.Auth.Application.Tests
+dotnet test tests/IFX.Modules.IAM.Application.Tests
 
 # With coverage + HTML report
 dotnet test IFX.sln --collect:"XPlat Code Coverage" --results-directory ./coverage-results

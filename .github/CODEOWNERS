@@ -1,10 +1,12 @@
 # G03 ownership routing. Business approval remains provider + affected consumer as defined by
 # docs/architecture/review/gates/G03/contract-event-catalog.yaml.
-/src/Modules/Auth/ @von12549 @jimkeecn
+/src/Modules/IAM/ @von12549 @jimkeecn
 /src/Modules/CRM/ @von12549 @jimkeecn
 /src/Modules/Registry/ @von12549 @jimkeecn
 /src/Modules/Transaction/ @von12549 @jimkeecn
 /src/Modules/Holdings/ @von12549 @jimkeecn
 /src/Platform/Messaging/ @von12549 @jimkeecn
+/src/Platform/Authentication/ @von12549 @jimkeecn
+/src/Platform/Authorization/ @von12549 @jimkeecn
 /docs/architecture/review/gates/G03/ @von12549 @jimkeecn
 /scripts/*G03* @von12549 @jimkeecn

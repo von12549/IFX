@@ -67,7 +67,6 @@ describe('RoleManagementPage', () => {
     await waitFor(() => expect(screen.getByText('Admin')).toBeInTheDocument())
     await userEvent.click(screen.getByText(/^Name/)) // now name desc
     await userEvent.click(screen.getByText(/^Description/)) // switch to desc asc
-    const { container } = { container: document.body }
     const descHeader = screen.getByRole('columnheader', { name: /Description/ })
     expect(descHeader.querySelector('.sort-active')).toBeInTheDocument()
     expect(descHeader).toHaveTextContent('↑')
