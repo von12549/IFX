@@ -16,15 +16,17 @@ public class GetAllDepartmentsAcrossTenantsQueryHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
+    private readonly IPermissionChecker _permission;
     private readonly ILogger<GetAllDepartmentsAcrossTenantsQueryHandler> _logger;
 
     public GetAllDepartmentsAcrossTenantsQueryHandler(
         IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
-        ILogger<GetAllDepartmentsAcrossTenantsQueryHandler> logger)
+        ILogger<GetAllDepartmentsAcrossTenantsQueryHandler> logger, IPermissionChecker permission)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currentUser = currentUser;
+        _permission = permission;
         _logger = logger;
     }
 
@@ -33,7 +35,7 @@ public class GetAllDepartmentsAcrossTenantsQueryHandler
     {
         try
         {
-            CrossTenantAccessGuard.Require(_currentUser);
+            await CrossTenantAccessGuard.RequireAsync(_currentUser, _permission, cancellationToken);
 
             var departments = await _unitOfWork.Departments.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 

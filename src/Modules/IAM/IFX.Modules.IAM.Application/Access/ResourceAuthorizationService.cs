@@ -22,7 +22,7 @@ public sealed class ResourceAuthorizationService(ICurrentUser currentUser, IAbac
         // These mandatory constraints apply before any role exemption or provider call.
         if (!currentUser.IsAuthenticated || currentUser.UserId == Guid.Empty || !execution.HasCurrent ||
             execution.Current.Provenance != ContextProvenance.Trusted ||
-            execution.Current.Actor.Id != currentUser.UserId.ToString() ||
+            execution.Current.Actor.Kind != ActorKind.User || !Guid.TryParse(execution.Current.Actor.Id, out var actorId) || actorId != currentUser.UserId ||
             !AccessPolicySemantics.IsKnownOperation(resourceType, action))
             throw new ForbiddenException("access_context_invalid");
         var selected = new List<AbacPolicy>();

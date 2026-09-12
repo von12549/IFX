@@ -5,4 +5,7 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Tenancy.Membership.Commands.RemoveTenantFromUser;
 
-public record RemoveTenantFromUserCommand(Guid UserId, Guid TenantId) : ICommand<Result<bool>, AuthTransactionOwner>;
+public record RemoveTenantFromUserCommand(Guid UserId, Guid TenantId) : ICommand<Result<bool>, AuthTransactionOwner>
+{
+    public IFX.BuildingBlocks.Application.Transactions.TransactionProfile TransactionProfile => IFX.BuildingBlocks.Application.Transactions.TransactionProfile.ConsistentReadWrite;
+}

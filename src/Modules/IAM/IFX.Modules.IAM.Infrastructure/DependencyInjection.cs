@@ -90,7 +90,8 @@ public static class DependencyInjection
         // Register shared authorization services
         services.AddHttpContextAccessor();
         services.AddScoped<HttpIdentityFacts>();
-        services.AddScoped<IExecutionIdentityFacts>(services => services.GetRequiredService<HttpIdentityFacts>());
+        services.AddScoped<VerifiedIdentityFacts>();
+        services.AddScoped<IExecutionIdentityFacts>(services => services.GetRequiredService<VerifiedIdentityFacts>());
         services.AddScoped<ExecutionTenantSelection>();
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IPermissionChecker, PermissionChecker>();

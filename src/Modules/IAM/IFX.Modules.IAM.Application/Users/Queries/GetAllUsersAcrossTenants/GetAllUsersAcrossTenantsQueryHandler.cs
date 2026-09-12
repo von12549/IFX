@@ -16,15 +16,17 @@ public class GetAllUsersAcrossTenantsQueryHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
+    private readonly IPermissionChecker _permission;
     private readonly ILogger<GetAllUsersAcrossTenantsQueryHandler> _logger;
 
     public GetAllUsersAcrossTenantsQueryHandler(
         IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
-        ILogger<GetAllUsersAcrossTenantsQueryHandler> logger)
+        ILogger<GetAllUsersAcrossTenantsQueryHandler> logger, IPermissionChecker permission)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currentUser = currentUser;
+        _permission = permission;
         _logger = logger;
     }
 
@@ -33,7 +35,7 @@ public class GetAllUsersAcrossTenantsQueryHandler
     {
         try
         {
-            CrossTenantAccessGuard.Require(_currentUser);
+            await CrossTenantAccessGuard.RequireAsync(_currentUser, _permission, cancellationToken);
 
             var users = await _unitOfWork.Users.GetAcrossTenantsWithTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 

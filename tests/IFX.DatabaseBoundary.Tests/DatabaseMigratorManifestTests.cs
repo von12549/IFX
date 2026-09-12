@@ -21,7 +21,7 @@ public sealed class DatabaseMigratorManifestTests
         errors.Should().BeEmpty();
         manifest.Modules.Select(module => module.ModuleName)
             .Should().Equal("Auth", "CRM", "Registry", "Holdings", "Transaction");
-        manifest.Modules.SelectMany(module => module.Migrations).Should().HaveCount(18);
+        manifest.Modules.SelectMany(module => module.Migrations).Should().HaveCount(19);
     }
 
     [Fact]

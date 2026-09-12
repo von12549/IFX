@@ -5,6 +5,9 @@ namespace IFX.Modules.IAM.Domain.Tenancy;
 
 public class Tenant : BaseEntity, IAuditableEntity
 {
+    public bool IsActive { get; private set; } = true;
+    public void Activate() => IsActive = true;
+    public void Deactivate() => IsActive = false;
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
     public Guid? CreatedBy { get; set; }

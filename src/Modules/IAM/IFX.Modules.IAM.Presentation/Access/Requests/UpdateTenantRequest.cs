@@ -4,6 +4,7 @@ namespace IFX.Modules.IAM.Presentation.Access.Requests;
 
 public class UpdateTenantRequest
 {
+    public bool? IsActive { get; set; }
     [Required]
     public string Name { get; set; } = string.Empty;
 

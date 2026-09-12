@@ -1,6 +1,6 @@
 # 子计划 5：Auth → IAM 与平台认证、授权能力拆分
 
-> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–4 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 5 成员关系与访问失效。
+> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–5 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 6 装配与治理收口。
 > 编写日期：2026-09-12；源码观察基线：`13a0a74`。
 > 来源：本次关于 Platform、Authentication、Authorization/ABAC 与 Auth 职责拆分的讨论。
 > 定位：B4 严格边界之后的独立演进计划；沿用现有 G01–G05 与 Plan 04 治理，不重写既有里程碑或声明生产验收完成。
@@ -177,12 +177,12 @@ src/Modules/IAM/
 
 交付：显式 Membership/Assignment 模型或能表达相同不变量的现有关系演进、迁移及对账。不新增其他租户产品功能。
 
-- [ ] IAM5.1 根据 IAM0.4 选择扩展现有 join 还是新增 TenantMembership；建立唯一性、租户/部门一致性、状态与角色授予引用，不重复创建同一成员事实。
-- [ ] IAM5.2 采用 expand/backfill/validate/switch/contract 顺序；无歧义已有 User–Tenant 关系作为来源，孤立角色等歧义单列，不能通过扩大成员范围自动修复。
-- [ ] IAM5.3 保持平台 GlobalRole 的独立作用域；普通角色与 RoleGroup 授予校验目标成员、角色和部门属于正确租户。
-- [ ] IAM5.4 拆分 User 内的身份、成员、角色导航操作职责，保留同一 IAM 事务，维护成员加入/退出和初始角色授予的原子性。
-- [ ] IAM5.5 按 Phase 0 的规则实现退出/停用后的访问失效，包括现有 token/session、成员/权限缓存及后台任务执行时重新检查；不依赖异步清理才能拒绝访问。
-- [ ] IAM5.6 对 fresh install、旧库升级、重复 backfill、并发授予/退出、主租户切换运行关系数据库测试，完成行数/关联/权限效果对账。
+- [x] IAM5.1 根据 IAM0.4 选择扩展现有 join 还是新增 TenantMembership；建立唯一性、租户/部门一致性、状态与角色授予引用，不重复创建同一成员事实。
+- [x] IAM5.2 采用 expand/backfill/validate/switch/contract 顺序；无歧义已有 User–Tenant 关系作为来源，孤立角色等歧义单列，不能通过扩大成员范围自动修复。
+- [x] IAM5.3 保持平台 GlobalRole 的独立作用域；普通角色与 RoleGroup 授予校验目标成员、角色和部门属于正确租户。
+- [x] IAM5.4 拆分 User 内的身份、成员、角色导航操作职责，保留同一 IAM 事务，维护成员加入/退出和初始角色授予的原子性。
+- [x] IAM5.5 按 Phase 0 的规则实现退出/停用后的访问失效，包括现有 token/session、成员/权限缓存及后台任务执行时重新检查；不依赖异步清理才能拒绝访问。
+- [x] IAM5.6 对 fresh install、旧库升级、重复 backfill、并发授予/退出、主租户切换运行关系数据库测试，完成行数/关联/权限效果对账。
 
 验收：成员与授权事实各有唯一 owner；没有自动新增权限；旧数据可追踪；退出后按定义失效；数据库迁移使用现有受控 Migrator。
 

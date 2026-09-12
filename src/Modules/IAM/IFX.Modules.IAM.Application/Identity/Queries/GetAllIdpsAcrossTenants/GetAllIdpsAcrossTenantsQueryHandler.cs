@@ -16,15 +16,17 @@ public class GetAllIdpsAcrossTenantsQueryHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
+    private readonly IPermissionChecker _permission;
     private readonly ILogger<GetAllIdpsAcrossTenantsQueryHandler> _logger;
 
     public GetAllIdpsAcrossTenantsQueryHandler(
         IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
-        ILogger<GetAllIdpsAcrossTenantsQueryHandler> logger)
+        ILogger<GetAllIdpsAcrossTenantsQueryHandler> logger, IPermissionChecker permission)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currentUser = currentUser;
+        _permission = permission;
         _logger = logger;
     }
 
@@ -33,7 +35,7 @@ public class GetAllIdpsAcrossTenantsQueryHandler
     {
         try
         {
-            CrossTenantAccessGuard.Require(_currentUser);
+            await CrossTenantAccessGuard.RequireAsync(_currentUser, _permission, cancellationToken);
 
             var idps = await _unitOfWork.Idps.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 

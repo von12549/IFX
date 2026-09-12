@@ -22,6 +22,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdWithTenantsAndDepartmentsAsync(Guid id, CancellationToken cancellationToken = default)
         => await _context.Users
+            .Include(u => u.Roles)
+            .Include(u => u.RoleGroups)
             .Include(u => u.Tenants)
             .Include(u => u.Departments)
             .Include(u => u.Identities)
@@ -29,6 +31,8 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdWithRolesAndGroupsAsync(Guid id, CancellationToken cancellationToken = default)
         => await _context.Users
+            .Include(u => u.Tenants)
+            .Include(u => u.Departments)
             .Include(u => u.Roles).ThenInclude(r => r.Permissions)
             .Include(u => u.RoleGroups).ThenInclude(g => g.Roles).ThenInclude(r => r.Permissions)
             .Include(u => u.Identities)

@@ -12,6 +12,7 @@ public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
         builder.ToTable("Tenants", ModuleDatabase.Schema);
 
         builder.HasKey(t => t.Id);
+        builder.Property(t => t.IsActive).IsRequired().HasDefaultValue(true).HasSentinel(true);
 
         builder.Property(t => t.Name)
             .IsRequired()

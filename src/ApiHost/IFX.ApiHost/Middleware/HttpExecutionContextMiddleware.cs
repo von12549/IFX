@@ -148,7 +148,7 @@ public sealed class HttpExecutionContextMiddleware(RequestDelegate next)
                 return null;
             }
 
-            if (!currentUser.IsGlobalAdmin && !identityFacts.IsTenantMember(tenantId))
+            if (!identityFacts.IsTenantMember(tenantId))
             {
                 await HttpBoundaryResponse.WriteAsync(
                     context,

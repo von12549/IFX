@@ -5,8 +5,8 @@
     {
       "module": "Auth",
       "order": 10,
-      "dbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
-      "migrationAssembly": "IFX.Modules.Auth.Infrastructure",
+      "dbContext": "IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext",
+      "migrationAssembly": "IFX.Modules.IAM.Infrastructure",
       "schema": "auth",
       "historyTable": "auth.__EFMigrationsHistory",
       "connectionKey": "AuthDatabase",
@@ -14,8 +14,8 @@
         {
           "MigrationId": "20260327075710_InitialCreate",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
-          "SourceSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075710_InitialCreate.cs",
+          "SourceSha256": "02a1a2619ac204733f27922b2ee21a00fc35fbb76c64405462e8679dddf5d5f4",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -26,8 +26,8 @@
         {
           "MigrationId": "20260327075811_InitialSeed",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
-          "SourceSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260327075811_InitialSeed.cs",
+          "SourceSha256": "584cc969ca90b78aa128c82316b95163e5669317d541f23646de0bce39a0257b",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -38,8 +38,8 @@
         {
           "MigrationId": "20260413100000_CrmPolicyDefinitionSeeds",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
-          "SourceSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260413100000_CrmPolicyDefinitionSeeds.cs",
+          "SourceSha256": "d9419ffaa11865a2288c904b21fa1ee1702eae46df847db5d7a6d2a323a4a16c",
           "Risk": {
             "Level": "medium",
             "Signals": [
@@ -50,8 +50,8 @@
         {
           "MigrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
-          "SourceSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260420042950_AlterAuditColumnsToDateTimeOffset.cs",
+          "SourceSha256": "055f7c88445f56478f8ff92bea84feb0b76c7b95a45b5231477863e227d3fc8b",
           "Risk": {
             "Level": "high",
             "Signals": [
@@ -62,12 +62,24 @@
         {
           "MigrationId": "20260908015924_RemoveLoginEventSecrets",
           "ProductVersion": "8.0.0",
-          "Source": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
-          "SourceSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs",
+          "SourceSha256": "56616ad939378853468d651ab1658a20f7706c9d66e5ec333aea1ccc4647fbf7",
           "Risk": {
             "Level": "high",
             "Signals": [
               "destructive-or-rename-ddl"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260912101127_EnforceActiveTenantMembership",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260912101127_EnforceActiveTenantMembership.cs",
+          "SourceSha256": "bc6ec9bc68df56df223a261c40e76db6a7c87eb46ab8edbec77a42d38910f879",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "schema-lock"
             ]
           }
         }
@@ -153,6 +165,18 @@
               "alter-column-lock-and-conversion"
             ]
           }
+        },
+        {
+          "MigrationId": "20260908100951_Plan02ReliableOutbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Migrations/20260908100951_Plan02ReliableOutbox.cs",
+          "SourceSha256": "50707ede8720138eb32f509a12b1ce39556acbc5eb91dfac75258f92d4c70242",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
+            ]
+          }
         }
       ]
     },
@@ -186,6 +210,18 @@
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100954_Plan02ReliableInbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Migrations/20260908100954_Plan02ReliableInbox.cs",
+          "SourceSha256": "5975de1347c5f2ab2a59d42cdb6b2558f39efaea3a84830b212208fe01d1f375",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }
@@ -234,6 +270,18 @@
             "Level": "high",
             "Signals": [
               "alter-column-lock-and-conversion"
+            ]
+          }
+        },
+        {
+          "MigrationId": "20260908100947_Plan02ReliableOutbox",
+          "ProductVersion": "8.0.0",
+          "Source": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/Migrations/20260908100947_Plan02ReliableOutbox.cs",
+          "SourceSha256": "c25e2a7d28a81d7d784b4c2e4d4b0d0c7a46c62c52059b2ce7d1564a20ad9dda",
+          "Risk": {
+            "Level": "medium",
+            "Signals": [
+              "index-build-lock"
             ]
           }
         }

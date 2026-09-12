@@ -1,5 +1,6 @@
 using IFX.Modules.IAM.Application.Identity.Commands.ProvisionSsoUser;
 using IFX.Modules.IAM.Application.Common;
+using IFX.Modules.IAM.Application.Identity.Services;
 using IFX.Modules.IAM.Application.Identity.DTOs;
 using IFX.Modules.IAM.Application.Identity.Interfaces;
 using IFX.Modules.IAM.Application.Identity.Ports;
@@ -47,33 +48,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
             if (user != null)
             {
                 if (!user.IsActive) return Result<UserAuthResult>.Failure("Local account is inactive");
-                var allRoles = user.Roles
-                    .Concat(user.RoleGroups.SelectMany(g => g.Roles))
-                    .ToList();
-
-                var permissions = allRoles
-                    .SelectMany(r => r.Permissions)
-                    .Select(p => p.Name)
-                    .Distinct()
-                    .ToList();
-
-                var roleNames = allRoles.Select(r => r.Name).Distinct().ToList();
-                var departmentNames = user.Departments.Select(d => d.Name).Distinct().ToList();
-
-                _logger.LogDebug(
-                    "Found existing user {UserId} with {PermissionCount} permissions for {Issuer}/{Subject}",
-                    user.Id, permissions.Count, request.Issuer, request.Subject);
-
-                return Result<UserAuthResult>.Success(new UserAuthResult
-                {
-                    UserId = user.Id,
-                    PrimaryTenantId = user.PrimaryTenantId,
-                    TenantIds = user.Tenants.Select(t => t.Id).ToList(),
-                    PermissionNames = permissions,
-                    RoleNames = roleNames,
-                    DepartmentNames = departmentNames,
-                    WasProvisioned = false
-                });
+                return Result<UserAuthResult>.Success(LocalAdmissionFacts.From(user));
             }
 
             // 2. User not found - check if auto-provisioning is enabled
@@ -176,20 +151,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                         "SSO provisioning race condition resolved for {Issuer}/{Subject} — returning user created by concurrent request",
                         request.Issuer, request.Subject);
 
-                    var concurrentAllRoles = concurrentUser.Roles
-                        .Concat(concurrentUser.RoleGroups.SelectMany(g => g.Roles))
-                        .ToList();
-
-                    return Result<UserAuthResult>.Success(new UserAuthResult
-                    {
-                        UserId = concurrentUser.Id,
-                        PrimaryTenantId = concurrentUser.PrimaryTenantId,
-                        TenantIds = concurrentUser.Tenants.Select(t => t.Id).ToList(),
-                        PermissionNames = concurrentAllRoles.SelectMany(r => r.Permissions).Select(p => p.Name).Distinct().ToList(),
-                        RoleNames = concurrentAllRoles.Select(r => r.Name).Distinct().ToList(),
-                        DepartmentNames = concurrentUser.Departments.Select(d => d.Name).Distinct().ToList(),
-                        WasProvisioned = false
-                    });
+                    return Result<UserAuthResult>.Success(LocalAdmissionFacts.From(concurrentUser));
                 }
 
                 _logger.LogWarning("SSO user provisioning failed: {Error}", provisionResult.Error);
@@ -203,13 +165,10 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                 request.Issuer,
                 request.Subject);
 
-            return Result<UserAuthResult>.Success(new UserAuthResult
-            {
-                UserId = provisionResult.Value.UserId,
-                PermissionNames = provisionResult.Value.PermissionNames,
-                RoleNames = provisionResult.Value.RoleNames,
-                WasProvisioned = provisionResult.Value.WasProvisioned
-            });
+            var admitted = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(request.Issuer, request.Subject, cancellationToken);
+            return admitted is { IsActive: true }
+                ? Result<UserAuthResult>.Success(LocalAdmissionFacts.From(admitted, provisionResult.Value.WasProvisioned))
+                : Result<UserAuthResult>.Failure("Local admission facts are unavailable.");
         }
         catch (Exception ex)
         {

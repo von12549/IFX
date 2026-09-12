@@ -42,7 +42,10 @@ public class AssignRoleGroupsToUserCommandHandlerTests
     public async Task Handle_WithValidUserAndGroups_AssignsAndReturnsTrue()
     {
         var user = new UserBuilder().Active().Build();
-        var group = RoleGroup.Create("Managers", "Managers", Guid.NewGuid());
+        var tenant = Tenant.Create("Member tenant", "test");
+        user.AddTenant(tenant);
+        _currentUser.SetupGet(u => u.TenantId).Returns(tenant.Id);
+        var group = RoleGroup.Create("Managers", "Managers", tenant.Id);
         _users.Setup(u => u.GetByIdWithRolesAndGroupsAsync(user.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(user);
         _groups.Setup(g => g.GetByIdAsync(group.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(group);
@@ -72,6 +75,9 @@ public class AssignRoleGroupsToUserCommandHandlerTests
     public async Task Handle_WhenGroupNotFound_ReturnsFailure()
     {
         var user = new UserBuilder().Active().Build();
+        var tenant = Tenant.Create("Member tenant", "test");
+        user.AddTenant(tenant);
+        _currentUser.SetupGet(u => u.TenantId).Returns(tenant.Id);
         var missingGroupId = Guid.NewGuid();
         _users.Setup(u => u.GetByIdWithRolesAndGroupsAsync(user.Id, It.IsAny<CancellationToken>()))
               .ReturnsAsync(user);

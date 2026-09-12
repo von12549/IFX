@@ -6,4 +6,7 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.Roles.Commands.AssignPermissionsToRole;
 
-public record AssignPermissionsToRoleCommand(Guid RoleId, List<Guid> PermissionIds) : ICommand<Result<RoleDetailDto>, AuthTransactionOwner>;
+public record AssignPermissionsToRoleCommand(Guid RoleId, List<Guid> PermissionIds) : ICommand<Result<RoleDetailDto>, AuthTransactionOwner>
+{
+    public IFX.BuildingBlocks.Application.Transactions.TransactionProfile TransactionProfile => IFX.BuildingBlocks.Application.Transactions.TransactionProfile.ConsistentReadWrite;
+}

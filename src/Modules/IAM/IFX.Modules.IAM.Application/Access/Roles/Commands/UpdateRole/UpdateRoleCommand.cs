@@ -6,4 +6,7 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.Roles.Commands.UpdateRole;
 
-public record UpdateRoleCommand(Guid RoleId, string Name, string Description, Guid TenantId) : ICommand<Result<RoleDto>, AuthTransactionOwner>;
+public record UpdateRoleCommand(Guid RoleId, string Name, string Description, Guid TenantId) : ICommand<Result<RoleDto>, AuthTransactionOwner>
+{
+    public IFX.BuildingBlocks.Application.Transactions.TransactionProfile TransactionProfile => IFX.BuildingBlocks.Application.Transactions.TransactionProfile.ConsistentReadWrite;
+}

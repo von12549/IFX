@@ -39,7 +39,10 @@ public class IfxDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(IfxDbContext).Assembly);
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override int SaveChanges() => SaveChanges(true);
+    public override int SaveChanges(bool acceptAllChangesOnSuccess) => SaveChangesAsync(acceptAllChangesOnSuccess).GetAwaiter().GetResult();
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) => SaveChangesAsync(true, cancellationToken);
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         // Automatically set CreatedAt/UpdatedAt for auditable entities
         var entries = ChangeTracker.Entries<IAuditableEntity>();
@@ -57,6 +60,13 @@ public class IfxDbContext : DbContext
             }
         }
 
-        return base.SaveChangesAsync(cancellationToken);
+        if (!Database.IsRelational()) return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        var membershipChanges = MembershipPersistenceValidation.Capture(this);
+        await using var ownedTransaction = Database.CurrentTransaction is null
+            ? await Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, cancellationToken) : null;
+        var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        await membershipChanges.ValidateAsync(this, cancellationToken);
+        if (ownedTransaction is not null) await ownedTransaction.CommitAsync(cancellationToken);
+        return result;
     }
 }

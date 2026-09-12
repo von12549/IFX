@@ -1,16 +1,21 @@
 using System.Security.Claims;
 using IFX.BuildingBlocks.Application.Context;
 using Microsoft.AspNetCore.Http;
+using IFX.Platform.Context.Contracts;
 
 namespace IFX.Modules.IAM.Infrastructure.Access;
 
-public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor) : IExecutionIdentityFacts
+public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor, IExecutionContextAccessor? execution = null) : IExecutionIdentityFacts
 {
     public ClaimsPrincipal? Principal => httpContextAccessor.HttpContext?.User;
 
-    public bool IsAuthenticated => Principal?.Identity?.IsAuthenticated == true;
+    public bool IsAuthenticated => httpContextAccessor.HttpContext is not null
+        ? Principal?.Identity?.IsAuthenticated == true
+        : execution?.HasCurrent == true && execution.Current.Provenance == ContextProvenance.Trusted &&
+          execution.Current.Actor.Kind == ActorKind.User && Guid.TryParse(execution.Current.Actor.Id, out var id) && id != Guid.Empty;
 
-    public Guid UserId => TryGetGuid("user_id");
+    public Guid UserId => httpContextAccessor.HttpContext is not null ? TryGetGuid("user_id") :
+        IsAuthenticated && Guid.TryParse(execution!.Current.Actor.Id, out var id) ? id : Guid.Empty;
 
     public IReadOnlyCollection<string> Departments => GetValues("department");
 

@@ -1,4 +1,6 @@
 using IFX.BuildingBlocks.Composition;
+using IFX.BuildingBlocks.Application.Context;
+using IFX.Modules.IAM.Infrastructure.Access;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Ports.Authorization;
 
@@ -173,6 +175,11 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
+            // Routing tests inject test identities; production VerifiedIdentityFacts has dedicated storage tests.
+            services.RemoveAll<IExecutionIdentityFacts>();
+            services.AddScoped<IExecutionIdentityFacts>(sp => sp.GetRequiredService<HttpIdentityFacts>());
+            services.RemoveAll<ICurrentUser>();
+            services.AddScoped<ICurrentUser, RoutingTestCurrentUser>();
             // Remove UserPermissionClaimsTransformation to prevent DB calls during test auth
             services.RemoveAll<IClaimsTransformation>();
             services.RemoveAll<IResourceAuthorizationService>();
@@ -235,6 +242,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
     }
 
+    private sealed class RoutingTestCurrentUser(HttpIdentityFacts facts, ExecutionTenantSelection selection) : ICurrentUser
+    {
+        public bool IsAuthenticated => facts.IsAuthenticated;
+        public Guid UserId => facts.UserId;
+        public Guid? TenantId => selection.ResolveTenantId();
+        public IReadOnlyCollection<string> Departments => facts.Departments;
+        public IReadOnlyCollection<string> Roles => facts.Roles;
+        public IReadOnlyCollection<string> Permissions => facts.Permissions;
+        public IReadOnlyList<string> GlobalRoles => [];
+        public bool IsGlobalAdmin => false;
+        public bool MfaEnabled => facts.MfaEnabled;
+    }
     private sealed class AllowAllResourceAuthorizationService : IResourceAuthorizationService, IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract
     {
         public Task<IFX.Modules.IAM.Contracts.V1.Authorization.ResourceAuthorizationResponse> AuthorizeAsync(IFX.Modules.IAM.Contracts.V1.Authorization.ResourceAuthorizationRequest request, IFX.Platform.Context.Contracts.Context.ContractRequestContext context, CancellationToken ct = default) => Task.FromResult(new IFX.Modules.IAM.Contracts.V1.Authorization.ResourceAuthorizationResponse(true, "test_only"));

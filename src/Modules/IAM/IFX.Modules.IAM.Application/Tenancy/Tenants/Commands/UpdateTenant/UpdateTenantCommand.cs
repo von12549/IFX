@@ -6,4 +6,7 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Tenancy.Tenants.Commands.UpdateTenant;
 
-public record UpdateTenantCommand(Guid TenantId, string Name, string Description) : ICommand<Result<TenantDto>, AuthTransactionOwner>;
+public record UpdateTenantCommand(Guid TenantId, string Name, string Description, bool? IsActive = null) : ICommand<Result<TenantDto>, AuthTransactionOwner>
+{
+    public IFX.BuildingBlocks.Application.Transactions.TransactionProfile TransactionProfile => IFX.BuildingBlocks.Application.Transactions.TransactionProfile.ConsistentReadWrite;
+}

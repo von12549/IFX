@@ -22,35 +22,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedAt).IsRequired();
         builder.Property(u => u.UpdatedAt).IsRequired();
 
-        // Many-to-many: User ↔ Role
-        builder.HasMany(u => u.Roles)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("UserRoles", ModuleDatabase.Schema));
-
-        // Many-to-many: User ↔ RoleGroup
-        builder.HasMany(u => u.RoleGroups)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("UserRoleGroups", ModuleDatabase.Schema));
-
-        // Many-to-many: User ↔ Tenant
-        builder.HasMany(u => u.Tenants)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("UserTenants", ModuleDatabase.Schema));
-
-        // Many-to-many: User ↔ Department
-        builder.HasMany(u => u.Departments)
-            .WithMany()
-            .UsingEntity(j => j.ToTable("UserDepartments", ModuleDatabase.Schema));
-
-        // Primary tenant (nullable FK)
-        builder.Property(u => u.PrimaryTenantId);
-
-        builder.HasOne<IFX.Modules.IAM.Domain.Tenancy.Tenant>()
-            .WithMany()
-            .HasForeignKey(u => u.PrimaryTenantId)
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.SetNull);
-
         // Identities (inverse of UserIdentity.User)
         builder.HasMany(u => u.Identities)
             .WithOne(ui => ui.User)

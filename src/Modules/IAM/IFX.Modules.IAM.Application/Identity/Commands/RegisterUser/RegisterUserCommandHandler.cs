@@ -31,6 +31,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
                 return Result<RegisterUserResponse>.Failure("System configuration error. Please contact support.");
             }
 
+            var tenant = await _unitOfWork.Tenants.GetByIdAsync(primaryIdp.TenantId, cancellationToken);
+            if (tenant is null || !tenant.IsActive) return Result<RegisterUserResponse>.Failure("Identity provider tenant is unavailable.");
             // Check if user already exists
             var existingUser = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, primaryIdp.Id, cancellationToken);
             if (existingUser != null)
@@ -56,6 +58,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             // Create User entity
             var displayName = $"{request.FirstName} {request.LastName}";
             var user = User.Create(displayName, isActive: false); // Will be activated after confirmation
+            user.AddTenant(tenant);
+            user.SetPrimaryTenant(tenant.Id);
             user.AddRole(userRole);
             user.CreatedBy = user.Id; // self-created
             await _unitOfWork.Users.AddAsync(user, cancellationToken);

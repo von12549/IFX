@@ -14,47 +14,53 @@ public sealed class CrossTenantAccessGuardTests
     [InlineData(GlobalRoleNames.PlatformAdmin)]
     [InlineData(GlobalRoleNames.PlatformSupport)]
     [InlineData(GlobalRoleNames.PlatformAuditor)]
-    public void Require_WithApprovedRoleAndPermission_AllowsAccess(string globalRole)
+    public async Task Require_WithApprovedRoleAndPermission_AllowsAccess(string globalRole)
     {
         var currentUser = CreateCurrentUser(true, Guid.NewGuid(), [globalRole], [CrossTenantAccessGuard.RequiredPermission]);
 
-        var action = () => CrossTenantAccessGuard.Require(currentUser.Object);
+        var action = () => CrossTenantAccessGuard.RequireAsync(currentUser.Object, Permission(currentUser.Object));
 
-        action.Should().NotThrow();
+        await action.Should().NotThrowAsync();
     }
 
     [Fact]
-    public void Require_WithoutPermission_FailsClosed()
+    public async Task Require_WithoutPermission_FailsClosed()
     {
         var currentUser = CreateCurrentUser(true, Guid.NewGuid(), [GlobalRoleNames.PlatformAdmin], []);
 
-        var action = () => CrossTenantAccessGuard.Require(currentUser.Object);
+        var action = () => CrossTenantAccessGuard.RequireAsync(currentUser.Object, Permission(currentUser.Object));
 
-        action.Should().Throw<ForbiddenException>();
+        await action.Should().ThrowAsync<ForbiddenException>();
     }
 
     [Fact]
-    public void Require_WithUnknownGlobalRole_FailsClosed()
+    public async Task Require_WithUnknownGlobalRole_FailsClosed()
     {
         var currentUser = CreateCurrentUser(true, Guid.NewGuid(), ["UnregisteredPlatformRole"], [CrossTenantAccessGuard.RequiredPermission]);
 
-        var action = () => CrossTenantAccessGuard.Require(currentUser.Object);
+        var action = () => CrossTenantAccessGuard.RequireAsync(currentUser.Object, Permission(currentUser.Object));
 
-        action.Should().Throw<ForbiddenException>();
+        await action.Should().ThrowAsync<ForbiddenException>();
     }
 
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public void Require_WithMissingTrustedActor_FailsClosed(bool authenticated)
+    public async Task Require_WithMissingTrustedActor_FailsClosed(bool authenticated)
     {
         var currentUser = CreateCurrentUser(authenticated, Guid.Empty, [GlobalRoleNames.PlatformAdmin], [CrossTenantAccessGuard.RequiredPermission]);
 
-        var action = () => CrossTenantAccessGuard.Require(currentUser.Object);
+        var action = () => CrossTenantAccessGuard.RequireAsync(currentUser.Object, Permission(currentUser.Object));
 
-        action.Should().Throw<ForbiddenException>();
+        await action.Should().ThrowAsync<ForbiddenException>();
     }
 
+    private static IPermissionChecker Permission(ICurrentUser user)
+    {
+        var permission = new Mock<IPermissionChecker>();
+        permission.Setup(p => p.HasPermissionAsync(CrossTenantAccessGuard.RequiredPermission, It.IsAny<CancellationToken>())).ReturnsAsync(user.Permissions.Contains(CrossTenantAccessGuard.RequiredPermission));
+        return permission.Object;
+    }
     private static Mock<ICurrentUser> CreateCurrentUser(
         bool authenticated,
         Guid userId,
@@ -82,13 +88,13 @@ public sealed class CrossTenantAccessGuardTests
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public void RequireTenant_WithoutTrustedTenant_FailsClosed(bool authenticated)
+    public async Task RequireTenant_WithoutTrustedTenant_FailsClosed(bool authenticated)
     {
         var currentUser = CreateCurrentUser(authenticated, Guid.NewGuid(), [], []);
         currentUser.SetupGet(x => x.TenantId).Returns((Guid?)null);
 
-        var action = () => TenantAccessGuard.RequireTenant(currentUser.Object);
+        Func<Task> action = () => Task.FromResult(TenantAccessGuard.RequireTenant(currentUser.Object));
 
-        action.Should().Throw<ForbiddenException>();
+        await action.Should().ThrowAsync<ForbiddenException>();
     }
 }

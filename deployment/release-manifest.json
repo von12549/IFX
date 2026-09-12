@@ -1,20 +1,21 @@
 {
   "formatVersion": 1,
-  "releaseVersion": "plan02-b3",
-  "migrationCatalogSha256": "846b7b0812b7d7b3ab9a88e7ec5fce0a7faa84aa8978ca19e0c89d8746d8d85f",
+  "releaseVersion": "plan05-s5",
+  "migrationCatalogSha256": "6adeef32d663488332e739b9baa02c400eea10af090b015d70d616cdd2847d07",
   "modules": [
     {
       "moduleName": "Auth",
       "schema": "auth",
       "historyTable": "__EFMigrationsHistory",
       "runtimeConnectionKey": "AuthDatabase",
-      "requiredMigrationId": "20260908015924_RemoveLoginEventSecrets",
+      "requiredMigrationId": "20260912101127_EnforceActiveTenantMembership",
       "requiredMigrationIds": [
         "20260327075710_InitialCreate",
         "20260327075811_InitialSeed",
         "20260413100000_CrmPolicyDefinitionSeeds",
         "20260420042950_AlterAuditColumnsToDateTimeOffset",
-        "20260908015924_RemoveLoginEventSecrets"
+        "20260908015924_RemoveLoginEventSecrets",
+        "20260912101127_EnforceActiveTenantMembership"
       ],
       "compatibleAdditionalMigrationIds": []
     },

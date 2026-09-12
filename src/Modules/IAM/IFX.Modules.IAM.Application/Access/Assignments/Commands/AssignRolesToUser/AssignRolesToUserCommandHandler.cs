@@ -26,7 +26,7 @@ public class AssignRolesToUserCommandHandler : IRequestHandler<AssignRolesToUser
         {
             var tenantId = TenantAccessGuard.RequireTenant(_currentUser);
             var user = await _unitOfWork.Users.GetByIdWithRolesAndGroupsAsync(request.UserId, cancellationToken);
-            if (user == null)
+            if (user == null || !user.IsActive || !user.Tenants.Any(t => t.Id == tenantId && t.IsActive))
                 return Result<bool>.Failure("User not found");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("user", "manage", new UserResourceAttributes(user.Id, _currentUser.TenantId), ct: cancellationToken);
             foreach (var roleId in request.RoleIds)

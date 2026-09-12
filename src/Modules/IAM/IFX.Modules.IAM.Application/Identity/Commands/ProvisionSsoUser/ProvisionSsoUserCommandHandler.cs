@@ -1,4 +1,5 @@
 using IFX.Modules.IAM.Application.Common;
+using IFX.Modules.IAM.Application.Identity.Services;
 using IFX.Modules.IAM.Application.Identity.DTOs;
 using IFX.Modules.IAM.Application.Identity.Interfaces;
 using IFX.Modules.IAM.Application.Interfaces;
@@ -21,22 +22,23 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
     public async Task<Result<ProvisionSsoUserResponse>> Handle(ProvisionSsoUserCommand request, CancellationToken cancellationToken)
     {
         {
+            var idp = await _unitOfWork.Idps.GetEnabledByIssuerAsync(request.Issuer, cancellationToken);
+            if (idp is null || idp.Id != request.IdpId) return Result<ProvisionSsoUserResponse>.Failure("Untrusted identity provider.");
             // Check if user already exists by issuer/subject
             var existingUser = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(request.Issuer, request.Subject, cancellationToken);
             if (existingUser != null)
             {
+                if (!existingUser.IsActive) return Result<ProvisionSsoUserResponse>.Failure("Local account is inactive.");
                 var existingIdentity = existingUser.Identities.FirstOrDefault(i => i.Issuer == request.Issuer && i.Subject.Value == request.Subject);
-                var existingPermissions = existingUser.Roles.Concat(existingUser.RoleGroups.SelectMany(g => g.Roles)).SelectMany(r => r.Permissions).Select(p => p.Name).Distinct().ToList();
+                var existingPermissions = LocalAdmissionFacts.From(existingUser).PermissionNames;
                 return Result<ProvisionSsoUserResponse>.Success(new ProvisionSsoUserResponse { UserId = existingUser.Id, UserIdentityId = existingIdentity?.Id ?? Guid.Empty, PermissionNames = existingPermissions, WasProvisioned = false, RequiresEmailVerification = existingIdentity != null && !existingIdentity.EmailVerified, Email = existingIdentity?.Email?.Value });
             }
 
             // Always assign "PendingUser" role for auto-provisioned users
             const string roleName = "PendingUser";
-            var idp = await _unitOfWork.Idps.GetEnabledByIssuerAsync(request.Issuer, cancellationToken);
-            if (idp is null || idp.Id != request.IdpId)
-            {
-                return Result<ProvisionSsoUserResponse>.Failure("Identity provider is not enabled or does not match the trusted issuer.");
-            }
+            if (!idp.AutoProvisionEnabled) return Result<ProvisionSsoUserResponse>.Failure("Auto-provisioning is disabled.");
+            var tenant = await _unitOfWork.Tenants.GetByIdAsync(idp.TenantId, cancellationToken);
+            if (tenant is null || !tenant.IsActive) return Result<ProvisionSsoUserResponse>.Failure("Identity provider tenant is unavailable.");
             var userRole = await _unitOfWork.Roles.GetByNameAsync(roleName, idp.TenantId, cancellationToken);
             if (userRole == null)
             {
@@ -48,6 +50,8 @@ public class ProvisionSsoUserCommandHandler : IRequestHandler<ProvisionSsoUserCo
             var displayName = !string.IsNullOrEmpty(request.FirstName) || !string.IsNullOrEmpty(request.LastName) ? $"{request.FirstName} {request.LastName}".Trim() : request.Email!;
             // Create User entity
             var user = User.Create(displayName, isActive: true); // SSO users are active immediately
+            user.AddTenant(tenant);
+            user.SetPrimaryTenant(tenant.Id);
             user.AddRole(userRole);
             user.CreatedBy = user.Id; // self-provisioned
             await _unitOfWork.Users.AddAsync(user, cancellationToken);

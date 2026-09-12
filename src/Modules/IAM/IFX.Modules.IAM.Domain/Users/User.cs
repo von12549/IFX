@@ -58,6 +58,7 @@ public class User : BaseEntity, IAuditableEntity
 
     public void AddRole(Role role)
     {
+        RequireMembership(role.TenantId);
         if (!_roles.Any(r => r.Id == role.Id))
             _roles.Add(role);
     }
@@ -71,6 +72,8 @@ public class User : BaseEntity, IAuditableEntity
 
     public void AddRoleGroup(RoleGroup group)
     {
+        RequireMembership(group.TenantId);
+        if (group.Roles.Any(r => r.TenantId != group.TenantId)) throw new InvalidOperationException("Role group contains a cross-tenant role.");
         if (!_roleGroups.Any(g => g.Id == group.Id))
             _roleGroups.Add(group);
     }
@@ -84,12 +87,17 @@ public class User : BaseEntity, IAuditableEntity
 
     public void AddTenant(Tenant tenant)
     {
+        if (!tenant.IsActive) throw new InvalidOperationException("Tenant is inactive.");
         if (!_tenants.Any(t => t.Id == tenant.Id))
             _tenants.Add(tenant);
     }
 
     public void RemoveTenant(Guid tenantId)
     {
+        _roles.RemoveAll(r => r.TenantId == tenantId);
+        _roleGroups.RemoveAll(g => g.TenantId == tenantId);
+        _departments.RemoveAll(d => d.TenantId == tenantId);
+        if (PrimaryTenantId == tenantId) PrimaryTenantId = null;
         var tenant = _tenants.FirstOrDefault(t => t.Id == tenantId);
         if (tenant != null)
             _tenants.Remove(tenant);
@@ -97,11 +105,21 @@ public class User : BaseEntity, IAuditableEntity
 
     public void SetPrimaryTenant(Guid tenantId)
     {
+        RequireMembership(tenantId);
         PrimaryTenantId = tenantId;
+    }
+
+    public void ClearPrimaryTenant() => PrimaryTenantId = null;
+
+    private void RequireMembership(Guid tenantId)
+    {
+        if (tenantId == Guid.Empty || !_tenants.Any(t => t.Id == tenantId && t.IsActive))
+            throw new InvalidOperationException("An active tenant membership is required.");
     }
 
     public void AddDepartment(Department department)
     {
+        RequireMembership(department.TenantId);
         if (!_departments.Any(d => d.Id == department.Id))
             _departments.Add(department);
     }

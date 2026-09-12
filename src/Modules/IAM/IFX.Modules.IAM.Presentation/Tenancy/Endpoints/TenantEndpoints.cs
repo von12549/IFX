@@ -68,7 +68,7 @@ public static class TenantEndpoints
     {
         logger.LogInformation("Updating tenant: {TenantId}", tenantId);
 
-        var result = await mediator.Send(new UpdateTenantCommand(tenantId, request.Name, request.Description));
+        var result = await mediator.Send(new UpdateTenantCommand(tenantId, request.Name, request.Description, request.IsActive));
 
         if (!result.IsSuccess)
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));

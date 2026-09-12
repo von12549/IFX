@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S2",
   "asOf": "2026-09-10",
-  "inventorySha256": "7f09cf96d75be63e2d2bb3efa5fda41d2f371f3b9292a90ef27928b02a9afeab",
+  "inventorySha256": "02309107dc55b7f1565c7867770cf7ad4ce9678f31edfa4debe014244b6e4092",
   "decisionPolicy": {
     "allowedConclusions": [
       "retain",
@@ -291,5 +291,5 @@
     }
   ],
   "gov4Closure": "approval-pending",
-  "plan05Review": "Phase 4 changes IAM policy semantics within the Phase 3 dependency boundary. Five data owners, eight business protocol edges and the absence of synchronous cycles remain unchanged. Protocols remain Proposed; no functional or production approval is inferred."
+  "plan05Review": "Phase 5 evolves existing IAM membership joins, current subject facts and atomic assignment/exit checks. Five data owners and eight business protocol edges remain unchanged. Cross-tenant inventory retains Platform.GlobalRole:manage and its existing bounded registry; no permission expansion or approval is inferred."
 }

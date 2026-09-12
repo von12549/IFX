@@ -1,0 +1,32 @@
+[
+  {
+    "migrationId": "20260327075710_InitialCreate",
+    "previousSha256": "2e51f196169e672e1d122b5ccc1a359ec3d7abfb5baa91f377cd612e920e9045",
+    "currentSha256": "02a1a2619ac204733f27922b2ee21a00fc35fbb76c64405462e8679dddf5d5f4",
+    "verifiedChange": "Auth-to-IAM namespace only; Up/Down and existing approval metadata unchanged"
+  },
+  {
+    "migrationId": "20260327075811_InitialSeed",
+    "previousSha256": "fba910ee4b157077909ed82860a7c178c6920789d424205f1b256b269fca300e",
+    "currentSha256": "584cc969ca90b78aa128c82316b95163e5669317d541f23646de0bce39a0257b",
+    "verifiedChange": "Auth-to-IAM namespace only; Up/Down and existing approval metadata unchanged"
+  },
+  {
+    "migrationId": "20260413100000_CrmPolicyDefinitionSeeds",
+    "previousSha256": "6d53e95e92f336383e9014e6dcbc1ecec6ddd94865216201075cbd05cf33534b",
+    "currentSha256": "d9419ffaa11865a2288c904b21fa1ee1702eae46df847db5d7a6d2a323a4a16c",
+    "verifiedChange": "Auth-to-IAM namespace only; Up/Down and existing approval metadata unchanged"
+  },
+  {
+    "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+    "previousSha256": "82dbd4936a97aa530f77233deb56861c9c368d79f98527926b08ded260839980",
+    "currentSha256": "055f7c88445f56478f8ff92bea84feb0b76c7b95a45b5231477863e227d3fc8b",
+    "verifiedChange": "Auth-to-IAM namespace only; Up/Down and existing approval metadata unchanged"
+  },
+  {
+    "migrationId": "20260908015924_RemoveLoginEventSecrets",
+    "previousSha256": "1d57a07893c7eee5489fc22a604c3c6b3a3fdf46fb06db0ae2266e06cb341639",
+    "currentSha256": "56616ad939378853468d651ab1658a20f7706c9d66e5ec333aea1ccc4647fbf7",
+    "verifiedChange": "Auth-to-IAM namespace only; Up/Down and existing approval metadata unchanged"
+  }
+]

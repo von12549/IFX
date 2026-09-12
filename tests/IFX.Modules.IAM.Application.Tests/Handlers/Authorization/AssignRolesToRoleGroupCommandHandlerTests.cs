@@ -44,7 +44,7 @@ public class AssignRolesToRoleGroupCommandHandlerTests
     public async Task Handle_WithValidGroupAndRoles_AssignsAndReturnsDto()
     {
         var group = RoleGroup.Create("Managers", "Managers", Guid.NewGuid());
-        var role = new RoleBuilder().AsUser().Build();
+        var role = Role.Create("User", "test role", group.TenantId);
         _groups.Setup(g => g.GetByIdWithRolesAsync(group.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(group);
         _roles.Setup(r => r.GetByIdAsync(role.Id, It.IsAny<Guid>(), It.IsAny<CancellationToken>())).ReturnsAsync(role);
         _mapper.Setup(m => m.Map<RoleGroupDto>(group)).Returns(new RoleGroupDto { Id = group.Id });

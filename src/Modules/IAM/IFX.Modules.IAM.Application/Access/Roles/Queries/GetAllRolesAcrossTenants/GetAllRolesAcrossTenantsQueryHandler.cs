@@ -16,15 +16,17 @@ public class GetAllRolesAcrossTenantsQueryHandler
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ICurrentUser _currentUser;
+    private readonly IPermissionChecker _permission;
     private readonly ILogger<GetAllRolesAcrossTenantsQueryHandler> _logger;
 
     public GetAllRolesAcrossTenantsQueryHandler(
         IUnitOfWork unitOfWork, IMapper mapper, ICurrentUser currentUser,
-        ILogger<GetAllRolesAcrossTenantsQueryHandler> logger)
+        ILogger<GetAllRolesAcrossTenantsQueryHandler> logger, IPermissionChecker permission)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _currentUser = currentUser;
+        _permission = permission;
         _logger = logger;
     }
 
@@ -33,7 +35,7 @@ public class GetAllRolesAcrossTenantsQueryHandler
     {
         try
         {
-            CrossTenantAccessGuard.Require(_currentUser);
+            await CrossTenantAccessGuard.RequireAsync(_currentUser, _permission, cancellationToken);
 
             var roles = await _unitOfWork.Roles.GetAcrossTenantsAsync(CrossTenantAccessGuard.MaximumRows, cancellationToken);
 

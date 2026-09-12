@@ -84,7 +84,7 @@ public class RoleGroupRepositoryTests : IDisposable
     public async Task GetByIdWithRolesAsync_ReturnsGroupWithRoles()
     {
         var role = new RoleBuilder().AsUser().Build();
-        var group = RoleGroup.Create("Staff", "Staff group", Guid.NewGuid());
+        var group = RoleGroup.Create("Staff", "Staff group", role.TenantId);
         await _context.Roles.AddAsync(role);
         await _context.RoleGroups.AddAsync(group);
         await _context.SaveChangesAsync();

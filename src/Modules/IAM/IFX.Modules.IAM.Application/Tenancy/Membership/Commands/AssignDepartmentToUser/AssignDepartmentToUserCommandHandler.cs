@@ -7,11 +7,13 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Tenancy.Membership.Commands.AssignDepartmentToUser;
 public class AssignDepartmentToUserCommandHandler : IRequestHandler<AssignDepartmentToUserCommand, Result<bool>>
 {
+    private readonly IPermissionChecker _permission;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
     private readonly ILogger<AssignDepartmentToUserCommandHandler> _logger;
-    public AssignDepartmentToUserCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, ILogger<AssignDepartmentToUserCommandHandler> logger)
+    public AssignDepartmentToUserCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, ILogger<AssignDepartmentToUserCommandHandler> logger, IPermissionChecker permission)
     {
+        _permission = permission;
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
         _logger = logger;
@@ -20,6 +22,7 @@ public class AssignDepartmentToUserCommandHandler : IRequestHandler<AssignDepart
     public async Task<Result<bool>> Handle(AssignDepartmentToUserCommand request, CancellationToken cancellationToken)
     {
         {
+            if (!await _permission.HasPermissionAsync("User:update", cancellationToken)) return Result<bool>.Failure("Membership management is not authorized.");
             var user = await _unitOfWork.Users.GetByIdWithTenantsAndDepartmentsAsync(request.UserId, cancellationToken);
             if (user == null)
                 return Result<bool>.Failure("User not found");

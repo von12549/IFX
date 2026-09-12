@@ -53,6 +53,7 @@ public class RoleGroup : BaseEntity, IAuditableEntity
 
     public void AddRole(Role role)
     {
+        if (role.TenantId != TenantId) throw new InvalidOperationException("Role and role group must belong to the same tenant.");
         if (!_roles.Any(r => r.Id == role.Id))
             _roles.Add(role);
     }

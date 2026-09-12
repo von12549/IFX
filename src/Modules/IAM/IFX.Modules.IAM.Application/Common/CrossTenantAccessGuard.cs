@@ -17,10 +17,10 @@ public static class CrossTenantAccessGuard
         GlobalRoleNames.PlatformAuditor
     };
 
-    public static void Require(ICurrentUser currentUser)
+    public static async Task RequireAsync(ICurrentUser currentUser, IPermissionChecker permission, CancellationToken ct = default)
     {
         var hasAllowedRole = currentUser.GlobalRoles.Any(AllowedGlobalRoles.Contains);
-        var hasPermission = currentUser.Permissions.Contains(RequiredPermission, StringComparer.OrdinalIgnoreCase);
+        var hasPermission = currentUser.TenantId is null && await permission.HasPermissionAsync(RequiredPermission, ct);
 
         if (!currentUser.IsAuthenticated || currentUser.UserId == Guid.Empty || !hasAllowedRole || !hasPermission)
         {
