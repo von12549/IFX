@@ -23,17 +23,17 @@
     {
       "authority": "G02",
       "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
-      "expectedSha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
-      "actualSha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
-      "binding": "phase0-freeze",
+      "expectedSha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
+      "actualSha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G02",
       "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
-      "expectedSha256": "b9f3c1a07b0fb9033bcf1cd0452292651bf9f121b5f7611a6ac4e112bee60ac2",
-      "actualSha256": "b9f3c1a07b0fb9033bcf1cd0452292651bf9f121b5f7611a6ac4e112bee60ac2",
-      "binding": "phase0-freeze",
+      "expectedSha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7",
+      "actualSha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {

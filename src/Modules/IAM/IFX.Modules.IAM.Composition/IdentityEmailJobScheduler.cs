@@ -5,9 +5,9 @@ using IFX.Platform.Notifications.Contracts.Models;
 
 namespace IFX.Modules.IAM.Composition;
 
-internal sealed class AuthEmailJobScheduler(IBackgroundJobService backgroundJobs) : IAuthEmailJobScheduler
+internal sealed class IdentityEmailJobScheduler(IBackgroundJobService backgroundJobs) : IIdentityEmailJobScheduler
 {
-    public string Enqueue(AuthEmailJob job) => backgroundJobs.Enqueue<IEmailService>(
+    public string Enqueue(IdentityEmailJob job) => backgroundJobs.Enqueue<IEmailService>(
         service => service.SendEmailAsync(
             new EmailMessage
             {

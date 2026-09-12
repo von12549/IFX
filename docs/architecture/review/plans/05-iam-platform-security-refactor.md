@@ -1,6 +1,6 @@
 # 子计划 5：Auth → IAM 与平台认证、授权能力拆分
 
-> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–5 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 6 装配与治理收口。
+> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–6 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 7 发布演练与最终文档。
 > 编写日期：2026-09-12；源码观察基线：`13a0a74`。
 > 来源：本次关于 Platform、Authentication、Authorization/ABAC 与 Auth 职责拆分的讨论。
 > 定位：B4 严格边界之后的独立演进计划；沿用现有 G01–G05 与 Plan 04 治理，不重写既有里程碑或声明生产验收完成。
@@ -188,11 +188,11 @@ src/Modules/IAM/
 
 ### Phase 6 — 装配、消费迁移与治理收口
 
-- [ ] IAM6.1 清理遗留 Auth/OPA 暴露与重复服务注册，保留的旧标识只存在于具名兼容清单和历史证据中。
-- [ ] IAM6.2 ApiHost/Worker 只通过 Composition 装配；IAM Runtime/平台 Runtime 无反向读取其他模块数据，无同步 provider 环。
-- [ ] IAM6.3 更新 G03 catalog/source/snapshots、G04 manifest、G05 分类/context、Plan 04 query/bypass/inventory 与数据库迁移脚本，生成新证据。
-- [ ] IAM6.4 新增针对平台实现泄漏、OPA 类型泄漏、未知属性、错误 scope、隐式 HTTP 上下文及同步环的正反验证，接入已有门禁。
-- [ ] IAM6.5 对移出的 BuildingBlocks.Security 类型逐个核对真实消费者，删除无消费者的过渡代码，不新增被禁止的 *.Abstractions 兼容项目。
+- [x] IAM6.1 清理遗留 Auth/OPA 暴露与重复服务注册，保留的旧标识只存在于具名兼容清单和历史证据中。
+- [x] IAM6.2 ApiHost/Worker 只通过 Composition 装配；IAM Runtime/平台 Runtime 无反向读取其他模块数据，无同步 provider 环。
+- [x] IAM6.3 更新 G03 catalog/source/snapshots、G04 manifest、G05 分类/context、Plan 04 query/bypass/inventory 与数据库迁移脚本，生成新证据。
+- [x] IAM6.4 新增针对平台实现泄漏、OPA 类型泄漏、未知属性、错误 scope、隐式 HTTP 上下文及同步环的正反验证，接入已有门禁。
+- [x] IAM6.5 对移出的 BuildingBlocks.Security 类型逐个核对真实消费者，删除无消费者的过渡代码，不新增被禁止的 *.Abstractions 兼容项目。
 
 验收：新图可从权威输入重建；历史 B4 证据保留，新 HEAD 有独立零违规报告；不通过清空 baseline、扩大通配许可或隐藏项目消除 finding。
 

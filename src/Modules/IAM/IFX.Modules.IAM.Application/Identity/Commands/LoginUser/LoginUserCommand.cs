@@ -10,4 +10,4 @@ public record LoginUserCommand(
     string Email,
     string Password,
     string IpAddress,
-    string UserAgent) : ICommand<Result<LoginUserResponse>, AuthTransactionOwner>;
+    string UserAgent) : ICommand<Result<LoginUserResponse>, IamTransactionOwner>;

@@ -5,4 +5,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.Policies.Commands.DeletePolicy;
 
-public record DeletePolicyCommand(Guid PolicyId) : ICommand<Result<bool>, AuthTransactionOwner>;
+public record DeletePolicyCommand(Guid PolicyId) : ICommand<Result<bool>, IamTransactionOwner>;

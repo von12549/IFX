@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
 
@@ -58,19 +57,18 @@ public sealed class AuthenticationBoundaryTests
             ["CognitoSettings:Authority"] = issuer, ["CognitoSettings:ClientId"] = "configured-client"
         }).Build();
         var services = new ServiceCollection();
-        new AuthModuleInstaller().InstallServices(services, configuration);
+        new IamModuleInstaller().InstallServices(services, configuration);
         services.AddSingleton<IConfiguration>(configuration);
         services.AddScoped(_ => work.Object);
         using var provider = services.BuildServiceProvider();
         using (var scope = provider.CreateScope())
         {
-            var entries = await scope.ServiceProvider.GetRequiredService<IAuthIdpConfigurationReader>().ReadEnabledAsync();
+            var entries = await scope.ServiceProvider.GetRequiredService<IIdentityProviderConfigurationReader>().ReadEnabledAsync();
             Assert.Contains("configured-client", entries.Single(entry => entry.Issuer == issuer).ExpectedAudiences);
             Assert.Equal("client_id", entries.Single(entry => entry.Issuer == issuer).AudienceClaim);
             Assert.Equal("[]", entries.Single(entry => entry.Issuer == external.Issuer).ExpectedAudiences);
         }
-        using var cache = new MemoryCache(new MemoryCacheOptions());
-        var host = new IdpConfigurationService(provider.GetRequiredService<IServiceScopeFactory>(), Mock.Of<IAuthIdpCacheVersion>(), cache, NullLogger<IdpConfigurationService>.Instance);
+        var host = new IdpConfigurationService(provider.GetRequiredService<IServiceScopeFactory>(), NullLogger<IdpConfigurationService>.Instance);
         Assert.NotNull(await host.GetByIssuerAsync(issuer));
         work.Setup(w => w.Idps.GetEnabledAsync(It.IsAny<CancellationToken>())).ReturnsAsync([]);
         Assert.Null(await host.GetByIssuerAsync(issuer));
@@ -92,10 +90,10 @@ public sealed class AuthenticationBoundaryTests
     [InlineData(true)]
     public async Task Local_admission_rejection_or_exception_never_preserves_authenticated_principal(bool throws)
     {
-        var facade = new Mock<IAuthUserProvisioningFacade>();
-        if (throws) facade.Setup(f => f.GetOrProvisionAsync(It.IsAny<AuthUserProvisioningRequest>(), It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException());
-        else facade.Setup(f => f.GetOrProvisionAsync(It.IsAny<AuthUserProvisioningRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new AuthUserProvisioningResult(false, "rejected", Guid.Empty, null, [], [], [], []));
+        var facade = new Mock<ILocalIdentityAdmission>();
+        if (throws) facade.Setup(f => f.GetOrProvisionAsync(It.IsAny<LocalIdentityAdmissionRequest>(), It.IsAny<CancellationToken>())).ThrowsAsync(new InvalidOperationException());
+        else facade.Setup(f => f.GetOrProvisionAsync(It.IsAny<LocalIdentityAdmissionRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new LocalIdentityAdmissionResult(false, "rejected", Guid.Empty, null, [], [], [], []));
         using var services = new ServiceCollection().AddScoped(_ => facade.Object).BuildServiceProvider();
         var http = new DefaultHttpContext();
         http.Items["IdpConfiguration"] = new IdpConfigurationEntry { Issuer = "https://issuer.example" };
@@ -104,7 +102,7 @@ public sealed class AuthenticationBoundaryTests
         var result = await transformation.TransformAsync(principal);
         Assert.False(result.Identity?.IsAuthenticated ?? false);
         Assert.Empty(result.Claims);
-        facade.Verify(f => f.GetOrProvisionAsync(It.IsAny<AuthUserProvisioningRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+        facade.Verify(f => f.GetOrProvisionAsync(It.IsAny<LocalIdentityAdmissionRequest>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     private static MessageReceivedContext Context(JwtBearerOptions options, string token)

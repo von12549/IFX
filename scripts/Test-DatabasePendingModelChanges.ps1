@@ -1,5 +1,6 @@
 param(
-    [switch] $NoBuild
+    [switch] $NoBuild,
+    [ValidateSet('Debug','Release')][string] $Configuration = 'Debug'
 )
 
 $ErrorActionPreference = "Stop"
@@ -23,6 +24,7 @@ try {
             "--project", (Join-Path $repositoryRoot $entry.Project),
             "--startup-project", $startupProject,
             "--context", $entry.Context
+            "--configuration", $Configuration
         )
         if ($NoBuild) {
             $arguments += "--no-build"

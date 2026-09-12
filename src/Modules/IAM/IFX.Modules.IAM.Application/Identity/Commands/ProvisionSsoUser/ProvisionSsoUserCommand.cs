@@ -16,4 +16,4 @@ public record ProvisionSsoUserCommand(
     string? FirstName,
     string? LastName,
     bool EmailVerified,
-    string? IpAddress) : ICommand<Result<ProvisionSsoUserResponse>, AuthTransactionOwner>;
+    string? IpAddress) : ICommand<Result<ProvisionSsoUserResponse>, IamTransactionOwner>;

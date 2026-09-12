@@ -1,6 +1,5 @@
 using IFX.Modules.IAM.Application.Ports.Authorization;
 using System.Text.Json;
-using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.DTOs;
 using IFX.Modules.IAM.Application.Common;
@@ -17,14 +16,12 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
-    private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<CreatePolicyCommandHandler> _logger;
-    public CreatePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, IAbacPolicyCache policyCache, ILogger<CreatePolicyCommandHandler> logger)
+    public CreatePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<CreatePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
         _authorizationService = authorizationService;
-        _policyCache = policyCache;
         _logger = logger;
     }
 
@@ -43,10 +40,6 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
             var conditionsJson = JsonSerializer.Serialize(request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
             var policy = PolicyDefinition.Create(request.Scope, request.TenantId, request.Name, request.ResourceType, request.Action, conditionsJson, _currentUser.UserId, request.Description);
             await _unitOfWork.PolicyDefinitions.AddAsync(policy, cancellationToken);
-            if (request.Scope == PolicyScope.Platform)
-                _policyCache.InvalidatePlatform(request.ResourceType, request.Action);
-            else
-                _policyCache.Invalidate(request.TenantId!.Value, request.ResourceType, request.Action);
             _logger.LogInformation("Policy created: {PolicyId} for {Scope} ({ResourceType}/{Action})", policy.Id, request.Scope, request.ResourceType, request.Action);
             return Result<PolicyDefinitionDto>.Success(MapToDto(policy));
         }

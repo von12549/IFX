@@ -177,7 +177,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         {
             // Routing tests inject test identities; production VerifiedIdentityFacts has dedicated storage tests.
             services.RemoveAll<IExecutionIdentityFacts>();
-            services.AddScoped<IExecutionIdentityFacts>(sp => sp.GetRequiredService<HttpIdentityFacts>());
+            services.AddScoped<RoutingTestIdentityFacts>();
+            services.AddScoped<IExecutionIdentityFacts>(sp => sp.GetRequiredService<RoutingTestIdentityFacts>());
             services.RemoveAll<ICurrentUser>();
             services.AddScoped<ICurrentUser, RoutingTestCurrentUser>();
             // Remove UserPermissionClaimsTransformation to prevent DB calls during test auth
@@ -242,7 +243,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         }
     }
 
-    private sealed class RoutingTestCurrentUser(HttpIdentityFacts facts, ExecutionTenantSelection selection) : ICurrentUser
+    private sealed class RoutingTestCurrentUser(RoutingTestIdentityFacts facts, ExecutionTenantSelection selection) : ICurrentUser
     {
         public bool IsAuthenticated => facts.IsAuthenticated;
         public Guid UserId => facts.UserId;

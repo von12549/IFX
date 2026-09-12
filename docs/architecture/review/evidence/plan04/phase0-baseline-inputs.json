@@ -198,6 +198,21 @@
           "sha256": "6d2a958e3f36ea9331e3c0b0398e837258305226c0dfc0a0e12324d039fa8906"
         }
       ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G02",
+      "reason": "Plan 05 Phase 5/6: same five schema owners and 50 entities, one additive tenant status migration (19 total); IAM source mapping and LF-normalized migration hashes. Existing migration bodies and approval metadata are unchanged. Original Phase 0 input hashes remain frozen.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+          "sha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+          "sha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7"
+        }
+      ]
     }
   ],
   "owners": [

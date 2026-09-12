@@ -53,7 +53,7 @@ public sealed class ApplicationPipelineCompositionTests(CustomWebApplicationFact
     }
 
     [Theory]
-    [InlineData(typeof(AuthTransactionOwner), "AuthTransactionExecutor")]
+    [InlineData(typeof(IamTransactionOwner), "IamTransactionExecutor")]
     [InlineData(typeof(CrmTransactionOwner), "CrmTransactionExecutor")]
     [InlineData(typeof(HoldingsTransactionOwner), "HoldingsTransactionExecutor")]
     [InlineData(typeof(RegistryTransactionOwner), "RegistryTransactionExecutor")]
@@ -126,7 +126,7 @@ public sealed class ApplicationPipelineCompositionTests(CustomWebApplicationFact
         var recorder = scope.ServiceProvider.GetRequiredService<OwnerProbeRecorder>();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-        await AssertOnlyOwnerCalledAsync<AuthTransactionOwner>(mediator, recorder);
+        await AssertOnlyOwnerCalledAsync<IamTransactionOwner>(mediator, recorder);
         await AssertOnlyOwnerCalledAsync<CrmTransactionOwner>(mediator, recorder);
         await AssertOnlyOwnerCalledAsync<HoldingsTransactionOwner>(mediator, recorder);
         await AssertOnlyOwnerCalledAsync<RegistryTransactionOwner>(mediator, recorder);
@@ -148,8 +148,8 @@ public sealed class ApplicationPipelineCompositionTests(CustomWebApplicationFact
         {
             services.AddSingleton<OwnerProbeRecorder>();
             services.AddTransient<
-                IRequestHandler<OwnerProbeCommand<AuthTransactionOwner>, ProbeResult>,
-                OwnerProbeHandler<AuthTransactionOwner>>();
+                IRequestHandler<OwnerProbeCommand<IamTransactionOwner>, ProbeResult>,
+                OwnerProbeHandler<IamTransactionOwner>>();
             services.AddTransient<
                 IRequestHandler<OwnerProbeCommand<CrmTransactionOwner>, ProbeResult>,
                 OwnerProbeHandler<CrmTransactionOwner>>();
@@ -162,7 +162,7 @@ public sealed class ApplicationPipelineCompositionTests(CustomWebApplicationFact
             services.AddTransient<
                 IRequestHandler<OwnerProbeCommand<TransactionModuleOwner>, ProbeResult>,
                 OwnerProbeHandler<TransactionModuleOwner>>();
-            ReplaceExecutor<AuthTransactionOwner>(services);
+            ReplaceExecutor<IamTransactionOwner>(services);
             ReplaceExecutor<CrmTransactionOwner>(services);
             ReplaceExecutor<HoldingsTransactionOwner>(services);
             ReplaceExecutor<RegistryTransactionOwner>(services);

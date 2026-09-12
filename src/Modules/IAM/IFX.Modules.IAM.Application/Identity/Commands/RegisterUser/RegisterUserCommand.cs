@@ -14,4 +14,4 @@ public record RegisterUserCommand(
     string LastName,
     string BirthDate,
     string PhoneNumber,
-    string IpAddress) : ICommand<Result<RegisterUserResponse>, AuthTransactionOwner>;
+    string IpAddress) : ICommand<Result<RegisterUserResponse>, IamTransactionOwner>;

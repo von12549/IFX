@@ -103,7 +103,7 @@ public static class UserManagementEndpoints
     public static async Task<IResult> SendTestEmail(
         Guid userId,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] IAuthEmailJobScheduler emailJobs,
+        [FromServices] IIdentityEmailJobScheduler emailJobs,
         [FromServices] ILogger<UserManagementEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin sending test email to user: {UserId}", userId);
@@ -130,7 +130,7 @@ public static class UserManagementEndpoints
         var userName = user.DisplayName ?? "User";
 
         // Enqueue email job on "email" queue
-        var jobId = emailJobs.Enqueue(new AuthEmailJob(
+        var jobId = emailJobs.Enqueue(new IdentityEmailJob(
             userEmail,
             userName,
             "Test Email from IFX",

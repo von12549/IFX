@@ -9,4 +9,4 @@ namespace IFX.Modules.IAM.Application.Identity.Commands.ConfirmRegistration;
 public record ConfirmRegistrationCommand(
     string Email,
     string ConfirmationCode,
-    string IpAddress) : ICommand<Result<ConfirmRegistrationResponse>, AuthTransactionOwner>;
+    string IpAddress) : ICommand<Result<ConfirmRegistrationResponse>, IamTransactionOwner>;

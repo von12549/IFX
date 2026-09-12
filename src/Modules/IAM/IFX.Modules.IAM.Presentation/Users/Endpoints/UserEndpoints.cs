@@ -49,7 +49,7 @@ public static class UserEndpoints
     public static async Task<IResult> UpdateProfile(
         [FromBody] UpdateUserProfileRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] IAuthEmailJobScheduler emailJobs,
+        [FromServices] IIdentityEmailJobScheduler emailJobs,
         [FromServices] IEmailVerificationService emailVerificationService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<UserEndpointsLogCategory> logger,
@@ -111,7 +111,7 @@ public static class UserEndpoints
                     userName, verificationResult.Value.Code, verificationLink, TokenValidityMinutes);
 
                 // Enqueue email job
-                var jobId = emailJobs.Enqueue(new AuthEmailJob(
+                var jobId = emailJobs.Enqueue(new IdentityEmailJob(
                     verificationResult.Value.Email, userName, "Verify your new email address", htmlBody, plainTextBody));
 
                 logger.LogInformation(

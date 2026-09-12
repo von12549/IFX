@@ -10,7 +10,7 @@ namespace IFX.Modules.IAM.Infrastructure.Access;
 
 /// <summary>Reads committed policies per evaluation. No cross-request cache or outage fallback.</summary>
 public sealed class DbAbacPolicyResolver(
-    IPolicyDefinitionRepository repository, IAbacTemplateRegistry templates, StaticAbacPolicyResolver defaults) : IAbacPolicyResolver, IAbacPolicyCache
+    IPolicyDefinitionRepository repository, IAbacTemplateRegistry templates, StaticAbacPolicyResolver defaults) : IAbacPolicyResolver
 {
     public void RegisterDefault(string resourceType, string action, AbacPolicy policy) => defaults.RegisterDefault(resourceType, action, policy);
 
@@ -75,7 +75,4 @@ public sealed class DbAbacPolicyResolver(
         catch (Exception) { throw new PolicyResolutionException(PolicyFailure.Invalid); }
     }
 
-    // Retained for existing management use cases; no cache exists to invalidate on any instance.
-    public void Invalidate(Guid tenantId, string resourceType, string action) { }
-    public void InvalidatePlatform(string resourceType, string action) { }
 }

@@ -5,4 +5,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.GlobalRoles.Commands.AssignGlobalRole;
 
-public record AssignGlobalRoleCommand(Guid UserId, Guid GlobalRoleId) : ICommand<Result<bool>, AuthTransactionOwner>;
+public record AssignGlobalRoleCommand(Guid UserId, Guid GlobalRoleId) : ICommand<Result<bool>, IamTransactionOwner>;

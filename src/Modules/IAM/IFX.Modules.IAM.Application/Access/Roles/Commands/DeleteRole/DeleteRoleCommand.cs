@@ -5,7 +5,7 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.Roles.Commands.DeleteRole;
 
-public record DeleteRoleCommand(Guid RoleId) : ICommand<Result<bool>, AuthTransactionOwner>
+public record DeleteRoleCommand(Guid RoleId) : ICommand<Result<bool>, IamTransactionOwner>
 {
     public IFX.BuildingBlocks.Application.Transactions.TransactionProfile TransactionProfile => IFX.BuildingBlocks.Application.Transactions.TransactionProfile.ConsistentReadWrite;
 }

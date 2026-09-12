@@ -1,13 +1,13 @@
 namespace IFX.Modules.IAM.Application.Identity.Ports;
 
-public sealed record AuthEmailJob(
+public sealed record IdentityEmailJob(
     string To,
     string? ToName,
     string Subject,
     string? HtmlBody,
     string? PlainTextBody);
 
-public interface IAuthEmailJobScheduler
+public interface IIdentityEmailJobScheduler
 {
-    string Enqueue(AuthEmailJob job);
+    string Enqueue(IdentityEmailJob job);
 }

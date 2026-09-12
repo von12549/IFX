@@ -9,7 +9,7 @@ namespace IFX.Modules.IAM.Infrastructure.Tests.Authorization;
 public sealed class HttpContextFactTests
 {
     [Fact]
-    public void Identity_facts_are_read_without_tenant_selection_policy()
+    public void Actor_facts_extract_only_authenticated_local_subject_and_MFA()
     {
         var userId = Guid.NewGuid();
         var tenantId = Guid.NewGuid();
@@ -25,10 +25,6 @@ public sealed class HttpContextFactTests
 
         facts.IsAuthenticated.Should().BeTrue();
         facts.UserId.Should().Be(userId);
-        facts.PrimaryTenantId.Should().Be(tenantId);
-        facts.IsTenantMember(tenantId).Should().BeTrue();
-        facts.Roles.Should().ContainSingle("analyst");
-        facts.Permissions.Should().ContainSingle("holdings.read");
         facts.MfaEnabled.Should().BeTrue();
     }
 

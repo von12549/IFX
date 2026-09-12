@@ -456,7 +456,7 @@ static bool IsBuildOutput(string path) =>
 
 static string Relative(string root, string path) => Path.GetRelativePath(root, path).Replace('\\', '/');
 
-static string Sha256(string path) => Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant();
+static string Sha256(string path) => Convert.ToHexString(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(path).ReplaceLineEndings("\n")))).ToLowerInvariant();
 
 internal sealed record ModuleSpec(
     string Name,

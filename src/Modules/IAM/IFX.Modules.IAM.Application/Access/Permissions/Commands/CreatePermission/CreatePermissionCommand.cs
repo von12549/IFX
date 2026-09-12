@@ -6,4 +6,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.Permissions.Commands.CreatePermission;
 
-public record CreatePermissionCommand(string Name, string Description) : ICommand<Result<PermissionDto>, AuthTransactionOwner>;
+public record CreatePermissionCommand(string Name, string Description) : ICommand<Result<PermissionDto>, IamTransactionOwner>;

@@ -13,7 +13,7 @@
     {
       "module": "Auth",
       "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
-      "sourceSha256": "055f7c88445f56478f8ff92bea84feb0b76c7b95a45b5231477863e227d3fc8b",
+      "sourceSha256": "4c13bd75690e1fa25c7bba455f2230d94ed6c6a0508841be067ae7f6cbbc5b25",
       "disposition": "pre-gate-baseline",
       "signals": [
         "alter-column-lock-and-conversion"
@@ -22,7 +22,7 @@
     {
       "module": "CRM",
       "migrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
-      "sourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b",
+      "sourceSha256": "3194017a4ab0505072d93c7e21d492eb18e122c43ed3cb66fd57f616d6ff44d3",
       "disposition": "pre-gate-baseline",
       "signals": [
         "alter-column-lock-and-conversion"
@@ -31,7 +31,7 @@
     {
       "module": "Registry",
       "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
-      "sourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd",
+      "sourceSha256": "bff238b5b8d092b7c698aff21bc93102b2557ff48da108a7d8a7d6c0b01cab02",
       "disposition": "pre-gate-baseline",
       "signals": [
         "alter-column-lock-and-conversion"
@@ -40,7 +40,7 @@
     {
       "module": "Holdings",
       "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
-      "sourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83",
+      "sourceSha256": "210a64990ff5686ce14654fa2c07360113650c1d2992110971ec93c38ba84131",
       "disposition": "pre-gate-baseline",
       "signals": [
         "alter-column-lock-and-conversion"
@@ -49,7 +49,7 @@
     {
       "module": "Transaction",
       "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
-      "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be",
+      "sourceSha256": "06a536a25bb6a29a08da8b79e86ecbc7de63ec9a47196e111d6c247bb2d57f42",
       "disposition": "pre-gate-baseline",
       "signals": [
         "alter-column-lock-and-conversion"
@@ -58,7 +58,7 @@
     {
       "module": "Auth",
       "migrationId": "20260908015924_RemoveLoginEventSecrets",
-      "sourceSha256": "56616ad939378853468d651ab1658a20f7706c9d66e5ec333aea1ccc4647fbf7",
+      "sourceSha256": "ffba17d4123b6e154615c5607442eeb131a218f9feb084f9a674742502f3dc75",
       "disposition": "approved",
       "approvalScope": "repository migration artifact only; production execution remains separately gated",
       "approvals": {

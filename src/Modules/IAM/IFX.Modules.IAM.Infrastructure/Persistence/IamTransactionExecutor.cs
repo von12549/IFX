@@ -7,11 +7,10 @@ using System.Data;
 
 namespace IFX.Modules.IAM.Infrastructure.Persistence;
 
-public sealed class AuthTransactionExecutor(
-    IfxDbContext dbContext,
-    ILogger<AuthTransactionExecutor> logger)
-    : EfCoreTransactionExecutor<AuthTransactionOwner, IfxDbContext>(dbContext, logger)
+public sealed class IamTransactionExecutor : EfCoreTransactionExecutor<IamTransactionOwner, IfxDbContext>
 {
+    private readonly IfxDbContext _context;
+    public IamTransactionExecutor(IfxDbContext dbContext, ILogger<IamTransactionExecutor> logger) : base(dbContext, logger) => _context = dbContext;
     protected override Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct) =>
-        dbContext.Database.BeginTransactionAsync(IsolationLevel.Serializable, ct);
+        _context.Database.BeginTransactionAsync(IsolationLevel.Serializable, ct);
 }

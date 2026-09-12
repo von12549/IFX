@@ -65,7 +65,7 @@ public sealed class ResourceAuthorizationService(ICurrentUser currentUser, IAbac
         ct.ThrowIfCancellationRequested();
         if (context.Version != ContractRequestContext.CurrentVersion || context.SourceSystem != "ifx" || context.SourceVersion != 1 ||
             context.SourceComponent is not ("crm" or "registry" or "holdings" or "transaction") ||
-            context.Provenance != ContractRequestContext.TrustedProvenance || !execution.HasCurrent ||
+            context.Provenance != ContractRequestContext.TrustedProvenance || context.ActorKind != "user" || !execution.HasCurrent ||
             execution.Current.Provenance != ContextProvenance.Trusted || context.ActorId != execution.Current.Actor.Id ||
             context.TenantId != execution.Current.TenantId ||
             context.Scope != (execution.Current.IsTenantScope ? ContractRequestContext.TenantScope : ContractRequestContext.PlatformScope))

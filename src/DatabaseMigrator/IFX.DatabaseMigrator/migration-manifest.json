@@ -14,32 +14,32 @@
         {
           "migrationId": "20260327075710_InitialCreate",
           "productVersion": "8.0.0",
-          "sourceSha256": "02a1a2619ac204733f27922b2ee21a00fc35fbb76c64405462e8679dddf5d5f4"
+          "sourceSha256": "30a19829d892d09df85774c61e21b64aaa1e7ea47f9ef38ef208cf6506024c13"
         },
         {
           "migrationId": "20260327075811_InitialSeed",
           "productVersion": "8.0.0",
-          "sourceSha256": "584cc969ca90b78aa128c82316b95163e5669317d541f23646de0bce39a0257b"
+          "sourceSha256": "570d253a3cd5141fd69451520ca21a96503db53a26a5a4424ee8c0aa5f53ca45"
         },
         {
           "migrationId": "20260413100000_CrmPolicyDefinitionSeeds",
           "productVersion": "8.0.0",
-          "sourceSha256": "d9419ffaa11865a2288c904b21fa1ee1702eae46df847db5d7a6d2a323a4a16c"
+          "sourceSha256": "4116ed80b1d712a8db0baa3204844cd700ab2b487e91eb892261b107ebd3b2c0"
         },
         {
           "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
           "productVersion": "8.0.0",
-          "sourceSha256": "055f7c88445f56478f8ff92bea84feb0b76c7b95a45b5231477863e227d3fc8b"
+          "sourceSha256": "4c13bd75690e1fa25c7bba455f2230d94ed6c6a0508841be067ae7f6cbbc5b25"
         },
         {
           "migrationId": "20260908015924_RemoveLoginEventSecrets",
           "productVersion": "8.0.0",
-          "sourceSha256": "56616ad939378853468d651ab1658a20f7706c9d66e5ec333aea1ccc4647fbf7"
+          "sourceSha256": "ffba17d4123b6e154615c5607442eeb131a218f9feb084f9a674742502f3dc75"
         },
         {
           "migrationId": "20260912101127_EnforceActiveTenantMembership",
           "productVersion": "8.0.0",
-          "sourceSha256": "bc6ec9bc68df56df223a261c40e76db6a7c87eb46ab8edbec77a42d38910f879"
+          "sourceSha256": "87dadf7913030f5cc8645c025fd46917bec023a7fa1f57060a2f531cb4b1457d"
         }
       ]
     },
@@ -55,12 +55,12 @@
         {
           "migrationId": "20260413120000_InitialCreate",
           "productVersion": "8.0.0",
-          "sourceSha256": "4d5e5a2496f4d8a61d92f4278a85609a0aeeffae843e789086a14257167b854d"
+          "sourceSha256": "cf96d676d0819aba1baa20abb06d2dd0adbf76e5164cade4027b26df4986cbb4"
         },
         {
           "migrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
           "productVersion": "8.0.0",
-          "sourceSha256": "6884fbceb4af787dee3984cef612c0d78d2ee5a08f31242db2244aa9f5f99d3b"
+          "sourceSha256": "3194017a4ab0505072d93c7e21d492eb18e122c43ed3cb66fd57f616d6ff44d3"
         }
       ]
     },
@@ -76,22 +76,22 @@
         {
           "migrationId": "20260413120300_InitialCreate",
           "productVersion": "8.0.0",
-          "sourceSha256": "2b9983bacf6695594c5616552e13ac50240a5991ed842e5438e968cf23de6d31"
+          "sourceSha256": "5bd46995329c38baa81facba1d520cc9e8d8a170544a8c521e7ee67013af4592"
         },
         {
           "migrationId": "20260413191525_AddProduct",
           "productVersion": "8.0.0",
-          "sourceSha256": "86d12070d5212c13c4efb108cfcdd29332ea9d318be034e89135137da722ca15"
+          "sourceSha256": "b6a0de666f6a5bd04fef148d62c9cc87e3138ad8ee950910449916aef082551b"
         },
         {
           "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
           "productVersion": "8.0.0",
-          "sourceSha256": "87b2708b85b80b41f54e8fa863b23a3b8e1b0ed4c9529db0df6e6ab376ff17bd"
+          "sourceSha256": "bff238b5b8d092b7c698aff21bc93102b2557ff48da108a7d8a7d6c0b01cab02"
         },
         {
           "migrationId": "20260908100951_Plan02ReliableOutbox",
           "productVersion": "8.0.0",
-          "sourceSha256": "50707ede8720138eb32f509a12b1ce39556acbc5eb91dfac75258f92d4c70242"
+          "sourceSha256": "733a14c9d7488683686f40f4d2f53b981c10ae7a7b62736c4cb3246a5767df9f"
         }
       ]
     },
@@ -107,17 +107,17 @@
         {
           "migrationId": "20260413120100_InitialCreate",
           "productVersion": "8.0.0",
-          "sourceSha256": "95593d59a104c3d414c39a66e470ce7f07cce525f58841a7b71d6639f1eae5f2"
+          "sourceSha256": "4770882df9d0ad619725b0d3283f99e216ab38a5d3717d2fc0930bcad581b2a8"
         },
         {
           "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
           "productVersion": "8.0.0",
-          "sourceSha256": "de95c07960b964ec2df55d770070855cf8e4c4a3ea992add9925ea7b6dcebb83"
+          "sourceSha256": "210a64990ff5686ce14654fa2c07360113650c1d2992110971ec93c38ba84131"
         },
         {
           "migrationId": "20260908100954_Plan02ReliableInbox",
           "productVersion": "8.0.0",
-          "sourceSha256": "5975de1347c5f2ab2a59d42cdb6b2558f39efaea3a84830b212208fe01d1f375"
+          "sourceSha256": "1813c9904f8dfb946a7e9d5ad76c010383a76eb73997cc6d56dd07152284ada9"
         }
       ]
     },
@@ -133,22 +133,22 @@
         {
           "migrationId": "20260413120200_InitialCreate",
           "productVersion": "8.0.0",
-          "sourceSha256": "8cd83761a6ad71ad0f9eaba090b2d600f8e42f3f88cba6f5ab555d9c99c5671c"
+          "sourceSha256": "708630667973a98f8f332c90ef405608a5204ef2ec877140ce638bc997fe56db"
         },
         {
           "migrationId": "20260418123443_AddOrderInstructionModel",
           "productVersion": "8.0.0",
-          "sourceSha256": "bf87f5cc66d112776079bf0acd330890f655f76320612303f61a13169382c23f"
+          "sourceSha256": "5dadb7e1b8ebe09d984fcf3f94bbb5337c683f3855e1ba8a1b6b7df0acc71475"
         },
         {
           "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
           "productVersion": "8.0.0",
-          "sourceSha256": "e1cc38ba88a19db1e2797b8ebc2a85597eec9cc19e8b96358b340634c3d9f6be"
+          "sourceSha256": "06a536a25bb6a29a08da8b79e86ecbc7de63ec9a47196e111d6c247bb2d57f42"
         },
         {
           "migrationId": "20260908100947_Plan02ReliableOutbox",
           "productVersion": "8.0.0",
-          "sourceSha256": "c25e2a7d28a81d7d784b4c2e4d4b0d0c7a46c62c52059b2ce7d1564a20ad9dda"
+          "sourceSha256": "f5468548ee4f1d82a4f72e39ae05648ef020b931de7a0bd21adca7c5b25b890a"
         }
       ]
     }

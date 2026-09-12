@@ -15,4 +15,4 @@ public record CreatePolicyCommand(
     string? Description,
     string ResourceType,
     string Action,
-    List<PolicyConditionDto> Conditions) : ICommand<Result<PolicyDefinitionDto>, AuthTransactionOwner>;
+    List<PolicyConditionDto> Conditions) : ICommand<Result<PolicyDefinitionDto>, IamTransactionOwner>;

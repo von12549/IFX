@@ -5,7 +5,7 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Access.Roles.Commands.RemovePermissionFromRole;
 
-public record RemovePermissionFromRoleCommand(Guid RoleId, Guid PermissionId) : ICommand<Result<bool>, AuthTransactionOwner>
+public record RemovePermissionFromRoleCommand(Guid RoleId, Guid PermissionId) : ICommand<Result<bool>, IamTransactionOwner>
 {
     public IFX.BuildingBlocks.Application.Transactions.TransactionProfile TransactionProfile => IFX.BuildingBlocks.Application.Transactions.TransactionProfile.ConsistentReadWrite;
 }

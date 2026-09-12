@@ -6,16 +6,16 @@ using Microsoft.Extensions.DependencyInjection;
 namespace IFX.Modules.IAM.Composition
 {
     /// <summary>
-    /// Extension methods for registering the Auth module.
+    /// Extension methods for registering the IAM module.
     /// </summary>
     public static class DependencyInjection
     {
-        private static readonly AuthModuleInstaller _installer = new();
+        private static readonly IamModuleInstaller _installer = new();
 
         /// <summary>
-        /// Registers all Auth module services and the module installer.
+        /// Registers all IAM module services and the module installer.
         /// </summary>
-        public static IServiceCollection AddAuthModule(
+        public static IServiceCollection AddIamModule(
             this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -29,10 +29,10 @@ namespace IFX.Modules.IAM.Composition
         }
 
         /// <summary>
-        /// Maps all Auth module endpoints (19 total: 6 Auth, 5 User, 2 UserManagement, 3 Role, 3 Idp).
+        /// Maps IAM endpoints through the module installer.
         /// Note: Prefer using IModuleInstaller.MapEndpoints() via the discovery pattern.
         /// </summary>
-        public static IEndpointRouteBuilder MapAuthModuleEndpoints(this IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder MapIamModuleEndpoints(this IEndpointRouteBuilder builder)
         {
             return _installer.MapEndpoints(builder);
         }

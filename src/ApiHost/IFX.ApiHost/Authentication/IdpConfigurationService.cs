@@ -1,28 +1,18 @@
 using System.Text.Json;
 using IFX.Modules.IAM.Composition;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace IFX.ApiHost.Authentication;
 
 public class IdpConfigurationService : IIdpConfigurationService
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly IAuthIdpCacheVersion _cacheVersion;
-    private readonly IMemoryCache _cache;
     private readonly ILogger<IdpConfigurationService> _logger;
-    private const string CacheKey = "EnabledIdpConfigurations";
-    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(5);
-    private long _observedVersion = -1;
 
     public IdpConfigurationService(
         IServiceScopeFactory scopeFactory,
-        IAuthIdpCacheVersion cacheVersion,
-        IMemoryCache cache,
         ILogger<IdpConfigurationService> logger)
     {
         _scopeFactory = scopeFactory;
-        _cacheVersion = cacheVersion;
-        _cache = cache;
         _logger = logger;
     }
 
@@ -36,17 +26,10 @@ public class IdpConfigurationService : IIdpConfigurationService
 
     public async Task<IReadOnlyList<IdpConfigurationEntry>> GetAllEnabledAsync(CancellationToken ct = default)
     {
-        var currentVersion = _cacheVersion.Version;
-        if (Interlocked.Read(ref _observedVersion) != currentVersion)
-        {
-            _cache.Remove(CacheKey);
-            Interlocked.Exchange(ref _observedVersion, currentVersion);
-        }
-
         // Read IAM trust on each attempt so revocation also works across instances.
 
         using var scope = _scopeFactory.CreateScope();
-        var reader = scope.ServiceProvider.GetRequiredService<IAuthIdpConfigurationReader>();
+        var reader = scope.ServiceProvider.GetRequiredService<IIdentityProviderConfigurationReader>();
         var idps = await reader.ReadEnabledAsync(ct);
 
         var entries = idps.Select(idp => new IdpConfigurationEntry
@@ -64,16 +47,9 @@ public class IdpConfigurationService : IIdpConfigurationService
             ClaimMapping = DeserializeJsonObject(idp.ClaimMapping)
         }).ToList();
 
-        _logger.LogDebug("Loaded {Count} enabled IdP configurations into cache", entries.Count);
+        _logger.LogDebug("Loaded {Count} enabled IdP configurations from IAM", entries.Count);
 
         return entries;
-    }
-
-    public void InvalidateCache()
-    {
-        _cache.Remove(CacheKey);
-        Interlocked.Exchange(ref _observedVersion, _cacheVersion.Version);
-        _logger.LogInformation("IdP configuration cache invalidated");
     }
 
     private static List<string> DeserializeJsonArray(string json)

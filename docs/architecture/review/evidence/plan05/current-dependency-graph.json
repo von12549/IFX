@@ -1242,14 +1242,6 @@
     {
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
-      "to": "IFX.Platform.Authorization.Composition",
-      "toRole": "Composition",
-      "toModule": "Authorization",
-      "uses": 1
-    },
-    {
-      "from": "IFX.ApiHost",
-      "fromRole": "RuntimeHost",
       "to": "IFX.Platform.BackgroundJobs.Composition",
       "toRole": "Composition",
       "toModule": "BackgroundJobs",

@@ -100,7 +100,7 @@ public static class EmailVerificationEndpoints
     public static async Task<IResult> SendVerification(
         [FromServices] IMediator mediator,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] IAuthEmailJobScheduler emailJobs,
+        [FromServices] IIdentityEmailJobScheduler emailJobs,
         [FromServices] IEmailVerificationService emailVerificationService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<EmailVerificationEndpointsLogCategory> logger,
@@ -151,7 +151,7 @@ public static class EmailVerificationEndpoints
             userName, result.Value.Code, verificationLink, TokenValidityMinutes);
 
         // Enqueue email job
-        var jobId = emailJobs.Enqueue(new AuthEmailJob(
+        var jobId = emailJobs.Enqueue(new IdentityEmailJob(
             result.Value.Email, userName, "Verify your email address", htmlBody, plainTextBody));
 
         logger.LogInformation(
@@ -171,7 +171,7 @@ public static class EmailVerificationEndpoints
     public static async Task<IResult> ResendVerification(
         [FromServices] IMediator mediator,
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] IAuthEmailJobScheduler emailJobs,
+        [FromServices] IIdentityEmailJobScheduler emailJobs,
         [FromServices] IEmailVerificationService emailVerificationService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<EmailVerificationEndpointsLogCategory> logger,
@@ -222,7 +222,7 @@ public static class EmailVerificationEndpoints
             userName, result.Value.Code, verificationLink, TokenValidityMinutes);
 
         // Enqueue email job
-        var jobId = emailJobs.Enqueue(new AuthEmailJob(
+        var jobId = emailJobs.Enqueue(new IdentityEmailJob(
             result.Value.Email, userName, "Verify your email address", htmlBody, plainTextBody));
 
         logger.LogInformation(

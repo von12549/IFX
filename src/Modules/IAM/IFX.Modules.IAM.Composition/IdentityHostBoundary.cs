@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace IFX.Modules.IAM.Composition;
 
-public sealed record AuthIdpConfiguration(
+public sealed record IdentityProviderConfiguration(
     Guid IdpId,
     string Issuer,
     string Authority,
@@ -20,16 +20,16 @@ public sealed record AuthIdpConfiguration(
     string AudienceClaim = "aud",
     string? RequiredTokenUse = null);
 
-public interface IAuthIdpConfigurationReader
+public interface IIdentityProviderConfigurationReader
 {
-    Task<IReadOnlyList<AuthIdpConfiguration>> ReadEnabledAsync(
+    Task<IReadOnlyList<IdentityProviderConfiguration>> ReadEnabledAsync(
         CancellationToken cancellationToken = default);
 }
 
-internal sealed class AuthIdpConfigurationReader(IUnitOfWork unitOfWork, IConfiguration configuration)
-    : IAuthIdpConfigurationReader
+internal sealed class IdentityProviderConfigurationReader(IUnitOfWork unitOfWork, IConfiguration configuration)
+    : IIdentityProviderConfigurationReader
 {
-    public async Task<IReadOnlyList<AuthIdpConfiguration>> ReadEnabledAsync(
+    public async Task<IReadOnlyList<IdentityProviderConfiguration>> ReadEnabledAsync(
         CancellationToken cancellationToken = default)
     {
         var idps = await unitOfWork.Idps.GetEnabledAsync(cancellationToken);
@@ -47,7 +47,7 @@ internal sealed class AuthIdpConfigurationReader(IUnitOfWork unitOfWork, IConfig
             if (primaryCognito && algorithms.Trim() == "[]") algorithms = "[\"RS256\"]";
             var mapping = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(idp.ClaimMapping) ?? [];
             var audienceClaim = mapping.GetValueOrDefault("audienceClaim") ?? (primaryCognito ? "client_id" : "aud");
-            return new AuthIdpConfiguration(
+            return new IdentityProviderConfiguration(
             idp.Id,
             idp.Issuer,
             idp.Authority,
@@ -61,7 +61,7 @@ internal sealed class AuthIdpConfigurationReader(IUnitOfWork unitOfWork, IConfig
     }
 }
 
-public sealed record AuthUserProvisioningRequest(
+public sealed record LocalIdentityAdmissionRequest(
     string Issuer,
     string Subject,
     string AccessToken,
@@ -70,7 +70,7 @@ public sealed record AuthUserProvisioningRequest(
     string? IdpType,
     string? IpAddress);
 
-public sealed record AuthUserProvisioningResult(
+public sealed record LocalIdentityAdmissionResult(
     bool IsSuccess,
     string? Error,
     Guid UserId,
@@ -80,17 +80,17 @@ public sealed record AuthUserProvisioningResult(
     IReadOnlyList<string> RoleNames,
     IReadOnlyList<string> DepartmentNames);
 
-public interface IAuthUserProvisioningFacade
+public interface ILocalIdentityAdmission
 {
-    Task<AuthUserProvisioningResult> GetOrProvisionAsync(
-        AuthUserProvisioningRequest request,
+    Task<LocalIdentityAdmissionResult> GetOrProvisionAsync(
+        LocalIdentityAdmissionRequest request,
         CancellationToken cancellationToken = default);
 }
 
-internal sealed class AuthUserProvisioningFacade(ISender sender) : IAuthUserProvisioningFacade
+internal sealed class LocalIdentityAdmission(ISender sender) : ILocalIdentityAdmission
 {
-    public async Task<AuthUserProvisioningResult> GetOrProvisionAsync(
-        AuthUserProvisioningRequest request,
+    public async Task<LocalIdentityAdmissionResult> GetOrProvisionAsync(
+        LocalIdentityAdmissionRequest request,
         CancellationToken cancellationToken = default)
     {
         IdpType? idpType = null;
@@ -111,7 +111,7 @@ internal sealed class AuthUserProvisioningFacade(ISender sender) : IAuthUserProv
 
         if (!result.IsSuccess || result.Value is null)
         {
-            return new AuthUserProvisioningResult(
+            return new LocalIdentityAdmissionResult(
                 false,
                 result.Error,
                 Guid.Empty,
@@ -123,7 +123,7 @@ internal sealed class AuthUserProvisioningFacade(ISender sender) : IAuthUserProv
         }
 
         var value = result.Value;
-        return new AuthUserProvisioningResult(
+        return new LocalIdentityAdmissionResult(
             true,
             null,
             value.UserId,
@@ -133,18 +133,4 @@ internal sealed class AuthUserProvisioningFacade(ISender sender) : IAuthUserProv
             value.RoleNames,
             value.DepartmentNames);
     }
-}
-
-public interface IAuthIdpCacheVersion
-{
-    long Version { get; }
-}
-
-internal sealed class AuthIdpCacheSignal : IIdpCacheInvalidator, IAuthIdpCacheVersion
-{
-    private long _version;
-
-    public long Version => Interlocked.Read(ref _version);
-
-    public void InvalidateCache() => Interlocked.Increment(ref _version);
 }

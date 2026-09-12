@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S2",
   "asOf": "2026-09-10",
-  "inventorySha256": "02309107dc55b7f1565c7867770cf7ad4ce9678f31edfa4debe014244b6e4092",
+  "inventorySha256": "785aa94b1212204b3261c28309d81ee695dde86acf66f4156fe578d760aa787b",
   "decisionPolicy": {
     "allowedConclusions": [
       "retain",
@@ -291,5 +291,5 @@
     }
   ],
   "gov4Closure": "approval-pending",
-  "plan05Review": "Phase 5 evolves existing IAM membership joins, current subject facts and atomic assignment/exit checks. Five data owners and eight business protocol edges remain unchanged. Cross-tenant inventory retains Platform.GlobalRole:manage and its existing bounded registry; no permission expansion or approval is inferred."
+  "plan05Review": "Phase 6 removes obsolete Auth assembly-facing names, duplicate platform registration and unused invalidation interfaces. IAM owns current identity facts; five data owners, eight business protocol edges and existing cross-tenant permission gates are unchanged. No sync cycles, implementation leakage or named approval is inferred."
 }

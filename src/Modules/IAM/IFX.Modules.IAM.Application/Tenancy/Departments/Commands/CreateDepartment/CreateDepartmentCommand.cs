@@ -6,4 +6,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Tenancy.Departments.Commands.CreateDepartment;
 
-public record CreateDepartmentCommand(string Name, string Description, Guid TenantId) : ICommand<Result<DepartmentDto>, AuthTransactionOwner>;
+public record CreateDepartmentCommand(string Name, string Description, Guid TenantId) : ICommand<Result<DepartmentDto>, IamTransactionOwner>;

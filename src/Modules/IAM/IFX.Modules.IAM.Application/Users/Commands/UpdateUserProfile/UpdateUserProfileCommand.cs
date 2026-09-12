@@ -15,7 +15,7 @@ public record UpdateUserProfileCommand(
     string? PhoneNumber = null,
     string? Email = null,
     string? IpAddress = null,
-    Guid? PrimaryTenantId = null) : ICommand<Result<UpdateUserProfileResponse>, AuthTransactionOwner>;
+    Guid? PrimaryTenantId = null) : ICommand<Result<UpdateUserProfileResponse>, IamTransactionOwner>;
 
 public record UpdateUserProfileResponse(
     UserProfileDto Profile,

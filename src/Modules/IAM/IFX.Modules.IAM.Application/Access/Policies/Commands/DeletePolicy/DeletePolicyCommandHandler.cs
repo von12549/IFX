@@ -1,5 +1,4 @@
 using IFX.Modules.IAM.Application.Ports.Authorization;
-using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.Authorization;
 using IFX.Modules.IAM.Application.Common;
@@ -15,14 +14,12 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
     private readonly IUnitOfWork _unitOfWork;
     private readonly IResourceAuthorizationService _authorizationService;
     private readonly ICurrentUser _currentUser;
-    private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<DeletePolicyCommandHandler> _logger;
-    public DeletePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, IAbacPolicyCache policyCache, ILogger<DeletePolicyCommandHandler> logger)
+    public DeletePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<DeletePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
         _authorizationService = authorizationService;
-        _policyCache = policyCache;
         _logger = logger;
     }
 
@@ -38,10 +35,6 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
                 return Result<bool>.Failure("Platform policy management requires PlatformAdmin.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "delete", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
             _unitOfWork.PolicyDefinitions.Remove(policy);
-            if (policy.Scope == PolicyScope.Platform)
-                _policyCache.InvalidatePlatform(policy.ResourceType, policy.Action);
-            else
-                _policyCache.Invalidate(policy.TenantId!.Value, policy.ResourceType, policy.Action);
             _logger.LogInformation("Policy deleted: {PolicyId} for {Scope} ({ResourceType}/{Action})", policy.Id, policy.Scope, policy.ResourceType, policy.Action);
             return Result<bool>.Success(true);
         }

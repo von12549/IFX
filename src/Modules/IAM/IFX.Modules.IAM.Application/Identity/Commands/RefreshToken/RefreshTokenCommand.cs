@@ -9,4 +9,4 @@ namespace IFX.Modules.IAM.Application.Identity.Commands.RefreshToken;
 public record RefreshTokenCommand(
     string RefreshToken,
     string Username,
-    string? IpAddress = null) : ICommand<Result<RefreshTokenResponse>, AuthTransactionOwner>;
+    string? IpAddress = null) : ICommand<Result<RefreshTokenResponse>, IamTransactionOwner>;

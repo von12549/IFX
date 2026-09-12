@@ -22,4 +22,4 @@ public record UpdateIdpCommand(
     string AllowedAlgs,
     string RequiredScopes,
     string ClaimMapping,
-    int ClockSkewSeconds) : ICommand<Result<IdpDto>, AuthTransactionOwner>;
+    int ClockSkewSeconds) : ICommand<Result<IdpDto>, IamTransactionOwner>;

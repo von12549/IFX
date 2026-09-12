@@ -10,4 +10,4 @@ public record VerifyEmailCommand(
     Guid UserIdentityId,
     string? Token,
     string? Code,
-    string? IpAddress) : ICommand<Result<VerifyEmailResponse>, AuthTransactionOwner>;
+    string? IpAddress) : ICommand<Result<VerifyEmailResponse>, IamTransactionOwner>;

@@ -7,4 +7,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Identity.Commands.SyncUser;
 
-public record SyncUserCommand(string Issuer, string Subject) : ICommand<Result<UserProfileDto>, AuthTransactionOwner>;
+public record SyncUserCommand(string Issuer, string Subject) : ICommand<Result<UserProfileDto>, IamTransactionOwner>;

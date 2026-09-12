@@ -30,6 +30,9 @@ jobs:
       - name: Validate preserved Plan 03 B4 historical closure
         shell: pwsh
         run: ./scripts/Test-Plan03B4StrictClosure.ps1 -StatusPath artifacts/layerguard/plan03-b4-status.json
+      - name: Check Plan 05 security boundaries and negative detector cases
+        shell: pwsh
+        run: ./scripts/Test-Plan05SecurityBoundary.ps1 -ReportPath artifacts/layerguard/plan05-security.json
       - name: Upload LayerGuard report
         if: always()
         uses: actions/upload-artifact@v4

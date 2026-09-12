@@ -25,7 +25,7 @@ public sealed class IamJobCompatibilityTests
         {
             ["ConnectionStrings:AuthDatabase"] = "Server=unused;Database=unused;Integrated Security=true"
         }).Build();
-        new AuthModuleInstaller().InstallServices(services, configuration);
+        new IamModuleInstaller().InstallServices(services, configuration);
         using var provider = services.BuildServiceProvider();
         var resolver = new BackgroundJobTypeResolver(provider.GetServices<BackgroundJobTypeAlias>());
         var originalResolver = TypeHelper.CurrentTypeResolver;

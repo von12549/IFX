@@ -1,5 +1,4 @@
 using IFX.Modules.IAM.Application.Ports.Authorization;
-using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
 
 using IFX.Modules.IAM.Application.Access.Policies.Commands.DeletePolicy;
@@ -16,7 +15,6 @@ public class DeletePolicyCommandHandlerTests
     private readonly Mock<IPolicyDefinitionRepository> _policies = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<IAbacPolicyCache> _policyCache = new();
     private readonly Mock<ILogger<DeletePolicyCommandHandler>> _logger = new();
     private readonly DeletePolicyCommandHandler _handler;
 
@@ -31,7 +29,7 @@ public class DeletePolicyCommandHandlerTests
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
-        _handler = new DeletePolicyCommandHandler(_unitOfWork.Object, _currentUser.Object, _authorizationService.Object, _policyCache.Object, _logger.Object);
+        _handler = new DeletePolicyCommandHandler(_unitOfWork.Object, _currentUser.Object, _authorizationService.Object, _logger.Object);
     }
 
     [Fact]
@@ -51,7 +49,6 @@ public class DeletePolicyCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
         _policies.Verify(p => p.Remove(existing), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _policyCache.Verify(c => c.Invalidate(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
     }
 
     [Fact]
@@ -84,7 +81,5 @@ public class DeletePolicyCommandHandlerTests
         var result = await _handler.Handle(new DeletePolicyCommand(policyId), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
-        _policyCache.Verify(c => c.InvalidatePlatform("user", "read"), Times.Once);
-        _policyCache.Verify(c => c.Invalidate(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 }

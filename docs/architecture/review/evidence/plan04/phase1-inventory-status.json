@@ -4,13 +4,13 @@
   "slice": "P04-S1",
   "result": "passed",
   "checkedAt": "2026-09-12",
-  "inventorySha256": "02309107dc55b7f1565c7867770cf7ad4ce9678f31edfa4debe014244b6e4092",
+  "inventorySha256": "785aa94b1212204b3261c28309d81ee695dde86acf66f4156fe578d760aa787b",
   "dependencyGraphSha256": "c4847fef1625da20891c694c4f1d8bc9862f8e2f47c1e896d0aa3292d9199123",
   "counts": {
     "modules": 5,
     "protocols": 8,
     "projectEdges": 145,
-    "namespaceEdges": 164,
+    "namespaceEdges": 163,
     "coChangePairs": 10,
     "unregisteredEdges": 0,
     "crossSchemaFindings": 0

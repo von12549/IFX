@@ -16,7 +16,6 @@ public static class AuthenticationConfiguration
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddPlatformAuthentication();
         // IAM selects trusted providers; the platform executes token validation.
         services.AddMemoryCache();
         services.AddSingleton<IdpConfigurationService>();

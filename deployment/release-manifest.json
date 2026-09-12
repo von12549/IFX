@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "releaseVersion": "plan05-s5",
-  "migrationCatalogSha256": "6adeef32d663488332e739b9baa02c400eea10af090b015d70d616cdd2847d07",
+  "migrationCatalogSha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6",
   "modules": [
     {
       "moduleName": "Auth",

@@ -5,10 +5,10 @@
   "asOf": "2026-09-10",
   "historyBaselineCommit": "40d3cd38505c14557567d7cc81f4ef51e8293d3c",
   "inputs": {
-    "g02DatabaseInventorySha256": "0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5",
+    "g02DatabaseInventorySha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
     "g03CatalogSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
     "g04ModuleManifestSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
-    "b4DependencyGraphSha256": "374d8cd278d821f766695e41d83ac6491f83962ec70bff7e95d9ab0b4453c50b"
+    "b4DependencyGraphSha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810"
   },
   "modules": [
     {
@@ -27,7 +27,7 @@
         "external identity mappings"
       ],
       "schema": "auth",
-      "dbContext": "IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext",
+      "dbContext": "IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext",
       "releaseVersion": "1.0.0",
       "endpointGroups": [
         "auth",
@@ -2106,16 +2106,6 @@
       "toRole": "Composition",
       "toModule": "authentication",
       "uses": 2,
-      "classification": "outside-or-platform"
-    },
-    {
-      "from": "IFX.ApiHost",
-      "fromRole": "RuntimeHost",
-      "fromModule": null,
-      "to": "IFX.Platform.Authorization.Composition",
-      "toRole": "Composition",
-      "toModule": "authorization",
-      "uses": 1,
       "classification": "outside-or-platform"
     },
     {

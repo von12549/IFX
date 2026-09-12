@@ -9,4 +9,4 @@ public record LogoutUserCommand(
     string Issuer,
     string Subject,
     string AccessToken,
-    string IpAddress) : ICommand<Result<bool>, AuthTransactionOwner>;
+    string IpAddress) : ICommand<Result<bool>, IamTransactionOwner>;

@@ -86,7 +86,7 @@ try
     builder.Services.AddNotificationsOptional(builder.Configuration);
 
     // Register required modules. Composition registration is side-effect free.
-    builder.Services.AddAuthModule(builder.Configuration);
+    builder.Services.AddIamModule(builder.Configuration);
     builder.Services.AddCrmModule(builder.Configuration);
     builder.Services.AddRegistryModule(builder.Configuration);
     builder.Services.AddHoldingsModule(builder.Configuration);
@@ -94,7 +94,6 @@ try
     builder.Services.AddMessagingOperationsControlPlane();
     builder.Services.AddApplicationPipeline();
     // Add API infrastructure (via configuration modules)
-    builder.Services.AddOpaClient(builder.Configuration);
     builder.Services.AddAuthAuthentication(builder.Configuration);
     builder.Services.AddAuthSwagger();
     builder.Services.AddAuthCors();

@@ -8,4 +8,4 @@ namespace IFX.Modules.IAM.Application.Identity.Commands.ResendEmailVerification;
 
 public record ResendEmailVerificationCommand(
     Guid UserIdentityId,
-    string? IpAddress) : ICommand<Result<EmailVerificationTokenInfo>, AuthTransactionOwner>;
+    string? IpAddress) : ICommand<Result<EmailVerificationTokenInfo>, IamTransactionOwner>;

@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [string] $ReportPath = "artifacts/database-migrator/migration-safety-report.json",
-    [switch] $NoBuild
+    [switch] $NoBuild,
+    [ValidateSet('Debug','Release')][string] $Configuration = 'Debug'
 )
 
 $ErrorActionPreference = "Stop"
@@ -11,7 +12,7 @@ $manifestPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gat
 $policyPath = Join-Path $repositoryRoot "deployment/migration-safety-policy.json"
 $resolvedReportPath = Join-Path $repositoryRoot $ReportPath
 $inventoryGenerator = Join-Path $PSScriptRoot "Invoke-G02DatabaseInventory.ps1"
-$generatorParameters = @{ ReportPath = $inventoryPath; ManifestPath = $manifestPath }
+$generatorParameters = @{ ReportPath = $inventoryPath; ManifestPath = $manifestPath; Configuration = $Configuration }
 if ($NoBuild) { $generatorParameters.NoBuild = $true }
 & $inventoryGenerator @generatorParameters
 if ($LASTEXITCODE -ne 0) { throw "Database inventory generation failed with exit code $LASTEXITCODE." }

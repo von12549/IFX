@@ -1,6 +1,5 @@
 using IFX.Modules.IAM.Application.Ports.Authorization;
 using System.Text.Json;
-using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.DTOs;
@@ -17,14 +16,12 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
     private readonly IResourceAuthorizationService _authorizationService;
-    private readonly IAbacPolicyCache _policyCache;
     private readonly ILogger<UpdatePolicyCommandHandler> _logger;
-    public UpdatePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, IAbacPolicyCache policyCache, ILogger<UpdatePolicyCommandHandler> logger)
+    public UpdatePolicyCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, IResourceAuthorizationService authorizationService, ILogger<UpdatePolicyCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
         _authorizationService = authorizationService;
-        _policyCache = policyCache;
         _logger = logger;
     }
 
@@ -43,10 +40,6 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "update", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
             var conditionsJson = JsonSerializer.Serialize(request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
             policy.Update(request.Name, conditionsJson, _currentUser.UserId, request.Description);
-            if (policy.Scope == PolicyScope.Platform)
-                _policyCache.InvalidatePlatform(policy.ResourceType, policy.Action);
-            else
-                _policyCache.Invalidate(policy.TenantId!.Value, policy.ResourceType, policy.Action);
             _logger.LogInformation("Policy updated: {PolicyId}", policy.Id);
             return Result<PolicyDefinitionDto>.Success(MapToDto(policy));
         }

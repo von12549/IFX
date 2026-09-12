@@ -5,7 +5,7 @@ using IFX.Platform.Context.Contracts;
 
 namespace IFX.Modules.IAM.Infrastructure.Access;
 
-public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor, IExecutionContextAccessor? execution = null) : IExecutionIdentityFacts
+public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor, IExecutionContextAccessor? execution = null)
 {
     public ClaimsPrincipal? Principal => httpContextAccessor.HttpContext?.User;
 
@@ -17,17 +17,6 @@ public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor, 
     public Guid UserId => httpContextAccessor.HttpContext is not null ? TryGetGuid("user_id") :
         IsAuthenticated && Guid.TryParse(execution!.Current.Actor.Id, out var id) ? id : Guid.Empty;
 
-    public IReadOnlyCollection<string> Departments => GetValues("department");
-
-    public IReadOnlyCollection<string> Roles => Principal?
-        .FindAll(ClaimTypes.Role)
-        .Concat(Principal.FindAll("role"))
-        .Select(claim => claim.Value)
-        .Distinct(StringComparer.Ordinal)
-        .ToArray() ?? [];
-
-    public IReadOnlyCollection<string> Permissions => GetValues("permission");
-
     public bool MfaEnabled
     {
         get
@@ -36,19 +25,6 @@ public sealed class HttpIdentityFacts(IHttpContextAccessor httpContextAccessor, 
             return methods.Contains("mfa") || methods.Contains("otp") || methods.Contains("hwk");
         }
     }
-
-    public Guid? PrimaryTenantId
-    {
-        get
-        {
-            var value = TryGetGuid("tenant_id");
-            return value == Guid.Empty ? null : value;
-        }
-    }
-
-    public bool IsTenantMember(Guid tenantId) => Principal?
-        .FindAll("tenant")
-        .Any(claim => Guid.TryParse(claim.Value, out var value) && value == tenantId) == true;
 
     private Guid TryGetGuid(string claimType)
     {

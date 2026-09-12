@@ -10,4 +10,4 @@ public record UpdatePolicyCommand(
     Guid PolicyId,
     string Name,
     string? Description,
-    List<PolicyConditionDto> Conditions) : ICommand<Result<PolicyDefinitionDto>, AuthTransactionOwner>;
+    List<PolicyConditionDto> Conditions) : ICommand<Result<PolicyDefinitionDto>, IamTransactionOwner>;

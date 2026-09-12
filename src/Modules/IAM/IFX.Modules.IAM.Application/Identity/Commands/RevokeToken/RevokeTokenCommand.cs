@@ -8,4 +8,4 @@ namespace IFX.Modules.IAM.Application.Identity.Commands.RevokeToken;
 public record RevokeTokenCommand(
     string RefreshToken,
     string? Email = null,
-    string? IpAddress = null) : ICommand<Result<bool>, AuthTransactionOwner>;
+    string? IpAddress = null) : ICommand<Result<bool>, IamTransactionOwner>;

@@ -85,7 +85,7 @@ public static class DependencyInjection
 
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddKeyedScoped<ITransactionExecutor, AuthTransactionExecutor>(typeof(AuthTransactionOwner));
+        services.AddKeyedScoped<ITransactionExecutor, IamTransactionExecutor>(typeof(IamTransactionOwner));
 
         // Register shared authorization services
         services.AddHttpContextAccessor();
@@ -112,11 +112,10 @@ public static class DependencyInjection
 
         // Register ABAC policy resolver: DB-backed, with empty static fallback as last resort
         services.AddSingleton<StaticAbacPolicyResolver>();
-        // DbAbacPolicyResolver implements both IAbacPolicyResolver and IAbacPolicyCache.
+        // Policies are read on each decision; there is no cross-request policy cache.
         // Register as scoped and expose via both interfaces.
         services.AddScoped<DbAbacPolicyResolver>();
         services.AddScoped<IAbacPolicyResolver>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());
-        services.AddScoped<IAbacPolicyCache>(sp => sp.GetRequiredService<DbAbacPolicyResolver>());
 
         return services;
     }

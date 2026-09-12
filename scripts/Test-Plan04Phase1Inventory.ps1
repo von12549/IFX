@@ -68,7 +68,7 @@ $checks = [ordered]@{
     sharedRuntimeAndDataCouplingExplicit = $inventory.runtimeAndDataCoupling.businessReleaseBoundary -eq 'single-required-five-module-release' -and
         $inventory.runtimeAndDataCoupling.schemaOwnership -eq 'module-owned' -and
         $inventory.runtimeAndDataCoupling.crossSchemaAccess -eq 'none-detected'
-    authorityHashesMatchGovernedBindings = $inventory.inputs.g02DatabaseInventorySha256 -eq '0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5' -and
+    authorityHashesMatchGovernedBindings = $inventory.inputs.g02DatabaseInventorySha256 -eq (GovernedHash 'docs/architecture/review/evidence/gates/G02/G02-database-inventory.json') -and
         $inventory.inputs.g03CatalogSha256 -eq (GovernedHash 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') -and
         $inventory.inputs.g04ModuleManifestSha256 -eq (GovernedHash 'deployment/g04/module-manifest.json') -and
         $inventory.inputs.b4DependencyGraphSha256 -eq (GovernedHash 'docs/architecture/review/evidence/plan05/current-dependency-graph.json')

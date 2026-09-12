@@ -1,5 +1,4 @@
 using IFX.Modules.IAM.Application.Ports.Authorization;
-using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
 
 using IFX.Modules.IAM.Application.Access.Policies.Commands.CreatePolicy;
@@ -17,7 +16,6 @@ public class CreatePolicyCommandHandlerTests
     private readonly Mock<IPolicyDefinitionRepository> _policies = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
     private readonly Mock<IResourceAuthorizationService> _authorizationService = new();
-    private readonly Mock<IAbacPolicyCache> _policyCache = new();
     private readonly Mock<ILogger<CreatePolicyCommandHandler>> _logger = new();
     private readonly CreatePolicyCommandHandler _handler;
 
@@ -41,7 +39,6 @@ public class CreatePolicyCommandHandlerTests
             _unitOfWork.Object,
             _currentUser.Object,
             _authorizationService.Object,
-            _policyCache.Object,
             _logger.Object);
     }
 
@@ -65,7 +62,6 @@ public class CreatePolicyCommandHandlerTests
 
         _policies.Verify(p => p.AddAsync(It.IsAny<PolicyDefinition>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _policyCache.Verify(c => c.Invalidate(tenantId, "user", "read"), Times.Once);
     }
 
     [Fact]
@@ -102,8 +98,6 @@ public class CreatePolicyCommandHandlerTests
 
         _policies.Verify(p => p.AddAsync(It.IsAny<PolicyDefinition>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _policyCache.Verify(c => c.InvalidatePlatform("user", "read"), Times.Once);
-        _policyCache.Verify(c => c.Invalidate(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
     }
 
     [Fact]

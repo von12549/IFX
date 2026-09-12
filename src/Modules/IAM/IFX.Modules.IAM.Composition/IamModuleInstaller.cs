@@ -20,9 +20,9 @@ using Serilog;
 namespace IFX.Modules.IAM.Composition
 {
     /// <summary>
-    /// Auth module installer - registers all Auth module services and endpoints.
+    /// IAM composition root for Identity, Users, Access and Tenancy.
     /// </summary>
-    public sealed class AuthModuleInstaller : IModuleInstaller
+    public sealed class IamModuleInstaller : IModuleInstaller
     {
         public string ModuleName => "Auth";
 
@@ -35,12 +35,9 @@ namespace IFX.Modules.IAM.Composition
             services.AddInfrastructureServices(configuration);
             services.AddBackgroundJobTypeAlias<IEmailVerificationCleanupService>(
                 "IFX.Modules.Auth.Application.Identity.Interfaces.IEmailVerificationCleanupService, IFX.Modules.Auth.Application");
-            services.AddScoped<IAuthEmailJobScheduler, AuthEmailJobScheduler>();
-            services.AddScoped<IAuthIdpConfigurationReader, AuthIdpConfigurationReader>();
-            services.AddScoped<IAuthUserProvisioningFacade, AuthUserProvisioningFacade>();
-            services.AddSingleton<AuthIdpCacheSignal>();
-            services.AddSingleton<IIdpCacheInvalidator>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());
-            services.AddSingleton<IAuthIdpCacheVersion>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());
+            services.AddScoped<IIdentityEmailJobScheduler, IdentityEmailJobScheduler>();
+            services.AddScoped<IIdentityProviderConfigurationReader, IdentityProviderConfigurationReader>();
+            services.AddScoped<ILocalIdentityAdmission, LocalIdentityAdmission>();
 
             var provider = configuration["Authentication:Provider"] ?? "Cognito";
             services.AddExternalIdentityProvider(configuration, provider);

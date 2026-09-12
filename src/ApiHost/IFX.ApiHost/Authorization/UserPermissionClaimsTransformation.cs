@@ -58,7 +58,7 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
                 ?? string.Empty;
 
             // 5. Build a host-boundary request with the access token for userinfo fetch
-            var request = new AuthUserProvisioningRequest(
+            var request = new LocalIdentityAdmissionRequest(
                 Issuer: issuer,
                 Subject: subject,
                 AccessToken: accessToken,
@@ -69,7 +69,7 @@ public class UserPermissionClaimsTransformation : IClaimsTransformation
 
             // 6. Execute through the Auth composition facade (create scope for scoped services)
             using var scope = _serviceProvider.CreateScope();
-            var authFacade = scope.ServiceProvider.GetRequiredService<IAuthUserProvisioningFacade>();
+            var authFacade = scope.ServiceProvider.GetRequiredService<ILocalIdentityAdmission>();
             var result = await authFacade.GetOrProvisionAsync(request);
 
             if (!result.IsSuccess)

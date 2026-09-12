@@ -49,7 +49,6 @@ public static class IdpEndpoints
     public static async Task<IResult> CreateIdp(
         [FromBody] CreateIdpRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] IIdpCacheInvalidator cacheInvalidator,
         [FromServices] ILogger<IdpEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin creating new Identity Provider: {Name}", request.Name);
@@ -77,8 +76,6 @@ public static class IdpEndpoints
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         }
 
-        // Invalidate IdP configuration cache after successful creation
-        cacheInvalidator.InvalidateCache();
 
         return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }
@@ -87,7 +84,6 @@ public static class IdpEndpoints
         Guid idpId,
         [FromBody] UpdateIdpRequest request,
         [FromServices] IMediator mediator,
-        [FromServices] IIdpCacheInvalidator cacheInvalidator,
         [FromServices] ILogger<IdpEndpointsLogCategory> logger)
     {
         logger.LogInformation("Admin updating Identity Provider: {IdpId}", idpId);
@@ -116,8 +112,6 @@ public static class IdpEndpoints
             return Results.BadRequest(ApiResponse<object>.FailureResponse(result.Error!));
         }
 
-        // Invalidate IdP configuration cache after successful update
-        cacheInvalidator.InvalidateCache();
 
         return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
     }

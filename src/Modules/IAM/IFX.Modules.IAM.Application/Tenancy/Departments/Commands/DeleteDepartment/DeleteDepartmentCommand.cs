@@ -5,4 +5,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Tenancy.Departments.Commands.DeleteDepartment;
 
-public record DeleteDepartmentCommand(Guid DepartmentId) : ICommand<Result<bool>, AuthTransactionOwner>;
+public record DeleteDepartmentCommand(Guid DepartmentId) : ICommand<Result<bool>, IamTransactionOwner>;

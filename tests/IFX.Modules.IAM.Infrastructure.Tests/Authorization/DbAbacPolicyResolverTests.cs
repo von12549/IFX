@@ -75,7 +75,7 @@ public class DbAbacPolicyResolverTests
     }
 
     [Fact]
-    public async Task ResolveTenantPolicy_AfterInvalidate_HitsDbAgain()
+    public async Task ResolveTenantPolicy_AfterTenantDisable_FailsClosedWithoutInvalidation()
     {
         var row = PolicyDefinition.Create(
             PolicyScope.Tenant, TenantId, "Read", "user", "read",
@@ -86,8 +86,8 @@ public class DbAbacPolicyResolverTests
                    .ReturnsAsync(row);
 
         await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
-        _resolver.Invalidate(TenantId, "user", "read");
-        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
+        row.Deactivate();
+        await Assert.ThrowsAsync<PolicyResolutionException>(() => _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read"));
 
         _repository.Verify(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
@@ -115,7 +115,7 @@ public class DbAbacPolicyResolverTests
     }
 
     [Fact]
-    public async Task ResolveTenantPolicy_AfterInvalidatePlatform_HitsPlatformDbAgain()
+    public async Task ResolveTenantPolicy_AfterPlatformDisable_FailsClosedWithoutInvalidation()
     {
         var platformRow = PolicyDefinition.Create(
             PolicyScope.Platform, null, "Read", "user", "read",
@@ -128,8 +128,8 @@ public class DbAbacPolicyResolverTests
                    .ReturnsAsync(platformRow);
 
         await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
-        _resolver.InvalidatePlatform("user", "read");
-        await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
+        platformRow.Deactivate();
+        await Assert.ThrowsAsync<PolicyResolutionException>(() => _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read"));
 
         _repository.Verify(r => r.GetPlatformAsync("user", "read", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }

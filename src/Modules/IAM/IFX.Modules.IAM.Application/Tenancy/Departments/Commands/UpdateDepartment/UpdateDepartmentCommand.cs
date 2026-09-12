@@ -6,4 +6,4 @@ using MediatR;
 
 namespace IFX.Modules.IAM.Application.Tenancy.Departments.Commands.UpdateDepartment;
 
-public record UpdateDepartmentCommand(Guid DepartmentId, string Name, string Description) : ICommand<Result<DepartmentDto>, AuthTransactionOwner>;
+public record UpdateDepartmentCommand(Guid DepartmentId, string Name, string Description) : ICommand<Result<DepartmentDto>, IamTransactionOwner>;
