@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S2",
   "asOf": "2026-09-10",
-  "inventorySha256": "4a8ef2451d37c1d5e374d8ba7e798965a2db55c88c5cce87c29d99b5bcab145e",
+  "inventorySha256": "7f09cf96d75be63e2d2bb3efa5fda41d2f371f3b9292a90ef27928b02a9afeab",
   "decisionPolicy": {
     "allowedConclusions": [
       "retain",
@@ -291,5 +291,5 @@
     }
   ],
   "gov4Closure": "approval-pending",
-  "plan05Review": "Phase 3 retains the five module/data owners. IAM now provides one registered authorization protocol to CRM, Registry, Holdings and Transaction; its evaluation consumer points to Platform.Authorization. No synchronous cycle, cross-schema query or extraction approval was introduced. New protocol admission remains Proposed."
+  "plan05Review": "Phase 4 changes IAM policy semantics within the Phase 3 dependency boundary. Five data owners, eight business protocol edges and the absence of synchronous cycles remain unchanged. Protocols remain Proposed; no functional or production approval is inferred."
 }

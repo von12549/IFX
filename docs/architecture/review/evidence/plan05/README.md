@@ -8,4 +8,6 @@
 
 | P05-S3 | [授权结构提取](P05-S3-authorization.md) | 1177 项 .NET、190 项 LayerGuard 测试；49 项目零违规，治理门禁通过 |
 
+| P05-S4 | [政策语义 v2](P05-S4-policy-semantics.md) | 1203 项 .NET、190 项 LayerGuard 测试及治理通过；目标政策审计待执行 |
+
 计划唯一进度清单位于 [Plan 05](../../plans/05-iam-platform-security-refactor.md)。本目录分别记录仓库验证、目标环境证据和未完成事项；历史失败不会由后续绿色结果覆盖。

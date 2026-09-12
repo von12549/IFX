@@ -71,6 +71,7 @@ public class DeletePolicyCommandHandlerTests
     [Fact]
     public async Task Handle_WithPlatformPolicy_CallsInvalidatePlatformInsteadOfInvalidate()
     {
+        _currentUser.SetupGet(c => c.IsGlobalAdmin).Returns(true);
         var policyId = Guid.NewGuid();
         var existing = PolicyDefinition.Create(
             PolicyScope.Platform, null, "Read Own Profile (Platform Default)", "user", "read",

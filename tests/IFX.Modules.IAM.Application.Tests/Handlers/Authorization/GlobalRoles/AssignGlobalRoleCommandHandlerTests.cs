@@ -11,6 +11,7 @@ namespace IFX.Modules.IAM.Application.Tests.Handlers.Authorization.GlobalRoles;
 
 public class AssignGlobalRoleCommandHandlerTests
 {
+    private readonly Mock<IPermissionChecker> _permission = new();
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IGlobalRoleRepository> _globalRoles = new();
     private readonly Mock<IUserRepository> _users = new();
@@ -24,7 +25,8 @@ public class AssignGlobalRoleCommandHandlerTests
         _unitOfWork.Setup(u => u.Users).Returns(_users.Object);
         _currentUser.Setup(c => c.IsGlobalAdmin).Returns(true);
         _currentUser.Setup(c => c.UserId).Returns(Guid.NewGuid());
-        _handler = new AssignGlobalRoleCommandHandler(_unitOfWork.Object, _currentUser.Object, _logger.Object);
+        _permission.Setup(x => x.HasPermissionAsync("Platform.GlobalRole:manage", It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _handler = new AssignGlobalRoleCommandHandler(_unitOfWork.Object, _currentUser.Object, _logger.Object, _permission.Object);
     }
 
     [Fact]

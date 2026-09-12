@@ -19,12 +19,15 @@ public class ResourceAuthorizationTests
     [InlineData("role", true)]
     [InlineData("missing", false)]
     [InlineData("admin", true)]
-    public async Task Preserves_baseline_policy_selection_and_enforces_denial(string scenario, bool allowed)
+    public async Task Applies_scope_and_RBAC_before_selected_policy_and_enforces_denial(string scenario, bool allowed)
     {
         var tenant = Guid.NewGuid();
+        var userId = Guid.NewGuid();
         var user = new Mock<ICurrentUser>();
+        user.SetupGet(x => x.IsAuthenticated).Returns(true);
+        user.SetupGet(x => x.Permissions).Returns(new[] { "user:read" });
         user.SetupGet(x => x.TenantId).Returns(tenant);
-        user.SetupGet(x => x.UserId).Returns(Guid.NewGuid());
+        user.SetupGet(x => x.UserId).Returns(userId);
         user.SetupGet(x => x.GlobalRoles).Returns(scenario == "role" ? ["PlatformSupport", "PlatformAuditor"] : []);
         user.SetupGet(x => x.IsGlobalAdmin).Returns(scenario == "admin");
         var policies = new Mock<IAbacPolicyResolver>(MockBehavior.Strict);
@@ -39,7 +42,9 @@ public class ResourceAuthorizationTests
         var environment = new Mock<IAuthorizationEnvironmentPort>();
         environment.Setup(x => x.GetFacts()).Returns(new EnvironmentFacts(null, null, "2026-09-12T00:00:00Z"));
         var service = new ResourceAuthorizationService(user.Object, policies.Object, evaluator.Object, environment.Object,
-            Mock.Of<IExecutionContextAccessor>());
+            Execution(scenario is "role" or "admin"
+                ? ExecutionContextSnapshot.ForPlatform(Guid.NewGuid(), Guid.NewGuid(), null, "user", userId.ToString(), "ifx", "test", 1)
+                : ExecutionContextSnapshot.ForTenant(Guid.NewGuid(), Guid.NewGuid(), null, tenant, "user", userId.ToString(), "ifx", "test", 1)));
         var executed = false;
         async Task Execute()
         {
@@ -51,5 +56,10 @@ public class ResourceAuthorizationTests
         if (scenario == "admin") { policies.VerifyNoOtherCalls(); evaluator.VerifyNoOtherCalls(); }
         if (scenario == "missing") evaluator.VerifyNoOtherCalls();
         if (scenario == "role") policies.Verify(x => x.ResolvePlatformPolicyForRoleAsync("user", "read", "PlatformSupport", It.IsAny<CancellationToken>()), Times.Once);
+    }
+    private static IExecutionContextAccessor Execution(ExecutionContextSnapshot snapshot)
+    {
+        var mock = new Mock<IExecutionContextAccessor>();
+        mock.SetupGet(x => x.HasCurrent).Returns(true); mock.SetupGet(x => x.Current).Returns(snapshot); return mock.Object;
     }
 }

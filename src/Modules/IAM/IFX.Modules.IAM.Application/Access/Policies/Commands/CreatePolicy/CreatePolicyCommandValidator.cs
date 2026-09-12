@@ -7,6 +7,8 @@ public class CreatePolicyCommandValidator : AbstractValidator<CreatePolicyComman
 {
     public CreatePolicyCommandValidator(IAbacTemplateRegistry templateRegistry)
     {
+        RuleFor(x => x).Must(x => PolicyChangeRules.Valid(x.Scope, x.ResourceType, x.Action, x.Conditions))
+            .WithMessage("Unsupported policy operation, template or parameter.");
         RuleFor(x => x.TenantId)
             .Must(id => id == null || id != Guid.Empty)
             .WithMessage("TenantId must not be an empty Guid.");

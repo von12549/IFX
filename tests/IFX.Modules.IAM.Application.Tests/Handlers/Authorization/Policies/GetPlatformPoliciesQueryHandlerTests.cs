@@ -1,3 +1,4 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.Queries.GetPlatformPolicies;
 using IFX.Modules.IAM.Application.Interfaces;
 using IFX.Modules.IAM.Domain.Access;
@@ -16,7 +17,7 @@ public class GetPlatformPoliciesQueryHandlerTests
     public GetPlatformPoliciesQueryHandlerTests()
     {
         _unitOfWork.Setup(u => u.PolicyDefinitions).Returns(_policies.Object);
-        _handler = new GetPlatformPoliciesQueryHandler(_unitOfWork.Object, _logger.Object);
+        _handler = new GetPlatformPoliciesQueryHandler(_unitOfWork.Object, _logger.Object, Mock.Of<IResourceAuthorizationService>());
     }
 
     [Fact]

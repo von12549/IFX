@@ -31,6 +31,11 @@ public class CreatePolicyCommandHandler : IRequestHandler<CreatePolicyCommand, R
     public async Task<Result<PolicyDefinitionDto>> Handle(CreatePolicyCommand request, CancellationToken cancellationToken)
     {
         {
+            if (request.Scope == PolicyScope.Platform ? !_currentUser.IsGlobalAdmin || _currentUser.TenantId is not null || request.TenantId is not null
+                : request.TenantId is null || request.TenantId != _currentUser.TenantId)
+                return Result<PolicyDefinitionDto>.Failure("Policy scope is not authorized.");
+            if (!PolicyChangeRules.Valid(request.Scope, request.ResourceType, request.Action, request.Conditions))
+                return Result<PolicyDefinitionDto>.Failure("Invalid policy definition.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "create", new TenantScopeResourceAttributes(_currentUser.TenantId), ct: cancellationToken);
             var alreadyExists = request.Scope == PolicyScope.Platform ? await _unitOfWork.PolicyDefinitions.ExistsPlatformAsync(request.ResourceType, request.Action, cancellationToken) : await _unitOfWork.PolicyDefinitions.ExistsAsync(request.TenantId!.Value, request.ResourceType, request.Action, cancellationToken);
             if (alreadyExists)

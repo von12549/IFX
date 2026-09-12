@@ -36,6 +36,10 @@ public class UpdatePolicyCommandHandler : IRequestHandler<UpdatePolicyCommand, R
                 : await _unitOfWork.PolicyDefinitions.GetPlatformByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<PolicyDefinitionDto>.Failure("Policy not found.");
+            if (policy.Scope == PolicyScope.Platform && !_currentUser.IsGlobalAdmin)
+                return Result<PolicyDefinitionDto>.Failure("Platform policy management requires PlatformAdmin.");
+            if (!PolicyChangeRules.Valid(policy.Scope, policy.ResourceType, policy.Action, request.Conditions))
+                return Result<PolicyDefinitionDto>.Failure("Invalid policy definition.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "update", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
             var conditionsJson = JsonSerializer.Serialize(request.Conditions.Select(c => new PolicyConditionRecord(c.TemplateName, c.Parameters)).ToList());
             policy.Update(request.Name, conditionsJson, _currentUser.UserId, request.Description);

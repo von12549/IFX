@@ -39,16 +39,16 @@
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-      "expectedSha256": "40e28aaf91e8929dda8a8d02df974e1ecf529075ea0125c294b23256a28690ee",
-      "actualSha256": "40e28aaf91e8929dda8a8d02df974e1ecf529075ea0125c294b23256a28690ee",
+      "expectedSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
+      "actualSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
       "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
-      "expectedSha256": "80a0e6a2b3e598815ee77e9bf3a7f5d1be0d3f372ee63614d3743bd6004bb2f8",
-      "actualSha256": "80a0e6a2b3e598815ee77e9bf3a7f5d1be0d3f372ee63614d3743bd6004bb2f8",
+      "expectedSha256": "6d2a958e3f36ea9331e3c0b0398e837258305226c0dfc0a0e12324d039fa8906",
+      "actualSha256": "6d2a958e3f36ea9331e3c0b0398e837258305226c0dfc0a0e12324d039fa8906",
       "binding": "reviewed-authority-refresh",
       "result": "passed"
     },

@@ -30,6 +30,8 @@ public class PolicyDefinition : BaseEntity, IAuditableEntity
         Guid? createdById,
         string? description = null)
     {
+        if (!Enum.IsDefined(scope) || scope == PolicyScope.Platform && tenantId is not null)
+            throw new ArgumentException("Invalid policy scope.", nameof(scope));
         if (scope == PolicyScope.Tenant && tenantId is null)
             throw new ArgumentException("TenantId is required for Tenant-scoped policies.", nameof(tenantId));
         if (tenantId.HasValue && tenantId.Value == Guid.Empty)

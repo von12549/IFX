@@ -18,19 +18,45 @@ public sealed class ResourceAuthorizationService(ICurrentUser currentUser, IAbac
         TResource resourceAttributes, IDictionary<string, object>? parameters = null, CancellationToken ct = default)
         where TResource : ResourceAttributes
     {
-        // Baseline role semantics are owned by IAM; Phase 4 changes these explicitly.
-        if (currentUser.IsGlobalAdmin) return;
-        AbacPolicy? policy = currentUser.GlobalRoles.Count > 0
-            ? await policies.ResolvePlatformPolicyForRoleAsync(resourceType, action, currentUser.GlobalRoles[0], ct)
-            : currentUser.TenantId.HasValue
-                ? await policies.ResolveTenantPolicyAsync(currentUser.TenantId.Value, resourceType, action, ct)
-                : null;
-        if (policy is null) throw new ForbiddenException($"No ABAC policy defined for '{resourceType}/{action}'.");
+        ct.ThrowIfCancellationRequested();
+        // These mandatory constraints apply before any role exemption or provider call.
+        if (!currentUser.IsAuthenticated || currentUser.UserId == Guid.Empty || !execution.HasCurrent ||
+            execution.Current.Provenance != ContextProvenance.Trusted ||
+            execution.Current.Actor.Id != currentUser.UserId.ToString() ||
+            !AccessPolicySemantics.IsKnownOperation(resourceType, action))
+            throw new ForbiddenException("access_context_invalid");
+        var selected = new List<AbacPolicy>();
+        if (execution.Current.IsTenantScope)
+        {
+            if (currentUser.TenantId is not { } tenantId || tenantId != execution.Current.TenantId ||
+                !Guid.TryParse(resourceAttributes.TenantId, out var resourceTenant) || resourceTenant != tenantId)
+                throw new ForbiddenException("access_tenant_mismatch");
+            // Self-profile read has an explicit authenticated-user grant, still ANDed with ABAC and tenant constraints.
+            var selfProfile = resourceType == "user" && action == "read" && resourceAttributes.OwnerId == currentUser.UserId.ToString();
+            if (!selfProfile && !currentUser.Permissions.Contains(AccessPolicySemantics.Permission(resourceType, action), StringComparer.OrdinalIgnoreCase))
+                throw new ForbiddenException("rbac_denied");
+            var policy = await policies.ResolveTenantPolicyAsync(tenantId, resourceType, action, ct);
+            if (policy is not null) selected.Add(policy);
+        }
+        else
+        {
+            // Admin is an explicit platform-scope grant. It cannot erase the mandatory context checks or a domain invariant.
+            if (currentUser.IsGlobalAdmin && AccessPolicySemantics.GlobalRoleGrants("PlatformAdmin", resourceType, action)) return;
+            foreach (var role in currentUser.GlobalRoles.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal))
+            {
+                if (!AccessPolicySemantics.GlobalRoleGrants(role, resourceType, action)) continue;
+                var policy = await policies.ResolvePlatformPolicyForRoleAsync(resourceType, action, role, ct);
+                if (policy is not null) selected.Add(policy);
+            }
+        }
+        if (selected.Count == 0) throw new ForbiddenException("policy_not_configured");
         var subject = new SubjectFacts(currentUser.UserId.ToString(), currentUser.TenantId?.ToString(),
             currentUser.Departments, currentUser.Roles, currentUser.Permissions, currentUser.MfaEnabled,
             currentUser.GlobalRoles, currentUser.IsGlobalAdmin ? "true" : "false");
-        if (!await evaluation.EvaluateAsync(subject, resourceAttributes, policy, environment.GetFacts(), parameters, ct))
-            throw new ForbiddenException("Access denied by policy.");
+        var facts = environment.GetFacts();
+        foreach (var policy in selected)
+            if (!await evaluation.EvaluateAsync(subject, resourceAttributes, policy, facts, parameters, ct))
+                throw new ForbiddenException("policy_deny");
     }
 
     public async Task<Contract.ResourceAuthorizationResponse> AuthorizeAsync(Contract.ResourceAuthorizationRequest request, ContractRequestContext context,
@@ -56,6 +82,7 @@ public sealed class ResourceAuthorizationService(ICurrentUser currentUser, IAbac
             }, ct: ct);
             return new(true, "policy_allow");
         }
+        catch (PolicyResolutionException ex) { return new(false, ex.Message); }
         catch (ForbiddenException) { return new(false, "policy_deny"); }
     }
 }

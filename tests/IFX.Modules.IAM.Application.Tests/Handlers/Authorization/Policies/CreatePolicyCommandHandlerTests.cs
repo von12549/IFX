@@ -49,6 +49,7 @@ public class CreatePolicyCommandHandlerTests
     public async Task Handle_WithValidInput_CreatesPolicyAndReturnsDto()
     {
         var tenantId = Guid.NewGuid();
+        _currentUser.SetupGet(x => x.TenantId).Returns(tenantId);
         _policies.Setup(p => p.ExistsAsync(tenantId, "user", "read", It.IsAny<CancellationToken>()))
                  .ReturnsAsync(false);
 
@@ -71,6 +72,7 @@ public class CreatePolicyCommandHandlerTests
     public async Task Handle_WhenDuplicateExists_ReturnsFailure()
     {
         var tenantId = Guid.NewGuid();
+        _currentUser.SetupGet(x => x.TenantId).Returns(tenantId);
         _policies.Setup(p => p.ExistsAsync(tenantId, "user", "read", It.IsAny<CancellationToken>()))
                  .ReturnsAsync(true);
 
@@ -86,6 +88,7 @@ public class CreatePolicyCommandHandlerTests
     [Fact]
     public async Task Handle_WithNullTenantId_CreatesPlatformPolicyAndCallsInvalidatePlatform()
     {
+        _currentUser.SetupGet(x => x.IsGlobalAdmin).Returns(true);
         _policies.Setup(p => p.ExistsPlatformAsync("user", "read", It.IsAny<CancellationToken>()))
                  .ReturnsAsync(false);
 
@@ -106,6 +109,7 @@ public class CreatePolicyCommandHandlerTests
     [Fact]
     public async Task Handle_WhenPlatformDuplicateExists_ReturnsFailure()
     {
+        _currentUser.SetupGet(x => x.IsGlobalAdmin).Returns(true);
         _policies.Setup(p => p.ExistsPlatformAsync("user", "read", It.IsAny<CancellationToken>()))
                  .ReturnsAsync(true);
 

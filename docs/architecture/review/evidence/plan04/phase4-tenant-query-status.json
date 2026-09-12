@@ -6,7 +6,7 @@
   "checkedAt": "2026-09-12",
   "policySha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
   "bypassRegistrySha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
-  "inventorySha256": "93fe2d0c20f9fb6086142d1dd073064bb693847fb6a41b1dac036209017f9795",
+  "inventorySha256": "c18d3db044b6129ad55b3a96bc3a347dddc42a3aaa160786f66ae09e3938e5af",
   "checks": {
     "policyDefaultsToExplicitPredicate": true,
     "trustedNonNullableTenantRequired": true,

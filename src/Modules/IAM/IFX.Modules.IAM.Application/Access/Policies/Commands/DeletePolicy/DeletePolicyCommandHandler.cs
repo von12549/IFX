@@ -34,6 +34,8 @@ public class DeletePolicyCommandHandler : IRequestHandler<DeletePolicyCommand, R
                 : await _unitOfWork.PolicyDefinitions.GetPlatformByIdAsync(request.PolicyId, cancellationToken);
             if (policy is null)
                 return Result<bool>.Failure("Policy not found.");
+            if (policy.Scope == PolicyScope.Platform && !_currentUser.IsGlobalAdmin)
+                return Result<bool>.Failure("Platform policy management requires PlatformAdmin.");
             await _authorizationService.AuthorizeWithResolvedPolicyAsync("policy", "delete", new PolicyResourceAttributes(policy.Id, policy.TenantId, policy.CreatedById), ct: cancellationToken);
             _unitOfWork.PolicyDefinitions.Remove(policy);
             if (policy.Scope == PolicyScope.Platform)

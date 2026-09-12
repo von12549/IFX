@@ -1,3 +1,4 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
 using System.Text.Json;
 using IFX.Modules.IAM.Application.Access.Policies.DTOs;
 using IFX.Modules.IAM.Application.Common;
@@ -11,13 +12,15 @@ namespace IFX.Modules.IAM.Application.Access.Policies.Queries.GetPlatformPolicie
 
 public class GetPlatformPoliciesQueryHandler : IRequestHandler<GetPlatformPoliciesQuery, Result<List<PolicyDefinitionDto>>>
 {
+    private readonly IResourceAuthorizationService _authorization;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<GetPlatformPoliciesQueryHandler> _logger;
 
     public GetPlatformPoliciesQueryHandler(
         IUnitOfWork unitOfWork,
-        ILogger<GetPlatformPoliciesQueryHandler> logger)
+        ILogger<GetPlatformPoliciesQueryHandler> logger, IResourceAuthorizationService authorization)
     {
+        _authorization = authorization;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -27,6 +30,7 @@ public class GetPlatformPoliciesQueryHandler : IRequestHandler<GetPlatformPolici
     {
         try
         {
+            await _authorization.AuthorizeWithResolvedPolicyAsync("platform_policy", "list", new ResourceAttributes { Type = "platform_policy" }, ct: cancellationToken);
             var rows = await _unitOfWork.PolicyDefinitions.GetPlatformPoliciesAsync(cancellationToken);
             return Result<List<PolicyDefinitionDto>>.Success(rows.Select(MapToDto).ToList());
         }

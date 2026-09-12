@@ -9,11 +9,13 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Access.GlobalRoles.Commands.AssignGlobalRole;
 public class AssignGlobalRoleCommandHandler : IRequestHandler<AssignGlobalRoleCommand, Result<bool>>
 {
+    private readonly IPermissionChecker _permission;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
     private readonly ILogger<AssignGlobalRoleCommandHandler> _logger;
-    public AssignGlobalRoleCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, ILogger<AssignGlobalRoleCommandHandler> logger)
+    public AssignGlobalRoleCommandHandler(IUnitOfWork unitOfWork, ICurrentUser currentUser, ILogger<AssignGlobalRoleCommandHandler> logger, IPermissionChecker permission)
     {
+        _permission = permission;
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
         _logger = logger;
@@ -22,6 +24,7 @@ public class AssignGlobalRoleCommandHandler : IRequestHandler<AssignGlobalRoleCo
     public async Task<Result<bool>> Handle(AssignGlobalRoleCommand request, CancellationToken cancellationToken)
     {
         {
+            if (!await _permission.HasPermissionAsync("Platform.GlobalRole:manage", cancellationToken)) return Result<bool>.Failure("Platform authorization required.");
             // Only PlatformAdmins can assign any GlobalRole
             if (!_currentUser.IsGlobalAdmin)
                 return Result<bool>.Failure("Only platform admins can assign global roles.");

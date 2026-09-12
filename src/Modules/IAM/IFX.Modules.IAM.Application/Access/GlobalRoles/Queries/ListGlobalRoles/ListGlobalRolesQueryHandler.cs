@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.GlobalRoles.DTOs;
 using IFX.Modules.IAM.Application.Common;
 using IFX.Modules.IAM.Application.Interfaces;
@@ -8,11 +9,13 @@ namespace IFX.Modules.IAM.Application.Access.GlobalRoles.Queries.ListGlobalRoles
 
 public class ListGlobalRolesQueryHandler : IRequestHandler<ListGlobalRolesQuery, Result<List<GlobalRoleDto>>>
 {
+    private readonly IPermissionChecker _permission;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ListGlobalRolesQueryHandler> _logger;
 
-    public ListGlobalRolesQueryHandler(IUnitOfWork unitOfWork, ILogger<ListGlobalRolesQueryHandler> logger)
+    public ListGlobalRolesQueryHandler(IUnitOfWork unitOfWork, ILogger<ListGlobalRolesQueryHandler> logger, IPermissionChecker permission)
     {
+        _permission = permission;
         _unitOfWork = unitOfWork;
         _logger = logger;
     }
@@ -22,6 +25,7 @@ public class ListGlobalRolesQueryHandler : IRequestHandler<ListGlobalRolesQuery,
     {
         try
         {
+            if (!await _permission.HasPermissionAsync("Platform.GlobalRole:manage", cancellationToken)) return Result<List<GlobalRoleDto>>.Failure("Platform authorization required.");
             var roles = await _unitOfWork.GlobalRoles.GetAllAsync(cancellationToken);
             return Result<List<GlobalRoleDto>>.Success(
                 roles.Select(r => new GlobalRoleDto(r.Id, r.Name, r.Description)).ToList());

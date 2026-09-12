@@ -23,8 +23,8 @@ public class DbAbacPolicyResolverTests
     public DbAbacPolicyResolverTests()
     {
         _registry = new AbacTemplateRegistry();
-        _registry.Register(new ConditionTemplate { Name = "SameTenant" });
-        _registry.Register(new ConditionTemplate { Name = "CreatedByMe" });
+        _registry.Register(BuiltInTemplates.SameTenant);
+        _registry.Register(BuiltInTemplates.CreatedByMe);
 
         _staticResolver = new StaticAbacPolicyResolver();
 
@@ -33,9 +33,7 @@ public class DbAbacPolicyResolverTests
         _resolver = new DbAbacPolicyResolver(
             _repository.Object,
             _registry,
-            _staticResolver,
-            _cache,
-            Mock.Of<ILogger<DbAbacPolicyResolver>>());
+            _staticResolver);
     }
 
     // ── Tenant: Tier 1 — tenant DB row ──────────────────────────────────────
@@ -60,7 +58,7 @@ public class DbAbacPolicyResolverTests
     }
 
     [Fact]
-    public async Task ResolveTenantPolicy_CacheHitAvoidsSecondDbCall()
+    public async Task ResolveTenantPolicy_EachEvaluationReadsCurrentCommittedPolicy()
     {
         var row = PolicyDefinition.Create(
             PolicyScope.Tenant, TenantId, "Read", "user", "read",
@@ -73,7 +71,7 @@ public class DbAbacPolicyResolverTests
         await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
         await _resolver.ResolveTenantPolicyAsync(TenantId, "user", "read");
 
-        _repository.Verify(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()), Times.Once);
+        _repository.Verify(r => r.GetAsync(TenantId, "user", "read", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
     [Fact]

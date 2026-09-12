@@ -6,6 +6,8 @@ namespace IFX.Modules.IAM.Application.Access.Abac.Policies;
 /// </summary>
 public sealed class AbacPolicy
 {
+    public string Version { get; init; } = "iam-static-v2";
+    public string Classification { get; init; } = "overridable-default";
     /// <summary>Resource type this policy applies to (e.g. "document", "report").</summary>
     public string ResourceType { get; init; } = string.Empty;
 

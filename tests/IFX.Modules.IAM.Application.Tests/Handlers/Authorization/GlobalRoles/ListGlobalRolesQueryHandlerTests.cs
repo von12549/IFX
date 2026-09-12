@@ -1,3 +1,4 @@
+using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.GlobalRoles.Queries.ListGlobalRoles;
 using IFX.Modules.IAM.Application.Interfaces;
 using IFX.Modules.IAM.Domain.Access;
@@ -8,6 +9,7 @@ namespace IFX.Modules.IAM.Application.Tests.Handlers.Authorization.GlobalRoles;
 
 public class ListGlobalRolesQueryHandlerTests
 {
+    private readonly Mock<IPermissionChecker> _permission = new();
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IGlobalRoleRepository> _globalRoles = new();
     private readonly Mock<ILogger<ListGlobalRolesQueryHandler>> _logger = new();
@@ -16,7 +18,8 @@ public class ListGlobalRolesQueryHandlerTests
     public ListGlobalRolesQueryHandlerTests()
     {
         _unitOfWork.Setup(u => u.GlobalRoles).Returns(_globalRoles.Object);
-        _handler = new ListGlobalRolesQueryHandler(_unitOfWork.Object, _logger.Object);
+        _permission.Setup(x => x.HasPermissionAsync("Platform.GlobalRole:manage", It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _handler = new ListGlobalRolesQueryHandler(_unitOfWork.Object, _logger.Object, _permission.Object);
     }
 
     [Fact]

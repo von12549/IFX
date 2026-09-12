@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "40e28aaf91e8929dda8a8d02df974e1ecf529075ea0125c294b23256a28690ee",
+  "catalogSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
   "moduleOwnership": [
     {
       "module": "IAM",

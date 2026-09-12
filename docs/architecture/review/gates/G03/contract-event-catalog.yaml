@@ -677,8 +677,8 @@
         "member": "AuthorizeAsync"
       },
       "executionScope": "trusted tenant or platform execution scope",
-      "authorization": "Validate registered consumer and trusted ambient context; match resource tenant for tenant scope. IAM loads subject and policy facts.",
-      "freshness": "Current IAM policy resolver semantics, including baseline cache; Phase 4 removes stale fallback.",
+      "authorization": "Trusted actor and scope plus RBAC and all applicable ABAC policies. Platform role grants apply only to platform scope. Tenant policies cannot replace mandatory constraints.",
+      "freshness": "IAM semantics v2: policy storage read per evaluation, no cross-request policy or decision cache; database failures never select a default.",
       "failureSemantics": [
         "deny:false",
         "indeterminate:false",
@@ -777,7 +777,8 @@
       ],
       "tests": [
         "tests/IFX.Modules.IAM.Application.Tests/Authorization/ResourceAuthorizationTests.cs",
-        "tests/IFX.IntegrationTests/Composition/AuthorizationAdapterTests.cs"
+        "tests/IFX.IntegrationTests/Composition/AuthorizationAdapterTests.cs",
+        "tests/IFX.Modules.IAM.Application.Tests/Authorization/PolicyCombinationTests.cs"
       ]
     },
     {

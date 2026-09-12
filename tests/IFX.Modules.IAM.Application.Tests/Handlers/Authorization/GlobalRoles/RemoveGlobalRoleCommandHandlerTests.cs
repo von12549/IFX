@@ -9,6 +9,7 @@ namespace IFX.Modules.IAM.Application.Tests.Handlers.Authorization.GlobalRoles;
 
 public class RemoveGlobalRoleCommandHandlerTests
 {
+    private readonly Mock<IPermissionChecker> _permission = new();
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IGlobalRoleRepository> _globalRoles = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
@@ -20,7 +21,8 @@ public class RemoveGlobalRoleCommandHandlerTests
         _unitOfWork.Setup(u => u.GlobalRoles).Returns(_globalRoles.Object);
         _currentUser.Setup(c => c.IsGlobalAdmin).Returns(true);
         _currentUser.Setup(c => c.UserId).Returns(Guid.NewGuid());
-        _handler = new RemoveGlobalRoleCommandHandler(_unitOfWork.Object, _currentUser.Object, _logger.Object);
+        _permission.Setup(x => x.HasPermissionAsync("Platform.GlobalRole:manage", It.IsAny<CancellationToken>())).ReturnsAsync(true);
+        _handler = new RemoveGlobalRoleCommandHandler(_unitOfWork.Object, _currentUser.Object, _logger.Object, _permission.Object);
     }
 
     [Fact]
