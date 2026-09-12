@@ -1,11 +1,11 @@
 # Contracts / Adapters / Events 改进计划概述与审查结论
 
-> 状态：计划已完成一致性审查；架构决策已确认，代码实施尚未开始
+> 状态：下文保留原计划一致性审查；各实施计划以自身进度与证据为准
 > 总计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置 Gate：[`00-prerequisites.md`](00-prerequisites.md)
 > 后续事项：[`TODO.md`](TODO.md)
 > 当前阶段后续计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) — 仓库验证通过，具名审批前 PRE-READY
-> 新增独立演进计划：[`05-iam-platform-security-refactor.md`](05-iam-platform-security-refactor.md) — Auth → IAM 与平台认证/授权拆分，执行草案，代码尚未实施
+> 新增独立演进计划：[`05-iam-platform-security-refactor.md`](05-iam-platform-security-refactor.md) — Auth → IAM 与平台认证/授权拆分，Phase 0–7 仓库实施与隔离验证完成；目标数据审计、真实 IdP 与发布验收待执行
 > 配套讨论：[`Platform 能力与租户连接`](../platform-capabilities-and-tenant-connections.zh-CN.md) — 独立讨论记录，不改变既有计划状态
 
 ## 一句话理解本次改造

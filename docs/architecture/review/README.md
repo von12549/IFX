@@ -2,11 +2,11 @@
 
 # IFX 模块通信架构评审
 
-This directory records the source-verified architecture and its governed migration. Plan 01 synchronous Contracts/Ports/Adapters reached B2 and Plan 02 reliable events reached the repository B3 checkpoint; B4 and production-dependent Gate closure remain open.
+Current implementation: [IAM and platform security](iam-platform-security.en.md), [Plan 05 evidence](evidence/plan05/README.md). Historical baselines below retain their original scope; repository completion does not close production-dependent gates.
 
-本目录记录经源码核对的架构及受治理的迁移状态。Plan 01 同步 Contracts/Ports/Adapters 已到达 B2，Plan 02 可靠事件已到达仓库 B3 检查点；B4 与依赖生产证据的 Gate 关闭仍保持开放。
+当前实现见 [IAM 与平台安全](iam-platform-security.zh-CN.md) 和 [Plan 05 证据](evidence/plan05/README.md)。下方保留历史基线；仓库完成不等于生产 Gate 关闭。
 
-## Baseline / 基线
+## Original review baseline / 原始审查基线
 
 - Repository source baseline: commit `308d548`
 - Architecture style: ASP.NET Core 8 modular monolith
@@ -102,4 +102,3 @@ This directory records the source-verified architecture and its governed migrati
 - 虚线表示实现、绑定或图中明确标注的其他关系。
 - 时序图表示运行时调用和事务时点。
 - Contracts 只是定义，本身没有运行时行为。
-

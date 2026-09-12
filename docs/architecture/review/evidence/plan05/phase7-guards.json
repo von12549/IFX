@@ -1,0 +1,1726 @@
+{
+  "formatVersion": 1,
+  "phase": "P05-S7",
+  "validatedParentCommit": "91688a92485ca1ec3dc3da953164befe7eead5b5",
+  "checkedAt": "2026-09-12T11:06:41.3515850+00:00",
+  "result": "repository-passed-target-validation-pending",
+  "checks": [
+    {
+      "path": "artifacts/plan05/phase7/layerguard.json",
+      "sha256": "2308ee56ddad31440e43a33762ac9916674ee6a42b5c4df6c3d04c34f592ff97",
+      "report": {
+        "tool": "layerguard",
+        "toolVersion": "0.4.0-a1",
+        "checked": [
+          "project references",
+          "import directives in 936 source files",
+          "which packages a ring may hold",
+          "which projects a ring may name",
+          "which packages a ring may never hold",
+          "where types of a given name must be declared",
+          "what a ring may be handed to hold",
+          "which ring a type a ring is handed was declared in",
+          "whether a type answers to a contract declared in another ring",
+          "module ownership and project roles",
+          "own and foreign role references",
+          "provider graph and adapter boundaries",
+          "declaration namespaces and forbidden implementation declarations",
+          "forbidden framework namespaces, symbols, and reflection strings",
+          "Contract context and event payload type boundaries",
+          "every numbered rule of this codebase's own rulebook"
+        ],
+        "scope": {
+          "root": "D:\\IFX\\src",
+          "rootKind": "directory",
+          "projectsLoaded": 56,
+          "projectsInScope": 49,
+          "projectsOutside": 7
+        },
+        "ruleset": {
+          "source": "D:\\IFX\\src\\layerguard.json",
+          "hash": "5407814fbb1095e696bc71fedc0d5872a83c70a9dbc45ddd89c7c4ab6173e92d",
+          "allowedDependencies": {
+            "Domain": [],
+            "Contracts": [],
+            "Application": [
+              "Domain",
+              "Contracts"
+            ],
+            "Presentation": [
+              "Application",
+              "Contracts",
+              "Domain"
+            ],
+            "IntegrationAdapter": [
+              "Application",
+              "Contracts"
+            ],
+            "Infrastructure": [
+              "Application",
+              "Domain",
+              "Contracts",
+              "Runtime"
+            ],
+            "Runtime": [
+              "Contracts"
+            ],
+            "Composition": [
+              "Domain",
+              "Contracts",
+              "Application",
+              "Presentation",
+              "IntegrationAdapter",
+              "Infrastructure",
+              "Runtime"
+            ],
+            "RuntimeHost": [
+              "Composition"
+            ]
+          },
+          "policyBindings": [
+            {
+              "gate": "G03",
+              "source": "D:\\IFX\\docs\\architecture\\review\\gates\\G03\\generated\\layerguard-governance-input.json",
+              "sha256": "6d2a958e3f36ea9331e3c0b0398e837258305226c0dfc0a0e12324d039fa8906"
+            },
+            {
+              "gate": "G03-catalog",
+              "source": "D:\\IFX\\docs\\architecture\\review\\gates\\G03\\contract-event-catalog.yaml",
+              "sha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607"
+            },
+            {
+              "gate": "G04",
+              "source": "D:\\IFX\\deployment\\g04\\release-runtime-manifest.json",
+              "sha256": "bfc5a97203b1f74eff3a767a098fc0e44b9b26a771c5f914eb6af97fef82f7de"
+            },
+            {
+              "gate": "G04-moduleManifest",
+              "source": "D:\\IFX\\deployment\\g04\\module-manifest.json",
+              "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+            },
+            {
+              "gate": "G04-deploymentUnitCatalog",
+              "source": "D:\\IFX\\deployment\\g04\\deployment-unit-catalog.json",
+              "sha256": "4302bd19a3415fac2d854a108b14223110c549bf5d839c35e1dffbf4e31944e1"
+            },
+            {
+              "gate": "G04-infrastructureCompatibility",
+              "source": "D:\\IFX\\deployment\\g04\\infrastructure-compatibility-matrix.json",
+              "sha256": "7aa9a3ed5de7a9c0824bc40e3dbe9068883d276b4185748e89df9e6bc32c1a1b"
+            },
+            {
+              "gate": "G04-schemaReleaseManifest",
+              "source": "D:\\IFX\\deployment\\release-manifest.json",
+              "sha256": "b712896794946ab63594a578e92d0b153d721307884c8d3f444504b1245a37d0"
+            },
+            {
+              "gate": "G04-migrationManifest",
+              "source": "D:\\IFX\\src\\DatabaseMigrator\\IFX.DatabaseMigrator\\migration-manifest.json",
+              "sha256": "172a72e3acc24d54d1a650c154599a315b0efc0a9752909d8ac49c154abb6dc0"
+            },
+            {
+              "gate": "G04-releaseOrchestration",
+              "source": "D:\\IFX\\deployment\\g04\\release-orchestration.json",
+              "sha256": "56b1cc645e879459a97a0bcc04829e8aa838bd50c0e8b9fc72c27c9fb74adcfe"
+            },
+            {
+              "gate": "G04-backpressurePolicy",
+              "source": "D:\\IFX\\deployment\\g04\\backpressure-policy.json",
+              "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
+            },
+            {
+              "gate": "G04-failureMatrix",
+              "source": "D:\\IFX\\deployment\\g04\\failure-matrix.json",
+              "sha256": "5f238f5cc320af4aacfbfb4b99b7f8bc268c3cfed564f775ff2c19aee5e0a0f6"
+            },
+            {
+              "gate": "G05",
+              "source": "D:\\IFX\\docs\\architecture\\review\\gates\\G05\\context-protocol-v1.json",
+              "sha256": "d7cb3d0cca54154a76235d96c292e2a719302d920d8a8cea4c5ec084dad7825a"
+            }
+          ],
+          "waiverPolicy": {
+            "maximumDays": 90,
+            "unwaivableCategories": [
+              "missing-owner",
+              "missing-consumer",
+              "internal-model-exposure",
+              "C4-exposure",
+              "unapproved-C3-exposure",
+              "identity-reuse"
+            ],
+            "unwaivableRules": [
+              "OWNERSHIP-UNKNOWN",
+              "PAYLOAD-TYPE-FORBIDDEN"
+            ]
+          }
+        },
+        "rulebook": [
+          {
+            "ref": "L2.2",
+            "text": "Domain does not depend on Contracts.",
+            "settledBy": [
+              "RING-DIRECTION",
+              "IMPORT-DIRECTION"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L2.3",
+            "text": "Application may use own Contracts but not foreign Contracts.",
+            "settledBy": [
+              "OWNERSHIP-REFERENCE"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L2.4",
+            "text": "Adapters use only registered provider Contracts.",
+            "settledBy": [
+              "PROVIDER-CONTRACT",
+              "PROVIDER-CYCLE",
+              "EMBEDDED-ADAPTER-PROVIDER"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L3.1",
+            "text": "Public contracts and events live in provider Contracts namespaces.",
+            "settledBy": [
+              "DECLARATION-NAMESPACE"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L3.4",
+            "text": "Contracts do not reference framework or transport implementations.",
+            "settledBy": [
+              "RING-PACKAGE",
+              "RING-PACKAGE-FORBIDDEN",
+              "RING-PACKAGE-IMPORT",
+              "SYMBOL-FORBIDDEN"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L3.5",
+            "text": "Contracts do not contain implementation declarations.",
+            "settledBy": [
+              "DECLARATION-FORBIDDEN"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L3.6",
+            "text": "Integration event payloads do not expose internal entities.",
+            "settledBy": [
+              "PAYLOAD-TYPE-FORBIDDEN"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L1.2",
+            "text": "No new Abstractions project is introduced.",
+            "settledBy": [
+              "PROJECT-NAME-FORBIDDEN"
+            ],
+            "coverage": "full",
+            "findings": 0
+          },
+          {
+            "ref": "L2.9",
+            "text": "Unknown module ownership fails closed.",
+            "settledBy": [
+              "OWNERSHIP-UNKNOWN"
+            ],
+            "coverage": "full",
+            "findings": 0
+          }
+        ],
+        "verdict": "baseline-clean",
+        "violationCount": 0,
+        "violations": [],
+        "clusters": [],
+        "projects": [
+          {
+            "name": "IFX.ApiHost",
+            "ring": "RuntimeHost",
+            "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\IFX.ApiHost.csproj",
+            "directProjectReferences": 13,
+            "packages": 11
+          },
+          {
+            "name": "IFX.Modules.CRM.Application",
+            "ring": "Application",
+            "module": "CRM",
+            "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\IFX.Modules.CRM.Application.csproj",
+            "directProjectReferences": 5,
+            "packages": 6
+          },
+          {
+            "name": "IFX.Modules.CRM.Composition",
+            "ring": "Composition",
+            "module": "CRM",
+            "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Composition\\IFX.Modules.CRM.Composition.csproj",
+            "directProjectReferences": 5,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.CRM.Contracts",
+            "ring": "Contracts",
+            "module": "CRM",
+            "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.CRM.Domain",
+            "ring": "Domain",
+            "module": "CRM",
+            "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Domain\\IFX.Modules.CRM.Domain.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.CRM.Infrastructure",
+            "ring": "Infrastructure",
+            "module": "CRM",
+            "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Infrastructure\\IFX.Modules.CRM.Infrastructure.csproj",
+            "directProjectReferences": 4,
+            "packages": 7
+          },
+          {
+            "name": "IFX.Modules.CRM.Presentation",
+            "ring": "Presentation",
+            "module": "CRM",
+            "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Presentation\\IFX.Modules.CRM.Presentation.csproj",
+            "directProjectReferences": 1,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.Holdings.Application",
+            "ring": "Application",
+            "module": "Holdings",
+            "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+            "directProjectReferences": 3,
+            "packages": 7
+          },
+          {
+            "name": "IFX.Modules.Holdings.Composition",
+            "ring": "Composition",
+            "module": "Holdings",
+            "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Composition\\IFX.Modules.Holdings.Composition.csproj",
+            "directProjectReferences": 4,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.Holdings.Domain",
+            "ring": "Domain",
+            "module": "Holdings",
+            "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Domain\\IFX.Modules.Holdings.Domain.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.Holdings.Infrastructure",
+            "ring": "Infrastructure",
+            "module": "Holdings",
+            "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Infrastructure\\IFX.Modules.Holdings.Infrastructure.csproj",
+            "directProjectReferences": 8,
+            "packages": 4
+          },
+          {
+            "name": "IFX.Modules.Holdings.Presentation",
+            "ring": "Presentation",
+            "module": "Holdings",
+            "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Presentation\\IFX.Modules.Holdings.Presentation.csproj",
+            "directProjectReferences": 1,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.IAM.Application",
+            "ring": "Application",
+            "module": "IAM",
+            "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Application\\IFX.Modules.IAM.Application.csproj",
+            "directProjectReferences": 5,
+            "packages": 6
+          },
+          {
+            "name": "IFX.Modules.IAM.Composition",
+            "ring": "Composition",
+            "module": "IAM",
+            "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Composition\\IFX.Modules.IAM.Composition.csproj",
+            "directProjectReferences": 9,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.IAM.Contracts",
+            "ring": "Contracts",
+            "module": "IAM",
+            "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.IAM.Domain",
+            "ring": "Domain",
+            "module": "IAM",
+            "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Domain\\IFX.Modules.IAM.Domain.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.IAM.Infrastructure",
+            "ring": "Infrastructure",
+            "module": "IAM",
+            "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Infrastructure\\IFX.Modules.IAM.Infrastructure.csproj",
+            "directProjectReferences": 6,
+            "packages": 8
+          },
+          {
+            "name": "IFX.Modules.IAM.Presentation",
+            "ring": "Presentation",
+            "module": "IAM",
+            "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Presentation\\IFX.Modules.IAM.Presentation.csproj",
+            "directProjectReferences": 1,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.Registry.Application",
+            "ring": "Application",
+            "module": "Registry",
+            "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj",
+            "directProjectReferences": 5,
+            "packages": 6
+          },
+          {
+            "name": "IFX.Modules.Registry.Composition",
+            "ring": "Composition",
+            "module": "Registry",
+            "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Composition\\IFX.Modules.Registry.Composition.csproj",
+            "directProjectReferences": 5,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.Registry.Contracts",
+            "ring": "Contracts",
+            "module": "Registry",
+            "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts.csproj",
+            "directProjectReferences": 2,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.Registry.Domain",
+            "ring": "Domain",
+            "module": "Registry",
+            "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Domain\\IFX.Modules.Registry.Domain.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.Registry.Infrastructure",
+            "ring": "Infrastructure",
+            "module": "Registry",
+            "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Infrastructure\\IFX.Modules.Registry.Infrastructure.csproj",
+            "directProjectReferences": 6,
+            "packages": 8
+          },
+          {
+            "name": "IFX.Modules.Registry.Presentation",
+            "ring": "Presentation",
+            "module": "Registry",
+            "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Presentation\\IFX.Modules.Registry.Presentation.csproj",
+            "directProjectReferences": 1,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.Transaction.Application",
+            "ring": "Application",
+            "module": "Transaction",
+            "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+            "directProjectReferences": 4,
+            "packages": 7
+          },
+          {
+            "name": "IFX.Modules.Transaction.Composition",
+            "ring": "Composition",
+            "module": "Transaction",
+            "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Composition\\IFX.Modules.Transaction.Composition.csproj",
+            "directProjectReferences": 6,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Modules.Transaction.Contracts",
+            "ring": "Contracts",
+            "module": "Transaction",
+            "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Contracts\\IFX.Modules.Transaction.Contracts.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.Transaction.Domain",
+            "ring": "Domain",
+            "module": "Transaction",
+            "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Domain\\IFX.Modules.Transaction.Domain.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Modules.Transaction.Infrastructure",
+            "ring": "Infrastructure",
+            "module": "Transaction",
+            "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Infrastructure\\IFX.Modules.Transaction.Infrastructure.csproj",
+            "directProjectReferences": 10,
+            "packages": 4
+          },
+          {
+            "name": "IFX.Modules.Transaction.Presentation",
+            "ring": "Presentation",
+            "module": "Transaction",
+            "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Presentation\\IFX.Modules.Transaction.Presentation.csproj",
+            "directProjectReferences": 1,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Platform.Authentication.Composition",
+            "ring": "Composition",
+            "module": "Authentication",
+            "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Composition\\IFX.Platform.Authentication.Composition.csproj",
+            "directProjectReferences": 3,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Authentication.Contracts",
+            "ring": "Contracts",
+            "module": "Authentication",
+            "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Authentication.Infrastructure.Auth0",
+            "ring": "Infrastructure",
+            "module": "Authentication",
+            "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Infrastructure.Auth0\\IFX.Platform.Authentication.Infrastructure.Auth0.csproj",
+            "directProjectReferences": 1,
+            "packages": 3
+          },
+          {
+            "name": "IFX.Platform.Authentication.Infrastructure.Cognito",
+            "ring": "Infrastructure",
+            "module": "Authentication",
+            "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Infrastructure.Cognito\\IFX.Platform.Authentication.Infrastructure.Cognito.csproj",
+            "directProjectReferences": 1,
+            "packages": 4
+          },
+          {
+            "name": "IFX.Platform.Authentication.Runtime",
+            "ring": "Runtime",
+            "module": "Authentication",
+            "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Runtime\\IFX.Platform.Authentication.Runtime.csproj",
+            "directProjectReferences": 1,
+            "packages": 4
+          },
+          {
+            "name": "IFX.Platform.Authorization.Composition",
+            "ring": "Composition",
+            "module": "Authorization",
+            "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Composition\\IFX.Platform.Authorization.Composition.csproj",
+            "directProjectReferences": 3,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Authorization.Contracts",
+            "ring": "Contracts",
+            "module": "Authorization",
+            "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Contracts\\IFX.Platform.Authorization.Contracts.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Authorization.Infrastructure.Opa",
+            "ring": "Infrastructure",
+            "module": "Authorization",
+            "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Infrastructure.Opa\\IFX.Platform.Authorization.Infrastructure.Opa.csproj",
+            "directProjectReferences": 2,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Authorization.Runtime",
+            "ring": "Runtime",
+            "module": "Authorization",
+            "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Runtime\\IFX.Platform.Authorization.Runtime.csproj",
+            "directProjectReferences": 1,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.BackgroundJobs.Composition",
+            "ring": "Composition",
+            "module": "BackgroundJobs",
+            "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Composition\\IFX.Platform.BackgroundJobs.Composition.csproj",
+            "directProjectReferences": 3,
+            "packages": 3
+          },
+          {
+            "name": "IFX.Platform.BackgroundJobs.Contracts",
+            "ring": "Contracts",
+            "module": "BackgroundJobs",
+            "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Contracts\\IFX.Platform.BackgroundJobs.Contracts.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+            "ring": "Infrastructure",
+            "module": "BackgroundJobs",
+            "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj",
+            "directProjectReferences": 1,
+            "packages": 2
+          },
+          {
+            "name": "IFX.Platform.Context.Contracts",
+            "ring": "Contracts",
+            "module": "Context",
+            "file": "D:\\IFX\\src\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Messaging.Composition",
+            "ring": "Composition",
+            "module": "Messaging",
+            "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Composition\\IFX.Platform.Messaging.Composition.csproj",
+            "directProjectReferences": 1,
+            "packages": 1
+          },
+          {
+            "name": "IFX.Platform.Messaging.Contracts",
+            "ring": "Contracts",
+            "module": "Messaging",
+            "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Contracts\\IFX.Platform.Messaging.Contracts.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Messaging.Runtime",
+            "ring": "Runtime",
+            "module": "Messaging",
+            "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Runtime\\IFX.Platform.Messaging.Runtime.csproj",
+            "directProjectReferences": 3,
+            "packages": 4
+          },
+          {
+            "name": "IFX.Platform.Notifications.Composition",
+            "ring": "Composition",
+            "module": "Notifications",
+            "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Composition\\IFX.Platform.Notifications.Composition.csproj",
+            "directProjectReferences": 2,
+            "packages": 3
+          },
+          {
+            "name": "IFX.Platform.Notifications.Contracts",
+            "ring": "Contracts",
+            "module": "Notifications",
+            "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Contracts\\IFX.Platform.Notifications.Contracts.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+            "ring": "Infrastructure",
+            "module": "Notifications",
+            "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Infrastructure.SendGrid\\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj",
+            "directProjectReferences": 2,
+            "packages": 2
+          }
+        ],
+        "outside": [
+          {
+            "name": "IFX.BuildingBlocks.Application",
+            "ring": "Outside",
+            "module": "BuildingBlocks",
+            "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Application\\IFX.BuildingBlocks.Application.csproj",
+            "directProjectReferences": 1,
+            "packages": 4
+          },
+          {
+            "name": "IFX.BuildingBlocks.Composition",
+            "ring": "Outside",
+            "module": "BuildingBlocks",
+            "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Composition\\IFX.BuildingBlocks.Composition.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          },
+          {
+            "name": "IFX.BuildingBlocks.Domain",
+            "ring": "Outside",
+            "module": "BuildingBlocks",
+            "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Domain\\IFX.BuildingBlocks.Domain.csproj",
+            "directProjectReferences": 0,
+            "packages": 1
+          },
+          {
+            "name": "IFX.BuildingBlocks.EntityFrameworkCore",
+            "ring": "Outside",
+            "module": "BuildingBlocks",
+            "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.EntityFrameworkCore\\IFX.BuildingBlocks.EntityFrameworkCore.csproj",
+            "directProjectReferences": 1,
+            "packages": 4
+          },
+          {
+            "name": "IFX.BuildingBlocks.Security",
+            "ring": "Outside",
+            "module": "BuildingBlocks",
+            "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj",
+            "directProjectReferences": 0,
+            "packages": 3
+          },
+          {
+            "name": "IFX.DatabaseMigrator",
+            "ring": "Outside",
+            "module": "DatabaseMigrator",
+            "file": "D:\\IFX\\src\\DatabaseMigrator\\IFX.DatabaseMigrator\\IFX.DatabaseMigrator.csproj",
+            "directProjectReferences": 6,
+            "packages": 3
+          },
+          {
+            "name": "IFX.Platform.Shared",
+            "ring": "Outside",
+            "module": "Platform",
+            "file": "D:\\IFX\\src\\Platform\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj",
+            "directProjectReferences": 0,
+            "packages": 0
+          }
+        ],
+        "notChecked": [
+          "whether every module holds every ring — the rule file does not ask for it",
+          "semantic symbol binding — names are matched syntactically against loaded project names",
+          "method behavior and runtime values; this tool checks only static dependency and declaration boundaries",
+          "Gate 05 field classification, purpose and propagation semantics — delegated to external validators/tests",
+          "anything inside a project that matches no layer"
+        ],
+        "durationMs": 2883,
+        "baseline": {
+          "source": "D:\\IFX\\mcp\\LayerGuard\\baselines\\plan05.json",
+          "matched": 0,
+          "new": 0,
+          "stale": 0,
+          "totalEntries": 0
+        }
+      }
+    },
+    {
+      "path": "artifacts/plan05/phase7/g03.json",
+      "sha256": "c0263b9624c6ce7dc17c4726addfd1430a3b95344c9f5b8379c759aa70c268cb",
+      "report": {
+        "formatVersion": 1,
+        "gate": "G03",
+        "phase": 7,
+        "result": "passed",
+        "checks": {
+          "deterministicInventory": true,
+          "exactAbstractionProjectCount": true,
+          "exactReaderCount": true,
+          "exactReaderMethodCount": true,
+          "exactDtoCount": true,
+          "exactIntegrationEventCount": true,
+          "messagingSurfaceInventoried": true,
+          "generatedDirectoriesExcluded": true,
+          "catalogValidation": true,
+          "publicSurfaceReconciliation": true,
+          "sourceCatalogReconciliation": true,
+          "deterministicCompatibilitySnapshots": true,
+          "layerGuardGovernanceHandoff": true,
+          "bilingualDocumentationAndRenderedDiagrams": true,
+          "closeoutReadinessAudit": true
+        },
+        "counts": {
+          "abstractionProjects": 4,
+          "contractProjects": 3,
+          "readers": 2,
+          "readerMethods": 2,
+          "dtos": 0,
+          "integrationEvents": 2,
+          "messagingAbstractionTypes": 4,
+          "abstractionProjectEdges": 46
+        },
+        "sha256": {
+          "inventory": "0ad505aff8e3ed2c1f4db15356edca761f65c71f1ac021b007da9e0adb369e2d"
+        },
+        "failures": {
+          "missingCatalogSurface": [],
+          "unknownCatalogSurface": []
+        },
+        "closureStatus": null
+      }
+    },
+    {
+      "path": "artifacts/plan05/phase7/g04.json",
+      "sha256": "a5d552902504ca4295325ce979b13ae7f911e39bd51a6d87ee6af71e9f7d27b9",
+      "report": {
+        "formatVersion": 1,
+        "gate": "G04",
+        "phase": 7,
+        "result": "passed",
+        "checks": {
+          "deterministicInventory": true,
+          "fiveRequiredBusinessModules": true,
+          "deployableInventoryComplete": true,
+          "currentHangfireCouplingRecorded": true,
+          "currentProbeConflationRecorded": true,
+          "currentOrchestrationRecorded": true,
+          "knownTargetGapsNotMisrepresented": true,
+          "phaseBaselineExists": true,
+          "manifestValidation": true,
+          "runtimeProfileResolverExists": true,
+          "apiEndpointMappingIsRoleGated": true,
+          "hangfireClientServerSplit": true,
+          "hangfireServerIsRoleGated": true,
+          "sameArtifactApiWorkerCompose": true,
+          "workerRoleConfigured": true,
+          "manifestsLoadedBeforeBuild": true,
+          "platformRegisteredBeforeModules": true,
+          "manifestOrdersEndpointMapping": true,
+          "compositionValidatedAfterBuild": true,
+          "endpointCollisionValidated": true,
+          "recoverableDependenciesAsync": true,
+          "readinessChecksBounded": true,
+          "dependencyReviewExists": true,
+          "perModuleDispatcherContractExists": true,
+          "sqlLeaseReferenceSuiteExists": true,
+          "uniqueRuntimeIdentityCreated": true,
+          "runtimeIdentityOverridesHangfire": true,
+          "fixedHangfireIdentityRemoved": true,
+          "criticalLoopTerminatesNonZero": true,
+          "leaseConformanceDocumented": true,
+          "sharedDrainSignalRegistered": true,
+          "newWorkRejectedAtomically": true,
+          "inFlightDrainBounded": true,
+          "strictDrainBudgetsValidated": true,
+          "composeUsesBoundedSigterm": true,
+          "phase5EvidenceExists": true,
+          "liveProbeIsLocalOnly": true,
+          "startupProbeIsSeparate": true,
+          "readyProbeUsesLifecycle": true,
+          "detailsProbeProtected": true,
+          "detailsUsesCachedSnapshot": true,
+          "readinessIsRoleFiltered": true,
+          "publicAggregateHasNoDescriptions": true,
+          "phase6EvidenceExists": true,
+          "backlogMetricContractComplete": true,
+          "countAloneCannotTripHealth": true,
+          "backpressureIsScoped": true,
+          "retrySemanticsStable": true,
+          "syntheticBackpressureTestsExist": true,
+          "recoveryRunbookExists": true,
+          "phase7EvidenceExists": true
+        },
+        "sha256": {
+          "inventory": "363e83b69194c104ef17915aeb73743bfd652cb604041b09c33c43ad058a949a"
+        }
+      }
+    },
+    {
+      "path": "artifacts/plan05/phase7/g05.json",
+      "sha256": "7e57fb93b8d69c6ef253effee0a0eb8bb2734dece05a319d39ad82900aaebd9a",
+      "report": {
+        "formatVersion": 1,
+        "gate": "G05",
+        "phase": 9,
+        "result": "passed",
+        "checks": {
+          "deterministicInventory": true,
+          "valueFreeInventoryPolicy": true,
+          "sourceInventoryNonEmpty": true,
+          "httpAndTenantSurfacesRecorded": true,
+          "protocolAndEventSurfacesRecorded": true,
+          "loggingAndErrorSurfacesRecorded": true,
+          "missingDurableMessagingNotMisrepresented": true,
+          "legacyEventIdentityRecorded": true,
+          "fourSecurityFindingsOwned": true,
+          "externalEvidenceGapsOwned": true,
+          "phase0EvidenceExists": true,
+          "phase0LayerGuardEvidenceExists": true,
+          "implementationPlanExists": true,
+          "protocolProjectsHaveNoDependencies": true,
+          "contextStrongIdentifiersExist": true,
+          "explicitScopesExist": true,
+          "minimumReferencesExist": true,
+          "contractContextIsVersionedBclShape": true,
+          "eventEnvelopeIsVersionedBclShape": true,
+          "noFrameworkOrTransportLeak": true,
+          "g03PrimitiveProjectsAdmitted": true,
+          "protocolContractTestsExist": true,
+          "phase1EvidenceExists": true,
+          "phase1LayerGuardEvidenceExists": true,
+          "applicationContextPortIsTransportNeutral": true,
+          "runtimeAccessorHasBoundedAsyncLocalLifetime": true,
+          "rootCompositionOwnsUniqueImplementation": true,
+          "currentUserHttpResponsibilitiesAreSplit": true,
+          "fiveExecutionSourcesHaveFailClosedRules": true,
+          "executionContextIsolationTestsExist": true,
+          "authFactSplitTestsExist": true,
+          "phase2EvidenceExists": true,
+          "phase2LayerGuardEvidenceExists": true,
+          "httpMiddlewareOrderIsDeterministic": true,
+          "publicCorrelationAndTrustedGatewayRulesExist": true,
+          "w3cTraceRestartIsNonBlocking": true,
+          "tenantParsingFailsClosed": true,
+          "allModuleRouteGroupsDeclareScopeMetadata": true,
+          "safeStableHttpErrorsExist": true,
+          "currentUserTenantComesFromExecutionContext": true,
+          "phase3HttpIntegrationTestsExist": true,
+          "phase3EvidenceExists": true,
+          "phase3LayerGuardEvidenceExists": true,
+          "consumerContextConstructionIsExplicit": true,
+          "providerValidationOrderIsFixed": true,
+          "contractFailureResultsAreStable": true,
+          "fakeCarriersShareOneApplicationPort": true,
+          "contractContextCarriesNoCallerAuthorization": true,
+          "plan01ContractContextHandoffExists": true,
+          "realContractCarrierNotMisrepresented": true,
+          "phase4EvidenceExists": true,
+          "phase4LayerGuardEvidenceExists": true,
+          "eventEnvelopeSchemaAndGoldenExist": true,
+          "eventProducerUsesTrustedExecutionContext": true,
+          "outboxLogicalAndDeliveryDataAreSeparated": true,
+          "transportMappingAndConsumerOrderAreFixed": true,
+          "consumerEventExecutionSemanticsAreExplicit": true,
+          "retryReplayTraceAndTenantConformanceExist": true,
+          "plan02EventContextHandoffExists": true,
+          "realMessagingDurabilityNotMisrepresented": true,
+          "phase5EvidenceExists": true,
+          "phase5LayerGuardEvidenceExists": true,
+          "g03CatalogRemainsSoleFieldAuthority": true,
+          "allTargetLegacyAndEnvelopeFieldsAreClassified": true,
+          "noC4AndAllC3HaveGovernedExceptions": true,
+          "c4SemanticDenylistIsComplete": true,
+          "capabilitySplitAndEventMinimizationAreRecorded": true,
+          "sensitiveFinancialAndComplianceUsesAreGoverned": true,
+          "pendingSecurityApprovalIsNotMisrepresented": true,
+          "layerGuardGovernanceHashMatchesCatalog": true,
+          "phase6EvidenceExists": true,
+          "phase6LayerGuardEvidenceExists": true,
+          "centralOperationalSinkEnforcesClassifier": true,
+          "productionPseudonymKeyFailsClosedAndSupportsRotation": true,
+          "rawRequestPathAndSdkPayloadsAreNotLogged": true,
+          "externalErrorsAreStableAndSafe": true,
+          "auditSinkGovernanceIsIndependentAndComplete": true,
+          "traceMetricAndBaggagePolicyIsBounded": true,
+          "authTokenPersistenceIsRemovedInCodeAndMigration": true,
+          "destructiveMigrationApprovalIsNotMisrepresented": true,
+          "capturedSentinelCoverageExists": true,
+          "phase7EvidenceExists": true,
+          "phase7LayerGuardEvidenceExists": true,
+          "failureMatrixHasSixBoundedClasses": true,
+          "preInboxValidationOrderAndCodesAreStable": true,
+          "traceDamageIsDiagnosticAndNonRejecting": true,
+          "quarantineMetadataIsSafeAndSecurityIsAudited": true,
+          "retryAndReplayPreserveLogicalIdentity": true,
+          "forcedReprocessingIsSeparateAndApproved": true,
+          "compatibilityRegistryIsOwnedBoundedAndExpiring": true,
+          "metricsUseBoundedNamesAndLabelsOnly": true,
+          "realFailureDurabilityNotMisrepresented": true,
+          "phase8EvidenceExists": true,
+          "phase8LayerGuardEvidenceExists": true,
+          "singleLocalCiVerificationEntryPointExists": true,
+          "verificationComposesExistingAuthorities": true,
+          "verificationBuildsAndRunsCompleteSolution": true,
+          "requiredProtocolRuntimeAndSecuritySuitesAreBound": true,
+          "expiredExceptionAndCompatibilityRulesFailClosed": true,
+          "verificationBaselineIsTruthfulAndBounded": true,
+          "phase9AutomationEvidenceExists": true
+        },
+        "sha256": {
+          "inventory": "bd3a65a50f148b8fa2d0e3c9dbc54da07be171de43c459ee178bdc738622285b"
+        }
+      }
+    },
+    {
+      "path": "artifacts/plan05/phase7/plan04.json",
+      "sha256": "6b1511621089e7bbadc9947fef17fd4196beaa8d1f3d4f98d042787c4418a606",
+      "report": {
+        "formatVersion": 1,
+        "plan": "04-module-boundary-evolution",
+        "slice": "P04-S6",
+        "checkedAt": "2026-09-12",
+        "result": "repository-passed-approvals-and-production-not-claimed",
+        "governanceLockSha256": "7860743b6d6c65d1007848305d8db6475d9b6b70c09fc2ccd12b5bd6eff8ead5",
+        "checks": {
+          "allPhaseValidatorsPassIndependently": true,
+          "authorityAndDecisionHashesMatch": true,
+          "boundaryPositiveAndNegativeFixturesPass": true,
+          "layerGuardValidatorAndBehaviorChecksAreComplementary": true,
+          "failedScanCannotBeGreen": true
+        },
+        "validators": [
+          {
+            "validator": "Test-Plan04Phase0Baseline.ps1",
+            "passed": true,
+            "error": null
+          },
+          {
+            "validator": "Test-Plan04Phase1Inventory.ps1",
+            "passed": true,
+            "error": null
+          },
+          {
+            "validator": "Test-Plan04Phase2Audit.ps1",
+            "passed": true,
+            "error": null
+          },
+          {
+            "validator": "Test-Plan04ExtractionPolicy.ps1",
+            "passed": true,
+            "error": null
+          },
+          {
+            "validator": "Test-Plan04TenantQueryPolicy.ps1",
+            "passed": true,
+            "error": null
+          },
+          {
+            "validator": "Test-Plan04ProjectionPolicy.ps1",
+            "passed": true,
+            "error": null
+          },
+          {
+            "validator": "Test-AbstractionsRetirement.ps1",
+            "passed": true,
+            "error": null
+          }
+        ],
+        "hashBindings": [
+          {
+            "authority": "LayerGuard-Plan05",
+            "path": "docs/architecture/review/evidence/plan05/current-dependency-graph.json",
+            "expectedSha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810",
+            "actualSha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810",
+            "passed": true
+          },
+          {
+            "authority": "G03",
+            "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+            "expectedSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
+            "actualSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
+            "passed": true
+          },
+          {
+            "authority": "G04",
+            "path": "deployment/g04/module-manifest.json",
+            "expectedSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
+            "actualSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
+            "passed": true
+          },
+          {
+            "authority": "G02",
+            "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+            "expectedSha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
+            "actualSha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
+            "passed": true
+          },
+          {
+            "authority": "G02",
+            "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+            "expectedSha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7",
+            "actualSha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json",
+            "expectedSha256": "cd49dca5d916112e940b330fffa8ae768b0d9d376def62067660282f6df51838",
+            "actualSha256": "cd49dca5d916112e940b330fffa8ae768b0d9d376def62067660282f6df51838",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+            "expectedSha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+            "actualSha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+            "expectedSha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+            "actualSha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+            "expectedSha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+            "actualSha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+            "expectedSha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+            "actualSha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json",
+            "expectedSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+            "actualSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
+            "passed": true
+          },
+          {
+            "authority": null,
+            "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+            "expectedSha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+            "actualSha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
+            "passed": true
+          }
+        ],
+        "boundaryFixtureResults": [
+          {
+            "fixture": "boundary-negative-cycle.json",
+            "expectedErrors": [
+              "dependency-cycle"
+            ],
+            "actualErrors": [
+              "dependency-cycle"
+            ],
+            "passed": true
+          },
+          {
+            "fixture": "boundary-negative-hash-drift.json",
+            "expectedErrors": [
+              "authority-hash-drift"
+            ],
+            "actualErrors": [
+              "authority-hash-drift"
+            ],
+            "passed": true
+          },
+          {
+            "fixture": "boundary-negative-unknown-owner.json",
+            "expectedErrors": [
+              "unknown-or-ownerless-module"
+            ],
+            "actualErrors": [
+              "unknown-or-ownerless-module"
+            ],
+            "passed": true
+          },
+          {
+            "fixture": "boundary-negative-unregistered.json",
+            "expectedErrors": [
+              "unregistered-cross-module-edge"
+            ],
+            "actualErrors": [
+              "unregistered-cross-module-edge"
+            ],
+            "passed": true
+          },
+          {
+            "fixture": "boundary-positive.json",
+            "expectedErrors": [],
+            "actualErrors": [],
+            "passed": true
+          }
+        ],
+        "roleSeparation": {
+          "LayerGuard": "project/namespace/static dependency boundary",
+          "dedicatedValidators": "authority drift, tenant query semantics, projection registration/lifecycle",
+          "behaviorTests": "authorization, tenant isolation, durable delivery and idempotent effects"
+        },
+        "claims": {
+          "namedFunctionalApprovals": "not-claimed",
+          "productionRls": "not-claimed",
+          "productionReporting": "not-claimed",
+          "microserviceExtraction": "not-claimed"
+        },
+        "failedChecks": []
+      }
+    },
+    {
+      "path": "artifacts/plan05/phase7/security.json",
+      "sha256": "08ac8d6dccddc3f5b7da13fc55a3cbf9067b76aad367fdc8ba52f800b88b72c1",
+      "report": {
+        "phase": "P05-S6",
+        "result": "passed",
+        "checks": {
+          "positiveAndNegativeDetectors": true,
+          "AuthenticationContractsArePure": true,
+          "AuthenticationRuntimeHasNoBusinessOrHttpDependency": true,
+          "AuthorizationContractsArePure": true,
+          "AuthorizationRuntimeHasNoBusinessOrHttpDependency": true,
+          "verifiedIdentityIsTheProductionSource": true,
+          "membershipFactsAreCurrentAndTenantBound": true,
+          "workerActorRequiresTrustedUserIdentity": true,
+          "internalAuthorizationRequiresExplicitContext": true,
+          "httpUsesIamDecision": true,
+          "hostUsesIamComposition": true,
+          "retiredTransitionTypesAreAbsent": true,
+          "legacyTypeNamesHaveExactCompatibilityEntries": true
+        },
+        "detectorCases": 10,
+        "sourceBindings": [
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj",
+            "sha256": "b74e2ed65b0ed73188135dd3ff266ab11d29d0d4b990a473f6e467ec097aa497"
+          },
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/V1/OidcProtocol.cs",
+            "sha256": "723c08ebc1ae50e31064fafb63b3fe00e988413d63fca5d906c5742774a71b42"
+          },
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/V1/ProviderServices.cs",
+            "sha256": "f4150bd5cd7b178b9d972d45de2293241138cfba3bca334fafefdb38215139ad"
+          },
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/V1/TokenValidation.cs",
+            "sha256": "fd1982691deec035addbf4506892adf8083580f26a5d859f76a4a20f176d7700"
+          },
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj",
+            "sha256": "326d4f4d06c8bb943cf2beccad2581ca03d876d8b2f663498a605b30dc39d203"
+          },
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs",
+            "sha256": "81508b8ed4d0b6d33d0e83e037a9b81a3c779a209c2833597706d6e321f07402"
+          },
+          {
+            "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/TokenValidationService.cs",
+            "sha256": "ea685f9a5d6d7792ebea57911e7da2b090358691e7f48da9bbccbb1c5f9fa2db"
+          },
+          {
+            "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj",
+            "sha256": "dd1aec33430afa1b6db95a49f061df13d29def748d9952f266d42cd9a6d43d41"
+          },
+          {
+            "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/V1/Evaluation.cs",
+            "sha256": "eb6e31b8ef6eafd952407dc8b7c58fe4a66a809ebbe3c1f3d879ef13e8bd7e02"
+          },
+          {
+            "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/V1/IAuthorizationEvaluationContract.cs",
+            "sha256": "29f79e0b6c08f277ab5a3ce372eaefd9b36464e42086cd356ab7e2d2f8f8d6d6"
+          },
+          {
+            "path": "src/Platform/Authorization/IFX.Platform.Authorization.Runtime/AuthorizationRuntime.cs",
+            "sha256": "42781b300abce1fe48f105ebe9233b0fc598d9d3909c4702a21482d012f3bee5"
+          },
+          {
+            "path": "src/Platform/Authorization/IFX.Platform.Authorization.Runtime/IFX.Platform.Authorization.Runtime.csproj",
+            "sha256": "6bf93e25c5335e631ea6d2bbfbddb77853a47e973fb78c26341e21342b434dc4"
+          }
+        ],
+        "runtimeTests": "SQL membership revocation, IAM mandatory/contract context, platform unknown attributes and composition tests run separately",
+        "namedApprovals": "not-inferred"
+      }
+    },
+    {
+      "path": "artifacts/plan05/phase7/migration-safety.json",
+      "sha256": "5a9bed58154a1b081c106cd513ef08bb7e6b5d5dc76a868c7cfb9a3ffe27cc94",
+      "report": {
+        "formatVersion": 1,
+        "gate": "G02",
+        "phase": 6,
+        "result": "passed",
+        "defaultStrategy": "roll-forward",
+        "automaticDownAllowed": false,
+        "riskyMigrations": 6,
+        "reviewedRiskyMigrations": 6,
+        "failures": []
+      }
+    }
+  ],
+  "commands": [
+    {
+      "name": "layerguard",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/plan05/phase7/layerguard.json"
+    },
+    {
+      "name": "g03",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Invoke-G03ContractEventGuard.ps1 -Phase 7 -ReportPath artifacts/plan05/phase7/g03.json"
+    },
+    {
+      "name": "g04",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Invoke-G04DeploymentRuntimeGuard.ps1 -Phase 7 -ReportPath artifacts/plan05/phase7/g04.json"
+    },
+    {
+      "name": "g05",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Invoke-G05ContextBoundaryGuard.ps1 -Phase 9 -ReportPath artifacts/plan05/phase7/g05.json"
+    },
+    {
+      "name": "plan04",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Test-Plan04Governance.ps1 -StatusPath artifacts/plan05/phase7/plan04.json"
+    },
+    {
+      "name": "security",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Test-Plan05SecurityBoundary.ps1 -ReportPath artifacts/plan05/phase7/security.json"
+    },
+    {
+      "name": "migration-safety",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Test-MigrationSafetyPolicy.ps1 -NoBuild -Configuration Release -ReportPath artifacts/plan05/phase7/migration-safety.json"
+    },
+    {
+      "name": "snapshots",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/Test-DatabasePendingModelChanges.ps1 -NoBuild -Configuration Release"
+    },
+    {
+      "name": "migration-artifacts",
+      "exitCode": 0,
+      "command": "pwsh -NoProfile -File scripts/New-DatabaseMigrationArtifacts.ps1 -OutputDirectory artifacts/plan05/phase7/release -NoBuild -Configuration Release"
+    }
+  ],
+  "releaseBuild": {
+    "exitCode": 0,
+    "warnings": 19,
+    "configuration": "Release",
+    "errors": 0
+  },
+  "frontend": {
+    "skipped": 0,
+    "buildExitCode": 0,
+    "files": 11,
+    "failed": 0,
+    "tests": 63
+  },
+  "layerGuardTests": {
+    "skipped": 0,
+    "passed": 190,
+    "failed": 0
+  },
+  "snapshots": {
+    "checked": 5,
+    "pendingModelChanges": 0
+  },
+  "migrationArtifacts": {
+    "schemaReleaseId": "plan05-s5 (introduced in phase 5; unchanged schema in phases 6-7)",
+    "manifest": {
+      "ReleaseVersion": "plan05-s5",
+      "MigrationCatalogSha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6",
+      "Scripts": [
+        {
+          "Module": "Auth",
+          "File": "10-auth.idempotent.sql",
+          "Sha256": "066bd29ae9e94b65a76fefe9e0b86da7feced2b8351f53c28604c37c3f9e8b34"
+        },
+        {
+          "Module": "CRM",
+          "File": "20-crm.idempotent.sql",
+          "Sha256": "493aa59c2384586d703cc12c058f7ef243b9954e556281fb5147aca80f662743"
+        },
+        {
+          "Module": "Registry",
+          "File": "30-registry.idempotent.sql",
+          "Sha256": "18ce37c6a8c11c6df9887f36d7f14d7cbcea93f13323e5c029114605ef7eb5a6"
+        },
+        {
+          "Module": "Holdings",
+          "File": "40-holdings.idempotent.sql",
+          "Sha256": "861cadbb70e3251f87b5e7db0991375d67ee00940fa6543d89582b181fa5ffd3"
+        },
+        {
+          "Module": "Transaction",
+          "File": "50-transaction.idempotent.sql",
+          "Sha256": "cbcaf35146328b3ba8d7d579920288e98098e9378d4b6ea902f494cba1546e90"
+        }
+      ]
+    },
+    "hashesVerified": true
+  },
+  "logs": [
+    {
+      "path": "artifacts/plan05/phase7/release-build.log",
+      "sha256": "454dc3da33f27033efd2c44a667524537e3989061a7bb28daa5c37eed692ae7e"
+    },
+    {
+      "path": "artifacts/plan05/phase7/full-final.log",
+      "sha256": "15df4ed5b03a4e70a15604ce849c608ab90ee1897996bc91fef4ca2181b9f0ed"
+    },
+    {
+      "path": "artifacts/plan05/phase7/frontend-test.log",
+      "sha256": "7cb99c138ff5c0dcdefd671c749d7acaae6dfde27926d93f041d9bc2f768fc03"
+    },
+    {
+      "path": "artifacts/plan05/phase7/frontend-build.log",
+      "sha256": "1b0da3d340c71bc292b6b6811dc58885876043ef69aaac84a1fd6d65bff33874"
+    },
+    {
+      "path": "artifacts/plan05/phase7/layerguard.log",
+      "sha256": "e52b58db1230131ddc98c32692b640c62f6b4ff413afe0c28192ba8dedf8c2a1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/snapshots.log",
+      "sha256": "fb86d3a8662097a1db7a393b5237e67ad9be54327c72944fef4bfbeea7570c6c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/migration-artifacts.log",
+      "sha256": "88c6b50370ea1b9a5f6af0ce2f6d25aaa5eb534449be214f137e5a7bb0cadb66"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish-api.log",
+      "sha256": "eb130049ea023b9904d83b1824803fa54847340e782b6fa1163e738b8be54373"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish-migrator.log",
+      "sha256": "8ac8f5bcbd9cdc4e07f41cdf2cf13d5e9fa5874410d9745ed5ce4707fecdfb35"
+    }
+  ],
+  "publishedAssemblies": [
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.ApiHost.dll",
+      "sha256": "93c8542d62656d618707aee93e888fe55fc1418612048d12d8126385df4b68b0"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.BuildingBlocks.Application.dll",
+      "sha256": "79a12dfed821d80c704f587799634228120c8337f9829e02aa270f226bc39f98"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.BuildingBlocks.Composition.dll",
+      "sha256": "d924246b46d4a9df8103932dec1a929692d319b400a502c7c021fb374a77aef1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.BuildingBlocks.Domain.dll",
+      "sha256": "f2d8ed8f2f5ff01c0dc2cc228e8447fe509080a42a67441c497fa757e621097a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.BuildingBlocks.EntityFrameworkCore.dll",
+      "sha256": "8886bb515b92101d17ddf1b7c1c33379c4471af3b70f2cf663de4a46ebf72fb1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.BuildingBlocks.Security.dll",
+      "sha256": "95bc8c033300cc396275c510dbe5053f57197ba125e05af9651c491c90e8d0eb"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.CRM.Application.dll",
+      "sha256": "7d2cd01f04c8e7c2995fb4da05156056028e9d53000807b55269cf3dded2dbd1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.CRM.Composition.dll",
+      "sha256": "25398210f9a52f466f1fe503accad48ccfde8736684a934d671156569ede817e"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.CRM.Contracts.dll",
+      "sha256": "d71388e44797fa315d22e3ecd2a571b7c392229416b7f1f6f06e5bcd100f6b6b"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.CRM.Domain.dll",
+      "sha256": "f65a305f4987f2a3368b985cfec9574f3b1059d1eaa0f0344f79e3e49f4ba1da"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.CRM.Infrastructure.dll",
+      "sha256": "10d04a66326a642166652719194e99006c2bd97c85933fcb1eb096575d318c65"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.CRM.Presentation.dll",
+      "sha256": "c5651891f0e22d3b767d203fbac76188efc29d87c19cade37c2fed10472b44cb"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Holdings.Application.dll",
+      "sha256": "7707d88acdcafaae3fa10c48b898acbc09fe35faf421af18ef20b0c2906eb659"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Holdings.Composition.dll",
+      "sha256": "67a6abdb5d99d214f2545dbfa5e09873ef91b0f75f0af4a1ca1cf2a78863eb51"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Holdings.Domain.dll",
+      "sha256": "ed1623a8a66c09a5cf8a97ed0a8464fe860e64e3fc36ce117f08efb80ea38cc9"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Holdings.Infrastructure.dll",
+      "sha256": "b09eee2e2dd2d776594e4cb99fbddf3579e0def63498d1283ecc9a120e866c66"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Holdings.Presentation.dll",
+      "sha256": "09e29115327ae6b2f10db009a5d56ef5fda12e4cf8f434aaef2d1be35e2ea320"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.IAM.Application.dll",
+      "sha256": "ee82709afe2ac3b23cd05cafff7fe35f2946dc39a1769ab081ecc5d4e7512bae"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.IAM.Composition.dll",
+      "sha256": "1d552915b9e4842590c6635c38a5f33470cafa3bc92de469a45bfc5536a86eaf"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.IAM.Contracts.dll",
+      "sha256": "bad5e21fdf98a247254827a7d47da6ce125e6548a25ceeb5f8f0d084b9ea2405"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.IAM.Domain.dll",
+      "sha256": "b7d43907fe4699b0c971464a9ed185e9024ab0d93b35d8a8b8475b54d8e27fc1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.IAM.Infrastructure.dll",
+      "sha256": "59e6d2df0cf3908ff13a78696e3c1c221e3f059418a83272a710982413827c7a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.IAM.Presentation.dll",
+      "sha256": "4d9c8b28b19e4b1f6571f8cade006c87b5293a104362a662d8f42b677a5d70d2"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Registry.Application.dll",
+      "sha256": "23a6ea54cb61fa8f20a05c92a7bef3eb0befa1c2b9b86e6e2f49f2c9c8cd7334"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Registry.Composition.dll",
+      "sha256": "390fcbeefe40c9bae902cf654e0de8126fee1cff44bdab6a9b14ed0e223d5015"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Registry.Contracts.dll",
+      "sha256": "70fe73126114614f8f1cc48390c34d5404f4ea99deee471307a4756a0253416d"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Registry.Domain.dll",
+      "sha256": "7be41f573c41f10c4426645e7bb4cf2e05bff030100deefce6f66e047bc7def1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Registry.Infrastructure.dll",
+      "sha256": "7ca361d314336580c206b588b8f0ca3af1ed2d66b63f09f840017e3a3758ba4d"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Registry.Presentation.dll",
+      "sha256": "50d602f12ffeb496d4491c63b2c356fab7bf97823c3c5b25c8e6b779812995b2"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Transaction.Application.dll",
+      "sha256": "938c0d1c18be446758d63141259db039fb014404e115372fee4bb13d5f2e659c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Transaction.Composition.dll",
+      "sha256": "d5566d921eb3e03a43bc807b753dcd12aecd2e43a7424910866d82f7ca30babf"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Transaction.Contracts.dll",
+      "sha256": "e0cebde0855fa55b97f56313fde1985a6f5820ebbb6eb30f88a59fe3519190b8"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Transaction.Domain.dll",
+      "sha256": "dbcf9234fffb99a28955b94eb5a06c7e211e5cb2b98f97e2ed35d8146aff13df"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Transaction.Infrastructure.dll",
+      "sha256": "9d57eb04339673ce6e0ff4f00d66818cacef97e43c327c0f26f5c90ff44827b9"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Modules.Transaction.Presentation.dll",
+      "sha256": "535eacdd66be98e057f1b0d80482c43da0e77c697b5de70d792b1be52f9c7749"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authentication.Composition.dll",
+      "sha256": "8c18f26d4e6ed80d2c4d2495f2493e93462a9b2a8eed14492449f651840e3844"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authentication.Contracts.dll",
+      "sha256": "39c751f9a1c159b52c3398f2bc0644881d847fa236e89608054ab38d884cc981"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authentication.Infrastructure.Auth0.dll",
+      "sha256": "dcc01cf062a31f8b4df1a278fcacc5f4fb2134defcced402f5483ef2ad6d0a5c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authentication.Infrastructure.Cognito.dll",
+      "sha256": "5e210263a22af991cd50ab158be6b4ec7e7153cb6a2c279ee635d7a2f163e7a6"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authentication.Runtime.dll",
+      "sha256": "6ead22eadd0936cb287f51a96252f3c4713e12e6ed96420bb61c2e3875c7197a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authorization.Composition.dll",
+      "sha256": "969894fcbddfa173d1f088b651dee20b5e7c1ef1288cfbe450f5492c56333415"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authorization.Contracts.dll",
+      "sha256": "e374ddc25cb63dd3b831e4a71912760c850b0240fda35b7c26c25f9ce9e34fad"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authorization.Infrastructure.Opa.dll",
+      "sha256": "0f4c7970a72d72addf540aef63ca5ae27f3e77de5daef810bde434f576a76cb1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Authorization.Runtime.dll",
+      "sha256": "8477e437fb4cfb3b6be345b250bbde3d83a063b7a3db19e0b937c1d7f22dee2a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.BackgroundJobs.Composition.dll",
+      "sha256": "6a275003a5cadc58ba5e22bf3017fa4b181acbef49cc77e0362a4506e02dd667"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.BackgroundJobs.Contracts.dll",
+      "sha256": "7f0381f4251a1b161b6560236a6d9c5699047ec6b3d6553e0e5edabb3fb89a51"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.dll",
+      "sha256": "7723732f13eb15b8e6f5797d694570fb6536f42dcd339d161f9379c77c25c8c6"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Context.Contracts.dll",
+      "sha256": "24320b3c4ed7a15322e3a95132f4a405c1b645e3325212723e0077eb97523e0c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Messaging.Composition.dll",
+      "sha256": "faf20d7288b3b6a9d6db22a0007c03a58ef84b03f54e8ba35fd4581ef1f24db9"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Messaging.Contracts.dll",
+      "sha256": "6e9e2b9fc02b33a0b5e4cb7629cf6b8d297306ced8c888f98a2226f21d52661c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Messaging.Runtime.dll",
+      "sha256": "d5b22e1fae6ea48d90d2dfce15a510388cb20550e1eee1cd95d00741b0a124b5"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Notifications.Composition.dll",
+      "sha256": "611e115efe0c0a93b8f788a0b2e23eb51a97d3606401f03db1fa1ce634fd0f25"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Notifications.Contracts.dll",
+      "sha256": "bdce6e3b224eabb843ecf09ebaf5e5dee48bc166fe196f36ab678e28a55af314"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Notifications.Infrastructure.SendGrid.dll",
+      "sha256": "41f55618acce37781408d9dea460500a7f9c1f9d61724253a9b0bdd05bd825e8"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/api/IFX.Platform.Shared.dll",
+      "sha256": "4f3031f50c3d7493608285e11faebfb56bc09a3195cf9a286f719dc1292c600a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.BuildingBlocks.Application.dll",
+      "sha256": "79a12dfed821d80c704f587799634228120c8337f9829e02aa270f226bc39f98"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.BuildingBlocks.Domain.dll",
+      "sha256": "f2d8ed8f2f5ff01c0dc2cc228e8447fe509080a42a67441c497fa757e621097a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.BuildingBlocks.EntityFrameworkCore.dll",
+      "sha256": "8886bb515b92101d17ddf1b7c1c33379c4471af3b70f2cf663de4a46ebf72fb1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.BuildingBlocks.Security.dll",
+      "sha256": "95bc8c033300cc396275c510dbe5053f57197ba125e05af9651c491c90e8d0eb"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.DatabaseMigrator.dll",
+      "sha256": "a65e3b54c48779cbe465be9fcba4492ed0e8aa52502fbcb6d02f3f3270a2431a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.CRM.Application.dll",
+      "sha256": "7d2cd01f04c8e7c2995fb4da05156056028e9d53000807b55269cf3dded2dbd1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.CRM.Contracts.dll",
+      "sha256": "d71388e44797fa315d22e3ecd2a571b7c392229416b7f1f6f06e5bcd100f6b6b"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.CRM.Domain.dll",
+      "sha256": "f65a305f4987f2a3368b985cfec9574f3b1059d1eaa0f0344f79e3e49f4ba1da"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.CRM.Infrastructure.dll",
+      "sha256": "10d04a66326a642166652719194e99006c2bd97c85933fcb1eb096575d318c65"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Holdings.Application.dll",
+      "sha256": "7707d88acdcafaae3fa10c48b898acbc09fe35faf421af18ef20b0c2906eb659"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Holdings.Domain.dll",
+      "sha256": "ed1623a8a66c09a5cf8a97ed0a8464fe860e64e3fc36ce117f08efb80ea38cc9"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Holdings.Infrastructure.dll",
+      "sha256": "b09eee2e2dd2d776594e4cb99fbddf3579e0def63498d1283ecc9a120e866c66"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.IAM.Application.dll",
+      "sha256": "ee82709afe2ac3b23cd05cafff7fe35f2946dc39a1769ab081ecc5d4e7512bae"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.IAM.Contracts.dll",
+      "sha256": "bad5e21fdf98a247254827a7d47da6ce125e6548a25ceeb5f8f0d084b9ea2405"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.IAM.Domain.dll",
+      "sha256": "b7d43907fe4699b0c971464a9ed185e9024ab0d93b35d8a8b8475b54d8e27fc1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.IAM.Infrastructure.dll",
+      "sha256": "59e6d2df0cf3908ff13a78696e3c1c221e3f059418a83272a710982413827c7a"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Registry.Application.dll",
+      "sha256": "23a6ea54cb61fa8f20a05c92a7bef3eb0befa1c2b9b86e6e2f49f2c9c8cd7334"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Registry.Contracts.dll",
+      "sha256": "70fe73126114614f8f1cc48390c34d5404f4ea99deee471307a4756a0253416d"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Registry.Domain.dll",
+      "sha256": "7be41f573c41f10c4426645e7bb4cf2e05bff030100deefce6f66e047bc7def1"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Registry.Infrastructure.dll",
+      "sha256": "7ca361d314336580c206b588b8f0ca3af1ed2d66b63f09f840017e3a3758ba4d"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Transaction.Application.dll",
+      "sha256": "938c0d1c18be446758d63141259db039fb014404e115372fee4bb13d5f2e659c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Transaction.Contracts.dll",
+      "sha256": "e0cebde0855fa55b97f56313fde1985a6f5820ebbb6eb30f88a59fe3519190b8"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Transaction.Domain.dll",
+      "sha256": "dbcf9234fffb99a28955b94eb5a06c7e211e5cb2b98f97e2ed35d8146aff13df"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Modules.Transaction.Infrastructure.dll",
+      "sha256": "9d57eb04339673ce6e0ff4f00d66818cacef97e43c327c0f26f5c90ff44827b9"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Platform.Authentication.Contracts.dll",
+      "sha256": "39c751f9a1c159b52c3398f2bc0644881d847fa236e89608054ab38d884cc981"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Platform.Authorization.Contracts.dll",
+      "sha256": "e374ddc25cb63dd3b831e4a71912760c850b0240fda35b7c26c25f9ce9e34fad"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Platform.Context.Contracts.dll",
+      "sha256": "24320b3c4ed7a15322e3a95132f4a405c1b645e3325212723e0077eb97523e0c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Platform.Messaging.Contracts.dll",
+      "sha256": "6e9e2b9fc02b33a0b5e4cb7629cf6b8d297306ced8c888f98a2226f21d52661c"
+    },
+    {
+      "path": "artifacts/plan05/phase7/publish/migrator/IFX.Platform.Messaging.Runtime.dll",
+      "sha256": "d5b22e1fae6ea48d90d2dfce15a510388cb20550e1eee1cd95d00741b0a124b5"
+    }
+  ],
+  "runtimeRehearsal": "SQL migrations/readiness, API/Worker composition and restored old job method invocation; no target process rollout or old target binary execution",
+  "initialBlockedAttempt": "Frontend log redirection denied by filesystem sandbox; rerun with authorized escalation passed. No frontend test ran in the blocked attempt.",
+  "targetDataAudit": "pending",
+  "liveIdentityProviders": "pending",
+  "protocolAdmission": "Proposed, named approval pending",
+  "production": "not-deployed-or-claimed"
+}

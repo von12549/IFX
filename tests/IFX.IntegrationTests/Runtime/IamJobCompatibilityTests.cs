@@ -18,7 +18,7 @@ public sealed class IamJobCompatibilityTests
     [Theory]
     [InlineData("")]
     [InlineData(", Version=1.0.0.0, Culture=neutral, PublicKeyToken=null")]
-    public void Persisted_auth_cleanup_job_deserializes_to_iam_and_keeps_arguments(string qualification)
+    public async Task Persisted_auth_cleanup_job_deserializes_to_iam_and_executes_with_preserved_arguments(string qualification)
     {
         var services = new ServiceCollection();
         var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
@@ -44,12 +44,26 @@ public sealed class IamJobCompatibilityTests
             Assert.Equal(nameof(IEmailVerificationCleanupService.CleanupExpiredTokensAsync), restored.Method.Name);
             Assert.Single(restored.Args);
             Assert.Equal(CancellationToken.None, restored.Args[0]);
+            var service = new CleanupProbe();
+            await (Task)restored.Method.Invoke(service, restored.Args.ToArray())!;
+            Assert.Equal(1, service.Calls);
             Assert.Contains("IFX.Modules.IAM.Application", InvocationData.SerializeJob(restored).Type);
             Assert.ThrowsAny<Exception>(() => resolver.Resolve("Unknown.Interface, IFX.Modules.Auth.UnknownAssembly"));
         }
         finally
         {
             GlobalConfiguration.Configuration.UseTypeResolver(originalResolver).UseTypeSerializer(originalSerializer);
+        }
+    }
+
+    private sealed class CleanupProbe : IEmailVerificationCleanupService
+    {
+        public int Calls { get; private set; }
+        public Task CleanupExpiredTokensAsync(CancellationToken cancellationToken = default)
+        {
+            Assert.Equal(CancellationToken.None, cancellationToken);
+            Calls++;
+            return Task.CompletedTask;
         }
     }
 }
