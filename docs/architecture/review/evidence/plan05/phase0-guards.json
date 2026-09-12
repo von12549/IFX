@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "phase": "P05-S0",
+  "baselineCommit": "f29ad32f7b04f21c53fbb1e5e20fd9846e877e69",
+  "checks": [
+    {
+      "name": "LayerGuard",
+      "result": "passed",
+      "projects": 39,
+      "tests": 189,
+      "path": "artifacts/plan05/phase0/layerguard.json",
+      "sha256": "2d2dafb4e4d2660d2c922fa30bf562521577eb85acda8f7a13e03046f936052a"
+    },
+    {
+      "name": "G03",
+      "result": "passed",
+      "path": "artifacts/plan05/phase0/g03.json",
+      "sha256": "c0263b9624c6ce7dc17c4726addfd1430a3b95344c9f5b8379c759aa70c268cb"
+    },
+    {
+      "name": "Plan04",
+      "result": "repository-passed-approvals-and-production-not-claimed",
+      "path": "artifacts/plan05/phase0/plan04.json",
+      "sha256": "a6cc41e82ef64a8d41e1c0f8782a0df5ff7959cbb80b2b79c6eba8940a476b00"
+    },
+    {
+      "name": "G05 Phase 9",
+      "result": "passed",
+      "path": "artifacts/plan05/phase0/g05.json",
+      "sha256": "7e57fb93b8d69c6ef253effee0a0eb8bb2734dece05a319d39ad82900aaebd9a",
+      "earlierAttempt": "artifacts/plan05/phase0/g05-obsolete-phase0-attempt.json (historical Phase 0 guard is inapplicable after durable messaging implementation)"
+    }
+  ]
+}

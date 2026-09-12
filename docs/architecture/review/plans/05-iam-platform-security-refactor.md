@@ -1,11 +1,11 @@
 # 子计划 5：Auth → IAM 与平台认证、授权能力拆分
 
-> 状态：执行计划草案；尚未开始代码实施，所有实施项均待执行。
+> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；独立的 Phase 1 结构迁移继续推进。
 > 编写日期：2026-09-12；源码观察基线：`13a0a74`。
 > 来源：本次关于 Platform、Authentication、Authorization/ABAC 与 Auth 职责拆分的讨论。
 > 定位：B4 严格边界之后的独立演进计划；沿用现有 G01–G05 与 Plan 04 治理，不重写既有里程碑或声明生产验收完成。
 > 配套讨论：[Platform 能力、Provider 与租户连接边界](../platform-capabilities-and-tenant-connections.zh-CN.md)。
-> 本次交付仅为文档；本文中的目标结构、API 名称和新增实体均为拟议设计，不代表已有实现。
+> 目标结构逐阶段实施；证据见 [Plan 05 evidence](../evidence/plan05/README.md)，未勾选项不代表已完成。
 
 ## 1. 目标与范围
 
@@ -112,12 +112,12 @@ src/Modules/IAM/
 
 交付：变更清单、行为矩阵、身份兼容映射、依赖图与数据盘点；不改业务实现。
 
-- [ ] IAM0.1 从源码、DI、ApiHost/Worker、测试和 G03 catalog 盘点实际调用链、provider、API、持久化对象及消费者，标记未使用实现。
-- [ ] IAM0.2 保存当前登录/SSO、注册、邮件验证、token refresh/revoke/logout、账号停用、租户切换、角色授予和 ABAC 的正反行为基线。
-- [ ] IAM0.3 建立 `Auth → IAM` 名称映射，分别列出程序集、namespace、模块 manifest、逻辑 owner、schema、migration history、事件标识、队列任务类型、配置键和 API 路径。
+- [x] IAM0.1 从源码、DI、ApiHost/Worker、测试和 G03 catalog 盘点实际调用链、provider、API、持久化对象及消费者，标记未使用实现。
+- [x] IAM0.2 保存当前登录/SSO、注册、邮件验证、token refresh/revoke/logout、账号停用、租户切换、角色授予和 ABAC 的正反行为基线。
+- [x] IAM0.3 建立 `Auth → IAM` 名称映射，分别列出程序集、namespace、模块 manifest、逻辑 owner、schema、migration history、事件标识、队列任务类型、配置键和 API 路径。
 - [ ] IAM0.4 盘点真实 User–Tenant、Department、Role/RoleGroup 关联数据，识别重复、孤立、跨租户及无成员角色授予；记录规模与修复规则，不从角色或 PrimaryTenantId 盲目生成成员。
-- [ ] IAM0.5 明确成员退出、用户/租户停用、已有 session/token 和权限缓存的生效规则；明确 GlobalAdmin、多个 GlobalRole、RBAC/ABAC 组合与例外行为。
-- [ ] IAM0.6 记录现有门禁/测试结果及工具版本；无法运行标记 blocked 或 pending 并写原因，不继承历史绿色报告。
+- [x] IAM0.5 明确成员退出、用户/租户停用、已有 session/token 和权限缓存的生效规则；明确 GlobalAdmin、多个 GlobalRole、RBAC/ABAC 组合与例外行为。
+- [x] IAM0.6 记录现有门禁/测试结果及工具版本；无法运行标记 blocked 或 pending 并写原因，不继承历史绿色报告。
 
 验收：每个现有功能有目标 owner，每种持久化/外部标识有保留或迁移策略；行为差异和数据歧义均显式登记。待产品决定的事项只阻塞依赖它的行为迁移，不阻塞独立结构工作。
 
