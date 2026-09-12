@@ -24,12 +24,12 @@ jobs:
       - name: Revalidate immutable 03-A1 acceptance evidence
         shell: pwsh
         run: ./scripts/Test-03A1PolicyBinding.ps1 -StatusPath artifacts/layerguard/03-a1-status.json
-      - name: Run B4 strict policy gate
+      - name: Run current Plan 05 strict policy gate
         shell: pwsh
         run: ./scripts/Invoke-LayerGuard.ps1 -ReportPath artifacts/layerguard/b4-ci.json
-      - name: Validate Plan 03 B4 strict closure
+      - name: Validate preserved Plan 03 B4 historical closure
         shell: pwsh
-        run: ./scripts/Test-Plan03B4StrictClosure.ps1 -LayerGuardReportPath artifacts/layerguard/b4-ci.json -StatusPath artifacts/layerguard/plan03-b4-status.json
+        run: ./scripts/Test-Plan03B4StrictClosure.ps1 -StatusPath artifacts/layerguard/plan03-b4-status.json
       - name: Upload LayerGuard report
         if: always()
         uses: actions/upload-artifact@v4

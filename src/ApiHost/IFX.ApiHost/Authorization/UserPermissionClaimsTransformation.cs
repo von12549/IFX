@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using IFX.ApiHost.Authentication;
-using IFX.Modules.Auth.Composition;
+using IFX.Modules.IAM.Composition;
 using Microsoft.AspNetCore.Authentication;
 
 namespace IFX.ApiHost.Authorization;

@@ -1,7 +1,7 @@
 using FluentAssertions;
 using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
 using IFX.DatabaseMigrator;
-using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
+using IFX.Modules.IAM.Infrastructure.Persistence.Migrations.Legacy;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -127,7 +127,7 @@ public sealed class SqlServerMigrationMatrixTests(SqlServerMigrationFixture fixt
             await auth.GetService<IMigrator>().MigrateAsync(AuthLegacyMigrationManifest.CanonicalInitialCreateId);
             await auth.Database.OpenConnectionAsync();
             var fingerprint = await new AuthSchemaFingerprintVerifier(
-                    (IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext)auth)
+                    (IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext)auth)
                 .VerifyAsync(auth.Database.GetDbConnection(), null);
             fingerprint.Matches.Should().BeTrue(
                 "canonical Auth baseline differences: {0}",
@@ -182,7 +182,7 @@ public sealed class SqlServerMigrationMatrixTests(SqlServerMigrationFixture fixt
         await using (var auth = authRuntime.CreateContext(mismatch))
         {
             await auth.GetService<IMigrator>().MigrateAsync(AuthLegacyMigrationManifest.CanonicalInitialCreateId);
-            var fingerprint = AuthBaselineSchemaFingerprint.Create((IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext)auth);
+            var fingerprint = AuthBaselineSchemaFingerprint.Create((IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext)auth);
             var table = fingerprint.Tables.First(item => item.Indexes.Count > 0);
             var index = table.Indexes[0];
             await ExecuteAsync(mismatch, $"DROP INDEX [{index.Name}] ON [auth].[{table.Name}]; DROP TABLE [auth].[__EFMigrationsHistory];");

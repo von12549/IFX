@@ -3,14 +3,14 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S1",
   "result": "passed",
-  "checkedAt": "2026-09-11",
-  "inventorySha256": "5dfca4b70ef3228100e42eef6c2a1a2ad1944f540d2839e7e669f80ddff5269e",
-  "dependencyGraphSha256": "e257b3cb5b8086d1dd1546282ebf5d10d45ed82e9cb38643db92cc0fa7909549",
+  "checkedAt": "2026-09-12",
+  "inventorySha256": "f88492055d92d157335d7e551e90b2bddfbcd28d91bcb2c2b15e7572f9476eaa",
+  "dependencyGraphSha256": "6a1428c3e76e33dbec97e9b50d286a7b788def08ec924d4da7be06ecdde64c46",
   "counts": {
     "modules": 5,
     "protocols": 4,
-    "projectEdges": 120,
-    "namespaceEdges": 132,
+    "projectEdges": 121,
+    "namespaceEdges": 133,
     "coChangePairs": 10,
     "unregisteredEdges": 0,
     "crossSchemaFindings": 0
@@ -27,7 +27,7 @@
     "metricsAreReviewOnly": true,
     "everyModuleHasIndependentTests": true,
     "sharedRuntimeAndDataCouplingExplicit": true,
-    "authorityHashesMatchPhase0": true
+    "authorityHashesMatchGovernedBindings": true
   },
   "failedChecks": [],
   "interpretation": "Metrics support review only and do not authorize extraction.",

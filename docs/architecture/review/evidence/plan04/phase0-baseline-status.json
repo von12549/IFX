@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S0",
   "result": "passed",
-  "checkedAt": "2026-09-11",
+  "checkedAt": "2026-09-12",
   "baselineCommit": "40d3cd38505c14557567d7cc81f4ef51e8293d3c",
   "layerGuardVersion": "0.4.0-a1",
   "checks": {
@@ -39,17 +39,17 @@
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-      "expectedSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
-      "actualSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
-      "binding": "phase0-freeze",
+      "expectedSha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b",
+      "actualSha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
-      "expectedSha256": "da823fa435018e4567d779a276c0ac5007da2672f26e35fbc5a0b1bc76be8ea0",
-      "actualSha256": "da823fa435018e4567d779a276c0ac5007da2672f26e35fbc5a0b1bc76be8ea0",
-      "binding": "phase0-freeze",
+      "expectedSha256": "fa1302fce04d6af282af2d897cf0f93cdaa77d51ac3dd46b4ce145163f4d57cf",
+      "actualSha256": "fa1302fce04d6af282af2d897cf0f93cdaa77d51ac3dd46b4ce145163f4d57cf",
+      "binding": "reviewed-authority-refresh",
       "result": "passed"
     },
     {

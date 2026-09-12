@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Modules\Auth\IFX.Modules.Auth.Domain\IFX.Modules.Auth.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Modules\Auth\IFX.Modules.Auth.Application\IFX.Modules.Auth.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\IAM\IFX.Modules.IAM.Domain\IFX.Modules.IAM.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\IAM\IFX.Modules.IAM.Application\IFX.Modules.IAM.Application.csproj" />
   </ItemGroup>
 
 </Project>

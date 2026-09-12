@@ -1,10 +1,10 @@
 using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
-using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
+using IFX.Modules.IAM.Infrastructure.Persistence.Migrations.Legacy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
-using AuthDatabase = IFX.Modules.Auth.Infrastructure.ModuleDatabase;
-using AuthDbContext = IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext;
+using AuthDatabase = IFX.Modules.IAM.Infrastructure.ModuleDatabase;
+using AuthDbContext = IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext;
 using CrmDatabase = IFX.Modules.CRM.Infrastructure.ModuleDatabase;
 using CrmDbContext = IFX.Modules.CRM.Infrastructure.Persistence.CrmDbContext;
 using HoldingsDatabase = IFX.Modules.Holdings.Infrastructure.ModuleDatabase;

@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\..\Modules\Auth\IFX.Modules.Auth.Infrastructure\IFX.Modules.Auth.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\IAM\IFX.Modules.IAM.Infrastructure\IFX.Modules.IAM.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\CRM\IFX.Modules.CRM.Infrastructure\IFX.Modules.CRM.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Registry\IFX.Modules.Registry.Infrastructure\IFX.Modules.Registry.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Holdings\IFX.Modules.Holdings.Infrastructure\IFX.Modules.Holdings.Infrastructure.csproj" />

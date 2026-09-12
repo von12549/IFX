@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using AuthDatabase = IFX.Modules.Auth.Infrastructure.ModuleDatabase;
-using AuthDbContext = IFX.Modules.Auth.Infrastructure.Persistence.IfxDbContext;
+using AuthDatabase = IFX.Modules.IAM.Infrastructure.ModuleDatabase;
+using AuthDbContext = IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext;
 using CrmDatabase = IFX.Modules.CRM.Infrastructure.ModuleDatabase;
 using CrmDbContext = IFX.Modules.CRM.Infrastructure.Persistence.CrmDbContext;
 using HoldingsDatabase = IFX.Modules.Holdings.Infrastructure.ModuleDatabase;
@@ -46,7 +46,7 @@ public sealed class ModuleDatabaseBoundaryTests
 
     public static TheoryData<string, Type, Action<IServiceCollection, IConfiguration>> RegistrationCases => new()
     {
-        { AuthDatabase.ConnectionStringName, typeof(AuthDbContext), (services, configuration) => { IFX.Modules.Auth.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
+        { AuthDatabase.ConnectionStringName, typeof(AuthDbContext), (services, configuration) => { IFX.Modules.IAM.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { CrmDatabase.ConnectionStringName, typeof(CrmDbContext), (services, configuration) => { IFX.Modules.CRM.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { RegistryDatabase.ConnectionStringName, typeof(RegistryDbContext), (services, configuration) => { IFX.Modules.Registry.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { HoldingsDatabase.ConnectionStringName, typeof(HoldingsDbContext), (services, configuration) => { IFX.Modules.Holdings.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
@@ -55,7 +55,7 @@ public sealed class ModuleDatabaseBoundaryTests
 
     public static TheoryData<string, string, Type, Action<IServiceCollection, IConfiguration>> HistoryCases => new()
     {
-        { AuthDatabase.Schema, AuthDatabase.ConnectionStringName, typeof(AuthDbContext), (services, configuration) => { IFX.Modules.Auth.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
+        { AuthDatabase.Schema, AuthDatabase.ConnectionStringName, typeof(AuthDbContext), (services, configuration) => { IFX.Modules.IAM.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { CrmDatabase.Schema, CrmDatabase.ConnectionStringName, typeof(CrmDbContext), (services, configuration) => { IFX.Modules.CRM.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { RegistryDatabase.Schema, RegistryDatabase.ConnectionStringName, typeof(RegistryDbContext), (services, configuration) => { IFX.Modules.Registry.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },
         { HoldingsDatabase.Schema, HoldingsDatabase.ConnectionStringName, typeof(HoldingsDbContext), (services, configuration) => { IFX.Modules.Holdings.Infrastructure.DependencyInjection.AddInfrastructureServices(services, configuration); } },

@@ -6,7 +6,7 @@ $ErrorActionPreference = "Stop"
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
 $startupProject = Join-Path $repositoryRoot "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj"
 $contexts = @(
-    @{ Name = "Auth"; Context = "IfxDbContext"; Project = "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/IFX.Modules.Auth.Infrastructure.csproj" },
+    @{ Name = "Auth"; Context = "IfxDbContext"; Project = "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj" },
     @{ Name = "CRM"; Context = "CrmDbContext"; Project = "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj" },
     @{ Name = "Registry"; Context = "RegistryDbContext"; Project = "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj" },
     @{ Name = "Holdings"; Context = "HoldingsDbContext"; Project = "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj" },

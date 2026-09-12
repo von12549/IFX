@@ -1,5 +1,5 @@
-using IFX.Modules.Auth.Domain.Identity;
-using IFX.Modules.Auth.Domain.Users;
+using IFX.Modules.IAM.Domain.Identity;
+using IFX.Modules.IAM.Domain.Users;
 
 namespace IFX.Tests.Common.Builders;
 

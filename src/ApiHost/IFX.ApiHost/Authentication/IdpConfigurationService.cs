@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 using System.Text.Json;
-using IFX.Modules.Auth.Composition;
+using IFX.Modules.IAM.Composition;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;

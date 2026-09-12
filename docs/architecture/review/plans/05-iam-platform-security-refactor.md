@@ -1,6 +1,6 @@
 # 子计划 5：Auth → IAM 与平台认证、授权能力拆分
 
-> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；独立的 Phase 1 结构迁移继续推进。
+> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1 结构迁移完成；继续 Phase 2 认证提取。
 > 编写日期：2026-09-12；源码观察基线：`13a0a74`。
 > 来源：本次关于 Platform、Authentication、Authorization/ABAC 与 Auth 职责拆分的讨论。
 > 定位：B4 严格边界之后的独立演进计划；沿用现有 G01–G05 与 Plan 04 治理，不重写既有里程碑或声明生产验收完成。
@@ -29,14 +29,14 @@
 
 | 当前源码或组件 | 观察 | 目标动作 |
 | --- | --- | --- |
-| [AuthModuleInstaller](../../../../src/Modules/Auth/IFX.Modules.Auth.Composition/AuthModuleInstaller.cs) | 统一装配各类入口，并按全局配置选择 Cognito/Auth0 | IAM Composition 装配 IAM；技术 provider 由平台 Composition 注册 |
-| [IOidcAuthService](../../../../src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IOidcAuthService.cs) | 授权地址、code exchange、UserInfo、logout 等协议操作 | 保留消费方 Port 的需求，平台契约按真实能力拆小 |
-| [IIdentityProvider](../../../../src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Interfaces/IIdentityProvider.cs) | 注册、认证、刷新、撤销混在一个接口中 | 区分协议登录、token 生命周期、外部账号管理；不原样搬成万能接口 |
-| [ProvisionSsoUserCommandHandler](../../../../src/Modules/Auth/IFX.Modules.Auth.Application/Identity/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs) | 建立本地 User/UserIdentity、解析 IdP、授予 PendingUser | 保留在 IAM.Identity，通过同模块应用协调完成成员与初始角色处理 |
-| [User](../../../../src/Modules/Auth/IFX.Modules.Auth.Domain/Users/User.cs) | 已有 Tenants、Departments、Roles、RoleGroups、PrimaryTenantId 等关系 | 先保留映射，后明确 Membership 与 Assignment 所有权；并非从零新增租户关系 |
-| [IfxDbContext](../../../../src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Persistence/IfxDbContext.cs) | 一个上下文管理身份、用户、权限和租户表 | 保持一个 IAM 数据所有者和事务边界；不因子域整理拆库 |
+| [AuthModuleInstaller](../../../../src/Modules/IAM/IFX.Modules.IAM.Composition/AuthModuleInstaller.cs) | 统一装配各类入口，并按全局配置选择 Cognito/Auth0 | IAM Composition 装配 IAM；技术 provider 由平台 Composition 注册 |
+| [IOidcAuthService](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Interfaces/IOidcAuthService.cs) | 授权地址、code exchange、UserInfo、logout 等协议操作 | 保留消费方 Port 的需求，平台契约按真实能力拆小 |
+| [IIdentityProvider](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Interfaces/IIdentityProvider.cs) | 注册、认证、刷新、撤销混在一个接口中 | 区分协议登录、token 生命周期、外部账号管理；不原样搬成万能接口 |
+| [ProvisionSsoUserCommandHandler](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs) | 建立本地 User/UserIdentity、解析 IdP、授予 PendingUser | 保留在 IAM.Identity，通过同模块应用协调完成成员与初始角色处理 |
+| [User](../../../../src/Modules/IAM/IFX.Modules.IAM.Domain/Users/User.cs) | 已有 Tenants、Departments、Roles、RoleGroups、PrimaryTenantId 等关系 | 先保留映射，后明确 Membership 与 Assignment 所有权；并非从零新增租户关系 |
+| [IfxDbContext](../../../../src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/IfxDbContext.cs) | 一个上下文管理身份、用户、权限和租户表 | 保持一个 IAM 数据所有者和事务边界；不因子域整理拆库 |
 | [ResourceAuthorizationService](../../../../src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/ResourceAuthorizationService.cs) | 混合 HTTP/用户属性、策略选择、OPA、GlobalAdmin 特例和执行拒绝 | 拆成入口上下文适配、IAM 政策编排、平台求值、消费方执行 |
-| [DbAbacPolicyResolver](../../../../src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/DbAbacPolicyResolver.cs) | 租户→平台→静态回退，部分读取异常后继续回退 | 分离政策选择与存储；区分 NotConfigured、Unavailable、Invalid |
+| [DbAbacPolicyResolver](../../../../src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/DbAbacPolicyResolver.cs) | 租户→平台→静态回退，部分读取异常后继续回退 | 分离政策选择与存储；区分 NotConfigured、Unavailable、Invalid |
 | [IResourceAuthorizationService](../../../../src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/IResourceAuthorizationService.cs) | 对调用者暴露 OPA resource 基类和 decisionPath | 将 OPA 路径/envelope 收入 provider Adapter |
 
 这是文件级观察，不能代替运行调用链审计。Phase 0 将逐项确认实际注册、生产调用者和遗留未使用代码，并记录当时 HEAD；上述链接在实施重命名后同步更新。
@@ -125,12 +125,12 @@ src/Modules/IAM/
 
 交付：`Modules/IAM`、调整后的 solution/引用/namespace/DI/测试定位与治理映射。
 
-- [ ] IAM1.1 将 Auth 各层及测试项目迁移为 IAM，调整 solution、ProjectReference、扫描入口、反射类型、构建脚本与文档链接。
-- [ ] IAM1.2 将 Authorization 中的 Tenant/Department 功能归入 Tenancy，其余角色/权限/策略归 Access；Identity、Users 按职责整理，先保留既有数据库映射和业务行为。
-- [ ] IAM1.3 更新 G03 ownership 源、G04 manifest、G05 来源身份映射及 Plan 04 inventory；再由现有工具生成派生视图，不手改第二套 allowlist。
-- [ ] IAM1.4 保持一个唯一数据 owner；逻辑模块标识是否更名遵循 IAM0.3，代码名 IAM 与旧 wire/schema 标识的兼容映射不能形成两个所有者。
-- [ ] IAM1.5 保留 API 路径、权限字符串、既有 issuer/audience、配置键、数据表/schema、migration id/history；检查 EF snapshot 与迁移发现未产生非预期 DDL。
-- [ ] IAM1.6 对已持久化后台任务及类型名完成兼容演练后再切换程序集，验证 ApiHost、Worker、Migrator 均能装配。
+- [x] IAM1.1 将 Auth 各层及测试项目迁移为 IAM，调整 solution、ProjectReference、扫描入口、反射类型、构建脚本与文档链接。
+- [x] IAM1.2 将 Authorization 中的 Tenant/Department 功能归入 Tenancy，其余角色/权限/策略归 Access；Identity、Users 按职责整理，先保留既有数据库映射和业务行为。
+- [x] IAM1.3 更新 G03 ownership 源、G04 manifest、G05 来源身份映射及 Plan 04 inventory；再由现有工具生成派生视图，不手改第二套 allowlist。
+- [x] IAM1.4 保持一个唯一数据 owner；逻辑模块标识是否更名遵循 IAM0.3，代码名 IAM 与旧 wire/schema 标识的兼容映射不能形成两个所有者。
+- [x] IAM1.5 保留 API 路径、权限字符串、既有 issuer/audience、配置键、数据表/schema、migration id/history；检查 EF snapshot 与迁移发现未产生非预期 DDL。
+- [x] IAM1.6 对已持久化后台任务及类型名完成兼容演练后再切换程序集，验证 ApiHost、Worker、Migrator 均能装配。
 
 验收：结构与治理门禁通过；基线行为无变化；现有数据库可启动；没有仅因 namespace 变化产生的建表、删表或重复 seed。
 

@@ -1,9 +1,9 @@
-﻿using IFX.BuildingBlocks.Composition;
+using IFX.BuildingBlocks.Composition;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
 using IFX.BuildingBlocks.Security.Authorization.Models;
-using IFX.Modules.Auth.Application.Identity.Interfaces;
-using IFX.Modules.Auth.Infrastructure.Persistence;
+using IFX.Modules.IAM.Application.Identity.Interfaces;
+using IFX.Modules.IAM.Infrastructure.Persistence;
 using IFX.Platform.BackgroundJobs.Contracts;
 using IFX.Platform.Notifications.Contracts;
 using IFX.Platform.Notifications.Contracts.Models;
@@ -208,10 +208,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         if (!db.Roles.Any())
         {
             var defaultTenantId = Guid.NewGuid();
-            var userRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("User", "Standard user role", defaultTenantId);
-            var adminRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("Admin", "Administrator role", defaultTenantId);
-            var ssoRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("SsoUser", "SSO user role", defaultTenantId);
-            var pendingRole = IFX.Modules.Auth.Domain.Authorization.Role.Create("PendingUser", "Pending user awaiting approval", defaultTenantId);
+            var userRole = IFX.Modules.IAM.Domain.Access.Role.Create("User", "Standard user role", defaultTenantId);
+            var adminRole = IFX.Modules.IAM.Domain.Access.Role.Create("Admin", "Administrator role", defaultTenantId);
+            var ssoRole = IFX.Modules.IAM.Domain.Access.Role.Create("SsoUser", "SSO user role", defaultTenantId);
+            var pendingRole = IFX.Modules.IAM.Domain.Access.Role.Create("PendingUser", "Pending user awaiting approval", defaultTenantId);
 
             db.Roles.AddRange(userRole, adminRole, ssoRole, pendingRole);
             db.SaveChanges();
@@ -220,7 +220,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         // Seed default IdP (IFX Cognito)
         if (!db.Idps.Any())
         {
-            var idp = IFX.Modules.Auth.Domain.Identity.Idp.Create(
+            var idp = IFX.Modules.IAM.Domain.Identity.Idp.Create(
                 name: "IFX Cognito",
                 issuer: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",
                 authority: "https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_adW7gmF5P",

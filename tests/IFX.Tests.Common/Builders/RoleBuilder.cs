@@ -1,4 +1,5 @@
-using IFX.Modules.Auth.Domain.Authorization;
+using IFX.Modules.IAM.Domain.Access;
+using IFX.Modules.IAM.Domain.Tenancy;
 
 namespace IFX.Tests.Common.Builders;
 

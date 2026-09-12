@@ -7,160 +7,6 @@
   "tenantQueryMethodCount": 81,
   "tenantQueryMethods": [
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/DepartmentRepository.cs",
-      "line": 17,
-      "signature": "public async Task<Department?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/DepartmentRepository.cs",
-      "line": 36,
-      "signature": "public async Task<List<Department>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/DepartmentRepository.cs",
-      "line": 49,
-      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/DepartmentRepository.cs",
-      "line": 55,
-      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/PolicyDefinitionRepository.cs",
-      "line": 17,
-      "signature": "public async Task<PolicyDefinition?> GetAsync(         Guid tenantId, string resourceType, string action, CancellationToken ct = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/PolicyDefinitionRepository.cs",
-      "line": 31,
-      "signature": "public async Task<List<PolicyDefinition>> GetByTenantIdAsync(         Guid tenantId, CancellationToken ct = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/PolicyDefinitionRepository.cs",
-      "line": 47,
-      "signature": "public async Task<bool> ExistsAsync(         Guid tenantId, string resourceType, string action, CancellationToken ct = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/PolicyDefinitionRepository.cs",
-      "line": 60,
-      "signature": "public async Task<PolicyDefinition?> GetTenantByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
-      "line": 17,
-      "signature": "public async Task<RoleGroup?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
-      "line": 23,
-      "signature": "public async Task<RoleGroup?> GetByNameAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
-      "line": 29,
-      "signature": "public async Task<RoleGroup?> GetByIdWithRolesAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
-      "line": 49,
-      "signature": "public async Task<List<RoleGroup>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
-      "line": 63,
-      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleGroupRepository.cs",
-      "line": 69,
-      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
-      "line": 17,
-      "signature": "public async Task<Role?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
-      "line": 23,
-      "signature": "public async Task<Role?> GetByNameAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
-      "line": 29,
-      "signature": "public async Task<Role?> GetByIdWithPermissionsAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
-      "line": 44,
-      "signature": "public async Task<List<Role>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
-      "line": 53,
-      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Authorization/Repositories/RoleRepository.cs",
-      "line": 59,
-      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/IdpRepository.cs",
-      "line": 18,
-      "signature": "public async Task<Idp?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Infrastructure/Identity/Repositories/IdpRepository.cs",
-      "line": 42,
-      "signature": "public async Task<List<Idp>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
-      "guarded": true,
-      "predicated": true
-    },
-    {
       "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Repositories/EfAdvisorInvestmentAccountLinkRepository.cs",
       "line": 15,
       "signature": "public async Task<IReadOnlyList<AdvisorInvestmentAccountLink>> GetByAccountIdAsync(Guid accountId, Guid tenantId, CancellationToken ct = default)",
@@ -434,6 +280,160 @@
       "predicated": true
     },
     {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/PolicyDefinitionRepository.cs",
+      "line": 18,
+      "signature": "public async Task<PolicyDefinition?> GetAsync(         Guid tenantId, string resourceType, string action, CancellationToken ct = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/PolicyDefinitionRepository.cs",
+      "line": 32,
+      "signature": "public async Task<List<PolicyDefinition>> GetByTenantIdAsync(         Guid tenantId, CancellationToken ct = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/PolicyDefinitionRepository.cs",
+      "line": 48,
+      "signature": "public async Task<bool> ExistsAsync(         Guid tenantId, string resourceType, string action, CancellationToken ct = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/PolicyDefinitionRepository.cs",
+      "line": 61,
+      "signature": "public async Task<PolicyDefinition?> GetTenantByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleGroupRepository.cs",
+      "line": 18,
+      "signature": "public async Task<RoleGroup?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleGroupRepository.cs",
+      "line": 24,
+      "signature": "public async Task<RoleGroup?> GetByNameAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleGroupRepository.cs",
+      "line": 30,
+      "signature": "public async Task<RoleGroup?> GetByIdWithRolesAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleGroupRepository.cs",
+      "line": 50,
+      "signature": "public async Task<List<RoleGroup>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleGroupRepository.cs",
+      "line": 64,
+      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleGroupRepository.cs",
+      "line": 70,
+      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleRepository.cs",
+      "line": 18,
+      "signature": "public async Task<Role?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleRepository.cs",
+      "line": 24,
+      "signature": "public async Task<Role?> GetByNameAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleRepository.cs",
+      "line": 30,
+      "signature": "public async Task<Role?> GetByIdWithPermissionsAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleRepository.cs",
+      "line": 45,
+      "signature": "public async Task<List<Role>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleRepository.cs",
+      "line": 54,
+      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/Repositories/RoleRepository.cs",
+      "line": 60,
+      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Repositories/IdpRepository.cs",
+      "line": 18,
+      "signature": "public async Task<Idp?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Repositories/IdpRepository.cs",
+      "line": 42,
+      "signature": "public async Task<List<Idp>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Tenancy/Repositories/DepartmentRepository.cs",
+      "line": 18,
+      "signature": "public async Task<Department?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Tenancy/Repositories/DepartmentRepository.cs",
+      "line": 37,
+      "signature": "public async Task<List<Department>> GetByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Tenancy/Repositories/DepartmentRepository.cs",
+      "line": 50,
+      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Tenancy/Repositories/DepartmentRepository.cs",
+      "line": 56,
+      "signature": "public async Task<bool> NameExistsAsync(string name, Guid tenantId, Guid excludeId, CancellationToken cancellationToken = default)",
+      "guarded": true,
+      "predicated": true
+    },
+    {
       "file": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/Repositories/EfFundClassRepository.cs",
       "line": 18,
       "signature": "public async Task<FundClass?> GetByIdAsync(Guid id, Guid tenantId, CancellationToken ct = default)",
@@ -670,47 +670,47 @@
   "unregisteredAcrossTenantMethods": [],
   "tenantOwnedContractResults": [
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleRepository.cs",
       "pattern": "GetByIdAsync\\(Guid id, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleRepository.cs",
       "pattern": "GetByNameAsync\\(string name, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleRepository.cs",
       "pattern": "GetByIdWithPermissionsAsync\\(Guid id, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleGroupRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleGroupRepository.cs",
       "pattern": "GetByIdAsync\\(Guid id, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleGroupRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleGroupRepository.cs",
       "pattern": "GetByNameAsync\\(string name, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IRoleGroupRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleGroupRepository.cs",
       "pattern": "GetByIdWithRolesAsync\\(Guid id, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IDepartmentRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Tenancy/IDepartmentRepository.cs",
       "pattern": "GetByIdAsync\\(Guid id, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Authorization/IPolicyDefinitionRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IPolicyDefinitionRepository.cs",
       "pattern": "GetTenantByIdAsync\\(Guid id, Guid tenantId",
       "passed": true
     },
     {
-      "file": "src/Modules/Auth/IFX.Modules.Auth.Domain/Identity/IIdpRepository.cs",
+      "file": "src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/IIdpRepository.cs",
       "pattern": "GetByIdAsync\\(Guid id, Guid tenantId",
       "passed": true
     },

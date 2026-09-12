@@ -61,7 +61,7 @@
   "modules": [
     {
       "id": "auth",
-      "name": "Auth",
+      "name": "IAM",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
       "capabilities": ["identity", "authentication", "subject-and-external-identity-mapping"],

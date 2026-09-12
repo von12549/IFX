@@ -4,7 +4,7 @@
   "slice": "P04-S1",
   "authority": {
     "protocolGraph": "G03",
-    "projectAndNamespaceGraph": "LayerGuard-B4",
+    "projectAndNamespaceGraph": "LayerGuard-Plan05 (B4 rules retained)",
     "dataOwnership": "G02",
     "releaseBoundary": "G04"
   },

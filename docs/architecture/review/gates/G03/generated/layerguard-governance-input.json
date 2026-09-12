@@ -1,10 +1,10 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429",
+  "catalogSha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b",
   "moduleOwnership": [
     {
-      "module": "Auth",
+      "module": "IAM",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi"
     },

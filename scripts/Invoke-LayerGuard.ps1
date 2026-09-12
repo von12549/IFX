@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $ReportPath,
-    [string] $BaselinePath = 'mcp/LayerGuard/baselines/b4.json',
+    [string] $BaselinePath = 'mcp/LayerGuard/baselines/plan05.json',
     [switch] $SkipTests
 )
 
@@ -31,7 +31,7 @@ if (-not $SkipTests) {
 dotnet run --no-restore --project $toolProject -- check $sourceRoot --config $policy --baseline $baseline --format json --report $ReportPath --quiet
 $checkExitCode = $LASTEXITCODE
 if ($checkExitCode -eq 0) {
-    Write-Host "LayerGuard B4 strict policy gate passed. Report: $ReportPath"
+    Write-Host "LayerGuard strict policy gate passed ($BaselinePath). Report: $ReportPath"
 }
 else {
     Write-Error "LayerGuard found a new/stale violation or invalid baseline. Report: $ReportPath"

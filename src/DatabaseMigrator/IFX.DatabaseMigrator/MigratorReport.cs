@@ -1,5 +1,5 @@
 using IFX.BuildingBlocks.EntityFrameworkCore.Migrations;
-using IFX.Modules.Auth.Infrastructure.Persistence.Migrations.Legacy;
+using IFX.Modules.IAM.Infrastructure.Persistence.Migrations.Legacy;
 
 namespace IFX.DatabaseMigrator;
 

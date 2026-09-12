@@ -138,6 +138,21 @@
           "sha256": "fe790cf3402f5644bb83e64535b39914fa32b40cfdbf7221f53cb42829884bf4"
         }
       ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 1 reviewed Auth code owner rename to IAM; auth wire identity and five module boundaries retained. Historical B4 evidence unchanged.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "fa1302fce04d6af282af2d897cf0f93cdaa77d51ac3dd46b4ce145163f4d57cf"
+        }
+      ]
     }
   ],
   "owners": [
@@ -212,8 +227,24 @@
       "approvalStatus": "pending-architecture-acceptance"
     }
   ],
-  "activeScope": ["GOV4", "DP6", "DB8", "GOV3"],
-  "excludedScope": ["TX6", "DB5", "DB6", "DB7", "DB12", "DP8", "DP9", "GOV6", "OPS2", "OPS5"],
+  "activeScope": [
+    "GOV4",
+    "DP6",
+    "DB8",
+    "GOV3"
+  ],
+  "excludedScope": [
+    "TX6",
+    "DB5",
+    "DB6",
+    "DB7",
+    "DB12",
+    "DP8",
+    "DP9",
+    "GOV6",
+    "OPS2",
+    "OPS5"
+  ],
   "completionSemantics": {
     "designComplete": "Approved repository design, schemas, fixtures and decision records exist; no runtime or production capability is implied.",
     "repositoryGovernanceComplete": "Source, validators, tests and repository evidence conform on the frozen inputs; named functional approvals and production evidence remain separate.",

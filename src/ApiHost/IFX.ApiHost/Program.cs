@@ -2,7 +2,7 @@ using IFX.BuildingBlocks.Composition;
 using IFX.BuildingBlocks.Application;
 using IFX.ApiHost.Configuration;
 using IFX.ApiHost.Middleware;
-using IFX.Modules.Auth.Composition;
+using IFX.Modules.IAM.Composition;
 using IFX.Modules.CRM.Composition;
 using IFX.Modules.Holdings.Composition;
 using IFX.Modules.Transaction.Composition;

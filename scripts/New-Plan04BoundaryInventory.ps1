@@ -18,6 +18,8 @@ function Sha256([string] $path) {
 
 function ModuleId([string] $name) {
     if ([string]::IsNullOrWhiteSpace($name)) { return $null }
+    $registered = @($g03.modules | Where-Object { $_.name -eq $name -or $_.id -eq $name })
+    if ($registered.Count -eq 1) { return $registered[0].id }
     return $name.ToLowerInvariant()
 }
 
@@ -25,11 +27,12 @@ $baseline = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/eviden
 $g02 = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/evidence/gates/G02/G02-database-inventory.json') | ConvertFrom-Json -Depth 100
 $g03 = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
 $g04 = Get-Content -Raw -LiteralPath (Repo 'deployment/g04/module-manifest.json') | ConvertFrom-Json -Depth 100
-$b4 = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/evidence/layerguard/B4-dependency-graph.json') | ConvertFrom-Json -Depth 100
+$dependencyGraphPath = 'docs/architecture/review/evidence/plan05/current-dependency-graph.json'
+$b4 = Get-Content -Raw -LiteralPath (Repo $dependencyGraphPath) | ConvertFrom-Json -Depth 100
 
 $businessModuleIds = @('auth', 'crm', 'registry', 'transaction', 'holdings')
 $moduleNames = @{
-    auth = 'Auth'
+    auth = 'IAM'
     crm = 'CRM'
     registry = 'Registry'
     transaction = 'Transaction'
@@ -223,7 +226,9 @@ foreach ($moduleId in $businessModuleIds) {
 $crossSchemaFindings = @($g02.staticScan.CrossSchemaFindings)
 $unregisteredEdges = @($projectEdges | Where-Object classification -in @('unregistered-cross-module-edge','ambiguous-cross-module-protocol'))
 $knownBusinessNames = @($businessModuleIds | ForEach-Object { $moduleNames[$_] })
-$sourceModuleDirectories = @(Get-ChildItem -LiteralPath (Repo 'src/Modules') -Directory | Select-Object -ExpandProperty Name | Sort-Object)
+$sourceModuleDirectories = @(Get-ChildItem -LiteralPath (Repo 'src/Modules') -Directory | Where-Object {
+    @(Get-ChildItem -LiteralPath $_.FullName -Recurse -File | Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' }).Count -gt 0
+} | Select-Object -ExpandProperty Name | Sort-Object)
 $unknownSourceModules = @($sourceModuleDirectories | Where-Object { $_ -notin $knownBusinessNames })
 
 $inventory = [ordered]@{
@@ -236,7 +241,7 @@ $inventory = [ordered]@{
         g02DatabaseInventorySha256 = Sha256 'docs/architecture/review/evidence/gates/G02/G02-database-inventory.json'
         g03CatalogSha256 = Sha256 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
         g04ModuleManifestSha256 = Sha256 'deployment/g04/module-manifest.json'
-        b4DependencyGraphSha256 = Sha256 'docs/architecture/review/evidence/layerguard/B4-dependency-graph.json'
+        b4DependencyGraphSha256 = Sha256 $dependencyGraphPath
     }
     modules = $modules
     protocolEdges = $protocolEdges
@@ -276,7 +281,7 @@ $graph = [ordered]@{
     slice = 'P04-S1'
     authority = [ordered]@{
         protocolGraph = 'G03'
-        projectAndNamespaceGraph = 'LayerGuard-B4'
+        projectAndNamespaceGraph = 'LayerGuard-Plan05 (B4 rules retained)'
         dataOwnership = 'G02'
         releaseBoundary = 'G04'
     }

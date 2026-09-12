@@ -2,18 +2,51 @@
   "formatVersion": 1,
   "lockId": "plan04-governance-input-lock-v1",
   "authorityInputs": [
-    {"authority": "LayerGuard-B4", "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json", "sha256": "b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506"},
-    {"authority": "G03", "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml", "sha256": "07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429"},
-    {"authority": "G04", "path": "deployment/g04/module-manifest.json", "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"}
+    {
+      "authority": "LayerGuard-Plan05",
+      "path": "docs/architecture/review/evidence/plan05/current-dependency-graph.json",
+      "sha256": "e2eaa84088478b8595a8472641a9300de976aeb2f6d938d98549543d853d05fd"
+    },
+    {
+      "authority": "G03",
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "sha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b"
+    },
+    {
+      "authority": "G04",
+      "path": "deployment/g04/module-manifest.json",
+      "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+    }
   ],
   "decisionArtifacts": [
-    {"path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json", "sha256": "906eb12b85a5685b24f66dd7260fb8d87d24776322c933192d73f377985539c1"},
-    {"path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json", "sha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d"},
-    {"path": "docs/architecture/review/policies/plan04/tenant-query-policy.json", "sha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998"},
-    {"path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json", "sha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af"},
-    {"path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json", "sha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017"},
-    {"path": "docs/architecture/review/policies/plan04/projection-registration.schema.json", "sha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7"},
-    {"path": "docs/architecture/review/policies/plan04/projection-registry.json", "sha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3"}
+    {
+      "path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json",
+      "sha256": "57e87adc9d583781a676d4dba52840d11bfc755a02333267f8ecd0defe2157bb"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+      "sha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+      "sha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+      "sha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+      "sha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json",
+      "sha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7"
+    },
+    {
+      "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+      "sha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3"
+    }
   ],
   "driftPolicy": "Any missing input or hash mismatch fails closed. Regenerate derived evidence, review the authoritative change, then deliberately update this lock; never edit a generated report to make it green."
 }

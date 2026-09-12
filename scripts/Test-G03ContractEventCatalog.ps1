@@ -56,7 +56,7 @@ function Test-Catalog($catalog) {
     }
     $codeownersPath = Join-Path $repositoryRoot '.github/CODEOWNERS'
     $codeowners = if (Test-Path -LiteralPath $codeownersPath) { Get-Content -Raw -LiteralPath $codeownersPath } else { '' }
-    foreach ($governedPath in @('/src/Modules/Auth/', '/src/Modules/CRM/', '/src/Modules/Registry/', '/src/Modules/Transaction/', '/src/Modules/Holdings/', '/src/Platform/Messaging/', '/docs/architecture/review/gates/G03/', '/scripts/*G03*')) {
+    foreach ($governedPath in @('/src/Modules/IAM/', '/src/Modules/CRM/', '/src/Modules/Registry/', '/src/Modules/Transaction/', '/src/Modules/Holdings/', '/src/Platform/Messaging/', '/docs/architecture/review/gates/G03/', '/scripts/*G03*')) {
         $routingLine = @($codeowners -split "`r?`n" | Where-Object { $_ -match ('^' + [regex]::Escape($governedPath) + '\s') })
         if ($routingLine.Count -ne 1 -or $routingLine[0] -notmatch [regex]::Escape($catalog.approvalPolicy.backupCodeownersHandle)) {
             Add-Error 'backup-codeowners' '.github/CODEOWNERS' "Governed path '$governedPath' must route to the approved backup handle."

@@ -14,6 +14,12 @@ function Repo([string] $path) {
 function Sha256([string] $path) {
     return (Get-FileHash -Algorithm SHA256 -LiteralPath (Repo $path)).Hash.ToLowerInvariant()
 }
+function GovernedHash([string] $path) {
+    $lock = Get-Content -Raw -LiteralPath (Repo 'docs/architecture/review/policies/plan04/plan04-governance-lock.json') | ConvertFrom-Json -Depth 100
+    $entries = @($lock.authorityInputs | Where-Object path -eq $path)
+    if ($entries.Count -ne 1) { throw "Expected one governed authority binding for $path" }
+    return $entries[0].sha256
+}
 
 & (Join-Path $PSScriptRoot 'New-Plan04BoundaryInventory.ps1') -OutputPath $InventoryPath -GraphPath $GraphPath
 $firstHash = Sha256 $InventoryPath
@@ -55,10 +61,10 @@ $checks = [ordered]@{
     sharedRuntimeAndDataCouplingExplicit = $inventory.runtimeAndDataCoupling.businessReleaseBoundary -eq 'single-required-five-module-release' -and
         $inventory.runtimeAndDataCoupling.schemaOwnership -eq 'module-owned' -and
         $inventory.runtimeAndDataCoupling.crossSchemaAccess -eq 'none-detected'
-    authorityHashesMatchPhase0 = $inventory.inputs.g02DatabaseInventorySha256 -eq '0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5' -and
-        $inventory.inputs.g03CatalogSha256 -eq '07f10e3741796d7c60651c30fdf0d0f04a602e54cf316b1bb759bfd4e9230429' -and
-        $inventory.inputs.g04ModuleManifestSha256 -eq '4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860' -and
-        $inventory.inputs.b4DependencyGraphSha256 -eq 'b2406a94ba3f71d814453cebef4818711cea198b53b1690807ddf9313cffb506'
+    authorityHashesMatchGovernedBindings = $inventory.inputs.g02DatabaseInventorySha256 -eq '0314377c7c1f7e5072a465ec2d50db8e8affef53f876ee19747c688e1781b7a5' -and
+        $inventory.inputs.g03CatalogSha256 -eq (GovernedHash 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') -and
+        $inventory.inputs.g04ModuleManifestSha256 -eq (GovernedHash 'deployment/g04/module-manifest.json') -and
+        $inventory.inputs.b4DependencyGraphSha256 -eq (GovernedHash 'docs/architecture/review/evidence/plan05/current-dependency-graph.json')
 }
 
 $failed = @($checks.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object Key)
