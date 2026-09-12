@@ -26,6 +26,7 @@ This directory records the source-verified architecture and its governed migrati
 |---|---|---|
 | Current architecture / 当前架构 | [current-architecture.zh-CN.md](current-architecture.zh-CN.md) | [current-architecture.en.md](current-architecture.en.md) |
 | Target Contracts/Adapters/Events architecture / 目标架构 | [target-contracts-adapters-events.zh-CN.md](target-contracts-adapters-events.zh-CN.md) | [target-contracts-adapters-events.en.md](target-contracts-adapters-events.en.md) |
+| Platform capabilities and tenant connections / Platform 能力与租户连接讨论 | [讨论记录](platform-capabilities-and-tenant-connections.zh-CN.md) | — |
 | Plan 01 B2 implementation / Plan 01 B2 实施基线 | [Plan 01 中文](plan01-contracts-adapters-boundary.zh-CN.md) | [Plan 01 English](plan01-contracts-adapters-boundary.en.md) |
 | Plan 02 B3 implementation / Plan 02 B3 实施基线 | [Plan 02 中文](plan02-reliable-events.zh-CN.md) | [Plan 02 English](plan02-reliable-events.en.md) |
 | G01 transaction boundary / 事务边界 | [G01 中文](gates/G01/transaction-boundary.zh-CN.md) | [G01 English](gates/G01/transaction-boundary.en.md) |
@@ -40,6 +41,7 @@ This directory records the source-verified architecture and its governed migrati
 - [Master plan / 总计划](plans/00-master-plan.md)
 - [Prerequisite gates / 前置 Gate](plans/00-prerequisites.md)
 - [Plan 04 module-boundary evolution / 子计划 4 模块边界演进](plans/04-module-boundary-evolution.md)
+- [Plan 05 IAM and platform security / 子计划 5 IAM 与平台认证、授权拆分（执行草案）](plans/05-iam-platform-security-refactor.md)
 - [Deferred work / 后续 TODO](plans/TODO.md)
 
 ## Diagrams / 图表
