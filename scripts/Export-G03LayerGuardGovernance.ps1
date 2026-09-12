@@ -21,7 +21,7 @@ $handoff = [ordered]@{
     moduleOwnership = @($catalog.modules | Sort-Object id | ForEach-Object { [ordered]@{ module = $_.name; owner = $_.owner; backupOwner = $_.backupOwner } })
     contractRoles = [ordered]@{ provider = 'Contracts'; consumerPort = 'Application'; consumerAdapter = 'IntegrationAdapter' }
     providerContracts = $providerContracts
-    adapterEdges = @($admittedProtocols | Sort-Object identity | ForEach-Object { $protocol=$_; foreach($consumerId in @($protocol.consumers)) { $consumer=$catalog.consumers|Where-Object id -eq $consumerId; [ordered]@{ identity=$protocol.identity; kind=$protocol.kind; consumer=($catalog.modules|Where-Object id -eq $consumer.module).name; provider=$protocol.provider } } })
+    adapterEdges = @($admittedProtocols | Sort-Object identity | ForEach-Object { $protocol=$_; foreach($consumerId in @($protocol.consumers)) { $consumer=$catalog.consumers|Where-Object id -eq $consumerId; [ordered]@{ identity=$protocol.identity; kind=$protocol.kind; consumer=($catalog.modules|Where-Object id -eq $consumer.module).name; provider=($catalog.modules|Where-Object id -eq $protocol.provider).name } } })
     sharedPrimitiveProjects = @($catalog.sharedPrimitives.project | Sort-Object -Unique)
     contractDependencyPolicy = $catalog.contractDependencyPolicy
     waiverPolicy = $catalog.waiverPolicy

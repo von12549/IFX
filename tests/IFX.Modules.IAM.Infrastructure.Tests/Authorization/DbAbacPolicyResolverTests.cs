@@ -1,7 +1,7 @@
-using IFX.BuildingBlocks.Security.Authorization.Abac.Policies;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Templates;
+using IFX.Modules.IAM.Application.Access.Abac.Policies;
+using IFX.Modules.IAM.Application.Access.Abac.Registry;
+using IFX.Modules.IAM.Application.Access.Abac.Resolver;
+using IFX.Modules.IAM.Application.Access.Abac.Templates;
 using IFX.Modules.IAM.Domain.Access;
 using IFX.Modules.IAM.Domain.Tenancy;
 using IFX.Modules.IAM.Infrastructure.Access;

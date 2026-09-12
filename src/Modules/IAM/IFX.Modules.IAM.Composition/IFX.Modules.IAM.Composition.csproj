@@ -21,4 +21,5 @@
     <ProjectReference Include="..\IFX.Modules.IAM.Presentation\IFX.Modules.IAM.Presentation.csproj" />
   </ItemGroup>
 
+  <ItemGroup><ProjectReference Include="..\..\..\Platform\Authorization\IFX.Platform.Authorization.Composition\IFX.Platform.Authorization.Composition.csproj" /></ItemGroup>
 </Project>

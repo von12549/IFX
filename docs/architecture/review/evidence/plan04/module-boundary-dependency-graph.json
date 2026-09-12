@@ -93,6 +93,46 @@
   ],
   "protocolEdges": [
     {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "crm",
+      "consumerId": "crm-authorization-adapter",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "holdings",
+      "consumerId": "holdings-application",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "registry",
+      "consumerId": "registry-authorization-adapter",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "consumer": "transaction",
+      "consumerId": "transaction-application",
+      "sourceProject": "IFX.Modules.IAM.Contracts",
+      "executionScope": "trusted tenant or platform execution scope"
+    },
+    {
       "identity": "crm.account-compliance.v1",
       "kind": "sync",
       "lifecycle": "Active",
@@ -135,6 +175,28 @@
   ],
   "physicalCrossModuleEdges": [
     {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "crm",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
       "from": "IFX.Modules.Holdings.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "holdings",
@@ -157,6 +219,17 @@
       "protocolIdentity": "ifx.transaction.transaction-processed.v1"
     },
     {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
       "from": "IFX.Modules.Transaction.Composition",
       "fromRole": "Composition",
       "fromModule": "transaction",
@@ -188,6 +261,17 @@
       "uses": null,
       "classification": "registered-cross-module-protocol",
       "protocolIdentity": "crm.account-compliance.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
@@ -205,12 +289,12 @@
     {
       "module": "auth",
       "metrics": {
-        "projectCount": 5,
+        "projectCount": 6,
         "independentTestProjectCount": 4,
-        "physicalFanInModules": 0,
+        "physicalFanInModules": 4,
         "physicalFanOutModules": 0,
-        "physicalCrossModuleEdgeCount": 0,
-        "synchronousProvided": 0,
+        "physicalCrossModuleEdgeCount": 4,
+        "synchronousProvided": 4,
         "synchronousConsumed": 0,
         "eventsProvided": 0,
         "eventsConsumed": 0,
@@ -223,10 +307,10 @@
         "projectCount": 6,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 1,
-        "physicalFanOutModules": 0,
-        "physicalCrossModuleEdgeCount": 2,
+        "physicalFanOutModules": 1,
+        "physicalCrossModuleEdgeCount": 3,
         "synchronousProvided": 1,
-        "synchronousConsumed": 0,
+        "synchronousConsumed": 1,
         "eventsProvided": 0,
         "eventsConsumed": 0,
         "commitsInHistoryWindow": 16
@@ -238,10 +322,10 @@
         "projectCount": 6,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 2,
-        "physicalFanOutModules": 0,
-        "physicalCrossModuleEdgeCount": 3,
+        "physicalFanOutModules": 1,
+        "physicalCrossModuleEdgeCount": 4,
         "synchronousProvided": 1,
-        "synchronousConsumed": 0,
+        "synchronousConsumed": 1,
         "eventsProvided": 1,
         "eventsConsumed": 0,
         "commitsInHistoryWindow": 16
@@ -253,10 +337,10 @@
         "projectCount": 6,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 1,
-        "physicalFanOutModules": 2,
-        "physicalCrossModuleEdgeCount": 5,
+        "physicalFanOutModules": 3,
+        "physicalCrossModuleEdgeCount": 6,
         "synchronousProvided": 0,
-        "synchronousConsumed": 2,
+        "synchronousConsumed": 3,
         "eventsProvided": 1,
         "eventsConsumed": 0,
         "commitsInHistoryWindow": 18
@@ -268,10 +352,10 @@
         "projectCount": 5,
         "independentTestProjectCount": 2,
         "physicalFanInModules": 0,
-        "physicalFanOutModules": 2,
-        "physicalCrossModuleEdgeCount": 2,
+        "physicalFanOutModules": 3,
+        "physicalCrossModuleEdgeCount": 3,
         "synchronousProvided": 0,
-        "synchronousConsumed": 0,
+        "synchronousConsumed": 1,
         "eventsProvided": 0,
         "eventsConsumed": 2,
         "commitsInHistoryWindow": 15

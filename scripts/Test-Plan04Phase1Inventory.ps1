@@ -36,6 +36,10 @@ $expectedProtocols = @(
     'registry.class-subscription-availability.v1',
     'ifx.registry.class-status-changed.v1',
     'ifx.transaction.transaction-processed.v1'
+    'auth.resource-authorization.v1'
+    'auth.resource-authorization.v1'
+    'auth.resource-authorization.v1'
+    'auth.resource-authorization.v1'
 )
 $checks = [ordered]@{
     deterministicGeneration = $firstHash -eq $secondHash -and $firstGraphHash -eq $secondGraphHash
@@ -45,8 +49,11 @@ $checks = [ordered]@{
         [string]::IsNullOrWhiteSpace($_.dbContext) -or [string]::IsNullOrWhiteSpace($_.releaseVersion) -or
         @($_.capabilities).Count -eq 0 -or @($_.dataFacts).Count -eq 0 -or @($_.endpointGroups).Count -eq 0
     }).Count -eq 0
-    exactActiveProtocolSet = @(Compare-Object $expectedProtocols @($inventory.protocolEdges.identity)).Count -eq 0 -and
-        @($inventory.protocolEdges | Where-Object lifecycle -ne 'Active').Count -eq 0
+    exactGovernedProtocolSet = @(Compare-Object $expectedProtocols @($inventory.protocolEdges.identity)).Count -eq 0 -and
+        @($inventory.protocolEdges | Where-Object {
+            if ($_.identity -eq 'auth.resource-authorization.v1') { $_.lifecycle -ne 'Proposed' }
+            else { $_.lifecycle -ne 'Active' }
+        }).Count -eq 0
     graphIsAuthorityDerived = @(Compare-Object $expectedModules @($graph.nodes.id)).Count -eq 0 -and
         @(Compare-Object $expectedProtocols @($graph.protocolEdges.identity)).Count -eq 0 -and
         @($graph.physicalCrossModuleEdges | Where-Object classification -ne 'registered-cross-module-protocol').Count -eq 0

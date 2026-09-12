@@ -1,0 +1,438 @@
+{
+  "formatVersion": 1,
+  "phase": "P05-S3",
+  "baselineCommit": "768a950bbe2b65e8fbe6942b20f76b44de9eedba",
+  "checkedAt": "2026-09-12T09:31:02.7731037+00:00",
+  "sdk": "10.0.303",
+  "result": "passed-latest-runs",
+  "total": 1177.0,
+  "passed": 1177.0,
+  "failed": 0.0,
+  "projects": 21,
+  "latestRuns": [
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_54_net8.0.trx",
+      "sha256": "c355bedf4b003d567d2f0db36d6e26dd28f1c6630c901f430f7980d9d590a1c7",
+      "project": "ifx.buildingblocks.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:54.0923219+10:00",
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_56_net8.0[1].trx",
+      "sha256": "585a55c3e29f8aa1431d0dd9e9a83bd05bdc3240338f2ff3cdc310a582777798",
+      "project": "ifx.buildingblocks.entityframeworkcore.tests.dll",
+      "finishedAt": "2026-09-12T19:26:56.9196185+10:00",
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_01_net8.0[1].trx",
+      "sha256": "24454be764c2965c2cc864765fdbec46b5d4b38a048eb8e3b23157f10d6b14d3",
+      "project": "ifx.databaseboundary.tests.dll",
+      "finishedAt": "2026-09-12T19:27:50.4314876+10:00",
+      "total": 106,
+      "passed": 106,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_52_net8.0.trx",
+      "sha256": "7a7ea8798d7b1b34f1ebf050c2a57c0b136afc080571404ec7ecef694827dd83",
+      "project": "ifx.integrationtests.dll",
+      "finishedAt": "2026-09-12T19:28:07.8649585+10:00",
+      "total": 171,
+      "passed": 171,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_55_net8.0[1].trx",
+      "sha256": "c281f4b551004fb947c698c4cd142357bf1e56ffe77dbc22ada4ef16e4060ea0",
+      "project": "ifx.modules.crm.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:55.7641802+10:00",
+      "total": 37,
+      "passed": 37,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_52_net8.0.trx",
+      "sha256": "d33ed97c46ce69ed9c1eeb0a674b23318b9277c1e9f00c79d2b7d23d4f63df08",
+      "project": "ifx.modules.crm.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:52.3650807+10:00",
+      "total": 56,
+      "passed": 56,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_59_net8.0[1].trx",
+      "sha256": "90d7597df1aac65381d9814b58e48bd92ccd1b5cb6c9084f8c1c3c08aaaec588",
+      "project": "ifx.modules.holdings.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:59.7646741+10:00",
+      "total": 14,
+      "passed": 14,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_58_net8.0.trx",
+      "sha256": "8aa25f83c18bf947bcb34c9073991d1d45f72e629396743dae38f15cccbb4747",
+      "project": "ifx.modules.holdings.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:58.5933693+10:00",
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_00_net8.0.trx",
+      "sha256": "eb6d0358668a14c88f1f85083da422ba960b9b157f2f6262c65643012af51e05",
+      "project": "ifx.modules.iam.application.tests.dll",
+      "finishedAt": "2026-09-12T19:27:00.2974811+10:00",
+      "total": 245,
+      "passed": 245,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_59_net8.0[2].trx",
+      "sha256": "06f9c715056cb53bd5198170ec2d6dc9d6d1d356cdcb9d861452afcfe8da43fa",
+      "project": "ifx.modules.iam.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:59.7583082+10:00",
+      "total": 105,
+      "passed": 105,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_00_net8.0[1].trx",
+      "sha256": "ce00a8672b6dfc675cd06a1dc30dc2dec5ab94dbe74cb2d1724f8e5e5c08121d",
+      "project": "ifx.modules.iam.infrastructure.tests.dll",
+      "finishedAt": "2026-09-12T19:27:01.6730007+10:00",
+      "total": 58,
+      "passed": 58,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_01_net8.0.trx",
+      "sha256": "2cb177bdef14d44fce9134ae37df70fa1dcdc2f9374c759b63b3541314d42bcf",
+      "project": "ifx.modules.iam.presentation.tests.dll",
+      "finishedAt": "2026-09-12T19:27:01.4031776+10:00",
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_55_net8.0.trx",
+      "sha256": "07e4381757af4558c2453f7af8cc72010d0eccd3f12a853adca376c84ae08085",
+      "project": "ifx.modules.registry.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:55.1256183+10:00",
+      "total": 42,
+      "passed": 42,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_52_net8.0[1].trx",
+      "sha256": "e1e16d8f401bf9ab26914a705c108bdebf2d72d51e7f66f87c3227547673a0d9",
+      "project": "ifx.modules.registry.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:52.8717328+10:00",
+      "total": 48,
+      "passed": 48,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_54_net8.0[1].trx",
+      "sha256": "dda1821acdff8544c5e4c6879d7a194a7058b1b9a3e7dd17e8ce13c4cd20dfc2",
+      "project": "ifx.modules.transaction.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:54.6359339+10:00",
+      "total": 50,
+      "passed": 50,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_53_net8.0.trx",
+      "sha256": "282732cc1e9976dec4507cea8db3ed51f3d1a99eb4ec5b5e1ce09e4eb3ca1ce0",
+      "project": "ifx.modules.transaction.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:53.7396378+10:00",
+      "total": 38,
+      "passed": 38,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_02_net8.0.trx",
+      "sha256": "52cda251893020970f13871803c32edd2687c70fa55437a48ec213538b45e3cd",
+      "project": "ifx.platform.authentication.tests.dll",
+      "finishedAt": "2026-09-12T19:27:03.1297140+10:00",
+      "total": 22,
+      "passed": 22,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/platform-final/von12_DESKTOP-OVPKDKR_2026-09-12_19_28_23_net8.0.trx",
+      "sha256": "eb63dc5b396157fb1af971e351890eaea6fa927cabeff9eff778ce5acc4f1ecc",
+      "project": "ifx.platform.authorization.tests.dll",
+      "finishedAt": "2026-09-12T19:28:24.0581091+10:00",
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_52_net8.0[2].trx",
+      "sha256": "c3860937f218f7332172f8c1866a1607989648e039f1adc96549d7d0d8b9e8af",
+      "project": "ifx.platform.backgroundjobs.tests.dll",
+      "finishedAt": "2026-09-12T19:26:52.9460510+10:00",
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_59_net8.0.trx",
+      "sha256": "a95744af97cb654712dda95d6b0fcf7611dd3503ec5fecb5a258bd0793d435e7",
+      "project": "ifx.platform.notifications.tests.dll",
+      "finishedAt": "2026-09-12T19:26:59.2440245+10:00",
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_56_net8.0.trx",
+      "sha256": "cc90e1c323128b672980df482cd4fcbe0596ed4a9e826e3676979b132a9a8b60",
+      "project": "ifx.platform.protocolcontracts.tests.dll",
+      "finishedAt": "2026-09-12T19:26:56.8495677+10:00",
+      "total": 77,
+      "passed": 77,
+      "failed": 0,
+      "notExecuted": 0
+    }
+  ],
+  "allRuns": [
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_52_net8.0.trx",
+      "sha256": "d33ed97c46ce69ed9c1eeb0a674b23318b9277c1e9f00c79d2b7d23d4f63df08",
+      "project": "ifx.modules.crm.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:52.3650807+10:00",
+      "total": 56,
+      "passed": 56,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_52_net8.0[1].trx",
+      "sha256": "e1e16d8f401bf9ab26914a705c108bdebf2d72d51e7f66f87c3227547673a0d9",
+      "project": "ifx.modules.registry.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:52.8717328+10:00",
+      "total": 48,
+      "passed": 48,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_52_net8.0[2].trx",
+      "sha256": "c3860937f218f7332172f8c1866a1607989648e039f1adc96549d7d0d8b9e8af",
+      "project": "ifx.platform.backgroundjobs.tests.dll",
+      "finishedAt": "2026-09-12T19:26:52.9460510+10:00",
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_53_net8.0.trx",
+      "sha256": "282732cc1e9976dec4507cea8db3ed51f3d1a99eb4ec5b5e1ce09e4eb3ca1ce0",
+      "project": "ifx.modules.transaction.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:53.7396378+10:00",
+      "total": 38,
+      "passed": 38,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_54_net8.0.trx",
+      "sha256": "c355bedf4b003d567d2f0db36d6e26dd28f1c6630c901f430f7980d9d590a1c7",
+      "project": "ifx.buildingblocks.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:54.0923219+10:00",
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_54_net8.0[1].trx",
+      "sha256": "dda1821acdff8544c5e4c6879d7a194a7058b1b9a3e7dd17e8ce13c4cd20dfc2",
+      "project": "ifx.modules.transaction.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:54.6359339+10:00",
+      "total": 50,
+      "passed": 50,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_55_net8.0.trx",
+      "sha256": "07e4381757af4558c2453f7af8cc72010d0eccd3f12a853adca376c84ae08085",
+      "project": "ifx.modules.registry.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:55.1256183+10:00",
+      "total": 42,
+      "passed": 42,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_55_net8.0[1].trx",
+      "sha256": "c281f4b551004fb947c698c4cd142357bf1e56ffe77dbc22ada4ef16e4060ea0",
+      "project": "ifx.modules.crm.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:55.7641802+10:00",
+      "total": 37,
+      "passed": 37,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_56_net8.0.trx",
+      "sha256": "cc90e1c323128b672980df482cd4fcbe0596ed4a9e826e3676979b132a9a8b60",
+      "project": "ifx.platform.protocolcontracts.tests.dll",
+      "finishedAt": "2026-09-12T19:26:56.8495677+10:00",
+      "total": 77,
+      "passed": 77,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_56_net8.0[1].trx",
+      "sha256": "585a55c3e29f8aa1431d0dd9e9a83bd05bdc3240338f2ff3cdc310a582777798",
+      "project": "ifx.buildingblocks.entityframeworkcore.tests.dll",
+      "finishedAt": "2026-09-12T19:26:56.9196185+10:00",
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_58_net8.0.trx",
+      "sha256": "8aa25f83c18bf947bcb34c9073991d1d45f72e629396743dae38f15cccbb4747",
+      "project": "ifx.modules.holdings.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:58.5933693+10:00",
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_59_net8.0.trx",
+      "sha256": "a95744af97cb654712dda95d6b0fcf7611dd3503ec5fecb5a258bd0793d435e7",
+      "project": "ifx.platform.notifications.tests.dll",
+      "finishedAt": "2026-09-12T19:26:59.2440245+10:00",
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_59_net8.0[1].trx",
+      "sha256": "90d7597df1aac65381d9814b58e48bd92ccd1b5cb6c9084f8c1c3c08aaaec588",
+      "project": "ifx.modules.holdings.application.tests.dll",
+      "finishedAt": "2026-09-12T19:26:59.7646741+10:00",
+      "total": 14,
+      "passed": 14,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_26_59_net8.0[2].trx",
+      "sha256": "06f9c715056cb53bd5198170ec2d6dc9d6d1d356cdcb9d861452afcfe8da43fa",
+      "project": "ifx.modules.iam.domain.tests.dll",
+      "finishedAt": "2026-09-12T19:26:59.7583082+10:00",
+      "total": 105,
+      "passed": 105,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_00_net8.0.trx",
+      "sha256": "eb6d0358668a14c88f1f85083da422ba960b9b157f2f6262c65643012af51e05",
+      "project": "ifx.modules.iam.application.tests.dll",
+      "finishedAt": "2026-09-12T19:27:00.2974811+10:00",
+      "total": 245,
+      "passed": 245,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_00_net8.0[1].trx",
+      "sha256": "ce00a8672b6dfc675cd06a1dc30dc2dec5ab94dbe74cb2d1724f8e5e5c08121d",
+      "project": "ifx.modules.iam.infrastructure.tests.dll",
+      "finishedAt": "2026-09-12T19:27:01.6730007+10:00",
+      "total": 58,
+      "passed": 58,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_01_net8.0.trx",
+      "sha256": "2cb177bdef14d44fce9134ae37df70fa1dcdc2f9374c759b63b3541314d42bcf",
+      "project": "ifx.modules.iam.presentation.tests.dll",
+      "finishedAt": "2026-09-12T19:27:01.4031776+10:00",
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_01_net8.0[1].trx",
+      "sha256": "24454be764c2965c2cc864765fdbec46b5d4b38a048eb8e3b23157f10d6b14d3",
+      "project": "ifx.databaseboundary.tests.dll",
+      "finishedAt": "2026-09-12T19:27:50.4314876+10:00",
+      "total": 106,
+      "passed": 106,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_02_net8.0.trx",
+      "sha256": "52cda251893020970f13871803c32edd2687c70fa55437a48ec213538b45e3cd",
+      "project": "ifx.platform.authentication.tests.dll",
+      "finishedAt": "2026-09-12T19:27:03.1297140+10:00",
+      "total": 22,
+      "passed": 22,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/full-tests/von12_DESKTOP-OVPKDKR_2026-09-12_19_27_52_net8.0.trx",
+      "sha256": "7a7ea8798d7b1b34f1ebf050c2a57c0b136afc080571404ec7ecef694827dd83",
+      "project": "ifx.integrationtests.dll",
+      "finishedAt": "2026-09-12T19:28:07.8649585+10:00",
+      "total": 171,
+      "passed": 171,
+      "failed": 0,
+      "notExecuted": 0
+    },
+    {
+      "file": "artifacts/plan05/phase3/platform-final/von12_DESKTOP-OVPKDKR_2026-09-12_19_28_23_net8.0.trx",
+      "sha256": "eb63dc5b396157fb1af971e351890eaea6fa927cabeff9eff778ce5acc4f1ecc",
+      "project": "ifx.platform.authorization.tests.dll",
+      "finishedAt": "2026-09-12T19:28:24.0581091+10:00",
+      "total": 21,
+      "passed": 21,
+      "failed": 0,
+      "notExecuted": 0
+    }
+  ],
+  "targetDataAudit": "pending-not-inspected",
+  "production": "not-claimed"
+}

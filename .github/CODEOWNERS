@@ -7,5 +7,6 @@
 /src/Modules/Holdings/ @von12549 @jimkeecn
 /src/Platform/Messaging/ @von12549 @jimkeecn
 /src/Platform/Authentication/ @von12549 @jimkeecn
+/src/Platform/Authorization/ @von12549 @jimkeecn
 /docs/architecture/review/gates/G03/ @von12549 @jimkeecn
 /scripts/*G03* @von12549 @jimkeecn

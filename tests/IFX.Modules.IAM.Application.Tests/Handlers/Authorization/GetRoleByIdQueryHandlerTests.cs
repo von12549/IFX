@@ -1,6 +1,7 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.IAM.Application.Access.Roles.DTOs;
 using IFX.Modules.IAM.Application.Access.Roles.Queries.GetRoleById;
 using IFX.Modules.IAM.Application.Interfaces;
@@ -28,7 +29,7 @@ public class GetRoleByIdQueryHandlerTests
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

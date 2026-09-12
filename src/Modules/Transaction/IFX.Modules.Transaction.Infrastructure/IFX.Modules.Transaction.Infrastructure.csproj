@@ -24,4 +24,5 @@
     <ProjectReference Include="..\..\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
   </ItemGroup>
+  <ItemGroup><ProjectReference Include="..\..\IAM\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" /></ItemGroup>
 </Project>

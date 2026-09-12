@@ -1,12 +1,9 @@
-using IFX.BuildingBlocks.Security.Authorization.Models;
-using System.Text.Json.Serialization;
+using IFX.Modules.IAM.Application.Ports.Authorization;
 
 namespace IFX.Modules.IAM.Application.Users.Authorization;
 
-public class UserResourceAttributes : OpaResourceAttributesBase
+public class UserResourceAttributes : ResourceAttributes
 {
-    [JsonPropertyName("owner_id")]
-    public string OwnerId { get; init; } = string.Empty;
 
     public UserResourceAttributes(Guid userId, Guid? tenantId)
     {

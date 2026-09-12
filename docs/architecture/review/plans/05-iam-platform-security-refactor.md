@@ -1,6 +1,6 @@
 # 子计划 5：Auth → IAM 与平台认证、授权能力拆分
 
-> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–2 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 3 授权提取。
+> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–3 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 4 政策语义。
 > 编写日期：2026-09-12；源码观察基线：`13a0a74`。
 > 来源：本次关于 Platform、Authentication、Authorization/ABAC 与 Auth 职责拆分的讨论。
 > 定位：B4 严格边界之后的独立演进计划；沿用现有 G01–G05 与 Plan 04 治理，不重写既有里程碑或声明生产验收完成。
@@ -31,13 +31,13 @@
 | --- | --- | --- |
 | [AuthModuleInstaller](../../../../src/Modules/IAM/IFX.Modules.IAM.Composition/AuthModuleInstaller.cs) | 统一装配各类入口，并按全局配置选择 Cognito/Auth0 | IAM Composition 装配 IAM；技术 provider 由平台 Composition 注册 |
 | [IOidcAuthService](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Interfaces/IOidcAuthService.cs) | 授权地址、code exchange、UserInfo、logout 等协议操作 | 保留消费方 Port 的需求，平台契约按真实能力拆小 |
-| [IIdentityProvider](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Interfaces/IIdentityProvider.cs) | 注册、认证、刷新、撤销混在一个接口中 | 区分协议登录、token 生命周期、外部账号管理；不原样搬成万能接口 |
+| [Provider services](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Interfaces/ProviderServices.cs) | 注册、认证、刷新、撤销混在一个接口中 | 区分协议登录、token 生命周期、外部账号管理；不原样搬成万能接口 |
 | [ProvisionSsoUserCommandHandler](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Identity/Commands/ProvisionSsoUser/ProvisionSsoUserCommandHandler.cs) | 建立本地 User/UserIdentity、解析 IdP、授予 PendingUser | 保留在 IAM.Identity，通过同模块应用协调完成成员与初始角色处理 |
 | [User](../../../../src/Modules/IAM/IFX.Modules.IAM.Domain/Users/User.cs) | 已有 Tenants、Departments、Roles、RoleGroups、PrimaryTenantId 等关系 | 先保留映射，后明确 Membership 与 Assignment 所有权；并非从零新增租户关系 |
 | [IfxDbContext](../../../../src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/IfxDbContext.cs) | 一个上下文管理身份、用户、权限和租户表 | 保持一个 IAM 数据所有者和事务边界；不因子域整理拆库 |
-| [ResourceAuthorizationService](../../../../src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/ResourceAuthorizationService.cs) | 混合 HTTP/用户属性、策略选择、OPA、GlobalAdmin 特例和执行拒绝 | 拆成入口上下文适配、IAM 政策编排、平台求值、消费方执行 |
+| [ResourceAuthorizationService](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Access/ResourceAuthorizationService.cs) | 混合 HTTP/用户属性、策略选择、OPA、GlobalAdmin 特例和执行拒绝 | 拆成入口上下文适配、IAM 政策编排、平台求值、消费方执行 |
 | [DbAbacPolicyResolver](../../../../src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/DbAbacPolicyResolver.cs) | 租户→平台→静态回退，部分读取异常后继续回退 | 分离政策选择与存储；区分 NotConfigured、Unavailable、Invalid |
-| [IResourceAuthorizationService](../../../../src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/IResourceAuthorizationService.cs) | 对调用者暴露 OPA resource 基类和 decisionPath | 将 OPA 路径/envelope 收入 provider Adapter |
+| [IResourceAuthorizationService](../../../../src/Modules/IAM/IFX.Modules.IAM.Application/Ports/Authorization/IResourceAuthorizationService.cs) | 对调用者暴露 OPA resource 基类和 decisionPath | 将 OPA 路径/envelope 收入 provider Adapter |
 
 这是文件级观察，不能代替运行调用链审计。Phase 0 将逐项确认实际注册、生产调用者和遗留未使用代码，并记录当时 HEAD；上述链接在实施重命名后同步更新。
 
@@ -151,12 +151,12 @@ src/Modules/IAM/
 
 交付：求值协议、Runtime、OPA Adapter、IAM.Access 编排、HTTP/Worker 上下文适配。
 
-- [ ] IAM3.1 将通用条件处理、模板执行和 OPA 技术调用移出 BuildingBlocks；区分“参数解析”与“实际求值”，避免名称掩盖职责。
-- [ ] IAM3.2 从 ResourceAuthorizationService 拆出主体/环境构建、政策选择、求值与拒绝执行；移除平台 Runtime 对 IHttpContextAccessor 的依赖。
-- [ ] IAM3.3 IAM.Access 承接政策选择与现有 GlobalRole 语义，先按基线迁移；平台引擎不硬编码 GlobalAdmin 绕过或角色名称。
-- [ ] IAM3.4 将业务消费者迁移到自己的 Port 与外层 Adapter；资源属性仍由资源模块提供，不把 EF entity 或跨模块查询塞入引擎。
-- [ ] IAM3.5 保持通用属性协议与 OPA 表示之间的映射；公共契约不出现 OpaResourceAttributesBase、decisionPath 或 SDK。
-- [ ] IAM3.6 补齐 API、内部命令、后台任务和读取列表的执行覆盖；列表入口的允许不等于每条记录都可读，仍使用模块拥有的受限查询和必要逐资源检查。
+- [x] IAM3.1 将通用条件处理、模板执行和 OPA 技术调用移出 BuildingBlocks；区分“参数解析”与“实际求值”，避免名称掩盖职责。
+- [x] IAM3.2 从 ResourceAuthorizationService 拆出主体/环境构建、政策选择、求值与拒绝执行；移除平台 Runtime 对 IHttpContextAccessor 的依赖。
+- [x] IAM3.3 IAM.Access 承接政策选择与现有 GlobalRole 语义，先按基线迁移；平台引擎不硬编码 GlobalAdmin 绕过或角色名称。
+- [x] IAM3.4 将业务消费者迁移到自己的 Port 与外层 Adapter；资源属性仍由资源模块提供，不把 EF entity 或跨模块查询塞入引擎。
+- [x] IAM3.5 保持通用属性协议与 OPA 表示之间的映射；公共契约不出现 OpaResourceAttributesBase、decisionPath 或 SDK。
+- [x] IAM3.6 补齐 API、内部命令、后台任务和读取列表的执行覆盖；列表入口的允许不等于每条记录都可读，仍使用模块拥有的受限查询和必要逐资源检查。
 
 验收：结构拆分前后授权结果对账一致；相同可信输入在 HTTP/Worker 得到一致决定；未授权操作不执行；领域状态转换仍独立检查。
 

@@ -5,6 +5,7 @@ using IFX.Modules.IAM.Application.Identity.Interfaces;
 using IFX.Modules.IAM.Application;
 using IFX.Modules.IAM.Infrastructure;
 using IFX.Platform.Authentication.Composition;
+using IFX.Platform.Authorization.Composition;
 
 using IFX.Modules.IAM.Presentation.Access.Endpoints;
 using IFX.Modules.IAM.Presentation.Tenancy.Endpoints;
@@ -29,6 +30,7 @@ namespace IFX.Modules.IAM.Composition
         {
             Log.Information("[{Module}] Registering module services...", ModuleName);
 
+            services.AddPlatformAuthorization(configuration);
             services.AddApplicationServices();
             services.AddInfrastructureServices(configuration);
             services.AddBackgroundJobTypeAlias<IEmailVerificationCleanupService>(

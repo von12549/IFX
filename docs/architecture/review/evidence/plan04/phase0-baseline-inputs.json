@@ -168,6 +168,21 @@
           "sha256": "70b2dd4fb7f8aa9d91d7690e81d3632d640197627ba6c1e05855a6f293b2e8a7"
         }
       ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 3 registers IAM authorization for four resource modules and platform evaluation for IAM. New protocols remain Proposed pending formal admission. Legacy active protocol identities are unchanged.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "40e28aaf91e8929dda8a8d02df974e1ecf529075ea0125c294b23256a28690ee"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "80a0e6a2b3e598815ee77e9bf3a7f5d1be0d3f372ee63614d3743bd6004bb2f8"
+        }
+      ]
     }
   ],
   "owners": [

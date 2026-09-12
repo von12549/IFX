@@ -6,7 +6,7 @@
   "counts": {
     "sourceSurface": 0,
     "catalogSurface": 0,
-    "protocols": 4,
+    "protocols": 6,
     "unregistered": 0,
     "missingSource": 0,
     "failedProtocolEvidence": 0
@@ -32,6 +32,18 @@
     },
     {
       "identity": "ifx.registry.class-status-changed.v1",
+      "sourceExists": true,
+      "memberExists": true,
+      "currentConsumerSiteExists": true
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "sourceExists": true,
+      "memberExists": true,
+      "currentConsumerSiteExists": true
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
       "sourceExists": true,
       "memberExists": true,
       "currentConsumerSiteExists": true

@@ -1,3 +1,4 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.RoleGroups.Authorization;
 using IFX.Modules.IAM.Application.Common;

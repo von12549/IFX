@@ -288,7 +288,7 @@ internal static class GatePolicyLoader
             {
                 if (!consumers.TryGetValue(consumerId, out var consumerModule))
                     throw new InvalidDataException($"{catalogPath} protocol `{identity}` names unknown consumer `{consumerId}`.");
-                expectedEdges.Add(string.Join("|", identity, kind, consumerModule, providerId));
+                expectedEdges.Add(string.Join("|", identity, kind, consumerModule, providerName));
                 if (!expectedProviders.TryGetValue(consumerModule, out var providerSet))
                     expectedProviders.Add(consumerModule, providerSet = new(StringComparer.OrdinalIgnoreCase));
                 providerSet.Add(providerName);

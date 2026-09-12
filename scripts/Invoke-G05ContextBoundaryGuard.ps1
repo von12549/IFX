@@ -157,7 +157,14 @@ if ($Phase -ge 6) {
     }
     $denylistText = @($catalog.fieldGovernance.c4Denylist) -join '|'
     $checks.g03CatalogRemainsSoleFieldAuthority = $catalog.fieldGovernance.authority -match 'sole admission source' -and $catalogReport.result -eq 'passed' -and $catalogReport.checks.sensitiveFieldGovernance
-    $checks.allTargetLegacyAndEnvelopeFieldsAreClassified = @($catalog.fieldSurfaces).Count -eq 32 -and @($classifiedFields).Count -eq 165 -and @($catalog.fieldSurfaces | Where-Object kind -like 'legacy-*').Count -eq 27 -and @($catalog.publicSurface | Where-Object kind -in @('dto', 'integration-event')).Count -eq 27
+    # Plan 05 adds two bounded authorization schemas; retain the original 165-field baseline as a separate invariant.
+    $authorizationIdentities = @('auth.resource-authorization.v1', 'authorization.policy-evaluation.v1')
+    $checks.allTargetLegacyAndEnvelopeFieldsAreClassified = @($catalog.fieldSurfaces).Count -eq 34 -and
+        @($classifiedFields | Where-Object surface -notin $authorizationIdentities).Count -eq 165 -and
+        @($classifiedFields | Where-Object surface -eq 'auth.resource-authorization.v1').Count -eq 11 -and
+        @($classifiedFields | Where-Object surface -eq 'authorization.policy-evaluation.v1').Count -eq 24 -and
+        @($catalog.fieldSurfaces | Where-Object kind -like 'legacy-*').Count -eq 27 -and
+        @($catalog.publicSurface | Where-Object kind -in @('dto', 'integration-event')).Count -eq 27
     $checks.noC4AndAllC3HaveGovernedExceptions = @($classifiedFields | Where-Object classification -eq 'C4').Count -eq 0 -and @($classifiedFields | Where-Object { $_.classification -eq 'C3' -and [string]::IsNullOrWhiteSpace($_.exceptionRef) }).Count -eq 0 -and @($catalog.fieldExceptions).Count -eq 8
     $checks.c4SemanticDenylistIsComplete = @('password', 'token', 'authorization', 'cookie', 'otp', 'api secret', 'client secret', 'private key', 'connection string' | Where-Object { $denylistText -notmatch [regex]::Escape($_) }).Count -eq 0
     $checks.capabilitySplitAndEventMinimizationAreRecorded = @($catalog.migrationRecommendations).Count -ge 2 -and @($catalog.eventMinimizationReviews).Count -ge 5 -and 'crm.dto.investor-summary' -in @($catalog.migrationRecommendations.surfaceId)

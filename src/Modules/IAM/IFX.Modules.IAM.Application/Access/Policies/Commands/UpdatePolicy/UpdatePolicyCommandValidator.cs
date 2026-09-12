@@ -1,5 +1,5 @@
 using FluentValidation;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
+using IFX.Modules.IAM.Application.Access.Abac.Registry;
 
 namespace IFX.Modules.IAM.Application.Access.Policies.Commands.UpdatePolicy;
 

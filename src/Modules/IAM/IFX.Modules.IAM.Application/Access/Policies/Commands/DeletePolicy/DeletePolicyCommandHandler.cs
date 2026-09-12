@@ -1,4 +1,5 @@
-using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.Modules.IAM.Application.Ports.Authorization;
+using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.Authorization;
 using IFX.Modules.IAM.Application.Common;

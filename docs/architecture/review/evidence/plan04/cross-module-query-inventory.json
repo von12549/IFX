@@ -113,6 +113,28 @@
   },
   "physicalCrossModuleEdges": [
     {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "crm",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
       "from": "IFX.Modules.Holdings.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "holdings",
@@ -133,6 +155,17 @@
       "uses": null,
       "classification": "registered-cross-module-protocol",
       "protocolIdentity": "ifx.transaction.transaction-processed.v1"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
     },
     {
       "from": "IFX.Modules.Transaction.Composition",
@@ -166,6 +199,17 @@
       "uses": null,
       "classification": "registered-cross-module-protocol",
       "protocolIdentity": "crm.account-compliance.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",

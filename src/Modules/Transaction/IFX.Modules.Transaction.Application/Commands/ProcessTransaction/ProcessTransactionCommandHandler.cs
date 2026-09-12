@@ -1,3 +1,4 @@
+using IFX.Modules.Transaction.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Transaction.Contracts.V1.Events;

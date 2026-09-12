@@ -1,13 +1,10 @@
+using IFX.Modules.CRM.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
 using IFX.BuildingBlocks.Application.Transactions;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
 using IFX.Modules.CRM.Application.Interfaces;
 using IFX.Modules.CRM.Application.Ports;
 using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Domain.Repositories;
-using IFX.Modules.CRM.Infrastructure.Authorization;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.CRM.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -58,20 +55,7 @@ public static class DependencyInjection
 
         // Authorization
         services.AddHttpContextAccessor();
-        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
-
-        services.AddSingleton<IAbacTemplateRegistry>(_ =>
-        {
-            var registry = new AbacTemplateRegistry();
-            BuiltInTemplates.Register(registry);
-            return registry;
-        });
-        services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
-
-        services.AddSingleton<StaticAbacPolicyResolver>();
-        services.AddScoped<IAbacPolicyResolver>(sp => sp.GetRequiredService<StaticAbacPolicyResolver>());
-        services.AddScoped<IAbacPolicyCache, NoOpAbacPolicyCache>();
-
+        services.AddScoped<IResourceAuthorizationService, Integrations.ResourceAuthorizationAdapter>();
         return services;
     }
 }

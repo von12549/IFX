@@ -1,12 +1,9 @@
-using IFX.BuildingBlocks.Security.Authorization.Models;
-using System.Text.Json.Serialization;
+using IFX.Modules.IAM.Application.Ports.Authorization;
 
 namespace IFX.Modules.IAM.Application.Access.RoleGroups.Authorization;
 
-public class RoleGroupResourceAttributes : OpaResourceAttributesBase
+public class RoleGroupResourceAttributes : ResourceAttributes
 {
-    [JsonPropertyName("owner_id")]
-    public string OwnerId { get; init; } = string.Empty;
 
     public RoleGroupResourceAttributes(Guid groupId, Guid? tenantId, Guid? createdBy)
     {

@@ -1,3 +1,4 @@
+using IFX.Modules.Registry.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.Registry.Application.Common;
 using IFX.Modules.Registry.Application.Common.Authorization;

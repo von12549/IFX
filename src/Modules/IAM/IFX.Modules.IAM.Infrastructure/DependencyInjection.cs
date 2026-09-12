@@ -1,9 +1,11 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Engine;
+using IFX.Modules.IAM.Application.Access;
+using IFX.Modules.IAM.Infrastructure.Integrations.Authorization;
 using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Application.Context;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.Modules.IAM.Application.Access.Abac.Registry;
+using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.Modules.IAM.Application.Identity.Interfaces;
 using IFX.Modules.IAM.Application.Identity.Ports;
 using IFX.Modules.IAM.Application.Interfaces;
@@ -92,7 +94,11 @@ public static class DependencyInjection
         services.AddScoped<ExecutionTenantSelection>();
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddScoped<IPermissionChecker, PermissionChecker>();
-        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationService>();
+        services.AddScoped<ResourceAuthorizationService>();
+        services.AddScoped<IResourceAuthorizationService>(p => p.GetRequiredService<ResourceAuthorizationService>());
+        services.AddScoped<IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract>(p => p.GetRequiredService<ResourceAuthorizationService>());
+        services.AddScoped<IPolicyEvaluationPort, PolicyEvaluationAdapter>();
+        services.AddScoped<IAuthorizationEnvironmentPort, AuthorizationEnvironment>();
 
         // Register ABAC template engine (singleton — thread-safe, no per-request state)
         services.AddSingleton<IAbacTemplateRegistry>(_ =>
@@ -101,7 +107,7 @@ public static class DependencyInjection
             BuiltInTemplates.Register(registry);
             return registry;
         });
-        services.AddScoped<IAbacPolicyEngine, AbacPolicyEngine>();
+
 
         // Register ABAC policy resolver: DB-backed, with empty static fallback as last resort
         services.AddSingleton<StaticAbacPolicyResolver>();

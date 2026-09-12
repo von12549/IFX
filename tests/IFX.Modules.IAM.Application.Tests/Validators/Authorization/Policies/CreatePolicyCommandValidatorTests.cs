@@ -1,5 +1,5 @@
-using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
-using IFX.BuildingBlocks.Security.Authorization.Abac.Templates;
+using IFX.Modules.IAM.Application.Access.Abac.Registry;
+using IFX.Modules.IAM.Application.Access.Abac.Templates;
 using IFX.Modules.IAM.Application.Access.Policies.Commands.CreatePolicy;
 using IFX.Modules.IAM.Application.Access.Policies.DTOs;
 using IFX.Modules.IAM.Domain.Access;

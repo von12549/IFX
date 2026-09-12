@@ -57,8 +57,10 @@ $allSourceFiles = @(Get-ChildItem (Join-Path $repositoryRoot 'src') -Recurse -Fi
     Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } |
     Sort-Object FullName)
 
-$contractProjects = @(Get-ChildItem (Join-Path $repositoryRoot 'src/Modules') -Recurse -File -Filter '*.csproj' |
-    Where-Object { $_.BaseName -like '*.Abstractions' -or $_.BaseName -like '*.Contracts' } |
+$catalogForProjects = Get-Content -Raw (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
+$registeredProjects = @($catalogForProjects.protocols.source.project)
+$contractProjects = @(Get-ChildItem (Join-Path $repositoryRoot 'src') -Recurse -File -Filter '*.csproj' |
+    Where-Object { ($_.FullName -match '[\\/]Modules[\\/]' -and ($_.BaseName -like '*.Abstractions' -or $_.BaseName -like '*.Contracts')) -or $_.BaseName -in $registeredProjects } |
     Sort-Object FullName)
 
 $projects = @()

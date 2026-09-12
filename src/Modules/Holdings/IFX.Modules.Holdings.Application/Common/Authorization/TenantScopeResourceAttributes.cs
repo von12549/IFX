@@ -1,8 +1,9 @@
-using IFX.BuildingBlocks.Security.Authorization.Models;
+using IFX.Modules.Holdings.Application.Ports.Authorization;
+
 
 namespace IFX.Modules.Holdings.Application.Common.Authorization;
 
-public class TenantScopeResourceAttributes : OpaResourceAttributesBase
+public class TenantScopeResourceAttributes : ResourceAttributes
 {
     public TenantScopeResourceAttributes(Guid? tenantId)
     {

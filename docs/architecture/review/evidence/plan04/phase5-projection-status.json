@@ -7,9 +7,9 @@
   "policySha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017",
   "schemaSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
   "registrySha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
-  "inventorySha256": "814f6e843bc771f243b72227356565b0d97684f2bf079799e452e5c13f4ab47d",
-  "catalogSha256": "1b58f102a021e6cd94fef230cb20cfd126b54f75b12509767f288b10e732606a",
-  "dependencyGraphSha256": "6a1428c3e76e33dbec97e9b50d286a7b788def08ec924d4da7be06ecdde64c46",
+  "inventorySha256": "7efa43bdec80f63e98b7e23a8b604d440fa567beb9fb78996cecb8a6788c17c6",
+  "catalogSha256": "40e28aaf91e8929dda8a8d02df974e1ecf529075ea0125c294b23256a28690ee",
+  "dependencyGraphSha256": "c4847fef1625da20891c694c4f1d8bc9862f8e2f47c1e896d0aa3292d9199123",
   "checks": {
     "noProjectionWithoutApprovedConsumer": true,
     "allowedPathsAreClosedSet": true,

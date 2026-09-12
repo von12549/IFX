@@ -22,4 +22,5 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup><ProjectReference Include="..\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" /></ItemGroup>
 </Project>

@@ -1,3 +1,4 @@
+using IFX.Modules.IAM.Application.Ports.Authorization;
 using System.Text.Json;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access.Policies.Authorization;

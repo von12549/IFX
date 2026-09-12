@@ -1,7 +1,8 @@
+using IFX.Modules.Transaction.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.Transaction.Application.Commands.CreateOrder;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
@@ -50,7 +51,7 @@ public class CreateOrderCommandHandlerTests
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

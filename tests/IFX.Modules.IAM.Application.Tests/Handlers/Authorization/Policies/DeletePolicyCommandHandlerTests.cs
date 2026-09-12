@@ -1,6 +1,7 @@
-using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.Modules.IAM.Application.Ports.Authorization;
+using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.IAM.Application.Access.Policies.Commands.DeletePolicy;
 using IFX.Modules.IAM.Application.Interfaces;
 using IFX.Modules.IAM.Domain.Access;
@@ -26,7 +27,7 @@ public class DeletePolicyCommandHandlerTests
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

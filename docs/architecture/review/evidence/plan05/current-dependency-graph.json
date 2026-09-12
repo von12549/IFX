@@ -5,8 +5,8 @@
   "scope": {
     "root": "D:\\IFX\\src",
     "rootKind": "directory",
-    "projectsLoaded": 51,
-    "projectsInScope": 44,
+    "projectsLoaded": 57,
+    "projectsInScope": 50,
     "projectsOutside": 7
   },
   "projectEdges": [
@@ -72,6 +72,13 @@
       "to": "IFX.Platform.Authentication.Composition",
       "toRole": "Composition",
       "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "Authorization"
     },
     {
       "from": "IFX.ApiHost",
@@ -157,6 +164,51 @@
       "to": "IFX.Modules.Transaction.Infrastructure",
       "toRole": "Infrastructure",
       "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.BuildingBlocks.Composition",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Application",
+      "toRole": "Outside"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Infrastructure",
+      "toRole": "Outside"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Modules.Auth.Presentation",
+      "toRole": "Outside"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.BackgroundJobs.Contracts",
+      "toRole": "Contracts",
+      "toModule": "BackgroundJobs"
+    },
+    {
+      "from": "IFX.Modules.Auth.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Auth",
+      "to": "IFX.Platform.Notifications.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Notifications"
     },
     {
       "from": "IFX.Modules.CRM.Application",
@@ -279,6 +331,14 @@
       "toModule": "CRM"
     },
     {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM"
+    },
+    {
       "from": "IFX.Modules.CRM.Presentation",
       "fromRole": "Presentation",
       "fromModule": "CRM",
@@ -386,6 +446,14 @@
       "from": "IFX.Modules.Holdings.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "Holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
       "to": "IFX.Modules.Registry.Contracts",
       "toRole": "Contracts",
       "toModule": "Registry"
@@ -442,6 +510,14 @@
       "from": "IFX.Modules.IAM.Application",
       "fromRole": "Application",
       "fromModule": "IAM",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM"
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "IAM",
       "to": "IFX.Modules.IAM.Domain",
       "toRole": "Domain",
       "toModule": "IAM"
@@ -490,6 +566,14 @@
       "from": "IFX.Modules.IAM.Composition",
       "fromRole": "Composition",
       "fromModule": "IAM",
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "Authorization"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "IAM",
       "to": "IFX.Platform.BackgroundJobs.Composition",
       "toRole": "Composition",
       "toModule": "BackgroundJobs"
@@ -509,6 +593,14 @@
       "to": "IFX.Platform.Notifications.Contracts",
       "toRole": "Contracts",
       "toModule": "Notifications"
+    },
+    {
+      "from": "IFX.Modules.IAM.Contracts",
+      "fromRole": "Contracts",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context"
     },
     {
       "from": "IFX.Modules.IAM.Domain",
@@ -557,6 +649,14 @@
       "to": "IFX.Platform.Authentication.Contracts",
       "toRole": "Contracts",
       "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization"
     },
     {
       "from": "IFX.Modules.IAM.Presentation",
@@ -685,6 +785,14 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM"
     },
     {
       "from": "IFX.Modules.Registry.Infrastructure",
@@ -842,6 +950,14 @@
       "from": "IFX.Modules.Transaction.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "Transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
       "to": "IFX.Modules.Registry.Contracts",
       "toRole": "Contracts",
       "toModule": "Registry"
@@ -941,6 +1057,54 @@
       "to": "IFX.Platform.Authentication.Contracts",
       "toRole": "Contracts",
       "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "toRole": "Infrastructure",
+      "toModule": "Authorization"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "Authorization"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "Authorization"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization"
     },
     {
       "from": "IFX.Platform.BackgroundJobs.Composition",
@@ -1070,7 +1234,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 6
+      "uses": 4
     },
     {
       "from": "IFX.ApiHost",
@@ -1123,6 +1287,14 @@
     {
       "from": "IFX.ApiHost",
       "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
       "to": "IFX.Platform.BackgroundJobs.Composition",
       "toRole": "Composition",
       "toModule": "BackgroundJobs",
@@ -1160,7 +1332,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 36
+      "uses": 35
     },
     {
       "from": "IFX.Modules.CRM.Application",
@@ -1259,7 +1431,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 1
+      "uses": 2
     },
     {
       "from": "IFX.Modules.CRM.Infrastructure",
@@ -1286,7 +1458,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 5
+      "uses": 2
     },
     {
       "from": "IFX.Modules.CRM.Infrastructure",
@@ -1295,7 +1467,7 @@
       "to": "IFX.Modules.CRM.Application",
       "toRole": "Application",
       "toModule": "CRM",
-      "uses": 6
+      "uses": 8
     },
     {
       "from": "IFX.Modules.CRM.Infrastructure",
@@ -1305,6 +1477,24 @@
       "toRole": "Domain",
       "toModule": "CRM",
       "uses": 43
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "CRM",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context",
+      "uses": 2
     },
     {
       "from": "IFX.Modules.CRM.Presentation",
@@ -1349,7 +1539,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 5
+      "uses": 4
     },
     {
       "from": "IFX.Modules.Holdings.Application",
@@ -1412,7 +1602,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 6
+      "uses": 7
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -1439,7 +1629,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 5
+      "uses": 2
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -1448,7 +1638,7 @@
       "to": "IFX.Modules.Holdings.Application",
       "toRole": "Application",
       "toModule": "Holdings",
-      "uses": 9
+      "uses": 11
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -1458,6 +1648,15 @@
       "toRole": "Domain",
       "toModule": "Holdings",
       "uses": 6
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM",
+      "uses": 1
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -1476,6 +1675,15 @@
       "toRole": "Contracts",
       "toModule": "Transaction",
       "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Holdings",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context",
+      "uses": 2
     },
     {
       "from": "IFX.Modules.Holdings.Infrastructure",
@@ -1520,7 +1728,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 48
+      "uses": 49
     },
     {
       "from": "IFX.Modules.IAM.Application",
@@ -1529,7 +1737,16 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 63
+      "uses": 52
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "IAM",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM",
+      "uses": 1
     },
     {
       "from": "IFX.Modules.IAM.Application",
@@ -1539,6 +1756,15 @@
       "toRole": "Domain",
       "toModule": "IAM",
       "uses": 67
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "fromRole": "Application",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context",
+      "uses": 2
     },
     {
       "from": "IFX.Modules.IAM.Composition",
@@ -1598,6 +1824,15 @@
       "from": "IFX.Modules.IAM.Composition",
       "fromRole": "Composition",
       "fromModule": "IAM",
+      "to": "IFX.Platform.Authorization.Composition",
+      "toRole": "Composition",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "IAM",
       "to": "IFX.Platform.BackgroundJobs.Composition",
       "toRole": "Composition",
       "toModule": "BackgroundJobs",
@@ -1619,6 +1854,15 @@
       "to": "IFX.Platform.Notifications.Contracts",
       "toRole": "Contracts",
       "toModule": "Notifications",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Modules.IAM.Contracts",
+      "fromRole": "Contracts",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context",
       "uses": 2
     },
     {
@@ -1655,7 +1899,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 9
+      "uses": 3
     },
     {
       "from": "IFX.Modules.IAM.Infrastructure",
@@ -1664,7 +1908,7 @@
       "to": "IFX.Modules.IAM.Application",
       "toRole": "Application",
       "toModule": "IAM",
-      "uses": 15
+      "uses": 25
     },
     {
       "from": "IFX.Modules.IAM.Infrastructure",
@@ -1683,6 +1927,15 @@
       "toRole": "Contracts",
       "toModule": "Authentication",
       "uses": 2
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization",
+      "uses": 1
     },
     {
       "from": "IFX.Modules.IAM.Presentation",
@@ -1736,7 +1989,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 17
+      "uses": 16
     },
     {
       "from": "IFX.Modules.Registry.Application",
@@ -1844,7 +2097,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 4
+      "uses": 5
     },
     {
       "from": "IFX.Modules.Registry.Infrastructure",
@@ -1868,10 +2121,28 @@
       "from": "IFX.Modules.Registry.Infrastructure",
       "fromRole": "Infrastructure",
       "fromModule": "Registry",
+      "to": "IFX.BuildingBlocks.Security",
+      "toRole": "Outside",
+      "toModule": "BuildingBlocks",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
       "to": "IFX.Modules.Registry.Application",
       "toRole": "Application",
       "toModule": "Registry",
-      "uses": 6
+      "uses": 8
     },
     {
       "from": "IFX.Modules.Registry.Infrastructure",
@@ -1890,6 +2161,15 @@
       "toRole": "Domain",
       "toModule": "Registry",
       "uses": 12
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Registry",
+      "to": "IFX.Platform.Context.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Context",
+      "uses": 2
     },
     {
       "from": "IFX.Modules.Registry.Infrastructure",
@@ -1952,7 +2232,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 16
+      "uses": 15
     },
     {
       "from": "IFX.Modules.Transaction.Application",
@@ -2033,7 +2313,7 @@
       "to": "IFX.BuildingBlocks.Application",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 7
+      "uses": 8
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
@@ -2060,7 +2340,7 @@
       "to": "IFX.BuildingBlocks.Security",
       "toRole": "Outside",
       "toModule": "BuildingBlocks",
-      "uses": 5
+      "uses": 2
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
@@ -2069,6 +2349,15 @@
       "to": "IFX.Modules.CRM.Contracts",
       "toRole": "Contracts",
       "toModule": "CRM",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "Transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "IAM",
       "uses": 1
     },
     {
@@ -2087,7 +2376,7 @@
       "to": "IFX.Modules.Transaction.Application",
       "toRole": "Application",
       "toModule": "Transaction",
-      "uses": 6
+      "uses": 8
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
@@ -2114,7 +2403,7 @@
       "to": "IFX.Platform.Context.Contracts",
       "toRole": "Contracts",
       "toModule": "Context",
-      "uses": 2
+      "uses": 4
     },
     {
       "from": "IFX.Modules.Transaction.Infrastructure",
@@ -2214,6 +2503,60 @@
       "toRole": "Contracts",
       "toModule": "Authentication",
       "uses": 2
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "toRole": "Infrastructure",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Runtime",
+      "toRole": "Runtime",
+      "toModule": "Authorization",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authorization.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "Authorization",
+      "to": "IFX.Platform.Authorization.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authorization",
+      "uses": 1
     },
     {
       "from": "IFX.Platform.BackgroundJobs.Composition",

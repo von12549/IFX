@@ -1,7 +1,8 @@
+using IFX.Modules.Registry.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Application.Events;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.Registry.Application.Funds.Commands.DeleteFund;
 using IFX.Modules.Registry.Application.Funds.DTOs;
 using IFX.Modules.Registry.Application.Interfaces;
@@ -32,7 +33,7 @@ public class DeleteFundCommandHandlerTests
         _authorizationService
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(), It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

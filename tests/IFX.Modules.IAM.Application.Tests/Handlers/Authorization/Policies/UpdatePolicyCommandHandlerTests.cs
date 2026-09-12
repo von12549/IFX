@@ -1,6 +1,7 @@
-using IFX.BuildingBlocks.Security.Authorization.Abac.Resolver;
+using IFX.Modules.IAM.Application.Ports.Authorization;
+using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.BuildingBlocks.Security.Authorization.Models;
+
 using IFX.Modules.IAM.Application.Access.Policies.Commands.UpdatePolicy;
 using IFX.Modules.IAM.Application.Access.Policies.DTOs;
 using IFX.Modules.IAM.Application.Interfaces;
@@ -31,7 +32,7 @@ public class UpdatePolicyCommandHandlerTests
             .Setup(a => a.AuthorizeWithResolvedPolicyAsync(
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<OpaResourceAttributesBase>(),
+                It.IsAny<ResourceAttributes>(),
                 It.IsAny<IDictionary<string, object>?>(),
                 It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);

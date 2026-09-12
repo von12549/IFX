@@ -191,6 +191,19 @@
         "ephemeral-login-transactions",
         "public-signing-metadata"
       ]
+    },
+    {
+      "id": "authorization",
+      "name": "Authorization",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
+      "capabilities": [
+        "condition-resolution",
+        "policy-evaluation"
+      ],
+      "dataFacts": [
+        "transient-selected-policy-snapshot"
+      ]
     }
   ],
   "consumers": [
@@ -216,6 +229,22 @@
       "module": "auth",
       "owner": "xiaolong-feng",
       "evidence": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Authentication",
+      "lastConfirmedAt": "2026-09-12"
+    },
+    {
+      "id": "crm-authorization-adapter",
+      "kind": "internal-module",
+      "module": "crm",
+      "owner": "xiaolong-feng",
+      "evidence": "src/Modules/CRM",
+      "lastConfirmedAt": "2026-09-12"
+    },
+    {
+      "id": "registry-authorization-adapter",
+      "kind": "internal-module",
+      "module": "registry",
+      "owner": "xiaolong-feng",
+      "evidence": "src/Modules/Registry",
       "lastConfirmedAt": "2026-09-12"
     }
   ],
@@ -627,6 +656,352 @@
           "holdings-application:G03-CR-004:Approved"
         ]
       }
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "provider": "auth",
+      "owner": "xiaolong-feng",
+      "consumers": [
+        "crm-authorization-adapter",
+        "registry-authorization-adapter",
+        "transaction-application",
+        "holdings-application"
+      ],
+      "businessUse": "IAM authorizes operations for the four resource-owning modules using trusted execution context and selected policy.",
+      "source": {
+        "project": "IFX.Modules.IAM.Contracts",
+        "type": "IResourceAuthorizationContract",
+        "member": "AuthorizeAsync"
+      },
+      "executionScope": "trusted tenant or platform execution scope",
+      "authorization": "Validate registered consumer and trusted ambient context; match resource tenant for tenant scope. IAM loads subject and policy facts.",
+      "freshness": "Current IAM policy resolver semantics, including baseline cache; Phase 4 removes stale fallback.",
+      "failureSemantics": [
+        "deny:false",
+        "indeterminate:false",
+        "cancelled:propagate",
+        "unavailable:fail-closed"
+      ],
+      "fields": [
+        {
+          "name": "resourceType",
+          "classification": "C1",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "action",
+          "classification": "C1",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.type",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.id",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.tenantId",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.isActive",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.ownerId",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.departments",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "context",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "allowed",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "reasonCode",
+          "classification": "C1",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Modules.IAM.Application.Tests/Authorization/ResourceAuthorizationTests.cs",
+        "tests/IFX.IntegrationTests/Composition/AuthorizationAdapterTests.cs"
+      ]
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
+      "kind": "sync",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "provider": "authorization",
+      "owner": "xiaolong-feng",
+      "consumers": [
+        "iam-identity-adapter"
+      ],
+      "businessUse": "Evaluate the policy snapshot selected by IAM without reading IAM or resource storage.",
+      "source": {
+        "project": "IFX.Platform.Authorization.Contracts",
+        "type": "IAuthorizationEvaluationContract",
+        "member": "EvaluateAsync"
+      },
+      "executionScope": "in-process request",
+      "authorization": "IAM adapter is the only registered caller; snapshots have a bounded typed schema; no role names select evaluator behavior.",
+      "freshness": "One evaluation of supplied immutable facts; no decision cache.",
+      "failureSemantics": [
+        "invalid:indeterminate",
+        "unavailable:indeterminate",
+        "disabled:indeterminate",
+        "cancelled:propagate"
+      ],
+      "fields": [
+        {
+          "name": "subject.id",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.tenantId",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.departments",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.roles",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.permissions",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.mfa",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.globalRoles",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "subject.isGlobalAdmin",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.type",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.id",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.tenantId",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.isActive",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.ownerId",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "resource.departments",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "action",
+          "classification": "C1",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "environment.ip",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "environment.network",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "environment.time",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "policy.version",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "policy.conditions",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "outcome",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "reasonCode",
+          "classification": "C1",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "decisionId",
+          "classification": "C2",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        },
+        {
+          "name": "policyVersion",
+          "classification": "C1",
+          "purpose": "Minimum typed fact required for resource authorization; no credentials or identity tokens.",
+          "required": true,
+          "retention": "request or decision lifetime",
+          "logPolicy": "never"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Platform.Authorization.Tests/AuthorizationTests.cs"
+      ]
     }
   ],
   "publicSurface": [
@@ -2551,6 +2926,29 @@
           "logPolicy": "redact"
         }
       ]
+    },
+    {
+      "id": "auth.resource-authorization.v1",
+      "kind": "target-protocol",
+      "source": "protocols",
+      "consumers": [
+        "crm-authorization-adapter",
+        "registry-authorization-adapter",
+        "transaction-application",
+        "holdings-application"
+      ],
+      "retention": "request or decision lifetime",
+      "fieldsFromProtocol": true
+    },
+    {
+      "id": "authorization.policy-evaluation.v1",
+      "kind": "target-protocol",
+      "source": "protocols",
+      "consumers": [
+        "iam-identity-adapter"
+      ],
+      "retention": "request or decision lifetime",
+      "fieldsFromProtocol": true
     }
   ],
   "fieldExceptions": [

@@ -40,7 +40,7 @@ $moduleNames = @{
 }
 
 $protocolEdges = @()
-foreach ($protocol in @($g03.protocols | Sort-Object identity)) {
+foreach ($protocol in @($g03.protocols | Where-Object provider -in $businessModuleIds | Sort-Object identity)) {
     foreach ($consumerId in @($protocol.consumers | Sort-Object)) {
         $consumer = @($g03.consumers | Where-Object id -eq $consumerId)
         if ($consumer.Count -ne 1) {

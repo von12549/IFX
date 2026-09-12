@@ -1,4 +1,4 @@
-using IFX.BuildingBlocks.Security.Authorization.Abac.Registry;
+using IFX.Modules.IAM.Application.Access.Abac.Registry;
 using IFX.Modules.IAM.Application.Access.Policies.DTOs;
 using IFX.Modules.IAM.Application.Common;
 using MediatR;
