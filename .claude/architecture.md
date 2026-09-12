@@ -3,6 +3,8 @@
 ## Purpose
 Defines the architectural invariants and patterns that must always hold in this codebase.
 
+Current IAM ownership and detailed flows: [Plan 05 implementation](../docs/architecture/review/iam-platform-security.en.md). Old Auth directories and provider implementations are retired.
+
 ## Scope
 - Layer responsibilities and dependencies
 - Module structure
@@ -20,16 +22,17 @@ Defines the architectural invariants and patterns that must always hold in this 
 IFX/
 ├── src/
 │   ├── ApiHost/
-│   │   └── IFX.ApiHost/      # Host application (references Composition + Abstractions)
+│   │   └── IFX.ApiHost/      # Host application (references Composition and neutral BuildingBlocks)
 │   ├── BuildingBlocks/
-│   │   ├── App.Abstractions/         # Shared interfaces (IModuleInstaller, IAppMigrator)
-│   │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, OPA, ABAC)
-│   └── Modules/Auth/
+│   │   ├── IFX.BuildingBlocks.Composition/         # IModuleInstaller composition SPI
+│   │   └── IFX.BuildingBlocks.Security/ # Cross-cutting security (ICurrentUser, IPermissionChecker, ForbiddenException)
+│   └── Modules/IAM/
 │       ├── Domain/                   # Pure business logic (no dependencies)
 │       ├── Application/              # Use cases with CQRS (→ Domain)
-│       ├── Infrastructure/           # Data & AWS integration (→ Application)
+│       ├── Infrastructure/           # Persistence & port adapters (→ Application)
 │       ├── Presentation/             # Minimal API endpoints & models (→ Application)
-│       └── Composition/              # Module entry point (wires all layers)
+│       ├── Composition/              # Module entry point (wires all layers)
+│       └── Contracts/V1/             # Public versioned protocols
 ├── tests/                           # Test projects mirror src structure
 └── docs/                            # Documentation
 ```
@@ -41,20 +44,18 @@ IFX/
 **Rule:** Dependencies flow inward only. Outer layers depend on inner layers, never the reverse.
 
 ```
-ApiHost → App.Abstractions (shared interfaces)
-    ↓
-Composition → Presentation → Application → Domain
-    ↓              ↓              ↓
-Infrastructure  Infrastructure  (transitive)
-            ↘            ↗
-              MediatR
+Host → Module.Composition → Presentation → Application → Domain
+                 ↓                            ↑
+            Infrastructure ───────────────────┘
+                 ↓
+       Provider.Contracts (through consumer adapters)
 ```
 
 **Rule:** Domain layer has ZERO external dependencies.
 
-**Rule:** ApiHost references only Composition + App.Abstractions (single module dependency).
+**Rule:** ApiHost references module Composition projects and permitted neutral BuildingBlocks; it does not reference module Application, Infrastructure or Presentation directly.
 
-**Rule:** Cross-cutting concerns (auth, logging, health checks) live in ApiHost, not modules.
+**Rule:** Host owns entry adaptation and middleware. IAM owns identity admission and access policies; Platform.Authentication/Authorization own technical execution.
 
 ---
 
@@ -87,19 +88,16 @@ Infrastructure  Infrastructure  (transitive)
 - **Rule:** Implements `IModuleInstaller` for discovery-based registration
 - **Rule:** Wires all internal layers together
 
-### BuildingBlocks (App.Abstractions)
-- **Rule:** Contains only shared interfaces (`IModuleInstaller`, `IAppMigrator`)
+### BuildingBlocks (IFX.BuildingBlocks.Composition)
+- **Rule:** Contains the `IModuleInstaller` composition SPI; controlled migrations belong to DatabaseMigrator
 - **Rule:** No implementation code
 - **Rule:** Enables plugin-like module architecture
 
 ### BuildingBlocks (IFX.BuildingBlocks.Security)
-- **Rule:** Cross-cutting security abstractions and implementations used by all modules
-- Contains `ICurrentUser`, `IPermissionChecker`, `IOpaPolicyClient`, `IResourceAuthorizationService`
-- Contains `OpaClient` (HttpClient-backed), `NullOpaPolicyClient` (dev stub), `OpaOptions`
-- Contains `ForbiddenException` (→ 403 via middleware)
-- Contains template-based ABAC: `IAbacTemplateRegistry`, `IAbacPolicyEngine`, `ConditionTemplate`, `AbacPolicy`, `AbacCondition`
-- Contains policy resolver abstractions: `IAbacPolicyResolver`, `IAbacPolicyCache`, `StaticAbacPolicyResolver`
-- **Rule:** No references to any business module (Auth, etc.) — depends only on framework packages
+
+- Contains only `ICurrentUser`, `IPermissionChecker`, `ForbiddenException`.
+- IAM owns resource authorization, scoped policy resolution and current membership facts.
+- Platform.Authorization owns neutral Contracts/Runtime and the OPA adapter; no AllowAll/NoOp authorization fallback.
 
 ---
 
@@ -125,45 +123,20 @@ Infrastructure  Infrastructure  (transitive)
 
 **Rule:** All list queries derive tenant context from `ICurrentUser.TenantId` — never from a query parameter. Handlers short-circuit with an empty result when `TenantId` is null; they never return cross-tenant data.
 
-**Rule:** Tenant context is conveyed via the `X-Tenant-Id` request header. `CurrentUser.TenantId` reads this header, validates the value against the user's `tenant` claims, and falls back to the JWT `tenant_id` claim (primary tenant). The frontend sends `X-Tenant-Id` automatically via the axios interceptor; the value is persisted to `localStorage`.
+**Rule:** The HTTP entry adapter validates selected tenant against current IAM membership and establishes trusted execution context. VerifiedIdentityFacts refreshes active user, tenant membership and grants at authorization gates; token tenant/role claims are not authority.
 
 **Rule:** The frontend drives tenant switching via `selectedTenantId` in `AuthContext`. All management pages reload when it changes — they do NOT pass it as a query parameter to API functions.
 
 **Rule:** `Department` belongs to a `Tenant`. Users are linked to departments; the application layer enforces that a user's department belongs to one of their tenants.
 
-## ABAC Authorization (OPA + Template Engine)
+## ABAC Authorization
 
-**Rule:** Authorization is two-layered — coarse-grained RBAC gate first, then fine-grained OPA policy decision.
-
-**Rule:** Resource-level authorization is performed in the Application layer after loading the target resource (post-load pattern). Never authorize before loading.
-
-**Rule:** OPA policies evaluate `input.subject.permissions` only — never raw role names. Policies are decoupled from role taxonomy.
-
-**Rule:** `requiredPermission` in `IResourceAuthorizationService.AuthorizeAsync` is nullable. Pass `null` to skip the RBAC gate and let OPA be the sole decision maker (used for self-read operations where the user lacks the admin permission).
-
-**Rule:** `OpaOptions.FailClosed = true` by default — OPA unavailability is treated as deny. Override to `false` only in local development.
-
-**Rule:** `resource.tenant_id` in `OpaResourceAttributesBase` must match the caller's active tenant context (`ICurrentUser.TenantId`), not the resource entity's `PrimaryTenantId`. This ensures `same_tenant` passes when a user is operating in a non-primary tenant.
-
-**Rule:** `Opa:Enabled = false` in `appsettings.Development.json` → `NullOpaPolicyClient` is registered (always allow). Never disable OPA in production.
-
-### Template-Based ABAC
-
-**Rule:** New resource types must use template-based ABAC (register conditions in `BuiltInTemplates`, store a `PolicyDefinition` row) — do not add a new per-resource `.rego` file.
-
-**Rule:** `IAbacTemplateRegistry` is a singleton — thread-safe, registered once at startup with built-in templates.
-
-**Rule:** `IAbacPolicyEngine` evaluates all conditions in an `AbacPolicy` with AND semantics — all must pass for allow.
-
-### DB-Backed Policy Resolution
-
-**Rule:** Policy resolution follows a strict 3-tier cascade: (1) tenant DB row → (2) platform DB row (`TenantId IS NULL`) → (3) static fallback → (4) null = deny.
-
-**Rule:** `PolicyDefinition.TenantId = null` means platform-level (global default). A platform row covers all tenants that have no tenant-specific override.
-
-**Rule:** Cache invalidation after any policy mutation is mandatory. Call `IAbacPolicyCache.Invalidate` for tenant rows and `IAbacPolicyCache.InvalidatePlatform` for platform rows.
-
-**Rule:** Application handlers must depend on `IAbacPolicyResolver` and `IAbacPolicyCache` (BuildingBlocks interfaces) — never on `DbAbacPolicyResolver` (Infrastructure).
+- IAM.Access combines mandatory actor/scope/membership checks, RBAC and all applicable ABAC conditions; explicit self-read remains subject to ABAC.
+- Resource modules own facts, tenant-restricted queries and enforcement; domain invariants still apply after permission succeeds.
+- IAM selects current scoped policies and content-derived versions. Missing configuration, disabled/invalid policies and unavailable providers are distinct; only documented absence permits defaults.
+- OPA disabled/unavailable and the legacy FailClosed=false setting never grant access. Removed NullOpaPolicyClient/IAbacPolicyCache types must not be reintroduced.
+- Platform.Authorization accepts bounded neutral facts and conditions; provider representations stay in its OPA adapter. No cross-request policy/decision cache is enabled.
+- GlobalRole is a separate platform scope, not tenant membership or an unrestricted bypass.
 
 ---
 
@@ -175,7 +148,7 @@ Infrastructure  Infrastructure  (transitive)
 
 ```csharp
 // Service registration
-builder.Services.AddAuthModule(builder.Configuration);
+builder.Services.AddIamModule(builder.Configuration);
 
 // Endpoint mapping via discovery
 var installers = app.Services.GetServices<IModuleInstaller>();
@@ -195,43 +168,16 @@ foreach (var installer in installers)
 
 **Rule:** Authenticated endpoints require JWT Bearer token.
 
-**Rule:** Admin endpoints require `Admin` role via `RequireAuthorization()`.
+**Rule:** Administrative endpoints enforce named IAM permissions and applicable resource policies; a role name alone is insufficient.
 
 ---
 
-## Multi-Module Dependency Graph (Fund Registry)
+## Multi-Module Dependencies
 
-```
-ApiHost
-  → Auth.Composition
-  → CRM.Composition
-  → Registry.Composition
-  → Holdings.Composition
-  → Transaction.Composition
-  → Platform.Messaging.Composition
-  → Platform.BackgroundJobs.Composition
-  → Platform.Notifications.Composition
+See the [current diagram](../docs/architecture/review/diagrams/01-current-architecture.md) and [generated project graph](../docs/architecture/review/evidence/plan05/current-dependency-graph.json).
 
-Transaction.Application
-  → CRM.Abstractions          (ICrmReader — KYC check, party existence)
-  → Registry.Abstractions     (IRegistryReader — class open for subscription)
-  → Platform.Messaging.Abstractions  (IIntegrationEventBus — publish events)
-
-Holdings.Application
-  → Registry.Abstractions     (IIntegrationEventHandler<ClassStatusChangedEvent>)
-  → Transaction.Abstractions  (IIntegrationEventHandler<TransactionProcessedEvent>)
-  → Platform.Messaging.Abstractions
-
-CRM.Application / Registry.Application
-  → Platform.Messaging.Abstractions  (publish integration events)
-
-No module references another module's Domain, Application, Infrastructure, or Presentation.
-```
-
-**Rule:** Cross-module reads go through `.Abstractions` reader interfaces only (`ICrmReader`, `IRegistryReader`, `IHoldingsReader`, `ITransactionReader`). Never inject another module's repository or DbContext.
-
-**Rule:** Cross-module writes happen exclusively via integration events — no module calls another module's command handler or service directly.
-
-**Rule:** Holdings is mutated only by integration events (`TransactionProcessedEvent`, `ClassStatusChangedEvent`). There are no HTTP write endpoints on Holdings.
-
-**Rule:** All module databases use separate schemas (`"crm"`, `"registry"`, `"holdings"`, `"transaction"`) with no foreign key constraints across schemas. Referential integrity is enforced at the Application layer via cross-module reader calls before writing.
+- Host composes IAM, CRM, Registry, Holdings and Transaction through Composition.
+- Applications define their own ports; Infrastructure adapters reference provider versioned Contracts. No module reads a foreign repository/DbContext or references foreign implementation layers.
+- Integration events use governed Contracts with reliable Outbox/Inbox delivery; local domain events are not cross-module protocols.
+- Holdings HTTP remains read-only; integration events apply its mutations.
+- IAM retains logical Auth and physical auth ownership. Other schemas remain crm, registry, holdings and transaction; there are no cross-schema foreign keys.

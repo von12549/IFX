@@ -2,9 +2,11 @@
 
 This file provides guidance to Claude Code when working with this repository.
 
+Current IAM/security ownership and compatibility rules: [Plan 05 implementation](docs/architecture/review/iam-platform-security.en.md). Auth project directories are retired; do not recreate them. Historical plans are migration records, not current implementation instructions.
+
 ## Project Overview
 
-**IFX** is a production-ready ASP.NET Core 8 authentication solution with:
+**IFX** is an ASP.NET Core 8 modular monolith with:
 - Clean Architecture (Domain → Application → Infrastructure → Presentation)
 - CQRS pattern using MediatR
 - OAuth 2.0 Authorization Code flow with PKCE (pluggable identity providers)
@@ -14,8 +16,8 @@ This file provides guidance to Claude Code when working with this repository.
 - UserInfo-based auto-provisioning (fetches user data from OIDC userinfo endpoint)
 - **Multi-tenant** — Tenant and Department entities; Roles, RoleGroups, and IdPs scoped per tenant
 - **Template-Based ABAC** — reusable C# condition templates (SameTenant, CreatedByMe) evaluated by a single generic OPA Rego policy; no per-resource Rego files needed for new resource types
-- **DB-Backed ABAC Policies** — `PolicyDefinition` table stores tenant-level and platform-level (TenantId = NULL) policy rows; 3-tier resolver: tenant DB → platform DB → static fallback → null (deny)
-- **GlobalRole system** — cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; GlobalRole users bypass tenant-scoped RBAC/ABAC and see cross-tenant data via platform endpoints
+- **DB-Backed ABAC Policies** — `PolicyDefinition` table stores tenant-level and platform-level (TenantId = NULL) policy rows; current scoped resolution: documented absence may use defaults; disabled, invalid or unavailable policies deny
+- **GlobalRole system** — cross-tenant PlatformAdmin/PlatformSupport/PlatformAuditor roles; explicit platform-scope grants; tenant access still requires current IAM membership and applicable RBAC/ABAC
 - **GlobalRole frontend views** — dual-section UI: tenant data in main table, lazy-loaded `ExpandableCrossTenantSection` for other tenants; platform Sidebar nav, permission/policy scope tabs, `TenantRequiredBanner`
 - **Fund Registry** — CRM (Party/Investor/InvestmentAccount), Registry (Product→Fund→FundClass three-tier hierarchy), Holdings (unit ledger), Transaction (sub/redeem/transfer/switch) modules
 - **Product layer** — `Product` (Scheme) is the optional regulatory parent of `Fund`; holds ARSN, APIR, ISIN, issuer name, PDS reference; `Fund.ProductId` is nullable so standalone funds remain valid
@@ -31,9 +33,9 @@ This file provides guidance to Claude Code when working with this repository.
 3. **Users identified by `(Issuer, Subject)` tuple** - not email alone
 4. **One handler per command/query** - no shared handlers
 5. **Result pattern for expected failures** - exceptions for unexpected errors
-6. **Auth module has three internal subdomains** - Users, Identity, Authorization; new code goes in the correct subdomain folder
-7. **Provider-neutral Application layer** - `Auth.Application` must not reference Cognito/Auth0 SDK types; use `IIdentityProvider`, `IOidcAuthService` abstractions
-8. **Provider code belongs in `IdentityProviders/`** - Cognito and Auth0 implementations live in `Auth.Infrastructure/IdentityProviders/{Cognito,Auth0}/`; switching provider = config change only
+6. **IAM has four internal subdomains** - Identity, Users, Access, Tenancy; new code goes under `src/Modules/IAM` in the owning subdomain
+7. **Provider-neutral Application layer** - IAM.Application defines its own ports; IAM.Infrastructure adapters consume Platform Contracts, not provider SDK types in Application
+8. **Platform owns protocol execution** - Cognito/Auth0 adapters live in `Platform/Authentication`; OPA evaluation lives in `Platform/Authorization`. IAM owns IdP trust, local admission and policy composition
 9. **Use `DateTimeOffset`, never `DateTime`** - all timestamps (audit fields, domain events, DTOs) must be `DateTimeOffset`; `SaveChangesAsync` assigns `DateTimeOffset.UtcNow`
 
 ## Instruction Index
@@ -86,21 +88,22 @@ This file provides guidance to Claude Code when working with this repository.
 ### Build & Run
 ```bash
 dotnet build IFX.sln          # Build
-dotnet test IFX.sln           # Test (765 backend tests → 829 total including frontend)
+dotnet test IFX.sln           # Test (current counts: Plan 05 evidence)
 docker-compose up -d          # Run with Docker
 
 # Frontend tests
 cd src/Frontend/IFX.FrontEnd
-npm run test:run              # Run 64 frontend tests (Vitest)
+npm run test:run              # Run frontend tests (Vitest)
 npm run test:coverage         # With coverage report
 ```
 
 ### EF Core Migrations
 ```bash
-cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
-dotnet ef migrations add Name --startup-project ../../../ApiHost/IFX.ApiHost
-dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
+cd src/Modules/IAM/IFX.Modules.IAM.Infrastructure
+dotnet ef migrations add Name --context IfxDbContext --startup-project ../../../ApiHost/IFX.ApiHost
 ```
+
+Apply migrations through the controlled [DatabaseMigrator workflow](scripts/Invoke-DatabaseMigrator.ps1), with target connections selected explicitly. Preserve `auth`, `AuthDatabase`, migration IDs and the exact legacy Hangfire alias documented in Plan 05.
 
 ### API Endpoints
 - OAuth: `GET /api/v1/auth/oauth/{authorize,callback,userinfo,logout}`

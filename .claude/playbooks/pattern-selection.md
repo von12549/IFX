@@ -10,9 +10,11 @@ This document defines when to use the **Platform Pattern** vs the **Modules Patt
 1. **Match pattern to purpose** - Platform for infrastructure, Modules for business domains
 2. **Don't force fit** - A business domain should never use Platform's 3-project structure
 3. **Keep dependencies inward** - Both patterns enforce strict dependency direction
-4. **Consider cross-module needs** - Add `.Abstractions` project if other modules need your contracts
+4. **Consider cross-module needs** - Use versioned `.Contracts`, consumer-owned Application ports and Infrastructure adapters; do not add `.Abstractions` projects
 
 ---
+
+Current IAM/security implementation: [Plan 05](../../docs/architecture/review/iam-platform-security.en.md). Platform project count depends on the capability: Authentication/Authorization have neutral Runtime projects. NoOp examples below apply only to optional non-security services, never authorization.
 
 ## Pattern Overview
 
@@ -20,7 +22,7 @@ This document defines when to use the **Platform Pattern** vs the **Modules Patt
 
 ```
 src/Platform/{ServiceName}/
-├── IFX.Platform.{ServiceName}.Abstractions/     # Contracts only
+├── IFX.Platform.{ServiceName}.Contracts/     # Contracts only
 ├── IFX.Platform.{ServiceName}.Infrastructure.{Provider}/  # Implementation
 └── IFX.Platform.{ServiceName}.Composition/      # DI + Configuration
 ```
@@ -182,33 +184,11 @@ Use Modules Pattern when ANY of these apply:
 
 When modules need to share contracts:
 
-### Option 1: Add Abstractions Project (Recommended)
+### Versioned Contracts and consumer adapters
 
-```
-src/Modules/{ModuleName}/
-├── IFX.Modules.{ModuleName}.Abstractions/  ← NEW
-│   ├── I{ModuleName}Service.cs
-│   └── Models/
-│       └── {Dto}s.cs
-├── IFX.Modules.{ModuleName}.Domain/
-└── ...
-```
+A provider exposes `.Contracts/V1`; each consumer Application defines its own port and Infrastructure implements an adapter referencing those Contracts. For IAM resource authorization, reference `src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj` from the consumer Infrastructure project using the correct relative path.
 
-**Usage:** Other modules reference only `.Abstractions`:
-```xml
-<ProjectReference Include="..\..\Auth\IFX.Modules.Auth.Abstractions\..." />
-```
-
-### Option 2: Domain Events (Loose Coupling)
-
-Publish domain events for cross-module communication:
-```csharp
-// Module A publishes
-public record UserCreatedDomainEvent(Guid UserId, string Email) : IDomainEvent;
-
-// Module B subscribes
-public class UserCreatedHandler : INotificationHandler<UserCreatedDomainEvent>
-```
+Cross-module events are governed versioned integration contracts delivered through reliable messaging; local domain events are not public protocols.
 
 ---
 
@@ -218,7 +198,7 @@ public class UserCreatedHandler : INotificationHandler<UserCreatedDomainEvent>
 
 | Element | Pattern | Example |
 |---------|---------|---------|
-| Abstractions project | `IFX.Platform.{Name}.Abstractions` | `IFX.Platform.Caching.Abstractions` |
+| Contracts project | `IFX.Platform.{Name}.Contracts` | `IFX.Platform.Caching.Contracts` |
 | Infrastructure project | `IFX.Platform.{Name}.Infrastructure.{Provider}` | `IFX.Platform.Caching.Infrastructure.Redis` |
 | Composition project | `IFX.Platform.{Name}.Composition` | `IFX.Platform.Caching.Composition` |
 | Main interface | `I{Name}Service` | `ICacheService` |

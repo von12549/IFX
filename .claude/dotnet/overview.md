@@ -61,12 +61,12 @@ dotnet run                              # Run API (localhost:5010)
 # 1. Start SQL Server
 docker-compose up sqlserver -d
 
-# 2. Apply migrations
-cd src/Modules/Auth/IFX.Modules.Auth.Infrastructure
-dotnet ef database update --startup-project ../../../ApiHost/IFX.ApiHost
+# 2. Inspect migration readiness from the repository root
+pwsh -File scripts/Invoke-DatabaseMigrator.ps1 -Mode preflight
+# Apply/validate via the controlled Migrator with explicitly selected local connections.
 
 # 3. Run API
-cd ../../../ApiHost/IFX.ApiHost
+cd src/ApiHost/IFX.ApiHost
 dotnet run
 ```
 
@@ -101,4 +101,4 @@ Connection string for local development:
 | Database connection failed | Check SQL Server is running, use port 11433 for Docker |
 | AutoMapper errors | Ensure mapping exists in `MappingProfile.cs` |
 | OPA container exits | `opa:...-static` has no shell; healthcheck removed. Use `docker-compose logs ifx-opa` to diagnose |
-| 403 on management pages | Check `X-Tenant-Id` header is sent; verify user has `tenant` claims matching the selected tenant |
+| 403 on management pages | Check `X-Tenant-Id` header is sent; verify current IAM user/tenant activation, UserTenants membership and required grants |
