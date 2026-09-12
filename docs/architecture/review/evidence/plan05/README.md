@@ -12,3 +12,5 @@
 | P05-S7 | [Release 验证与总验收](P05-S7-release-validation.md) | 1228 项 .NET、63 项前端、190 项 LayerGuard 测试；Release 构建/发布包、120 项数据库测试及门禁通过；目标验收 pending |
 
 计划唯一进度清单位于 [Plan 05](../../plans/05-iam-platform-security-refactor.md)。本目录分别记录仓库验证、目标环境证据和未完成事项；历史失败不会由后续绿色结果覆盖。
+
+PR 25 的跨平台 CI 问题、修复和验证记录见 [CI 修复](ci-repair.md)。

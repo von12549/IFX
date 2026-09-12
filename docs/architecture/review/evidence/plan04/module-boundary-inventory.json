@@ -5,10 +5,10 @@
   "asOf": "2026-09-10",
   "historyBaselineCommit": "40d3cd38505c14557567d7cc81f4ef51e8293d3c",
   "inputs": {
-    "g02DatabaseInventorySha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769",
-    "g03CatalogSha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607",
+    "g02DatabaseInventorySha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba",
+    "g03CatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
     "g04ModuleManifestSha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860",
-    "b4DependencyGraphSha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810"
+    "b4DependencyGraphSha256": "c5db7c13e342f7132141df205e95686ccbfefdbe1b7b1c33dbfe74994bd46db4"
   },
   "modules": [
     {

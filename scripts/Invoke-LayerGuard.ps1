@@ -23,6 +23,10 @@ elseif (-not [System.IO.Path]::IsPathRooted($ReportPath)) {
 $reportDirectory = Split-Path -Parent $ReportPath
 New-Item -ItemType Directory -Force -Path $reportDirectory | Out-Null
 
+# LayerGuard is a separate solution; restoring IFX.sln does not restore this tool.
+dotnet restore $toolSolution
+if ($LASTEXITCODE -ne 0) { throw "LayerGuard dependency restore failed with exit code $LASTEXITCODE." }
+
 if (-not $SkipTests) {
     dotnet test $toolSolution --no-restore
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

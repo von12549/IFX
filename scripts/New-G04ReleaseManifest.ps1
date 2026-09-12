@@ -41,5 +41,5 @@ $manifest = [ordered]@{
 }
 $resolvedOutputPath = Resolve-RepoPath $OutputPath
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $resolvedOutputPath) | Out-Null
-$manifest | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $resolvedOutputPath -Encoding utf8NoBOM
+[IO.File]::WriteAllText($resolvedOutputPath, ($manifest | ConvertTo-Json -Depth 20).Replace("`r`n", "`n") + "`n", [Text.UTF8Encoding]::new($false))
 Write-Host "G04 release manifest generated: $resolvedOutputPath"

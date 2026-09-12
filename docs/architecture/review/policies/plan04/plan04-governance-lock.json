@@ -5,12 +5,12 @@
     {
       "authority": "LayerGuard-Plan05",
       "path": "docs/architecture/review/evidence/plan05/current-dependency-graph.json",
-      "sha256": "3e74bf10feb36bf55cf3a8e62c5c5582ac081537386c3205f395286fd083b810"
+      "sha256": "c5db7c13e342f7132141df205e95686ccbfefdbe1b7b1c33dbfe74994bd46db4"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-      "sha256": "064abf391fdc1bc52d1980230886b10196e527bfa94cb5523144bcfa4f0c3607"
+      "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
     },
     {
       "authority": "G04",
@@ -20,18 +20,18 @@
     {
       "authority": "G02",
       "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
-      "sha256": "38a8568587d2982fe18e2af6f2358e019e7a06a92e575c5b5f00532f2546d769"
+      "sha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba"
     },
     {
       "authority": "G02",
       "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
-      "sha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7"
+      "sha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b"
     }
   ],
   "decisionArtifacts": [
     {
       "path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json",
-      "sha256": "cd49dca5d916112e940b330fffa8ae768b0d9d376def62067660282f6df51838"
+      "sha256": "15348e95e74a5a5bbb8469239da05206efc70d645199f20b2bbf18e63398c0b8"
     },
     {
       "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",

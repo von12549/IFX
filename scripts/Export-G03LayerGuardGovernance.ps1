@@ -29,5 +29,5 @@ $handoff = [ordered]@{
 }
 $resolvedOutputPath = if ([IO.Path]::IsPathRooted($OutputPath)) { $OutputPath } else { Join-Path $repositoryRoot $OutputPath }
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $resolvedOutputPath) | Out-Null
-$handoff | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $resolvedOutputPath -Encoding utf8NoBOM
+[IO.File]::WriteAllText($resolvedOutputPath, ($handoff | ConvertTo-Json -Depth 100).Replace("`r`n", "`n") + "`n", [Text.UTF8Encoding]::new($false))
 Write-Host "G03 LayerGuard governance input generated: $resolvedOutputPath"

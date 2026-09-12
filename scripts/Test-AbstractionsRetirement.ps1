@@ -4,6 +4,8 @@ param([string] $StatusPath = 'docs/architecture/review/evidence/plan04/abstracti
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
 function Repo([string] $path) { if ([IO.Path]::IsPathRooted($path)) { return $path }; Join-Path $repositoryRoot $path }
+function ProjectName([string] $path) { [IO.Path]::GetFileNameWithoutExtension($path.Replace('\', '/')) }
+function DirectoryName([string] $path) { [IO.Path]::GetFileName($path.Replace('\', '/')) }
 function SetsEqual([object[]] $left, [object[]] $right) { (@($left | Sort-Object) -join '|') -eq (@($right | Sort-Object) -join '|') }
 
 $legacyProjectPattern = '^IFX\.(Modules|Platform)\..+\.Abstractions$'
@@ -20,14 +22,14 @@ $requiredCompositionProject = 'IFX.BuildingBlocks.Composition'
 
 function ValidateState([object] $state) {
     $errors = [Collections.Generic.HashSet[string]]::new()
-    if (@($state.directories | Where-Object { [IO.Path]::GetFileName([string]$_) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-directory') }
-    if (@($state.projects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-project') }
-    if (@($state.projectReferences | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-reference') }
-    if (@($state.solutionProjects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-solution-entry') }
-    if (@($requiredContracts | Where-Object { $_ -notin @($state.solutionProjects | ForEach-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) }) }).Count -gt 0) { [void]$errors.Add('contracts-project-missing-from-solution') }
+    if (@($state.directories | Where-Object { (DirectoryName ([string]$_)) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-directory') }
+    if (@($state.projects | Where-Object { (ProjectName ([string]$_)) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-project') }
+    if (@($state.projectReferences | Where-Object { (ProjectName ([string]$_)) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-reference') }
+    if (@($state.solutionProjects | Where-Object { (ProjectName ([string]$_)) -match $legacyProjectPattern }).Count -gt 0) { [void]$errors.Add('legacy-abstractions-solution-entry') }
+    if (@($requiredContracts | Where-Object { $_ -notin @($state.solutionProjects | ForEach-Object { (ProjectName ([string]$_)) }) }).Count -gt 0) { [void]$errors.Add('contracts-project-missing-from-solution') }
     if (@($state.ambiguousCompositionArtifacts).Count -gt 0) { [void]$errors.Add('ambiguous-composition-abstractions-name') }
     if (@($state.legacyAuthorizationNamespaces).Count -gt 0) { [void]$errors.Add('legacy-authorization-abstractions-namespace') }
-    if ($requiredCompositionProject -notin @($state.solutionProjects | ForEach-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) })) { [void]$errors.Add('composition-project-missing-from-solution') }
+    if ($requiredCompositionProject -notin @($state.solutionProjects | ForEach-Object { (ProjectName ([string]$_)) })) { [void]$errors.Add('composition-project-missing-from-solution') }
     if ($state.layerGuardEnforcesRetirement -ne $true) { [void]$errors.Add('layerguard-retirement-rule-missing') }
     if ($state.layerGuardNamingIsCurrent -ne $true) { [void]$errors.Add('layerguard-composition-name-stale') }
     @($errors | Sort-Object)
@@ -61,8 +63,8 @@ $allProjectReferences = @(
 $ambiguousCompositionArtifacts = @(
     @(Get-ChildItem -LiteralPath (Repo 'src/BuildingBlocks') -Directory -Recurse | Where-Object Name -EQ 'App.Abstractions' | ForEach-Object FullName)
     @($allProjectFiles | Where-Object BaseName -EQ 'App.Abstractions' | ForEach-Object FullName)
-    @($allProjectReferences | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -eq 'App.Abstractions' })
-    @($solutionProjects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -eq 'App.Abstractions' })
+    @($allProjectReferences | Where-Object { (ProjectName ([string]$_)) -eq 'App.Abstractions' })
+    @($solutionProjects | Where-Object { (ProjectName ([string]$_)) -eq 'App.Abstractions' })
 )
 $legacyAuthorizationNamespaces = @(
     @('src', 'tests') | ForEach-Object {
@@ -85,7 +87,7 @@ $repositoryState = [ordered]@{
     layerGuardNamingIsCurrent = $layerGuardNamingIsCurrent
 }
 $repositoryErrors = @(ValidateState $repositoryState)
-$missingContracts = @($requiredContracts | Where-Object { $_ -notin @($solutionProjects | ForEach-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) }) })
+$missingContracts = @($requiredContracts | Where-Object { $_ -notin @($solutionProjects | ForEach-Object { (ProjectName ([string]$_)) }) })
 
 $fixtureResults = @()
 foreach ($file in @(Get-ChildItem -LiteralPath (Repo 'tests/Architecture/Plan04/Fixtures') -File -Filter 'abstractions-*.json' | Sort-Object Name)) {
@@ -106,7 +108,7 @@ $checks = [ordered]@{
     compositionProjectIsExplicitlyInSolution = @($repositoryErrors | Where-Object { $_ -eq 'composition-project-missing-from-solution' }).Count -eq 0
     layerGuardRetirementRuleIsBound = $layerGuardEnforcesRetirement
     layerGuardCompositionNameIsCurrent = $layerGuardNamingIsCurrent
-    positiveAndNegativeFixturesPass = $fixtureResults.Count -eq 4 -and @($fixtureResults | Where-Object passed -ne $true).Count -eq 0 -and @($fixtureResults | Where-Object { @($_.actualErrors).Count -eq 0 }).Count -eq 1
+    positiveAndNegativeFixturesPass = $fixtureResults.Count -eq 6 -and @($fixtureResults | Where-Object passed -ne $true).Count -eq 0 -and @($fixtureResults | Where-Object { @($_.actualErrors).Count -eq 0 }).Count -eq 2
 }
 $failed = @($checks.GetEnumerator() | Where-Object { -not $_.Value } | ForEach-Object Key)
 $status = [ordered]@{
@@ -116,9 +118,9 @@ $status = [ordered]@{
     result = if ($failed.Count -eq 0) { 'repository-passed-legacy-abstractions-retired' } else { 'failed' }
     checks = $checks
     legacyDirectories = $directories
-    legacyProjects = @($projects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern })
-    legacyProjectReferences = @($projectReferences | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern })
-    legacySolutionEntries = @($solutionProjects | Where-Object { [IO.Path]::GetFileNameWithoutExtension([string]$_) -match $legacyProjectPattern })
+    legacyProjects = @($projects | Where-Object { (ProjectName ([string]$_)) -match $legacyProjectPattern })
+    legacyProjectReferences = @($projectReferences | Where-Object { (ProjectName ([string]$_)) -match $legacyProjectPattern })
+    legacySolutionEntries = @($solutionProjects | Where-Object { (ProjectName ([string]$_)) -match $legacyProjectPattern })
     requiredContracts = $requiredContracts
     missingContracts = $missingContracts
     ambiguousCompositionArtifacts = $ambiguousCompositionArtifacts

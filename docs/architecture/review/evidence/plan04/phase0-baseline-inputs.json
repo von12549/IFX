@@ -213,6 +213,66 @@
           "sha256": "00cc7db14d1ed47fd1d12a1ad84d22696ed9c03d71d2de76e7af27b646ed7df7"
         }
       ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "G03",
+      "reason": "PR 25 CI repair: UTF-8/LF checkout and deterministic serialization; logical catalog, schema ownership and approval states unchanged. Derived handoff hashes refreshed. Original frozen hashes and prior refreshes retained.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "G02",
+      "reason": "PR 25 CI repair: UTF-8/LF checkout and deterministic serialization; logical catalog, schema ownership and approval states unchanged. Derived handoff hashes refreshed. Original frozen hashes and prior refreshes retained.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json",
+          "sha256": "6a105ef834374df5abbd582b6dd0c64de717a1c4073a0af20306037a42f7acba"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json",
+          "sha256": "0a24c95d02cb7f8e55e893bf93f5f9ae43f86dfdb8d59a360d0a69e96498e75b"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "G03",
+      "reason": "PR 25 CI repair: retain exact committed historical report bytes (LF) and bind their LF hash. Prior Windows CRLF hashes remain untouched above; the only difference is line endings, with byte/content proof in Plan 05 CI evidence. No historical result, finding or approval changed.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json",
+          "sha256": "18235780b8768f7713fb7a1a1056945f77ad81bbea56d0188409828c1b93f7c2"
+        },
+        {
+          "path": "docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json",
+          "sha256": "b9f3d6cc3e8f21b29f67361ca0a9d6a277a118d9493bfee5c8328fe4a0f59a50"
+        }
+      ]
+    },
+    {
+      "capturedAt": "2026-09-13",
+      "authority": "LayerGuard-B4",
+      "reason": "PR 25 CI repair: retain exact committed historical report bytes (LF) and bind their LF hash. Prior Windows CRLF hashes remain untouched above; the only difference is line endings, with byte/content proof in Plan 05 CI evidence. No historical result, finding or approval changed.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+          "sha256": "d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20"
+        },
+        {
+          "path": "docs/architecture/review/evidence/layerguard/B4-dependency-graph.json",
+          "sha256": "4de8876b9252c71b018c0a4ba391079a39aea30024608300059d09c18079e9f2"
+        }
+      ]
     }
   ],
   "owners": [

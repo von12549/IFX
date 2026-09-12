@@ -274,7 +274,7 @@ $inventory = [ordered]@{
 
 $resolvedOutput = Repo $OutputPath
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $resolvedOutput) | Out-Null
-$inventory | ConvertTo-Json -Depth 40 | Set-Content -LiteralPath $resolvedOutput -Encoding utf8NoBOM
+[IO.File]::WriteAllText($resolvedOutput, ($inventory | ConvertTo-Json -Depth 40).Replace("`r`n", "`n") + "`n", [Text.UTF8Encoding]::new($false))
 $graph = [ordered]@{
     formatVersion = 1
     plan = '04-module-boundary-evolution'
@@ -303,5 +303,5 @@ $graph = [ordered]@{
     failClosedFindings = $inventory.failClosedFindings
 }
 $resolvedGraph = Repo $GraphPath
-$graph | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath $resolvedGraph -Encoding utf8NoBOM
+[IO.File]::WriteAllText($resolvedGraph, ($graph | ConvertTo-Json -Depth 30).Replace("`r`n", "`n") + "`n", [Text.UTF8Encoding]::new($false))
 Write-Host "Plan 04 module-boundary inventory generated: $resolvedOutput"

@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "plan": "04-module-boundary-evolution",
-  "checkedAt": "2026-09-12",
+  "checkedAt": "2026-09-13",
   "result": "repository-passed-legacy-abstractions-retired",
   "checks": {
     "noLegacyAbstractionsDirectories": true,
@@ -75,6 +75,22 @@
         "layerguard-retirement-rule-missing",
         "legacy-abstractions-solution-entry"
       ],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-negative-windows-reference.json",
+      "expectedErrors": [
+        "legacy-abstractions-reference"
+      ],
+      "actualErrors": [
+        "legacy-abstractions-reference"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-positive-windows-paths.json",
+      "expectedErrors": [],
+      "actualErrors": [],
       "passed": true
     },
     {

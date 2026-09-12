@@ -88,7 +88,7 @@ var report = new
 var output = Path.GetFullPath(Path.Combine(root, options.Output));
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 var json = JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true });
-File.WriteAllText(output, json + Environment.NewLine);
+File.WriteAllText(output, json.Replace("\r\n", "\n") + "\n");
 
 var manifest = new
 {
@@ -110,7 +110,7 @@ var manifestOutput = Path.GetFullPath(Path.Combine(root, options.ManifestOutput)
 Directory.CreateDirectory(Path.GetDirectoryName(manifestOutput)!);
 File.WriteAllText(
     manifestOutput,
-    JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }) + Environment.NewLine);
+    JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n") + "\n");
 
 var violations = modules.SelectMany(module => module.SchemaViolations)
     .Concat(staticScan.CrossSchemaFindings)

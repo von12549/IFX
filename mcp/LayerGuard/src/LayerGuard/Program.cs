@@ -34,7 +34,7 @@ static int RunCommandLine(string[] args)
                         : ReportWriter.ToMarkdown(report);
                     var reportPath = ValueOf(args, "--report");
                     if (reportPath is not null)
-                        File.WriteAllText(Paths.Normalize(reportPath), rendered + Environment.NewLine);
+                        File.WriteAllText(Paths.Normalize(reportPath), rendered.Replace("\r\n", "\n") + "\n");
                     if (!args.Contains("--quiet", StringComparer.OrdinalIgnoreCase))
                         Console.WriteLine(rendered);
                     return report.Baseline is null
@@ -63,7 +63,7 @@ static int RunCommandLine(string[] args)
                     var rendered = ReportWriter.ToJson(graph);
                     var reportPath = ValueOf(args, "--report");
                     if (reportPath is not null)
-                        File.WriteAllText(Paths.Normalize(reportPath), rendered + Environment.NewLine);
+                        File.WriteAllText(Paths.Normalize(reportPath), rendered.Replace("\r\n", "\n") + "\n");
                     if (!args.Contains("--quiet", StringComparer.OrdinalIgnoreCase))
                         Console.WriteLine(rendered);
                     return 0;
