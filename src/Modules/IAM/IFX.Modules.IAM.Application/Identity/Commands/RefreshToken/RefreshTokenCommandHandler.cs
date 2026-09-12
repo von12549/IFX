@@ -12,13 +12,15 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.RefreshToken;
 public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<RefreshTokenResponse>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly ITokenLifecycleService _identityProvider;
+    private readonly IExternalAccountService _accounts;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<RefreshTokenCommandHandler> _logger;
-    public RefreshTokenCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, IMapper mapper, ILogger<RefreshTokenCommandHandler> logger)
+    public RefreshTokenCommandHandler(ITokenLifecycleService identityProvider, IExternalAccountService accounts, IUnitOfWork unitOfWork, IMapper mapper, ILogger<RefreshTokenCommandHandler> logger)
     {
         _identityProvider = identityProvider;
+        _accounts = accounts;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _logger = logger;
@@ -36,7 +38,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             }
 
             // Get user info from Cognito using the new access token
-            var cognitoUserInfo = await _identityProvider.GetUserAsync(cognitoResult.AccessToken!);
+            var cognitoUserInfo = await _accounts.GetUserAsync(cognitoResult.AccessToken!);
             var subject = cognitoUserInfo.Subject;
             if (string.IsNullOrEmpty(subject))
             {
@@ -53,7 +55,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             }
 
             var user = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(primaryIdp.Issuer, subject, cancellationToken);
-            if (user == null)
+            if (user == null || !user.IsActive || cognitoResult.Issuer != primaryIdp.Issuer || cognitoResult.Subject != subject)
             {
                 _logger.LogWarning("Token refresh identity did not match a local user");
                 return Result<RefreshTokenResponse>.Failure("User not found");

@@ -1,6 +1,6 @@
 # 子计划 5：Auth → IAM 与平台认证、授权能力拆分
 
-> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1 结构迁移完成；继续 Phase 2 认证提取。
+> 状态：实施中；Phase 0 仓库基线已建立，IAM0.4 目标数据审计待执行；Phase 1–2 仓库实现完成；真实 IdP 联调和目标数据审计待执行，继续 Phase 3 授权提取。
 > 编写日期：2026-09-12；源码观察基线：`13a0a74`。
 > 来源：本次关于 Platform、Authentication、Authorization/ABAC 与 Auth 职责拆分的讨论。
 > 定位：B4 严格边界之后的独立演进计划；沿用现有 G01–G05 与 Plan 04 治理，不重写既有里程碑或声明生产验收完成。
@@ -138,12 +138,12 @@ src/Modules/IAM/
 
 交付：provider-neutral 的技术能力、IAM 消费方 Ports/Adapters 与宿主认证适配。
 
-- [ ] IAM2.1 按实际调用拆分 IOidcAuthService/IIdentityProvider；标准 OIDC 共用实现，Cognito/Auth0 专有账号 API 保留独立适配，不假定所有 IdP 支持密码注册。
-- [ ] IAM2.2 提取协议执行、Discovery、token 验证和 provider client；平台不读取 IAM Repository，不决定 PendingUser 或自动建号政策。
-- [ ] IAM2.3 将 IdP 配置/信任选择保留于 Identity，通过受控配置快照交给协议实现；平台默认 IdP 与租户 IdP 同时存在时不修改共享客户端凭证。
-- [ ] IAM2.4 迁移浏览器与 Bearer 两类实际入口，保持登录/注册编排、外部身份映射、账号及成员准入在 IAM；协议错误和业务拒绝分别映射。
-- [ ] IAM2.5 验证 state/nonce/PKCE、issuer/audience、回调地址与登录事务关联；租户尚未认证时不能依赖任意 X-Tenant-Id 直接建立信任。
-- [ ] IAM2.6 覆盖 refresh/revoke/logout、邮件验证、重复 callback、并发 provisioning 与 IdP 禁用；敏感信息不经通用事件或日志传播。
+- [x] IAM2.1 按实际调用拆分 IOidcAuthService/IIdentityProvider；标准 OIDC 共用实现，Cognito/Auth0 专有账号 API 保留独立适配，不假定所有 IdP 支持密码注册。
+- [x] IAM2.2 提取协议执行、Discovery、token 验证和 provider client；平台不读取 IAM Repository，不决定 PendingUser 或自动建号政策。
+- [x] IAM2.3 将 IdP 配置/信任选择保留于 Identity，通过受控配置快照交给协议实现；平台默认 IdP 与租户 IdP 同时存在时不修改共享客户端凭证。
+- [x] IAM2.4 迁移浏览器与 Bearer 两类实际入口，保持登录/注册编排、外部身份映射、账号及成员准入在 IAM；协议错误和业务拒绝分别映射。
+- [x] IAM2.5 验证 state/nonce/PKCE、issuer/audience、回调地址与登录事务关联；租户尚未认证时不能依赖任意 X-Tenant-Id 直接建立信任。
+- [x] IAM2.6 覆盖 refresh/revoke/logout、邮件验证、重复 callback、并发 provisioning 与 IdP 禁用；敏感信息不经通用事件或日志传播。
 
 验收：现有真实 provider 均通过回归；伪造/重放/错误 issuer 等负向测试拒绝；本地身份创建没有迁入 Platform；无旧/新两套主登录链。
 

@@ -3,7 +3,7 @@
   "plan": "04-module-boundary-evolution",
   "slice": "P04-S2",
   "asOf": "2026-09-10",
-  "inventorySha256": "f88492055d92d157335d7e551e90b2bddfbcd28d91bcb2c2b15e7572f9476eaa",
+  "inventorySha256": "9d9b09889abbcf0df76973fd382c8f89767080a7d5f4676d225deb8e20747b6b",
   "decisionPolicy": {
     "allowedConclusions": [
       "retain",
@@ -259,5 +259,5 @@
     }
   ],
   "gov4Closure": "approval-pending",
-  "plan05Review": "Phase 1 changes the auth code owner name to IAM, retains all five business module IDs and four registered protocols, and preserves every extraction decision and pending approval."
+  "plan05Review": "Phase 2 extracts technical Authentication into Platform and records its sole IAM adapter consumer. The five business module IDs, four business protocols and module extraction decisions remain unchanged."
 }

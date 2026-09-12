@@ -10,10 +10,10 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.RevokeToken;
 public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Result<bool>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly ITokenLifecycleService _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RevokeTokenCommandHandler> _logger;
-    public RevokeTokenCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, ILogger<RevokeTokenCommandHandler> logger)
+    public RevokeTokenCommandHandler(ITokenLifecycleService identityProvider, IUnitOfWork unitOfWork, ILogger<RevokeTokenCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;

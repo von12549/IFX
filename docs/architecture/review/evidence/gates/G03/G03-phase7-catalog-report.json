@@ -5,8 +5,8 @@
   "mode": "migration",
   "counts": {
     "owners": 2,
-    "modules": 6,
-    "consumers": 2,
+    "modules": 7,
+    "consumers": 3,
     "protocols": 4,
     "publicSurface": 46,
     "legacyInternalize": 20,
@@ -137,6 +137,21 @@
     {
       "name": "unwaivable exposure",
       "expected": "waiver-unwaivable",
+      "passed": true
+    },
+    {
+      "name": "durable credential protocol",
+      "expected": "infrastructure-sensitive-boundary",
+      "passed": true
+    },
+    {
+      "name": "logged credential protocol",
+      "expected": "infrastructure-sensitive-boundary",
+      "passed": true
+    },
+    {
+      "name": "unknown credential consumer",
+      "expected": "infrastructure-owner",
       "passed": true
     }
   ],

@@ -10,10 +10,10 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.RegisterUser;
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly IExternalAccountService _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<RegisterUserCommandHandler> _logger;
-    public RegisterUserCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, ILogger<RegisterUserCommandHandler> logger)
+    public RegisterUserCommandHandler(IExternalAccountService identityProvider, IUnitOfWork unitOfWork, ILogger<RegisterUserCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;

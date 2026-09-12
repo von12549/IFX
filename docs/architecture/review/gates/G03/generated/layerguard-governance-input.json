@@ -1,10 +1,15 @@
 {
   "formatVersion": 1,
   "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-  "catalogSha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b",
+  "catalogSha256": "1b58f102a021e6cd94fef230cb20cfd126b54f75b12509767f288b10e732606a",
   "moduleOwnership": [
     {
       "module": "IAM",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Authentication",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi"
     },
@@ -40,38 +45,47 @@
     "consumerAdapter": "IntegrationAdapter"
   },
   "providerContracts": {
-    "holdings": [
+    "IAM": [
+      "Authentication"
+    ],
+    "Holdings": [
       "Registry",
       "Transaction"
     ],
-    "transaction": [
+    "Transaction": [
       "CRM",
       "Registry"
     ]
   },
   "adapterEdges": [
     {
+      "identity": "authentication.identity-protocol.v1",
+      "kind": "in-process-sensitive",
+      "consumer": "IAM",
+      "provider": "authentication"
+    },
+    {
       "identity": "crm.account-compliance.v1",
       "kind": "sync",
-      "consumer": "transaction",
+      "consumer": "Transaction",
       "provider": "crm"
     },
     {
       "identity": "ifx.registry.class-status-changed.v1",
       "kind": "event",
-      "consumer": "holdings",
+      "consumer": "Holdings",
       "provider": "registry"
     },
     {
       "identity": "ifx.transaction.transaction-processed.v1",
       "kind": "event",
-      "consumer": "holdings",
+      "consumer": "Holdings",
       "provider": "transaction"
     },
     {
       "identity": "registry.class-subscription-availability.v1",
       "kind": "sync",
-      "consumer": "transaction",
+      "consumer": "Transaction",
       "provider": "registry"
     }
   ],

@@ -4,8 +4,8 @@ using IFX.Modules.IAM.Application.Identity.Ports;
 using IFX.Modules.IAM.Application.Identity.Interfaces;
 using IFX.Modules.IAM.Application;
 using IFX.Modules.IAM.Infrastructure;
-using IFX.Modules.IAM.Infrastructure.IdentityProviders.Auth0;
-using IFX.Modules.IAM.Infrastructure.IdentityProviders.Cognito;
+using IFX.Platform.Authentication.Composition;
+
 using IFX.Modules.IAM.Presentation.Access.Endpoints;
 using IFX.Modules.IAM.Presentation.Tenancy.Endpoints;
 
@@ -41,18 +41,7 @@ namespace IFX.Modules.IAM.Composition
             services.AddSingleton<IAuthIdpCacheVersion>(provider => provider.GetRequiredService<AuthIdpCacheSignal>());
 
             var provider = configuration["Authentication:Provider"] ?? "Cognito";
-            switch (provider.ToLowerInvariant())
-            {
-                case "cognito":
-                    services.AddCognitoProvider(configuration);
-                    break;
-                case "auth0":
-                    services.AddAuth0Provider(configuration);
-                    break;
-                default:
-                    throw new InvalidOperationException(
-                        $"Unknown identity provider '{provider}'. Valid values: Cognito, Auth0.");
-            }
+            services.AddExternalIdentityProvider(configuration, provider);
 
             Log.Information("[{Module}] Identity provider: {Provider}", ModuleName, provider);
 

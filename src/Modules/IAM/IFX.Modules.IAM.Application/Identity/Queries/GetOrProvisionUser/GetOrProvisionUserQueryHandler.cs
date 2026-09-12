@@ -37,12 +37,16 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
     {
         try
         {
+            var trustedIdp = await _unitOfWork.Idps.GetEnabledByIssuerAsync(request.Issuer, cancellationToken);
+            if (trustedIdp is null || request.IdpId != trustedIdp.Id)
+                return Result<UserAuthResult>.Failure("Identity provider is disabled or unknown");
             // 1. Try to find existing user by issuer/subject (with permissions eager-loaded)
             var user = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(
                 request.Issuer, request.Subject, cancellationToken);
 
             if (user != null)
             {
+                if (!user.IsActive) return Result<UserAuthResult>.Failure("Local account is inactive");
                 var allRoles = user.Roles
                     .Concat(user.RoleGroups.SelectMany(g => g.Roles))
                     .ToList();
@@ -73,7 +77,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
             }
 
             // 2. User not found - check if auto-provisioning is enabled
-            if (!request.AutoProvisionEnabled)
+            if (!request.AutoProvisionEnabled || !trustedIdp.AutoProvisionEnabled)
             {
                 _logger.LogWarning(
                     "User with Issuer {Issuer} and Subject {Subject} not found and auto-provision disabled",
@@ -108,6 +112,8 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
 
                     if (userInfo is not null)
                     {
+                        if (userInfo.Subject != request.Subject)
+                            return Result<UserAuthResult>.Failure("Userinfo identity does not match verified subject");
                         email = userInfo.Email;
                         firstName = userInfo.GivenName;
                         lastName = userInfo.FamilyName;
@@ -164,7 +170,7 @@ public class GetOrProvisionUserQueryHandler : IRequestHandler<GetOrProvisionUser
                 var concurrentUser = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(
                     request.Issuer, request.Subject, cancellationToken);
 
-                if (concurrentUser != null)
+                if (concurrentUser is { IsActive: true })
                 {
                     _logger.LogInformation(
                         "SSO provisioning race condition resolved for {Issuer}/{Subject} — returning user created by concurrent request",

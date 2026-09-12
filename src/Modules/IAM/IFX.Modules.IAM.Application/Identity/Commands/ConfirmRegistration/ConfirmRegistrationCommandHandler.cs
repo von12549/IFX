@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.ConfirmRegistration;
 public class ConfirmRegistrationCommandHandler : IRequestHandler<ConfirmRegistrationCommand, Result<ConfirmRegistrationResponse>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly IExternalAccountService _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ConfirmRegistrationCommandHandler> _logger;
-    public ConfirmRegistrationCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, ILogger<ConfirmRegistrationCommandHandler> logger)
+    public ConfirmRegistrationCommandHandler(IExternalAccountService identityProvider, IUnitOfWork unitOfWork, ILogger<ConfirmRegistrationCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;

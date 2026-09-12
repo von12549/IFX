@@ -16,7 +16,8 @@ using IFX.Modules.IAM.Infrastructure.Access;
 using IFX.Modules.IAM.Infrastructure.Access.Repositories;
 using IFX.Modules.IAM.Infrastructure.Tenancy.Repositories;
 using IFX.Modules.IAM.Infrastructure.Identity.Repositories;
-using IFX.Modules.IAM.Infrastructure.Identity.Services;
+using IFX.Modules.IAM.Infrastructure.Integrations.Authentication;
+using IFX.Modules.IAM.Application.Identity.Services;
 using IFX.Modules.IAM.Infrastructure.Persistence;
 using IFX.Modules.IAM.Infrastructure.Users.Repositories;
 using IFX.Modules.IAM.Infrastructure.Users.Services;
@@ -35,21 +36,16 @@ public static class DependencyInjection
         // Register Memory Cache (shared by all providers for OIDC state/PKCE)
         services.AddMemoryCache();
 
-        // Register HttpClient for OIDC Discovery (provider-neutral)
-        services.AddHttpClient("OidcDiscovery", client =>
-        {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.Timeout = TimeSpan.FromSeconds(30);
-        });
-        services.AddHttpClient("OidcUserInfo", client =>
-        {
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.Timeout = TimeSpan.FromSeconds(30);
-        });
-
-        // Register shared OIDC services
-        services.AddScoped<IOidcDiscoveryService, OidcDiscoveryService>();
-        services.AddScoped<IOidcUserInfoClient, OidcUserInfoClient>();
+        services.AddScoped<ProviderServicesAdapter>();
+        services.AddScoped<IExternalAccountService>(p => p.GetRequiredService<ProviderServicesAdapter>());
+        services.AddScoped<ICredentialAuthenticationService>(p => p.GetRequiredService<ProviderServicesAdapter>());
+        services.AddScoped<ITokenLifecycleService>(p => p.GetRequiredService<ProviderServicesAdapter>());
+        services.AddScoped<OidcProtocolAdapter>();
+        services.AddScoped<IOidcProtocolService>(p => p.GetRequiredService<OidcProtocolAdapter>());
+        services.AddScoped<IOidcDiscoveryService>(p => p.GetRequiredService<OidcProtocolAdapter>());
+        services.AddScoped<IOidcUserInfoClient>(p => p.GetRequiredService<OidcProtocolAdapter>());
+        services.AddScoped<IOidcClientConfigurationSource, OidcClientConfigurationSource>();
+        services.AddScoped<IOidcAuthService, OidcAuthenticationService>();
         services.AddScoped<IEmailVerificationService, EmailVerificationService>();
         services.AddScoped<IEmailVerificationCleanupService, EmailVerificationCleanupService>();
 

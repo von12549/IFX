@@ -10,7 +10,7 @@ public interface IOidcAuthService
     /// </summary>
     /// <param name="redirectUri">Optional custom redirect URI</param>
     /// <returns>Authorization URL and state parameter for verification</returns>
-    OidcAuthorizationUrl BuildAuthorizationUrl(string? redirectUri = null);
+    Task<OidcAuthorizationUrl> BuildAuthorizationUrl(string browserBinding, string? redirectUri = null);
 
     /// <summary>
     /// Exchanges authorization code for tokens
@@ -19,7 +19,7 @@ public interface IOidcAuthService
     /// <param name="state">State parameter for CSRF verification</param>
     /// <param name="redirectUri">Redirect URI used in authorization request</param>
     /// <returns>Token result with access, ID, and refresh tokens</returns>
-    Task<OidcTokenResult> ExchangeCodeForTokensAsync(string code, string state, string? redirectUri = null);
+    Task<OidcTokenResult> ExchangeCodeForTokensAsync(string code, string state, string browserBinding, string? redirectUri = null);
 
     /// <summary>
     /// Gets user information using access token
@@ -34,14 +34,8 @@ public interface IOidcAuthService
     /// <param name="idTokenHint">Optional ID token for logout hint</param>
     /// <param name="postLogoutRedirectUri">Optional redirect URI after logout</param>
     /// <returns>Logout URL</returns>
-    string BuildLogoutUrl(string? idTokenHint = null, string? postLogoutRedirectUri = null);
+    Task<string> BuildLogoutUrl(string? idTokenHint = null, string? postLogoutRedirectUri = null);
 
-    /// <summary>
-    /// Validates the state parameter from callback
-    /// </summary>
-    /// <param name="state">State parameter to validate</param>
-    /// <returns>True if state is valid and not expired</returns>
-    bool ValidateState(string state);
 }
 
 /// <summary>
@@ -59,10 +53,6 @@ public class OidcAuthorizationUrl
     /// </summary>
     public string State { get; set; } = string.Empty;
 
-    /// <summary>
-    /// PKCE code verifier (stored internally, needed for token exchange)
-    /// </summary>
-    public string CodeVerifier { get; set; } = string.Empty;
 }
 
 /// <summary>

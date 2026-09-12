@@ -61,11 +61,29 @@ public class GatePolicyBindingTests
         WithPolicyCopy((directory, g03, g04, g05) =>
         {
             var document = JsonNode.Parse(File.ReadAllText(g03))!.AsObject();
-            document["providerContracts"]!["transaction"]!.AsArray().RemoveAt(0);
+            document["providerContracts"]!["Transaction"]!.AsArray().RemoveAt(0);
             File.WriteAllText(g03, document.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
 
             var error = Assert.Throws<InvalidDataException>(() => Analyze(directory, g03, g04, g05));
             Assert.Contains("provider graph drifted", error.Message);
+        });
+    }
+
+    [Fact]
+    public void Sensitive_infrastructure_protocol_cannot_be_made_durable_even_with_matching_hash()
+    {
+        WithPolicyCopy((directory, g03, g04, g05) =>
+        {
+            var catalog = JsonNode.Parse(File.ReadAllText(Repo("docs/architecture/review/gates/G03/contract-event-catalog.yaml")))!.AsObject();
+            catalog["infrastructureProtocols"]![0]!["durable"] = true;
+            var catalogPath = Path.Combine(directory, "sensitive-catalog.json");
+            File.WriteAllText(catalogPath, catalog.ToJsonString());
+            var projection = JsonNode.Parse(File.ReadAllText(g03))!.AsObject();
+            projection["source"] = catalogPath;
+            projection["catalogSha256"] = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(catalogPath))).ToLowerInvariant();
+            File.WriteAllText(g03, projection.ToJsonString());
+            var error = Assert.Throws<InvalidDataException>(() => Analyze(directory, g03, g04, g05));
+            Assert.Contains("sensitive infrastructure protocols", error.Message);
         });
     }
 

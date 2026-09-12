@@ -1,4 +1,4 @@
-namespace IFX.Modules.IAM.Infrastructure.IdentityProviders.Auth0;
+namespace IFX.Platform.Authentication.Infrastructure.Auth0;
 
 public class Auth0Options
 {

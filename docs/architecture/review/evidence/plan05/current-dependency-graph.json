@@ -5,8 +5,8 @@
   "scope": {
     "root": "D:\\IFX\\src",
     "rootKind": "directory",
-    "projectsLoaded": 46,
-    "projectsInScope": 39,
+    "projectsLoaded": 51,
+    "projectsInScope": 44,
     "projectsOutside": 7
   },
   "projectEdges": [
@@ -65,6 +65,13 @@
       "to": "IFX.Modules.Transaction.Composition",
       "toRole": "Composition",
       "toModule": "Transaction"
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "Authentication"
     },
     {
       "from": "IFX.ApiHost",
@@ -475,6 +482,14 @@
       "from": "IFX.Modules.IAM.Composition",
       "fromRole": "Composition",
       "fromModule": "IAM",
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "IAM",
       "to": "IFX.Platform.BackgroundJobs.Composition",
       "toRole": "Composition",
       "toModule": "BackgroundJobs"
@@ -534,6 +549,14 @@
       "to": "IFX.Modules.IAM.Application",
       "toRole": "Application",
       "toModule": "IAM"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication"
     },
     {
       "from": "IFX.Modules.IAM.Presentation",
@@ -872,6 +895,54 @@
       "toModule": "Transaction"
     },
     {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "toRole": "Infrastructure",
+      "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "toRole": "Infrastructure",
+      "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Runtime",
+      "toRole": "Runtime",
+      "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication"
+    },
+    {
       "from": "IFX.Platform.BackgroundJobs.Composition",
       "fromRole": "Composition",
       "fromModule": "BackgroundJobs",
@@ -1040,6 +1111,14 @@
       "toRole": "Composition",
       "toModule": "Transaction",
       "uses": 1
+    },
+    {
+      "from": "IFX.ApiHost",
+      "fromRole": "RuntimeHost",
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "Authentication",
+      "uses": 2
     },
     {
       "from": "IFX.ApiHost",
@@ -1459,7 +1538,7 @@
       "to": "IFX.Modules.IAM.Domain",
       "toRole": "Domain",
       "toModule": "IAM",
-      "uses": 66
+      "uses": 67
     },
     {
       "from": "IFX.Modules.IAM.Composition",
@@ -1495,7 +1574,7 @@
       "to": "IFX.Modules.IAM.Infrastructure",
       "toRole": "Infrastructure",
       "toModule": "IAM",
-      "uses": 3
+      "uses": 1
     },
     {
       "from": "IFX.Modules.IAM.Composition",
@@ -1505,6 +1584,15 @@
       "toRole": "Presentation",
       "toModule": "IAM",
       "uses": 4
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "fromRole": "Composition",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Authentication.Composition",
+      "toRole": "Composition",
+      "toModule": "Authentication",
+      "uses": 1
     },
     {
       "from": "IFX.Modules.IAM.Composition",
@@ -1576,7 +1664,7 @@
       "to": "IFX.Modules.IAM.Application",
       "toRole": "Application",
       "toModule": "IAM",
-      "uses": 17
+      "uses": 15
     },
     {
       "from": "IFX.Modules.IAM.Infrastructure",
@@ -1586,6 +1674,15 @@
       "toRole": "Domain",
       "toModule": "IAM",
       "uses": 64
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "IAM",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication",
+      "uses": 2
     },
     {
       "from": "IFX.Modules.IAM.Presentation",
@@ -2054,6 +2151,69 @@
       "toRole": "Application",
       "toModule": "Transaction",
       "uses": 15
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication",
+      "uses": 2
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "toRole": "Infrastructure",
+      "toModule": "Authentication",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "toRole": "Infrastructure",
+      "toModule": "Authentication",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authentication.Composition",
+      "fromRole": "Composition",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Runtime",
+      "toRole": "Runtime",
+      "toModule": "Authentication",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "fromRole": "Infrastructure",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication",
+      "uses": 1
+    },
+    {
+      "from": "IFX.Platform.Authentication.Runtime",
+      "fromRole": "Runtime",
+      "fromModule": "Authentication",
+      "to": "IFX.Platform.Authentication.Contracts",
+      "toRole": "Contracts",
+      "toModule": "Authentication",
+      "uses": 2
     },
     {
       "from": "IFX.Platform.BackgroundJobs.Composition",

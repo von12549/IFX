@@ -4,7 +4,8 @@ public sealed record OidcUserInfo(
     string? Email,
     string? GivenName,
     string? FamilyName,
-    bool EmailVerified);
+    bool EmailVerified,
+    string? Subject = null);
 
 public interface IOidcUserInfoClient
 {

@@ -1,28 +1,30 @@
 using System.Security.Cryptography;
 using System.Text;
-using System.IdentityModel.Tokens.Jwt;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-using IFX.Modules.IAM.Application.Identity.Interfaces;
+using IFX.Platform.Authentication.Contracts.V1;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace IFX.Modules.IAM.Infrastructure.IdentityProviders.Cognito;
+namespace IFX.Platform.Authentication.Infrastructure.Cognito;
 
-public class CognitoIdentityProvider : IIdentityProvider
+public class CognitoIdentityProvider : IExternalAccountContract, ICredentialAuthenticationContract, ITokenLifecycleContract
 {
     private readonly IAmazonCognitoIdentityProvider _cognitoClient;
     private readonly CognitoOptions _settings;
     private readonly ILogger<CognitoIdentityProvider> _logger;
+    private readonly ITokenValidationContract _tokens;
 
     public CognitoIdentityProvider(
         IAmazonCognitoIdentityProvider cognitoClient,
         IOptions<CognitoOptions> settings,
-        ILogger<CognitoIdentityProvider> logger)
+        ILogger<CognitoIdentityProvider> logger,
+        ITokenValidationContract tokens)
     {
         _cognitoClient = cognitoClient;
         _settings = settings.Value;
         _logger = logger;
+        _tokens = tokens;
     }
 
     private string ComputeSecretHash(string username)
@@ -35,7 +37,7 @@ public class CognitoIdentityProvider : IIdentityProvider
         return Convert.ToBase64String(hash);
     }
 
-    public async Task<ProviderSignUpResult> SignUpAsync(
+    public async Task<ProviderSignUpResponse> SignUpAsync(
         string email,
         string password,
         string username,
@@ -65,9 +67,9 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             var response = await _cognitoClient.SignUpAsync(request);
 
-            _logger.LogInformation("User {Username} signed up successfully in Cognito", username);
+            _logger.LogInformation("External identity operation completed");
 
-            return new ProviderSignUpResult
+            return new ProviderSignUpResponse
             {
                 Success = true,
                 Subject = response.UserSub,
@@ -77,26 +79,26 @@ public class CognitoIdentityProvider : IIdentityProvider
         }
         catch (UsernameExistsException)
         {
-            _logger.LogWarning("Signup failed: Username {Username} already exists", username);
-            return new ProviderSignUpResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderSignUpResponse
             {
                 Success = false,
                 ErrorMessage = "Username already exists"
             };
         }
-        catch (InvalidPasswordException ex)
+        catch (InvalidPasswordException)
         {
-            _logger.LogWarning("Signup failed: Invalid password for {Username}", username);
-            return new ProviderSignUpResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderSignUpResponse
             {
                 Success = false,
-                ErrorMessage = $"Invalid password: {ex.Message}"
+                ErrorMessage = "Password requirements not met"
             };
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error signing up user {Username}", username);
-            return new ProviderSignUpResult
+            _logger.LogError("External identity operation failed");
+            return new ProviderSignUpResponse
             {
                 Success = false,
                 ErrorMessage = "An error occurred during sign up"
@@ -118,27 +120,27 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             await _cognitoClient.ConfirmSignUpAsync(request);
 
-            _logger.LogInformation("User {Username} confirmed successfully in Cognito", username);
+            _logger.LogInformation("External identity operation completed");
             return true;
         }
         catch (CodeMismatchException)
         {
-            _logger.LogWarning("Confirmation failed: Invalid code for {Username}", username);
+            _logger.LogWarning("External identity operation rejected");
             return false;
         }
         catch (ExpiredCodeException)
         {
-            _logger.LogWarning("Confirmation failed: Expired code for {Username}", username);
+            _logger.LogWarning("External identity operation rejected");
             return false;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error confirming user {Username}", username);
+            _logger.LogError("External identity operation failed");
             return false;
         }
     }
 
-    public async Task<AuthTokenResult> AuthenticateAsync(string username, string password)
+    public async Task<ProviderTokenResponse> AuthenticateAsync(string username, string password)
     {
         try
         {
@@ -156,26 +158,27 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             var response = await _cognitoClient.InitiateAuthAsync(request);
 
-            var idToken = new JwtSecurityTokenHandler().ReadJwtToken(response.AuthenticationResult.IdToken);
+            var identity = await ValidateIdentity(response.AuthenticationResult.IdToken);
+            if (!identity.IsValid) return new() { ErrorMessage = identity.ReasonCode };
 
-            _logger.LogInformation("User {Username} authenticated successfully in Cognito", username);
+            _logger.LogInformation("External identity operation completed");
 
-            return new AuthTokenResult
+            return new ProviderTokenResponse
             {
                 Success = true,
                 AccessToken = response.AuthenticationResult.AccessToken,
                 IdToken = response.AuthenticationResult.IdToken,
                 RefreshToken = response.AuthenticationResult.RefreshToken,
                 ExpiresIn = response.AuthenticationResult.ExpiresIn,
-                Issuer = idToken.Issuer,
-                Subject = idToken.Claims.FirstOrDefault(claim => claim.Type == "sub")?.Value,
+                Issuer = identity.Identity!.Issuer,
+                Subject = identity.Identity.Subject,
                 ErrorMessage = null
             };
         }
         catch (UserNotConfirmedException)
         {
-            _logger.LogWarning("Authentication failed: User {Username} not confirmed", username);
-            return new AuthTokenResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "User account is not confirmed"
@@ -183,8 +186,8 @@ public class CognitoIdentityProvider : IIdentityProvider
         }
         catch (NotAuthorizedException)
         {
-            _logger.LogWarning("Authentication failed: Invalid credentials for {Username}", username);
-            return new AuthTokenResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "Invalid username or password"
@@ -192,8 +195,8 @@ public class CognitoIdentityProvider : IIdentityProvider
         }
         catch (UserNotFoundException)
         {
-            _logger.LogWarning("Authentication failed: User {Username} not found", username);
-            return new AuthTokenResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "Invalid username or password"
@@ -201,17 +204,17 @@ public class CognitoIdentityProvider : IIdentityProvider
         }
         catch (TooManyRequestsException)
         {
-            _logger.LogWarning("Authentication failed: Too many requests for {Username}", username);
-            return new AuthTokenResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "Too many login attempts. Please try again later."
             };
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error authenticating user {Username}", username);
-            return new AuthTokenResult
+            _logger.LogError("External identity operation failed");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "An error occurred during authentication"
@@ -230,17 +233,17 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             await _cognitoClient.GlobalSignOutAsync(request);
 
-            _logger.LogInformation("User signed out successfully from Cognito");
+            _logger.LogInformation("External identity operation completed");
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error signing out user from Cognito");
+            _logger.LogError("External identity operation failed");
             return false;
         }
     }
 
-    public async Task<ProviderUserInfo> GetUserAsync(string accessToken)
+    public async Task<ProviderUserInfoDto> GetUserAsync(string accessToken)
     {
         try
         {
@@ -251,7 +254,7 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             var response = await _cognitoClient.GetUserAsync(request);
 
-            var userInfo = new ProviderUserInfo
+            var userInfo = new ProviderUserInfoDto
             {
                 Subject = response.Username,
                 Username = response.Username
@@ -290,14 +293,14 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             return userInfo;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error getting user from Cognito");
+            _logger.LogError("External identity operation failed");
             throw;
         }
     }
 
-    public async Task<AuthTokenResult> RefreshTokenAsync(string refreshToken, string username)
+    public async Task<ProviderTokenResponse> RefreshTokenAsync(string refreshToken, string username)
     {
         try
         {
@@ -315,37 +318,48 @@ public class CognitoIdentityProvider : IIdentityProvider
             };
 
             var response = await _cognitoClient.AdminInitiateAuthAsync(request);
+            var identity = await ValidateIdentity(response.AuthenticationResult.IdToken);
+            if (!identity.IsValid) return new() { ErrorMessage = identity.ReasonCode };
 
-            _logger.LogInformation("Token refreshed successfully in Cognito");
+            _logger.LogInformation("External identity operation completed");
 
-            return new AuthTokenResult
+            return new ProviderTokenResponse
             {
                 Success = true,
                 AccessToken = response.AuthenticationResult.AccessToken,
                 IdToken = response.AuthenticationResult.IdToken,
                 RefreshToken = refreshToken, // Cognito doesn't return new refresh token
+                Issuer = identity.Identity!.Issuer,
+                Subject = identity.Identity.Subject,
                 ExpiresIn = response.AuthenticationResult.ExpiresIn,
                 TokenType = response.AuthenticationResult.TokenType
             };
         }
-        catch (NotAuthorizedException ex)
+        catch (NotAuthorizedException)
         {
-            _logger.LogWarning(ex, "Refresh token is invalid or expired");
-            return new AuthTokenResult
+            _logger.LogWarning("External identity operation rejected");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "Refresh token is invalid or expired"
             };
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error refreshing token in Cognito");
-            return new AuthTokenResult
+            _logger.LogError("External identity operation failed");
+            return new ProviderTokenResponse
             {
                 Success = false,
                 ErrorMessage = "An error occurred while refreshing the token"
             };
         }
+    }
+
+    private Task<TokenValidationResponse> ValidateIdentity(string idToken)
+    {
+        var issuer = string.IsNullOrWhiteSpace(_settings.Authority)
+            ? $"https://cognito-idp.{_settings.Region}.amazonaws.com/{_settings.UserPoolId}" : _settings.Authority;
+        return _tokens.ValidateAsync(idToken, new(issuer, issuer, [_settings.ClientId], ["RS256"], 60));
     }
 
     public async Task<bool> ResendConfirmationCodeAsync(string username)
@@ -361,12 +375,12 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             await _cognitoClient.ResendConfirmationCodeAsync(request);
 
-            _logger.LogInformation("Confirmation code resent for user {Username}", username);
+            _logger.LogInformation("External identity operation completed");
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error resending confirmation code for {Username}", username);
+            _logger.LogError("External identity operation failed");
             return false;
         }
     }
@@ -384,12 +398,12 @@ public class CognitoIdentityProvider : IIdentityProvider
 
             await _cognitoClient.RevokeTokenAsync(request);
 
-            _logger.LogInformation("Refresh token revoked successfully");
+            _logger.LogInformation("External identity operation completed");
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError(ex, "Error revoking refresh token");
+            _logger.LogError("External identity operation failed");
             return false;
         }
     }

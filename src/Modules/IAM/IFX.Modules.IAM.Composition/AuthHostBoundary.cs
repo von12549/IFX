@@ -3,6 +3,7 @@ using IFX.Modules.IAM.Application.Identity.Queries.GetOrProvisionUser;
 using IFX.Modules.IAM.Application.Interfaces;
 using IFX.Modules.IAM.Domain.Identity;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace IFX.Modules.IAM.Composition;
 
@@ -15,7 +16,9 @@ public sealed record AuthIdpConfiguration(
     string ExpectedAudiences,
     string AllowedAlgorithms,
     int ClockSkewSeconds,
-    string ClaimMapping);
+    string ClaimMapping,
+    string AudienceClaim = "aud",
+    string? RequiredTokenUse = null);
 
 public interface IAuthIdpConfigurationReader
 {
@@ -23,23 +26,38 @@ public interface IAuthIdpConfigurationReader
         CancellationToken cancellationToken = default);
 }
 
-internal sealed class AuthIdpConfigurationReader(IUnitOfWork unitOfWork)
+internal sealed class AuthIdpConfigurationReader(IUnitOfWork unitOfWork, IConfiguration configuration)
     : IAuthIdpConfigurationReader
 {
     public async Task<IReadOnlyList<AuthIdpConfiguration>> ReadEnabledAsync(
         CancellationToken cancellationToken = default)
     {
         var idps = await unitOfWork.Idps.GetEnabledAsync(cancellationToken);
-        return idps.Select(idp => new AuthIdpConfiguration(
+        var configuredIssuer = configuration["CognitoSettings:Authority"];
+        if (string.IsNullOrWhiteSpace(configuredIssuer))
+            configuredIssuer = $"https://cognito-idp.{configuration["CognitoSettings:Region"] ?? "us-east-1"}.amazonaws.com/{configuration["CognitoSettings:UserPoolId"]}";
+        var configuredClients = new[] { configuration["CognitoSettings:ClientId"], configuration["CognitoOidcSettings:ClientId"] }
+            .Where(value => !string.IsNullOrWhiteSpace(value)).Distinct().ToArray();
+        return idps.Select(idp =>
+        {
+            var primaryCognito = (configuration["Authentication:Provider"] ?? "Cognito").Equals("Cognito", StringComparison.OrdinalIgnoreCase) && idp.Issuer == configuredIssuer;
+            var audiences = idp.ExpectedAudiences;
+            var algorithms = idp.AllowedAlgs;
+            if (primaryCognito && audiences.Trim() == "[]") audiences = System.Text.Json.JsonSerializer.Serialize(configuredClients);
+            if (primaryCognito && algorithms.Trim() == "[]") algorithms = "[\"RS256\"]";
+            var mapping = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(idp.ClaimMapping) ?? [];
+            var audienceClaim = mapping.GetValueOrDefault("audienceClaim") ?? (primaryCognito ? "client_id" : "aud");
+            return new AuthIdpConfiguration(
             idp.Id,
             idp.Issuer,
             idp.Authority,
             idp.IdpType.ToString(),
             idp.AutoProvisionEnabled,
-            idp.ExpectedAudiences,
-            idp.AllowedAlgs,
+            audiences,
+            algorithms,
             idp.ClockSkewSeconds,
-            idp.ClaimMapping)).ToList();
+            idp.ClaimMapping, audienceClaim, audienceClaim == "client_id" ? "access" : null);
+        }).ToList();
     }
 }
 

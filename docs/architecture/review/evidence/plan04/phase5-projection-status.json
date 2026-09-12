@@ -8,7 +8,7 @@
   "schemaSha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7",
   "registrySha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3",
   "inventorySha256": "814f6e843bc771f243b72227356565b0d97684f2bf079799e452e5c13f4ab47d",
-  "catalogSha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b",
+  "catalogSha256": "1b58f102a021e6cd94fef230cb20cfd126b54f75b12509767f288b10e732606a",
   "dependencyGraphSha256": "6a1428c3e76e33dbec97e9b50d286a7b788def08ec924d4da7be06ecdde64c46",
   "checks": {
     "noProjectionWithoutApprovedConsumer": true,

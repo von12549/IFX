@@ -11,11 +11,13 @@ $firstHash = (Get-FileHash $outputPath -Algorithm SHA256).Hash.ToLowerInvariant(
 & (Join-Path $PSScriptRoot 'Export-G03LayerGuardGovernance.ps1') -OutputPath $outputPath
 $secondHash = (Get-FileHash $outputPath -Algorithm SHA256).Hash.ToLowerInvariant()
 $input = Get-Content -Raw -LiteralPath $outputPath | ConvertFrom-Json -Depth 100
+$catalog = Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'docs/architecture/review/gates/G03/contract-event-catalog.yaml') | ConvertFrom-Json -Depth 100
+$expectedEdges = @(@($catalog.protocols) + @($catalog.infrastructureProtocols | Where-Object { $null -ne $_ }) | ForEach-Object { $_.consumers }).Count
 $checks = [ordered]@{
     deterministic = $firstHash -eq $secondHash
     sourceIsCatalog = $input.source -eq 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
     moduleOwnersPresent = @($input.moduleOwnership | Where-Object { [string]::IsNullOrWhiteSpace($_.owner) -or [string]::IsNullOrWhiteSpace($_.backupOwner) -or $_.owner -eq $_.backupOwner }).Count -eq 0
-    providerGraphPresent = @($input.adapterEdges).Count -eq 4
+    providerGraphPresent = @($input.adapterEdges).Count -eq $expectedEdges -and $expectedEdges -ge 4
     sharedAllowlistPresent = @($input.sharedPrimitiveProjects).Count -eq 2 -and
         'IFX.Platform.Context.Contracts' -in $input.sharedPrimitiveProjects -and
         'IFX.Platform.Messaging.Contracts' -in $input.sharedPrimitiveProjects

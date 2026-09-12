@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.Composition\IFX.BuildingBlocks.Composition.csproj" />
+    <ProjectReference Include="..\..\Platform\Authentication\IFX.Platform.Authentication.Composition\IFX.Platform.Authentication.Composition.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.Application\IFX.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
     <ProjectReference Include="..\..\Modules\IAM\IFX.Modules.IAM.Composition\IFX.Modules.IAM.Composition.csproj" />

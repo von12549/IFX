@@ -19,17 +19,24 @@ public static class OAuthEndpoints
     /// </summary>
     /// <param name="redirect_uri">Optional custom redirect URI</param>
     /// <param name="response_mode">Set to "json" to return URL instead of redirecting (for SPAs)</param>
-    public static IResult Authorize(
+    public static async Task<IResult> Authorize(
         [FromServices] IOidcAuthService oidcService,
         [FromServices] ILogger<OAuthEndpointsLogCategory> logger,
+        HttpContext httpContext,
         [FromQuery] string? redirect_uri = null,
         [FromQuery] string? response_mode = null)
     {
         try
         {
-            var authUrl = oidcService.BuildAuthorizationUrl(redirect_uri);
+            var browserBinding = Convert.ToHexString(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32));
+            var authUrl = await oidcService.BuildAuthorizationUrl(browserBinding, redirect_uri);
+            httpContext.Response.Cookies.Append(".IFX.OAuth." + authUrl.State, browserBinding, new CookieOptions
+            {
+                HttpOnly = true, Secure = httpContext.Request.IsHttps, SameSite = SameSiteMode.Lax,
+                Path = "/", MaxAge = TimeSpan.FromMinutes(10), IsEssential = true
+            });
 
-            logger.LogInformation("Initiating OAuth flow with state {State}", authUrl.State);
+            logger.LogInformation("Initiating OAuth flow");
 
             // Return JSON for SPA clients
             if (string.Equals(response_mode, "json", StringComparison.OrdinalIgnoreCase))
@@ -61,6 +68,7 @@ public static class OAuthEndpoints
         [FromServices] IOidcAuthService oidcService,
         [FromServices] IConfiguration configuration,
         [FromServices] ILogger<OAuthEndpointsLogCategory> logger,
+        HttpContext httpContext,
         [FromQuery] string? code = null,
         [FromQuery] string? state = null,
         [FromQuery] string? error = null,
@@ -68,12 +76,17 @@ public static class OAuthEndpoints
         [FromQuery] string? redirect_to = null)
     {
         // Get frontend callback URL from config if not provided
-        var frontendUrl = redirect_to ?? configuration["CognitoOidcSettings:FrontendCallbackUrl"];
+        var frontendUrl = configuration["CognitoOidcSettings:FrontendCallbackUrl"];
+        if (redirect_to is not null && !string.Equals(redirect_to, frontendUrl, StringComparison.Ordinal))
+            return Results.BadRequest(ApiResponse<object>.FailureResponse("Unregistered frontend callback"));
+        if (state is null || state.Length > 128 || !httpContext.Request.Cookies.TryGetValue(".IFX.OAuth." + state, out var browserBinding))
+            return Results.BadRequest(ApiResponse<object>.FailureResponse("Invalid login transaction"));
+        httpContext.Response.Cookies.Delete(".IFX.OAuth." + state, new CookieOptions { Path = "/" });
 
         // Handle error response from IdP
         if (!string.IsNullOrEmpty(error))
         {
-            logger.LogWarning("OAuth callback received error: {Error} - {Description}", error, error_description);
+            logger.LogWarning("OAuth provider rejected the login transaction");
 
             if (!string.IsNullOrEmpty(frontendUrl))
             {
@@ -106,7 +119,7 @@ public static class OAuthEndpoints
         try
         {
             // Exchange authorization code for tokens
-            var tokenResult = await oidcService.ExchangeCodeForTokensAsync(code, state);
+            var tokenResult = await oidcService.ExchangeCodeForTokensAsync(code, state, browserBinding);
 
             if (!tokenResult.Success)
             {
@@ -211,7 +224,7 @@ public static class OAuthEndpoints
     /// <summary>
     /// Initiates logout flow via Cognito
     /// </summary>
-    public static IResult Logout(
+    public static async Task<IResult> Logout(
         [FromServices] IOidcAuthService oidcService,
         [FromServices] ILogger<OAuthEndpointsLogCategory> logger,
         HttpContext httpContext,
@@ -222,7 +235,7 @@ public static class OAuthEndpoints
             // Get ID token for logout hint (optional)
             var idToken = httpContext.Request.Headers["X-Id-Token"].ToString();
 
-            var logoutUrl = oidcService.BuildLogoutUrl(
+            var logoutUrl = await oidcService.BuildLogoutUrl(
                 idTokenHint: string.IsNullOrEmpty(idToken) ? null : idToken,
                 postLogoutRedirectUri: post_logout_redirect_uri);
 

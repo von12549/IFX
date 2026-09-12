@@ -153,6 +153,21 @@
           "sha256": "fa1302fce04d6af282af2d897cf0f93cdaa77d51ac3dd46b4ce145163f4d57cf"
         }
       ]
+    },
+    {
+      "capturedAt": "2026-09-12",
+      "authority": "G03",
+      "reason": "Plan 05 Phase 2 admits the explicit IAM to Authentication transient sensitive protocol. Business protocols, their C4 prohibition and historical B4 evidence are retained.",
+      "artifacts": [
+        {
+          "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+          "sha256": "1b58f102a021e6cd94fef230cb20cfd126b54f75b12509767f288b10e732606a"
+        },
+        {
+          "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+          "sha256": "70b2dd4fb7f8aa9d91d7690e81d3632d640197627ba6c1e05855a6f293b2e8a7"
+        }
+      ]
     }
   ],
   "owners": [

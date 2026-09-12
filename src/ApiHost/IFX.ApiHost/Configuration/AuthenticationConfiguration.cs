@@ -1,5 +1,6 @@
 using IFX.ApiHost.Authentication;
 using IFX.ApiHost.Authorization;
+using IFX.Platform.Authentication.Composition;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,8 @@ public static class AuthenticationConfiguration
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // Register IdpConfigurationService (cross-cutting, singleton for caching)
+        services.AddPlatformAuthentication();
+        // IAM selects trusted providers; the platform executes token validation.
         services.AddMemoryCache();
         services.AddSingleton<IdpConfigurationService>();
         services.AddSingleton<IIdpConfigurationService>(sp => sp.GetRequiredService<IdpConfigurationService>());
@@ -31,8 +33,8 @@ public static class AuthenticationConfiguration
                 // Disable static validation (handled dynamically by DynamicJwtBearerEvents)
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
                     ValidateLifetime = true,
                     NameClaimType = "sub"

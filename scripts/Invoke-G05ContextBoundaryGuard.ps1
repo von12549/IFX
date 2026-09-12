@@ -186,7 +186,7 @@ if ($Phase -ge 7) {
     $notificationSource = @(
         (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs'))
         (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs'))
-        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IdentityProviders/Cognito/CognitoOidcService.cs'))
+        (Get-Content -Raw -LiteralPath (Join-Path $repositoryRoot 'src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs'))
     ) -join "`n"
     $transactionHandlers = @(Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands') -Recurse -File -Filter '*Handler.cs' | Get-Content -Raw) -join "`n"
     $removedTokenMembers = @('AccessToken', 'RefreshToken', 'CognitoSessionId', 'TokenExpiresAt')

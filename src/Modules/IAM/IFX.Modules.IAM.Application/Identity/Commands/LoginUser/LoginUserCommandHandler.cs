@@ -12,13 +12,15 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.LoginUser;
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly ICredentialAuthenticationService _identityProvider;
+    private readonly IExternalAccountService _accounts;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<LoginUserCommandHandler> _logger;
-    public LoginUserCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, IMapper mapper, ILogger<LoginUserCommandHandler> logger)
+    public LoginUserCommandHandler(ICredentialAuthenticationService identityProvider, IExternalAccountService accounts, IUnitOfWork unitOfWork, IMapper mapper, ILogger<LoginUserCommandHandler> logger)
     {
         _identityProvider = identityProvider;
+        _accounts = accounts;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _logger = logger;
@@ -37,7 +39,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
 
             // Get user from local DB
             var user = await _unitOfWork.Users.GetByEmailAndIdpAsync(request.Email, primaryIdp.Id, cancellationToken);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 // Create failed login event for unknown user
                 _logger.LogWarning("Login attempt rejected because the local user was not found");
@@ -66,7 +68,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
 
             // Verify user matches the authenticated subject
             var authenticatedUser = await _unitOfWork.Users.GetByIssuerAndSubjectAsync(issuer, subject, cancellationToken);
-            if (authenticatedUser == null || authenticatedUser.Id != user.Id)
+            if (authenticatedUser == null || !authenticatedUser.IsActive || authenticatedUser.Id != user.Id || issuer != primaryIdp.Issuer)
             {
                 _logger.LogWarning("Authenticated identity did not match the local user");
                 return Result<LoginUserResponse>.Failure("Authentication failed");
@@ -76,7 +78,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             user = authenticatedUser;
             // Sync user data from Cognito (update UserIdentity)
             {
-                var cognitoUserInfo = await _identityProvider.GetUserAsync(authResult.AccessToken!);
+                var cognitoUserInfo = await _accounts.GetUserAsync(authResult.AccessToken!);
                 var identity = user.Identities.FirstOrDefault(i => i.Issuer == issuer && i.Subject.Value == subject);
                 if (identity != null)
                 {

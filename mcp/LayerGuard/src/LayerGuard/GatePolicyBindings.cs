@@ -258,12 +258,25 @@ internal static class GatePolicyLoader
 
         var consumers = RequiredArray(catalog, "consumers", catalogPath).EnumerateArray().ToDictionary(
             consumer => RequiredString(consumer, "id", catalogPath),
-            consumer => RequiredString(consumer, "module", catalogPath),
+            consumer => moduleById[RequiredString(consumer, "module", catalogPath)],
             StringComparer.OrdinalIgnoreCase
         );
         var expectedEdges = new List<string>();
         var expectedProviders = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-        foreach (var protocol in RequiredArray(catalog, "protocols", catalogPath).EnumerateArray())
+        var protocols = RequiredArray(catalog, "protocols", catalogPath).EnumerateArray().ToList();
+        if (catalog.TryGetProperty("infrastructureProtocols", out var infrastructureProtocols))
+        {
+            foreach (var protocol in infrastructureProtocols.EnumerateArray())
+            {
+                if (RequiredString(protocol, "kind", catalogPath) != "in-process-sensitive"
+                    || RequiredString(protocol, "retention", catalogPath) != "request-or-login-transaction"
+                    || RequiredString(protocol, "logPolicy", catalogPath) != "never"
+                    || !protocol.TryGetProperty("durable", out var durable) || durable.GetBoolean())
+                    throw new InvalidDataException($"{catalogPath} sensitive infrastructure protocols require transient in-process use and no logging.");
+                protocols.Add(protocol);
+            }
+        }
+        foreach (var protocol in protocols)
         {
             var identity = RequiredString(protocol, "identity", catalogPath);
             var kind = RequiredString(protocol, "kind", catalogPath);

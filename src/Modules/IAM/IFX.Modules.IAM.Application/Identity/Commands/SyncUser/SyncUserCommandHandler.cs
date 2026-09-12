@@ -11,11 +11,11 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.SyncUser;
 public class SyncUserCommandHandler : IRequestHandler<SyncUserCommand, Result<UserProfileDto>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly IExternalAccountService _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly ILogger<SyncUserCommandHandler> _logger;
-    public SyncUserCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, IMapper mapper, ILogger<SyncUserCommandHandler> logger)
+    public SyncUserCommandHandler(IExternalAccountService identityProvider, IUnitOfWork unitOfWork, IMapper mapper, ILogger<SyncUserCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;

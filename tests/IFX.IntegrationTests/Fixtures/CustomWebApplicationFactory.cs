@@ -86,16 +86,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             });
 
             // Remove the real identity provider service
-            var identityProviderDescriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(IIdentityProvider));
-
-            if (identityProviderDescriptor != null)
-            {
-                services.Remove(identityProviderDescriptor);
-            }
+            services.RemoveAll<IExternalAccountService>();
+            services.RemoveAll<ICredentialAuthenticationService>();
+            services.RemoveAll<ITokenLifecycleService>();
 
             // Add mock identity provider
-            var mockIdentityProvider = new Mock<IIdentityProvider>();
+            var mockIdentityProvider = new Mock<IExternalAccountService>();
+            var mockCredentials = new Mock<ICredentialAuthenticationService>();
             mockIdentityProvider
                 .Setup(x => x.SignUpAsync(
                     It.IsAny<string>(),
@@ -112,7 +109,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                     UserConfirmed = false
                 });
 
-            mockIdentityProvider
+            mockCredentials
                 .Setup(x => x.AuthenticateAsync(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(new AuthTokenResult
                 {
@@ -124,6 +121,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
                 });
 
             services.AddSingleton(mockIdentityProvider.Object);
+            services.AddSingleton(mockCredentials.Object);
+            services.AddSingleton(Mock.Of<ITokenLifecycleService>());
 
             // Clear existing health checks and add mock ones
             var healthCheckDescriptors = services.Where(d =>

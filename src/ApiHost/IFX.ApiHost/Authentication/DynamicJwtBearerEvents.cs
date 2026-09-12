@@ -1,89 +1,50 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using IFX.Platform.Authentication.Composition;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace IFX.ApiHost.Authentication;
 
-public class DynamicJwtBearerEvents : JwtBearerEvents
+public sealed class DynamicJwtBearerEvents(
+    IIdpConfigurationService configurations,
+    IHostTokenValidation validation,
+    ILogger<DynamicJwtBearerEvents> logger) : JwtBearerEvents
 {
-    private readonly IIdpConfigurationService _idpConfigService;
-    private readonly ILogger<DynamicJwtBearerEvents> _logger;
-
-    public DynamicJwtBearerEvents(
-        IIdpConfigurationService idpConfigService,
-        ILogger<DynamicJwtBearerEvents> logger)
-    {
-        _idpConfigService = idpConfigService;
-        _logger = logger;
-    }
-
     public override async Task MessageReceived(MessageReceivedContext context)
     {
-        var token = context.Request.Headers.Authorization.FirstOrDefault()?.Replace("Bearer ", "");
-        if (string.IsNullOrEmpty(token))
+        var header = context.Request.Headers.Authorization.ToString();
+        if (string.IsNullOrWhiteSpace(header)) { context.NoResult(); return; }
+        if (!AuthenticationHeaderValue.TryParse(header, out var authorization) ||
+            !string.Equals(authorization.Scheme, "Bearer", StringComparison.OrdinalIgnoreCase) ||
+            string.IsNullOrWhiteSpace(authorization.Parameter) || authorization.Parameter.Length > 32768)
+        {
+            context.Fail("Invalid bearer header");
             return;
-
+        }
         try
         {
-            // Read unvalidated JWT to get issuer
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
-            var issuer = jwtToken.Issuer;
-
-            // Look up IdP by issuer
-            var idpConfig = await _idpConfigService.GetByIssuerAsync(issuer, context.HttpContext.RequestAborted);
-            if (idpConfig == null)
-            {
-                _logger.LogWarning("Token from unknown or disabled issuer: {Issuer}", issuer);
-                context.Fail("Unknown or disabled identity provider");
-                return;
-            }
-
-            // Get OIDC configuration
-            var openIdConfig = await idpConfig.ConfigurationManager!.GetConfigurationAsync(context.HttpContext.RequestAborted);
-
-            // Configure dynamic validation parameters
-            context.Options.MapInboundClaims = false;
-            context.Options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidIssuer = idpConfig.Issuer,
-                ValidateAudience = idpConfig.ExpectedAudiences.Count > 0,
-                ValidAudiences = idpConfig.ExpectedAudiences,
-                ValidAlgorithms = idpConfig.AllowedAlgorithms.Count > 0 ? idpConfig.AllowedAlgorithms : null,
-                ClockSkew = TimeSpan.FromSeconds(idpConfig.ClockSkewSeconds),
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKeys = openIdConfig.SigningKeys,
-                ValidateLifetime = true,
-                NameClaimType = "sub"
-            };
-
-            // Store IdP config for later use in claims transformation
-            context.HttpContext.Items["IdpConfiguration"] = idpConfig;
-
-            // Store access token for userinfo endpoint call during auto-provisioning
+            var token = authorization.Parameter;
+            // Unverified issuer is only a lookup key. IAM decides whether it is trusted.
+            var issuer = new JwtSecurityTokenHandler().ReadJwtToken(token).Issuer;
+            var configuration = await configurations.GetByIssuerAsync(issuer, context.HttpContext.RequestAborted);
+            if (configuration is null) { context.Fail("Unknown or disabled identity provider"); return; }
+            var result = await validation.ValidateAsync(token, configuration.Issuer, configuration.Authority,
+                configuration.ExpectedAudiences, configuration.AllowedAlgorithms, configuration.ClockSkewSeconds,
+                context.HttpContext.RequestAborted, configuration.AudienceClaim, configuration.RequiredTokenUse);
+            if (result.Subject is null) { context.Fail(result.Reason); return; }
+            // External role/user_id claims cannot masquerade as local IAM authorization facts.
+            context.Principal = new ClaimsPrincipal(new ClaimsIdentity(
+                [new Claim("iss", issuer), new Claim("sub", result.Subject)], context.Scheme.Name, "sub", "role"));
+            context.HttpContext.Items["IdpConfiguration"] = configuration;
             context.HttpContext.Items["AccessToken"] = token;
-
-            _logger.LogDebug("Configured token validation for issuer: {Issuer}", issuer);
+            context.Success();
         }
-        catch (Exception ex)
+        catch (OperationCanceledException) when (context.HttpContext.RequestAborted.IsCancellationRequested) { throw; }
+        catch (Exception exception)
         {
-            _logger.LogError(ex, "Error processing JWT token");
-            context.Fail("Invalid token format");
+            logger.LogWarning("Bearer validation failed with {FailureType}", exception.GetType().Name);
+            context.Fail("Bearer validation failed");
         }
-    }
-
-    public override Task TokenValidated(TokenValidatedContext context)
-    {
-        var issuer = context.Principal?.FindFirst("iss")?.Value;
-        var subject = context.Principal?.FindFirst("sub")?.Value;
-        _logger.LogDebug("Token validated for {Issuer}/{Subject}", issuer, subject);
-        return Task.CompletedTask;
-    }
-
-    public override Task AuthenticationFailed(AuthenticationFailedContext context)
-    {
-        _logger.LogWarning(context.Exception, "Authentication failed");
-        return Task.CompletedTask;
     }
 }

@@ -21,10 +21,27 @@
       "retiredIdentityPolicy": "Retired identities and change history remain reserved forever and must never be renamed, reused, or deleted."
     },
     "compatibility": {
-      "Compatible": ["add optional field with a C# construction default", "add documented enum value with consumer fallback", "documentation clarification with no semantic change"],
-      "Conditional": ["tighten validation within an already documented range", "change freshness or timeout within an approved consumer envelope", "optional field whose consumer fallback needs explicit evidence"],
-      "Breaking": ["remove or rename field", "change field type or meaning", "make optional field required", "break interface signature", "change stable error code", "change event fact or occurrence time"],
-      "Internal": ["implementation-only change outside the public schema and observable protocol"]
+      "Compatible": [
+        "add optional field with a C# construction default",
+        "add documented enum value with consumer fallback",
+        "documentation clarification with no semantic change"
+      ],
+      "Conditional": [
+        "tighten validation within an already documented range",
+        "change freshness or timeout within an approved consumer envelope",
+        "optional field whose consumer fallback needs explicit evidence"
+      ],
+      "Breaking": [
+        "remove or rename field",
+        "change field type or meaning",
+        "make optional field required",
+        "break interface signature",
+        "change stable error code",
+        "change event fact or occurrence time"
+      ],
+      "Internal": [
+        "implementation-only change outside the public schema and observable protocol"
+      ]
     },
     "dtoPolicy": {
       "optionalConstruction": "New optional members require a source-compatible default and must not break positional construction.",
@@ -33,7 +50,14 @@
     },
     "breakingChange": {
       "requiresParallelMajor": true,
-      "sequence": ["publish V+1 beside V", "deploy consumers able to select V+1", "observe both versions", "migrate all consumers", "satisfy deprecation policy", "retire V without identity reuse"],
+      "sequence": [
+        "publish V+1 beside V",
+        "deploy consumers able to select V+1",
+        "observe both versions",
+        "migrate all consumers",
+        "satisfy deprecation policy",
+        "retire V without identity reuse"
+      ],
       "rollback": "Keep V and the consumer adapter switch point; do not delete produced V+1 messages or hide their processing owner."
     },
     "baseline": {
@@ -64,48 +88,109 @@
       "name": "IAM",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
-      "capabilities": ["identity", "authentication", "subject-and-external-identity-mapping"],
-      "dataFacts": ["identity subjects", "credentials", "external identity mappings"]
+      "capabilities": [
+        "identity",
+        "authentication",
+        "subject-and-external-identity-mapping"
+      ],
+      "dataFacts": [
+        "identity subjects",
+        "credentials",
+        "external identity mappings"
+      ]
     },
     {
       "id": "crm",
       "name": "CRM",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
-      "capabilities": ["party", "investor", "investment-account", "account-compliance"],
-      "dataFacts": ["party", "investor", "investment account", "KYC and compliance"]
+      "capabilities": [
+        "party",
+        "investor",
+        "investment-account",
+        "account-compliance"
+      ],
+      "dataFacts": [
+        "party",
+        "investor",
+        "investment account",
+        "KYC and compliance"
+      ]
     },
     {
       "id": "registry",
       "name": "Registry",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
-      "capabilities": ["product", "fund", "fund-class", "class-subscription-availability"],
-      "dataFacts": ["product", "fund", "fund class", "subscription status"]
+      "capabilities": [
+        "product",
+        "fund",
+        "fund-class",
+        "class-subscription-availability"
+      ],
+      "dataFacts": [
+        "product",
+        "fund",
+        "fund class",
+        "subscription status"
+      ]
     },
     {
       "id": "transaction",
       "name": "Transaction",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
-      "capabilities": ["order", "transaction-processing"],
-      "dataFacts": ["order instruction", "transaction lifecycle"]
+      "capabilities": [
+        "order",
+        "transaction-processing"
+      ],
+      "dataFacts": [
+        "order instruction",
+        "transaction lifecycle"
+      ]
     },
     {
       "id": "holdings",
       "name": "Holdings",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
-      "capabilities": ["position", "holding-freeze"],
-      "dataFacts": ["holding", "position", "holding freeze state"]
+      "capabilities": [
+        "position",
+        "holding-freeze"
+      ],
+      "dataFacts": [
+        "holding",
+        "position",
+        "holding freeze state"
+      ]
     },
     {
       "id": "platform-messaging",
       "name": "Platform Messaging",
       "owner": "xiaolong-feng",
       "backupOwner": "junxi",
-      "capabilities": ["message-schema-primitives", "runtime-event-delivery"],
-      "dataFacts": ["transport-neutral envelope semantics", "delivery attempt state"]
+      "capabilities": [
+        "message-schema-primitives",
+        "runtime-event-delivery"
+      ],
+      "dataFacts": [
+        "transport-neutral envelope semantics",
+        "delivery attempt state"
+      ]
+    },
+    {
+      "id": "authentication",
+      "name": "Authentication",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi",
+      "capabilities": [
+        "identity-protocol-execution",
+        "signed-token-validation"
+      ],
+      "dataFacts": [
+        "ephemeral-login-transactions",
+        "public-signing-metadata"
+      ]
     }
   ],
   "consumers": [
@@ -124,6 +209,14 @@
       "owner": "xiaolong-feng",
       "evidence": "src/Modules/Holdings/IFX.Modules.Holdings.Application",
       "lastConfirmedAt": "2026-09-08"
+    },
+    {
+      "id": "iam-identity-adapter",
+      "kind": "internal-module",
+      "module": "auth",
+      "owner": "xiaolong-feng",
+      "evidence": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Authentication",
+      "lastConfirmedAt": "2026-09-12"
     }
   ],
   "approvalPolicy": {
@@ -133,13 +226,39 @@
     "backupAssignmentStatus": "assigned-and-authorized",
     "backupAssignmentEvidence": "docs/architecture/review/evidence/gates/G03/G03-backup-owner-assignment.md",
     "reviewers": {
-      "New": ["provider-owner", "first-consumer-owner"],
-      "Compatible": ["provider-owner", "affected-consumer-owner"],
-      "Conditional": ["provider-owner", "all-affected-consumer-owners", "architecture-owner"],
-      "Breaking": ["provider-owner", "all-affected-consumer-owners", "platform-owner-if-shared", "architecture-owner"],
-      "SharedPrimitiveOrEnvelope": ["platform-messaging-owner", "all-affected-module-owners", "architecture-owner"],
-      "Deprecated": ["provider-owner", "all-consumer-owners"],
-      "Retired": ["provider-owner", "all-consumer-owners", "architecture-owner"]
+      "New": [
+        "provider-owner",
+        "first-consumer-owner"
+      ],
+      "Compatible": [
+        "provider-owner",
+        "affected-consumer-owner"
+      ],
+      "Conditional": [
+        "provider-owner",
+        "all-affected-consumer-owners",
+        "architecture-owner"
+      ],
+      "Breaking": [
+        "provider-owner",
+        "all-affected-consumer-owners",
+        "platform-owner-if-shared",
+        "architecture-owner"
+      ],
+      "SharedPrimitiveOrEnvelope": [
+        "platform-messaging-owner",
+        "all-affected-module-owners",
+        "architecture-owner"
+      ],
+      "Deprecated": [
+        "provider-owner",
+        "all-consumer-owners"
+      ],
+      "Retired": [
+        "provider-owner",
+        "all-consumer-owners",
+        "architecture-owner"
+      ]
     },
     "activeAdmission": "Provider and first consumer approvals plus source/snapshot/test evidence are mandatory.",
     "externalConfirmation": "Check at least every 90 days; stale confirmation alerts and blocks retire but never silently deletes a consumer.",
@@ -153,7 +272,9 @@
       "lifecycle": "Active",
       "provider": "crm",
       "owner": "xiaolong-feng",
-      "consumers": ["transaction-application"],
+      "consumers": [
+        "transaction-application"
+      ],
       "businessUse": "Check an investment account's KYC approval before accepting an order or transaction instruction.",
       "source": {
         "project": "IFX.Modules.CRM.Contracts",
@@ -163,20 +284,62 @@
       "executionScope": "tenant",
       "authorization": "Provider must validate the registered Transaction consumer and the trusted tenant scope before reading CRM facts.",
       "freshness": "Current committed CRM state at provider invocation time; no cache guarantee.",
-      "failureSemantics": ["not-found:false", "not-approved:false", "cancelled:propagate", "unavailable:fail-closed"],
-      "fields": [
-        {"name": "investmentAccountId", "classification": "C2", "purpose": "select the account compliance fact", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
-        {"name": "tenantId", "classification": "C2", "purpose": "enforce tenant scope during legacy cutover", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
-        {"name": "isApproved", "classification": "C3", "purpose": "decide whether processing may continue", "required": true, "retention": "decision lifetime", "logPolicy": "redact", "exceptionRef": "G05-C3-001"}
+      "failureSemantics": [
+        "not-found:false",
+        "not-approved:false",
+        "cancelled:propagate",
+        "unavailable:fail-closed"
       ],
-      "tests": ["tests/IFX.Modules.CRM.Application.Tests/Contracts/AccountComplianceContractTests.cs", "tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"],
+      "fields": [
+        {
+          "name": "investmentAccountId",
+          "classification": "C2",
+          "purpose": "select the account compliance fact",
+          "required": true,
+          "retention": "request lifetime",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "tenantId",
+          "classification": "C2",
+          "purpose": "enforce tenant scope during legacy cutover",
+          "required": true,
+          "retention": "request lifetime",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "isApproved",
+          "classification": "C3",
+          "purpose": "decide whether processing may continue",
+          "required": true,
+          "retention": "decision lifetime",
+          "logPolicy": "redact",
+          "exceptionRef": "G05-C3-001"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Modules.CRM.Application.Tests/Contracts/AccountComplianceContractTests.cs",
+        "tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"
+      ],
       "admissionEvidence": {
-        "source": ["src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs"],
-        "apiOrSchemaSnapshot": ["docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"],
-        "providerContractTests": ["tests/IFX.Modules.CRM.Application.Tests/Contracts/AccountComplianceContractTests.cs"],
-        "consumerCompatibilityTests": ["tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"],
-        "providerApproval": ["G03-CR-001:Approved"],
-        "consumerApprovals": ["transaction-application:G03-CR-001:Approved"]
+        "source": [
+          "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs"
+        ],
+        "apiOrSchemaSnapshot": [
+          "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"
+        ],
+        "providerContractTests": [
+          "tests/IFX.Modules.CRM.Application.Tests/Contracts/AccountComplianceContractTests.cs"
+        ],
+        "consumerCompatibilityTests": [
+          "tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"
+        ],
+        "providerApproval": [
+          "G03-CR-001:Approved"
+        ],
+        "consumerApprovals": [
+          "transaction-application:G03-CR-001:Approved"
+        ]
       }
     },
     {
@@ -186,7 +349,9 @@
       "lifecycle": "Active",
       "provider": "registry",
       "owner": "xiaolong-feng",
-      "consumers": ["transaction-application"],
+      "consumers": [
+        "transaction-application"
+      ],
       "businessUse": "Check whether a fund class can accept subscription or inbound transfer instructions.",
       "source": {
         "project": "IFX.Modules.Registry.Contracts",
@@ -196,20 +361,61 @@
       "executionScope": "tenant",
       "authorization": "Provider must validate the registered Transaction consumer and trusted tenant scope.",
       "freshness": "Current committed Registry state at provider invocation time; caller accepts the documented TOCTOU window.",
-      "failureSemantics": ["not-found:false", "closed:false", "cancelled:propagate", "unavailable:fail-closed"],
-      "fields": [
-        {"name": "classId", "classification": "C2", "purpose": "select the fund-class availability fact", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
-        {"name": "tenantId", "classification": "C2", "purpose": "enforce tenant scope during legacy cutover", "required": true, "retention": "request lifetime", "logPolicy": "pseudonymize"},
-        {"name": "isOpen", "classification": "C1", "purpose": "decide whether processing may continue", "required": true, "retention": "decision lifetime", "logPolicy": "allow-low-cardinality"}
+      "failureSemantics": [
+        "not-found:false",
+        "closed:false",
+        "cancelled:propagate",
+        "unavailable:fail-closed"
       ],
-      "tests": ["tests/IFX.Modules.Registry.Application.Tests/Contracts/ClassSubscriptionAvailabilityContractTests.cs", "tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"],
+      "fields": [
+        {
+          "name": "classId",
+          "classification": "C2",
+          "purpose": "select the fund-class availability fact",
+          "required": true,
+          "retention": "request lifetime",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "tenantId",
+          "classification": "C2",
+          "purpose": "enforce tenant scope during legacy cutover",
+          "required": true,
+          "retention": "request lifetime",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "isOpen",
+          "classification": "C1",
+          "purpose": "decide whether processing may continue",
+          "required": true,
+          "retention": "decision lifetime",
+          "logPolicy": "allow-low-cardinality"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Modules.Registry.Application.Tests/Contracts/ClassSubscriptionAvailabilityContractTests.cs",
+        "tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"
+      ],
       "admissionEvidence": {
-        "source": ["src/Modules/Registry/IFX.Modules.Registry.Contracts/V1/IClassSubscriptionAvailabilityContract.cs"],
-        "apiOrSchemaSnapshot": ["docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"],
-        "providerContractTests": ["tests/IFX.Modules.Registry.Application.Tests/Contracts/ClassSubscriptionAvailabilityContractTests.cs"],
-        "consumerCompatibilityTests": ["tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"],
-        "providerApproval": ["G03-CR-002:Approved"],
-        "consumerApprovals": ["transaction-application:G03-CR-002:Approved"]
+        "source": [
+          "src/Modules/Registry/IFX.Modules.Registry.Contracts/V1/IClassSubscriptionAvailabilityContract.cs"
+        ],
+        "apiOrSchemaSnapshot": [
+          "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json"
+        ],
+        "providerContractTests": [
+          "tests/IFX.Modules.Registry.Application.Tests/Contracts/ClassSubscriptionAvailabilityContractTests.cs"
+        ],
+        "consumerCompatibilityTests": [
+          "tests/IFX.IntegrationTests/Composition/ContractAdapterCompositionTests.cs"
+        ],
+        "providerApproval": [
+          "G03-CR-002:Approved"
+        ],
+        "consumerApprovals": [
+          "transaction-application:G03-CR-002:Approved"
+        ]
       }
     },
     {
@@ -219,7 +425,9 @@
       "lifecycle": "Active",
       "provider": "transaction",
       "owner": "xiaolong-feng",
-      "consumers": ["holdings-application"],
+      "consumers": [
+        "holdings-application"
+      ],
       "businessUse": "Apply the completed transaction fact to the Holdings position projection.",
       "source": {
         "project": "IFX.Modules.Transaction.Contracts",
@@ -228,25 +436,103 @@
       "executionScope": "tenant-envelope",
       "authorization": "Inbound Holdings adapter must validate producer identity, event identity/version, and trusted tenant scope.",
       "freshness": "Eventually consistent after the producer transaction commits; reliable delivery is owned by Plan 02.",
-      "failureSemantics": ["duplicate:inbox-dedupe", "transient:retry", "invalid-schema:quarantine", "business-rejection:ack-and-audit"],
-      "loopPolicy": {"workflowIdentity": "transaction-to-holdings-projection", "causation": "required", "idempotency": "EventId inbox key", "termination": "Holdings does not republish this fact"},
-      "fields": [
-        {"name": "transactionId", "classification": "C2", "purpose": "idempotent business reference", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
-        {"name": "transactionType", "classification": "C1", "purpose": "select projection operation", "required": true, "retention": "projection audit policy", "logPolicy": "allow-enum"},
-        {"name": "investmentAccountId", "classification": "C2", "purpose": "select affected account position", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
-        {"name": "classId", "classification": "C2", "purpose": "select affected class position", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
-        {"name": "targetClassId", "classification": "C2", "purpose": "select destination position for transfer or switch", "required": false, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
-        {"name": "units", "classification": "C2", "purpose": "apply the position delta", "required": true, "retention": "financial record policy", "logPolicy": "redact"},
-        {"name": "navPrice", "classification": "C2", "purpose": "retain transaction valuation fact", "required": true, "retention": "financial record policy", "logPolicy": "redact"}
+      "failureSemantics": [
+        "duplicate:inbox-dedupe",
+        "transient:retry",
+        "invalid-schema:quarantine",
+        "business-rejection:ack-and-audit"
       ],
-      "tests": ["tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs", "tests/IFX.Modules.Transaction.Application.Tests", "tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs", "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"],
+      "loopPolicy": {
+        "workflowIdentity": "transaction-to-holdings-projection",
+        "causation": "required",
+        "idempotency": "EventId inbox key",
+        "termination": "Holdings does not republish this fact"
+      },
+      "fields": [
+        {
+          "name": "transactionId",
+          "classification": "C2",
+          "purpose": "idempotent business reference",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "transactionType",
+          "classification": "C1",
+          "purpose": "select projection operation",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "allow-enum"
+        },
+        {
+          "name": "investmentAccountId",
+          "classification": "C2",
+          "purpose": "select affected account position",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "classId",
+          "classification": "C2",
+          "purpose": "select affected class position",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "targetClassId",
+          "classification": "C2",
+          "purpose": "select destination position for transfer or switch",
+          "required": false,
+          "retention": "projection audit policy",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "units",
+          "classification": "C2",
+          "purpose": "apply the position delta",
+          "required": true,
+          "retention": "financial record policy",
+          "logPolicy": "redact"
+        },
+        {
+          "name": "navPrice",
+          "classification": "C2",
+          "purpose": "retain transaction valuation fact",
+          "required": true,
+          "retention": "financial record policy",
+          "logPolicy": "redact"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs",
+        "tests/IFX.Modules.Transaction.Application.Tests",
+        "tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs",
+        "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"
+      ],
       "admissionEvidence": {
-        "source": ["src/Modules/Transaction/IFX.Modules.Transaction.Contracts/Events/V1/TransactionProcessedV1.cs"],
-        "apiOrSchemaSnapshot": ["docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"],
-        "providerContractTests": ["tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs", "tests/IFX.Modules.Transaction.Application.Tests"],
-        "consumerCompatibilityTests": ["tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs", "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"],
-        "providerApproval": ["G03-CR-003:Approved"],
-        "consumerApprovals": ["holdings-application:G03-CR-003:Approved"]
+        "source": [
+          "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/Events/V1/TransactionProcessedV1.cs"
+        ],
+        "apiOrSchemaSnapshot": [
+          "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"
+        ],
+        "providerContractTests": [
+          "tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs",
+          "tests/IFX.Modules.Transaction.Application.Tests"
+        ],
+        "consumerCompatibilityTests": [
+          "tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs",
+          "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"
+        ],
+        "providerApproval": [
+          "G03-CR-003:Approved"
+        ],
+        "consumerApprovals": [
+          "holdings-application:G03-CR-003:Approved"
+        ]
       }
     },
     {
@@ -256,7 +542,9 @@
       "lifecycle": "Active",
       "provider": "registry",
       "owner": "xiaolong-feng",
-      "consumers": ["holdings-application"],
+      "consumers": [
+        "holdings-application"
+      ],
       "businessUse": "Freeze affected Holdings positions after a Registry class becomes closed.",
       "source": {
         "project": "IFX.Modules.Registry.Contracts",
@@ -265,72 +553,712 @@
       "executionScope": "tenant-envelope",
       "authorization": "Inbound Holdings adapter must validate producer identity, event identity/version, and trusted tenant scope.",
       "freshness": "Eventually consistent after the Registry transaction commits; reliable delivery is owned by Plan 02.",
-      "failureSemantics": ["duplicate:inbox-dedupe", "transient:retry", "invalid-schema:quarantine", "business-rejection:ack-and-audit"],
-      "loopPolicy": {"workflowIdentity": "registry-to-holdings-freeze", "causation": "required", "idempotency": "EventId inbox key", "termination": "Holding freeze does not republish class status"},
-      "fields": [
-        {"name": "classId", "classification": "C2", "purpose": "select affected positions", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
-        {"name": "fundId", "classification": "C2", "purpose": "preserve owning fund fact for reconciliation", "required": true, "retention": "projection audit policy", "logPolicy": "pseudonymize"},
-        {"name": "oldStatus", "classification": "C1", "purpose": "record the state transition", "required": true, "retention": "projection audit policy", "logPolicy": "allow-enum"},
-        {"name": "newStatus", "classification": "C1", "purpose": "decide whether positions must freeze", "required": true, "retention": "projection audit policy", "logPolicy": "allow-enum"}
+      "failureSemantics": [
+        "duplicate:inbox-dedupe",
+        "transient:retry",
+        "invalid-schema:quarantine",
+        "business-rejection:ack-and-audit"
       ],
-      "tests": ["tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs", "tests/IFX.Modules.Registry.Application.Tests", "tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs", "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"],
+      "loopPolicy": {
+        "workflowIdentity": "registry-to-holdings-freeze",
+        "causation": "required",
+        "idempotency": "EventId inbox key",
+        "termination": "Holding freeze does not republish class status"
+      },
+      "fields": [
+        {
+          "name": "classId",
+          "classification": "C2",
+          "purpose": "select affected positions",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "fundId",
+          "classification": "C2",
+          "purpose": "preserve owning fund fact for reconciliation",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "pseudonymize"
+        },
+        {
+          "name": "oldStatus",
+          "classification": "C1",
+          "purpose": "record the state transition",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "allow-enum"
+        },
+        {
+          "name": "newStatus",
+          "classification": "C1",
+          "purpose": "decide whether positions must freeze",
+          "required": true,
+          "retention": "projection audit policy",
+          "logPolicy": "allow-enum"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs",
+        "tests/IFX.Modules.Registry.Application.Tests",
+        "tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs",
+        "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"
+      ],
       "admissionEvidence": {
-        "source": ["src/Modules/Registry/IFX.Modules.Registry.Contracts/Events/V1/ClassStatusChangedV1.cs"],
-        "apiOrSchemaSnapshot": ["docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"],
-        "providerContractTests": ["tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs", "tests/IFX.Modules.Registry.Application.Tests"],
-        "consumerCompatibilityTests": ["tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs", "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"],
-        "providerApproval": ["G03-CR-004:Approved"],
-        "consumerApprovals": ["holdings-application:G03-CR-004:Approved"]
+        "source": [
+          "src/Modules/Registry/IFX.Modules.Registry.Contracts/Events/V1/ClassStatusChangedV1.cs"
+        ],
+        "apiOrSchemaSnapshot": [
+          "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json"
+        ],
+        "providerContractTests": [
+          "tests/IFX.Platform.ProtocolContracts.Tests/Plan02EventSchemaTests.cs",
+          "tests/IFX.Modules.Registry.Application.Tests"
+        ],
+        "consumerCompatibilityTests": [
+          "tests/IFX.Modules.Holdings.Application.Tests/Integrations/HoldingsInboxCommandHandlerTests.cs",
+          "tests/IFX.DatabaseBoundary.Tests/Plan02ReliableMessagingSqlServerTests.cs"
+        ],
+        "providerApproval": [
+          "G03-CR-004:Approved"
+        ],
+        "consumerApprovals": [
+          "holdings-application:G03-CR-004:Approved"
+        ]
       }
     }
   ],
   "publicSurface": [
-    {"id":"crm.reader","project":"IFX.Modules.CRM.Abstractions","type":"ICrmReader","kind":"reader","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Replace","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C4","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the legacy Reader was deleted after all callable surfaces were replaced, internalized, or removed."},
-    {"id":"crm.reader.get-party","project":"IFX.Modules.CRM.Abstractions","type":"ICrmReader","member":"GetPartyByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: no external consumer existed and the public member was removed."},
-    {"id":"crm.reader.get-investor","project":"IFX.Modules.CRM.Abstractions","type":"ICrmReader","member":"GetInvestorByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: no external consumer existed and the public member was removed."},
-    {"id":"crm.reader.investor-kyc","project":"IFX.Modules.CRM.Abstractions","type":"ICrmReader","member":"IsInvestorKycApprovedAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Remove","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the consumer audit remained empty and the public member was deleted."},
-    {"id":"crm.reader.account-kyc","project":"IFX.Modules.CRM.Abstractions","type":"ICrmReader","member":"IsInvestmentAccountKycApprovedAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Replace","targetIdentity":"crm.account-compliance.v1","consumerEvidence":["transaction-application"],"migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C4","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: Transaction uses its own port and adapter against Active crm.account-compliance.v1."},
-    {"id":"crm.reader.party-exists","project":"IFX.Modules.CRM.Abstractions","type":"ICrmReader","member":"PartyExistsAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Remove","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the consumer audit remained empty and the public member was deleted."},
-    {"id":"crm.dto.investor-summary","project":"IFX.Modules.CRM.Abstractions","type":"InvestorSummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the broad public DTO was removed instead of admitted."},
-    {"id":"crm.dto.party-summary","project":"IFX.Modules.CRM.Abstractions","type":"PartySummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the broad public DTO was removed instead of admitted."},
-    {"id":"crm.event.account-created","project":"IFX.Modules.CRM.Abstractions","type":"InvestmentAccountCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"crm.event.investor-created","project":"IFX.Modules.CRM.Abstractions","type":"InvestorCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"crm.event.investor-kyc-changed","project":"IFX.Modules.CRM.Abstractions","type":"InvestorKycStatusChangedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Internalize","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"Plan 02 either proves a projection consumer and introduces a reviewed event version or reclassifies/removes the legacy event."},
-    {"id":"crm.event.party-created","project":"IFX.Modules.CRM.Abstractions","type":"PartyCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"crm.event.party-relationship-created","project":"IFX.Modules.CRM.Abstractions","type":"PartyRelationshipCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"crm.event.party-status-changed","project":"IFX.Modules.CRM.Abstractions","type":"PartyStatusChangedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"registry.reader","project":"IFX.Modules.Registry.Abstractions","type":"IRegistryReader","kind":"reader","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Replace","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C4","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the legacy Reader was deleted after all callable surfaces were replaced, internalized, or removed."},
-    {"id":"registry.reader.get-fund","project":"IFX.Modules.Registry.Abstractions","type":"IRegistryReader","member":"GetFundByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: no external consumer existed and the public member was removed."},
-    {"id":"registry.reader.get-class","project":"IFX.Modules.Registry.Abstractions","type":"IRegistryReader","member":"GetClassByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: no external consumer existed and the public member was removed."},
-    {"id":"registry.reader.class-open","project":"IFX.Modules.Registry.Abstractions","type":"IRegistryReader","member":"IsClassOpenForSubscriptionAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Replace","targetIdentity":"registry.class-subscription-availability.v1","consumerEvidence":["transaction-application"],"migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C4","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: Transaction uses its own port and adapter against Active registry.class-subscription-availability.v1."},
-    {"id":"registry.reader.fund-exists","project":"IFX.Modules.Registry.Abstractions","type":"IRegistryReader","member":"FundExistsAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Remove","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the consumer audit remained empty and the public member was deleted."},
-    {"id":"registry.dto.class-summary","project":"IFX.Modules.Registry.Abstractions","type":"ClassSummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the broad public DTO was removed instead of admitted."},
-    {"id":"registry.dto.fund-summary","project":"IFX.Modules.Registry.Abstractions","type":"FundSummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the broad public DTO was removed instead of admitted."},
-    {"id":"registry.event.class-created","project":"IFX.Modules.Registry.Abstractions","type":"ClassCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"registry.event.class-status-changed","project":"IFX.Modules.Registry.Abstractions","type":"ClassStatusChangedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Replace","targetIdentity":"ifx.registry.class-status-changed.v1","consumerEvidence":["holdings-application"],"linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"The approved V1 envelope/schema and reliable Holdings adapter path are active, then the unversioned legacy event is deleted."},
-    {"id":"registry.event.fund-created","project":"IFX.Modules.Registry.Abstractions","type":"FundCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"registry.event.fund-status-changed","project":"IFX.Modules.Registry.Abstractions","type":"FundStatusChangedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"registry.event.product-created","project":"IFX.Modules.Registry.Abstractions","type":"ProductCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"registry.event.product-status-changed","project":"IFX.Modules.Registry.Abstractions","type":"ProductStatusChangedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"holdings.reader","project":"IFX.Modules.Holdings.Abstractions","type":"IHoldingsReader","kind":"reader","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unevidenced Reader surface was deleted."},
-    {"id":"holdings.reader.get-holding","project":"IFX.Modules.Holdings.Abstractions","type":"IHoldingsReader","member":"GetHoldingByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unevidenced public member was deleted."},
-    {"id":"holdings.reader.get-by-account","project":"IFX.Modules.Holdings.Abstractions","type":"IHoldingsReader","member":"GetHoldingsByInvestmentAccountAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: Holdings owns its query model and the public member was deleted."},
-    {"id":"holdings.reader.get-by-class","project":"IFX.Modules.Holdings.Abstractions","type":"IHoldingsReader","member":"GetHoldingsByClassAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: Holdings owns its query model and the public member was deleted."},
-    {"id":"holdings.dto.summary","project":"IFX.Modules.Holdings.Abstractions","type":"HoldingSummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: Holdings Application now owns the result model."},
-    {"id":"holdings.event.frozen","project":"IFX.Modules.Holdings.Abstractions","type":"HoldingFrozenEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No producer or consumer exists; delete the orphan declaration and any unused project reference."},
-    {"id":"transaction.reader","project":"IFX.Modules.Transaction.Abstractions","type":"ITransactionReader","kind":"reader","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unevidenced Reader surface was deleted."},
-    {"id":"transaction.reader.get-transaction","project":"IFX.Modules.Transaction.Abstractions","type":"ITransactionReader","member":"GetTransactionByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unevidenced public member was deleted."},
-    {"id":"transaction.reader.get-order","project":"IFX.Modules.Transaction.Abstractions","type":"ITransactionReader","member":"GetOrderByIdAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unevidenced public member was deleted."},
-    {"id":"transaction.reader.get-orders-by-account","project":"IFX.Modules.Transaction.Abstractions","type":"ITransactionReader","member":"GetOrdersByInvestmentAccountAsync","kind":"reader-method","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C1-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unevidenced public member was deleted."},
-    {"id":"transaction.dto.order-summary","project":"IFX.Modules.Transaction.Abstractions","type":"OrderSummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unused public DTO was deleted."},
-    {"id":"transaction.dto.transaction-summary","project":"IFX.Modules.Transaction.Abstractions","type":"TransactionSummaryDto","kind":"dto","owner":"xiaolong-feng","lifecycle":"Retired","disposition":"Internalize","migrationEvidence":"docs/architecture/review/evidence/plan01/B2-status.json","linkedPlan":"01-contracts-adapters-refactor.md:C2-C7","expiresAt":"2026-12-01","removalCondition":"Satisfied at B2: the unused public DTO was deleted."},
-    {"id":"transaction.event.order-accepted","project":"IFX.Modules.Transaction.Abstractions","type":"OrderAcceptedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"transaction.event.order-confirmed","project":"IFX.Modules.Transaction.Abstractions","type":"OrderConfirmedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"transaction.event.order-rejected","project":"IFX.Modules.Transaction.Abstractions","type":"OrderRejectedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"transaction.event.order-submitted","project":"IFX.Modules.Transaction.Abstractions","type":"OrderSubmittedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"transaction.event.cancelled","project":"IFX.Modules.Transaction.Abstractions","type":"TransactionCancelledEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"transaction.event.created","project":"IFX.Modules.Transaction.Abstractions","type":"TransactionCreatedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Remove","linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"No consumer evidence is supplied; publication and registration are removed."},
-    {"id":"transaction.event.processed","project":"IFX.Modules.Transaction.Abstractions","type":"TransactionProcessedEvent","kind":"integration-event","owner":"xiaolong-feng","lifecycle":"Retired","migrationEvidence":"docs/architecture/review/evidence/plan02/B3-status.json","disposition":"Replace","targetIdentity":"ifx.transaction.transaction-processed.v1","consumerEvidence":["holdings-application"],"linkedPlan":"02-reliable-integration-events.md:E0-E7","expiresAt":"2026-12-01","removalCondition":"The approved V1 envelope/schema and reliable Holdings adapter path are active, then the unversioned legacy event is deleted."}
+    {
+      "id": "crm.reader",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "ICrmReader",
+      "kind": "reader",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Replace",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C4",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the legacy Reader was deleted after all callable surfaces were replaced, internalized, or removed."
+    },
+    {
+      "id": "crm.reader.get-party",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "ICrmReader",
+      "member": "GetPartyByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: no external consumer existed and the public member was removed."
+    },
+    {
+      "id": "crm.reader.get-investor",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "ICrmReader",
+      "member": "GetInvestorByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: no external consumer existed and the public member was removed."
+    },
+    {
+      "id": "crm.reader.investor-kyc",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "ICrmReader",
+      "member": "IsInvestorKycApprovedAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Remove",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the consumer audit remained empty and the public member was deleted."
+    },
+    {
+      "id": "crm.reader.account-kyc",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "ICrmReader",
+      "member": "IsInvestmentAccountKycApprovedAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Replace",
+      "targetIdentity": "crm.account-compliance.v1",
+      "consumerEvidence": [
+        "transaction-application"
+      ],
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C4",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: Transaction uses its own port and adapter against Active crm.account-compliance.v1."
+    },
+    {
+      "id": "crm.reader.party-exists",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "ICrmReader",
+      "member": "PartyExistsAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Remove",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the consumer audit remained empty and the public member was deleted."
+    },
+    {
+      "id": "crm.dto.investor-summary",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "InvestorSummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the broad public DTO was removed instead of admitted."
+    },
+    {
+      "id": "crm.dto.party-summary",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "PartySummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the broad public DTO was removed instead of admitted."
+    },
+    {
+      "id": "crm.event.account-created",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "InvestmentAccountCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "crm.event.investor-created",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "InvestorCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "crm.event.investor-kyc-changed",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "InvestorKycStatusChangedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Internalize",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Plan 02 either proves a projection consumer and introduces a reviewed event version or reclassifies/removes the legacy event."
+    },
+    {
+      "id": "crm.event.party-created",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "PartyCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "crm.event.party-relationship-created",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "PartyRelationshipCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "crm.event.party-status-changed",
+      "project": "IFX.Modules.CRM.Abstractions",
+      "type": "PartyStatusChangedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "registry.reader",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "IRegistryReader",
+      "kind": "reader",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Replace",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C4",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the legacy Reader was deleted after all callable surfaces were replaced, internalized, or removed."
+    },
+    {
+      "id": "registry.reader.get-fund",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "IRegistryReader",
+      "member": "GetFundByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: no external consumer existed and the public member was removed."
+    },
+    {
+      "id": "registry.reader.get-class",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "IRegistryReader",
+      "member": "GetClassByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: no external consumer existed and the public member was removed."
+    },
+    {
+      "id": "registry.reader.class-open",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "IRegistryReader",
+      "member": "IsClassOpenForSubscriptionAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Replace",
+      "targetIdentity": "registry.class-subscription-availability.v1",
+      "consumerEvidence": [
+        "transaction-application"
+      ],
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C4",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: Transaction uses its own port and adapter against Active registry.class-subscription-availability.v1."
+    },
+    {
+      "id": "registry.reader.fund-exists",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "IRegistryReader",
+      "member": "FundExistsAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Remove",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the consumer audit remained empty and the public member was deleted."
+    },
+    {
+      "id": "registry.dto.class-summary",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "ClassSummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the broad public DTO was removed instead of admitted."
+    },
+    {
+      "id": "registry.dto.fund-summary",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "FundSummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the broad public DTO was removed instead of admitted."
+    },
+    {
+      "id": "registry.event.class-created",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "ClassCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "registry.event.class-status-changed",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "ClassStatusChangedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Replace",
+      "targetIdentity": "ifx.registry.class-status-changed.v1",
+      "consumerEvidence": [
+        "holdings-application"
+      ],
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "The approved V1 envelope/schema and reliable Holdings adapter path are active, then the unversioned legacy event is deleted."
+    },
+    {
+      "id": "registry.event.fund-created",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "FundCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "registry.event.fund-status-changed",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "FundStatusChangedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "registry.event.product-created",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "ProductCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "registry.event.product-status-changed",
+      "project": "IFX.Modules.Registry.Abstractions",
+      "type": "ProductStatusChangedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "holdings.reader",
+      "project": "IFX.Modules.Holdings.Abstractions",
+      "type": "IHoldingsReader",
+      "kind": "reader",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unevidenced Reader surface was deleted."
+    },
+    {
+      "id": "holdings.reader.get-holding",
+      "project": "IFX.Modules.Holdings.Abstractions",
+      "type": "IHoldingsReader",
+      "member": "GetHoldingByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unevidenced public member was deleted."
+    },
+    {
+      "id": "holdings.reader.get-by-account",
+      "project": "IFX.Modules.Holdings.Abstractions",
+      "type": "IHoldingsReader",
+      "member": "GetHoldingsByInvestmentAccountAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: Holdings owns its query model and the public member was deleted."
+    },
+    {
+      "id": "holdings.reader.get-by-class",
+      "project": "IFX.Modules.Holdings.Abstractions",
+      "type": "IHoldingsReader",
+      "member": "GetHoldingsByClassAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: Holdings owns its query model and the public member was deleted."
+    },
+    {
+      "id": "holdings.dto.summary",
+      "project": "IFX.Modules.Holdings.Abstractions",
+      "type": "HoldingSummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: Holdings Application now owns the result model."
+    },
+    {
+      "id": "holdings.event.frozen",
+      "project": "IFX.Modules.Holdings.Abstractions",
+      "type": "HoldingFrozenEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No producer or consumer exists; delete the orphan declaration and any unused project reference."
+    },
+    {
+      "id": "transaction.reader",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "ITransactionReader",
+      "kind": "reader",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unevidenced Reader surface was deleted."
+    },
+    {
+      "id": "transaction.reader.get-transaction",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "ITransactionReader",
+      "member": "GetTransactionByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unevidenced public member was deleted."
+    },
+    {
+      "id": "transaction.reader.get-order",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "ITransactionReader",
+      "member": "GetOrderByIdAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unevidenced public member was deleted."
+    },
+    {
+      "id": "transaction.reader.get-orders-by-account",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "ITransactionReader",
+      "member": "GetOrdersByInvestmentAccountAsync",
+      "kind": "reader-method",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C1-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unevidenced public member was deleted."
+    },
+    {
+      "id": "transaction.dto.order-summary",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "OrderSummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unused public DTO was deleted."
+    },
+    {
+      "id": "transaction.dto.transaction-summary",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "TransactionSummaryDto",
+      "kind": "dto",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "disposition": "Internalize",
+      "migrationEvidence": "docs/architecture/review/evidence/plan01/B2-status.json",
+      "linkedPlan": "01-contracts-adapters-refactor.md:C2-C7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "Satisfied at B2: the unused public DTO was deleted."
+    },
+    {
+      "id": "transaction.event.order-accepted",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "OrderAcceptedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "transaction.event.order-confirmed",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "OrderConfirmedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "transaction.event.order-rejected",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "OrderRejectedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "transaction.event.order-submitted",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "OrderSubmittedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "transaction.event.cancelled",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "TransactionCancelledEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "transaction.event.created",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "TransactionCreatedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Remove",
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "No consumer evidence is supplied; publication and registration are removed."
+    },
+    {
+      "id": "transaction.event.processed",
+      "project": "IFX.Modules.Transaction.Abstractions",
+      "type": "TransactionProcessedEvent",
+      "kind": "integration-event",
+      "owner": "xiaolong-feng",
+      "lifecycle": "Retired",
+      "migrationEvidence": "docs/architecture/review/evidence/plan02/B3-status.json",
+      "disposition": "Replace",
+      "targetIdentity": "ifx.transaction.transaction-processed.v1",
+      "consumerEvidence": [
+        "holdings-application"
+      ],
+      "linkedPlan": "02-reliable-integration-events.md:E0-E7",
+      "expiresAt": "2026-12-01",
+      "removalCondition": "The approved V1 envelope/schema and reliable Holdings adapter path are active, then the unversioned legacy event is deleted."
+    }
   ],
   "fieldGovernance": {
     "authority": "Field records in this catalog are the sole admission source; generated views and Gate evidence must not become a second catalog.",
@@ -341,9 +1269,29 @@
       "C3": "restricted personal, compliance, credential-adjacent or free-text data requiring explicit exception review",
       "C4": "secret or authentication material forbidden from every public Contract/Event"
     },
-    "logPolicyByClassification": {"C0":"allow-bounded","C1":"allow-low-cardinality","C2":"keyed-hmac-pseudonym-or-redact","C3":"redact","C4":"drop"},
+    "logPolicyByClassification": {
+      "C0": "allow-bounded",
+      "C1": "allow-low-cardinality",
+      "C2": "keyed-hmac-pseudonym-or-redact",
+      "C3": "redact",
+      "C4": "drop"
+    },
     "metadataInheritance": "Each field inherits consumers and retention from its fieldSurface and logPolicy from its classification unless an explicit stricter override exists. required and purpose remain field-local; C3 requires exceptionRef.",
-    "c4Denylist": ["password","password hash","access token","refresh token","authorization header","cookie","session token","one-time password","otp","api secret","client secret","private key","connection string"],
+    "c4Denylist": [
+      "password",
+      "password hash",
+      "access token",
+      "refresh token",
+      "authorization header",
+      "cookie",
+      "session token",
+      "one-time password",
+      "otp",
+      "api secret",
+      "client secret",
+      "private key",
+      "connection string"
+    ],
     "semanticRules": [
       "Renaming, truncating, serializer-ignore or ordinary hashing does not reduce classification.",
       "Credential, authenticator, session continuation or decryption capability is C4 regardless of field name.",
@@ -353,103 +1301,1954 @@
     ]
   },
   "fieldSurfaces": [
-    {"id":"crm.account-compliance.v1","kind":"target-protocol","source":"protocols","consumers":["transaction-application"],"retention":"request or decision lifetime","fieldsFromProtocol":true},
-    {"id":"registry.class-subscription-availability.v1","kind":"target-protocol","source":"protocols","consumers":["transaction-application"],"retention":"request or decision lifetime","fieldsFromProtocol":true},
-    {"id":"ifx.transaction.transaction-processed.v1","kind":"target-protocol","source":"protocols","consumers":["holdings-application"],"retention":"approved projection and financial-record policy","fieldsFromProtocol":true},
-    {"id":"ifx.registry.class-status-changed.v1","kind":"target-protocol","source":"protocols","consumers":["holdings-application"],"retention":"approved projection audit policy","fieldsFromProtocol":true},
-    {"id":"messaging.event-envelope.v1","kind":"event-envelope","source":"IFX.Platform.Messaging.Contracts.Messaging.EventEnvelope","consumers":["all-registered-event-consumers"],"retention":"same as owning logical event; delivery metadata is separate","fields":[
-      {"name":"EnvelopeVersion","classification":"C0","purpose":"select envelope parser","required":true},{"name":"EventId","classification":"C2","purpose":"logical identity and Inbox dedupe","required":true},{"name":"EventType","classification":"C0","purpose":"select provider-owned schema","required":true},{"name":"SchemaVersion","classification":"C0","purpose":"select schema version","required":true},{"name":"OccurredAt","classification":"C1","purpose":"record business fact occurrence time","required":true},{"name":"Producer","classification":"C1","purpose":"validate registered producer","required":true},{"name":"Scope","classification":"C0","purpose":"discriminate tenant or platform execution","required":true},{"name":"TenantId","classification":"C2","purpose":"enforce tenant scope","required":false},{"name":"CorrelationId","classification":"C2","purpose":"join one business chain","required":true},{"name":"CausationId","classification":"C2","purpose":"record direct upstream cause","required":true},{"name":"ContentType","classification":"C0","purpose":"select payload decoder","required":true},{"name":"TraceParent","classification":"C2","purpose":"continue optional technical trace","required":false},{"name":"TraceState","classification":"C2","purpose":"carry bounded optional vendor trace state","required":false},{"name":"Provenance","classification":"C1","purpose":"distinguish trusted from compatibility-synthesized context","required":true}]},
-    {"id":"crm.dto.investor-summary","kind":"legacy-dto","source":"InvestorSummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"InvestorId","classification":"C2","purpose":"identify investor","required":true},{"name":"InvestorCode","classification":"C2","purpose":"legacy investor business reference","required":true},{"name":"Name","classification":"C3","purpose":"legacy display only; no public consumer evidenced","required":true,"exceptionRef":"G05-C3-002"},{"name":"LegalStructure","classification":"C1","purpose":"legacy investor category","required":true},{"name":"KycStatus","classification":"C3","purpose":"legacy compliance summary; replace with capability decision","required":true,"exceptionRef":"G05-C3-002"},{"name":"TaxResidencyCountry","classification":"C3","purpose":"legacy tax residency detail; no public consumer evidenced","required":false,"exceptionRef":"G05-C3-002"},{"name":"Status","classification":"C1","purpose":"legacy investor lifecycle state","required":true}]},
-    {"id":"crm.dto.party-summary","kind":"legacy-dto","source":"PartySummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"PartyId","classification":"C2","purpose":"identify party","required":true},{"name":"PartyCode","classification":"C2","purpose":"legacy party business reference","required":true},{"name":"Name","classification":"C3","purpose":"legacy display only; no public consumer evidenced","required":true,"exceptionRef":"G05-C3-003"},{"name":"LegalStructure","classification":"C1","purpose":"legacy party category","required":true},{"name":"Status","classification":"C1","purpose":"legacy party lifecycle state","required":true}]},
-    {"id":"registry.dto.class-summary","kind":"legacy-dto","source":"ClassSummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"ClassId","classification":"C2","purpose":"identify fund class","required":true},{"name":"FundId","classification":"C2","purpose":"identify owning fund","required":true},{"name":"ClassCode","classification":"C2","purpose":"legacy class business reference","required":true},{"name":"ClassName","classification":"C1","purpose":"display product class name","required":true},{"name":"Currency","classification":"C1","purpose":"identify denomination","required":true},{"name":"NavFrequency","classification":"C1","purpose":"describe valuation schedule","required":true},{"name":"Status","classification":"C1","purpose":"class lifecycle state","required":true},{"name":"IsOpenForSubscription","classification":"C1","purpose":"legacy availability summary; replace with capability decision","required":true}]},
-    {"id":"registry.dto.fund-summary","kind":"legacy-dto","source":"FundSummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"FundId","classification":"C2","purpose":"identify fund","required":true},{"name":"FundCode","classification":"C2","purpose":"legacy fund business reference","required":true},{"name":"FundName","classification":"C1","purpose":"display product name","required":true},{"name":"FundType","classification":"C1","purpose":"fund category","required":true},{"name":"BaseCurrency","classification":"C1","purpose":"identify denomination","required":true},{"name":"Status","classification":"C1","purpose":"fund lifecycle state","required":true}]},
-    {"id":"holdings.dto.summary","kind":"legacy-dto","source":"HoldingSummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"HoldingId","classification":"C2","purpose":"identify holding","required":true},{"name":"TenantId","classification":"C2","purpose":"legacy tenant scope","required":true},{"name":"InvestmentAccountId","classification":"C2","purpose":"identify owning investment account","required":true},{"name":"ClassId","classification":"C2","purpose":"identify held class","required":true},{"name":"Units","classification":"C2","purpose":"report financial position quantity","required":true,"logPolicy":"redact"},{"name":"Status","classification":"C1","purpose":"holding lifecycle state","required":true},{"name":"LastTransactionAt","classification":"C1","purpose":"report position freshness","required":false},{"name":"CreatedAt","classification":"C1","purpose":"report creation time","required":true},{"name":"UpdatedAt","classification":"C1","purpose":"report update time","required":true}]},
-    {"id":"transaction.dto.order-summary","kind":"legacy-dto","source":"OrderSummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"OrderId","classification":"C2","purpose":"identify order","required":true},{"name":"TenantId","classification":"C2","purpose":"legacy tenant scope","required":true},{"name":"OrderType","classification":"C1","purpose":"order category","required":true},{"name":"OrderReference","classification":"C2","purpose":"order business reference","required":true},{"name":"DealReference","classification":"C2","purpose":"optional execution reference","required":false},{"name":"Status","classification":"C1","purpose":"order lifecycle state","required":true},{"name":"LegCount","classification":"C1","purpose":"describe bounded order structure","required":true},{"name":"CreatedAt","classification":"C1","purpose":"report order creation time","required":true}]},
-    {"id":"transaction.dto.transaction-summary","kind":"legacy-dto","source":"TransactionSummaryDto","consumers":["provider-internal-only-no-external-consumer-evidenced"],"retention":"request lifetime; remove public surface by 2026-12-01","fields":[
-      {"name":"TransactionId","classification":"C2","purpose":"identify transaction","required":true},{"name":"TenantId","classification":"C2","purpose":"legacy tenant scope","required":true},{"name":"TransactionType","classification":"C1","purpose":"transaction category","required":true},{"name":"InvestmentAccountId","classification":"C2","purpose":"identify affected account","required":true},{"name":"ClassId","classification":"C2","purpose":"identify affected class","required":true},{"name":"Amount","classification":"C2","purpose":"report transaction financial amount","required":true,"logPolicy":"redact"},{"name":"Status","classification":"C1","purpose":"transaction lifecycle state","required":true}]},
-    {"id":"crm.event.account-created","kind":"legacy-event","source":"InvestmentAccountCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"InvestmentAccountId","classification":"C2","purpose":"identify created account","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"AccountNumber","classification":"C3","purpose":"unnecessary financial identifier; remove","required":true,"exceptionRef":"G05-C3-004"},{"name":"AccountType","classification":"C1","purpose":"legacy account category","required":true}]},
-    {"id":"crm.event.investor-created","kind":"legacy-event","source":"InvestorCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"InvestorId","classification":"C2","purpose":"identify investor","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"InvestorCode","classification":"C2","purpose":"unnecessary business code; remove","required":true},{"name":"Name","classification":"C3","purpose":"unnecessary personal name; remove","required":true,"exceptionRef":"G05-C3-005"}]},
-    {"id":"crm.event.investor-kyc-changed","kind":"legacy-event","source":"InvestorKycStatusChangedEvent","consumers":["provider-internal-only-pending-decision"],"retention":"internalize or replace by 2026-12-01","fields":[{"name":"InvestorId","classification":"C2","purpose":"identify compliance subject","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"OldStatus","classification":"C3","purpose":"restricted compliance transition","required":true,"exceptionRef":"G05-C3-006"},{"name":"NewStatus","classification":"C3","purpose":"restricted compliance transition","required":true,"exceptionRef":"G05-C3-006"}]},
-    {"id":"crm.event.party-created","kind":"legacy-event","source":"PartyCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"PartyId","classification":"C2","purpose":"identify party","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"PartyCode","classification":"C2","purpose":"unnecessary business code; remove","required":true},{"name":"Name","classification":"C3","purpose":"unnecessary personal or legal name; remove","required":true,"exceptionRef":"G05-C3-007"}]},
-    {"id":"crm.event.party-relationship-created","kind":"legacy-event","source":"PartyRelationshipCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"RelationshipId","classification":"C2","purpose":"identify relationship","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"FromPartyId","classification":"C2","purpose":"identify source party","required":true},{"name":"ToPartyId","classification":"C2","purpose":"identify target party","required":true},{"name":"RelationshipType","classification":"C1","purpose":"relationship category","required":true}]},
-    {"id":"crm.event.party-status-changed","kind":"legacy-event","source":"PartyStatusChangedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"PartyId","classification":"C2","purpose":"identify party","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"OldStatus","classification":"C1","purpose":"record prior lifecycle state","required":true},{"name":"NewStatus","classification":"C1","purpose":"record new lifecycle state","required":true}]},
-    {"id":"registry.event.class-created","kind":"legacy-event","source":"ClassCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"ClassId","classification":"C2","purpose":"identify class","required":true},{"name":"FundId","classification":"C2","purpose":"identify owning fund","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"ClassCode","classification":"C2","purpose":"unnecessary business code; remove","required":true}]},
-    {"id":"registry.event.class-status-changed","kind":"legacy-event","source":"ClassStatusChangedEvent","consumers":["holdings-application"],"retention":"replace with approved V1 projection policy by 2026-12-01","fields":[{"name":"ClassId","classification":"C2","purpose":"identify affected class","required":true},{"name":"FundId","classification":"C2","purpose":"support projection reconciliation","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"OldStatus","classification":"C1","purpose":"record prior class state","required":true},{"name":"NewStatus","classification":"C1","purpose":"drive holding freeze decision","required":true}]},
-    {"id":"registry.event.fund-created","kind":"legacy-event","source":"FundCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"FundId","classification":"C2","purpose":"identify fund","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"FundCode","classification":"C2","purpose":"unnecessary business code; remove","required":true},{"name":"FundName","classification":"C1","purpose":"unnecessary display name; remove","required":true}]},
-    {"id":"registry.event.fund-status-changed","kind":"legacy-event","source":"FundStatusChangedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"FundId","classification":"C2","purpose":"identify fund","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"OldStatus","classification":"C1","purpose":"record prior fund state","required":true},{"name":"NewStatus","classification":"C1","purpose":"record new fund state","required":true}]},
-    {"id":"registry.event.product-created","kind":"legacy-event","source":"ProductCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"ProductId","classification":"C2","purpose":"identify product","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"ProductCode","classification":"C2","purpose":"unnecessary business code; remove","required":true},{"name":"ProductName","classification":"C1","purpose":"unnecessary display name; remove","required":true}]},
-    {"id":"registry.event.product-status-changed","kind":"legacy-event","source":"ProductStatusChangedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"ProductId","classification":"C2","purpose":"identify product","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"NewStatus","classification":"C1","purpose":"record new product state","required":true}]},
-    {"id":"holdings.event.frozen","kind":"legacy-event","source":"HoldingFrozenEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"HoldingId","classification":"C2","purpose":"identify holding","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"ClassId","classification":"C2","purpose":"identify class","required":true},{"name":"InvestmentAccountId","classification":"C2","purpose":"identify investment account","required":true}]},
-    {"id":"transaction.event.order-accepted","kind":"legacy-event","source":"OrderAcceptedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"OrderId","classification":"C2","purpose":"identify order","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"DealReference","classification":"C2","purpose":"legacy execution reference","required":true}]},
-    {"id":"transaction.event.order-confirmed","kind":"legacy-event","source":"OrderConfirmedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"OrderId","classification":"C2","purpose":"identify order","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"OrderType","classification":"C1","purpose":"order category","required":true},{"name":"InvestmentAccountId","classification":"C2","purpose":"identify account","required":true}]},
-    {"id":"transaction.event.order-rejected","kind":"legacy-event","source":"OrderRejectedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"OrderId","classification":"C2","purpose":"identify order","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"RejectionReason","classification":"C3","purpose":"unbounded legacy free text; replace with stable reason code","required":true,"exceptionRef":"G05-C3-008"}]},
-    {"id":"transaction.event.order-submitted","kind":"legacy-event","source":"OrderSubmittedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"OrderId","classification":"C2","purpose":"identify order","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"OrderType","classification":"C1","purpose":"order category","required":true},{"name":"OrderReference","classification":"C2","purpose":"legacy order business reference","required":true},{"name":"LegCount","classification":"C1","purpose":"bounded order structure","required":true}]},
-    {"id":"transaction.event.cancelled","kind":"legacy-event","source":"TransactionCancelledEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"TransactionId","classification":"C2","purpose":"identify transaction","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true}]},
-    {"id":"transaction.event.created","kind":"legacy-event","source":"TransactionCreatedEvent","consumers":["none-evidenced-remove"],"retention":"delete with legacy event by 2026-12-01","fields":[{"name":"TransactionId","classification":"C2","purpose":"identify transaction","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"TransactionType","classification":"C1","purpose":"transaction category","required":true},{"name":"InvestmentAccountId","classification":"C2","purpose":"identify account","required":true},{"name":"ClassId","classification":"C2","purpose":"identify class","required":true},{"name":"Amount","classification":"C2","purpose":"legacy financial amount; remove with unconsumed event","required":true,"logPolicy":"redact"}]},
-    {"id":"transaction.event.processed","kind":"legacy-event","source":"TransactionProcessedEvent","consumers":["holdings-application"],"retention":"replace with approved V1 financial projection policy by 2026-12-01","fields":[{"name":"TransactionId","classification":"C2","purpose":"idempotent business reference","required":true},{"name":"TenantId","classification":"C2","purpose":"duplicate legacy tenant scope; remove in favor of Envelope","required":true},{"name":"TransactionType","classification":"C1","purpose":"select projection operation","required":true},{"name":"InvestmentAccountId","classification":"C2","purpose":"select account position","required":true},{"name":"ClassId","classification":"C2","purpose":"select class position","required":true},{"name":"TargetClassId","classification":"C2","purpose":"optional destination position","required":false},{"name":"Units","classification":"C2","purpose":"apply financial position delta","required":true,"logPolicy":"redact"},{"name":"NAVPrice","classification":"C2","purpose":"retain transaction valuation fact","required":true,"logPolicy":"redact"}]}
+    {
+      "id": "crm.account-compliance.v1",
+      "kind": "target-protocol",
+      "source": "protocols",
+      "consumers": [
+        "transaction-application"
+      ],
+      "retention": "request or decision lifetime",
+      "fieldsFromProtocol": true
+    },
+    {
+      "id": "registry.class-subscription-availability.v1",
+      "kind": "target-protocol",
+      "source": "protocols",
+      "consumers": [
+        "transaction-application"
+      ],
+      "retention": "request or decision lifetime",
+      "fieldsFromProtocol": true
+    },
+    {
+      "id": "ifx.transaction.transaction-processed.v1",
+      "kind": "target-protocol",
+      "source": "protocols",
+      "consumers": [
+        "holdings-application"
+      ],
+      "retention": "approved projection and financial-record policy",
+      "fieldsFromProtocol": true
+    },
+    {
+      "id": "ifx.registry.class-status-changed.v1",
+      "kind": "target-protocol",
+      "source": "protocols",
+      "consumers": [
+        "holdings-application"
+      ],
+      "retention": "approved projection audit policy",
+      "fieldsFromProtocol": true
+    },
+    {
+      "id": "messaging.event-envelope.v1",
+      "kind": "event-envelope",
+      "source": "IFX.Platform.Messaging.Contracts.Messaging.EventEnvelope",
+      "consumers": [
+        "all-registered-event-consumers"
+      ],
+      "retention": "same as owning logical event; delivery metadata is separate",
+      "fields": [
+        {
+          "name": "EnvelopeVersion",
+          "classification": "C0",
+          "purpose": "select envelope parser",
+          "required": true
+        },
+        {
+          "name": "EventId",
+          "classification": "C2",
+          "purpose": "logical identity and Inbox dedupe",
+          "required": true
+        },
+        {
+          "name": "EventType",
+          "classification": "C0",
+          "purpose": "select provider-owned schema",
+          "required": true
+        },
+        {
+          "name": "SchemaVersion",
+          "classification": "C0",
+          "purpose": "select schema version",
+          "required": true
+        },
+        {
+          "name": "OccurredAt",
+          "classification": "C1",
+          "purpose": "record business fact occurrence time",
+          "required": true
+        },
+        {
+          "name": "Producer",
+          "classification": "C1",
+          "purpose": "validate registered producer",
+          "required": true
+        },
+        {
+          "name": "Scope",
+          "classification": "C0",
+          "purpose": "discriminate tenant or platform execution",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "enforce tenant scope",
+          "required": false
+        },
+        {
+          "name": "CorrelationId",
+          "classification": "C2",
+          "purpose": "join one business chain",
+          "required": true
+        },
+        {
+          "name": "CausationId",
+          "classification": "C2",
+          "purpose": "record direct upstream cause",
+          "required": true
+        },
+        {
+          "name": "ContentType",
+          "classification": "C0",
+          "purpose": "select payload decoder",
+          "required": true
+        },
+        {
+          "name": "TraceParent",
+          "classification": "C2",
+          "purpose": "continue optional technical trace",
+          "required": false
+        },
+        {
+          "name": "TraceState",
+          "classification": "C2",
+          "purpose": "carry bounded optional vendor trace state",
+          "required": false
+        },
+        {
+          "name": "Provenance",
+          "classification": "C1",
+          "purpose": "distinguish trusted from compatibility-synthesized context",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "crm.dto.investor-summary",
+      "kind": "legacy-dto",
+      "source": "InvestorSummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "InvestorId",
+          "classification": "C2",
+          "purpose": "identify investor",
+          "required": true
+        },
+        {
+          "name": "InvestorCode",
+          "classification": "C2",
+          "purpose": "legacy investor business reference",
+          "required": true
+        },
+        {
+          "name": "Name",
+          "classification": "C3",
+          "purpose": "legacy display only; no public consumer evidenced",
+          "required": true,
+          "exceptionRef": "G05-C3-002"
+        },
+        {
+          "name": "LegalStructure",
+          "classification": "C1",
+          "purpose": "legacy investor category",
+          "required": true
+        },
+        {
+          "name": "KycStatus",
+          "classification": "C3",
+          "purpose": "legacy compliance summary; replace with capability decision",
+          "required": true,
+          "exceptionRef": "G05-C3-002"
+        },
+        {
+          "name": "TaxResidencyCountry",
+          "classification": "C3",
+          "purpose": "legacy tax residency detail; no public consumer evidenced",
+          "required": false,
+          "exceptionRef": "G05-C3-002"
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "legacy investor lifecycle state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "crm.dto.party-summary",
+      "kind": "legacy-dto",
+      "source": "PartySummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "PartyId",
+          "classification": "C2",
+          "purpose": "identify party",
+          "required": true
+        },
+        {
+          "name": "PartyCode",
+          "classification": "C2",
+          "purpose": "legacy party business reference",
+          "required": true
+        },
+        {
+          "name": "Name",
+          "classification": "C3",
+          "purpose": "legacy display only; no public consumer evidenced",
+          "required": true,
+          "exceptionRef": "G05-C3-003"
+        },
+        {
+          "name": "LegalStructure",
+          "classification": "C1",
+          "purpose": "legacy party category",
+          "required": true
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "legacy party lifecycle state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.dto.class-summary",
+      "kind": "legacy-dto",
+      "source": "ClassSummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify fund class",
+          "required": true
+        },
+        {
+          "name": "FundId",
+          "classification": "C2",
+          "purpose": "identify owning fund",
+          "required": true
+        },
+        {
+          "name": "ClassCode",
+          "classification": "C2",
+          "purpose": "legacy class business reference",
+          "required": true
+        },
+        {
+          "name": "ClassName",
+          "classification": "C1",
+          "purpose": "display product class name",
+          "required": true
+        },
+        {
+          "name": "Currency",
+          "classification": "C1",
+          "purpose": "identify denomination",
+          "required": true
+        },
+        {
+          "name": "NavFrequency",
+          "classification": "C1",
+          "purpose": "describe valuation schedule",
+          "required": true
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "class lifecycle state",
+          "required": true
+        },
+        {
+          "name": "IsOpenForSubscription",
+          "classification": "C1",
+          "purpose": "legacy availability summary; replace with capability decision",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.dto.fund-summary",
+      "kind": "legacy-dto",
+      "source": "FundSummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "FundId",
+          "classification": "C2",
+          "purpose": "identify fund",
+          "required": true
+        },
+        {
+          "name": "FundCode",
+          "classification": "C2",
+          "purpose": "legacy fund business reference",
+          "required": true
+        },
+        {
+          "name": "FundName",
+          "classification": "C1",
+          "purpose": "display product name",
+          "required": true
+        },
+        {
+          "name": "FundType",
+          "classification": "C1",
+          "purpose": "fund category",
+          "required": true
+        },
+        {
+          "name": "BaseCurrency",
+          "classification": "C1",
+          "purpose": "identify denomination",
+          "required": true
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "fund lifecycle state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "holdings.dto.summary",
+      "kind": "legacy-dto",
+      "source": "HoldingSummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "HoldingId",
+          "classification": "C2",
+          "purpose": "identify holding",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "legacy tenant scope",
+          "required": true
+        },
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "identify owning investment account",
+          "required": true
+        },
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify held class",
+          "required": true
+        },
+        {
+          "name": "Units",
+          "classification": "C2",
+          "purpose": "report financial position quantity",
+          "required": true,
+          "logPolicy": "redact"
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "holding lifecycle state",
+          "required": true
+        },
+        {
+          "name": "LastTransactionAt",
+          "classification": "C1",
+          "purpose": "report position freshness",
+          "required": false
+        },
+        {
+          "name": "CreatedAt",
+          "classification": "C1",
+          "purpose": "report creation time",
+          "required": true
+        },
+        {
+          "name": "UpdatedAt",
+          "classification": "C1",
+          "purpose": "report update time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.dto.order-summary",
+      "kind": "legacy-dto",
+      "source": "OrderSummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "OrderId",
+          "classification": "C2",
+          "purpose": "identify order",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "legacy tenant scope",
+          "required": true
+        },
+        {
+          "name": "OrderType",
+          "classification": "C1",
+          "purpose": "order category",
+          "required": true
+        },
+        {
+          "name": "OrderReference",
+          "classification": "C2",
+          "purpose": "order business reference",
+          "required": true
+        },
+        {
+          "name": "DealReference",
+          "classification": "C2",
+          "purpose": "optional execution reference",
+          "required": false
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "order lifecycle state",
+          "required": true
+        },
+        {
+          "name": "LegCount",
+          "classification": "C1",
+          "purpose": "describe bounded order structure",
+          "required": true
+        },
+        {
+          "name": "CreatedAt",
+          "classification": "C1",
+          "purpose": "report order creation time",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.dto.transaction-summary",
+      "kind": "legacy-dto",
+      "source": "TransactionSummaryDto",
+      "consumers": [
+        "provider-internal-only-no-external-consumer-evidenced"
+      ],
+      "retention": "request lifetime; remove public surface by 2026-12-01",
+      "fields": [
+        {
+          "name": "TransactionId",
+          "classification": "C2",
+          "purpose": "identify transaction",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "legacy tenant scope",
+          "required": true
+        },
+        {
+          "name": "TransactionType",
+          "classification": "C1",
+          "purpose": "transaction category",
+          "required": true
+        },
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "identify affected account",
+          "required": true
+        },
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify affected class",
+          "required": true
+        },
+        {
+          "name": "Amount",
+          "classification": "C2",
+          "purpose": "report transaction financial amount",
+          "required": true,
+          "logPolicy": "redact"
+        },
+        {
+          "name": "Status",
+          "classification": "C1",
+          "purpose": "transaction lifecycle state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "crm.event.account-created",
+      "kind": "legacy-event",
+      "source": "InvestmentAccountCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "identify created account",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "AccountNumber",
+          "classification": "C3",
+          "purpose": "unnecessary financial identifier; remove",
+          "required": true,
+          "exceptionRef": "G05-C3-004"
+        },
+        {
+          "name": "AccountType",
+          "classification": "C1",
+          "purpose": "legacy account category",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "crm.event.investor-created",
+      "kind": "legacy-event",
+      "source": "InvestorCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "InvestorId",
+          "classification": "C2",
+          "purpose": "identify investor",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "InvestorCode",
+          "classification": "C2",
+          "purpose": "unnecessary business code; remove",
+          "required": true
+        },
+        {
+          "name": "Name",
+          "classification": "C3",
+          "purpose": "unnecessary personal name; remove",
+          "required": true,
+          "exceptionRef": "G05-C3-005"
+        }
+      ]
+    },
+    {
+      "id": "crm.event.investor-kyc-changed",
+      "kind": "legacy-event",
+      "source": "InvestorKycStatusChangedEvent",
+      "consumers": [
+        "provider-internal-only-pending-decision"
+      ],
+      "retention": "internalize or replace by 2026-12-01",
+      "fields": [
+        {
+          "name": "InvestorId",
+          "classification": "C2",
+          "purpose": "identify compliance subject",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "OldStatus",
+          "classification": "C3",
+          "purpose": "restricted compliance transition",
+          "required": true,
+          "exceptionRef": "G05-C3-006"
+        },
+        {
+          "name": "NewStatus",
+          "classification": "C3",
+          "purpose": "restricted compliance transition",
+          "required": true,
+          "exceptionRef": "G05-C3-006"
+        }
+      ]
+    },
+    {
+      "id": "crm.event.party-created",
+      "kind": "legacy-event",
+      "source": "PartyCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "PartyId",
+          "classification": "C2",
+          "purpose": "identify party",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "PartyCode",
+          "classification": "C2",
+          "purpose": "unnecessary business code; remove",
+          "required": true
+        },
+        {
+          "name": "Name",
+          "classification": "C3",
+          "purpose": "unnecessary personal or legal name; remove",
+          "required": true,
+          "exceptionRef": "G05-C3-007"
+        }
+      ]
+    },
+    {
+      "id": "crm.event.party-relationship-created",
+      "kind": "legacy-event",
+      "source": "PartyRelationshipCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "RelationshipId",
+          "classification": "C2",
+          "purpose": "identify relationship",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "FromPartyId",
+          "classification": "C2",
+          "purpose": "identify source party",
+          "required": true
+        },
+        {
+          "name": "ToPartyId",
+          "classification": "C2",
+          "purpose": "identify target party",
+          "required": true
+        },
+        {
+          "name": "RelationshipType",
+          "classification": "C1",
+          "purpose": "relationship category",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "crm.event.party-status-changed",
+      "kind": "legacy-event",
+      "source": "PartyStatusChangedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "PartyId",
+          "classification": "C2",
+          "purpose": "identify party",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "OldStatus",
+          "classification": "C1",
+          "purpose": "record prior lifecycle state",
+          "required": true
+        },
+        {
+          "name": "NewStatus",
+          "classification": "C1",
+          "purpose": "record new lifecycle state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.event.class-created",
+      "kind": "legacy-event",
+      "source": "ClassCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify class",
+          "required": true
+        },
+        {
+          "name": "FundId",
+          "classification": "C2",
+          "purpose": "identify owning fund",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "ClassCode",
+          "classification": "C2",
+          "purpose": "unnecessary business code; remove",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.event.class-status-changed",
+      "kind": "legacy-event",
+      "source": "ClassStatusChangedEvent",
+      "consumers": [
+        "holdings-application"
+      ],
+      "retention": "replace with approved V1 projection policy by 2026-12-01",
+      "fields": [
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify affected class",
+          "required": true
+        },
+        {
+          "name": "FundId",
+          "classification": "C2",
+          "purpose": "support projection reconciliation",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "OldStatus",
+          "classification": "C1",
+          "purpose": "record prior class state",
+          "required": true
+        },
+        {
+          "name": "NewStatus",
+          "classification": "C1",
+          "purpose": "drive holding freeze decision",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.event.fund-created",
+      "kind": "legacy-event",
+      "source": "FundCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "FundId",
+          "classification": "C2",
+          "purpose": "identify fund",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "FundCode",
+          "classification": "C2",
+          "purpose": "unnecessary business code; remove",
+          "required": true
+        },
+        {
+          "name": "FundName",
+          "classification": "C1",
+          "purpose": "unnecessary display name; remove",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.event.fund-status-changed",
+      "kind": "legacy-event",
+      "source": "FundStatusChangedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "FundId",
+          "classification": "C2",
+          "purpose": "identify fund",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "OldStatus",
+          "classification": "C1",
+          "purpose": "record prior fund state",
+          "required": true
+        },
+        {
+          "name": "NewStatus",
+          "classification": "C1",
+          "purpose": "record new fund state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.event.product-created",
+      "kind": "legacy-event",
+      "source": "ProductCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "ProductId",
+          "classification": "C2",
+          "purpose": "identify product",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "ProductCode",
+          "classification": "C2",
+          "purpose": "unnecessary business code; remove",
+          "required": true
+        },
+        {
+          "name": "ProductName",
+          "classification": "C1",
+          "purpose": "unnecessary display name; remove",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "registry.event.product-status-changed",
+      "kind": "legacy-event",
+      "source": "ProductStatusChangedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "ProductId",
+          "classification": "C2",
+          "purpose": "identify product",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "NewStatus",
+          "classification": "C1",
+          "purpose": "record new product state",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "holdings.event.frozen",
+      "kind": "legacy-event",
+      "source": "HoldingFrozenEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "HoldingId",
+          "classification": "C2",
+          "purpose": "identify holding",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify class",
+          "required": true
+        },
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "identify investment account",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.order-accepted",
+      "kind": "legacy-event",
+      "source": "OrderAcceptedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "OrderId",
+          "classification": "C2",
+          "purpose": "identify order",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "DealReference",
+          "classification": "C2",
+          "purpose": "legacy execution reference",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.order-confirmed",
+      "kind": "legacy-event",
+      "source": "OrderConfirmedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "OrderId",
+          "classification": "C2",
+          "purpose": "identify order",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "OrderType",
+          "classification": "C1",
+          "purpose": "order category",
+          "required": true
+        },
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "identify account",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.order-rejected",
+      "kind": "legacy-event",
+      "source": "OrderRejectedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "OrderId",
+          "classification": "C2",
+          "purpose": "identify order",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "RejectionReason",
+          "classification": "C3",
+          "purpose": "unbounded legacy free text; replace with stable reason code",
+          "required": true,
+          "exceptionRef": "G05-C3-008"
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.order-submitted",
+      "kind": "legacy-event",
+      "source": "OrderSubmittedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "OrderId",
+          "classification": "C2",
+          "purpose": "identify order",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "OrderType",
+          "classification": "C1",
+          "purpose": "order category",
+          "required": true
+        },
+        {
+          "name": "OrderReference",
+          "classification": "C2",
+          "purpose": "legacy order business reference",
+          "required": true
+        },
+        {
+          "name": "LegCount",
+          "classification": "C1",
+          "purpose": "bounded order structure",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.cancelled",
+      "kind": "legacy-event",
+      "source": "TransactionCancelledEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "TransactionId",
+          "classification": "C2",
+          "purpose": "identify transaction",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.created",
+      "kind": "legacy-event",
+      "source": "TransactionCreatedEvent",
+      "consumers": [
+        "none-evidenced-remove"
+      ],
+      "retention": "delete with legacy event by 2026-12-01",
+      "fields": [
+        {
+          "name": "TransactionId",
+          "classification": "C2",
+          "purpose": "identify transaction",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "TransactionType",
+          "classification": "C1",
+          "purpose": "transaction category",
+          "required": true
+        },
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "identify account",
+          "required": true
+        },
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "identify class",
+          "required": true
+        },
+        {
+          "name": "Amount",
+          "classification": "C2",
+          "purpose": "legacy financial amount; remove with unconsumed event",
+          "required": true,
+          "logPolicy": "redact"
+        }
+      ]
+    },
+    {
+      "id": "transaction.event.processed",
+      "kind": "legacy-event",
+      "source": "TransactionProcessedEvent",
+      "consumers": [
+        "holdings-application"
+      ],
+      "retention": "replace with approved V1 financial projection policy by 2026-12-01",
+      "fields": [
+        {
+          "name": "TransactionId",
+          "classification": "C2",
+          "purpose": "idempotent business reference",
+          "required": true
+        },
+        {
+          "name": "TenantId",
+          "classification": "C2",
+          "purpose": "duplicate legacy tenant scope; remove in favor of Envelope",
+          "required": true
+        },
+        {
+          "name": "TransactionType",
+          "classification": "C1",
+          "purpose": "select projection operation",
+          "required": true
+        },
+        {
+          "name": "InvestmentAccountId",
+          "classification": "C2",
+          "purpose": "select account position",
+          "required": true
+        },
+        {
+          "name": "ClassId",
+          "classification": "C2",
+          "purpose": "select class position",
+          "required": true
+        },
+        {
+          "name": "TargetClassId",
+          "classification": "C2",
+          "purpose": "optional destination position",
+          "required": false
+        },
+        {
+          "name": "Units",
+          "classification": "C2",
+          "purpose": "apply financial position delta",
+          "required": true,
+          "logPolicy": "redact"
+        },
+        {
+          "name": "NAVPrice",
+          "classification": "C2",
+          "purpose": "retain transaction valuation fact",
+          "required": true,
+          "logPolicy": "redact"
+        }
+      ]
+    }
   ],
   "fieldExceptions": [
-    {"id":"G05-C3-001","fieldRefs":["crm.account-compliance.v1/isApproved"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"Approved","approvalEvidence":"Plan 01 B2 provider, consumer, tenant, context, error-mapping and logging controls verified by G05 handback evidence.","expiresAt":"2026-12-01","compensatingControls":["tenant and consumer validation","response lifetime only","redact from logs"],"revocationCondition":"Remove or replace the field if Transaction no longer needs the approved compliance decision."},
-    {"id":"G05-C3-002","fieldRefs":["crm.dto.investor-summary/Name","crm.dto.investor-summary/KycStatus","crm.dto.investor-summary/TaxResidencyCountry"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["in-process legacy use only","redact from logs","no new consumers"],"revocationCondition":"Delete the public DTO and use capability-specific internal models."},
-    {"id":"G05-C3-003","fieldRefs":["crm.dto.party-summary/Name"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["in-process legacy use only","redact from logs","no new consumers"],"revocationCondition":"Delete the public DTO and internalize display data."},
-    {"id":"G05-C3-004","fieldRefs":["crm.event.account-created/AccountNumber"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["no consumer evidenced","no durable publication","redact from logs"],"revocationCondition":"Remove the legacy event and never admit AccountNumber to its replacement."},
-    {"id":"G05-C3-005","fieldRefs":["crm.event.investor-created/Name"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["no consumer evidenced","no durable publication","redact from logs"],"revocationCondition":"Remove the legacy event and never admit Name without a proven consumer."},
-    {"id":"G05-C3-006","fieldRefs":["crm.event.investor-kyc-changed/OldStatus","crm.event.investor-kyc-changed/NewStatus"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["provider-internal use only","no durable publication","redact from logs"],"revocationCondition":"Internalize the event unless Plan 02 returns an approved minimal projection use."},
-    {"id":"G05-C3-007","fieldRefs":["crm.event.party-created/Name"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["no consumer evidenced","no durable publication","redact from logs"],"revocationCondition":"Remove the legacy event and never admit Name without a proven consumer."},
-    {"id":"G05-C3-008","fieldRefs":["transaction.event.order-rejected/RejectionReason"],"owner":"xiaolong-feng","approverRole":"security-owner","approvalStatus":"PendingRemoval","expiresAt":"2026-12-01","compensatingControls":["no consumer evidenced","no durable publication","redact from logs"],"revocationCondition":"Remove the event or replace free text with a reviewed bounded reason code."}
+    {
+      "id": "G05-C3-001",
+      "fieldRefs": [
+        "crm.account-compliance.v1/isApproved"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "Approved",
+      "approvalEvidence": "Plan 01 B2 provider, consumer, tenant, context, error-mapping and logging controls verified by G05 handback evidence.",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "tenant and consumer validation",
+        "response lifetime only",
+        "redact from logs"
+      ],
+      "revocationCondition": "Remove or replace the field if Transaction no longer needs the approved compliance decision."
+    },
+    {
+      "id": "G05-C3-002",
+      "fieldRefs": [
+        "crm.dto.investor-summary/Name",
+        "crm.dto.investor-summary/KycStatus",
+        "crm.dto.investor-summary/TaxResidencyCountry"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "in-process legacy use only",
+        "redact from logs",
+        "no new consumers"
+      ],
+      "revocationCondition": "Delete the public DTO and use capability-specific internal models."
+    },
+    {
+      "id": "G05-C3-003",
+      "fieldRefs": [
+        "crm.dto.party-summary/Name"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "in-process legacy use only",
+        "redact from logs",
+        "no new consumers"
+      ],
+      "revocationCondition": "Delete the public DTO and internalize display data."
+    },
+    {
+      "id": "G05-C3-004",
+      "fieldRefs": [
+        "crm.event.account-created/AccountNumber"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "no consumer evidenced",
+        "no durable publication",
+        "redact from logs"
+      ],
+      "revocationCondition": "Remove the legacy event and never admit AccountNumber to its replacement."
+    },
+    {
+      "id": "G05-C3-005",
+      "fieldRefs": [
+        "crm.event.investor-created/Name"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "no consumer evidenced",
+        "no durable publication",
+        "redact from logs"
+      ],
+      "revocationCondition": "Remove the legacy event and never admit Name without a proven consumer."
+    },
+    {
+      "id": "G05-C3-006",
+      "fieldRefs": [
+        "crm.event.investor-kyc-changed/OldStatus",
+        "crm.event.investor-kyc-changed/NewStatus"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "provider-internal use only",
+        "no durable publication",
+        "redact from logs"
+      ],
+      "revocationCondition": "Internalize the event unless Plan 02 returns an approved minimal projection use."
+    },
+    {
+      "id": "G05-C3-007",
+      "fieldRefs": [
+        "crm.event.party-created/Name"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "no consumer evidenced",
+        "no durable publication",
+        "redact from logs"
+      ],
+      "revocationCondition": "Remove the legacy event and never admit Name without a proven consumer."
+    },
+    {
+      "id": "G05-C3-008",
+      "fieldRefs": [
+        "transaction.event.order-rejected/RejectionReason"
+      ],
+      "owner": "xiaolong-feng",
+      "approverRole": "security-owner",
+      "approvalStatus": "PendingRemoval",
+      "expiresAt": "2026-12-01",
+      "compensatingControls": [
+        "no consumer evidenced",
+        "no durable publication",
+        "redact from logs"
+      ],
+      "revocationCondition": "Remove the event or replace free text with a reviewed bounded reason code."
+    }
   ],
   "sensitiveUsePolicies": [
-    {"id":"financial-position-projection","fieldRefs":["ifx.transaction.transaction-processed.v1/units","ifx.transaction.transaction-processed.v1/navPrice","transaction.event.processed/Units","transaction.event.processed/NAVPrice","transaction.event.created/Amount","transaction.dto.transaction-summary/Amount","holdings.dto.summary/Units"],"consumers":["holdings-application"],"purpose":"apply or report a financial position and valuation fact","encryption":"TLS in transit and approved encrypted module-owned storage at rest","access":"least-privilege provider/consumer service identities","retention":"financial record or projection policy, finalized by Plan 02","deletion":"module retention job and subject/regulatory process","replay":"authorized idempotent projection replay only; original EventId retained"},
-    {"id":"compliance-decision","fieldRefs":["crm.account-compliance.v1/isApproved","crm.dto.investor-summary/KycStatus","crm.event.investor-kyc-changed/OldStatus","crm.event.investor-kyc-changed/NewStatus"],"consumers":["transaction-application","provider-internal-only"],"purpose":"make or maintain a bounded compliance decision","encryption":"TLS in transit and approved encrypted provider storage at rest","access":"CRM compliance and registered Transaction decision path only","retention":"request/decision lifetime or provider compliance policy","deletion":"CRM compliance retention and subject process","replay":"not replayed as a general state-transfer payload without approved exception"}
+    {
+      "id": "financial-position-projection",
+      "fieldRefs": [
+        "ifx.transaction.transaction-processed.v1/units",
+        "ifx.transaction.transaction-processed.v1/navPrice",
+        "transaction.event.processed/Units",
+        "transaction.event.processed/NAVPrice",
+        "transaction.event.created/Amount",
+        "transaction.dto.transaction-summary/Amount",
+        "holdings.dto.summary/Units"
+      ],
+      "consumers": [
+        "holdings-application"
+      ],
+      "purpose": "apply or report a financial position and valuation fact",
+      "encryption": "TLS in transit and approved encrypted module-owned storage at rest",
+      "access": "least-privilege provider/consumer service identities",
+      "retention": "financial record or projection policy, finalized by Plan 02",
+      "deletion": "module retention job and subject/regulatory process",
+      "replay": "authorized idempotent projection replay only; original EventId retained"
+    },
+    {
+      "id": "compliance-decision",
+      "fieldRefs": [
+        "crm.account-compliance.v1/isApproved",
+        "crm.dto.investor-summary/KycStatus",
+        "crm.event.investor-kyc-changed/OldStatus",
+        "crm.event.investor-kyc-changed/NewStatus"
+      ],
+      "consumers": [
+        "transaction-application",
+        "provider-internal-only"
+      ],
+      "purpose": "make or maintain a bounded compliance decision",
+      "encryption": "TLS in transit and approved encrypted provider storage at rest",
+      "access": "CRM compliance and registered Transaction decision path only",
+      "retention": "request/decision lifetime or provider compliance policy",
+      "deletion": "CRM compliance retention and subject process",
+      "replay": "not replayed as a general state-transfer payload without approved exception"
+    }
   ],
   "migrationRecommendations": [
-    {"surfaceId":"crm.dto.investor-summary","recommendations":[{"capability":"investor-identity-reference","fields":["InvestorId","InvestorCode"],"consumer":"none evidenced; internalize"},{"capability":"investor-display","fields":["Name","LegalStructure","Status"],"consumer":"none evidenced; internalize"},{"capability":"investor-compliance-decision","fields":["KycStatus"],"consumer":"no public consumer; use a capability-specific boolean decision only if approved"},{"capability":"investor-tax-residency","fields":["TaxResidencyCountry"],"consumer":"none evidenced; keep provider-internal"}]},
-    {"surfaceId":"registry.dto.class-summary","recommendations":[{"capability":"class-subscription-availability","fields":["ClassId","IsOpenForSubscription"],"consumer":"transaction-application through registry.class-subscription-availability.v1"},{"capability":"class-display-and-valuation","fields":["FundId","ClassCode","ClassName","Currency","NavFrequency","Status"],"consumer":"none evidenced; internalize"}]}
+    {
+      "surfaceId": "crm.dto.investor-summary",
+      "recommendations": [
+        {
+          "capability": "investor-identity-reference",
+          "fields": [
+            "InvestorId",
+            "InvestorCode"
+          ],
+          "consumer": "none evidenced; internalize"
+        },
+        {
+          "capability": "investor-display",
+          "fields": [
+            "Name",
+            "LegalStructure",
+            "Status"
+          ],
+          "consumer": "none evidenced; internalize"
+        },
+        {
+          "capability": "investor-compliance-decision",
+          "fields": [
+            "KycStatus"
+          ],
+          "consumer": "no public consumer; use a capability-specific boolean decision only if approved"
+        },
+        {
+          "capability": "investor-tax-residency",
+          "fields": [
+            "TaxResidencyCountry"
+          ],
+          "consumer": "none evidenced; keep provider-internal"
+        }
+      ]
+    },
+    {
+      "surfaceId": "registry.dto.class-summary",
+      "recommendations": [
+        {
+          "capability": "class-subscription-availability",
+          "fields": [
+            "ClassId",
+            "IsOpenForSubscription"
+          ],
+          "consumer": "transaction-application through registry.class-subscription-availability.v1"
+        },
+        {
+          "capability": "class-display-and-valuation",
+          "fields": [
+            "FundId",
+            "ClassCode",
+            "ClassName",
+            "Currency",
+            "NavFrequency",
+            "Status"
+          ],
+          "consumer": "none evidenced; internalize"
+        }
+      ]
+    }
   ],
   "eventMinimizationReviews": [
-    {"semantic":"duplicate TenantId","surfacePattern":"all legacy integration events","decision":"remove from payload at V1 cutover; validated Envelope is authoritative unless tenant change is the business fact"},
-    {"semantic":"Name","fieldRefs":["crm.event.investor-created/Name","crm.event.party-created/Name","registry.event.fund-created/FundName","registry.event.product-created/ProductName"],"decision":"remove; no real event consumer requires display names"},
-    {"semantic":"AccountNumber","fieldRefs":["crm.event.account-created/AccountNumber"],"decision":"remove; C3 financial identifier is not required by an evidenced consumer"},
-    {"semantic":"Code","fieldRefs":["crm.event.investor-created/InvestorCode","crm.event.party-created/PartyCode","registry.event.class-created/ClassCode","registry.event.fund-created/FundCode","registry.event.product-created/ProductCode"],"decision":"remove; consumers use stable IDs"},
-    {"semantic":"free-text RejectionReason","fieldRefs":["transaction.event.order-rejected/RejectionReason"],"decision":"remove or replace with bounded reviewed reason code"}
+    {
+      "semantic": "duplicate TenantId",
+      "surfacePattern": "all legacy integration events",
+      "decision": "remove from payload at V1 cutover; validated Envelope is authoritative unless tenant change is the business fact"
+    },
+    {
+      "semantic": "Name",
+      "fieldRefs": [
+        "crm.event.investor-created/Name",
+        "crm.event.party-created/Name",
+        "registry.event.fund-created/FundName",
+        "registry.event.product-created/ProductName"
+      ],
+      "decision": "remove; no real event consumer requires display names"
+    },
+    {
+      "semantic": "AccountNumber",
+      "fieldRefs": [
+        "crm.event.account-created/AccountNumber"
+      ],
+      "decision": "remove; C3 financial identifier is not required by an evidenced consumer"
+    },
+    {
+      "semantic": "Code",
+      "fieldRefs": [
+        "crm.event.investor-created/InvestorCode",
+        "crm.event.party-created/PartyCode",
+        "registry.event.class-created/ClassCode",
+        "registry.event.fund-created/FundCode",
+        "registry.event.product-created/ProductCode"
+      ],
+      "decision": "remove; consumers use stable IDs"
+    },
+    {
+      "semantic": "free-text RejectionReason",
+      "fieldRefs": [
+        "transaction.event.order-rejected/RejectionReason"
+      ],
+      "decision": "remove or replace with bounded reviewed reason code"
+    }
   ],
   "contractDependencyPolicy": {
     "default": "BCL-only",
-    "syncMetadata": ["IFX.Platform.Context.Contracts"],
-    "eventSchema": ["IFX.Platform.Messaging.Contracts"],
-    "forbidden": ["Result<T>", "Domain types", "Security implementation types", "Application types", "Entity Framework", "MediatR", "ASP.NET", "dependency injection", "serializer SDK", "broker SDK", "transport handler", "dispatcher"],
+    "syncMetadata": [
+      "IFX.Platform.Context.Contracts"
+    ],
+    "eventSchema": [
+      "IFX.Platform.Messaging.Contracts"
+    ],
+    "forbidden": [
+      "Result<T>",
+      "Domain types",
+      "Security implementation types",
+      "Application types",
+      "Entity Framework",
+      "MediatR",
+      "ASP.NET",
+      "dependency injection",
+      "serializer SDK",
+      "broker SDK",
+      "transport handler",
+      "dispatcher"
+    ],
     "runtimeSeparation": {
       "project": "IFX.Platform.Messaging.Runtime",
-      "contains": ["IIntegrationEventBus", "IIntegrationEventHandler<T>", "dispatcher ports", "serializer ports", "broker adapters", "DI registration", "delivery reliability"],
+      "contains": [
+        "IIntegrationEventBus",
+        "IIntegrationEventHandler<T>",
+        "dispatcher ports",
+        "serializer ports",
+        "broker adapters",
+        "DI registration",
+        "delivery reliability"
+      ],
       "mustNotBeReferencedByModuleContracts": true
     }
   },
   "sharedPrimitives": [
-    {"id":"context.identifiers.v1","project":"IFX.Platform.Context.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["auth","crm","registry","transaction","holdings","platform-messaging"],"semantic":"Distinguishes canonical non-empty correlation, operation, causation and Contract request identities without treating them as authorization or business idempotency keys.","bclTypes":["Guid"],"serialization":"Lowercase canonical GUID D format; empty values and alternate text shapes are rejected.","compatibility":"Meaning and canonical form are immutable in V1; changed semantics require a parallel major primitive.","linkedPlan":"00-G05-context-sensitive-data-boundary.md:G05-1.2"},
-    {"id":"context.execution-scope.v1","project":"IFX.Platform.Context.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["auth","crm","registry","transaction","holdings","platform-messaging"],"semantic":"Discriminates TenantScope with a non-empty TenantId from PlatformScope without inventing a tenant.","bclTypes":["Guid","nullable BCL value","int"],"serialization":"Explicit kind plus tenant identifier only for Tenant scope.","compatibility":"Unknown scope kinds fail closed; adding a kind requires coordinated major-version review.","linkedPlan":"00-G05-context-sensitive-data-boundary.md:G05-1.3"},
-    {"id":"context.contract-request.v1","project":"IFX.Platform.Context.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Carries Contract request, correlation, optional direct causation, explicit scope, minimal actor/source and provenance without credentials or authorization assertions.","bclTypes":["Guid","string","int","nullable BCL value"],"serialization":"Version 1 required and optional fields follow the Gate 05 protocol manifest; unknown fields never grant authorization or repair scope.","compatibility":"Optional additions require defaults and unknown-field tests; required/type/meaning changes require a parallel V2.","linkedPlan":"00-G05-context-sensitive-data-boundary.md:G05-1.4-G05-1.5"},
-    {"id":"messaging.integration-event-marker.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Marks a provider-owned immutable integration-event schema without providing dispatch behavior.","bclTypes":[],"serialization":"Marker has no serialized fields; concrete provider event owns its payload schema.","compatibility":"Adding runtime methods or state is forbidden; replacement requires a reviewed major protocol change.","linkedPlan":"02-reliable-integration-events.md:E1.9"},
-    {"id":"messaging.event-envelope.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Carries the Gate 05-approved immutable logical event identity, producer, tenant scope, correlation, causation, content type, and optional W3C trace carrier.","bclTypes":["Guid","string","int","DateTimeOffset","nullable BCL value"],"serialization":"Canonical V1 field names and UTC DateTimeOffset; retry/replay preserve the frozen value.","compatibility":"Optional additions require defaults and unknown-field tests; required/type/meaning changes require a parallel V2.","linkedPlan":"00-G05-context-sensitive-data-boundary.md:G05-1.6;02-reliable-integration-events.md:E1.3"},
-    {"id":"messaging.schema-identity.v1","project":"IFX.Platform.Messaging.Contracts","status":"Proposed","owner":"xiaolong-feng","admissionBasis":"uniform-infrastructure-protocol","consumers":["crm","registry","transaction","holdings"],"semantic":"Represents a stable catalog event identity and positive major schema version independently of CLR type names.","bclTypes":["string","int"],"serialization":"Lowercase catalog identity ending in .vN plus positive integer major version.","compatibility":"Active identity is immutable and Retired identity remains reserved forever.","linkedPlan":"02-reliable-integration-events.md:E1.1-E1.9"}
+    {
+      "id": "context.identifiers.v1",
+      "project": "IFX.Platform.Context.Contracts",
+      "status": "Proposed",
+      "owner": "xiaolong-feng",
+      "admissionBasis": "uniform-infrastructure-protocol",
+      "consumers": [
+        "auth",
+        "crm",
+        "registry",
+        "transaction",
+        "holdings",
+        "platform-messaging"
+      ],
+      "semantic": "Distinguishes canonical non-empty correlation, operation, causation and Contract request identities without treating them as authorization or business idempotency keys.",
+      "bclTypes": [
+        "Guid"
+      ],
+      "serialization": "Lowercase canonical GUID D format; empty values and alternate text shapes are rejected.",
+      "compatibility": "Meaning and canonical form are immutable in V1; changed semantics require a parallel major primitive.",
+      "linkedPlan": "00-G05-context-sensitive-data-boundary.md:G05-1.2"
+    },
+    {
+      "id": "context.execution-scope.v1",
+      "project": "IFX.Platform.Context.Contracts",
+      "status": "Proposed",
+      "owner": "xiaolong-feng",
+      "admissionBasis": "uniform-infrastructure-protocol",
+      "consumers": [
+        "auth",
+        "crm",
+        "registry",
+        "transaction",
+        "holdings",
+        "platform-messaging"
+      ],
+      "semantic": "Discriminates TenantScope with a non-empty TenantId from PlatformScope without inventing a tenant.",
+      "bclTypes": [
+        "Guid",
+        "nullable BCL value",
+        "int"
+      ],
+      "serialization": "Explicit kind plus tenant identifier only for Tenant scope.",
+      "compatibility": "Unknown scope kinds fail closed; adding a kind requires coordinated major-version review.",
+      "linkedPlan": "00-G05-context-sensitive-data-boundary.md:G05-1.3"
+    },
+    {
+      "id": "context.contract-request.v1",
+      "project": "IFX.Platform.Context.Contracts",
+      "status": "Proposed",
+      "owner": "xiaolong-feng",
+      "admissionBasis": "uniform-infrastructure-protocol",
+      "consumers": [
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
+      "semantic": "Carries Contract request, correlation, optional direct causation, explicit scope, minimal actor/source and provenance without credentials or authorization assertions.",
+      "bclTypes": [
+        "Guid",
+        "string",
+        "int",
+        "nullable BCL value"
+      ],
+      "serialization": "Version 1 required and optional fields follow the Gate 05 protocol manifest; unknown fields never grant authorization or repair scope.",
+      "compatibility": "Optional additions require defaults and unknown-field tests; required/type/meaning changes require a parallel V2.",
+      "linkedPlan": "00-G05-context-sensitive-data-boundary.md:G05-1.4-G05-1.5"
+    },
+    {
+      "id": "messaging.integration-event-marker.v1",
+      "project": "IFX.Platform.Messaging.Contracts",
+      "status": "Proposed",
+      "owner": "xiaolong-feng",
+      "admissionBasis": "uniform-infrastructure-protocol",
+      "consumers": [
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
+      "semantic": "Marks a provider-owned immutable integration-event schema without providing dispatch behavior.",
+      "bclTypes": [],
+      "serialization": "Marker has no serialized fields; concrete provider event owns its payload schema.",
+      "compatibility": "Adding runtime methods or state is forbidden; replacement requires a reviewed major protocol change.",
+      "linkedPlan": "02-reliable-integration-events.md:E1.9"
+    },
+    {
+      "id": "messaging.event-envelope.v1",
+      "project": "IFX.Platform.Messaging.Contracts",
+      "status": "Proposed",
+      "owner": "xiaolong-feng",
+      "admissionBasis": "uniform-infrastructure-protocol",
+      "consumers": [
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
+      "semantic": "Carries the Gate 05-approved immutable logical event identity, producer, tenant scope, correlation, causation, content type, and optional W3C trace carrier.",
+      "bclTypes": [
+        "Guid",
+        "string",
+        "int",
+        "DateTimeOffset",
+        "nullable BCL value"
+      ],
+      "serialization": "Canonical V1 field names and UTC DateTimeOffset; retry/replay preserve the frozen value.",
+      "compatibility": "Optional additions require defaults and unknown-field tests; required/type/meaning changes require a parallel V2.",
+      "linkedPlan": "00-G05-context-sensitive-data-boundary.md:G05-1.6;02-reliable-integration-events.md:E1.3"
+    },
+    {
+      "id": "messaging.schema-identity.v1",
+      "project": "IFX.Platform.Messaging.Contracts",
+      "status": "Proposed",
+      "owner": "xiaolong-feng",
+      "admissionBasis": "uniform-infrastructure-protocol",
+      "consumers": [
+        "crm",
+        "registry",
+        "transaction",
+        "holdings"
+      ],
+      "semantic": "Represents a stable catalog event identity and positive major schema version independently of CLR type names.",
+      "bclTypes": [
+        "string",
+        "int"
+      ],
+      "serialization": "Lowercase catalog identity ending in .vN plus positive integer major version.",
+      "compatibility": "Active identity is immutable and Retired identity remains reserved forever.",
+      "linkedPlan": "02-reliable-integration-events.md:E1.1-E1.9"
+    }
   ],
   "waiverPolicy": {
     "maximumDays": 90,
     "milestoneRule": "Expiry is the earlier of 90 days after creation or the named milestone date.",
     "renewal": "A renewal is a new review and may not mutate historical approval evidence.",
-    "unwaivable": ["missing-owner", "missing-consumer", "internal-model-exposure", "C4-exposure", "unapproved-C3-exposure", "identity-reuse"],
+    "unwaivable": [
+      "missing-owner",
+      "missing-consumer",
+      "internal-model-exposure",
+      "C4-exposure",
+      "unapproved-C3-exposure",
+      "identity-reuse"
+    ],
     "approvedC3StateTransfer": "Controlled admission with owner, consumer, purpose, protection, retention and expiry; never represented as a waiver."
   },
   "waivers": [],
   "changeRecords": [
-    {"id":"G03-CR-001","identity":"crm.account-compliance.v1","classification":"New","summary":"Establish the first capability-specific CRM account compliance contract.","providerOwner":"xiaolong-feng","affectedConsumers":["transaction-application"],"compatibilityEvidence":"B2 source/API snapshots plus provider and Transaction adapter compatibility tests; no prior formal version.","releaseOrder":"Provider contract and Transaction adapter are composed atomically in the modular monolith.","rollback":"Revert the B2 deployment as one business release; the retired Reader is not an authorized fallback.","status":"Approved"},
-    {"id":"G03-CR-002","identity":"registry.class-subscription-availability.v1","classification":"New","summary":"Establish the first capability-specific Registry subscription availability contract.","providerOwner":"xiaolong-feng","affectedConsumers":["transaction-application"],"compatibilityEvidence":"B2 source/API snapshots plus provider and Transaction adapter compatibility tests; no prior formal version.","releaseOrder":"Provider contract and Transaction adapter are composed atomically in the modular monolith.","rollback":"Revert the B2 deployment as one business release; the retired Reader is not an authorized fallback.","status":"Approved"},
-    {"id":"G03-CR-003","identity":"ifx.transaction.transaction-processed.v1","classification":"New","summary":"Establish the first versioned transaction-processed fact schema.","providerOwner":"xiaolong-feng","affectedConsumers":["holdings-application"],"compatibilityEvidence":"B3 provider-owned source/golden, durable Transaction Outbox, Holdings Adapter/Inbox and provider/consumer tests; the legacy event was never a formal wire baseline.","releaseOrder":"Deploy the compatible Holdings Worker consumer before enabling the Transaction producer.","rollback":"Stop V1 production while retaining the consumer and any already-produced V1 messages.","status":"Approved"},
-    {"id":"G03-CR-004","identity":"ifx.registry.class-status-changed.v1","classification":"New","summary":"Establish the first versioned class-status-changed fact schema.","providerOwner":"xiaolong-feng","affectedConsumers":["holdings-application"],"compatibilityEvidence":"B3 provider-owned source/golden, durable Registry Outbox, Holdings Adapter/Inbox and provider/consumer tests; the legacy event was never a formal wire baseline.","releaseOrder":"Deploy the compatible Holdings Worker consumer before enabling the Registry producer.","rollback":"Stop V1 production while retaining the consumer and any already-produced V1 messages.","status":"Approved"}
+    {
+      "id": "G03-CR-001",
+      "identity": "crm.account-compliance.v1",
+      "classification": "New",
+      "summary": "Establish the first capability-specific CRM account compliance contract.",
+      "providerOwner": "xiaolong-feng",
+      "affectedConsumers": [
+        "transaction-application"
+      ],
+      "compatibilityEvidence": "B2 source/API snapshots plus provider and Transaction adapter compatibility tests; no prior formal version.",
+      "releaseOrder": "Provider contract and Transaction adapter are composed atomically in the modular monolith.",
+      "rollback": "Revert the B2 deployment as one business release; the retired Reader is not an authorized fallback.",
+      "status": "Approved"
+    },
+    {
+      "id": "G03-CR-002",
+      "identity": "registry.class-subscription-availability.v1",
+      "classification": "New",
+      "summary": "Establish the first capability-specific Registry subscription availability contract.",
+      "providerOwner": "xiaolong-feng",
+      "affectedConsumers": [
+        "transaction-application"
+      ],
+      "compatibilityEvidence": "B2 source/API snapshots plus provider and Transaction adapter compatibility tests; no prior formal version.",
+      "releaseOrder": "Provider contract and Transaction adapter are composed atomically in the modular monolith.",
+      "rollback": "Revert the B2 deployment as one business release; the retired Reader is not an authorized fallback.",
+      "status": "Approved"
+    },
+    {
+      "id": "G03-CR-003",
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "classification": "New",
+      "summary": "Establish the first versioned transaction-processed fact schema.",
+      "providerOwner": "xiaolong-feng",
+      "affectedConsumers": [
+        "holdings-application"
+      ],
+      "compatibilityEvidence": "B3 provider-owned source/golden, durable Transaction Outbox, Holdings Adapter/Inbox and provider/consumer tests; the legacy event was never a formal wire baseline.",
+      "releaseOrder": "Deploy the compatible Holdings Worker consumer before enabling the Transaction producer.",
+      "rollback": "Stop V1 production while retaining the consumer and any already-produced V1 messages.",
+      "status": "Approved"
+    },
+    {
+      "id": "G03-CR-004",
+      "identity": "ifx.registry.class-status-changed.v1",
+      "classification": "New",
+      "summary": "Establish the first versioned class-status-changed fact schema.",
+      "providerOwner": "xiaolong-feng",
+      "affectedConsumers": [
+        "holdings-application"
+      ],
+      "compatibilityEvidence": "B3 provider-owned source/golden, durable Registry Outbox, Holdings Adapter/Inbox and provider/consumer tests; the legacy event was never a formal wire baseline.",
+      "releaseOrder": "Deploy the compatible Holdings Worker consumer before enabling the Registry producer.",
+      "rollback": "Stop V1 production while retaining the consumer and any already-produced V1 messages.",
+      "status": "Approved"
+    }
+  ],
+  "infrastructureProtocols": [
+    {
+      "identity": "authentication.identity-protocol.v1",
+      "kind": "in-process-sensitive",
+      "provider": "authentication",
+      "owner": "xiaolong-feng",
+      "consumers": [
+        "iam-identity-adapter"
+      ],
+      "retention": "request-or-login-transaction",
+      "durable": false,
+      "logPolicy": "never",
+      "purpose": "Plan 05 technical authentication boundary, separate from public business Contracts and Events; no authorization assertions",
+      "sourceProject": "IFX.Platform.Authentication.Contracts",
+      "fields": [
+        {
+          "name": "password",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "clientSecret",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "accessToken",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "idToken",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "refreshToken",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "authorizationCode",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "confirmationCode",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "browserBinding",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "nonce",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "pkceVerifier",
+          "classification": "C4",
+          "purpose": "execute the selected identity protocol in process; credentials never leave the login/token boundary"
+        },
+        {
+          "name": "issuer",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "authority",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "clientId",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "audiences",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "algorithms",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "endpoints",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "callbacks",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "scopes",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "expiry",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "reasonCode",
+          "classification": "C1",
+          "purpose": "bind verification to the IAM-selected issuer and client configuration"
+        },
+        {
+          "name": "subject",
+          "classification": "C2",
+          "purpose": "map a verified external identity to an IAM user"
+        },
+        {
+          "name": "email",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "username",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "firstName",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "lastName",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "birthDate",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "phoneNumber",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "verificationFlags",
+          "classification": "C3",
+          "purpose": "existing external account registration and userinfo; local profile and account admission remain IAM-owned"
+        },
+        {
+          "name": "audienceClaim",
+          "classification": "C1",
+          "purpose": "choose the explicitly trusted token audience field"
+        },
+        {
+          "name": "requiredTokenUse",
+          "classification": "C1",
+          "purpose": "distinguish access and identity token purpose"
+        }
+      ],
+      "tests": [
+        "tests/IFX.Platform.Authentication.Tests/TokenValidationTests.cs",
+        "tests/IFX.Platform.Authentication.Tests/OidcProtocolTests.cs"
+      ],
+      "linkedPlan": "05-iam-platform-security-refactor.md:IAM2",
+      "productionValidation": "pending"
+    }
   ]
 }

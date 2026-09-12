@@ -5,12 +5,12 @@
     {
       "authority": "LayerGuard-Plan05",
       "path": "docs/architecture/review/evidence/plan05/current-dependency-graph.json",
-      "sha256": "e2eaa84088478b8595a8472641a9300de976aeb2f6d938d98549543d853d05fd"
+      "sha256": "05664acd259bbbe9cebd69b5f268c01dcaecf22a4985cbd987e41416f7da4e0e"
     },
     {
       "authority": "G03",
       "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-      "sha256": "f4efca12d5d061c8488b1395a681d718fbf2262bafa1b365958d8a4efb9dfe5b"
+      "sha256": "1b58f102a021e6cd94fef230cb20cfd126b54f75b12509767f288b10e732606a"
     },
     {
       "authority": "G04",
@@ -21,7 +21,7 @@
   "decisionArtifacts": [
     {
       "path": "docs/architecture/review/evidence/plan04/module-boundary-decisions.json",
-      "sha256": "57e87adc9d583781a676d4dba52840d11bfc755a02333267f8ecd0defe2157bb"
+      "sha256": "b2f18d8e441efe5b742520c9e2f15c55a534c6653ce1bd26f7fdd6dbf08ac4bf"
     },
     {
       "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",

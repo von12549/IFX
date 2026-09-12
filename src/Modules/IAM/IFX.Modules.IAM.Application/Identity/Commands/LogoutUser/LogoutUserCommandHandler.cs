@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 namespace IFX.Modules.IAM.Application.Identity.Commands.LogoutUser;
 public class LogoutUserCommandHandler : IRequestHandler<LogoutUserCommand, Result<bool>>
 {
-    private readonly IIdentityProvider _identityProvider;
+    private readonly ITokenLifecycleService _identityProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<LogoutUserCommandHandler> _logger;
-    public LogoutUserCommandHandler(IIdentityProvider identityProvider, IUnitOfWork unitOfWork, ILogger<LogoutUserCommandHandler> logger)
+    public LogoutUserCommandHandler(ITokenLifecycleService identityProvider, IUnitOfWork unitOfWork, ILogger<LogoutUserCommandHandler> logger)
     {
         _identityProvider = identityProvider;
         _unitOfWork = unitOfWork;

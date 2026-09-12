@@ -1,18 +1,23 @@
-namespace IFX.Modules.IAM.Application.Identity.Interfaces;
+namespace IFX.Platform.Authentication.Contracts.V1;
 
-public interface IIdentityProvider
+public interface IExternalAccountContract
 {
-    Task<ProviderSignUpResult> SignUpAsync(string email, string password, string username, string firstName, string lastName, string birthDate, string phoneNumber);
+    Task<ProviderSignUpResponse> SignUpAsync(string email, string password, string username, string firstName, string lastName, string birthDate, string phoneNumber);
     Task<bool> ConfirmSignUpAsync(string username, string confirmationCode);
-    Task<AuthTokenResult> AuthenticateAsync(string username, string password);
-    Task<bool> SignOutAsync(string accessToken);
-    Task<ProviderUserInfo> GetUserAsync(string accessToken);
-    Task<AuthTokenResult> RefreshTokenAsync(string refreshToken, string username);
     Task<bool> ResendConfirmationCodeAsync(string username);
+    Task<ProviderUserInfoDto> GetUserAsync(string accessToken);
+}
+public interface ICredentialAuthenticationContract
+{
+    Task<ProviderTokenResponse> AuthenticateAsync(string username, string password);
+}
+public interface ITokenLifecycleContract
+{
+    Task<bool> SignOutAsync(string accessToken);
+    Task<ProviderTokenResponse> RefreshTokenAsync(string refreshToken, string username);
     Task<bool> RevokeTokenAsync(string refreshToken);
 }
-
-public class ProviderSignUpResult
+public class ProviderSignUpResponse
 {
     public bool Success { get; set; }
     public string? Subject { get; set; }
@@ -20,7 +25,7 @@ public class ProviderSignUpResult
     public string? ErrorMessage { get; set; }
 }
 
-public class AuthTokenResult
+public class ProviderTokenResponse
 {
     public bool Success { get; set; }
     public string? AccessToken { get; set; }
@@ -33,7 +38,7 @@ public class AuthTokenResult
     public string? Subject { get; set; }
 }
 
-public class ProviderUserInfo
+public class ProviderUserInfoDto
 {
     public string Subject { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;

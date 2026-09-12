@@ -1,4 +1,4 @@
-namespace IFX.Modules.IAM.Infrastructure.IdentityProviders.Cognito;
+namespace IFX.Platform.Authentication.Infrastructure.Cognito;
 
 public class CognitoOptions
 {
