@@ -5,7 +5,7 @@ Generated from editable inputs and bound authorities. Edit `docs/guards/inputs/`
 | Rule | Meaning | Authority | Enforcement |
 | --- | --- | --- | --- |
 | ARCH.SEMANTIC | Review semantically bound cross-ring references | `docs/guards/inputs/rules/ARCH.SEMANTIC.json` | advisory |
-| BE.FORMAT | Backend formatting and analyzer baseline | `.editorconfig` | advisory |
+| BE.FORMAT | Backend formatting and analyzer baseline | `docs/guards/inputs/rules/BE.FORMAT.json` | advisory |
 | CG.DIFF | High-risk diff requires a reviewable decision | `docs/guards/inputs/rules/CG.DIFF.json` | blocking |
 | CG.REGEN | Guard inputs and generated outputs remain in sync | `docs/guards/inputs/rules/CG.REGEN.json` | blocking |
 | DB.MIGRATION | Database migration boundary | `scripts/Test-MigrationSafetyPolicy.ps1` | blocking |

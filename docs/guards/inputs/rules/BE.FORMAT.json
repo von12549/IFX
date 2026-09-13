@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "id": "BE.FORMAT",
   "title": "Backend formatting and analyzer baseline",
-  "authority": { "path": ".editorconfig" },
+  "authority": { "path": "docs/guards/inputs/rules/BE.FORMAT.json" },
   "scopePatterns": ["src/**", "tests/**"],
   "riskTriggerIds": [],
   "stages": ["post", "ci"],

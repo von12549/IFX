@@ -3,10 +3,6 @@
   "project": "IFX",
   "sources": [
     {
-      "path": ".editorconfig",
-      "sha256NormalizedText": "d8130eb27c9c5d66abca6ca1e0a108d5729516ce8722fab167afba002ce96058"
-    },
-    {
       "path": ".github/CODEOWNERS",
       "sha256NormalizedText": "63fa723799a37549803e8d541075b9673682c4459f14030124fde7a5444ffb7c"
     },
@@ -96,7 +92,7 @@
     },
     {
       "path": "docs/guards/inputs/rules/BE.FORMAT.json",
-      "sha256NormalizedText": "520efe26171e79e67d571091988dad9bd52d47791352a0102c7f63fdc05c5e81"
+      "sha256NormalizedText": "a49158daa1b8f85055aa4f237c486351ec454acc7736c18840176ac3c756ef79"
     },
     {
       "path": "docs/guards/inputs/rules/CG.DIFF.json",
@@ -758,7 +754,7 @@
       "id": "BE.FORMAT",
       "title": "Backend formatting and analyzer baseline",
       "authority": {
-        "path": ".editorconfig"
+        "path": "docs/guards/inputs/rules/BE.FORMAT.json"
       },
       "scopePatterns": [
         "src/**",
