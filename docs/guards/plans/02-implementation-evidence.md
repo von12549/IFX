@@ -50,6 +50,8 @@ LayerGuard 报告版本为 `0.4.0-a1`。现有 CI 分别运行 LayerGuard、G03�
 | Release solution build 与编译后 Domain 程序集检查 | 通过；构建 0 error、19 条既有 warning，5 个 Domain 程序集引用均符合现有策略 |
 | Domain 程序集检测器正反 fixture | 通过；允许引用 pass、违规引用 fail、缺失程序集 blocked |
 
+随后用当前提交的 `git archive HEAD` 建立**不含本地未跟踪文件和依赖目录**的隔离归档，在其中重跑：再生成 Check、通用模板/阶段正反测试、Domain 程序集正反测试、锁文件离线 `npm ci`、前端 lint/63 项测试/build、Release solution build、5 个 Domain 程序集检查、LayerGuard 190 项测试与严格扫描，全部通过。干净归档的 Release build 为 0 error、12 条既有 warning。归档缺少 `.git` 元数据，因此 IFX 的 base/head Diff 另在主工作树以明确提交 SHA 执行；模板 fixture 自建 Git 仓库验证 Diff 的增删改名和未跟踪文件。Linux 实跑仍等待远端 CI。
+
 直接在当前 Windows 工作树运行原始 `Invoke-LayerGuard.ps1` 时，沙箱不能读取用户级 `NuGet.Config`。绕过 restore 运行测试时，5 项因 `deployment/g04/module-manifest.json` 的本地 CRLF 原始字节哈希而失败：原始字节为 `776be5…`，LF 归一化后为绑定要求的 `4047c3…`。用 `git archive HEAD` 建立不修改原文件的隔离 LF 检出后，190 项测试及严格扫描均通过。新增 `.gitattributes` 为新门禁文档/脚本指定 LF，原有 G04 的 LF 声明未更动。
 
 ## CI 与保护状态
