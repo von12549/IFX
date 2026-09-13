@@ -69,6 +69,7 @@ function Get-ChangedEntries {
 
 function Get-Affected {
     param([object[]] $Entries, [object] $Manifest)
+    $Entries = @($Entries | Where-Object { $null -ne $_ })
     $paths = @($Entries | ForEach-Object {
         $_.path
         if ($_.Contains('previousPath')) { $_.previousPath }
@@ -225,6 +226,7 @@ try {
         @($PlannedPaths | ForEach-Object { [ordered]@{ status = 'P'; path = $_.Replace('\', '/') } })
     }
     else { @(Get-ChangedEntries $root $BaseRef $HeadRef) }
+    $entries = @($entries | Where-Object { $null -ne $_ })
     foreach ($entry in $entries) {
         [void] (Resolve-GuardPath $root ([string] $entry.path))
         if ($entry.Contains('previousPath')) { [void] (Resolve-GuardPath $root ([string] $entry.previousPath)) }

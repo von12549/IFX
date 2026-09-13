@@ -143,6 +143,7 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'Fixture commit failed.' }
     }
     finally { Pop-Location }
+    Assert-Exit 0 (@($runner, '-RepositoryRoot', $fixture, '-Profile', 'template', '-Stage', 'Post', '-Scope', 'Focused')) 'no-change Post escalates Full'
     [IO.File]::AppendAllText((Join-Path $fixture 'app/example.txt'), "`nchange")
     Assert-Exit 0 (@($runner, '-RepositoryRoot', $fixture, '-Profile', 'template', '-Stage', 'Diff')) 'ordinary Diff'
     Assert-Exit 1 (@($runner, '-RepositoryRoot', $fixture, '-Profile', 'template', '-Stage', 'Diff', '-DeclaredPaths', 'docs/**')) 'diff outside declared scope'
