@@ -12,7 +12,7 @@
     },
     {
       "path": ".github/workflows/coding-guardrails.yml",
-      "sha256NormalizedText": "aff60ab24123965a5bf91529fbf27a6ef5b0f348444229fa2407063b47e077a4"
+      "sha256NormalizedText": "90c49a4e1a180923675a164b73ded77d371a5ae31ad0896e09aac5b477fb6f8c"
     },
     {
       "path": ".github/workflows/contract-event-governance.yml",
@@ -56,7 +56,7 @@
     },
     {
       "path": "docs/guards/bindings/ifx.json",
-      "sha256NormalizedText": "d6fa3500d4a1f36760a791eda5e40b90999c407081662801a3e010a271e14272"
+      "sha256NormalizedText": "c0dfd737ac7562c4d9b64234ce9302532385c421feb7307aa899701f0c22ea22"
     },
     {
       "path": "docs/guards/contracts/binding.schema.json",
@@ -92,7 +92,7 @@
     },
     {
       "path": "docs/guards/inputs/rules/ARCH.SEMANTIC.json",
-      "sha256NormalizedText": "bbdc06be82e73b90f1fda819b32cc04646a03f150da811d2aaf084925c2da26e"
+      "sha256NormalizedText": "16f3923f31dc4fcd3529c0e3bac70fcb2079a501fcc3c63c59bb5b3bbb396c47"
     },
     {
       "path": "docs/guards/inputs/rules/BE.FORMAT.json",
@@ -132,7 +132,7 @@
     },
     {
       "path": "docs/guards/inputs/rules/L2.2.json",
-      "sha256NormalizedText": "d22fc69d4bda0d44345f0ba01448c33adcb5bef1560e30c9958774df89d8a38e"
+      "sha256NormalizedText": "4b234ca6b3585fd012cb7d961f10fcc980fd33b30ca05fc0afbf887d1bf5bc08"
     },
     {
       "path": "docs/guards/inputs/rules/L2.3.json",
@@ -168,7 +168,7 @@
     },
     {
       "path": "docs/guards/inputs/TECH_STACK.json",
-      "sha256NormalizedText": "d771ac6bf4b79ceaaaaf7b4489cc9e98ffe316c632fb025e4e54d1418b14784b"
+      "sha256NormalizedText": "ae131e07d4fc86e3550c85391e39cdc373da3fae05a86f6297f4ce6e870e29df"
     },
     {
       "path": "scripts/Test-MigrationSafetyPolicy.ps1",
@@ -188,6 +188,21 @@
     }
   ],
   "commands": [
+    {
+      "id": "assembly-domain-check",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/guards/Invoke-DomainAssemblyGuard.ps1",
+        "-Configuration",
+        "Debug",
+        "-ReportPath",
+        "artifacts/guards/post-domain-assembly.json"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-domain-assembly.json"
+    },
     {
       "id": "authentication-tests",
       "executable": "dotnet",
@@ -646,6 +661,13 @@
   ],
   "detectors": [
     {
+      "id": "assembly-domain",
+      "commandId": "assembly-domain-check",
+      "ciJob": "Coding Guardrails / assembly-domain",
+      "ciWorkflow": ".github/workflows/coding-guardrails.yml",
+      "coverage": "partial"
+    },
+    {
       "id": "database",
       "commandId": "database-full",
       "ciJob": "Database migration artifacts / migration-artifacts",
@@ -728,8 +750,8 @@
       "enforcement": "advisory",
       "coverage": "none",
       "detectors": [],
-      "limitations": "LayerGuard reports semantic symbol binding as notChecked. A compiler-backed detector is not yet available; reviewers must inspect fully qualified and aliased references where ownership matters.",
-      "evidenceRequirement": "Human architecture review or a future compiler-backed positive and negative fixture."
+      "limitations": "LayerGuard reports semantic symbol binding as notChecked. The new assembly detector checks direct assembly references only; reviewers must inspect fully qualified and aliased symbol uses where ownership matters.",
+      "evidenceRequirement": "Human architecture review or a future per-symbol semantic detector with positive and negative fixtures."
     },
     {
       "formatVersion": 1,
@@ -984,9 +1006,10 @@
       "enforcement": "blocking",
       "coverage": "partial",
       "detectors": [
-        "layerguard"
+        "layerguard",
+        "assembly-domain"
       ],
-      "limitations": "Project references and syntactic imports are checked; semantic binding is not resolved.",
+      "limitations": "Project references, syntactic imports and compiled Domain assembly references are checked; individual symbol/method binding is not resolved.",
       "riskTriggerIds": [],
       "evidenceRequirement": "Authoritative detector report and its independent CI job status."
     },
@@ -1206,6 +1229,7 @@
     "g05-full",
     "plan04-full",
     "database-full",
+    "assembly-domain-check",
     "frontend-install",
     "frontend-lint",
     "frontend-test",

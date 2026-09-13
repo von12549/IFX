@@ -9,6 +9,6 @@
   "enforcement": "advisory",
   "coverage": "none",
   "detectors": [],
-  "limitations": "LayerGuard reports semantic symbol binding as notChecked. A compiler-backed detector is not yet available; reviewers must inspect fully qualified and aliased references where ownership matters.",
-  "evidenceRequirement": "Human architecture review or a future compiler-backed positive and negative fixture."
+  "limitations": "LayerGuard reports semantic symbol binding as notChecked. The new assembly detector checks direct assembly references only; reviewers must inspect fully qualified and aliased symbol uses where ownership matters.",
+  "evidenceRequirement": "Human architecture review or a future per-symbol semantic detector with positive and negative fixtures."
 }

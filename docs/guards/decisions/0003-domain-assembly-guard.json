@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "0003-domain-assembly-guard",
+  "owner": "Architecture maintainers",
+  "summary": "Add a compiled Domain assembly reference check as a supplemental LayerGuard detector.",
+  "affectedPaths": [
+    "docs/guards/inputs/**",
+    "docs/guards/bindings/**",
+    "scripts/guards/**",
+    ".github/workflows/coding-guardrails.yml"
+  ],
+  "plan": "Read allowedReferences.Domain from the existing src/layerguard.json authority; inspect direct references in compiled Domain assemblies. Keep LayerGuard project graph and baselines unchanged. Prove allowed, forbidden and missing-assembly outcomes with generated fixture DLLs, then run the detector after Release solution build in its own CI job. Retain ARCH.SEMANTIC as advisory because assembly references do not establish per-symbol or runtime behavior."
+}

@@ -14,6 +14,7 @@
     { "id": "g05-full", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "scripts/Invoke-G05Verification.ps1", "-OutputDirectory", "artifacts/guards/post-g05"], "workingDirectory": ".", "expectedOutput": "artifacts/guards/post-g05" },
     { "id": "plan04-full", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "scripts/Test-Plan04Governance.ps1", "-StatusPath", "artifacts/guards/post-plan04.json"], "workingDirectory": ".", "expectedOutput": "artifacts/guards/post-plan04.json" },
     { "id": "database-full", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "scripts/Test-MigrationSafetyPolicy.ps1", "-ReportPath", "artifacts/guards/post-database.json"], "workingDirectory": ".", "expectedOutput": "artifacts/guards/post-database.json" },
+    { "id": "assembly-domain-check", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "scripts/guards/Invoke-DomainAssemblyGuard.ps1", "-Configuration", "Debug", "-ReportPath", "artifacts/guards/post-domain-assembly.json"], "workingDirectory": ".", "expectedOutput": "artifacts/guards/post-domain-assembly.json" },
     { "id": "frontend-install", "executable": "npm", "arguments": ["ci"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
     { "id": "frontend-lint", "executable": "npm", "arguments": ["run", "lint"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
     { "id": "frontend-test", "executable": "npm", "arguments": ["run", "test:run"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },

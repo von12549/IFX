@@ -310,7 +310,9 @@ try {
     }
     else {
         $commandIds = @()
-        $full = $Scope -eq 'Full' -or $affected.areas.Count -eq 0 -or @($affected.risks | Where-Object { $_.id -like 'guard-*' -or $_.id -eq 'gate-authority' -or $_.id -eq 'ci-workflow' }).Count -gt 0
+        $full = $Scope -eq 'Full' -or $affected.areas.Count -eq 0 -or
+            @($affected.paths | Where-Object { Test-GuardGlob $_ 'src/Modules/**/IFX.Modules.*.Domain/**' }).Count -gt 0 -or
+            @($affected.risks | Where-Object { $_.id -like 'guard-*' -or $_.id -eq 'gate-authority' -or $_.id -eq 'ci-workflow' }).Count -gt 0
         if (-not $full) {
             $areaIds = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
             foreach ($area in $affected.areas) { [void] $areaIds.Add([string] $area.id) }

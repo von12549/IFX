@@ -16,9 +16,10 @@
   "enforcement": "blocking",
   "coverage": "partial",
   "detectors": [
-    "layerguard"
+    "layerguard",
+    "assembly-domain"
   ],
-  "limitations": "Project references and syntactic imports are checked; semantic binding is not resolved.",
+  "limitations": "Project references, syntactic imports and compiled Domain assembly references are checked; individual symbol/method binding is not resolved.",
   "riskTriggerIds": [],
   "evidenceRequirement": "Authoritative detector report and its independent CI job status."
 }

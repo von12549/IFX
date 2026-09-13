@@ -30,7 +30,10 @@ try {
     [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'app/config'))
     [void] [IO.Directory]::CreateDirectory((Join-Path $fixture '.github/workflows'))
     Copy-Item -LiteralPath (Join-Path $repo 'docs/guards/contracts') -Destination (Join-Path $fixture 'docs/guards/contracts') -Recurse
-    Copy-Item -LiteralPath (Join-Path $repo 'scripts/guards') -Destination (Join-Path $fixture 'scripts/guards') -Recurse
+    [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'scripts/guards'))
+    foreach ($script in @('GuardCore.psm1', 'Invoke-CodingGuard.ps1', 'Invoke-GuardRegeneration.ps1')) {
+        Copy-Item -LiteralPath (Join-Path $repo "scripts/guards/$script") -Destination (Join-Path $fixture "scripts/guards/$script")
+    }
     $template = Join-Path $repo 'docs/guards/templates/new-project'
     Copy-Item -LiteralPath (Join-Path $template 'inputs') -Destination (Join-Path $fixture 'docs/guards/inputs') -Recurse
     Copy-Item -LiteralPath (Join-Path $template 'bindings') -Destination (Join-Path $fixture 'docs/guards/bindings') -Recurse
