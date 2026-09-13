@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "areas", "riskTriggers"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "areas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "pathPattern", "layer", "ownerSource", "focusedCommands"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "pathPattern": { "type": "string", "minLength": 1 },
+          "layer": { "type": "string", "minLength": 1 },
+          "ownerSource": { "type": "string", "minLength": 1 },
+          "focusedCommands": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "riskTriggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "pathPattern", "reason", "requiresDecision"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "pathPattern": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "requiresDecision": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

@@ -5,27 +5,26 @@ import { useAuth } from '../../contexts/AuthContext'
 export function CallbackPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
-  const [error, setError] = useState('')
+  const [error, setError] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.slice(1))
+    const callbackError = params.get('error')
+    if (callbackError) return params.get('error_description') || callbackError
+    if (!params.get('access_token')) return 'No access token received. Please try signing in again.'
+    return ''
+  })
 
   useEffect(() => {
     const hash = window.location.hash.slice(1)
     const params = new URLSearchParams(hash)
 
-    const errorParam = params.get('error')
-    if (errorParam) {
-      setError(params.get('error_description') || errorParam)
-      return
-    }
+    if (params.get('error')) return
 
     const accessToken = params.get('access_token')
     const idToken = params.get('id_token') || ''
     const refreshToken = params.get('refresh_token') || ''
     const expiresIn = parseInt(params.get('expires_in') || '3600', 10)
 
-    if (!accessToken) {
-      setError('No access token received. Please try signing in again.')
-      return
-    }
+    if (!accessToken) return
 
     login({ accessToken, idToken, refreshToken, expiresIn })
       .then(() => navigate('/profile', { replace: true }))

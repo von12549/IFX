@@ -1,0 +1,1214 @@
+{
+  "formatVersion": 1,
+  "project": "IFX",
+  "sources": [
+    {
+      "path": ".editorconfig",
+      "sha256NormalizedText": "d8130eb27c9c5d66abca6ca1e0a108d5729516ce8722fab167afba002ce96058"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "sha256NormalizedText": "63fa723799a37549803e8d541075b9673682c4459f14030124fde7a5444ffb7c"
+    },
+    {
+      "path": ".github/workflows/coding-guardrails.yml",
+      "sha256NormalizedText": "aff60ab24123965a5bf91529fbf27a6ef5b0f348444229fa2407063b47e077a4"
+    },
+    {
+      "path": ".github/workflows/contract-event-governance.yml",
+      "sha256NormalizedText": "7a3d8d6d2af7ee0603c74ede1108bf8ef591bc22f552863dd696dc6b2f79b8a5"
+    },
+    {
+      "path": ".github/workflows/database-migrations.yml",
+      "sha256NormalizedText": "aaa98d812d9b80429530fd13f158e8b24a8a07c9b787abf65c2d0e9905f98353"
+    },
+    {
+      "path": ".github/workflows/g04-deployment-runtime.yml",
+      "sha256NormalizedText": "a1b6ec7f862227b0c061ed6992ec36c7c6875b6ecb0feab76d3764af3690accc"
+    },
+    {
+      "path": ".github/workflows/g05-context-boundary.yml",
+      "sha256NormalizedText": "56981df02d75e01e5c760e6e17ef129da742069bf956021479089b12c6f06bf6"
+    },
+    {
+      "path": ".github/workflows/layerguard.yml",
+      "sha256NormalizedText": "88a079360672c205c4d5550edbbae3f2ee009cc29461f7a3a4dad11bcddbee86"
+    },
+    {
+      "path": ".github/workflows/plan04-governance.yml",
+      "sha256NormalizedText": "31d17c60f78c15fcd4bc52b42597608f695364bb129e122fa25489f4f4a8518a"
+    },
+    {
+      "path": "deployment/g04/release-runtime-manifest.json",
+      "sha256NormalizedText": "c8c580aa0feb5c287ca488561bb7473d345655f94678b1cce80c302c9633caeb"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "sha256NormalizedText": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+      "sha256NormalizedText": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649"
+    },
+    {
+      "path": "docs/architecture/review/gates/G05/context-protocol-v1.json",
+      "sha256NormalizedText": "d7cb3d0cca54154a76235d96c292e2a719302d920d8a8cea4c5ec084dad7825a"
+    },
+    {
+      "path": "docs/guards/bindings/ifx.json",
+      "sha256NormalizedText": "d6fa3500d4a1f36760a791eda5e40b90999c407081662801a3e010a271e14272"
+    },
+    {
+      "path": "docs/guards/contracts/binding.schema.json",
+      "sha256NormalizedText": "d7572dcc5a48ab2eb4afa2d90390ce05e185379b918be45884e343acd0274784"
+    },
+    {
+      "path": "docs/guards/contracts/decision.schema.json",
+      "sha256NormalizedText": "6efad4af09832a0514157e5c2068ff66b88f57258b862e99df03202b57498fff"
+    },
+    {
+      "path": "docs/guards/contracts/guard-manifest.schema.json",
+      "sha256NormalizedText": "76360c59f30f263e3837dc55439278453fe078f6b9a54b176a43a1d74b63472b"
+    },
+    {
+      "path": "docs/guards/contracts/guard-result.schema.json",
+      "sha256NormalizedText": "98bc19234205008494289d09ca43f6fe5b0eb3b80c561b41b2eb8b21debc9106"
+    },
+    {
+      "path": "docs/guards/contracts/project-map.schema.json",
+      "sha256NormalizedText": "1a48e9571d386c500ea08889cb7cc3a1149f7f5c046495b943db662b16bd954b"
+    },
+    {
+      "path": "docs/guards/contracts/rule.schema.json",
+      "sha256NormalizedText": "c5b895298889bd262c240c2f255612b18bec886d5f975456f7eaefd7270d553e"
+    },
+    {
+      "path": "docs/guards/contracts/tech-stack.schema.json",
+      "sha256NormalizedText": "29e90df605ea0fa643ec08fa3358c5fc028cf8c77d82cf477322ecc26c46a22f"
+    },
+    {
+      "path": "docs/guards/inputs/PROJECT_MAP.json",
+      "sha256NormalizedText": "e8e2c7b79987f338ca976b4a7ec1935244097eee9d32c62a067b20ed63d386fd"
+    },
+    {
+      "path": "docs/guards/inputs/rules/ARCH.SEMANTIC.json",
+      "sha256NormalizedText": "bbdc06be82e73b90f1fda819b32cc04646a03f150da811d2aaf084925c2da26e"
+    },
+    {
+      "path": "docs/guards/inputs/rules/BE.FORMAT.json",
+      "sha256NormalizedText": "520efe26171e79e67d571091988dad9bd52d47791352a0102c7f63fdc05c5e81"
+    },
+    {
+      "path": "docs/guards/inputs/rules/CG.DIFF.json",
+      "sha256NormalizedText": "5c80e2bbd68a71ad13d2f546fc7aac1e8ef5df90552ca9281e62487889318b8d"
+    },
+    {
+      "path": "docs/guards/inputs/rules/CG.REGEN.json",
+      "sha256NormalizedText": "1cb5fc579623bab5337fd70d83061be20d7fb506aeb50c90d27ea2efb7091b9e"
+    },
+    {
+      "path": "docs/guards/inputs/rules/DB.MIGRATION.json",
+      "sha256NormalizedText": "562c01ab094f1445da6bd7185d286464e6a6a967080f983db7a1331b54ad81fb"
+    },
+    {
+      "path": "docs/guards/inputs/rules/FE.QUALITY.json",
+      "sha256NormalizedText": "6e7027d6916167b08a969f125172f09665dc9d48a6e8ba1a42c1714f76974091"
+    },
+    {
+      "path": "docs/guards/inputs/rules/G03.CONTRACT.json",
+      "sha256NormalizedText": "d1890766bf41c1978367cc7812da54f6eed10bb6ab970740d82cb41b12f1e34c"
+    },
+    {
+      "path": "docs/guards/inputs/rules/G04.RUNTIME.json",
+      "sha256NormalizedText": "8078580d7cca3ac894623473914555f054b0631542f408a0d43fbcebbc7411fe"
+    },
+    {
+      "path": "docs/guards/inputs/rules/G05.CONTEXT.json",
+      "sha256NormalizedText": "3797a15b3edd00fdb9cec4d682970851da3f600f5fa4a1291fd4a590adcd8942"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L1.2.json",
+      "sha256NormalizedText": "af044ae7ba0cdfad67edc46e15a3d0dfef04b333f8c798f4c247a435cc49a371"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L2.2.json",
+      "sha256NormalizedText": "d22fc69d4bda0d44345f0ba01448c33adcb5bef1560e30c9958774df89d8a38e"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L2.3.json",
+      "sha256NormalizedText": "bbcaff429f7cb3b24ae3bbca192e714f017fe63fb9e71406d2b562c5d4b37b9a"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L2.4.json",
+      "sha256NormalizedText": "d8f8513ab7155e66ec44ad92bdd8dd65f64904eacd44f64af2dc4362a4014570"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L2.9.json",
+      "sha256NormalizedText": "4885be54b782cdf0c318d0620179a1931cb7cc086befe95402e3462e14fe2044"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L3.1.json",
+      "sha256NormalizedText": "adbe5e8a25364fb099ec1ad217512cacc63efa424d98e2d59222f419fb30046d"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L3.4.json",
+      "sha256NormalizedText": "9a42780e7a05e1d3844510c2399c676ed3332bcbbd115045ae2e6e61968b3433"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L3.5.json",
+      "sha256NormalizedText": "84382a49c576219828d40ac49944287f74a71b5c6f6eca3cbff49674e76e5ed8"
+    },
+    {
+      "path": "docs/guards/inputs/rules/L3.6.json",
+      "sha256NormalizedText": "d4c815867024512dd911218997a864dc1a3d02eb241488466956c60a8416bfe0"
+    },
+    {
+      "path": "docs/guards/inputs/rules/P04.GOVERNANCE.json",
+      "sha256NormalizedText": "d6bde436823d63638f57e3bd8d27df637f26d6731a2be882d0ca7119d265b6d2"
+    },
+    {
+      "path": "docs/guards/inputs/TECH_STACK.json",
+      "sha256NormalizedText": "d771ac6bf4b79ceaaaaf7b4489cc9e98ffe316c632fb025e4e54d1418b14784b"
+    },
+    {
+      "path": "scripts/Test-MigrationSafetyPolicy.ps1",
+      "sha256NormalizedText": "a40fa4da42854d63bbde507df85c3dafcc6cb465e3f53c40daadaffa3e6a3f61"
+    },
+    {
+      "path": "scripts/Test-Plan04Governance.ps1",
+      "sha256NormalizedText": "19ea9c89d12c70eef966e0fe7fb441e5b9b0a2ff82ec97e67258fa5a913c73aa"
+    },
+    {
+      "path": "src/Frontend/IFX.FrontEnd/package.json",
+      "sha256NormalizedText": "8c4e911c067e0e7fbd01a3926696dcb23d5d718ce3cc20c6641b89e09f737932"
+    },
+    {
+      "path": "src/layerguard.json",
+      "sha256NormalizedText": "fe790cf3402f5644bb83e64535b39914fa32b40cfdbf7221f53cb42829884bf4"
+    }
+  ],
+  "commands": [
+    {
+      "id": "authentication-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Platform.Authentication.Tests/IFX.Platform.Authentication.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "authorization-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Platform.Authorization.Tests/IFX.Platform.Authorization.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "crm-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Modules.CRM.Application.Tests/IFX.Modules.CRM.Application.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "database-full",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Test-MigrationSafetyPolicy.ps1",
+        "-ReportPath",
+        "artifacts/guards/post-database.json"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-database.json"
+    },
+    {
+      "id": "frontend-build",
+      "executable": "npm",
+      "arguments": [
+        "run",
+        "build"
+      ],
+      "workingDirectory": "src/Frontend/IFX.FrontEnd"
+    },
+    {
+      "id": "frontend-install",
+      "executable": "npm",
+      "arguments": [
+        "ci"
+      ],
+      "workingDirectory": "src/Frontend/IFX.FrontEnd"
+    },
+    {
+      "id": "frontend-lint",
+      "executable": "npm",
+      "arguments": [
+        "run",
+        "lint"
+      ],
+      "workingDirectory": "src/Frontend/IFX.FrontEnd"
+    },
+    {
+      "id": "frontend-test",
+      "executable": "npm",
+      "arguments": [
+        "run",
+        "test:run"
+      ],
+      "workingDirectory": "src/Frontend/IFX.FrontEnd"
+    },
+    {
+      "id": "g03-full",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Invoke-G03ContractEventGuard.ps1",
+        "-Phase",
+        "7",
+        "-ReportPath",
+        "artifacts/guards/post-g03.json"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-g03.json"
+    },
+    {
+      "id": "g04-full",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Invoke-G04Verification.ps1",
+        "-OutputDirectory",
+        "artifacts/guards/post-g04"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-g04"
+    },
+    {
+      "id": "g05-full",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Invoke-G05Verification.ps1",
+        "-OutputDirectory",
+        "artifacts/guards/post-g05"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-g05"
+    },
+    {
+      "id": "guard-selftest",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "tests/guards/Test-CodingGuards.ps1"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "holdings-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Modules.Holdings.Application.Tests/IFX.Modules.Holdings.Application.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "iam-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Modules.IAM.Application.Tests/IFX.Modules.IAM.Application.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "layerguard-focused",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Invoke-LayerGuard.ps1",
+        "-SkipTests",
+        "-ReportPath",
+        "artifacts/guards/post-layerguard-focused.json"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-layerguard-focused.json"
+    },
+    {
+      "id": "layerguard-full",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Invoke-LayerGuard.ps1",
+        "-ReportPath",
+        "artifacts/guards/post-layerguard-full.json"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-layerguard-full.json"
+    },
+    {
+      "id": "plan04-full",
+      "executable": "pwsh",
+      "arguments": [
+        "-NoProfile",
+        "-File",
+        "scripts/Test-Plan04Governance.ps1",
+        "-StatusPath",
+        "artifacts/guards/post-plan04.json"
+      ],
+      "workingDirectory": ".",
+      "expectedOutput": "artifacts/guards/post-plan04.json"
+    },
+    {
+      "id": "registry-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Modules.Registry.Application.Tests/IFX.Modules.Registry.Application.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    },
+    {
+      "id": "transaction-tests",
+      "executable": "dotnet",
+      "arguments": [
+        "test",
+        "tests/IFX.Modules.Transaction.Application.Tests/IFX.Modules.Transaction.Application.Tests.csproj"
+      ],
+      "workingDirectory": "."
+    }
+  ],
+  "areas": [
+    {
+      "id": "Authentication",
+      "pathPattern": "src/Platform/Authentication/**",
+      "layer": "platform",
+      "ownerSource": "g03:Authentication",
+      "focusedCommands": [
+        "layerguard-focused",
+        "authentication-tests"
+      ]
+    },
+    {
+      "id": "Authorization",
+      "pathPattern": "src/Platform/Authorization/**",
+      "layer": "platform",
+      "ownerSource": "g03:Authorization",
+      "focusedCommands": [
+        "layerguard-focused",
+        "authorization-tests"
+      ]
+    },
+    {
+      "id": "CRM",
+      "pathPattern": "src/Modules/CRM/**",
+      "layer": "module",
+      "ownerSource": "g03:CRM",
+      "focusedCommands": [
+        "layerguard-focused",
+        "crm-tests"
+      ]
+    },
+    {
+      "id": "Frontend",
+      "pathPattern": "src/Frontend/**",
+      "layer": "frontend",
+      "ownerSource": "codeowners",
+      "focusedCommands": [
+        "frontend-lint",
+        "frontend-test",
+        "frontend-build"
+      ]
+    },
+    {
+      "id": "GuardFramework",
+      "pathPattern": "docs/guards/**",
+      "layer": "tooling",
+      "ownerSource": "codeowners",
+      "focusedCommands": [
+        "guard-selftest"
+      ]
+    },
+    {
+      "id": "GuardScripts",
+      "pathPattern": "scripts/guards/**",
+      "layer": "tooling",
+      "ownerSource": "codeowners",
+      "focusedCommands": [
+        "guard-selftest"
+      ]
+    },
+    {
+      "id": "Holdings",
+      "pathPattern": "src/Modules/Holdings/**",
+      "layer": "module",
+      "ownerSource": "g03:Holdings",
+      "focusedCommands": [
+        "layerguard-focused",
+        "holdings-tests"
+      ]
+    },
+    {
+      "id": "IAM",
+      "pathPattern": "src/Modules/IAM/**",
+      "layer": "module",
+      "ownerSource": "g03:IAM",
+      "focusedCommands": [
+        "layerguard-focused",
+        "iam-tests"
+      ]
+    },
+    {
+      "id": "Registry",
+      "pathPattern": "src/Modules/Registry/**",
+      "layer": "module",
+      "ownerSource": "g03:Registry",
+      "focusedCommands": [
+        "layerguard-focused",
+        "registry-tests"
+      ]
+    },
+    {
+      "id": "Transaction",
+      "pathPattern": "src/Modules/Transaction/**",
+      "layer": "module",
+      "ownerSource": "g03:Transaction",
+      "focusedCommands": [
+        "layerguard-focused",
+        "transaction-tests"
+      ]
+    }
+  ],
+  "riskTriggers": [
+    {
+      "id": "authentication",
+      "pathPattern": "src/Platform/Authentication/**",
+      "reason": "Authentication boundary",
+      "requiresDecision": true
+    },
+    {
+      "id": "authorization",
+      "pathPattern": "src/Platform/Authorization/**",
+      "reason": "Authorization boundary",
+      "requiresDecision": true
+    },
+    {
+      "id": "ci-workflow",
+      "pathPattern": ".github/workflows/**",
+      "reason": "CI enforcement configuration",
+      "requiresDecision": true
+    },
+    {
+      "id": "database-migration",
+      "pathPattern": "src/**/Migrations/**",
+      "reason": "Database migration or schema change",
+      "requiresDecision": true
+    },
+    {
+      "id": "database-migrator",
+      "pathPattern": "src/DatabaseMigrator/**",
+      "reason": "Database release boundary",
+      "requiresDecision": true
+    },
+    {
+      "id": "deployment",
+      "pathPattern": "deployment/**",
+      "reason": "Deployment and runtime boundary",
+      "requiresDecision": true
+    },
+    {
+      "id": "dotnet-dependency",
+      "pathPattern": "**/*.csproj",
+      "reason": ".NET project or package dependency change",
+      "requiresDecision": true
+    },
+    {
+      "id": "frontend-auth",
+      "pathPattern": "src/Frontend/IFX.FrontEnd/src/**/auth/**",
+      "reason": "Frontend sign-in and registration flow",
+      "requiresDecision": true
+    },
+    {
+      "id": "frontend-auth-context",
+      "pathPattern": "src/Frontend/IFX.FrontEnd/src/contexts/AuthContext.tsx",
+      "reason": "Frontend authentication session context",
+      "requiresDecision": true
+    },
+    {
+      "id": "frontend-dependency",
+      "pathPattern": "src/Frontend/**/package.json",
+      "reason": "Frontend dependency or script change",
+      "requiresDecision": true
+    },
+    {
+      "id": "frontend-lockfile",
+      "pathPattern": "src/Frontend/**/package-lock.json",
+      "reason": "Locked frontend dependency change",
+      "requiresDecision": true
+    },
+    {
+      "id": "gate-authority",
+      "pathPattern": "src/layerguard.json",
+      "reason": "LayerGuard policy authority",
+      "requiresDecision": true
+    },
+    {
+      "id": "gate-baseline",
+      "pathPattern": "mcp/LayerGuard/baselines/**",
+      "reason": "Architecture waiver baseline",
+      "requiresDecision": true
+    },
+    {
+      "id": "gate-input",
+      "pathPattern": "docs/architecture/review/gates/**",
+      "reason": "Gate authority or derived input",
+      "requiresDecision": true
+    },
+    {
+      "id": "gate-line-endings",
+      "pathPattern": ".gitattributes",
+      "reason": "Checkout byte normalization for bound policies and generated artifacts",
+      "requiresDecision": true
+    },
+    {
+      "id": "gate-review-routing",
+      "pathPattern": ".github/CODEOWNERS",
+      "reason": "Required owner review routing",
+      "requiresDecision": true
+    },
+    {
+      "id": "gate-validator",
+      "pathPattern": "scripts/*Guard*.ps1",
+      "reason": "Existing gate validator entry change",
+      "requiresDecision": true
+    },
+    {
+      "id": "guard-binding",
+      "pathPattern": "docs/guards/bindings/**",
+      "reason": "Guard detector binding",
+      "requiresDecision": true
+    },
+    {
+      "id": "guard-contract",
+      "pathPattern": "docs/guards/contracts/**",
+      "reason": "Guard input or result contract",
+      "requiresDecision": true
+    },
+    {
+      "id": "guard-rules",
+      "pathPattern": "docs/guards/inputs/**",
+      "reason": "Guard rule or project profile",
+      "requiresDecision": true
+    },
+    {
+      "id": "guard-runtime",
+      "pathPattern": "scripts/guards/**",
+      "reason": "Guard framework code",
+      "requiresDecision": true
+    },
+    {
+      "id": "identity-security",
+      "pathPattern": "src/Modules/IAM/**",
+      "reason": "IAM and tenant boundary",
+      "requiresDecision": true
+    },
+    {
+      "id": "layerguard-runtime",
+      "pathPattern": "mcp/LayerGuard/**",
+      "reason": "LayerGuard validator or test change",
+      "requiresDecision": true
+    },
+    {
+      "id": "messaging",
+      "pathPattern": "src/Platform/Messaging/**",
+      "reason": "Message delivery and contract boundary",
+      "requiresDecision": true
+    },
+    {
+      "id": "public-contract",
+      "pathPattern": "src/**/IFX.*.Contracts/**",
+      "reason": "Public contract or protocol change",
+      "requiresDecision": true
+    }
+  ],
+  "detectors": [
+    {
+      "id": "database",
+      "commandId": "database-full",
+      "ciJob": "Database migration artifacts / migration-artifacts",
+      "ciWorkflow": ".github/workflows/database-migrations.yml",
+      "coverage": "partial"
+    },
+    {
+      "id": "frontend",
+      "commandId": "frontend-test",
+      "ciJob": "Coding Guardrails / frontend-quality",
+      "ciWorkflow": ".github/workflows/coding-guardrails.yml",
+      "coverage": "partial"
+    },
+    {
+      "id": "g03",
+      "commandId": "g03-full",
+      "ciJob": "Contract Event Governance / g03-governance",
+      "ciWorkflow": ".github/workflows/contract-event-governance.yml",
+      "coverage": "partial"
+    },
+    {
+      "id": "g04",
+      "commandId": "g04-full",
+      "ciJob": "G04 Deployment Runtime / deployment-runtime-boundary",
+      "ciWorkflow": ".github/workflows/g04-deployment-runtime.yml",
+      "coverage": "partial"
+    },
+    {
+      "id": "g05",
+      "commandId": "g05-full",
+      "ciJob": "G05 Context and Sensitive Data Boundary / context-sensitive-data-boundary",
+      "ciWorkflow": ".github/workflows/g05-context-boundary.yml",
+      "coverage": "partial"
+    },
+    {
+      "id": "guard-framework",
+      "commandId": "guard-selftest",
+      "ciJob": "Coding Guardrails / guard-framework",
+      "ciWorkflow": ".github/workflows/coding-guardrails.yml",
+      "coverage": "full"
+    },
+    {
+      "id": "layerguard",
+      "commandId": "layerguard-full",
+      "ciJob": "LayerGuard / architecture-boundaries",
+      "ciWorkflow": ".github/workflows/layerguard.yml",
+      "coverage": "partial"
+    },
+    {
+      "id": "plan04",
+      "commandId": "plan04-full",
+      "ciJob": "Plan 04 governance / module-boundary-and-tenant-governance",
+      "ciWorkflow": ".github/workflows/plan04-governance.yml",
+      "coverage": "partial"
+    }
+  ],
+  "rules": [
+    {
+      "formatVersion": 1,
+      "id": "ARCH.SEMANTIC",
+      "title": "Review semantically bound cross-ring references",
+      "authority": {
+        "path": "docs/guards/inputs/rules/ARCH.SEMANTIC.json"
+      },
+      "scopePatterns": [
+        "src/**"
+      ],
+      "riskTriggerIds": [
+        "public-contract",
+        "identity-security",
+        "authentication",
+        "authorization",
+        "messaging"
+      ],
+      "stages": [
+        "pre",
+        "post",
+        "ci"
+      ],
+      "enforcement": "advisory",
+      "coverage": "none",
+      "detectors": [],
+      "limitations": "LayerGuard reports semantic symbol binding as notChecked. A compiler-backed detector is not yet available; reviewers must inspect fully qualified and aliased references where ownership matters.",
+      "evidenceRequirement": "Human architecture review or a future compiler-backed positive and negative fixture."
+    },
+    {
+      "formatVersion": 1,
+      "id": "BE.FORMAT",
+      "title": "Backend formatting and analyzer baseline",
+      "authority": {
+        "path": ".editorconfig"
+      },
+      "scopePatterns": [
+        "src/**",
+        "tests/**"
+      ],
+      "riskTriggerIds": [],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "advisory",
+      "coverage": "none",
+      "detectors": [],
+      "limitations": "No dotnet format or analyzer verification command is currently in a CI workflow. Existing builds and tests do not imply format compliance.",
+      "evidenceRequirement": "Future dotnet format baseline and negative fixture before promoting to blocking."
+    },
+    {
+      "formatVersion": 1,
+      "id": "CG.DIFF",
+      "title": "High-risk diff requires a reviewable decision",
+      "authority": {
+        "path": "docs/guards/inputs/rules/CG.DIFF.json"
+      },
+      "scopePatterns": [
+        "**"
+      ],
+      "stages": [
+        "diff",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "guard-framework"
+      ],
+      "limitations": "Diff classification cannot judge business intent or verify human approval.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Diff result JSON with changed paths, risk classification, and decision association."
+    },
+    {
+      "formatVersion": 1,
+      "id": "CG.REGEN",
+      "title": "Guard inputs and generated outputs remain in sync",
+      "authority": {
+        "path": "docs/guards/inputs/rules/CG.REGEN.json"
+      },
+      "scopePatterns": [
+        "docs/guards/**"
+      ],
+      "stages": [
+        "post",
+        "diff",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "full",
+      "detectors": [
+        "guard-framework"
+      ],
+      "limitations": "Checks generation integrity, not the truth of a human-authored rule.",
+      "riskTriggerIds": [
+        "guard-rules",
+        "guard-binding",
+        "guard-contract"
+      ],
+      "evidenceRequirement": "Byte-for-byte regeneration Check and framework negative fixtures."
+    },
+    {
+      "formatVersion": 1,
+      "id": "DB.MIGRATION",
+      "title": "Database migration boundary",
+      "authority": {
+        "path": "scripts/Test-MigrationSafetyPolicy.ps1"
+      },
+      "scopePatterns": [
+        "src/**/Migrations/**",
+        "src/DatabaseMigrator/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "database"
+      ],
+      "limitations": "CI tests use isolated databases; target environment approval is separate.",
+      "riskTriggerIds": [
+        "database-migration",
+        "database-migrator"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "FE.QUALITY",
+      "title": "Frontend lint, tests and production build",
+      "authority": {
+        "path": "src/Frontend/IFX.FrontEnd/package.json",
+        "selector": "scripts"
+      },
+      "scopePatterns": [
+        "src/Frontend/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "frontend"
+      ],
+      "limitations": "Lint, unit tests and build do not constitute end-to-end browser acceptance.",
+      "riskTriggerIds": [
+        "frontend-auth",
+        "frontend-auth-context",
+        "frontend-dependency",
+        "frontend-lockfile"
+      ],
+      "evidenceRequirement": "Locked install, lint, unit-test, and build CI statuses."
+    },
+    {
+      "formatVersion": 1,
+      "id": "G03.CONTRACT",
+      "title": "Contract and event governance",
+      "authority": {
+        "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      },
+      "scopePatterns": [
+        "src/**",
+        "docs/architecture/review/gates/G03/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "g03"
+      ],
+      "limitations": "Catalog and source reconciliation do not prove consumer runtime behavior.",
+      "riskTriggerIds": [
+        "public-contract",
+        "messaging"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "G04.RUNTIME",
+      "title": "Deployment runtime boundary",
+      "authority": {
+        "path": "deployment/g04/release-runtime-manifest.json"
+      },
+      "scopePatterns": [
+        "deployment/**",
+        "src/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "g04"
+      ],
+      "limitations": "Repository checks do not prove target-environment rollout or operations approval.",
+      "riskTriggerIds": [
+        "deployment"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "G05.CONTEXT",
+      "title": "Context and sensitive-data boundary",
+      "authority": {
+        "path": "docs/architecture/review/gates/G05/context-protocol-v1.json"
+      },
+      "scopePatterns": [
+        "src/**",
+        "docs/architecture/review/gates/G05/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "g05"
+      ],
+      "limitations": "Conformance tests do not prove production tenant data or external IdP behavior.",
+      "riskTriggerIds": [
+        "identity-security",
+        "authentication",
+        "authorization",
+        "messaging"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L1.2",
+      "title": "No legacy Abstractions project",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L1.2]"
+      },
+      "scopePatterns": [
+        "src/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard"
+      ],
+      "limitations": "Matches configured project names; does not judge runtime compatibility.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L2.2",
+      "title": "Domain does not depend on Contracts",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L2.2]"
+      },
+      "scopePatterns": [
+        "src/Modules/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard"
+      ],
+      "limitations": "Project references and syntactic imports are checked; semantic binding is not resolved.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L2.3",
+      "title": "Application uses only its own Contracts",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L2.3]"
+      },
+      "scopePatterns": [
+        "src/Modules/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard"
+      ],
+      "limitations": "Ownership follows configured project names; runtime calls are outside scope.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L2.4",
+      "title": "Adapters use registered provider Contracts",
+      "authority": {
+        "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+      },
+      "scopePatterns": [
+        "src/Modules/**",
+        "src/Platform/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard",
+        "g03"
+      ],
+      "limitations": "Static provider graph and reconciliation are checked; delivery behavior is separate.",
+      "riskTriggerIds": [
+        "public-contract",
+        "messaging"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L2.9",
+      "title": "Unknown module ownership fails closed",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L2.9]"
+      },
+      "scopePatterns": [
+        "src/Modules/**",
+        "src/Platform/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard"
+      ],
+      "limitations": "Project naming determines ownership; non-project assets need separate inventory.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L3.1",
+      "title": "Contracts and events live in provider namespaces",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L3.1]"
+      },
+      "scopePatterns": [
+        "src/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard"
+      ],
+      "limitations": "Declaration naming and namespace syntax are checked, not public API compatibility.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L3.4",
+      "title": "Contracts exclude framework and transport implementation",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L3.4]"
+      },
+      "scopePatterns": [
+        "src/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard",
+        "g05"
+      ],
+      "limitations": "Syntactic package, import and symbol checks cannot prove all semantic references.",
+      "riskTriggerIds": [
+        "identity-security",
+        "authentication",
+        "authorization"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L3.5",
+      "title": "Contracts do not contain implementation declarations",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L3.5]"
+      },
+      "scopePatterns": [
+        "src/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard"
+      ],
+      "limitations": "Name and syntax patterns do not identify every behavior-bearing type.",
+      "riskTriggerIds": [],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "L3.6",
+      "title": "Integration payloads do not expose internal models",
+      "authority": {
+        "path": "src/layerguard.json",
+        "selector": "ruleRefs[L3.6]"
+      },
+      "scopePatterns": [
+        "src/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "layerguard",
+        "g03",
+        "g05"
+      ],
+      "limitations": "Payload syntax is checked; schema compatibility and runtime values use Gate tests.",
+      "riskTriggerIds": [
+        "messaging"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    },
+    {
+      "formatVersion": 1,
+      "id": "P04.GOVERNANCE",
+      "title": "Plan 04 module and tenant governance",
+      "authority": {
+        "path": "scripts/Test-Plan04Governance.ps1"
+      },
+      "scopePatterns": [
+        "src/**",
+        "docs/architecture/review/**"
+      ],
+      "stages": [
+        "post",
+        "ci"
+      ],
+      "enforcement": "blocking",
+      "coverage": "partial",
+      "detectors": [
+        "plan04"
+      ],
+      "limitations": "Static validators complement authorization and tenant behavior tests.",
+      "riskTriggerIds": [
+        "identity-security"
+      ],
+      "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+    }
+  ],
+  "postFullCommands": [
+    "layerguard-full",
+    "g03-full",
+    "g04-full",
+    "g05-full",
+    "plan04-full",
+    "database-full",
+    "frontend-install",
+    "frontend-lint",
+    "frontend-test",
+    "frontend-build"
+  ]
+}

@@ -8,11 +8,6 @@ export interface Toast {
 
 let nextId = 1
 
-// Fired by the Axios interceptor — no React dependency needed in client.ts
-export function dispatchToast(type: Toast['type'], message: string) {
-  window.dispatchEvent(new CustomEvent('ifx:toast', { detail: { type, message } }))
-}
-
 export function Toaster() {
   const [toasts, setToasts] = useState<Toast[]>([])
 

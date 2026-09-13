@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "L1.2",
+  "title": "No legacy Abstractions project",
+  "authority": {
+    "path": "src/layerguard.json",
+    "selector": "ruleRefs[L1.2]"
+  },
+  "scopePatterns": [
+    "src/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "layerguard"
+  ],
+  "limitations": "Matches configured project names; does not judge runtime compatibility.",
+  "riskTriggerIds": [],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { idpApi } from '../api/idp'
 import { platformApi } from '../api/platform'
@@ -63,8 +64,8 @@ export function IdpManagementPage() {
       else if (editId) await idpApi.update(editId, form)
       await load()
       setModal(null)
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to save')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Failed to save'))
     } finally { setSaving(false) }
   }
 

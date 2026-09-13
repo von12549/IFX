@@ -1,0 +1,14 @@
+{
+  "formatVersion": 1,
+  "id": "BE.FORMAT",
+  "title": "Backend formatting and analyzer baseline",
+  "authority": { "path": ".editorconfig" },
+  "scopePatterns": ["src/**", "tests/**"],
+  "riskTriggerIds": [],
+  "stages": ["post", "ci"],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "detectors": [],
+  "limitations": "No dotnet format or analyzer verification command is currently in a CI workflow. Existing builds and tests do not imply format compliance.",
+  "evidenceRequirement": "Future dotnet format baseline and negative fixture before promoting to blocking."
+}

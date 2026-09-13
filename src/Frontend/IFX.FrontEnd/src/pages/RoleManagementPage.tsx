@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { roleApi } from '../api/role'
@@ -56,7 +57,7 @@ export function RoleManagementPage() {
   const handleCreate = async () => {
     setSaving(true)
     try { await roleApi.create(form); await loadRoles(); setModal(false) }
-    catch (err: any) { setError(err.response?.data?.error || 'Failed to create role') }
+    catch (err: unknown) { setError(apiErrorMessage(err, 'Failed to create role')) }
     finally { setSaving(false) }
   }
 

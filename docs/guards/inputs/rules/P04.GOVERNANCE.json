@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "P04.GOVERNANCE",
+  "title": "Plan 04 module and tenant governance",
+  "authority": {
+    "path": "scripts/Test-Plan04Governance.ps1"
+  },
+  "scopePatterns": [
+    "src/**",
+    "docs/architecture/review/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "plan04"
+  ],
+  "limitations": "Static validators complement authorization and tenant behavior tests.",
+  "riskTriggerIds": [
+    "identity-security"
+  ],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

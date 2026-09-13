@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { userApi } from '../api/user'
@@ -32,8 +33,8 @@ export function UserProfilePage() {
       await refreshUser()
       setEditing(false)
       setSuccess('Profile updated successfully.')
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to update profile')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Failed to update profile'))
     } finally { setLoading(false) }
   }
 

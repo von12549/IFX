@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -198,8 +199,8 @@ export function PolicyManagementPage() {
       }
       await load()
       setModal(null)
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to save')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Failed to save'))
     } finally {
       setSaving(false)
     }

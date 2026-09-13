@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "DB.MIGRATION",
+  "title": "Database migration boundary",
+  "authority": {
+    "path": "scripts/Test-MigrationSafetyPolicy.ps1"
+  },
+  "scopePatterns": [
+    "src/**/Migrations/**",
+    "src/DatabaseMigrator/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "database"
+  ],
+  "limitations": "CI tests use isolated databases; target environment approval is separate.",
+  "riskTriggerIds": [
+    "database-migration",
+    "database-migrator"
+  ],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

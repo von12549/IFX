@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextValue>(null!)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserProfileDto | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(() => !!tokenStorage.getAccessToken())
   const [selectedTenantId, setSelectedTenantIdState] = useState<string | null>(
     () => tokenStorage.getSelectedTenantId()
   )
@@ -47,11 +47,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const token = tokenStorage.getAccessToken()
     if (token) {
-      loadProfile()
+      Promise.resolve().then(loadProfile)
         .catch(() => { setUser(null); tokenStorage.clear() })
         .finally(() => setIsLoading(false))
-    } else {
-      setIsLoading(false)
     }
   }, [loadProfile])
 
@@ -87,4 +85,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
+// This hook is intentionally kept with its provider so both use the same context instance.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext)

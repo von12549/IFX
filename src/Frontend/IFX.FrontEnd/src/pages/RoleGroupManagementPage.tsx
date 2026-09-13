@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { roleGroupApi } from '../api/roleGroup'
@@ -50,7 +51,7 @@ export function RoleGroupManagementPage() {
   const handleCreate = async () => {
     setSaving(true)
     try { await roleGroupApi.create(form); await load(); setModal(false) }
-    catch (err: any) { setError(err.response?.data?.error || 'Failed to create') }
+    catch (err: unknown) { setError(apiErrorMessage(err, 'Failed to create')) }
     finally { setSaving(false) }
   }
 

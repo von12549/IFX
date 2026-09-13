@@ -1,0 +1,14 @@
+{
+  "formatVersion": 1,
+  "id": "ARCH.SEMANTIC",
+  "title": "Review semantically bound cross-ring references",
+  "authority": { "path": "docs/guards/inputs/rules/ARCH.SEMANTIC.json" },
+  "scopePatterns": ["src/**"],
+  "riskTriggerIds": ["public-contract", "identity-security", "authentication", "authorization", "messaging"],
+  "stages": ["pre", "post", "ci"],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "detectors": [],
+  "limitations": "LayerGuard reports semantic symbol binding as notChecked. A compiler-backed detector is not yet available; reviewers must inspect fully qualified and aliased references where ownership matters.",
+  "evidenceRequirement": "Human architecture review or a future compiler-backed positive and negative fixture."
+}

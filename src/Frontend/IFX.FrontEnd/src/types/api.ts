@@ -31,6 +31,7 @@ export interface RoleDto {
   id: string
   name: string
   description: string
+  tenantId?: string
   tenantName: string
 }
 
@@ -42,6 +43,7 @@ export interface RoleGroupDto {
   id: string
   name: string
   description: string
+  tenantId?: string
   tenantName: string
   roles: RoleDto[]
 }

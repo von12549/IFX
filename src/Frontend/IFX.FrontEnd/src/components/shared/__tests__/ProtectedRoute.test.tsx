@@ -10,9 +10,26 @@ vi.mock('../../../contexts/AuthContext', () => ({
 import { useAuth } from '../../../contexts/AuthContext'
 const mockUseAuth = vi.mocked(useAuth)
 
+function authState(isAuthenticated: boolean, isLoading: boolean): ReturnType<typeof useAuth> {
+  return {
+    user: null,
+    isAuthenticated,
+    isLoading,
+    selectedTenantId: null,
+    setSelectedTenantId: vi.fn(),
+    login: vi.fn(async () => {}),
+    logout: vi.fn(),
+    refreshUser: vi.fn(async () => {}),
+    globalRoles: [],
+    isGlobalUser: false,
+    isGlobalAdmin: false,
+    hasGlobalRole: vi.fn(() => false),
+  }
+}
+
 describe('ProtectedRoute', () => {
   it('shows spinner while loading', () => {
-    mockUseAuth.mockReturnValue({ isAuthenticated: false, isLoading: true } as any)
+    mockUseAuth.mockReturnValue(authState(false, true))
     const { container } = render(
       <MemoryRouter><ProtectedRoute><p>Content</p></ProtectedRoute></MemoryRouter>
     )
@@ -21,7 +38,7 @@ describe('ProtectedRoute', () => {
   })
 
   it('renders children when authenticated', () => {
-    mockUseAuth.mockReturnValue({ isAuthenticated: true, isLoading: false } as any)
+    mockUseAuth.mockReturnValue(authState(true, false))
     render(
       <MemoryRouter><ProtectedRoute><p>Protected Content</p></ProtectedRoute></MemoryRouter>
     )
@@ -29,7 +46,7 @@ describe('ProtectedRoute', () => {
   })
 
   it('redirects to /login when not authenticated', () => {
-    mockUseAuth.mockReturnValue({ isAuthenticated: false, isLoading: false } as any)
+    mockUseAuth.mockReturnValue(authState(false, false))
     render(
       <MemoryRouter initialEntries={['/dashboard']}>
         <ProtectedRoute><p>Protected Content</p></ProtectedRoute>

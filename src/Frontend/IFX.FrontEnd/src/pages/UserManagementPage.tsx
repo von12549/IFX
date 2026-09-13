@@ -26,8 +26,9 @@ export function UserManagementPage() {
       .catch(() => setError('Failed to load users'))
 
   useEffect(() => {
-    setLoading(true)
-    load().finally(() => setLoading(false))
+    Promise.resolve()
+      .then(() => { setLoading(true); return load() })
+      .finally(() => setLoading(false))
   }, [selectedTenantId])
 
   const toggleSort = (col: string) => {

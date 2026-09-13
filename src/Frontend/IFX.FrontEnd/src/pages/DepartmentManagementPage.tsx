@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { departmentApi } from '../api/department'
 import { platformApi } from '../api/platform'
@@ -60,8 +61,8 @@ export function DepartmentManagementPage() {
       }
       await loadDepts()
       setModal(false)
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to save')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Failed to save'))
     } finally {
       setSaving(false)
     }

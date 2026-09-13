@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { permissionApi } from '../api/permission'
@@ -91,7 +92,7 @@ export function PermissionManagementPage() {
       if (modal === 'create') await permissionApi.create(form)
       else if (editId) await permissionApi.update(editId, form)
       await load(); setModal(null)
-    } catch (err: any) { setError(err.response?.data?.error || 'Failed to save') }
+    } catch (err: unknown) { setError(apiErrorMessage(err, 'Failed to save')) }
     finally { setSaving(false) }
   }
 

@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "L2.3",
+  "title": "Application uses only its own Contracts",
+  "authority": {
+    "path": "src/layerguard.json",
+    "selector": "ruleRefs[L2.3]"
+  },
+  "scopePatterns": [
+    "src/Modules/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "layerguard"
+  ],
+  "limitations": "Ownership follows configured project names; runtime calls are outside scope.",
+  "riskTriggerIds": [],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

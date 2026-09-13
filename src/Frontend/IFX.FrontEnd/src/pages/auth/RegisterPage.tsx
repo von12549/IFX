@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../../api/errors'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authApi } from '../../api/auth'
@@ -22,8 +23,8 @@ export function RegisterPage() {
       await authApi.register({ email: form.email, password: form.password, firstName: form.firstName, lastName: form.lastName })
       setStep('confirm')
       setSuccess('Account created! Please check your email for the confirmation code.')
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Registration failed')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Registration failed'))
     } finally { setLoading(false) }
   }
 
@@ -33,8 +34,8 @@ export function RegisterPage() {
     try {
       await authApi.confirm({ email: form.email, confirmationCode: code })
       navigate('/login')
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Confirmation failed')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Confirmation failed'))
     } finally { setLoading(false) }
   }
 

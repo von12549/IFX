@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { tenantApi } from '../api/tenant'
 import { useAuth } from '../contexts/AuthContext'
@@ -54,8 +55,8 @@ export function TenantManagementPage() {
       }
       await load()
       setModal(false)
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to save')
+    } catch (err: unknown) {
+      setError(apiErrorMessage(err, 'Failed to save'))
     } finally {
       setSaving(false)
     }

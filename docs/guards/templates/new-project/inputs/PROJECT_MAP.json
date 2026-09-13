@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "areas": [
+    { "id": "App", "pathPattern": "app/**", "layer": "application", "ownerSource": "maintainers", "focusedCommands": ["template-check"] }
+  ],
+  "riskTriggers": [
+    { "id": "config", "pathPattern": "app/config/**", "reason": "Configuration changes need a decision", "requiresDecision": true }
+  ]
+}

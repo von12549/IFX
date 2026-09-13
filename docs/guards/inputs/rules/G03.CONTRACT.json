@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "G03.CONTRACT",
+  "title": "Contract and event governance",
+  "authority": {
+    "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml"
+  },
+  "scopePatterns": [
+    "src/**",
+    "docs/architecture/review/gates/G03/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "g03"
+  ],
+  "limitations": "Catalog and source reconciliation do not prove consumer runtime behavior.",
+  "riskTriggerIds": [
+    "public-contract",
+    "messaging"
+  ],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

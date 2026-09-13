@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "L2.2",
+  "title": "Domain does not depend on Contracts",
+  "authority": {
+    "path": "src/layerguard.json",
+    "selector": "ruleRefs[L2.2]"
+  },
+  "scopePatterns": [
+    "src/Modules/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "layerguard"
+  ],
+  "limitations": "Project references and syntactic imports are checked; semantic binding is not resolved.",
+  "riskTriggerIds": [],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

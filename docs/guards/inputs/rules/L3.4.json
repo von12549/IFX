@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "L3.4",
+  "title": "Contracts exclude framework and transport implementation",
+  "authority": {
+    "path": "src/layerguard.json",
+    "selector": "ruleRefs[L3.4]"
+  },
+  "scopePatterns": [
+    "src/**"
+  ],
+  "stages": [
+    "post",
+    "ci"
+  ],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "detectors": [
+    "layerguard",
+    "g05"
+  ],
+  "limitations": "Syntactic package, import and symbol checks cannot prove all semantic references.",
+  "riskTriggerIds": [
+    "identity-security",
+    "authentication",
+    "authorization"
+  ],
+  "evidenceRequirement": "Authoritative detector report and its independent CI job status."
+}

@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { roleApi } from '../api/role'
@@ -24,7 +25,7 @@ export function RoleDetailPage() {
     roleApi.getById(roleId!).then(r => {
       const data = r.data?.data
       setRole(data ?? null)
-      setForm({ name: data?.name ?? '', description: data?.description ?? '', tenantId: (data as any)?.tenantId ?? '' })
+      setForm({ name: data?.name ?? '', description: data?.description ?? '', tenantId: data?.tenantId ?? '' })
     }).catch(() => setError('Role not found'))
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export function RoleDetailPage() {
   const handleSave = async () => {
     setSaving(true)
     try { await roleApi.update(roleId!, form); await load(); setEditing(false) }
-    catch (err: any) { setError(err.response?.data?.error || 'Failed to update') }
+    catch (err: unknown) { setError(apiErrorMessage(err, 'Failed to update')) }
     finally { setSaving(false) }
   }
 

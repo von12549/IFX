@@ -18,3 +18,7 @@ docs/architecture/review/evidence/gates/G03/G03-phase9-catalog-report.json text 
 docs/architecture/review/evidence/gates/G03/G03-phase9-source-reconciliation.json text eol=lf
 docs/architecture/review/evidence/layerguard/B4-report.json text eol=lf
 docs/architecture/review/evidence/layerguard/B4-dependency-graph.json text eol=lf
+docs/guards/** text eol=lf
+scripts/guards/** text eol=lf
+tests/guards/** text eol=lf
+.github/workflows/coding-guardrails.yml text eol=lf

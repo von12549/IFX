@@ -1,3 +1,4 @@
+import { apiErrorMessage } from '../api/errors'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { roleGroupApi } from '../api/roleGroup'
@@ -25,7 +26,7 @@ export function RoleGroupDetailPage() {
       .then(r => {
         const found = (r.data?.data ?? []).find((g: RoleGroupDto) => g.id === roleGroupId) ?? null
         setGroup(found)
-        setForm({ name: found?.name ?? '', description: found?.description ?? '', tenantId: (found as any)?.tenantId ?? '' })
+        setForm({ name: found?.name ?? '', description: found?.description ?? '', tenantId: found?.tenantId ?? '' })
       })
       .catch(() => setError('Role group not found'))
 
@@ -37,7 +38,7 @@ export function RoleGroupDetailPage() {
   const handleSave = async () => {
     setSaving(true)
     try { await roleGroupApi.update(roleGroupId!, form); await load(); setEditing(false) }
-    catch (err: any) { setError(err.response?.data?.error || 'Failed to update') }
+    catch (err: unknown) { setError(apiErrorMessage(err, 'Failed to update')) }
     finally { setSaving(false) }
   }
 
