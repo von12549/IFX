@@ -7,5 +7,9 @@
   "coverage": "partial",
   "authority": "Synthetic sample policy; replace in a real profile",
   "sourcePattern": "src/**/*.csproj",
-  "forbiddenTargetPattern": "**/Legacy/*.csproj"
+  "forbiddenTargetPattern": "**/Legacy/*.csproj",
+  "negativeFixture": {
+    "sourceProject": "src/App/App.csproj",
+    "referenceInclude": "../Legacy/Legacy.csproj"
+  }
 }

@@ -59,6 +59,7 @@ public sealed class GuardTests
         var sourcePattern = Property(rule, "sourcePattern");
         var forbiddenPattern = Property(rule, "forbiddenTargetPattern");
         var failures = new List<string>();
+        var matchedSources = 0;
         foreach (var project in Directory.EnumerateFiles(root, "*.csproj", SearchOption.AllDirectories))
         {
             var source = Relative(root, project);
@@ -66,6 +67,7 @@ public sealed class GuardTests
             if (!string.IsNullOrWhiteSpace(generatedRoot) &&
                 Path.GetFullPath(project).StartsWith(Path.GetFullPath(generatedRoot) + Path.DirectorySeparatorChar, PathComparison)) continue;
             if (!Glob(source, sourcePattern)) continue;
+            matchedSources++;
             var document = XDocument.Load(project);
             foreach (var reference in document.Descendants().Where(x => x.Name.LocalName == "ProjectReference"))
             {
@@ -76,6 +78,7 @@ public sealed class GuardTests
                 if (Glob(target, forbiddenPattern)) failures.Add($"{Property(rule, "id")}: {source} -> {target}");
             }
         }
+        if (matchedSources == 0) failures.Add($"{Property(rule, "id")}: no source project matched {sourcePattern}");
         return failures;
     }
 
@@ -104,13 +107,29 @@ public sealed class GuardTests
         {"id":"FIXTURE","kind":"forbidden-project-reference","sourcePattern":"src/**/*.csproj","forbiddenTargetPattern":"**/Legacy/*.csproj"}
         """).RootElement.Clone();
 
+    [Fact, Trait("Stage", "Self")]
+    public void EveryBlockingRuleHasAWorkingPositiveAndNegativeFixture()
+    {
+        foreach (var rule in Rules().Where(rule => Property(rule, "enforcement") == "blocking"))
+        {
+            var example = rule.GetProperty("negativeFixture");
+            var source = Property(example, "sourceProject");
+            var forbidden = Property(example, "referenceInclude");
+            using var positive = new ProjectFixture(source, null);
+            Assert.Empty(Violations(positive.Root, rule));
+            using var negative = new ProjectFixture(source, forbidden);
+            Assert.Contains(Violations(negative.Root, rule), message => message.Contains(" -> ", StringComparison.Ordinal));
+        }
+    }
+
     [Fact, Trait("Stage", "Post")]
     public void TargetRepositorySatisfiesBlockingRules()
     {
         var root = TargetRoot;
         Assert.True(Directory.Exists(root), $"Missing target repository: {root}");
-        var failures = Rules().Where(rule => Property(rule, "enforcement") == "blocking")
-            .SelectMany(rule => Violations(root, rule)).ToArray();
+        var blocking = Rules().Where(rule => Property(rule, "enforcement") == "blocking").ToArray();
+        Assert.NotEmpty(blocking);
+        var failures = blocking.SelectMany(rule => Violations(root, rule)).ToArray();
         Assert.True(failures.Length == 0, string.Join(Environment.NewLine, failures));
     }
 
@@ -174,11 +193,11 @@ public sealed class GuardTests
     private sealed class ProjectFixture : IDisposable
     {
         public string Root { get; } = Path.Combine(Path.GetTempPath(), "guard-v3-" + Guid.NewGuid().ToString("N"));
-        public ProjectFixture(string project, string reference)
+        public ProjectFixture(string project, string? reference)
         {
             var path = Path.Combine(Root, project);
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-            File.WriteAllText(path, $"<Project><ItemGroup><ProjectReference Include=\"{reference}\" /></ItemGroup></Project>");
+            File.WriteAllText(path, reference is null ? "<Project />" : $"<Project><ItemGroup><ProjectReference Include=\"{reference}\" /></ItemGroup></Project>");
         }
         public void Dispose() => Directory.Delete(Root, recursive: true);
     }

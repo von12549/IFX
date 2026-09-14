@@ -12,17 +12,26 @@
     "coverage": { "enum": ["partial", "none"] },
     "authority": { "type": "string", "minLength": 1 },
     "sourcePattern": { "type": "string", "minLength": 1 },
-    "forbiddenTargetPattern": { "type": "string", "minLength": 1 }
+    "forbiddenTargetPattern": { "type": "string", "minLength": 1 },
+    "negativeFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceProject", "referenceInclude"],
+      "properties": {
+        "sourceProject": { "type": "string", "minLength": 1 },
+        "referenceInclude": { "type": "string", "minLength": 1 }
+      }
+    }
   },
   "allOf": [
     {
       "if": { "properties": { "kind": { "const": "none" } } },
       "then": {
         "properties": { "enforcement": { "const": "advisory" }, "coverage": { "const": "none" } },
-        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["forbiddenTargetPattern"] }] }
+        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["forbiddenTargetPattern"] }, { "required": ["negativeFixture"] }] }
       },
       "else": {
-        "required": ["sourcePattern", "forbiddenTargetPattern"],
+        "required": ["sourcePattern", "forbiddenTargetPattern", "negativeFixture"],
         "properties": { "coverage": { "const": "partial" } }
       }
     }

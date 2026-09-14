@@ -85,6 +85,9 @@ function Get-Profile {
         if ($rule.kind -ne 'none') {
             [void] (Assert-SafeRelativePath $rule.sourcePattern -AllowGlob)
             [void] (Assert-SafeRelativePath $rule.forbiddenTargetPattern -AllowGlob)
+            [void] (Assert-SafeRelativePath $rule.negativeFixture.sourceProject)
+            $reference = [string] $rule.negativeFixture.referenceInclude
+            if ([IO.Path]::IsPathRooted($reference) -or $reference -match '^[A-Za-z]:' -or $reference -match '[*?]') { throw "Invalid negative fixture reference: $reference" }
         }
         $rules += $rule
     }

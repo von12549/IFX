@@ -46,6 +46,18 @@ try {
     Assert-Run 1 @('-Mode', 'Check') 'removed rule leaves stale snapshot'
     Assert-Run 0 @('-Mode', 'Generate') 'regenerate removes stale rule snapshot'
     Assert-Run 0 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'allowed project reference and detector fixtures'
+    $ruleData = Get-Content -LiteralPath $sampleRule -Raw | ConvertFrom-Json -AsHashtable
+    $ruleData.sourcePattern = 'src/Never/**/*.csproj'
+    [IO.File]::WriteAllText($sampleRule,($ruleData | ConvertTo-Json -Depth 20))
+    Assert-Run 0 @('-Mode', 'Generate') 'generate unmatched-source rule'
+    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'unmatched-source rule cannot pass'
+    $ruleData.sourcePattern = 'src/**/*.csproj'
+    $ruleData.negativeFixture.referenceInclude = '../Core/Core.csproj'
+    [IO.File]::WriteAllText($sampleRule,($ruleData | ConvertTo-Json -Depth 20))
+    Assert-Run 0 @('-Mode', 'Generate') 'generate ineffective negative fixture'
+    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'ineffective negative fixture cannot pass'
+    [IO.File]::WriteAllText($sampleRule, $originalRule)
+    Assert-Run 0 @('-Mode', 'Generate') 'restore effective rule'
     [IO.File]::WriteAllText($projectFile, $bad)
     Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'forbidden project reference'
     [IO.File]::WriteAllText($projectFile, $good)

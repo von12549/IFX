@@ -8,7 +8,7 @@ Install PowerShell 7, Git, and an SDK matching `tech-stack.json`. Copy `docs/gua
 
 ## Generate and verify
 
-The following sample commands deliberately target a disposable repository path; replace both paths for the real target. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository.
+Run the following commands after changing into a disposable repository root that contains a copy of V3. Replace the sample profile with a reviewed project-specific profile before running them against a real target. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository.
 
 ```powershell
 $v3 = 'docs/guards/V3'
@@ -19,7 +19,7 @@ pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetR
 pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot .
 ```
 
-`Validate` checks schemas, unique IDs, supported detectors and path safety. `Generate` writes a .NET xUnit project and a snapshot of the inputs. `Check` compares every generated file byte-for-byte without changing files; missing or extra generated files fail. `Test` runs `Check` and then `dotnet test`, including detector self-tests and the configured repository rule. Missing tooling or incomplete input is an error, never a pass. The generated project lives at `docs/guards/V3/generated/dotnet/` unless `-OutputDirectory` is supplied.
+`Validate` checks schemas, unique IDs, supported detectors, required negative fixtures and path safety. `Generate` writes a .NET xUnit project and a snapshot of the inputs. `Check` compares every generated file byte-for-byte without changing files; missing or extra generated files fail. `Test` runs `Check` and then `dotnet test`, including per-rule detector self-tests and the configured repository rule. A blocking rule that matches no source project fails. Missing tooling or incomplete input is an error, never a pass. The generated project lives at `docs/guards/V3/generated/dotnet/` unless `-OutputDirectory` is supplied.
 
 An isolated end-to-end synthetic test creates a disposable target repository and verifies compliant and violating project references, Plan risk checks and out-of-Plan Diff behavior:
 
