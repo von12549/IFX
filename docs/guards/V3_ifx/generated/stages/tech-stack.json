@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "targetLanguages": [
+    "C# / .NET 8 application",
+    "TypeScript / React 19 frontend",
+    "PowerShell 7 gate scripts"
+  ],
+  "commands": [
+    { "id": "ifx-layerguard", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1", "-Mode", "Test"], "workingDirectory": "." },
+    { "id": "ifx-package-test", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"], "workingDirectory": "." },
+    { "id": "iam-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.IAM.Application.Tests"], "workingDirectory": "." },
+    { "id": "crm-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.CRM.Application.Tests"], "workingDirectory": "." },
+    { "id": "registry-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.Registry.Application.Tests"], "workingDirectory": "." },
+    { "id": "holdings-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.Holdings.Application.Tests"], "workingDirectory": "." },
+    { "id": "transaction-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.Transaction.Application.Tests"], "workingDirectory": "." },
+    { "id": "authentication-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Platform.Authentication.Tests"], "workingDirectory": "." },
+    { "id": "authorization-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Platform.Authorization.Tests"], "workingDirectory": "." },
+    { "id": "frontend-lint", "executable": "npm", "arguments": ["run", "lint"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
+    { "id": "frontend-test", "executable": "npm", "arguments": ["run", "test:run"], "workingDirectory": "src/Frontend/IFX.FrontEnd" }
+  ],
+  "testProject": {
+    "targetFramework": "net10.0",
+    "framework": "xunit"
+  }
+}

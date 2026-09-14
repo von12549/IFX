@@ -1,0 +1,606 @@
+{
+  "_": [
+    "03-A1 target policy: Gate-owned facts are loaded and hash-verified from their authoritative artifacts.",
+    "Strict B4 policy recognizes Contracts only; legacy module/platform Abstractions projects are forbidden.",
+    "B1 historical findings are baselined under the G03 waiver policy; the unified check fails on new or stale findings."
+  ],
+  "gatePolicies": {
+    "g03Governance": "g03/governance.json",
+    "g04RuntimeManifest": "g04/runtime-manifest.json",
+    "g05ContextPolicy": "g05/context-protocol-v1.json"
+  },
+  "rings": {
+    "Domain": [
+      "IFX.Modules.*.Domain"
+    ],
+    "Contracts": [
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Contracts"
+    ],
+    "Application": [
+      "IFX.Modules.*.Application"
+    ],
+    "Presentation": [
+      "IFX.Modules.*.Presentation"
+    ],
+    "IntegrationAdapter": [
+      "IFX.Modules.*.Integration",
+      "IFX.Modules.*.Infrastructure.Integrations"
+    ],
+    "Infrastructure": [
+      "IFX.Modules.*.Infrastructure",
+      "IFX.Platform.*.Infrastructure.*"
+    ],
+    "Runtime": [
+      "IFX.Platform.*.Runtime"
+    ],
+    "Composition": [
+      "IFX.Modules.*.Composition",
+      "IFX.Platform.*.Composition"
+    ],
+    "RuntimeHost": [
+      "IFX.ApiHost",
+      "IFX.*.Worker"
+    ]
+  },
+  "ownership": {
+    "modulePatterns": [
+      "IFX.Modules.{module}.*",
+      "IFX.Platform.{module}.*"
+    ],
+    "requireKnown": true
+  },
+  "allowedDependencies": {
+    "Domain": [],
+    "Contracts": [],
+    "Application": [
+      "Domain",
+      "Contracts"
+    ],
+    "Presentation": [
+      "Application",
+      "Contracts",
+      "Domain"
+    ],
+    "IntegrationAdapter": [
+      "Application",
+      "Contracts"
+    ],
+    "Infrastructure": [
+      "Application",
+      "Domain",
+      "Contracts",
+      "Runtime"
+    ],
+    "Runtime": [
+      "Contracts"
+    ],
+    "Composition": [
+      "Domain",
+      "Contracts",
+      "Application",
+      "Presentation",
+      "IntegrationAdapter",
+      "Infrastructure",
+      "Runtime"
+    ],
+    "RuntimeHost": [
+      "Composition"
+    ]
+  },
+  "referenceScopes": [
+    {
+      "from": "Domain",
+      "to": "Domain",
+      "ownership": "own"
+    },
+    {
+      "from": "Contracts",
+      "to": "Contracts",
+      "ownership": "own"
+    },
+    {
+      "from": "Application",
+      "to": "Application",
+      "ownership": "own"
+    },
+    {
+      "from": "Application",
+      "to": "Domain",
+      "ownership": "own"
+    },
+    {
+      "from": "Application",
+      "to": "Contracts",
+      "ownership": "own"
+    },
+    {
+      "from": "Presentation",
+      "to": "Application",
+      "ownership": "own"
+    },
+    {
+      "from": "Presentation",
+      "to": "Contracts",
+      "ownership": "own"
+    },
+    {
+      "from": "Presentation",
+      "to": "Domain",
+      "ownership": "own"
+    },
+    {
+      "from": "IntegrationAdapter",
+      "to": "Application",
+      "ownership": "own"
+    },
+    {
+      "from": "IntegrationAdapter",
+      "to": "Contracts",
+      "ownership": "foreign"
+    },
+    {
+      "from": "Infrastructure",
+      "to": "Application",
+      "ownership": "own"
+    },
+    {
+      "from": "Infrastructure",
+      "to": "Domain",
+      "ownership": "own"
+    },
+    {
+      "from": "Infrastructure",
+      "to": "Contracts",
+      "ownership": "any"
+    },
+    {
+      "from": "Infrastructure",
+      "to": "Runtime",
+      "ownership": "any"
+    },
+    {
+      "from": "Runtime",
+      "to": "Contracts",
+      "ownership": "any"
+    },
+    {
+      "from": "Composition",
+      "to": "Domain",
+      "ownership": "own"
+    },
+    {
+      "from": "Composition",
+      "to": "Application",
+      "ownership": "own"
+    },
+    {
+      "from": "Composition",
+      "to": "Presentation",
+      "ownership": "own"
+    },
+    {
+      "from": "Composition",
+      "to": "Infrastructure",
+      "ownership": "own"
+    },
+    {
+      "from": "Composition",
+      "to": "Runtime",
+      "ownership": "any"
+    },
+    {
+      "from": "RuntimeHost",
+      "to": "Composition",
+      "ownership": "any"
+    }
+  ],
+  "transitiveBoundaryRoles": [
+    "Composition"
+  ],
+  "embeddedAdapterNamespaces": [
+    "IFX.Modules.*.Infrastructure.Integrations*"
+  ],
+  "forbiddenProjectNames": [
+    "*.Abstractions"
+  ],
+  "allowedReferences": {
+    "Domain": [
+      "IFX.BuildingBlocks.Domain"
+    ],
+    "Contracts": [],
+    "Application": [
+      "IFX.Modules.*.Domain",
+      "IFX.Modules.*.Contracts",
+      "IFX.BuildingBlocks.Application",
+      "IFX.BuildingBlocks.Domain",
+      "IFX.BuildingBlocks.Security",
+      "IFX.Platform.*"
+    ],
+    "Presentation": [
+      "IFX.Modules.*.Application",
+      "IFX.Modules.*.Contracts",
+      "IFX.Modules.*.Domain"
+    ],
+    "IntegrationAdapter": [
+      "IFX.Modules.*.Application",
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Contracts"
+    ],
+    "Infrastructure": [
+      "IFX.Modules.*.Application",
+      "IFX.Modules.*.Domain",
+      "IFX.Modules.*.Contracts",
+      "IFX.BuildingBlocks.*",
+      "IFX.Platform.*"
+    ],
+    "Runtime": [
+      "IFX.Platform.*.Contracts",
+      "IFX.BuildingBlocks.*"
+    ],
+    "Composition": [
+      "IFX.Modules.*",
+      "IFX.Platform.*",
+      "IFX.BuildingBlocks.*"
+    ],
+    "RuntimeHost": [
+      "*.Composition",
+      "IFX.BuildingBlocks.Composition",
+      "IFX.BuildingBlocks.Application",
+      "IFX.BuildingBlocks.Security"
+    ]
+  },
+  "allowedPackages": {
+    "Domain": [],
+    "Contracts": [],
+    "Application": [
+      "MediatR*",
+      "FluentValidation*",
+      "AutoMapper*",
+      "Microsoft.Extensions.Logging*",
+      "Microsoft.Extensions.DependencyInjection*",
+      "IFX.BuildingBlocks.Domain*",
+      "IFX.BuildingBlocks.Security*"
+    ]
+  },
+  "forbiddenPackages": {
+    "Contracts": [
+      "Microsoft.EntityFrameworkCore*",
+      "MediatR*",
+      "Microsoft.AspNetCore*",
+      "Newtonsoft.Json*",
+      "System.Text.Json*",
+      "MassTransit*",
+      "RabbitMQ*",
+      "Azure.Messaging*",
+      "Microsoft.Extensions.DependencyInjection*"
+    ],
+    "Presentation": [
+      "Microsoft.EntityFrameworkCore*",
+      "Dapper*",
+      "Npgsql*",
+      "System.Data.SqlClient*",
+      "Microsoft.Data.SqlClient*"
+    ]
+  },
+  "forbiddenDependencies": {
+    "Presentation": [
+      "I*Repository",
+      "*DbContext"
+    ]
+  },
+  "forbiddenDependencyOrigins": {
+    "Application": [
+      "Infrastructure"
+    ]
+  },
+  "forbiddenNamespaces": {
+    "Contracts": [
+      "Microsoft.EntityFrameworkCore*",
+      "MediatR*",
+      "Microsoft.AspNetCore*",
+      "Microsoft.Extensions.DependencyInjection*",
+      "Newtonsoft.Json*",
+      "System.Text.Json*",
+      "MassTransit*",
+      "RabbitMQ*",
+      "Azure.Messaging*"
+    ],
+    "Application": [
+      "Microsoft.AspNetCore.Http*"
+    ]
+  },
+  "forbiddenSymbols": {
+    "Contracts": [
+      "*HttpContext",
+      "*ClaimsPrincipal",
+      "*JwtSecurityToken",
+      "*Activity",
+      "*ILogger",
+      "*IServiceCollection",
+      "*DbContext",
+      "*IRequest",
+      "*ConsumeContext"
+    ],
+    "Application": [
+      "*HttpContext",
+      "*ClaimsPrincipal",
+      "*JwtSecurityToken",
+      "*Activity",
+      "*ContractRequestContextAccessor",
+      "*EventEnvelopeAccessor"
+    ]
+  },
+  "forbiddenText": {
+    "Contracts": [
+      "*Microsoft.AspNetCore*",
+      "*Microsoft.EntityFrameworkCore*",
+      "*MassTransit*",
+      "*RabbitMQ*"
+    ],
+    "Application": [
+      "*HttpContext*",
+      "*System.Diagnostics.Activity*"
+    ]
+  },
+  "declarationNamespaces": [
+    {
+      "match": "I*Contract",
+      "kind": "interface",
+      "mustLiveIn": [
+        "Contracts"
+      ],
+      "namespace": "*.Contracts*",
+      "exceptions": [
+        "IContractSerializer"
+      ]
+    },
+    {
+      "match": "*ContractDto",
+      "mustLiveIn": [
+        "Contracts"
+      ],
+      "namespace": "*.Contracts*"
+    },
+    {
+      "match": "*IntegrationEvent",
+      "mustLiveIn": [
+        "Contracts"
+      ],
+      "namespace": "*.Contracts.Events*"
+    },
+    {
+      "match": "*EventV*",
+      "mustLiveIn": [
+        "Contracts"
+      ],
+      "namespace": "*.Contracts.Events*"
+    },
+    {
+      "match": "*RequestContext",
+      "mustLiveIn": [
+        "Contracts"
+      ],
+      "namespace": "*.Contracts.Context*"
+    },
+    {
+      "match": "*EventEnvelope",
+      "mustLiveIn": [
+        "Contracts"
+      ],
+      "namespace": "*.Contracts.Messaging*"
+    },
+    {
+      "match": "I*Port",
+      "kind": "interface",
+      "mustLiveIn": [
+        "Application"
+      ],
+      "namespace": "*.Application.Ports*"
+    },
+    {
+      "match": "*Adapter",
+      "kind": "class",
+      "mustLiveIn": [
+        "IntegrationAdapter",
+        "Infrastructure"
+      ],
+      "namespace": "*.Integrations*",
+      "mustImplement": "Application",
+      "mustImplementOwn": true
+    }
+  ],
+  "forbiddenDeclarations": [
+    {
+      "match": "*Handler",
+      "in": "Contracts"
+    },
+    {
+      "match": "*DbContext",
+      "in": "Contracts"
+    },
+    {
+      "match": "*Repository",
+      "in": "Contracts"
+    },
+    {
+      "match": "*Extensions",
+      "in": "Contracts",
+      "exceptions": [
+        "*ContractExtensions"
+      ]
+    },
+    {
+      "match": "*",
+      "kind": "class",
+      "in": "Contracts",
+      "exceptions": [
+        "*Dto",
+        "*Request",
+        "*Response",
+        "*Context",
+        "*Envelope",
+        "*Exception",
+        "*Options",
+        "*Constants",
+        "*ContractExtensions"
+      ]
+    }
+  ],
+  "payloads": [
+    {
+      "match": "*IntegrationEvent",
+      "forbiddenTypes": [
+        "*.Domain.*",
+        "*.Infrastructure.*",
+        "*Entity",
+        "*DbContext"
+      ]
+    },
+    {
+      "match": "*EventV*",
+      "forbiddenTypes": [
+        "*.Domain.*",
+        "*.Infrastructure.*",
+        "*Entity",
+        "*DbContext"
+      ]
+    },
+    {
+      "match": "*RequestContext",
+      "allowedTypes": [
+        "string",
+        "Guid",
+        "Guid?",
+        "DateTimeOffset",
+        "DateTimeOffset?",
+        "bool",
+        "int",
+        "long",
+        "decimal"
+      ]
+    },
+    {
+      "match": "*EventEnvelope",
+      "allowedTypes": [
+        "string",
+        "Guid",
+        "Guid?",
+        "DateTimeOffset",
+        "DateTimeOffset?",
+        "bool",
+        "int",
+        "long"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "match": "I*Repository",
+      "kind": "interface",
+      "mustLiveIn": "Domain"
+    },
+    {
+      "match": "*Repository",
+      "kind": "class",
+      "mustLiveIn": "Infrastructure",
+      "mustImplement": "Domain",
+      "severity": "bends"
+    },
+    {
+      "match": "*CommandHandler",
+      "mustLiveIn": "Application"
+    },
+    {
+      "match": "*QueryHandler",
+      "mustLiveIn": "Application"
+    },
+    {
+      "match": "*Validator",
+      "mustLiveIn": "Application",
+      "severity": "bends"
+    }
+  ],
+  "severities": {
+    "RING-PACKAGE": "bends",
+    "RING-PACKAGE-IMPORT": "bends",
+    "PROJECT-NAME-FORBIDDEN": "drift"
+  },
+  "requireRings": false,
+  "ruleRefs": [
+    {
+      "ref": "L2.2",
+      "text": "Domain does not depend on Contracts.",
+      "rules": [
+        "RING-DIRECTION",
+        "IMPORT-DIRECTION"
+      ],
+      "ring": "Domain"
+    },
+    {
+      "ref": "L2.3",
+      "text": "Application may use own Contracts but not foreign Contracts.",
+      "rules": [
+        "OWNERSHIP-REFERENCE"
+      ],
+      "ring": "Application"
+    },
+    {
+      "ref": "L2.4",
+      "text": "Adapters use only registered provider Contracts.",
+      "rules": [
+        "PROVIDER-CONTRACT",
+        "PROVIDER-CYCLE",
+        "EMBEDDED-ADAPTER-PROVIDER"
+      ],
+      "ring": "IntegrationAdapter"
+    },
+    {
+      "ref": "L3.1",
+      "text": "Public contracts and events live in provider Contracts namespaces.",
+      "rules": [
+        "DECLARATION-NAMESPACE"
+      ]
+    },
+    {
+      "ref": "L3.4",
+      "text": "Contracts do not reference framework or transport implementations.",
+      "rules": [
+        "RING-PACKAGE",
+        "RING-PACKAGE-FORBIDDEN",
+        "RING-PACKAGE-IMPORT",
+        "SYMBOL-FORBIDDEN"
+      ],
+      "ring": "Contracts"
+    },
+    {
+      "ref": "L3.5",
+      "text": "Contracts do not contain implementation declarations.",
+      "rules": [
+        "DECLARATION-FORBIDDEN"
+      ],
+      "ring": "Contracts"
+    },
+    {
+      "ref": "L3.6",
+      "text": "Integration event payloads do not expose internal entities.",
+      "rules": [
+        "PAYLOAD-TYPE-FORBIDDEN"
+      ]
+    },
+    {
+      "ref": "L1.2",
+      "text": "No new Abstractions project is introduced.",
+      "rules": [
+        "PROJECT-NAME-FORBIDDEN"
+      ]
+    },
+    {
+      "ref": "L2.9",
+      "text": "Unknown module ownership fails closed.",
+      "rules": [
+        "OWNERSHIP-UNKNOWN"
+      ]
+    }
+  ]
+}

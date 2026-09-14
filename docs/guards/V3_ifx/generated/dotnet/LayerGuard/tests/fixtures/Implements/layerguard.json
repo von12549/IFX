@@ -1,0 +1,11 @@
+{
+  "declarations": [
+    {
+      "match": "*Repository",
+      "kind": "class",
+      "mustLiveIn": "Infrastructure",
+      "mustImplement": "Domain",
+      "severity": "bends"
+    }
+  ]
+}

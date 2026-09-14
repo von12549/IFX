@@ -1,0 +1,8 @@
+{
+  "forbiddenDependencies": {
+    "Presentation": ["I*Repository"]
+  },
+  "forbiddenDependencyOrigins": {
+    "Application": ["Infrastructure"]
+  }
+}

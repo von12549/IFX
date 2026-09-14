@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "toolVersion": "0.4.0-a1",
+  "ruleset": "policy/layerguard.json",
+  "rulesetHash": "a2e12aa67ab6addd78e25452e809cc3d280e9871e6776fb2e1f917143f875a32",
+  "entries": []
+}

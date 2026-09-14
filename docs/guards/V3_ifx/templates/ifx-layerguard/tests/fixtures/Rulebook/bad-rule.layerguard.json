@@ -1,0 +1,8 @@
+{
+  "ruleRefs": [
+    {
+      "ref": "R-9",
+      "rules": ["RING-TYPO"]
+    }
+  ]
+}

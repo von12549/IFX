@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "owner": "Platform Messaging",
+  "freshnessWindow": "00:00:30",
+  "thresholds": {
+    "warningAge": "00:02:00",
+    "criticalAge": "00:10:00",
+    "warningCount": 500,
+    "criticalCount": 5000,
+    "warningDeadLetters": 1,
+    "criticalDeadLetters": 10,
+    "criticalStorageUtilization": 0.85,
+    "retryAfter": "00:00:30",
+    "warningConsecutiveFailures": 3,
+    "criticalConsecutiveFailures": 10,
+    "warningSilence": "00:02:00",
+    "criticalSilence": "00:05:00"
+  },
+  "requiredDimensions": [
+    "moduleId",
+    "eventCategory",
+    "pendingCount",
+    "oldestPendingAge",
+    "retryCount",
+    "deadLetterCount",
+    "lastSucceeded",
+    "processingRatePerSecond",
+    "storageUtilization",
+    "expiredLeaseCount",
+    "duplicateRate",
+    "consecutiveFailures",
+    "dispatcherSilence"
+  ],
+  "productionCalibration": "required-before-G04-close",
+  "calibrationEvidenceTemplate": "deployment/plan02/messaging-alert-calibration-evidence-template.json"
+}

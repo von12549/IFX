@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "owner": "xiaolong-feng",
+  "contextProject": "IFX.Platform.Context.Contracts",
+  "eventProject": "IFX.Platform.Messaging.Contracts",
+  "dependencyPolicy": {
+    "packageReferences": [],
+    "projectReferences": [],
+    "forbidden": ["ASP.NET", "ClaimsPrincipal", "Activity", "dependency injection", "serializer", "broker", "Entity Framework", "MediatR"]
+  },
+  "identifiers": {
+    "canonicalText": "lowercase GUID D format",
+    "emptyAllowed": false,
+    "correlation": "one business chain",
+    "operation": "one execution boundary",
+    "causation": "direct upstream operation or event",
+    "request": "one Contract invocation",
+    "event": "one immutable logical event"
+  },
+  "contractRequestContext": {
+    "version": 1,
+    "required": ["requestId", "correlationId", "scope", "actor", "source", "provenance"],
+    "optional": ["causationId"],
+    "unknownFields": "ignore after required-field validation; do not infer authorization or scope from unknown fields",
+    "breakingChanges": "required field, type or meaning changes require a parallel major version"
+  },
+  "eventEnvelope": {
+    "version": 1,
+    "required": ["eventId", "schema", "occurredAt", "producer", "scope", "correlationId", "causationId", "contentType", "provenance"],
+    "optional": ["trace"],
+    "occurredAt": "UTC DateTimeOffset",
+    "contentType": "application/json",
+    "unknownFields": "ignore after security and required-field validation",
+    "immutability": "retry and replay preserve every logical envelope field"
+  }
+}

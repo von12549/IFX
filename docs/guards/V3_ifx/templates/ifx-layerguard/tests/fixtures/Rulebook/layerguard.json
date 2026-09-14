@@ -1,0 +1,42 @@
+{
+  "allowedReferences": {
+    "Domain": [],
+    "Application": []
+  },
+  "allowedPackages": {
+    "Presentation": []
+  },
+  "ruleRefs": [
+    {
+      "ref": "R-1",
+      "text": "Domain names nothing inside its own module.",
+      "rules": ["RING-REFERENCE"],
+      "ring": "Domain",
+      "sameModule": true
+    },
+    {
+      "ref": "R-2",
+      "text": "Domain names nothing outside it either.",
+      "rules": ["RING-REFERENCE"],
+      "ring": "Domain"
+    },
+    {
+      "ref": "R-3",
+      "text": "Application names nothing.",
+      "rules": ["RING-REFERENCE"],
+      "ring": "Application"
+    },
+    {
+      "ref": "R-4",
+      "text": "Something nothing here measures.",
+      "rules": [],
+      "notMeasured": "the whole rule"
+    },
+    {
+      "ref": "R-5",
+      "text": "Where a type is declared.",
+      "rules": ["DECLARATION-PLACEMENT"],
+      "notMeasured": "a name outside the convention"
+    }
+  ]
+}

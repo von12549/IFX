@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "stage", "status", "mode", "projectId", "plannedPaths", "planId", "areas", "unmappedPaths", "risks", "ruleIds", "validationCommands", "inputSha256", "reason"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "stage": { "const": "pre" },
+    "status": { "enum": ["advisory", "blocked"] },
+    "mode": { "enum": ["summary", "formal"] },
+    "projectId": { "type": "string" },
+    "plannedPaths": { "type": "array", "items": { "type": "string" } },
+    "planId": { "type": "string" },
+    "areas": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "layer", "owner", "similarImplementationRoot", "focusedCommands", "paths"], "properties": {
+      "id": { "type": "string" }, "layer": { "type": "string" }, "owner": { "type": "string" },
+      "similarImplementationRoot": { "type": "string" }, "focusedCommands": { "type": "array", "items": { "type": "string" } },
+      "paths": { "type": "array", "items": { "type": "string" } }
+    } } },
+    "unmappedPaths": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "reason", "paths"], "properties": {
+      "id": { "type": "string" }, "reason": { "type": "string" }, "paths": { "type": "array", "items": { "type": "string" } }
+    } } },
+    "ruleIds": { "type": "array", "items": { "type": "string" } },
+    "validationCommands": { "type": "array", "items": { "type": "string" } },
+    "inputSha256": { "type": "string" },
+    "reason": { "type": "string" }
+  }
+}

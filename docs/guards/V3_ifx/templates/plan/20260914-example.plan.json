@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "20260914-example",
+  "title": "Describe the change",
+  "goal": "Describe observable behavior",
+  "acceptanceCriteria": ["Describe a verifiable result"],
+  "plannedPaths": ["src/Modules/CRM/IFX.Modules.CRM.Domain/Example.cs"],
+  "areaIds": ["CRM"],
+  "ruleIds": ["ARCH.SEMANTIC", "L2.2", "L2.9"],
+  "validationCommands": ["ifx-layerguard", "crm-tests"],
+  "decisionPaths": []
+}

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Direct.Application\Direct.Application.csproj" />
+    <ProjectReference Include="..\Direct.Presentation\Direct.Presentation.csproj" />
+    <ProjectReference Include="..\Direct.Infrastructure\Direct.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

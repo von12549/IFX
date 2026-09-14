@@ -1,0 +1,76 @@
+{
+  "formatVersion": 1,
+  "releaseVersion": "plan05-s5",
+  "migrationCatalogSha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6",
+  "modules": [
+    {
+      "moduleName": "Auth",
+      "schema": "auth",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "AuthDatabase",
+      "requiredMigrationId": "20260912101127_EnforceActiveTenantMembership",
+      "requiredMigrationIds": [
+        "20260327075710_InitialCreate",
+        "20260327075811_InitialSeed",
+        "20260413100000_CrmPolicyDefinitionSeeds",
+        "20260420042950_AlterAuditColumnsToDateTimeOffset",
+        "20260908015924_RemoveLoginEventSecrets",
+        "20260912101127_EnforceActiveTenantMembership"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "CRM",
+      "schema": "crm",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "CrmDatabase",
+      "requiredMigrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+      "requiredMigrationIds": [
+        "20260413120000_InitialCreate",
+        "20260420043006_AlterAuditColumnsToDateTimeOffset"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "Registry",
+      "schema": "registry",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "RegistryDatabase",
+      "requiredMigrationId": "20260908100951_Plan02ReliableOutbox",
+      "requiredMigrationIds": [
+        "20260413120300_InitialCreate",
+        "20260413191525_AddProduct",
+        "20260420043017_AlterAuditColumnsToDateTimeOffset",
+        "20260908100951_Plan02ReliableOutbox"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "Holdings",
+      "schema": "holdings",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "HoldingsDatabase",
+      "requiredMigrationId": "20260908100954_Plan02ReliableInbox",
+      "requiredMigrationIds": [
+        "20260413120100_InitialCreate",
+        "20260420043031_AlterAuditColumnsToDateTimeOffset",
+        "20260908100954_Plan02ReliableInbox"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    },
+    {
+      "moduleName": "Transaction",
+      "schema": "transaction",
+      "historyTable": "__EFMigrationsHistory",
+      "runtimeConnectionKey": "TransactionDatabase",
+      "requiredMigrationId": "20260908100947_Plan02ReliableOutbox",
+      "requiredMigrationIds": [
+        "20260413120200_InitialCreate",
+        "20260418123443_AddOrderInstructionModel",
+        "20260420043039_AlterAuditColumnsToDateTimeOffset",
+        "20260908100947_Plan02ReliableOutbox"
+      ],
+      "compatibleAdditionalMigrationIds": []
+    }
+  ]
+}

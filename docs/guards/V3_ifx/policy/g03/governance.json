@@ -1,0 +1,191 @@
+{
+  "formatVersion": 1,
+  "source": "g03/catalog.json",
+  "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+  "moduleOwnership": [
+    {
+      "module": "IAM",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Authentication",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Authorization",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "CRM",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Holdings",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Platform Messaging",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Registry",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    },
+    {
+      "module": "Transaction",
+      "owner": "xiaolong-feng",
+      "backupOwner": "junxi"
+    }
+  ],
+  "contractRoles": {
+    "provider": "Contracts",
+    "consumerPort": "Application",
+    "consumerAdapter": "IntegrationAdapter"
+  },
+  "providerContracts": {
+    "IAM": [
+      "Authentication",
+      "Authorization"
+    ],
+    "CRM": [
+      "IAM"
+    ],
+    "Holdings": [
+      "IAM",
+      "Registry",
+      "Transaction"
+    ],
+    "Registry": [
+      "IAM"
+    ],
+    "Transaction": [
+      "CRM",
+      "IAM",
+      "Registry"
+    ]
+  },
+  "adapterEdges": [
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "CRM",
+      "provider": "IAM"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "Registry",
+      "provider": "IAM"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "Transaction",
+      "provider": "IAM"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "consumer": "Holdings",
+      "provider": "IAM"
+    },
+    {
+      "identity": "authentication.identity-protocol.v1",
+      "kind": "in-process-sensitive",
+      "consumer": "IAM",
+      "provider": "Authentication"
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
+      "kind": "sync",
+      "consumer": "IAM",
+      "provider": "Authorization"
+    },
+    {
+      "identity": "crm.account-compliance.v1",
+      "kind": "sync",
+      "consumer": "Transaction",
+      "provider": "CRM"
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "kind": "event",
+      "consumer": "Holdings",
+      "provider": "Registry"
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "kind": "event",
+      "consumer": "Holdings",
+      "provider": "Transaction"
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "kind": "sync",
+      "consumer": "Transaction",
+      "provider": "Registry"
+    }
+  ],
+  "sharedPrimitiveProjects": [
+    "IFX.Platform.Context.Contracts",
+    "IFX.Platform.Messaging.Contracts"
+  ],
+  "contractDependencyPolicy": {
+    "default": "BCL-only",
+    "syncMetadata": [
+      "IFX.Platform.Context.Contracts"
+    ],
+    "eventSchema": [
+      "IFX.Platform.Messaging.Contracts"
+    ],
+    "forbidden": [
+      "Result<T>",
+      "Domain types",
+      "Security implementation types",
+      "Application types",
+      "Entity Framework",
+      "MediatR",
+      "ASP.NET",
+      "dependency injection",
+      "serializer SDK",
+      "broker SDK",
+      "transport handler",
+      "dispatcher"
+    ],
+    "runtimeSeparation": {
+      "project": "IFX.Platform.Messaging.Runtime",
+      "contains": [
+        "IIntegrationEventBus",
+        "IIntegrationEventHandler<T>",
+        "dispatcher ports",
+        "serializer ports",
+        "broker adapters",
+        "DI registration",
+        "delivery reliability"
+      ],
+      "mustNotBeReferencedByModuleContracts": true
+    }
+  },
+  "waiverPolicy": {
+    "maximumDays": 90,
+    "milestoneRule": "Expiry is the earlier of 90 days after creation or the named milestone date.",
+    "renewal": "A renewal is a new review and may not mutate historical approval evidence.",
+    "unwaivable": [
+      "missing-owner",
+      "missing-consumer",
+      "internal-model-exposure",
+      "C4-exposure",
+      "unapproved-C3-exposure",
+      "identity-reuse"
+    ],
+    "approvedC3StateTransfer": "Controlled admission with owner, consumer, purpose, protection, retention and expiry; never represented as a waiver."
+  },
+  "waivers": []
+}

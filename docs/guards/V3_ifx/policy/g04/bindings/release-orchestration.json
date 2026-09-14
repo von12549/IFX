@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "releaseStrategy": "consumer-first-expand-contract",
+  "failureDefault": "stop-and-preserve-compatible-release",
+  "stages": [
+    { "stageId": "database-preflight", "kind": "one-shot", "requires": [], "successEvidence": "G02 preflight report", "failureAction": "stop" },
+    { "stageId": "restore-point", "kind": "manual-gate", "requires": ["database-preflight"], "successEvidence": "verified restore reference", "failureAction": "stop" },
+    { "stageId": "database-migrator", "kind": "one-shot", "requires": ["restore-point"], "successEvidence": "G02 apply report", "failureAction": "stop-no-down" },
+    { "stageId": "schema-validation", "kind": "one-shot", "requires": ["database-migrator"], "successEvidence": "G02 validation report", "failureAction": "stop" },
+    { "stageId": "worker-consumer", "kind": "rolling", "requires": ["schema-validation"], "successEvidence": "all target Worker replicas ready and V1/V2 compatible", "failureAction": "stop-api-v2" },
+    { "stageId": "api-producer", "kind": "rolling", "requires": ["worker-consumer"], "successEvidence": "API readiness and compatibility window", "failureAction": "halt-rollout-keep-old-api" },
+    { "stageId": "scheduler", "kind": "singleton-authority", "requires": ["api-producer"], "successEvidence": "idempotent definitions and authority identity", "failureAction": "disable-scheduled-capability" },
+    { "stageId": "observation", "kind": "manual-gate", "requires": ["scheduler"], "successEvidence": "schema/API/Worker/backlog/retry/dead-letter stable", "failureAction": "hold-cleanup" },
+    { "stageId": "contract-cleanup", "kind": "one-shot", "requires": ["observation"], "successEvidence": "zero old-version demand and approvals", "failureAction": "stop-no-down" }
+  ],
+  "dataJobs": [
+    { "jobId": "reference-migration", "owner": "Database", "idempotencyRequired": true, "automatic": false },
+    { "jobId": "system-seed", "owner": "Platform", "idempotencyRequired": true, "automatic": false },
+    { "jobId": "demo-seed", "owner": "Environment owner", "idempotencyRequired": true, "automatic": false },
+    { "jobId": "business-backfill", "owner": "Owning module", "idempotencyRequired": true, "automatic": false }
+  ]
+}
