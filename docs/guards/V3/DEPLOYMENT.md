@@ -4,7 +4,33 @@ Commands are PowerShell 7 commands run from the target repository root. `V3` is 
 
 ## Prerequisites and configuration
 
-Install PowerShell 7, Git, and an SDK matching `tech-stack.json`. Copy `docs/guards/V3/` into the target repository. Create a project-specific profile directory from `examples/minimal/`, replacing its project ID, project map (areas, owners, examples, focused command IDs and risk triggers), tech stack command catalog, and rule files with their `appliesTo` patterns. The optional [bootstrap Skill](skills/guard-bootstrap/SKILL.md) guides repository analysis; its findings still need real-code and violating-fixture verification. Do not copy production policies into the reusable default package. Review the [rule contract](contracts/rule.schema.json) and [coverage boundary](architecture/ARCHITECTURE.md).
+Install PowerShell 7, Git, and an SDK matching `tech-stack.json`. Copy `docs/guards/V3/` into the target repository. Create a project-specific profile with `Init` (or copy `examples/minimal/`), then replace its project map, owners, nearby examples, focused commands, risks, tech stack and rules with reviewed facts. The [bootstrap Skill](skills/guard-bootstrap/SKILL.md) guides this review. Do not copy production policies into the reusable default package. Review the [rule contract](contracts/rule.schema.json) and [coverage boundary](architecture/ARCHITECTURE.md).
+
+## Initialize, analyze and review
+
+`Init` refuses to overwrite an existing profile. It creates a schema-valid but unreviewed scaffold: a placeholder path and owner, one placeholder command and an advisory rule with no detector. Real source paths remain unmapped by Pre, and generated Post tests require a supported blocking rule. `Validate` therefore means the files are well formed, not that the guard is ready to protect code.
+
+```powershell
+$v3 = 'docs/guards/V3'
+$profile = 'docs/guards/profiles/my-project'
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Init -TargetRoot . -ProfileDirectory $profile -ProjectId my-project -TargetFramework net10.0
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -OutputDirectory 'artifacts/guards/target-analysis' -ExcludePaths 'docs/guards/**'
+```
+
+`Analyze` inventories literal `.csproj` frameworks/references, package scripts, solution/build manifests, CI workflows and Agent/owner guidance. Its `inventory.json`, `INVENTORY.md` and `PROPOSAL.md` contain source paths and SHA-256 evidence. It does not evaluate MSBuild conditions, infer owners or create blocking rules. Adjust `-ExcludePaths` to omit copied packages and fixtures; the tool also skips transient `bin`, `obj`, `node_modules`, `artifacts` and `generated` directories. Review the inventory against the target code and current gates before editing the profile. The analysis output is a proposal, never a policy authority.
+
+## Markdown configuration views
+
+After reviewing JSON, render a readable index, project map, tech stack, rules and **V3 stage-only** coverage matrix. JSON remains the machine authority. Tables are generated summaries; edit the fenced JSON block for semantic changes. `Import` previews changes without writing. `-Apply` requires that the Markdown source hash still matches current JSON, validates the schema and full profile, rolls back a failed import, then re-renders. Put free-form reasoning in a separate `notes/` directory outside `views/`.
+
+```powershell
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Render -TargetRoot . -ProfileDirectory $profile
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileDirectory $profile
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot . -ProfileDirectory $profile
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot . -ProfileDirectory $profile -Apply
+```
+
+`Check` fails for a missing, changed or extra view. `Render` writes the profile's `views/` directory; rerun it after editing JSON. Import reads only the structured JSON blocks, not table or prose edits. The original profile README and notes remain manually editable.
 
 ## Generate and verify
 
@@ -25,6 +51,7 @@ An isolated end-to-end synthetic test creates a disposable target repository and
 
 ```powershell
 pwsh "$v3/tests/Test-V3.ps1"
+pwsh "$v3/tests/Test-V3Tools.ps1"
 ```
 
 If the local environment has a restricted user-level NuGet configuration, provide a readable package cache and project-local config. Set `NUGET_PACKAGES` to an existing cache and add `-NuGetConfig <repository-relative-config>` to `Test` or `Diff`. CI can use its normal NuGet configuration.
@@ -55,7 +82,7 @@ For CI, also pass `-HeadRef <head-commit>`. Local Diff includes tracked working-
 
 ## Enable a hard merge gate
 
-After the generated project passes both detector self-tests and a deliberate violating fixture, register a repository CI workflow that runs Validate, Check and Test against a clean checkout. Add a separate Diff step using the final base/head commits and the Plan scope. Register its job as a required check in repository protection. The current package does not install or change a workflow automatically; a generated project and a green local test alone do not block merges.
+After the generated project passes both detector self-tests and a deliberate violating fixture, register a repository CI workflow that runs Validate, Markdown `Check`, generated-project `Check` and Test against a clean checkout. Add a separate Diff step using the final base/head commits and the Plan scope. Register its job as a required check in repository protection. The current package does not install or change a workflow automatically; a generated project and a green local test alone do not block merges.
 
 ## Target-project capability trial
 
