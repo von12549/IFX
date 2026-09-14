@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "ARCH.SAMPLE",
+  "title": "Sample project must not reference Legacy",
+  "kind": "forbidden-project-reference",
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "authority": "Synthetic sample policy; replace in a real profile",
+  "sourcePattern": "src/**/*.csproj",
+  "forbiddenTargetPattern": "**/Legacy/*.csproj"
+}

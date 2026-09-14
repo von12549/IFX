@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "id", "title", "kind", "enforcement", "coverage", "authority"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[A-Z][A-Z0-9.-]+$" },
+    "title": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["forbidden-project-reference", "none"] },
+    "enforcement": { "enum": ["blocking", "advisory"] },
+    "coverage": { "enum": ["partial", "none"] },
+    "authority": { "type": "string", "minLength": 1 },
+    "sourcePattern": { "type": "string", "minLength": 1 },
+    "forbiddenTargetPattern": { "type": "string", "minLength": 1 }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "none" } } },
+      "then": {
+        "properties": { "enforcement": { "const": "advisory" }, "coverage": { "const": "none" } },
+        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["forbiddenTargetPattern"] }] }
+      },
+      "else": {
+        "required": ["sourcePattern", "forbiddenTargetPattern"],
+        "properties": { "coverage": { "const": "partial" } }
+      }
+    }
+  ]
+}

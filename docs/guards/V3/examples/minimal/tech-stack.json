@@ -1,0 +1,5 @@
+{
+  "formatVersion": 1,
+  "targetLanguages": ["C#"],
+  "testProject": { "targetFramework": "net10.0", "framework": "xunit" }
+}

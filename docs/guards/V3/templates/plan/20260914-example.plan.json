@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "id": "20260914-example",
+  "title": "Describe the change",
+  "plannedPaths": ["src/Example/Example.cs"],
+  "ruleIds": [],
+  "validationCommands": ["dotnet test"],
+  "decisionPaths": []
+}

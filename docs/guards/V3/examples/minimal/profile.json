@@ -1,0 +1,7 @@
+{
+  "formatVersion": 1,
+  "projectId": "sample",
+  "riskTriggers": [
+    { "id": "project-files", "pathPattern": "**/*.csproj", "reason": "Project dependency change" }
+  ]
+}

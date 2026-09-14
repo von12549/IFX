@@ -1,0 +1,11 @@
+# Technical design
+
+The package is source-only until `Generate` runs. `scripts/Invoke-V3.ps1` is a PowerShell 7 bootstrapper; it validates a profile, tech stack and rule JSON against local schemas, rejects duplicate IDs and unsafe path patterns, then copies versioned C# templates plus an input snapshot into a generated xUnit project. `Check` renders the same expected files in memory and compares UTF-8 bytes, including the file set outside `bin/` and `obj/`. It never edits an existing policy authority or another guard project.
+
+The generated test project has three test categories. `Self` contains compliant and violating fixture cases for the supported detector. `Post` scans the target repository's `.csproj` files and rejects forbidden declared project references. `Diff` compares final Git paths, including both sides of renames and local untracked files, with a formal Plan's exact `plannedPaths`. The `Test` command runs `Self` and `Post`; `Diff` runs the scope test separately. Both receive the target root through process environment variables set by the bootstrapper. CI should supply explicit base/head revisions to Diff, then require the job status.
+
+The Plan validator requires matching Markdown and JSON filenames, known rule IDs, exact repository-relative paths and a covering decision record for configured risk paths. It does not evaluate a decision's quality or approval. The Agent Skill and Hook only call this validator; they are not hard merge gates.
+
+This first detector is intentionally narrow: it reads `ProjectReference Include` elements from matching `.csproj` files. It does not resolve MSBuild conditions, transitive graph edges, Roslyn symbols or runtime behavior. The profile's `coverage` is therefore `partial`. Future detector kinds must add an implementation, schema variant and both positive and negative fixture tests before `blocking` is permitted. A project with non-.NET source can still use the Plan/Pre layer, but needs a new detector adapter for code checks.
+
+Generated xUnit dependencies are pinned in the project template. For an isolated or offline test, pass `-NuGetConfig` pointing to a project-local NuGet config; the caller can set `NUGET_PACKAGES` to an existing readable cache. The generated project is reproducible from the profile and templates, not created through an AI prompt or `dotnet new` state.

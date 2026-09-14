@@ -1,0 +1,5 @@
+# Rule configuration
+
+Rules live in a selected profile's `rules/*.json`, one file per stable rule ID. Use `contracts/rule.schema.json` and the [technical design](../architecture/TECHNICAL.md). The default package ships only the synthetic `examples/minimal` profile. `authority` currently records the policy source for review; the initial generator does not validate that source's truth. Keep the profile out of the reusable default package when it contains production-specific facts.
+
+Only `forbidden-project-reference` is implemented in this first source package. Its `sourcePattern` selects `.csproj` files and `forbiddenTargetPattern` selects forbidden `ProjectReference` target paths relative to the target root. It checks declared direct references, so coverage must remain `partial`. A rule with no detector uses `kind: none`, `enforcement: advisory`, and `coverage: none`; it appears in the input snapshot but cannot become a hard gate. Any unsupported kind fails validation rather than silently producing a green test project.
