@@ -1,6 +1,6 @@
 # Guard profile review proposal
 
-This is a read-only analysis result, not an enabled policy. No rule, owner, command, negative fixture or CI required check is inferred as authoritative.
+This analysis does not change active policy. No rule, owner, command, negative fixture or CI required check is inferred as authoritative. Edit [ARCHITECTURE.md](ARCHITECTURE.md) and [TECHNICAL.md](TECHNICAL.md) as target-specific drafts, then run Invoke-V3Architecture.ps1 -Mode Review to compare their structured blocks with repository evidence and any selected profile.
 
 ## Candidate areas
 
@@ -30,5 +30,5 @@ This is a read-only analysis result, not an enabled policy. No rule, owner, comm
 
 1. Confirm source roots and owners against [inventory.json](inventory.json), repository guidance and maintainers.
 2. Choose real build/test commands and risk paths; compare existing architecture gate and CI authority.
-3. Write rule JSON with explicit detector scope and a deliberate negative fixture. Keep unsupported rules advisory.
-4. Run Validate, Render/Check, Generate/Check/Test and a violating fixture before enabling a required CI check.
+3. Specify rule JSON with explicit detector scope and a deliberate negative fixture. Keep unsupported rules advisory.
+4. Review the comparison report. Explicitly adopt to a new profile only after confirming the document baseline; then run Validate, Render/Check, Generate/Check/Test and a violating fixture before enabling a required CI check.

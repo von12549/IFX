@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "projectId": "ifx",
+  "documentReviewed": false,
+  "hasPlaceholders": false,
+  "hasBlockingDetector": true,
+  "profileDifferences": [],
+  "unmappedSourceProjects": [
+    "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
+    "tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj"
+  ],
+  "unmatchedDetectorRules": [],
+  "observedForbiddenReferences": [],
+  "proposalSha256": "a652e8f9652f127714a3e2da82c995821fa7a4f7ea9f5ab15f2a1a1ffb259f43",
+  "decision": "needs-review"
+}

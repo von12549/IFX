@@ -1,0 +1,14 @@
+{
+  "formatVersion": 1,
+  "id": "L3.6",
+  "title": "Integration payloads do not expose internal models",
+  "kind": "none",
+  "appliesTo": [
+    "src/Modules/*/IFX.Modules.*.Contracts/**",
+    "src/Modules/*/IFX.Modules.*.Events/**",
+    "src/Platform/Messaging/**"
+  ],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "authority": "policy/layerguard.json:ruleRefs[L3.6] (blocking in Invoke-IFX)"
+}

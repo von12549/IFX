@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "L3.4",
+  "title": "Contracts exclude framework and transport implementation",
+  "kind": "none",
+  "appliesTo": [
+    "src/Modules/*/IFX.Modules.*.Contracts/**",
+    "src/Platform/**/*.Contracts/**"
+  ],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "authority": "policy/layerguard.json:ruleRefs[L3.4] (blocking in Invoke-IFX)"
+}

@@ -4,7 +4,7 @@ Pre now accepts an ordinary path summary or a formal Plan. The local `profiles/i
 
 `V3_ifx` is the IFX-configured fork of the portable V3 source package. `V3_backup` is the validated reusable source snapshot. This directory owns its own configuration, .NET source, fixtures, baseline, and generated projects; its commands do not invoke `mcp/LayerGuard`, `src/layerguard.json`, or the existing guard scripts. The old gate remains in place for later comparison.
 
-The new [IFX target inventory](analysis/ifx/INVENTORY.md) records repository project, CI and guidance evidence with file hashes. Its [proposal](analysis/ifx/PROPOSAL.md) is for review; it did not rewrite the IFX profile or architecture policy. The [profile views](profiles/ifx/views/README.md) give a readable map, tech stack, rules and V3 stage coverage. JSON remains authoritative; the coverage view deliberately describes only the narrow stage runner, while the independent LayerGuard gate below retains its own policy.
+The [IFX target inventory](analysis/ifx/INVENTORY.md) records repository project, CI and guidance evidence with file hashes. It seeds editable [target architecture](analysis/ifx/ARCHITECTURE.md) and [technical](analysis/ifx/TECHNICAL.md) drafts; their [review report](analysis/ifx/ARCHITECTURE-REVIEW.md) compares structured intent with the current profile and observed source. The drafts are proposals and have not rewritten the IFX profile or architecture policy. The [profile views](profiles/ifx/views/README.md) give a readable map, tech stack, rules and V3 stage coverage. JSON remains authoritative; the coverage view deliberately describes only the narrow stage runner, while the independent LayerGuard gate below retains its own policy.
 
 ## What is enforced
 
@@ -18,7 +18,7 @@ The G03/G04/G05 files under `policy/` are **local LayerGuard inputs**. This migr
 | --- | --- |
 | `profiles/ifx/` | Editable V3 Plan/Pre/Diff profile and the additional `L2.2` project-reference detector |
 | `profiles/ifx/views/` | Generated Markdown index, map, tech stack, rule pages and V3 stage coverage |
-| `analysis/ifx/` | Read-only target evidence inventory and review proposal |
+| `analysis/ifx/` | Target evidence, editable architecture/technical drafts, review report and generated profile proposal |
 | `policy/layerguard.json` | Editable IFX architecture rules, copied from the existing policy with only the three Gate paths made local |
 | `policy/g03/`, `policy/g04/`, `policy/g05/` | Local policy facts and G04-bound artifacts; edit together with their verified hashes |
 | `policy/baselines/plan05.json` | Local strict baseline, bound to the composite policy hash; never silently update after a rule edit |
@@ -28,8 +28,8 @@ The G03/G04/G05 files under `policy/` are **local LayerGuard inputs**. This migr
 | `contracts/`, `templates/plan/`, `skills/`, `hooks/` | V3 input contracts and optional Agent planning integration |
 | `scripts/Invoke-IFX.ps1` | Generate, check, test, and strict-scan the independent IFX LayerGuard project |
 | `scripts/Invoke-V3.ps1` | Validate, generate, check, test, Pre, and Diff for the V3 stage profile |
-| `scripts/Invoke-V3Setup.ps1`, `Invoke-V3Docs.ps1` | Analyze/Init and Markdown render/check/import tools copied from V3 |
+| `scripts/Invoke-V3Setup.ps1`, `Invoke-V3Architecture.ps1`, `Invoke-V3Docs.ps1` | Analyze/Init, architecture draft/review/adopt and Markdown render/check/import tools copied from V3 |
 
-Agent workflow: read this README and [deployment commands](DEPLOYMENT.md), edit the profile or local policy, review the changed rule and bound hashes, regenerate both projects, run Check, run the positive/negative tests and strict scan, then run Pre/Diff against the task Plan. A policy hash change requires an explicit baseline review. Do not treat a refreshed hash alone as proof that a weakened rule is acceptable.
+Agent workflow: read this README and [deployment commands](DEPLOYMENT.md), compare the architecture drafts with evidence and current profile, then edit a reviewed profile or local policy. Review changed rules and bound hashes, regenerate both projects, run Check, run positive/negative tests and strict scan, then run Pre/Diff against the task Plan. `Invoke-IFX -Mode Validate` checks the nine numbered stage/policy rule IDs for drift. A policy hash change requires an explicit baseline review. Do not treat a refreshed hash alone as proof that a weakened rule is acceptable.
 
 The [migration record](architecture/IFX-MIGRATION.md) identifies what was copied and what was changed to make the gate independent. No CI workflow or branch-protection setting is installed by this package; CI activation is a separate deployment step.

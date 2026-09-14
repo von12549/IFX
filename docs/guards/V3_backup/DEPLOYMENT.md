@@ -14,10 +14,27 @@ Install PowerShell 7, Git, and an SDK matching `tech-stack.json`. Copy `docs/gua
 $v3 = 'docs/guards/V3'
 $profile = 'docs/guards/profiles/my-project'
 pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Init -TargetRoot . -ProfileDirectory $profile -ProjectId my-project -TargetFramework net10.0
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -OutputDirectory 'artifacts/guards/target-analysis' -ExcludePaths 'docs/guards/**'
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -OutputDirectory 'artifacts/guards/target-analysis' -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
 ```
 
-`Analyze` inventories literal `.csproj` frameworks/references, package scripts, solution/build manifests, CI workflows and Agent/owner guidance. Its `inventory.json`, `INVENTORY.md` and `PROPOSAL.md` contain source paths and SHA-256 evidence. It does not evaluate MSBuild conditions, infer owners or create blocking rules. Adjust `-ExcludePaths` to omit copied packages and fixtures; the tool also skips transient `bin`, `obj`, `node_modules`, `artifacts` and `generated` directories. Review the inventory against the target code and current gates before editing the profile. The analysis output is a proposal, never a policy authority.
+`Analyze` inventories literal `.csproj` frameworks/references, package scripts, solution/build manifests, CI workflows and Agent/owner guidance. Its `inventory.json`, `INVENTORY.md` and `PROPOSAL.md` contain source paths and SHA-256 evidence. It also creates target-specific `ARCHITECTURE.md` and `TECHNICAL.md` drafts in the analysis directory; passing `-ProfileDirectory` seeds their structured blocks from the current profile. Without a profile, the draft uses explicitly unreviewed candidates. Repeat analysis refreshes evidence but preserves edited drafts. It does not evaluate MSBuild conditions, infer owners or create blocking rules. Adjust `-ExcludePaths` to omit copied packages and fixtures; the tool also skips transient `bin`, `obj`, `node_modules`, `artifacts` and `generated` directories.
+
+Read the drafts as an architecture proposal. Revise the prose and the fenced JSON blocks for the intended profile, map, stage rules and technical commands. The deterministic reviewer parses **only the structured blocks**; an Agent or human must translate a prose-only architectural change into those blocks. It validates the proposal, checks source evidence freshness, compares the proposed profile to the current profile and reports unmapped projects, unsupported detector scope and observed forbidden direct references. It does not rewrite the current profile or independent policies.
+
+```powershell
+$analysis = 'artifacts/guards/target-analysis'
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Architecture.ps1" -Mode Review -TargetRoot . -AnalysisDirectory $analysis -ProfileDirectory $profile
+```
+
+Read `ARCHITECTURE-REVIEW.md` and `architecture-review.json`. When the proposal has a supported blocking detector, no placeholders, and both drafts have been reviewed, change each `Guard review status` line to `REVIEWED`, rerun Review, and explicitly adopt it into a **new** profile path. `Adopt` refuses to overwrite an existing profile. The `-AcceptDocument` switch records the choice to use the reviewed document proposal; it does not make the resulting gate active.
+
+```powershell
+$adopted = 'docs/guards/profiles/my-project-reviewed'
+pwsh -NoProfile -File "$v3/scripts/Invoke-V3Architecture.ps1" -Mode Adopt -TargetRoot . -AnalysisDirectory $analysis -ProfileDirectory $profile -DestinationProfileDirectory $adopted -AcceptDocument
+$profile = $adopted
+```
+
+Run the normal Validate/Generate/Check/Test commands below with this new profile. Review observed violations and add independent detectors where the V3 stage has only partial coverage. The package-level `architecture/` files remain reusable design references; the analysis drafts are target-specific proposed inputs.
 
 ## Markdown configuration views
 
@@ -34,11 +51,9 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot .
 
 ## Generate and verify
 
-Run the following commands after changing into a disposable repository root that contains a copy of V3. Replace the sample profile with a reviewed project-specific profile before running them against a real target. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository.
+Run the following commands with a reviewed project-specific profile. For a synthetic smoke test, set `$profile` to `"$v3/examples/minimal"` in a disposable repository. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository.
 
 ```powershell
-$v3 = 'docs/guards/V3'
-$profile = "$v3/examples/minimal"
 pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .
 pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot .
 pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot .

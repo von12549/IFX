@@ -40,12 +40,35 @@ function Assert-LocalBinding {
     return $resolved
 }
 
+function Assert-RuleAlignment {
+    param([object] $Config)
+    $ruleRoot = Join-Path $packageRoot 'profiles/ifx/rules'
+    if (-not [IO.Directory]::Exists($ruleRoot)) { throw "IFX stage rules are missing: $ruleRoot" }
+    $stageIds = @()
+    foreach ($file in @(Get-ChildItem -LiteralPath $ruleRoot -File -Filter '*.json')) {
+        $stage = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+        if ($file.BaseName -cne [string] $stage.id) { throw "Stage rule ID/file mismatch: $($file.Name)" }
+        if ($stage.id -match '^L[0-9]+\.[0-9]+$') {
+            if (-not ([string] $stage.authority).StartsWith('policy/layerguard.json:', [StringComparison]::Ordinal)) { throw "Stage rule lacks local LayerGuard authority: $($stage.id)" }
+            $stageIds += [string] $stage.id
+        }
+    }
+    $policyIds = @($Config.ruleRefs | ForEach-Object { [string] $_.ref })
+    if (@($stageIds | Sort-Object -Unique).Count -ne $stageIds.Count -or @($policyIds | Sort-Object -Unique).Count -ne $policyIds.Count) { throw 'Duplicate numbered IFX rule ID.' }
+    $missingInStage = @($policyIds | Where-Object { $_ -notin $stageIds })
+    $missingInPolicy = @($stageIds | Where-Object { $_ -notin $policyIds })
+    if ($missingInStage.Count -gt 0 -or $missingInPolicy.Count -gt 0) {
+        throw "IFX stage/policy rule ID drift. Missing in stage: $($missingInStage -join ', '); missing in policy: $($missingInPolicy -join ', ')"
+    }
+}
+
 function Assert-Inputs {
     if (-not [IO.Directory]::Exists((Join-Path $target 'src'))) { throw "Target src directory is missing: $target" }
     foreach ($file in @($policy, $baseline, (Join-Path $template 'LayerGuard.slnx'))) {
         if (-not [IO.File]::Exists($file)) { throw "IFX gate input is missing: $file" }
     }
     $config = Get-Content -LiteralPath $policy -Raw | ConvertFrom-Json -AsHashtable
+    Assert-RuleAlignment $config
     foreach ($name in @('g03Governance', 'g04RuntimeManifest', 'g05ContextPolicy')) {
         $relative = [string] $config.gatePolicies[$name]
         [void] (Assert-LocalBinding $relative $name)

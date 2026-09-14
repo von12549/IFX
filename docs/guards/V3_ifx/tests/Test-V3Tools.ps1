@@ -3,6 +3,7 @@ Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $setup = Join-Path $package 'scripts/Invoke-V3Setup.ps1'
 $docs = Join-Path $package 'scripts/Invoke-V3Docs.ps1'
+$architecture = Join-Path $package 'scripts/Invoke-V3Architecture.ps1'
 $guard = Join-Path $package 'scripts/Invoke-V3.ps1'
 $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
 $trial = Join-Path $tempRoot ('v3-tools-' + [Guid]::NewGuid().ToString('N'))
@@ -25,10 +26,52 @@ try {
     & $setup -Mode Analyze -TargetRoot $trial -OutputDirectory 'guard/analysis' -ExcludePaths 'guard/**'
     $inventoryPath = Join-Path $trial 'guard/analysis/inventory.json'
     $first = [IO.File]::ReadAllBytes($inventoryPath)
+    $draftArchitecturePath = Join-Path $trial 'guard/analysis/ARCHITECTURE.md'
+    $firstDraft = [IO.File]::ReadAllBytes($draftArchitecturePath)
     $inventory = Get-Content -LiteralPath $inventoryPath -Raw | ConvertFrom-Json
     if ($inventory.projects.Count -ne 1 -or $inventory.workflows.Count -ne 1 -or $inventory.projects[0].projectReferences[0].resolvedPath -ne 'src/Core/Core.csproj') { throw 'Analyze missed repository evidence.' }
     & $setup -Mode Analyze -TargetRoot $trial -OutputDirectory 'guard/analysis' -ExcludePaths 'guard/**'
     if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $first, [byte[]] [IO.File]::ReadAllBytes($inventoryPath))) { throw 'Analyze output was not deterministic.' }
+    if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $firstDraft, [byte[]] [IO.File]::ReadAllBytes($draftArchitecturePath))) { throw 'Analyze overwrote an editable architecture draft.' }
+    $architecturePath = Join-Path $trial 'guard/analysis/ARCHITECTURE.md'
+    $technicalPath = Join-Path $trial 'guard/analysis/TECHNICAL.md'
+    if (-not [IO.File]::Exists($architecturePath) -or -not [IO.File]::Exists($technicalPath)) { throw 'Analyze did not create editable architecture drafts.' }
+    & $architecture -Mode Review -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -ProfileDirectory 'guard/profile'
+    $draftReview = Get-Content -LiteralPath (Join-Path $trial 'guard/analysis/architecture-review.json') -Raw | ConvertFrom-Json
+    if ($draftReview.decision -ne 'needs-review' -or -not $draftReview.hasPlaceholders) { throw 'Unreviewed architecture draft was treated as adoptable.' }
+    $archText = [IO.File]::ReadAllText($architecturePath).Replace('Guard review status: DRAFT', 'Guard review status: REVIEWED').Replace('"layer": "UNREVIEWED"', '"layer": "application"').Replace('"owner": "UNREVIEWED"', '"owner": "sample-owner"')
+    $sampleRule = [IO.File]::ReadAllText((Join-Path $package 'examples/minimal/rules/ARCH.SAMPLE.json')).TrimEnd("`r", "`n")
+    $replacement = "<!-- guard-config: rules/ARCH.SAMPLE.json -->`n``````json`n$sampleRule`n``````"
+    $archText = [Regex]::Replace($archText, '(?ms)<!-- guard-config: rules/ARCH\.UNCONFIGURED\.json -->\n```json\n.*?\n```', $replacement)
+    [IO.File]::WriteAllText($architecturePath, $archText, $utf8)
+    [IO.File]::WriteAllText($technicalPath, [IO.File]::ReadAllText($technicalPath).Replace('Guard review status: DRAFT', 'Guard review status: REVIEWED'), $utf8)
+    & $architecture -Mode Review -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -ProfileDirectory 'guard/profile'
+    $reviewed = Get-Content -LiteralPath (Join-Path $trial 'guard/analysis/architecture-review.json') -Raw | ConvertFrom-Json
+    if ($reviewed.decision -ne 'eligible-for-explicit-adoption' -or $reviewed.profileDifferences.Count -eq 0 -or $reviewed.observedForbiddenReferences.Count -ne 0) { throw 'Reviewed architecture comparison was incorrect.' }
+    $projectPath = Join-Path $trial 'src/App/App.csproj'
+    $originalProject = [IO.File]::ReadAllText($projectPath)
+    try {
+        [IO.File]::WriteAllText($projectPath, $originalProject + "`n<!-- changed after analysis -->`n", $utf8)
+        $staleEvidence = $false
+        try { & $architecture -Mode Review -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -ProfileDirectory 'guard/profile' } catch { $staleEvidence = $_.Exception.Message -match 'Inventory evidence is stale' }
+        if (-not $staleEvidence) { throw 'Architecture review accepted stale source evidence.' }
+    }
+    finally { [IO.File]::WriteAllText($projectPath, $originalProject, $utf8) }
+    $confirmation = $false
+    try { & $architecture -Mode Adopt -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -DestinationProfileDirectory 'guard/adopted' } catch { $confirmation = $_.Exception.Message -match 'requires -AcceptDocument' }
+    if (-not $confirmation) { throw 'Architecture adoption did not require explicit acceptance.' }
+    & $architecture -Mode Adopt -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -DestinationProfileDirectory 'guard/adopted' -AcceptDocument
+    & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
+    & $guard -Mode Generate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
+    & $guard -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
+    & $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
+    $goodProject = [IO.File]::ReadAllText($projectPath)
+    try {
+        [IO.File]::WriteAllText($projectPath, $goodProject.Replace('../Core/Core.csproj', '../Legacy/Legacy.csproj'), $utf8)
+        $badGate = @(& pwsh -NoProfile -File $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' 2>&1)
+        if ($LASTEXITCODE -eq 0 -or ($badGate -join ' | ') -notmatch 'ARCH.SAMPLE') { throw 'Adopted architecture gate accepted a deliberate forbidden reference.' }
+    }
+    finally { [IO.File]::WriteAllText($projectPath, $goodProject, $utf8) }
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
     $view = Join-Path $profile 'views/rules/ARCH.UNCONFIGURED.md'
@@ -55,7 +98,7 @@ try {
     $conflict = $false
     try { & $docs -Mode Import -TargetRoot $trial -ProfileDirectory 'guard/profile' -Apply } catch { $conflict = $_.Exception.Message -match 'JSON changed since Markdown render' }
     if (-not $conflict) { throw 'Import did not reject a stale Markdown base hash.' }
-    Write-Host 'V3 setup/docs tests passed: fail-closed Init, evidence inventory, deterministic Analyze, Render/Check, preview/import and conflict rejection.'
+    Write-Host 'V3 setup/docs tests passed: fail-closed Init, evidence inventory, architecture review/adoption, generated positive/negative gate, Markdown sync and conflict rejection.'
 }
 finally {
     $resolved = [IO.Path]::GetFullPath($trial)

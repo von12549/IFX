@@ -1,0 +1,14 @@
+{
+  "formatVersion": 1,
+  "id": "L3.1",
+  "title": "Contracts and events live in provider namespaces",
+  "kind": "none",
+  "appliesTo": [
+    "src/Modules/*/IFX.Modules.*.Contracts/**",
+    "src/Modules/*/IFX.Modules.*.Events/**",
+    "src/Platform/**/*.Contracts/**"
+  ],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "authority": "policy/layerguard.json:ruleRefs[L3.1] (blocking in Invoke-IFX)"
+}

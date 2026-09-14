@@ -48,6 +48,17 @@ if ($NuGetConfig) {
 $positive = @(& pwsh @arguments -Mode Test -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0) { throw "Isolated package test failed: $($positive -join ' | ')" }
 
+$policyFile = Join-Path $fixture 'docs/guards/V3_ifx/policy/layerguard.json'
+$policyBytes = [IO.File]::ReadAllBytes($policyFile)
+try {
+    $policyData = [Text.Encoding]::UTF8.GetString($policyBytes) | ConvertFrom-Json -AsHashtable -Depth 100
+    $policyData.ruleRefs[1].ref = 'L2.3X'
+    [IO.File]::WriteAllText($policyFile, (ConvertTo-Json -InputObject $policyData -Depth 100), [Text.UTF8Encoding]::new($false))
+    $idDrift = @(& pwsh @arguments -Mode Validate -TargetRoot $fixture 2>&1)
+    if ($LASTEXITCODE -eq 0 -or ($idDrift -join ' | ') -notmatch 'rule ID drift') { throw 'IFX package accepted stage/policy rule ID drift.' }
+}
+finally { [IO.File]::WriteAllBytes($policyFile, $policyBytes) }
+
 $project = Join-Path $fixture 'src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj'
 $text = [IO.File]::ReadAllText($project)
 if (-not $text.Contains('</Project>')) { throw 'CRM fixture project has no closing Project element.' }
@@ -69,4 +80,4 @@ $data.bindings.moduleManifest.path = 'deployment/g04/module-manifest.json'
 $invalidBinding = @(& pwsh @arguments -Mode Validate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -eq 0) { throw 'IFX package accepted a binding outside its local policy tree.' }
 
-Write-Host "IFX isolated positive, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
+Write-Host "IFX isolated positive, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
