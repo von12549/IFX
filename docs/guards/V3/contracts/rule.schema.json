@@ -7,13 +7,22 @@
     "formatVersion": { "const": 1 },
     "id": { "type": "string", "pattern": "^[A-Z][A-Z0-9.-]+$" },
     "title": { "type": "string", "minLength": 1 },
-    "kind": { "enum": ["forbidden-project-reference", "none"] },
+    "kind": { "enum": ["forbidden-project-reference", "forbidden-type-dependency", "interface-implementation-location", "none"] },
     "enforcement": { "enum": ["blocking", "advisory"] },
     "coverage": { "enum": ["partial", "none"] },
     "authority": { "type": "string", "minLength": 1 },
     "appliesTo": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
     "sourcePattern": { "type": "string", "minLength": 1 },
     "forbiddenTargetPattern": { "type": "string", "minLength": 1 },
+    "sourceAssembly": { "type": "string", "minLength": 1 },
+    "sourceNamespace": { "type": "string", "minLength": 1 },
+    "forbiddenAssembly": { "type": "string", "minLength": 1 },
+    "forbiddenNamespace": { "type": "string", "minLength": 1 },
+    "interfaceAssembly": { "type": "string", "minLength": 1 },
+    "interfaceType": { "type": "string", "minLength": 1 },
+    "implementationAssembly": { "type": "string", "minLength": 1 },
+    "implementationNamespace": { "type": "string", "minLength": 1 },
+    "minimumMatches": { "type": "integer", "minimum": 1 },
     "negativeFixture": {
       "type": "object",
       "additionalProperties": false,
@@ -26,15 +35,23 @@
   },
   "allOf": [
     {
-      "if": { "properties": { "kind": { "const": "none" } } },
+      "if": { "properties": { "kind": { "const": "none" } }, "required": ["kind"] },
       "then": {
         "properties": { "enforcement": { "const": "advisory" }, "coverage": { "const": "none" } },
-        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["forbiddenTargetPattern"] }, { "required": ["negativeFixture"] }] }
+        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["forbiddenTargetPattern"] }, { "required": ["negativeFixture"] }, { "required": ["sourceAssembly"] }, { "required": ["interfaceAssembly"] }] }
       },
       "else": {
-        "required": ["sourcePattern", "forbiddenTargetPattern", "negativeFixture"],
         "properties": { "coverage": { "const": "partial" } }
       }
-    }
+    },
+    { "if": { "properties": { "kind": { "const": "forbidden-project-reference" } }, "required": ["kind"] },
+      "then": { "required": ["sourcePattern", "forbiddenTargetPattern", "negativeFixture"],
+        "not": { "anyOf": [{ "required": ["sourceAssembly"] }, { "required": ["interfaceAssembly"] }] } } },
+    { "if": { "properties": { "kind": { "const": "forbidden-type-dependency" } }, "required": ["kind"] },
+      "then": { "required": ["sourceAssembly", "sourceNamespace", "forbiddenAssembly", "forbiddenNamespace", "minimumMatches"],
+        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["negativeFixture"] }, { "required": ["interfaceAssembly"] }] } } },
+    { "if": { "properties": { "kind": { "const": "interface-implementation-location" } }, "required": ["kind"] },
+      "then": { "required": ["interfaceAssembly", "interfaceType", "implementationAssembly", "implementationNamespace", "minimumMatches"],
+        "not": { "anyOf": [{ "required": ["sourcePattern"] }, { "required": ["negativeFixture"] }, { "required": ["sourceAssembly"] }] } } }
   ]
 }

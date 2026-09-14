@@ -8,7 +8,7 @@ The [IFX target inventory](analysis/ifx/INVENTORY.md) records repository project
 
 ## What is enforced
 
-The lightweight V3 stage runner maps an ordinary path summary or validates a formal Plan before coding, checks the final Diff against declared paths, and tests the `L2.2` Domain-to-Contracts project-reference detector after coding. Its IFX profile maps all nine numbered LayerGuard rule IDs to applicable paths; the other eight are advisory only **within the narrow stage runner** and remain blocking in the separate architecture gate. The independent IFX LayerGuard project runs the complete migrated architecture policy: layer and ownership boundaries, direct/transitive references, package/import/source rules, declaration and payload rules, G03 provider graph, G04 runtime binding, G05 context binding, and the strict zero-entry Plan 05 baseline. Its 190 .NET tests include positive and negative cases. `policy/layerguard.json` maps these checks to `L1.2`, `L2.2`, `L2.3`, `L2.4`, `L2.9`, `L3.1`, `L3.4`, `L3.5`, and `L3.6`.
+The lightweight V3 stage runner maps an ordinary path summary or validates a formal Plan before coding, checks the final Diff against declared paths, and tests the `L2.2` Domain-to-Contracts project-reference detector plus a compiled CRM boundary pilot (`ARCH.BINARY.DOMAIN.CONTRACTS`) after coding. Its IFX profile maps all nine numbered LayerGuard rule IDs to applicable paths; the other eight are advisory only **within the narrow stage runner** and remain blocking in the separate architecture gate. The independent IFX LayerGuard project runs the complete migrated architecture policy: layer and ownership boundaries, direct/transitive references, package/import/source rules, declaration and payload rules, G03 provider graph, G04 runtime binding, G05 context binding, and the strict zero-entry Plan 05 baseline. Its 190 .NET tests include positive and negative cases. `policy/layerguard.json` maps these checks to `L1.2`, `L2.2`, `L2.3`, `L2.4`, `L2.9`, `L3.1`, `L3.4`, `L3.5`, and `L3.6`.
 
 The G03/G04/G05 files under `policy/` are **local LayerGuard inputs**. This migration does not replace the separate G03/G04/G05, Plan 04, database, frontend, or CI validators. They remain separate gates in the existing repository. In particular, the local LayerGuard binding checks their static policy facts and hashes; it does not perform each specialized validator's full behavior tests. The standalone `V3_ifx` package is therefore a complete independent **LayerGuard architecture gate**, not a replacement for every IFX CI job.
 
@@ -16,7 +16,7 @@ The G03/G04/G05 files under `policy/` are **local LayerGuard inputs**. This migr
 
 | Path | Purpose |
 | --- | --- |
-| `profiles/ifx/` | Editable V3 Plan/Pre/Diff profile and the additional `L2.2` project-reference detector |
+| `profiles/ifx/` | Editable V3 Plan/Pre/Diff profile, `L2.2` project-reference detector and compiled CRM boundary pilot |
 | `profiles/ifx/views/` | Generated Markdown index, map, tech stack, rule pages and V3 stage coverage |
 | `analysis/ifx/` | Target evidence, editable architecture/technical drafts, review report and generated profile proposal |
 | `policy/layerguard.json` | Editable IFX architecture rules, copied from the existing policy with only the three Gate paths made local |
@@ -32,4 +32,4 @@ The G03/G04/G05 files under `policy/` are **local LayerGuard inputs**. This migr
 
 Agent workflow: read this README and [deployment commands](DEPLOYMENT.md), compare the architecture drafts with evidence and current profile, then edit a reviewed profile or local policy. Review changed rules and bound hashes, regenerate both projects, run Check, run positive/negative tests and strict scan, then run Pre/Diff against the task Plan. `Invoke-IFX -Mode Validate` checks the nine numbered stage/policy rule IDs for drift. A policy hash change requires an explicit baseline review. Do not treat a refreshed hash alone as proof that a weakened rule is acceptable.
 
-The [migration record](architecture/IFX-MIGRATION.md) identifies what was copied and what was changed to make the gate independent. No CI workflow or branch-protection setting is installed by this package; CI activation is a separate deployment step.
+The [migration record](architecture/IFX-MIGRATION.md) identifies what was copied and what was changed to make the gate independent. No CI workflow or branch-protection setting is installed by this package; CI activation is a separate deployment step. The [all-module Inbound Adapter target](architecture/INBOUND-ADAPTER-TARGET.md) is a future proposal, not a current IFX policy change.

@@ -21,5 +21,21 @@
   "testProject": {
     "targetFramework": "net10.0",
     "framework": "xunit"
+  },
+  "assemblyGate": {
+    "buildTarget": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj",
+    "configuration": "Debug",
+    "assemblies": [
+      {
+        "projectPath": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj",
+        "assemblyPath": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Debug/net8.0/IFX.Modules.CRM.Domain.dll",
+        "assemblyName": "IFX.Modules.CRM.Domain"
+      },
+      {
+        "projectPath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+        "assemblyPath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/bin/Debug/net8.0/IFX.Modules.CRM.Contracts.dll",
+        "assemblyName": "IFX.Modules.CRM.Contracts"
+      }
+    ]
   }
 }

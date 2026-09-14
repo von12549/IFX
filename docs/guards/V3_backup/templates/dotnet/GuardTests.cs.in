@@ -110,7 +110,7 @@ public sealed class GuardTests
     [Fact, Trait("Stage", "Self")]
     public void EveryBlockingRuleHasAWorkingPositiveAndNegativeFixture()
     {
-        foreach (var rule in Rules().Where(rule => Property(rule, "enforcement") == "blocking"))
+        foreach (var rule in Rules().Where(rule => Property(rule, "enforcement") == "blocking" && Property(rule, "kind") == "forbidden-project-reference"))
         {
             var example = rule.GetProperty("negativeFixture");
             var source = Property(example, "sourceProject");
@@ -127,8 +127,8 @@ public sealed class GuardTests
     {
         var root = TargetRoot;
         Assert.True(Directory.Exists(root), $"Missing target repository: {root}");
-        var blocking = Rules().Where(rule => Property(rule, "enforcement") == "blocking").ToArray();
-        Assert.NotEmpty(blocking);
+        var blocking = Rules().Where(rule => Property(rule, "enforcement") == "blocking" && Property(rule, "kind") == "forbidden-project-reference").ToArray();
+        if (blocking.Length == 0) return;
         var failures = blocking.SelectMany(rule => Violations(root, rule)).ToArray();
         Assert.True(failures.Length == 0, string.Join(Environment.NewLine, failures));
     }

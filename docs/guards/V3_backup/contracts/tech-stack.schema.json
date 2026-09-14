@@ -27,6 +27,26 @@
         "targetFramework": { "type": "string", "pattern": "^net[0-9]+\\.0$" },
         "framework": { "const": "xunit" }
       }
+    },
+    "assemblyGate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["buildTarget", "configuration", "assemblies"],
+      "properties": {
+        "buildTarget": { "type": "string", "minLength": 1 },
+        "configuration": { "const": "Debug" },
+        "assemblies": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["projectPath", "assemblyPath", "assemblyName"],
+            "properties": {
+              "projectPath": { "type": "string", "minLength": 1 },
+              "assemblyPath": { "type": "string", "minLength": 1 },
+              "assemblyName": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
     }
   }
 }

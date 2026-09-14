@@ -1,6 +1,6 @@
 # Deploy and run the IFX V3 guard package
 
-Run PowerShell 7 commands from the IFX repository root. The required SDK is .NET 10. The package is already configured for IFX; no old guard file is read by the commands below.
+Run PowerShell 7 commands from the IFX repository root. The required SDK is .NET 10, including support for the target's .NET 8 projects. The NuGet feed/cache must provide pinned `TngTech.ArchUnitNET` 0.13.4 for the optional compiled pilot. The package is already configured for IFX; no old guard file is read by the commands below.
 
 ```powershell
 $v3 = 'docs/guards/V3_ifx'
@@ -23,6 +23,7 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Check
 pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -OutputDirectory "$v3/generated/stages"
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Test -ReportPath artifacts/guards/v3-ifx-layerguard.json
 pwsh -NoProfile -File "$v3/tests/Test-V3.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-V3ArchUnit.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPre.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPackage.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-V3Tools.ps1"
@@ -48,6 +49,6 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $p
 pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json -BaseRef <base-commit> -HeadRef <head-commit> -OutputDirectory "$v3/generated/stages"
 ```
 
-Pre success is advisory and includes a profile-input SHA-256; it does not prove code or decision quality. For local working-tree Diff, omit `-HeadRef`; CI should supply both exact commits. The generated stage project handles Plan scope and its own `L2.2` detector. Run `Invoke-IFX -Mode Test` as the full post-code architecture gate regardless of the Plan's selected paths.
+Pre success is advisory and includes a profile-input SHA-256; it does not prove code or decision quality. For local working-tree Diff, omit `-HeadRef`; CI should supply both exact commits. The generated stage project handles Plan scope, its `L2.2` detector and the compiled CRM pilot. `Invoke-V3 -Mode Test` freshly builds the explicit CRM Domain/Contracts manifest in Debug, then writes `artifacts/guards/v3-assembly.json`. The pilot matched 12 Domain entity types and four public Contract types. The [all-module Inbound Adapter target](architecture/INBOUND-ADAPTER-TARGET.md) remains a separate future migration. Run `Invoke-IFX -Mode Test` as the full post-code architecture gate regardless of the Plan's selected paths.
 
 To activate this as a merge gate, add a CI job that runs Markdown `Check`, both generated-project `Check` commands, both `Test` commands, and `Diff` with the PR base/head commits in a clean checkout, then mark the job required in repository protection. Until that setup is verified, a local pass is evidence only; it does not block merges. Keep the existing specialized jobs active during this parallel migration.

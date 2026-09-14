@@ -86,14 +86,54 @@ function Get-Profile {
         if ($file.BaseName -cne $rule.id) { throw "Rule ID must match file name: $($file.Name)" }
         if (-not $ids.Add($rule.id)) { throw "Duplicate rule ID: $($rule.id)" }
         foreach ($pattern in $rule.appliesTo) { [void] (Assert-SafeRelativePath $pattern -AllowGlob) }
-        if ($rule.kind -ne 'none') {
+        if ($rule.kind -eq 'forbidden-project-reference') {
             [void] (Assert-SafeRelativePath $rule.sourcePattern -AllowGlob)
             [void] (Assert-SafeRelativePath $rule.forbiddenTargetPattern -AllowGlob)
             [void] (Assert-SafeRelativePath $rule.negativeFixture.sourceProject)
             $reference = [string] $rule.negativeFixture.referenceInclude
             if ([IO.Path]::IsPathRooted($reference) -or $reference -match '^[A-Za-z]:' -or $reference -match '[*?]') { throw "Invalid negative fixture reference: $reference" }
         }
+        elseif ($rule.kind -eq 'forbidden-type-dependency') {
+            foreach ($name in @($rule.sourceAssembly, $rule.forbiddenAssembly)) {
+                if ($name -notmatch '^[A-Za-z_][A-Za-z0-9_.-]*$') { throw "Invalid assembly name in $($rule.id): $name" }
+            }
+            foreach ($name in @($rule.sourceNamespace, $rule.forbiddenNamespace)) {
+                if ($name -notmatch '^[A-Za-z_][A-Za-z0-9_.]*$') { throw "Invalid namespace in $($rule.id): $name" }
+            }
+        }
+        elseif ($rule.kind -eq 'interface-implementation-location') {
+            foreach ($name in @($rule.interfaceAssembly, $rule.implementationAssembly)) {
+                if ($name -notmatch '^[A-Za-z_][A-Za-z0-9_.-]*$') { throw "Invalid assembly name in $($rule.id): $name" }
+            }
+            foreach ($name in @($rule.interfaceType, $rule.implementationNamespace)) {
+                if ($name -notmatch '^[A-Za-z_][A-Za-z0-9_.]*$') { throw "Invalid type or namespace in $($rule.id): $name" }
+            }
+        }
         $rules += $rule
+    }
+    $assemblyRules = @($rules | Where-Object { $_.kind -in @('forbidden-type-dependency', 'interface-implementation-location') })
+    if ($assemblyRules.Count -gt 0 -and -not $tech.Contains('assemblyGate')) { throw 'Assembly rules require tech-stack.json assemblyGate.' }
+    if ($assemblyRules.Count -eq 0 -and $tech.Contains('assemblyGate')) { throw 'assemblyGate requires at least one assembly rule.' }
+    if ($assemblyRules.Count -gt 0) {
+        [void] (Resolve-TargetPath $tech.assemblyGate.buildTarget -MustExist)
+        if ($tech.assemblyGate.buildTarget -notmatch '\.(sln|slnx|csproj)$') { throw 'assemblyGate.buildTarget must be a solution or .csproj.' }
+        $names = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+        $paths = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+        foreach ($entry in $tech.assemblyGate.assemblies) {
+            [void] (Resolve-TargetPath $entry.projectPath -MustExist)
+            if (-not $entry.projectPath.EndsWith('.csproj', [StringComparison]::OrdinalIgnoreCase)) { throw "Expected a .csproj assembly source: $($entry.projectPath)" }
+            [void] (Assert-SafeRelativePath $entry.assemblyPath)
+            $projectFolder = [IO.Path]::GetDirectoryName($entry.projectPath.Replace('\', '/')).Replace('\', '/')
+            if (-not $entry.assemblyPath.Replace('\', '/').StartsWith("$projectFolder/bin/Debug/", [StringComparison]::OrdinalIgnoreCase)) { throw "Assembly path is outside its project's Debug output: $($entry.assemblyPath)" }
+            if ($entry.assemblyPath -notmatch '/bin/Debug/' -or -not $entry.assemblyPath.EndsWith("/$($entry.assemblyName).dll", [StringComparison]::OrdinalIgnoreCase)) {
+                throw "Assembly path must name the Debug DLL for $($entry.assemblyName): $($entry.assemblyPath)"
+            }
+            if (-not $names.Add($entry.assemblyName) -or -not $paths.Add($entry.assemblyPath)) { throw "Duplicate assembly manifest entry: $($entry.assemblyName)" }
+        }
+        foreach ($rule in $assemblyRules) {
+            $required = if ($rule.kind -eq 'forbidden-type-dependency') { @($rule.sourceAssembly, $rule.forbiddenAssembly) } else { @($rule.interfaceAssembly, $rule.implementationAssembly) }
+            foreach ($name in $required) { if (-not $names.Contains($name)) { throw "Rule $($rule.id) uses undeclared assembly: $name" } }
+        }
     }
     $commands = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
     foreach ($command in $tech.commands) {
@@ -209,8 +249,11 @@ function Get-ExpectedFiles {
     param([object] $Data)
     $files = [ordered]@{}
     $project = Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/GuardV3.Tests.csproj.in') -Raw
-    $files['GuardV3.Tests.csproj'] = ConvertTo-Lf ($project.Replace('__TARGET_FRAMEWORK__', $Data.Tech.testProject.targetFramework))
+    $hasAssemblies = @($Data.Rules | Where-Object { $_.kind -in @('forbidden-type-dependency', 'interface-implementation-location') }).Count -gt 0
+    $packageReference = if ($hasAssemblies) { '    <PackageReference Include="TngTech.ArchUnitNET" Version="0.13.4" />' } else { '' }
+    $files['GuardV3.Tests.csproj'] = ConvertTo-Lf ($project.Replace('__TARGET_FRAMEWORK__', $Data.Tech.testProject.targetFramework).Replace('__ARCHUNIT_PACKAGE_REFERENCE__', $packageReference))
     $files['GuardTests.cs'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/GuardTests.cs.in') -Raw)
+    if ($hasAssemblies) { $files['AssemblyGuardTests.cs'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/AssemblyGuardTests.cs.in') -Raw) }
     $files['profile.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'profile.json') -Raw)
     $files['project-map.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'project-map.json') -Raw)
     $files['tech-stack.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'tech-stack.json') -Raw)
@@ -254,12 +297,15 @@ function Invoke-DotnetTests {
     $oldBase = [Environment]::GetEnvironmentVariable('GUARD_BASE_REF', 'Process')
     $oldHead = [Environment]::GetEnvironmentVariable('GUARD_HEAD_REF', 'Process')
     $oldGenerated = [Environment]::GetEnvironmentVariable('GUARD_GENERATED_ROOT', 'Process')
+    $oldInputHash = [Environment]::GetEnvironmentVariable('GUARD_INPUT_SHA256', 'Process')
     $oldAppData = [Environment]::GetEnvironmentVariable('APPDATA', 'Process')
     try {
         $env:GUARD_TARGET_ROOT = $root
         $env:GUARD_GENERATED_ROOT = $output
+        $env:GUARD_INPUT_SHA256 = Get-InputHash $data
         if ($PlanFile) { $env:GUARD_PLAN_PATH = $PlanFile; $env:GUARD_BASE_REF = $BaseRef; $env:GUARD_HEAD_REF = $HeadRef }
         $project = Join-Path $output 'GuardV3.Tests.csproj'
+        $configPath = $null
         if ($NuGetConfig) {
             $configPath = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $root $NuGetConfig }))
             if (-not [IO.File]::Exists($configPath)) { throw "NuGetConfig is missing: $configPath" }
@@ -268,6 +314,27 @@ function Invoke-DotnetTests {
                 [void] [IO.Directory]::CreateDirectory($isolatedAppData)
                 $env:APPDATA = $isolatedAppData
             }
+        }
+        if ($Filter -ne 'Stage=Diff' -and $data.Tech.Contains('assemblyGate')) {
+            $gate = $data.Tech.assemblyGate
+            $buildStarted = [DateTime]::UtcNow
+            $build = Resolve-TargetPath $gate.buildTarget -MustExist
+            if ($configPath) { & dotnet restore $build --configfile $configPath --nologo; if ($LASTEXITCODE -ne 0) { throw 'Target restore failed.' } }
+            $buildOptions = if ($configPath) { @('--no-restore') } else { @() }
+            & dotnet build $build --configuration Debug --no-incremental --nologo @buildOptions
+            if ($LASTEXITCODE -ne 0) { throw "Target Debug build failed with exit code $LASTEXITCODE" }
+            foreach ($entry in $gate.assemblies) {
+                $targetProject = Resolve-TargetPath $entry.projectPath -MustExist
+                if ($configPath) { & dotnet restore $targetProject --configfile $configPath --nologo; if ($LASTEXITCODE -ne 0) { throw "Assembly project restore failed: $($entry.projectPath)" } }
+                & dotnet build $targetProject --configuration Debug --no-incremental --nologo @buildOptions
+                if ($LASTEXITCODE -ne 0) { throw "Assembly project build failed: $($entry.projectPath)" }
+                $dll = Resolve-TargetPath $entry.assemblyPath -MustExist
+                if ([IO.File]::GetLastWriteTimeUtc($dll) -lt $buildStarted.AddSeconds(-2)) { throw "Assembly was not refreshed by the Debug build: $($entry.assemblyPath)" }
+                $actual = [Reflection.AssemblyName]::GetAssemblyName($dll).Name
+                if ($actual -cne $entry.assemblyName) { throw "Assembly identity mismatch: $($entry.assemblyPath) is $actual" }
+            }
+        }
+        if ($configPath) {
             & dotnet restore $project --configfile $configPath --nologo
             if ($LASTEXITCODE -ne 0) { throw "dotnet restore failed with exit code $LASTEXITCODE" }
             & dotnet test $project --no-restore --filter $Filter --nologo
@@ -281,6 +348,7 @@ function Invoke-DotnetTests {
         [Environment]::SetEnvironmentVariable('GUARD_BASE_REF', $oldBase, 'Process')
         [Environment]::SetEnvironmentVariable('GUARD_HEAD_REF', $oldHead, 'Process')
         [Environment]::SetEnvironmentVariable('GUARD_GENERATED_ROOT', $oldGenerated, 'Process')
+        [Environment]::SetEnvironmentVariable('GUARD_INPUT_SHA256', $oldInputHash, 'Process')
         [Environment]::SetEnvironmentVariable('APPDATA', $oldAppData, 'Process')
     }
 }
@@ -342,6 +410,12 @@ $data = Get-Profile
 if ($Mode -eq 'Validate') { Write-Host "V3 profile valid: $($data.Profile.projectId)"; exit 0 }
 $expected = Get-ExpectedFiles $data
 if ($Mode -eq 'Generate') {
+    $optionalAssemblyTest = Join-Path $output 'AssemblyGuardTests.cs'
+    if (-not $expected.Contains('AssemblyGuardTests.cs') -and [IO.File]::Exists($optionalAssemblyTest)) {
+        $resolved = [IO.Path]::GetFullPath($optionalAssemblyTest)
+        if (-not $resolved.StartsWith($output.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe generated-file cleanup path.' }
+        Remove-Item -LiteralPath $resolved -Force
+    }
     $generatedRules = Join-Path $output 'rules'
     if ([IO.Directory]::Exists($generatedRules)) {
         foreach ($stale in @(Get-ChildItem -LiteralPath $generatedRules -File -Filter '*.json')) {

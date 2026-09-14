@@ -1,0 +1,207 @@
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Security.Cryptography;
+using System.Text.Json;
+using ArchUnitNET.Domain;
+using ArchUnitNET.Loader;
+using Xunit;
+using static ArchUnitNET.Fluent.ArchRuleDefinition;
+
+namespace GuardV3.Generated
+{
+
+public sealed class AssemblyGuardTests
+{
+    private static string Root => Path.GetFullPath(Environment.GetEnvironmentVariable("GUARD_TARGET_ROOT")
+        ?? throw new InvalidOperationException("GUARD_TARGET_ROOT is required."));
+
+    private static string Text(JsonElement item, string key) => item.GetProperty(key).GetString()
+        ?? throw new InvalidOperationException($"Missing {key}.");
+
+    private static bool IsAssemblyRule(JsonElement rule) => Text(rule, "kind") is
+        "forbidden-type-dependency" or "interface-implementation-location";
+
+    private static string CheckedPath(string relative)
+    {
+        if (Path.IsPathRooted(relative) || relative.Contains("..", StringComparison.Ordinal) || relative.Contains('*'))
+            throw new InvalidOperationException($"Unsafe manifest path: {relative}");
+        var path = Path.GetFullPath(Path.Combine(Root, relative));
+        if (!path.StartsWith(Root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidOperationException($"Manifest path escapes target: {relative}");
+        if (!File.Exists(path)) throw new FileNotFoundException($"Expected assembly is missing: {relative}", path);
+        return path;
+    }
+
+    private static (Dictionary<string, System.Reflection.Assembly> Assemblies, Architecture Architecture) Load(JsonElement gate)
+    {
+        var entries = gate.GetProperty("assemblies").EnumerateArray()
+            .Select(x => (Name: Text(x, "assemblyName"), Path: CheckedPath(Text(x, "assemblyPath")))).ToArray();
+        var byName = entries.ToDictionary(x => x.Name, x => x.Path, StringComparer.Ordinal);
+        System.Reflection.Assembly? Resolve(AssemblyLoadContext context, AssemblyName name)
+        {
+            if (name.Name is not null && byName.TryGetValue(name.Name, out var file)) return context.LoadFromAssemblyPath(file);
+            foreach (var entry in entries)
+            {
+                var sibling = Path.Combine(Path.GetDirectoryName(entry.Path)!, name.Name + ".dll");
+                if (File.Exists(sibling)) return context.LoadFromAssemblyPath(sibling);
+            }
+            return null;
+        }
+        AssemblyLoadContext.Default.Resolving += Resolve;
+        try
+        {
+            var loaded = new Dictionary<string, System.Reflection.Assembly>(StringComparer.Ordinal);
+            foreach (var entry in entries)
+            {
+                var identity = AssemblyName.GetAssemblyName(entry.Path).Name;
+                if (identity != entry.Name) throw new InvalidOperationException($"Assembly identity mismatch: {entry.Path} is {identity}");
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(entry.Path);
+                if (!Path.GetFullPath(assembly.Location).Equals(entry.Path, StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidOperationException($"Loaded an unexpected assembly path for {entry.Name}: {assembly.Location}");
+                loaded.Add(entry.Name, assembly);
+            }
+            var architecture = new ArchLoader().LoadAssemblies(loaded.Values.ToArray()).Build();
+            foreach (var assembly in loaded.Values) _ = assembly.GetTypes();
+            return (loaded, architecture);
+        }
+        finally { AssemblyLoadContext.Default.Resolving -= Resolve; }
+    }
+
+    [Fact, Trait("Stage", "Self")]
+    public void SyntheticDependenciesAndImplementationPlacementExerciseBothOutcomes()
+    {
+        var architecture = new ArchLoader().LoadAssembly(typeof(Self.Good.Allowed).Assembly).Build();
+        var target = Types().That().ResideInNamespace("GuardV3.Generated.Self.Target");
+        Assert.True(Types().That().ResideInNamespace("GuardV3.Generated.Self.Good")
+            .Should().NotDependOnAny(target).HasNoViolations(architecture));
+        Assert.False(Types().That().ResideInNamespace("GuardV3.Generated.Self.Bad")
+            .Should().NotDependOnAny(target).HasNoViolations(architecture));
+        Assert.True(Classes().That().AreAssignableTo(typeof(Self.Good.IGoodPort))
+            .Should().ResideInNamespace("GuardV3.Generated.Self.Good").HasNoViolations(architecture));
+        Assert.False(Classes().That().AreAssignableTo(typeof(Self.Bad.IBadPort))
+            .Should().ResideInNamespace("GuardV3.Generated.Self.Good").HasNoViolations(architecture));
+    }
+
+    [Fact, Trait("Stage", "Self")]
+    public void EveryBlockingCompiledRuleHasAWorkingPositiveAndNegativeFixture()
+    {
+        var architecture = new ArchLoader().LoadAssembly(typeof(Self.Good.Allowed).Assembly).Build();
+        var rules = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "rules"), "*.json")
+            .Select(x => JsonDocument.Parse(File.ReadAllText(x)).RootElement.Clone())
+            .Where(x => IsAssemblyRule(x) && Text(x, "enforcement") == "blocking").ToArray();
+        if (rules.Length == 0) return;
+        foreach (var rule in rules)
+        {
+            var id = Text(rule, "id");
+            if (Text(rule, "kind") == "forbidden-type-dependency")
+            {
+                var target = Types().That().ResideInNamespace("GuardV3.Generated.Self.Target");
+                Assert.True(Types().That().ResideInNamespace("GuardV3.Generated.Self.Good")
+                    .Should().NotDependOnAny(target).HasNoViolations(architecture), $"{id}: positive dependency fixture failed");
+                Assert.False(Types().That().ResideInNamespace("GuardV3.Generated.Self.Bad")
+                    .Should().NotDependOnAny(target).HasNoViolations(architecture), $"{id}: negative dependency fixture escaped");
+            }
+            else
+            {
+                Assert.True(Classes().That().AreAssignableTo(typeof(Self.Good.IGoodPort))
+                    .Should().ResideInNamespace("GuardV3.Generated.Self.Good").HasNoViolations(architecture), $"{id}: positive implementation fixture failed");
+                Assert.False(Classes().That().AreAssignableTo(typeof(Self.Bad.IBadPort))
+                    .Should().ResideInNamespace("GuardV3.Generated.Self.Good").HasNoViolations(architecture), $"{id}: negative implementation fixture escaped");
+            }
+        }
+    }
+
+    [Fact, Trait("Stage", "Post")]
+    public void ExplicitTargetAssembliesSatisfyConfiguredRules()
+    {
+        using var tech = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "tech-stack.json")));
+        var gate = tech.RootElement.GetProperty("assemblyGate");
+        var rules = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "rules"), "*.json")
+            .OrderBy(x => x, StringComparer.Ordinal)
+            .Select(x => JsonDocument.Parse(File.ReadAllText(x)).RootElement.Clone())
+            .Where(IsAssemblyRule).ToArray();
+        Assert.NotEmpty(rules);
+        var results = new List<object>();
+        var failures = new List<string>();
+        var expected = gate.GetProperty("assemblies").EnumerateArray()
+            .Select(x => new { assemblyName = Text(x, "assemblyName"), assemblyPath = Text(x, "assemblyPath") }).ToArray();
+        var loadedNames = Array.Empty<object>();
+        try
+        {
+            var (assemblies, architecture) = Load(gate);
+            loadedNames = assemblies.OrderBy(x => x.Key, StringComparer.Ordinal)
+                .Select(x => (object)new { assemblyName = x.Key, loadedPath = x.Value.Location }).ToArray();
+            foreach (var rule in rules)
+            {
+                var id = Text(rule, "id");
+                var kind = Text(rule, "kind");
+                var minimum = rule.GetProperty("minimumMatches").GetInt32();
+                var violations = new List<string>();
+                var sourceCount = 0;
+                var targetCount = 0;
+                if (kind == "forbidden-type-dependency")
+                {
+                    var sourceAssembly = assemblies[Text(rule, "sourceAssembly")];
+                    var targetAssembly = assemblies[Text(rule, "forbiddenAssembly")];
+                    var sourceNamespace = Text(rule, "sourceNamespace");
+                    var targetNamespace = Text(rule, "forbiddenNamespace");
+                    sourceCount = sourceAssembly.GetTypes().Count(x => x.Namespace == sourceNamespace);
+                    targetCount = targetAssembly.GetTypes().Count(x => x.Namespace == targetNamespace);
+                    if (sourceCount < minimum || targetCount < minimum)
+                        violations.Add($"Expected at least {minimum} source and target types; found {sourceCount} and {targetCount}.");
+                    else if (!Types().That().ResideInNamespace(sourceNamespace).Should().NotDependOnAny(
+                            Types().That().ResideInNamespace(targetNamespace)).HasNoViolations(architecture))
+                        violations.Add($"Compiled type dependency: {sourceAssembly.GetName().Name}:{sourceNamespace} -> {targetAssembly.GetName().Name}:{targetNamespace}");
+                }
+                else
+                {
+                    var interfaceAssembly = assemblies[Text(rule, "interfaceAssembly")];
+                    var implementationAssembly = Text(rule, "implementationAssembly");
+                    var implementationNamespace = Text(rule, "implementationNamespace");
+                    var interfaceType = interfaceAssembly.GetType(Text(rule, "interfaceType"), throwOnError: true)!;
+                    if (!interfaceType.IsInterface) throw new InvalidOperationException($"{id}: configured type is not an interface.");
+                    var implementers = assemblies.Values.SelectMany(x => x.GetTypes())
+                        .Where(x => x.IsClass && !x.IsAbstract && interfaceType.IsAssignableFrom(x)).ToArray();
+                    sourceCount = 1;
+                    targetCount = implementers.Length;
+                    if (implementers.Length < minimum)
+                        violations.Add($"Expected at least {minimum} concrete implementation(s); found {implementers.Length}.");
+                    foreach (var type in implementers.Where(x => x.Assembly.GetName().Name != implementationAssembly || x.Namespace != implementationNamespace))
+                        violations.Add($"{type.FullName} implements {interfaceType.FullName} outside {implementationAssembly}:{implementationNamespace}");
+                    if (implementers.Length >= minimum && !Classes().That().AreAssignableTo(interfaceType)
+                        .Should().ResideInNamespace(implementationNamespace).HasNoViolations(architecture))
+                        violations.Add("ArchUnitNET detected an implementation outside the required namespace.");
+                }
+                var status = violations.Count == 0 ? "passed" : "violated";
+                results.Add(new { ruleId = id, kind, enforcement = Text(rule, "enforcement"), status, sourceCount, targetCount, violations });
+                if (violations.Count > 0 && Text(rule, "enforcement") == "blocking")
+                    failures.AddRange(violations.Select(x => $"{id}: {x}"));
+            }
+        }
+        catch (Exception exception) { failures.Add($"Assembly gate could not inspect its target: {exception}"); }
+        var reportPath = Path.Combine(Root, "artifacts", "guards", "v3-assembly.json");
+        Directory.CreateDirectory(Path.GetDirectoryName(reportPath)!);
+        var profile = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "tech-stack.json"));
+        var report = new { formatVersion = 1, status = failures.Count == 0 ? "passed" : "failed", expectedAssemblies = expected,
+            loadedAssemblies = loadedNames, profileInputSha256 = Environment.GetEnvironmentVariable("GUARD_INPUT_SHA256"),
+            techStackSha256 = Convert.ToHexString(SHA256.HashData(profile)).ToLowerInvariant(),
+            rules = results, failures, limits = new[] { "Compiled type facts only; project references, disabled source, reflection and DI behavior are outside this detector." } };
+        File.WriteAllText(reportPath, JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        Assert.True(failures.Count == 0, string.Join(Environment.NewLine, failures));
+    }
+}
+}
+
+namespace GuardV3.Generated.Self.Target { public sealed class Forbidden { } }
+namespace GuardV3.Generated.Self.Good
+{
+    public interface IGoodPort { }
+    public sealed class Allowed { }
+    public sealed class GoodPort : IGoodPort { }
+}
+namespace GuardV3.Generated.Self.Bad
+{
+    public interface IBadPort { }
+    public sealed class BadUse { public GuardV3.Generated.Self.Target.Forbidden Value { get; } = new(); }
+    public sealed class BadPort : IBadPort { }
+}

@@ -10,9 +10,11 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+__ARCHUNIT_PACKAGE_REFERENCE__
   </ItemGroup>
   <ItemGroup>
     <None Include="profile.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="tech-stack.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="rules/*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

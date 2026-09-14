@@ -420,6 +420,27 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
 
 ## Desired stage rules
 
+### ARCH.BINARY.DOMAIN.CONTRACTS.json
+
+<!-- guard-config: rules/ARCH.BINARY.DOMAIN.CONTRACTS.json -->
+```json
+{
+  "formatVersion": 1,
+  "id": "ARCH.BINARY.DOMAIN.CONTRACTS",
+  "title": "CRM Domain compiled entity types do not depend on CRM public contract types",
+  "kind": "forbidden-type-dependency",
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "authority": "profiles/ifx/rules/L2.2.json (parallel compiled-type evidence)",
+  "appliesTo": ["src/Modules/CRM/IFX.Modules.CRM.Domain/**"],
+  "sourceAssembly": "IFX.Modules.CRM.Domain",
+  "sourceNamespace": "IFX.Modules.CRM.Domain.Entities",
+  "forbiddenAssembly": "IFX.Modules.CRM.Contracts",
+  "forbiddenNamespace": "IFX.Modules.CRM.Contracts.V1",
+  "minimumMatches": 1
+}
+```
+
 ### ARCH.SEMANTIC.json
 
 <!-- guard-config: rules/ARCH.SEMANTIC.json -->

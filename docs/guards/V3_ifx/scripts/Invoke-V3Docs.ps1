@@ -67,7 +67,9 @@ foreach ($i in 0..($ruleFiles.Count - 1)) {
     $file = $ruleFiles[$i]
     $rule = $rules[$i]
     $table = "| Field | Value |`n| --- | --- |`n| ID | $(Cell $rule.id) |`n| Kind | $(Cell $rule.kind) |`n| Enforcement | $(Cell $rule.enforcement) |`n| Detector coverage | $(Cell $rule.coverage) |`n| Authority | $(Cell $rule.authority) |`n| Applies to | $(Cell $rule.appliesTo) |"
-    if ($rule.kind -ne 'none') { $table += "`n| Source pattern | $(Cell $rule.sourcePattern) |`n| Forbidden target | $(Cell $rule.forbiddenTargetPattern) |`n| Negative source | $(Cell $rule.negativeFixture.sourceProject) |`n| Negative reference | $(Cell $rule.negativeFixture.referenceInclude) |" }
+    if ($rule.kind -eq 'forbidden-project-reference') { $table += "`n| Source pattern | $(Cell $rule.sourcePattern) |`n| Forbidden target | $(Cell $rule.forbiddenTargetPattern) |`n| Negative source | $(Cell $rule.negativeFixture.sourceProject) |`n| Negative reference | $(Cell $rule.negativeFixture.referenceInclude) |" }
+    if ($rule.kind -eq 'forbidden-type-dependency') { $table += "`n| Source assembly/namespace | $(Cell $rule.sourceAssembly):$(Cell $rule.sourceNamespace) |`n| Forbidden assembly/namespace | $(Cell $rule.forbiddenAssembly):$(Cell $rule.forbiddenNamespace) |`n| Minimum matches | $(Cell $rule.minimumMatches) |" }
+    if ($rule.kind -eq 'interface-implementation-location') { $table += "`n| Interface | $(Cell $rule.interfaceAssembly):$(Cell $rule.interfaceType) |`n| Implementation location | $(Cell $rule.implementationAssembly):$(Cell $rule.implementationNamespace) |`n| Minimum implementations | $(Cell $rule.minimumMatches) |" }
     $expected["rules/$($file.BaseName).md"] = Add-Source "$($rule.id): $($rule.title)" "rules/$($file.Name)" 'rule' $table
 }
 $coverageLines = @($rules | ForEach-Object { "| [$($_.id)](rules/$($_.id).md) | $(Cell $_.enforcement) | $(Cell $_.kind) | $(Cell $_.coverage) | $(Cell $_.authority) |" })

@@ -62,11 +62,27 @@ pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRo
 
 `Validate` checks schemas, unique IDs, command/area references, supported detectors, required negative fixtures and path safety. `Generate` writes a .NET xUnit project and a snapshot of the inputs, including the project map. `Check` compares every generated file byte-for-byte without changing files; missing or extra generated files fail. `Test` runs `Check` and then `dotnet test`, including per-rule detector self-tests and the configured repository rule. A blocking rule that matches no source project fails. Missing tooling or incomplete input is an error, never a pass. The generated project lives at `docs/guards/V3/generated/dotnet/` unless `-OutputDirectory` is supplied.
 
+For the optional [ArchUnitNET detector](architecture/ARCHUNITNET.md), add `assemblyGate` to `tech-stack.json` and one or more compiled-rule JSON files. Example paths are relative to the target repository; list **each assembly whose types are checked**. The generated test project adds pinned `TngTech.ArchUnitNET` 0.13.4 only in this case. `Test` builds `buildTarget` and each listed `.csproj` in Debug with `--no-incremental`, then checks exact DLL identities and namespaces. Use `Invoke-V3 -Mode Test` rather than invoking the generated test project directly. Its report is `artifacts/guards/v3-assembly.json`; a missing assembly, interface, source type, target type or implementation fails closed.
+
+```json
+"assemblyGate": {
+  "buildTarget": "src/App/App.csproj",
+  "configuration": "Debug",
+  "assemblies": [
+    { "projectPath": "src/App/App.csproj", "assemblyPath": "src/App/bin/Debug/net10.0/App.dll", "assemblyName": "App" },
+    { "projectPath": "src/Ports/Ports.csproj", "assemblyPath": "src/Ports/bin/Debug/net10.0/Ports.dll", "assemblyName": "Ports" }
+  ]
+}
+```
+
+The full rule fields and exact-namespace semantics are in the [rule guide](rules/README.md). The target's SDK must support its own projects and the generated xUnit target framework. The NuGet feed or local cache must provide the pinned ArchUnitNET package. A new or renamed target project must be added to the manifest explicitly; adjacency in `bin/` does not expand checked scope.
+
 An isolated end-to-end synthetic test creates a disposable target repository and verifies compliant and violating project references, Plan risk checks and out-of-Plan Diff behavior:
 
 ```powershell
 pwsh "$v3/tests/Test-V3.ps1"
 pwsh "$v3/tests/Test-V3Tools.ps1"
+pwsh "$v3/tests/Test-V3ArchUnit.ps1"
 ```
 
 If the local environment has a restricted user-level NuGet configuration, provide a readable package cache and project-local config. Set `NUGET_PACKAGES` to an existing cache and add `-NuGetConfig <repository-relative-config>` to `Test` or `Diff`. CI can use its normal NuGet configuration.

@@ -139,7 +139,7 @@ $sourceProjects = @($inventory.projects | Where-Object { $_.role -eq 'source' })
 $unmapped = @($sourceProjects | Where-Object { $path = $_.path; @($map.areas | Where-Object { Match-Glob $path $_.pathPattern }).Count -eq 0 } | ForEach-Object { $_.path })
 $unmatchedRules = @($rules | Where-Object {
     $rule = $_
-    $rule.kind -ne 'none' -and @($sourceProjects | Where-Object { Match-Glob $_.path $rule.sourcePattern }).Count -eq 0
+    $rule.kind -eq 'forbidden-project-reference' -and @($sourceProjects | Where-Object { Match-Glob $_.path $rule.sourcePattern }).Count -eq 0
 } | ForEach-Object { $_.id })
 $violations = @()
 foreach ($rule in @($rules | Where-Object { $_.kind -eq 'forbidden-project-reference' })) {

@@ -14,12 +14,17 @@ This directory is a **guide**, not an active rule source. The runner reads one J
 | `coverage` | `partial` or `none` | What violations remain outside the detector? |
 | `sourcePattern`, `forbiddenTargetPattern` | Input and forbidden target globs for `forbidden-project-reference` | Do they match actual project paths and intended direct edges? |
 | `negativeFixture` | Deliberately violating source project and `ProjectReference Include` | Does the test fail for the intended reason? |
+| `sourceAssembly`, `sourceNamespace`, `forbiddenAssembly`, `forbiddenNamespace` | Exact assembly and namespace groups for `forbidden-type-dependency` | Are both type groups nonempty and declared in the manifest? |
+| `interfaceAssembly`, `interfaceType`, `implementationAssembly`, `implementationNamespace` | Public interface and the only permitted concrete implementation location | Does every relevant implementation live there? |
+| `minimumMatches` | Minimum source and target types, or concrete implementations, for compiled rules | Would a renamed or removed group fail closed? |
 
 `appliesTo` controls Plan association, not Post scanning. Post uses the detector fields. `authority` is provenance for review, not an automatic import of another policy. A rule ID in a Plan does not prove code complies with it.
 
 ## Supported and uncovered examples
 
-The initial source package implements only `forbidden-project-reference`. This blocking example checks direct `.csproj` declarations; it does not evaluate MSBuild conditions, transitive edges or C# symbols:
+The source package implements `forbidden-project-reference` and two optional compiled-rule kinds. This blocking example checks direct `.csproj` declarations; it does not evaluate MSBuild conditions, transitive edges or C# symbols:
+
+The [ArchUnitNET detector](../architecture/ARCHUNITNET.md) supports `forbidden-type-dependency` and `interface-implementation-location` when `tech-stack.json:assemblyGate` lists every checked assembly. Both require exact namespaces and `minimumMatches >= 1`; missing or empty scope fails. Continue to state project-reference rules separately.
 
 ```json
 {
@@ -37,6 +42,26 @@ The initial source package implements only `forbidden-project-reference`. This b
     "sourceProject": "src/App/App.csproj",
     "referenceInclude": "../Legacy/Legacy.csproj"
   }
+}
+```
+
+An optional compiled dependency rule uses exact namespaces and assembly identities. The target tech stack must declare the corresponding `assemblyGate` manifest. The implementation-location rule uses the same common fields and replaces the four dependency fields with the interface and implementation fields from the table above. `minimumMatches` must be positive. See [the multi-project fixture](../tests/Test-V3ArchUnit.ps1) for complete examples and expected negative outcomes.
+
+```json
+{
+  "formatVersion": 1,
+  "id": "ARCH.APP-PORT",
+  "title": "Application types do not depend on public port types",
+  "kind": "forbidden-type-dependency",
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "authority": "Reviewed target architecture",
+  "appliesTo": ["src/App/**"],
+  "sourceAssembly": "App",
+  "sourceNamespace": "Demo.App",
+  "forbiddenAssembly": "Ports",
+  "forbiddenNamespace": "Demo.Ports",
+  "minimumMatches": 1
 }
 ```
 

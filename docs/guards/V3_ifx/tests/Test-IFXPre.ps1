@@ -28,7 +28,7 @@ if (-not $fixture.StartsWith($fixtureParent + [IO.Path]::DirectorySeparatorChar,
 try {
     [void] [IO.Directory]::CreateDirectory($fixture)
     $summary = Assert-Pre 0 @('-PlannedPaths', 'src/Modules/CRM/IFX.Modules.CRM.Domain/Sample.cs') 'ordinary CRM summary'
-    if ('CRM' -notin $summary.areas.id -or 'L2.2' -notin $summary.ruleIds -or 'L2.9' -notin $summary.ruleIds -or 'crm-tests' -notin $summary.validationCommands -or $summary.inputSha256.Length -ne 64) { throw 'IFX summary lost area, rule, command or input hash.' }
+    if ('CRM' -notin $summary.areas.id -or 'L2.2' -notin $summary.ruleIds -or 'ARCH.BINARY.DOMAIN.CONTRACTS' -notin $summary.ruleIds -or 'L2.9' -notin $summary.ruleIds -or 'crm-tests' -notin $summary.validationCommands -or $summary.inputSha256.Length -ne 64) { throw 'IFX summary lost area, rule, command or input hash.' }
     $iamRisk = Assert-Pre 1 @('-PlannedPaths', 'src/Modules/IAM/IFX.Modules.IAM.Domain/Sample.cs') 'IAM risk needs formal Plan'
     if ('identity-security' -notin $iamRisk.risks.id -or 'IAM' -notin $iamRisk.areas.id) { throw 'Blocked IFX summary lost risk context.' }
     [void] (Assert-Pre 1 @('-PlannedPaths', 'unknown/Unmapped.cs') 'unmapped path fails closed')
@@ -36,7 +36,7 @@ try {
     $plan = [ordered]@{
         formatVersion = 1; id = '20260914-ifx-pre'; title = 'IFX dependency change'
         goal = 'Maintain the CRM Domain boundary'; acceptanceCriteria = @('The Domain project remains compliant')
-        plannedPaths = @($riskyPath); areaIds = @('CRM'); ruleIds = @('L1.2', 'L2.2', 'L2.9')
+        plannedPaths = @($riskyPath); areaIds = @('CRM'); ruleIds = @('L1.2', 'L2.2', 'L2.9', 'ARCH.BINARY.DOMAIN.CONTRACTS')
         validationCommands = @('ifx-layerguard', 'crm-tests'); decisionPaths = @()
     }
     [IO.File]::WriteAllText($planFile, ($plan | ConvertTo-Json -Depth 20))

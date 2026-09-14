@@ -2,7 +2,7 @@
 
 Generated view of `tech-stack.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
 
-<!-- guard-config-source: tech-stack.json sha256: 94c15db893ba44f90e4b1410ee16fe4b30f765287012fb988d181477d4525b7d -->
+<!-- guard-config-source: tech-stack.json sha256: 874bcca0f145f02181778f7366a29904e969a040a03c392ae305c42aceebb74b -->
 
 | Languages | .NET gate target | Framework |
 | --- | --- | --- |
@@ -48,6 +48,22 @@ Generated view of `tech-stack.json`. Edit the JSON block for policy changes, the
   "testProject": {
     "targetFramework": "net10.0",
     "framework": "xunit"
+  },
+  "assemblyGate": {
+    "buildTarget": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj",
+    "configuration": "Debug",
+    "assemblies": [
+      {
+        "projectPath": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj",
+        "assemblyPath": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Debug/net8.0/IFX.Modules.CRM.Domain.dll",
+        "assemblyName": "IFX.Modules.CRM.Domain"
+      },
+      {
+        "projectPath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+        "assemblyPath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/bin/Debug/net8.0/IFX.Modules.CRM.Contracts.dll",
+        "assemblyName": "IFX.Modules.CRM.Contracts"
+      }
+    ]
   }
 }
 ```

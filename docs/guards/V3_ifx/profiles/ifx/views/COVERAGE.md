@@ -4,6 +4,7 @@ This table describes only detectors configured in the V3 stage profile. External
 
 | Rule | Enforcement | Detector | Coverage | Authority |
 | --- | --- | --- | --- | --- |
+| [ARCH.BINARY.DOMAIN.CONTRACTS](rules/ARCH.BINARY.DOMAIN.CONTRACTS.md) | blocking | forbidden-type-dependency | partial | profiles/ifx/rules/L2.2.json (parallel compiled-type evidence) |
 | [ARCH.SEMANTIC](rules/ARCH.SEMANTIC.md) | advisory | none | none | policy/layerguard.json:ruleRefs |
 | [L1.2](rules/L1.2.md) | advisory | none | none | policy/layerguard.json:ruleRefs[L1.2] (blocking in Invoke-IFX) |
 | [L2.2](rules/L2.2.md) | blocking | forbidden-project-reference | partial | policy/layerguard.json:allowedReferences.Domain |

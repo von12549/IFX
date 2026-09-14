@@ -6,17 +6,17 @@ This directory is a **guide**, not a second active rule source. `Invoke-V3.ps1` 
 
 | Source | Consumer | Responsibility |
 | --- | --- | --- |
-| `profiles/ifx/rules/<ID>.json` | V3 Pre and generated stage project | Applies rule IDs to planned paths; `L2.2` additionally checks one direct project-reference pattern. |
+| `profiles/ifx/rules/<ID>.json` | V3 Pre and generated stage project | Applies rule IDs to planned paths; `L2.2` checks direct project references and `ARCH.BINARY.DOMAIN.CONTRACTS` checks compiled CRM type dependencies. |
 | `policy/layerguard.json` | Independent LayerGuard .NET project | Owns complete architecture policy and maps findings to the nine numbered `ruleRefs`. |
 | `rules/README.md` | Human or Agent author | Explains how to change and verify either path; it is never parsed as policy. |
 
-The stage's `L2.2` is `blocking` with `partial` coverage. The other eight numbered rules use `kind: none`, `advisory`, `coverage: none` **in the stage runner**; their architecture checks remain in the independent gate. `ARCH.SEMANTIC` records an uncovered concern. `contracts/rule.schema.json` constrains the stage JSON shape. An `authority` string names the policy location for review; it does not make the stage runner import that policy.
+The stage's `L2.2` and `ARCH.BINARY.DOMAIN.CONTRACTS` are `blocking` with `partial` coverage. The other eight numbered rules use `kind: none`, `advisory`, `coverage: none` **in the stage runner**; their architecture checks remain in the independent gate. `ARCH.SEMANTIC` records an uncovered concern. `contracts/rule.schema.json` constrains the stage JSON shape. An `authority` string names the policy location for review; it does not make the stage runner import that policy.
 
 ## Stage rule fields and example
 
-`id` and filename must match. `title` is the Plan-facing label. `appliesTo` globs decide which Plan paths must list the ID; they do **not** run Post. `kind`, `enforcement`, and `coverage` describe the actual stage detector. `sourcePattern`, `forbiddenTargetPattern`, and `negativeFixture` are required for `forbidden-project-reference`; Post fails when a blocking rule matches no source project.
+`id` and filename must match. `title` is the Plan-facing label. `appliesTo` globs decide which Plan paths must list the ID; they do **not** run Post. `kind`, `enforcement`, and `coverage` describe the actual stage detector. `sourcePattern`, `forbiddenTargetPattern`, and `negativeFixture` are required for `forbidden-project-reference`; Post fails when a project rule matches no source project or a compiled rule misses its declared Debug assembly/type group.
 
-For example, [L2.2](../profiles/ifx/rules/L2.2.json) applies to Domain paths and rejects a Domain `.csproj` referencing Contracts. Its negative fixture adds that edge deliberately. The check is limited to declared direct `ProjectReference` values; the independent LayerGuard policy covers the larger architectural rule. [L2.3](../profiles/ifx/rules/L2.3.json) shows the other pattern: an applicable Plan rule with `kind: none` and stage-level advisory status, while `policy/layerguard.json` maps it to the full ownership-reference detector.
+For example, [L2.2](../profiles/ifx/rules/L2.2.json) applies to Domain paths and rejects a Domain `.csproj` referencing Contracts. Its negative fixture adds that edge deliberately. The check is limited to declared direct `ProjectReference` values. [ARCH.BINARY.DOMAIN.CONTRACTS](../profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json) adds compiled CRM type evidence using the explicit `tech-stack.json:assemblyGate` manifest; the independent LayerGuard policy covers the larger architectural rule. [L2.3](../profiles/ifx/rules/L2.3.json) shows the other pattern: an applicable Plan rule with `kind: none` and stage-level advisory status, while `policy/layerguard.json` maps it to the full ownership-reference detector.
 
 ```json
 {
