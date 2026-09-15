@@ -1,7 +1,0 @@
-# New-project guard template
-
-Copy the generic `scripts/guards/GuardCore.psm1`, `Invoke-CodingGuard.ps1`, `Invoke-GuardRegeneration.ps1` and `docs/guards/contracts/` into the new repository. The IFX-specific `Invoke-DomainAssemblyGuard.ps1` is optional and requires .NET projects. Copy this template's `inputs/` to `docs/guards/inputs/` and `bindings/template.json` to `docs/guards/bindings/template.json`. Fill in the project name, areas, risk paths, owners, command IDs, detectors and rule metadata. Commands use executable plus argument arrays; do not put shell snippets in rule prose. Put new rule authority in its own rule JSON, or refer to an existing authoritative file. Keep all paths relative to the repository.
-
-Run `pwsh scripts/guards/Invoke-GuardRegeneration.ps1 -Mode Generate -Profile template`, then `-Mode Check -Profile template`, and `pwsh scripts/guards/Invoke-CodingGuard.ps1 -Stage Pre -PlannedPaths app/example.txt -Profile template`. Replace `template` with the chosen binding filename stem. Add meaningful positive and negative detector fixtures before making a check blocking in CI. Connect a project CI job to regeneration Check, Diff and those tests; configure branch protection separately.
-
-The sample command is only a smoke test for the portable runner. It does not inspect application architecture. Replace or remove it before claiming coverage of a real project rule.

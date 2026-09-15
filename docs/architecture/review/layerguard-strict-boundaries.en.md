@@ -6,7 +6,7 @@
 
 The repository uses the B4 strict policy from 2026-09-09. The Plan 07 scan currently covers 51
 governed projects at zero findings and zero waivers; `mcp/LayerGuard/baselines/plan07.json` has no entries.
-`scripts/Invoke-LayerGuard.ps1` is the shared local and CI entry point. An incomplete scan, missing
+`docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` is the shared local and CI entry point. An incomplete scan, missing
 or hash-drifted Gate input, a new finding, or a stale/expired baseline fails with a non-zero exit.
 
 LayerGuard judges compile-time structure only: project references, transitive dependencies,
@@ -30,8 +30,8 @@ result from either side never masks failure on the other.
 | Composition | module/platform Composition | its own layers and required platform runtime projects |
 | Runtime Host | `IFX.ApiHost`, `IFX.*.Worker` | Composition and approved host primitives |
 
-Ownership comes from the generated view of the authoritative G03 catalog and is not copied into
-`src/layerguard.json`. Runtime roles come from G04 artifacts; Context/Messaging primitive admissions
+Ownership comes from the generated view of the authoritative G03 catalog and is bound by
+`docs/guards/V3_ifx/policy/layerguard.json`. Runtime roles come from G04 artifacts; Context/Messaging primitive admissions
 come from G05. Module/platform `*.Abstractions` is no longer recognized as Contracts and remains an
 explicitly forbidden project name. Historical `App.Abstractions` is a G01/G04-approved BuildingBlocks
 host primitive, not an inter-module Contract compatibility layer.
@@ -82,10 +82,8 @@ Start new modules from the [compliant structure template](templates/layerguard-m
 ## Local verification
 
 ```powershell
-./scripts/Invoke-LayerGuard.ps1
-./scripts/Test-Plan03B4StrictClosure.ps1
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
 ```
 
-The first command runs the LayerGuard tool tests and the current Plan 07 repository scan. The second verifies the B4 zero
-findings, the empty baseline, the historical reduction series, compatibility removal, the dependency
-graph, and the strict CI entry point.
+The first command runs the package-owned LayerGuard tests and current repository scan. The second verifies frozen B4 and Plan 07 evidence hashes, schemas, links, and historical labels.

@@ -2,7 +2,7 @@
 
 Generated view of `project-map.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
 
-<!-- guard-config-source: project-map.json sha256: 6ea9df1981ad309d0d0628a632924b5f63dc823d41e964da6fe4d2299613532c -->
+<!-- guard-config-source: project-map.json sha256: dc3e4a9e5e6681dc0d2b342457518d62ee5041fe1b7d6d7b884799ca26e43650 -->
 
 ## Areas
 
@@ -20,14 +20,14 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
 | DatabaseMigrator | src/DatabaseMigrator/** | database | codeowners | src/DatabaseMigrator | ifx-layerguard |
 | BuildingBlocks | src/BuildingBlocks/** | shared | codeowners | src/BuildingBlocks | ifx-layerguard |
 | WebUI | src/WebUI/** | web | codeowners | src/WebUI | ifx-layerguard |
-| LegacyGatePolicy | src/layerguard.json | tooling | codeowners | src | ifx-layerguard |
+| SourceConfig | src/* | repository | codeowners | src | ifx-layerguard |
 | Tests | tests/** | test | codeowners | tests | ifx-layerguard |
 | GuardPackage | docs/guards/V3_ifx/** | tooling | codeowners | docs/guards/V3_ifx | ifx-package-test |
 | GuardDocs | docs/guards/** | tooling | codeowners | docs/guards | ifx-package-test |
 | LayerGuardLegacy | mcp/LayerGuard/** | tooling | codeowners | mcp/LayerGuard | ifx-layerguard |
 | GuardAuthorityInputs | docs/architecture/review/gates/** | tooling | codeowners | docs/architecture/review/gates | ifx-package-test |
-| LegacyGuardEntry | scripts/*Guard*.ps1 | tooling | codeowners | scripts | ifx-layerguard |
-| GuardScripts | scripts/guards/** | tooling | codeowners | scripts/guards | ifx-package-test |
+| ArchitectureDocs | docs/architecture/** | documentation | codeowners | docs/architecture | ifx-package-test |
+| RepositoryScripts | scripts/** | tooling | codeowners | scripts | ifx-package-test |
 | Deployment | deployment/** | deployment | codeowners | deployment | ifx-package-test |
 | CI | .github/** | ci | codeowners | .github | ifx-package-test |
 | RepositoryConfig | .gitattributes | repository | codeowners | .github | ifx-package-test |
@@ -49,15 +49,11 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
 | frontend-dependency | src/Frontend/**/package.json | Frontend dependency or script change |
 | frontend-lockfile | src/Frontend/**/package-lock.json | Locked frontend dependency change |
 | deployment | deployment/** | Deployment and runtime boundary |
-| gate-authority | src/layerguard.json | LayerGuard policy authority |
 | gate-baseline | mcp/LayerGuard/baselines/** | Architecture waiver baseline |
 | layerguard-runtime | mcp/LayerGuard/** | Legacy LayerGuard validator or test change |
 | gate-input | docs/architecture/review/gates/** | Gate authority or derived input |
-| gate-validator | scripts/*Guard*.ps1 | Existing gate validator entry change |
+| gate-validator | scripts/** | Repository validation or operational script change |
 | guard-rules | docs/guards/** | Guard rules, scripts or profiles |
-| guard-binding | docs/guards/bindings/** | Guard detector binding |
-| guard-contract | docs/guards/contracts/** | Guard input or result contract |
-| guard-runtime | scripts/guards/** | Guard framework code |
 | gate-review-routing | .github/CODEOWNERS | Required owner review routing |
 | gate-line-endings | .gitattributes | Checkout byte normalization |
 | ci-workflow | .github/workflows/** | CI enforcement configuration |
@@ -78,14 +74,14 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
     { "id": "DatabaseMigrator", "pathPattern": "src/DatabaseMigrator/**", "layer": "database", "owner": "codeowners", "similarImplementationRoot": "src/DatabaseMigrator", "focusedCommands": ["ifx-layerguard"] },
     { "id": "BuildingBlocks", "pathPattern": "src/BuildingBlocks/**", "layer": "shared", "owner": "codeowners", "similarImplementationRoot": "src/BuildingBlocks", "focusedCommands": ["ifx-layerguard"] },
     { "id": "WebUI", "pathPattern": "src/WebUI/**", "layer": "web", "owner": "codeowners", "similarImplementationRoot": "src/WebUI", "focusedCommands": ["ifx-layerguard"] },
-    { "id": "LegacyGatePolicy", "pathPattern": "src/layerguard.json", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "src", "focusedCommands": ["ifx-layerguard"] },
+    { "id": "SourceConfig", "pathPattern": "src/*", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": "src", "focusedCommands": ["ifx-layerguard"] },
     { "id": "Tests", "pathPattern": "tests/**", "layer": "test", "owner": "codeowners", "similarImplementationRoot": "tests", "focusedCommands": ["ifx-layerguard"] },
     { "id": "GuardPackage", "pathPattern": "docs/guards/V3_ifx/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/guards/V3_ifx", "focusedCommands": ["ifx-package-test"] },
     { "id": "GuardDocs", "pathPattern": "docs/guards/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/guards", "focusedCommands": ["ifx-package-test"] },
     { "id": "LayerGuardLegacy", "pathPattern": "mcp/LayerGuard/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "mcp/LayerGuard", "focusedCommands": ["ifx-layerguard"] },
     { "id": "GuardAuthorityInputs", "pathPattern": "docs/architecture/review/gates/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/architecture/review/gates", "focusedCommands": ["ifx-package-test"] },
-    { "id": "LegacyGuardEntry", "pathPattern": "scripts/*Guard*.ps1", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts", "focusedCommands": ["ifx-layerguard"] },
-    { "id": "GuardScripts", "pathPattern": "scripts/guards/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts/guards", "focusedCommands": ["ifx-package-test"] },
+    { "id": "ArchitectureDocs", "pathPattern": "docs/architecture/**", "layer": "documentation", "owner": "codeowners", "similarImplementationRoot": "docs/architecture", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryScripts", "pathPattern": "scripts/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts", "focusedCommands": ["ifx-package-test"] },
     { "id": "Deployment", "pathPattern": "deployment/**", "layer": "deployment", "owner": "codeowners", "similarImplementationRoot": "deployment", "focusedCommands": ["ifx-package-test"] },
     { "id": "CI", "pathPattern": ".github/**", "layer": "ci", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },
     { "id": "RepositoryConfig", "pathPattern": ".gitattributes", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] }
@@ -104,15 +100,11 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
     { "id": "frontend-dependency", "pathPattern": "src/Frontend/**/package.json", "reason": "Frontend dependency or script change" },
     { "id": "frontend-lockfile", "pathPattern": "src/Frontend/**/package-lock.json", "reason": "Locked frontend dependency change" },
     { "id": "deployment", "pathPattern": "deployment/**", "reason": "Deployment and runtime boundary" },
-    { "id": "gate-authority", "pathPattern": "src/layerguard.json", "reason": "LayerGuard policy authority" },
     { "id": "gate-baseline", "pathPattern": "mcp/LayerGuard/baselines/**", "reason": "Architecture waiver baseline" },
     { "id": "layerguard-runtime", "pathPattern": "mcp/LayerGuard/**", "reason": "Legacy LayerGuard validator or test change" },
     { "id": "gate-input", "pathPattern": "docs/architecture/review/gates/**", "reason": "Gate authority or derived input" },
-    { "id": "gate-validator", "pathPattern": "scripts/*Guard*.ps1", "reason": "Existing gate validator entry change" },
+    { "id": "gate-validator", "pathPattern": "scripts/**", "reason": "Repository validation or operational script change" },
     { "id": "guard-rules", "pathPattern": "docs/guards/**", "reason": "Guard rules, scripts or profiles" },
-    { "id": "guard-binding", "pathPattern": "docs/guards/bindings/**", "reason": "Guard detector binding" },
-    { "id": "guard-contract", "pathPattern": "docs/guards/contracts/**", "reason": "Guard input or result contract" },
-    { "id": "guard-runtime", "pathPattern": "scripts/guards/**", "reason": "Guard framework code" },
     { "id": "gate-review-routing", "pathPattern": ".github/CODEOWNERS", "reason": "Required owner review routing" },
     { "id": "gate-line-endings", "pathPattern": ".gitattributes", "reason": "Checkout byte normalization" },
     { "id": "ci-workflow", "pathPattern": ".github/workflows/**", "reason": "CI enforcement configuration" }

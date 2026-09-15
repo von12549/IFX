@@ -2886,38 +2886,14 @@
   ],
   "workflows": [
     {
-      "path": ".github/workflows/coding-guardrails.yml",
-      "sha256": "90c49a4e1a180923675a164b73ded77d371a5ae31ad0896e09aac5b477fb6f8c"
-    },
-    {
-      "path": ".github/workflows/contract-event-governance.yml",
-      "sha256": "e45adf009591375df6a3a81b14dac5bce65cab08faa225bed1ff67b22a391582"
-    },
-    {
-      "path": ".github/workflows/database-migrations.yml",
-      "sha256": "01fa77075221501047c42acc8f30d12fcfac7717106903c6297b81fc650b3bff"
-    },
-    {
-      "path": ".github/workflows/g04-deployment-runtime.yml",
-      "sha256": "63948cc571641d7ba7ccbdd08d6f2b8b9eb5d6eded540ab7e545aae3fd6175a5"
-    },
-    {
-      "path": ".github/workflows/g05-context-boundary.yml",
-      "sha256": "e42352f4be364e98296c6ac56462f5221182e28750ca6c8f4349f2d2acead13c"
-    },
-    {
-      "path": ".github/workflows/layerguard.yml",
-      "sha256": "2be88a446f64af86149a28af6471e514feb6d47a034673508c30d835335047fe"
-    },
-    {
-      "path": ".github/workflows/plan04-governance.yml",
-      "sha256": "d4fb0572e3fbf54e614e32de37df405db0213606f6e01cb839806d03c029867b"
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "sha256": "0ce3bb4eb674a1f22aab76a6e480c9218a4cbce37f955609c5606e0cc148f91c"
     }
   ],
   "guidance": [
     {
       "path": ".github/CODEOWNERS",
-      "sha256": "a79e44efb0e475d7a1912dc64d082318ef9d915c5ae397a38dcf745a312cc41c"
+      "sha256": "ff011f88bcdec8a3c27b42cb6d0b69bcc6dec2bf0e6a23dfc7e8fd6b59cd0978"
     },
     {
       "path": "CLAUDE.md",

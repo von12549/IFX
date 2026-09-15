@@ -1,0 +1,132 @@
+{
+  "formatVersion": 1,
+  "capturedAt": "2026-09-16",
+  "status": "remote-pr-parity-complete-free-plan-cutover",
+  "comparisonCommit": "073ebe4f2d96609600eb6e74ed39bc3f62e43dfa",
+  "pullRequest": "https://github.com/von12549/IFX/pull/26",
+  "v3Run": {
+    "id": 34978867655,
+    "url": "https://github.com/von12549/IFX/actions/runs/34978867655",
+    "status": "passed",
+    "durationSeconds": 508,
+    "jobs": {
+      "preDiff": 37,
+      "frontend": 66,
+      "crossPlatformUbuntu": 87,
+      "historicalIntegrity": 16,
+      "architecture": 119,
+      "solution": 268,
+      "crossPlatformWindows": 159,
+      "plan04": 29,
+      "g03": 49,
+      "g05": 35,
+      "g04": 28,
+      "database": 233,
+      "assembly": 38
+    }
+  },
+  "legacyRuns": [
+    {
+      "id": 34978867611,
+      "workflow": "Coding Guardrails",
+      "status": "known-failure",
+      "durationSeconds": 154,
+      "reason": "Linux and Windows framework tests plus the assembly detector printed passed but returned the stale nonzero LASTEXITCODE left by expected negative fixtures; the V3 equivalents normalize successful exits and passed on both platforms. Frontend passed."
+    },
+    {
+      "id": 34978867716,
+      "workflow": "Contract Event Governance",
+      "status": "known-failure",
+      "durationSeconds": 94,
+      "reason": "Legacy G03 source reconciliation rejects Client-backed consumer evidence. V3 validates the registered consumer edge and Client-backed adapter."
+    },
+    {
+      "id": 34978867749,
+      "workflow": "LayerGuard",
+      "status": "known-failure",
+      "durationSeconds": 37,
+      "reason": "The legacy LayerGuard workflow invokes the same obsolete G03 source reconciliation before its architecture scan. V3 Architecture completed a zero-entry strict scan."
+    },
+    {
+      "id": 34978867644,
+      "workflow": "Plan 04 governance",
+      "status": "known-failure",
+      "durationSeconds": 27,
+      "reason": "Legacy Plan04 still binds superseded frozen phase hashes. V3 keeps current extraction, tenant, projection, retirement and documentation checks blocking and moves frozen bindings to HistoricalIntegrity."
+    },
+    {
+      "id": 34978867764,
+      "workflow": "Database migration artifacts",
+      "status": "passed",
+      "durationSeconds": 260
+    },
+    {
+      "id": 34978867731,
+      "workflow": "G04 Deployment Runtime",
+      "status": "passed",
+      "durationSeconds": 319
+    },
+    {
+      "id": 34978867613,
+      "workflow": "G05 Context and Sensitive Data Boundary",
+      "status": "passed",
+      "durationSeconds": 339
+    }
+  ],
+  "detectors": [
+    {
+      "id": "G03",
+      "legacy": "known-failure",
+      "v3": "passed",
+      "expectedDifference": "V3 accepts Client-backed Infrastructure adapters as current consumer evidence and writes generated evidence only to artifacts.",
+      "negativeEvidence": "18 catalog mutation cases, source reconciliation, deterministic inventory/snapshot and missing evidence fail-closed"
+    },
+    {
+      "id": "G04",
+      "legacy": "passed",
+      "v3": "passed",
+      "expectedDifference": "V3 hashes canonical LF text and no longer rewrites the authoritative runtime manifest.",
+      "negativeEvidence": "manifest binding, release orchestration, failure matrix, runtime phase 12 and inbound conformance checks"
+    },
+    {
+      "id": "G05",
+      "legacy": "passed-with-duplicate-architecture-and-solution",
+      "v3": "passed",
+      "expectedDifference": "V3 recognizes durable outbox/inbox, validates Infrastructure inbound context handling and delegates architecture/solution/database conclusions.",
+      "negativeEvidence": "10 security detector cases plus phase 11 context, redaction, replay, documentation and closeout checks"
+    },
+    {
+      "id": "Plan04",
+      "legacy": "known-failure",
+      "v3": "passed",
+      "expectedDifference": "Frozen phase hashes moved to HistoricalIntegrity; current extraction, tenant, projection, retirement and documentation checks remain blocking.",
+      "negativeEvidence": "policy fixtures and current validator failure aggregation"
+    },
+    {
+      "id": "Database",
+      "legacy": "passed",
+      "v3": "passed",
+      "expectedDifference": null,
+      "negativeEvidence": "five pending-model checks, migration safety, artifact/publish checks, 109 deterministic tests and 13 SQL Server matrix tests"
+    }
+  ],
+  "sharedFailureModes": [
+    "missing authority input",
+    "projection hash drift",
+    "missing declared evidence",
+    "invalid detector report",
+    "nonzero focused behavior test"
+  ],
+  "freePlanCutover": {
+    "branchProtectionAvailable": false,
+    "rulesetsAvailable": false,
+    "apiResult": "HTTP 403: upgrade to GitHub Pro or make the repository public",
+    "acceptedDecision": "V3 is the sole automatic PR/main guard workflow; legacy workflows are retained as workflow_dispatch-only rollback entries.",
+    "mergeEnforcement": "manual review of the latest V3 run",
+    "permanentLegacyDeletionAllowed": false
+  },
+  "externalEvidencePending": [
+    "first main-branch V3 run after merge",
+    "required-check enforcement after a future GitHub Pro or Team upgrade"
+  ]
+}

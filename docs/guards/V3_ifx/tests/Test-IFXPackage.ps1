@@ -25,7 +25,6 @@ try {
     $sourcePaths = @(git ls-files -- src)
     if ($LASTEXITCODE -ne 0 -or $sourcePaths.Count -eq 0) { throw 'Cannot enumerate tracked IFX source files.' }
     foreach ($relative in $sourcePaths) {
-        if ($relative -eq 'src/layerguard.json') { continue }
         Copy-ToFixture (Join-Path $repository $relative) $relative
     }
     foreach ($file in Get-ChildItem -LiteralPath $package -File -Recurse) {
@@ -38,6 +37,7 @@ finally { Pop-Location }
 
 $runner = Join-Path $fixture 'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
 $arguments = @('-NoProfile', '-File', $runner)
+$arguments += '-SkipAuthorityCheck'
 if ($NuGetConfig) {
     $config = if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $repository $NuGetConfig }
     if (-not [IO.File]::Exists($config)) { throw "NuGet config is missing: $config" }
@@ -81,3 +81,4 @@ $invalidBinding = @(& pwsh @arguments -Mode Validate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -eq 0) { throw 'IFX package accepted a binding outside its local policy tree.' }
 
 Write-Host "IFX isolated positive, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
+$global:LASTEXITCODE = 0

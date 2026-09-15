@@ -20,14 +20,14 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
 | DatabaseMigrator | src/DatabaseMigrator/** | database | codeowners |
 | BuildingBlocks | src/BuildingBlocks/** | shared | codeowners |
 | WebUI | src/WebUI/** | web | codeowners |
-| LegacyGatePolicy | src/layerguard.json | tooling | codeowners |
+| SourceConfig | src/* | repository | codeowners |
 | Tests | tests/** | test | codeowners |
 | GuardPackage | docs/guards/V3_ifx/** | tooling | codeowners |
 | GuardDocs | docs/guards/** | tooling | codeowners |
 | LayerGuardLegacy | mcp/LayerGuard/** | tooling | codeowners |
 | GuardAuthorityInputs | docs/architecture/review/gates/** | tooling | codeowners |
-| LegacyGuardEntry | scripts/*Guard*.ps1 | tooling | codeowners |
-| GuardScripts | scripts/guards/** | tooling | codeowners |
+| ArchitectureDocs | docs/architecture/** | documentation | codeowners |
+| RepositoryScripts | scripts/** | tooling | codeowners |
 | Deployment | deployment/** | deployment | codeowners |
 | CI | .github/** | ci | codeowners |
 | RepositoryConfig | .gitattributes | repository | codeowners |
@@ -178,9 +178,9 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
       ]
     },
     {
-      "id": "LegacyGatePolicy",
-      "pathPattern": "src/layerguard.json",
-      "layer": "tooling",
+      "id": "SourceConfig",
+      "pathPattern": "src/*",
+      "layer": "repository",
       "owner": "codeowners",
       "similarImplementationRoot": "src",
       "focusedCommands": [
@@ -238,21 +238,21 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
       ]
     },
     {
-      "id": "LegacyGuardEntry",
-      "pathPattern": "scripts/*Guard*.ps1",
-      "layer": "tooling",
+      "id": "ArchitectureDocs",
+      "pathPattern": "docs/architecture/**",
+      "layer": "documentation",
       "owner": "codeowners",
-      "similarImplementationRoot": "scripts",
+      "similarImplementationRoot": "docs/architecture",
       "focusedCommands": [
-        "ifx-layerguard"
+        "ifx-package-test"
       ]
     },
     {
-      "id": "GuardScripts",
-      "pathPattern": "scripts/guards/**",
+      "id": "RepositoryScripts",
+      "pathPattern": "scripts/**",
       "layer": "tooling",
       "owner": "codeowners",
-      "similarImplementationRoot": "scripts/guards",
+      "similarImplementationRoot": "scripts",
       "focusedCommands": [
         "ifx-package-test"
       ]
@@ -355,11 +355,6 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
       "reason": "Deployment and runtime boundary"
     },
     {
-      "id": "gate-authority",
-      "pathPattern": "src/layerguard.json",
-      "reason": "LayerGuard policy authority"
-    },
-    {
       "id": "gate-baseline",
       "pathPattern": "mcp/LayerGuard/baselines/**",
       "reason": "Architecture waiver baseline"
@@ -376,28 +371,13 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
     },
     {
       "id": "gate-validator",
-      "pathPattern": "scripts/*Guard*.ps1",
-      "reason": "Existing gate validator entry change"
+      "pathPattern": "scripts/**",
+      "reason": "Repository validation or operational script change"
     },
     {
       "id": "guard-rules",
       "pathPattern": "docs/guards/**",
       "reason": "Guard rules, scripts or profiles"
-    },
-    {
-      "id": "guard-binding",
-      "pathPattern": "docs/guards/bindings/**",
-      "reason": "Guard detector binding"
-    },
-    {
-      "id": "guard-contract",
-      "pathPattern": "docs/guards/contracts/**",
-      "reason": "Guard input or result contract"
-    },
-    {
-      "id": "guard-runtime",
-      "pathPattern": "scripts/guards/**",
-      "reason": "Guard framework code"
     },
     {
       "id": "gate-review-routing",
@@ -432,7 +412,9 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   "enforcement": "blocking",
   "coverage": "partial",
   "authority": "profiles/ifx/rules/L2.2.json (parallel compiled-type evidence)",
-  "appliesTo": ["src/Modules/CRM/IFX.Modules.CRM.Domain/**"],
+  "appliesTo": [
+    "src/Modules/CRM/IFX.Modules.CRM.Domain/**"
+  ],
   "sourceAssembly": "IFX.Modules.CRM.Domain",
   "sourceNamespace": "IFX.Modules.CRM.Domain.Entities",
   "forbiddenAssembly": "IFX.Modules.CRM.Contracts",
@@ -469,8 +451,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   "title": "No legacy Abstractions project",
   "kind": "none",
   "appliesTo": [
-    "src/**/*.csproj",
-    "src/layerguard.json"
+    "src/**/*.csproj"
   ],
   "enforcement": "advisory",
   "coverage": "none",

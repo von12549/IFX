@@ -50,7 +50,7 @@ Diagnostic, Client, Business, Transient, Permanent, and Security each have one d
 
 ### G05-D10 — One verification entry point without premature production claims
 
-Local and CI both run `scripts/Invoke-G05Verification.ps1`, composing the G03 validator, migration safety, G05 guard, LayerGuard, solution build/test, and TRX summary. Passing means repository conformance only; Plan 01/02, LayerGuard 03-A1, production telemetry, and approvals remain closure conditions.
+Local and CI run `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05`; Architecture, Database and Quality.Solution run as separate required V3 jobs. Passing means repository conformance only; production telemetry and approvals remain closure conditions.
 
 ## Terminology and lifecycle
 

@@ -86,7 +86,7 @@ migration 不包进一个全局事务。成功后重跑应无变化。旧 `dbo._
 ./scripts/Invoke-DatabaseMigrator.ps1 -Mode dry-run  -ReportPath artifacts/dry-run.json
 ./scripts/Invoke-DatabaseMigrator.ps1 -Mode apply    -ReportPath artifacts/apply.json
 ./scripts/Invoke-DatabaseMigrator.ps1 -Mode validate -ReportPath artifacts/validate.json
-./scripts/New-DatabaseMigrationArtifacts.ps1 -OutputDirectory artifacts/database-migrator
+pwsh -NoProfile -File docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1 -OutputDirectory artifacts/database-migrator
 ```
 
 Dry-run 报告记录 `Mode`、时间、`Result`、`FailurePoint`、错误及 bootstrap plan；每模块包含 schema、

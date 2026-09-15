@@ -16,7 +16,7 @@
 - [`layerguard-governance-input.json`](../generated/layerguard-governance-input.json) is a
   deterministic generated view containing the catalog SHA-256, not a second authority.
 - `scripts/Export-G03LayerGuardGovernance.ps1` generates the view and
-  `scripts/Test-G03LayerGuardGovernance.ps1` rejects drift.
+  `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03` rejects drift.
 
 The handoff includes module ownership/roles, four admitted provider-consumer Adapter edges, the
 shared primitive projects, default BCL-only dependencies, forbidden runtime/framework types, waiver

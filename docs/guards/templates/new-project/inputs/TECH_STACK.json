@@ -1,8 +1,0 @@
-{
-  "formatVersion": 1,
-  "project": "ExampleProject",
-  "languages": [{ "name": "Project language", "version": "Set the actual version" }],
-  "commands": [
-    { "id": "template-check", "executable": "pwsh", "arguments": ["-NoProfile", "-Command", "Write-Host 'Template runner works'"], "workingDirectory": "." }
-  ]
-}

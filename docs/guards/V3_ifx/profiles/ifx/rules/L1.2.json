@@ -3,7 +3,7 @@
   "id": "L1.2",
   "title": "No legacy Abstractions project",
   "kind": "none",
-  "appliesTo": ["src/**/*.csproj","src/layerguard.json"],
+  "appliesTo": ["src/**/*.csproj"],
   "enforcement": "advisory",
   "coverage": "none",
   "authority": "policy/layerguard.json:ruleRefs[L1.2] (blocking in Invoke-IFX)"

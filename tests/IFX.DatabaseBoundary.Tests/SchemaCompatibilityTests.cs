@@ -125,12 +125,12 @@ public sealed class SchemaCompatibilityTests
     }
 
     [Fact]
-    public void Local_and_CI_migration_commands_are_explicit()
+    public void Local_runtime_and_V3_CI_migration_commands_are_explicit()
     {
         var root = RepositoryRoot();
         File.Exists(Path.Combine(root, "scripts", "Invoke-DatabaseMigrator.ps1")).Should().BeTrue();
-        File.Exists(Path.Combine(root, "scripts", "New-DatabaseMigrationArtifacts.ps1")).Should().BeTrue();
-        File.Exists(Path.Combine(root, ".github", "workflows", "database-migrations.yml")).Should().BeTrue();
+        File.Exists(Path.Combine(root, "docs", "guards", "V3_ifx", "specialized", "scripts", "New-DatabaseMigrationArtifacts.ps1")).Should().BeTrue();
+        File.Exists(Path.Combine(root, ".github", "workflows", "v3-ifx-guardrails.yml")).Should().BeTrue();
     }
 
     private static ReleaseSchemaManifest LoadReleaseManifest() => ReleaseSchemaManifest.Load(

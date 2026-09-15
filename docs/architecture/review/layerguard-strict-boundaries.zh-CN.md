@@ -5,7 +5,7 @@
 ## 状态与范围
 
 自 2026-09-09 起，仓库使用 B4 严格策略。Plan 07 当前扫描 51 个受管项目，保持零 finding、零 waiver；
-`mcp/LayerGuard/baselines/plan07.json` 没有 entry。`scripts/Invoke-LayerGuard.ps1` 是本地和 CI
+`mcp/LayerGuard/baselines/plan07.json` 没有 entry。`docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` 是本地和 CI
 统一入口。工具无法完成扫描、Gate 输入缺失或 hash 漂移、出现新 finding、baseline
 陈旧/过期，均以非零退出码失败。
 
@@ -29,7 +29,7 @@ replay 语义分别由 G03 catalog/validator 与 G05 schema/security/runtime tes
 | Composition | 模块/平台 Composition | 自有各层与必要平台运行项目 |
 | Runtime Host | `IFX.ApiHost`、`IFX.*.Worker` | Composition 与批准的 host primitives |
 
-ownership 来自 G03 权威 catalog 的生成视图，不在 `src/layerguard.json` 复制。Runtime
+ownership 来自 G03 权威 catalog 的生成视图，并由 `docs/guards/V3_ifx/policy/layerguard.json` 绑定。Runtime
 role 来自 G04 artifacts；Context/Messaging primitive 许可来自 G05。module/platform
 `*.Abstractions` 不再识别为 Contracts，且项目名仍被明确禁止。历史 `App.Abstractions`
 是 G01/G04 批准的 BuildingBlocks host primitive，不是模块间 Contract 兼容层。
@@ -78,9 +78,8 @@ B4 不包含 waiver。若未来确有临时例外，必须包含 owner、风险�
 ## 本地验证
 
 ```powershell
-./scripts/Invoke-LayerGuard.ps1
-./scripts/Test-Plan03B4StrictClosure.ps1
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
 ```
 
-第一条运行 LayerGuard 工具测试与当前 Plan 07 仓库扫描；第二条验证 B4 零 finding、空 baseline、历史
-下降序列、兼容规则移除、依赖图和 CI 严格入口。
+第一条运行 V3_ifx 自有 LayerGuard 测试与当前仓库扫描；第二条验证冻结 B4/Plan 07 证据的 hash、schema、链接和历史标签。

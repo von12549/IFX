@@ -64,3 +64,4 @@ finally {
         Remove-Item -LiteralPath $resolved -Recurse -Force
     }
 }
+$global:LASTEXITCODE = 0

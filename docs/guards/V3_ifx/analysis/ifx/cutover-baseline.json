@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "capturedAt": "2026-09-15",
+  "commit": "9d07faa21ba1b7f204c19c3c40b5a99d4b08fad3",
+  "branch": "codex/guards-plan05-v3-ifx-cutover",
+  "results": [
+    { "id": "mcp-layerguard", "status": "passed", "tests": 192, "violations": 0, "report": "artifacts/guards/plan05-baseline/mcp-layerguard.json" },
+    { "id": "v3-ifx-architecture", "status": "passed", "tests": 192, "violations": 0, "report": "artifacts/guards/plan05-baseline/v3-layerguard.json" },
+    { "id": "coding-guardrails", "status": "passed" },
+    { "id": "domain-assembly", "status": "passed" },
+    { "id": "g03", "status": "known-failure", "reason": "The legacy source reconciliation requires a consumer module to name the provider Contract type; current consumers depend on provider Client projects." },
+    { "id": "g04", "status": "known-failure", "reason": "The legacy generator hashes checkout bytes. CRLF checkout hashes differ from the LF-bound release manifest and invalidate the current LayerGuard composite baseline." },
+    { "id": "g05", "status": "passed", "solutionTests": 1270, "report": "artifacts/guards/plan05-baseline/g05/verification-summary.json" },
+    { "id": "plan04", "status": "known-failure", "reason": "Frozen Plan 04 governance hashes still bind superseded G04 and tenant/projection policy bytes." },
+    { "id": "database-pending-model", "status": "passed", "contexts": 5, "report": "artifacts/guards/plan05-baseline/database-pending.json" },
+    { "id": "frontend-lint", "status": "passed-with-warnings", "warnings": 4 },
+    { "id": "frontend-test", "status": "passed", "tests": 63 },
+    { "id": "frontend-build", "status": "passed" }
+  ],
+  "duplicateExecutions": [
+    { "capability": "layerguard-full", "callers": ["layerguard.yml", "contract-event-governance.yml", "Invoke-G04Verification.ps1", "Invoke-G05Verification.ps1"] },
+    { "capability": "g03-catalog", "callers": ["contract-event-governance.yml", "Invoke-G05Verification.ps1", "LayerGuard policy binding"] },
+    { "capability": "migration-safety", "callers": ["Invoke-G05Verification.ps1", "database-migrations.yml"] },
+    { "capability": "solution-build-test", "callers": ["Invoke-G04Verification.ps1", "Invoke-G05Verification.ps1", "database-migrations.yml"] }
+  ],
+  "preserve": [
+    "mcp/LayerGuard/**",
+    "docs/guards/V3/**",
+    "docs/guards/V3_backup/**",
+    "docs/guards/V3_ifx/**",
+    "docs/guards/plans/**",
+    "docs/architecture/review/gates/**",
+    "deployment/**",
+    "src/**/Migrations/**"
+  ]
+}

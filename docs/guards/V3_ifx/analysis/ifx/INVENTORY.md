@@ -188,15 +188,9 @@ Evidence is recorded in [inventory.json](inventory.json). Project references are
 
 ## CI workflows
 
-- `.github/workflows/coding-guardrails.yml` (SHA-256 `90c49a4e1a180923675a164b73ded77d371a5ae31ad0896e09aac5b477fb6f8c`)
-- `.github/workflows/contract-event-governance.yml` (SHA-256 `e45adf009591375df6a3a81b14dac5bce65cab08faa225bed1ff67b22a391582`)
-- `.github/workflows/database-migrations.yml` (SHA-256 `01fa77075221501047c42acc8f30d12fcfac7717106903c6297b81fc650b3bff`)
-- `.github/workflows/g04-deployment-runtime.yml` (SHA-256 `63948cc571641d7ba7ccbdd08d6f2b8b9eb5d6eded540ab7e545aae3fd6175a5`)
-- `.github/workflows/g05-context-boundary.yml` (SHA-256 `e42352f4be364e98296c6ac56462f5221182e28750ca6c8f4349f2d2acead13c`)
-- `.github/workflows/layerguard.yml` (SHA-256 `2be88a446f64af86149a28af6471e514feb6d47a034673508c30d835335047fe`)
-- `.github/workflows/plan04-governance.yml` (SHA-256 `d4fb0572e3fbf54e614e32de37df405db0213606f6e01cb839806d03c029867b`)
+- `.github/workflows/v3-ifx-guardrails.yml` (SHA-256 `0ce3bb4eb674a1f22aab76a6e480c9218a4cbce37f955609c5606e0cc148f91c`)
 
 ## Agent/owner guidance
 
-- `.github/CODEOWNERS` (SHA-256 `a79e44efb0e475d7a1912dc64d082318ef9d915c5ae397a38dcf745a312cc41c`)
+- `.github/CODEOWNERS` (SHA-256 `ff011f88bcdec8a3c27b42cb6d0b69bcc6dec2bf0e6a23dfc7e8fd6b59cd0978`)
 - `CLAUDE.md` (SHA-256 `a7c485a879101d4e60113d6530a0b418c7ead808280b3a2a6e275ac305c9a4c4`)

@@ -153,7 +153,7 @@ public sealed class Plan07DependencyBoundaryTests
         XDocument.Load(projectPath).Descendants("ProjectReference")
             .Select(reference => (string?)reference.Attribute("Include"))
             .Where(include => !string.IsNullOrWhiteSpace(include))
-            .Select(include => Path.GetFileNameWithoutExtension(include!))
+            .Select(include => Path.GetFileNameWithoutExtension(include!.Replace('\\', '/')))
             .ToArray();
 
     private static IEnumerable<string> SourceFiles(string directory) =>
