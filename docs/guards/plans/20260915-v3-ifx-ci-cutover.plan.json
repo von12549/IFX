@@ -70,6 +70,7 @@
     "docs/guards/inputs/rules/P04.GOVERNANCE.json",
     "docs/guards/inputs/TECH_STACK.json",
     "docs/guards/plans/05-v3-ifx-ci-cutover-and-legacy-cleanup.md",
+    "docs/guards/plans/TODO.md",
     "docs/guards/plans/20260915-v3-ifx-ci-cutover.md",
     "docs/guards/plans/20260915-v3-ifx-ci-cutover.plan.json",
     "docs/guards/principles/00-guard-architecture-discussion.md",

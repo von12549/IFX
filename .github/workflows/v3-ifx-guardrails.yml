@@ -17,10 +17,10 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Resolve formal Plan and validate real PR diff
@@ -34,7 +34,7 @@ jobs:
           ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
           ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
           ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-pre-diff-${{ github.sha }}
@@ -45,8 +45,8 @@ jobs:
     name: v3-architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Validate package projections, contracts and negative fixtures
@@ -63,7 +63,7 @@ jobs:
       - name: Run the sole production architecture scan
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-architecture-${{ github.sha }}
@@ -74,14 +74,14 @@ jobs:
     name: v3-quality-solution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Restore, build and test the solution once
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Solution
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-quality-solution-${{ github.sha }}
@@ -95,18 +95,18 @@ jobs:
     needs: v3-quality-solution
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: v3-quality-solution-${{ github.sha }}
           path: .
       - name: Inspect all compiled Domain assemblies
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Assembly
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-quality-assembly-${{ github.sha }}
@@ -117,8 +117,8 @@ jobs:
     name: v3-quality-frontend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -126,7 +126,7 @@ jobs:
       - name: Run npm ci, lint, tests and build
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Frontend
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-quality-frontend-${{ github.sha }}
@@ -138,15 +138,15 @@ jobs:
     needs: v3-architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-specialized-g03-${{ github.sha }}
@@ -158,15 +158,15 @@ jobs:
     needs: v3-architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G04
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-specialized-g04-${{ github.sha }}
@@ -178,15 +178,15 @@ jobs:
     needs: v3-architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-specialized-g05-${{ github.sha }}
@@ -198,15 +198,15 @@ jobs:
     needs: v3-architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-specialized-plan04-${{ github.sha }}
@@ -218,17 +218,17 @@ jobs:
     needs: [v3-architecture, v3-quality-solution]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Install EF Core CLI
         run: dotnet tool install --global dotnet-ef --version 8.0.11
       - shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Database
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-specialized-database-${{ github.sha }}
@@ -239,11 +239,11 @@ jobs:
     name: v3-historical-integrity
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Validate frozen evidence hashes and JSON
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-historical-integrity-${{ github.sha }}
@@ -258,10 +258,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Reproduce generated inputs and run stage negative fixtures
@@ -277,7 +277,7 @@ jobs:
           ./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: v3-cross-platform-${{ matrix.os }}-${{ github.sha }}
