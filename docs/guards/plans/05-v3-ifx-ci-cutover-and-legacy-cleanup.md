@@ -1,6 +1,6 @@
 # V3_ifx 全门禁接管、CI 切换与旧 Guardrails 清理计划
 
-> 状态：实施中（2026-09-16）。P0–P7 已完成；PR #26 的 V3 runs `34978867655`、`34981819869` 全部通过。GitHub ruleset `IFX V3 Required Checks`（ID `23459908`）已启用并要求 13 个 V3 checks；故意加入越界路径的 PR #27 在 run `34985968761` 中失败，GitHub 返回 `mergeStateStatus: BLOCKED`。P8 的本地回归与回退验证已完成，等待清理提交的最终远端 Linux/Windows 回归。
+> 状态：已完成（2026-09-16）。P0–P8 全部完成；清理提交 `2bab176` 的 PR #26 run `34990329905` 在 Linux/Windows 上通过全部 13 个 V3 required checks。GitHub ruleset `IFX V3 Required Checks`（ID `23459908`）已启用；故意加入越界路径的 PR #27 在 run `34985968761` 中失败，GitHub 返回 `mergeStateStatus: BLOCKED`。
 >
 > 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。旧 workflow 的同提交并行结果和已知差异保存在 `V3_ifx/analysis/ifx/specialized-parity.json`；自动执行链现只进入 `v3-ifx-guardrails.yml`。
 
@@ -169,7 +169,7 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。V3 workflow 负责�
 
 ## P8 — 最终回归、证据与回退验证
 
-- [ ] P8.1 在干净 Linux 和 Windows checkout 运行 V3 Validate/Generate/Check/Docs、Pre/Diff 正反例、Architecture、全部 Specialized、HistoricalIntegrity、Quality.Solution/Assembly/Frontend 和 package/tools tests。
+- [x] P8.1 清理提交 `2bab176` 的 PR #26 run `34990329905` 已在干净 Linux/Windows runner 通过 Validate/Generate/Check、Pre/Diff、Architecture、全部 Specialized、HistoricalIntegrity、Quality.Solution/Assembly/Frontend 和 package/tools tests；本地 Windows 也完成同等回归。
 - [x] P8.2 V3、ArchUnit、Tools、Pre、Authority Projection、Specialized Contracts、Historical Integrity 与 Package 测试已覆盖 policy/hash drift、project/source/compiled boundary、各专项违规、history tamper 和缺输入的非零退出；Frontend 正常链执行 `npm ci`、lint、63 tests 与 build。
 - [x] P8.3 workflow 结构验证完整 LayerGuard 只由 `v3-architecture` 执行一次；专项 job 通过 `needs` 复用 Architecture/Quality 结论。迁移前后的 job 耗时记录在 `specialized-parity.json`。
 - [x] P8.4 `legacy-deletion-manifest.json` 固定删除前提交 `15b44e5c8cae5968b8cd43a9b4c2a9574727577b`；已对全部 103 个删除路径执行 `git cat-file -e`，确认均可选择性恢复，且保留区不参与回退。
