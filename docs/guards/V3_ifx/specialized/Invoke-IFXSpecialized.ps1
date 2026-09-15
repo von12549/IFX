@@ -34,9 +34,10 @@ foreach ($gateId in $selected) {
             'Database' {
                 $databaseTests = Join-Path $repositoryRoot 'tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj'
                 $databaseInventory = Join-Path $repositoryRoot 'tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj'
+                $apiHost = Join-Path $repositoryRoot 'src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj'
                 $migrator = Join-Path $repositoryRoot 'src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj'
                 if (-not $NoBuild) {
-                    foreach ($project in @($databaseTests, $databaseInventory)) {
+                    foreach ($project in @($databaseTests, $databaseInventory, $apiHost)) {
                         & dotnet restore $project
                         if ($LASTEXITCODE -ne 0) { throw "Database project restore failed: $project" }
                         & dotnet build $project --configuration Release --no-restore
