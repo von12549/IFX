@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
 $inventoryPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G02/G02-database-inventory.json"
 $manifestPath = Join-Path $repositoryRoot "docs/architecture/review/evidence/gates/G02/G02-migration-manifest.json"
-$generator = Join-Path $PSScriptRoot "Invoke-G02DatabaseInventory.ps1"
+$generator = Join-Path $repositoryRoot "docs/guards/V3_ifx/specialized/scripts/Invoke-G02DatabaseInventory.ps1"
 $resolvedReportPath = Join-Path $repositoryRoot $ReportPath
 
 function Invoke-InventoryGenerator {

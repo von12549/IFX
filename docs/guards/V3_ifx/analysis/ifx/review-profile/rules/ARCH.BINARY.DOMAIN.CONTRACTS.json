@@ -6,7 +6,9 @@
   "enforcement": "blocking",
   "coverage": "partial",
   "authority": "profiles/ifx/rules/L2.2.json (parallel compiled-type evidence)",
-  "appliesTo": ["src/Modules/CRM/IFX.Modules.CRM.Domain/**"],
+  "appliesTo": [
+    "src/Modules/CRM/IFX.Modules.CRM.Domain/**"
+  ],
   "sourceAssembly": "IFX.Modules.CRM.Domain",
   "sourceNamespace": "IFX.Modules.CRM.Domain.Entities",
   "forbiddenAssembly": "IFX.Modules.CRM.Contracts",

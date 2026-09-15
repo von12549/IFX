@@ -49,7 +49,7 @@ $projectReferences = @(
         }
     }
 )
-$layerGuard = Get-Content -Raw -LiteralPath (Repo 'src/layerguard.json') | ConvertFrom-Json -Depth 100
+$layerGuard = Get-Content -Raw -LiteralPath (Repo 'docs/guards/V3_ifx/policy/layerguard.json') | ConvertFrom-Json -Depth 100
 $layerGuardEnforcesRetirement = '*.Abstractions' -in @($layerGuard.forbiddenProjectNames) -and @($layerGuard.ruleRefs | Where-Object { $_.ref -eq 'L1.2' -and 'PROJECT-NAME-FORBIDDEN' -in @($_.rules) }).Count -eq 1
 $allProjectFiles = @(Get-ChildItem -LiteralPath (Repo 'src') -File -Recurse -Filter '*.csproj')
 $allProjectReferences = @(

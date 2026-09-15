@@ -29,7 +29,8 @@ if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $policyBefore, [byte[]] [IO.F
 $inventory = Get-Content -LiteralPath $inventoryPath -Raw | ConvertFrom-Json
 if (@($inventory.projects | Where-Object { $_.role -eq 'source' }).Count -lt 40) { throw 'IFX source project inventory is incomplete.' }
 if (@($inventory.projects | Where-Object { $_.path -eq 'mcp/LayerGuard/src/LayerGuard/LayerGuard.csproj' }).Count -ne 1) { throw 'Existing LayerGuard project was not inventoried.' }
-if (@($inventory.workflows | Where-Object { $_.path -eq '.github/workflows/layerguard.yml' }).Count -ne 1) { throw 'Existing LayerGuard CI workflow was not inventoried.' }
+if (@($inventory.workflows | Where-Object { $_.path -eq '.github/workflows/v3-ifx-guardrails.yml' }).Count -ne 1) { throw 'V3 IFX CI workflow was not inventoried.' }
+if (@($inventory.workflows | Where-Object { $_.path -match '(coding-guardrails|contract-event-governance|database-migrations|g04-deployment-runtime|g05-context-boundary|layerguard|plan04-governance)\.yml$' }).Count -ne 0) { throw 'Retired guard workflow remains in the inventory.' }
 if ('src/Modules/CRM' -notin @($inventory.areaCandidates)) { throw 'IFX module candidate was not detected.' }
 $coverage = [IO.File]::ReadAllText((Join-Path $profile 'views/COVERAGE.md'))
 if ($coverage -notmatch '\[L2\.2\].*blocking' -or $coverage -notmatch '\[L2\.3\].*advisory') { throw 'IFX stage coverage view misstates enforcement.' }

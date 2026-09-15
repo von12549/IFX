@@ -25,7 +25,6 @@ try {
     $sourcePaths = @(git ls-files -- src)
     if ($LASTEXITCODE -ne 0 -or $sourcePaths.Count -eq 0) { throw 'Cannot enumerate tracked IFX source files.' }
     foreach ($relative in $sourcePaths) {
-        if ($relative -eq 'src/layerguard.json') { continue }
         Copy-ToFixture (Join-Path $repository $relative) $relative
     }
     foreach ($file in Get-ChildItem -LiteralPath $package -File -Recurse) {

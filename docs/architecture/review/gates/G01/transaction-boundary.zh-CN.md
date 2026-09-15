@@ -81,7 +81,7 @@ public async Task<Result<ThingDto>> Handle(CreateThingCommand command, Cancellat
 | 关系数据库 commit/rollback/savepoint/concurrency、Inbox/幂等唯一约束和 commit-response-lost reconciliation | `IFX.BuildingBlocks.EntityFrameworkCore.Tests` |
 | Behavior 唯一注册、顺序、五模块 executor 实际隔离调用 | `ApplicationPipelineCompositionTests`（真实 ApiHost） |
 | 结构化 400、403、安全 409/500、取消不记错 | `ExceptionHandlingMiddlewareTests`、`ExceptionHandlingHttpEndToEndTests` |
-| 跨层和跨模块引用 | `scripts/Invoke-LayerGuard.ps1 -Mode B0.5` |
+| 跨层和跨模块引用 | `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` |
 | 真实 Outbox/Inbox 原子性、唯一约束、崩溃窗口 | Plan 02 E2/E4 已在 B3 回交；最终签字开放 |
 
 迁移基线与燃尽数字在 [G01-baseline.md](../../evidence/gates/G01/G01-baseline.md)，关闭证据索引在 [G01-closeout.md](../../evidence/gates/G01/G01-closeout.md)，最新机器可读守卫报告在 [G01-guard-report.json](../../evidence/gates/G01/G01-guard-report.json)。

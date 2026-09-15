@@ -2,10 +2,14 @@
   "formatVersion": 1,
   "id": "20260915-v3-ifx-ci-cutover",
   "owner": "xiaolong-feng",
-  "summary": "Migrate IFX guard execution and CI orchestration into V3_ifx while retaining legacy workflows until remote parity is proven.",
+  "summary": "Migrate IFX guard execution and CI orchestration into V3_ifx, enforce the V3 jobs through GitHub rulesets, and retire replaced guard paths after negative-control proof.",
   "affectedPaths": [
-    ".github/workflows/**",
-    "docs/guards/**"
+    ".github/**",
+    "docs/guards/**",
+    "docs/architecture/**",
+    "scripts/**",
+    "src/layerguard.json",
+    "tests/**"
   ],
-  "rationale": "Plan 05 changes blocking guard implementation and CI routing. The legacy workflows remain available for rollback until V3 remote checks pass and required checks are switched."
+  "rationale": "Plan 05 changes blocking guard implementation and CI routing. Remote parity passed, ruleset 23459908 requires all 13 V3 checks, and negative-control PR 27 proved that an undeclared path blocks merging. Replaced files are recorded in the deletion manifest and can be restored from its pinned commit."
 }

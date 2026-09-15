@@ -2,8 +2,9 @@
   "formatVersion": 1,
   "workflow": "V3 IFX Guardrails",
   "automaticGuardWorkflow": ".github/workflows/v3-ifx-guardrails.yml",
-  "mergeEnforcement": "manual-review-github-free-private-repository",
-  "legacyWorkflowMode": "workflow-dispatch-only",
+  "mergeEnforcement": "github-ruleset-required-checks",
+  "ruleset": { "id": 23459908, "name": "IFX V3 Required Checks", "strict": true, "requiredCheckCount": 13 },
+  "legacyWorkflowMode": "deleted-after-required-check-proof",
   "jobs": [
     { "id": "v3-pre-diff", "mode": "diff", "trigger": "pull-request", "blocking": true },
     { "id": "v3-architecture", "mode": "architecture", "trigger": "pull-request-and-main", "blocking": true },
@@ -16,6 +17,7 @@
     { "id": "v3-quality-assembly", "mode": "quality", "gate": "assembly", "trigger": "pull-request-and-main", "blocking": true },
     { "id": "v3-quality-frontend", "mode": "quality", "gate": "frontend", "trigger": "pull-request-and-main", "blocking": true },
     { "id": "v3-historical-integrity", "mode": "historical-integrity", "trigger": "history-change-schedule-manual", "blocking": true },
-    { "id": "v3-cross-platform", "mode": "validate", "trigger": "pull-request-and-main", "blocking": true }
+    { "id": "v3-cross-platform-ubuntu-latest", "mode": "validate", "trigger": "pull-request-and-main", "blocking": true },
+    { "id": "v3-cross-platform-windows-latest", "mode": "validate", "trigger": "pull-request-and-main", "blocking": true }
   ]
 }

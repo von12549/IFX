@@ -112,7 +112,7 @@ Transaction.Application
 
 ## 7. 架构规则漂移
 
-`src/layerguard.json` 的 `X-1` 当前禁止任何 ring 引用自己模块的 `.Abstractions`。实际代码中 CRM、Registry、Holdings 和 Transaction 的 Application 都引用自己的 Abstractions，用于事件或 DTO。
+已退役的 `src/layerguard.json` 曾以宽泛的 `X-1` 禁止任何 ring 引用自己模块的 `.Abstractions`。当时 CRM、Registry、Holdings 和 Transaction 的 Application 仍引用自己的 Abstractions，用于事件或 DTO。
 
 这说明规则和实现尚未统一。该冲突不能只靠删除引用解决；首先需要确定 Abstractions 是公开 Contracts 还是内部层。目标方案建议将其定义为公开 Contracts，并重新制定精确规则，而不是对所有本模块引用一律禁止。
 
@@ -142,4 +142,4 @@ Transaction.Application
 | Transaction 管道事务 | [`TransactionBehavior.cs`](../../../src/Modules/Transaction/IFX.Modules.Transaction.Application/Behaviors/TransactionBehavior.cs) |
 | 当前同步内存事件总线 | [`InMemoryIntegrationEventBus.cs`](../../../src/Platform/Messaging/IFX.Platform.Messaging.Infrastructure.InMemory/InMemoryIntegrationEventBus.cs) |
 | Holdings 事件消费与保存 | [`TransactionProcessedEventHandler.cs`](../../../src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs) |
-| 当前架构检查规则 | [`layerguard.json`](../../../src/layerguard.json) |
+| 当前架构检查规则 | [`V3_ifx policy`](../../guards/V3_ifx/policy/layerguard.json) |

@@ -189,10 +189,7 @@ public sealed class GuardTests
 
     private static bool IsProtectedGuardPath(string path) =>
         path.Equals(".github/CODEOWNERS", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith(".github/workflows/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("scripts/guards/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("docs/guards/contracts/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("docs/guards/inputs/rules/", StringComparison.OrdinalIgnoreCase) ||
+        path.Equals(".github/workflows/v3-ifx-guardrails.yml", StringComparison.OrdinalIgnoreCase) ||
         path.StartsWith("mcp/LayerGuard/", StringComparison.OrdinalIgnoreCase) ||
         path.StartsWith("docs/guards/plans/", StringComparison.OrdinalIgnoreCase) ||
         path.StartsWith("docs/guards/V3/", StringComparison.OrdinalIgnoreCase) ||

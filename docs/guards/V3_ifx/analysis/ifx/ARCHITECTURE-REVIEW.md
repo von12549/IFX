@@ -10,7 +10,7 @@ Decision: **needs-review**. Structured blocks are parsed; prose changes need an 
 - Unmapped source projects: 2 (review whether they belong in scope)
 - Unmatched detector rules: (none)
 - Observed forbidden direct references: 0
-- Proposal SHA-256: `93d17a9123446ab31e75a295708c984697896da7da3a362695f6168efbe56140`
+- Proposal SHA-256: `b665640aace164f429073a55166c9d65b064568c4cb0cd8e84a1b595301700f0`
 
 ## Proposed profile differences
 

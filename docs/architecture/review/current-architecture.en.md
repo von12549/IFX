@@ -112,7 +112,7 @@ The current CRM events are insufficient to reconstruct investment-account KYC. I
 
 ## 7. Architecture rule drift
 
-Rule `X-1` in `src/layerguard.json` currently forbids every ring from referencing its own `.Abstractions` project. The implemented CRM, Registry, Holdings, and Transaction Application projects all reference their own Abstractions for events or DTOs.
+The retired `src/layerguard.json` policy used a broad `X-1` rule that forbade every ring from referencing its own `.Abstractions` project. At the time, CRM, Registry, Holdings, and Transaction Application projects still referenced their own Abstractions for events or DTOs.
 
 The rule and implementation are therefore inconsistent. Removing references mechanically would not resolve the design question; the team must first decide whether Abstractions is a public Contracts assembly or an internal ring. The target proposal defines it as public Contracts and replaces the blanket prohibition with precise ownership rules.
 
@@ -142,4 +142,4 @@ These findings form the starting point for the target Contracts/Adapters/Events 
 | Transaction pipeline transaction | [`TransactionBehavior.cs`](../../../src/Modules/Transaction/IFX.Modules.Transaction.Application/Behaviors/TransactionBehavior.cs) |
 | Current synchronous in-memory event bus | [`InMemoryIntegrationEventBus.cs`](../../../src/Platform/Messaging/IFX.Platform.Messaging.Infrastructure.InMemory/InMemoryIntegrationEventBus.cs) |
 | Holdings event consumption and persistence | [`TransactionProcessedEventHandler.cs`](../../../src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs) |
-| Current architecture-check rules | [`layerguard.json`](../../../src/layerguard.json) |
+| Current architecture-check rules | [`V3_ifx policy`](../../guards/V3_ifx/policy/layerguard.json) |

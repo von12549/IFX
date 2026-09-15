@@ -130,9 +130,9 @@
       ]
     },
     {
-      "id": "LegacyGatePolicy",
-      "pathPattern": "src/layerguard.json",
-      "layer": "tooling",
+      "id": "SourceConfig",
+      "pathPattern": "src/*",
+      "layer": "repository",
       "owner": "codeowners",
       "similarImplementationRoot": "src",
       "focusedCommands": [
@@ -190,21 +190,21 @@
       ]
     },
     {
-      "id": "LegacyGuardEntry",
-      "pathPattern": "scripts/*Guard*.ps1",
-      "layer": "tooling",
+      "id": "ArchitectureDocs",
+      "pathPattern": "docs/architecture/**",
+      "layer": "documentation",
       "owner": "codeowners",
-      "similarImplementationRoot": "scripts",
+      "similarImplementationRoot": "docs/architecture",
       "focusedCommands": [
-        "ifx-layerguard"
+        "ifx-package-test"
       ]
     },
     {
-      "id": "GuardScripts",
-      "pathPattern": "scripts/guards/**",
+      "id": "RepositoryScripts",
+      "pathPattern": "scripts/**",
       "layer": "tooling",
       "owner": "codeowners",
-      "similarImplementationRoot": "scripts/guards",
+      "similarImplementationRoot": "scripts",
       "focusedCommands": [
         "ifx-package-test"
       ]
@@ -307,11 +307,6 @@
       "reason": "Deployment and runtime boundary"
     },
     {
-      "id": "gate-authority",
-      "pathPattern": "src/layerguard.json",
-      "reason": "LayerGuard policy authority"
-    },
-    {
       "id": "gate-baseline",
       "pathPattern": "mcp/LayerGuard/baselines/**",
       "reason": "Architecture waiver baseline"
@@ -328,28 +323,13 @@
     },
     {
       "id": "gate-validator",
-      "pathPattern": "scripts/*Guard*.ps1",
-      "reason": "Existing gate validator entry change"
+      "pathPattern": "scripts/**",
+      "reason": "Repository validation or operational script change"
     },
     {
       "id": "guard-rules",
       "pathPattern": "docs/guards/**",
       "reason": "Guard rules, scripts or profiles"
-    },
-    {
-      "id": "guard-binding",
-      "pathPattern": "docs/guards/bindings/**",
-      "reason": "Guard detector binding"
-    },
-    {
-      "id": "guard-contract",
-      "pathPattern": "docs/guards/contracts/**",
-      "reason": "Guard input or result contract"
-    },
-    {
-      "id": "guard-runtime",
-      "pathPattern": "scripts/guards/**",
-      "reason": "Guard framework code"
     },
     {
       "id": "gate-review-routing",
