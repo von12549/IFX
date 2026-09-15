@@ -20,3 +20,4 @@ try {
 } finally {
     if (Test-Path $fixture) { Remove-Item -LiteralPath $fixture -Recurse -Force }
 }
+$global:LASTEXITCODE = 0

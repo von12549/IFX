@@ -134,3 +134,4 @@ finally {
     }
     elseif (-not $passed) { Write-Warning "Failed fixture retained at $fixture" }
 }
+$global:LASTEXITCODE = 0

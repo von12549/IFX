@@ -82,3 +82,4 @@ $invalidBinding = @(& pwsh @arguments -Mode Validate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -eq 0) { throw 'IFX package accepted a binding outside its local policy tree.' }
 
 Write-Host "IFX isolated positive, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
+$global:LASTEXITCODE = 0

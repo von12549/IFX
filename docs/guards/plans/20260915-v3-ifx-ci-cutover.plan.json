@@ -75,15 +75,20 @@
     "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
     "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
     "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
-    "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1"
+    "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "tests/IFX.IntegrationTests/Composition/Plan07DependencyBoundaryTests.cs"
   ],
   "areaIds": [
     "CI",
     "GuardPackage",
-    "GuardDocs"
+    "GuardDocs",
+    "Tests"
   ],
   "ruleIds": [],
   "validationCommands": [
+    "ifx-layerguard",
     "ifx-package-test"
   ],
   "decisionPaths": [
