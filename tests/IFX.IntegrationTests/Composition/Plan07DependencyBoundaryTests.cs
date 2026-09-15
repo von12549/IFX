@@ -78,6 +78,19 @@ public sealed class Plan07DependencyBoundaryTests
     }
 
     [Fact]
+    public void Module_application_projects_do_not_contain_contracts_directories()
+    {
+        var modules = Path.Combine(RepositoryRoot(), "src", "Modules");
+        var violations = Directory.EnumerateDirectories(modules, "IFX.Modules.*.Application", SearchOption.AllDirectories)
+            .Select(application => Path.Combine(application, "Contracts"))
+            .Where(Directory.Exists)
+            .Select(path => Path.GetRelativePath(modules, path))
+            .ToArray();
+
+        violations.Should().BeEmpty();
+    }
+
+    [Fact]
     public void Module_contract_adapters_do_not_construct_protocol_or_provider_contexts_directly()
     {
         var modules = Path.Combine(RepositoryRoot(), "src", "Modules");
