@@ -1,8 +1,8 @@
 # V3_ifx 全门禁接管、CI 切换与旧 Guardrails 清理计划
 
-> 状态：实施中（2026-09-15）。P0 已冻结基线，P1–P4 的本地入口、检测器、报告和负例迁移已完成；P5 已新增并行 workflow，但尚未取得真实 PR/main、跨平台 CI 和 required-check 证据。任何旧入口都只能在替代检测器、正反例、报告、CI 实跑和回退证据完成后删除。
+> 状态：实施中（2026-09-16）。P0–P5 已完成；PR #26 的 V3 run `34978867655` 在提交 `073ebe4` 上全部通过，Linux/Windows、数据库、前端、架构、程序集和专项门禁均有远端证据。仓库为私有 GitHub Free，branch protection/ruleset API 返回 403；经确认采用 Free Plan 降级切换：V3 是唯一自动 CI，七个旧 workflow 仅保留 `workflow_dispatch` 回退入口，平台不提供合并时的 required-check 强制。
 >
-> 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。当前 `.github/workflows` 尚未调用 V3_ifx，仍由 `layerguard.yml`、`coding-guardrails.yml`、G03/G04/G05、Plan 04 和数据库 workflow 分散执行，并存在 LayerGuard、G03、migration safety 和 solution build/test 的重复调用。
+> 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。旧 workflow 的同提交并行结果和已知差异保存在 `V3_ifx/analysis/ifx/specialized-parity.json`；自动执行链现只进入 `v3-ifx-guardrails.yml`。
 
 ## 目标与完成后的结构
 
@@ -34,9 +34,10 @@ mcp/LayerGuard/                    # 永久保留：工具源码及历史 baseli
 
 .github/workflows/
   v3-ifx-guardrails.yml            # 唯一 IFX 门禁 workflow；只调用 V3_ifx 稳定入口
+  <legacy workflows>               # Free Plan 回退入口；仅 workflow_dispatch，不自动运行
 ```
 
-GitHub Actions workflow 必须位于 `.github/workflows/`。因此最终仍保留一个薄 workflow 文件，但它只负责触发、环境准备、调用 V3_ifx、上传证据和暴露稳定 required-check 名称；所有门禁逻辑都归 V3_ifx 所有。
+GitHub Actions workflow 必须位于 `.github/workflows/`。V3 workflow 负责自动触发、环境准备、调用 V3_ifx、上传证据和暴露稳定 job 名称；所有门禁逻辑都归 V3_ifx 所有。私有 GitHub Free 无法把这些 job 配置为 required checks，因此当前合并保护依赖人工审阅 V3 run，旧 workflow 仅供手动回退。
 
 ## 最终职责模型
 
@@ -144,18 +145,18 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。因此最终仍保�
 - [x] P5.1 新建 `.github/workflows/v3-ifx-guardrails.yml`，包含稳定命名的 Pre/Diff、Architecture、Specialized.G03/G04/G05/Plan04/Database、Quality.Solution/Assembly/Frontend 和按触发条件运行的 HistoricalIntegrity jobs。
 - [x] P5.2 workflow 在 PR 和 main push 上运行；需要历史完整性全量审计时增加 schedule/manual。checkout 为 Diff 提供完整或足够 Git 历史，显式传入 base/head SHA；固定 .NET、PowerShell、Node、NuGet 和数据库服务前提。
 - [x] P5.3 Architecture 只调用一次 `Invoke-IFX`。所有专项 job 禁止调用 `Invoke-LayerGuard`、`Invoke-IFX` 或另一个完整专项入口；通过 needs/artifact/summary 复用已完成结论。
-- [ ] P5.4 迁移期保留七个旧 workflow 并行运行，不改变其 required 状态。对同一提交比较新旧结论、报告、负例和耗时；记录预期差异及原因。
-- [ ] P5.5 Linux 和 Windows 分别运行需要跨平台证明的 Validate/Generate Check/Diff/tests；耗时 build/test 按 P3.7 去重。所有 job 即使失败也上传 JSON、TRX 和日志。
+- [x] P5.4 迁移期保留七个旧 workflow 并行运行。提交 `073ebe4` 的新旧结论、报告、已知差异和耗时已记录于 `specialized-parity.json`；旧 Coding Guardrails 的三个测试在输出 passed 后因遗留 `$LASTEXITCODE` 返回 1，旧 G03/LayerGuard 受 Client-backed consumer evidence 限制，旧 Plan04 仍绑定冻结 hash。
+- [x] P5.5 Linux 和 Windows 已在 V3 run `34978867655` 分别通过跨平台 Validate/Generate Check/Diff/tests；数据库、frontend、solution、assembly 和全部专项 job 均通过并上传证据。
 - **验收**：正常 PR 所需 V3 jobs 全绿；生成漂移、缺 decision、越界 diff、LayerGuard 违规、G03/G04/G05/Plan04/Database 违规、Domain assembly 违规和 frontend 失败均被对应 V3 job 阻断。
 
-## P6 — 切换 required checks 与唯一生产入口
+## P6 — Free Plan 自动 CI 切换与唯一生产入口
 
-- [ ] P6.1 在同一提交上形成新旧全门禁对等报告。V3 Architecture 必须为零 entry baseline clean；五类专项、solution、assembly 和 frontend 必须满足旧门禁覆盖矩阵。
-- [ ] P6.2 将 branch protection/ruleset required checks 从 `layerguard.yml`、Coding Guardrails 和五个专项 workflow 切换到 `v3-ifx-guardrails.yml` 的稳定 jobs。记录配置前后、API/UI 证据和实际 check 名称。
-- [ ] P6.3 切换后运行正常 PR 和故意违规 PR，证明 required checks 实际阻止合入。workflow 文件存在或本地通过不能代替 required-check 生效证据。
-- [ ] P6.4 停止旧 production workflow 的自动触发，但在一个短观察窗口内保留文件和手动回退方式；确认生产 PR 只出现一次完整 Architecture scan。
-- [ ] P6.5 如果权限、套餐或外部服务阻止 required-check 切换，记录阻塞并保持旧 workflow 活跃；不得进入删除阶段。
-- **验收**：V3_ifx 是唯一生产门禁入口；LayerGuard、专项、历史、assembly、frontend 和 Diff 都由 V3 jobs 强制；同一提交不再重复执行完整 LayerGuard。
+- [x] P6.1 在提交 `073ebe4` 上形成新旧全门禁对等报告。V3 Architecture 为零 entry baseline clean；五类专项、solution、assembly 和 frontend 满足覆盖矩阵。
+- [x] P6.2 记录平台能力：私有 GitHub Free 的 branch protection 与 ruleset API 均返回 HTTP 403，无法配置 required checks。Free Plan 决策是由 `v3-ifx-guardrails.yml` 保持稳定 job 名称并作为唯一自动 CI，明确不声称平台级合并强制。
+- [x] P6.3 V3 正常 PR run `34978867655` 全绿，已有负例覆盖继续证明检测器 fail-closed。由于平台不支持 required checks，故意违规 PR 只能证明 workflow 失败，不能证明 GitHub 阻止合入；该限制作为已接受的 Free Plan 风险记录。
+- [x] P6.4 七个旧 production workflow 已停止 PR、main push 和 schedule 自动触发，仅保留 `workflow_dispatch` 手动回退；V3 保留 PR/main 自动触发和一次完整 Architecture scan。
+- [x] P6.5 套餐阻塞及 Free Plan 降级决策已记录。旧 workflow 文件、根脚本和配置继续保留，不进入永久删除阶段；未来升级 Pro/Team 后可恢复 required-check 切换与 P7。
+- **验收**：V3_ifx 是唯一自动生产门禁入口；LayerGuard、专项、历史、assembly、frontend 和 Diff 都由 V3 jobs 执行。当前没有平台级合并强制，合并前必须人工确认 V3 run 成功。
 
 ## P7 — 删除旧入口、实现和非 V3 文档
 
@@ -188,7 +189,7 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。因此最终仍保�
 6. compiled architecture 覆盖不低于旧全模块 Domain assembly guard；零匹配、缺程序集和陈旧程序集失败关闭。
 7. frontend `npm ci`、lint、test、build 与数据库发布/SQL matrix 均有实际运行证据。
 8. HistoricalIntegrity 能阻止历史证据删除/篡改，同时不再断言失效的旧流程状态。
-9. required checks 已实际切换；如果受权限或外部服务阻塞，则不得删除任何旧 production workflow。
+9. GitHub Pro/Team 下 required checks 已实际切换；GitHub Free 降级模式下只允许关闭旧 workflow 自动触发，必须保留全部旧 workflow 文件作为手动回退入口。
 10. `mcp/LayerGuard/**`、`docs/guards/plans/**` 和领域权威事实已通过存在性、hash 和清理排除断言。
 11. 所有待删除路径的运行时引用为零，V3 package-local policy projection 可由唯一权威输入重现。
 
@@ -196,6 +197,6 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。因此最终仍保�
 
 完成后，`docs/guards` 顶层只包含 `V3`、`V3_backup`、`V3_ifx` 和 `plans`。Plan 01–05 保留在 `docs/guards/plans`，`mcp/LayerGuard` 项目及历史 baselines 完整保留但不参与生产 CI。
 
-`.github/workflows/v3-ifx-guardrails.yml` 是唯一 IFX 门禁 workflow。它从 V3_ifx 调用 Pre、Diff、Architecture、Specialized、Quality 和 HistoricalIntegrity；完整 LayerGuard 在每次 CI 中只执行一次。G03/G04/G05、Plan 04 和 Database 的检测器实现、fixture、报告契约及编排属于 V3_ifx，领域事实仍保持各自唯一权威。历史门禁保护冻结证据完整性，不再把旧迁移阶段状态当作当前 readiness。
+`.github/workflows/v3-ifx-guardrails.yml` 是唯一自动运行的 IFX 门禁 workflow。它从 V3_ifx 调用 Pre、Diff、Architecture、Specialized、Quality 和 HistoricalIntegrity；完整 LayerGuard 在每次 CI 中只执行一次。Free Plan 下七个旧 workflow 文件只保留手动回退触发，不构成生产自动执行链。G03/G04/G05、Plan 04 和 Database 的检测器实现、fixture、报告契约及编排属于 V3_ifx，领域事实仍保持各自唯一权威。历史门禁保护冻结证据完整性，不再把旧迁移阶段状态当作当前 readiness。
 
-所有旧 workflow、根 guard 实现、重复配置和非 V3 文档都只在对等验证与 required-check 切换后删除。最终从干净 checkout 可重现全部正反门禁，所有报告可审查，所有故意违规仍失败，且不存在第二套生产 policy、重复完整扫描或对已删除路径的运行时引用。
+永久删除旧 workflow、根 guard 实现、重复配置和非 V3 文档仍需在未来升级套餐并完成 required-check 切换后执行。Free Plan 阶段从干净 checkout 可重现全部正反门禁，所有报告可审查，所有故意违规仍失败，且自动 CI 不再重复执行旧扫描。

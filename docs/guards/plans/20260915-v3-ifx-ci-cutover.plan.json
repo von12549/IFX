@@ -9,6 +9,13 @@
     "Legacy workflows and mcp/LayerGuard remain available until remote parity and required-check switching are complete."
   ],
   "plannedPaths": [
+    ".github/workflows/coding-guardrails.yml",
+    ".github/workflows/contract-event-governance.yml",
+    ".github/workflows/database-migrations.yml",
+    ".github/workflows/g04-deployment-runtime.yml",
+    ".github/workflows/g05-context-boundary.yml",
+    ".github/workflows/layerguard.yml",
+    ".github/workflows/plan04-governance.yml",
     ".github/workflows/v3-ifx-guardrails.yml",
     "docs/guards/plans/05-v3-ifx-ci-cutover-and-legacy-cleanup.md",
     "docs/guards/V3_ifx/analysis/ifx/cutover-baseline.json",

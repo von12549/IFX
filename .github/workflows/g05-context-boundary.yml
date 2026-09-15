@@ -1,9 +1,7 @@
 name: G05 Context and Sensitive Data Boundary
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   context-sensitive-data-boundary:

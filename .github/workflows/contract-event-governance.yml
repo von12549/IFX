@@ -1,9 +1,7 @@
 name: Contract Event Governance
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   g03-governance:

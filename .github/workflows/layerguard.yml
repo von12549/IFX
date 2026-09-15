@@ -1,11 +1,7 @@
 name: LayerGuard
 
 on:
-  pull_request:
-  push:
-    branches: [main]
-  schedule:
-    - cron: '17 3 * * 1'
+  workflow_dispatch:
 
 jobs:
   architecture-boundaries:

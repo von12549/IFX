@@ -1,9 +1,7 @@
 name: G04 Deployment Runtime
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
   deployment-runtime-boundary:

@@ -1,6 +1,9 @@
 {
   "formatVersion": 1,
   "workflow": "V3 IFX Guardrails",
+  "automaticGuardWorkflow": ".github/workflows/v3-ifx-guardrails.yml",
+  "mergeEnforcement": "manual-review-github-free-private-repository",
+  "legacyWorkflowMode": "workflow-dispatch-only",
   "jobs": [
     { "id": "v3-pre-diff", "mode": "diff", "trigger": "pull-request", "blocking": true },
     { "id": "v3-architecture", "mode": "architecture", "trigger": "pull-request-and-main", "blocking": true },
