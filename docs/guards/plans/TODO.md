@@ -20,10 +20,11 @@
 ## 清零后的 CI 强化
 
 - [ ] **CIQ-08 — 警告回归门禁**：以上基线清零后，为 NuGet `NU1603`/`NU1903`、npm high/critical audit 和 ESLint warning 添加阻断规则。候选命令为 `dotnet restore -warnaserror:NU1603,NU1903`、`npm audit --audit-level=high` 和 `npm run lint -- --max-warnings=0`；先验证跨平台退出码和报告输出，再纳入 required checks。
+- [ ] **CIQ-09 — download-artifact 上游 DEP0005**：跟踪当前最新版 `actions/download-artifact@v8` 在 Node.js 24 下产生的 `Buffer()` deprecation warning，在上游发布修复版本后升级并重跑 assembly artifact 传递。该提示当前不形成 GitHub annotation，也不影响 artifact 下载；不得使用 `NODE_NO_WARNINGS` 或类似全局抑制隐藏它。
 
 ## 完成定义
 
 - GitHub Actions 不再产生 Node.js 20 action runtime 弃用提示。
 - `dotnet restore`/`build` 不再产生上述 NuGet、obsolete 或 nullable 警告。
 - `npm ci` 不再报告已知 high/critical 漏洞，ESLint 为零 warning。
-- CIQ-01–CIQ-08 均已进入独立计划并完成，或附有明确 owner、期限和有证据的风险接受决策。
+- CIQ-01–CIQ-09 均已进入独立计划并完成，或附有明确 owner、期限和有证据的风险接受决策。
