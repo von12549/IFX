@@ -15,7 +15,9 @@ This file records the construction of the independent package. It does not claim
 
 `scripts/Invoke-IFX.ps1 -Mode Generate` copies only package-owned templates into `generated/dotnet/LayerGuard/`; `-Mode Check` compares every generated source byte and rejects missing or extra non-build files. `-Mode Test` runs its .NET tests and then the strict target scan. It does not execute a script or read a policy from `mcp/LayerGuard`, `scripts/Invoke-LayerGuard.ps1`, or `src/layerguard.json`. The target's application projects and C# files under `src/` remain the subject of analysis.
 
-The G03/G04/G05 inputs here are snapshots for LayerGuard's policy loader. They do not make the full G03/G04/G05 specialized validators or their behavior tests part of this project. The old independent jobs remain active. No root CI workflow, branch protection, or old gate file was changed by this package migration.
+The G03/G04/G05 inputs are generated projections for LayerGuard's policy loader. `policy/authorities.json` records each external authority and `Sync-IFXPolicyInputs.ps1` regenerates or rejects drift in twelve local files. G03/G04/G05, current Plan04 governance and Database validation are now V3-owned implementations under `specialized/`. Their aggregators no longer call the root LayerGuard wrapper or repeat full solution tests.
+
+`Invoke-IFXGuardrails.ps1` is the stable dispatcher and emits the unified summary contract. `quality/` centralizes solution regression, frontend commands, and compiled references for all five Domain assemblies. `history/manifest.json` freezes fifteen historical JSON artifacts using canonical LF hashes and labels them as history rather than current readiness. `.github/workflows/v3-ifx-guardrails.yml` introduces the new jobs without deleting the old workflows; repository required-check changes remain external cutover evidence.
 
 ## Migration verification
 

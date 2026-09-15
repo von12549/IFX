@@ -1,0 +1,201 @@
+{
+  "formatVersion": 1,
+  "status": "historical-integrity-only",
+  "authority": "tracked historical evidence; never interpreted as current readiness",
+  "entries": [
+    {
+      "path": "mcp/LayerGuard/baselines/b0.5.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "9532a494e5a609742fa53158564af675a2f0600005ba2df15c8beda8c1b72a24",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/b1.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "0a539363e34f682ead674ed4cb3972caf9a6275eb84225b97d8a594effbf6b8b",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/b2.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "a59228bd804bbed97cb7103eeb296927f950682ec2ab71385e1aba5cd9954edc",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/b3.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "9e469b96728dbb6e11eb004ba4595469af62123ede1f8069909e843b264124d9",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/b4.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "1e4942886d1f95d6b1ebbfbc76238514ca0931b4fb8ac6962380918af81e72ff",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/plan05.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "0829919257c448c65b3b05e912fed8b116ede50a4beea7657ad2d7c51126029e",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/plan06.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "b1c25f7d632e667dbc247c49bf2ca6c404982104beee5c1c1146e0d49b8db4a7",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "mcp/LayerGuard/baselines/plan07.json",
+      "purpose": "historical-layerguard-baseline",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "86d78bae23ce9aa9c1208c554ad0ced2b72725e152f23ce2ca0aebbf82a7ab31",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/plan00-prerequisite-release-status.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": 1,
+      "summary": {
+        "result": "passed",
+        "gate": null,
+        "plan": "Plan 00"
+      },
+      "sha256": "594ca8d6e6bd40e354b2c17bc26900a38fde6064c540bedaca0c48bd3b3c9b5d",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/03-a1-layerguard-policy-binding-status.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": 1,
+      "summary": {
+        "result": "passed",
+        "gate": null,
+        "plan": "03-A1"
+      },
+      "sha256": "e839ab2ad496a2eef600f3ba31c15470c9171f060e05eef319e8273dd5b3e2bf",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/layerguard/B1-report.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "034542bd699977338cc330c55334af3b822c6ac3dd0ff71e73ea2833379cfcd1",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/layerguard/B4-report.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": null,
+      "summary": {
+        "result": null,
+        "gate": null,
+        "plan": null
+      },
+      "sha256": "d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/layerguard/B4-validation-status.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": 1,
+      "summary": {
+        "result": "passed",
+        "gate": null,
+        "plan": "03-layerguard-alignment"
+      },
+      "sha256": "732125fc76d92bafec2c1e62281bd5720d966b23d195ab875552e929005fc3bd",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/plan04/phase0-baseline-status.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": 1,
+      "summary": {
+        "result": "passed",
+        "gate": null,
+        "plan": "04-module-boundary-evolution"
+      },
+      "sha256": "f26578d562440ecd295b4471c537fb468135be796d67152be7166212990f85b2",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    },
+    {
+      "path": "docs/architecture/review/evidence/plan04/phase2-audit-status.json",
+      "purpose": "historical-review-evidence",
+      "formatVersion": 1,
+      "summary": {
+        "result": "repository-passed-approval-pending",
+        "gate": null,
+        "plan": "04-module-boundary-evolution"
+      },
+      "sha256": "fe1c893cd81cb550c9515592008b80ebf0a3acd29c0edfaf81e2952607742989",
+      "changePolicy": "explicit-history-manifest-regeneration-after-review"
+    }
+  ],
+  "references": [
+    {
+      "source": "docs/architecture/review/evidence/plan00-prerequisite-release-status.json",
+      "target": "docs/architecture/review/evidence/plan00-prerequisite-release.md"
+    },
+    {
+      "source": "docs/architecture/review/evidence/layerguard/B4-validation-status.json",
+      "target": "docs/architecture/review/evidence/layerguard/B1-report.json"
+    },
+    {
+      "source": "docs/architecture/review/evidence/layerguard/B4-validation-status.json",
+      "target": "docs/architecture/review/evidence/layerguard/B4-report.json"
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+name: V3 IFX Guardrails
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v3-pre-diff:
+    name: v3-pre-diff
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Resolve formal Plan and validate real PR diff
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          $plans = @(git diff --name-only "$env:BASE_SHA..$env:HEAD_SHA" -- '*.plan.json')
+          if ($plans.Count -ne 1) { throw "V3 Diff requires exactly one changed formal *.plan.json; found $($plans.Count)." }
+          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-pre-diff-${{ github.sha }}
+          path: artifacts/guards/v3-ifx
+          if-no-files-found: warn
+
+  v3-architecture:
+    name: v3-architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Validate package projections, contracts and negative fixtures
+        shell: pwsh
+        run: |
+          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Validate
+          ./docs/guards/V3_ifx/tests/Test-IFXPre.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
+          ./docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXPackage.ps1
+      - name: Run the sole production architecture scan
+        shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-architecture-${{ github.sha }}
+          path: artifacts/guards/v3-ifx
+          if-no-files-found: error
+
+  v3-quality-solution:
+    name: v3-quality-solution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore, build and test the solution once
+        shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Solution
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-quality-solution-${{ github.sha }}
+          path: |
+            artifacts/guards/v3-ifx
+            src/Modules/*/IFX.Modules.*.Domain/bin/Release/net8.0/*
+          if-no-files-found: error
+
+  v3-quality-assembly:
+    name: v3-quality-assembly
+    needs: v3-quality-solution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/download-artifact@v4
+        with:
+          name: v3-quality-solution-${{ github.sha }}
+          path: .
+      - name: Inspect all compiled Domain assemblies
+        shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Assembly
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-quality-assembly-${{ github.sha }}
+          path: artifacts/guards/v3-ifx
+          if-no-files-found: error
+
+  v3-quality-frontend:
+    name: v3-quality-frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: src/Frontend/IFX.FrontEnd/package-lock.json
+      - name: Run npm ci, lint, tests and build
+        shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-quality-frontend-${{ github.sha }}
+          path: artifacts/guards/v3-ifx
+          if-no-files-found: error
+
+  v3-specialized-g03:
+    name: v3-specialized-g03
+    needs: v3-architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: v3-specialized-g03-${{ github.sha }}, path: artifacts/guards/v3-ifx, if-no-files-found: error }
+
+  v3-specialized-g04:
+    name: v3-specialized-g04
+    needs: v3-architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G04
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: v3-specialized-g04-${{ github.sha }}, path: artifacts/guards/v3-ifx, if-no-files-found: error }
+
+  v3-specialized-g05:
+    name: v3-specialized-g05
+    needs: v3-architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: v3-specialized-g05-${{ github.sha }}, path: artifacts/guards/v3-ifx, if-no-files-found: error }
+
+  v3-specialized-plan04:
+    name: v3-specialized-plan04
+    needs: v3-architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: v3-specialized-plan04-${{ github.sha }}, path: artifacts/guards/v3-ifx, if-no-files-found: error }
+
+  v3-specialized-database:
+    name: v3-specialized-database
+    needs: [v3-architecture, v3-quality-solution]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - name: Install EF Core CLI
+        run: dotnet tool install --global dotnet-ef --version 8.0.11
+      - shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Database
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-specialized-database-${{ github.sha }}
+          path: artifacts/guards/v3-ifx
+          if-no-files-found: error
+
+  v3-historical-integrity:
+    name: v3-historical-integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate frozen evidence hashes and JSON
+        shell: pwsh
+        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: v3-historical-integrity-${{ github.sha }}, path: artifacts/guards/v3-ifx, if-no-files-found: error }
+
+  v3-cross-platform:
+    name: v3-cross-platform-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: 10.0.x }
+      - name: Reproduce generated inputs and run stage negative fixtures
+        shell: pwsh
+        run: |
+          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Validate
+          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
+          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
+          ./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate
+          ./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check
+          ./docs/guards/V3_ifx/tests/Test-V3.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXPre.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v3-cross-platform-${{ matrix.os }}-${{ github.sha }}
+          path: artifacts/guards/v3-ifx
+          if-no-files-found: warn

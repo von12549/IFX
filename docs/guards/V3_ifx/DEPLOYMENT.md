@@ -1,6 +1,18 @@
 # Deploy and run the IFX V3 guard package
 
-Run PowerShell 7 commands from the IFX repository root. The required SDK is .NET 10, including support for the target's .NET 8 projects. The NuGet feed/cache must provide pinned `TngTech.ArchUnitNET` 0.13.4 for the optional compiled pilot. The package is already configured for IFX; no old guard file is read by the commands below.
+Run PowerShell 7 commands from the IFX repository root. The required SDK is .NET 10, including support for the target's .NET 8 projects. The NuGet feed/cache must provide pinned `TngTech.ArchUnitNET` 0.13.4 for the stage compiled fixture. The package is already configured for IFX; no old guard file is read by the commands below.
+
+The stable dispatcher is `scripts/Invoke-IFXGuardrails.ps1`. Its modes write a schema-validated summary under `artifacts/guards/v3-ifx/`:
+
+```powershell
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Validate
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Assembly
+pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
+```
+
+`SpecializedGate` also accepts `G04`, `G05`, `Plan04`, `Database`, and `All`. `QualityTarget` accepts `Solution`, `Assembly`, `Frontend`, and `All`. Database validation requires the EF Core 8 CLI and Docker for the SQL Server Testcontainers matrix. Frontend validation runs `npm ci`, lint, `test:run`, and build.
 
 ```powershell
 $v3 = 'docs/guards/V3_ifx'
@@ -26,6 +38,11 @@ pwsh -NoProfile -File "$v3/tests/Test-V3.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-V3ArchUnit.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPre.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPackage.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXAssemblyGuard.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXAuthorityProjection.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXSpecializedContracts.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXHistoricalIntegrity.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-CutoverPreservation.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-V3Tools.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXTools.ps1"
 ```
@@ -51,4 +68,6 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $
 
 Pre success is advisory and includes a profile-input SHA-256; it does not prove code or decision quality. For local working-tree Diff, omit `-HeadRef`; CI should supply both exact commits. The generated stage project handles Plan scope, its `L2.2` detector and the compiled CRM pilot. `Invoke-V3 -Mode Test` freshly builds the explicit CRM Domain/Contracts manifest in Debug, then writes `artifacts/guards/v3-assembly.json`. The pilot matched 12 Domain entity types and four public Contract types. The [all-module Inbound Adapter target](architecture/INBOUND-ADAPTER-TARGET.md) remains a separate future migration. Run `Invoke-IFX -Mode Test` as the full post-code architecture gate regardless of the Plan's selected paths.
 
-To activate this as a merge gate, add a CI job that runs Markdown `Check`, both generated-project `Check` commands, both `Test` commands, and `Diff` with the PR base/head commits in a clean checkout, then mark the job required in repository protection. Until that setup is verified, a local pass is evidence only; it does not block merges. Keep the existing specialized jobs active during this parallel migration.
+`.github/workflows/v3-ifx-guardrails.yml` provides stable jobs for Diff, Architecture, five specialized gates, Solution, Assembly, Frontend and HistoricalIntegrity. It runs beside the old workflows during the comparison window. Diff requires exactly one changed formal `*.plan.json` and explicit PR base/head SHAs; it verifies both commits and their merge base before comparing the complete changed set with the Plan.
+
+After equivalent real PR and main runs, switch repository required checks to the stable `v3-*` job names. Keep old workflows active if that external switch cannot be verified. Only after the required-check switch and negative PR proof may Plan 05 remove old workflows, root validators, `src/layerguard.json`, and non-V3 guard documentation. Rollback during the observation window consists of restoring the previous required checks; `mcp/LayerGuard` and its historical baselines remain intact throughout.

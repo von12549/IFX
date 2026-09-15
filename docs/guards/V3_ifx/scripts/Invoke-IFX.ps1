@@ -3,7 +3,8 @@ param(
     [Parameter(Mandatory)][ValidateSet('Validate', 'Generate', 'Check', 'Test', 'Scan')][string] $Mode,
     [string] $TargetRoot,
     [string] $ReportPath,
-    [string] $NuGetConfig
+    [string] $NuGetConfig,
+    [switch] $SkipAuthorityCheck
 )
 
 $ErrorActionPreference = 'Stop'
@@ -110,6 +111,10 @@ function Invoke-Dotnet {
     if ($LASTEXITCODE -ne 0) { throw "dotnet $($Arguments[0]) failed with exit code $LASTEXITCODE" }
 }
 
+$sync = Join-Path $PSScriptRoot 'Sync-IFXPolicyInputs.ps1'
+if (-not $SkipAuthorityCheck) {
+    & $sync -Mode $(if ($Mode -eq 'Generate') { 'Generate' } else { 'Check' }) -TargetRoot $target
+}
 Assert-Inputs
 if ($Mode -eq 'Validate') { Write-Host 'IFX gate inputs are present and locally bound.'; exit 0 }
 if ($Mode -eq 'Generate') {

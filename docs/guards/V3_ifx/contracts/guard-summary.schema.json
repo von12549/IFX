@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ifx.local/guards/v3-ifx/guard-summary.schema.json",
+  "title": "IFX V3 guard summary",
+  "type": "object",
+  "required": ["formatVersion", "mode", "status", "startedAt", "completedAt", "checks"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "mode": { "enum": ["validate", "pre", "diff", "architecture", "specialized", "quality", "historical-integrity", "all"] },
+    "status": { "enum": ["pass", "fail", "blocked", "skipped"] },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "inputHash": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "reason": { "type": ["string", "null"] },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "status", "evidencePaths"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["pass", "fail", "blocked", "skipped"] },
+          "reason": { "type": ["string", "null"] },
+          "evidencePaths": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

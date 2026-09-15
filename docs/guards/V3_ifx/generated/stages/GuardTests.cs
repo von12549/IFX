@@ -146,15 +146,26 @@ public sealed class GuardTests
         var declared = plan.RootElement.GetProperty("plannedPaths").EnumerateArray()
             .Select(x => x.GetString()!).ToArray();
         var committedHead = !string.IsNullOrWhiteSpace(headRef);
-        var range = committedHead ? baseRef + "..." + headRef : baseRef;
+        var range = baseRef;
+        if (committedHead)
+        {
+            var verifiedBase = Git(root, "rev-parse", "--verify", baseRef + "^{commit}").Trim();
+            var verifiedHead = Git(root, "rev-parse", "--verify", headRef! + "^{commit}").Trim();
+            var mergeBase = Git(root, "merge-base", verifiedBase, verifiedHead).Trim();
+            if (string.IsNullOrWhiteSpace(mergeBase)) throw new InvalidOperationException("Diff has no merge base; fetch complete history.");
+            range = mergeBase + ".." + verifiedHead;
+        }
         var parts = Git(root, "diff", "--name-status", "-z", "--find-renames", range, "--")
             .Split('\0', StringSplitOptions.RemoveEmptyEntries);
         var changed = new List<string>();
+        var protectedDeletions = new List<string>();
         for (var i = 0; i < parts.Length;)
         {
             var status = parts[i++];
             if (i >= parts.Length) throw new InvalidOperationException("Malformed git name-status output.");
-            changed.Add(parts[i++].Replace('\\', '/'));
+            var firstPath = parts[i++].Replace('\\', '/');
+            changed.Add(firstPath);
+            if ((status.StartsWith('D') || status.StartsWith('R')) && IsProtectedGuardPath(firstPath)) protectedDeletions.Add(firstPath);
             if (status.StartsWith('R') || status.StartsWith('C'))
             {
                 if (i >= parts.Length) throw new InvalidOperationException("Malformed git rename output.");
@@ -163,6 +174,8 @@ public sealed class GuardTests
         }
         if (!committedHead) changed.AddRange(Git(root, "ls-files", "--others", "--exclude-standard", "-z")
             .Split('\0', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Replace('\\', '/')));
+        Assert.True(changed.Count > 0, "Diff changed set is empty; base/head inputs may be wrong or history may be incomplete.");
+        Assert.True(protectedDeletions.Count == 0, "Protected guard deletions: " + string.Join(", ", protectedDeletions));
         var planRelative = Relative(root, planPath);
         var companion = planRelative.EndsWith(".plan.json", StringComparison.Ordinal)
             ? planRelative[..^".plan.json".Length] + ".md" : "";
@@ -173,6 +186,18 @@ public sealed class GuardTests
             .OrderBy(x => x, StringComparer.Ordinal).ToArray();
         Assert.True(outside.Length == 0, "Paths outside Plan: " + string.Join(", ", outside));
     }
+
+    private static bool IsProtectedGuardPath(string path) =>
+        path.Equals(".github/CODEOWNERS", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith(".github/workflows/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("scripts/guards/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("docs/guards/contracts/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("docs/guards/inputs/rules/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("mcp/LayerGuard/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("docs/guards/plans/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("docs/guards/V3/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("docs/guards/V3_backup/", StringComparison.OrdinalIgnoreCase) ||
+        path.StartsWith("docs/guards/V3_ifx/", StringComparison.OrdinalIgnoreCase);
 
     private static string Git(string root, params string[] arguments)
     {

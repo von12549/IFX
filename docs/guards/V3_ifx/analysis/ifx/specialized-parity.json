@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "capturedAt": "2026-09-15",
+  "status": "local-parity-complete-ci-parity-pending",
+  "detectors": [
+    {
+      "id": "G03",
+      "legacy": "known-failure",
+      "v3": "passed",
+      "expectedDifference": "V3 accepts Client-backed Infrastructure adapters as current consumer evidence and writes generated evidence only to artifacts.",
+      "negativeEvidence": "18 catalog mutation cases, source reconciliation, deterministic inventory/snapshot and missing evidence fail-closed"
+    },
+    {
+      "id": "G04",
+      "legacy": "known-failure",
+      "v3": "passed",
+      "expectedDifference": "V3 hashes canonical LF text and no longer rewrites the authoritative runtime manifest.",
+      "negativeEvidence": "manifest binding, release orchestration, failure matrix, runtime phase 12 and inbound conformance checks"
+    },
+    {
+      "id": "G05",
+      "legacy": "passed-with-duplicate-architecture-and-solution",
+      "v3": "passed",
+      "expectedDifference": "V3 recognizes durable outbox/inbox, validates Infrastructure inbound context handling and delegates architecture/solution/database conclusions.",
+      "negativeEvidence": "10 security detector cases plus phase 11 context, redaction, replay, documentation and closeout checks"
+    },
+    {
+      "id": "Plan04",
+      "legacy": "known-failure",
+      "v3": "passed",
+      "expectedDifference": "Frozen phase hashes moved to HistoricalIntegrity; current extraction, tenant, projection, retirement and documentation checks remain blocking.",
+      "negativeEvidence": "policy fixtures and current validator failure aggregation"
+    },
+    {
+      "id": "Database",
+      "legacy": "passed",
+      "v3": "passed",
+      "expectedDifference": null,
+      "negativeEvidence": "five pending-model checks, migration safety, artifact/publish checks, 109 deterministic tests and 13 SQL Server matrix tests"
+    }
+  ],
+  "sharedFailureModes": [
+    "missing authority input",
+    "projection hash drift",
+    "missing declared evidence",
+    "invalid detector report",
+    "nonzero focused behavior test"
+  ],
+  "externalEvidencePending": [
+    "same-commit Linux CI comparison",
+    "same-commit Windows CI comparison",
+    "required-check enforcement"
+  ]
+}

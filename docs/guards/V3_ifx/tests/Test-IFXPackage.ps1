@@ -38,6 +38,7 @@ finally { Pop-Location }
 
 $runner = Join-Path $fixture 'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
 $arguments = @('-NoProfile', '-File', $runner)
+$arguments += '-SkipAuthorityCheck'
 if ($NuGetConfig) {
     $config = if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $repository $NuGetConfig }
     if (-not [IO.File]::Exists($config)) { throw "NuGet config is missing: $config" }

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ifx.local/guards/v3-ifx/specialized/detector-result.schema.json",
+  "type": "object",
+  "required": ["result"],
+  "properties": {
+    "formatVersion": { "type": ["integer", "string"] },
+    "gate": { "type": "string" },
+    "phase": { "type": ["integer", "string"] },
+    "result": { "enum": ["passed", "failed", "repository-passed-policy-approval-pending", "repository-passed-production-rls-not-claimed", "repository-passed-no-reporting-product-claimed", "repository-passed-legacy-abstractions-retired"] },
+    "checks": { "type": "object" }
+  },
+  "additionalProperties": true
+}
