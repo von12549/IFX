@@ -57,7 +57,8 @@ foreach ($current in $modes) {
             Invoke-Child 'pre' $v3 $args @((Relative $report))
         }
         'Diff' {
-            $args = @('-Mode','Diff','-ProfileDirectory',$profile,'-TargetRoot',$root,'-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
+            $generatedStages = Join-Path $packageRoot 'generated/stages'
+            $args = @('-Mode','Diff','-ProfileDirectory',$profile,'-TargetRoot',$root,'-OutputDirectory',(Relative $generatedStages),'-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
             if ($HeadRef) { $args += @('-HeadRef',$HeadRef) }
             Invoke-Child 'diff' $v3 $args @()
         }

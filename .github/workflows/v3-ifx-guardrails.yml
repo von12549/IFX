@@ -31,6 +31,8 @@ jobs:
         run: |
           $plans = @(git diff --name-only "$env:BASE_SHA..$env:HEAD_SHA" -- '*.plan.json')
           if ($plans.Count -ne 1) { throw "V3 Diff requires exactly one changed formal *.plan.json; found $($plans.Count)." }
+          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
+          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
           ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA
       - uses: actions/upload-artifact@v4
         if: always()
