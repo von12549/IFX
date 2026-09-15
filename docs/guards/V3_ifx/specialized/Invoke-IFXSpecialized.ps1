@@ -33,12 +33,15 @@ foreach ($gateId in $selected) {
             }
             'Database' {
                 $databaseTests = Join-Path $repositoryRoot 'tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj'
+                $databaseInventory = Join-Path $repositoryRoot 'tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj'
                 $migrator = Join-Path $repositoryRoot 'src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj'
                 if (-not $NoBuild) {
-                    & dotnet restore $databaseTests
-                    if ($LASTEXITCODE -ne 0) { throw 'Database boundary restore failed.' }
-                    & dotnet build $databaseTests --configuration Release --no-restore
-                    if ($LASTEXITCODE -ne 0) { throw 'Database boundary build failed.' }
+                    foreach ($project in @($databaseTests, $databaseInventory)) {
+                        & dotnet restore $project
+                        if ($LASTEXITCODE -ne 0) { throw "Database project restore failed: $project" }
+                        & dotnet build $project --configuration Release --no-restore
+                        if ($LASTEXITCODE -ne 0) { throw "Database project build failed: $project" }
+                    }
                 }
                 $migrationArguments = @{ ReportPath = (Join-Path $gateOutput 'migration-safety.json'); Configuration = 'Release'; NoBuild = $true }
                 $pendingArguments = @{ Configuration = 'Release'; NoBuild = $true }
