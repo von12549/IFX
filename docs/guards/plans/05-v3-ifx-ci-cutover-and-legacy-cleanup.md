@@ -1,139 +1,201 @@
-# V3_ifx CI 切换与旧 Guardrails 清理计划
+# V3_ifx 全门禁接管、CI 切换与旧 Guardrails 清理计划
 
-> 状态：待实施（2026-09-15）。本计划只定义迁移、并行验证、切换和清理顺序；在 V3_ifx 的替代能力、CI 实跑和回退入口完成验收前，不删除现行 Coding Guardrails。
+> 状态：待实施（2026-09-15）。本计划定义 V3_ifx 对现行 LayerGuard、Coding Guardrails、G03/G04/G05、Plan 04、数据库、编译后架构和前端质量门禁的迁移、并行验证、生产切换及清理顺序。任何旧入口都只能在替代检测器、正反例、报告、CI 实跑和回退证据完成后删除。
 >
-> 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。现行 `.github/workflows/coding-guardrails.yml` 仍调用根 `scripts/guards/`、`tests/guards/` 和 `docs/guards` 非 V3 配置，因此 V3 尚未完成生产 CI 切换。
+> 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。当前 `.github/workflows` 尚未调用 V3_ifx，仍由 `layerguard.yml`、`coding-guardrails.yml`、G03/G04/G05、Plan 04 和数据库 workflow 分散执行，并存在 LayerGuard、G03、migration safety 和 solution build/test 的重复调用。
 
 ## 目标与完成后的结构
 
-逐步把现行 Coding Guardrails 的项目配置、Schema、阶段执行器、正反测试、生成物和 CI 调用入口迁入 `docs/guards/V3_ifx`。经过并行验证和 CI 切换后，删除 `docs/guards` 下除 V3 项目外的旧内容，并清理随旧框架存在的 `scripts/guards`、`tests/guards` 和旧 workflow。
+V3_ifx 成为 IFX 唯一的门禁执行、编排、报告协议和检测器维护入口。GitHub Actions 只从 `.github/workflows/` 调用 V3_ifx；V3_ifx 内部按 Architecture、Specialized、Quality、HistoricalIntegrity、Pre 和 Diff 划分职责，并提供统一的 `All`/CI 聚合入口。
 
-`mcp/LayerGuard` 是明确保留的独立架构门禁项目。本计划不删除、移动、内嵌或以 V3_ifx 生成副本替代它；`src/layerguard.json`、`mcp/LayerGuard/baselines/`、`scripts/Invoke-LayerGuard.ps1` 和 `.github/workflows/layerguard.yml` 继续构成其生产入口。V3_ifx 内的独立 LayerGuard 副本用于隔离验证和迁移能力，不改变 `mcp/LayerGuard` 的所有权。
+`mcp/LayerGuard` 项目及历史 baseline 永久保留，作为工具源码、迁移证据和回退参考，但退出生产 CI 执行链。生产架构扫描只运行一次，由 `docs/guards/V3_ifx/scripts/Invoke-IFX.ps1` 使用 V3_ifx policy 和零 entry strict baseline 完成。切换后不得同时运行 `scripts/Invoke-LayerGuard.ps1` 和 `Invoke-IFX.ps1` 扫描同一份 `src`。
 
-目标目录如下：
+G03、G04、G05、Plan 04 和数据库的专项能力全部迁入 V3_ifx。迁移的是检测器实现、fixture、测试、命令编排和报告契约；Contract catalog、deployment manifest、migration 源码、tenant/projection policy 等业务、发布和治理事实继续保留在各自领域目录，作为唯一权威来源。V3_ifx 可以生成并校验 package-local projection/snapshot，但这些文件必须由权威输入确定性生成并执行漂移检查，不能成为第二套可独立编辑的事实。
+
+历史 Plan 00、03-A1/B1、B4 等验收由 V3 `HistoricalIntegrity` 接管。它只验证冻结证据的存在性、格式、摘要、引用关系和不可意外改写，不再把“下一步开始 Plan 01”、B1 必须有 116 个 finding、旧 blocker 数量等历史流程状态作为每次产品代码 PR 的当前结论。
+
+目标目录与入口如下：
 
 ```text
 docs/guards/
   V3/                              # 通用、可移植的 V3 源码包
   V3_backup/                       # 已验证的通用 V3 快照
-  V3_ifx/                          # IFX 配置、策略、执行器、测试、生成物和迁移记录
-  plans/                           # 保留：Guardrails 各阶段计划、实施记录和本清理计划
+  V3_ifx/
+    profiles/ifx/                  # IFX 路径、风险、规则和命令映射
+    policy/                        # 唯一生产架构 policy、生成的 Gate projection、strict baseline
+    specialized/                   # G03/G04/G05/Plan04/Database 检测器与契约
+    scripts/                       # Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/CI 入口
+    tests/                         # 检测器正反例、隔离、漂移和跨平台测试
+    history/                       # 冻结历史证据清单与 integrity manifest
+    generated/                     # 可重现生成物和可读 views
+  plans/                           # 永久保留：计划、实施记录和历史说明
 
-mcp/LayerGuard/                    # 保留：现行独立 LayerGuard 项目
+mcp/LayerGuard/                    # 永久保留：工具源码及历史 baselines；不再是生产 CI 入口
 
 .github/workflows/
-  layerguard.yml                   # 保留：mcp/LayerGuard 生产门禁
-  v3-ifx-guardrails.yml            # 新建：调用 V3_ifx 入口
-  contract-event-governance.yml    # 保留独立专项门禁
-  g04-deployment-runtime.yml       # 保留独立专项门禁
-  g05-context-boundary.yml         # 保留独立专项门禁
-  plan04-governance.yml            # 保留独立专项门禁
-  database-migrations.yml          # 保留独立专项门禁
+  v3-ifx-guardrails.yml            # 唯一 IFX 门禁 workflow；只调用 V3_ifx 稳定入口
 ```
 
-GitHub Actions 只发现 `.github/workflows/` 下的 workflow，因此 workflow 文件不会物理放入 `V3_ifx`。迁移的是 workflow 调用的脚本、配置、契约、测试和报告；新 workflow 只做触发、环境准备、命令编排和证据上传。
+GitHub Actions workflow 必须位于 `.github/workflows/`。因此最终仍保留一个薄 workflow 文件，但它只负责触发、环境准备、调用 V3_ifx、上传证据和暴露稳定 required-check 名称；所有门禁逻辑都归 V3_ifx 所有。
+
+## 最终职责模型
+
+| V3 模式/Job | 最终职责 | 不得重复执行的内容 |
+| --- | --- | --- |
+| `Pre` | 计划路径、area、owner、风险、规则和验证命令映射 | 不声称代码已经验证 |
+| `Diff` | 真实 base/head changed set、Plan/decision、越界和受保护删除 | 不重新执行完整 Architecture |
+| `Architecture` | 完整 IFX LayerGuard、policy binding、零 entry baseline | 全仓只执行一次完整 LayerGuard |
+| `Specialized.G03` | Catalog、source reconciliation、字段/敏感分类、compatibility、handoff | 不嵌套执行 Architecture |
+| `Specialized.G04` | Manifest、runtime role、startup、lease、drain、health、backpressure、release/failure | 不嵌套执行 Architecture 或全 solution test |
+| `Specialized.G05` | Context、敏感数据、runtime propagation、redaction、replay 等专项检查 | 不重复 G03、Database、Architecture 或全 solution test |
+| `Specialized.Plan04` | Extraction、tenant query、projection 和治理事实 | 不重放 B4 当前状态 |
+| `Specialized.Database` | Pending model、migration inventory/safety、发布产物、SQL Server matrix | 不重复通用 solution build |
+| `Quality.Assembly` | 所有受保护 Domain assembly 的编译后引用/类型边界 | 不只覆盖 CRM pilot |
+| `Quality.Frontend` | `npm ci`、lint、test、build | 不把 profile 中的命令声明视为已执行 |
+| `Quality.Solution` | 需要的 restore/build/test 公共前置与一次性全量回归 | G04/G05 不再各自全量执行 |
+| `HistoricalIntegrity` | 冻结 Plan00/B1/B4 等证据的 hash/schema/link 完整性 | 不验证已经失效的历史流程状态 |
+| `All` / CI dispatcher | 选择并聚合上述 job，输出统一 summary | 不实现第二套规则 |
 
 ## 保留、迁移与删除边界
 
 ### 永久保留
 
-- `mcp/LayerGuard/**`、`src/layerguard.json`、`scripts/Invoke-LayerGuard.ps1`、`.github/workflows/layerguard.yml`。
+- `mcp/LayerGuard/**`，包括工具源码、测试、fixture、`LIMITS.md`、README 和 `baselines/**`。旧 baseline 明确标记为历史，不再作为生产 scan 输入。
 - `docs/guards/V3/**`、`docs/guards/V3_backup/**`、`docs/guards/V3_ifx/**`。
-- `docs/guards/plans/**`。现有 Plan 01–05 作为设计、实施证据和迁移记录保留在原目录；后续计划继续按编号放入该目录。
-- G03、G04、G05、Plan 04、数据库迁移等专项 validator、权威输入和独立 workflow。V3_ifx 可以引用或校验它们的结果，但不得用静态快照冒充专项行为验证。
-- 前端 lint、test、build 门禁；可以迁入新的 V3_ifx workflow 编排，也可以拆成独立 workflow，但不能因旧 Coding Guardrails 删除而消失。
+- `docs/guards/plans/**`。现有 Plan 01–05 和后续计划继续保留在原目录。
+- G03 catalog、G04 deployment artifacts、G05 protocol policy、Plan 04 governance policy、database migrations 和 migration/release manifest 等领域事实。它们由 V3 validator 读取，但不为迁移方便复制成第二套人工权威。
+- 需要保留的历史 evidence。历史文件可以继续位于原 evidence 目录，由 V3 history manifest 绑定；只有运行入口和当前状态断言迁入 V3。
 
-### 迁入 V3_ifx 后删除旧副本
+### 迁入 V3_ifx 后删除旧运行入口或副本
 
 | 现有内容 | V3_ifx 目标位置或替代能力 |
 | --- | --- |
 | `docs/guards/inputs/TECH_STACK.json` | `V3_ifx/profiles/ifx/tech-stack.json` |
 | `docs/guards/inputs/PROJECT_MAP.json` | `V3_ifx/profiles/ifx/project-map.json` |
-| `docs/guards/inputs/rules/*.json` | `V3_ifx/profiles/ifx/rules/`、`policy/layerguard.json` 及对应可读 views |
-| `docs/guards/bindings/ifx.json` | V3_ifx profile、policy 和新 CI 命令映射；不得保留第二套权威绑定 |
-| `docs/guards/contracts/*.schema.json` | `V3_ifx/contracts/` 中等价或扩展后的 V3 Schema |
-| `docs/guards/generated/*` | `V3_ifx/profiles/ifx/views/`、`generated/stages/` 和机器结果 Schema |
-| `docs/guards/templates/new-project/` | 通用能力进入 `V3/examples/minimal`、`V3/templates`；IFX 部分留在 `V3_ifx` |
-| `docs/guards/decisions/*.json` | 迁入 `V3_ifx/decisions/history/`，或由 V3 Plan/decision 契约接管 |
-| `docs/guards/plans/*.md` | 永久保留在原目录；更新其中失效的运行命令和链接，历史事实继续明确标注为历史 |
-| `docs/guards/principles/` | 有长期价值的背景迁入 `docs/guards/plans/history/`；其余内容确认已被计划记录覆盖后删除 |
-| `scripts/guards/*` | 由 `V3_ifx/scripts/` 的 Validate、Generate、Check、Pre、Post、Diff、Test 入口替代 |
-| `tests/guards/*` | 由 `V3_ifx/tests/` 的通用、IFX、CI 和负例测试替代 |
-| `.github/workflows/coding-guardrails.yml` | 由 `.github/workflows/v3-ifx-guardrails.yml` 替代 |
+| `docs/guards/inputs/rules/*.json` | `V3_ifx/profiles/ifx/rules/`、`policy/layerguard.json` 和对应 views |
+| `docs/guards/bindings/ifx.json` | V3_ifx profile、policy 与统一命令映射 |
+| `docs/guards/contracts/*.schema.json` | `V3_ifx/contracts/` 或 `V3_ifx/specialized/*/contracts/` |
+| `docs/guards/generated/*` | `V3_ifx/generated/` 和 `profiles/ifx/views/` |
+| `docs/guards/templates/new-project/` | 通用部分进入 V3，IFX 部分进入 V3_ifx |
+| `docs/guards/decisions/*.json` | `V3_ifx/decisions/history/` 或新的 Plan/decision 契约 |
+| `docs/guards/principles/` | 长期背景迁入 `docs/guards/plans/history/`，其余删除 |
+| `scripts/guards/*`、`tests/guards/*` | V3_ifx stage、assembly、CI、fixture 和 package tests |
+| `scripts/Invoke-LayerGuard.ps1`、`src/layerguard.json` | V3_ifx `Invoke-IFX` 与 `policy/layerguard.json`；旧文件在切换后删除或作为明确的历史快照移入 history，不得继续充当可编辑 policy/入口 |
+| 根 `Invoke/Test-G03*` | `V3_ifx/specialized/g03/` 及统一 Specialized 入口 |
+| 根 `Invoke/Test-G04*` | `V3_ifx/specialized/g04/` 及统一 Specialized 入口 |
+| 根 `Invoke/Test-G05*` | `V3_ifx/specialized/g05/` 及统一 Specialized 入口 |
+| 根 `Test-Plan04*`、相关 fixture | `V3_ifx/specialized/plan04/` |
+| 根 database migration guard/fixture | `V3_ifx/specialized/database/`；实际 migration 和发布 artifact 仍在领域目录 |
+| `Test-Plan00PrerequisiteRelease.ps1`、`Test-03A1PolicyBinding.ps1`、`Test-Plan03B4StrictClosure.ps1` | `V3_ifx/history/manifest.json` 与 `HistoricalIntegrity` |
+| 七个现行 guard workflow | `.github/workflows/v3-ifx-guardrails.yml` 中稳定命名的 V3 jobs |
 
-最终删除 `docs/guards/README.md`、`bindings/`、`contracts/`、`decisions/`、`generated/`、`inputs/`、`principles/` 和 `templates/`，保留 `plans/`，使 `docs/guards` 顶层只剩三个 V3 目录和计划目录。删除必须在引用扫描、并行 CI 和回退验证完成后一次性执行，避免两套配置长期漂移。
+最终删除 `docs/guards` 下非 V3、非 plans 的 README、bindings、contracts、decisions、generated、inputs、principles 和 templates。所有删除都必须使用精确文件清单，并在引用扫描、并行 CI、required-check 切换和回退验证完成后执行。
 
-## P0 — 冻结现状与建立迁移矩阵
+## P0 — 冻结现状、重复调用与能力矩阵
 
-- [ ] P0.1 记录当前分支 SHA、非 V3 文件清单（原 tracked 基线 47 个，另含本计划）、`scripts/guards`、`tests/guards`、`.github/workflows/coding-guardrails.yml`、CODEOWNERS 和所有外部引用；把 `docs/guards/plans/**` 标记为保留范围，并记录 V3/V3_ifx/V3_backup 文件集及生成状态。
-- [ ] P0.2 在干净 checkout 重跑现行 Coding Guardrails、`mcp/LayerGuard` 测试与严格扫描、V3/V3_ifx 全套测试、前端质量和 solution build，保存命令、退出码、测试数和报告路径。失败项必须先修复或明确为已知基线。
-- [ ] P0.3 为旧 workflow 的四个 job 建立能力映射：`guard-framework`、`framework-windows`、`frontend-quality`、`assembly-domain`。逐项写出 V3_ifx 替代命令、输入、输出、正反测试和未覆盖项。
-- [ ] P0.4 冻结永久保留清单。任何后续删除脚本不得匹配 `mcp/LayerGuard/**`、`src/layerguard.json`、`scripts/Invoke-LayerGuard.ps1` 或 `.github/workflows/layerguard.yml`；在清理测试中为这些路径增加存在性和 Git 状态断言。
-- **验收**：每个旧文件和 CI job 都有唯一的“保留、迁移、归档或删除”结论；不存在以“V3 测试通过”代替 CI/专项门禁等价性证明的项目。
+- [ ] P0.1 记录当前分支 SHA、全部 workflow、根 guard 脚本、测试、权威输入、生成物、报告、CODEOWNERS 和外部引用。保存每个入口的触发范围、运行平台、命令、退出码、artifact 与 required-check 名称。
+- [ ] P0.2 建立实际调用图，明确记录当前重复：LayerGuard 被 `layerguard`、G03、G04、G05 多次执行；G03 catalog 被 LayerGuard/G03/G05 重复；migration safety 被 G05/Database 重复；solution build/test 被 G04/G05/Database 部分重复。
+- [ ] P0.3 在干净 checkout 重跑现行 LayerGuard、Coding Guardrails、G03/G04/G05、Plan 04、Database、Domain assembly、frontend 和 solution 回归。保存命令、退出码、测试数和报告 hash；失败必须先修复或登记为已知基线。
+- [ ] P0.4 为每项能力建立“旧入口—旧实现—权威输入—V3 目标检测器—正例—负例—报告—删除条件”矩阵。静态绑定与运行时/行为验证必须分行记录，不能以主题相同视为等价。
+- [ ] P0.5 冻结永久保留清单并加入机械断言：`mcp/LayerGuard/**`、三个 V3 目录、`docs/guards/plans/**` 和领域权威事实不得被清理脚本匹配。
+- **验收**：每个旧文件、检测器和 workflow job 都有唯一的保留、迁移、历史化或删除结论；所有已知重复都有明确去重目标。
 
-## P1 — 收敛 V3_ifx 权威输入与文档
+## P1 — 定义 V3 统一入口、唯一权威和报告契约
 
-- [ ] P1.1 比较根 `TECH_STACK.json`、`PROJECT_MAP.json`、rules、binding 与 `V3_ifx/profiles/ifx`、`policy/layerguard.json`。把仍有效但尚未进入 V3_ifx 的 area、owner、risk trigger、command ID、规则 authority、coverage 和限制迁入；重复事实只保留一个权威来源。
-- [ ] P1.2 扩展 V3 decision/Plan/Diff 契约，使高风险变更仍能机械关联受影响路径、area、规则、验证命令和 decision。保留现行 Diff Guard 已验证的增删改名、未跟踪文件、越界路径、受保护删除和缺少 decision 等失败语义。
-- [ ] P1.3 将有效历史 decision 迁到 `V3_ifx/decisions/history`，将仍需保留的原则背景迁到 `docs/guards/plans/history`。现有 Plan 01–05 留在 `docs/guards/plans` 原位置。更新 V3_ifx README、DEPLOYMENT、计划和内部链接；历史内容不得继续充当运行时配置。
-- [ ] P1.4 用 `Invoke-V3Docs -Mode Render/Check` 和 V3 Generate/Check 生成唯一的可读 views 与机器项目；禁止手工维护第二套 INDEX、COVERAGE_MATRIX 或 manifest。
-- **验收**：V3_ifx 可以仅依靠自己的 profile、policy、contracts 和 package-local 输入完成 Validate、Generate、Check、Pre、Diff 和文档检查；运行时不读取待删除的根 `docs/guards` 内容。
+- [ ] P1.1 为 V3_ifx 定义稳定的 `Pre`、`Diff`、`Architecture`、`Specialized`、`Quality`、`HistoricalIntegrity` 和 `All` 入口。各入口必须非交互、参数明确、支持 Linux/Windows 所需路径，并把 JSON/TRX/log 写入 `artifacts/guards/`。
+- [ ] P1.2 定义统一 summary schema：记录 mode、detector、输入摘要、开始/结束、结论、失败类别、证据路径和跳过原因。子检测器保持细节报告，同时由 dispatcher 汇总；任何未执行或缺少证据的 blocking 项不得显示为 pass。
+- [ ] P1.3 建立 authority registry，逐项指定唯一权威来源。V3 architecture policy 只以 `V3_ifx/policy/layerguard.json` 为准；G03/G04/G05/Plan04/Database 的领域事实继续以各自领域文件为准。
+- [ ] P1.4 将 V3_ifx 当前 G03/G04/G05 package-local 文件改为确定性 projection/snapshot：生成器从 authority registry 读取权威输入、规范化必要的本地路径并更新 hash；Check 模式拒绝内容或 hash 漂移。禁止同时人工编辑两边。
+- [ ] P1.5 为 workflow job 和检测器 ID 定义稳定命名，避免 required checks 因显示名变化失效。明确每个 job 是否 always-run、path-focused、manual 或 scheduled。
+- **验收**：V3_ifx 对规则和领域事实都只有一个人工权威；本地副本均可重现；所有模式与报告可由机器区分 pass、fail、blocked 和 skipped。
 
-## P2 — 补齐旧 Coding Guardrails 的 V3_ifx 等价能力
+## P2 — 接管 Coding Guardrails、Pre/Diff、Assembly 与 Frontend
 
-- [ ] P2.1 为 CI 增加稳定、非交互的 V3_ifx 入口，明确 Linux/Windows 参数、目标根目录、输出目录和退出码。所有报告写入 `artifacts/guards/`，并符合 V3 机器结果契约。
-- [ ] P2.2 完成 CI-safe Diff：显式消费 PR base/head SHA，检查完整 changed set，并按 V3 Plan/decision 验证风险覆盖。不得只检查 Plan 声明路径而忽略真实 diff，也不得因空 diff 或浅克隆误报成功。
-- [ ] P2.3 将现行 Domain assembly 检测的真实覆盖迁入 V3 编译后门禁。显式列出所有受保护 Domain 程序集及预期引用，保留允许、违规、缺程序集、陈旧程序集和零匹配负例。只有与 `Invoke-DomainAssemblyGuard.ps1` 覆盖对照一致后，才允许删除旧 assembly-domain 实现。
-- [ ] P2.4 把 portable template、自身配置、生成漂移、Pre/Post/Diff、架构 policy、package isolation 和跨平台换行行为纳入 V3_ifx tests。每个 blocking 能力同时具有正例与会导致非零退出码的负例。
-- [ ] P2.5 为 frontend quality 保留 `npm ci`、lint、`test:run`、build 四步及锁文件缓存。V3 profile 负责命令 ID 和影响映射，workflow 负责安装 Node 并执行命令；V3 不把未执行命令报告为通过。
-- **验收**：旧 `guard-framework`、`framework-windows`、`assembly-domain` 和 `frontend-quality` 的每项实际检查都已有可运行替代；差异清单为零，或差异被明确批准且没有降低 blocking 覆盖。
+- [ ] P2.1 将根 Coding Guardrails 的 area、owner、risk trigger、command、decision 与 Diff 失败语义迁入 V3 profile/contracts。保留增删改名、未跟踪文件、越界路径、受保护删除、未知 module、浅克隆和缺 decision 的 fail-closed 行为。
+- [ ] P2.2 完成 CI-safe Diff：显式消费 PR base/head SHA，计算真实 merge-base 和完整 changed set，再与 V3 Plan/decision 对账。不得只检查 Plan 声明路径，也不得因空 diff 或 fetch 深度不足误报通过。
+- [ ] P2.3 将旧 Domain assembly guard 的全模块覆盖迁入 V3 compiled architecture。显式列出全部受保护 Domain assembly、允许引用和类型边界，保留违规、缺程序集、陈旧程序集和零匹配负例；CRM pilot 只能作为其中一个 fixture。
+- [ ] P2.4 将 frontend `npm ci`、lint、`test:run`、build 四步接入 V3 Quality。profile 负责影响映射，CI job 负责 Node/cache/实际执行；命令声明不能替代运行证据。
+- [ ] P2.5 把 portable template、自身配置、生成漂移、Pre/Diff、package isolation、换行和命令选择纳入 V3_ifx tests。每个 blocking 能力都必须有导致非零退出码的负例。
+- **验收**：旧 Coding Guardrails 四个 job 的真实能力均有 V3 可运行替代；compiled architecture 覆盖不低于旧全模块 guard；frontend 四步均实际执行。
 
-## P3 — 新建 V3_ifx workflow 并保持并行运行
+## P3 — 接管 G03/G04/G05/Plan04/Database 专项门禁
 
-- [ ] P3.1 新建 `.github/workflows/v3-ifx-guardrails.yml`。至少包含：profile/docs/generated Check，V3 stage tests，IFX independent LayerGuard test/strict scan，PR Diff，portable/IFX tools tests，frontend quality，以及完成 P2.3 后的 compiled architecture job。
-- [ ] P3.2 workflow 在 PR 和 main push 上运行；checkout 对 Diff 使用完整或足够的 Git 历史，并显式传入 base/head SHA。固定 .NET、PowerShell、Node 和 NuGet 前提，使用锁文件及可审查的依赖版本。
-- [ ] P3.3 Linux 和 Windows 分别运行需要跨平台证明的 Validate/Generate Check/Diff 测试；耗时构建只在能够保持等价覆盖的 job 中去重。所有 job 即使失败也上传对应 JSON 和测试日志。
-- [ ] P3.4 保留 `.github/workflows/coding-guardrails.yml` 并行运行，不修改 `layerguard.yml` 和各专项 workflow。比较新旧 job 的触发范围、结论、报告和耗时，禁止先删除旧 workflow 再观察缺口。
-- **验收**：至少一个正常 PR 在 Linux/Windows 所需 job 上全绿；故意制造生成漂移、缺 decision、越界 diff、Domain 违规和 frontend 失败的验证分支均被对应新 job 阻断。
+- [ ] P3.1 建立 `V3_ifx/specialized/` 目录、共享 runner、detector contract、fixture contract 和报告聚合器。迁移初期允许 V3 wrapper 调用根旧脚本，但报告必须标记 `legacy-wrapper`，且不得形成永久依赖。
+- [ ] P3.2 迁移 G03：catalog schema/reference、ownership/approval、field classification、sensitive-use、source reconciliation、compatibility snapshot、cycle、documentation/closeout 和负例。与 Architecture 重合的 provider graph/hash 只由 Architecture 产出，G03 消费或交叉核对其报告，不重新扫描 LayerGuard。
+- [ ] P3.3 迁移 G04：manifest/hash、runtime role、startup ordering、dispatcher lease、drain、health、backpressure、release orchestration、failure matrix、documentation/closeout 和行为测试。移除内部 LayerGuard 与全 solution test 调用，改为声明对 Architecture/Quality.Solution job 的依赖。
+- [ ] P3.4 迁移 G05：context contract、sensitive data、runtime propagation、redaction、delivery/replay、catalog-security 交集、migration-safety 交集、documentation/closeout 和行为测试。G05 使用 G03、Database、Architecture 的已验证结果，不再次执行其实现。
+- [ ] P3.5 迁移 Plan 04：baseline/inventory/audit、extraction、tenant query、projection、Abstractions retirement、documentation 和 fixture。`L1.2` 的项目命名结果来自 Architecture；Plan04 保留 solution membership、tenant/projection 等独有治理断言。
+- [ ] P3.6 迁移 Database：pending model、inventory、migration safety、release artifact、publish、database boundary tests 和 SQL Server matrix。实际 migrations、manifest 和 safety policy 继续保留在数据库/部署目录。
+- [ ] P3.7 把 G04/G05 重复的 solution restore/build/test 收敛为 `Quality.Solution`；专项 job 只运行焦点测试并引用公共 build artifact 或明确的上游结论。
+- [ ] P3.8 对每个专项 detector 运行旧版与 V3 版的正常、违规、缺输入、hash 漂移和报告 schema 对照。只有结论、覆盖和失败关闭行为相同或更强，才允许退出 wrapper 阶段。
+- **验收**：五类专项门禁全部由 V3_ifx 自有实现运行，不调用根旧 validator；与 Architecture/其他专项的重复执行已经去除；每类独有行为验证和负例均保留。
 
-## P4 — 切换 required checks 与生产入口
+## P4 — 接管历史验收并去除失效状态断言
 
-- [ ] P4.1 记录新旧 workflow 在同一提交上的并行结果，核对所有 blocking 结论。V3_ifx strict scan 必须为零项 baseline clean，`mcp/LayerGuard` 继续独立通过。
-- [ ] P4.2 将 branch protection/ruleset 的 required checks 从旧 Coding Guardrails job 切换到稳定命名的 V3_ifx job，同时保留 `mcp/LayerGuard` 和 G03/G04/G05/Plan 04/数据库等专项 required checks。
-- [ ] P4.3 若仓库套餐或权限无法配置 required checks，记录 API/UI 证据并将该项保持未完成；不得声称 workflow 文件存在等于门禁已经强制。未完成时旧 workflow 继续保留。
-- [ ] P4.4 切换后再运行一次正常 PR 和一组故意违规 PR，确认 required checks 实际阻止合入；记录 check 名称，避免 workflow/job 重命名导致保护规则失效。
-- **验收**：新 V3_ifx checks 已在真实 PR 上运行并被实际配置为 required，或外部限制被明确记录且清理阶段保持阻塞；`mcp/LayerGuard` required check 未被替换或移除。
+- [ ] P4.1 清点 Plan00、03-A1/B1、B2/B3/B4、Plan05/06/07 baseline 与报告，区分“必须冻结的历史事实”和“已经失效的下一步、blocker 数量、workflow 自引用、当前状态”断言。
+- [ ] P4.2 建立 `V3_ifx/history/manifest.json`，记录保留文件、用途、schema/version、内容 hash、允许变更方式和替代关系。历史 baseline 保持原内容，不重新生成来适配当前 policy。
+- [ ] P4.3 实现 `HistoricalIntegrity`：验证文件存在、JSON 可读、摘要匹配、内部引用可解析、baseline 元数据有效且历史标签明确。移除“Plan 01 尚未开始”“B1 仍是当前 policy”“workflow 必须调用自身”等断言。
+- [ ] P4.4 配置触发策略：历史/evidence/manifest 变更时 blocking；定时或手动可运行全量；普通产品代码 PR 不重放全部历史验收。
+- [ ] P4.5 用受控负例证明删除、篡改、错误 hash、悬空引用会失败，同时当前 Plan 07+ 代码状态不会因旧 blocker 数量变化失败。
+- **验收**：历史证据仍受保护，但不再参与当前架构或业务 readiness 判断；三个旧历史脚本可以安全删除。
 
-## P5 — 删除旧运行时与非 V3 文档
+## P5 — 新建 V3 workflow 并与全部旧门禁并行验证
 
-- [ ] P5.1 停止并删除 `.github/workflows/coding-guardrails.yml`；如 frontend quality 被拆分为独立 workflow，先验证新文件已运行。更新 CODEOWNERS，使 V3/V3_ifx、`mcp/LayerGuard`、policy、workflow 和专项门禁仍有明确 owner。
-- [ ] P5.2 删除已被 V3_ifx 替代的 `scripts/guards/` 和 `tests/guards/`。保留根 `scripts/Invoke-LayerGuard.ps1` 及其他专项 validator；使用精确文件清单删除，禁止对整个 `scripts` 或 `tests` 目录递归清理。
-- [ ] P5.3 删除 `docs/guards` 下非 V3、非 plans 的 README、bindings、contracts、decisions、generated、inputs、principles 和 templates。`docs/guards/plans` 及其全部计划文件必须保留。执行前确认需保留的 decision/原则背景已经迁入 V3_ifx 或 plans，并验证每个删除目标的解析结果严格位于 `docs/guards` 且不位于 `docs/guards/plans`。
-- [ ] P5.4 更新所有 README、CLAUDE/Agent guidance、workflow、脚本、测试、CODEOWNERS 和文档链接。运行 `git grep`/`rg`，对已删除路径、旧脚本名、旧 workflow 名和旧 check 名要求零运行时引用；历史引用若保留，必须明确标注为历史且不提供失效命令。
-- [ ] P5.5 最终断言 `docs/guards` 顶层仅含 `V3`、`V3_backup`、`V3_ifx`、`plans`；断言 Plan 01–05 和 `mcp/LayerGuard` 的 tracked 文件集、项目入口、baseline、workflow 全部存在。
-- **验收**：干净 checkout 不包含任何旧 Guardrails 运行时或悬空链接；V3_ifx 和保留的独立门禁均不读取已删除路径；工作流清单只删除被证明等价替代的 Coding Guardrails workflow。
+- [ ] P5.1 新建 `.github/workflows/v3-ifx-guardrails.yml`，包含稳定命名的 Pre/Diff、Architecture、Specialized.G03/G04/G05/Plan04/Database、Quality.Solution/Assembly/Frontend 和按触发条件运行的 HistoricalIntegrity jobs。
+- [ ] P5.2 workflow 在 PR 和 main push 上运行；需要历史完整性全量审计时增加 schedule/manual。checkout 为 Diff 提供完整或足够 Git 历史，显式传入 base/head SHA；固定 .NET、PowerShell、Node、NuGet 和数据库服务前提。
+- [ ] P5.3 Architecture 只调用一次 `Invoke-IFX`。所有专项 job 禁止调用 `Invoke-LayerGuard`、`Invoke-IFX` 或另一个完整专项入口；通过 needs/artifact/summary 复用已完成结论。
+- [ ] P5.4 迁移期保留七个旧 workflow 并行运行，不改变其 required 状态。对同一提交比较新旧结论、报告、负例和耗时；记录预期差异及原因。
+- [ ] P5.5 Linux 和 Windows 分别运行需要跨平台证明的 Validate/Generate Check/Diff/tests；耗时 build/test 按 P3.7 去重。所有 job 即使失败也上传 JSON、TRX 和日志。
+- **验收**：正常 PR 所需 V3 jobs 全绿；生成漂移、缺 decision、越界 diff、LayerGuard 违规、G03/G04/G05/Plan04/Database 违规、Domain assembly 违规和 frontend 失败均被对应 V3 job 阻断。
 
-## P6 — 最终回归、证据与回退验证
+## P6 — 切换 required checks 与唯一生产入口
 
-- [ ] P6.1 在干净 Linux 和 Windows checkout 运行 V3/V3_ifx Validate、Generate/Check、Docs Check、Pre/Diff 正反例、V3 stage Test、IFX package/tools tests、IFX strict scan、`mcp/LayerGuard` 全测试与严格扫描。
-- [ ] P6.2 运行 solution build、相关 .NET 测试、frontend lint/test/build，以及 G03/G04/G05/Plan 04/数据库专项 workflow 的本地等价命令。记录实际通过数、warning、报告路径和未执行的外部步骤。
-- [ ] P6.3 从删除前提交演练回退：只恢复旧 Coding Guardrails workflow、根配置、脚本和测试即可重新运行旧门禁；回退不得修改或重建 `mcp/LayerGuard`、其 baseline 或专项 gate 权威。
-- [ ] P6.4 在 `V3_ifx/DEPLOYMENT.md` 和迁移记录中写明最终 CI job、required check、维护入口、生成流程、故障排查、保留的独立门禁及已删除内容。计划状态只有在全部机械与外部条件完成后才改为已完成。
-- **验收**：新生产入口可从干净 checkout 重现；全部故意违规负例仍失败；无 tracked/untracked 旧目录回生；`mcp/LayerGuard` 与专项门禁保持独立、可执行、可追踪。
+- [ ] P6.1 在同一提交上形成新旧全门禁对等报告。V3 Architecture 必须为零 entry baseline clean；五类专项、solution、assembly 和 frontend 必须满足旧门禁覆盖矩阵。
+- [ ] P6.2 将 branch protection/ruleset required checks 从 `layerguard.yml`、Coding Guardrails 和五个专项 workflow 切换到 `v3-ifx-guardrails.yml` 的稳定 jobs。记录配置前后、API/UI 证据和实际 check 名称。
+- [ ] P6.3 切换后运行正常 PR 和故意违规 PR，证明 required checks 实际阻止合入。workflow 文件存在或本地通过不能代替 required-check 生效证据。
+- [ ] P6.4 停止旧 production workflow 的自动触发，但在一个短观察窗口内保留文件和手动回退方式；确认生产 PR 只出现一次完整 Architecture scan。
+- [ ] P6.5 如果权限、套餐或外部服务阻止 required-check 切换，记录阻塞并保持旧 workflow 活跃；不得进入删除阶段。
+- **验收**：V3_ifx 是唯一生产门禁入口；LayerGuard、专项、历史、assembly、frontend 和 Diff 都由 V3 jobs 强制；同一提交不再重复执行完整 LayerGuard。
+
+## P7 — 删除旧入口、实现和非 V3 文档
+
+- [ ] P7.1 删除 `.github/workflows/layerguard.yml`、`coding-guardrails.yml`、`contract-event-governance.yml`、`g04-deployment-runtime.yml`、`g05-context-boundary.yml`、`plan04-governance.yml` 和 `database-migrations.yml`。最终只保留调用 V3_ifx 的统一 workflow；如仓库还有非 guard workflow，不受本计划影响。
+- [ ] P7.2 删除已迁移的 `scripts/guards/`、`tests/guards/`、根 LayerGuard wrapper、G03/G04/G05/Plan04/Database validator 与对应仅供旧实现使用的 fixture。使用能力矩阵生成精确 allowlist，禁止递归删除整个 `scripts` 或 `tests`。
+- [ ] P7.3 处理旧 `src/layerguard.json`：若不再有运行时引用则删除；若审计要求保留则移入明确的 history/evidence 路径并冻结 hash。它不得继续与 `V3_ifx/policy/layerguard.json` 同时作为人工可编辑权威。
+- [ ] P7.4 删除 `docs/guards` 下非 V3、非 plans 的 README、bindings、contracts、decisions、generated、inputs、principles 和 templates。执行前验证每个目标的解析路径严格位于 `docs/guards` 且不位于 `docs/guards/plans`。
+- [ ] P7.5 更新 README、CLAUDE/Agent guidance、workflow、脚本、测试、CODEOWNERS 和文档链接。对旧入口、旧 check 名、待删除路径、`Invoke-LayerGuard` 和根专项 validator 执行零运行时引用扫描；历史文字若保留必须明确标注为历史且不提供失效命令。
+- [ ] P7.6 断言 `mcp/LayerGuard` tracked 文件与全部历史 baseline 仍存在；断言 `docs/guards` 顶层只含 `V3`、`V3_backup`、`V3_ifx`、`plans`。
+- **验收**：干净 checkout 不包含旧 Guardrails 运行时、重复 workflow、第二套可编辑 policy 或悬空链接；唯一生产调用链全部进入 V3_ifx。
+
+## P8 — 最终回归、证据与回退验证
+
+- [ ] P8.1 在干净 Linux 和 Windows checkout 运行 V3 Validate/Generate/Check/Docs、Pre/Diff 正反例、Architecture、全部 Specialized、HistoricalIntegrity、Quality.Solution/Assembly/Frontend 和 package/tools tests。
+- [ ] P8.2 验证所有故意违规 fixture：policy/hash drift、project/source/compiled boundary、G03 catalog/source、G04 runtime/release、G05 context/security、Plan04 tenant/projection、database migration、history tamper、frontend failure 均返回非零并生成合规报告。
+- [ ] P8.3 验证去重：一次 CI run 中完整 LayerGuard 恰好一次，G03/Database/solution 全量逻辑不被多个 job 重复执行；记录各 job 耗时与总耗时变化。
+- [ ] P8.4 从删除前提交演练回退：恢复旧 workflow、根脚本和配置即可重启旧门禁；回退不修改保留的 `mcp/LayerGuard` 历史项目和领域权威事实。
+- [ ] P8.5 在 V3_ifx DEPLOYMENT、migration record 和本计划中记录最终 job、required checks、权威来源、生成流程、报告位置、故障排查、回退步骤与已删除清单。只有全部机械和外部条件完成后才将计划标记为完成。
+- **验收**：新生产入口可从干净 checkout 重现；所有 blocking 正反例、跨平台和真实 PR 强制均有可审查证据；没有 tracked/untracked 旧目录回生。
 
 ## 删除门槛
 
-以下条件必须全部满足，才能执行 P5：
+以下条件必须全部满足，才能执行 P7：
 
-1. V3_ifx 已覆盖旧 Coding Guardrails 四个 job 的实际职责，并有正反例证明。
-2. 新 workflow 已在真实 PR 与 main 路径运行；需要的 Linux/Windows job 均通过。
-3. V3_ifx Diff 使用真实 base/head changed set，并保留高风险 decision 和受保护删除语义。
-4. compiled architecture 覆盖不低于旧 Domain assembly guard；零匹配、缺程序集和陈旧程序集失败关闭。
-5. frontend quality 和各专项 workflow 仍处于活动状态。
-6. `mcp/LayerGuard` 项目、policy、baseline、脚本和 workflow 已通过存在性与运行验证。
-7. required checks 已实际切换；如果受套餐或权限阻塞，则不得删除旧 workflow。
-8. 所有待删除路径的运行时引用为零，需保留的历史资料已经迁入 V3_ifx 或 `docs/guards/plans`；清理命令明确排除 plans。
+1. V3_ifx 已覆盖旧 Coding Guardrails、LayerGuard、G03、G04、G05、Plan04、Database、Domain assembly 和 frontend 的实际职责，并有正反例证明。
+2. 新 workflow 已在真实 PR 与 main 路径运行；所需 Linux/Windows、数据库和 frontend jobs 均通过。
+3. V3 Diff 使用真实 base/head changed set，并保留高风险 decision、重命名、未跟踪文件和受保护删除语义。
+4. V3 Architecture 使用唯一 policy 和零 entry baseline，且一次 CI 只运行一次完整 LayerGuard。
+5. 专项 detector 已迁入 V3_ifx，不再通过 wrapper 调用根旧 validator；静态交集通过上游报告复用，独有行为测试仍在。
+6. compiled architecture 覆盖不低于旧全模块 Domain assembly guard；零匹配、缺程序集和陈旧程序集失败关闭。
+7. frontend `npm ci`、lint、test、build 与数据库发布/SQL matrix 均有实际运行证据。
+8. HistoricalIntegrity 能阻止历史证据删除/篡改，同时不再断言失效的旧流程状态。
+9. required checks 已实际切换；如果受权限或外部服务阻塞，则不得删除任何旧 production workflow。
+10. `mcp/LayerGuard/**`、`docs/guards/plans/**` 和领域权威事实已通过存在性、hash 和清理排除断言。
+11. 所有待删除路径的运行时引用为零，V3 package-local policy projection 可由唯一权威输入重现。
 
 ## 完成定义
 
-完成后，`docs/guards` 顶层只包含 `V3`、`V3_backup`、`V3_ifx` 和 `plans`。Plan 01–05 保留在 `docs/guards/plans`，后续计划沿用该目录和编号。新的 `.github/workflows/v3-ifx-guardrails.yml` 从 V3_ifx 读取唯一的 IFX profile、policy、contracts、tests 和生成物，并承担旧 Coding Guardrails 的阶段、Diff、架构补充和前端质量编排。`mcp/LayerGuard` 及其生产 workflow 完整保留并继续独立执行；G03/G04/G05、Plan 04 和数据库等专项门禁未被静态 V3 快照替代。清理后所有生成检查、正反例、跨平台 CI、solution/frontend 回归和真实 PR required checks 都有可审查证据，且不存在对已删除路径的运行时引用。
+完成后，`docs/guards` 顶层只包含 `V3`、`V3_backup`、`V3_ifx` 和 `plans`。Plan 01–05 保留在 `docs/guards/plans`，`mcp/LayerGuard` 项目及历史 baselines 完整保留但不参与生产 CI。
+
+`.github/workflows/v3-ifx-guardrails.yml` 是唯一 IFX 门禁 workflow。它从 V3_ifx 调用 Pre、Diff、Architecture、Specialized、Quality 和 HistoricalIntegrity；完整 LayerGuard 在每次 CI 中只执行一次。G03/G04/G05、Plan 04 和 Database 的检测器实现、fixture、报告契约及编排属于 V3_ifx，领域事实仍保持各自唯一权威。历史门禁保护冻结证据完整性，不再把旧迁移阶段状态当作当前 readiness。
+
+所有旧 workflow、根 guard 实现、重复配置和非 V3 文档都只在对等验证与 required-check 切换后删除。最终从干净 checkout 可重现全部正反门禁，所有报告可审查，所有故意违规仍失败，且不存在第二套生产 policy、重复完整扫描或对已删除路径的运行时引用。
