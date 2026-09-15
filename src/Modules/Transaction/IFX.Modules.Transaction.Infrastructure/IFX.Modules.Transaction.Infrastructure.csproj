@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\CRM\IFX.Modules.CRM.Contracts\IFX.Modules.CRM.Contracts.csproj" />
     <ProjectReference Include="..\..\Registry\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Runtime\IFX.Platform.Context.Runtime.csproj" />
   </ItemGroup>
-  <ItemGroup><ProjectReference Include="..\..\IAM\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="..\..\IAM\IFX.Modules.IAM.Client\IFX.Modules.IAM.Client.csproj" /></ItemGroup>
 </Project>

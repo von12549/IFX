@@ -9,6 +9,7 @@ using IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.CRM;
 using IFX.IntegrationTests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using IFX.Platform.Context.Runtime.Outbound;
 
 namespace IFX.IntegrationTests.Composition;
 
@@ -55,7 +56,9 @@ public sealed class ContractAdapterCompositionTests
             .Callback<AccountComplianceRequest, IFX.Platform.Context.Contracts.Context.ContractRequestContext, CancellationToken>(
                 (_, context, _) => observed.Add(context))
             .ReturnsAsync(new AccountComplianceResponse(true));
-        var adapter = new AccountComplianceAdapter(accessor, contract.Object);
+        var adapter = new AccountComplianceAdapter(
+            new OutboundContractRequestContextFactory(accessor),
+            contract.Object);
 
         await adapter.IsApprovedAsync(Guid.NewGuid(), TenantId, CancellationToken.None);
         await adapter.IsApprovedAsync(Guid.NewGuid(), TenantId, CancellationToken.None);
@@ -88,7 +91,9 @@ public sealed class ContractAdapterCompositionTests
             .ThrowsAsync(failure == "timeout"
                 ? new TimeoutException()
                 : new AccountComplianceContractException("contract_unavailable"));
-        var adapter = new AccountComplianceAdapter(new FixedExecutionContextAccessor(current), contract.Object);
+        var adapter = new AccountComplianceAdapter(
+            new OutboundContractRequestContextFactory(new FixedExecutionContextAccessor(current)),
+            contract.Object);
         var requestedTenant = failure == "tenant-mismatch" ? Guid.NewGuid() : TenantId;
 
         var result = await adapter.IsApprovedAsync(Guid.NewGuid(), requestedTenant, CancellationToken.None);
@@ -111,7 +116,9 @@ public sealed class ContractAdapterCompositionTests
                 It.IsAny<CancellationToken>()))
             .Returns((AccountComplianceRequest _, IFX.Platform.Context.Contracts.Context.ContractRequestContext _, CancellationToken token) =>
                 Task.FromCanceled<AccountComplianceResponse>(token));
-        var adapter = new AccountComplianceAdapter(new FixedExecutionContextAccessor(current), contract.Object);
+        var adapter = new AccountComplianceAdapter(
+            new OutboundContractRequestContextFactory(new FixedExecutionContextAccessor(current)),
+            contract.Object);
 
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
             adapter.IsApprovedAsync(Guid.NewGuid(), TenantId, cancellation.Token));

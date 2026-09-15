@@ -6,6 +6,7 @@ using IFX.Modules.IAM.Application.Ports.Authorization;
 using IFX.Modules.IAM.Infrastructure.Integrations.Inbound;
 using IFX.Platform.Context.Contracts;
 using IFX.Platform.Context.Contracts.Context;
+using IFX.Platform.Context.Runtime.Inbound;
 using Moq;
 using Contract = IFX.Modules.IAM.Contracts.V1.Authorization;
 
@@ -38,7 +39,9 @@ public sealed class IamInboundAdapterContextTests
         var evaluation = new Mock<IPolicyEvaluationPort>(MockBehavior.Strict);
         var service = new ResourceAuthorizationService(current.Object, policy.Object, evaluation.Object,
             Mock.Of<IAuthorizationEnvironmentPort>(), execution.Object);
-        var adapter = new ResourceAuthorizationInboundAdapter(service, execution.Object);
+        var adapter = new ResourceAuthorizationInboundAdapter(
+            service,
+            new InboundContractContextValidator(execution.Object));
         var context = new ContractRequestContext(Guid.NewGuid(), snapshot.CorrelationId.Value, null,
             scenario == "tenant-scope" ? "tenant" : "platform",
             scenario == "tenant-scope" ? Guid.NewGuid() : null,

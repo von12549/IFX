@@ -11,6 +11,8 @@ using IFX.Modules.Registry.Infrastructure.Integrations.Inbound;
 using IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.CRM;
 using IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.Registry;
 using IFX.Platform.Context.Contracts.Context;
+using IFX.Platform.Context.Runtime.Inbound;
+using IFX.Platform.Context.Runtime.Outbound;
 using Moq;
 
 namespace IFX.IntegrationTests.Composition;
@@ -34,12 +36,12 @@ public sealed class ProviderInboundAdapterTests
         registryData.Setup(value => value.IsClassOpenForSubscriptionAsync(classId, TenantId, It.IsAny<CancellationToken>()))
             .Callback(() => execution.Current.Source.Component.Should().Be("registry-provider"))
             .ReturnsAsync(false);
-        var crmInbound = new AccountComplianceInboundAdapter(
-            new AccountComplianceUseCase(crmData.Object, execution), execution, execution);
-        var registryInbound = new ClassSubscriptionAvailabilityInboundAdapter(
+        var crmInbound = CrmAdapter(new AccountComplianceUseCase(crmData.Object, execution), execution, execution);
+        var registryInbound = RegistryAdapter(
             new ClassSubscriptionAvailabilityUseCase(registryData.Object, execution), execution, execution);
-        var crmOutbound = new AccountComplianceAdapter(execution, crmInbound);
-        var registryOutbound = new ClassSubscriptionAvailabilityAdapter(execution, registryInbound);
+        var outboundContextFactory = new OutboundContractRequestContextFactory(execution);
+        var crmOutbound = new AccountComplianceAdapter(outboundContextFactory, crmInbound);
+        var registryOutbound = new ClassSubscriptionAvailabilityAdapter(outboundContextFactory, registryInbound);
 
         using (execution.Push(outer))
         {
@@ -65,7 +67,7 @@ public sealed class ProviderInboundAdapterTests
             .ReturnsAsync(approved);
         ExecutionContextSnapshot? child = null;
         var scopeFactory = ScopeFactory(value => child = value);
-        var adapter = new AccountComplianceInboundAdapter(useCase.Object, scopeFactory.Object, Accessor(current));
+        var adapter = CrmAdapter(useCase.Object, scopeFactory.Object, Accessor(current));
 
         var response = await adapter.CheckAsync(new(accountId, TenantId), Context(current));
 
@@ -88,7 +90,7 @@ public sealed class ProviderInboundAdapterTests
     {
         var current = Current();
         var useCase = new Mock<IAccountComplianceUseCase>(MockBehavior.Strict);
-        var adapter = new AccountComplianceInboundAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
+        var adapter = CrmAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
         var context = Context(current,
             source: scenario == "unknown-consumer" ? "unknown" : "transaction",
             provenance: scenario == "untrusted" ? ContractRequestContext.SynthesizedProvenance : ContractRequestContext.TrustedProvenance,
@@ -110,7 +112,7 @@ public sealed class ProviderInboundAdapterTests
         var useCase = new Mock<IAccountComplianceUseCase>();
         useCase.Setup(value => value.IsApprovedAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("database-secret"));
-        var adapter = new AccountComplianceInboundAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
+        var adapter = CrmAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
 
         var failure = await Assert.ThrowsAsync<AccountComplianceContractException>(() =>
             adapter.CheckAsync(new(Guid.NewGuid(), TenantId), Context(current)));
@@ -125,8 +127,7 @@ public sealed class ProviderInboundAdapterTests
     {
         var current = Current();
         var useCase = new Mock<IAccountComplianceUseCase>(MockBehavior.Strict);
-        var adapter = new AccountComplianceInboundAdapter(useCase.Object, ScopeFactory().Object,
-            Mock.Of<IExecutionContextAccessor>());
+        var adapter = CrmAdapter(useCase.Object, ScopeFactory().Object, Mock.Of<IExecutionContextAccessor>());
 
         var failure = await Assert.ThrowsAsync<AccountComplianceContractException>(() =>
             adapter.CheckAsync(new(Guid.NewGuid(), TenantId), Context(current)));
@@ -140,7 +141,7 @@ public sealed class ProviderInboundAdapterTests
     {
         var current = Current();
         var useCase = new Mock<IAccountComplianceUseCase>(MockBehavior.Strict);
-        var adapter = new AccountComplianceInboundAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
+        var adapter = CrmAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
         using var cancellation = new CancellationTokenSource();
         cancellation.Cancel();
 
@@ -160,8 +161,7 @@ public sealed class ProviderInboundAdapterTests
         var classId = Guid.NewGuid();
         useCase.Setup(value => value.IsOpenAsync(classId, TenantId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(isOpen);
-        var adapter = new ClassSubscriptionAvailabilityInboundAdapter(
-            useCase.Object, ScopeFactory().Object, Accessor(current));
+        var adapter = RegistryAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
 
         var response = await adapter.CheckAsync(new(classId, TenantId), Context(current));
 
@@ -177,8 +177,7 @@ public sealed class ProviderInboundAdapterTests
     {
         var current = Current();
         var useCase = new Mock<IClassSubscriptionAvailabilityUseCase>(MockBehavior.Strict);
-        var adapter = new ClassSubscriptionAvailabilityInboundAdapter(
-            useCase.Object, ScopeFactory().Object, Accessor(current));
+        var adapter = RegistryAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
         var context = Context(current,
             source: scenario == "unknown-consumer" ? "unknown" : "transaction",
             provenance: scenario == "untrusted" ? ContractRequestContext.SynthesizedProvenance : ContractRequestContext.TrustedProvenance);
@@ -198,8 +197,7 @@ public sealed class ProviderInboundAdapterTests
         var useCase = new Mock<IClassSubscriptionAvailabilityUseCase>();
         useCase.Setup(value => value.IsOpenAsync(It.IsAny<Guid>(), TenantId, It.IsAny<CancellationToken>()))
             .ThrowsAsync(new TimeoutException("internal timeout"));
-        var adapter = new ClassSubscriptionAvailabilityInboundAdapter(
-            useCase.Object, ScopeFactory().Object, Accessor(current));
+        var adapter = RegistryAdapter(useCase.Object, ScopeFactory().Object, Accessor(current));
 
         var failure = await Assert.ThrowsAsync<ClassSubscriptionAvailabilityContractException>(() =>
             adapter.CheckAsync(new(Guid.NewGuid(), TenantId), Context(current)));
@@ -234,6 +232,24 @@ public sealed class ProviderInboundAdapterTests
         accessor.SetupGet(value => value.Current).Returns(current);
         return accessor.Object;
     }
+
+    private static AccountComplianceInboundAdapter CrmAdapter(
+        IAccountComplianceUseCase useCase,
+        IExecutionContextScopeFactory scopeFactory,
+        IExecutionContextAccessor accessor) => new(
+        useCase,
+        scopeFactory,
+        new InboundContractContextValidator(accessor),
+        new ProviderExecutionContextFactory());
+
+    private static ClassSubscriptionAvailabilityInboundAdapter RegistryAdapter(
+        IClassSubscriptionAvailabilityUseCase useCase,
+        IExecutionContextScopeFactory scopeFactory,
+        IExecutionContextAccessor accessor) => new(
+        useCase,
+        scopeFactory,
+        new InboundContractContextValidator(accessor),
+        new ProviderExecutionContextFactory());
 
     private static Mock<IExecutionContextScopeFactory> ScopeFactory(Action<ExecutionContextSnapshot>? observe = null)
     {

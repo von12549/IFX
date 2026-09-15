@@ -59,6 +59,7 @@ IFX.Modules.Transaction.Infrastructure/Integrations/Outbound/CRM
 
 - 实现消费者自己的 Application Port；
 - 引用提供方 Contracts；
+- 对多模块共用且语义完全一致的调用，可委托 provider-owned Client；具体 Adapter 仍固定 consumer identity 并保留本模块 Port；
 - 转换 Request/Response；
 - 归一化 NotFound、Denied、Unavailable、Timeout 等技术结果；
 - 将来可从进程内实现替换成 HTTP/gRPC Client。
@@ -66,8 +67,8 @@ IFX.Modules.Transaction.Infrastructure/Integrations/Outbound/CRM
 提供方同步入站 Adapter：
 
 - 位于提供方 `Infrastructure/Integrations/Inbound`，实现提供方公开 V1 接口；
-- 在调用 Application 前验证受控 consumer、context/source version、scope、可信执行上下文与资源 tenant；
-- 建立隔离的提供方执行 scope，将公共 DTO 转换为 Application 自有用例输入；
+- 选择不可变入口 policy，并在调用 Application 前委托 `IFX.Platform.Context.Runtime` 验证受控 consumer、context/source version、scope、可信执行上下文与资源 tenant；
+- 使用同一 Runtime 建立隔离的提供方执行 scope，将公共 DTO 转换为 Application 自有用例输入；
 - 将取消、业务结果和边界故障映射为稳定的公开语义，不承载业务授权或数据规则。
 
 入站事件 Adapter：
@@ -124,6 +125,8 @@ ApiHost 不应直接知道或注册模块的具体业务实现，否则它会成
 - 出站 Adapter 可以引用提供方 Contracts，但不得引用提供方 Application、Domain 或 Infrastructure。
 - 不得读取或写入其他模块的 DbContext、schema 或 Repository。
 - 入站消息 Handler 将外部事件转换为本模块 Application Command。
+- 同步 Contract Adapter 可引用 `IFX.Platform.Context.Runtime`；只有 Infrastructure/Composition 可以引用 provider-owned `IFX.Modules.IAM.Client`。
+- IAM Client 负责版本化 IAM DTO、context 构造和统一拒绝映射，但不能实现或替换消费者 Application Port。
 
 ### 3.5 Presentation
 
@@ -148,8 +151,10 @@ ApiHost 不应直接知道或注册模块的具体业务实现，否则它会成
 Transaction.Application
   → Transaction-owned Port
   → Transaction CRM/Registry Adapter
+  → IFX.Platform.Context.Runtime 构造 outbound context
   → provider Contracts
   → provider Infrastructure Inbound Adapter
+  → IFX.Platform.Context.Runtime 验证并构造 provider child context
   → provider Application UseCase
   → provider Domain/Repository Port
   → provider Infrastructure
@@ -222,7 +227,7 @@ A.Contracts interface
   ← loaded when ApiHost calls AddModuleA
 ```
 
-消费者 Adapter 只需要引用提供方 Contracts。运行时共享 DI 容器会把 Contract 解析到提供方注册的 Inbound Adapter，再由后者调用 Application 用例。
+直接桥接 Contract 的消费者 Adapter 引用提供方 Contracts；多个模块共用 IAM V1 调用时，消费者 Infrastructure 改为引用 provider-owned IAM Client。两种方式都由具体 Adapter 实现本模块 Application Port 并固定 consumer identity。运行时共享 DI 容器把 Contract 解析到提供方注册的 Inbound Adapter，再由后者调用 Application 用例。
 
 如果 ApiHost 没有加载必需的提供方模块，应在容器验证或模块依赖验证阶段快速失败，而不是在首次业务请求中产生模糊错误。
 

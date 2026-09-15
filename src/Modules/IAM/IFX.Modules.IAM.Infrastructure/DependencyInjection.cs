@@ -27,6 +27,8 @@ using IFX.Modules.IAM.Infrastructure.Users.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using IFX.Platform.Context.Runtime.Inbound;
 
 namespace IFX.Modules.IAM.Infrastructure;
 
@@ -36,6 +38,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.TryAddScoped<InboundContractContextValidator>();
+        services.TryAddSingleton<ProviderExecutionContextFactory>();
         // Register Memory Cache (shared by all providers for OIDC state/PKCE)
         services.AddMemoryCache();
 

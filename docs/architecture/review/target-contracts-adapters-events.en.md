@@ -59,6 +59,7 @@ An outbound adapter:
 
 - implements a consumer-owned Application Port;
 - references provider Contracts;
+- may delegate a call that is identical across modules to a provider-owned Client, while the concrete adapter keeps its module Port and fixed consumer identity;
 - translates requests and responses;
 - normalizes technical outcomes such as NotFound, Denied, Unavailable, and Timeout; and
 - can later change from an in-process implementation to an HTTP/gRPC client.
@@ -66,8 +67,8 @@ An outbound adapter:
 A provider synchronous inbound adapter:
 
 - lives under the provider's `Infrastructure/Integrations/Inbound` and implements its public V1 interface;
-- validates the registered consumer, context/source version, scope, trusted execution context, and resource tenant before invoking Application;
-- creates an isolated provider execution scope and maps public DTOs to provider-owned use-case inputs; and
+- selects an immutable ingress policy and delegates validation of the registered consumer, context/source version, scope, trusted execution context, and resource tenant to `IFX.Platform.Context.Runtime` before invoking Application;
+- uses the same Runtime to create an isolated provider execution scope and maps public DTOs to provider-owned use-case inputs; and
 - maps cancellation, business results, and boundary failures to stable public semantics without taking ownership of business authorization or data rules.
 
 An inbound event adapter:
@@ -124,6 +125,8 @@ ApiHost should not know or register concrete module business implementations; do
 - An outbound adapter may reference provider Contracts but never the provider Application, Domain, or Infrastructure.
 - It never queries or updates another module's DbContext, schema, or repository.
 - An inbound message handler translates an external event into a module-owned Application command.
+- Synchronous Contract adapters may reference `IFX.Platform.Context.Runtime`; only Infrastructure and Composition may reference the provider-owned `IFX.Modules.IAM.Client`.
+- The IAM Client owns versioned IAM DTO/context construction and common denial mapping, but cannot implement or replace a consumer Application Port.
 
 ### 3.5 Presentation
 
@@ -148,8 +151,10 @@ The target path is:
 Transaction.Application
   → Transaction-owned Port
   → Transaction CRM/Registry Adapter
+  → IFX.Platform.Context.Runtime builds outbound context
   → provider Contracts
   → provider Infrastructure Inbound Adapter
+  → IFX.Platform.Context.Runtime validates and builds provider child context
   → provider Application UseCase
   → provider Domain/Repository Port
   → provider Infrastructure
@@ -222,7 +227,7 @@ A.Contracts interface
   ← loaded when ApiHost calls AddModuleA
 ```
 
-The consumer Adapter references only provider Contracts. At runtime, the shared DI container resolves the Contract to the provider inbound adapter, which invokes its Application use case.
+A consumer Adapter that bridges a Contract directly references the provider Contracts. When several modules share the IAM V1 call, consumer Infrastructure references the provider-owned IAM Client instead. In both cases the concrete adapter implements its module Application Port and fixes the consumer identity. At runtime, the shared DI container resolves the Contract to the provider inbound adapter, which invokes its Application use case.
 
 If ApiHost omits a required provider module, container validation or explicit module-dependency validation should fail fast instead of producing an ambiguous error on the first business request.
 

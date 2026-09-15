@@ -7,7 +7,7 @@
 > 当前阶段后续计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) — 仓库验证通过，具名审批前 PRE-READY
 > 新增独立演进计划：[`05-iam-platform-security-refactor.md`](05-iam-platform-security-refactor.md) — Auth → IAM 与平台认证/授权拆分，Phase 0–7 仓库实施与隔离验证完成；目标数据审计、真实 IdP 与发布验收待执行
 > 新增独立演进计划：[`06-contract-adapter-event-boundary.md`](06-contract-adapter-event-boundary.md) — 提供方入站 Adapter、Application 与公开 Contracts 解耦，以及内部事实到 V1 事件的 Infrastructure 映射；Phase 0–6 与 repository verification 完成，G03 closure 保持 PRE-READY
-> 新增独立演进计划：[`07-contract-adapter-common-runtime.md`](07-contract-adapter-common-runtime.md) — 提取同步 Inbound context validation/provider scope、Outbound context factory 与 IAM Contract client，减少安全边界代码重复；草案，尚未实施
+> 已完成独立演进计划：[`07-contract-adapter-common-runtime.md`](07-contract-adapter-common-runtime.md) — 提取同步 Inbound context validation/provider scope、Outbound context factory 与 IAM Contract client，减少安全边界代码重复；repository implementation 与验证已完成
 > 配套讨论：[`Platform 能力与租户连接`](../platform-capabilities-and-tenant-connections.zh-CN.md) — 独立讨论记录，不改变既有计划状态
 
 ## 一句话理解本次改造

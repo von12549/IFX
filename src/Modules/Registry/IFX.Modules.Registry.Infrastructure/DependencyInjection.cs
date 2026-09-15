@@ -9,6 +9,10 @@ using IFX.Modules.Registry.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using IFX.Platform.Context.Runtime.Inbound;
+using IFX.Platform.Context.Runtime.Outbound;
+using IFX.Modules.IAM.Client.Authorization;
 using IFX.Modules.Registry.Infrastructure.Messaging;
 using IFX.Modules.Registry.Infrastructure.Integrations.Outbound.IAM;
 using IFX.Modules.Registry.Infrastructure.Integrations.Outbound.Persistence;
@@ -21,6 +25,10 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.TryAddScoped<InboundContractContextValidator>();
+        services.TryAddSingleton<ProviderExecutionContextFactory>();
+        services.TryAddScoped<OutboundContractRequestContextFactory>();
+        services.TryAddScoped<IamResourceAuthorizationClient>();
         // Register DbContext
         var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(
             configuration,

@@ -4,8 +4,8 @@
 
 ## 状态与范围
 
-自 2026-09-09 起，仓库使用 B4 严格策略。39 个受管项目为零 finding、零 waiver；
-`mcp/LayerGuard/baselines/b4.json` 没有 entry。`scripts/Invoke-LayerGuard.ps1` 是本地和 CI
+自 2026-09-09 起，仓库使用 B4 严格策略。Plan 07 当前扫描 51 个受管项目，保持零 finding、零 waiver；
+`mcp/LayerGuard/baselines/plan07.json` 没有 entry。`scripts/Invoke-LayerGuard.ps1` 是本地和 CI
 统一入口。工具无法完成扫描、Gate 输入缺失或 hash 漂移、出现新 finding、baseline
 陈旧/过期，均以非零退出码失败。
 
@@ -24,7 +24,8 @@ replay 语义分别由 G03 catalog/validator 与 G05 schema/security/runtime tes
 | Presentation | `IFX.Modules.*.Presentation` | own Application/Domain/Contracts |
 | Integration Adapter | 独立 Integration 项目或 `Infrastructure.Integrations` namespace | own Application Port、G03 登记的 provider Contracts |
 | Infrastructure | 模块 Infrastructure、平台 `Infrastructure.*` | own Application/Domain/Contracts、受限 Runtime/平台 primitives |
-| Runtime | `IFX.Platform.*.Runtime` | Contracts |
+| Client | `IFX.Modules.*.Client` | provider own Contracts、受限 Runtime 与 BuildingBlocks primitive |
+| Runtime | `IFX.Platform.*.Runtime` | Contracts 与受限 BuildingBlocks primitive |
 | Composition | 模块/平台 Composition | 自有各层与必要平台运行项目 |
 | Runtime Host | `IFX.ApiHost`、`IFX.*.Worker` | Composition 与批准的 host primitives |
 
@@ -41,6 +42,7 @@ role 来自 G04 artifacts；Context/Messaging primitive 许可来自 G05。modul
 | Domain isolation | Domain → BuildingBlocks.Domain | Domain → Contracts；`RING-DIRECTION` | 将公共传输类型移出 Domain 逻辑，Domain 保持独立 |
 | provider graph | Adapter → catalog 登记 provider Contracts | 未登记 provider 或同步环；`PROVIDER-CONTRACT`/`PROVIDER-CYCLE` | 更新真实设计及 G03 catalog，不能复制 allow-list 绕过 |
 | Adapter declaration | Outbound Adapter 实现本模块 Application Port；Inbound Adapter 实现提供方自己的 Contract | Adapter 位于错误 namespace 或实现错误层/ownership；`DECLARATION-NAMESPACE` | 将桥接实现放入 Infrastructure/Integration 的 `Integrations` namespace |
+| provider Client | Infrastructure → IAM.Client → IAM.Contracts/Context.Runtime | Application/Domain → Client，或 Client → consumer module；`RING-DIRECTION`/`OWNERSHIP-REFERENCE` | 保留 consumer-owned Port，由 Infrastructure 薄 Adapter 固定 identity 并委托 Client |
 | host boundary | ApiHost → module Composition | ApiHost → Application/Domain；`RING-DIRECTION`/`IMPORT-DIRECTION` | 在 Composition 暴露 host-safe façade/DTO |
 | Contracts purity | record/DTO 使用 string、Guid、DateTimeOffset | EF/MediatR/ASP.NET/DI/broker/JWT/ILogger；`RING-PACKAGE*`/`SYMBOL-FORBIDDEN` | 将行为与框架适配移到 Application/Infrastructure |
 | declaration placement | `*IntegrationEvent` 位于 provider `Contracts.Events` | Handler/Repository/DbContext 位于 Contracts；`DECLARATION-*` | 移到 Application 或 Infrastructure |
@@ -63,7 +65,7 @@ B4 不包含 waiver。若未来确有临时例外，必须包含 owner、风险�
 
 执行顺序为：G03 catalog/source reconciliation → 读取并 hash 验证 G03/G04/G05 artifact →
 发现项目和 ownership → 构建直接/传递项目图 → 分析源码 import/声明/类型 → 应用规则 →
-对账当前零 entry Plan 06 baseline（B4 历史证据保持不变）→ 发布独立 LayerGuard 和 Gate semantic 报告。
+对账当前零 entry Plan 07 baseline（B4/Plan 06 历史证据保持不变）→ 发布独立 LayerGuard 和 Gate semantic 报告。
 
 图示：
 
@@ -80,5 +82,5 @@ B4 不包含 waiver。若未来确有临时例外，必须包含 owner、风险�
 ./scripts/Test-Plan03B4StrictClosure.ps1
 ```
 
-第一条运行 LayerGuard 工具测试与当前 Plan 06 仓库扫描；第二条验证 B4 零 finding、空 baseline、历史
+第一条运行 LayerGuard 工具测试与当前 Plan 07 仓库扫描；第二条验证 B4 零 finding、空 baseline、历史
 下降序列、兼容规则移除、依赖图和 CI 严格入口。

@@ -4,8 +4,8 @@
 
 ## Status and scope
 
-The repository uses the B4 strict policy from 2026-09-09. All 39 governed projects are at zero
-findings and zero waivers; `mcp/LayerGuard/baselines/b4.json` has no entries.
+The repository uses the B4 strict policy from 2026-09-09. The Plan 07 scan currently covers 51
+governed projects at zero findings and zero waivers; `mcp/LayerGuard/baselines/plan07.json` has no entries.
 `scripts/Invoke-LayerGuard.ps1` is the shared local and CI entry point. An incomplete scan, missing
 or hash-drifted Gate input, a new finding, or a stale/expired baseline fails with a non-zero exit.
 
@@ -25,7 +25,8 @@ result from either side never masks failure on the other.
 | Presentation | `IFX.Modules.*.Presentation` | own Application/Domain/Contracts |
 | Integration Adapter | separate Integration project or `Infrastructure.Integrations` namespace | own Application Port and G03-registered provider Contracts |
 | Infrastructure | module Infrastructure and platform `Infrastructure.*` | own Application/Domain/Contracts and constrained Runtime/platform primitives |
-| Runtime | `IFX.Platform.*.Runtime` | Contracts |
+| Client | `IFX.Modules.*.Client` | provider-owned Contracts and constrained Runtime/BuildingBlocks primitives |
+| Runtime | `IFX.Platform.*.Runtime` | Contracts and constrained BuildingBlocks primitives |
 | Composition | module/platform Composition | its own layers and required platform runtime projects |
 | Runtime Host | `IFX.ApiHost`, `IFX.*.Worker` | Composition and approved host primitives |
 
@@ -43,6 +44,7 @@ host primitive, not an inter-module Contract compatibility layer.
 | Domain isolation | Domain → BuildingBlocks.Domain | Domain → Contracts; `RING-DIRECTION` | keep transport shapes outside domain behavior |
 | provider graph | Adapter → catalog-registered provider Contracts | undeclared provider or sync cycle; `PROVIDER-CONTRACT`/`PROVIDER-CYCLE` | correct the design and G03 catalog; never copy an allow-list bypass |
 | Adapter declaration | outbound Adapter implements its own Application Port; inbound Adapter implements the provider's own Contract | Adapter in the wrong namespace or implementing the wrong layer/owner; `DECLARATION-NAMESPACE` | place the bridge in an Infrastructure/Integration `Integrations` namespace |
+| provider Client | Infrastructure → IAM.Client → IAM.Contracts/Context.Runtime | Application/Domain → Client, or Client → consumer module; `RING-DIRECTION`/`OWNERSHIP-REFERENCE` | keep the consumer-owned Port and let an Infrastructure adapter fix identity before delegating to the Client |
 | host boundary | ApiHost → module Composition | ApiHost → Application/Domain; `RING-DIRECTION`/`IMPORT-DIRECTION` | expose a host-safe façade/DTO from Composition |
 | Contracts purity | record/DTO using string, Guid, DateTimeOffset | EF/MediatR/ASP.NET/DI/broker/JWT/ILogger; `RING-PACKAGE*`/`SYMBOL-FORBIDDEN` | move behavior and framework adapters outward |
 | declaration placement | `*IntegrationEvent` in provider `Contracts.Events` | Handler/Repository/DbContext in Contracts; `DECLARATION-*` | move it to Application or Infrastructure |
@@ -66,8 +68,8 @@ rechecks the policy weekly; dependency-graph changes also require review.
 
 The sequence is: G03 catalog/source reconciliation → load and hash-verify G03/G04/G05 artifacts →
 discover projects and ownership → build direct/transitive project graph → analyze imports,
-declarations, and types → apply rules → reconcile the current zero-entry Plan 06 baseline while preserving historical B4 evidence → publish separate
-LayerGuard and Gate semantic reports.
+declarations, and types → apply rules → reconcile the current zero-entry Plan 07 baseline →
+publish separate LayerGuard and Gate semantic reports. Historical B4 and Plan 06 evidence remains unchanged.
 
 Diagrams:
 
@@ -84,6 +86,6 @@ Start new modules from the [compliant structure template](templates/layerguard-m
 ./scripts/Test-Plan03B4StrictClosure.ps1
 ```
 
-The first command runs the LayerGuard tool tests and the current Plan 06 repository scan. The second verifies the B4 zero
+The first command runs the LayerGuard tool tests and the current Plan 07 repository scan. The second verifies the B4 zero
 findings, the empty baseline, the historical reduction series, compatibility removal, the dependency
 graph, and the strict CI entry point.

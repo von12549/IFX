@@ -8,6 +8,7 @@ public enum Ring
     Presentation,
     IntegrationAdapter,
     Infrastructure,
+    Client,
     Runtime,
     Composition,
     RuntimeHost,

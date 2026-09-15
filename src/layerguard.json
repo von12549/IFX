@@ -16,6 +16,7 @@
     "Presentation": ["IFX.Modules.*.Presentation"],
     "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
     "Infrastructure": ["IFX.Modules.*.Infrastructure", "IFX.Platform.*.Infrastructure.*"],
+    "Client": ["IFX.Modules.*.Client"],
     "Runtime": ["IFX.Platform.*.Runtime"],
     "Composition": ["IFX.Modules.*.Composition", "IFX.Platform.*.Composition"],
     "RuntimeHost": ["IFX.ApiHost", "IFX.*.Worker"]
@@ -30,9 +31,10 @@
     "Application": ["Domain", "Contracts"],
     "Presentation": ["Application", "Contracts", "Domain"],
     "IntegrationAdapter": ["Application", "Contracts"],
-    "Infrastructure": ["Application", "Domain", "Contracts", "Runtime"],
+    "Infrastructure": ["Application", "Domain", "Contracts", "Client", "Runtime"],
+    "Client": ["Contracts", "Runtime"],
     "Runtime": ["Contracts"],
-    "Composition": ["Domain", "Contracts", "Application", "Presentation", "IntegrationAdapter", "Infrastructure", "Runtime"],
+    "Composition": ["Domain", "Contracts", "Application", "Presentation", "IntegrationAdapter", "Infrastructure", "Client", "Runtime"],
     "RuntimeHost": ["Composition"]
   },
   "referenceScopes": [
@@ -49,12 +51,16 @@
     { "from": "Infrastructure", "to": "Application", "ownership": "own" },
     { "from": "Infrastructure", "to": "Domain", "ownership": "own" },
     { "from": "Infrastructure", "to": "Contracts", "ownership": "any" },
+    { "from": "Infrastructure", "to": "Client", "ownership": "any" },
     { "from": "Infrastructure", "to": "Runtime", "ownership": "any" },
+    { "from": "Client", "to": "Contracts", "ownership": "own" },
+    { "from": "Client", "to": "Runtime", "ownership": "any" },
     { "from": "Runtime", "to": "Contracts", "ownership": "any" },
     { "from": "Composition", "to": "Domain", "ownership": "own" },
     { "from": "Composition", "to": "Application", "ownership": "own" },
     { "from": "Composition", "to": "Presentation", "ownership": "own" },
     { "from": "Composition", "to": "Infrastructure", "ownership": "own" },
+    { "from": "Composition", "to": "Client", "ownership": "any" },
     { "from": "Composition", "to": "Runtime", "ownership": "any" },
     { "from": "RuntimeHost", "to": "Composition", "ownership": "any" }
   ],
@@ -67,7 +73,8 @@
     "Application": ["IFX.Modules.*.Domain", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
     "Presentation": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Domain"],
     "IntegrationAdapter": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
-    "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
+    "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.Modules.*.Client", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
+    "Client": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Runtime", "IFX.BuildingBlocks.Security"],
     "Runtime": ["IFX.Platform.*.Contracts", "IFX.BuildingBlocks.*"],
     "Composition": ["IFX.Modules.*", "IFX.Platform.*", "IFX.BuildingBlocks.*"],
     "RuntimeHost": ["*.Composition", "IFX.BuildingBlocks.Composition", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Security"]
@@ -128,7 +135,7 @@
     { "match": "*Repository", "kind": "class", "mustLiveIn": "Infrastructure", "mustImplement": "Domain", "severity": "bends" },
     { "match": "*CommandHandler", "mustLiveIn": "Application" },
     { "match": "*QueryHandler", "mustLiveIn": "Application" },
-    { "match": "*Validator", "mustLiveIn": "Application", "severity": "bends" }
+    { "match": "*CommandValidator", "mustLiveIn": "Application", "severity": "bends" }
   ],
   "severities": {
     "RING-PACKAGE": "bends",

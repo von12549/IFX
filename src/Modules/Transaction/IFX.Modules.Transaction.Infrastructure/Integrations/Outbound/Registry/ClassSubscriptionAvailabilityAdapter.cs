@@ -1,11 +1,11 @@
-using IFX.BuildingBlocks.Application.Context;
 using IFX.Modules.Registry.Contracts.V1;
 using IFX.Modules.Transaction.Application.Ports;
+using IFX.Platform.Context.Runtime.Outbound;
 
 namespace IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.Registry;
 
 public sealed class ClassSubscriptionAvailabilityAdapter(
-    IExecutionContextAccessor executionContextAccessor,
+    OutboundContractRequestContextFactory contextFactory,
     IClassSubscriptionAvailabilityContract contract) : IClassSubscriptionAvailabilityPort
 {
     public async Task<bool> IsOpenAsync(
@@ -13,30 +13,14 @@ public sealed class ClassSubscriptionAvailabilityAdapter(
         Guid tenantId,
         CancellationToken cancellationToken = default)
     {
-        try
+        return await FailClosedContractCall.ExecuteAsync<ClassSubscriptionAvailabilityContractException>(async token =>
         {
-            var context = ContractRequestContextFactory.Create(executionContextAccessor, tenantId);
+            var context = contextFactory.CreateTenantCall(tenantId, TransactionContractConsumer.Identity);
             var response = await contract.CheckAsync(
                 new ClassSubscriptionAvailabilityRequest(classId, tenantId),
                 context,
-                cancellationToken);
+                token);
             return response.IsOpen;
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw;
-        }
-        catch (TimeoutException)
-        {
-            return false;
-        }
-        catch (ClassSubscriptionAvailabilityContractException)
-        {
-            return false;
-        }
-        catch (InvalidOperationException exception) when (exception.Message.StartsWith("contract_", StringComparison.Ordinal))
-        {
-            return false;
-        }
+        }, cancellationToken);
     }
 }

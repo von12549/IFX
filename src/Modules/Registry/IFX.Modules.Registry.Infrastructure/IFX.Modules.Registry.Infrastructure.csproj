@@ -6,6 +6,7 @@
     <ProjectReference Include="..\IFX.Modules.Registry.Contracts\IFX.Modules.Registry.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Platform\Messaging\IFX.Platform.Messaging.Runtime\IFX.Platform.Messaging.Runtime.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Runtime\IFX.Platform.Context.Runtime.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,5 +32,5 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup><ProjectReference Include="..\..\IAM\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="..\..\IAM\IFX.Modules.IAM.Client\IFX.Modules.IAM.Client.csproj" /></ItemGroup>
 </Project>

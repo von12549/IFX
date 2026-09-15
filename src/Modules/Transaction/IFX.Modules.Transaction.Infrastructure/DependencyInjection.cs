@@ -9,6 +9,9 @@ using IFX.Modules.Transaction.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using IFX.Modules.IAM.Client.Authorization;
+using IFX.Platform.Context.Runtime.Outbound;
 using IFX.Modules.Transaction.Infrastructure.Messaging;
 using IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.IAM;
 
@@ -20,6 +23,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.TryAddScoped<OutboundContractRequestContextFactory>();
+        services.TryAddScoped<IamResourceAuthorizationClient>();
         services.AddMemoryCache();
 
         var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(

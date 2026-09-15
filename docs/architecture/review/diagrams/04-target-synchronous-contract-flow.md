@@ -1,8 +1,8 @@
 # Target synchronous Contract flow / 目标同步 Contract 流程
 
-> Status: Plan 06 source target; Gate closure is tracked separately.
+> Status: Plan 07 implemented source target; Gate closure is tracked separately.
 >
-> 状态：Plan 06 源码目标；Gate 关闭单独跟踪。
+> 状态：Plan 07 已实施源码目标；Gate 关闭单独跟踪。
 
 The example assumes Transaction needs current CRM and Registry facts before deciding whether to create an order.
 
@@ -16,6 +16,7 @@ sequenceDiagram
     participant TA as Transaction.Application
     participant Port as Transaction-owned Port
     participant Adapter as Transaction.Infrastructure Outbound Adapter
+    participant Runtime as Platform.Context.Runtime
     participant Contract as CRM.Contracts
     participant Inbound as CRM.Infrastructure Inbound Adapter
     participant UseCase as CRM.Application UseCase
@@ -28,9 +29,14 @@ sequenceDiagram
     TP->>TA: Send Transaction command
     TA->>Port: Get account compliance snapshot
     Port->>Adapter: DI dispatches to adapter
+    Adapter->>Runtime: CreateTenantCall with fixed consumer identity
+    Runtime-->>Adapter: V1 ContractRequestContext
     Adapter->>Contract: Call provider public contract
     Contract->>Inbound: DI dispatches to provider adapter
-    Inbound->>Inbound: Validate consumer, version, scope, trust, tenant
+    Inbound->>Runtime: Validate with provider-owned immutable policy
+    Runtime-->>Inbound: Stable internal failure classification
+    Inbound->>Runtime: Create isolated provider execution context
+    Runtime-->>Inbound: Provider child context
     Inbound->>UseCase: Map request in provider child scope
     UseCase->>Repo: Load CRM-owned state
     Repo->>DbAdapter: DI dispatches to repository adapter

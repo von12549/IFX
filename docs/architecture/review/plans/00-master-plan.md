@@ -31,7 +31,7 @@
 | [`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) | GOV4 模块边界审计、DP6 提取门槛、DB8 tenant query、GOV3 owned projection | 仓库治理/1108 tests/B4 已通过；具名职能审批前保持 PRE-READY |
 | [`05-iam-platform-security-refactor.md`](05-iam-platform-security-refactor.md) | Auth→IAM 与平台认证/授权边界拆分 | 仓库实施与隔离验证完成；目标数据、真实 IdP 与发布验收按计划状态推进 |
 | [`06-contract-adapter-event-boundary.md`](06-contract-adapter-event-boundary.md) | Provider Inbound Adapter、Application/Contracts 解耦及 Infrastructure V1 事件映射 | Phase 0–6 与 repository verification 完成；G03 closure 状态保持真实 |
-| [`07-contract-adapter-common-runtime.md`](07-contract-adapter-common-runtime.md) | Inbound/Outbound Contract Adapter 公共 context runtime 与 IAM client | 重复算法集中、模块自有 Port/Adapter 保留、G03/G05 与行为矩阵无漂移 |
+| [`07-contract-adapter-common-runtime.md`](07-contract-adapter-common-runtime.md) | Inbound/Outbound Contract Adapter 公共 context runtime 与 IAM client | Phase 0–6 repository implementation 完成；重复算法集中、模块自有 Port/Adapter 保留、G03/G05 与行为矩阵无漂移 |
 | [`TODO.md`](TODO.md) | 尚未提取的数据库生命周期、跨模块一致性、进程外拆分和运行治理 | 满足输入条件后转化为后续评审与实施计划 |
 
 ## 关键架构约束

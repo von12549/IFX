@@ -1,0 +1,722 @@
+{
+  "tool": "layerguard",
+  "toolVersion": "0.4.0-a1",
+  "checked": [
+    "project references",
+    "import directives in 961 source files",
+    "which packages a ring may hold",
+    "which projects a ring may name",
+    "which packages a ring may never hold",
+    "where types of a given name must be declared",
+    "what a ring may be handed to hold",
+    "which ring a type a ring is handed was declared in",
+    "whether a type answers to a contract declared in another ring",
+    "module ownership and project roles",
+    "own and foreign role references",
+    "provider graph and adapter boundaries",
+    "declaration namespaces and forbidden implementation declarations",
+    "forbidden framework namespaces, symbols, and reflection strings",
+    "Contract context and event payload type boundaries",
+    "every numbered rule of this codebase\u0027s own rulebook"
+  ],
+  "scope": {
+    "root": "D:\\IFX\\src",
+    "rootKind": "directory",
+    "projectsLoaded": 58,
+    "projectsInScope": 51,
+    "projectsOutside": 7
+  },
+  "ruleset": {
+    "source": "D:\\IFX\\src\\layerguard.json",
+    "hash": "e524fb006ba5126eccdd0eca59bf205c23a58b7cb660766c5645df4d147cb6e3",
+    "allowedDependencies": {
+      "Domain": [],
+      "Contracts": [],
+      "Application": [
+        "Domain",
+        "Contracts"
+      ],
+      "Presentation": [
+        "Application",
+        "Contracts",
+        "Domain"
+      ],
+      "IntegrationAdapter": [
+        "Application",
+        "Contracts"
+      ],
+      "Infrastructure": [
+        "Application",
+        "Domain",
+        "Contracts",
+        "Client",
+        "Runtime"
+      ],
+      "Client": [
+        "Contracts",
+        "Runtime"
+      ],
+      "Runtime": [
+        "Contracts"
+      ],
+      "Composition": [
+        "Domain",
+        "Contracts",
+        "Application",
+        "Presentation",
+        "IntegrationAdapter",
+        "Infrastructure",
+        "Client",
+        "Runtime"
+      ],
+      "RuntimeHost": [
+        "Composition"
+      ]
+    },
+    "policyBindings": [
+      {
+        "gate": "G03",
+        "source": "D:\\IFX\\docs\\architecture\\review\\gates\\G03\\generated\\layerguard-governance-input.json",
+        "sha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649"
+      },
+      {
+        "gate": "G03-catalog",
+        "source": "D:\\IFX\\docs\\architecture\\review\\gates\\G03\\contract-event-catalog.yaml",
+        "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
+      },
+      {
+        "gate": "G04",
+        "source": "D:\\IFX\\deployment\\g04\\release-runtime-manifest.json",
+        "sha256": "c8c580aa0feb5c287ca488561bb7473d345655f94678b1cce80c302c9633caeb"
+      },
+      {
+        "gate": "G04-moduleManifest",
+        "source": "D:\\IFX\\deployment\\g04\\module-manifest.json",
+        "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+      },
+      {
+        "gate": "G04-deploymentUnitCatalog",
+        "source": "D:\\IFX\\deployment\\g04\\deployment-unit-catalog.json",
+        "sha256": "4302bd19a3415fac2d854a108b14223110c549bf5d839c35e1dffbf4e31944e1"
+      },
+      {
+        "gate": "G04-infrastructureCompatibility",
+        "source": "D:\\IFX\\deployment\\g04\\infrastructure-compatibility-matrix.json",
+        "sha256": "7aa9a3ed5de7a9c0824bc40e3dbe9068883d276b4185748e89df9e6bc32c1a1b"
+      },
+      {
+        "gate": "G04-schemaReleaseManifest",
+        "source": "D:\\IFX\\deployment\\release-manifest.json",
+        "sha256": "0663fb88f6587bb00910bff97851a3fc485c576330ec596fb682700f9806117d"
+      },
+      {
+        "gate": "G04-migrationManifest",
+        "source": "D:\\IFX\\src\\DatabaseMigrator\\IFX.DatabaseMigrator\\migration-manifest.json",
+        "sha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6"
+      },
+      {
+        "gate": "G04-releaseOrchestration",
+        "source": "D:\\IFX\\deployment\\g04\\release-orchestration.json",
+        "sha256": "56b1cc645e879459a97a0bcc04829e8aa838bd50c0e8b9fc72c27c9fb74adcfe"
+      },
+      {
+        "gate": "G04-backpressurePolicy",
+        "source": "D:\\IFX\\deployment\\g04\\backpressure-policy.json",
+        "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
+      },
+      {
+        "gate": "G04-failureMatrix",
+        "source": "D:\\IFX\\deployment\\g04\\failure-matrix.json",
+        "sha256": "5f238f5cc320af4aacfbfb4b99b7f8bc268c3cfed564f775ff2c19aee5e0a0f6"
+      },
+      {
+        "gate": "G05",
+        "source": "D:\\IFX\\docs\\architecture\\review\\gates\\G05\\context-protocol-v1.json",
+        "sha256": "499c9dac90bf76366de226c7f61743ddb361acce5afe91b50da44fe0fff32495"
+      }
+    ],
+    "waiverPolicy": {
+      "maximumDays": 90,
+      "unwaivableCategories": [
+        "missing-owner",
+        "missing-consumer",
+        "internal-model-exposure",
+        "C4-exposure",
+        "unapproved-C3-exposure",
+        "identity-reuse"
+      ],
+      "unwaivableRules": [
+        "OWNERSHIP-UNKNOWN",
+        "PAYLOAD-TYPE-FORBIDDEN"
+      ]
+    }
+  },
+  "rulebook": [
+    {
+      "ref": "L2.2",
+      "text": "Domain does not depend on Contracts.",
+      "settledBy": [
+        "RING-DIRECTION",
+        "IMPORT-DIRECTION"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L2.3",
+      "text": "Application does not depend on module public Contracts; registered shared primitives remain allowed.",
+      "settledBy": [
+        "OWNERSHIP-REFERENCE"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L2.4",
+      "text": "Adapters use only registered provider Contracts.",
+      "settledBy": [
+        "PROVIDER-CONTRACT",
+        "PROVIDER-CYCLE",
+        "EMBEDDED-ADAPTER-PROVIDER"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L3.1",
+      "text": "Public contracts and events live in provider Contracts namespaces.",
+      "settledBy": [
+        "DECLARATION-NAMESPACE"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L3.4",
+      "text": "Contracts do not reference framework or transport implementations.",
+      "settledBy": [
+        "RING-PACKAGE",
+        "RING-PACKAGE-FORBIDDEN",
+        "RING-PACKAGE-IMPORT",
+        "SYMBOL-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L3.5",
+      "text": "Contracts do not contain implementation declarations.",
+      "settledBy": [
+        "DECLARATION-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L3.6",
+      "text": "Integration event payloads do not expose internal entities.",
+      "settledBy": [
+        "PAYLOAD-TYPE-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L1.2",
+      "text": "No new Abstractions project is introduced.",
+      "settledBy": [
+        "PROJECT-NAME-FORBIDDEN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    },
+    {
+      "ref": "L2.9",
+      "text": "Unknown module ownership fails closed.",
+      "settledBy": [
+        "OWNERSHIP-UNKNOWN"
+      ],
+      "coverage": "full",
+      "findings": 0
+    }
+  ],
+  "verdict": "clean",
+  "violationCount": 0,
+  "violations": [],
+  "clusters": [],
+  "projects": [
+    {
+      "name": "IFX.ApiHost",
+      "ring": "RuntimeHost",
+      "file": "D:\\IFX\\src\\ApiHost\\IFX.ApiHost\\IFX.ApiHost.csproj",
+      "directProjectReferences": 13,
+      "packages": 11
+    },
+    {
+      "name": "IFX.Modules.CRM.Application",
+      "ring": "Application",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Application\\IFX.Modules.CRM.Application.csproj",
+      "directProjectReferences": 4,
+      "packages": 6
+    },
+    {
+      "name": "IFX.Modules.CRM.Composition",
+      "ring": "Composition",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Composition\\IFX.Modules.CRM.Composition.csproj",
+      "directProjectReferences": 5,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.CRM.Contracts",
+      "ring": "Contracts",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.CRM.Domain",
+      "ring": "Domain",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Domain\\IFX.Modules.CRM.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.CRM.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Infrastructure\\IFX.Modules.CRM.Infrastructure.csproj",
+      "directProjectReferences": 6,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.CRM.Presentation",
+      "ring": "Presentation",
+      "module": "CRM",
+      "file": "D:\\IFX\\src\\Modules\\CRM\\IFX.Modules.CRM.Presentation\\IFX.Modules.CRM.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Holdings.Application",
+      "ring": "Application",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Application\\IFX.Modules.Holdings.Application.csproj",
+      "directProjectReferences": 3,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.Holdings.Composition",
+      "ring": "Composition",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Composition\\IFX.Modules.Holdings.Composition.csproj",
+      "directProjectReferences": 4,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Holdings.Domain",
+      "ring": "Domain",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Domain\\IFX.Modules.Holdings.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Holdings.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Infrastructure\\IFX.Modules.Holdings.Infrastructure.csproj",
+      "directProjectReferences": 9,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Modules.Holdings.Presentation",
+      "ring": "Presentation",
+      "module": "Holdings",
+      "file": "D:\\IFX\\src\\Modules\\Holdings\\IFX.Modules.Holdings.Presentation\\IFX.Modules.Holdings.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.IAM.Application",
+      "ring": "Application",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Application\\IFX.Modules.IAM.Application.csproj",
+      "directProjectReferences": 5,
+      "packages": 6
+    },
+    {
+      "name": "IFX.Modules.IAM.Client",
+      "ring": "Client",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Client\\IFX.Modules.IAM.Client.csproj",
+      "directProjectReferences": 3,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.IAM.Composition",
+      "ring": "Composition",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Composition\\IFX.Modules.IAM.Composition.csproj",
+      "directProjectReferences": 9,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.IAM.Contracts",
+      "ring": "Contracts",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.IAM.Domain",
+      "ring": "Domain",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Domain\\IFX.Modules.IAM.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.IAM.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Infrastructure\\IFX.Modules.IAM.Infrastructure.csproj",
+      "directProjectReferences": 9,
+      "packages": 8
+    },
+    {
+      "name": "IFX.Modules.IAM.Presentation",
+      "ring": "Presentation",
+      "module": "IAM",
+      "file": "D:\\IFX\\src\\Modules\\IAM\\IFX.Modules.IAM.Presentation\\IFX.Modules.IAM.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Registry.Application",
+      "ring": "Application",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Application\\IFX.Modules.Registry.Application.csproj",
+      "directProjectReferences": 4,
+      "packages": 6
+    },
+    {
+      "name": "IFX.Modules.Registry.Composition",
+      "ring": "Composition",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Composition\\IFX.Modules.Registry.Composition.csproj",
+      "directProjectReferences": 5,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Registry.Contracts",
+      "ring": "Contracts",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts.csproj",
+      "directProjectReferences": 2,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Registry.Domain",
+      "ring": "Domain",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Domain\\IFX.Modules.Registry.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Registry.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Infrastructure\\IFX.Modules.Registry.Infrastructure.csproj",
+      "directProjectReferences": 7,
+      "packages": 8
+    },
+    {
+      "name": "IFX.Modules.Registry.Presentation",
+      "ring": "Presentation",
+      "module": "Registry",
+      "file": "D:\\IFX\\src\\Modules\\Registry\\IFX.Modules.Registry.Presentation\\IFX.Modules.Registry.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Transaction.Application",
+      "ring": "Application",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Application\\IFX.Modules.Transaction.Application.csproj",
+      "directProjectReferences": 3,
+      "packages": 7
+    },
+    {
+      "name": "IFX.Modules.Transaction.Composition",
+      "ring": "Composition",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Composition\\IFX.Modules.Transaction.Composition.csproj",
+      "directProjectReferences": 6,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Modules.Transaction.Contracts",
+      "ring": "Contracts",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Contracts\\IFX.Modules.Transaction.Contracts.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Transaction.Domain",
+      "ring": "Domain",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Domain\\IFX.Modules.Transaction.Domain.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Modules.Transaction.Infrastructure",
+      "ring": "Infrastructure",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Infrastructure\\IFX.Modules.Transaction.Infrastructure.csproj",
+      "directProjectReferences": 11,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Modules.Transaction.Presentation",
+      "ring": "Presentation",
+      "module": "Transaction",
+      "file": "D:\\IFX\\src\\Modules\\Transaction\\IFX.Modules.Transaction.Presentation\\IFX.Modules.Transaction.Presentation.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Platform.Authentication.Composition",
+      "ring": "Composition",
+      "module": "Authentication",
+      "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Composition\\IFX.Platform.Authentication.Composition.csproj",
+      "directProjectReferences": 3,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Authentication.Contracts",
+      "ring": "Contracts",
+      "module": "Authentication",
+      "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "ring": "Infrastructure",
+      "module": "Authentication",
+      "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Infrastructure.Auth0\\IFX.Platform.Authentication.Infrastructure.Auth0.csproj",
+      "directProjectReferences": 1,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "ring": "Infrastructure",
+      "module": "Authentication",
+      "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Infrastructure.Cognito\\IFX.Platform.Authentication.Infrastructure.Cognito.csproj",
+      "directProjectReferences": 1,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Platform.Authentication.Runtime",
+      "ring": "Runtime",
+      "module": "Authentication",
+      "file": "D:\\IFX\\src\\Platform\\Authentication\\IFX.Platform.Authentication.Runtime\\IFX.Platform.Authentication.Runtime.csproj",
+      "directProjectReferences": 1,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Platform.Authorization.Composition",
+      "ring": "Composition",
+      "module": "Authorization",
+      "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Composition\\IFX.Platform.Authorization.Composition.csproj",
+      "directProjectReferences": 3,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Authorization.Contracts",
+      "ring": "Contracts",
+      "module": "Authorization",
+      "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Contracts\\IFX.Platform.Authorization.Contracts.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "ring": "Infrastructure",
+      "module": "Authorization",
+      "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Infrastructure.Opa\\IFX.Platform.Authorization.Infrastructure.Opa.csproj",
+      "directProjectReferences": 2,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Authorization.Runtime",
+      "ring": "Runtime",
+      "module": "Authorization",
+      "file": "D:\\IFX\\src\\Platform\\Authorization\\IFX.Platform.Authorization.Runtime\\IFX.Platform.Authorization.Runtime.csproj",
+      "directProjectReferences": 1,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.BackgroundJobs.Composition",
+      "ring": "Composition",
+      "module": "BackgroundJobs",
+      "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Composition\\IFX.Platform.BackgroundJobs.Composition.csproj",
+      "directProjectReferences": 3,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.BackgroundJobs.Contracts",
+      "ring": "Contracts",
+      "module": "BackgroundJobs",
+      "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Contracts\\IFX.Platform.BackgroundJobs.Contracts.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "ring": "Infrastructure",
+      "module": "BackgroundJobs",
+      "file": "D:\\IFX\\src\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire\\IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj",
+      "directProjectReferences": 1,
+      "packages": 2
+    },
+    {
+      "name": "IFX.Platform.Context.Contracts",
+      "ring": "Contracts",
+      "module": "Context",
+      "file": "D:\\IFX\\src\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Context.Runtime",
+      "ring": "Runtime",
+      "module": "Context",
+      "file": "D:\\IFX\\src\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+      "directProjectReferences": 2,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Messaging.Composition",
+      "ring": "Composition",
+      "module": "Messaging",
+      "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Composition\\IFX.Platform.Messaging.Composition.csproj",
+      "directProjectReferences": 1,
+      "packages": 1
+    },
+    {
+      "name": "IFX.Platform.Messaging.Contracts",
+      "ring": "Contracts",
+      "module": "Messaging",
+      "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Contracts\\IFX.Platform.Messaging.Contracts.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Messaging.Runtime",
+      "ring": "Runtime",
+      "module": "Messaging",
+      "file": "D:\\IFX\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Runtime\\IFX.Platform.Messaging.Runtime.csproj",
+      "directProjectReferences": 3,
+      "packages": 4
+    },
+    {
+      "name": "IFX.Platform.Notifications.Composition",
+      "ring": "Composition",
+      "module": "Notifications",
+      "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Composition\\IFX.Platform.Notifications.Composition.csproj",
+      "directProjectReferences": 2,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.Notifications.Contracts",
+      "ring": "Contracts",
+      "module": "Notifications",
+      "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Contracts\\IFX.Platform.Notifications.Contracts.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "ring": "Infrastructure",
+      "module": "Notifications",
+      "file": "D:\\IFX\\src\\Platform\\Notifications\\IFX.Platform.Notifications.Infrastructure.SendGrid\\IFX.Platform.Notifications.Infrastructure.SendGrid.csproj",
+      "directProjectReferences": 2,
+      "packages": 2
+    }
+  ],
+  "outside": [
+    {
+      "name": "IFX.BuildingBlocks.Application",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Application\\IFX.BuildingBlocks.Application.csproj",
+      "directProjectReferences": 1,
+      "packages": 4
+    },
+    {
+      "name": "IFX.BuildingBlocks.Composition",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Composition\\IFX.BuildingBlocks.Composition.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    },
+    {
+      "name": "IFX.BuildingBlocks.Domain",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Domain\\IFX.BuildingBlocks.Domain.csproj",
+      "directProjectReferences": 0,
+      "packages": 1
+    },
+    {
+      "name": "IFX.BuildingBlocks.EntityFrameworkCore",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.EntityFrameworkCore\\IFX.BuildingBlocks.EntityFrameworkCore.csproj",
+      "directProjectReferences": 1,
+      "packages": 4
+    },
+    {
+      "name": "IFX.BuildingBlocks.Security",
+      "ring": "Outside",
+      "module": "BuildingBlocks",
+      "file": "D:\\IFX\\src\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj",
+      "directProjectReferences": 0,
+      "packages": 3
+    },
+    {
+      "name": "IFX.DatabaseMigrator",
+      "ring": "Outside",
+      "module": "DatabaseMigrator",
+      "file": "D:\\IFX\\src\\DatabaseMigrator\\IFX.DatabaseMigrator\\IFX.DatabaseMigrator.csproj",
+      "directProjectReferences": 6,
+      "packages": 3
+    },
+    {
+      "name": "IFX.Platform.Shared",
+      "ring": "Outside",
+      "module": "Platform",
+      "file": "D:\\IFX\\src\\Platform\\IFX.Platform.Shared\\IFX.Platform.Shared.csproj",
+      "directProjectReferences": 0,
+      "packages": 0
+    }
+  ],
+  "notChecked": [
+    "whether every module holds every ring \u2014 the rule file does not ask for it",
+    "semantic symbol binding \u2014 names are matched syntactically against loaded project names",
+    "method behavior and runtime values; this tool checks only static dependency and declaration boundaries",
+    "Gate 05 field classification, purpose and propagation semantics \u2014 delegated to external validators/tests",
+    "anything inside a project that matches no layer"
+  ],
+  "durationMs": 2903
+}

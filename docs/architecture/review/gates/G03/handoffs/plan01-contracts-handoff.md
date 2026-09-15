@@ -1,6 +1,8 @@
 # G03 -> Plan 01 Contracts / Ports / Adapters handoff
 
 > Plan 06 location update: [implementation handback](../../../evidence/plan06/P06-implementation-handback.md) records provider Infrastructure inbound adapters, Application-owned use cases and producer V1 mappers. G03 source reconciliation and Phase 9 passed, and regenerated public API/serialization snapshots match the authoritative files. Protocol identities and lifecycle are unchanged; closure remains `pre-ready`. The B2 acceptance below is historical.
+>
+> Plan 07 follow-up: [implementation handback](../../../evidence/plan07/P07-implementation-handback.md) centralizes context runtime and IAM client implementation without changing any `Contracts` source, V1 identity, consumer allowlist or lifecycle state. G03 catalog and governance reconciliation passed.
 
 ## Accountability and revisit
 

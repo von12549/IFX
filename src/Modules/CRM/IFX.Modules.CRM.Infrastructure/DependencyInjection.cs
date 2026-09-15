@@ -12,6 +12,10 @@ using IFX.Modules.CRM.Infrastructure.Integrations.Outbound.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using IFX.Platform.Context.Runtime.Inbound;
+using IFX.Platform.Context.Runtime.Outbound;
+using IFX.Modules.IAM.Client.Authorization;
 
 namespace IFX.Modules.CRM.Infrastructure;
 
@@ -21,6 +25,10 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.TryAddScoped<InboundContractContextValidator>();
+        services.TryAddSingleton<ProviderExecutionContextFactory>();
+        services.TryAddScoped<OutboundContractRequestContextFactory>();
+        services.TryAddScoped<IamResourceAuthorizationClient>();
         services.AddMemoryCache();
 
         var connectionString = IFX.BuildingBlocks.EntityFrameworkCore.Configuration.RequiredConnectionString.Get(

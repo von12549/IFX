@@ -1,16 +1,27 @@
 using IFX.BuildingBlocks.Application.Context;
 using IFX.Modules.CRM.Application.AccountCompliance;
 using IFX.Modules.CRM.Contracts.V1;
-using IFX.Platform.Context.Contracts;
 using IFX.Platform.Context.Contracts.Context;
+using IFX.Platform.Context.Runtime;
+using IFX.Platform.Context.Runtime.Inbound;
 
 namespace IFX.Modules.CRM.Infrastructure.Integrations.Inbound;
 
 public sealed class AccountComplianceInboundAdapter(
     IAccountComplianceUseCase useCase,
     IExecutionContextScopeFactory scopeFactory,
-    IExecutionContextAccessor executionContext) : IAccountComplianceContract
+    InboundContractContextValidator contextValidator,
+    ProviderExecutionContextFactory contextFactory) : IAccountComplianceContract
 {
+    private static readonly InboundContractPolicy Policy = new(
+        [new ContractComponentIdentity("ifx", "transaction", 1)],
+        ["user", "service", "system"],
+        allowTenantScope: true,
+        allowPlatformScope: true,
+        ContractTenantValidation.RequireTenantResource);
+
+    private static readonly ContractComponentIdentity Provider = new("ifx", "crm-provider", 1);
+
     public const string ConsumerDenied = "contract_consumer_denied";
     public const string ContextInvalid = "contract_context_invalid";
     public const string TenantMismatch = "contract_tenant_mismatch";
@@ -22,9 +33,9 @@ public sealed class AccountComplianceInboundAdapter(
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        Validate(context, request.TenantId);
+        ThrowForFailure(contextValidator.Validate(context, request.TenantId, Policy));
 
-        var child = CreateChildContext(context);
+        var child = contextFactory.Create(context, Provider);
         try
         {
             using var scope = scopeFactory.Push(child);
@@ -46,44 +57,18 @@ public sealed class AccountComplianceInboundAdapter(
         }
     }
 
-    private void Validate(ContractRequestContext context, Guid resourceTenantId)
+    private static void ThrowForFailure(ContractContextFailure failure)
     {
-        if (context.SourceSystem != "ifx" || context.SourceComponent != "transaction" || context.SourceVersion != 1)
+        var code = failure switch
         {
-            throw new AccountComplianceContractException(ConsumerDenied);
-        }
-
-        if (context.Version != ContractRequestContext.CurrentVersion ||
-            context.Scope is not (ContractRequestContext.TenantScope or ContractRequestContext.PlatformScope))
+            ContractContextFailure.None => null,
+            ContractContextFailure.ConsumerDenied => ConsumerDenied,
+            ContractContextFailure.TenantMismatch => TenantMismatch,
+            _ => ContextInvalid
+        };
+        if (code is not null)
         {
-            throw new AccountComplianceContractException(ContextInvalid);
-        }
-
-        if (context.Provenance != ContractRequestContext.TrustedProvenance ||
-            context.ActorKind is not ("user" or "service" or "system") ||
-            !executionContext.HasCurrent || executionContext.Current.Provenance != ContextProvenance.Trusted ||
-            context.ActorKind != executionContext.Current.Actor.Kind.ToString().ToLowerInvariant() ||
-            context.ActorId != executionContext.Current.Actor.Id ||
-            context.Scope != (executionContext.Current.IsTenantScope
-                ? ContractRequestContext.TenantScope : ContractRequestContext.PlatformScope) ||
-            context.TenantId != executionContext.Current.TenantId)
-        {
-            throw new AccountComplianceContractException(ContextInvalid);
-        }
-
-        if (resourceTenantId == Guid.Empty ||
-            context.Scope != ContractRequestContext.TenantScope ||
-            context.TenantId != resourceTenantId)
-        {
-            throw new AccountComplianceContractException(TenantMismatch);
+            throw new AccountComplianceContractException(code);
         }
     }
-
-    private static ExecutionContextSnapshot CreateChildContext(ContractRequestContext context) => new(
-        new CorrelationId(context.CorrelationId),
-        OperationId.New(),
-        context.CausationId is { } causationId ? new CausationId(causationId) : null,
-        ExecutionScope.ForTenant(new TenantScope(context.TenantId!.Value)),
-        new ActorReference(Enum.Parse<ActorKind>(context.ActorKind, true), context.ActorId),
-        new SourceReference("ifx", "crm-provider", 1));
 }

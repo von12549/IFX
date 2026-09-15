@@ -1,39 +1,48 @@
-using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.Security.Authorization.Exceptions;
 using IFX.Modules.IAM.Application.Access.Abac.Resolver;
 using IFX.Modules.IAM.Application.Ports.Authorization;
-using IFX.Platform.Context.Contracts;
 using IFX.Platform.Context.Contracts.Context;
+using IFX.Platform.Context.Runtime;
+using IFX.Platform.Context.Runtime.Inbound;
 using Contract = IFX.Modules.IAM.Contracts.V1.Authorization;
 
 namespace IFX.Modules.IAM.Infrastructure.Integrations.Inbound;
 
 public sealed class ResourceAuthorizationInboundAdapter(
     IResourceAuthorizationService authorization,
-    IExecutionContextAccessor execution) : Contract.IResourceAuthorizationContract
+    InboundContractContextValidator contextValidator) : Contract.IResourceAuthorizationContract
 {
+    private static readonly InboundContractPolicy Policy = new(
+        [
+            new ContractComponentIdentity("ifx", "crm", 1),
+            new ContractComponentIdentity("ifx", "registry", 1),
+            new ContractComponentIdentity("ifx", "holdings", 1),
+            new ContractComponentIdentity("ifx", "transaction", 1)
+        ],
+        ["user"],
+        allowTenantScope: true,
+        allowPlatformScope: true,
+        ContractTenantValidation.MatchWhenTenantScoped);
+
     public async Task<Contract.ResourceAuthorizationResponse> AuthorizeAsync(
         Contract.ResourceAuthorizationRequest request,
         ContractRequestContext context,
         CancellationToken ct = default)
     {
         ct.ThrowIfCancellationRequested();
-        if (context.Version != ContractRequestContext.CurrentVersion || context.SourceSystem != "ifx" ||
-            context.SourceVersion != 1 ||
-            context.SourceComponent is not ("crm" or "registry" or "holdings" or "transaction") ||
-            context.Provenance != ContractRequestContext.TrustedProvenance || context.ActorKind != "user" ||
-            !execution.HasCurrent || execution.Current.Provenance != ContextProvenance.Trusted ||
-            context.ActorId != execution.Current.Actor.Id || context.TenantId != execution.Current.TenantId ||
-            context.Scope != (execution.Current.IsTenantScope
-                ? ContractRequestContext.TenantScope : ContractRequestContext.PlatformScope))
+        Guid? resourceTenantId = null;
+        if (context.Scope == ContractRequestContext.TenantScope &&
+            Guid.TryParse(request.Resource.TenantId, out var parsedTenantId))
         {
-            return new(false, "contract_context_invalid");
+            resourceTenantId = parsedTenantId;
         }
 
-        if (context.Scope == ContractRequestContext.TenantScope &&
-            (!Guid.TryParse(request.Resource.TenantId, out var tenant) || tenant != context.TenantId))
+        var failure = contextValidator.Validate(context, resourceTenantId, Policy);
+        if (failure != ContractContextFailure.None)
         {
-            return new(false, "contract_tenant_mismatch");
+            return new(false, failure == ContractContextFailure.TenantMismatch
+                ? "contract_tenant_mismatch"
+                : "contract_context_invalid");
         }
 
         try

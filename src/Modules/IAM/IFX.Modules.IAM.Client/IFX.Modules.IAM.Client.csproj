@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Runtime\IFX.Platform.Context.Runtime.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
+  </ItemGroup>
+</Project>

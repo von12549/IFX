@@ -1,5 +1,7 @@
 # Plan 06 — 分阶段实施与回交证据
 
+> 后续重构：[Plan 07 实施回交](../plan07/P07-implementation-handback.md) 集中了同步 Contract context runtime 与 IAM client；本文件继续保留 Plan 06 完成时的历史事实。
+
 > 记录日期：2026-09-15；工作树实施，尚未提交。Phase 0 基线见 [P06-S0](P06-S0-baseline.md)。Docker 数据库测试、LayerGuard、G03/G05 与全解方案验证均已完成；本文件不把 repository automation 结果扩大为生产环境验收。
 
 ## 源码迁移
