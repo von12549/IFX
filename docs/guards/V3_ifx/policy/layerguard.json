@@ -31,6 +31,9 @@
       "IFX.Modules.*.Infrastructure",
       "IFX.Platform.*.Infrastructure.*"
     ],
+    "Client": [
+      "IFX.Modules.*.Client"
+    ],
     "Runtime": [
       "IFX.Platform.*.Runtime"
     ],
@@ -70,6 +73,11 @@
       "Application",
       "Domain",
       "Contracts",
+      "Client",
+      "Runtime"
+    ],
+    "Client": [
+      "Contracts",
       "Runtime"
     ],
     "Runtime": [
@@ -82,6 +90,7 @@
       "Presentation",
       "IntegrationAdapter",
       "Infrastructure",
+      "Client",
       "Runtime"
     ],
     "RuntimeHost": [
@@ -112,7 +121,7 @@
     {
       "from": "Application",
       "to": "Contracts",
-      "ownership": "own"
+      "ownership": "none"
     },
     {
       "from": "Presentation",
@@ -156,6 +165,21 @@
     },
     {
       "from": "Infrastructure",
+      "to": "Client",
+      "ownership": "any"
+    },
+    {
+      "from": "Infrastructure",
+      "to": "Runtime",
+      "ownership": "any"
+    },
+    {
+      "from": "Client",
+      "to": "Contracts",
+      "ownership": "own"
+    },
+    {
+      "from": "Client",
       "to": "Runtime",
       "ownership": "any"
     },
@@ -186,6 +210,11 @@
     },
     {
       "from": "Composition",
+      "to": "Client",
+      "ownership": "any"
+    },
+    {
+      "from": "Composition",
       "to": "Runtime",
       "ownership": "any"
     },
@@ -211,7 +240,6 @@
     "Contracts": [],
     "Application": [
       "IFX.Modules.*.Domain",
-      "IFX.Modules.*.Contracts",
       "IFX.BuildingBlocks.Application",
       "IFX.BuildingBlocks.Domain",
       "IFX.BuildingBlocks.Security",
@@ -231,8 +259,14 @@
       "IFX.Modules.*.Application",
       "IFX.Modules.*.Domain",
       "IFX.Modules.*.Contracts",
+      "IFX.Modules.*.Client",
       "IFX.BuildingBlocks.*",
       "IFX.Platform.*"
+    ],
+    "Client": [
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Runtime",
+      "IFX.BuildingBlocks.Security"
     ],
     "Runtime": [
       "IFX.Platform.*.Contracts",
@@ -407,6 +441,20 @@
       ],
       "namespace": "*.Integrations*",
       "mustImplement": "Application",
+      "mustImplementOwn": true,
+      "exceptions": [
+        "*InboundAdapter"
+      ]
+    },
+    {
+      "match": "*InboundAdapter",
+      "kind": "class",
+      "mustLiveIn": [
+        "IntegrationAdapter",
+        "Infrastructure"
+      ],
+      "namespace": "*.Integrations*",
+      "mustImplement": "Contracts",
       "mustImplementOwn": true
     }
   ],
@@ -516,7 +564,7 @@
       "mustLiveIn": "Application"
     },
     {
-      "match": "*Validator",
+      "match": "*CommandValidator",
       "mustLiveIn": "Application",
       "severity": "bends"
     }
@@ -539,7 +587,7 @@
     },
     {
       "ref": "L2.3",
-      "text": "Application may use own Contracts but not foreign Contracts.",
+      "text": "Application does not depend on module public Contracts; registered shared primitives remain allowed.",
       "rules": [
         "OWNERSHIP-REFERENCE"
       ],

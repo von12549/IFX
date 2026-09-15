@@ -509,7 +509,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
 {
   "formatVersion": 1,
   "id": "L2.3",
-  "title": "Application uses only its own Contracts",
+  "title": "Application does not depend on module Contracts",
   "kind": "none",
   "appliesTo": [
     "src/Modules/*/IFX.Modules.*.Application/**"

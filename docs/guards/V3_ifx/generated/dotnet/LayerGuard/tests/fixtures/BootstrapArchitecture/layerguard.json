@@ -19,7 +19,7 @@
   },
   "referenceScopes": [
     { "from": "Application", "to": "Domain", "ownership": "own" },
-    { "from": "Application", "to": "Contracts", "ownership": "own" },
+    { "from": "Application", "to": "Contracts", "ownership": "none" },
     { "from": "IntegrationAdapter", "to": "Application", "ownership": "own" },
     { "from": "IntegrationAdapter", "to": "Contracts", "ownership": "foreign" },
     { "from": "Infrastructure", "to": "Contracts", "ownership": "any" },
@@ -36,7 +36,8 @@
     { "match": "*IntegrationEvent", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Events*" },
     { "match": "*RequestContext", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Context*" },
     { "match": "I*Port", "kind": "interface", "mustLiveIn": ["Application"], "namespace": "*.Application.Ports*" },
-    { "match": "*Adapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Application", "mustImplementOwn": true }
+    { "match": "*Adapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Application", "mustImplementOwn": true, "exceptions": ["*InboundAdapter"] },
+    { "match": "*InboundAdapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Contracts", "mustImplementOwn": true }
   ],
   "forbiddenDeclarations": [
     { "match": "*Handler", "in": "Contracts", "exceptions": ["CompatibilityHandler"] },

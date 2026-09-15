@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "L2.3",
-  "title": "Application uses only its own Contracts",
+  "title": "Application does not depend on module Contracts",
   "authority": {
     "path": "src/layerguard.json",
     "selector": "ruleRefs[L2.3]"

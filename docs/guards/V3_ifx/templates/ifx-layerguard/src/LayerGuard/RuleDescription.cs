@@ -10,6 +10,7 @@ public static class RuleDescription
         Ring.Application,
         Ring.Presentation,
         Ring.Infrastructure,
+        Ring.Client,
         Ring.Runtime,
         Ring.Composition,
         Ring.RuntimeHost,

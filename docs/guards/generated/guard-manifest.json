@@ -132,7 +132,7 @@
     },
     {
       "path": "docs/guards/inputs/rules/L2.3.json",
-      "sha256NormalizedText": "bbcaff429f7cb3b24ae3bbca192e714f017fe63fb9e71406d2b562c5d4b37b9a"
+      "sha256NormalizedText": "3806fdac76e8271c6218d531df3415bcea8af8aec7665af7ae48f5afd2a575fd"
     },
     {
       "path": "docs/guards/inputs/rules/L2.4.json",
@@ -180,7 +180,7 @@
     },
     {
       "path": "src/layerguard.json",
-      "sha256NormalizedText": "fe790cf3402f5644bb83e64535b39914fa32b40cfdbf7221f53cb42829884bf4"
+      "sha256NormalizedText": "478dd96b28d812359694a40cb69b54d15935bd41f06ea053c368e471a276f984"
     }
   ],
   "commands": [
@@ -1012,7 +1012,7 @@
     {
       "formatVersion": 1,
       "id": "L2.3",
-      "title": "Application uses only its own Contracts",
+      "title": "Application does not depend on module Contracts",
       "authority": {
         "path": "src/layerguard.json",
         "selector": "ruleRefs[L2.3]"

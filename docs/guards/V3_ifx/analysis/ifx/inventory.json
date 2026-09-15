@@ -271,12 +271,16 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "628de201baedaf0c45d4b4904f31cf3d57ce99fd855596275a3af536c34b0870",
+      "sha256": "0fca494da180fe7790537195c3ecf87388f6264bac7de747dac030d426ed2a4a",
       "frameworks": [],
       "projectReferences": [
         {
           "include": "..\\Acme.Billing.Application\\Acme.Billing.Application.csproj",
           "resolvedPath": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj"
+        },
+        {
+          "include": "..\\Acme.Billing.Contracts\\Acme.Billing.Contracts.csproj",
+          "resolvedPath": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Acme.Billing.Contracts.csproj"
         },
         {
           "include": "..\\..\\Sales\\Acme.Sales.Contracts\\Acme.Sales.Contracts.csproj",
@@ -1329,7 +1333,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj",
       "role": "source",
-      "sha256": "6f692ceb23c353ac3b7fa2286e13e0dc6a8e9be05c06b8f46a08fcfced594629",
+      "sha256": "0137daa5c1deffac9a308545e062922033e49dd0ca692e863dc272893e545c8d",
       "frameworks": [
         "net8.0"
       ],
@@ -1341,10 +1345,6 @@
         {
           "include": "..\\IFX.Modules.CRM.Domain\\IFX.Modules.CRM.Domain.csproj",
           "resolvedPath": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj"
-        },
-        {
-          "include": "..\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts.csproj",
-          "resolvedPath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj"
         },
         {
           "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
@@ -1417,7 +1417,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj",
       "role": "source",
-      "sha256": "339b52f007fe0b6a13446e386dda9bad8ab98fa4d5fc0c4cdbc43bdbbfc9b5e9",
+      "sha256": "fc7dd52b640b6acc3bd29f215d27ade02d6f089ab14b104b96d576df896a3fd6",
       "frameworks": [
         "net8.0"
       ],
@@ -1431,12 +1431,20 @@
           "resolvedPath": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj"
         },
         {
+          "include": "..\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts.csproj",
+          "resolvedPath": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj"
+        },
+        {
           "include": "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj",
           "resolvedPath": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj"
         },
         {
-          "include": "..\\..\\IAM\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
-          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
+        },
+        {
+          "include": "..\\..\\IAM\\IFX.Modules.IAM.Client\\IFX.Modules.IAM.Client.csproj",
+          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj"
         }
       ]
     },
@@ -1519,7 +1527,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj",
       "role": "source",
-      "sha256": "f209d4bbc67b63209a28396e5da411e58cd3b110184348a492c1ed36bc601ef6",
+      "sha256": "c6a65aa33b1b2f1757e82da54910e3e034da5fbc9711215f76eeb9d30811c19e",
       "frameworks": [
         "net8.0"
       ],
@@ -1553,8 +1561,12 @@
           "resolvedPath": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj"
         },
         {
-          "include": "..\\..\\IAM\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
-          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
+        },
+        {
+          "include": "..\\..\\IAM\\IFX.Modules.IAM.Client\\IFX.Modules.IAM.Client.csproj",
+          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj"
         }
       ]
     },
@@ -1575,7 +1587,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj",
       "role": "source",
-      "sha256": "b52471d2d3dede4788c14e0738e92b666348e0d7e5d34864d44a5ed7ad1a1921",
+      "sha256": "bb1255c81552e5bf498558d2ae9e76e1a45a06a7240e0f95c116ab2afe3ccc1c",
       "frameworks": [
         "net8.0"
       ],
@@ -1597,8 +1609,30 @@
           "resolvedPath": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj"
         },
         {
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+        }
+      ]
+    },
+    {
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj",
+      "role": "source",
+      "sha256": "b9f390e078baab773a619ee1bf55761c88479435c350766e5af2c86704257a20",
+      "frameworks": [
+        "net8.0"
+      ],
+      "projectReferences": [
+        {
           "include": "..\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
           "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+        },
+        {
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
+        },
+        {
+          "include": "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj",
+          "resolvedPath": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj"
         }
       ]
     },
@@ -1679,7 +1713,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj",
       "role": "source",
-      "sha256": "f730775d5883f3e034b3b83a5a0a16b2f41aae97096ff8d9925eb9656bfe6380",
+      "sha256": "6498f552521f56c05d3cfbe086e19231a649052b3bb9c1023d5f69fc1296b2ac",
       "frameworks": [
         "net8.0"
       ],
@@ -1687,6 +1721,18 @@
         {
           "include": "..\\IFX.Modules.IAM.Application\\IFX.Modules.IAM.Application.csproj",
           "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj"
+        },
+        {
+          "include": "..\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
+          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+        },
+        {
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+        },
+        {
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
         },
         {
           "include": "..\\..\\..\\Platform\\Authentication\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts.csproj",
@@ -1727,7 +1773,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj",
       "role": "source",
-      "sha256": "c42d3dc46720288276b591ee405e3938666c28b833168cf4f2f553496810f017",
+      "sha256": "194f9beadc041589239da884625dd365e38ebc92e8811e791653f8ff1d60dbef",
       "frameworks": [
         "net8.0"
       ],
@@ -1739,10 +1785,6 @@
         {
           "include": "..\\IFX.Modules.Registry.Domain\\IFX.Modules.Registry.Domain.csproj",
           "resolvedPath": "src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj"
-        },
-        {
-          "include": "..\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts.csproj",
-          "resolvedPath": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj"
         },
         {
           "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
@@ -1819,7 +1861,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj",
       "role": "source",
-      "sha256": "91251b58816100128e1baa776eb9c7e22b79ba046245c8f48629f34b9f2b3b62",
+      "sha256": "c5e0efbd8d2cf3592ffbfbe1d98055b7a5584683ae58f384902ec425bf6107f6",
       "frameworks": [
         "net8.0"
       ],
@@ -1845,8 +1887,12 @@
           "resolvedPath": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj"
         },
         {
-          "include": "..\\..\\IAM\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
-          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
+        },
+        {
+          "include": "..\\..\\IAM\\IFX.Modules.IAM.Client\\IFX.Modules.IAM.Client.csproj",
+          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj"
         }
       ]
     },
@@ -1867,7 +1913,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj",
       "role": "source",
-      "sha256": "0a774580e8d53d6674ad6ee81b61955ceca4838c36dba32c3734b2562fdbc152",
+      "sha256": "c64f6a0ea0dacc79a93caafaf80bb5f53222377c5ce30986e1217edc553fc03f",
       "frameworks": [
         "net8.0"
       ],
@@ -1879,10 +1925,6 @@
         {
           "include": "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Security\\IFX.BuildingBlocks.Security.csproj",
           "resolvedPath": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj"
-        },
-        {
-          "include": "..\\IFX.Modules.Transaction.Contracts\\IFX.Modules.Transaction.Contracts.csproj",
-          "resolvedPath": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj"
         },
         {
           "include": "..\\IFX.Modules.Transaction.Domain\\IFX.Modules.Transaction.Domain.csproj",
@@ -1955,7 +1997,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj",
       "role": "source",
-      "sha256": "07f19b2f9d331c8b4746f96b0e86dcf743d30cf50b63f6641cbca2f61d952efe",
+      "sha256": "814ea354df3bf800352d7f90cd758b25c78de7ed5df32d88fa49d18ddde3843b",
       "frameworks": [
         "net8.0"
       ],
@@ -1997,8 +2039,12 @@
           "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
         },
         {
-          "include": "..\\..\\IAM\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts.csproj",
-          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+          "include": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
+        },
+        {
+          "include": "..\\..\\IAM\\IFX.Modules.IAM.Client\\IFX.Modules.IAM.Client.csproj",
+          "resolvedPath": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj"
         }
       ]
     },
@@ -2205,6 +2251,24 @@
         "net8.0"
       ],
       "projectReferences": []
+    },
+    {
+      "path": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj",
+      "role": "source",
+      "sha256": "51481621e645025c19887baead51a6e3489999771d9465b53059e6ba7f79f843",
+      "frameworks": [
+        "net8.0"
+      ],
+      "projectReferences": [
+        {
+          "include": "..\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+        },
+        {
+          "include": "..\\..\\..\\BuildingBlocks\\IFX.BuildingBlocks.Application\\IFX.BuildingBlocks.Application.csproj",
+          "resolvedPath": "src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj"
+        }
+      ]
     },
     {
       "path": "src/Platform/IFX.Platform.Shared/IFX.Platform.Shared.csproj",
@@ -2700,7 +2764,7 @@
     {
       "path": "tests/IFX.Platform.ProtocolContracts.Tests/IFX.Platform.ProtocolContracts.Tests.csproj",
       "role": "test",
-      "sha256": "060dcc391e4d960b7d0c53aeae98afbfd3ebd22bbeb817a95231eed0f370dea7",
+      "sha256": "4c0515a084f5fea1d9ff6cc1ed6804f5630bd4dc0e6cbbfe3ec064f626097265",
       "frameworks": [
         "net8.0"
       ],
@@ -2712,6 +2776,10 @@
         {
           "include": "..\\..\\src\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts.csproj",
           "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+        },
+        {
+          "include": "..\\..\\src\\Platform\\Context\\IFX.Platform.Context.Runtime\\IFX.Platform.Context.Runtime.csproj",
+          "resolvedPath": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
         },
         {
           "include": "..\\..\\src\\Platform\\Messaging\\IFX.Platform.Messaging.Contracts\\IFX.Platform.Messaging.Contracts.csproj",
@@ -2779,7 +2847,7 @@
   "manifests": [
     {
       "path": "IFX.sln",
-      "sha256": "315e199f46d924339492ea4a07dd495ea66b655630c9e6b032a92dea8cb3bf60",
+      "sha256": "078bc0b7266ba0be545229492a7a9a93f36d750d0984ba7c63822abf07856994",
       "kind": "IFX.sln",
       "scriptNames": []
     },
@@ -2849,7 +2917,7 @@
   "guidance": [
     {
       "path": ".github/CODEOWNERS",
-      "sha256": "4792156e26256378c17d209dc9e23e4c3406d64ba4c70669a82dc90ffaead720"
+      "sha256": "a79e44efb0e475d7a1912dc64d082318ef9d915c5ae397a38dcf745a312cc41c"
     },
     {
       "path": "CLAUDE.md",

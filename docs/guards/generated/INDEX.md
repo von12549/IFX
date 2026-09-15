@@ -15,7 +15,7 @@ Generated from editable inputs and bound authorities. Edit `docs/guards/inputs/`
 | G05.CONTEXT | Context and sensitive-data boundary | `docs/architecture/review/gates/G05/context-protocol-v1.json` | blocking |
 | L1.2 | No legacy Abstractions project | `src/layerguard.json` | blocking |
 | L2.2 | Domain does not depend on Contracts | `src/layerguard.json` | blocking |
-| L2.3 | Application uses only its own Contracts | `src/layerguard.json` | blocking |
+| L2.3 | Application does not depend on module Contracts | `src/layerguard.json` | blocking |
 | L2.4 | Adapters use registered provider Contracts | `docs/architecture/review/gates/G03/contract-event-catalog.yaml` | blocking |
 | L2.9 | Unknown module ownership fails closed | `src/layerguard.json` | blocking |
 | L3.1 | Contracts and events live in provider namespaces | `src/layerguard.json` | blocking |
