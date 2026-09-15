@@ -23,7 +23,7 @@ try {
     [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'docs/plans'))
     Copy-Item -LiteralPath (Join-Path $package 'examples/minimal') -Destination $profile -Recurse
     [IO.File]::WriteAllText((Join-Path $fixture '.gitignore'), "docs/guards/V3/generated/`nartifacts/`n")
-    [IO.File]::WriteAllText((Join-Path $fixture 'NuGet.Offline.Config'), '<configuration><packageSources><clear /></packageSources></configuration>')
+    [IO.File]::WriteAllText((Join-Path $fixture 'NuGet.Test.Config'), '<configuration><packageSources><clear /><add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /></packageSources></configuration>')
     $projectFile = Join-Path $fixture 'src/App/App.csproj'
     $good = '<Project><ItemGroup><ProjectReference Include="../Core/Core.csproj" /></ItemGroup></Project>'
     $bad = '<Project><ItemGroup><ProjectReference Include="../Legacy/Legacy.csproj" /></ItemGroup></Project>'
@@ -52,21 +52,21 @@ try {
     Remove-Item -LiteralPath (Join-Path $profile 'rules/ARCH.UNCOVERED.json') -Force
     Assert-Run 1 @('-Mode', 'Check') 'removed rule leaves stale snapshot'
     Assert-Run 0 @('-Mode', 'Generate') 'regenerate removes stale rule snapshot'
-    Assert-Run 0 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'allowed project reference and detector fixtures'
+    Assert-Run 0 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Test.Config') 'allowed project reference and detector fixtures'
     $ruleData = Get-Content -LiteralPath $sampleRule -Raw | ConvertFrom-Json -AsHashtable
     $ruleData.sourcePattern = 'src/Never/**/*.csproj'
     [IO.File]::WriteAllText($sampleRule,($ruleData | ConvertTo-Json -Depth 20))
     Assert-Run 0 @('-Mode', 'Generate') 'generate unmatched-source rule'
-    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'unmatched-source rule cannot pass'
+    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Test.Config') 'unmatched-source rule cannot pass'
     $ruleData.sourcePattern = 'src/**/*.csproj'
     $ruleData.negativeFixture.referenceInclude = '../Core/Core.csproj'
     [IO.File]::WriteAllText($sampleRule,($ruleData | ConvertTo-Json -Depth 20))
     Assert-Run 0 @('-Mode', 'Generate') 'generate ineffective negative fixture'
-    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'ineffective negative fixture cannot pass'
+    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Test.Config') 'ineffective negative fixture cannot pass'
     [IO.File]::WriteAllText($sampleRule, $originalRule)
     Assert-Run 0 @('-Mode', 'Generate') 'restore effective rule'
     [IO.File]::WriteAllText($projectFile, $bad)
-    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'forbidden project reference'
+    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Test.Config') 'forbidden project reference'
     [IO.File]::WriteAllText($projectFile, $good)
 
     Assert-Run 0 @('-Mode', 'Pre', '-PlannedPaths', 'src/App/Program.cs') 'ordinary summary Pre'
@@ -120,9 +120,9 @@ try {
     }
     finally { Pop-Location }
     [IO.File]::AppendAllText($projectFile, "`n<!-- planned -->")
-    Assert-Run 0 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-NuGetConfig', 'NuGet.Offline.Config') 'planned diff'
+    Assert-Run 0 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-NuGetConfig', 'NuGet.Test.Config') 'planned diff'
     [IO.File]::WriteAllText((Join-Path $fixture 'src/Unplanned.cs'), 'class Unplanned {}')
-    Assert-Run 1 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-NuGetConfig', 'NuGet.Offline.Config') 'out-of-plan diff'
+    Assert-Run 1 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-NuGetConfig', 'NuGet.Test.Config') 'out-of-plan diff'
     $passed = $true
     Write-Host 'V3 synthetic positive/negative tests passed.'
 }

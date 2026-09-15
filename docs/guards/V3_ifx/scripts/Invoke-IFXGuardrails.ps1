@@ -90,9 +90,13 @@ foreach ($relative in @('profiles/ifx/profile.json','profiles/ifx/project-map.js
 }
 $inputHash = ([Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($inputBuilder.ToString())))).ToLowerInvariant()
 
+$summaryMode = switch ($Mode) {
+    'HistoricalIntegrity' { 'historical-integrity' }
+    default { $Mode.ToLowerInvariant() }
+}
 $summary = [ordered]@{
     formatVersion = 1
-    mode = $Mode.ToLowerInvariant()
+    mode = $summaryMode
     status = if (@($checks | Where-Object status -in @('fail','blocked')).Count -eq 0) { 'pass' } else { 'fail' }
     startedAt = $started.ToString('O')
     completedAt = [DateTimeOffset]::UtcNow.ToString('O')
@@ -100,7 +104,7 @@ $summary = [ordered]@{
     reason = if (@($checks | Where-Object status -in @('fail','blocked')).Count -eq 0) { $null } else { 'One or more blocking guard checks failed.' }
     checks = $checks
 }
-$summaryPath = Join-Path $output "summary-$($Mode.ToLowerInvariant()).json"
+$summaryPath = Join-Path $output "summary-$summaryMode.json"
 $summary | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $summaryPath -Encoding utf8NoBOM
 if (-not (Test-Json -LiteralPath $summaryPath -SchemaFile (Join-Path $packageRoot 'contracts/guard-summary.schema.json') -ErrorAction Stop)) { throw 'Unified summary does not match guard-summary.schema.json.' }
 if ($summary.status -ne 'pass') { throw "IFX guardrails failed: $summaryPath" }
