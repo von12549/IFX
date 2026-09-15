@@ -1,6 +1,7 @@
 using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.Application.Events;
 using IFX.BuildingBlocks.Application.Transactions;
+using IFX.Modules.Registry.Application.Events;
 using IFX.Modules.Registry.Contracts.V1.Events;
 using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Platform.Messaging.Runtime;
@@ -24,11 +25,12 @@ public sealed class RegistryOutboxParticipant(
 
         foreach (var payload in pending)
         {
-            if (payload is not ClassStatusChangedV1 classStatusChanged)
+            if (payload is not ClassStatusChanged fact)
             {
                 throw new InvalidOperationException($"Registry emitted an unregistered integration event '{payload.GetType().FullName}'.");
             }
 
+            var classStatusChanged = ClassStatusChangedV1Mapper.Map(fact);
             var logical = messageFactory.Create(classStatusChanged, "ifx.registry", ClassStatusChangedV1.EventType, ClassStatusChangedV1.SchemaVersion, tenantId);
             dbContext.OutboxMessages.Add(RegistryOutboxStore.ToEntity(logical, classStatusChanged.ClassId.ToString("D"), DateTimeOffset.UtcNow.UtcTicks));
         }

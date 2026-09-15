@@ -67,7 +67,7 @@ $inboundHandlerUsers = @($sourceFiles | Where-Object {
 } | ForEach-Object { [IO.Path]::GetRelativePath($repositoryRoot, $_.FullName).Replace('\', '/') } | Sort-Object)
 $expectedInboundHandlerUsers = @(
     'src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/DependencyInjection.cs',
-    'src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboundIntegrationEventHandler.cs',
+    'src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs',
     'src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RawIntegrationEventReceiver.cs',
     'src/Platform/Messaging/IFX.Platform.Messaging.Runtime/RuntimeContracts.cs'
 ) | Sort-Object

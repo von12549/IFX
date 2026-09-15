@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IFX.Modules.IAM.Application\IFX.Modules.IAM.Application.csproj" />
+    <ProjectReference Include="..\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Platform\Authentication\IFX.Platform.Authentication.Contracts\IFX.Platform.Authentication.Contracts.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.EntityFrameworkCore\IFX.BuildingBlocks.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Domain\IFX.BuildingBlocks.Domain.csproj" />

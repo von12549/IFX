@@ -1,8 +1,9 @@
 using IFX.BuildingBlocks.Composition;
 using IFX.Modules.CRM.Application;
-using IFX.Modules.CRM.Application.Contracts;
+using IFX.Modules.CRM.Application.AccountCompliance;
 using IFX.Modules.CRM.Contracts.V1;
 using IFX.Modules.CRM.Infrastructure;
+using IFX.Modules.CRM.Infrastructure.Integrations.Inbound;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.CRM.Presentation.Extensions;
 using Microsoft.AspNetCore.Routing;
@@ -25,7 +26,8 @@ public sealed class CrmModuleInstaller : IModuleInstaller
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        services.AddScoped<IAccountComplianceContract, AccountComplianceContract>();
+        services.AddScoped<IAccountComplianceUseCase, AccountComplianceUseCase>();
+        services.AddScoped<IAccountComplianceContract, AccountComplianceInboundAdapter>();
 
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;

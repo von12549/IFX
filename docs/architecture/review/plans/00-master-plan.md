@@ -34,7 +34,7 @@
 ## 关键架构约束
 
 - [x] M-C01 提供方拥有并版本化自己的公共 `Contracts`；Contracts 只表达模块能力和已发生的公共事实。
-- [x] M-C02 提供方 Application 实现自身同步 Contract；模块 Composition 负责把实现注册到根 DI 容器。
+- [x] M-C02 提供方 Application 实现自身同步 Contract；模块 Composition 负责把实现注册到根 DI 容器。（Plan 01/B2 历史完成口径；[Plan 06](06-contract-adapter-event-boundary.md) 将公开接口实现迁至提供方 Infrastructure Inbound Adapter，Application 保留自有用例。）
 - [x] M-C03 消费方 Application 只依赖自己定义的 Port，不直接引用其他模块的 Contracts。
 - [x] M-C04 消费方的 Integration Adapter 位于外层，引用“自己的 Application Port + 提供方 Contracts”，并完成协议/模型转换。
 - [x] M-C05 Presentation 是入站 HTTP Adapter，可以含路由、认证和协议映射；它与 Contracts 都不得包含业务规则或直接访问 DbContext。

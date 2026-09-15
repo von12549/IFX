@@ -1,7 +1,7 @@
 using IFX.Modules.Transaction.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.Modules.Transaction.Contracts.V1.Events;
+using IFX.Modules.Transaction.Application.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
@@ -59,7 +59,7 @@ public class ConfirmOrderCommandHandler : IRequestHandler<ConfirmOrderCommand, R
             // Publish processed events for each confirmed leg (Holdings will update balances)
             foreach (var leg in order.Legs.Where(l => l.Units.HasValue))
             {
-                _eventBuffer.Add(new TransactionProcessedV1(leg.Id, leg.Type.ToString(), leg.InvestmentAccountId, leg.ClassId, null, leg.Units!.Value, leg.NAVPrice!.Value));
+                _eventBuffer.Add(new TransactionProcessed(leg.Id, leg.Type.ToString(), leg.InvestmentAccountId, leg.ClassId, null, leg.Units!.Value, leg.NAVPrice!.Value));
             }
 
             _logger.LogInformation("Order confirmed: {OrderId}", order.Id);

@@ -2,7 +2,7 @@ using System.Text.Json;
 using IFX.ApiHost.Runtime;
 using IFX.BuildingBlocks.Application.Context;
 using IFX.Modules.Holdings.Application.Integrations;
-using IFX.Modules.Holdings.Infrastructure.Integrations;
+using IFX.Modules.Holdings.Infrastructure.Integrations.Inbound;
 using IFX.Modules.Holdings.Infrastructure.Persistence;
 using IFX.Modules.Transaction.Contracts.V1.Events;
 using IFX.Platform.Messaging.Contracts.Messaging;

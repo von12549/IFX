@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IFX.Modules.Transaction.Infrastructure.Messaging;
+using IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.IAM;
 
 namespace IFX.Modules.Transaction.Infrastructure;
 
@@ -39,7 +40,7 @@ public static class DependencyInjection
         services.AddScoped<IFX.Platform.Messaging.Runtime.IModuleOutboxStore, TransactionOutboxStore>();
 
         services.AddHttpContextAccessor();
-        services.AddScoped<IResourceAuthorizationService, Integrations.ResourceAuthorizationAdapter>();
+        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationAdapter>();
         return services;
     }
 }

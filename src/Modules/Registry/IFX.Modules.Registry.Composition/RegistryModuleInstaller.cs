@@ -1,8 +1,9 @@
 using IFX.BuildingBlocks.Composition;
 using IFX.Modules.Registry.Application;
-using IFX.Modules.Registry.Application.Contracts;
+using IFX.Modules.Registry.Application.ClassSubscriptionAvailability;
 using IFX.Modules.Registry.Contracts.V1;
 using IFX.Modules.Registry.Infrastructure;
+using IFX.Modules.Registry.Infrastructure.Integrations.Inbound;
 using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Modules.Registry.Presentation.Extensions;
 using Microsoft.AspNetCore.Routing;
@@ -25,7 +26,8 @@ public sealed class RegistryModuleInstaller : IModuleInstaller
 
         services.AddApplicationServices();
         services.AddInfrastructureServices(configuration);
-        services.AddScoped<IClassSubscriptionAvailabilityContract, ClassSubscriptionAvailabilityContract>();
+        services.AddScoped<IClassSubscriptionAvailabilityUseCase, ClassSubscriptionAvailabilityUseCase>();
+        services.AddScoped<IClassSubscriptionAvailabilityContract, ClassSubscriptionAvailabilityInboundAdapter>();
 
         Log.Information("[{Module}] Module services registered successfully", ModuleName);
         return services;

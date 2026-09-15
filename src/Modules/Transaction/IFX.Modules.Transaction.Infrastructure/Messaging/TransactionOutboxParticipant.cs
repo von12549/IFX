@@ -1,6 +1,7 @@
 using IFX.BuildingBlocks.Application.Context;
 using IFX.BuildingBlocks.Application.Events;
 using IFX.BuildingBlocks.Application.Transactions;
+using IFX.Modules.Transaction.Application.Events;
 using IFX.Modules.Transaction.Contracts.V1.Events;
 using IFX.Modules.Transaction.Infrastructure.Persistence;
 using IFX.Platform.Messaging.Runtime;
@@ -24,11 +25,12 @@ public sealed class TransactionOutboxParticipant(
 
         foreach (var payload in pending)
         {
-            if (payload is not TransactionProcessedV1 transactionProcessed)
+            if (payload is not TransactionProcessed fact)
             {
                 throw new InvalidOperationException($"Transaction emitted an unregistered integration event '{payload.GetType().FullName}'.");
             }
 
+            var transactionProcessed = TransactionProcessedV1Mapper.Map(fact);
             var logical = messageFactory.Create(transactionProcessed, "ifx.transaction", TransactionProcessedV1.EventType, TransactionProcessedV1.SchemaVersion, tenantId);
             var sequence = DateTimeOffset.UtcNow.UtcTicks;
             dbContext.OutboxMessages.Add(TransactionOutboxStore.ToEntity(logical, transactionProcessed.TransactionId.ToString("D"), sequence));

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $ReportPath,
-    [string] $BaselinePath = 'mcp/LayerGuard/baselines/plan05.json',
+    [string] $BaselinePath = 'mcp/LayerGuard/baselines/plan06.json',
     [switch] $SkipTests
 )
 

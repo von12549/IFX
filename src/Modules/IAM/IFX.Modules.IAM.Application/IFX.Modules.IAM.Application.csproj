@@ -5,6 +5,7 @@
     <ProjectReference Include="..\IFX.Modules.IAM.Domain\IFX.Modules.IAM.Domain.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Domain\IFX.BuildingBlocks.Domain.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\IFX.BuildingBlocks.Security\IFX.BuildingBlocks.Security.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Context\IFX.Platform.Context.Contracts\IFX.Platform.Context.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,5 +23,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup><ProjectReference Include="..\IFX.Modules.IAM.Contracts\IFX.Modules.IAM.Contracts.csproj" /></ItemGroup>
 </Project>

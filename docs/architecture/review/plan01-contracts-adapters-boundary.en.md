@@ -2,6 +2,7 @@
 
 > 中文：[plan01-contracts-adapters-boundary.zh-CN.md](plan01-contracts-adapters-boundary.zh-CN.md)
 > Status: B2 complete; Plan 02 / B3, B4, and Gate Final Closure remain open.
+> Subsequent change: [Plan 06](plans/06-contract-adapter-event-boundary.md) moves public interface implementations into provider Infrastructure inbound adapters. The text below records the B2 implementation baseline.
 > Authorities: [G03 catalog](gates/G03/contract-event-catalog.yaml) · [G05 context boundary](gates/G05/context-sensitive-data-boundary.en.md) · [B2 evidence](evidence/plan01/B2-status.json)
 
 ## Outcome

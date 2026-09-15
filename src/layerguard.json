@@ -40,7 +40,7 @@
     { "from": "Contracts", "to": "Contracts", "ownership": "own" },
     { "from": "Application", "to": "Application", "ownership": "own" },
     { "from": "Application", "to": "Domain", "ownership": "own" },
-    { "from": "Application", "to": "Contracts", "ownership": "own" },
+    { "from": "Application", "to": "Contracts", "ownership": "none" },
     { "from": "Presentation", "to": "Application", "ownership": "own" },
     { "from": "Presentation", "to": "Contracts", "ownership": "own" },
     { "from": "Presentation", "to": "Domain", "ownership": "own" },
@@ -64,7 +64,7 @@
   "allowedReferences": {
     "Domain": ["IFX.BuildingBlocks.Domain"],
     "Contracts": [],
-    "Application": ["IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
+    "Application": ["IFX.Modules.*.Domain", "IFX.BuildingBlocks.Application", "IFX.BuildingBlocks.Domain", "IFX.BuildingBlocks.Security", "IFX.Platform.*"],
     "Presentation": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Modules.*.Domain"],
     "IntegrationAdapter": ["IFX.Modules.*.Application", "IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
     "Infrastructure": ["IFX.Modules.*.Application", "IFX.Modules.*.Domain", "IFX.Modules.*.Contracts", "IFX.BuildingBlocks.*", "IFX.Platform.*"],
@@ -107,7 +107,8 @@
     { "match": "*RequestContext", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Context*" },
     { "match": "*EventEnvelope", "mustLiveIn": ["Contracts"], "namespace": "*.Contracts.Messaging*" },
     { "match": "I*Port", "kind": "interface", "mustLiveIn": ["Application"], "namespace": "*.Application.Ports*" },
-    { "match": "*Adapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Application", "mustImplementOwn": true }
+    { "match": "*Adapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Application", "mustImplementOwn": true, "exceptions": ["*InboundAdapter"] },
+    { "match": "*InboundAdapter", "kind": "class", "mustLiveIn": ["IntegrationAdapter", "Infrastructure"], "namespace": "*.Integrations*", "mustImplement": "Contracts", "mustImplementOwn": true }
   ],
   "forbiddenDeclarations": [
     { "match": "*Handler", "in": "Contracts" },
@@ -137,7 +138,7 @@
   "requireRings": false,
   "ruleRefs": [
     { "ref": "L2.2", "text": "Domain does not depend on Contracts.", "rules": ["RING-DIRECTION", "IMPORT-DIRECTION"], "ring": "Domain" },
-    { "ref": "L2.3", "text": "Application may use own Contracts but not foreign Contracts.", "rules": ["OWNERSHIP-REFERENCE"], "ring": "Application" },
+    { "ref": "L2.3", "text": "Application does not depend on module public Contracts; registered shared primitives remain allowed.", "rules": ["OWNERSHIP-REFERENCE"], "ring": "Application" },
     { "ref": "L2.4", "text": "Adapters use only registered provider Contracts.", "rules": ["PROVIDER-CONTRACT", "PROVIDER-CYCLE", "EMBEDDED-ADAPTER-PROVIDER"], "ring": "IntegrationAdapter" },
     { "ref": "L3.1", "text": "Public contracts and events live in provider Contracts namespaces.", "rules": ["DECLARATION-NAMESPACE"] },
     { "ref": "L3.4", "text": "Contracts do not reference framework or transport implementations.", "rules": ["RING-PACKAGE", "RING-PACKAGE-FORBIDDEN", "RING-PACKAGE-IMPORT", "SYMBOL-FORBIDDEN"], "ring": "Contracts" },

@@ -7,7 +7,7 @@ using IFX.Modules.Transaction.Application.Commands.ProcessTransaction;
 using IFX.Modules.Transaction.Application.DTOs;
 using IFX.Modules.Transaction.Application.Interfaces;
 using IFX.Modules.Transaction.Domain.Repositories;
-using IFX.Modules.Transaction.Contracts.V1.Events;
+using IFX.Modules.Transaction.Application.Events;
 using Microsoft.Extensions.Logging;
 using TxEntity = IFX.Modules.Transaction.Domain.Entities.Transaction;
 
@@ -69,7 +69,7 @@ public class ProcessTransactionCommandHandlerTests
         tx.NAVPrice.Should().Be(10m);
         tx.Units.Should().Be(1000m);
         _unitOfWork.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
-        _eventBuffer.Verify(e => e.Add(It.IsAny<TransactionProcessedV1>()), Times.Once);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<TransactionProcessed>()), Times.Once);
     }
 
     [Fact]
@@ -121,6 +121,6 @@ public class ProcessTransactionCommandHandlerTests
         var result = await _handler.Handle(new ProcessTransactionCommand(tx.Id, 10m), CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
-        _eventBuffer.Verify(e => e.Add(It.IsAny<TransactionProcessedV1>()), Times.Never);
+        _eventBuffer.Verify(e => e.Add(It.IsAny<TransactionProcessed>()), Times.Never);
     }
 }

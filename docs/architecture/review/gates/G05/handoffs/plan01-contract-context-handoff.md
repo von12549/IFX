@@ -1,5 +1,7 @@
 # G05 -> Plan 01 Contract context conformance handoff
 
+> Plan 06 location update: [implementation handback](../../../evidence/plan06/P06-implementation-handback.md) records the new CRM/Registry/IAM Infrastructure inbound adapters and context tests. G05 Phase 9 and the full repository verification passed; live IdP/production telemetry and named approvals remain external. The Plan 01 acceptance below is historical.
+
 ## Boundary and ownership
 
 - Accountable owner: `xiaolong-feng` / `@von12549`.

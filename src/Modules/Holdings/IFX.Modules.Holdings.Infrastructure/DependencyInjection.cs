@@ -12,7 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using IFX.Modules.Holdings.Application.Integrations;
 using IFX.Modules.Holdings.Application.Ports;
 using IFX.Modules.Holdings.Infrastructure.Messaging;
-using IFX.Modules.Holdings.Infrastructure.Integrations;
+using IFX.Modules.Holdings.Infrastructure.Integrations.Inbound;
+using IFX.Modules.Holdings.Infrastructure.Integrations.Outbound.IAM;
 
 namespace IFX.Modules.Holdings.Infrastructure;
 
@@ -42,7 +43,7 @@ public static class DependencyInjection
         services.AddScoped<IFX.Platform.Messaging.Runtime.IModuleInboxDiagnosticStore, HoldingsInboxDiagnosticStore>();
         services.AddScoped<IFX.Platform.Messaging.Runtime.IInboundIntegrationEventHandler, HoldingsInboundIntegrationEventHandler>();
         services.AddHttpContextAccessor();
-        services.AddScoped<IResourceAuthorizationService, Integrations.ResourceAuthorizationAdapter>();
+        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationAdapter>();
         return services;
     }
 }

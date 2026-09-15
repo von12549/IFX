@@ -5,6 +5,7 @@ using IFX.Platform.Authorization.Contracts.V1;
 using IFX.Modules.IAM.Contracts.V1.Authorization;
 using IFX.BuildingBlocks.Application.Context;
 using IFX.Modules.IAM.Infrastructure.Access;
+using IFX.Modules.IAM.Infrastructure.Integrations.Inbound;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,6 +28,8 @@ public sealed class IamSecurityCompositionTests
         Assert.Single(services, d => d.ServiceType == typeof(IAuthorizationEvaluationContract));
         Assert.Single(services, d => d.ServiceType == typeof(ITokenValidationContract));
         Assert.Single(services, d => d.ServiceType == typeof(IResourceAuthorizationContract));
+        Assert.Single(services, d => d.ServiceType == typeof(IResourceAuthorizationContract))
+            .ImplementationType.Should().Be(typeof(ResourceAuthorizationInboundAdapter));
         Assert.Single(services, d => d.ServiceType == typeof(IExecutionIdentityFacts));
         Assert.Single(services, d => d.ServiceType == typeof(VerifiedIdentityFacts));
     }

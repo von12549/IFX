@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "plan": "03-layerguard-alignment",
+  "milestone": "B4-strict",
+  "result": "passed",
+  "checkedAt": "2026-09-15",
+  "checks": {
+    "strictReportClean": true,
+    "emptyBaseline": true,
+    "rulesetBound": true,
+    "historicalReduction": true,
+    "compatibilityRemoved": true,
+    "legacySourceRemoved": true,
+    "graphCaptured": true,
+    "ciStrict": true
+  },
+  "metrics": {
+    "b1Findings": 116,
+    "b2Findings": 103,
+    "b3Findings": 32,
+    "b4Findings": 0,
+    "projectsInScope": 39,
+    "baselineEntries": 0
+  },
+  "failedChecks": [],
+  "remainingScope": [
+    "Architecture owner approval",
+    "Production-dependent final validation"
+  ]
+}

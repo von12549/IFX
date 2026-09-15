@@ -1,10 +1,11 @@
 using IFX.BuildingBlocks.Application.Context;
-using IFX.Modules.CRM.Application.Contracts;
 using IFX.Modules.CRM.Application.Ports;
+using IFX.Modules.CRM.Infrastructure.Integrations.Inbound;
 using IFX.Modules.CRM.Contracts.V1;
 using IFX.Modules.Registry.Contracts.V1;
+using IFX.Modules.Registry.Infrastructure.Integrations.Inbound;
 using IFX.Modules.Transaction.Application.Ports;
-using IFX.Modules.Transaction.Infrastructure.Integrations.CRM;
+using IFX.Modules.Transaction.Infrastructure.Integrations.Outbound.CRM;
 using IFX.IntegrationTests.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -23,6 +24,10 @@ public sealed class ContractAdapterCompositionTests
 
         scope.ServiceProvider.GetServices<IAccountComplianceContract>().Should().ContainSingle();
         scope.ServiceProvider.GetServices<IClassSubscriptionAvailabilityContract>().Should().ContainSingle();
+        scope.ServiceProvider.GetRequiredService<IAccountComplianceContract>()
+            .Should().BeOfType<AccountComplianceInboundAdapter>();
+        scope.ServiceProvider.GetRequiredService<IClassSubscriptionAvailabilityContract>()
+            .Should().BeOfType<ClassSubscriptionAvailabilityInboundAdapter>();
         scope.ServiceProvider.GetServices<IAccountCompliancePort>().Should().ContainSingle();
         scope.ServiceProvider.GetServices<IClassSubscriptionAvailabilityPort>().Should().ContainSingle();
     }

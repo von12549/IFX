@@ -50,7 +50,7 @@ foreach ($protocol in @($holdingsReference.sourceProtocols)) {
     $referenceProtocolResults += [ordered]@{ identity = $protocol; activeInG03 = $protocol -in $activeProtocolIds }
 }
 
-$holdingHandlerPath = Repo 'src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboundIntegrationEventHandler.cs'
+$holdingHandlerPath = Repo 'src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs'
 $holdingInboxPath = Repo 'src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboxConfiguration.cs'
 $transactionHandlerPath = Repo 'src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyTransactionProcessedCommand.cs'
 $classHandlerPath = Repo 'src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyClassStatusChangedCommand.cs'

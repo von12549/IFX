@@ -35,13 +35,13 @@ public class AuthorizationAdapterTests
             }).ReturnsAsync(new ResourceAuthorizationResponse(allow, allow ? "policy_allow" : "policy_deny"));
         Func<Task> invoke = module switch
         {
-            "crm" => () => new Modules.CRM.Infrastructure.Integrations.ResourceAuthorizationAdapter(contract.Object, execution.Object)
+            "crm" => () => new Modules.CRM.Infrastructure.Integrations.Outbound.IAM.ResourceAuthorizationAdapter(contract.Object, execution.Object)
                 .AuthorizeWithResolvedPolicyAsync("fund", "read", new Modules.CRM.Application.Ports.Authorization.ResourceAttributes { TenantId = tenant.ToString() }),
-            "registry" => () => new Modules.Registry.Infrastructure.Integrations.ResourceAuthorizationAdapter(contract.Object, execution.Object)
+            "registry" => () => new Modules.Registry.Infrastructure.Integrations.Outbound.IAM.ResourceAuthorizationAdapter(contract.Object, execution.Object)
                 .AuthorizeWithResolvedPolicyAsync("fund", "read", new Modules.Registry.Application.Ports.Authorization.ResourceAttributes { TenantId = tenant.ToString() }),
-            "holdings" => () => new Modules.Holdings.Infrastructure.Integrations.ResourceAuthorizationAdapter(contract.Object, execution.Object)
+            "holdings" => () => new Modules.Holdings.Infrastructure.Integrations.Outbound.IAM.ResourceAuthorizationAdapter(contract.Object, execution.Object)
                 .AuthorizeWithResolvedPolicyAsync("fund", "read", new Modules.Holdings.Application.Ports.Authorization.ResourceAttributes { TenantId = tenant.ToString() }),
-            _ => () => new Modules.Transaction.Infrastructure.Integrations.ResourceAuthorizationAdapter(contract.Object, execution.Object)
+            _ => () => new Modules.Transaction.Infrastructure.Integrations.Outbound.IAM.ResourceAuthorizationAdapter(contract.Object, execution.Object)
                 .AuthorizeWithResolvedPolicyAsync("fund", "read", new Modules.Transaction.Application.Ports.Authorization.ResourceAttributes { TenantId = tenant.ToString() })
         };
         if (allow) await invoke(); else await Assert.ThrowsAsync<ForbiddenException>(invoke);
@@ -51,7 +51,7 @@ public class AuthorizationAdapterTests
     public async Task Worker_without_trusted_context_cannot_call_IAM()
     {
         var contract = new Mock<IResourceAuthorizationContract>(MockBehavior.Strict);
-        var adapter = new Modules.Transaction.Infrastructure.Integrations.ResourceAuthorizationAdapter(contract.Object, Mock.Of<IExecutionContextAccessor>());
+        var adapter = new Modules.Transaction.Infrastructure.Integrations.Outbound.IAM.ResourceAuthorizationAdapter(contract.Object, Mock.Of<IExecutionContextAccessor>());
         await Assert.ThrowsAsync<ForbiddenException>(() => adapter.AuthorizeWithResolvedPolicyAsync("fund", "read",
             new Modules.Transaction.Application.Ports.Authorization.ResourceAttributes()));
         contract.VerifyNoOtherCalls();

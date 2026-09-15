@@ -1,8 +1,8 @@
 # Target Contracts, Adapters, and Events architecture / 目标 Contracts、Adapters 与 Events 架构
 
-> Status: proposed architecture agreed during review; not yet implemented.
+> Status: Plan 06 source target; database and Gate closure are tracked separately.
 >
-> 状态：架构评审讨论形成的目标方案，尚未实现。
+> 状态：Plan 06 源码目标；数据库验证与 Gate 关闭单独跟踪。
 
 Solid arrows are compile-time references. Dashed arrows describe implementation or runtime binding. Contracts are type definitions, not running components.
 
@@ -15,9 +15,9 @@ flowchart TB
     subgraph A[Provider module A]
         AC[A.Composition]
         AP[A.Presentation]
-        AA[A.Application<br/>public facade and use cases]
+        AA[A.Application<br/>provider-owned use cases and internal facts]
         AD[A.Domain]
-        AI[A.Infrastructure<br/>persistence and technical adapters]
+        AI[A.Infrastructure<br/>inbound adapter, V1 mapper, Outbox, persistence]
         ACT[A.Contracts<br/>public sync contracts, DTOs, event schemas]
 
         AC --> AP
@@ -26,10 +26,10 @@ flowchart TB
         AC --> ACT
         AP --> AA
         AA --> AD
-        AA --> ACT
         AI --> AA
         AI --> AD
-        AA -. implements public contract .-> ACT
+        AI --> ACT
+        AI -. implements public contract .-> ACT
     end
 
     subgraph B[Consumer module B]
@@ -48,7 +48,6 @@ flowchart TB
         BC --> BCT
         BP --> BA
         BA --> BD
-        BA --> BCT
         BI --> BA
         BI --> BD
         BOUT --> BA
@@ -63,14 +62,14 @@ flowchart TB
     Host --> AC
     Host --> BC
     Host --> Msg
-    AA --> Msg
+    AI --> Msg
     BIN --> Msg
 ```
 
 ## Target dependency rules / 目标依赖规则
 
 1. Contracts define stable public protocols only; they do not reference Application, Infrastructure, Presentation, EF Core, MediatR handlers, or domain entities.
-2. A provider Application may reference and implement its own Contracts and publish its own contract events.
+2. A provider Application owns business use cases and internal facts, with no dependency on its own public versioned Contracts. Provider Infrastructure implements the public Contract and maps facts to V1 events before Outbox commit.
 3. A consumer Application defines consumer-owned ports and does not reference another module's Contracts in strict mode.
 4. Outbound Integration Adapters implement consumer ports and reference provider Contracts.
 5. Inbound event adapters reference producer event Contracts and translate them into consumer-owned commands.
@@ -78,7 +77,7 @@ flowchart TB
 7. No module reads another module's DbContext or tables.
 
 1. Contracts 只定义稳定的公开协议，不引用 Application、Infrastructure、Presentation、EF Core、MediatR Handler 或领域实体。
-2. 提供方 Application 可以引用并实现自己的 Contracts，也可以发布自己的契约事件。
+2. 提供方 Application 拥有业务用例和内部事实，不依赖本模块公开版本化 Contracts。提供方 Infrastructure 实现公开 Contract，并在 Outbox 提交前将内部事实映射为 V1 事件。
 3. 严格模式下，消费者 Application 定义自己的 Port，不直接引用其他模块 Contracts。
 4. 出站 Integration Adapter 实现消费者 Port，并引用提供方 Contracts。
 5. 入站事件 Adapter 引用生产者事件 Contracts，并将外部事件转换成消费者自己的 Command。
@@ -93,7 +92,8 @@ flowchart LR
     Consumer[Consumer Application] -->|owns required capability| ConsumerPort[Consumer Port]
     Adapter[Consumer Integration Adapter] -. implements .-> ConsumerPort
     Adapter --> ProviderContracts
-    ProviderApp[Provider Application] -. implements .-> ProviderContracts
+    ProviderInbound[Provider Infrastructure Inbound Adapter] -. implements .-> ProviderContracts
+    ProviderInbound --> ProviderApp[Provider Application UseCase]
 ```
 
 The provider owns the meaning of its facts, such as KYC status. The consumer owns the decision that uses those facts, such as whether an order may be created.

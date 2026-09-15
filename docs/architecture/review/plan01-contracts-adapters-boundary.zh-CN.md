@@ -2,6 +2,7 @@
 
 > English: [plan01-contracts-adapters-boundary.en.md](plan01-contracts-adapters-boundary.en.md)
 > 状态：B2 完成；Plan 02 / B3、B4 与 Gate Final Closure 保持开放。
+> 后续变更：[Plan 06](plans/06-contract-adapter-event-boundary.md) 将公开接口实现移至提供方 Infrastructure Inbound Adapter；下文记录 B2 当时的实施基线。
 > 权威治理：[G03 catalog](gates/G03/contract-event-catalog.yaml) · [G05 context boundary](gates/G05/context-sensitive-data-boundary.zh-CN.md) · [B2 evidence](evidence/plan01/B2-status.json)
 
 ## 结果

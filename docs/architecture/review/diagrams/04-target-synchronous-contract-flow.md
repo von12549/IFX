@@ -1,8 +1,8 @@
 # Target synchronous Contract flow / 目标同步 Contract 流程
 
-> Status: proposed, not implemented.
+> Status: Plan 06 source target; Gate closure is tracked separately.
 >
-> 状态：目标方案，尚未实现。
+> 状态：Plan 06 源码目标；Gate 关闭单独跟踪。
 
 The example assumes Transaction needs current CRM and Registry facts before deciding whether to create an order.
 
@@ -15,9 +15,10 @@ sequenceDiagram
     participant TP as Transaction.Presentation
     participant TA as Transaction.Application
     participant Port as Transaction-owned Port
-    participant Adapter as Transaction Integration Adapter
+    participant Adapter as Transaction.Infrastructure Outbound Adapter
     participant Contract as CRM.Contracts
-    participant Facade as CRM.Application Facade
+    participant Inbound as CRM.Infrastructure Inbound Adapter
+    participant UseCase as CRM.Application UseCase
     participant Domain as CRM Domain
     participant Repo as CRM Repository Port
     participant DbAdapter as CRM.Infrastructure Repository
@@ -28,15 +29,18 @@ sequenceDiagram
     TA->>Port: Get account compliance snapshot
     Port->>Adapter: DI dispatches to adapter
     Adapter->>Contract: Call provider public contract
-    Contract->>Facade: DI dispatches to Application implementation
-    Facade->>Repo: Load CRM-owned state
+    Contract->>Inbound: DI dispatches to provider adapter
+    Inbound->>Inbound: Validate consumer, version, scope, trust, tenant
+    Inbound->>UseCase: Map request in provider child scope
+    UseCase->>Repo: Load CRM-owned state
     Repo->>DbAdapter: DI dispatches to repository adapter
     DbAdapter->>DB: Query CRM schema
     DB-->>DbAdapter: state
-    DbAdapter-->>Facade: CRM domain data
-    Facade->>Domain: Evaluate CRM-owned compliance meaning
-    Domain-->>Facade: compliance fact
-    Facade-->>Adapter: typed contract result
+    DbAdapter-->>UseCase: CRM domain data
+    UseCase->>Domain: Evaluate CRM-owned compliance meaning
+    Domain-->>UseCase: compliance fact
+    UseCase-->>Inbound: provider-owned result
+    Inbound-->>Adapter: typed contract result
     Adapter-->>TA: Transaction-owned snapshot/result
     TA->>TA: Apply Transaction-owned order policy
     TA-->>TP: success or expected business failure
@@ -45,9 +49,9 @@ sequenceDiagram
 
 ## Result semantics / 返回语义
 
-The public synchronous result should not collapse every outcome into a Boolean. It should distinguish at least:
+The current CRM/Registry V1 success result is Boolean; boundary failures use stable Contract error codes. A future version may distinguish:
 
-公开同步结果不应把全部结果压缩成 Boolean，至少应区分：
+当前 CRM/Registry V1 成功结果为布尔事实，边界失败使用稳定 Contract 错误码。未来版本可进一步区分：
 
 ```text
 Approved / NotApproved

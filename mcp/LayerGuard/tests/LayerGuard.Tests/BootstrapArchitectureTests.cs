@@ -20,12 +20,16 @@ public class BootstrapArchitectureTests
     }
 
     [Fact]
-    public void Domain_to_contracts_and_application_to_foreign_contracts_are_rejected()
+    public void Domain_to_contracts_and_application_to_module_contracts_are_rejected()
     {
         Assert.Contains(Report.Violations, finding =>
             finding.FromProject == "Acme.Billing.Domain"
             && finding.ToProject == "Acme.Sales.Contracts"
             && finding.Rule == ReferenceRules.DirectionRule);
+        Assert.Contains(Report.Violations, finding =>
+            finding.FromProject == "Acme.Billing.Application"
+            && finding.ToProject == "Acme.Billing.Contracts"
+            && finding.Rule == OwnershipRules.ScopeRule);
         Assert.Contains(Report.Violations, finding =>
             finding.FromProject == "Acme.Billing.Application"
             && finding.ToProject == "Acme.Sales.Contracts"
@@ -50,6 +54,15 @@ public class BootstrapArchitectureTests
         Assert.DoesNotContain(Report.Violations, finding => finding.ToProject == "SalesAdapter"
             && finding.Rule == SourcePolicyRules.NamespaceRuleId);
         Assert.Contains(Report.Violations, finding => finding.ToProject == "BrokenAdapter"
+            && finding.Rule == SourcePolicyRules.NamespaceRuleId);
+    }
+
+    [Fact]
+    public void Inbound_adapter_must_implement_its_provider_contract()
+    {
+        Assert.DoesNotContain(Report.Violations, finding => finding.ToProject == "BillingInboundAdapter"
+            && finding.Rule == SourcePolicyRules.NamespaceRuleId);
+        Assert.Contains(Report.Violations, finding => finding.ToProject == "BrokenInboundAdapter"
             && finding.Rule == SourcePolicyRules.NamespaceRuleId);
     }
 

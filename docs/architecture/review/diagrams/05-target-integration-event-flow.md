@@ -1,8 +1,8 @@
 # Target durable Integration Event flow / 目标可靠 Integration Event 流程
 
-> Status: proposed, not implemented. It requires durable Outbox/Inbox capabilities that the current in-memory bus does not provide.
+> Status: Plan 06 source target; SQL Server atomicity revalidation remains pending when Docker is unavailable.
 >
-> 状态：目标方案，尚未实现。它依赖当前内存总线尚未提供的持久化 Outbox/Inbox 能力。
+> 状态：Plan 06 源码目标；Docker 不可用时 SQL Server 原子性复验仍待完成。
 
 Integration Events communicate facts that have already committed. They are not synchronous query responses.
 
@@ -12,6 +12,7 @@ Integration Event 用于传播已经提交的事实，不作为同步查询响�
 sequenceDiagram
     autonumber
     participant PA as Producer Application
+    participant Mapper as Producer Infrastructure V1 Mapper and Outbox Participant
     participant PDB as Producer Database
     participant Outbox as Producer Outbox Dispatcher
     participant Broker as Event Transport
@@ -21,7 +22,9 @@ sequenceDiagram
 
     PA->>PDB: Begin local transaction
     PA->>PDB: Save aggregate changes
-    PA->>PDB: Insert Integration Event into Outbox
+    PA->>Mapper: Buffer internal business fact
+    Mapper->>Mapper: Map fact to public V1 payload and Envelope
+    Mapper->>PDB: Insert V1 message into Outbox before commit
     PA->>PDB: Commit aggregate and Outbox atomically
 
     loop asynchronous dispatch

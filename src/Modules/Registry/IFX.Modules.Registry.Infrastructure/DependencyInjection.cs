@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IFX.Modules.Registry.Infrastructure.Messaging;
+using IFX.Modules.Registry.Infrastructure.Integrations.Outbound.IAM;
+using IFX.Modules.Registry.Infrastructure.Integrations.Outbound.Persistence;
 
 namespace IFX.Modules.Registry.Infrastructure;
 
@@ -44,13 +46,13 @@ public static class DependencyInjection
         services.AddKeyedScoped<ITransactionParticipant, RegistryOutboxParticipant>(typeof(RegistryTransactionOwner));
         services.AddScoped<IFX.Platform.Messaging.Runtime.IModuleOutboxStore, RegistryOutboxStore>();
 
-        services.AddScoped<IClassSubscriptionDataPort, Integrations.ClassSubscriptionDataAdapter>();
+        services.AddScoped<IClassSubscriptionDataPort, ClassSubscriptionDataAdapter>();
 
         // Note: ICurrentUser, IPermissionChecker, IResourceAuthorizationService and IAbacPolicyResolver
-        // are registered by the Auth module and shared
+        // are registered by the IAM module and shared
         // via the common DI container. Registry handlers resolve them from there.
 
-        services.AddScoped<IResourceAuthorizationService, Integrations.ResourceAuthorizationAdapter>();
+        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationAdapter>();
         return services;
     }
 }

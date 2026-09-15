@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C5",
+  "result": "repository-passed-release-rehearsal-pending",
+  "e7_5": {
+    "result": "target-consumer-first-rehearsal-pending",
+    "checklistMayClose": false
+  },
+  "e7_6": {
+    "result": "observation-and-old-path-cleanup-pending",
+    "checklistMayClose": false
+  },
+  "phase7MayClose": false,
+  "repositoryChecks": {
+    "exactConsumerFirstOrchestration": true,
+    "cleanupDependsOnObservationAndZeroDemand": true,
+    "apiWorkerRolesFailClosed": true,
+    "producerUsesTransactionalBufferOnly": true,
+    "dispatcherIsOnlyTransportSendPath": true,
+    "inboundResolutionIsAdapterMediated": true,
+    "checklistRemainsTruthfullyOpen": true,
+    "runbookBindsP02C5StrictGate": true,
+    "readinessTracksP02C5Pending": true
+  },
+  "targetChecks": {
+    "completedTargetIdentity": false,
+    "noTemplatePlaceholdersRemain": false,
+    "prerequisiteEvidenceCompletedAndBound": false,
+    "g04ReleaseCompletedAndBound": false,
+    "workerActuallyPrecededApi": false,
+    "authoritativePathAndSingletonVerified": false,
+    "observationThresholdsAndZeroDemandAccepted": false,
+    "rehearsalExerciseMatrixComplete": false,
+    "cleanupOnlyAfterObservation": false,
+    "namedApprovalsAndCaptureComplete": false
+  },
+  "failedRepositoryChecks": [],
+  "failedTargetChecks": [
+    "completedTargetIdentity",
+    "noTemplatePlaceholdersRemain",
+    "prerequisiteEvidenceCompletedAndBound",
+    "g04ReleaseCompletedAndBound",
+    "workerActuallyPrecededApi",
+    "authoritativePathAndSingletonVerified",
+    "observationThresholdsAndZeroDemandAccepted",
+    "rehearsalExerciseMatrixComplete",
+    "cleanupOnlyAfterObservation",
+    "namedApprovalsAndCaptureComplete"
+  ],
+  "nextAction": "After a production platform is selected, complete P02-C3 and P02-C4 target evidence, run the G04 nine-stage consumer-first rehearsal, observe zero old-version demand, then remove old paths and rerun with -RequireTargetEvidence."
+}

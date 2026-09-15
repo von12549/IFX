@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text;
 using LayerGuard;
 using Xunit;
 
@@ -98,6 +99,30 @@ public class GatePolicyBindingTests
 
             var error = Assert.Throws<InvalidDataException>(() => Analyze(directory, g03, g04, g05));
             Assert.Contains("G04 deploymentUnitCatalog hash mismatch", error.Message);
+        });
+    }
+
+    [Fact]
+    public void G04_text_binding_accepts_checkout_line_ending_conversion()
+    {
+        WithPolicyCopy((directory, g03, g04, g05) =>
+        {
+            var document = JsonNode.Parse(File.ReadAllText(g04))!.AsObject();
+            var binding = document["bindings"]!["moduleManifest"]!;
+            var sourcePath = binding["path"]!.GetValue<string>();
+            var crlfPath = Path.Combine(directory, "module-manifest-crlf.json");
+            var canonicalText = File.ReadAllText(sourcePath)
+                .Replace("\r\n", "\n", StringComparison.Ordinal)
+                .Replace('\r', '\n');
+            File.WriteAllText(crlfPath, canonicalText.Replace("\n", "\r\n", StringComparison.Ordinal),
+                new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            binding["path"] = crlfPath;
+            File.WriteAllText(g04, document.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
+
+            var report = Analyze(directory, g03, g04, g05);
+
+            Assert.Contains(report.Ruleset.PolicyBindings,
+                item => item.Gate == "G04-moduleManifest" && item.Source == crlfPath);
         });
     }
 

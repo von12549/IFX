@@ -3,6 +3,7 @@
 > G04 反向链接：API/Worker 继续使用同一业务 release，Contract 迁移不得形成按模块独立部署；见 [G04 runtime baseline](../gates/G04/deployment-runtime-boundary.zh-CN.md)。
 
 > 状态：B2 COMPLETE（2026-09-08）；Plan 02/B3、B4 与 Gate Final Closure 不在本计划关闭范围
+> 后续结构演进：[Plan 06](06-contract-adapter-event-boundary.md) 将公开 Contract 的实现移至提供方 Infrastructure Inbound Adapter，将 Application 保留为自有用例与业务规则所有者。本计划 C2.1/C2.2/C2.8 和 B2 证据描述的是 2026-09-08 的历史实现，不据此宣称当前仍由 Application 直接实现公开接口。
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 相关架构：[`../target-contracts-adapters-events.zh-CN.md`](../target-contracts-adapters-events.zh-CN.md)
 > 治理前置：[`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 提供权威目录、V1 identity、版本/废弃政策和 shared primitives allowlist。
@@ -13,6 +14,8 @@
 > 完成证据：[`B2 status`](../evidence/plan01/B2-status.json)、[`Gate handback`](../evidence/plan01/B2-gate-handback.md)、[中英文实施设计](../plan01-contracts-adapters-boundary.zh-CN.md) 与 [`B2 LayerGuard`](../evidence/layerguard/B2-report.json)。四个事件 `*.Abstractions` 项目只因 Plan 02/B3 保留，不是同步兼容 shim。
 
 ## 目标边界
+
+以下是 B2 当时的目标；Plan 06 实施后的同步链为 `Consumer.Application Port → Consumer.Infrastructure Outbound Adapter → Provider.Contracts → Provider.Infrastructure Inbound Adapter → Provider.Application UseCase → Provider.Infrastructure Data Adapter`。
 
 ```text
 Provider.Application ----implements----> Provider.Contracts

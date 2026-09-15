@@ -1,5 +1,7 @@
 # G03 -> Plan 01 Contracts / Ports / Adapters handoff
 
+> Plan 06 location update: [implementation handback](../../../evidence/plan06/P06-implementation-handback.md) records provider Infrastructure inbound adapters, Application-owned use cases and producer V1 mappers. G03 source reconciliation and Phase 9 passed, and regenerated public API/serialization snapshots match the authoritative files. Protocol identities and lifecycle are unchanged; closure remains `pre-ready`. The B2 acceptance below is historical.
+
 ## Accountability and revisit
 
 - Recorded accountable owner: `xiaolong-feng` / repository handle `@von12549`, acting for the CRM,

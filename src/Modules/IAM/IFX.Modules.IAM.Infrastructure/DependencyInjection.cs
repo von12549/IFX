@@ -1,7 +1,8 @@
 using IFX.Modules.IAM.Application.Ports.Authorization;
 using IFX.BuildingBlocks.Security.Authorization;
 using IFX.Modules.IAM.Application.Access;
-using IFX.Modules.IAM.Infrastructure.Integrations.Authorization;
+using IFX.Modules.IAM.Infrastructure.Integrations.Outbound.Authorization;
+using IFX.Modules.IAM.Infrastructure.Integrations.Inbound;
 using IFX.BuildingBlocks.Application.Transactions;
 using IFX.BuildingBlocks.Application.Context;
 using IFX.Modules.IAM.Application.Access.Abac.Registry;
@@ -18,7 +19,7 @@ using IFX.Modules.IAM.Infrastructure.Access;
 using IFX.Modules.IAM.Infrastructure.Access.Repositories;
 using IFX.Modules.IAM.Infrastructure.Tenancy.Repositories;
 using IFX.Modules.IAM.Infrastructure.Identity.Repositories;
-using IFX.Modules.IAM.Infrastructure.Integrations.Authentication;
+using IFX.Modules.IAM.Infrastructure.Integrations.Outbound.Authentication;
 using IFX.Modules.IAM.Application.Identity.Services;
 using IFX.Modules.IAM.Infrastructure.Persistence;
 using IFX.Modules.IAM.Infrastructure.Users.Repositories;
@@ -97,7 +98,7 @@ public static class DependencyInjection
         services.AddScoped<IPermissionChecker, PermissionChecker>();
         services.AddScoped<ResourceAuthorizationService>();
         services.AddScoped<IResourceAuthorizationService>(p => p.GetRequiredService<ResourceAuthorizationService>());
-        services.AddScoped<IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract>(p => p.GetRequiredService<ResourceAuthorizationService>());
+        services.AddScoped<IFX.Modules.IAM.Contracts.V1.Authorization.IResourceAuthorizationContract, ResourceAuthorizationInboundAdapter>();
         services.AddScoped<IPolicyEvaluationPort, PolicyEvaluationAdapter>();
         services.AddScoped<IAuthorizationEnvironmentPort, AuthorizationEnvironment>();
 

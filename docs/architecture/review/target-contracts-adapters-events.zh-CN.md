@@ -1,8 +1,8 @@
 # IFX 目标 Contracts、Adapters 与 Events 架构
 
 > 文档状态：架构评审目标方案  
-> 当前状态：尚未实现  
-> 用途：作为后续实施计划、架构规则和测试策略的基础。
+> 当前状态：Plan 01/B2、Plan 02/B3 已形成历史实现；[Plan 06](plans/06-contract-adapter-event-boundary.md) 正在迁移公开入口与事件映射位置。
+> 用途：记录当前目标职责、架构规则和测试策略。
 
 ## 1. 目标与非目标
 
@@ -50,7 +50,7 @@ Contracts 本身不会加载实现。实现由拥有该能力的模块提供，�
 Integration Adapter 是外层 Adapter，架构角色属于 Infrastructure。初期可以放在：
 
 ```text
-IFX.Modules.Transaction.Infrastructure/Integrations/CRM
+IFX.Modules.Transaction.Infrastructure/Integrations/Outbound/CRM
 ```
 
 只有当 Adapter 数量、技术差异或独立部署需求增加时，才需要拆成独立项目，例如 `IFX.Modules.Transaction.Integration.CRM`。即使独立成项目，它也不是新的业务层。
@@ -62,6 +62,13 @@ IFX.Modules.Transaction.Infrastructure/Integrations/CRM
 - 转换 Request/Response；
 - 归一化 NotFound、Denied、Unavailable、Timeout 等技术结果；
 - 将来可从进程内实现替换成 HTTP/gRPC Client。
+
+提供方同步入站 Adapter：
+
+- 位于提供方 `Infrastructure/Integrations/Inbound`，实现提供方公开 V1 接口；
+- 在调用 Application 前验证受控 consumer、context/source version、scope、可信执行上下文与资源 tenant；
+- 建立隔离的提供方执行 scope，将公共 DTO 转换为 Application 自有用例输入；
+- 将取消、业务结果和边界故障映射为稳定的公开语义，不承载业务授权或数据规则。
 
 入站事件 Adapter：
 
@@ -98,7 +105,7 @@ ApiHost 不应直接知道或注册模块的具体业务实现，否则它会成
 ### 3.2 Application
 
 - 引用自己的 Domain。
-- 可以引用并实现自己的 Contracts，以提供公共 Facade 或发布本模块 Integration Event。
+- 拥有自有用例、Port 和内部业务事实；不引用本模块公开版本化 `*.Contracts`。
 - 定义本模块用例所需的 consumer-owned ports。
 - 严格模式下不引用其他业务模块 Contracts。
 - 不引用 DbContext、EF Core、HTTP Client 或消息代理实现。
@@ -113,6 +120,7 @@ ApiHost 不应直接知道或注册模块的具体业务实现，否则它会成
 ### 3.4 Infrastructure 与 Integration Adapters
 
 - Infrastructure 实现本模块 Application/Domain 定义的技术 Port。
+- 提供方 Infrastructure 入站 Adapter 实现自己的公开 Contract；生产方 Outbox 参与者将内部事实映射为公共 V1 事件。
 - 出站 Adapter 可以引用提供方 Contracts，但不得引用提供方 Application、Domain 或 Infrastructure。
 - 不得读取或写入其他模块的 DbContext、schema 或 Repository。
 - 入站消息 Handler 将外部事件转换为本模块 Application Command。
@@ -125,8 +133,8 @@ ApiHost 不应直接知道或注册模块的具体业务实现，否则它会成
 
 ### 3.6 Composition
 
-- 是唯一同时了解本模块 Contracts、Application、Infrastructure、Presentation 和 Adapter 实现的项目。
-- 注册公共 Contract 到本模块 Application Facade 的映射。
+- 是汇总本模块 Contracts、Application、Infrastructure、Presentation 和 Adapter 注册的装配项目；Infrastructure 本身也需引用自有 Application 与公开 Contracts 以实现入口。
+- 注册公共 Contract 到本模块 Infrastructure Inbound Adapter 的映射，以及该 Adapter 到 Application 用例的映射。
 - 注册消费者 Port 到 Integration Adapter 的映射。
 - 注册入站 Integration Event Handler。
 
@@ -141,7 +149,8 @@ Transaction.Application
   → Transaction-owned Port
   → Transaction CRM/Registry Adapter
   → provider Contracts
-  → provider Application Facade
+  → provider Infrastructure Inbound Adapter
+  → provider Application UseCase
   → provider Domain/Repository Port
   → provider Infrastructure
 ```
@@ -152,7 +161,7 @@ Transaction.Application
 - Registry 暴露 Fund Class 状态或申购可用性事实。
 - Transaction 根据这些事实执行自己的订单创建规则。
 
-返回结果不应只使用 Boolean。至少需要区分业务拒绝、不存在、无权限和提供方不可用；必要时携带 reason code、evaluated-at 和 source version。
+当前 V1 的 CRM/Registry 成功响应使用布尔业务事实，边界失败通过稳定 Contract 错误码表达；`false` 包含未批准、关闭或不存在的现有语义。若未来需要进一步区分业务拒绝、不存在或携带 evaluated-at/source version，应按 G03 兼容性规则新增字段或 V+1，不能在 Plan 06 中改变 V1。
 
 同步查询仍然存在时间耦合和 check-then-act 竞态。如果业务要求严格保证状态在后续提交时仍有效，应采用有期限且带版本的授权/预留 token、显式 workflow，或者重新评估模块边界。
 
@@ -172,7 +181,7 @@ Integration Event 表达已提交的跨模块业务事实，例如 `TransactionP
 
 事件 schema 由生产者拥有，采用过去式事实命名，并保持向后兼容演进。推荐 envelope 至少包含 EventId、OccurredAt、CorrelationId、CausationId、TenantId 和 schema version。
 
-Domain Event 与 Integration Event 不应混用：Domain Event 是模块内部模型的一部分；Integration Event 是跨边界公开协议，通常由 Application 在提交边界处根据领域结果进行映射。
+Domain Event 与 Integration Event 不应混用：Domain Event 是模块内部模型的一部分。Application 在业务状态变化时形成内部事实；Infrastructure 在同一本地事务的 Outbox 准备阶段将其映射为公开 V1 Integration Event，提交后由 Dispatcher 投递。
 
 ## 6. Event Notification 与本地投影
 
@@ -203,16 +212,17 @@ Domain Event 与 Integration Event 不应混用：Domain Event 是模块内部�
 
 ## 8. DI 与实现加载
 
-Contracts 不引用 Application，也不加载实现。提供方 Application 实现自己的 Contract，提供方 Composition 注册映射：
+Contracts 不引用 Application，也不加载实现。提供方 Infrastructure Inbound Adapter 实现公开 Contract，提供方 Composition 注册 Adapter 与 Application 用例：
 
 ```text
 A.Contracts interface
-  ← implemented by A.Application Facade
+  ← implemented by A.Infrastructure Inbound Adapter
+  → invokes A.Application UseCase
   ← registered by A.Composition
   ← loaded when ApiHost calls AddModuleA
 ```
 
-消费者 Adapter 只需要引用提供方 Contracts。运行时共享 DI 容器会把 Contract 解析到提供方注册的 Application Facade。
+消费者 Adapter 只需要引用提供方 Contracts。运行时共享 DI 容器会把 Contract 解析到提供方注册的 Inbound Adapter，再由后者调用 Application 用例。
 
 如果 ApiHost 没有加载必需的提供方模块，应在容器验证或模块依赖验证阶段快速失败，而不是在首次业务请求中产生模糊错误。
 
@@ -235,7 +245,7 @@ A.Contracts interface
 1. 确认术语、Contracts 所有权与 LayerGuard 规则。
 2. 盘点真实消费者，删除或内化未使用的 Reader 方法和 DTO。
 3. 修复所有公开 Contract 的 tenant、授权和错误语义。
-4. 在提供方 Application 建立公共 Facade，停止由 Reader 直接承载业务判断。
+4. 在提供方 Application 建立自有用例，停止由 Reader 直接承载业务判断；公开入口由 Infrastructure Inbound Adapter 承接。
 5. 在 Transaction 等消费者 Application 定义 consumer-owned ports。
 6. 在 Infrastructure/Integrations 建立进程内 Adapter，并从消费者 Application 移除外部模块引用。
 7. 将外部事件 Handler 移到入站 Integration Adapter，转换为内部 Command。

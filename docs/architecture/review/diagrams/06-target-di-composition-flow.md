@@ -19,7 +19,8 @@ sequenceDiagram
 
     Host->>AC: AddModuleA(configuration)
     AC->>DI: Register A repositories and technical adapters
-    AC->>DI: Register AContract -> AApplicationFacade
+    AC->>DI: Register AContract -> AInfrastructureInboundAdapter
+    AC->>DI: Register AUseCase -> AApplicationUseCase
 
     Host->>BC: AddModuleB(configuration)
     BC->>DI: Register BPort -> AContractAdapter
@@ -29,7 +30,8 @@ sequenceDiagram
 
     Runtime->>DI: Resolve B command handler
     DI->>DI: Resolve BPort as AContractAdapter
-    DI->>DI: Resolve AContract as AApplicationFacade
+    DI->>DI: Resolve AContract as AInfrastructureInboundAdapter
+    DI->>DI: Resolve AUseCase as AApplicationUseCase
     DI-->>Runtime: Fully constructed object graph
 ```
 

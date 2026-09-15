@@ -1,7 +1,7 @@
 using IFX.Modules.Transaction.Application.Ports.Authorization;
 using AutoMapper;
 using IFX.BuildingBlocks.Security.Authorization;
-using IFX.Modules.Transaction.Contracts.V1.Events;
+using IFX.Modules.Transaction.Application.Events;
 using IFX.Modules.Transaction.Application.Common;
 using IFX.Modules.Transaction.Application.Common.Authorization;
 using IFX.Modules.Transaction.Application.DTOs;
@@ -42,7 +42,7 @@ public class ProcessTransactionCommandHandler : IRequestHandler<ProcessTransacti
             tx.Process(request.NAVPrice);
             _unitOfWork.Transactions.Update(tx);
             // Publish event — Holdings module will update balances
-            _eventBuffer.Add(new TransactionProcessedV1(tx.Id, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.TargetClassId, tx.Units!.Value, tx.NAVPrice!.Value));
+            _eventBuffer.Add(new TransactionProcessed(tx.Id, tx.Type.ToString(), tx.InvestmentAccountId, tx.ClassId, tx.TargetClassId, tx.Units!.Value, tx.NAVPrice!.Value));
             _logger.LogInformation("Transaction processed: {TransactionId} Units={Units} NAV={NAVPrice}", tx.Id, tx.Units, tx.NAVPrice);
             return Result<TransactionDto>.Success(_mapper.Map<TransactionDto>(tx));
         }

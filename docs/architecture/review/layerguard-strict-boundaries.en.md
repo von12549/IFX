@@ -21,7 +21,7 @@ result from either side never masks failure on the other.
 | --- | --- | --- |
 | Domain | `IFX.Modules.*.Domain` | approved Domain primitives |
 | Contracts | `IFX.Modules.*.Contracts`, `IFX.Platform.*.Contracts` | BCL and G05-approved contract primitives |
-| Application | `IFX.Modules.*.Application` | own Domain, own Contracts, approved BuildingBlocks/Context primitives |
+| Application | `IFX.Modules.*.Application` | own Domain and approved BuildingBlocks/Context primitives; Plan 06 removes references to each module's public versioned Contracts |
 | Presentation | `IFX.Modules.*.Presentation` | own Application/Domain/Contracts |
 | Integration Adapter | separate Integration project or `Infrastructure.Integrations` namespace | own Application Port and G03-registered provider Contracts |
 | Infrastructure | module Infrastructure and platform `Infrastructure.*` | own Application/Domain/Contracts and constrained Runtime/platform primitives |
@@ -39,9 +39,10 @@ host primitive, not an inter-module Contract compatibility layer.
 
 | Rule | Valid example | Invalid example / diagnostic | Repair |
 | --- | --- | --- | --- |
-| own/foreign | Application → own Domain | Application → foreign Contracts; `OWNERSHIP-REFERENCE` | define a consumer Application Port and implement it in an outer adapter |
+| own/foreign | Application → own Domain and approved Platform context primitives | Application → foreign Contracts; Plan 06 also requires zero direct references to its own public versioned Contracts | define consumer ports and provider-owned use cases, bridged to public Contracts by outer adapters |
 | Domain isolation | Domain → BuildingBlocks.Domain | Domain → Contracts; `RING-DIRECTION` | keep transport shapes outside domain behavior |
 | provider graph | Adapter → catalog-registered provider Contracts | undeclared provider or sync cycle; `PROVIDER-CONTRACT`/`PROVIDER-CYCLE` | correct the design and G03 catalog; never copy an allow-list bypass |
+| Adapter declaration | outbound Adapter implements its own Application Port; inbound Adapter implements the provider's own Contract | Adapter in the wrong namespace or implementing the wrong layer/owner; `DECLARATION-NAMESPACE` | place the bridge in an Infrastructure/Integration `Integrations` namespace |
 | host boundary | ApiHost → module Composition | ApiHost → Application/Domain; `RING-DIRECTION`/`IMPORT-DIRECTION` | expose a host-safe façade/DTO from Composition |
 | Contracts purity | record/DTO using string, Guid, DateTimeOffset | EF/MediatR/ASP.NET/DI/broker/JWT/ILogger; `RING-PACKAGE*`/`SYMBOL-FORBIDDEN` | move behavior and framework adapters outward |
 | declaration placement | `*IntegrationEvent` in provider `Contracts.Events` | Handler/Repository/DbContext in Contracts; `DECLARATION-*` | move it to Application or Infrastructure |
@@ -65,7 +66,7 @@ rechecks the policy weekly; dependency-graph changes also require review.
 
 The sequence is: G03 catalog/source reconciliation → load and hash-verify G03/G04/G05 artifacts →
 discover projects and ownership → build direct/transitive project graph → analyze imports,
-declarations, and types → apply rules → reconcile the zero-entry B4 baseline → publish separate
+declarations, and types → apply rules → reconcile the current zero-entry Plan 06 baseline while preserving historical B4 evidence → publish separate
 LayerGuard and Gate semantic reports.
 
 Diagrams:
@@ -83,6 +84,6 @@ Start new modules from the [compliant structure template](templates/layerguard-m
 ./scripts/Test-Plan03B4StrictClosure.ps1
 ```
 
-The first command runs the LayerGuard tool tests and B4 repository scan. The second verifies zero
+The first command runs the LayerGuard tool tests and the current Plan 06 repository scan. The second verifies the B4 zero
 findings, the empty baseline, the historical reduction series, compatibility removal, the dependency
 graph, and the strict CI entry point.

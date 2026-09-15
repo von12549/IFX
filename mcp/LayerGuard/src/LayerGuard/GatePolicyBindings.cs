@@ -451,10 +451,29 @@ internal static class GatePolicyLoader
     private static void VerifyHash(string path, string expected, string label)
     {
         var actual = RawHash(path);
-        if (!actual.Equals(expected, StringComparison.OrdinalIgnoreCase))
+        if (!actual.Equals(expected, StringComparison.OrdinalIgnoreCase) &&
+            !CanonicalTextHash(path).Equals(expected, StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException($"{label} hash mismatch for `{path}`: expected {expected}, actual {actual}.");
     }
 
     private static string RawHash(string path) =>
         Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant();
+
+    // Governed text artifacts are generated with LF in Git. A Windows checkout may materialize
+    // the same committed content as CRLF, which must not invalidate the binding. Raw bytes are
+    // checked first; this fallback removes only CR bytes that precede LF and preserves all other
+    // bytes, so a semantic or whitespace change still fails closed.
+    private static string CanonicalTextHash(string path)
+    {
+        var bytes = File.ReadAllBytes(path);
+        using var canonical = new MemoryStream(bytes.Length);
+        for (var index = 0; index < bytes.Length; index++)
+        {
+            if (bytes[index] == (byte)'\r' && index + 1 < bytes.Length && bytes[index + 1] == (byte)'\n')
+                continue;
+            canonical.WriteByte(bytes[index]);
+        }
+
+        return Convert.ToHexString(SHA256.HashData(canonical.ToArray())).ToLowerInvariant();
+    }
 }

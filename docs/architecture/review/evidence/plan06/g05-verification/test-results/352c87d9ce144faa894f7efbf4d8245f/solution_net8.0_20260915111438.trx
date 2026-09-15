@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="ad4872e8-6c31-43f0-b1b3-f61d12063f67" name="von12@DESKTOP-OVPKDKR 2026-09-15 11:14:34" runUser="DESKTOP-OVPKDKR\von12" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-15T11:14:34.7250769+10:00" queuing="2026-09-15T11:14:34.7250773+10:00" start="2026-09-15T11:14:33.6410924+10:00" finish="2026-09-15T11:14:34.8398732+10:00" />
+  <TestSettings name="default" id="f78d8bbe-a0a2-4b61-a7ed-c668756c3495">
+    <Deployment runDeploymentRoot="von12_DESKTOP-OVPKDKR_2026-09-15_11_14_34" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="1722c13d-3de5-4157-8878-df0c049e8cf6" testId="6b956661-d255-c8d2-662c-ac8e6b118e2e" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendBatchAsync_WithEmptyList_ReturnsEmptyResults" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0010307" startTime="2026-09-15T11:14:34.7029649+10:00" endTime="2026-09-15T11:14:34.7029650+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1722c13d-3de5-4157-8878-df0c049e8cf6" />
+    <UnitTestResult executionId="c6252bdc-94c7-4ca1-9693-dab1f5cea766" testId="38f8b53a-42b0-6f3f-548e-a8695c6f4444" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendTemplatedEmailAsync_SetsTemplateIdCorrectly" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0008738" startTime="2026-09-15T11:14:34.7031307+10:00" endTime="2026-09-15T11:14:34.7031307+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6252bdc-94c7-4ca1-9693-dab1f5cea766" />
+    <UnitTestResult executionId="46ddf7d2-a356-43c0-a0c6-e91124710f90" testId="31234f39-0df9-9671-e223-8d5fd01efd5a" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendEmailAsync_AlwaysReturnsSuccess" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0003523" startTime="2026-09-15T11:14:34.6828020+10:00" endTime="2026-09-15T11:14:34.6828021+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46ddf7d2-a356-43c0-a0c6-e91124710f90" />
+    <UnitTestResult executionId="253bcf6e-78e8-45f9-a1e0-9ba32d8c8c6a" testId="7b065bbc-e563-67b3-8727-7e53a5e2ea0c" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendTemplatedEmailAsync_WhenSuccessful_ReturnsSuccess" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0017211" startTime="2026-09-15T11:14:34.6838021+10:00" endTime="2026-09-15T11:14:34.6838022+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="253bcf6e-78e8-45f9-a1e0-9ba32d8c8c6a" />
+    <UnitTestResult executionId="2ff4350f-bdca-4a1d-ac1b-5c68fc53a6de" testId="3f76eb61-287e-da2c-cb58-b02ca431552f" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendBatchAsync_LogsEachMessage" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0013429" startTime="2026-09-15T11:14:34.6801767+10:00" endTime="2026-09-15T11:14:34.6801768+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ff4350f-bdca-4a1d-ac1b-5c68fc53a6de" />
+    <UnitTestResult executionId="8299e16d-3aea-436e-9883-4eb10971c42d" testId="1460832d-e449-41f5-2a64-bc05de37111d" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_IncludesCcAndBcc" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0025366" startTime="2026-09-15T11:14:34.7031050+10:00" endTime="2026-09-15T11:14:34.7031051+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8299e16d-3aea-436e-9883-4eb10971c42d" />
+    <UnitTestResult executionId="eabeec4a-196d-438c-9944-84bbc931da57" testId="445c7653-2ce3-4e0e-bbf8-802f77121065" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendEmailAsync_DoesNotLogMessageDetails" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0011842" startTime="2026-09-15T11:14:34.6840201+10:00" endTime="2026-09-15T11:14:34.6840202+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eabeec4a-196d-438c-9944-84bbc931da57" />
+    <UnitTestResult executionId="4ce1ee3c-4bf2-42d2-a8c6-d151ea50514c" testId="89045fc2-d7dd-0ecd-bff2-4f9296063277" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_WhenExceptionThrown_ReturnsFailure" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0011726" startTime="2026-09-15T11:14:34.7031799+10:00" endTime="2026-09-15T11:14:34.7031799+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4ce1ee3c-4bf2-42d2-a8c6-d151ea50514c" />
+    <UnitTestResult executionId="00d034b0-259b-4c57-8707-7bb0d6ea90b1" testId="1596578f-7e44-8c5c-f019-35fabf0bae43" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_WhenFailed_ReturnsFailure" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0006516" startTime="2026-09-15T11:14:34.7032661+10:00" endTime="2026-09-15T11:14:34.7032661+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00d034b0-259b-4c57-8707-7bb0d6ea90b1" />
+    <UnitTestResult executionId="46e5737d-f5cb-47e8-a924-a2933993110a" testId="310e517f-ee66-6ec2-eefb-0bf3b0eb96dc" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_UsesCustomFromWhenSpecified" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0007324" startTime="2026-09-15T11:14:34.7032017+10:00" endTime="2026-09-15T11:14:34.7032017+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46e5737d-f5cb-47e8-a924-a2933993110a" />
+    <UnitTestResult executionId="4deecfdd-b319-414e-902a-e2f69f916159" testId="e38b30bd-ba11-b2e5-cd07-85527b6a84e4" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendTemplatedEmailAsync_DoesNotLogTemplateDetails" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0744824" startTime="2026-09-15T11:14:34.6781589+10:00" endTime="2026-09-15T11:14:34.6781698+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4deecfdd-b319-414e-902a-e2f69f916159" />
+    <UnitTestResult executionId="76514db6-093b-4fbd-a8ba-c4849bb89116" testId="5987b640-5f17-4f38-2970-d6cbfe06a6b3" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_UsesDefaultFromWhenNotSpecified" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0007111" startTime="2026-09-15T11:14:34.7031553+10:00" endTime="2026-09-15T11:14:34.7031553+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76514db6-093b-4fbd-a8ba-c4849bb89116" />
+    <UnitTestResult executionId="f2cfdebd-8e21-4276-905c-c85640374ddc" testId="0b08ee84-81e8-4ffb-f582-443ad025b422" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendBatchAsync_ReturnsIndividualResults" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0818789" startTime="2026-09-15T11:14:34.6818790+10:00" endTime="2026-09-15T11:14:34.6818792+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f2cfdebd-8e21-4276-905c-c85640374ddc" />
+    <UnitTestResult executionId="6b51c8ad-cf7b-4112-98e7-6d14e38610c6" testId="a2c1231d-c728-3d81-b829-7b8eafd39fc4" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendBatchAsync_ReturnsSuccessForAllMessages" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0024037" startTime="2026-09-15T11:14:34.6823983+10:00" endTime="2026-09-15T11:14:34.6823985+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6b51c8ad-cf7b-4112-98e7-6d14e38610c6" />
+    <UnitTestResult executionId="081145a3-a7b1-4bf3-a583-c4e13e944497" testId="1f39b4a8-5656-5196-2c1d-75ea17c80d96" testName="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendTemplatedEmailAsync_AlwaysReturnsSuccess" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0007141" startTime="2026-09-15T11:14:34.6803578+10:00" endTime="2026-09-15T11:14:34.6803578+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="081145a3-a7b1-4bf3-a583-c4e13e944497" />
+    <UnitTestResult executionId="9fd54b5e-2e0f-4d5d-a205-8b1135823c04" testId="6c1defd6-1f58-2e20-f8a7-bbe73f243c23" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_WhenSuccessful_ReturnsSuccess" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0006011" startTime="2026-09-15T11:14:34.7032245+10:00" endTime="2026-09-15T11:14:34.7032245+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9fd54b5e-2e0f-4d5d-a205-8b1135823c04" />
+    <UnitTestResult executionId="07ea08b0-2286-40f7-9812-67cddbc89d70" testId="649bdeda-7fd7-8f5c-d5ff-9ed9c65898dc" testName="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendBatchAsync_SendsAllMessages" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0010211" startTime="2026-09-15T11:14:34.7032454+10:00" endTime="2026-09-15T11:14:34.7032454+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07ea08b0-2286-40f7-9812-67cddbc89d70" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendTemplatedEmailAsync_WhenSuccessful_ReturnsSuccess" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="7b065bbc-e563-67b3-8727-7e53a5e2ea0c">
+      <Execution id="253bcf6e-78e8-45f9-a1e0-9ba32d8c8c6a" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendTemplatedEmailAsync_WhenSuccessful_ReturnsSuccess" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_WhenSuccessful_ReturnsSuccess" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="6c1defd6-1f58-2e20-f8a7-bbe73f243c23">
+      <Execution id="9fd54b5e-2e0f-4d5d-a205-8b1135823c04" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendEmailAsync_WhenSuccessful_ReturnsSuccess" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_IncludesCcAndBcc" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="1460832d-e449-41f5-2a64-bc05de37111d">
+      <Execution id="8299e16d-3aea-436e-9883-4eb10971c42d" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendEmailAsync_IncludesCcAndBcc" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_WhenFailed_ReturnsFailure" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="1596578f-7e44-8c5c-f019-35fabf0bae43">
+      <Execution id="00d034b0-259b-4c57-8707-7bb0d6ea90b1" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendEmailAsync_WhenFailed_ReturnsFailure" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendTemplatedEmailAsync_SetsTemplateIdCorrectly" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="38f8b53a-42b0-6f3f-548e-a8695c6f4444">
+      <Execution id="c6252bdc-94c7-4ca1-9693-dab1f5cea766" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendTemplatedEmailAsync_SetsTemplateIdCorrectly" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendEmailAsync_AlwaysReturnsSuccess" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="31234f39-0df9-9671-e223-8d5fd01efd5a">
+      <Execution id="46ddf7d2-a356-43c0-a0c6-e91124710f90" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendEmailAsync_AlwaysReturnsSuccess" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendBatchAsync_ReturnsIndividualResults" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="0b08ee84-81e8-4ffb-f582-443ad025b422">
+      <Execution id="f2cfdebd-8e21-4276-905c-c85640374ddc" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendBatchAsync_ReturnsIndividualResults" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendTemplatedEmailAsync_DoesNotLogTemplateDetails" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="e38b30bd-ba11-b2e5-cd07-85527b6a84e4">
+      <Execution id="4deecfdd-b319-414e-902a-e2f69f916159" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendTemplatedEmailAsync_DoesNotLogTemplateDetails" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendEmailAsync_DoesNotLogMessageDetails" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="445c7653-2ce3-4e0e-bbf8-802f77121065">
+      <Execution id="eabeec4a-196d-438c-9944-84bbc931da57" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendEmailAsync_DoesNotLogMessageDetails" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendBatchAsync_SendsAllMessages" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="649bdeda-7fd7-8f5c-d5ff-9ed9c65898dc">
+      <Execution id="07ea08b0-2286-40f7-9812-67cddbc89d70" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendBatchAsync_SendsAllMessages" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_UsesDefaultFromWhenNotSpecified" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="5987b640-5f17-4f38-2970-d6cbfe06a6b3">
+      <Execution id="76514db6-093b-4fbd-a8ba-c4849bb89116" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendEmailAsync_UsesDefaultFromWhenNotSpecified" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_WhenExceptionThrown_ReturnsFailure" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="89045fc2-d7dd-0ecd-bff2-4f9296063277">
+      <Execution id="4ce1ee3c-4bf2-42d2-a8c6-d151ea50514c" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendEmailAsync_WhenExceptionThrown_ReturnsFailure" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendTemplatedEmailAsync_AlwaysReturnsSuccess" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="1f39b4a8-5656-5196-2c1d-75ea17c80d96">
+      <Execution id="081145a3-a7b1-4bf3-a583-c4e13e944497" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendTemplatedEmailAsync_AlwaysReturnsSuccess" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests.SendEmailAsync_UsesCustomFromWhenSpecified" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="310e517f-ee66-6ec2-eefb-0bf3b0eb96dc">
+      <Execution id="46e5737d-f5cb-47e8-a924-a2933993110a" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.SendGridEmailServiceTests" name="SendEmailAsync_UsesCustomFromWhenSpecified" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendBatchAsync_WithEmptyList_ReturnsEmptyResults" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="6b956661-d255-c8d2-662c-ac8e6b118e2e">
+      <Execution id="1722c13d-3de5-4157-8878-df0c049e8cf6" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendBatchAsync_WithEmptyList_ReturnsEmptyResults" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendBatchAsync_LogsEachMessage" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="3f76eb61-287e-da2c-cb58-b02ca431552f">
+      <Execution id="2ff4350f-bdca-4a1d-ac1b-5c68fc53a6de" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendBatchAsync_LogsEachMessage" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests.SendBatchAsync_ReturnsSuccessForAllMessages" storage="d:\ifx\tests\ifx.platform.notifications.tests\bin\debug\net8.0\ifx.platform.notifications.tests.dll" id="a2c1231d-c728-3d81-b829-7b8eafd39fc4">
+      <Execution id="6b51c8ad-cf7b-4112-98e7-6d14e38610c6" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.Notifications.Tests\bin\Debug\net8.0\IFX.Platform.Notifications.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.Notifications.Tests.NoOpEmailServiceTests" name="SendBatchAsync_ReturnsSuccessForAllMessages" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="6b956661-d255-c8d2-662c-ac8e6b118e2e" executionId="1722c13d-3de5-4157-8878-df0c049e8cf6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="38f8b53a-42b0-6f3f-548e-a8695c6f4444" executionId="c6252bdc-94c7-4ca1-9693-dab1f5cea766" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="31234f39-0df9-9671-e223-8d5fd01efd5a" executionId="46ddf7d2-a356-43c0-a0c6-e91124710f90" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7b065bbc-e563-67b3-8727-7e53a5e2ea0c" executionId="253bcf6e-78e8-45f9-a1e0-9ba32d8c8c6a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f76eb61-287e-da2c-cb58-b02ca431552f" executionId="2ff4350f-bdca-4a1d-ac1b-5c68fc53a6de" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1460832d-e449-41f5-2a64-bc05de37111d" executionId="8299e16d-3aea-436e-9883-4eb10971c42d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="445c7653-2ce3-4e0e-bbf8-802f77121065" executionId="eabeec4a-196d-438c-9944-84bbc931da57" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="89045fc2-d7dd-0ecd-bff2-4f9296063277" executionId="4ce1ee3c-4bf2-42d2-a8c6-d151ea50514c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1596578f-7e44-8c5c-f019-35fabf0bae43" executionId="00d034b0-259b-4c57-8707-7bb0d6ea90b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="310e517f-ee66-6ec2-eefb-0bf3b0eb96dc" executionId="46e5737d-f5cb-47e8-a924-a2933993110a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e38b30bd-ba11-b2e5-cd07-85527b6a84e4" executionId="4deecfdd-b319-414e-902a-e2f69f916159" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5987b640-5f17-4f38-2970-d6cbfe06a6b3" executionId="76514db6-093b-4fbd-a8ba-c4849bb89116" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0b08ee84-81e8-4ffb-f582-443ad025b422" executionId="f2cfdebd-8e21-4276-905c-c85640374ddc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a2c1231d-c728-3d81-b829-7b8eafd39fc4" executionId="6b51c8ad-cf7b-4112-98e7-6d14e38610c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1f39b4a8-5656-5196-2c1d-75ea17c80d96" executionId="081145a3-a7b1-4bf3-a583-c4e13e944497" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6c1defd6-1f58-2e20-f8a7-bbe73f243c23" executionId="9fd54b5e-2e0f-4d5d-a205-8b1135823c04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="649bdeda-7fd7-8f5c-d5ff-9ed9c65898dc" executionId="07ea08b0-2286-40f7-9812-67cddbc89d70" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="17" executed="17" passed="17" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.28)&#xD;
+[xUnit.net 00:00:00.06]   Discovering: IFX.Platform.Notifications.Tests&#xD;
+[xUnit.net 00:00:00.10]   Discovered:  IFX.Platform.Notifications.Tests&#xD;
+[xUnit.net 00:00:00.10]   Starting:    IFX.Platform.Notifications.Tests&#xD;
+[xUnit.net 00:00:00.62]   Finished:    IFX.Platform.Notifications.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

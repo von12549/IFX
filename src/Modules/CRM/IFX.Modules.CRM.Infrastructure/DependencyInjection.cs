@@ -7,6 +7,8 @@ using IFX.Modules.CRM.Application.Transactions;
 using IFX.Modules.CRM.Domain.Repositories;
 using IFX.Modules.CRM.Infrastructure.Persistence;
 using IFX.Modules.CRM.Infrastructure.Repositories;
+using IFX.Modules.CRM.Infrastructure.Integrations.Outbound.IAM;
+using IFX.Modules.CRM.Infrastructure.Integrations.Outbound.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,11 +53,11 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, CrmUnitOfWork>();
         services.AddKeyedScoped<ITransactionExecutor, CrmTransactionExecutor>(typeof(CrmTransactionOwner));
 
-        services.AddScoped<IAccountComplianceDataPort, Integrations.AccountComplianceDataAdapter>();
+        services.AddScoped<IAccountComplianceDataPort, AccountComplianceDataAdapter>();
 
         // Authorization
         services.AddHttpContextAccessor();
-        services.AddScoped<IResourceAuthorizationService, Integrations.ResourceAuthorizationAdapter>();
+        services.AddScoped<IResourceAuthorizationService, ResourceAuthorizationAdapter>();
         return services;
     }
 }

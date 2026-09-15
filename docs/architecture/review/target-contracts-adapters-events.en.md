@@ -1,8 +1,8 @@
 # Target IFX Contracts, Adapters, and Events architecture
 
 > Document status: architecture review proposal  
-> Implementation status: not implemented  
-> Purpose: baseline for later implementation planning, architecture rules, and test strategy.
+> Implementation status: Plan 01/B2 and Plan 02/B3 are historical implementations; [Plan 06](plans/06-contract-adapter-event-boundary.md) migrates public entry points and event mapping.
+> Purpose: current target responsibilities, architecture rules, and test strategy.
 
 ## 1. Goals and non-goals
 
@@ -50,7 +50,7 @@ In strict mode, Transaction.Application does not reference CRM.Contracts directl
 An Integration Adapter is an outer adapter whose architectural role belongs to Infrastructure. Initially it can live under:
 
 ```text
-IFX.Modules.Transaction.Infrastructure/Integrations/CRM
+IFX.Modules.Transaction.Infrastructure/Integrations/Outbound/CRM
 ```
 
 It only needs a separate project such as `IFX.Modules.Transaction.Integration.CRM` when adapter volume, technology differences, or independent deployment needs justify the additional project. Even then, it is not a new business ring.
@@ -62,6 +62,13 @@ An outbound adapter:
 - translates requests and responses;
 - normalizes technical outcomes such as NotFound, Denied, Unavailable, and Timeout; and
 - can later change from an in-process implementation to an HTTP/gRPC client.
+
+A provider synchronous inbound adapter:
+
+- lives under the provider's `Infrastructure/Integrations/Inbound` and implements its public V1 interface;
+- validates the registered consumer, context/source version, scope, trusted execution context, and resource tenant before invoking Application;
+- creates an isolated provider execution scope and maps public DTOs to provider-owned use-case inputs; and
+- maps cancellation, business results, and boundary failures to stable public semantics without taking ownership of business authorization or data rules.
 
 An inbound event adapter:
 
@@ -98,7 +105,7 @@ ApiHost should not know or register concrete module business implementations; do
 ### 3.2 Application
 
 - References its own Domain.
-- May reference and implement its own Contracts to expose a public facade or publish module-owned Integration Events.
+- Owns its use cases, ports, and internal business facts; does not reference its own public versioned `*.Contracts`.
 - Defines consumer-owned ports required by its use cases.
 - Does not reference another business module's Contracts in strict mode.
 - Does not reference DbContext, EF Core, HTTP clients, or broker implementations.
@@ -113,6 +120,7 @@ ApiHost should not know or register concrete module business implementations; do
 ### 3.4 Infrastructure and Integration Adapters
 
 - Infrastructure implements technical ports declared by its Application or Domain.
+- A provider Infrastructure inbound adapter implements its own public Contract; a producer Outbox participant maps internal facts to public V1 events.
 - An outbound adapter may reference provider Contracts but never the provider Application, Domain, or Infrastructure.
 - It never queries or updates another module's DbContext, schema, or repository.
 - An inbound message handler translates an external event into a module-owned Application command.
@@ -125,8 +133,8 @@ ApiHost should not know or register concrete module business implementations; do
 
 ### 3.6 Composition
 
-- Is the only project that knows its module Contracts, Application, Infrastructure, Presentation, and Adapter implementations together.
-- Registers a public Contract to the module Application facade.
+- Aggregates registration for its module Contracts, Application, Infrastructure, Presentation, and adapters. Infrastructure itself also references its own Application and public Contracts to implement inbound entry points.
+- Registers a public Contract to the module Infrastructure inbound adapter, and that adapter to an Application use case.
 - Registers a consumer Port to an Integration Adapter.
 - Registers inbound Integration Event handlers.
 
@@ -141,7 +149,8 @@ Transaction.Application
   → Transaction-owned Port
   → Transaction CRM/Registry Adapter
   → provider Contracts
-  → provider Application Facade
+  → provider Infrastructure Inbound Adapter
+  → provider Application UseCase
   → provider Domain/Repository Port
   → provider Infrastructure
 ```
@@ -152,7 +161,7 @@ Public Contracts should be grouped by cohesive capability, not by an ever-growin
 - Registry exposes Fund Class status or subscription-availability facts.
 - Transaction applies its own order-creation policy to those facts.
 
-A public result should not be Boolean-only. It must at least distinguish a business rejection, not found, denied, and provider unavailable outcome. Reason code, evaluated-at time, and source version may also be required.
+The current CRM/Registry V1 success response is a Boolean business fact, with stable Contract error codes for boundary failures. Its existing `false` semantics include unapproved, closed, or missing state. If finer business outcomes or evaluated-at/source-version metadata become necessary, add fields or a V+1 under G03 compatibility rules rather than changing V1 in Plan 06.
 
 A synchronous query still has temporal coupling and a check-then-act race. If the fact must remain valid through a later commit, use an expiring versioned authorization/reservation token, an explicit workflow, or reconsider the module boundary.
 
@@ -172,7 +181,7 @@ The target reliable process is:
 
 The producer owns the event schema, names it as a past-tense fact, and evolves it compatibly. The recommended envelope includes EventId, OccurredAt, CorrelationId, CausationId, TenantId, and schema version.
 
-Domain Events and Integration Events must remain distinct. A Domain Event is internal to the model; an Integration Event is a public boundary protocol normally mapped from a domain outcome at the Application commit boundary.
+Domain Events and Integration Events remain distinct. A Domain Event is internal to the model. Application records an internal fact when business state changes; Infrastructure maps it to a public V1 Integration Event while preparing the Outbox in the same local transaction. The Dispatcher sends it after commit.
 
 ## 6. Event Notification and local projections
 
@@ -203,16 +212,17 @@ Cross-module MediatR requests are not recommended as a way to hide dependency: t
 
 ## 8. DI and implementation loading
 
-Contracts neither reference Application nor load implementations. A provider Application implements its own Contract, and provider Composition registers the mapping:
+Contracts neither reference Application nor load implementations. A provider Infrastructure inbound adapter implements the public Contract, and provider Composition registers that adapter and its Application use case:
 
 ```text
 A.Contracts interface
-  ← implemented by A.Application Facade
+  ← implemented by A.Infrastructure Inbound Adapter
+  → invokes A.Application UseCase
   ← registered by A.Composition
   ← loaded when ApiHost calls AddModuleA
 ```
 
-The consumer Adapter references only provider Contracts. At runtime, the shared DI container resolves the Contract to the Application facade registered by the provider module.
+The consumer Adapter references only provider Contracts. At runtime, the shared DI container resolves the Contract to the provider inbound adapter, which invokes its Application use case.
 
 If ApiHost omits a required provider module, container validation or explicit module-dependency validation should fail fast instead of producing an ambiguous error on the first business request.
 
@@ -235,7 +245,7 @@ This document is not an implementation plan, but later plans should respect the 
 1. Agree terminology, Contract ownership, and LayerGuard rules.
 2. Inventory real consumers and remove or internalize unused Reader methods and DTOs.
 3. Correct tenant, authorization, and error semantics on every public Contract.
-4. Add provider Application facades so Readers no longer own business decisions directly.
+4. Add provider-owned Application use cases so Readers no longer own business decisions; expose them through Infrastructure inbound adapters.
 5. Define consumer-owned ports in Transaction and other consumers.
 6. Add in-process adapters under Infrastructure/Integrations and remove foreign module references from consumer Application projects.
 7. Move external event handlers to inbound Integration Adapters that issue internal commands.

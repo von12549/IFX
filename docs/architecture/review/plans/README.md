@@ -6,6 +6,7 @@
 > 后续事项：[`TODO.md`](TODO.md)
 > 当前阶段后续计划：[`04-module-boundary-evolution.md`](04-module-boundary-evolution.md) — 仓库验证通过，具名审批前 PRE-READY
 > 新增独立演进计划：[`05-iam-platform-security-refactor.md`](05-iam-platform-security-refactor.md) — Auth → IAM 与平台认证/授权拆分，Phase 0–7 仓库实施与隔离验证完成；目标数据审计、真实 IdP 与发布验收待执行
+> 新增独立演进计划：[`06-contract-adapter-event-boundary.md`](06-contract-adapter-event-boundary.md) — 提供方入站 Adapter、Application 与公开 Contracts 解耦，以及内部事实到 V1 事件的 Infrastructure 映射；Phase 0–6 与 repository verification 完成，G03 closure 保持 PRE-READY
 > 配套讨论：[`Platform 能力与租户连接`](../platform-capabilities-and-tenant-connections.zh-CN.md) — 独立讨论记录，不改变既有计划状态
 
 ## 一句话理解本次改造
@@ -219,7 +220,7 @@ B4 仓库内严格收口已于 2026-09-09 完成：116 → 103 → 32 → 0 find
 
 1. **同一个 ApiHost 不等于没有模块边界**：发布边界暂时共享，但编译期、数据、事务和协议 ownership 必须独立。
 2. **独立 API/Worker role 不等于 Microservices**：只要五个业务模块仍锁定同一 release，它们仍是一个业务发布边界。
-3. **Contracts 不负责“加载实现”**：它只有类型定义；提供方 Application 实现能力，模块 Composition 在 Root DI 注册，消费方 Adapter 通过注入调用。
+3. **Contracts 不负责“加载实现”**：它只有类型定义；提供方 Infrastructure Inbound Adapter 实现公开接口，Application 实现自有用例，模块 Composition 在 Root DI 注册，消费方 Outbound Adapter 通过注入调用。
 4. **Event 不等于跨模块事务**：Outbox/Inbox保证各自本地原子性和最终送达；跨模块业务一致性依赖状态机、补偿或 Saga。
 5. **可追踪不等于可信**：Correlation/Trace 用于诊断，Tenant/Actor 必须由可信入口验证，EventId 也不能替代业务幂等键。
 

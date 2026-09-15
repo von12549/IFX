@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="054c0b32-7402-4f2f-bf6c-2a5315d2bbde" name="von12@DESKTOP-OVPKDKR 2026-09-15 10:40:05" runUser="DESKTOP-OVPKDKR\von12" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-09-15T10:40:05.6365155+10:00" queuing="2026-09-15T10:40:05.6365159+10:00" start="2026-09-15T10:40:01.9385713+10:00" finish="2026-09-15T10:40:05.8126388+10:00" />
+  <TestSettings name="default" id="8f2ffe90-c553-441a-9b83-a4aceff50ad4">
+    <Deployment runDeploymentRoot="von12_DESKTOP-OVPKDKR_2026-09-15_10_40_05" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2be1d7b9-279e-4349-b61f-cf77a21f295c" testId="bc64f871-8165-66cf-756b-3e4d69ab9930" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Delete_WhenJobExists_ReturnsTrue" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0006285" startTime="2026-09-15T10:40:05.6233519+10:00" endTime="2026-09-15T10:40:05.6233519+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2be1d7b9-279e-4349-b61f-cf77a21f295c" />
+    <UnitTestResult executionId="647908ad-2904-4772-93e0-82d1eae90e7b" testId="d2233767-6a3d-b204-8820-e98adc3ec262" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Schedule_AsyncWithTimeSpan_CallsBackgroundJobClient" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0009871" startTime="2026-09-15T10:40:05.6161546+10:00" endTime="2026-09-15T10:40:05.6161546+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="647908ad-2904-4772-93e0-82d1eae90e7b" />
+    <UnitTestResult executionId="7311e687-0a9b-476e-8d70-4e7b153f297e" testId="9744c4a2-5708-09d5-0c06-3620872cfa6f" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Enqueue_WithAsyncAction_CallsBackgroundJobClient" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0007009" startTime="2026-09-15T10:40:05.6163668+10:00" endTime="2026-09-15T10:40:05.6163668+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7311e687-0a9b-476e-8d70-4e7b153f297e" />
+    <UnitTestResult executionId="90989d84-b0b8-4b97-9b3e-52bb0e4881a7" testId="76be5212-be1f-fc24-8d82-a845b99d94ed" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Enqueue_WithSyncAction_CallsBackgroundJobClient" computerName="DESKTOP-OVPKDKR" duration="00:00:00.5941805" startTime="2026-09-15T10:40:05.6018525+10:00" endTime="2026-09-15T10:40:05.6018647+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90989d84-b0b8-4b97-9b3e-52bb0e4881a7" />
+    <UnitTestResult executionId="b53caa93-f54d-4d1c-805f-9b179f66077b" testId="472d62f6-e0d3-afd3-852c-f7456abfc514" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.TriggerRecurring_CallsRecurringJobManager" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0024853" startTime="2026-09-15T10:40:05.6152296+10:00" endTime="2026-09-15T10:40:05.6152298+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b53caa93-f54d-4d1c-805f-9b179f66077b" />
+    <UnitTestResult executionId="91b249f6-ad0d-41f2-a146-a8d0610fffb0" testId="4b36789b-bc56-4508-e84c-66d994ac63fe" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.RemoveRecurring_CallsRecurringJobManager" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0002792" startTime="2026-09-15T10:40:05.6163219+10:00" endTime="2026-09-15T10:40:05.6163219+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="91b249f6-ad0d-41f2-a146-a8d0610fffb0" />
+    <UnitTestResult executionId="2464d2c5-9423-44ca-9d10-0cccbb970936" testId="a3f74e7d-9021-6c59-f34a-9f96c1ab047a" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Schedule_WithDateTimeOffset_CallsBackgroundJobClient" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0008214" startTime="2026-09-15T10:40:05.6234179+10:00" endTime="2026-09-15T10:40:05.6234180+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2464d2c5-9423-44ca-9d10-0cccbb970936" />
+    <UnitTestResult executionId="d021557d-6f55-4561-923c-f776e5423bb7" testId="fd21da44-7e4f-1f65-3f26-a099f269a860" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Delete_WhenJobNotExists_ReturnsFalse" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0012468" startTime="2026-09-15T10:40:05.6162241+10:00" endTime="2026-09-15T10:40:05.6162241+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d021557d-6f55-4561-923c-f776e5423bb7" />
+    <UnitTestResult executionId="db621bc0-a824-4e0a-9ab5-a99ada5520d3" testId="8ed78844-39cd-ed90-33a0-3301208e975a" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Schedule_WithTimeSpan_CallsBackgroundJobClient" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0027565" startTime="2026-09-15T10:40:05.6156792+10:00" endTime="2026-09-15T10:40:05.6156792+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db621bc0-a824-4e0a-9ab5-a99ada5520d3" />
+    <UnitTestResult executionId="0e92db5d-b5b1-4371-8829-1cb5d7a3ba85" testId="79923122-6d46-ffc6-5298-e9abfa4bbc81" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.AddOrUpdateRecurring_WithSyncAction_CallsRecurringJobManager" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0009531" startTime="2026-09-15T10:40:05.6156187+10:00" endTime="2026-09-15T10:40:05.6156187+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e92db5d-b5b1-4371-8829-1cb5d7a3ba85" />
+    <UnitTestResult executionId="ca935f62-1ceb-4d9c-81fe-905861921a30" testId="3dc7bbd7-e636-bd66-a822-3c6958ac56db" testName="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.AddOrUpdateRecurring_WithAsyncAction_CallsRecurringJobManager" computerName="DESKTOP-OVPKDKR" duration="00:00:00.0006310" startTime="2026-09-15T10:40:05.6162751+10:00" endTime="2026-09-15T10:40:05.6162751+10:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ca935f62-1ceb-4d9c-81fe-905861921a30" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Enqueue_WithAsyncAction_CallsBackgroundJobClient" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="9744c4a2-5708-09d5-0c06-3620872cfa6f">
+      <Execution id="7311e687-0a9b-476e-8d70-4e7b153f297e" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Enqueue_WithAsyncAction_CallsBackgroundJobClient" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Delete_WhenJobNotExists_ReturnsFalse" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="fd21da44-7e4f-1f65-3f26-a099f269a860">
+      <Execution id="d021557d-6f55-4561-923c-f776e5423bb7" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Delete_WhenJobNotExists_ReturnsFalse" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Schedule_WithDateTimeOffset_CallsBackgroundJobClient" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="a3f74e7d-9021-6c59-f34a-9f96c1ab047a">
+      <Execution id="2464d2c5-9423-44ca-9d10-0cccbb970936" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Schedule_WithDateTimeOffset_CallsBackgroundJobClient" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.AddOrUpdateRecurring_WithAsyncAction_CallsRecurringJobManager" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="3dc7bbd7-e636-bd66-a822-3c6958ac56db">
+      <Execution id="ca935f62-1ceb-4d9c-81fe-905861921a30" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="AddOrUpdateRecurring_WithAsyncAction_CallsRecurringJobManager" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Delete_WhenJobExists_ReturnsTrue" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="bc64f871-8165-66cf-756b-3e4d69ab9930">
+      <Execution id="2be1d7b9-279e-4349-b61f-cf77a21f295c" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Delete_WhenJobExists_ReturnsTrue" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.RemoveRecurring_CallsRecurringJobManager" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="4b36789b-bc56-4508-e84c-66d994ac63fe">
+      <Execution id="91b249f6-ad0d-41f2-a146-a8d0610fffb0" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="RemoveRecurring_CallsRecurringJobManager" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Enqueue_WithSyncAction_CallsBackgroundJobClient" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="76be5212-be1f-fc24-8d82-a845b99d94ed">
+      <Execution id="90989d84-b0b8-4b97-9b3e-52bb0e4881a7" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Enqueue_WithSyncAction_CallsBackgroundJobClient" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Schedule_AsyncWithTimeSpan_CallsBackgroundJobClient" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="d2233767-6a3d-b204-8820-e98adc3ec262">
+      <Execution id="647908ad-2904-4772-93e0-82d1eae90e7b" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Schedule_AsyncWithTimeSpan_CallsBackgroundJobClient" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.Schedule_WithTimeSpan_CallsBackgroundJobClient" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="8ed78844-39cd-ed90-33a0-3301208e975a">
+      <Execution id="db621bc0-a824-4e0a-9ab5-a99ada5520d3" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="Schedule_WithTimeSpan_CallsBackgroundJobClient" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.AddOrUpdateRecurring_WithSyncAction_CallsRecurringJobManager" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="79923122-6d46-ffc6-5298-e9abfa4bbc81">
+      <Execution id="0e92db5d-b5b1-4371-8829-1cb5d7a3ba85" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="AddOrUpdateRecurring_WithSyncAction_CallsRecurringJobManager" />
+    </UnitTest>
+    <UnitTest name="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests.TriggerRecurring_CallsRecurringJobManager" storage="d:\ifx\tests\ifx.platform.backgroundjobs.tests\bin\debug\net8.0\ifx.platform.backgroundjobs.tests.dll" id="472d62f6-e0d3-afd3-852c-f7456abfc514">
+      <Execution id="b53caa93-f54d-4d1c-805f-9b179f66077b" />
+      <TestMethod codeBase="D:\IFX\tests\IFX.Platform.BackgroundJobs.Tests\bin\Debug\net8.0\IFX.Platform.BackgroundJobs.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="IFX.Platform.BackgroundJobs.Tests.HangfireBackgroundJobServiceTests" name="TriggerRecurring_CallsRecurringJobManager" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bc64f871-8165-66cf-756b-3e4d69ab9930" executionId="2be1d7b9-279e-4349-b61f-cf77a21f295c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d2233767-6a3d-b204-8820-e98adc3ec262" executionId="647908ad-2904-4772-93e0-82d1eae90e7b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9744c4a2-5708-09d5-0c06-3620872cfa6f" executionId="7311e687-0a9b-476e-8d70-4e7b153f297e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="76be5212-be1f-fc24-8d82-a845b99d94ed" executionId="90989d84-b0b8-4b97-9b3e-52bb0e4881a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="472d62f6-e0d3-afd3-852c-f7456abfc514" executionId="b53caa93-f54d-4d1c-805f-9b179f66077b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4b36789b-bc56-4508-e84c-66d994ac63fe" executionId="91b249f6-ad0d-41f2-a146-a8d0610fffb0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a3f74e7d-9021-6c59-f34a-9f96c1ab047a" executionId="2464d2c5-9423-44ca-9d10-0cccbb970936" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fd21da44-7e4f-1f65-3f26-a099f269a860" executionId="d021557d-6f55-4561-923c-f776e5423bb7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ed78844-39cd-ed90-33a0-3301208e975a" executionId="db621bc0-a824-4e0a-9ab5-a99ada5520d3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="79923122-6d46-ffc6-5298-e9abfa4bbc81" executionId="0e92db5d-b5b1-4371-8829-1cb5d7a3ba85" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3dc7bbd7-e636-bd66-a822-3c6958ac56db" executionId="ca935f62-1ceb-4d9c-81fe-905861921a30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="11" executed="11" passed="11" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.03] xUnit.net VSTest Adapter v2.5.3.1+6b60a9e56a (64-bit .NET 8.0.28)&#xD;
+[xUnit.net 00:00:00.61]   Discovering: IFX.Platform.BackgroundJobs.Tests&#xD;
+[xUnit.net 00:00:00.67]   Discovered:  IFX.Platform.BackgroundJobs.Tests&#xD;
+[xUnit.net 00:00:00.68]   Starting:    IFX.Platform.BackgroundJobs.Tests&#xD;
+[xUnit.net 00:00:01.71]   Finished:    IFX.Platform.BackgroundJobs.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

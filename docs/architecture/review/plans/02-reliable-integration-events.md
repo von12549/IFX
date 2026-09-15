@@ -6,6 +6,7 @@
 > 上级计划：[`00-master-plan.md`](00-master-plan.md)
 > 前置关系：公共事件 schema 依赖子计划 1 的 Contracts 结构和 [`00-G03-contract-event-governance.md`](00-G03-contract-event-governance.md) 的事件目录、identity、版本/兼容政策；原子保存依赖事务与数据库 Gate。
 > G03 交接入口：[治理说明](../gates/G03/contract-event-governance.zh-CN.md)、[catalog](../gates/G03/contract-event-catalog.yaml) 与 [serialization golden snapshot](../gates/G03/snapshots/G03-serialization-golden.json)；完成真实 Envelope/Outbox/Inbox/behavior tests 后回交 Active 准入证据。
+> 后续结构演进：[Plan 06](06-contract-adapter-event-boundary.md) 保留 B3 的 Outbox/Inbox 和 V1 wire schema；Registry/Transaction Application 现在产生内部事实，生产方 Infrastructure 在 `ITransactionParticipant.PrepareAsync` 中映射 V1 payload、封装 Envelope 并写入同一本地事务的 Outbox。B3 的已勾选项与证据是历史基线，未完成的 Gate/目标环境项继续保持未完成。
 > 可执行交接包：[`G03 -> Plan 02 handoff`](../gates/G03/handoffs/plan02-events-handoff.md)，含 owner、20 项 event 处置、Messaging Contracts/runtime 分层、回访条件和回交清单。
 > 运行前置：[`00-G04-deployment-runtime-boundary.md`](00-G04-deployment-runtime-boundary.md) 定义 API/Worker roles、instance identity、多实例 lease、health、drain、backpressure 和 consumer-first 发布顺序。
 > 上下文与数据前置：[`00-G05-context-sensitive-data-boundary.md`](00-G05-context-sensitive-data-boundary.md) 定义 Event Envelope、Correlation/Causation/Tenant/Trace、字段分类、失败矩阵和 conformance suite。

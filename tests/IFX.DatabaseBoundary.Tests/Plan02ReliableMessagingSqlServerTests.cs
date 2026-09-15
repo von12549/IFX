@@ -10,10 +10,17 @@ using IFX.Modules.Holdings.Application.Ports;
 using IFX.Modules.Holdings.Application.Transactions;
 using IFX.Modules.Holdings.Domain.Repositories;
 using IFX.Modules.Holdings.Infrastructure.Messaging;
-using IFX.Modules.Holdings.Infrastructure.Integrations;
+using IFX.Modules.Holdings.Infrastructure.Integrations.Inbound;
 using IFX.Modules.Holdings.Infrastructure.Persistence;
 using IFX.Modules.Holdings.Infrastructure.Repositories;
 using IFX.Modules.Transaction.Contracts.V1.Events;
+using IFX.Modules.Transaction.Application.Events;
+using IFX.Modules.Registry.Application.Events;
+using IFX.Modules.Registry.Contracts.V1.Events;
+using IFX.Modules.Registry.Domain.Entities;
+using IFX.Modules.Registry.Domain.Enums;
+using IFX.Modules.Registry.Infrastructure.Messaging;
+using IFX.Modules.Registry.Infrastructure.Persistence;
 using IFX.Modules.Transaction.Infrastructure.Messaging;
 using IFX.Modules.Transaction.Infrastructure.Persistence;
 using IFX.Platform.Messaging.Contracts.Messaging;
@@ -30,6 +37,53 @@ namespace IFX.DatabaseBoundary.Tests;
 [Collection(SqlServerMigrationCollection.Name)]
 public sealed class Plan02ReliableMessagingSqlServerTests(SqlServerMigrationFixture fixture)
 {
+    [Fact]
+    public async Task Registry_business_state_and_outbox_commit_or_rollback_together()
+    {
+        var connectionString = await fixture.CreateDatabaseAsync("plan06_registry_outbox_atomic");
+        var options = new DbContextOptionsBuilder<RegistryDbContext>()
+            .UseSqlServer(connectionString, sql => sql.MigrationsHistoryTable("__EFMigrationsHistory", "registry"))
+            .Options;
+        await using var context = new RegistryDbContext(options);
+        await context.Database.MigrateAsync();
+        var tenantId = Guid.NewGuid();
+        var execution = TestExecutionContextAccessor.ForTenant(tenantId);
+        var source = new BufferedIntegrationEventSource();
+        var participant = new RegistryOutboxParticipant(context, source, new OutboxMessageFactory(execution), execution);
+
+        var rolledBack = FundClass.Create(Guid.NewGuid(), tenantId, "ROLLBACK", "Rollback", "AUD", NavFrequency.Daily);
+        await using (var transaction = await context.Database.BeginTransactionAsync())
+        {
+            context.FundClasses.Add(rolledBack);
+            rolledBack.Close();
+            source.Add(new ClassStatusChanged(rolledBack.Id, rolledBack.FundId, "Active", "Closed"));
+            await participant.PrepareAsync(new object(), new object(), CancellationToken.None);
+            await context.SaveChangesAsync();
+            await transaction.RollbackAsync();
+        }
+        context.ChangeTracker.Clear();
+        (await context.FundClasses.CountAsync()).Should().Be(0);
+        (await context.OutboxMessages.CountAsync()).Should().Be(0);
+
+        var committed = FundClass.Create(Guid.NewGuid(), tenantId, "COMMIT", "Commit", "AUD", NavFrequency.Daily);
+        await using (var transaction = await context.Database.BeginTransactionAsync())
+        {
+            context.FundClasses.Add(committed);
+            committed.Close();
+            source.Add(new ClassStatusChanged(committed.Id, committed.FundId, "Active", "Closed"));
+            await participant.PrepareAsync(new object(), new object(), CancellationToken.None);
+            await context.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        context.ChangeTracker.Clear();
+        (await context.FundClasses.SingleAsync()).Status.Should().Be(ClassStatus.Closed);
+        var outbox = await context.OutboxMessages.SingleAsync();
+        outbox.EventType.Should().Be(ClassStatusChangedV1.EventType);
+        outbox.TenantId.Should().Be(tenantId);
+        JsonSerializer.Deserialize<ClassStatusChangedV1>(outbox.Payload, new JsonSerializerOptions(JsonSerializerDefaults.Web))
+            .Should().Be(new ClassStatusChangedV1(committed.Id, committed.FundId, "Active", "Closed"));
+    }
+
     [Fact]
     public async Task Transaction_business_state_and_outbox_commit_or_rollback_together()
     {
@@ -363,7 +417,7 @@ public sealed class Plan02ReliableMessagingSqlServerTests(SqlServerMigrationFixt
 
     private static TxEntity NewTransaction(Guid tenantId) => TxEntity.CreateSubscription(tenantId, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 100m, DateOnly.FromDateTime(DateTime.UtcNow));
 
-    private static TransactionProcessedV1 ToEvent(TxEntity transaction) => new(transaction.Id, transaction.Type.ToString(), transaction.InvestmentAccountId, transaction.ClassId, transaction.TargetClassId, 10m, 10m);
+    private static TransactionProcessed ToEvent(TxEntity transaction) => new(transaction.Id, transaction.Type.ToString(), transaction.InvestmentAccountId, transaction.ClassId, transaction.TargetClassId, 10m, 10m);
 
     private static TransactionOutboxMessage NewOutbox(string partitionKey, long sequence)
     {
