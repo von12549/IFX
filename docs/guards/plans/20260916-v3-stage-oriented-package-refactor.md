@@ -50,7 +50,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | --- | --- | --- | --- | --- | --- | --- |
 | CP00 | §19 准备 | D1–D15 decision 记录、本 Plan pair、Plan 06 与 Review 入库 | 无 | 不需要 | Plan 06 `APPROVED` | 已完成（PR #29，`abb30e4`） |
 | CP01 | P0 | 只读基线：文件分类、调用图与 TCB 初始清单、.NET gate 冻结、漂移登记、继承配置盘点、修改频率、trust contract 分类 | 无 | 不需要 | CP00 | 已完成（PR #30，`d4057d0`） |
-| CP02 | P1 | decision 校验、漂移修复、ruleset verifier、P1.5 最小 manifest/TCB skeleton | 无 | 不需要 | CP01 | P1 已完成，待 PR 合入（`20260916-v3-stage-cp02-p1-decisions-drift`） |
+| CP02 | P1 | decision 校验、漂移修复、ruleset verifier、P1.5 最小 manifest/TCB skeleton | 无 | 不需要 | CP01 | 已完成（PR #31，`9012250`） |
 | CP03 | P5 | V3 `build/` 基线与 lock files、locked restore、import allowlist、输出迁出、隔离验收（bootstrap 窗口开启） | 无 | 不需要（首次引入例外窗口） | CP01；可与 CP02 并行 | P5 已完成，待 PR 合入（`20260917-v3-stage-cp03-p5-build-baseline`） |
 | CP04 | P2 | Trusted base 执行、可信构建隔离、trust contract、TCB 候选升级协议、负向控制（关闭 bootstrap 窗口） | 无 | 不需要（§11.6 首次引入例外，须写入 decision） | CP02、CP03 | 未开始 |
 | CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP04 | 未开始 |
