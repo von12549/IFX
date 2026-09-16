@@ -1,6 +1,6 @@
 # V3 Stage 化、自包含配置与门禁工程重构计划
 
-> 状态：**APPROVED / 已整合 Review 第一至十四章 / 最终修正完成 / 待人工批准 / 禁止执行**。
+> 状态：**APPROVED / 已整合 Review 第一至十四章 / 最终修正完成 / 禁止执行**。
 >
 > 本文综合 V3、V3_backup、V3_ifx 对比 Review，以及 [06-v3-stage-oriented-package-refactor.review.md](06-v3-stage-oriented-package-refactor.review.md) 第一至十四章的共识形成。当前不移动目录、不改名、不生成或安装 workflow、不改变 required checks、不删除任何现有文件。只有本文针对性核对通过、状态被人工改为 `APPROVED`、正式 Markdown/JSON Plan pair 建立并再次获得明确执行授权后，才允许开始 P0。
 
