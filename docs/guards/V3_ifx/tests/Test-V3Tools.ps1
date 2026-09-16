@@ -61,14 +61,14 @@ try {
     try { & $architecture -Mode Adopt -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -DestinationProfileDirectory 'guard/adopted' } catch { $confirmation = $_.Exception.Message -match 'requires -AcceptDocument' }
     if (-not $confirmation) { throw 'Architecture adoption did not require explicit acceptance.' }
     & $architecture -Mode Adopt -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -DestinationProfileDirectory 'guard/adopted' -AcceptDocument
-    & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
-    & $guard -Mode Generate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
-    & $guard -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
-    & $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated'
+    & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
+    & $guard -Mode Generate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
+    & $guard -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
+    & $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
     $goodProject = [IO.File]::ReadAllText($projectPath)
     try {
         [IO.File]::WriteAllText($projectPath, $goodProject.Replace('../Core/Core.csproj', '../Legacy/Legacy.csproj'), $utf8)
-        $badGate = @(& pwsh -NoProfile -File $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' 2>&1)
+        $badGate = @(& pwsh -NoProfile -File $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks' 2>&1)
         if ($LASTEXITCODE -eq 0 -or ($badGate -join ' | ') -notmatch 'ARCH.SAMPLE') { throw 'Adopted architecture gate accepted a deliberate forbidden reference.' }
     }
     finally { [IO.File]::WriteAllText($projectPath, $goodProject, $utf8) }

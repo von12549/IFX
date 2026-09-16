@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp03-p5-build-baseline",
+  "title": "V3 stage-oriented refactor CP03 \u2014 P5 package-local build baseline and output relocation",
+  "goal": "Build the trusted Stage Gate and Architecture Conformance projects only from the V3 package-local build and security baseline with a pinned SDK, a single package source, explicit baseline import, disabled directory discovery, enforced lock integrity and an import allowlist, keep build output out of docs/guards, and prove V3 runs from an isolated copy.",
+  "acceptanceCriteria": [
+    "Guard builds run through docs/guards/V3/build/GuardBuild.psm1 with build/global.json, build/NuGet.config, explicit V3.Build.props, all Directory.* discovery disabled and output under artifacts/build.",
+    "Restore fails when a reviewed lock file is missing, changes during restore, or disagrees with project.assets.json or the package content hash, and reviewed IFX locks exist for GuardV3.Tests, LayerGuard and LayerGuard.Tests.",
+    "Pre-build and post-build import checks allow only the .NET root, V3.Build.props, restore-generated nuget.g files and locked packages, and the IFX import reports pass with zero violations.",
+    "Test-V3BuildBaseline passes from an isolated copy surrounded by hostile host configuration and runs in v3-cross-platform on Linux and Windows.",
+    "No bin or obj directory is written under docs/guards, all existing guard tests pass, and the 13 required check names are unchanged."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/DEPLOYMENT.md",
+    "docs/guards/V3/build/GuardBuild.psm1",
+    "docs/guards/V3/build/NuGet.config",
+    "docs/guards/V3/build/V3.Build.props",
+    "docs/guards/V3/build/global.json",
+    "docs/guards/V3/build/locks/README.md",
+    "docs/guards/V3/build/probe/Probe.csproj",
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+    "docs/guards/V3/tests/Test-V3Tools.ps1",
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/V3_ifx/build/locks/GuardV3.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/build/locks/LayerGuard.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/build/locks/LayerGuard.packages.lock.json",
+    "docs/guards/V3_ifx/build/locks/README.md",
+    "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/Fixtures.cs",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/Fixtures.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp03-p5-build-baseline.md",
+    "docs/guards/plans/20260917-v3-stage-cp03-p5-build-baseline.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-layerguard",
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json"
+  ]
+}

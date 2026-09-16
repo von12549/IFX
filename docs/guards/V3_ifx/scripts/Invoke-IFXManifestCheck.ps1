@@ -121,7 +121,8 @@ if ($null -ne $tcb) {
     $workflow = [IO.File]::ReadAllText((Full $WorkflowPath))
     $entries = @([Regex]::Matches($workflow, '\./(docs/guards/[^\s''"]+\.ps1)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique)
     $scripts = @{}
-    foreach ($file in (Get-ChildItem -LiteralPath (Full $package) -Recurse -File -Filter '*.ps1')) {
+    $scanRoots = @((Full $package), (Full 'docs/guards/V3/build'), (Full 'docs/guards/V3/tests')) | Where-Object { [IO.Directory]::Exists($_) }
+    foreach ($file in @($scanRoots | ForEach-Object { Get-ChildItem -LiteralPath $_ -Recurse -File } | Where-Object { $_.Extension -in @('.ps1', '.psm1') })) {
         $relative = [IO.Path]::GetRelativePath($root, $file.FullName).Replace('\', '/')
         if ($relative -match '/(bin|obj)/') { continue }
         if (-not $scripts.ContainsKey($file.Name)) { $scripts[$file.Name] = [Collections.Generic.List[string]]::new() }
@@ -135,7 +136,7 @@ if ($null -ne $tcb) {
         if (-not (Exists $current)) { Fail "Workflow references a missing script: $current"; continue }
         if ($current -match '/tests/') { continue }
         $text = [IO.File]::ReadAllText((Full $current))
-        foreach ($token in ([Regex]::Matches($text, '[A-Za-z0-9][A-Za-z0-9.-]*\.ps1') | ForEach-Object { $_.Value } | Select-Object -Unique)) {
+        foreach ($token in ([Regex]::Matches($text, '[A-Za-z0-9][A-Za-z0-9.-]*\.psm?1') | ForEach-Object { $_.Value } | Select-Object -Unique)) {
             if (-not $scripts.ContainsKey($token)) { continue }
             foreach ($candidate in $scripts[$token]) { if ($seen.Add($candidate)) { $queue.Enqueue($candidate) } }
         }

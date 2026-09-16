@@ -1,0 +1,19 @@
+<Project>
+  <!--
+    Plan 06 D14: package-local build and security baseline for trusted guard projects.
+    GuardBuild.psm1 imports this file through CustomBeforeMicrosoftCommonProps and disables every
+    directory-based discovery (Directory.Build.*, Directory.Packages.props, Directory.Solution.*),
+    so guard projects do not depend on, and cannot be altered by, host or PR-controlled parent files.
+  -->
+  <PropertyGroup>
+    <GuardBuildBaseline>v3</GuardBuildBaseline>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+    <WarningsAsErrors>$(WarningsAsErrors);NU1603;NU1903;NU1904</WarningsAsErrors>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetLockFilePath Condition="'$(GuardLockRoot)' != ''">$(GuardLockRoot)$(MSBuildProjectName).packages.lock.json</NuGetLockFilePath>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+</Project>

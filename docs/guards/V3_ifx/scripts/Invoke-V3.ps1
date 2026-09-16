@@ -9,7 +9,9 @@ param(
     [string] $ReportPath,
     [string] $BaseRef,
     [string] $HeadRef,
-    [string] $NuGetConfig
+    [string] $NuGetConfig,
+    [ValidateSet('Locked', 'Update')][string] $LockMode = 'Locked',
+    [string] $LockRoot
 )
 
 $ErrorActionPreference = 'Stop'
@@ -334,13 +336,17 @@ function Invoke-DotnetTests {
                 if ($actual -cne $entry.assemblyName) { throw "Assembly identity mismatch: $($entry.assemblyPath) is $actual" }
             }
         }
-        if ($configPath) {
-            & dotnet restore $project --configfile $configPath --nologo
-            if ($LASTEXITCODE -ne 0) { throw "dotnet restore failed with exit code $LASTEXITCODE" }
-            & dotnet test $project --no-restore --filter $Filter --nologo
-        }
-        else { & dotnet test $project --filter $Filter --nologo }
-        if ($LASTEXITCODE -ne 0) { throw "dotnet test failed with exit code $LASTEXITCODE" }
+        # The generated gate is a trusted guard project: package-local baseline, locked restore and import allowlist (Plan 06 D14).
+        $buildModule = @((Join-Path $packageRoot 'build/GuardBuild.psm1'), (Join-Path $packageRoot '../V3/build/GuardBuild.psm1')) |
+            Where-Object { [IO.File]::Exists($_) } | Select-Object -First 1
+        if (-not $buildModule) { throw 'V3 build baseline (build/GuardBuild.psm1) is missing.' }
+        Import-Module $buildModule -Force
+        $packageId = [IO.Path]::GetFileName($packageRoot).ToLowerInvariant().Replace('_', '-')
+        $lockDirectory = if ($LockRoot) { [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($LockRoot)) { $LockRoot } else { Join-Path $root $LockRoot })) } else { Join-Path $packageRoot 'build/locks' }
+        $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $root "artifacts/build/$packageId/stage-gate") -LockRoot $lockDirectory `
+            -ReportRoot (Join-Path $root "artifacts/guards/$packageId/build/stage-gate") -LockMode $LockMode -NuGetConfig $configPath
+        Invoke-GuardRestore $context $project @($project)
+        Invoke-GuardBuildStep $context 'test' $project @($project) @('--filter', $Filter)
     }
     finally {
         [Environment]::SetEnvironmentVariable('GUARD_TARGET_ROOT', $oldRoot, 'Process')

@@ -27,8 +27,11 @@ internal static class Fixtures
     public const string SolutionScope = "SolutionScope";
     public const string BootstrapArchitecture = "BootstrapArchitecture";
 
+    // Guard builds place output outside the source tree, so the runner passes the fixture root explicitly.
     private static readonly string Root = Path.GetFullPath(
-        Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "fixtures")
+        Environment.GetEnvironmentVariable("LAYERGUARD_FIXTURES_ROOT") is { Length: > 0 } configured
+            ? configured
+            : Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "fixtures")
     );
 
     public static string PathTo(string fixture) => Path.Combine(Root, fixture);

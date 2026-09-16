@@ -782,18 +782,19 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [ ] P4.7 在临时仓库或 fixture 中完成一次完整两 PR 演练，覆盖 `move`、`weaken-policy` 与 `change-trusted-base`。
 - **门槛**：在 §11.4 保证范围内，受保护路径的删除、移动、大小写重命名、policy/config 潜在削弱和非等价 TCB 语义变化只能通过 base 预授权完成，授权只能消费一次，未知语义变化失败关闭。
 
-### P5 — V3 package-local 构建基线与输出迁出（可与 P1 并行，须在 P2.2 前完成）
+### P5 — V3 package-local 构建基线与输出迁出（可与 P1 并行，须在 P2.2 前完成）— 已完成（2026-09-17，CP03）
 
 本阶段不涉及受保护路径删除或移动，不依赖 P2–P4。
 
-- [ ] P5.1 依据 P0.8 建立 V3 `build/` 基线（安全属性、包版本、`NuGet.config`、`global.json`、各可信门禁工程的 `packages.lock.json` 权威/模板），不弱于当前 IFX 根配置。
-- [ ] P5.2 V3 与 V3_ifx 门禁工程显式 import V3 `build/` 基线；V3 公共命令构建时关闭目录向上搜索并通过命令行指定输出位置。
-- [ ] P5.3 restore 使用 locked mode；验证直接/传递依赖与 content hash；构建前 allowlist 预检和构建后 binlog 复核允许 SDK、V3 package、隔离生成文件和 lock 中的 NuGet build assets，拒绝其他 import。
-- [ ] P5.4 `bin/obj` → `artifacts/build/<package>/`，报告与 runtime analysis 输出 → `artifacts/guards/<package>/<stage>/`。
-- [ ] P5.5 完成 §8.3 验证清单。
-- [ ] P5.6 隔离验收：将 V3 复制到不继承任何 IFX 父目录配置的临时目录，完成 locked restore、build、Generate、Check 和 Test。
-- [ ] P5.7 增加测试断言 clean 运行后 `docs/guards/**` 下无 `bin/obj`。
+- [x] P5.1 依据 P0.8 建立 V3 `build/` 基线（安全属性、包版本、`NuGet.config`、`global.json`、各可信门禁工程的 `packages.lock.json` 权威/模板），不弱于当前 IFX 根配置。 证据：`docs/guards/V3/build/`（`V3.Build.props`、`NuGet.config`、`global.json`、`GuardBuild.psm1`）；IFX 门禁工程 lock 位于 `docs/guards/V3_ifx/build/locks/`。包版本继续由 PackageReference 声明、由 lock 固定，未另建 `V3.Packages.props`。
+- [x] P5.2 V3 与 V3_ifx 门禁工程显式 import V3 `build/` 基线；V3 公共命令构建时关闭目录向上搜索并通过命令行指定输出位置。 证据：显式 import 通过全局属性 `CustomBeforeMicrosoftCommonProps` 实现，不修改 csproj，保持模板与生成副本逐字节一致；目录发现开关全部关闭。
+- [x] P5.3 restore 使用 locked mode；验证直接/传递依赖与 content hash；构建前 allowlist 预检和构建后 binlog 复核允许 SDK、V3 package、隔离生成文件和 lock 中的 NuGet build assets，拒绝其他 import。 证据：`GuardBuild.psm1` 自行强制 lock 存在、restore 前后不变、与 assets 及包 content hash 一致（实测 NuGet `--locked-mode` 对缺失或被改的 lock 不失败，并会重写 lock）；构建前 `msbuild -pp`、构建后 MSBuild 导入日志（`MSBUILDLOGIMPORTS`，替代 binlog 解析）核对 allowlist。
+- [x] P5.4 `bin/obj` → `artifacts/build/<package>/`，报告与 runtime analysis 输出 → `artifacts/guards/<package>/<stage>/`。 证据：`artifacts/build/v3-ifx/{stage-gate,architecture-conformance}/`；报告与导入 allowlist 报告在 `artifacts/guards/v3-ifx/build/`。已跟踪的 runtime analysis 输出仍按 P8.6 迁出。
+- [x] P5.5 完成 §8.3 验证清单。 证据：本地 Windows 全部验证项通过；Linux 由 CI `v3-cross-platform-ubuntu-latest` 验证。
+- [x] P5.6 隔离验收：将 V3 复制到不继承任何 IFX 父目录配置的临时目录，完成 locked restore、build、Generate、Check 和 Test。 证据：`docs/guards/V3/tests/Test-V3BuildBaseline.ps1`（复制到系统临时目录，四周放置恶意 `Directory.Build.*`、`Directory.Packages.props`、`NuGet.config`、`global.json`）。
+- [x] P5.7 增加测试断言 clean 运行后 `docs/guards/**` 下无 `bin/obj`。 证据：`Test-V3BuildBaseline.ps1` 与 `Test-IFXPackage.ps1` 断言包源码树无 `bin/obj`。
 - **门槛**：源码树无构建输出；V3 安全基线在全部门禁工程中生效；locked restore 与 import allowlist 通过；V3 隔离运行通过；在 IFX 仓库内构建无 NU1008。
+- **结果**：门槛通过（Windows 本地；Linux 待 CI）。本阶段使用 §11.6 的受控 bootstrap 窗口：可信构建基线由现有 CI、隔离测试与负向控制验证，P2 以本阶段合入后的 base 关闭窗口。LayerGuard 测试的 fixture 根改为可由 `LAYERGUARD_FIXTURES_ROOT` 指定（输出迁出源码树后原相对路径失效），属于 TCB 变更，在窗口内随本阶段验证。
 
 ### P6 — LayerGuard 去重与 generic engine / IFX binding 分离
 
