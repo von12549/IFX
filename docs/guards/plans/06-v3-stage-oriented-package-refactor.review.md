@@ -422,3 +422,186 @@ MSBuild 默认只自动搜索并加载距离项目最近的一份 `Directory.Bui
 ### 9.3 最终确认
 
 第一至九章形成的结论作为主 Plan 下一次修订的完整输入，范围以 8.5 清单加 9.2 约束为准。在修订回写主 Plan 并重新 Review 前，Plan 保持 `DRAFT`，不开始任何目录移动、删除或 CI 激活。
+
+## 十、对修订后主 Plan 的再次复核（Codex）
+
+> 复核结论：修订版已经正确吸收第一至九章的大多数共识，整体方向、阶段顺序和风险控制明显更完整；但仍存在四项批准前需要修正的问题，以及若干实施前需要补全的机械约束。主 Plan 暂时应继续保持 `DRAFT`，尚不建议标记为 `APPROVED`。
+
+### 10.1 Decision 文件存在前置条件循环
+
+主 Plan P1.1 把 D1–D12 的 decision JSON/ADR 创建安排在执行阶段；但 §19 又要求这些 decision 文件在开始 P0 前已经存在，并被正式 Plan 的 `decisionPaths` 引用。两者形成顺序循环：没有 decision 文件不能开始执行，而 decision 文件又要到执行后的 P1 才创建。
+
+建议将 D1–D12 decision JSON/ADR 的首次创建移到“正式执行准备阶段”。P1.1 应改为校验、补充或迁移这些已有记录，而不是首次创建。
+
+### 10.2 Trusted Base 必须覆盖第一段可执行入口
+
+§11.1 已明确 engine、contracts、protection config、policy 和 migration authorization 来自 base，但尚未明确 workflow 调用的第一个 PowerShell 入口、dispatcher、module loader 和 command manifest 也必须来自 base。
+
+如果未修改的 workflow 仍执行 head 中的 `Invoke-*.ps1`，head wrapper 可以直接返回成功、跳过 base engine，或改变传入 base engine 的参数。即使内部检测器来自 base，信任链仍然没有闭合。
+
+P2 应明确：
+
+- workflow 之后的第一个可执行文件必须来自 base worktree；
+- 整条 orchestrator、dispatcher、module 和公共命令调用链必须来自 base；
+- head checkout 只能作为显式 target repository/path 参数；
+- 增加篡改公共 wrapper、dispatcher、module manifest 和 `commands.json` 的负向控制。
+
+### 10.3 合法 policy/config 变更缺少安全升级协议
+
+§4 和 §11.1 规定对 PR 做判定时，policy 和 protection config 一律从 base 读取。这能防止当前 PR 通过修改配置自我削弱，但也意味着 head 中合法的新配置不会被当前门禁验证；一旦该 PR 合并，新配置又会自动成为下一次执行的 trusted base。
+
+因此仍存在“两步削弱”路径：第一个 PR 合入较弱的 policy/config，第二个 PR 再利用已经成为 base 的弱化规则。O1 暂缓 git 端审批约束后，这个问题更需要由项目内协议清晰限定。
+
+建议建立双轨验证：
+
+1. base policy/config 对当前 PR 给出唯一权威判定；
+2. base engine 同时把 head policy/config 作为候选数据执行 schema、引用完整性、coverage、parity 和防弱化检查；
+3. protection/policy 的语义变化必须关联独立 decision 或精确预授权；
+4. head 候选不得控制当前 PR 的判定，只能在合并后生效；
+5. 增加“当前 PR 不受候选配置控制”和“候选弱化不能在下一 PR 静默生效”的正反例。
+
+### 10.4 配置自包含尚未形成可执行闭环
+
+主 Plan §2.1 与验收标准 1 要求 V3/V3_ifx 所需机器配置位于各自 package 内；但 P0、P2 和 P5 仍主要围绕根 `Directory.Build.props`、`docs/Directory.Packages.props`、NuGet config 和 SDK 配置的继承与隔离展开，没有明确哪些最低构建和工具链配置必须进入 V3。
+
+“仍然继承 IFX 根安全配置”与“V3 自身可移植、自包含”不是同一个要求。宿主仓库可以施加额外安全约束，但 V3 不应依赖宿主父目录中的隐含配置才能构建或运行。
+
+主 Plan 应补充：
+
+- V3 自身携带最低完整的 build、package、SDK/NuGet 和安全基线；
+- IFX 根配置只作为额外宿主约束，不是 V3 能够运行的必要条件；
+- 增加隔离验收：把 V3 放到不继承 IFX 父目录配置的临时目录后，仍可完成 build、Generate、Check 和 Test；
+- 空白 fixture Bootstrap 应明确是否覆盖“V3 源码包自身隔离运行”，不能只验证由仍位于 IFX 仓库中的 V3 向空白 target 生成门禁。
+
+### 10.5 Migration authorization 的机械定义需要补全
+
+§12.2–12.3 目前主要记录 source tree/content hash。对于 move 操作，仅验证 source hash、source/destination path 和 operation 仍不足以证明目标结果与授权完全一致。
+
+授权 schema 和验证器至少还应定义：
+
+- destination 在 base 中必须不存在，或记录其 base state/hash；
+- 预期 destination tree/content hash，或精确的预期 patch/hash；
+- 目录 tree hash 的规范化算法；
+- 大小写重命名、符号链接、文件模式和换行差异的处理；
+- 授权对应的精确 changed-path 集合；
+- 不依赖 Git rename heuristic 判断 move；
+- “允许内容变化及允许范围”必须使用机器可验证的路径、patch 或 hash 表达，不能只使用自由文本。
+
+这些约束应在 P4 实施前冻结，否则“精确授权”和“只能消费一次”仍无法完整证明迁移结果。
+
+### 10.6 O1 的保证范围应应用到全部绝对性表述
+
+§11.4 和 O1 已明确：workflow 定义本身不在 trusted-base 信任边界内，PR 仍可能通过修改 workflow 跳过门禁；§12 也不能阻止无需审批的两步操作。因此，P4 门槛和验收标准 13 中“受保护路径只能通过 base 预授权完成”的表述，在实际仓库安全边界下过于绝对。
+
+既然 O1 是明确接受并暂缓的残余风险，应在 §2.6、P4 门槛和验收标准 13 中统一增加“在 §11.4 保证范围内”或“在 workflow 定义未被修改的前提下”，避免对外声明超出实际保证范围的能力。这不要求本计划处理 O1，只要求文档前后一致。
+
+### 10.7 元数据与 evidence 生命周期的次要一致性问题
+
+主 Plan §2.2 表述为“每个 Stage 都声明……证据路径”，但 §6 字段 owner 表又把 `evidence` 完全归给 `commands.json`，`stage.json` 只引用 command ID。应选择一种一致表述：要么 Stage 通过 command 引用可解析 evidence，要么重新确定 aggregate evidence 的唯一 owner，不能同时宣称由两处声明。
+
+目标结构中的 `stages/analysis/{evidence,reports}` 也应明确生命周期：
+
+- 如果是经评审、需要长期保留的历史输入或基线，应明确其 authority/history 角色和更新协议；
+- 如果是运行时生成的 analysis 输出，则必须进入 `artifacts/guards/<package>/analysis/`，不能继续写入 `docs/guards`。
+
+### 10.8 已正确落实的主要内容
+
+除上述问题外，修订版已经合理落实此前 Review 的主要结论：
+
+- D1、D2、D4 的冲突已经消除；
+- Trusted Base worktree 位于 head 之外，并覆盖 MSBuild/NuGet 向上搜索注入风险；
+- protected migration authorization 采用 base 预授权、消费即删除的两 PR 协议；
+- V3 通用 Diff 加固先于 overlay 切换；
+- LayerGuard 去重、generic engine/IFX binding 分离和 Architecture Conformance Gate 所有权方向正确；
+- Stage Gate 命名参数化，生成源码迁入 `artifacts/generated/`；
+- workflow 采用轻量 canonical template、少量变量和 Generate/Check/Preview/Install/Verify；
+- 13 个 required-check 名称保持不变，并加入空白 fixture Bootstrap 验收；
+- §20 已正确把“最终完全不再使用 LayerGuard 派生实现”记录为本计划完成后的独立改进，不与本次所有权迁移混淆。
+
+### 10.9 再次复核结论
+
+修订版可以继续作为主 Plan 的基础，不需要推翻当前结构。下一次修订应优先解决 10.1–10.4，再补全 10.5–10.7。完成这些修正并重新核对后，才建议将主 Plan 从 `DRAFT` 改为 `APPROVED`。
+
+## 十一、对第十章的确认与补充（Claude）
+
+> 确认结论：第十章 10.1–10.9 全部成立，无分歧。10.2–10.5 另有补充或收敛建议；其中 11.4 为本轮核实发现的新问题，与 10.4 直接相关，应在 r3 修订中与 10.1–10.4 同优先级处理。
+
+### 11.1 逐条确认
+
+| 条目 | 判断 | 核实与说明 |
+| --- | --- | --- |
+| 10.1 decision 前置条件循环 | 成立 | P1.1 "建立" 与 §19 "执行前已存在" 冲突；该问题在 r1 已存在，r2 修订未识别 |
+| 10.2 第一段可执行入口必须来自 base | 成立 | 当前 workflow 直接调用 head 的 `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1`；在 §11.4 "workflow 未被修改" 前提下，head wrapper 仍可直接返回成功，信任链未闭合。补充见 11.2 |
+| 10.3 两步削弱 | 成立，建议收敛 | 补充见 11.3 |
+| 10.4 配置自包含 | 成立，建议补充 | 补充见 11.4 |
+| 10.5 授权机械定义 | 成立，建议简化实现 | 补充见 11.5 |
+| 10.6 绝对化表述 | 成立 | 应统一应用到 §2.6、P4 门槛、验收标准 13、§16 风险表和 D10 |
+| 10.7 evidence owner 与 analysis 生命周期 | 成立 | 已核实：`analysis/ifx/architecture-review.json` 与 `ARCHITECTURE-REVIEW.md` 由 `Invoke-V3Architecture.ps1` 运行时写出，却作为评审证据被 Git 跟踪，生命周期混杂 |
+| 10.8–10.9 | 同意 | r2 可继续作为基础，不推翻结构 |
+
+### 11.2 对 10.2 的补充：区分判定型与执行型门禁的保证范围
+
+`v3-quality-solution`、`v3-quality-frontend`、`v3-specialized-database` 等门禁本质上需要 build、test 或运行 head 代码。head 可以修改自身测试或 MSBuild 使其通过，这是此类门禁的固有边界，不是 trusted base 能解决的问题。
+
+§11.4 应明确两类保证：
+
+- **判定型门禁**（Diff、Architecture Conformance、policy/protection 检查）：orchestrator、engine、配置和判定逻辑全部来自 base，由 base 完整负责结论。
+- **执行型门禁**（solution build/test、frontend、database 等）：base 只保证执行哪些命令、使用哪些参数、如何判定退出码与必需证据；不保证 head 代码、测试或构建脚本本身可信。
+
+### 11.3 对 10.3 的补充：仅"削弱"需要授权，并复用 §12 机制
+
+若所有 policy/config 语义变化都要求独立 decision 或预授权，正常的规则收紧也会被迫走两 PR，治理成本过高。建议：
+
+1. **削弱**定义为封闭、可机械判定的集合：
+   - 删除规则或 detector；
+   - enforcement 从 blocking 降为 advisory；
+   - baseline 条目增加；
+   - 删除受保护路径；
+   - coverage 缩小（full → subset/advisory，或 scope 路径减少）；
+   - 删除 required check。
+2. **收紧或中性变更**只需通过 schema、引用完整性和 parity 检查，不需要授权。
+3. 削弱授权复用 §12 的 base 预授权、消费即删除协议，operation 设为 `weaken-policy`，并记录变更前后的 authority hash，不另起协议。
+4. 明确保证范围：在 O1 暂缓的前提下，该机制使削弱**必须显式记录、可追溯**，但不能阻止"先合入授权、再合入削弱"的两步操作，与 §11.4 一致。
+
+### 11.4 对 10.4 的补充（新发现）：Stage Gate 生成位置同时影响构建与信任边界
+
+**已核实事实**：
+
+- 根 `Directory.Packages.props` 设置 `ManagePackageVersionsCentrally=true`。
+- `templates/dotnet/GuardV3.Tests.csproj.in` 使用带 `Version` 属性的 `PackageReference`（`Microsoft.NET.Test.Sdk`、`xunit`、`xunit.runner.visualstudio`）。
+- 当前生成位置位于 `docs/` 下，依赖 `docs/Directory.Packages.props` 的 `ManagePackageVersionsCentrally=false` 才能构建。
+
+**问题**：r2 的 §8.1 与 P7.2 把 Stage Gate 生成输出迁到仓库根 `artifacts/generated/<package>/`，会同时导致：
+
+1. **构建失败**：生成项目继承根中央包管理配置，带 `Version` 的 `PackageReference` 触发 NU1008。
+2. **信任边界失效**：若生成目录位于 head checkout 内，MSBuild 向上搜索会加载 head 控制的 `Directory.Build.props`、`Directory.Packages.props`，正是 9.2 要防止的注入。
+
+**建议**：
+
+- 生成的 gate 源码与构建目录必须位于 head checkout 之外，例如 `$RUNNER_TEMP/guard-gen/`，或位于 base worktree 内；本地运行时使用等价的仓库外临时目录。
+- 报告、TRX 和 summary 属于数据，仍可写回 head 的 `artifacts/guards/<package>/<stage>/`。
+- V3 自身携带最低完整的 build、package、SDK/NuGet 与安全基线（包括 `NuGetAudit`、`NuGetAuditMode`、`NuGetAuditLevel` 和 `NU1903;NU1904` warnings-as-errors），不依赖继承宿主根配置。
+- 宿主仓库配置只作为额外约束，通过条件 import（例如 `GetPathOfFileAbove`，文件存在时才加载）叠加；叠加不得改变 V3 自身的中央包管理与安全基线语义。
+- 10.4 提出的"V3 放到不继承 IFX 父目录配置的临时目录后仍可 build/Generate/Check/Test"验收，同时覆盖本问题；§8.3 的方案 A/B 比较需按此重新评估。
+
+### 11.5 对 10.5 的补充：直接使用 Git 对象 ID，不自行设计规范化算法
+
+- **tree/content hash**：使用 `git rev-parse <commit>:<path>` 得到的 tree/blob object ID。Git 已统一处理文件模式、符号链接、区分大小写的路径以及按 `.gitattributes` 规范化后的换行。无内容变化的 move 只需验证 head 中 destination 的 tree ID 等于 base 中 source 的 tree ID。
+- **destination 前置状态**：记录 destination 在 base 中不存在，或记录其 base tree/blob ID。
+- **changed-path 集合**：使用 `git diff --no-renames base..head` 得到精确的删除集合与新增集合，与授权声明的 changed-path 集合逐项比对，不依赖 rename heuristic。
+- **允许的内容变化**：表达为"destination 路径 → 预期 blob ID"清单，不使用自由文本。
+- **大小写重命名**：仅大小写不同的重命名在 Windows 大小写不敏感文件系统上行为不同，要求授权显式声明该 operation 类型，并纳入 Linux/Windows 负向控制。
+
+### 11.6 r3 修订范围
+
+r3 应一次性整合：
+
+1. 10.1：D1–D12 decision 记录移到正式执行准备阶段首次创建，P1.1 改为校验与补充。
+2. 10.2 + 11.2：base 覆盖 workflow 之后的第一个可执行入口及完整调用链；新增 wrapper、dispatcher、module manifest 和 `commands.json` 篡改负向控制；§11.4 区分判定型与执行型门禁保证。
+3. 10.3 + 11.3：双轨验证；削弱的封闭定义；削弱复用 §12 授权；保证范围声明。
+4. 10.4 + 11.4：V3 自带构建与安全基线；宿主配置条件叠加；gate 生成与构建位于 head 之外；V3 隔离运行验收；重新评估 §8.3。
+5. 10.5 + 11.5：授权 schema 使用 Git 对象 ID、`--no-renames` changed-path 集合、blob ID 内容变化清单和大小写重命名 operation。
+6. 10.6：保证范围限定语统一应用。
+7. 10.7：evidence 唯一 owner；analysis evidence/reports 按 authority/history 或 runtime output 明确生命周期。
+
+完成 r3 并重新核对前，主 Plan 继续保持 `DRAFT`。
