@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "diff",
+  "commands": [
+    "ifx-guardrails",
+    "v3-runner"
+  ],
+  "dependencies": [
+    "pre"
+  ],
+  "enforcement": "blocking",
+  "executionClass": "gate",
+  "documentation": [
+    "docs/guards/V3_ifx/templates/plan/README.md"
+  ],
+  "gates": [
+    {
+      "id": "v3-pre-diff",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "judging",
+        "evaluator": "base V3 engine, Diff configuration and authorizations",
+        "policy": "protected guard paths",
+        "targetInput": "Git objects of verified merge-base and head",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base fully owns the verdict within Plan 06 §11.4."
+      }
+    }
+  ]
+}

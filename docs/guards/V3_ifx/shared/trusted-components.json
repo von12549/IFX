@@ -1,0 +1,287 @@
+{
+  "formatVersion": 1,
+  "manifest": {
+    "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+    "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+    "verifier": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1"
+  },
+  "components": [
+    {
+      "id": "tcb.entry.ifx-guardrails",
+      "type": "public-entry-orchestrator",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "validationSuite": [
+        "all 13 required checks",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.engine.v3-runner",
+      "type": "engine-dispatcher",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "v3-pre-diff",
+        "v3-cross-platform-*",
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.generator.stage-gate",
+      "type": "generator-template",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/templates/dotnet/"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "Invoke-V3.ps1 -Mode Check",
+        "v3-pre-diff"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.generated.stage-gate",
+      "type": "generated-candidate",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/"
+      ],
+      "validationSuite": [
+        "Invoke-V3.ps1 -Mode Check"
+      ],
+      "parityContract": "Byte-identical regeneration from tcb.generator.stage-gate and the profile.",
+      "allowedChange": "regenerate-only; untracked in P7 (D3)"
+    },
+    {
+      "id": "tcb.engine.architecture-runner",
+      "type": "engine-runner",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+        "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+        "v3-architecture"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.engine.architecture-conformance",
+      "type": "dotnet-engine",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/",
+        "Invoke-IFX.ps1 -Mode Test"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.validation.architecture-conformance",
+      "type": "base-owned-tests-and-fixtures",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/"
+      ],
+      "validationSuite": [
+        "Invoke-IFX.ps1 -Mode Test"
+      ],
+      "parityContract": "Test and fixture set may only grow; removing or weakening an assertion is a non-equivalent change.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.generated.architecture-conformance",
+      "type": "generated-candidate",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/"
+      ],
+      "validationSuite": [
+        "Invoke-IFX.ps1 -Mode Check"
+      ],
+      "parityContract": "Byte-identical copy of templates/ifx-layerguard.",
+      "allowedChange": "delete in P6.1 (D12)"
+    },
+    {
+      "id": "tcb.engine.specialized",
+      "type": "engine-detectors",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/",
+        "docs/guards/V3_ifx/specialized/contracts/"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+        "v3-specialized-*"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.engine.quality",
+      "type": "engine-gates",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/quality/"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+        "v3-quality-*"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.engine.historical-integrity",
+      "type": "engine-gate",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+        "v3-historical-integrity"
+      ],
+      "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.contracts",
+      "type": "contracts",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/contracts/decision.schema.json",
+        "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+        "docs/guards/V3_ifx/contracts/plan.schema.json",
+        "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+        "docs/guards/V3_ifx/contracts/profile.schema.json",
+        "docs/guards/V3_ifx/contracts/project-map.schema.json",
+        "docs/guards/V3_ifx/contracts/rule.schema.json",
+        "docs/guards/V3_ifx/contracts/tech-stack.schema.json"
+      ],
+      "validationSuite": [
+        "Invoke-IFXGuardrails.ps1 -Mode Validate",
+        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1"
+      ],
+      "parityContract": "Schemas may only tighten or stay equivalent for existing valid documents.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.validation.package-tests",
+      "type": "base-owned-tests",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+        "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1"
+      ],
+      "validationSuite": [
+        "v3-architecture",
+        "v3-cross-platform-*"
+      ],
+      "parityContract": "Assertions and negative controls may only grow.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.activation.ci",
+      "type": "activation-contract",
+      "status": "active",
+      "paths": [
+        ".github/workflows/v3-ifx-guardrails.yml",
+        ".github/CODEOWNERS",
+        "docs/guards/V3_ifx/ci/jobs.json",
+        "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+        "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+        "v3-pre-diff"
+      ],
+      "parityContract": "13 required check names, job DAG and trigger semantics unchanged (Plan 06 §10.3).",
+      "allowedChange": "change-trusted-base; workflow definition itself is outside the trust boundary (O1)"
+    },
+    {
+      "id": "tcb.build.host-inherited",
+      "type": "build-baseline (current, inherited)",
+      "status": "active",
+      "paths": [
+        "Directory.Build.props",
+        "Directory.Packages.props",
+        "docs/Directory.Packages.props"
+      ],
+      "validationSuite": [
+        "P5 locked restore and import allowlist"
+      ],
+      "parityContract": "Security properties may not weaken; replaced by V3 build/ in P5 (D14).",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.manifest",
+      "type": "trust-root (planned)",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/guard-system.json",
+        "docs/guards/V3_ifx/shared/",
+        "docs/guards/V3_ifx/stages/",
+        "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+        "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+        "docs/guards/V3_ifx/contracts/stage.schema.json",
+        "docs/guards/V3_ifx/contracts/commands.schema.json",
+        "docs/guards/V3_ifx/contracts/trusted-components.schema.json"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+        "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+      ],
+      "parityContract": "Self-protecting: the manifest, its schemas and verifier are components of this entry; removing or reclassifying a component is a non-equivalent change.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.build.package-local",
+      "type": "build-baseline (planned)",
+      "status": "planned",
+      "paths": [],
+      "validationSuite": [
+        "P5.3-P5.6"
+      ],
+      "parityContract": "Not weaker than tcb.build.host-inherited.",
+      "allowedChange": "change-trusted-base",
+      "plannedPaths": [
+        "docs/guards/V3/build/"
+      ]
+    }
+  ]
+}

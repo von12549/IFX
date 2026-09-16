@@ -1,0 +1,128 @@
+{
+  "formatVersion": 1,
+  "packageId": "v3-ifx",
+  "role": "overlay",
+  "engine": {
+    "package": "docs/guards/V3",
+    "status": "forked-until-p7"
+  },
+  "stages": [
+    "bootstrap",
+    "analysis",
+    "pre",
+    "post",
+    "diff",
+    "ci"
+  ],
+  "manifests": {
+    "commands": "docs/guards/V3_ifx/shared/commands.json",
+    "trustedComponents": "docs/guards/V3_ifx/shared/trusted-components.json",
+    "stages": "docs/guards/V3_ifx/stages"
+  },
+  "compatibility": {
+    "policy": {
+      "period": "A legacy path stays usable from the checkpoint that replaces it until Plan 06 P11.5 has verified activation and rollback.",
+      "deprecationOutput": "Legacy public entry points become thin wrappers that write 'DEPRECATED: <legacy path> -> <replacement>' to standard error once per invocation, then forward all arguments and the exit code unchanged.",
+      "internalPaths": "Internal scripts, templates and data files receive no wrapper; every in-repository reference is updated in the same change (Plan 06 P10.6).",
+      "removal": "A wrapper or legacy path is removed only after P11.5, through a base pre-authorized delete (Plan 06 §12), when a repository reference scan finds no runtime reference."
+    },
+    "entries": [
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after workflow and documentation reference only commands/",
+        "phase": "P8.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5; the V3_ifx copy is deleted as a duplicate in P7.5 and the wrapper then forwards to V3",
+        "phase": "P7.5"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5",
+        "phase": "P7.5"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5",
+        "phase": "P7.5"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after the ifx-layerguard validation command points to the replacement",
+        "phase": "P6.4"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+        "kind": "internal-command",
+        "replacement": "docs/guards/V3/engine/stages/analysis/",
+        "compatibility": "none",
+        "removeWhen": "P7.5 duplicate deletion",
+        "phase": "P7.5"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+        "kind": "internal-command",
+        "replacement": "docs/guards/V3_ifx/maintenance/",
+        "compatibility": "none",
+        "removeWhen": "P10.3 move",
+        "phase": "P10.3"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/generated/stages",
+        "kind": "directory",
+        "replacement": "<out-of-repository generation root>/v3-ifx/gates/stage",
+        "compatibility": "none",
+        "removeWhen": "P7.2 untrack after clean-checkout Generate/Check/Test/Diff proof",
+        "phase": "P7.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/generated/dotnet/LayerGuard",
+        "kind": "directory",
+        "replacement": "docs/guards/V3_ifx/templates/ifx-layerguard (single source)",
+        "compatibility": "none",
+        "removeWhen": "P6.1 after build/test/scan/fixture parity",
+        "phase": "P6.1"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/ci/jobs.json",
+        "kind": "file",
+        "replacement": "docs/guards/V3_ifx/stages/ci/required-checks.json",
+        "compatibility": "none",
+        "removeWhen": "P9.4 after the CI contract verifier reads required-checks.json",
+        "phase": "P9.4"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/profiles/ifx/views",
+        "kind": "directory",
+        "replacement": "docs/guards/V3_ifx/docs/generated/",
+        "compatibility": "none",
+        "removeWhen": "P8.7 decision",
+        "phase": "P8.7"
+      },
+      {
+        "legacyPath": "docs/guards/V3_backup",
+        "kind": "directory",
+        "replacement": "docs/guards/V3 and Git history",
+        "compatibility": "none",
+        "removeWhen": "P10.5 base pre-authorized delete (D2)",
+        "phase": "P10.5"
+      }
+    ]
+  }
+}

@@ -96,90 +96,91 @@ Evidence is recorded in [inventory.json](inventory.json). Project references are
 | `mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Infrastructure/Sln.Infrastructure.csproj` | fixture | net10.0 | 0 | `1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3` |
 | `mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Presentation/Sln.Presentation.csproj` | fixture | net10.0 | 1 | `bbfa76f84fe201270674fe22ead5606d27549b58abc4a4a0543d3f0d6d91fdeb` |
 | `mcp/LayerGuard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj` | test | net10.0 | 1 | `46f59f744b7aefd7ca445d9572c086c5e076ad788fafb125df927703dbedb66e` |
-| `src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj` | source | net8.0 | 13 | `50df26397f9a5bd48c0be771dc68bf36519c7e3bc769273c337c8d0b0d5a5652` |
-| `src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj` | source | net8.0 | 1 | `fbbe64e4072ad17dc43f919abad1984e1a3276f018d0b22b11afe7c37bbff55d` |
+| `src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj` | source | net8.0 | 13 | `856503c6163622ac84b64cf665fbea99ab1d6b0581ba09b1a1616fc3592d3e3e` |
+| `src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj` | source | net8.0 | 1 | `f0ae1c7f9fd9f87d725f0b5e75963f07cbbd58be624923f577d45bf0b05be139` |
 | `src/BuildingBlocks/IFX.BuildingBlocks.Composition/IFX.BuildingBlocks.Composition.csproj` | source | net8.0 | 0 | `56a0ea1413047a986c2bf5cdb2e2090bd729d990ce53ffe50e5098aae0e43722` |
-| `src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj` | source | net8.0 | 0 | `aa302c9b24cabfd510bc24c5fe2fe9f1d564a71a5868147b7650d6a5c9c83688` |
-| `src/BuildingBlocks/IFX.BuildingBlocks.EntityFrameworkCore/IFX.BuildingBlocks.EntityFrameworkCore.csproj` | source | net8.0 | 1 | `b46139546c25b230ab71aa55f372f77b6821d0c918aebd26c2c903ad0e825a6e` |
-| `src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj` | source | net8.0 | 0 | `f428bbfb809b06c4891ce650a7ee121d32aaf298607b6bb1e7e5afdcf55e2f6c` |
-| `src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj` | source | net8.0 | 6 | `dd065986c7a4f86b12b211c09c2a65ac8dbc953b4b8cf03f49d513b80775b681` |
-| `src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj` | source | net8.0 | 4 | `0137daa5c1deffac9a308545e062922033e49dd0ca692e863dc272893e545c8d` |
-| `src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj` | source | net8.0 | 5 | `2e037c713583e0f902914b8ba203fafb158ee3a6729f94efda121d4ecbd6cca5` |
+| `src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj` | source | net8.0 | 0 | `50a4358f1cf8fe20edf3862e58aff352f66812d56899196d82ae2963cc9d0455` |
+| `src/BuildingBlocks/IFX.BuildingBlocks.EntityFrameworkCore/IFX.BuildingBlocks.EntityFrameworkCore.csproj` | source | net8.0 | 1 | `9de264d06d9749d59f764d0bb45118e1040747314d7a5d78dd27089cf68cbe86` |
+| `src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj` | source | net8.0 | 0 | `b375d7c4b26bab8437ca9540888062677fab0f55ba0a82a03cbae5917d986eb3` |
+| `src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj` | source | net8.0 | 6 | `941afd9bbb9c81b77b7e875a59dbbde0a29aa0b7437823730eba0c30b00e28da` |
+| `src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj` | source | net8.0 | 4 | `0ca2f1daebe1f4f44db7018bbc423dfc9e63fb5b80a3ec946d9554a9dd2e6b72` |
+| `src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj` | source | net8.0 | 5 | `0d8253b68367ae9d2f41bcf1c84eefb539bcbcef43bc69bb6f39307c537c4ca5` |
 | `src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj` | source | net8.0 | 1 | `81d607516ea40e0c0d39902e465a462ad452aa2525ac4b0f30a164c4ac0a4d5d` |
 | `src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj` | source | net8.0 | 1 | `af748c968f3b3137ae6dbe5e0d693078684bcc3bc44bc85ec1f66765c2467db9` |
-| `src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj` | source | net8.0 | 6 | `fc7dd52b640b6acc3bd29f215d27ade02d6f089ab14b104b96d576df896a3fd6` |
-| `src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj` | source | net8.0 | 1 | `1584b720c11fbd7f54f10d479ae6c46be20794867380de3920ea48764c40ac8c` |
-| `src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj` | source | net8.0 | 3 | `852766aa8162184ea6498749047ddb50be2e02281bd535035a90a1637496af26` |
-| `src/Modules/Holdings/IFX.Modules.Holdings.Composition/IFX.Modules.Holdings.Composition.csproj` | source | net8.0 | 4 | `107557864c5b854c86590331b2ff5f279aa9950369dccbeffb33363c4deba9f2` |
+| `src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj` | source | net8.0 | 6 | `676927caa5dbef8f24f0df622b4012e9bde6de9d209bf3542766858531a210c9` |
+| `src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj` | source | net8.0 | 1 | `4a4dc642e4ff06d9401a6e01f5a9c50c2e9489e48da1ea8eeecfcae0f4cb3eb0` |
+| `src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj` | source | net8.0 | 3 | `221608dce4609c8d38c68fa045b00c1f38ec3b3581e84d1daf13c54195223dca` |
+| `src/Modules/Holdings/IFX.Modules.Holdings.Composition/IFX.Modules.Holdings.Composition.csproj` | source | net8.0 | 4 | `45a4f317367e48bd66eca7d98e6a1bb83976fd2c1efa5fb9e3560d156956a1de` |
 | `src/Modules/Holdings/IFX.Modules.Holdings.Domain/IFX.Modules.Holdings.Domain.csproj` | source | net8.0 | 1 | `4c19d957ae3fd8b3d5545059df2299ae1a04380a6b89579d208780a15b4dfba4` |
-| `src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj` | source | net8.0 | 9 | `c6a65aa33b1b2f1757e82da54910e3e034da5fbc9711215f76eeb9d30811c19e` |
-| `src/Modules/Holdings/IFX.Modules.Holdings.Presentation/IFX.Modules.Holdings.Presentation.csproj` | source | net8.0 | 1 | `265c0072e941eb196fa634bcbce4fc0771109327e2a789cac512f96417d73e7d` |
-| `src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj` | source | net8.0 | 5 | `bb1255c81552e5bf498558d2ae9e76e1a45a06a7240e0f95c116ab2afe3ccc1c` |
+| `src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj` | source | net8.0 | 9 | `6ab1d69a99ed7279c69def5353b5a216ab3d84c9d7184072e0b7891facf6858c` |
+| `src/Modules/Holdings/IFX.Modules.Holdings.Presentation/IFX.Modules.Holdings.Presentation.csproj` | source | net8.0 | 1 | `3349276a3e7c920701f66c573d15ca87a4ab710db9d67942eb2c87ef57e075e4` |
+| `src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj` | source | net8.0 | 5 | `9ea1a4c798fa0df367f9bc810e388c30024b9135ca354f4749edba42c542e338` |
 | `src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj` | source | net8.0 | 3 | `b9f390e078baab773a619ee1bf55761c88479435c350766e5af2c86704257a20` |
-| `src/Modules/IAM/IFX.Modules.IAM.Composition/IFX.Modules.IAM.Composition.csproj` | source | net8.0 | 9 | `9fe0c134d0600004d42e1eb92820712ec683a3bd6034d3eb60073bb77db67afe` |
+| `src/Modules/IAM/IFX.Modules.IAM.Composition/IFX.Modules.IAM.Composition.csproj` | source | net8.0 | 9 | `2f21358d51dac3cb9fa304a0a32021cb34afaafadd2b90ab2d0de133384768a9` |
 | `src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj` | source | net8.0 | 1 | `e7f3004505f4f571ba8cb094831693317977bff768a1ac683b808800cbdb8995` |
 | `src/Modules/IAM/IFX.Modules.IAM.Domain/IFX.Modules.IAM.Domain.csproj` | source | net8.0 | 1 | `deb8a2728bb003f0e227feaa8ea2ea79761a3bae2c8e4c680775ff16ef9f1470` |
-| `src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj` | source | net8.0 | 9 | `6498f552521f56c05d3cfbe086e19231a649052b3bb9c1023d5f69fc1296b2ac` |
-| `src/Modules/IAM/IFX.Modules.IAM.Presentation/IFX.Modules.IAM.Presentation.csproj` | source | net8.0 | 1 | `cb18b9536faf5fc15db8a6d312723acdd275482ab931b7a413cf30ad396f2d65` |
-| `src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj` | source | net8.0 | 4 | `194f9beadc041589239da884625dd365e38ebc92e8811e791653f8ff1d60dbef` |
-| `src/Modules/Registry/IFX.Modules.Registry.Composition/IFX.Modules.Registry.Composition.csproj` | source | net8.0 | 5 | `ccaafb88cfe2b6daae76c4575b39585abbd3345edbe598ee70a1b4079bc3051a` |
+| `src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj` | source | net8.0 | 9 | `469cab8533ea8fa651d33fff6ebe0d54736642f8c1ea4e81f454b5939dea11fe` |
+| `src/Modules/IAM/IFX.Modules.IAM.Presentation/IFX.Modules.IAM.Presentation.csproj` | source | net8.0 | 1 | `8b22e5c0cd33690b2a806eefd959f7479873b63e5a51621b403a618e5922468a` |
+| `src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj` | source | net8.0 | 4 | `d6c1c08cead7946f9b8d4c66a5ce1414d6262a3d6dae1d6556754864b5a20dbb` |
+| `src/Modules/Registry/IFX.Modules.Registry.Composition/IFX.Modules.Registry.Composition.csproj` | source | net8.0 | 5 | `4f777730e37389fe20d962bb1a1f32e44e0debc623effd93010a1aa07e67fda9` |
 | `src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj` | source | net8.0 | 2 | `897ca2f7a3dfb11ccc8dc2db1af1e3cb35b2dc1c1c6cea8b84851cb80890f66a` |
 | `src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj` | source | net8.0 | 1 | `af748c968f3b3137ae6dbe5e0d693078684bcc3bc44bc85ec1f66765c2467db9` |
-| `src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj` | source | net8.0 | 7 | `c5e0efbd8d2cf3592ffbfbe1d98055b7a5584683ae58f384902ec425bf6107f6` |
-| `src/Modules/Registry/IFX.Modules.Registry.Presentation/IFX.Modules.Registry.Presentation.csproj` | source | net8.0 | 1 | `5d63854dec00854392c28f47f6297ccaaa7890d7a1e99feb3791d90fd81ef3ce` |
-| `src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj` | source | net8.0 | 3 | `c64f6a0ea0dacc79a93caafaf80bb5f53222377c5ce30986e1217edc553fc03f` |
-| `src/Modules/Transaction/IFX.Modules.Transaction.Composition/IFX.Modules.Transaction.Composition.csproj` | source | net8.0 | 6 | `320900ac4f478e06a38ba8e856494c3b70e06aa00ed2955cc72be80a7658c382` |
+| `src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj` | source | net8.0 | 7 | `70f93285e40e582be760a5d3fd56760cf311aef12de6394f6de6e450c528fc62` |
+| `src/Modules/Registry/IFX.Modules.Registry.Presentation/IFX.Modules.Registry.Presentation.csproj` | source | net8.0 | 1 | `a293d1a23b7093ca8b2c25f6d6b6692c3017868844e96c90be8bc42ab6a1bf29` |
+| `src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj` | source | net8.0 | 3 | `4ae3aaa6f7880df8cf3c24054ec5deef9cddca31efca1bff0fc1bbc108cb8585` |
+| `src/Modules/Transaction/IFX.Modules.Transaction.Composition/IFX.Modules.Transaction.Composition.csproj` | source | net8.0 | 6 | `d3d76563882c0f603b688bbedf3eb0687a50e4d35d4d3cbf5e248c623f58321f` |
 | `src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj` | source | net8.0 | 1 | `594d622837dca2aa1a6f264dc3f3b94c12ab1fdfdbc2458628456918ded6e1bf` |
 | `src/Modules/Transaction/IFX.Modules.Transaction.Domain/IFX.Modules.Transaction.Domain.csproj` | source | net8.0 | 1 | `4c19d957ae3fd8b3d5545059df2299ae1a04380a6b89579d208780a15b4dfba4` |
-| `src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj` | source | net8.0 | 11 | `814ea354df3bf800352d7f90cd758b25c78de7ed5df32d88fa49d18ddde3843b` |
-| `src/Modules/Transaction/IFX.Modules.Transaction.Presentation/IFX.Modules.Transaction.Presentation.csproj` | source | net8.0 | 1 | `50a68b007c902f3003b6156f517a485d6ba4f79a56881933b58b3bb77ed00bb6` |
+| `src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj` | source | net8.0 | 11 | `4abbba9cbe0bf0c4ead2e156895164ac4f59d98e2a6883f11c0bff11d0a113c0` |
+| `src/Modules/Transaction/IFX.Modules.Transaction.Presentation/IFX.Modules.Transaction.Presentation.csproj` | source | net8.0 | 1 | `fb0f7936f7fd44cb1c608ae0e45603803a4738693ba438f7b9bf9862a6d18829` |
 | `src/Platform/Authentication/IFX.Platform.Authentication.Composition/IFX.Platform.Authentication.Composition.csproj` | source | net8.0 | 3 | `e4e3f30aa931e93f8743425b5720c98a3d030dba7a36d0b79357eb10cd8ccdb8` |
 | `src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj` | source | net8.0 | 0 | `8bfbe2bf0c6036509cacdfd064a59d230c80b49cac589bd8119be4e9f07c9084` |
-| `src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Auth0/IFX.Platform.Authentication.Infrastructure.Auth0.csproj` | source | net8.0 | 1 | `125ca93bf5c48e1aa0a6c60d5f4b2ead0b8fec3bc12d7ddd34d2c0a9113920b3` |
-| `src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Cognito/IFX.Platform.Authentication.Infrastructure.Cognito.csproj` | source | net8.0 | 1 | `33df7c632ed98e28aa5a0d32a84631d9c938688a6a7f8ff534c66d2f865e0bec` |
-| `src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj` | source | net8.0 | 1 | `ff980e56b2dd04f69600ab6cb19481575aac6be5a4643bbe3ad630c4c1094df3` |
+| `src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Auth0/IFX.Platform.Authentication.Infrastructure.Auth0.csproj` | source | net8.0 | 1 | `871b0a48855036c877a0b868e75bfcc5f7dace6f9a054e4d96ecf548e595a5d0` |
+| `src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Cognito/IFX.Platform.Authentication.Infrastructure.Cognito.csproj` | source | net8.0 | 1 | `056aa1d23fe521edd7eb27eb4d74a35743c559f52ca31d324fd328b6975eb951` |
+| `src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj` | source | net8.0 | 1 | `9361b49ce7b947e627f5845731a0c0843141231edf80d96fe4bdd1ea47ff83ef` |
 | `src/Platform/Authorization/IFX.Platform.Authorization.Composition/IFX.Platform.Authorization.Composition.csproj` | source | net8.0 | 3 | `effe9a99bcd3aa0359e06eefd696c403c87b9cf9ac8b2b3b4b1362daabbf409f` |
 | `src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj` | source | net8.0 | 0 | `db5f6c13ee05bb9c620cf8a3549ff9bac4d367116fb11c0f3c3a1e8bd5d52ad6` |
 | `src/Platform/Authorization/IFX.Platform.Authorization.Infrastructure.Opa/IFX.Platform.Authorization.Infrastructure.Opa.csproj` | source | net8.0 | 2 | `e02903ba0784916a75d8ab9ea0ecf103a6cc48ef494f017b20332c962171fc49` |
 | `src/Platform/Authorization/IFX.Platform.Authorization.Runtime/IFX.Platform.Authorization.Runtime.csproj` | source | net8.0 | 1 | `825c991113164cc89f1e32ef424b7a8e1d6516c17eb8764beb6cfb3ff4c0a5eb` |
-| `src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/IFX.Platform.BackgroundJobs.Composition.csproj` | source | net8.0 | 3 | `2aa2091eb6f454c9ca1cfe246dc219b1c9c0eccaaa8b164ad11985052d3d60bb` |
+| `src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/IFX.Platform.BackgroundJobs.Composition.csproj` | source | net8.0 | 3 | `c4a89c6eefd456fd8c3d99ac88b6e72b2e46280149956913862314fe3232b4e1` |
 | `src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Contracts/IFX.Platform.BackgroundJobs.Contracts.csproj` | source | net8.0 | 0 | `427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca` |
-| `src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj` | source | net8.0 | 1 | `075ed54691e2d7c4857fbe9c1398998710119d12a59ee1ff8f338999ff50ab45` |
+| `src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj` | source | net8.0 | 1 | `ff87cf4f71d036701b607f3af7feb9239a500bc31e4f28d9360f889f5ce3ec77` |
 | `src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj` | source | net8.0 | 0 | `427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca` |
 | `src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj` | source | net8.0 | 2 | `51481621e645025c19887baead51a6e3489999771d9465b53059e6ba7f79f843` |
 | `src/Platform/IFX.Platform.Shared/IFX.Platform.Shared.csproj` | source | net8.0 | 0 | `e151f959964eb450a5b86b72765e3f9c505645fa9516eae485743d2b43911c8e` |
-| `src/Platform/Messaging/IFX.Platform.Messaging.Composition/IFX.Platform.Messaging.Composition.csproj` | source | net8.0 | 1 | `d9bc915aa0c4b66e55659fc4f3f72d826b635ab86639ed7ad0e55e266d22a47d` |
+| `src/Platform/Messaging/IFX.Platform.Messaging.Composition/IFX.Platform.Messaging.Composition.csproj` | source | net8.0 | 1 | `d18c86af33ae75522df3ded32e586c3d5d55679fc8b9dd054a7d8776ca2edbdc` |
 | `src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj` | source | net8.0 | 0 | `427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca` |
-| `src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj` | source | net8.0 | 3 | `475d123483613e8beffc0a793a1fe1448d6d9336879302fdb647177160b0dc6a` |
-| `src/Platform/Notifications/IFX.Platform.Notifications.Composition/IFX.Platform.Notifications.Composition.csproj` | source | net8.0 | 2 | `e728bb1812a170e6efc0580b5953cdd3c62594188af1859e034ecfb8e10a505a` |
+| `src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj` | source | net8.0 | 3 | `c5a8c79ae33a994299bfadbe98b05f15ce6e08448566e11dbb4d4f35f103a987` |
+| `src/Platform/Notifications/IFX.Platform.Notifications.Composition/IFX.Platform.Notifications.Composition.csproj` | source | net8.0 | 2 | `04a2bddd5cbefb08a0f34740fc2f9a7a7b121db543bebbc3fad52e7716ba52bd` |
 | `src/Platform/Notifications/IFX.Platform.Notifications.Contracts/IFX.Platform.Notifications.Contracts.csproj` | source | net8.0 | 0 | `427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca` |
-| `src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/IFX.Platform.Notifications.Infrastructure.SendGrid.csproj` | source | net8.0 | 2 | `1ce38c4d63bbc64074a7928fd37d9182bea5b8db88bbd9381676231c4b2f560e` |
-| `tests/IFX.BuildingBlocks.Application.Tests/IFX.BuildingBlocks.Application.Tests.csproj` | test | net8.0 | 1 | `566b72f7a90d5e9ec78369bcfa95478a0323656599eb8c3176cf9d8317ba042c` |
-| `tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests.csproj` | test | net8.0 | 1 | `743041505ad134bf07fd035ce0b4d31e3b229bb2c4586d389d0a01658fcf7f64` |
-| `tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj` | test | net8.0 | 8 | `3e1dae7978a2ed00e58f36e223510badbb8ee332673e91f5cabd96f69ccc374d` |
-| `tests/IFX.IntegrationTests/IFX.IntegrationTests.csproj` | test | net8.0 | 8 | `713d829a23f0f480eafbedde4a49d3e533cc040647aa32d9a11621392ebf0a45` |
-| `tests/IFX.Modules.CRM.Application.Tests/IFX.Modules.CRM.Application.Tests.csproj` | test | net8.0 | 3 | `d0b593455c85e7f0ab0e85603048e682d66f20a035be87f8a31fa6fe60eb9711` |
-| `tests/IFX.Modules.CRM.Domain.Tests/IFX.Modules.CRM.Domain.Tests.csproj` | test | net8.0 | 1 | `bcd9a82ed4bf6a325597999554adf7db30b63a25c31811dca64df5c26d9e1319` |
-| `tests/IFX.Modules.Holdings.Application.Tests/IFX.Modules.Holdings.Application.Tests.csproj` | test | net8.0 | 1 | `e471d00cf897652286e172b853f9a7c18b2fe347f8973a97c91f0a3a9d0e3e37` |
-| `tests/IFX.Modules.Holdings.Domain.Tests/IFX.Modules.Holdings.Domain.Tests.csproj` | test | net8.0 | 1 | `7377fd3575d045c87790479000fde3ea52d1399880e703e4915bdb1454f0b97b` |
-| `tests/IFX.Modules.IAM.Application.Tests/IFX.Modules.IAM.Application.Tests.csproj` | test | net8.0 | 2 | `cf347a238f1a5f4be50e1a0fe4566ec8021cf0ed7d4efe1802a837f5a1fc5635` |
-| `tests/IFX.Modules.IAM.Domain.Tests/IFX.Modules.IAM.Domain.Tests.csproj` | test | net8.0 | 2 | `da923b1aad4667c399ce67ee3ef794f2df5b6db8a7bd0570625fda7819c33cf1` |
-| `tests/IFX.Modules.IAM.Infrastructure.Tests/IFX.Modules.IAM.Infrastructure.Tests.csproj` | test | net8.0 | 3 | `564f302bb50fdc3f3416b1d7937f028ca2849e13172fdb1af8b4256b16f58251` |
-| `tests/IFX.Modules.IAM.Presentation.Tests/IFX.Modules.IAM.Presentation.Tests.csproj` | test | net8.0 | 2 | `d483c819b1dbfbb483a0ce212c0ed71b2d4e6fdce9a971ec8b754fdf70136817` |
-| `tests/IFX.Modules.Registry.Application.Tests/IFX.Modules.Registry.Application.Tests.csproj` | test | net8.0 | 3 | `8120bb63524624c5a5790b8171e1aa3058adb70a89e3acf953d743448c5fe7f4` |
-| `tests/IFX.Modules.Registry.Domain.Tests/IFX.Modules.Registry.Domain.Tests.csproj` | test | net8.0 | 1 | `70156cbaab0b49d0acd396e7403302f9c32e567b7a0e6df51992e1e9e366a162` |
-| `tests/IFX.Modules.Transaction.Application.Tests/IFX.Modules.Transaction.Application.Tests.csproj` | test | net8.0 | 1 | `76dcf2105a328195b34300f5f209d28f440104036fdf9d306adf6c03f9fe3492` |
-| `tests/IFX.Modules.Transaction.Domain.Tests/IFX.Modules.Transaction.Domain.Tests.csproj` | test | net8.0 | 1 | `f17fd1ccc52e2caa011093960e7e144d5a0aa02c1b7acc2481c3214df7c391e0` |
-| `tests/IFX.Platform.Authentication.Tests/IFX.Platform.Authentication.Tests.csproj` | test | net8.0 | 2 | `6563e339654581182adafb86cf731a491717098661789ebbf9731030454892bc` |
-| `tests/IFX.Platform.Authorization.Tests/IFX.Platform.Authorization.Tests.csproj` | test | net8.0 | 2 | `299e9e48e7e5cb4b0427cebc4a688923a34beb6dd769e3874e1d6cd4b2d26061` |
-| `tests/IFX.Platform.BackgroundJobs.Tests/IFX.Platform.BackgroundJobs.Tests.csproj` | test | net8.0 | 2 | `bd1dcfe56d9900e0b09a63f0ad1db5d1761ebb49b90bb929dc04148e14f4c6d8` |
-| `tests/IFX.Platform.Notifications.Tests/IFX.Platform.Notifications.Tests.csproj` | test | net8.0 | 3 | `195ef1486f7866e9fa3eaed93deab98c14ffb66b1722bb16a97177a1416e59c5` |
-| `tests/IFX.Platform.ProtocolContracts.Tests/IFX.Platform.ProtocolContracts.Tests.csproj` | test | net8.0 | 6 | `4c0515a084f5fea1d9ff6cc1ed6804f5630bd4dc0e6cbbfe3ec064f626097265` |
-| `tests/IFX.Tests.Common/IFX.Tests.Common.csproj` | test | net8.0 | 2 | `2c3ad240f23002eb8e2507cf4bf82f52fa5e16cc08884a76ee260b509fda0a0c` |
-| `tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj` | source | net8.0 | 5 | `b724bcc328bcba034530a07ec41fb0357a6747b5796c75ecdcd002341729914e` |
+| `src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/IFX.Platform.Notifications.Infrastructure.SendGrid.csproj` | source | net8.0 | 2 | `3912e766d3f5748da9247c4ee5048bfac5f1510a6eee9357068502c01af16f01` |
+| `tests/IFX.BuildingBlocks.Application.Tests/IFX.BuildingBlocks.Application.Tests.csproj` | test | net8.0 | 1 | `8b3cb70c92b0c132c72be6b8b7772f50f7f1e94ce843d170bf325d84b509dbc4` |
+| `tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests.csproj` | test | net8.0 | 1 | `5a1080ebcd98bc87a973caf81f3d82e8e8a73e904cf4f5ae252f6318491c9ae9` |
+| `tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj` | test | net8.0 | 8 | `03714839c57f17cdadb179a3a8475318100a44bc0ed15b3cfe86d6f102a82376` |
+| `tests/IFX.IntegrationTests/IFX.IntegrationTests.csproj` | test | net8.0 | 8 | `fc02fbcbedecb0539611ecd565ed989ad2eff20d387dab13e9ed3da8a6737736` |
+| `tests/IFX.Modules.CRM.Application.Tests/IFX.Modules.CRM.Application.Tests.csproj` | test | net8.0 | 3 | `fc17d5a866eec2e15b73ecdcc612de16145282ecd6b93526ed2386e8caafb4a9` |
+| `tests/IFX.Modules.CRM.Domain.Tests/IFX.Modules.CRM.Domain.Tests.csproj` | test | net8.0 | 1 | `0ace8d9b67281e080eadcd652d04595b0896d1237c9efa29aeb236aa4f6f8c42` |
+| `tests/IFX.Modules.Holdings.Application.Tests/IFX.Modules.Holdings.Application.Tests.csproj` | test | net8.0 | 1 | `8fb87c0f3115c56f16db50dc75ae39d32ca955b1020d4d6fe905a92f4d7c9fc5` |
+| `tests/IFX.Modules.Holdings.Domain.Tests/IFX.Modules.Holdings.Domain.Tests.csproj` | test | net8.0 | 1 | `7f219de9ae3d8b7d7748b037cd6005f91cac10965ad183aa3c484cabc57b2a24` |
+| `tests/IFX.Modules.IAM.Application.Tests/IFX.Modules.IAM.Application.Tests.csproj` | test | net8.0 | 2 | `ea7e1f4fc5469e881f3aa4f12ca86d471dbe1673630a43f582ab41d71ad17020` |
+| `tests/IFX.Modules.IAM.Domain.Tests/IFX.Modules.IAM.Domain.Tests.csproj` | test | net8.0 | 2 | `2a205f246cd39053bea56ae6746a0ec295d75f386e11665900ad48d3b0b1a4e8` |
+| `tests/IFX.Modules.IAM.Infrastructure.Tests/IFX.Modules.IAM.Infrastructure.Tests.csproj` | test | net8.0 | 3 | `1e6440b1806350d709a67f2e8b9ef7d693101babf0d07fce498b6715ec309741` |
+| `tests/IFX.Modules.IAM.Presentation.Tests/IFX.Modules.IAM.Presentation.Tests.csproj` | test | net8.0 | 2 | `1dc9b5f8ec2401b6863dba365e0989807fcd69fc6faa064d0eff9b98f5effd46` |
+| `tests/IFX.Modules.Registry.Application.Tests/IFX.Modules.Registry.Application.Tests.csproj` | test | net8.0 | 3 | `73a8d5830a74fe97facf9a9ebdff194028359b86467501c417cea7cdd5ed9734` |
+| `tests/IFX.Modules.Registry.Domain.Tests/IFX.Modules.Registry.Domain.Tests.csproj` | test | net8.0 | 1 | `663ec0e31342ecdda8007bd5bf07fe32202c5ce799362ca2ba8ab9fcc544af0c` |
+| `tests/IFX.Modules.Transaction.Application.Tests/IFX.Modules.Transaction.Application.Tests.csproj` | test | net8.0 | 1 | `f765e9e3e706b23a7b233da90f280888b707db91aee2fd1e2ea62823a2e905c4` |
+| `tests/IFX.Modules.Transaction.Domain.Tests/IFX.Modules.Transaction.Domain.Tests.csproj` | test | net8.0 | 1 | `6955b5502520ecd3c872bbdfd095c01ee0011b6a3f175c10f3e2d1ecfcbfdb02` |
+| `tests/IFX.Platform.Authentication.Tests/IFX.Platform.Authentication.Tests.csproj` | test | net8.0 | 2 | `97560bf9567d00d30ba611fe4b74d6d9030c93c530122a40ca4ae54e2e321b8e` |
+| `tests/IFX.Platform.Authorization.Tests/IFX.Platform.Authorization.Tests.csproj` | test | net8.0 | 2 | `4cfb1a844f6338d077c57d0a7c6b44272306effa5fdcc680ca8c1e128057f5f2` |
+| `tests/IFX.Platform.BackgroundJobs.Tests/IFX.Platform.BackgroundJobs.Tests.csproj` | test | net8.0 | 2 | `166e55ef7292dfd482bab5651787de1f37846fbe7c38e005a8d32e96a893be7d` |
+| `tests/IFX.Platform.Notifications.Tests/IFX.Platform.Notifications.Tests.csproj` | test | net8.0 | 3 | `980362bc3856397a851a4abde4283aa15030138d9baa574f1adce18661fffe3c` |
+| `tests/IFX.Platform.ProtocolContracts.Tests/IFX.Platform.ProtocolContracts.Tests.csproj` | test | net8.0 | 6 | `39f4d39206ce9fbb1ee26e62d5cf4cda7ade67204f7e2090325ecc1290f6ea3c` |
+| `tests/IFX.Tests.Common/IFX.Tests.Common.csproj` | test | net8.0 | 2 | `b1e08f2785be07775e92be6275859aa57c1c7390e6b8dbe10d5c719f6c2fed58` |
+| `tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj` | source | net8.0 | 5 | `df069526d2a1c30797b76e893a442606bff7bcf49189e0214316ad91ff23ee58` |
 
 ## Manifests
 
+- `Directory.Build.props` (Directory.Build.props, SHA-256 `92b9390a169bd048f661d260145dc2c176c2886d2e7551b66e322e78a55cae06`)
 - `IFX.sln` (IFX.sln, SHA-256 `078bc0b7266ba0be545229492a7a9a93f36d750d0984ba7c63822abf07856994`)
 - `mcp/LayerGuard/LayerGuard.slnx` (LayerGuard.slnx, SHA-256 `f00e5b973bed62eaf8c1b87b37befae3d5c1ae979e307056b4d83e351f8f4adb`)
 - `mcp/LayerGuard/tests/fixtures/SolutionScope/SolutionScope.sln` (SolutionScope.sln, SHA-256 `5a7f66cef572db5d3bbc1f3643828c3504d6e5992b661d2adc5241dcdf640ac2`)
@@ -188,9 +189,9 @@ Evidence is recorded in [inventory.json](inventory.json). Project references are
 
 ## CI workflows
 
-- `.github/workflows/v3-ifx-guardrails.yml` (SHA-256 `0ce3bb4eb674a1f22aab76a6e480c9218a4cbce37f955609c5606e0cc148f91c`)
+- `.github/workflows/v3-ifx-guardrails.yml` (SHA-256 `c630b77ada8a0ae4632986fc33643a8ae76f9c1e0d5678e0232c7d69446fc427`)
 
 ## Agent/owner guidance
 
-- `.github/CODEOWNERS` (SHA-256 `ff011f88bcdec8a3c27b42cb6d0b69bcc6dec2bf0e6a23dfc7e8fd6b59cd0978`)
+- `.github/CODEOWNERS` (SHA-256 `e6df36b23aa0578b02ef8135e67e22b3b93370f60f408e9feee9f591993529f4`)
 - `CLAUDE.md` (SHA-256 `a7c485a879101d4e60113d6530a0b418c7ead808280b3a2a6e275ac305c9a4c4`)

@@ -27,6 +27,8 @@ function Read-Report { return Get-Content -LiteralPath (Join-Path $fixture 'arti
 
 try {
     [void] [IO.Directory]::CreateDirectory($parent)
+    # The fixture lives inside a host repository; keep host central package management from applying to its projects.
+    Write-Text 'Directory.Packages.props' "<Project><PropertyGroup><ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally></PropertyGroup></Project>`n"
     Copy-Item -LiteralPath (Join-Path $package 'examples/minimal') -Destination $profile -Recurse
     Write-Text 'src/Target/Target.csproj' '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup></Project>'
     Write-Text 'src/Target/Target.cs' 'namespace Demo.Target; public sealed class Forbidden { }'

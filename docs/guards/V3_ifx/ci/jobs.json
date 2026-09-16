@@ -16,7 +16,7 @@
     { "id": "v3-quality-solution", "mode": "quality", "gate": "solution", "trigger": "pull-request-and-main", "blocking": true },
     { "id": "v3-quality-assembly", "mode": "quality", "gate": "assembly", "trigger": "pull-request-and-main", "blocking": true },
     { "id": "v3-quality-frontend", "mode": "quality", "gate": "frontend", "trigger": "pull-request-and-main", "blocking": true },
-    { "id": "v3-historical-integrity", "mode": "historical-integrity", "trigger": "history-change-schedule-manual", "blocking": true },
+    { "id": "v3-historical-integrity", "mode": "historical-integrity", "trigger": "pull-request-and-main", "blocking": true },
     { "id": "v3-cross-platform-ubuntu-latest", "mode": "validate", "trigger": "pull-request-and-main", "blocking": true },
     { "id": "v3-cross-platform-windows-latest", "mode": "validate", "trigger": "pull-request-and-main", "blocking": true }
   ]

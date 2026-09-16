@@ -17,16 +17,22 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
 | Authorization | src/Platform/Authorization/** | platform | xiaolong-feng |
 | PlatformOther | src/Platform/** | platform | codeowners |
 | Frontend | src/Frontend/** | frontend | codeowners |
+| ApiHost | src/ApiHost/** | host | codeowners |
 | DatabaseMigrator | src/DatabaseMigrator/** | database | codeowners |
 | BuildingBlocks | src/BuildingBlocks/** | shared | codeowners |
 | WebUI | src/WebUI/** | web | codeowners |
-| SourceConfig | src/* | repository | codeowners |
 | Tests | tests/** | test | codeowners |
+| Database | tools/** | tooling | codeowners |
 | GuardPackage | docs/guards/V3_ifx/** | tooling | codeowners |
 | GuardDocs | docs/guards/** | tooling | codeowners |
 | LayerGuardLegacy | mcp/LayerGuard/** | tooling | codeowners |
 | GuardAuthorityInputs | docs/architecture/review/gates/** | tooling | codeowners |
 | ArchitectureDocs | docs/architecture/** | documentation | codeowners |
+| RepositoryDocs | .claude/** | documentation | codeowners |
+| RepositoryDependencies | Directory.*.props | repository | codeowners |
+| RepositoryTools | .config/** | repository | codeowners |
+| DocumentationConfig | docs/Directory.Packages.props | tooling | codeowners |
+| McpConfig | mcp/Directory.Packages.props | tooling | codeowners |
 | RepositoryScripts | scripts/** | tooling | codeowners |
 | Deployment | deployment/** | deployment | codeowners |
 | CI | .github/** | ci | codeowners |
@@ -148,6 +154,16 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
       ]
     },
     {
+      "id": "ApiHost",
+      "pathPattern": "src/ApiHost/**",
+      "layer": "host",
+      "owner": "codeowners",
+      "similarImplementationRoot": "src/ApiHost",
+      "focusedCommands": [
+        "ifx-layerguard"
+      ]
+    },
+    {
       "id": "DatabaseMigrator",
       "pathPattern": "src/DatabaseMigrator/**",
       "layer": "database",
@@ -178,21 +194,21 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
       ]
     },
     {
-      "id": "SourceConfig",
-      "pathPattern": "src/*",
-      "layer": "repository",
-      "owner": "codeowners",
-      "similarImplementationRoot": "src",
-      "focusedCommands": [
-        "ifx-layerguard"
-      ]
-    },
-    {
       "id": "Tests",
       "pathPattern": "tests/**",
       "layer": "test",
       "owner": "codeowners",
       "similarImplementationRoot": "tests",
+      "focusedCommands": [
+        "ifx-layerguard"
+      ]
+    },
+    {
+      "id": "Database",
+      "pathPattern": "tools/**",
+      "layer": "tooling",
+      "owner": "codeowners",
+      "similarImplementationRoot": "tools",
       "focusedCommands": [
         "ifx-layerguard"
       ]
@@ -243,6 +259,56 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
       "layer": "documentation",
       "owner": "codeowners",
       "similarImplementationRoot": "docs/architecture",
+      "focusedCommands": [
+        "ifx-package-test"
+      ]
+    },
+    {
+      "id": "RepositoryDocs",
+      "pathPattern": ".claude/**",
+      "layer": "documentation",
+      "owner": "codeowners",
+      "similarImplementationRoot": ".claude",
+      "focusedCommands": [
+        "ifx-package-test"
+      ]
+    },
+    {
+      "id": "RepositoryDependencies",
+      "pathPattern": "Directory.*.props",
+      "layer": "repository",
+      "owner": "codeowners",
+      "similarImplementationRoot": ".config",
+      "focusedCommands": [
+        "ifx-package-test"
+      ]
+    },
+    {
+      "id": "RepositoryTools",
+      "pathPattern": ".config/**",
+      "layer": "repository",
+      "owner": "codeowners",
+      "similarImplementationRoot": ".config",
+      "focusedCommands": [
+        "ifx-package-test"
+      ]
+    },
+    {
+      "id": "DocumentationConfig",
+      "pathPattern": "docs/Directory.Packages.props",
+      "layer": "tooling",
+      "owner": "codeowners",
+      "similarImplementationRoot": "docs",
+      "focusedCommands": [
+        "ifx-package-test"
+      ]
+    },
+    {
+      "id": "McpConfig",
+      "pathPattern": "mcp/Directory.Packages.props",
+      "layer": "tooling",
+      "owner": "codeowners",
+      "similarImplementationRoot": "mcp",
       "focusedCommands": [
         "ifx-package-test"
       ]

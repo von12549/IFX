@@ -42,6 +42,9 @@ $architecture = Join-Path $PSScriptRoot 'Invoke-IFX.ps1'
 $specialized = Join-Path $packageRoot 'specialized/Invoke-IFXSpecialized.ps1'
 $quality = Join-Path $packageRoot 'quality/Invoke-IFXQuality.ps1'
 $history = Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1'
+$docs = Join-Path $PSScriptRoot 'Invoke-V3Docs.ps1'
+$ciContract = Join-Path $packageRoot 'ci/Invoke-IFXCiContract.ps1'
+$manifestCheck = Join-Path $PSScriptRoot 'Invoke-IFXManifestCheck.ps1'
 $modes = if ($Mode -eq 'All') { @('Validate','Architecture','Specialized','Quality','HistoricalIntegrity') } else { @($Mode) }
 
 foreach ($current in $modes) {
@@ -49,6 +52,9 @@ foreach ($current in $modes) {
         'Validate' {
             Invoke-Child 'profile-validate' $v3 @('-Mode','Validate','-ProfileDirectory',$profile,'-TargetRoot',$root) @()
             Invoke-Child 'architecture-input-validate' $architecture @('-Mode','Validate','-TargetRoot',$root) @()
+            Invoke-Child 'profile-views' $docs @('-Mode','Check','-ProfileDirectory',$profile,'-TargetRoot',$root) @()
+            Invoke-Child 'ci-contract' $ciContract @('-TargetRoot',$root) @()
+            Invoke-Child 'manifest-check' $manifestCheck @('-TargetRoot',$root) @()
         }
         'Pre' {
             $report = Join-Path $output 'pre.json'

@@ -1182,7 +1182,7 @@
     {
       "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
       "role": "source",
-      "sha256": "50df26397f9a5bd48c0be771dc68bf36519c7e3bc769273c337c8d0b0d5a5652",
+      "sha256": "856503c6163622ac84b64cf665fbea99ab1d6b0581ba09b1a1616fc3592d3e3e",
       "frameworks": [
         "net8.0"
       ],
@@ -1244,7 +1244,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj",
       "role": "source",
-      "sha256": "fbbe64e4072ad17dc43f919abad1984e1a3276f018d0b22b11afe7c37bbff55d",
+      "sha256": "f0ae1c7f9fd9f87d725f0b5e75963f07cbbd58be624923f577d45bf0b05be139",
       "frameworks": [
         "net8.0"
       ],
@@ -1267,7 +1267,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj",
       "role": "source",
-      "sha256": "aa302c9b24cabfd510bc24c5fe2fe9f1d564a71a5868147b7650d6a5c9c83688",
+      "sha256": "50a4358f1cf8fe20edf3862e58aff352f66812d56899196d82ae2963cc9d0455",
       "frameworks": [
         "net8.0"
       ],
@@ -1276,7 +1276,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.EntityFrameworkCore/IFX.BuildingBlocks.EntityFrameworkCore.csproj",
       "role": "source",
-      "sha256": "b46139546c25b230ab71aa55f372f77b6821d0c918aebd26c2c903ad0e825a6e",
+      "sha256": "9de264d06d9749d59f764d0bb45118e1040747314d7a5d78dd27089cf68cbe86",
       "frameworks": [
         "net8.0"
       ],
@@ -1290,7 +1290,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj",
       "role": "source",
-      "sha256": "f428bbfb809b06c4891ce650a7ee121d32aaf298607b6bb1e7e5afdcf55e2f6c",
+      "sha256": "b375d7c4b26bab8437ca9540888062677fab0f55ba0a82a03cbae5917d986eb3",
       "frameworks": [
         "net8.0"
       ],
@@ -1299,7 +1299,7 @@
     {
       "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj",
       "role": "source",
-      "sha256": "dd065986c7a4f86b12b211c09c2a65ac8dbc953b4b8cf03f49d513b80775b681",
+      "sha256": "941afd9bbb9c81b77b7e875a59dbbde0a29aa0b7437823730eba0c30b00e28da",
       "frameworks": [
         "net8.0"
       ],
@@ -1333,7 +1333,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj",
       "role": "source",
-      "sha256": "0137daa5c1deffac9a308545e062922033e49dd0ca692e863dc272893e545c8d",
+      "sha256": "0ca2f1daebe1f4f44db7018bbc423dfc9e63fb5b80a3ec946d9554a9dd2e6b72",
       "frameworks": [
         "net8.0"
       ],
@@ -1359,7 +1359,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj",
       "role": "source",
-      "sha256": "2e037c713583e0f902914b8ba203fafb158ee3a6729f94efda121d4ecbd6cca5",
+      "sha256": "0d8253b68367ae9d2f41bcf1c84eefb539bcbcef43bc69bb6f39307c537c4ca5",
       "frameworks": [
         "net8.0"
       ],
@@ -1417,7 +1417,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj",
       "role": "source",
-      "sha256": "fc7dd52b640b6acc3bd29f215d27ade02d6f089ab14b104b96d576df896a3fd6",
+      "sha256": "676927caa5dbef8f24f0df622b4012e9bde6de9d209bf3542766858531a210c9",
       "frameworks": [
         "net8.0"
       ],
@@ -1451,7 +1451,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj",
       "role": "source",
-      "sha256": "1584b720c11fbd7f54f10d479ae6c46be20794867380de3920ea48764c40ac8c",
+      "sha256": "4a4dc642e4ff06d9401a6e01f5a9c50c2e9489e48da1ea8eeecfcae0f4cb3eb0",
       "frameworks": [
         "net8.0"
       ],
@@ -1465,7 +1465,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj",
       "role": "source",
-      "sha256": "852766aa8162184ea6498749047ddb50be2e02281bd535035a90a1637496af26",
+      "sha256": "221608dce4609c8d38c68fa045b00c1f38ec3b3581e84d1daf13c54195223dca",
       "frameworks": [
         "net8.0"
       ],
@@ -1487,7 +1487,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Composition/IFX.Modules.Holdings.Composition.csproj",
       "role": "source",
-      "sha256": "107557864c5b854c86590331b2ff5f279aa9950369dccbeffb33363c4deba9f2",
+      "sha256": "45a4f317367e48bd66eca7d98e6a1bb83976fd2c1efa5fb9e3560d156956a1de",
       "frameworks": [
         "net8.0"
       ],
@@ -1527,7 +1527,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj",
       "role": "source",
-      "sha256": "c6a65aa33b1b2f1757e82da54910e3e034da5fbc9711215f76eeb9d30811c19e",
+      "sha256": "6ab1d69a99ed7279c69def5353b5a216ab3d84c9d7184072e0b7891facf6858c",
       "frameworks": [
         "net8.0"
       ],
@@ -1573,7 +1573,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Presentation/IFX.Modules.Holdings.Presentation.csproj",
       "role": "source",
-      "sha256": "265c0072e941eb196fa634bcbce4fc0771109327e2a789cac512f96417d73e7d",
+      "sha256": "3349276a3e7c920701f66c573d15ca87a4ab710db9d67942eb2c87ef57e075e4",
       "frameworks": [
         "net8.0"
       ],
@@ -1587,7 +1587,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj",
       "role": "source",
-      "sha256": "bb1255c81552e5bf498558d2ae9e76e1a45a06a7240e0f95c116ab2afe3ccc1c",
+      "sha256": "9ea1a4c798fa0df367f9bc810e388c30024b9135ca354f4749edba42c542e338",
       "frameworks": [
         "net8.0"
       ],
@@ -1639,7 +1639,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Composition/IFX.Modules.IAM.Composition.csproj",
       "role": "source",
-      "sha256": "9fe0c134d0600004d42e1eb92820712ec683a3bd6034d3eb60073bb77db67afe",
+      "sha256": "2f21358d51dac3cb9fa304a0a32021cb34afaafadd2b90ab2d0de133384768a9",
       "frameworks": [
         "net8.0"
       ],
@@ -1713,7 +1713,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj",
       "role": "source",
-      "sha256": "6498f552521f56c05d3cfbe086e19231a649052b3bb9c1023d5f69fc1296b2ac",
+      "sha256": "469cab8533ea8fa651d33fff6ebe0d54736642f8c1ea4e81f454b5939dea11fe",
       "frameworks": [
         "net8.0"
       ],
@@ -1759,7 +1759,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Presentation/IFX.Modules.IAM.Presentation.csproj",
       "role": "source",
-      "sha256": "cb18b9536faf5fc15db8a6d312723acdd275482ab931b7a413cf30ad396f2d65",
+      "sha256": "8b22e5c0cd33690b2a806eefd959f7479873b63e5a51621b403a618e5922468a",
       "frameworks": [
         "net8.0"
       ],
@@ -1773,7 +1773,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj",
       "role": "source",
-      "sha256": "194f9beadc041589239da884625dd365e38ebc92e8811e791653f8ff1d60dbef",
+      "sha256": "d6c1c08cead7946f9b8d4c66a5ce1414d6262a3d6dae1d6556754864b5a20dbb",
       "frameworks": [
         "net8.0"
       ],
@@ -1799,7 +1799,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Composition/IFX.Modules.Registry.Composition.csproj",
       "role": "source",
-      "sha256": "ccaafb88cfe2b6daae76c4575b39585abbd3345edbe598ee70a1b4079bc3051a",
+      "sha256": "4f777730e37389fe20d962bb1a1f32e44e0debc623effd93010a1aa07e67fda9",
       "frameworks": [
         "net8.0"
       ],
@@ -1861,7 +1861,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj",
       "role": "source",
-      "sha256": "c5e0efbd8d2cf3592ffbfbe1d98055b7a5584683ae58f384902ec425bf6107f6",
+      "sha256": "70f93285e40e582be760a5d3fd56760cf311aef12de6394f6de6e450c528fc62",
       "frameworks": [
         "net8.0"
       ],
@@ -1899,7 +1899,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Presentation/IFX.Modules.Registry.Presentation.csproj",
       "role": "source",
-      "sha256": "5d63854dec00854392c28f47f6297ccaaa7890d7a1e99feb3791d90fd81ef3ce",
+      "sha256": "a293d1a23b7093ca8b2c25f6d6b6692c3017868844e96c90be8bc42ab6a1bf29",
       "frameworks": [
         "net8.0"
       ],
@@ -1913,7 +1913,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj",
       "role": "source",
-      "sha256": "c64f6a0ea0dacc79a93caafaf80bb5f53222377c5ce30986e1217edc553fc03f",
+      "sha256": "4ae3aaa6f7880df8cf3c24054ec5deef9cddca31efca1bff0fc1bbc108cb8585",
       "frameworks": [
         "net8.0"
       ],
@@ -1935,7 +1935,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Composition/IFX.Modules.Transaction.Composition.csproj",
       "role": "source",
-      "sha256": "320900ac4f478e06a38ba8e856494c3b70e06aa00ed2955cc72be80a7658c382",
+      "sha256": "d3d76563882c0f603b688bbedf3eb0687a50e4d35d4d3cbf5e248c623f58321f",
       "frameworks": [
         "net8.0"
       ],
@@ -1997,7 +1997,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj",
       "role": "source",
-      "sha256": "814ea354df3bf800352d7f90cd758b25c78de7ed5df32d88fa49d18ddde3843b",
+      "sha256": "4abbba9cbe0bf0c4ead2e156895164ac4f59d98e2a6883f11c0bff11d0a113c0",
       "frameworks": [
         "net8.0"
       ],
@@ -2051,7 +2051,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Presentation/IFX.Modules.Transaction.Presentation.csproj",
       "role": "source",
-      "sha256": "50a68b007c902f3003b6156f517a485d6ba4f79a56881933b58b3bb77ed00bb6",
+      "sha256": "fb0f7936f7fd44cb1c608ae0e45603803a4738693ba438f7b9bf9862a6d18829",
       "frameworks": [
         "net8.0"
       ],
@@ -2096,7 +2096,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Auth0/IFX.Platform.Authentication.Infrastructure.Auth0.csproj",
       "role": "source",
-      "sha256": "125ca93bf5c48e1aa0a6c60d5f4b2ead0b8fec3bc12d7ddd34d2c0a9113920b3",
+      "sha256": "871b0a48855036c877a0b868e75bfcc5f7dace6f9a054e4d96ecf548e595a5d0",
       "frameworks": [
         "net8.0"
       ],
@@ -2110,7 +2110,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Cognito/IFX.Platform.Authentication.Infrastructure.Cognito.csproj",
       "role": "source",
-      "sha256": "33df7c632ed98e28aa5a0d32a84631d9c938688a6a7f8ff534c66d2f865e0bec",
+      "sha256": "056aa1d23fe521edd7eb27eb4d74a35743c559f52ca31d324fd328b6975eb951",
       "frameworks": [
         "net8.0"
       ],
@@ -2124,7 +2124,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj",
       "role": "source",
-      "sha256": "ff980e56b2dd04f69600ab6cb19481575aac6be5a4643bbe3ad630c4c1094df3",
+      "sha256": "9361b49ce7b947e627f5845731a0c0843141231edf80d96fe4bdd1ea47ff83ef",
       "frameworks": [
         "net8.0"
       ],
@@ -2201,7 +2201,7 @@
     {
       "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/IFX.Platform.BackgroundJobs.Composition.csproj",
       "role": "source",
-      "sha256": "2aa2091eb6f454c9ca1cfe246dc219b1c9c0eccaaa8b164ad11985052d3d60bb",
+      "sha256": "c4a89c6eefd456fd8c3d99ac88b6e72b2e46280149956913862314fe3232b4e1",
       "frameworks": [
         "net8.0"
       ],
@@ -2232,7 +2232,7 @@
     {
       "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj",
       "role": "source",
-      "sha256": "075ed54691e2d7c4857fbe9c1398998710119d12a59ee1ff8f338999ff50ab45",
+      "sha256": "ff87cf4f71d036701b607f3af7feb9239a500bc31e4f28d9360f889f5ce3ec77",
       "frameworks": [
         "net8.0"
       ],
@@ -2282,7 +2282,7 @@
     {
       "path": "src/Platform/Messaging/IFX.Platform.Messaging.Composition/IFX.Platform.Messaging.Composition.csproj",
       "role": "source",
-      "sha256": "d9bc915aa0c4b66e55659fc4f3f72d826b635ab86639ed7ad0e55e266d22a47d",
+      "sha256": "d18c86af33ae75522df3ded32e586c3d5d55679fc8b9dd054a7d8776ca2edbdc",
       "frameworks": [
         "net8.0"
       ],
@@ -2305,7 +2305,7 @@
     {
       "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj",
       "role": "source",
-      "sha256": "475d123483613e8beffc0a793a1fe1448d6d9336879302fdb647177160b0dc6a",
+      "sha256": "c5a8c79ae33a994299bfadbe98b05f15ce6e08448566e11dbb4d4f35f103a987",
       "frameworks": [
         "net8.0"
       ],
@@ -2327,7 +2327,7 @@
     {
       "path": "src/Platform/Notifications/IFX.Platform.Notifications.Composition/IFX.Platform.Notifications.Composition.csproj",
       "role": "source",
-      "sha256": "e728bb1812a170e6efc0580b5953cdd3c62594188af1859e034ecfb8e10a505a",
+      "sha256": "04a2bddd5cbefb08a0f34740fc2f9a7a7b121db543bebbc3fad52e7716ba52bd",
       "frameworks": [
         "net8.0"
       ],
@@ -2354,7 +2354,7 @@
     {
       "path": "src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/IFX.Platform.Notifications.Infrastructure.SendGrid.csproj",
       "role": "source",
-      "sha256": "1ce38c4d63bbc64074a7928fd37d9182bea5b8db88bbd9381676231c4b2f560e",
+      "sha256": "3912e766d3f5748da9247c4ee5048bfac5f1510a6eee9357068502c01af16f01",
       "frameworks": [
         "net8.0"
       ],
@@ -2372,7 +2372,7 @@
     {
       "path": "tests/IFX.BuildingBlocks.Application.Tests/IFX.BuildingBlocks.Application.Tests.csproj",
       "role": "test",
-      "sha256": "566b72f7a90d5e9ec78369bcfa95478a0323656599eb8c3176cf9d8317ba042c",
+      "sha256": "8b3cb70c92b0c132c72be6b8b7772f50f7f1e94ce843d170bf325d84b509dbc4",
       "frameworks": [
         "net8.0"
       ],
@@ -2386,7 +2386,7 @@
     {
       "path": "tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests.csproj",
       "role": "test",
-      "sha256": "743041505ad134bf07fd035ce0b4d31e3b229bb2c4586d389d0a01658fcf7f64",
+      "sha256": "5a1080ebcd98bc87a973caf81f3d82e8e8a73e904cf4f5ae252f6318491c9ae9",
       "frameworks": [
         "net8.0"
       ],
@@ -2400,7 +2400,7 @@
     {
       "path": "tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj",
       "role": "test",
-      "sha256": "3e1dae7978a2ed00e58f36e223510badbb8ee332673e91f5cabd96f69ccc374d",
+      "sha256": "03714839c57f17cdadb179a3a8475318100a44bc0ed15b3cfe86d6f102a82376",
       "frameworks": [
         "net8.0"
       ],
@@ -2442,7 +2442,7 @@
     {
       "path": "tests/IFX.IntegrationTests/IFX.IntegrationTests.csproj",
       "role": "test",
-      "sha256": "713d829a23f0f480eafbedde4a49d3e533cc040647aa32d9a11621392ebf0a45",
+      "sha256": "fc02fbcbedecb0539611ecd565ed989ad2eff20d387dab13e9ed3da8a6737736",
       "frameworks": [
         "net8.0"
       ],
@@ -2484,7 +2484,7 @@
     {
       "path": "tests/IFX.Modules.CRM.Application.Tests/IFX.Modules.CRM.Application.Tests.csproj",
       "role": "test",
-      "sha256": "d0b593455c85e7f0ab0e85603048e682d66f20a035be87f8a31fa6fe60eb9711",
+      "sha256": "fc17d5a866eec2e15b73ecdcc612de16145282ecd6b93526ed2386e8caafb4a9",
       "frameworks": [
         "net8.0"
       ],
@@ -2506,7 +2506,7 @@
     {
       "path": "tests/IFX.Modules.CRM.Domain.Tests/IFX.Modules.CRM.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "bcd9a82ed4bf6a325597999554adf7db30b63a25c31811dca64df5c26d9e1319",
+      "sha256": "0ace8d9b67281e080eadcd652d04595b0896d1237c9efa29aeb236aa4f6f8c42",
       "frameworks": [
         "net8.0"
       ],
@@ -2520,7 +2520,7 @@
     {
       "path": "tests/IFX.Modules.Holdings.Application.Tests/IFX.Modules.Holdings.Application.Tests.csproj",
       "role": "test",
-      "sha256": "e471d00cf897652286e172b853f9a7c18b2fe347f8973a97c91f0a3a9d0e3e37",
+      "sha256": "8fb87c0f3115c56f16db50dc75ae39d32ca955b1020d4d6fe905a92f4d7c9fc5",
       "frameworks": [
         "net8.0"
       ],
@@ -2534,7 +2534,7 @@
     {
       "path": "tests/IFX.Modules.Holdings.Domain.Tests/IFX.Modules.Holdings.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "7377fd3575d045c87790479000fde3ea52d1399880e703e4915bdb1454f0b97b",
+      "sha256": "7f219de9ae3d8b7d7748b037cd6005f91cac10965ad183aa3c484cabc57b2a24",
       "frameworks": [
         "net8.0"
       ],
@@ -2548,7 +2548,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Application.Tests/IFX.Modules.IAM.Application.Tests.csproj",
       "role": "test",
-      "sha256": "cf347a238f1a5f4be50e1a0fe4566ec8021cf0ed7d4efe1802a837f5a1fc5635",
+      "sha256": "ea7e1f4fc5469e881f3aa4f12ca86d471dbe1673630a43f582ab41d71ad17020",
       "frameworks": [
         "net8.0"
       ],
@@ -2566,7 +2566,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Domain.Tests/IFX.Modules.IAM.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "da923b1aad4667c399ce67ee3ef794f2df5b6db8a7bd0570625fda7819c33cf1",
+      "sha256": "2a205f246cd39053bea56ae6746a0ec295d75f386e11665900ad48d3b0b1a4e8",
       "frameworks": [
         "net8.0"
       ],
@@ -2584,7 +2584,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Infrastructure.Tests/IFX.Modules.IAM.Infrastructure.Tests.csproj",
       "role": "test",
-      "sha256": "564f302bb50fdc3f3416b1d7937f028ca2849e13172fdb1af8b4256b16f58251",
+      "sha256": "1e6440b1806350d709a67f2e8b9ef7d693101babf0d07fce498b6715ec309741",
       "frameworks": [
         "net8.0"
       ],
@@ -2606,7 +2606,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Presentation.Tests/IFX.Modules.IAM.Presentation.Tests.csproj",
       "role": "test",
-      "sha256": "d483c819b1dbfbb483a0ce212c0ed71b2d4e6fdce9a971ec8b754fdf70136817",
+      "sha256": "1dc9b5f8ec2401b6863dba365e0989807fcd69fc6faa064d0eff9b98f5effd46",
       "frameworks": [
         "net8.0"
       ],
@@ -2624,7 +2624,7 @@
     {
       "path": "tests/IFX.Modules.Registry.Application.Tests/IFX.Modules.Registry.Application.Tests.csproj",
       "role": "test",
-      "sha256": "8120bb63524624c5a5790b8171e1aa3058adb70a89e3acf953d743448c5fe7f4",
+      "sha256": "73a8d5830a74fe97facf9a9ebdff194028359b86467501c417cea7cdd5ed9734",
       "frameworks": [
         "net8.0"
       ],
@@ -2646,7 +2646,7 @@
     {
       "path": "tests/IFX.Modules.Registry.Domain.Tests/IFX.Modules.Registry.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "70156cbaab0b49d0acd396e7403302f9c32e567b7a0e6df51992e1e9e366a162",
+      "sha256": "663ec0e31342ecdda8007bd5bf07fe32202c5ce799362ca2ba8ab9fcc544af0c",
       "frameworks": [
         "net8.0"
       ],
@@ -2660,7 +2660,7 @@
     {
       "path": "tests/IFX.Modules.Transaction.Application.Tests/IFX.Modules.Transaction.Application.Tests.csproj",
       "role": "test",
-      "sha256": "76dcf2105a328195b34300f5f209d28f440104036fdf9d306adf6c03f9fe3492",
+      "sha256": "f765e9e3e706b23a7b233da90f280888b707db91aee2fd1e2ea62823a2e905c4",
       "frameworks": [
         "net8.0"
       ],
@@ -2674,7 +2674,7 @@
     {
       "path": "tests/IFX.Modules.Transaction.Domain.Tests/IFX.Modules.Transaction.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "f17fd1ccc52e2caa011093960e7e144d5a0aa02c1b7acc2481c3214df7c391e0",
+      "sha256": "6955b5502520ecd3c872bbdfd095c01ee0011b6a3f175c10f3e2d1ecfcbfdb02",
       "frameworks": [
         "net8.0"
       ],
@@ -2688,7 +2688,7 @@
     {
       "path": "tests/IFX.Platform.Authentication.Tests/IFX.Platform.Authentication.Tests.csproj",
       "role": "test",
-      "sha256": "6563e339654581182adafb86cf731a491717098661789ebbf9731030454892bc",
+      "sha256": "97560bf9567d00d30ba611fe4b74d6d9030c93c530122a40ca4ae54e2e321b8e",
       "frameworks": [
         "net8.0"
       ],
@@ -2706,7 +2706,7 @@
     {
       "path": "tests/IFX.Platform.Authorization.Tests/IFX.Platform.Authorization.Tests.csproj",
       "role": "test",
-      "sha256": "299e9e48e7e5cb4b0427cebc4a688923a34beb6dd769e3874e1d6cd4b2d26061",
+      "sha256": "4cfb1a844f6338d077c57d0a7c6b44272306effa5fdcc680ca8c1e128057f5f2",
       "frameworks": [
         "net8.0"
       ],
@@ -2724,7 +2724,7 @@
     {
       "path": "tests/IFX.Platform.BackgroundJobs.Tests/IFX.Platform.BackgroundJobs.Tests.csproj",
       "role": "test",
-      "sha256": "bd1dcfe56d9900e0b09a63f0ad1db5d1761ebb49b90bb929dc04148e14f4c6d8",
+      "sha256": "166e55ef7292dfd482bab5651787de1f37846fbe7c38e005a8d32e96a893be7d",
       "frameworks": [
         "net8.0"
       ],
@@ -2742,7 +2742,7 @@
     {
       "path": "tests/IFX.Platform.Notifications.Tests/IFX.Platform.Notifications.Tests.csproj",
       "role": "test",
-      "sha256": "195ef1486f7866e9fa3eaed93deab98c14ffb66b1722bb16a97177a1416e59c5",
+      "sha256": "980362bc3856397a851a4abde4283aa15030138d9baa574f1adce18661fffe3c",
       "frameworks": [
         "net8.0"
       ],
@@ -2764,7 +2764,7 @@
     {
       "path": "tests/IFX.Platform.ProtocolContracts.Tests/IFX.Platform.ProtocolContracts.Tests.csproj",
       "role": "test",
-      "sha256": "4c0515a084f5fea1d9ff6cc1ed6804f5630bd4dc0e6cbbfe3ec064f626097265",
+      "sha256": "39f4d39206ce9fbb1ee26e62d5cf4cda7ade67204f7e2090325ecc1290f6ea3c",
       "frameworks": [
         "net8.0"
       ],
@@ -2798,7 +2798,7 @@
     {
       "path": "tests/IFX.Tests.Common/IFX.Tests.Common.csproj",
       "role": "test",
-      "sha256": "2c3ad240f23002eb8e2507cf4bf82f52fa5e16cc08884a76ee260b509fda0a0c",
+      "sha256": "b1e08f2785be07775e92be6275859aa57c1c7390e6b8dbe10d5c719f6c2fed58",
       "frameworks": [
         "net8.0"
       ],
@@ -2816,7 +2816,7 @@
     {
       "path": "tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj",
       "role": "source",
-      "sha256": "b724bcc328bcba034530a07ec41fb0357a6747b5796c75ecdcd002341729914e",
+      "sha256": "df069526d2a1c30797b76e893a442606bff7bcf49189e0214316ad91ff23ee58",
       "frameworks": [
         "net8.0"
       ],
@@ -2845,6 +2845,12 @@
     }
   ],
   "manifests": [
+    {
+      "path": "Directory.Build.props",
+      "sha256": "92b9390a169bd048f661d260145dc2c176c2886d2e7551b66e322e78a55cae06",
+      "kind": "Directory.Build.props",
+      "scriptNames": []
+    },
     {
       "path": "IFX.sln",
       "sha256": "078bc0b7266ba0be545229492a7a9a93f36d750d0984ba7c63822abf07856994",
@@ -2887,13 +2893,13 @@
   "workflows": [
     {
       "path": ".github/workflows/v3-ifx-guardrails.yml",
-      "sha256": "0ce3bb4eb674a1f22aab76a6e480c9218a4cbce37f955609c5606e0cc148f91c"
+      "sha256": "c630b77ada8a0ae4632986fc33643a8ae76f9c1e0d5678e0232c7d69446fc427"
     }
   ],
   "guidance": [
     {
       "path": ".github/CODEOWNERS",
-      "sha256": "ff011f88bcdec8a3c27b42cb6d0b69bcc6dec2bf0e6a23dfc7e8fd6b59cd0978"
+      "sha256": "e6df36b23aa0578b02ef8135e67e22b3b93370f60f408e9feee9f591993529f4"
     },
     {
       "path": "CLAUDE.md",
