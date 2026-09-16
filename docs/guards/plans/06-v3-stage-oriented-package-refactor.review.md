@@ -771,3 +771,65 @@ r3 的完整修订输入为：
 3. 本章 13.2–13.5 的落地补充。
 
 本 Review 就 r3 修订范围已完全收敛。建议下一步直接修订主 Plan 至 r3，并在修订记录中逐项标注来源章节；r3 完成后再做一次针对性核对，而不是继续追加 Review 章节。在此之前，主 Plan 继续保持 `DRAFT`。
+
+## 十四、最终审查、阻塞修正与批准结论（Codex）
+
+> 最终结论：r3 已正确吸收第一至十三章，但最终审查发现两个批准阻塞项：trusted base 自身缺少受控升级协议；可信构建的 import allowlist 会错误拒绝合法 NuGet build assets，且 restore 未锁定传递依赖。主 Plan 已修订为 r4，并补齐实施顺序与自保护约束。针对性复核后未发现剩余的计划级阻塞项，建议由用户将主 Plan 状态从 `DRAFT` 改为 `APPROVED`。在人工批准和 §19 全部前置条件完成前，仍不得开始 P0。
+
+### 14.1 阻塞项一：trusted base 自身的候选升级协议
+
+r3 能保证当前 PR 无法用 head engine/config 改变当前判定，但仅对 policy/config 定义了双轨验证。入口、orchestrator、engine、contracts、base tests、生成器、构建基线和 lock files 一旦在 PR 中修改，当前 base 会忽略其判定逻辑；合并后这些文件却会成为下一次 trusted base。若只运行 head 自带测试，head 可以同时削弱实现和测试，形成与 policy/config 相同的“两步削弱”。
+
+r4 已作以下修正：
+
+- 新增 §11.5 **Trusted Base Component 候选升级**；
+- 新增 `shared/trusted-components.json`，记录 TCB 路径、组件 ID、类型、base-owned validation suite、parity contract 和允许的变更方式；
+- TCB manifest、schema 和 verifier 自身也进入 manifest，形成自保护信任根；
+- head 候选不能控制当前 PR 判定，只能在隔离候选进程中接受验证；
+- base-owned tests、fixtures、contracts 和负向控制是必需条件，head tests 只能补充；
+- 新旧实现针对 base 固定 corpus 执行 parity，默认保持命令契约、失败类别、报告 schema 和 blocking 结论一致；
+- §12 新增 `change-trusted-base` operation，采用 base 预授权、消费即删除协议；授权记录 TCB component、base/head tuple/tree ID、validation suite、parity contract、允许行为差异和 decision；
+- head manifest 删除或重分类组件、移除 manifest 自身、引用未登记可执行组件均失败关闭或要求授权；
+- P0、P2、P3、P4、P11、风险表、验收标准和 D15 已同步加入 TCB 演进约束。
+
+该协议不宣称替代 git 端强制审批；在 O1 暂缓范围内，它保证 TCB 变化显式、可验证、可追溯。
+
+### 14.2 阻塞项二：NuGet import allowlist 与依赖可重复性
+
+r3 要求可信构建只导入“.NET SDK 与 V3 package 内文件”。该条件无法实际满足：Stage Gate 使用 `Microsoft.NET.Test.Sdk` 与 `xunit.runner.visualstudio`，这些 NuGet 包自身包含并导入 `.props/.targets`；restore 还会在隔离 `obj` 中生成 `.nuget.g.props/.targets`。这些合法文件既不位于 SDK，也不位于 V3 package。与此同时，仅固定顶层 `PackageReference` 版本不能锁定全部传递依赖与 package content。
+
+r4 已作以下修正：
+
+- V3 `build/locks/` 保存各可信门禁工程的 `packages.lock.json` 权威或模板；
+- restore 使用 `--locked-mode` 或等价 `RestoreLockedMode=true`，验证直接/传递依赖、版本和 content hash，且不得静默改写 lock；
+- 构建前通过 `-pp` 或等价方式预检 imports，构建后通过 binlog 再次复核；
+- allowlist 包含固定版本 .NET SDK、V3 package、隔离生成根中的 NuGet 生成文件，以及 package ID/version/content hash 与 lock 一致的 NuGet build assets；
+- 未锁定 package、head、base 工作区其他位置、宿主父目录和用户自定义 import 均失败关闭；
+- §8.3、§11.2、P2、P5、P11、风险表、验收标准和 D14 已同步更新。
+
+### 14.3 同步修正的实施顺序与 schema 约束
+
+最终核对同时发现并修正两个顺序细节：
+
+1. P2 需要使用 `stage.json`、`commands.json` 和 TCB manifest，而 r3 原本到 P8 才首次定义这些 manifest。r4 在 P1.5 先建立最小 schema/skeleton，P8 只负责最终补全、迁移和文档化，不得重新定义 P2 已使用的稳定字段。
+2. P5 建立 package-local build/lock 基线，P2 才启用 trusted execution 和 TCB candidate protocol。r4 将 P5–P2 明确为同一个受控 bootstrap 窗口：P5 使用 P0 冻结清单、现有 CI、隔离验证和负向控制；P2 以 P5 合入后的 base 验证并关闭窗口。P3 起所有 TCB 变化必须遵循 §11.5，不得继续使用首次引入例外。
+
+§12.2 也改为公共字段加 operation-specific 字段，避免强制 `weaken-policy` 或 `change-trusted-base` 使用只适用于 path move 的单一 source/destination 结构，并允许一个 TCB 授权精确覆盖多个组件。
+
+### 14.4 针对性验证
+
+本轮完成以下静态核对：
+
+- 主 Plan `git diff --check` 通过；
+- §11 子章节编号、P 阶段、D1–D15 和 §19 前置条件引用一致；
+- 不再存在“只允许 SDK 与 V3 package import”的不可满足表述；
+- 不再存在 D1–D14、r3 待核对或旧主 Plan §11.5/§11.6 引用；
+- TCB manifest 自保护、candidate validation、parity、授权、负向控制和验收标准形成闭环；
+- lock file、locked restore、content hash、import 预检和构建后复核形成闭环；
+- O1 的已知限制与 §11.4、§12.5 的保证范围仍保持一致。
+
+### 14.5 最终批准判断
+
+r4 已解决最终审查发现的两个阻塞项，第一至十四章的决定已经在主 Plan 中形成一致且可实施的设计。当前未发现剩余的计划级阻塞问题，可以批准该计划。
+
+批准只表示设计与实施路线获准，不等于授权立即执行。应由用户显式把状态改为 `APPROVED`；随后仍须完成 §19 的 D1–D15 decision JSON/ADR、正式 Markdown/JSON Plan pair、精确 sidecar、Pre、baseline/回退记录，并再次取得明确实施授权，才可开始 P0。
