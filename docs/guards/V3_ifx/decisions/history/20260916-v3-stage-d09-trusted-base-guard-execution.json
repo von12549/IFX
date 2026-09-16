@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d09-trusted-base-guard-execution",
+  "owner": "xiaolong-feng",
+  "summary": "PR guard evaluation runs from a read-only base worktree outside the head checkout, starting at the first executable after the workflow; head is only an explicit target, and every gate declares a trust contract stating its real guarantee scope.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "Without base execution a PR can change the entry wrapper, engine, protection list or policy that judge it. Review chapters 10-13 extended the base boundary to the whole call chain and replaced a binary gate classification with per-gate trust contracts, including the mixed-trust Architecture Conformance gate. Guarantees are limited by section 11.4 because workflow definitions and Git approval settings remain deferred item O1. Plan 06 sections 11 and 17 D9."
+}

@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d14-package-local-build-baseline",
+  "owner": "xiaolong-feng",
+  "summary": "V3 carries its own build, package, SDK, NuGet, lock-file and security baseline imported explicitly by guard projects; trusted builds run outside the repository with directory discovery disabled, locked restore, and pre-build and binlog import allowlist checks.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/Directory.Packages.props",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "Guard projects currently depend on root Directory.Build.props for NuGet auditing and on docs/Directory.Packages.props to disable Central Package Management, so V3 is not portable and a nested import would let host or head files override the baseline. NuGet build assets are allowed only when package ID, version and content hash match the lock file, and host overlays stay off by default. Plan 06 sections 8.3, 11.2 and 17 D14; review sections 10.4, 11.4, 12.3, 13.4 and 14.2."
+}

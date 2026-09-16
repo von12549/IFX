@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d11-lightweight-workflow-template",
+  "owner": "xiaolong-feng",
+  "summary": "The workflow is generated and verified inside the guard packages from a canonical YAML template with few stable variables, without a JSON DSL, and required-checks.json stays an independent machine authority.",
+  "affectedPaths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "Plan section 2.1 requires activation files to be generated and verified before installation, while the current workflow is only 285 lines, so a general DSL would cost more than it saves. The template checker validates public command use, base-worktree entry points and required-check names including matrix expansion. Plan 06 sections 10 and 17 D11; review sections 3, 6.7 and 7.2."
+}

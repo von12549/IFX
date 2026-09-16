@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d15-trusted-base-component-upgrade",
+  "owner": "xiaolong-feng",
+  "summary": "All components that become the next trusted base are listed in a self-protecting TCB manifest; head candidates must pass base-owned validation and fixed-corpus parity in isolation, head tests may only add coverage, and non-equivalent semantic changes consume a change-trusted-base authorization.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "Base execution prevents a PR from judging itself, but a PR could weaken an engine and its own tests together and the result would become the next trusted base. The TCB manifest includes itself, its schema and verifier, so components cannot be removed from protection by editing the manifest first. Plan 06 sections 11.5 and 17 D15; review section 14.1."
+}

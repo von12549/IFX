@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d05-activation-install-modes",
+  "owner": "xiaolong-feng",
+  "summary": "Activated files support both manual copy followed by Verify and an explicit Install -AcceptDeployment; Generate, Check and Preview never write target locations.",
+  "affectedPaths": [
+    ".github/**",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "User answer to Plan 06 D5. Both paths converge on the same Verify, which checks source path, hash and content, so manual installation cannot bypass drift detection. Install records source, target and hash. Plan 06 section 17 D5."
+}

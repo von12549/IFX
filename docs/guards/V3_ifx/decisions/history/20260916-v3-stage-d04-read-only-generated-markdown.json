@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d04-read-only-generated-markdown",
+  "owner": "xiaolong-feng",
+  "summary": "All generated Markdown is read-only; Markdown-to-JSON Import is removed, including one-to-one configuration pages, and generated documents list source paths, roles and one composite hash.",
+  "affectedPaths": [
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "User answer to Plan 06 D4. JSON remains the only machine authority; an editable Markdown path creates a second authority and a partial-write risk. A composite hash plus a byte-for-byte re-render check detects staleness without per-source hash churn. Plan 06 section 17 D4; review sections 1, 6.1 and 6.7."
+}

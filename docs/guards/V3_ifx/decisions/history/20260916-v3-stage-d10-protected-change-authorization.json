@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d10-protected-change-authorization",
+  "owner": "xiaolong-feng",
+  "summary": "Protected moves, deletes, case-only renames, potential policy weakening and non-equivalent trusted-base changes require a base pre-authorization consumed and deleted in the same change PR, verified with tree-entry tuples, a verified merge-base and NUL-separated raw diffs.",
+  "affectedPaths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**",
+    "docs/guards/plans/**",
+    "mcp/LayerGuard/**"
+  ],
+  "rationale": "The existing IsProtectedGuardPath check blocks every delete or rename required by Plan 06, and a same-PR authorization would be self-authorization. Tree-entry tuples capture mode and type that blob IDs miss, --no-renames avoids heuristic matching, and gitlinks in protected scope fail. Merge-base soundness depends on ruleset strict mode, which P1.3 asserts. Within deferred item O1 the protocol makes protected changes explicit and traceable but cannot stop two-step changes. Plan 06 sections 12 and 17 D10."
+}
