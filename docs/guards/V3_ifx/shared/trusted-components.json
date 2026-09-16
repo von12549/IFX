@@ -174,6 +174,7 @@
       "type": "contracts",
       "status": "active",
       "paths": [
+        "docs/guards/V3_ifx/contracts/authorization.schema.json",
         "docs/guards/V3_ifx/contracts/decision.schema.json",
         "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
         "docs/guards/V3_ifx/contracts/plan.schema.json",
@@ -181,13 +182,28 @@
         "docs/guards/V3_ifx/contracts/profile.schema.json",
         "docs/guards/V3_ifx/contracts/project-map.schema.json",
         "docs/guards/V3_ifx/contracts/rule.schema.json",
-        "docs/guards/V3_ifx/contracts/tech-stack.schema.json"
+        "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+        "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json"
       ],
       "validationSuite": [
         "Invoke-IFXGuardrails.ps1 -Mode Validate",
         "docs/guards/V3_ifx/tests/Test-IFXPre.ps1"
       ],
       "parityContract": "Schemas may only tighten or stay equivalent for existing valid documents.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.engine.trusted-base",
+      "type": "engine-trusted-base",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/trusted-base/"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1"
+      ],
+      "parityContract": "Base provenance checks, anti-weakening roles, candidate projection targets, authorization matching and parity comparison fail closed in the same cases on the fixed negative-control corpus.",
       "allowedChange": "change-trusted-base"
     },
     {
@@ -223,7 +239,9 @@
         "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
         "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1"
+        "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1"
       ],
       "validationSuite": [
         "v3-architecture",

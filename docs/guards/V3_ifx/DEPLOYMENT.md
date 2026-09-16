@@ -14,6 +14,25 @@ pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode 
 
 Package code, configuration and generated projects are read from the copy the dispatcher runs from; target data is read from `-TargetRoot` (default: the repository containing the package). A trusted package copy outside the repository can therefore run against a checked-out head with `-TargetRoot <head>`. Domain authorities that detectors read are registered with their trust roles in `policy/authorities.json` and declared as trust-contract inputs in `stages/*/stage.json`; `Invoke-IFXManifestCheck.ps1` rejects an unregistered or undeclared read (Plan 06 D18).
 
+## Trusted base execution
+
+Plan 06 §11 requires CI verdicts to come from the base commit. `trusted-base/Invoke-IFXTrustedBase.ps1` must itself start from a clean worktree of the verified base SHA, created outside the head checkout. The workflow switch is CP04c; until then, run it locally the same way:
+
+```powershell
+git worktree add --detach $env:TEMP/guard-base <base-sha>
+pwsh -NoProfile -File "$env:TEMP/guard-base/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot . -BaseSha <base-sha> -Mode Specialized -SpecializedGate G03 -GateId v3-specialized-g03
+```
+
+The runner does the following:
+
+1. Verifies the worktree's SHA, cleanliness and location.
+2. Compares head domain authorities with base by their registered D18 roles (`Test-IFXDomainAuthorityCandidates.ps1`). A governing-policy change or a widened exception fails closed until P4 provides `weaken-policy`.
+3. Regenerates the package projections from head authorities in a generation directory outside head and base.
+4. Runs the dispatcher from that base-derived copy with head as `-TargetRoot`.
+5. Writes `artifacts/guards/v3-ifx/trusted-base/summary-<mode>.json`, which includes the gate's trust type and guarantee, and checks that the base worktree is still clean.
+
+Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandidate.ps1` from the same base worktree. They need a base `change-trusted-base` authorization that the change PR deletes; see `stages/diff/authorizations/README.md`.
+
 `SpecializedGate` also accepts `G04`, `G05`, `Plan04`, `Database`, and `All`. `QualityTarget` accepts `Solution`, `Assembly`, `Frontend`, and `All`. Database validation requires the EF Core 8 CLI and Docker for the SQL Server Testcontainers matrix. Frontend validation runs `npm ci`, lint, `test:run`, and build.
 
 ```powershell
@@ -41,6 +60,8 @@ pwsh -NoProfile -File "$v3/tests/Test-V3ArchUnit.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPre.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPackage.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXTargetRootSeparation.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXDomainAuthorityCandidates.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXTrustedBase.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXAssemblyGuard.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXAuthorityProjection.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXSpecializedContracts.ps1"

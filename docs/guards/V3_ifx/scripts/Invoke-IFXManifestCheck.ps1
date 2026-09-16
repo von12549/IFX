@@ -205,6 +205,28 @@ if ($null -ne $registry) {
             if ($entry.role -eq $authority.defaultRole) { Fail "Domain authority '$($authority.id)' pointer $($entry.pointer) repeats the default role" }
             $segments = @($entry.pointer.Split('/') | Select-Object -Skip 1)
             if ((Measure-PointerMatches $authorityDocument $segments 0) -eq 0) { Fail "Domain authority '$($authority.id)' pointer $($entry.pointer) matches nothing in $($authority.path)" }
+            # Candidate comparison matches wildcard array elements by a declared identity key, not by position.
+            for ($i = 0; $i -lt $segments.Count; $i++) {
+                if ($segments[$i] -ne '*') { continue }
+                $arrayPointer = '/' + (@($segments | Select-Object -First $i) -join '/')
+                if (@($(if ($authority.ContainsKey('arrayKeys')) { $authority.arrayKeys } else { @() }) | Where-Object { $_.pointer -eq $arrayPointer }).Count -eq 0) {
+                    Fail "Domain authority '$($authority.id)' pointer $($entry.pointer) needs an arrayKeys entry for $arrayPointer"
+                }
+            }
+        }
+        foreach ($arrayKey in @($(if ($authority.ContainsKey('arrayKeys')) { $authority.arrayKeys } else { @() }))) {
+            $node = $authorityDocument
+            foreach ($segment in @($arrayKey.pointer.Split('/') | Select-Object -Skip 1)) {
+                $node = if ($node -is [Collections.IDictionary] -and $node.Contains($segment)) { , $node[$segment] } else { $null }
+            }
+            $valid = $node -is [Collections.IList] -and $node -isnot [string]
+            if ($valid) {
+                $identities = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+                foreach ($item in $node) {
+                    if ($item -isnot [Collections.IDictionary] -or -not $item.Contains($arrayKey.key) -or $item[$arrayKey.key] -isnot [string] -or -not $identities.Add($item[$arrayKey.key])) { $valid = $false; break }
+                }
+            }
+            if (-not $valid) { Fail "Domain authority '$($authority.id)' arrayKeys $($arrayKey.pointer) is not an array of objects with a unique string '$($arrayKey.key)'" }
         }
     }
     $projectionEntries = @(@($registry.projections) + @($registry.g04Bindings))

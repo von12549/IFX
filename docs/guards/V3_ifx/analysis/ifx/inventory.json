@@ -2893,7 +2893,7 @@
   "workflows": [
     {
       "path": ".github/workflows/v3-ifx-guardrails.yml",
-      "sha256": "e7b9e227fdc6e96319ad45653c951f4c5a627f36604c3d64b5172ede3c4d6eaa"
+      "sha256": "69b013264c40ed6e03d861fb8f3f5353e775e7c281da0627b5d20fce538597b7"
     }
   ],
   "guidance": [

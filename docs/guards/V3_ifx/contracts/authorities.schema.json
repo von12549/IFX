@@ -100,7 +100,7 @@
       }
     },
     "domainAuthorities": {
-      "description": "Domain-owned authority files read by base detectors, with D18 trust roles at JSON Pointer granularity. The most specific matching pointer wins; * matches any member or index.",
+      "description": "Domain-owned authority files read by base detectors, with D18 trust roles at JSON Pointer granularity. The most specific matching pointer wins; * matches any member or index. arrayKeys name the identity field of arrays traversed by wildcard pointers.",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -121,6 +121,29 @@
           },
           "defaultRole": {
             "$ref": "#/definitions/role"
+          },
+          "arrayKeys": {
+            "description": "Identity key per array of objects on a role-split path, so candidate comparison matches elements by identity instead of position. Every * segment in pointerRoles must have one.",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pointer",
+                "key"
+              ],
+              "properties": {
+                "pointer": {
+                  "type": "string",
+                  "pattern": "^(/([^/~]|~[01])+)+$"
+                },
+                "key": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
           },
           "pointerRoles": {
             "type": "array",

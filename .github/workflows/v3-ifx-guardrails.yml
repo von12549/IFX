@@ -282,6 +282,8 @@ jobs:
           ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1
       - uses: actions/upload-artifact@v7
         if: always()
         with:

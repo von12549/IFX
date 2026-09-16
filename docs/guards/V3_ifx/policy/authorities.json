@@ -42,6 +42,14 @@
   ],
   "domainAuthorities": [
     { "id": "g03-contract-event-catalog", "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml", "defaultRole": "target-declaration",
+      "arrayKeys": [
+        { "pointer": "/consumers", "key": "id" },
+        { "pointer": "/infrastructureProtocols", "key": "identity" },
+        { "pointer": "/modules", "key": "id" },
+        { "pointer": "/owners", "key": "id" },
+        { "pointer": "/protocols", "key": "identity" },
+        { "pointer": "/publicSurface", "key": "id" }
+      ],
       "pointerRoles": [
         { "pointer": "/approvalPolicy", "role": "governing-policy" },
         { "pointer": "/consumers/*/owner", "role": "governing-policy" },
@@ -86,6 +94,9 @@
     { "id": "g05-verification-baseline", "path": "docs/architecture/review/gates/G05/verification-baseline-v1.json", "defaultRole": "governing-policy" },
     { "id": "g04-backpressure-policy", "path": "deployment/g04/backpressure-policy.json", "defaultRole": "governing-policy" },
     { "id": "g04-dependency-criticality", "path": "deployment/g04/dependency-criticality-catalog.json", "defaultRole": "target-declaration",
+      "arrayKeys": [
+        { "pointer": "/dependencies", "key": "dependencyId" }
+      ],
       "pointerRoles": [
         { "pointer": "/dependencies/*/criticality", "role": "governing-policy" }
       ] },
