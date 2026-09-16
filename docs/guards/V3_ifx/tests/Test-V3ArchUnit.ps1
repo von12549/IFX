@@ -19,7 +19,7 @@ function Write-Text([string] $relative, [string] $content) {
 }
 function Write-Json([string] $relative, [object] $value) { Write-Text $relative (($value | ConvertTo-Json -Depth 30) + "`n") }
 function Assert-Run([int] $expected, [string[]] $arguments, [string] $label) {
-    $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -OutputDirectory $output @arguments 2>&1)
+    $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -OutputDirectory $output -LockMode Update -LockRoot (Join-Path $fixture 'locks') @arguments 2>&1)
     if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $($result -join ' | ')" }
     Write-Host "PASS $label"
 }

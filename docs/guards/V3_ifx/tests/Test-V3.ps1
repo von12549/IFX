@@ -13,7 +13,7 @@ if (-not $fixture.StartsWith($fixtureParent + [IO.Path]::DirectorySeparatorChar,
 
 function Assert-Run {
     param([int] $Expected, [string[]] $Arguments, [string] $Label)
-    $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -OutputDirectory $output @Arguments 2>&1)
+    $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -OutputDirectory $output -LockMode Update -LockRoot (Join-Path $fixture 'locks') @Arguments 2>&1)
     if ($LASTEXITCODE -ne $Expected) { throw "$Label expected exit $Expected, got ${LASTEXITCODE}: $($result -join ' | ')" }
 }
 

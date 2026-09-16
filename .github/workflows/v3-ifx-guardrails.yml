@@ -276,6 +276,7 @@ jobs:
           ./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate
           ./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check
           ./docs/guards/V3_ifx/tests/Test-V3.ps1
+          ./docs/guards/V3/tests/Test-V3BuildBaseline.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXPre.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1

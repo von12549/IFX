@@ -234,21 +234,6 @@
       "allowedChange": "change-trusted-base; workflow definition itself is outside the trust boundary (O1)"
     },
     {
-      "id": "tcb.build.host-inherited",
-      "type": "build-baseline (current, inherited)",
-      "status": "active",
-      "paths": [
-        "Directory.Build.props",
-        "Directory.Packages.props",
-        "docs/Directory.Packages.props"
-      ],
-      "validationSuite": [
-        "P5 locked restore and import allowlist"
-      ],
-      "parityContract": "Security properties may not weaken; replaced by V3 build/ in P5 (D14).",
-      "allowedChange": "change-trusted-base"
-    },
-    {
       "id": "tcb.manifest",
       "type": "trust-root (planned)",
       "status": "active",
@@ -271,17 +256,33 @@
     },
     {
       "id": "tcb.build.package-local",
-      "type": "build-baseline (planned)",
-      "status": "planned",
-      "paths": [],
-      "validationSuite": [
-        "P5.3-P5.6"
+      "type": "build-baseline",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3/build/",
+        "docs/guards/V3_ifx/build/"
       ],
-      "parityContract": "Not weaker than tcb.build.host-inherited.",
-      "allowedChange": "change-trusted-base",
-      "plannedPaths": [
-        "docs/guards/V3/build/"
-      ]
+      "validationSuite": [
+        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+        "v3-architecture",
+        "v3-cross-platform-*"
+      ],
+      "parityContract": "Security properties, locked restore, lock/asset/content-hash agreement and the import allowlist may only tighten; reviewed lock files change only with a formal Plan that changes package references.",
+      "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.validation.v3-package-tests",
+      "type": "base-owned-tests",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1"
+      ],
+      "validationSuite": [
+        "v3-cross-platform-*"
+      ],
+      "parityContract": "Assertions and negative controls may only grow.",
+      "allowedChange": "change-trusted-base"
     }
   ]
 }

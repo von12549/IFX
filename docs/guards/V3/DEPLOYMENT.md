@@ -6,6 +6,12 @@ Commands are PowerShell 7 commands run from the target repository root. `V3` is 
 
 Install PowerShell 7, Git, and an SDK matching `tech-stack.json`. Copy `docs/guards/V3/` into the target repository. Create a project-specific profile with `Init` (or copy `examples/minimal/`), then replace its project map, owners, nearby examples, focused commands, risks, tech stack and rules with reviewed facts. The [bootstrap Skill](skills/guard-bootstrap/SKILL.md) guides this review. Do not copy production policies into the reusable default package. Review the [rule contract](contracts/rule.schema.json) and [coverage boundary](architecture/ARCHITECTURE.md).
 
+## Trusted build baseline
+
+`build/` is the package-local build and security baseline (Plan 06 D14). `Invoke-V3.ps1 -Mode Test|Diff` builds the generated gate through `build/GuardBuild.psm1`, which runs `dotnet` from `build/` (so `build/global.json` selects the SDK), restores only from `build/NuGet.config`, imports `build/V3.Build.props` explicitly and disables every `Directory.Build.*`, `Directory.Packages.props` and `Directory.Solution.*` discovery. Output goes to `artifacts/build/<package>/stage-gate/`, never into the package tree.
+
+Restore is locked: the reviewed lock file `<lock root>/<ProjectName>.packages.lock.json` must exist, must not change during restore, and must agree with `project.assets.json` and each package's content hash. The effective imports are checked before the build (`msbuild -pp`) and after it (MSBuild import log) against an allowlist of the SDK, `build/V3.Build.props`, restore-generated `*.nuget.g.props/targets` and locked packages; reports are written to `artifacts/guards/<package>/build/stage-gate/`. The lock root defaults to `build/locks/`; create or refresh a lock only as a reviewed change with `-LockMode Update`, and pass `-LockRoot` for disposable fixtures. `tests/Test-V3BuildBaseline.ps1` proves the package runs from an isolated copy surrounded by hostile host configuration.
+
 ## Initialize, analyze and review
 
 `Init` refuses to overwrite an existing profile. It creates a schema-valid but unreviewed scaffold: a placeholder path and owner, one placeholder command and an advisory rule with no detector. Real source paths remain unmapped by Pre, and generated Post tests require a supported blocking rule. `Validate` therefore means the files are well formed, not that the guard is ready to protect code.

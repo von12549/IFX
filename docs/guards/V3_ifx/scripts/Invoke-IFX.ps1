@@ -4,7 +4,9 @@ param(
     [string] $TargetRoot,
     [string] $ReportPath,
     [string] $NuGetConfig,
-    [switch] $SkipAuthorityCheck
+    [switch] $SkipAuthorityCheck,
+    [ValidateSet('Locked', 'Update')][string] $LockMode = 'Locked',
+    [string] $LockRoot
 )
 
 $ErrorActionPreference = 'Stop'
@@ -105,12 +107,6 @@ function Assert-Generated {
     if ($extra.Count -gt 0) { throw "Unexpected generated files: $($extra -join ', ')" }
 }
 
-function Invoke-Dotnet {
-    param([string[]] $Arguments)
-    & dotnet @Arguments
-    if ($LASTEXITCODE -ne 0) { throw "dotnet $($Arguments[0]) failed with exit code $LASTEXITCODE" }
-}
-
 $sync = Join-Path $PSScriptRoot 'Sync-IFXPolicyInputs.ps1'
 if (-not $SkipAuthorityCheck) {
     & $sync -Mode $(if ($Mode -eq 'Generate') { 'Generate' } else { 'Check' }) -TargetRoot $target
@@ -131,8 +127,16 @@ if ($Mode -in @('Generate', 'Check')) {
     exit 0
 }
 
+$buildModule = @((Join-Path $packageRoot 'build/GuardBuild.psm1'), (Join-Path $packageRoot '../V3/build/GuardBuild.psm1')) |
+    Where-Object { [IO.File]::Exists($_) } | Select-Object -First 1
+if (-not $buildModule) { throw 'V3 build baseline (build/GuardBuild.psm1) is missing.' }
+Import-Module $buildModule -Force
+$packageId = [IO.Path]::GetFileName($packageRoot).ToLowerInvariant().Replace('_', '-')
+$testProject = Join-Path $generated 'tests/LayerGuard.Tests/LayerGuard.Tests.csproj'
+
 $oldAppData = [Environment]::GetEnvironmentVariable('APPDATA', 'Process')
 try {
+    $nuget = $null
     if ($NuGetConfig) {
         $nuget = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $target $NuGetConfig }))
         if (-not [IO.File]::Exists($nuget)) { throw "NuGet config is missing: $nuget" }
@@ -141,17 +145,27 @@ try {
             [void] [IO.Directory]::CreateDirectory($isolated)
             $env:APPDATA = $isolated
         }
-        Invoke-Dotnet -Arguments @('restore', $solution, '--configfile', $nuget, '--nologo')
     }
-    else { Invoke-Dotnet -Arguments @('restore', $solution, '--nologo') }
-    if ($Mode -eq 'Test') { Invoke-Dotnet -Arguments @('test', $solution, '--no-restore', '--nologo') }
+    $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $target "artifacts/build/$packageId/architecture-conformance") `
+        -LockRoot $(if ($LockRoot) { [IO.Path]::GetFullPath($LockRoot) } else { Join-Path $packageRoot 'build/locks' }) `
+        -ReportRoot (Join-Path $target "artifacts/guards/$packageId/build/architecture-conformance") -LockMode $LockMode -NuGetConfig $nuget
+    Invoke-GuardRestore $context $solution @($project, $testProject)
+    if ($Mode -eq 'Test') {
+        $oldFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', 'Process')
+        try {
+            $env:LAYERGUARD_FIXTURES_ROOT = Join-Path $generated 'tests/fixtures'
+            Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project)
+        }
+        finally { [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process') }
+    }
+    else { Invoke-GuardBuildStep $context 'build' $project @($project) }
 
     $report = if ($ReportPath) {
         if ([IO.Path]::IsPathRooted($ReportPath)) { [IO.Path]::GetFullPath($ReportPath) }
         else { [IO.Path]::GetFullPath((Join-Path $target $ReportPath)) }
     } else { Join-Path $target 'artifacts/guards/v3-ifx-layerguard.json' }
     [void] [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
-    Invoke-Dotnet -Arguments @('run', '--no-restore', '--project', $project, '--', 'check', (Join-Path $target 'src'), '--config', $policy, '--baseline', $baseline, '--format', 'json', '--report', $report, '--quiet')
+    Invoke-GuardDotnet $context (@('run', '--no-build', '--artifacts-path', $context.ArtifactsRoot, '--project', $project) + $context.Properties + @('--', 'check', (Join-Path $target 'src'), '--config', $policy, '--baseline', $baseline, '--format', 'json', '--report', $report, '--quiet'))
     Write-Host "IFX independent LayerGuard gate passed. Report: $report"
 }
 finally { [Environment]::SetEnvironmentVariable('APPDATA', $oldAppData, 'Process') }

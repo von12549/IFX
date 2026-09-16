@@ -28,6 +28,13 @@ try {
         Copy-ToFixture (Join-Path $repository $relative) $relative
     }
     Copy-ToFixture (Join-Path $repository 'docs/Directory.Packages.props') 'docs/Directory.Packages.props'
+    # The guard build baseline is canonical in V3 (Plan 06 D14); the package resolves it from ../V3/build.
+    $v3Build = Join-Path $repository 'docs/guards/V3/build'
+    foreach ($file in Get-ChildItem -LiteralPath $v3Build -File -Recurse) {
+        $relative = [IO.Path]::GetRelativePath($v3Build, $file.FullName).Replace('\', '/')
+        if ($relative -match '(^|/)(bin|obj)/') { continue }
+        Copy-ToFixture $file.FullName "docs/guards/V3/build/$relative"
+    }
     foreach ($file in Get-ChildItem -LiteralPath $package -File -Recurse) {
         $relative = [IO.Path]::GetRelativePath($package, $file.FullName).Replace('\', '/')
         if ($relative -match '(^|/)(bin|obj)/') { continue }
@@ -48,6 +55,12 @@ if ($NuGetConfig) {
 
 $positive = @(& pwsh @arguments -Mode Test -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0) { throw "Isolated package test failed: $($positive -join ' | ')" }
+$sourceTreeOutput = @(Get-ChildItem -LiteralPath (Join-Path $fixture 'docs/guards') -Recurse -Directory -Force | Where-Object { $_.Name -in @('bin', 'obj') })
+if ($sourceTreeOutput.Count -gt 0) { throw "Guard build wrote output into the package source tree: $(($sourceTreeOutput | ForEach-Object FullName) -join ', ')" }
+foreach ($phase in @('LayerGuard.imports.pre-build.json', 'LayerGuard.Tests.imports.pre-build.json', 'LayerGuard.Tests.imports.post-build.json')) {
+    $importReport = Join-Path $fixture "artifacts/guards/v3-ifx/build/architecture-conformance/$phase"
+    if (-not [IO.File]::Exists($importReport) -or (Get-Content -LiteralPath $importReport -Raw | ConvertFrom-Json).status -ne 'pass') { throw "Guard import allowlist evidence is missing or failing: $phase" }
+}
 
 $qualityRunner = [IO.File]::ReadAllText((Join-Path $package 'quality/Invoke-IFXQuality.ps1'))
 $requiredQualityGates = @(

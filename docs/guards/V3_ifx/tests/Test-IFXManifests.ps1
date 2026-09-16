@@ -51,6 +51,13 @@ try {
     Copy-Into (Join-Path $repository '.github/workflows/v3-ifx-guardrails.yml') '.github/workflows/v3-ifx-guardrails.yml'
     Copy-Into (Join-Path $repository '.github/CODEOWNERS') '.github/CODEOWNERS'
     foreach ($relative in @('Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')) { Copy-Into (Join-Path $repository $relative) $relative }
+    foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests')) {
+        foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repository $root) -Recurse -File) {
+            $relative = [IO.Path]::GetRelativePath($repository, $file.FullName).Replace([IO.Path]::DirectorySeparatorChar, '/')
+            if ($relative -match '(^|/)(bin|obj)/') { continue }
+            Copy-Into $file.FullName $relative
+        }
+    }
 
     $stagePost = 'docs/guards/V3_ifx/stages/post/stage.json'
     $commands = 'docs/guards/V3_ifx/shared/commands.json'
@@ -69,7 +76,7 @@ try {
     Invoke-Case 'verdict-chain script outside TCB fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths = @('docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1') } 'Verdict-chain script is outside the trusted component manifest: docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1'
     Invoke-Case 'manifest removing itself from protection fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.manifest' }).paths = @('docs/guards/V3_ifx/stages/') } 'not self-protecting'
     Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' } 'overlap'
-    Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.build.package-local' }).paths = @('Directory.Build.props') } "Planned component 'tcb.build.package-local'"
+    Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) $d.components += [ordered]@{ id = 'tcb.future-component'; type = 'future'; status = 'planned'; paths = @('Directory.Build.props'); validationSuite = @('future'); parityContract = 'future'; allowedChange = 'change-trusted-base' } } "Planned component 'tcb.future-component'"
     Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1`n") } 'Verdict-chain script is outside the trusted component manifest: docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1'
     Invoke-Case 'stage listed without manifest fails' 1 $system { param($d) $d.stages = @($d.stages | Where-Object { $_ -ne 'diff' }) } "Stage manifest 'diff' is not listed"
     Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
