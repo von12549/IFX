@@ -15,7 +15,7 @@
     { "id": "transaction-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.Transaction.Application.Tests"], "workingDirectory": "." },
     { "id": "authentication-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Platform.Authentication.Tests"], "workingDirectory": "." },
     { "id": "authorization-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Platform.Authorization.Tests"], "workingDirectory": "." },
-    { "id": "frontend-lint", "executable": "npm", "arguments": ["run", "lint"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
+    { "id": "frontend-lint", "executable": "npm", "arguments": ["run", "lint", "--", "--max-warnings=0"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
     { "id": "frontend-test", "executable": "npm", "arguments": ["run", "test:run"], "workingDirectory": "src/Frontend/IFX.FrontEnd" }
   ],
   "testProject": {

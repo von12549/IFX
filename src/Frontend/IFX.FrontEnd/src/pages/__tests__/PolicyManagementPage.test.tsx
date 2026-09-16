@@ -1,13 +1,15 @@
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { PolicyManagementPage } from '../PolicyManagementPage'
 import { server } from '../../test/server'
 import { http, HttpResponse } from 'msw'
 
+const authState = vi.hoisted(() => ({ selectedTenantId: 'tenant-1' }))
+
 vi.mock('../../contexts/AuthContext', () => ({
-  useAuth: () => ({ selectedTenantId: 'tenant-1', isGlobalUser: false }),
+  useAuth: () => ({ selectedTenantId: authState.selectedTenantId, isGlobalUser: false }),
 }))
 
 const API = 'http://localhost:5010'
@@ -17,6 +19,8 @@ function renderPage() {
 }
 
 describe('PolicyManagementPage', () => {
+  beforeEach(() => { authState.selectedTenantId = 'tenant-1' })
+
   it('renders policy table with Name, Resource Type, Action columns', async () => {
     renderPage()
     await waitFor(() => expect(screen.getByText('Read Own Profile')).toBeInTheDocument())
@@ -112,5 +116,26 @@ describe('PolicyManagementPage', () => {
     )
     renderPage()
     await waitFor(() => expect(screen.getByText(/no policies found/i)).toBeInTheDocument())
+  })
+
+  it('reloads once when the selected tenant changes and not on an equivalent rerender', async () => {
+    let policyRequests = 0
+    server.use(
+      http.get(`${API}/api/v1/policy/`, () => {
+        policyRequests += 1
+        return HttpResponse.json({ success: true, data: [] })
+      })
+    )
+
+    const view = renderPage()
+    await waitFor(() => expect(policyRequests).toBe(1))
+
+    view.rerender(<MemoryRouter><PolicyManagementPage /></MemoryRouter>)
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(policyRequests).toBe(1)
+
+    authState.selectedTenantId = 'tenant-2'
+    view.rerender(<MemoryRouter><PolicyManagementPage /></MemoryRouter>)
+    await waitFor(() => expect(policyRequests).toBe(2))
   })
 })

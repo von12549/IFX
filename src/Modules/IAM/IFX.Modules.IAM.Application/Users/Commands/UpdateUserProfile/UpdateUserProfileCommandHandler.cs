@@ -30,6 +30,8 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
     public async Task<Result<UpdateUserProfileResponse>> Handle(UpdateUserProfileCommand request, CancellationToken cancellationToken)
     {
         {
+            var ipAddress = string.IsNullOrWhiteSpace(request.IpAddress) ? "Unknown" : request.IpAddress;
+
             // Get user by Issuer and Subject
             var user = await _unitOfWork.Users.GetByIssuerAndSubjectWithPermissionsAsync(request.Issuer, request.Subject, cancellationToken);
             if (user == null)
@@ -66,7 +68,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
                     requiresEmailVerification = true;
                     _logger.LogInformation("Email changed for user {UserId}: {OldEmail} -> {NewEmail}. Verification required.", user.Id, identity.Email.Value, request.Email);
                     // Create email changed activity log
-                    var emailChangedLog = UserActivityLog.Create(user.Id, ActivityType.EmailChanged, $"Email changed to {request.Email}. Verification required.", request.IpAddress);
+                    var emailChangedLog = UserActivityLog.Create(user.Id, ActivityType.EmailChanged, $"Email changed to {request.Email}. Verification required.", ipAddress);
                     await _unitOfWork.UserActivityLogs.AddAsync(emailChangedLog, cancellationToken);
                 }
             }
@@ -97,7 +99,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
             // Create profile update activity log
             if (updatedFields.Count > 0)
             {
-                var activityLog = UserActivityLog.Create(user.Id, ActivityType.ProfileUpdate, $"Profile updated: {string.Join(", ", updatedFields)}", request.IpAddress, $"{{\"updatedFields\": [\"{string.Join("\", \"", updatedFields)}\"]}}");
+                var activityLog = UserActivityLog.Create(user.Id, ActivityType.ProfileUpdate, $"Profile updated: {string.Join(", ", updatedFields)}", ipAddress, $"{{\"updatedFields\": [\"{string.Join("\", \"", updatedFields)}\"]}}");
                 await _unitOfWork.UserActivityLogs.AddAsync(activityLog, cancellationToken);
             }
 

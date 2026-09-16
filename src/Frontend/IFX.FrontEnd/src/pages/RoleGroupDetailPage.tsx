@@ -1,5 +1,5 @@
 import { apiErrorMessage } from '../api/errors'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { roleGroupApi } from '../api/roleGroup'
 import { roleApi } from '../api/role'
@@ -21,19 +21,19 @@ export function RoleGroupDetailPage() {
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
 
-  const load = () =>
+  const load = useCallback(() =>
     roleGroupApi.getAll()
       .then(r => {
         const found = (r.data?.data ?? []).find((g: RoleGroupDto) => g.id === roleGroupId) ?? null
         setGroup(found)
         setForm({ name: found?.name ?? '', description: found?.description ?? '', tenantId: found?.tenantId ?? '' })
       })
-      .catch(() => setError('Role group not found'))
+      .catch(() => setError('Role group not found')), [roleGroupId])
 
   useEffect(() => {
     Promise.all([load(), roleApi.getAll().then(r => setAllRoles(r.data?.data ?? []))])
       .finally(() => setLoading(false))
-  }, [roleGroupId])
+  }, [load])
 
   const handleSave = async () => {
     setSaving(true)

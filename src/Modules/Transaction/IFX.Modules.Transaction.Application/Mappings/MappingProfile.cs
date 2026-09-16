@@ -10,33 +10,33 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<TxEntity, TransactionDto>()
-            .ForMember(d => d.TransactionId, o => o.MapFrom(s => s.Id))
-            .ForMember(d => d.Type, o => o.MapFrom(s => s.Type.ToString()))
-            .ForMember(d => d.TradeDate, o => o.MapFrom(s => s.TradeDate.ToString("yyyy-MM-dd")))
-            .ForMember(d => d.SettlementDate, o => o.MapFrom(s => s.SettlementDate.HasValue ? s.SettlementDate.Value.ToString("yyyy-MM-dd") : null))
-            .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()));
+            .ForCtorParam(nameof(TransactionDto.TransactionId), o => o.MapFrom(s => s.Id))
+            .ForCtorParam(nameof(TransactionDto.Type), o => o.MapFrom(s => s.Type.ToString()))
+            .ForCtorParam(nameof(TransactionDto.TradeDate), o => o.MapFrom(s => s.TradeDate.ToString("yyyy-MM-dd")))
+            .ForCtorParam(nameof(TransactionDto.SettlementDate), o => o.MapFrom(s => s.SettlementDate.HasValue ? s.SettlementDate.Value.ToString("yyyy-MM-dd") : null))
+            .ForCtorParam(nameof(TransactionDto.Status), o => o.MapFrom(s => s.Status.ToString()));
 
         CreateMap<TxEntity, OrderLegDto>()
-            .ForMember(d => d.TransactionId, o => o.MapFrom(s => s.Id))
-            .ForMember(d => d.LegId, o => o.MapFrom(s => s.LegId ?? string.Empty))
-            .ForMember(d => d.TransactionType, o => o.MapFrom(s => s.Type.ToString()))
-            .ForMember(d => d.PriceType, o => o.MapFrom(s => s.DealingPriceDetails != null ? s.DealingPriceDetails.PriceType : null))
-            .ForMember(d => d.TradeDate, o => o.MapFrom(s => s.TradeDate.ToString("yyyy-MM-dd")))
-            .ForMember(d => d.SettlementDate, o => o.MapFrom(s => s.SettlementDate.HasValue ? s.SettlementDate.Value.ToString("yyyy-MM-dd") : null))
-            .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()));
+            .ForCtorParam(nameof(OrderLegDto.TransactionId), o => o.MapFrom(s => s.Id))
+            .ForCtorParam(nameof(OrderLegDto.LegId), o => o.MapFrom(s => s.LegId ?? string.Empty))
+            .ForCtorParam(nameof(OrderLegDto.TransactionType), o => o.MapFrom(s => s.Type.ToString()))
+            .ForCtorParam(nameof(OrderLegDto.PriceType), o => o.MapFrom(s => s.DealingPriceDetails != null ? s.DealingPriceDetails.PriceType : null))
+            .ForCtorParam(nameof(OrderLegDto.TradeDate), o => o.MapFrom(s => s.TradeDate.ToString("yyyy-MM-dd")))
+            .ForCtorParam(nameof(OrderLegDto.SettlementDate), o => o.MapFrom(s => s.SettlementDate.HasValue ? s.SettlementDate.Value.ToString("yyyy-MM-dd") : null))
+            .ForCtorParam(nameof(OrderLegDto.Status), o => o.MapFrom(s => s.Status.ToString()));
 
         CreateMap<Order, OrderDto>()
-            .ForMember(d => d.OrderId, o => o.MapFrom(s => s.Id))
-            .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.ToString()))
-            .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()))
-            .ForMember(d => d.ExpectedTradeDate, o => o.MapFrom(s => s.ExpectedTradeDate.HasValue ? s.ExpectedTradeDate.Value.ToString("yyyy-MM-dd") : null))
-            .ForMember(d => d.ExpectedSettlementDate, o => o.MapFrom(s => s.ExpectedSettlementDate.HasValue ? s.ExpectedSettlementDate.Value.ToString("yyyy-MM-dd") : null))
-            .ForMember(d => d.Legs, o => o.MapFrom(s => s.Legs));
+            .ForCtorParam(nameof(OrderDto.OrderId), o => o.MapFrom(s => s.Id))
+            .ForCtorParam(nameof(OrderDto.OrderType), o => o.MapFrom(s => s.OrderType.ToString()))
+            .ForCtorParam(nameof(OrderDto.Status), o => o.MapFrom(s => s.Status.ToString()))
+            .ForCtorParam(nameof(OrderDto.ExpectedTradeDate), o => o.MapFrom(s => s.ExpectedTradeDate.HasValue ? s.ExpectedTradeDate.Value.ToString("yyyy-MM-dd") : null))
+            .ForCtorParam(nameof(OrderDto.ExpectedSettlementDate), o => o.MapFrom(s => s.ExpectedSettlementDate.HasValue ? s.ExpectedSettlementDate.Value.ToString("yyyy-MM-dd") : null))
+            .ForCtorParam(nameof(OrderDto.Legs), o => o.MapFrom(s => s.Legs));
 
         CreateMap<Order, OrderSummaryDto>()
-            .ForMember(d => d.OrderId, o => o.MapFrom(s => s.Id))
-            .ForMember(d => d.OrderType, o => o.MapFrom(s => s.OrderType.ToString()))
-            .ForMember(d => d.Status, o => o.MapFrom(s => s.Status.ToString()))
-            .ForMember(d => d.LegCount, o => o.MapFrom(s => s.Legs.Count));
+            .ForCtorParam(nameof(OrderSummaryDto.OrderId), o => o.MapFrom(s => s.Id))
+            .ForCtorParam(nameof(OrderSummaryDto.OrderType), o => o.MapFrom(s => s.OrderType.ToString()))
+            .ForCtorParam(nameof(OrderSummaryDto.Status), o => o.MapFrom(s => s.Status.ToString()))
+            .ForCtorParam(nameof(OrderSummaryDto.LegCount), o => o.MapFrom(s => s.Legs.Count));
     }
 }

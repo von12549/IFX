@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-ifx-quality-cleanup",
+  "owner": "xiaolong-feng",
+  "summary": "Remediate known package vulnerabilities and restore ambiguity, retire direct credential login at the HTTP boundary, correct nullable and React request flows, and enforce the resulting clean quality baseline.",
+  "affectedPaths": [
+    ".claude/**",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/**",
+    "src/Frontend/**",
+    "src/Modules/**",
+    "src/Platform/Authentication/**",
+    "tests/**"
+  ],
+  "rationale": "The V3 cutover exposed known high-severity dependencies, a non-existent Cognito version, compiler nullability and obsolete API warnings, and frontend advisories and Hook warnings. The cleanup pins verified packages, removes credential processing from the legacy login route, validates provider output before use, and makes the clean baseline blocking without suppressing upstream warnings."
+}

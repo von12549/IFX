@@ -1,5 +1,5 @@
 import { apiErrorMessage } from '../api/errors'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { policyApi } from '../api/policy'
@@ -151,16 +151,16 @@ export function PolicyManagementPage() {
 
   const activeTab: TabKey = searchParams.get('tab') === 'platform' ? 'platform' : 'tenant'
 
-  const load = () =>
+  const load = useCallback(() =>
     Promise.all([
       policyApi.getAll().then(r => setPolicies(r.data?.data ?? [])),
       policyApi.getTemplates().then(r => setTemplates(r.data?.data ?? [])),
       isGlobalUser
         ? platformApi.getPolicies().then(r => setPlatformPolicies(r.data?.data ?? []))
         : Promise.resolve(),
-    ]).catch(() => setError('Failed to load policies'))
+    ]).catch(() => setError('Failed to load policies')), [isGlobalUser])
 
-  useEffect(() => { setLoading(true); load().finally(() => setLoading(false)) }, [selectedTenantId])
+  useEffect(() => { setLoading(true); load().finally(() => setLoading(false)) }, [load, selectedTenantId])
 
   const openCreate = () => { setForm(emptyForm); setEditId(null); setModal('create') }
 

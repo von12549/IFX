@@ -1,5 +1,4 @@
 using IFX.Modules.IAM.Application.Identity.Commands.ConfirmRegistration;
-using IFX.Modules.IAM.Application.Identity.Commands.LoginUser;
 using IFX.Modules.IAM.Application.Identity.Commands.LogoutUser;
 using IFX.Modules.IAM.Application.Identity.Commands.RefreshToken;
 using IFX.Modules.IAM.Application.Identity.Commands.RegisterUser;
@@ -75,34 +74,12 @@ public static class AuthEndpoints
         }));
     }
 
-    /// <summary>
-    /// [Deprecated] Use OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize instead.
-    /// </summary>
-    [Obsolete("Use OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize instead.")]
-    public static async Task<IResult> Login(
-        [FromBody] LoginRequest request,
-        [FromServices] IMediator mediator,
-        HttpContext httpContext)
+    public static IResult LegacyLogin()
     {
-        var ipAddress = httpContext.GetIpAddress();
-        var userAgent = httpContext.Request.Headers.UserAgent.ToString();
-
-        var command = new LoginUserCommand(
-            request.Email,
-            request.Password,
-            ipAddress,
-            userAgent);
-
-        var result = await mediator.Send(command);
-
-        if (!result.IsSuccess)
-        {
-            return Results.Json(
-                ApiResponse<object>.FailureResponse(result.Error!),
-                statusCode: StatusCodes.Status401Unauthorized);
-        }
-
-        return Results.Ok(ApiResponse<object>.SuccessResponse(result.Value!));
+        return Results.Json(
+            ApiResponse<object>.FailureResponse(
+                "Password login has been retired. Start OAuth 2.0 Authorization Code flow at /api/v1/auth/oauth/authorize."),
+            statusCode: StatusCodes.Status410Gone);
     }
 
     public static async Task<IResult> RefreshToken(

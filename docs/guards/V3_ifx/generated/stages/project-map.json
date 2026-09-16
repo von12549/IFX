@@ -20,6 +20,7 @@
     { "id": "LayerGuardLegacy", "pathPattern": "mcp/LayerGuard/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "mcp/LayerGuard", "focusedCommands": ["ifx-layerguard"] },
     { "id": "GuardAuthorityInputs", "pathPattern": "docs/architecture/review/gates/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/architecture/review/gates", "focusedCommands": ["ifx-package-test"] },
     { "id": "ArchitectureDocs", "pathPattern": "docs/architecture/**", "layer": "documentation", "owner": "codeowners", "similarImplementationRoot": "docs/architecture", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryDocs", "pathPattern": ".claude/**", "layer": "documentation", "owner": "codeowners", "similarImplementationRoot": ".claude", "focusedCommands": ["ifx-package-test"] },
     { "id": "RepositoryScripts", "pathPattern": "scripts/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts", "focusedCommands": ["ifx-package-test"] },
     { "id": "Deployment", "pathPattern": "deployment/**", "layer": "deployment", "owner": "codeowners", "similarImplementationRoot": "deployment", "focusedCommands": ["ifx-package-test"] },
     { "id": "CI", "pathPattern": ".github/**", "layer": "ci", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },

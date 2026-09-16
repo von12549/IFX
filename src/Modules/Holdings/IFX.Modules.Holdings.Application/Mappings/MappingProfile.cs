@@ -9,15 +9,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<Holding, HoldingSummaryDto>()
-            .ConstructUsing(h => new HoldingSummaryDto(
-                h.Id,
-                h.TenantId,
-                h.InvestmentAccountId,
-                h.ClassId,
-                h.Units,
-                h.Status.ToString(),
-                h.LastTransactionAt,
-                h.CreatedAt,
-                h.UpdatedAt));
+            .ForCtorParam(nameof(HoldingSummaryDto.HoldingId), opt => opt.MapFrom(src => src.Id))
+            .ForCtorParam(nameof(HoldingSummaryDto.Status), opt => opt.MapFrom(src => src.Status.ToString()));
     }
 }

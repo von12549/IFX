@@ -37,8 +37,19 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
                 return Result<RefreshTokenResponse>.Failure("Failed to refresh token");
             }
 
+            var accessToken = cognitoResult.AccessToken;
+            var idToken = cognitoResult.IdToken;
+            var refreshToken = cognitoResult.RefreshToken;
+            if (string.IsNullOrWhiteSpace(accessToken) ||
+                string.IsNullOrWhiteSpace(idToken) ||
+                string.IsNullOrWhiteSpace(refreshToken))
+            {
+                _logger.LogError("Token refresh returned an incomplete credential set");
+                return Result<RefreshTokenResponse>.Failure("Invalid token response");
+            }
+
             // Get user info from Cognito using the new access token
-            var cognitoUserInfo = await _accounts.GetUserAsync(cognitoResult.AccessToken!);
+            var cognitoUserInfo = await _accounts.GetUserAsync(accessToken);
             var subject = cognitoUserInfo.Subject;
             if (string.IsNullOrEmpty(subject))
             {
@@ -70,7 +81,7 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, R
             _logger.LogInformation("Token refresh succeeded");
             // Map user to DTO
             var userProfileDto = _mapper.Map<UserProfileDto>(user);
-            return Result<RefreshTokenResponse>.Success(new RefreshTokenResponse { AccessToken = cognitoResult.AccessToken, IdToken = cognitoResult.IdToken, RefreshToken = cognitoResult.RefreshToken, ExpiresIn = cognitoResult.ExpiresIn, TokenType = cognitoResult.TokenType, ExpiresAt = DateTime.UtcNow.AddSeconds(cognitoResult.ExpiresIn), UserProfile = userProfileDto });
+            return Result<RefreshTokenResponse>.Success(new RefreshTokenResponse { AccessToken = accessToken, IdToken = idToken, RefreshToken = refreshToken, ExpiresIn = cognitoResult.ExpiresIn, TokenType = cognitoResult.TokenType, ExpiresAt = DateTimeOffset.UtcNow.AddSeconds(cognitoResult.ExpiresIn), UserProfile = userProfileDto });
         }
     }
 }

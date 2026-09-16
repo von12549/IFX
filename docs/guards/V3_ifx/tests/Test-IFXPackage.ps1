@@ -27,6 +27,7 @@ try {
     foreach ($relative in $sourcePaths) {
         Copy-ToFixture (Join-Path $repository $relative) $relative
     }
+    Copy-ToFixture (Join-Path $repository 'docs/Directory.Packages.props') 'docs/Directory.Packages.props'
     foreach ($file in Get-ChildItem -LiteralPath $package -File -Recurse) {
         $relative = [IO.Path]::GetRelativePath($package, $file.FullName).Replace('\', '/')
         if ($relative -match '(^|/)(bin|obj)/') { continue }
@@ -47,6 +48,35 @@ if ($NuGetConfig) {
 
 $positive = @(& pwsh @arguments -Mode Test -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0) { throw "Isolated package test failed: $($positive -join ' | ')" }
+
+$qualityRunner = [IO.File]::ReadAllText((Join-Path $package 'quality/Invoke-IFXQuality.ps1'))
+$requiredQualityGates = @(
+    '-warnaserror:NU1603',
+    'Invoke-IFXPackageAudit.ps1',
+    "@('--json', '--audit-level=high')",
+    'npm run lint -- --max-warnings=0'
+)
+foreach ($gate in $requiredQualityGates) {
+    if (-not $qualityRunner.Contains($gate, [StringComparison]::Ordinal)) {
+        throw "IFX quality runner is missing the blocking gate: $gate"
+    }
+}
+
+$buildPolicy = [IO.File]::ReadAllText((Join-Path $repository 'Directory.Build.props'))
+foreach ($requiredPolicy in @('<NuGetAuditMode>all</NuGetAuditMode>', 'NU1903;NU1904')) {
+    if (-not $buildPolicy.Contains($requiredPolicy, [StringComparison]::Ordinal)) {
+        throw "Repository build policy is missing the transitive audit gate: $requiredPolicy"
+    }
+}
+$centralPackages = [IO.File]::ReadAllText((Join-Path $repository 'Directory.Packages.props'))
+foreach ($requiredPackagePolicy in @(
+    '<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>',
+    '<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.31" />',
+    '<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.31" />')) {
+    if (-not $centralPackages.Contains($requiredPackagePolicy, [StringComparison]::Ordinal)) {
+        throw "Repository central package policy is missing: $requiredPackagePolicy"
+    }
+}
 
 $policyFile = Join-Path $fixture 'docs/guards/V3_ifx/policy/layerguard.json'
 $policyBytes = [IO.File]::ReadAllBytes($policyFile)
