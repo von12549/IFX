@@ -39,5 +39,84 @@
     { "key": "releaseOrchestration", "source": "deployment/g04/release-orchestration.json", "target": "policy/g04/bindings/release-orchestration.json" },
     { "key": "backpressurePolicy", "source": "deployment/g04/backpressure-policy.json", "target": "policy/g04/bindings/backpressure-policy.json" },
     { "key": "failureMatrix", "source": "deployment/g04/failure-matrix.json", "target": "policy/g04/bindings/failure-matrix.json" }
+  ],
+  "domainAuthorities": [
+    { "id": "g03-contract-event-catalog", "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml", "defaultRole": "target-declaration",
+      "pointerRoles": [
+        { "pointer": "/approvalPolicy", "role": "governing-policy" },
+        { "pointer": "/consumers/*/owner", "role": "governing-policy" },
+        { "pointer": "/contractDependencyPolicy", "role": "governing-policy" },
+        { "pointer": "/fieldExceptions", "role": "exception-authorization" },
+        { "pointer": "/fieldGovernance", "role": "governing-policy" },
+        { "pointer": "/infrastructureProtocols/*/owner", "role": "governing-policy" },
+        { "pointer": "/mode", "role": "governing-policy" },
+        { "pointer": "/modules/*/backupOwner", "role": "governing-policy" },
+        { "pointer": "/modules/*/owner", "role": "governing-policy" },
+        { "pointer": "/owners/*/approvalRole", "role": "governing-policy" },
+        { "pointer": "/protocols/*/authorization", "role": "governing-policy" },
+        { "pointer": "/protocols/*/lifecycle", "role": "governing-policy" },
+        { "pointer": "/protocols/*/owner", "role": "governing-policy" },
+        { "pointer": "/publicSurface/*/lifecycle", "role": "governing-policy" },
+        { "pointer": "/publicSurface/*/owner", "role": "governing-policy" },
+        { "pointer": "/sensitiveUsePolicies", "role": "governing-policy" },
+        { "pointer": "/sourcePolicy", "role": "governing-policy" },
+        { "pointer": "/waiverPolicy", "role": "governing-policy" },
+        { "pointer": "/waivers", "role": "exception-authorization" }
+      ] },
+    { "id": "g03-layerguard-governance-input", "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json", "defaultRole": "derived-projection" },
+    { "id": "g03-serialization-golden", "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json", "defaultRole": "derived-projection" },
+    { "id": "g03-sync-api-snapshot", "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json", "defaultRole": "derived-projection" },
+    { "id": "g05-context-protocol", "path": "docs/architecture/review/gates/G05/context-protocol-v1.json", "defaultRole": "governing-policy" },
+    { "id": "g05-contract-context-conformance", "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json", "defaultRole": "governing-policy" },
+    { "id": "g05-event-propagation-conformance", "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json", "defaultRole": "governing-policy" },
+    { "id": "g05-execution-context-sources", "path": "docs/architecture/review/gates/G05/execution-context-sources.json", "defaultRole": "governing-policy" },
+    { "id": "g05-failure-replay-compatibility", "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json", "defaultRole": "governing-policy",
+      "pointerRoles": [
+        { "pointer": "/compatibilityAdapters", "role": "exception-authorization" }
+      ] },
+    { "id": "g05-event-envelope-golden", "path": "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json", "defaultRole": "governing-policy" },
+    { "id": "g05-observability-security-policy", "path": "docs/architecture/review/gates/G05/observability-security-policy.json", "defaultRole": "governing-policy" },
+    { "id": "g05-open-items", "path": "docs/architecture/review/gates/G05/open-items-v1.json", "defaultRole": "governing-policy",
+      "pointerRoles": [
+        { "pointer": "/blockers", "role": "exception-authorization" },
+        { "pointer": "/fieldExceptions", "role": "exception-authorization" }
+      ] },
+    { "id": "g05-ops-evidence-map", "path": "docs/architecture/review/gates/G05/ops-evidence-map-v1.json", "defaultRole": "target-declaration" },
+    { "id": "g05-event-envelope-schema", "path": "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json", "defaultRole": "governing-policy" },
+    { "id": "g05-verification-baseline", "path": "docs/architecture/review/gates/G05/verification-baseline-v1.json", "defaultRole": "governing-policy" },
+    { "id": "g04-backpressure-policy", "path": "deployment/g04/backpressure-policy.json", "defaultRole": "governing-policy" },
+    { "id": "g04-dependency-criticality", "path": "deployment/g04/dependency-criticality-catalog.json", "defaultRole": "target-declaration",
+      "pointerRoles": [
+        { "pointer": "/dependencies/*/criticality", "role": "governing-policy" }
+      ] },
+    { "id": "g04-deployment-unit-catalog", "path": "deployment/g04/deployment-unit-catalog.json", "defaultRole": "target-declaration" },
+    { "id": "g04-failure-matrix", "path": "deployment/g04/failure-matrix.json", "defaultRole": "governing-policy" },
+    { "id": "g04-infrastructure-compatibility", "path": "deployment/g04/infrastructure-compatibility-matrix.json", "defaultRole": "target-declaration" },
+    { "id": "g04-module-manifest", "path": "deployment/g04/module-manifest.json", "defaultRole": "target-declaration" },
+    { "id": "g04-module-manifest-schema", "path": "deployment/g04/module-manifest.schema.json", "defaultRole": "governing-policy" },
+    { "id": "g04-release-evidence-template", "path": "deployment/g04/release-evidence-template.json", "defaultRole": "governing-policy" },
+    { "id": "g04-release-orchestration", "path": "deployment/g04/release-orchestration.json", "defaultRole": "governing-policy" },
+    { "id": "g04-release-runtime-manifest", "path": "deployment/g04/release-runtime-manifest.json", "defaultRole": "derived-projection",
+      "pointerRoles": [
+        { "pointer": "/hostArtifact/allowedRoles", "role": "governing-policy" },
+        { "pointer": "/schemaCompatibility", "role": "governing-policy" }
+      ] },
+    { "id": "database-migration-safety-policy", "path": "deployment/migration-safety-policy.json", "defaultRole": "governing-policy",
+      "pointerRoles": [
+        { "pointer": "/reviewedMigrations", "role": "exception-authorization" }
+      ] },
+    { "id": "database-release-manifest", "path": "deployment/release-manifest.json", "defaultRole": "target-declaration" },
+    { "id": "database-migration-manifest", "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json", "defaultRole": "target-declaration" },
+    { "id": "plan04-projection-policy", "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json", "defaultRole": "governing-policy" },
+    { "id": "plan04-extraction-decision-schema", "path": "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json", "defaultRole": "governing-policy" },
+    { "id": "plan04-extraction-policy", "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json", "defaultRole": "governing-policy" },
+    { "id": "plan04-governance-lock", "path": "docs/architecture/review/policies/plan04/plan04-governance-lock.json", "defaultRole": "derived-projection" },
+    { "id": "plan04-projection-registration-schema", "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json", "defaultRole": "governing-policy" },
+    { "id": "plan04-projection-registry", "path": "docs/architecture/review/policies/plan04/projection-registry.json", "defaultRole": "target-declaration",
+      "pointerRoles": [
+        { "pointer": "/approvedCrossModuleQueryConsumers", "role": "exception-authorization" }
+      ] },
+    { "id": "plan04-tenant-query-bypass-registry", "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json", "defaultRole": "exception-authorization" },
+    { "id": "plan04-tenant-query-policy", "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json", "defaultRole": "governing-policy" }
   ]
 }

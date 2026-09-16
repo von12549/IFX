@@ -2,7 +2,7 @@
 param([string] $ReportPath = 'docs/architecture/review/evidence/gates/G04/G04-phase1-manifest-report.json')
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 function Repo([string] $path) { if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $repositoryRoot $path } }
 function Sha([string] $path) {
     $text = [IO.File]::ReadAllText((Repo $path)).Replace("`r`n", "`n").Replace("`r", "`n")

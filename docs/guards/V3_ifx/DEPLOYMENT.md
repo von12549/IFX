@@ -12,6 +12,8 @@ pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode 
 pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
 ```
 
+Package code, configuration and generated projects are read from the copy the dispatcher runs from; target data is read from `-TargetRoot` (default: the repository containing the package). A trusted package copy outside the repository can therefore run against a checked-out head with `-TargetRoot <head>`. Domain authorities that detectors read are registered with their trust roles in `policy/authorities.json` and declared as trust-contract inputs in `stages/*/stage.json`; `Invoke-IFXManifestCheck.ps1` rejects an unregistered or undeclared read (Plan 06 D18).
+
 `SpecializedGate` also accepts `G04`, `G05`, `Plan04`, `Database`, and `All`. `QualityTarget` accepts `Solution`, `Assembly`, `Frontend`, and `All`. Database validation requires the EF Core 8 CLI and Docker for the SQL Server Testcontainers matrix. Frontend validation runs `npm ci`, lint, `test:run`, and build.
 
 ```powershell
@@ -38,6 +40,7 @@ pwsh -NoProfile -File "$v3/tests/Test-V3.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-V3ArchUnit.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPre.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPackage.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXTargetRootSeparation.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXAssemblyGuard.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXAuthorityProjection.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXSpecializedContracts.ps1"

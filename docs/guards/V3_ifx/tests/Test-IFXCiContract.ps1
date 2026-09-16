@@ -33,7 +33,7 @@ function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $wor
     [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/ci'))
     [IO.File]::WriteAllText((Join-Path $case '.github/workflows/v3-ifx-guardrails.yml'), $workflow, $utf8)
     [IO.File]::WriteAllText((Join-Path $case 'docs/guards/V3_ifx/ci/jobs.json'), $jobs, $utf8)
-    $arguments = @('-NoProfile', '-File', $verifier, '-TargetRoot', $case)
+    $arguments = @('-NoProfile', '-File', $verifier, '-TargetRoot', $case, '-JobsPath', 'docs/guards/V3_ifx/ci/jobs.json')
     if ($ruleset) {
         [IO.File]::WriteAllText((Join-Path $case 'ruleset.json'), $ruleset, $utf8)
         $arguments += @('-RulesetJsonPath', 'ruleset.json')

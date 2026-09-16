@@ -2,7 +2,7 @@
 param(
     [string] $TargetRoot,
     [string] $WorkflowPath = '.github/workflows/v3-ifx-guardrails.yml',
-    [string] $JobsPath = 'docs/guards/V3_ifx/ci/jobs.json',
+    [string] $JobsPath,
     [string] $RulesetJsonPath,
     [switch] $Remote,
     [string] $Repository,
@@ -83,8 +83,9 @@ foreach ($jobId in $jobs.Keys) {
 Add-Check 'workflow-triggers' (@(@('pull_request', 'push') | Where-Object { $_ -notin $triggers }).Count -eq 0 -and 'main' -in $pushBranches) "pull_request and push to main are required; found triggers [$(Format-Set $triggers)] push branches [$(Format-Set $pushBranches)]"
 
 # ---------------------------------------------------------------- ci/jobs.json
-$jobsFile = Resolve-InRoot $JobsPath
-if (-not [IO.File]::Exists($jobsFile)) { throw "CI job declaration is missing: $JobsPath" }
+# ci/jobs.json is package configuration (read from this package by default); the workflow is read from the target repository.
+$jobsFile = if ($JobsPath) { Resolve-InRoot $JobsPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'jobs.json')) }
+if (-not [IO.File]::Exists($jobsFile)) { throw "CI job declaration is missing: $jobsFile" }
 $declaration = Get-Content -LiteralPath $jobsFile -Raw | ConvertFrom-Json -AsHashtable
 $declared = @($declaration.jobs)
 $declaredIds = @($declared | ForEach-Object { [string]$_.id })

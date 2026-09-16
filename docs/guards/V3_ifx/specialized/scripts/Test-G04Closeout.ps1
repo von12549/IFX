@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$RepositoryRoot = ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))),
+    [string]$RepositoryRoot = $(if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }),
     [string]$ReportPath = 'docs/architecture/review/evidence/gates/G04/G04-phase12-closeout-report.json'
 )
 

@@ -22,6 +22,24 @@
         "evaluator": "base V3 engine, Diff configuration and authorizations",
         "policy": "protected guard paths",
         "targetInput": "Git objects of verified merge-base and head",
+        "inputs": [
+          {
+            "ref": "package:profiles/ifx/",
+            "source": "base"
+          },
+          {
+            "ref": "package:generated/stages/",
+            "source": "base"
+          },
+          {
+            "ref": "target:docs/guards/plans/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:docs/guards/V3_ifx/decisions/history/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [],

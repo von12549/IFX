@@ -6,7 +6,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 $project = Join-Path $repositoryRoot "tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj"
 $arguments = @("run", "--project", $project, "--configuration", $Configuration)
 if ($NoBuild) {

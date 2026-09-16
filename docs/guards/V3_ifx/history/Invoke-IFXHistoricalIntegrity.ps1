@@ -1,12 +1,12 @@
 [CmdletBinding()]
 param(
     [string] $RepositoryRoot,
-    [string] $ManifestPath = 'docs/guards/V3_ifx/history/manifest.json',
+    [string] $ManifestPath,
     [string] $ReportPath = 'artifacts/guards/v3-ifx/history/summary.json'
 )
 
 $ErrorActionPreference = 'Stop'
-$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
+$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
 function Resolve-InRoot([string] $path) {
     $resolved = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $root $path }))
     $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
@@ -20,7 +20,8 @@ function Hash-CanonicalText([string] $path) {
 
 $checks = @()
 try {
-    $manifestFile = Resolve-InRoot $ManifestPath
+    # The manifest is package configuration; the evidence it lists is read from the target repository.
+    $manifestFile = if ($ManifestPath) { Resolve-InRoot $ManifestPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'manifest.json')) }
     $manifest = Get-Content -Raw -LiteralPath $manifestFile | ConvertFrom-Json -Depth 100
     if ($manifest.formatVersion -ne 1 -or $manifest.status -ne 'historical-integrity-only' -or @($manifest.entries).Count -lt 15 -or @($manifest.references).Count -lt 3) { throw 'History manifest shape or historical label is invalid.' }
     foreach ($entry in $manifest.entries) {

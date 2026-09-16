@@ -57,7 +57,7 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot .
 
 ## Generate and verify
 
-Run the following commands with a reviewed project-specific profile. For a synthetic smoke test, set `$profile` to `"$v3/examples/minimal"` in a disposable repository. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository.
+Run the following commands with a reviewed project-specific profile. For a synthetic smoke test, set `$profile` to `"$v3/examples/minimal"` in a disposable repository. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository, or outside `-GenerationRoot` when the package runs from a trusted copy outside the target; the target is still read only from `-TargetRoot`.
 
 ```powershell
 pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .

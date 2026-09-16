@@ -191,6 +191,22 @@
       "allowedChange": "change-trusted-base"
     },
     {
+      "id": "tcb.policy.authority-registry",
+      "type": "policy-registry",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/policy/authorities.json",
+        "docs/guards/V3_ifx/contracts/authorities.schema.json"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1"
+      ],
+      "parityContract": "Every domain authority read by a detector stays registered with a role; roles and gate inputs may only be added or tightened without a weaken-policy authorization (Plan 06 D18).",
+      "allowedChange": "change-trusted-base; loosening a role or removing coverage also requires weaken-policy"
+    },
+    {
       "id": "tcb.validation.package-tests",
       "type": "base-owned-tests",
       "status": "active",
@@ -206,7 +222,8 @@
         "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
         "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1"
+        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1"
       ],
       "validationSuite": [
         "v3-architecture",

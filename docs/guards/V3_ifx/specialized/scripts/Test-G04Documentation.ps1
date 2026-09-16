@@ -2,7 +2,7 @@
 param([string] $ReportPath = 'docs/architecture/review/evidence/gates/G04/G04-phase11-documentation-report.json')
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 function Repo([string] $path) { if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $repositoryRoot $path } }
 $zhPath = Repo 'docs/architecture/review/gates/G04/deployment-runtime-boundary.zh-CN.md'
 $enPath = Repo 'docs/architecture/review/gates/G04/deployment-runtime-boundary.en.md'
