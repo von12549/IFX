@@ -56,7 +56,7 @@ function Invoke-GuardGitNul {
 function Get-GuardChangedEntries {
     # Plan 06 §12.3: NUL-separated raw diff between verified commits, without rename detection.
     param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Base, [Parameter(Mandatory)][string] $Head)
-    $tokens = Invoke-GuardGitNul $Repository @('diff', '--raw', '-z', '--no-renames', '--no-abbrev', $Base, $Head)
+    $tokens = @(Invoke-GuardGitNul $Repository @('diff', '--raw', '-z', '--no-renames', '--no-abbrev', $Base, $Head))
     $entries = [Collections.Generic.List[object]]::new()
     for ($i = 0; $i -lt $tokens.Count; $i += 2) {
         $meta = $tokens[$i].TrimStart(':').Split(' ')

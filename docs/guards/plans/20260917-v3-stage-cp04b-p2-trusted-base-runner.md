@@ -35,11 +35,11 @@
 **测试**（加入 `v3-cross-platform`）：
 
 - `tests/Test-IFXDomainAuthorityCandidates.ps1`：21 个用例（未变、纯格式、新增声明及其 owner、按身份重排、声明内容变化、新增依赖、收缩 bypass；catalog mode、协议 lifecycle、模块 owner、waiver、field exception、bypass 新增或延期、依赖 criticality、runtime allowedRoles、整文件 policy、reviewedMigrations、重复身份、删除 authority、非法 JSON）；
-- `tests/Test-IFXTrustedBase.ps1`：在仓库外的临时 clone 中把当前包提交为 base，另建 base worktree，27 个用例：
+- `tests/Test-IFXTrustedBase.ps1`：在仓库外的临时 clone 中把当前包提交为 base，另建 base worktree，28 个用例：
   - 来源：正常运行与 summary、base SHA 不符、base 不 clean、base worktree 位于 head 内；
   - §11.1 负向控制：head 篡改 dispatcher、module 与 `commands.json`（原位运行通过、trusted 运行失败），篡改 engine，篡改 history manifest policy（原位通过、trusted 失败），根 `Directory.Build.props`/`Directory.Packages.props` 注入不改变 Validate；
   - §12.6：head 新增 waiver 在生成 projection 前失败；新增 consumer 时 base 旧 projection 拒绝、candidate projection 通过并重新生成 `policy/g03/catalog.json`；
-  - §11.5：无 TCB 变更通过；未授权 engine 变更、head manifest 移除组件、workflow 引用未登记脚本、未授权 lock file 变更均失败；授权的等价变更通过；授权未消费、head 与授权不符、engine 与自身测试同时削弱、削弱 engine 并删除测试、改变 summary contract、改变 verdict 均失败。
+  - §11.5：无 TCB 变更与 head 等于 base 均通过；未授权 engine 变更、head manifest 移除组件、workflow 引用未登记脚本、未授权 lock file 变更均失败；授权的等价变更通过；授权未消费、head 与授权不符、engine 与自身测试同时削弱、削弱 engine 并删除测试、改变 summary contract、改变 verdict 均失败。
 
 ## 3. 与 Plan 06 文字的差异
 
@@ -58,7 +58,7 @@
 
 | 项 | 结果 |
 | --- | --- |
-| `Test-IFXTrustedBase.ps1`（27 个用例，约 2 分钟） | 通过 |
+| `Test-IFXTrustedBase.ps1`（28 个用例，约 2 分钟） | 通过 |
 | `Test-IFXDomainAuthorityCandidates.ps1`（21 个用例） | 通过 |
 | `Test-IFXManifests.ps1`（29 个用例，新增 2 个 arrayKeys 用例） | 通过 |
 | `Invoke-IFXGuardrails` Validate、Architecture、HistoricalIntegrity、Specialized G03/G04/G05/Plan04 | 通过 |

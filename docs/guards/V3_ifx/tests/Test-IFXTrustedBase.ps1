@@ -139,6 +139,8 @@ try {
     # ---- §11.5: trusted component candidates
     [void](New-Head 'tcb-none' $baseSha { Edit-Text 'README.md' { param($t) $t + "`nfixture`n" } })
     Assert-Result 'no trusted component change passes' (Invoke-Verifier $base $baseSha) 0 'no trusted component changes'
+    [void](Invoke-FixtureGit $clone @('checkout', '-q', '-f', $baseSha))
+    Assert-Result 'head equal to base passes' (Invoke-Verifier $base $baseSha) 0 'no trusted component changes'
     $engineComment = { Edit-Text $historyEngine { param($t) $t.Replace("`$ErrorActionPreference = 'Stop'", "# fixture: behaviour-equivalent change`n`$ErrorActionPreference = 'Stop'") } }
     [void](New-Head 'tcb-unauthorized' $baseSha $engineComment)
     Assert-Result 'engine change without authorization fails' (Invoke-Verifier $base $baseSha) 1 'require a base change-trusted-base authorization for: tcb.engine.historical-integrity'
