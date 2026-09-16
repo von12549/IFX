@@ -1,0 +1,1074 @@
+# V3 Stage 化、自包含配置与门禁工程重构计划
+
+> 状态：**APPROVED / 已整合 Review 第一至十四章 / 最终修正完成 / 已授权实施（2026-09-16）**。
+>
+> 本文综合 V3、V3_backup、V3_ifx 对比 Review，以及 [06-v3-stage-oriented-package-refactor.review.md](06-v3-stage-oriented-package-refactor.review.md) 第一至十四章的共识形成。§19 全部前置条件已完成，用户已于 2026-09-16 明确授权实施；执行按正式 Plan pair [20260916-v3-stage-oriented-package-refactor](20260916-v3-stage-oriented-package-refactor.md) 的检查点 CP01（P0）起逐步进行。每个检查点仍须建立自己的 Plan pair；目录移动、生成物切换、CI 激活和删除只能在对应检查点按本计划与 §12 授权执行，CI 激活另需单独授权（P11.4）。
+
+## 0. 修订记录
+
+| 版本 | 来源 | 主要变化 |
+| --- | --- | --- |
+| r1 | commit `ad3e67d` | 初版：目标、原则、P0–P9、D1–D8 |
+| r2 | Review §1–§9 | 按最终答复修正 D1/D2/D4；新增门禁信任模型（§11）与受保护路径迁移授权（§12）；通用 Diff 加固先合回 V3；Architecture Conformance engine 与 IFX binding 分离后进入 V3；Stage Gate 参数化命名并移出 Git；workflow 改为轻量模板；元数据与聚合文档精简；构建输出重定向不得丢失根 MSBuild 安全配置；执行顺序重排为 P0–P11；新增 D9–D12；登记暂缓项 O1（git 端审查设置，本计划不做决定） |
+| r3 | Review §10–§13 | 见下表 |
+| r4 | Review §14 | 补齐 trusted-base 组件自身的候选升级协议；新增 TCB manifest、base-owned validation、`change-trusted-base` 授权与 parity；可信 restore 改为 lock-file/locked-mode，并允许经 lock/content hash 验证的 NuGet build assets 与隔离生成文件参与 import |
+
+r3/r4 逐项来源：
+
+| 修订内容 | 来源章节 | 落点 |
+| --- | --- | --- |
+| decision 记录改为正式执行准备阶段首次创建，P1.1 改为校验与补充 | 10.1 | §14 P1.1、§19 |
+| workflow 之后第一个可执行入口及完整调用链来自 base；wrapper/dispatcher/module manifest/`commands.json` 篡改负向控制 | 10.2 | §11.1、P2.1、P2.5 |
+| 逐 Gate trust contract，替代判定型/执行型二元分类；Architecture Conformance 为混合型并写明交叉兜底 | 11.2、12.2、13.3 | §11.3、P0.4、P0.10、P2.4、P6.5 |
+| policy/config 双轨验证；schema-specific monotonicity；未知变化失败关闭；零比较器起步；削弱复用授权协议 | 10.3、11.3、12.1、13.2 | §12.4、P0.9、P4.3–P4.4、D13 |
+| V3 package-local 构建与安全基线；可信构建位于 head 与 base 之外；禁止自动向上搜索；宿主配置仅显式叠加；有效 import 断言；V3 隔离运行验收 | 10.4、11.4、12.3、13.4 | §8.3、§11.2、P2.2–P2.3、P5、P7.2、D14 |
+| 授权使用 tree-entry tuple、已验证 merge-base、NUL 分隔 raw diff；大小写重命名独立 operation；gitlink 拒绝；端点可靠性依赖 `strict` | 10.5、11.5、12.4、13.5 | §12.2–§12.3、P4.1–P4.2、P1.3 |
+| 保证范围限定语统一应用到全部绝对性表述 | 10.6 | §2.6、§12.5、P4 门槛、§15、§16、D10 |
+| evidence 唯一 owner；analysis evidence/reports 生命周期分类 | 10.7 | §2.2、§5、§6、§13、P0.2、P8.6 |
+| 原 §8.3 方案 A（嵌套 `Directory.Build.props` import 根配置）不再采用 | 10.4、12.3 | §8.3 |
+| 新增 D13、D14 | 12.1、12.3 | §17 |
+
+## 1. 背景与问题陈述
+
+V3 已形成 Analysis、Pre、Post、Diff 和 CI 等阶段能力，V3_ifx 进一步接管了 IFX 的独立 LayerGuard、专项门禁、质量门禁、历史完整性和 CI 编排。现有能力总体有效，但目录、维护模型和门禁信任边界出现以下问题：
+
+1. 通用 V3 源码、IFX 配置、运行脚本、模板、生成物、历史材料和证据按不同维度平铺在根目录，职责需要跨目录理解。
+2. `.github/workflows/` 等激活文件位于 V3 外部，V3 内缺少完整的权威声明、确定性生成、预览、安装和反向验证链。
+3. `scripts/` 同时包含人工入口、CI 入口、内部运行脚本、生成器和维护命令；仅看文件名无法判断调用边界、副作用和稳定性。
+4. `templates/ifx-layerguard/` 与 `generated/dotnet/LayerGuard/` 存在 174 文件的逐字节重复；后者实际是正式架构门禁，不只是普通 Unit Test。
+5. `generated/stages`、`generated/dotnet` 等名称主要表达实现技术，未准确表达 Stage、门禁职责和生命周期；`generated/stages` 还被 Git 跟踪并包含 profile JSON 副本。
+6. JSON 仍是机器权威，但现有 Markdown 视图覆盖有限，且已经出现 profile JSON、Markdown views 和 architecture review 不同步的实例。
+7. V3_ifx 逐字节复制了 V3 的通用脚本、hooks 和测试；同时 `templates/dotnet/GuardTests.cs.in`、`tests/Test-V3.ps1` 已经分叉，V3_ifx 中的 Diff 加固（merge-base 校验、受保护路径删除/重命名检测、空 changed set 失败）尚未合回 V3。
+8. 现有 Diff 门禁在 `GuardTests.cs.in:IsProtectedGuardPath` 中硬编码受保护路径，任何删除或重命名 `docs/guards/V3*`、`docs/guards/plans/`、`mcp/LayerGuard/`、workflow 和 CODEOWNERS 的 PR 都会失败，因此本计划的去重、删除和目录迁移无法直接通过。
+9. CI 从 PR head 的 checkout 调用入口脚本（例如 `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1`）并生成、执行门禁；PR 可以同时修改入口、检测器、保护路径和被检查内容，门禁可被 PR 自身削弱。`.github/CODEOWNERS` 虽然指派了 owner，但 ruleset `23459908` 当前 `require_code_owner_review = false`、`required_approving_review_count = 0`，CODEOWNERS 审查并不被强制（r2 只读核实）。
+10. 门禁 .NET 工程的构建依赖宿主仓库的隐含配置：根 `Directory.Packages.props` 启用 `ManagePackageVersionsCentrally=true`，Stage Gate 模板使用带 `Version` 的 `PackageReference`，当前只能依靠 `docs/Directory.Packages.props` 关闭中央包管理才能构建；NuGet 安全审计也来自根 `Directory.Build.props`。V3 自身不具备可移植的构建与安全基线。
+11. LayerGuard（`CsprojReader.cs`）通过 XDocument 读取 csproj 元素，不解析 `<Import>`、Condition 或 `Directory.Build.*` 注入的 `ProjectReference`；Assembly 检查读取由 head 代码构建的程序集。两类检测各有盲区，目前没有显式的信任契约说明其保证范围。
+12. trusted base 自身也需要受控升级：若 head 同时修改入口、engine、contracts、base tests 或构建基线及其测试，当前 base 虽不会被同一 PR 篡改，但这些候选实现合并后会成为下一次 trusted base；仅运行 head 自带测试不能防止“两步削弱”。
+
+现状规模（r2 核对）：V3 41 个 tracked 文件；V3_ifx 537 个 tracked 文件，其中 348 个为 LayerGuard template/generated 双份；PowerShell 实现合计约 1.8k 行；workflow 285 行，13 个 required checks。本计划新增的治理元数据必须与该规模相称。
+
+## 2. 目标
+
+### 2.1 配置与激活
+
+- V3 所需的全部机器配置、模板、生成声明、部署映射，以及最低完整的 build、package、SDK/NuGet 和安全基线，都位于 V3 包自身目录。
+- IFX 专用配置全部位于 V3_ifx 自身目录，不以 `.github/`、根脚本、宿主父目录 MSBuild 配置或其他历史目录作为隐藏配置权威。
+- GitHub workflow、CODEOWNERS managed block 及其他必须复制到目标位置的文件，先在 V3 内由轻量模板确定性生成和验证，再由人工显式确认安装或复制。
+- 候选文件是可再生产物；目标位置文件只是激活副本。二者必须能够反向验证。
+
+### 2.2 Stage 信息架构
+
+- 从目录、文件名、manifest 和文档中能够直接识别 Bootstrap、Analysis、Pre、Post、Diff、CI 以及 Shared/Governance 的职责。
+- 配置以主要消费 Stage 归类；跨 Stage 输入只保留一个 `shared/` 权威，不在多个 Stage 复制。
+- 每个 Stage 声明所属命令、依赖、enforcement、文档和 Gate trust contract；证据路径由 command manifest 唯一声明，Stage 通过所引用的 command 解析证据。每个字段只有一个 manifest owner。
+
+### 2.3 脚本与命令模型
+
+- 区分公共命令、内部引擎、生成器、宿主适配器、维护工具和测试辅助程序。
+- 人类、Agent 和 CI 尽量调用同一公共命令接口，不复制门禁逻辑。
+- 每个公共命令都有机器可读的 Stage、audience、副作用、稳定性、输入和输出声明。
+- 未来加入 Python、JavaScript、.NET tool 或其他运行时，不改变分类模型。
+
+### 2.4 .NET 门禁工程
+
+- 生成工程按门禁职责命名，不按 `UnitTest`、`ArchUnitNET` 或 `dotnet` 等实现细节命名。
+- V3 profile 驱动的 Self/Post/Diff 工程命名为 Stage Gate，项目名由 profile project ID 参数化，在工程内部按测试类别拆分。
+- LayerGuard 派生实现先完成去重，再把 IFX-specific binding 剥离到 V3_ifx，通用检测引擎作为 Architecture Conformance Gate 进入 V3。
+- 本次迁移只调整所有权、命名、位置、调用契约和重复模型，不代表检测引擎已被 V3 原生实现取代；内部实现替换属于 §20 的独立后续计划。
+- 门禁 .NET 工程只加载 V3 package-local 的构建与安全基线，不依赖宿主父目录配置；`bin/`、`obj/`、报告和运行日志全部移出 `docs/guards` 源码树。
+
+### 2.5 JSON 与 Markdown
+
+- JSON 继续是唯一机器语义权威。
+- 全部生成 Markdown 只读，不支持 Markdown → JSON Import。
+- 生成文档列出来源路径和角色，并附一个 composite hash；不逐源列 hash。
+- 生成 Markdown 与人工 Markdown 分离；生成器不得覆盖人工设计理由。
+- 首批只生成 `OVERVIEW.md`、`COMMANDS.md`、`POST.md`、`CI.md`，出现真实阅读需求后再拆分。
+
+### 2.6 门禁信任与迁移安全
+
+以下目标均在 §11.4 保证范围内成立：
+
+- PR 门禁从 workflow 之后的第一个可执行入口起，使用受信任 base 中的 orchestrator、engine、contracts、protection config、policy 和授权，对 head/merge checkout 做检查（§11）。
+- 每个 Gate 都有 trust contract，声明 evaluator、policy 和 target input 的来源以及实际保证范围（§11.3）。
+- 受保护路径的删除、移动，以及 policy/config 的潜在削弱，只能消费 base 中预先合入的精确授权，并在同一 diff 中删除该授权（§12）。
+- 下一次将进入 trusted base 的入口、engine、contracts、base-owned tests、构建基线和 lock files 等组件具有 TCB manifest、base-owned candidate validation 与 parity；非等价语义变化需要 `change-trusted-base` 预授权（§11.5、§12）。
+- 13 个 required check 名称是本计划全程不变量（§10.3）。
+- 位于隔离目录中的 V3 源码包能独立构建运行，并能从空白 fixture 仓库 Bootstrap 出可运行的门禁。
+
+## 3. 非目标
+
+- 本计划不改变 IFX 当前业务架构规则的语义；新增检测规则（例如针对 MSBuild import 注入的规则）必须另行 decision。
+- 本计划不借目录迁移弱化、豁免或删除任何 blocking gate。
+- 本计划不自动安装 GitHub workflow、修改远端 ruleset 或变更 required checks。
+- 本计划不改变任何 required check 名称；改名只能作为单独授权的变更。
+- 本计划不在未完成正反例与并行验证前删除旧入口。
+- 本计划不要求每个 Stage 建立独立进程或独立 .NET 项目。
+- 本计划不以目录整洁为理由复制 shared 配置或拆分出重复实现。
+- 本计划不重写或移除 LayerGuard 派生的检测算法；只剥离 IFX binding，并调整其所有权、命名、位置、调用契约和重复生成模型。
+- 本计划不提供 V3_ifx self-contained 分发，不引入 `core.lock.json`，不保留 V3_backup snapshot。
+- 本计划不引入可描述任意 GitHub Actions 的 JSON DSL。
+- 本计划不使用 `pull_request_target` 执行 PR 代码，不在仓库内实现可自行调用的门禁 bypass。
+- 本计划的门禁审查范围限于项目本身的代码与架构层面；不收紧 git 端审查标准，不修改 ruleset 审批设置（§18 O1 暂缓）。
+
+## 4. 权威与生命周期模型
+
+按照以下优先级定义事实：
+
+1. **JSON authority**：Stage 配置、规则、policy、toolchain、activation、command、required checks、trust contract 和 document manifest。
+2. **Implementation**：PowerShell/.NET/其他语言实现、模板与 package-local 构建基线；实现解释 JSON，不暗藏项目 policy。
+3. **Generated candidate**：Markdown、Stage Gate 源码、GitHub workflow、CODEOWNERS managed block 等可再生产物。
+4. **Activated copy**：目标 `.github/` 等宿主读取位置中的副本。
+5. **Runtime evidence**：`artifacts/guards/` 下的报告、TRX、日志、hash 和 summary。
+
+低层不得反向成为高层的隐含权威。激活副本不得直接编辑；运行证据不得被当成当前配置，也不得反向参与可信判定逻辑。
+
+对 PR 做判定时：
+
+- 第 1、2 层以及授权一律取自受信任 base，作为当前 PR 的唯一权威判定依据（§11）；
+- head 中的第 1、2 层变更只作为候选数据接受 schema、引用完整性、coverage、parity 与单调性检查，不控制当前 PR 的判定，合并后才生效（§12.4）。
+
+## 5. 建议目标结构
+
+以下是方向性结构。最终路径在正式执行 Plan 中冻结。
+
+```text
+docs/guards/V3/
+├─ guard-system.json
+├─ build/                        # package-local 构建与安全基线（§8.3）
+│  ├─ V3.Build.props             # NuGetAudit、warnings-as-errors 等安全基线
+│  ├─ V3.Packages.props          # 门禁工程包版本
+│  ├─ NuGet.config
+│  ├─ global.json
+│  └─ locks/                      # 各可信门禁工程的 packages.lock.json 权威/模板
+├─ shared/
+│  ├─ contracts/
+│  ├─ toolchain.json
+│  ├─ commands.json
+│  ├─ trusted-components.json    # TCB 路径、base-owned validation 与 parity 契约
+│  ├─ authorities/
+│  └─ decisions/
+├─ stages/
+│  ├─ bootstrap/
+│  ├─ analysis/
+│  ├─ pre/
+│  ├─ post/
+│  │  └─ gates/
+│  │     └─ architecture/
+│  │        └─ dotnet/
+│  │           ├─ Guards.ArchitectureConformance/
+│  │           ├─ Guards.ArchitectureConformance.Tests/
+│  │           └─ Guards.ArchitectureConformance.slnx
+│  ├─ diff/
+│  │  ├─ authorization.schema.json
+│  │  └─ monotonicity/           # 各 schema 的单调性比较器声明
+│  └─ ci/
+│     └─ templates/
+├─ commands/
+├─ engine/
+│  ├─ common/
+│  ├─ modules/
+│  ├─ trusted-base/
+│  └─ stages/
+├─ generators/
+│  ├─ docs/
+│  ├─ stage-gate/
+│  └─ activation/
+├─ integrations/
+│  ├─ github/
+│  └─ agents/
+├─ maintenance/
+├─ docs/
+│  ├─ authored/
+│  ├─ generated/
+│  └─ docs-map.json
+├─ tests/
+│  ├─ analysis/
+│  ├─ pre/
+│  ├─ post/
+│  ├─ diff/
+│  ├─ ci/
+│  ├─ bootstrap/
+│  ├─ isolation/
+│  └─ support/
+└─ examples/
+
+docs/guards/V3_ifx/
+├─ guard-system.json
+├─ shared/
+├─ stages/
+│  ├─ analysis/
+│  │  ├─ evidence/               # 经评审、长期保留的输入与基线（authority/history 角色）
+│  │  ├─ drafts/
+│  │  └─ reports/                # 仅经评审冻结的报告快照；运行时输出进入 artifacts
+│  ├─ pre/
+│  ├─ post/
+│  │  ├─ rules/
+│  │  ├─ policy/
+│  │  └─ gates/
+│  │     ├─ architecture/        # IFX binding、policy、baseline、IFX fixtures；无 engine 源码
+│  │     ├─ specialized/
+│  │     ├─ quality/
+│  │     └─ historical-integrity/
+│  ├─ diff/
+│  │  ├─ protection.json
+│  │  └─ authorizations/
+│  └─ ci/
+│     ├─ workflow.template.yml
+│     ├─ workflow.variables.json
+│     ├─ required-checks.json
+│     └─ activation.json
+├─ commands/                     # 仅薄 wrapper，例如 Invoke-IFXGuardrails.ps1
+├─ integrations/
+├─ maintenance/
+├─ docs/
+└─ tests/
+
+artifacts/                       # 仓库内，不进入 Git；只存放数据，不存放可构建的可信门禁源码
+├─ build/<package>/              # 本地 package 构建的 bin/obj
+├─ generated/<package>/          # workflow candidate 等非构建型候选
+└─ guards/<package>/<stage>/     # TRX、JSON report、logs、summary、runtime analysis 输出
+
+$RUNNER_TEMP/                    # CI；本地运行时为仓库外的等价临时目录
+├─ guard-base/                   # 只读 base worktree
+└─ guard-gen/<package>/          # 可信门禁的生成源码与构建输出（§11.2）
+```
+
+- V3 是唯一 portable engine。V3_ifx 作为 IFX overlay 直接引用仓库内 V3 的公共 engine/contracts 与 `build/` 基线，不复制、不 fork 通用实现。
+- 新仓库使用 V3 源码包 Bootstrap 生成自己的门禁，而不是复制 V3_ifx。
+- 可构建的门禁生成源码不写入仓库目录；非构建型候选与运行证据写入仓库 `artifacts/`；激活副本只存在于目标位置（例如 `.github/`）。
+
+## 6. Stage 职责
+
+| Stage | 主要职责 | 典型输入 | 典型输出 |
+| --- | --- | --- | --- |
+| Bootstrap | 初始化包、建立未评审配置和安装前准备 | project ID、目标根、SDK | 初始 JSON、目录、可运行门禁骨架、状态报告 |
+| Analysis | 只读发现目标事实并形成可评审提案 | repository、当前 profile | inventory、drafts、review report |
+| Pre | 路径、area、owner、risk、rule 和 command 关联 | proposed paths 或 formal Plan | advisory/blocked summary |
+| Post | 源码、项目引用、程序集、policy、专项和质量检测 | target tree、compiled outputs、policy | detector reports、summary |
+| Diff | 最终 changed set 与正式 Plan、受保护路径、授权和 policy/config 单调性对账 | trusted base、head、Plan、protection、authorizations | scope pass/fail |
+| CI | 编排 Stage、生成激活候选、验证 required checks | Stage manifests、workflow template、required checks | workflow candidate、activation report |
+| Shared/Governance | 跨 Stage 工具链、authority、decision、schema | reviewed JSON | 被多个 Stage 引用，不独立执行 |
+
+每个 Stage 新增 `stage.json`。字段 owner 划分如下，禁止两处同时拥有同一字段：
+
+| 字段 | owner | 另一方 |
+| --- | --- | --- |
+| `entryPoint`、`inputs`、`outputs`、`evidence`、`mutability`、`requiresExplicitAcceptance`、`platforms`、`stability` | `shared/commands.json` | `stage.json` 只引用 command ID，并通过 command 解析证据 |
+| `id`、`commands`（command ID 列表）、`dependencies`、`enforcement`、`executionClass`、`documentation`、`gates`（Gate ID 与 trust contract，§11.3） | `stage.json` | `commands.json` 只引用 stage ID |
+
+## 7. 脚本和可执行文件分类
+
+### 7.1 公共命令 `commands/`
+
+供 human、Agent 或 CI 直接调用的稳定 API。只暴露少量入口：
+
+- `Invoke-V3.ps1`：Validate、Pre、Post、Diff、All。
+- `Invoke-V3Setup.ps1`：Bootstrap、Analysis。
+- `Invoke-V3Docs.ps1`：Render、Check；按 D4 移除现有 `Import` 模式。
+- `Invoke-V3Deployment.ps1`：Generate、Check、Preview、Install、Verify 激活文件。
+- IFX overlay 保留一个薄的 `Invoke-IFXGuardrails.ps1`，只负责选择 IFX package 和 Stage，不重复实现通用逻辑。
+
+在 CI 的 PR 判定中，上述公共命令从 base worktree 调用；head checkout 只作为显式 target 参数传入（§11.1）。
+
+### 7.2 内部引擎 `engine/`
+
+- 不承诺外部调用兼容性。
+- 公共命令负责参数、帮助、退出码和结构化输出；内部模块负责实现。
+- 共享 PowerShell 逻辑优先收敛为不导出内部细节的 `.psm1` 模块。
+- `engine/trusted-base/` 负责 base worktree 建立、可信调用链加载、可信构建隔离和 head 隔离（§11.1、§11.2）。
+
+### 7.3 生成器 `generators/`
+
+- JSON → 只读 Markdown。
+- Stage JSON/profile → .NET Stage Gate。
+- workflow template + variables → workflow candidate。
+- activation manifest → 目标文件候选或 managed block。
+- Stage Gate 源码只写入仓库外的生成根（§11.2）；其他候选只写 `artifacts/generated/`；Install 必须是独立显式操作。
+
+### 7.4 Integrations、Maintenance 与 Test Support
+
+- `integrations/`：GitHub、Agent hook、Skill 等宿主胶水，只调用公共命令。
+- `maintenance/`：policy projection、history manifest、analysis evidence 更新、迁移和 hash 更新；写 authority 时必须要求 `Preview`/`Apply` 或等价显式语义。
+- `tests/support/`：只服务 fixture、负例和临时仓库，不作为用户入口。
+
+### 7.5 Command manifest
+
+新增机器权威 `shared/commands.json`，为每个公共入口记录 §6 表中由它拥有的字段，以及 `id`、`kind`、`stages`、`audiences`。
+
+CI 模板检查器和 `docs/generated/COMMANDS.md` 都从该 manifest 读取，不再手工维护命令清单；workflow 只允许调用 `kind = public` 的命令。
+
+## 8. .NET 门禁工程分类和命名
+
+### 8.1 Stage Gate
+
+当前 profile 驱动的 Self/Post/Diff xUnit 工程改为职责名称，项目名由 profile project ID 参数化：
+
+```text
+<生成根>/<package>/gates/stage/          # CI：$RUNNER_TEMP/guard-gen；本地：仓库外临时目录
+└─ {ProjectId}.Guards.StageGate.Tests/
+   ├─ Self/
+   ├─ Post/
+   ├─ Diff/
+   ├─ GeneratedInputs/
+   └─ {ProjectId}.Guards.StageGate.Tests.csproj
+```
+
+- `Self` 证明检测器能接受正例并拒绝故意违规 fixture。
+- `Post` 扫描项目引用和编译程序集。
+- `Diff` 验证实际 changed set、Plan、受保护路径、授权和 policy/config 单调性。
+- 保留一个 csproj 以降低 restore/build 成本，通过目录、类名和 test trait 区分类别。
+- `ArchUnitNET` 仅作为 package 依赖和实现说明，不进入稳定工程名称。
+- 通用生成器定义 project ID 到合法 .NET identifier/namespace 的确定性转换（大小写、分隔符、数字开头、保留字），并在转换结果碰撞时失败关闭。
+- 生成工程显式 import V3 `build/` 基线，并按 §11.2 隔离构建；生成源码不进入 Git（D3）。
+
+### 8.2 Architecture Conformance Gate
+
+LayerGuard 派生实现分三步收敛：
+
+1. **去重**：删除 `V3_ifx/generated/dotnet/LayerGuard`，直接构建运行 `templates/ifx-layerguard` 唯一源码。当前 `Invoke-IFX.ps1` 的 Generate/Check 只是复制并逐字节比较相同源码，验证聚焦 build/test、policy binding、strict scan、正反 fixture、CI 调用路径和恢复，不建立长期 parity 框架。
+2. **剥离 IFX binding**：当前源码并非纯通用能力——`src/LayerGuard/GatePolicyBindings.cs` 硬编码 `ifx-api`、`ifx-worker`、`ifx-all` runtime role，`tests/LayerGuard.Tests/GatePolicyBindingTests.cs` 包含 IFX 项目和类型名称。runtime role、IFX project/type names 和绑定 fixture 必须参数化或移入 IFX policy/fixtures；通用测试改用 synthetic fixture。
+3. **进入 V3**：通用 engine 迁入 V3 `stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance*`；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。
+
+约束：
+
+- policy 仍由 JSON 参数传入；G03/G04/G05 policy binding 与 composite hash 语义不变。
+- `Check` 验证源码 manifest、policy binding 和 fixture，而不是比较两份相同目录。
+- 通用 engine 中 IFX 标识扫描必须大小写不敏感（`ifx`、`IFX`、`Ifx` 均计入）。
+- `v3-architecture` required check 名称和 summary schema 不变。
+- Gate 按 §11.3 声明为混合型 trust contract，写明 MSBuild import/Condition 盲区与 Assembly 检查的交叉兜底关系。
+
+### 8.3 构建基线与输出
+
+**package-local 基线**：
+
+- V3 `build/` 携带最低完整的构建与安全基线：`NuGetAudit`、`NuGetAuditMode`、`NuGetAuditLevel`、`NU1903;NU1904` warnings-as-errors、门禁工程包版本、`NuGet.config` 与 `global.json`。初始值来自 P0.8 对当前继承配置的盘点，不得弱于当前 IFX 根配置。
+- 每个可信门禁工程都有受版本控制的 `packages.lock.json` 权威或生成模板；restore 使用 locked mode，锁定直接与传递依赖的版本和 content hash。lock 漂移必须由 base-owned checker 检出，不允许普通 restore 静默重写。
+- V3 与 V3_ifx 的门禁工程、生成工程显式 import V3 `build/` 基线，不依赖 `Directory.Build.props`、`Directory.Packages.props` 的目录发现。
+- V3 公共命令构建门禁工程时统一关闭目录向上搜索，并通过命令行指定输出位置（开关见 §11.2）。
+- 原 r2 方案 A（新增 `docs/Directory.Build.props` 并 import 根 props）不再采用：它依赖宿主配置，且 import 可以覆盖属性或增加 target，无法保证不削弱 V3 基线。
+- 宿主配置叠加默认关闭。确需叠加时，只能显式指定 base 中经验证的文件，并通过允许字段白名单、导入顺序和最终有效属性检查证明不降低 V3 基线；不得导入 head 配置。
+
+**输出位置**：
+
+- 本地 package 构建的 `bin/obj` 定向到 `artifacts/build/<package>/`。
+- TRX、JSON report、logs 和 runtime analysis 输出定向到 `artifacts/guards/<package>/<stage>/`。
+- 可信门禁的生成源码与构建输出位于仓库外的生成根（§11.2）。
+- workflow candidate 等非构建型候选定向到 `artifacts/generated/<package>/`。
+- head solution 自身的 build/test 继续使用 head 项目配置，按 §11.3 标记为执行型保证，不与可信 evaluator 自身构建混为一谈。
+
+**验证清单**：
+
+- `Test-V3.ps1` synthetic fixture 不再依赖复制 `docs/Directory.Packages.props`；
+- 在 IFX 仓库内构建时不受根 Central Package Management 影响（无 NU1008）；
+- 有效属性检查确认 V3 安全基线在全部门禁工程中生效；
+- clean restore 使用 lock file 与 locked mode；直接或传递依赖漂移、lock 缺失或 content hash 不匹配均失败关闭；
+- import allowlist 接受与 lock file/package content hash 一致的 NuGet build assets 及隔离生成根中的 `.nuget.g.props/.targets`，拒绝未锁定 package、head、宿主父目录或用户自定义 import；
+- Stage Gate Generate/Check/Test/Diff；
+- Architecture Conformance Gate build/test/scan；
+- Linux/Windows 路径一致性；
+- 并发 project/TFM 不共享同一 intermediate output；
+- clean 后 `docs/guards/**` 下不再生成 `bin/obj`；
+- 隔离验收：将 V3 复制到不继承任何 IFX 父目录配置的临时目录后，仍可完成 build、Generate、Check 和 Test；
+- IFX 自身业务项目的根安全配置不受本次改动影响。
+
+## 9. Markdown 文档模型
+
+### 9.1 文档分类
+
+- `docs/authored/`：人工维护的架构理由、迁移说明、操作指导和决策背景。
+- `docs/generated/`：从一个或多个 JSON 聚合生成，只读，禁止直接编辑。
+
+首批生成：
+
+- `OVERVIEW.md`：Stage 全景、入口、输入输出和 authority/candidate/activation/evidence 关系。
+- `COMMANDS.md`：公共命令、执行者、副作用、输入输出和示例。
+- `POST.md`：rules、detectors、coverage、Architecture Conformance、trust contract 和专项/质量 gate。
+- `CI.md`：job DAG、触发条件、required checks、候选与激活状态。
+
+`ANALYSIS.md`、`PRE.md`、`DIFF.md`、`AUTHORITY.md`、`GENERATED-ASSETS.md` 等只在出现真实阅读需求时另行增加。现有 `profiles/ifx/views/` 一对一视图在 P8 决定保留为只读生成视图或并入首批文档，均不再支持 Import。
+
+### 9.2 `docs-map.json`
+
+每个生成文档声明：
+
+- output path；
+- sources/globs；
+- source role；
+- renderer。
+
+生成文档头部列出全部来源路径、角色和一个 composite hash。`Docs Check` 重新渲染并逐字节比较，验证完整文件集，纳入 Validate/CI。
+
+## 10. CI 激活模型
+
+### 10.1 轻量模板
+
+不建立描述任意 GitHub Actions 的 JSON DSL。结构如下：
+
+```text
+V3/stages/ci/templates/          # 通用 renderer 约定与示例模板
+V3/generators/activation/        # 渲染器：只替换少量稳定变量
+
+V3_ifx/stages/ci/
+├─ workflow.template.yml         # IFX canonical GitHub workflow YAML 模板
+├─ workflow.variables.json       # 少量稳定变量，例如 SDK 版本、package 路径
+├─ required-checks.json          # 独立机器权威：check 名称、ruleset、strict
+└─ activation.json               # candidate → target 映射
+
+artifacts/generated/v3-ifx/activation/
+└─ .github/workflows/v3-ifx-guardrails.yml   # candidate，不进入 Git
+
+.github/workflows/v3-ifx-guardrails.yml      # 激活副本，带 source path/hash 头
+```
+
+现有 `ci/jobs.json` 由 `required-checks.json` 取代。
+
+### 10.2 生命周期
+
+```text
+Declare → Generate → Check → Preview → Approve → Install/Copy → Verify
+```
+
+- `Generate` 只写 `artifacts/generated/` 候选路径。
+- `Check` 验证：
+  - YAML 可解析、job DAG 与 Stage 依赖正确；
+  - 只调用公共命令 ID；
+  - PR 判定步骤建立 base worktree，且第一个可执行入口位于 base worktree 路径；
+  - matrix 展开后的 check 名称与 `required-checks.json` 一致；
+  - 生成漂移。
+- `Preview` 比较候选与 `.github/` 激活副本。
+- `Install` 需要 `-AcceptDeployment` 并记录 source/target/hash；人工复制后必须运行同一个 `Verify`。
+- `Verify` 检查目标文件头部 source path/hash 与内容。
+- GitHub ruleset 继续作为远端状态；只读 verifier 比较远端实际状态与 `required-checks.json`，包括 `strict` 设置。任何远端写入仍需独立授权。
+- CODEOWNERS managed block 使用相同生命周期。
+
+### 10.3 Required check 不变量
+
+以下 13 个 check 名称在本计划全程保持不变（ruleset `23459908`，`strict: true`）：
+
+| 类别 | check 名称 |
+| --- | --- |
+| Diff | `v3-pre-diff` |
+| Architecture | `v3-architecture` |
+| Specialized | `v3-specialized-g03`、`v3-specialized-g04`、`v3-specialized-g05`、`v3-specialized-plan04`、`v3-specialized-database` |
+| Quality | `v3-quality-solution`、`v3-quality-assembly`、`v3-quality-frontend` |
+| Historical integrity | `v3-historical-integrity` |
+| Cross-platform（matrix 展开） | `v3-cross-platform-ubuntu-latest`、`v3-cross-platform-windows-latest` |
+
+调整触发策略（例如 D8 的 path/schedule 触发）不得使 required check 在 PR 上处于永久 pending 状态。
+
+## 11. 门禁信任模型
+
+### 11.1 Trusted Base Guard Execution
+
+```text
+Base worktree（$RUNNER_TEMP/guard-base，位于 head checkout 之外，只读、clean）
+├─ trusted 公共命令、orchestrator、dispatcher、module loader
+├─ trusted commands.json、V3 engine 与 contracts
+├─ trusted V3 build/ 基线
+├─ trusted Diff/protection config 与 policy
+├─ trusted authorizations
+└─ trusted activation contract
+
+可信生成根（$RUNNER_TEMP/guard-gen，位于 head 与 base 之外）
+└─ Stage Gate 生成源码、可信 evaluator 构建输出
+
+Head/merge checkout
+└─ 被检查的 target files、changed set，以及候选 policy/config 数据
+```
+
+实现必须满足：
+
+- base SHA 来自可信 PR event，并验证 commit 可解析；
+- workflow 之后的第一个可执行文件来自 base worktree；整条公共命令、orchestrator、dispatcher、module 和 `commands.json` 调用链均来自 base；
+- head checkout 只能作为显式 target repository/path 参数传入；
+- engine、contracts、protection config、policy 和授权从 base worktree 加载；
+- base 调用链不从 head dot-source PowerShell、加载 module、执行脚本或读取可执行配置；
+- base worktree 保持只读和 clean，不作为生成目录或构建输出目录；
+- base worktree 必须创建在 head checkout 之外，避免 MSBuild/NuGet/SDK 向上搜索加载 head 控制的文件；
+- 不使用 `pull_request_target` 执行不可信 PR 代码。
+
+负向控制至少包括：PR 修改公共 wrapper、dispatcher、module manifest、`commands.json`、受保护路径清单、engine 脚本、policy，以及在 head 根 `Directory.Build.props`、`Directory.Packages.props` 注入失败或篡改逻辑，均不得改变判定型结论。
+
+### 11.2 可信构建隔离
+
+可信 evaluator 与 Stage Gate 的生成、restore 和 build 必须满足：
+
+| 机制 | 做法 |
+| --- | --- |
+| 位置 | 生成源码与构建输出位于 `$RUNNER_TEMP/guard-gen/<package>/`（本地为仓库外等价临时目录），不在 head checkout 或 base worktree 内 |
+| `Directory.Build.props/targets` | 命令行全局属性 `-p:ImportDirectoryBuildProps=false -p:ImportDirectoryBuildTargets=false`；写在 csproj 正文中晚于 SDK import，无效 |
+| `Directory.Packages.props` | `-p:ImportDirectoryPackagesProps=false`；包版本由 V3 `build/V3.Packages.props` 显式提供 |
+| `Directory.Solution.props/targets` | 构建 `.slnx` 时同样关闭对应 import |
+| 构建基线 | 工程显式 import V3 `build/` 基线（§8.3） |
+| NuGet restore | `restore --configfile <V3 build/NuGet.config> --locked-mode`（或等价 `RestoreLockedMode=true`）；使用受版本控制的 `packages.lock.json`，并验证用户级与机器级配置不参与源解析 |
+| SDK 选择 | 生成根内放置 V3 `build/global.json`，工作目录固定为生成根 |
+| restore 完整性 | lock file 必须覆盖直接与传递依赖；package ID、版本和 content hash 与 lock 一致，restore 不得修改 lock |
+| 有效 import 预检 | restore 后、执行实际 build/test target 前，通过 `-pp` 或等价预处理取得 import 列表；只允许固定版本 .NET SDK、V3 package、隔离生成根中的 NuGet 生成文件，以及 package ID/version/content hash 与 lock 一致的 NuGet build assets |
+| 构建后复核 | 通过 binlog 再次核对有效 imports；出现未锁定 package、head、base 工作区其他位置、宿主父目录或用户自定义文件即失败关闭 |
+
+lock-file restore、构建前 import 预检和构建后 binlog 复核共同构成本节的核心负向控制，并与 §11.1 的 head MSBuild 注入负向控制合并执行。本地运行时不建立 base worktree，但使用相同的隔离开关和 locked mode，保证本地与 CI 的构建行为一致。
+
+### 11.3 Gate trust contract
+
+每个 Gate 在 `stage.json` 的 `gates` 中声明 trust contract，至少包含：
+
+- evaluator/orchestrator 来源；
+- policy/config 来源；
+- target input 及派生输入来源；
+- 是否构建或执行 head 内容；
+- 是否消费 head 生成的程序集或报告；
+- 已知盲区与交叉兜底关系；
+- 对结论能够提供的实际保证范围。
+
+初始分类（P0.10 核实后冻结）：
+
+| Gate | 类型 | evaluator 与 policy | target input | 是否执行 head | 保证范围 |
+| --- | --- | --- | --- | --- | --- |
+| `v3-pre-diff` | 判定型 | base | merge-base 与 head 的 Git 对象 | 否 | base 完整负责结论 |
+| `v3-architecture`（LayerGuard） | 混合型 | base | head csproj XML 与源码文本 | 否，不做 MSBuild 求值 | evaluator 可信；输入盲区见下表 |
+| `v3-quality-assembly` | 混合型 | base | head 构建产生的 Domain 程序集（上游 artifact） | 构建由上游 job 执行 head | evaluator 可信；程序集来源不可信 |
+| `v3-quality-solution`、`v3-quality-frontend` | 执行型 | base orchestrator | head solution/frontend | 是 | base 只保证执行的命令、参数、退出码判定与必需证据 |
+| `v3-specialized-database` | 执行型（待核实） | base orchestrator | head EF startup project | 是 | 同上 |
+| `v3-specialized-g03/g04/g05/plan04` | 待 P0.10 分类 | — | — | — | — |
+| `v3-historical-integrity` | 判定型（待核实） | base | tracked evidence 与 manifest hash | 否 | base 完整负责结论 |
+| `v3-cross-platform-*` | 待 P0.10 分类 | — | — | — | — |
+
+Architecture Conformance 的交叉兜底：
+
+| 检测 | 可信部分 | 盲区 | 兜底 |
+| --- | --- | --- | --- |
+| LayerGuard 源码/项目文件检测 | evaluator、policy、判定逻辑；不执行 head | `<Import>`、Condition、`Directory.Build.*` 注入的 `ProjectReference` | Assembly 检查读取实际编译结果 |
+| Assembly 检查 | evaluator、policy、判定逻辑 | 程序集由 head 控制的构建产生 | 源码/项目文件检测；针对 `Directory.Build.*` 与 `<Import>` 注入的检测规则作为独立规则提案，经 decision 后加入，加入前登记为已知缺口 |
+
+执行型门禁中，head 可以修改自身测试或构建脚本使其通过，这是此类门禁的固有边界，不属于 trusted base 可解决的问题。
+
+### 11.4 保证范围
+
+workflow 定义本身以及 git 端审批设置不在 §11 的信任边界内，按 §18 O1 暂缓。§11 的保证范围仅限：
+
+- 在 workflow 定义未被修改的前提下，PR head 无法通过修改入口调用链、engine、配置、policy、授权或 MSBuild/NuGet/SDK 继承文件改变**判定型**结论；
+- 混合型与执行型门禁的保证范围以各自 trust contract（§11.3）为准。
+- trusted base 自身的候选升级按 §11.5 验证；该协议保证候选必须经过 base-owned validation、parity 和必要授权，但在 O1 暂缓下不宣称能够阻止无需审批的两步操作。
+
+对外描述门禁能力时不得超出该范围。
+
+### 11.5 Trusted Base Component 候选升级
+
+`shared/trusted-components.json`（TCB manifest）是自保护的信任根之一，必须把自身、schema 和 verifier 纳入清单；它还列出下一次执行中会进入 trusted base 的全部组件，至少包括：公共入口与 wrapper、orchestrator、dispatcher、module loader/manifest、`commands.json`、engine、contracts、protection/policy evaluator、授权 verifier、base-owned tests/fixtures、生成器，以及 V3 `build/` 基线、lock files 和可信 CI activation contract。每个组件声明路径、组件 ID、类型、base-owned validation suite、parity contract 和允许的变更方式。
+
+PR 修改任何 TCB 组件时必须满足：
+
+1. 当前 PR 的权威门禁仍只运行 base TCB；head 候选不得替换当前判定链。
+2. base validator 在独立候选进程/输出目录中运行 head 候选，且不向候选暴露高权限 secret；候选执行结果只能作为 pass/fail 输入返回 base 汇总器。
+3. head 候选必须通过 base 中的 tests、fixtures、contracts 与负向控制；head 新增测试只能补充，修改或删除 head 中的测试不能替代 base-owned validation。
+4. 新旧实现针对 base 固定 corpus 执行 parity；默认要求命令契约、失败关闭类别、summary/report schema 和 blocking 结论一致。
+5. 纯 tuple 等价移动可按 `move` 授权处理；其他 TCB 代码、测试、contract、构建基线或 lock file 的语义变化无法由机械 parity 完整证明时，必须消费 §12 的 `change-trusted-base` 预授权。授权记录组件 ID、base/head 预期 tuple/tree ID、允许的行为差异、base validation suite 与对应 decision。
+6. 候选合并后才成为下一次 trusted base；下一 PR 必须验证新 base 的 manifest、lock、测试与负向控制均生效。
+7. head manifest 新增、删除、重分类 TCB component，或 head command/activation 引用 base manifest 未登记的可执行组件，均视为 TCB 语义变化并失败关闭或要求 `change-trusted-base` 授权；不得通过先修改 manifest 把组件移出保护范围。
+
+`change-trusted-base` 与其他 §12 授权一样采用 base 预授权、消费即删除协议。该协议在 O1 暂缓范围内提供显式、可追溯的 TCB 演进，不宣称能够替代 git 端强制审批。
+
+### 11.6 首次引入例外
+
+引入 Trusted Base Guard Execution 的 PR 在 base 中尚无该机制，只能由现有 CI 和专门负向控制兜底；ruleset 当前不强制 code owner review，该残余风险按 §18 O1 暂缓处理。该一次性例外必须写入 decision 记录，并在该 PR 合入后的下一个 PR 上验证机制生效。
+
+P5 建立 package-local build/lock 基线，P2 才启用 trusted execution 与 TCB candidate protocol，因此 P5–P2 构成同一个受控 bootstrap 窗口：P5 使用 P0 冻结的 TCB 清单、现有 CI、隔离构建验证和专门负向控制；P2 必须以 P5 合入后的 base 验证该基线并关闭窗口。在 P2 生效后，P3 及后续任何 TCB 变化必须遵循 §11.5，不得继续使用首次引入例外。
+
+### 11.7 Break-glass
+
+base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass 只能是仓库外部治理的最后手段（例如管理员临时调整 ruleset），不能实现为仓库内可自行调用的 bypass。至少记录：
+
+- 授权人和复核人；
+- 原因和受影响 check；
+- 开始与恢复时间；
+- 临时 ruleset 变化；
+- 恢复后的配置证明；
+- 事后正常/负向复验结果。
+
+## 12. 受保护变更授权
+
+### 12.1 两 PR 协议
+
+适用于受保护路径的删除、移动、大小写重命名，policy/config 的潜在削弱，以及 trusted-base component 的语义变化：
+
+1. **授权 PR**：将精确 authorization 写入 base（`V3_ifx/stages/diff/authorizations/`），不执行被授权的变更。
+2. **变更 PR**：只能消费 base 中已存在的授权，完成精确变更，并在同一 diff 中删除所消费的授权。
+
+授权从 base 被合并删除后自然失效，不依赖 wall-clock 有效期或无状态的"已使用"标记。
+
+### 12.2 授权内容
+
+每条 authorization 的公共字段至少包含：
+
+- 唯一 authorization ID；
+- operation：`move`、`delete`、`case-rename`、`weaken-policy`、`change-trusted-base`；
+- 授权对应的精确 changed-path 集合；
+- 对应 formal Plan 和 decision。
+
+各 operation 的专用字段：
+
+- `move`、`delete`、`case-rename`：source 的 repository-relative path 与 base tree-entry tuple（`mode + type + objectId + path`；目录记录 tree ID）；destination path 与其 base 前置状态（不存在或 base tuple）；预期 destination tuple/tree ID，或删除后的不存在状态；
+- 允许内容变化的 path operation：destination 路径 → 预期 tuple/blob ID 清单，不使用自由文本；
+- `weaken-policy`：变更前后的 authority hash、受影响 schema/字段和预期 head tuple；
+- `change-trusted-base`：一个或多个 TCB component ID、每个组件的 base/head 预期 tuple/tree ID、base-owned validation suite、parity contract 与允许的行为差异；TCB manifest 自身发生变化时同时记录 base/head manifest hash。
+
+### 12.3 Git 对象表示与机械验证
+
+**对象表示**：
+
+- 普通文件与符号链接：比较 `mode + type + objectId + repository-relative path`，blob ID 不单独作为依据；
+- 目录：比较 tree ID；需要展开 changed-path 时使用 `git ls-tree -r -z` 生成的规范化、NUL 分隔 tree entry manifest；
+- verifier 读取 commit/tree 对象，不重新 hash checkout 文件；Git committed object identity 避免工作区换行差异；
+- 受保护范围内出现 mode `160000`（gitlink/submodule）条目时直接失败，不作为普通 tree 或 blob 比较，也不允许通过授权移动；
+- `.gitattributes` 本身的变化作为 changed set 和 policy/config 变更单独验证。
+
+**比较端点**：
+
+- 使用已验证的 merge-base 与 PR head SHA，changed set 通过 `git diff --raw -z --no-renames <verified-merge-base> <head-sha>` 或等价 plumbing 输出逐项对账；
+- 不依赖 rename heuristic，也不依赖易受路径转义影响的展示格式；
+- ruleset `strict` 保证合并时 head 已包含最新 base，因此以已验证 merge-base 为端点的结论在合并时成立；该结论依赖 `strict` 保持启用，由 P1.3 verifier 断言。
+
+**门禁必须验证**：
+
+- 授权存在于 base，而不是仅存在于 head；
+- head 删除了所消费的授权；
+- operation 与授权完全匹配；path operation 的 source、destination、前置状态和结果 tuple 与授权完全匹配；
+- `weaken-policy` 的 authority hash、字段范围和预期 head tuple 与授权完全匹配；
+- `change-trusted-base` 的实际 TCB changed set、head tuple/tree ID、base-owned validation suite、parity 结果和允许行为差异与授权完全匹配；
+- 实际 changed-path 集合与授权声明逐项一致，未授权的额外删除、新增或重命名为零；
+- 仅大小写不同的重命名必须声明为 `case-rename`，并纳入 Linux/Windows 正反控制；
+- 并发 PR 更新分支后因 base 中授权已被删除而失败，避免重复消费。
+
+### 12.4 Policy/config 双轨验证与单调性
+
+**双轨**：
+
+1. base policy/config 对当前 PR 给出唯一权威判定；
+2. base engine 同时把 head policy/config 作为候选数据，执行 schema、引用完整性、coverage、parity 和单调性检查；
+3. head 候选不得控制当前 PR 的判定，只能在合并后生效；
+4. head 对 engine、门禁测试或其他 TCB component 的修改按 §11.5 验证：base-owned validation 与 parity 是必需条件，head package 自身测试只能补充；结论由 base 判定链汇总，不改变 §11 的权威来源。
+
+**schema-specific monotonicity**：
+
+- 每种 policy/config schema 明确定义可比较字段及其"收紧、等价、削弱"关系；
+- 比较前先解析 JSON 并规范化，空白、换行、键顺序等纯格式差异视为等价；
+- 只有能够机械证明为收紧或等价的变化，才无需授权；
+- 已知削弱，以及无法证明为收紧或等价的未知语义变化，默认按潜在削弱处理，需要 §12 的 `weaken-policy` 授权；
+- schema 新增字段必须同时声明 monotonicity，否则变更失败关闭；
+- 已知削弱类型示例（非封闭）：删除规则或 detector、enforcement 从 blocking 降为 advisory、baseline 条目增加或内容改变、增加 exclude/ignore、放宽阈值/predicate/operator、缩小平台/触发/输入/证据要求、替换 authority/binding/hash、删除受保护路径、coverage 缩小、删除 required check。
+
+**零比较器起步**：
+
+- P4 初始不实现任何 schema 比较器，所有 policy/config 语义变化一律视为潜在削弱并要求授权；这是上述规则最保守的合法实例；
+- 之后按 P0.9 的实际修改频率逐个补充比较器；每个比较器覆盖该 schema 全部字段，并有收紧、等价、削弱和未知字段正反例；
+- r3 核对的频率参考：2026-06 以来修改最频繁的是 `profiles/ifx/rules`（13 次）与 `policy/g04/bindings`（8 次），G03、G05 和 baselines 各 1–2 次。
+
+### 12.5 保证范围
+
+在 §11.4 保证范围内：
+
+- 受保护路径的删除、移动和大小写重命名只能通过 base 预授权完成，授权只能消费一次；
+- policy/config 的潜在削弱必须显式授权、可追溯，未知语义变化失败关闭。
+- TCB component 的候选升级必须通过 base-owned validation 与 parity；无法机械证明为 tuple/行为等价的语义变化必须消费 `change-trusted-base` 授权。
+
+在 O1 暂缓的前提下，本节不能阻止"先合入授权、再合入变更"的两步操作；其作用是使受保护变更与削弱必须显式记录、可以追溯。
+
+## 13. 现有目录到目标职责的初步映射
+
+| 当前目录 | 初步目标 |
+| --- | --- |
+| `architecture/` | `docs/authored/architecture/`，目标提案移入 Analysis drafts |
+| `analysis/ifx/` | 按 P0.2 生命周期分类：经评审的长期输入与基线 → `stages/analysis/evidence/`（authority/history 角色，经 `maintenance/` Preview/Apply 更新）；经评审冻结的报告快照 → `stages/analysis/reports/`；运行时输出（例如 `Invoke-V3Architecture.ps1` 写出的 `architecture-review.json`、`ARCHITECTURE-REVIEW.md`）→ `artifacts/guards/<package>/analysis/` |
+| `ci/jobs.json` | 由 `stages/ci/required-checks.json` 取代 |
+| `contracts/` | `shared/contracts/` 或特定 Stage contracts |
+| `decisions/` | `shared/decisions/` |
+| `examples/` | `examples/` 或 `tests/fixtures/`，按是否面向用户区分 |
+| `generated/stages/` | 取消跟踪；生成到仓库外生成根 `<生成根>/<package>/gates/stage/` |
+| `generated/dotnet/LayerGuard/` | 删除（与 template 逐字节重复） |
+| `history/` | `stages/post/gates/historical-integrity/` |
+| `hooks/`、`skills/` | `integrations/agents/`；V3_ifx 中与 V3 相同的副本删除 |
+| `policy/` | `stages/post/policy/`，authority registry 在 `shared/authorities/` |
+| `profiles/ifx/` | 拆分到 `shared/`、`stages/pre/`、`stages/post/`、`stages/diff/` |
+| `profiles/ifx/views/` | 只读生成视图或并入 `docs/generated/`（P8 决定） |
+| `quality/` | `stages/post/gates/quality/` |
+| `rules/` | 机器规则进入 `stages/post/rules/`，authoring guide 进入 `docs/authored/` |
+| `scripts/` | 按 command/engine/generator/integration/maintenance 分类；V3_ifx 中与 V3 相同的副本删除 |
+| `specialized/` | `stages/post/gates/specialized/` |
+| `templates/dotnet/` | `generators/stage-gate/`（V3） |
+| `templates/ifx-layerguard/` | 通用 engine → V3 `stages/post/gates/architecture/dotnet/`；IFX binding/fixtures → V3_ifx `stages/post/gates/architecture/` |
+| `tests/` | 按 Stage 分类，公共 fixture/support 单列 |
+| `docs/Directory.Packages.props` | 门禁工程改为使用 V3 `build/` 基线后，按 P0.8 结论确认是否仍有消费者 |
+| `docs/guards/V3_backup/` | 删除（D2） |
+
+## 14. 实施阶段
+
+以下阶段全部处于未开始状态。PR 以"可独立验证和回退的迁移检查点"为单位拆分，不机械拆成大量微型 PR；每个 PR 都需要 formal Plan pair，涉及受保护变更时还需要 §12 的授权 PR，拆分策略必须计入该治理成本。
+
+阶段依赖：P5 可与 P1 并行执行，但必须在 P2.2 之前完成；其余阶段按编号顺序执行。
+
+### P0 — 基线冻结与完整分类（只读）
+
+- [ ] P0.1 记录 V3、V3_backup、V3_ifx、`mcp/LayerGuard/` 和 `.github/` 激活文件的 tracked 文件、hash、引用、生成关系和当前 Validate/Check/Test 结果。
+- [ ] P0.2 为每个文件标注 authority/implementation/generated/activation/evidence、Stage、owner 和保留/迁移/删除结论；`analysis/ifx/` 中每个文件明确归为"经评审长期输入/基线"、"经评审报告快照"或"运行时输出"。
+- [ ] P0.3 建立全部 PowerShell 及其他 executable 的调用图，区分公共入口和内部调用，标出每个 CI job 的第一个可执行入口，并冻结初始 TCB component 清单、base-owned validation suite 与 parity contract。
+- [ ] P0.4 冻结两个 .NET gate 的源码、fixture、项目、package、测试类别和执行路径；列出 LayerGuard 中全部 IFX-specific binding（大小写不敏感扫描）；登记"LayerGuard 不解析 `<Import>`/Condition/`Directory.Build.*`"为已知覆盖缺口。
+- [ ] P0.5 登记已知漂移为迁移前缺陷：Markdown views、architecture review、DEPLOYMENT、文件计数、无效 `SourceConfig`、未受校验的 `ci/jobs.json`，以及 `ci/jobs.json` 中 `v3-historical-integrity` 声明的 `history-change-schedule-manual` 触发与 workflow 实际每次运行不一致（待核实）。
+- [ ] P0.6 列出 V3 与 V3_ifx 的逐字节相同文件和已分叉文件，并把每处分叉归类为"通用加固"或"IFX-specific"。
+- [ ] P0.7 只读记录 13 个 required checks 与 ruleset `23459908` 的当前远端状态。
+- [ ] P0.8 盘点门禁工程当前继承的全部 MSBuild/NuGet/SDK 配置及其有效属性：根 `Directory.Build.props`、根 `Directory.Packages.props`、`docs/Directory.Packages.props`、NuGet config 和 `global.json`，作为 V3 `build/` 基线的输入。
+- [ ] P0.9 按 schema 统计 policy/config 文件的历史修改频率，作为比较器实现顺序的依据。
+- [ ] P0.10 核实并冻结 §11.3 每个 required check 的 trust contract 分类。
+- **门槛**：每个现有文件、命令和 Gate 都有唯一分类；全部 trusted-base component 均进入待 P1.5 materialize 的冻结清单；未分类项不得进入后续阶段。
+
+### P1 — 决策校验与已知漂移修复
+
+- [ ] P1.1 校验正式执行准备阶段已创建的 D1–D15 decision 记录与 P0 基线一致，补充 P0 中发现的新决定。
+- [ ] P1.2 修复 P0.5 登记的漂移。
+- [ ] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。
+- [ ] P1.4 为旧目录和旧命令定义兼容期、deprecation 输出和删除条件。
+- [ ] P1.5 在不移动现有目录的前提下，先建立 P2 所需的最小 `guard-system.json`、`stage.json`、`commands.json` 与 `trusted-components.json` schema/skeleton；字段 owner 遵循 §6。P8 负责最终补全、迁移与文档化，不得重新定义已冻结字段。
+- **门槛**：已知漂移清零并由 CI 阻止复发；required check 名称未变；P2 所需最小 manifest/TCB schema 已冻结且字段 owner 无冲突。
+
+### P2 — Trusted Base Guard Execution
+
+前置：P5 已完成。
+
+- [ ] P2.1 实现 §11.1：base worktree 位于 head 之外、只读且 clean，base SHA 验证；workflow 之后的第一个可执行入口及完整调用链来自 base；head 仅作为显式 target 参数。
+- [ ] P2.2 实现 §11.2 可信构建隔离：仓库外生成根、关闭目录向上搜索的全部开关、显式 V3 `build/` 基线、显式 `NuGet.config` 与 `global.json`；宿主配置叠加默认关闭。
+- [ ] P2.3 实现 locked restore、构建前 import allowlist 预检与构建后 binlog 复核：允许固定 SDK、V3 package、隔离生成根中的 NuGet 生成文件和与 lock 中 package ID/version/content hash 一致的 NuGet build assets；其他 import 失败关闭。
+- [ ] P2.4 在 `stage.json` 中落实 §11.3 trust contract，summary 报告每个 Gate 的保证范围。
+- [ ] P2.5 完成负向控制：head 修改公共 wrapper、dispatcher、module manifest、`commands.json`、受保护路径清单、engine 脚本、policy，以及 head 根 `Directory.Build.props`/`Directory.Packages.props` 注入。
+- [ ] P2.6 实现 §11.5 TCB manifest 与候选升级验证：base-owned tests/fixtures/contracts/负向控制、固定 corpus parity、独立候选进程和 `change-trusted-base` 预授权；head 测试只允许补充。
+- [ ] P2.7 负向控制：head 同时修改 engine 与自身测试、删除候选测试、改变 command/report contract、修改 package-local build baseline 或 lock file、从 head manifest 移除自身或其他组件、引用未登记可执行组件，均不能绕过 base-owned validation 或未经授权成为下一次 trusted base。
+- [ ] P2.8 记录 §11.6 首次引入例外，并在下一个 PR 上验证机制生效。
+- [ ] P2.9 在 `docs/authored/` 记录 §11.7 break-glass 外部治理流程和 §11.4 保证范围。
+- **门槛**：在 §11.4 保证范围内，head 修改入口调用链、engine、保护配置、policy 或 MSBuild/NuGet/SDK 继承文件均无法改变判定型结论；有效 import 断言通过；每个 required check 都有 trust contract；所有 TCB 候选变更都通过 base-owned validation/parity，非等价语义变化具备 base 预授权。
+
+### P3 — 通用 Diff 加固合回 V3
+
+- [ ] P3.0 本阶段对 Diff engine/template 的修改按 §11.5 作为 TCB 候选升级，使用 base-owned validation/parity；非等价语义变化消费 `change-trusted-base` 授权。
+- [ ] P3.1 将 merge-base 校验和 empty-diff fail-closed 合回 V3 模板。
+- [ ] P3.2 将受保护路径从通用 C# 模板参数化到 Diff 配置（V3_ifx `stages/diff/protection.json` 或等价旧路径位置），并由 trusted base 加载。
+- [ ] P3.3 以明确决策统一 `Test-V3.ps1` 的 NuGet 源配置分叉（V3 离线 `NuGet.Offline.Config` 与 V3_ifx nuget.org `NuGet.Test.Config`），与 V3 `build/NuGet.config` 保持一致。
+- [ ] P3.4 在 V3 补齐正反例和 Linux/Windows 测试。
+- [ ] P3.5 证明 V3 Diff 与 V3_ifx 当前 Diff 等价或更强；此阶段不删除 V3_ifx 副本（见 P7.5）。
+- **门槛**：V3 具备 V3_ifx 全部通用加固，通用模板中不含 IFX 路径。
+
+### P4 — 受保护变更授权与 policy/config 双轨验证
+
+- [ ] P4.1 完整 schema 化 §12.2 授权格式，包括 `move`、`delete`、`case-rename`、`weaken-policy`、`change-trusted-base` 与 tree-entry tuple；与 P2.6 已启用的 TCB 授权格式保持兼容。
+- [ ] P4.2 在 Diff 中实现 §12.3：Git plumbing 读取对象、已验证 merge-base 与 head SHA、`--raw -z --no-renames` changed set、gitlink 拒绝、`.gitattributes` 变更单独验证；授权从 trusted base 加载。
+- [ ] P4.3 实现 §12.4 双轨验证与 JSON 规范化；以零比较器状态上线，所有 policy/config 语义变化要求 `weaken-policy` 授权；schema 新增字段未声明 monotonicity 时失败关闭。
+- [ ] P4.4 零比较器状态稳定后，按 P0.9 频率为首批 schema 增量实现比较器，每个比较器有收紧、等价、削弱和未知字段正反例；该项可在后续阶段持续进行。
+- [ ] P4.5 负向控制：
+  - 仅 head 存在的授权；
+  - tuple 不匹配（mode、type、objectId 任一不同）；
+  - 额外删除、新增或重命名；
+  - 未删除已消费授权；
+  - 并发 PR 重复消费；
+  - 未声明的大小写重命名（Linux/Windows）；
+  - 受保护范围内的 gitlink；
+  - 未验证的 `.gitattributes` 变更；
+  - head 候选配置试图控制当前判定；
+  - 未授权的候选削弱；
+  - 未声明 monotonicity 的新 schema 字段；
+  - head 同时削弱 TCB 实现与自身测试；
+  - 未经 `change-trusted-base` 授权的非等价 TCB 语义变化；
+  - TCB tuple、base-owned validation suite 或 parity contract 与授权不匹配。
+- [ ] P4.6 verifier 断言 ruleset `strict` 保持启用。
+- [ ] P4.7 在临时仓库或 fixture 中完成一次完整两 PR 演练，覆盖 `move`、`weaken-policy` 与 `change-trusted-base`。
+- **门槛**：在 §11.4 保证范围内，受保护路径的删除、移动、大小写重命名、policy/config 潜在削弱和非等价 TCB 语义变化只能通过 base 预授权完成，授权只能消费一次，未知语义变化失败关闭。
+
+### P5 — V3 package-local 构建基线与输出迁出（可与 P1 并行，须在 P2.2 前完成）
+
+本阶段不涉及受保护路径删除或移动，不依赖 P2–P4。
+
+- [ ] P5.1 依据 P0.8 建立 V3 `build/` 基线（安全属性、包版本、`NuGet.config`、`global.json`、各可信门禁工程的 `packages.lock.json` 权威/模板），不弱于当前 IFX 根配置。
+- [ ] P5.2 V3 与 V3_ifx 门禁工程显式 import V3 `build/` 基线；V3 公共命令构建时关闭目录向上搜索并通过命令行指定输出位置。
+- [ ] P5.3 restore 使用 locked mode；验证直接/传递依赖与 content hash；构建前 allowlist 预检和构建后 binlog 复核允许 SDK、V3 package、隔离生成文件和 lock 中的 NuGet build assets，拒绝其他 import。
+- [ ] P5.4 `bin/obj` → `artifacts/build/<package>/`，报告与 runtime analysis 输出 → `artifacts/guards/<package>/<stage>/`。
+- [ ] P5.5 完成 §8.3 验证清单。
+- [ ] P5.6 隔离验收：将 V3 复制到不继承任何 IFX 父目录配置的临时目录，完成 locked restore、build、Generate、Check 和 Test。
+- [ ] P5.7 增加测试断言 clean 运行后 `docs/guards/**` 下无 `bin/obj`。
+- **门槛**：源码树无构建输出；V3 安全基线在全部门禁工程中生效；locked restore 与 import allowlist 通过；V3 隔离运行通过；在 IFX 仓库内构建无 NU1008。
+
+### P6 — LayerGuard 去重与 generic engine / IFX binding 分离
+
+- [ ] P6.1 通过 §12 授权删除 `generated/dotnet/LayerGuard`，改为直接构建运行唯一源码；验证 build/test、policy binding、strict scan、正反 fixture、CI 调用路径和恢复。
+- [ ] P6.2 参数化 runtime role 和 IFX project/type names，移入 IFX policy/fixtures；通用测试改用 synthetic fixture。
+- [ ] P6.3 分离通用检测引擎与 IFX policy binding。
+- [ ] P6.4 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。
+- [ ] P6.5 按 §11.3 写入 Architecture Conformance 混合型 trust contract，包括 MSBuild import/Condition 盲区与 Assembly 检查的交叉兜底；针对 import 注入的检测规则仅作为独立规则提案登记。
+- [ ] P6.6 证明 policy composite hash、report 字段、失败类别和 `v3-architecture` check 名称不变。
+- **门槛**：174 文件重复消除；V3 engine 大小写不敏感扫描无 IFX 标识；Architecture Conformance Gate 无需复制即可运行，trust contract 完整。
+
+### P7 — Stage Gate 命名、生成位置与 overlay 切换
+
+- [ ] P7.1 生成 `{ProjectId}.Guards.StageGate.Tests`，实现 identifier 转换与碰撞检查，内部划分 Self/Post/Diff。
+- [ ] P7.2 通过授权从 Git 移除 `generated/stages`；Generate 输出改为仓库外生成根 `<生成根>/<package>/gates/stage/`，按 §11.2 隔离构建。
+- [ ] P7.3 同步更新 workflow、`Invoke-IFXGuardrails -Mode Diff`、`.gitignore` 和 Check 逻辑；profile snapshot 不再以 tracked generated copy 存在。
+- [ ] P7.4 clean checkout 证明没有预生成源码也能完成 Generate/Check/Test/Diff。
+- [ ] P7.5 V3_ifx 切换为直接引用 V3 engine，通过授权删除与 V3 逐字节相同的 scripts、hooks 和 tests。
+- **门槛**：Stage Gate 可从 JSON 和模板确定性重建，且不在仓库目录内构建；V3_ifx 不含通用实现副本。
+
+### P8 — 最小 manifests、analysis 生命周期与首批只读聚合文档
+
+- [ ] P8.1 在 P1.5 最小 skeleton 上补全并迁移 `guard-system.json`、`stage.json`、`commands.json`、`trusted-components.json`，新增并 schema 化 `docs-map.json`；按 §6 字段 owner 表校验无重复字段，`evidence` 仅由 `commands.json` 拥有，不得改变 P2 已使用的稳定字段语义。
+- [ ] P8.2 建立 `commands/` 稳定入口；旧公共路径保留薄 wrapper。
+- [ ] P8.3 确认无消费者后移除 `Invoke-V3Docs` 的 `Import` 模式。
+- [ ] P8.4 实现 renderer/checker，生成 `OVERVIEW.md`、`COMMANDS.md`、`POST.md`、`CI.md`，含来源路径、角色和 composite hash。
+- [ ] P8.5 将人工背景迁入 `docs/authored/`，确保 Render 不覆盖。
+- [ ] P8.6 按 P0.2 结论落实 analysis 生命周期：运行时输出改写到 `artifacts/guards/<package>/analysis/`；经评审的长期输入与报告快照只通过 `maintenance/` Preview/Apply 更新。
+- [ ] P8.7 决定 `profiles/ifx/views/` 保留为只读生成视图或并入首批文档。
+- **门槛**：任意 authority 变化都会导致相关 Markdown Check 失败；无陈旧生成视图；Analysis 运行不再写入 `docs/guards`。
+
+### P9 — 轻量 workflow candidate 与激活验证
+
+- [ ] P9.1 建立 V3 通用 renderer 与 V3_ifx `workflow.template.yml`、`workflow.variables.json`、`required-checks.json`、`activation.json`。
+- [ ] P9.2 实现 §10.2 的 Generate/Check，candidate 写入 `artifacts/generated/`；Check 包含"PR 判定第一个可执行入口位于 base worktree"。
+- [ ] P9.3 实现 Preview、`Install -AcceptDeployment` 和人工复制后的 Verify；激活副本带 source path/hash 头。
+- [ ] P9.4 以 `required-checks.json` 取代 `ci/jobs.json`，远端只读 verifier 比较 ruleset；远端写入保持独立授权。
+- [ ] P9.5 CODEOWNERS managed block 纳入同一生命周期。
+- [ ] P9.6 候选与现有激活 workflow 并行比较，不改变任何 check 名称，不立即切换。
+- **门槛**：候选与激活副本之间不存在未解释差异；workflow 只调用公共命令；模板检查器有正反例。
+
+### P10 — 物理目录迁移、V3_backup 删除与兼容入口清理
+
+- [ ] P10.1 将 project map、risks、rules、toolchain、assembly manifest、protected paths、workflow 和 required checks 分配给明确 Stage/Shared authority；旧 profile 格式通过只读兼容加载器或一次性迁移器并行比较，不允许 silent fallback。
+- [ ] P10.2 按 §13 映射以检查点分组移动，每组使用授权 PR + 变更 PR。
+- [ ] P10.3 将内部实现迁入 `engine/`，生成逻辑迁入 `generators/`，hooks/skills/GitHub glue 迁入 `integrations/`，policy sync、history regeneration、analysis evidence 更新和迁移工具迁入 `maintenance/` 并补齐 Preview/Apply；按 Stage 重组测试，不改变覆盖。
+- [ ] P10.4 每组移动后更新 manifest、链接、脚本、tests 和 docs，并运行完整 Check。
+- [ ] P10.5 通过授权删除 V3_backup（D2）。
+- [ ] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。
+- [ ] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。
+- **门槛**：新结构可在 Linux/Windows clean checkout 重现，旧兼容入口只剩批准范围。
+
+### P11 — 并行验证、切换、清理与回退证明
+
+- [ ] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。
+- [ ] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。
+- [ ] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。
+- [ ] P11.4 通过真实 PR 验证候选 workflow 和 required checks 后，单独取得激活授权。
+- [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
+- [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
+- **门槛**：新结构是唯一生产路径，旧路径零运行时引用，全部 blocking 能力有可审查正反证据。
+
+## 15. 验收标准
+
+全部满足后才可标记完成：
+
+1. V3/V3_ifx 所需机器配置及 V3 最低构建与安全基线均在各自 package 内，外部仅有激活副本、构建输出和运行证据。
+2. Analysis、Pre、Post、Diff、CI 的命令、依赖、trust contract 和证据可由目录和 manifest 直接识别；`stage.json` 与 `commands.json` 无重复字段 owner，`evidence` 只有一个 owner。
+3. 通用 V3 engine/template 中不存在 IFX 路径、项目名、runtime role 或 policy 硬编码（大小写不敏感扫描）。
+4. 每个公共命令都有 command manifest 分类；workflow 不直接调用 internal/maintenance/test-support。
+5. Stage Gate 项目名由 project ID 参数化；Stage Gate 和 Architecture Conformance Gate 名称及职责清晰，不以 ArchUnitNET、LayerGuard 等实现细节作为稳定身份。
+6. `templates/ifx-layerguard` 与 `generated/dotnet/LayerGuard` 的 174 文件重复被消除；Architecture Conformance 通用 engine 位于 V3。
+7. `docs/guards` 下无 `bin/obj`、生成源码和运行报告；clean 后不会重新写入这些位置；Analysis 运行不写入 `docs/guards`。
+8. 所有生成 Markdown、workflow candidate 和 Stage Gate 都能确定性重建并 Check；生成 Markdown 全部只读。
+9. 激活 workflow 带来源/hash，可通过 Verify 证明与 candidate 一致。
+10. stage/policy rule 不只校验 ID；coverage binding 能表达 full/subset/advisory 和 authority/hash。
+11. 当前 views/review/deployment/jobs 声明漂移已清零，并由 CI 阻止复发。
+12. 在 §11.4 保证范围内，PR 门禁从第一个可执行入口起使用 trusted base 的调用链、engine、配置和授权；head 篡改负向控制全部失败关闭。
+13. 每个 required check 都有 trust contract，混合型与执行型门禁的保证范围与盲区已显式声明。
+14. 可信 restore 使用受版本控制的 lock file 与 locked mode；直接/传递依赖和 content hash 固定，restore 不改写 lock。
+15. 构建前 import 预检与构建后 binlog 复核通过：只加载固定 SDK、V3 package、隔离生成根中的 NuGet 生成文件，以及与 lock 中 package ID/version/content hash 一致的 NuGet build assets；不加载 head、宿主父目录或用户自定义 import。
+16. 全部 TCB component 进入 manifest；head 候选通过 base-owned validation 与固定 corpus parity；head 修改自身测试不能降低验证覆盖；非等价语义变化需要 `change-trusted-base` 预授权。
+17. 在 §11.4 保证范围内，受保护路径删除、移动和大小写重命名只能通过 base 预授权完成，授权只能消费一次，并以 tree-entry tuple 与 NUL 分隔 raw diff 验证。
+18. 在 §11.4 保证范围内，policy/config 潜在削弱必须显式授权；未知语义变化与未声明 monotonicity 的 schema 字段失败关闭。
+19. 13 个 required check 名称与迁移前完全一致。
+20. 位于隔离目录的 V3 源码包可独立完成 locked restore/build/Generate/Check/Test，并能从空白 fixture 仓库 Bootstrap 出可运行门禁。
+21. V3_ifx 不含 V3 通用实现副本；V3_backup 已删除。
+22. 新旧生产能力通过 Linux/Windows、正常/负向、clean checkout 和真实 PR 验证。
+23. 迁移有精确回退清单，不修改或丢失历史证据和领域权威。
+
+## 16. 风险与控制
+
+| 风险 | 控制 |
+| --- | --- |
+| 大规模移动导致引用和 CI 同时失效 | 先 manifest、后分组移动；保留薄 wrapper；每组独立 Check |
+| 现有受保护路径检查阻断迁移 | §12 base 预授权两 PR 协议；P4 完成前不执行任何受保护删除或移动 |
+| head 入口 wrapper 直接返回成功或篡改传给 engine 的参数 | §11.1 第一个可执行入口及完整调用链来自 base；wrapper/dispatcher/module/`commands.json` 负向控制 |
+| PR 通过修改 engine 或配置削弱自身门禁 | §11 Trusted Base Guard Execution；负向控制；保证范围按 §11.4 声明 |
+| 合法配置合并后成为弱化的 trusted base（两步削弱） | §12.4 双轨验证、schema-specific monotonicity、`weaken-policy` 授权；在 O1 暂缓下保证显式与可追溯，范围见 §12.5 |
+| head 同时修改 TCB 实现与自身测试，合并后削弱下一次 trusted base | §11.5 TCB manifest；base-owned validation 与固定 corpus parity；`change-trusted-base` 预授权；head tests 仅补充 |
+| 削弱类型枚举不完整形成静默绕过 | 未知语义变化失败关闭；零比较器起步；新字段必须声明 monotonicity |
+| head 通过 MSBuild/NuGet/SDK 向上搜索注入可信构建 | 仓库外生成根；关闭目录 import 开关；显式 `NuGet.config` 与 `global.json`；有效 import 断言 |
+| 生成工程继承根 Central Package Management 导致 NU1008 | V3 `build/` 显式包版本；关闭 `Directory.Packages.props` import；P5 验证 |
+| 传递依赖或 NuGet build assets 漂移改变可信 evaluator | `packages.lock.json`、locked mode、content hash 校验、构建前 import allowlist 与构建后 binlog 复核 |
+| 宿主配置 import 覆盖 V3 安全基线 | 宿主叠加默认关闭；仅允许显式 base 文件、白名单与有效属性检查 |
+| V3 依赖宿主父目录隐含配置，无法移植 | package-local `build/` 基线；P5.6 与 P11.3 隔离验收 |
+| 混合型/执行型门禁被误当成完全可信 | §11.3 逐 Gate trust contract；summary 报告保证范围 |
+| LayerGuard 看不到 MSBuild import 注入的引用 | Assembly 检查交叉兜底；盲区登记；注入检测规则作为独立提案 |
+| 授权验证遗漏 mode/type 变化、rename heuristic 误判或 gitlink | tree-entry tuple；`--raw -z --no-renames`；gitlink 直接失败；`case-rename` 独立 operation |
+| merge-base 端点在合并时失效 | ruleset `strict` 断言（P1.3、P4.6） |
+| 迁移授权被自我授权或重复消费 | 授权只从 base 加载；消费即删除；ruleset strict up-to-date |
+| workflow 定义或授权 PR 无需审批即可合入 | 已知残余风险；按 §18 O1 暂缓，本计划不做改变 |
+| break-glass 被滥用为常态 bypass | 仅限仓库外部治理；完整记录与事后复验 |
+| 直接切换 V3 canonical engine 造成安全回退 | P3 先合回 V3_ifx 通用加固并证明等价或更强，P7 才切换 |
+| Stage 化导致 shared 配置复制 | `shared/` 唯一权威；stage manifest 只引用不复制 |
+| 治理元数据过重并自身漂移 | 字段唯一 owner；首批四份文档；workflow 不做 DSL；比较器按频率增量实现 |
+| 聚合 Markdown 隐藏来源 | 强制来源路径/角色与 composite hash；CI 逐字节 Check |
+| workflow 模板产生有效 YAML 但无效门禁 | 校验 command/stage IDs、base 入口与 required checks，运行本地 dispatcher，真实 PR 负向控制 |
+| 人工复制后目标文件漂移 | candidate header、activation manifest、Verify 和 required-check verifier |
+| LayerGuard 去重或 binding 剥离降低覆盖 | 删除前执行 build/test、scan、fixture 和 policy binding 验证；composite hash 与报告字段不变 |
+| 新命名影响 required checks | §10.3 名称不变量；显示名称与内部路径解耦 |
+| 运行时 analysis 输出与评审证据混杂 | P0.2 生命周期分类；P8.6 运行时输出进入 `artifacts/` |
+| 生成目录仍累积构建垃圾 | 输出强制定向 `artifacts/` 或仓库外生成根；测试断言 docs 树无 bin/obj |
+
+## 17. 设计决策
+
+D1–D15 已根据 Review 共识关闭。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
+
+### D1 — V3_ifx 的分发边界
+
+- **决定**：仓库内使用 V3 canonical engine + V3_ifx overlay，V3_ifx 直接引用仓库内 V3，不维护通用实现的手工 fork。
+- 不要求 V3_ifx 单独复制即可运行；不提供 self-contained distribution，不引入 `core.lock.json`。
+- 新仓库使用 V3 源码包 Bootstrap 生成自己的门禁，由验收标准 20 证明。
+- 来源：用户答复；Review §1、§6.1。
+
+### D2 — V3_backup 的长期角色
+
+- **决定**：删除 V3_backup，仅保留 V3 源码包；历史恢复依赖 Git history/tag，不保留 release snapshot。
+- 删除在 P10.5 通过 §12 授权执行。
+- 来源：用户答复；Review §1、§6.1。
+
+### D3 — 是否跟踪生成的 Stage Gate 源码
+
+- **决定**：不跟踪。CI 和本地验证每次从模板、JSON 和 manifest 执行 Generate + Check。
+- 生成源码与构建输出位于仓库外的生成根（CI 为 `$RUNNER_TEMP/guard-gen`），不写入仓库 `artifacts/`，以避免继承宿主或 head 的 MSBuild 配置。
+- Git 只跟踪权威配置、模板、生成器和生成资产 manifest；代码 Review 通过候选 diff、生成报告和确定性检查完成。
+- 落实范围见 P7.2–P7.4。
+- 来源：用户答复；Review R7、§6.6、§11.4、§12.3。
+
+### D4 — 生成 Markdown 是否允许反向 Import
+
+- **决定**：全部生成 Markdown 只读，移除 Markdown → JSON Import，包括一对一配置页。
+- 生成文档列出来源路径、角色和一个 composite hash。
+- 来源：用户答复；Review §1、§6.1、§6.7。
+
+### D5 — 激活文件的安装方式
+
+- **决定**：同时支持人工复制 + Verify，以及工具化 `Install -AcceptDeployment`。
+- Generate/Check/Preview 不得写目标位置；Install 必须显式确认并记录 source/target/hash。人工复制后必须运行同一个 Verify。
+- 来源：用户答复。
+
+### D6 — 稳定命名语言
+
+- **决定**：目录、JSON ID、command ID 和 project 名使用英文；生成/人工文档可以使用中文。
+- 稳定能力名称采用 `StageGate` 和 `ArchitectureConformance`；不把 ArchUnitNET、LayerGuard 等工具品牌写入长期稳定身份。迁移文档和 provenance 仍必须记录实现来源。
+- 通用 V3 项目名不含具体项目前缀；项目前缀只能由 profile project ID 派生。
+- 来源：用户答复；Review R6。
+
+### D7 — 迁移单位与顺序
+
+- **决定**：先完成基线、决策、构建基线、信任模型和授权，再按"V3 通用能力 → V3_ifx overlay"迁移，顺序与依赖见 §14。
+- 禁止分别为 V3 与 V3_ifx 设计两套结构；IFX 需求先判断能否作为通用能力进入 V3，不能通用化的部分才进入 overlay。
+- PR 以可独立验证和回退的检查点为单位。
+- 来源：用户答复；Review §6.8。
+
+### D8 — 历史完整性的 Stage 归属
+
+- **决定**：目录上属于 `stages/post/gates/historical-integrity`，因为它产生 blocking validation；manifest 的 `executionClass` 标记为 `governance-audit`，允许 schedule/manual 与受影响路径触发策略。
+- 触发策略调整必须满足 §10.3：`v3-historical-integrity` 作为 required check 不得在 PR 上永久 pending。
+- 来源：用户答复。
+
+### D9 — Trusted Base Guard Execution
+
+- **决定**：PR 门禁从 workflow 之后的第一个可执行入口起，公共命令、orchestrator、dispatcher、module、`commands.json`、engine、contracts、protection config、policy 和授权均取自只读 base worktree；head 仅作为显式 target。每个 Gate 以 trust contract 声明实际保证范围，Architecture Conformance 按混合型描述。实现约束、首次引入例外、break-glass 与保证范围见 §11。
+- 来源：Review R2、§6.3、§7.4、§8.3、§9.2、§10.2、§11.2、§12.2、§13.3。
+
+### D10 — 受保护变更授权
+
+- **决定**：采用 base 预授权、消费即删除的两 PR 协议，operation 包括 `move`、`delete`、`case-rename`、`weaken-policy`、`change-trusted-base`；授权与验证使用 tree-entry tuple、已验证 merge-base 与 NUL 分隔 raw diff；受保护范围内 gitlink 直接失败。保证范围限定在 §11.4 内，见 §12。
+- 来源：Review R1、§6.2、§7.3、§8.2、§10.5、§10.6、§11.5、§12.4、§13.5。
+
+### D11 — 轻量 workflow 模板
+
+- **决定**：workflow 在 V3 内生成、验证后再复制，但采用 canonical YAML 模板 + 少量稳定变量，不引入 JSON DSL；`required-checks.json` 保持独立机器权威。见 §10。
+- 来源：Review §3、§6.7、§7.2。
+
+### D12 — Architecture Conformance Gate 所有权
+
+- **决定**：LayerGuard 派生的通用检测引擎在剥离 IFX binding 后进入 V3；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。§20 的后续替换只替换 V3 中的内部实现，不再移动 Gate 位置或改变稳定身份。
+- 来源：Review R4、§6.5、§7.1。
+
+### D13 — Policy/config 双轨验证与单调性
+
+- **决定**：base policy/config 对当前 PR 唯一权威判定；head 候选只接受验证、合并后生效。采用 schema-specific monotonicity，只有可机械证明为收紧或等价的变化无需授权；已知削弱与未知语义变化需要 `weaken-policy` 授权；schema 新增字段必须声明 monotonicity。以零比较器起步，按修改频率增量实现比较器。见 §12.4。
+- 来源：Review §10.3、§11.3、§12.1、§13.2。
+
+### D14 — V3 package-local 构建基线与可信构建隔离
+
+- **决定**：V3 `build/` 携带最低完整的构建、包、SDK/NuGet 与安全基线，包括各可信门禁工程的 lock file；restore 使用 locked mode 并校验直接/传递依赖和 content hash。门禁工程显式 import，不依赖宿主父目录配置；可信构建位于仓库外生成根，关闭目录向上搜索，通过构建前 allowlist 与构建后 binlog 验证有效 imports；合法 imports 包括固定 SDK、V3 package、隔离 NuGet 生成文件和与 lock 一致的 NuGet build assets。宿主配置叠加默认关闭，只允许显式 base 文件并经白名单与有效属性检查；不采用嵌套 `Directory.Build.props` import 根配置的方案。见 §8.3、§11.2。
+- 来源：Review §7.5、§8.4、§10.4、§11.4、§12.3、§13.4。
+
+### D15 — Trusted Base Component 候选升级
+
+- **决定**：所有下一次执行会进入 trusted base 的入口、orchestrator、engine、contracts、base-owned tests/fixtures、生成器、构建基线、lock files 与 activation contract 均进入 TCB manifest。head 候选不能控制当前 PR 判定，必须通过 base-owned validation 与固定 corpus parity；head tests 只允许补充。除 tuple/行为可机械证明等价的变化外，TCB 语义变化必须消费 `change-trusted-base` 预授权，合并后才成为下一次 trusted base。见 §11.5、§12。
+- 来源：最终审查；Review §14。
+
+## 18. 暂缓项
+
+以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。
+
+### O1 — Workflow 定义与 git 端审批设置（暂缓，不做决定）
+
+**事实记录**（r2 只读核实 ruleset `23459908`，作用于默认分支与 `codex/guards-principles-plan`）：
+
+- GitHub `pull_request` 事件使用 PR merge ref 中的 workflow 定义。PR 可以修改 `.github/workflows/v3-ifx-guardrails.yml`，在保持 job 名称不变的前提下跳过 §11.1 的 base 执行。
+- `.github/CODEOWNERS` 将 `/.github/workflows/` 与 `/docs/guards/` 指派给 code owner，但 ruleset 为 `require_code_owner_review = false`、`required_approving_review_count = 0`，这些修改不需要审批即可合入。
+- 因此 §11 不覆盖 workflow 定义本身；§12 的 base 预授权能防止同一 PR 自我授权，但不能防止"先合入授权、再合入变更"的两步操作。
+
+**当前处理**：
+
+- 不修改 ruleset，不收紧 git 端审查标准，不为此增加实施阶段或验收标准。
+- §11.4 与 §12.5 明确声明信任边界的实际保证范围，避免对外宣称超出范围的保护。
+- 该事实记录仅供未来参考；不要求在 Review 中选择任何候选方案。
+
+## 19. 正式执行前置条件
+
+在用户明确要求开始执行前，必须完成：
+
+1. 本 r4 修订经针对性核对，状态从 `DRAFT` 改为 `APPROVED`。
+2. 正式执行准备阶段首次创建 D1–D15 对应的 decision JSON/ADR，并纳入正式 Plan 的 `decisionPaths`；P1.1 只负责校验与补充。
+3. 基于最终路径建立匹配的 `YYYYMMDD-*.md` 与 `YYYYMMDD-*.plan.json` 正式 Plan pair，并给出 PR 检查点划分。
+4. 正式 sidecar 列出精确 planned paths、area IDs、rule IDs、commands 和 decisions。
+5. 运行 Pre 并确认所有 risk、area、rule 和 command 关联完整。
+6. 记录 clean baseline、恢复 commit 和测试证据位置。
+7. 再次获得明确的实施授权。
+
+在上述条件满足前，本计划只允许继续评审和补充，不得据此执行目录移动、生成物切换、CI 激活或删除。
+
+## 20. 本计划完成后的下一步改进：V3 原生替换 LayerGuard 派生实现
+
+本节只登记后续方向，不属于 P0–P11 的实施范围。本计划完成并稳定运行后，再单独讨论、评审并建立正式计划。
+
+### 20.1 目标
+
+在 P6 完成后，Architecture Conformance 通用 engine 已位于 V3。后续目标是替换其 LayerGuard 派生的内部实现，由 V3 原生且可移植的检测器覆盖当前完整架构能力，同时保持稳定的 `ArchitectureConformance` 名称、位置、命令接口、输入 policy、summary schema、trust contract 和 CI required-check 身份。
+
+### 20.2 必须保留的能力边界
+
+后续替换至少需要逐项覆盖并证明：
+
+- layer 与 ownership boundary；
+- direct/transitive project reference；
+- package、import、source 和 declaration placement；
+- interface implementation、payload 和 compiled dependency；
+- G03/G04/G05 policy binding 与 composite hash；
+- strict baseline、zero-match、missing-input 和 stale-input 失败关闭；
+- 当前正例、负例、fixture 和报告字段。
+
+### 20.3 后续实施前提
+
+1. 先建立 LayerGuard 派生实现的完整 capability matrix 和 provenance 清单，包括 P0.4 登记的已知覆盖缺口。
+2. 为每项能力定义 V3 原生 detector contract、正例、故意违规负例和 coverage 边界。
+3. 新旧实现并行运行，结论、失败类别和证据逐项对照。
+4. 只有新实现覆盖相同或更强、跨平台稳定并通过真实 PR 负向控制后，才允许切换生产入口。
+5. policy/baseline/report 迁移必须有独立 decision、回退清单和恢复演练。
+6. 删除 LayerGuard 派生源码必须是后续计划的最后阶段，并通过 §12 授权执行。
+
+### 20.4 与本计划的关系
+
+本计划通过稳定 `ArchitectureConformance` 能力名称、位置、JSON 输入、报告契约、trust contract 和 CI 接口，为未来替换内部实现建立隔离层。本次完成去重、IFX binding 剥离和所有权迁移，是为了清晰化当前事实和降低维护成本，不是宣告最终实现已经完成。

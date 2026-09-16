@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d13-policy-config-monotonicity",
+  "owner": "xiaolong-feng",
+  "summary": "Base policy and config alone judge the current PR; head candidates are validated for schema, references, coverage, parity and schema-specific monotonicity, and only mechanically proven tightening or equivalent changes proceed without a weaken-policy authorization.",
+  "affectedPaths": [
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "A merged weaker policy would become the next trusted base. A fixed list of weakening types is incomplete, so unknown semantic changes fail closed and new schema fields must declare monotonicity. Starting with zero comparators is the most conservative valid instance; comparators are added by change frequency, beginning with profiles/ifx/rules and policy/g04/bindings. Plan 06 sections 12.4 and 17 D13; review sections 10.3, 11.3, 12.1 and 13.2."
+}

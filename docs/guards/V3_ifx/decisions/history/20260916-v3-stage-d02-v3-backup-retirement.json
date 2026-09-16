@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d02-v3-backup-retirement",
+  "owner": "xiaolong-feng",
+  "summary": "Delete docs/guards/V3_backup and keep only the V3 source package; recovery relies on Git history and tags, and no release snapshot is retained.",
+  "affectedPaths": [
+    "docs/guards/V3_backup/**"
+  ],
+  "rationale": "User answer to Plan 06 D2. V3_backup is byte-identical to V3 (41 tracked files) and adds no recovery capability beyond Git. Deletion is a protected-path change, so it executes in P10.5 through a base pre-authorized delete under section 12. Plan 06 section 17 D2; review sections 1 and 6.1."
+}

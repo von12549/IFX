@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d01-v3-ifx-distribution-boundary",
+  "owner": "xiaolong-feng",
+  "summary": "V3 is the single canonical portable guard engine; V3_ifx is an in-repository IFX overlay that references V3 directly, without a self-contained distribution, core.lock.json, or a manual fork of generic implementation.",
+  "affectedPaths": [
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "User answer to Plan 06 D1: V3_ifx does not need to run when copied alone, and new repositories bootstrap their own guards from the V3 source package. The existing copy already diverged (GuardTests.cs.in, Test-V3.ps1), so a second active fork is a drift source rather than a portability feature. Evidence is acceptance criterion 20 (isolated V3 bootstrap of a blank fixture repository). Plan 06 section 17 D1; review sections 1 and 6.1."
+}

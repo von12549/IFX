@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-oriented-package-refactor",
+  "title": "V3 stage-oriented guard package refactor — CP00 decisions and formal plan",
+  "goal": "Bind the approved Plan 06 to the V3 formal Plan contract by recording decisions D1-D15, defining the PR checkpoint breakdown for P0-P11, and landing the approved plan and review without changing any guard implementation, workflow, ruleset or required check.",
+  "acceptanceCriteria": [
+    "Fifteen decision records for Plan 06 D1-D15 exist under docs/guards/V3_ifx/decisions/history, validate against decision.schema.json, and match Plan 06 section 17.",
+    "This plan pair passes V3 Pre: every planned path is mapped, all affected areas and focused validation commands are declared, and every risk-triggered path is covered by a decision.",
+    "The Markdown companion defines checkpoints CP00-CP12 with phase mapping, dependencies, authorization PR needs and per-checkpoint plan pair naming, and tracks Plan 06 section 19 prerequisites.",
+    "The branch diff against its integration base contains only planned paths, and CP00 changes no guard script, template, profile, policy, workflow, ruleset, required check or directory layout."
+  ],
+  "plannedPaths": [
+    ".claude/hooks/forward-hook.sh",
+    ".claude/hooks/session-start-health-check.sh",
+    ".claude/settings.json",
+    ".claude/settings.local.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.review.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.plan.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage",
+    "RepositoryDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json"
+  ]
+}

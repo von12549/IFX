@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d12-architecture-conformance-ownership",
+  "owner": "xiaolong-feng",
+  "summary": "The LayerGuard-derived generic detection engine moves into V3 as ArchitectureConformance after IFX runtime roles, project names and binding fixtures are separated; V3_ifx keeps only policy, baseline, binding and IFX fixtures.",
+  "affectedPaths": [
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "GatePolicyBindings.cs hardcodes ifx-api, ifx-worker and ifx-all, so the engine is not yet generic, but new repositories bootstrapped from V3 need an architecture gate. The later native replacement in section 20 replaces internals only and keeps location and identity. Plan 06 sections 8.2 and 17 D12; review R4 and sections 6.5 and 7.1."
+}

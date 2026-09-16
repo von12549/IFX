@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d03-untracked-stage-gate-source",
+  "owner": "xiaolong-feng",
+  "summary": "Generated Stage Gate source is not tracked in Git; CI and local runs regenerate it from templates, JSON and manifests into a generation root outside the repository checkout.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    ".gitignore",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "User answer to Plan 06 D3. Tracked generated/stages copies duplicate profile JSON and invite drift. Generating inside the repository would inherit root Central Package Management (NU1008) and expose builds to head-controlled MSBuild discovery, so the generation root is outside both head and base worktrees. Implemented in P7.2-P7.4. Plan 06 section 17 D3; review R7 and sections 6.6, 11.4 and 12.3."
+}
