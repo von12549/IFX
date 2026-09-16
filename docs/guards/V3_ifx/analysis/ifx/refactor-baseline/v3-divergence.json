@@ -1,0 +1,476 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "generatedBy": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+  "summary": {
+    "v3Files": 41,
+    "identical": 23,
+    "diverged": 12,
+    "v3Only": 6,
+    "ifxOnly": 502
+  },
+  "files": [
+    {
+      "path": "DEPLOYMENT.md",
+      "status": "diverged",
+      "v3ObjectId": "053808d78a72676c6c96aa1ef20ad786792ad736",
+      "ifxObjectId": "b030051e4cb5946ec779367f631c1007ad631abc",
+      "numstat": {
+        "added": 48,
+        "deleted": 93
+      },
+      "category": "ifx-specific",
+      "detail": "IFX deployment and CI evidence.",
+      "action": "P8 docs/authored overlay"
+    },
+    {
+      "path": "README.md",
+      "status": "diverged",
+      "v3ObjectId": "9326a0b5ee395b84db70797896a24c5bcceba86c",
+      "ifxObjectId": "75aa03a3364806524c016f727fcce57d2bb7e5f0",
+      "numstat": {
+        "added": 34,
+        "deleted": 27
+      },
+      "category": "ifx-specific",
+      "detail": "IFX package guide.",
+      "action": "P8 docs/authored overlay"
+    },
+    {
+      "path": "architecture/ARCHITECTURE.md",
+      "status": "diverged",
+      "v3ObjectId": "2f0e61ff9fb5ad36e6cde05a9d391eac22734e20",
+      "ifxObjectId": "e691a2e81373cd8286832b51ef67243e2e8c3b0d",
+      "numstat": {
+        "added": 4,
+        "deleted": 6
+      },
+      "category": "ifx-specific",
+      "detail": "Describes the IFX fork configuration instead of Init/Analyze defaults.",
+      "action": "P10 docs/authored overlay"
+    },
+    {
+      "path": "architecture/ARCHUNITNET.md",
+      "status": "identical",
+      "v3ObjectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b",
+      "ifxObjectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "architecture/TECHNICAL.md",
+      "status": "diverged",
+      "v3ObjectId": "e1d8363dafe1efa5512442c8d070a6002c9b3ca2",
+      "ifxObjectId": "4d0d8052b609608d82812a3676bb5ecf1ca7a655",
+      "numstat": {
+        "added": 6,
+        "deleted": 8
+      },
+      "category": "ifx-specific",
+      "detail": "Describes checked-in IFX outputs and the Invoke-IFX LayerGuard generator.",
+      "action": "P10 docs/authored overlay"
+    },
+    {
+      "path": "contracts/decision.schema.json",
+      "status": "identical",
+      "v3ObjectId": "ac78b3c05543a79db363f8d4dd19e94e917d121d",
+      "ifxObjectId": "ac78b3c05543a79db363f8d4dd19e94e917d121d",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "contracts/plan.schema.json",
+      "status": "identical",
+      "v3ObjectId": "dc2aa8ce49cf2a5786132bb4a6506234173bc75d",
+      "ifxObjectId": "dc2aa8ce49cf2a5786132bb4a6506234173bc75d",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "contracts/pre-result.schema.json",
+      "status": "identical",
+      "v3ObjectId": "f3f922f6038c23fe7601aaace2680c481bf4abf1",
+      "ifxObjectId": "f3f922f6038c23fe7601aaace2680c481bf4abf1",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "contracts/profile.schema.json",
+      "status": "identical",
+      "v3ObjectId": "b9fc5ddabd71019de91b96e47619662bfb996b00",
+      "ifxObjectId": "b9fc5ddabd71019de91b96e47619662bfb996b00",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "contracts/project-map.schema.json",
+      "status": "identical",
+      "v3ObjectId": "2191effc81970473dcc766c6b29a36036d216ad8",
+      "ifxObjectId": "2191effc81970473dcc766c6b29a36036d216ad8",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "contracts/rule.schema.json",
+      "status": "identical",
+      "v3ObjectId": "3f30e4b44a2e3beb880c36046227ffdba7f65e9d",
+      "ifxObjectId": "3f30e4b44a2e3beb880c36046227ffdba7f65e9d",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "contracts/tech-stack.schema.json",
+      "status": "identical",
+      "v3ObjectId": "4c1736fa2fb66fbb946d036ceec6489bed25665b",
+      "ifxObjectId": "4c1736fa2fb66fbb946d036ceec6489bed25665b",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "examples/minimal/profile.json",
+      "status": "identical",
+      "v3ObjectId": "944b0db69d78075efaa52ba65fa339e97a4602ae",
+      "ifxObjectId": "944b0db69d78075efaa52ba65fa339e97a4602ae",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "examples/minimal/project-map.json",
+      "status": "identical",
+      "v3ObjectId": "253b8dfebbd8ba748bca44e7c3305bc9fe2f7ad1",
+      "ifxObjectId": "253b8dfebbd8ba748bca44e7c3305bc9fe2f7ad1",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "examples/minimal/rules/ARCH.SAMPLE.json",
+      "status": "identical",
+      "v3ObjectId": "ddd5184f3ae287167d43f2e683565b06d997d781",
+      "ifxObjectId": "ddd5184f3ae287167d43f2e683565b06d997d781",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "examples/minimal/tech-stack.json",
+      "status": "identical",
+      "v3ObjectId": "fe2ce8c242b6c303781b216ef54a66bbe0ef69f0",
+      "ifxObjectId": "fe2ce8c242b6c303781b216ef54a66bbe0ef69f0",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "examples/minimal/views/COVERAGE.md",
+      "status": "v3-only",
+      "v3ObjectId": "46bdc113eb2e753b5fa3b5066393ea4560aa4ed9",
+      "ifxObjectId": null,
+      "numstat": null,
+      "category": "generic",
+      "detail": "Present only in V3.",
+      "action": "keep in V3"
+    },
+    {
+      "path": "examples/minimal/views/PROFILE.md",
+      "status": "v3-only",
+      "v3ObjectId": "aa96bb860147e0ee5b461d9c0a75df26a2e33daa",
+      "ifxObjectId": null,
+      "numstat": null,
+      "category": "generic",
+      "detail": "Present only in V3.",
+      "action": "keep in V3"
+    },
+    {
+      "path": "examples/minimal/views/PROJECT_MAP.md",
+      "status": "v3-only",
+      "v3ObjectId": "ebc574fa83474ffe01eae641bf6c01d91c91605d",
+      "ifxObjectId": null,
+      "numstat": null,
+      "category": "generic",
+      "detail": "Present only in V3.",
+      "action": "keep in V3"
+    },
+    {
+      "path": "examples/minimal/views/README.md",
+      "status": "v3-only",
+      "v3ObjectId": "7ba570b542d04ae82190046c8c6a15298f2bf253",
+      "ifxObjectId": null,
+      "numstat": null,
+      "category": "generic",
+      "detail": "Present only in V3.",
+      "action": "keep in V3"
+    },
+    {
+      "path": "examples/minimal/views/TECH_STACK.md",
+      "status": "v3-only",
+      "v3ObjectId": "c62d2f4c724a7bfc7b7bfc3327540ae5b83d510f",
+      "ifxObjectId": null,
+      "numstat": null,
+      "category": "generic",
+      "detail": "Present only in V3.",
+      "action": "keep in V3"
+    },
+    {
+      "path": "examples/minimal/views/rules/ARCH.SAMPLE.md",
+      "status": "v3-only",
+      "v3ObjectId": "0ff5e0698beb039af6a33d081274280eb01263c2",
+      "ifxObjectId": null,
+      "numstat": null,
+      "category": "generic",
+      "detail": "Present only in V3.",
+      "action": "keep in V3"
+    },
+    {
+      "path": "generated/README.md",
+      "status": "diverged",
+      "v3ObjectId": "0d63947b9cacffc61a32690c4ec744f9cb5d4022",
+      "ifxObjectId": "e73216a8ba7918ee5e351e1a18fcf22c2c644ccf",
+      "numstat": {
+        "added": 4,
+        "deleted": 2
+      },
+      "category": "ifx-specific",
+      "detail": "Describes checked-in IFX generated projects.",
+      "action": "P7 replace (generated outputs leave the package)"
+    },
+    {
+      "path": "hooks/Invoke-PlanHook.ps1",
+      "status": "identical",
+      "v3ObjectId": "bf7066b19316ba563d73d6274f6eb078fa0514d2",
+      "ifxObjectId": "bf7066b19316ba563d73d6274f6eb078fa0514d2",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "hooks/README.md",
+      "status": "identical",
+      "v3ObjectId": "238117a5f82645573bbeaa99ad24b003a883e8b9",
+      "ifxObjectId": "238117a5f82645573bbeaa99ad24b003a883e8b9",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "rules/README.md",
+      "status": "diverged",
+      "v3ObjectId": "f5c881dd6d256db2218fdd6bbadf5b44c2b087fd",
+      "ifxObjectId": "23faa9ea90da5aef2b398464d0abbc9110b6b601",
+      "numstat": {
+        "added": 23,
+        "deleted": 71
+      },
+      "category": "ifx-specific",
+      "detail": "IFX rule authoring guide including policy/layerguard.json ownership.",
+      "action": "P10 docs/authored overlay"
+    },
+    {
+      "path": "scripts/Invoke-V3.ps1",
+      "status": "identical",
+      "v3ObjectId": "8b881b4a89dc5b706bd5c3a91556c286d1a54862",
+      "ifxObjectId": "8b881b4a89dc5b706bd5c3a91556c286d1a54862",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "scripts/Invoke-V3Architecture.ps1",
+      "status": "identical",
+      "v3ObjectId": "b2c428d5d8ebdfc08304acf6b0a9e69aed9ca368",
+      "ifxObjectId": "b2c428d5d8ebdfc08304acf6b0a9e69aed9ca368",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "scripts/Invoke-V3Docs.ps1",
+      "status": "identical",
+      "v3ObjectId": "609ce96694a643d4e4948f91cbc481b369bd082f",
+      "ifxObjectId": "609ce96694a643d4e4948f91cbc481b369bd082f",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "scripts/Invoke-V3Setup.ps1",
+      "status": "identical",
+      "v3ObjectId": "726b3207f18d2dd7c025192df9250419b1346b50",
+      "ifxObjectId": "726b3207f18d2dd7c025192df9250419b1346b50",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "skills/guard-bootstrap/SKILL.md",
+      "status": "diverged",
+      "v3ObjectId": "ba715d41189e621a852a8ffc6b4956a2e006e961",
+      "ifxObjectId": "e8068bf2dbd38754736dfa89c5f45d8045e7c439",
+      "numstat": {
+        "added": 2,
+        "deleted": 2
+      },
+      "category": "ifx-specific",
+      "detail": "Points at profiles/ifx and V3_ifx documents.",
+      "action": "P10 integrations/agents overlay"
+    },
+    {
+      "path": "skills/guard-plan/SKILL.md",
+      "status": "diverged",
+      "v3ObjectId": "846a7e4f97703ec089e94f22b67a2bb82f25aa38",
+      "ifxObjectId": "6a99648331d67d400a0af95cb55b2d6f2d56327b",
+      "numstat": {
+        "added": 1,
+        "deleted": 1
+      },
+      "category": "ifx-specific",
+      "detail": "Points at profiles/ifx and policy/layerguard.json.",
+      "action": "P10 integrations/agents overlay"
+    },
+    {
+      "path": "templates/dotnet/AssemblyGuardTests.cs.in",
+      "status": "identical",
+      "v3ObjectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa",
+      "ifxObjectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "templates/dotnet/GuardTests.cs.in",
+      "status": "diverged",
+      "v3ObjectId": "94ebe6c985445cab87db4a23ceecb2d3f2abc0a7",
+      "ifxObjectId": "dcfeb23dd0ad009243a346a8c6c04200cbebd8a3",
+      "numstat": {
+        "added": 24,
+        "deleted": 2
+      },
+      "category": "generic-hardening+ifx-specific",
+      "detail": "Diff merge-base verification, protected deletion/rename detection and empty changed-set failure are generic hardening; the hardcoded IsProtectedGuardPath list is IFX-specific.",
+      "action": "P3.1-P3.2 merge hardening into V3 and parameterize protected paths"
+    },
+    {
+      "path": "templates/dotnet/GuardV3.Tests.csproj.in",
+      "status": "identical",
+      "v3ObjectId": "0e529d14b37c302c62e996d207b448c03c079e9c",
+      "ifxObjectId": "0e529d14b37c302c62e996d207b448c03c079e9c",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "templates/plan/20260914-example.md",
+      "status": "identical",
+      "v3ObjectId": "cdf1ce9b71b756d96ad00e24baf98550c7fd9e94",
+      "ifxObjectId": "cdf1ce9b71b756d96ad00e24baf98550c7fd9e94",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "templates/plan/20260914-example.plan.json",
+      "status": "diverged",
+      "v3ObjectId": "dc57585da3f55caded3ee44e1292207f6a0a2613",
+      "ifxObjectId": "9b41c96f785a7dc833a7423710e542b7164582c0",
+      "numstat": {
+        "added": 6,
+        "deleted": 6
+      },
+      "category": "ifx-specific",
+      "detail": "Example sidecar uses IFX paths, areas, rules and commands instead of the minimal sample profile.",
+      "action": "P10 examples/plan overlay"
+    },
+    {
+      "path": "templates/plan/README.md",
+      "status": "diverged",
+      "v3ObjectId": "a4f54847a4cab171fa6a16951af9956acf976224",
+      "ifxObjectId": "344b3f1832898fc9a08faa24247ce87b4247bfc4",
+      "numstat": {
+        "added": 1,
+        "deleted": 1
+      },
+      "category": "ifx-specific",
+      "detail": "References IFX tech-stack command IDs.",
+      "action": "P10 examples/plan overlay"
+    },
+    {
+      "path": "tests/Test-V3.ps1",
+      "status": "diverged",
+      "v3ObjectId": "067e743a299b01985e501a8d79dad5edc8145ee6",
+      "ifxObjectId": "a709e455b4e3558b59a5e13ac1f5bc18760f8889",
+      "numstat": {
+        "added": 9,
+        "deleted": 7
+      },
+      "category": "generic-hardening+ifx-specific",
+      "detail": "Exit-code normalization ($global:LASTEXITCODE = 0) is generic; copying docs/Directory.Packages.props and switching NuGet.Offline.Config to nuget.org NuGet.Test.Config are IFX host/environment choices.",
+      "action": "P3.3 decide the NuGet source and align with V3 build/NuGet.config; P5 removes the host props dependency"
+    },
+    {
+      "path": "tests/Test-V3ArchUnit.ps1",
+      "status": "identical",
+      "v3ObjectId": "5df8bd198bebf4818703f5cd83f3df1253179175",
+      "ifxObjectId": "5df8bd198bebf4818703f5cd83f3df1253179175",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    },
+    {
+      "path": "tests/Test-V3Tools.ps1",
+      "status": "identical",
+      "v3ObjectId": "265902e62474309f440ea50ef1bcd57bfa7af1d0",
+      "ifxObjectId": "265902e62474309f440ea50ef1bcd57bfa7af1d0",
+      "numstat": null,
+      "category": "generic",
+      "detail": "Byte-identical copy.",
+      "action": "P7.5 delete V3_ifx copy"
+    }
+  ],
+  "ifxOnlyByTopLevel": {
+    "analysis/": 26,
+    "architecture/": 2,
+    "ci/": 1,
+    "contracts/": 1,
+    "decisions/": 3,
+    "generated/": 191,
+    "history/": 3,
+    "policy/": 16,
+    "profiles/": 31,
+    "quality/": 3,
+    "scripts/": 3,
+    "specialized/": 40,
+    "templates/": 174,
+    "tests/": 8
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "plan": "02-reliable-integration-events",
+  "slice": "P02-C1",
+  "result": "passed",
+  "checks": {
+    "rawCarrierAndReceiverExist": true,
+    "currentSenderUsesRawBoundary": true,
+    "receiverRegistered": true,
+    "contextValidatedBeforeHandler": true,
+    "invalidTraceRestartsAndSanitizes": true,
+    "boundedTraceTelemetry": true,
+    "testsCoverInvalidTraceParentAndState": true,
+    "testsCoverContextBeforeHandler": true,
+    "testsCoverValidParentAndCurrentTransport": true,
+    "checklistClosed": true,
+    "evidenceRecorded": true,
+    "readinessAdvancedOnlyOneSlice": true
+  },
+  "failedChecks": [],
+  "nextSlice": "P02-C2 / E5.7 target data controls"
+}

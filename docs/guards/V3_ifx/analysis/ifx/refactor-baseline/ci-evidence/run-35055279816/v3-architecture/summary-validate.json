@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "mode": "validate",
+  "status": "pass",
+  "startedAt": "2026-09-16T04:21:52.5436732+00:00",
+  "completedAt": "2026-09-16T04:21:55.4970521+00:00",
+  "inputHash": "c299f24a743225f620d553438e7360ae1d3690c052a62668f718b9ad88eefdd9",
+  "reason": null,
+  "checks": [
+    {
+      "id": "profile-validate",
+      "status": "pass",
+      "reason": null,
+      "evidencePaths": []
+    },
+    {
+      "id": "architecture-input-validate",
+      "status": "pass",
+      "reason": null,
+      "evidencePaths": []
+    }
+  ]
+}

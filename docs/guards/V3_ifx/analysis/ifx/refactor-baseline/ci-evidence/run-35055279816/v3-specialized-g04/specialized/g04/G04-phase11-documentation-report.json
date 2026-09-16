@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "phase": 11,
+  "result": "passed",
+  "mermaidCliVersion": "11.17.0",
+  "checks": {
+    "bilingualDocumentsExist": true,
+    "decisionIdsConsistent": true,
+    "allSixDiagramSourcesRendered": true,
+    "ruleMappingPresent": true,
+    "preReadyScopeExplicit": true,
+    "architectureIndexLinksG04": true,
+    "prerequisiteLinksG04": true,
+    "downstreamPlansLinkBack": true
+  }
+}

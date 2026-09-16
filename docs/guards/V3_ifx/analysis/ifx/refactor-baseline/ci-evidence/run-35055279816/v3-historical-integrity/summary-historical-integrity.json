@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "mode": "historical-integrity",
+  "status": "pass",
+  "startedAt": "2026-09-16T04:21:39.7320346+00:00",
+  "completedAt": "2026-09-16T04:21:41.7357567+00:00",
+  "inputHash": "c299f24a743225f620d553438e7360ae1d3690c052a62668f718b9ad88eefdd9",
+  "reason": null,
+  "checks": [
+    {
+      "id": "historical-integrity",
+      "status": "pass",
+      "reason": null,
+      "evidencePaths": [
+        "artifacts/guards/v3-ifx/history/summary.json"
+      ]
+    }
+  ]
+}

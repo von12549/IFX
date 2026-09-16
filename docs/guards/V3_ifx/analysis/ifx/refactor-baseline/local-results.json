@@ -1,0 +1,175 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "authoredBy": "P0 manual review (CP01)",
+  "recordedAt": "2026-09-16",
+  "environment": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "pwsh": "7",
+    "dotnetSdk": "10.0.303",
+    "checkout": "codex/v3-stage-cp01-p0-baseline at abb30e4 (guard implementation identical to baseline commit)"
+  },
+  "workingTreeAfterRun": "clean for docs/guards (Generate/Check rewrote no tracked file)",
+  "ciEvidence": "ci-evidence/manifest.json (run 35055279816, 13/13 success, 1277 solution tests, 0 failed)",
+  "results": [
+    {
+      "id": "validate",
+      "command": "Invoke-IFXGuardrails.ps1 -Mode Validate",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 1,
+      "drift": null
+    },
+    {
+      "id": "v3-generate",
+      "command": "Invoke-V3.ps1 -Mode Generate (profiles/ifx -> generated/stages)",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 0,
+      "drift": null
+    },
+    {
+      "id": "v3-check",
+      "command": "Invoke-V3.ps1 -Mode Check",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 1,
+      "drift": null
+    },
+    {
+      "id": "ifx-generate",
+      "command": "Invoke-IFX.ps1 -Mode Generate",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 1,
+      "drift": null
+    },
+    {
+      "id": "ifx-check",
+      "command": "Invoke-IFX.ps1 -Mode Check",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 0,
+      "drift": null
+    },
+    {
+      "id": "docs-check",
+      "command": "Invoke-V3Docs.ps1 -Mode Check -ProfileDirectory profiles/ifx",
+      "exitCode": 1,
+      "result": "fail",
+      "runInCi": false,
+      "seconds": 1,
+      "drift": "DRIFT-01"
+    },
+    {
+      "id": "Test-IFXPre",
+      "command": "tests/Test-IFXPre.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 4,
+      "drift": null
+    },
+    {
+      "id": "Test-IFXAuthorityProjection",
+      "command": "tests/Test-IFXAuthorityProjection.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 1,
+      "drift": null
+    },
+    {
+      "id": "Test-IFXSpecializedContracts",
+      "command": "tests/Test-IFXSpecializedContracts.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 1,
+      "drift": null
+    },
+    {
+      "id": "Test-IFXHistoricalIntegrity",
+      "command": "tests/Test-IFXHistoricalIntegrity.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 1,
+      "drift": null
+    },
+    {
+      "id": "Test-CutoverPreservation",
+      "command": "tests/Test-CutoverPreservation.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 0,
+      "drift": null
+    },
+    {
+      "id": "Test-IFXPackage",
+      "command": "tests/Test-IFXPackage.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 26,
+      "drift": null
+    },
+    {
+      "id": "Test-IFXAssemblyGuard",
+      "command": "tests/Test-IFXAssemblyGuard.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 3,
+      "drift": null
+    },
+    {
+      "id": "Test-V3",
+      "command": "tests/Test-V3.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": true,
+      "seconds": 25,
+      "drift": null
+    },
+    {
+      "id": "Test-IFXTools",
+      "command": "tests/Test-IFXTools.ps1",
+      "exitCode": 1,
+      "result": "fail",
+      "runInCi": false,
+      "seconds": 1,
+      "drift": "DRIFT-08"
+    },
+    {
+      "id": "Test-V3Tools",
+      "command": "tests/Test-V3Tools.ps1",
+      "exitCode": 0,
+      "result": "pass",
+      "runInCi": false,
+      "seconds": 5,
+      "drift": null
+    },
+    {
+      "id": "Test-V3ArchUnit",
+      "command": "tests/Test-V3ArchUnit.ps1",
+      "exitCode": 1,
+      "result": "fail",
+      "runInCi": false,
+      "seconds": 7,
+      "drift": "DRIFT-08"
+    }
+  ],
+  "summary": {
+    "total": 17,
+    "passed": 14,
+    "failed": 3,
+    "ciRunCommandsFailed": 0
+  }
+}

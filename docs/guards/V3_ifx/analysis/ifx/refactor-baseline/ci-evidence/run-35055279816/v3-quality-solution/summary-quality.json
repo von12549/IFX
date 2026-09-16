@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "mode": "quality",
+  "status": "pass",
+  "startedAt": "2026-09-16T04:21:56.8630991+00:00",
+  "completedAt": "2026-09-16T04:26:29.3789347+00:00",
+  "inputHash": "c299f24a743225f620d553438e7360ae1d3690c052a62668f718b9ad88eefdd9",
+  "reason": null,
+  "checks": [
+    {
+      "id": "quality-solution",
+      "status": "pass",
+      "reason": null,
+      "evidencePaths": [
+        "artifacts/guards/v3-ifx/quality/summary.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "authoredBy": "P0 manual review (CP01)",
+  "recordedAt": "2026-09-16",
+  "status": "Plan 06 §11.3 classification confirmed and frozen (P0.10); materialized in stage.json gates during P2.4",
+  "types": {
+    "judging": "base evaluator and policy decide on head data without executing head code",
+    "mixed": "base evaluator decides on inputs produced or controlled by head",
+    "executing": "check runs head code; base only fixes commands, arguments, exit-code judgement and required evidence"
+  },
+  "contracts": [
+    {
+      "check": "v3-pre-diff",
+      "targetType": "judging",
+      "evaluatorAndPolicy": "base V3 engine, Diff config, authorizations",
+      "targetInput": "Git objects of verified merge-base and head",
+      "executesHead": false,
+      "targetGuarantee": "base fully owns the verdict (within §11.4)",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Stage Gate generated and built from head templates and profile."
+      }
+    },
+    {
+      "check": "v3-architecture",
+      "targetType": "mixed",
+      "evaluatorAndPolicy": "base Architecture Conformance engine and policy",
+      "targetInput": "head csproj XML and C# source text; package tests of the head guard package",
+      "executesHead": false,
+      "targetGuarantee": "evaluator trusted; blind to MSBuild import/Condition-injected references (cross-covered by v3-quality-assembly)",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Job also runs head package tests (Test-IFX*) and builds LayerGuard from head."
+      },
+      "knownGaps": [
+        "layerguard-msbuild-evaluation"
+      ]
+    },
+    {
+      "check": "v3-specialized-g03",
+      "targetType": "judging",
+      "evaluatorAndPolicy": "base G03 detectors and catalog/governance policy",
+      "targetInput": "head contract/event source and documentation text",
+      "executesHead": false,
+      "targetGuarantee": "base owns the verdict; detectors are static and do not build head",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Detectors from head."
+      }
+    },
+    {
+      "check": "v3-specialized-g04",
+      "targetType": "judging",
+      "evaluatorAndPolicy": "base G04 detectors and runtime/release policy",
+      "targetInput": "head deployment manifests, source and documentation text",
+      "executesHead": false,
+      "targetGuarantee": "base owns the verdict; static detectors",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Detectors from head."
+      }
+    },
+    {
+      "check": "v3-specialized-g05",
+      "targetType": "judging",
+      "evaluatorAndPolicy": "base G05 detectors and context protocol policy",
+      "targetInput": "head context/security source text",
+      "executesHead": false,
+      "targetGuarantee": "base owns the verdict; static detectors",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Detectors from head."
+      }
+    },
+    {
+      "check": "v3-specialized-plan04",
+      "targetType": "judging",
+      "evaluatorAndPolicy": "base Plan04 governance detectors and policies",
+      "targetInput": "head module/tenant query source text",
+      "executesHead": false,
+      "targetGuarantee": "base owns the verdict; static detectors",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Detectors from head."
+      }
+    },
+    {
+      "check": "v3-specialized-database",
+      "targetType": "executing",
+      "evaluatorAndPolicy": "base orchestrator and migration safety policy",
+      "targetInput": "head DatabaseBoundary tests, DatabaseInventory tool, ApiHost and DatabaseMigrator",
+      "executesHead": true,
+      "targetGuarantee": "base fixes commands, arguments, exit-code judgement and required evidence only",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Builds and runs head projects (dotnet build/test, EF CLI, Testcontainers)."
+      }
+    },
+    {
+      "check": "v3-quality-solution",
+      "targetType": "executing",
+      "evaluatorAndPolicy": "base orchestrator and restore/audit thresholds",
+      "targetInput": "head solution",
+      "executesHead": true,
+      "targetGuarantee": "base fixes commands (restore -warnaserror, build, test, audit) and evidence only",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Runs head restore/build/test."
+      }
+    },
+    {
+      "check": "v3-quality-assembly",
+      "targetType": "mixed",
+      "evaluatorAndPolicy": "base assembly rules (Stage Gate compiled rules)",
+      "targetInput": "Domain assemblies built by v3-quality-solution from head (downloaded artifact)",
+      "executesHead": false,
+      "targetGuarantee": "evaluator trusted; assembly provenance is head-controlled",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Stage Gate built from head."
+      }
+    },
+    {
+      "check": "v3-quality-frontend",
+      "targetType": "executing",
+      "evaluatorAndPolicy": "base orchestrator and audit/lint thresholds",
+      "targetInput": "head frontend (npm ci, lint, test, build)",
+      "executesHead": true,
+      "targetGuarantee": "base fixes commands and thresholds only",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Runs head npm scripts."
+      }
+    },
+    {
+      "check": "v3-historical-integrity",
+      "targetType": "judging",
+      "evaluatorAndPolicy": "base history verifier and manifest",
+      "targetInput": "tracked evidence files and their hashes in head",
+      "executesHead": false,
+      "targetGuarantee": "base owns the verdict",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Verifier and manifest from head."
+      }
+    },
+    {
+      "check": "v3-cross-platform-ubuntu-latest",
+      "targetType": "executing",
+      "evaluatorAndPolicy": "base orchestrator",
+      "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+      "executesHead": true,
+      "targetGuarantee": "base fixes commands; head package tests only add coverage (Plan 06 §11.5)",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Runs head Validate, Generate/Check and package tests."
+      }
+    },
+    {
+      "check": "v3-cross-platform-windows-latest",
+      "targetType": "executing",
+      "evaluatorAndPolicy": "base orchestrator",
+      "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+      "executesHead": true,
+      "targetGuarantee": "base fixes commands; head package tests only add coverage (Plan 06 §11.5)",
+      "baseline": {
+        "entry": "head checkout",
+        "type": "untrusted (engine, policy and entry all from PR head)",
+        "note": "Runs head Validate, Generate/Check and package tests."
+      }
+    }
+  ],
+  "changesFromPlan06Table": [
+    "v3-specialized-database confirmed executing.",
+    "v3-specialized-g03/g04/g05/plan04 classified judging: their scripts contain no dotnet build/test or npm invocation (G04 and G05 guards assert they do not repeat solution builds).",
+    "v3-historical-integrity confirmed judging.",
+    "v3-cross-platform-* classified executing: they run the head guard package itself, which Plan 06 §11.5 treats as candidate validation."
+  ]
+}

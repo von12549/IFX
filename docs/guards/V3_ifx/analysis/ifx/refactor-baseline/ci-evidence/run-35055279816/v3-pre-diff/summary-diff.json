@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "mode": "diff",
+  "status": "pass",
+  "startedAt": "2026-09-16T04:21:54.2809506+00:00",
+  "completedAt": "2026-09-16T04:22:10.3656718+00:00",
+  "inputHash": "c299f24a743225f620d553438e7360ae1d3690c052a62668f718b9ad88eefdd9",
+  "reason": null,
+  "checks": [
+    {
+      "id": "diff",
+      "status": "pass",
+      "reason": null,
+      "evidencePaths": []
+    }
+  ]
+}

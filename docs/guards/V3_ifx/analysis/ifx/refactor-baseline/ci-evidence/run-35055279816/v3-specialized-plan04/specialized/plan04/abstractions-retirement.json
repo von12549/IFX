@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "checkedAt": "2026-09-16",
+  "result": "repository-passed-legacy-abstractions-retired",
+  "checks": {
+    "noLegacyAbstractionsDirectories": true,
+    "noLegacyAbstractionsProjects": true,
+    "noLegacyAbstractionsReferences": true,
+    "noLegacyAbstractionsSolutionEntries": true,
+    "requiredContractsAreExplicitSolutionProjects": true,
+    "compositionProjectNameIsUnambiguous": true,
+    "authorizationNamespaceNameIsUnambiguous": true,
+    "compositionProjectIsExplicitlyInSolution": true,
+    "layerGuardRetirementRuleIsBound": true,
+    "layerGuardCompositionNameIsCurrent": true,
+    "positiveAndNegativeFixturesPass": true
+  },
+  "legacyDirectories": [],
+  "legacyProjects": [],
+  "legacyProjectReferences": [],
+  "legacySolutionEntries": [],
+  "requiredContracts": [
+    "IFX.Modules.CRM.Contracts",
+    "IFX.Modules.Registry.Contracts",
+    "IFX.Modules.Transaction.Contracts",
+    "IFX.Platform.BackgroundJobs.Contracts",
+    "IFX.Platform.Context.Contracts",
+    "IFX.Platform.Messaging.Contracts",
+    "IFX.Platform.Notifications.Contracts"
+  ],
+  "missingContracts": [],
+  "ambiguousCompositionArtifacts": [],
+  "legacyAuthorizationNamespaces": [],
+  "fixtureResults": [
+    {
+      "fixture": "abstractions-negative-directory-project.json",
+      "expectedErrors": [
+        "legacy-abstractions-directory",
+        "legacy-abstractions-project",
+        "legacy-authorization-abstractions-namespace"
+      ],
+      "actualErrors": [
+        "legacy-abstractions-directory",
+        "legacy-abstractions-project",
+        "legacy-authorization-abstractions-namespace"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-negative-reference.json",
+      "expectedErrors": [
+        "legacy-abstractions-reference"
+      ],
+      "actualErrors": [
+        "legacy-abstractions-reference"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-negative-solution.json",
+      "expectedErrors": [
+        "ambiguous-composition-abstractions-name",
+        "composition-project-missing-from-solution",
+        "contracts-project-missing-from-solution",
+        "layerguard-composition-name-stale",
+        "layerguard-retirement-rule-missing",
+        "legacy-abstractions-solution-entry"
+      ],
+      "actualErrors": [
+        "ambiguous-composition-abstractions-name",
+        "composition-project-missing-from-solution",
+        "contracts-project-missing-from-solution",
+        "layerguard-composition-name-stale",
+        "layerguard-retirement-rule-missing",
+        "legacy-abstractions-solution-entry"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-negative-windows-reference.json",
+      "expectedErrors": [
+        "legacy-abstractions-reference"
+      ],
+      "actualErrors": [
+        "legacy-abstractions-reference"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-positive-windows-paths.json",
+      "expectedErrors": [],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "fixture": "abstractions-positive.json",
+      "expectedErrors": [],
+      "actualErrors": [],
+      "passed": true
+    }
+  ],
+  "exclusions": [
+    "Microsoft.Extensions.*.Abstractions packages",
+    "G03 retired identity reservations",
+    "LayerGuard fixtures and historical baselines"
+  ],
+  "failedChecks": []
+}

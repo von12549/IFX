@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "phase": 9,
+  "result": "passed",
+  "closureStatus": "pre-ready",
+  "readyForClosure": false,
+  "checkedAt": "2026-09-16",
+  "checks": {
+    "allLegacyItemsHaveDisposition": true,
+    "noLegacyDeadlineExceeded": true,
+    "downstreamHandoffPackagesPresent": true,
+    "closeoutDocumentPresent": true,
+    "closeoutLinksResolve": true,
+    "blockersCarryOwnerAndRevisit": true
+  },
+  "counts": {
+    "protocols": 6,
+    "activeProtocols": 4,
+    "legacyItems": 46,
+    "overdueLegacyItems": 0,
+    "blockers": 3
+  },
+  "blockers": [
+    {
+      "code": "protocols-not-active",
+      "owner": "Plans 01/02 provider and consumer owners",
+      "revisitWhen": "after physical V1 source, snapshots, behavior tests, reconciliation, and approvals",
+      "currentEvidence": "auth.resource-authorization.v1, authorization.policy-evaluation.v1"
+    },
+    {
+      "code": "behavior-tests-pending",
+      "owner": "Plans 01/02 implementers",
+      "revisitWhen": "when real provider Contracts and consumer Adapters exist",
+      "currentEvidence": "G03-6.5 and G03-6.6 remain open"
+    },
+    {
+      "code": "closure-approvals-pending",
+      "owner": "module, consumer, Platform Messaging, and architecture owners",
+      "revisitWhen": "after all technical blockers are cleared",
+      "currentEvidence": "G03-9.8 remains open"
+    }
+  ],
+  "missingHandoffs": [],
+  "brokenLinks": []
+}

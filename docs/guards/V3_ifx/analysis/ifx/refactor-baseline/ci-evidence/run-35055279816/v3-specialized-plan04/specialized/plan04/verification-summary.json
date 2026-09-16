@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "gate": "Plan04",
+  "result": "passed",
+  "scope": "current-policy-validation-historical-frozen-hashes-excluded",
+  "validators": [
+    {
+      "id": "boundaryInventory",
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "extractionPolicy",
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "tenantQueryPolicy",
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "projectionPolicy",
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "abstractionsRetirement",
+      "passed": true,
+      "error": null
+    },
+    {
+      "id": "documentationCurrent",
+      "passed": true,
+      "error": null
+    }
+  ]
+}

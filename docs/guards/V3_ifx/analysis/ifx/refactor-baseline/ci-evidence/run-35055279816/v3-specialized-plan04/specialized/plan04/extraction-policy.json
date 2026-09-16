@@ -1,0 +1,126 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "slice": "P04-S3",
+  "result": "repository-passed-policy-approval-pending",
+  "checkedAt": "2026-09-16",
+  "policySha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d",
+  "schemaSha256": "33831b0506cae05e3bbd08c9aa65f16d59f8a86206c90fc2fcf6067fe7599ad5",
+  "checks": {
+    "schemaDeclaresRequiredRecord": true,
+    "exactHardGates": true,
+    "exactEvidenceDimensions": true,
+    "scoreCannotOverrideHardGate": true,
+    "exactStateMachine": true,
+    "approvedStateRequiredBeforeExecution": true,
+    "completeApplicationEvidenceRequired": true,
+    "positiveAndNegativeFixturesPass": true,
+    "defaultRemainsModularMonolith": true
+  },
+  "fixtureResults": [
+    {
+      "fixture": "extraction-negative-invalid-transition.json",
+      "expectedErrors": [
+        "hard-gates-incomplete",
+        "invalid-state-transition",
+        "scores-incomplete"
+      ],
+      "actualErrors": [
+        "hard-gates-incomplete",
+        "invalid-state-transition",
+        "scores-incomplete"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "extraction-negative-missing-owner.json",
+      "expectedErrors": [
+        "hard-gates-incomplete",
+        "owner-missing",
+        "scores-incomplete",
+        "transition-approvals-incomplete"
+      ],
+      "actualErrors": [
+        "hard-gates-incomplete",
+        "owner-missing",
+        "scores-incomplete",
+        "transition-approvals-incomplete"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "extraction-negative-no-rollback.json",
+      "expectedErrors": [
+        "application-evidence-incomplete",
+        "transition-approvals-incomplete"
+      ],
+      "actualErrors": [
+        "application-evidence-incomplete",
+        "transition-approvals-incomplete"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "extraction-negative-shared-acid.json",
+      "expectedErrors": [
+        "hard-gate-failed",
+        "score-cannot-override-hard-gate",
+        "transition-approvals-incomplete"
+      ],
+      "actualErrors": [
+        "hard-gate-failed",
+        "score-cannot-override-hard-gate",
+        "transition-approvals-incomplete"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "extraction-valid-candidate.json",
+      "expectedErrors": [],
+      "actualErrors": [],
+      "passed": true
+    }
+  ],
+  "approvalComplete": false,
+  "approvals": [
+    {
+      "role": "architecture",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "module-owner",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "platform",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "database",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "security",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    },
+    {
+      "role": "operations",
+      "approver": null,
+      "status": "pending",
+      "evidence": null
+    }
+  ],
+  "currentModuleDecision": "no-module-approved-for-extraction",
+  "dp8Dp9": "not-triggered",
+  "failedChecks": []
+}

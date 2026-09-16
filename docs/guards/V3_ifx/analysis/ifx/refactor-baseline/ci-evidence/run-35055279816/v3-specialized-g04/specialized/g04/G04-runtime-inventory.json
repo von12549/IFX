@@ -1,0 +1,136 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "baseline": "pre-implementation",
+  "sourceCommit": "a663cc57947329e8a46efdbfe8aa6885348dd24b",
+  "deploymentUnits": [
+    {
+      "id": "ifx-api",
+      "kind": "web-process",
+      "artifact": "IFX.ApiHost",
+      "lifecycle": "business-release",
+      "currentRole": "all"
+    },
+    {
+      "id": "ifx-frontend",
+      "kind": "web-process",
+      "artifact": "IFX.FrontEnd",
+      "lifecycle": "independent",
+      "currentRole": "frontend"
+    },
+    {
+      "id": "ifx-database-migrator",
+      "kind": "one-shot",
+      "artifact": "IFX.DatabaseMigrator",
+      "lifecycle": "release-aligned-independent-execution",
+      "currentRole": "migrator"
+    },
+    {
+      "id": "sqlserver-init",
+      "kind": "one-shot",
+      "artifact": "mssql-tools",
+      "lifecycle": "infrastructure",
+      "currentRole": "bootstrap"
+    },
+    {
+      "id": "sqlserver",
+      "kind": "infrastructure",
+      "artifact": "mssql-server-2022",
+      "lifecycle": "independent",
+      "currentRole": "database"
+    },
+    {
+      "id": "opa",
+      "kind": "infrastructure",
+      "artifact": "opa-0.70.0",
+      "lifecycle": "independent",
+      "currentRole": "policy"
+    },
+    {
+      "id": "cognito",
+      "kind": "managed-dependency",
+      "artifact": "external",
+      "lifecycle": "provider-owned",
+      "currentRole": "identity"
+    },
+    {
+      "id": "sendgrid",
+      "kind": "managed-dependency",
+      "artifact": "external",
+      "lifecycle": "provider-owned",
+      "currentRole": "notifications"
+    }
+  ],
+  "businessBoundary": {
+    "host": "IFX.ApiHost",
+    "requiredModules": [
+      "Crm",
+      "Registry",
+      "Holdings",
+      "Transaction"
+    ],
+    "lockstep": true,
+    "moduleCount": 4
+  },
+  "startup": {
+    "moduleRegistrationOrder": [
+      "Crm",
+      "Registry",
+      "Holdings",
+      "Transaction"
+    ],
+    "platformRegistrationOrder": [
+      "Messaging",
+      "BackgroundJobs",
+      "Notifications"
+    ],
+    "endpointMapping": "IModuleInstaller enumeration",
+    "migrationInApiStartup": false,
+    "independentMigratorComposeDependency": true
+  },
+  "hostedRuntime": {
+    "hangfireServerImplicit": true,
+    "hangfireClientServerSplit": false,
+    "customHostedServiceCount": 0,
+    "outboxDispatcherPresent": false,
+    "consumerLoopPresent": false,
+    "recurringRegistrationAuthorityPresent": false
+  },
+  "probes": {
+    "paths": [
+      "/health",
+      "/health/database",
+      "/health/ready"
+    ],
+    "liveSeparated": true,
+    "startupSeparated": true,
+    "detailsProtected": false,
+    "aggregateAndReadyEquivalent": false,
+    "externalChecks": [
+      "SQL Server",
+      "AWS Cognito"
+    ],
+    "schemaCheck": "Database schema compatibility"
+  },
+  "orchestration": {
+    "composeFiles": [
+      "docker-compose.yml",
+      "docker-compose.nas.yml"
+    ],
+    "initBeforeMigrator": true,
+    "migratorBeforeApi": true,
+    "explicitReplicaCount": false,
+    "stopSignalConfigured": true,
+    "stopGraceConfigured": true,
+    "uniqueRuntimeIdentity": false,
+    "fixedHangfireNameDefault": false
+  },
+  "knownGaps": [
+    "No explicit api/worker/all runtime role",
+    "Hangfire server scales implicitly with every API replica",
+    "No dispatcher, consumer loop, lease, backlog or backpressure runtime exists yet",
+    "No explicit drain coordinator or shutdown budget",
+    "Liveness, startup, readiness and protected details are not separated",
+    "No module or release manifest validates endpoint and required-module identity"
+  ]
+}

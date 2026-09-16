@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "mode": "historical-integrity",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "mcp/LayerGuard/baselines/b0.5.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/b1.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/b2.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/b3.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/b4.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/plan05.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/plan06.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "mcp/LayerGuard/baselines/plan07.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/plan00-prerequisite-release-status.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/03-a1-layerguard-policy-binding-status.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/layerguard/B1-report.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/layerguard/B4-report.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/layerguard/B4-validation-status.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/plan04/phase0-baseline-status.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/plan04/phase2-audit-status.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/plan00-prerequisite-release-status.json -> docs/architecture/review/evidence/plan00-prerequisite-release.md",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/layerguard/B4-validation-status.json -> docs/architecture/review/evidence/layerguard/B1-report.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    },
+    {
+      "id": "docs/architecture/review/evidence/layerguard/B4-validation-status.json -> docs/architecture/review/evidence/layerguard/B4-report.json",
+      "status": "pass",
+      "exists": true,
+      "jsonReadable": true,
+      "summaryMatches": true,
+      "hashMatches": true
+    }
+  ],
+  "message": "Frozen evidence is intact; no current readiness conclusion was evaluated."
+}

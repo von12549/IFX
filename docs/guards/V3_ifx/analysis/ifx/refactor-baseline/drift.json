@@ -1,0 +1,121 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "authoredBy": "P0 manual review (CP01)",
+  "recordedAt": "2026-09-16",
+  "status": "registered as pre-migration defects; fixed in P1.2",
+  "items": [
+    {
+      "id": "DRIFT-01",
+      "title": "Markdown profile views are stale",
+      "evidence": "Invoke-V3Docs.ps1 -Mode Check fails with 'Markdown view drift: PROJECT_MAP.md'; a fresh Render differs in PROJECT_MAP.md and TECH_STACK.md (7 project-map areas missing: ApiHost, Database, RepositoryDocs, RepositoryDependencies, RepositoryTools, DocumentationConfig, McpConfig).",
+      "paths": [
+        "docs/guards/V3_ifx/profiles/ifx/views/PROJECT_MAP.md",
+        "docs/guards/V3_ifx/profiles/ifx/views/TECH_STACK.md"
+      ],
+      "whyUndetected": "Docs Check is not part of any CI job.",
+      "fix": "P1.2 re-render views and add Docs Check to CI-run validation."
+    },
+    {
+      "id": "DRIFT-02",
+      "title": "Architecture review evidence is stale",
+      "evidence": "Invoke-V3Architecture.ps1 -Mode Review on a copy of analysis/ifx fails: 'Inventory evidence is stale; rerun Analyze: src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj'. review-profile/project-map.json, tech-stack.json and rules/ differ from profiles/ifx; architecture-review.json records decision needs-review.",
+      "paths": [
+        "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+        "docs/guards/V3_ifx/analysis/ifx/architecture-review.json",
+        "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE-REVIEW.md",
+        "docs/guards/V3_ifx/analysis/ifx/review-profile/"
+      ],
+      "whyUndetected": "Analyze/Review are not run in CI; these files are runtime outputs committed as evidence (P0.2 lifecycle runtime-output).",
+      "fix": "P1.2 regenerate or mark as superseded; P8.6 moves runtime outputs to artifacts/."
+    },
+    {
+      "id": "DRIFT-03",
+      "title": "DEPLOYMENT procedure fails as documented",
+      "evidence": "V3_ifx/DEPLOYMENT.md lines 21-24 run Analyze, Review and Docs Check as the evidence refresh step; Review and Docs Check fail on the baseline (DRIFT-01, DRIFT-02). Test-IFXTools.ps1 and Test-V3ArchUnit.ps1, listed in DEPLOYMENT, also fail (DRIFT-06, DRIFT-07).",
+      "paths": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ],
+      "whyUndetected": "Documented manual procedure, not executed in CI.",
+      "fix": "P1.2 after DRIFT-01/02/06/07 are fixed, re-run the documented procedure and correct DEPLOYMENT."
+    },
+    {
+      "id": "DRIFT-04",
+      "title": "File count claim is wrong",
+      "evidence": "architecture/IFX-MIGRATION.md states templates/ifx-layerguard contains 173 tracked files; the baseline tree has 174.",
+      "paths": [
+        "docs/guards/V3_ifx/architecture/IFX-MIGRATION.md"
+      ],
+      "fix": "P1.2 replace the count with a reference to inventory.json / duplicates.json."
+    },
+    {
+      "id": "DRIFT-05",
+      "title": "SourceConfig area matches no files",
+      "evidence": "profiles/ifx/project-map.json area SourceConfig uses pathPattern 'src/*'; the baseline has no files directly under src/ (only directories), so the area is dead and its focusedCommand ifx-layerguard is never suggested.",
+      "paths": [
+        "docs/guards/V3_ifx/profiles/ifx/project-map.json"
+      ],
+      "fix": "P1.2 remove or correct the area (project-map change; monotonicity rules do not exist yet, so the change is reviewed manually)."
+    },
+    {
+      "id": "DRIFT-06",
+      "title": "ci/jobs.json is never validated",
+      "evidence": "No PowerShell, C# template or workflow reads docs/guards/V3_ifx/ci/jobs.json (git grep); it can diverge from the workflow and ruleset without failing any check.",
+      "paths": [
+        "docs/guards/V3_ifx/ci/jobs.json"
+      ],
+      "fix": "P1.3 read-only verifier: workflow job names <-> ci/jobs.json <-> ruleset (strict)."
+    },
+    {
+      "id": "DRIFT-07",
+      "title": "Historical-integrity trigger declaration differs from the workflow",
+      "evidence": "ci/jobs.json declares v3-historical-integrity trigger 'history-change-schedule-manual'; the workflow job has no if/path filter and runs on every pull_request, push to main, schedule and workflow_dispatch. Verified.",
+      "paths": [
+        "docs/guards/V3_ifx/ci/jobs.json",
+        ".github/workflows/v3-ifx-guardrails.yml"
+      ],
+      "fix": "P1.2/P1.3 make the declaration match the always-run behavior (required check must not stay pending, Plan 06 §10.3)."
+    },
+    {
+      "id": "DRIFT-08",
+      "title": "Package tests outside CI are broken",
+      "evidence": "Test-IFXTools.ps1 fails on DRIFT-01 (it runs Docs Check). Test-V3ArchUnit.ps1 fails with NU1008 because its fixture under artifacts/ inherits the root central package management (build-inheritance.json). Neither test is run by any CI job (call-graph.json notCiReachable).",
+      "paths": [
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3/tests/Test-V3Tools.ps1"
+      ],
+      "fix": "P1.2 fix Test-IFXTools via DRIFT-01; Test-V3ArchUnit is resolved by the P5 package-local build baseline (D14). Adding them to CI is decided with the TCB validation suites (P2.6)."
+    },
+    {
+      "id": "DRIFT-09",
+      "title": "Specialized scripts not reachable from any entry",
+      "evidence": "Test-Plan04Documentation.ps1, Test-Plan04Phase0Baseline.ps1, Test-Plan04Phase1Inventory.ps1 and Test-Plan04Phase2Audit.ps1 are not called by Invoke-IFXSpecialized or any test, tech-stack command or document (call-graph.json exposure unreferenced).",
+      "paths": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Documentation.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase0Baseline.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase2Audit.ps1"
+      ],
+      "fix": "P1.2 decide wire-up or retirement (retirement is a protected deletion and waits for P4)."
+    },
+    {
+      "id": "DRIFT-10",
+      "title": "Canonical V3 package is not exercised by CI",
+      "evidence": "No CI job invokes any docs/guards/V3 executable (call-graph.json v3PackageCiReachable = 0); only V3_ifx copies run. V3 lacks the V3_ifx Diff hardening (v3-divergence.json).",
+      "paths": [
+        "docs/guards/V3/"
+      ],
+      "fix": "P3 merges hardening into V3 and adds V3 tests to validation; P7 switches V3_ifx to the V3 engine."
+    }
+  ],
+  "findingsOutsidePlanScope": [
+    {
+      "id": "NOTE-01",
+      "title": "Third LayerGuard copy in mcp/LayerGuard",
+      "evidence": "mcp/LayerGuard/src tree equals templates/ifx-layerguard/src; tests differ only in GatePolicyBindingTests.cs (duplicates.json). mcp/LayerGuard is preserved by Plan 05 and is outside Plan 06 migration scope.",
+      "action": "No change in this plan; P6 records it in the Architecture Conformance provenance and a follow-up decision is needed before retiring or aligning it."
+    }
+  ]
+}

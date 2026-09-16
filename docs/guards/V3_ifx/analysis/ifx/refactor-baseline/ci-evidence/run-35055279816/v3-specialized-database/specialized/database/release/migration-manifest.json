@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "physicalDatabase": "IFXDb",
+  "modules": [
+    {
+      "moduleName": "Auth",
+      "dbContext": "IFX.Modules.IAM.Infrastructure.Persistence.IfxDbContext",
+      "schema": "auth",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "AuthDatabase",
+      "order": 10,
+      "dependsOn": [],
+      "migrations": [
+        {
+          "migrationId": "20260327075710_InitialCreate",
+          "productVersion": "8.0.0",
+          "sourceSha256": "30a19829d892d09df85774c61e21b64aaa1e7ea47f9ef38ef208cf6506024c13"
+        },
+        {
+          "migrationId": "20260327075811_InitialSeed",
+          "productVersion": "8.0.0",
+          "sourceSha256": "570d253a3cd5141fd69451520ca21a96503db53a26a5a4424ee8c0aa5f53ca45"
+        },
+        {
+          "migrationId": "20260413100000_CrmPolicyDefinitionSeeds",
+          "productVersion": "8.0.0",
+          "sourceSha256": "4116ed80b1d712a8db0baa3204844cd700ab2b487e91eb892261b107ebd3b2c0"
+        },
+        {
+          "migrationId": "20260420042950_AlterAuditColumnsToDateTimeOffset",
+          "productVersion": "8.0.0",
+          "sourceSha256": "4c13bd75690e1fa25c7bba455f2230d94ed6c6a0508841be067ae7f6cbbc5b25"
+        },
+        {
+          "migrationId": "20260908015924_RemoveLoginEventSecrets",
+          "productVersion": "8.0.0",
+          "sourceSha256": "ffba17d4123b6e154615c5607442eeb131a218f9feb084f9a674742502f3dc75"
+        },
+        {
+          "migrationId": "20260912101127_EnforceActiveTenantMembership",
+          "productVersion": "8.0.0",
+          "sourceSha256": "87dadf7913030f5cc8645c025fd46917bec023a7fa1f57060a2f531cb4b1457d"
+        }
+      ]
+    },
+    {
+      "moduleName": "CRM",
+      "dbContext": "IFX.Modules.CRM.Infrastructure.Persistence.CrmDbContext",
+      "schema": "crm",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "CrmDatabase",
+      "order": 20,
+      "dependsOn": [],
+      "migrations": [
+        {
+          "migrationId": "20260413120000_InitialCreate",
+          "productVersion": "8.0.0",
+          "sourceSha256": "cf96d676d0819aba1baa20abb06d2dd0adbf76e5164cade4027b26df4986cbb4"
+        },
+        {
+          "migrationId": "20260420043006_AlterAuditColumnsToDateTimeOffset",
+          "productVersion": "8.0.0",
+          "sourceSha256": "3194017a4ab0505072d93c7e21d492eb18e122c43ed3cb66fd57f616d6ff44d3"
+        }
+      ]
+    },
+    {
+      "moduleName": "Registry",
+      "dbContext": "IFX.Modules.Registry.Infrastructure.Persistence.RegistryDbContext",
+      "schema": "registry",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "RegistryDatabase",
+      "order": 30,
+      "dependsOn": [],
+      "migrations": [
+        {
+          "migrationId": "20260413120300_InitialCreate",
+          "productVersion": "8.0.0",
+          "sourceSha256": "5bd46995329c38baa81facba1d520cc9e8d8a170544a8c521e7ee67013af4592"
+        },
+        {
+          "migrationId": "20260413191525_AddProduct",
+          "productVersion": "8.0.0",
+          "sourceSha256": "b6a0de666f6a5bd04fef148d62c9cc87e3138ad8ee950910449916aef082551b"
+        },
+        {
+          "migrationId": "20260420043017_AlterAuditColumnsToDateTimeOffset",
+          "productVersion": "8.0.0",
+          "sourceSha256": "bff238b5b8d092b7c698aff21bc93102b2557ff48da108a7d8a7d6c0b01cab02"
+        },
+        {
+          "migrationId": "20260908100951_Plan02ReliableOutbox",
+          "productVersion": "8.0.0",
+          "sourceSha256": "733a14c9d7488683686f40f4d2f53b981c10ae7a7b62736c4cb3246a5767df9f"
+        }
+      ]
+    },
+    {
+      "moduleName": "Holdings",
+      "dbContext": "IFX.Modules.Holdings.Infrastructure.Persistence.HoldingsDbContext",
+      "schema": "holdings",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "HoldingsDatabase",
+      "order": 40,
+      "dependsOn": [],
+      "migrations": [
+        {
+          "migrationId": "20260413120100_InitialCreate",
+          "productVersion": "8.0.0",
+          "sourceSha256": "4770882df9d0ad619725b0d3283f99e216ab38a5d3717d2fc0930bcad581b2a8"
+        },
+        {
+          "migrationId": "20260420043031_AlterAuditColumnsToDateTimeOffset",
+          "productVersion": "8.0.0",
+          "sourceSha256": "210a64990ff5686ce14654fa2c07360113650c1d2992110971ec93c38ba84131"
+        },
+        {
+          "migrationId": "20260908100954_Plan02ReliableInbox",
+          "productVersion": "8.0.0",
+          "sourceSha256": "1813c9904f8dfb946a7e9d5ad76c010383a76eb73997cc6d56dd07152284ada9"
+        }
+      ]
+    },
+    {
+      "moduleName": "Transaction",
+      "dbContext": "IFX.Modules.Transaction.Infrastructure.Persistence.TransactionDbContext",
+      "schema": "transaction",
+      "historyTable": "__EFMigrationsHistory",
+      "connectionKey": "TransactionDatabase",
+      "order": 50,
+      "dependsOn": [],
+      "migrations": [
+        {
+          "migrationId": "20260413120200_InitialCreate",
+          "productVersion": "8.0.0",
+          "sourceSha256": "708630667973a98f8f332c90ef405608a5204ef2ec877140ce638bc997fe56db"
+        },
+        {
+          "migrationId": "20260418123443_AddOrderInstructionModel",
+          "productVersion": "8.0.0",
+          "sourceSha256": "5dadb7e1b8ebe09d984fcf3f94bbb5337c683f3855e1ba8a1b6b7df0acc71475"
+        },
+        {
+          "migrationId": "20260420043039_AlterAuditColumnsToDateTimeOffset",
+          "productVersion": "8.0.0",
+          "sourceSha256": "06a536a25bb6a29a08da8b79e86ecbc7de63ec9a47196e111d6c247bb2d57f42"
+        },
+        {
+          "migrationId": "20260908100947_Plan02ReliableOutbox",
+          "productVersion": "8.0.0",
+          "sourceSha256": "f5468548ee4f1d82a4f72e39ae05648ef020b931de7a0bd21adca7c5b25b890a"
+        }
+      ]
+    }
+  ]
+}

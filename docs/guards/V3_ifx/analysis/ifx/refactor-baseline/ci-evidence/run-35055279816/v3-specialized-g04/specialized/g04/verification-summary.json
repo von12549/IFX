@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "gate": "G04",
+  "phase": 12,
+  "result": "passed",
+  "scope": "specialized-runtime-policy-no-build-or-layerguard",
+  "checks": {
+    "deploymentRuntime": true,
+    "inboundConformance": true
+  },
+  "reports": {
+    "deploymentRuntime": "guard.json",
+    "inboundConformance": "plan02-c1.json"
+  }
+}

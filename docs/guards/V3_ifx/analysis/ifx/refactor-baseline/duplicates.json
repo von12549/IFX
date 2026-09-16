@@ -1,0 +1,1691 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "generatedBy": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+  "treePairs": [
+    {
+      "left": "docs/guards/V3",
+      "right": "docs/guards/V3_backup",
+      "leftTreeId": "026bad5af343d74031b7410180de74adebb9a981",
+      "rightTreeId": "026bad5af343d74031b7410180de74adebb9a981",
+      "identical": true,
+      "leftFiles": 41,
+      "differingFiles": null
+    },
+    {
+      "left": "docs/guards/V3_ifx/templates/ifx-layerguard",
+      "right": "docs/guards/V3_ifx/generated/dotnet/LayerGuard",
+      "leftTreeId": "e4dfa620e996eef546d88d9ca5e56887a885a205",
+      "rightTreeId": "e4dfa620e996eef546d88d9ca5e56887a885a205",
+      "identical": true,
+      "leftFiles": 174,
+      "differingFiles": null
+    },
+    {
+      "left": "docs/guards/V3_ifx/templates/ifx-layerguard/src",
+      "right": "mcp/LayerGuard/src",
+      "leftTreeId": "28d4fcfe5391d16756e61fba5ffcfe2238295023",
+      "rightTreeId": "28d4fcfe5391d16756e61fba5ffcfe2238295023",
+      "identical": true,
+      "leftFiles": 27,
+      "differingFiles": null
+    },
+    {
+      "left": "docs/guards/V3_ifx/templates/ifx-layerguard/tests",
+      "right": "mcp/LayerGuard/tests",
+      "leftTreeId": "312a033f04884d72ed755c3d25610f5554794125",
+      "rightTreeId": "943e9bbccb467f6be04525e4fe5eb363071a48a5",
+      "identical": false,
+      "leftFiles": 146,
+      "differingFiles": [
+        "LayerGuard.Tests/GatePolicyBindingTests.cs"
+      ]
+    }
+  ],
+  "duplicateBlobGroups": 197,
+  "duplicateBlobs": [
+    {
+      "objectId": "053808d78a72676c6c96aa1ef20ad786792ad736",
+      "paths": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3_backup/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "objectId": "9326a0b5ee395b84db70797896a24c5bcceba86c",
+      "paths": [
+        "docs/guards/V3/README.md",
+        "docs/guards/V3_backup/README.md"
+      ]
+    },
+    {
+      "objectId": "2f0e61ff9fb5ad36e6cde05a9d391eac22734e20",
+      "paths": [
+        "docs/guards/V3/architecture/ARCHITECTURE.md",
+        "docs/guards/V3_backup/architecture/ARCHITECTURE.md"
+      ]
+    },
+    {
+      "objectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b",
+      "paths": [
+        "docs/guards/V3/architecture/ARCHUNITNET.md",
+        "docs/guards/V3_backup/architecture/ARCHUNITNET.md",
+        "docs/guards/V3_ifx/architecture/ARCHUNITNET.md"
+      ]
+    },
+    {
+      "objectId": "e1d8363dafe1efa5512442c8d070a6002c9b3ca2",
+      "paths": [
+        "docs/guards/V3/architecture/TECHNICAL.md",
+        "docs/guards/V3_backup/architecture/TECHNICAL.md"
+      ]
+    },
+    {
+      "objectId": "ac78b3c05543a79db363f8d4dd19e94e917d121d",
+      "paths": [
+        "docs/guards/V3/contracts/decision.schema.json",
+        "docs/guards/V3_backup/contracts/decision.schema.json",
+        "docs/guards/V3_ifx/contracts/decision.schema.json"
+      ]
+    },
+    {
+      "objectId": "dc2aa8ce49cf2a5786132bb4a6506234173bc75d",
+      "paths": [
+        "docs/guards/V3/contracts/plan.schema.json",
+        "docs/guards/V3_backup/contracts/plan.schema.json",
+        "docs/guards/V3_ifx/contracts/plan.schema.json"
+      ]
+    },
+    {
+      "objectId": "f3f922f6038c23fe7601aaace2680c481bf4abf1",
+      "paths": [
+        "docs/guards/V3/contracts/pre-result.schema.json",
+        "docs/guards/V3_backup/contracts/pre-result.schema.json",
+        "docs/guards/V3_ifx/contracts/pre-result.schema.json"
+      ]
+    },
+    {
+      "objectId": "b9fc5ddabd71019de91b96e47619662bfb996b00",
+      "paths": [
+        "docs/guards/V3/contracts/profile.schema.json",
+        "docs/guards/V3_backup/contracts/profile.schema.json",
+        "docs/guards/V3_ifx/contracts/profile.schema.json"
+      ]
+    },
+    {
+      "objectId": "2191effc81970473dcc766c6b29a36036d216ad8",
+      "paths": [
+        "docs/guards/V3/contracts/project-map.schema.json",
+        "docs/guards/V3_backup/contracts/project-map.schema.json",
+        "docs/guards/V3_ifx/contracts/project-map.schema.json"
+      ]
+    },
+    {
+      "objectId": "3f30e4b44a2e3beb880c36046227ffdba7f65e9d",
+      "paths": [
+        "docs/guards/V3/contracts/rule.schema.json",
+        "docs/guards/V3_backup/contracts/rule.schema.json",
+        "docs/guards/V3_ifx/contracts/rule.schema.json"
+      ]
+    },
+    {
+      "objectId": "4c1736fa2fb66fbb946d036ceec6489bed25665b",
+      "paths": [
+        "docs/guards/V3/contracts/tech-stack.schema.json",
+        "docs/guards/V3_backup/contracts/tech-stack.schema.json",
+        "docs/guards/V3_ifx/contracts/tech-stack.schema.json"
+      ]
+    },
+    {
+      "objectId": "944b0db69d78075efaa52ba65fa339e97a4602ae",
+      "paths": [
+        "docs/guards/V3/examples/minimal/profile.json",
+        "docs/guards/V3_backup/examples/minimal/profile.json",
+        "docs/guards/V3_ifx/examples/minimal/profile.json"
+      ]
+    },
+    {
+      "objectId": "253b8dfebbd8ba748bca44e7c3305bc9fe2f7ad1",
+      "paths": [
+        "docs/guards/V3/examples/minimal/project-map.json",
+        "docs/guards/V3_backup/examples/minimal/project-map.json",
+        "docs/guards/V3_ifx/examples/minimal/project-map.json"
+      ]
+    },
+    {
+      "objectId": "ddd5184f3ae287167d43f2e683565b06d997d781",
+      "paths": [
+        "docs/guards/V3/examples/minimal/rules/ARCH.SAMPLE.json",
+        "docs/guards/V3_backup/examples/minimal/rules/ARCH.SAMPLE.json",
+        "docs/guards/V3_ifx/examples/minimal/rules/ARCH.SAMPLE.json"
+      ]
+    },
+    {
+      "objectId": "fe2ce8c242b6c303781b216ef54a66bbe0ef69f0",
+      "paths": [
+        "docs/guards/V3/examples/minimal/tech-stack.json",
+        "docs/guards/V3_backup/examples/minimal/tech-stack.json",
+        "docs/guards/V3_ifx/examples/minimal/tech-stack.json"
+      ]
+    },
+    {
+      "objectId": "46bdc113eb2e753b5fa3b5066393ea4560aa4ed9",
+      "paths": [
+        "docs/guards/V3/examples/minimal/views/COVERAGE.md",
+        "docs/guards/V3_backup/examples/minimal/views/COVERAGE.md"
+      ]
+    },
+    {
+      "objectId": "aa96bb860147e0ee5b461d9c0a75df26a2e33daa",
+      "paths": [
+        "docs/guards/V3/examples/minimal/views/PROFILE.md",
+        "docs/guards/V3_backup/examples/minimal/views/PROFILE.md"
+      ]
+    },
+    {
+      "objectId": "ebc574fa83474ffe01eae641bf6c01d91c91605d",
+      "paths": [
+        "docs/guards/V3/examples/minimal/views/PROJECT_MAP.md",
+        "docs/guards/V3_backup/examples/minimal/views/PROJECT_MAP.md"
+      ]
+    },
+    {
+      "objectId": "7ba570b542d04ae82190046c8c6a15298f2bf253",
+      "paths": [
+        "docs/guards/V3/examples/minimal/views/README.md",
+        "docs/guards/V3_backup/examples/minimal/views/README.md"
+      ]
+    },
+    {
+      "objectId": "c62d2f4c724a7bfc7b7bfc3327540ae5b83d510f",
+      "paths": [
+        "docs/guards/V3/examples/minimal/views/TECH_STACK.md",
+        "docs/guards/V3_backup/examples/minimal/views/TECH_STACK.md"
+      ]
+    },
+    {
+      "objectId": "0ff5e0698beb039af6a33d081274280eb01263c2",
+      "paths": [
+        "docs/guards/V3/examples/minimal/views/rules/ARCH.SAMPLE.md",
+        "docs/guards/V3_backup/examples/minimal/views/rules/ARCH.SAMPLE.md"
+      ]
+    },
+    {
+      "objectId": "0d63947b9cacffc61a32690c4ec744f9cb5d4022",
+      "paths": [
+        "docs/guards/V3/generated/README.md",
+        "docs/guards/V3_backup/generated/README.md"
+      ]
+    },
+    {
+      "objectId": "bf7066b19316ba563d73d6274f6eb078fa0514d2",
+      "paths": [
+        "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3_backup/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1"
+      ]
+    },
+    {
+      "objectId": "238117a5f82645573bbeaa99ad24b003a883e8b9",
+      "paths": [
+        "docs/guards/V3/hooks/README.md",
+        "docs/guards/V3_backup/hooks/README.md",
+        "docs/guards/V3_ifx/hooks/README.md"
+      ]
+    },
+    {
+      "objectId": "f5c881dd6d256db2218fdd6bbadf5b44c2b087fd",
+      "paths": [
+        "docs/guards/V3/rules/README.md",
+        "docs/guards/V3_backup/rules/README.md"
+      ]
+    },
+    {
+      "objectId": "8b881b4a89dc5b706bd5c3a91556c286d1a54862",
+      "paths": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_backup/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1"
+      ]
+    },
+    {
+      "objectId": "b2c428d5d8ebdfc08304acf6b0a9e69aed9ca368",
+      "paths": [
+        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3_backup/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1"
+      ]
+    },
+    {
+      "objectId": "609ce96694a643d4e4948f91cbc481b369bd082f",
+      "paths": [
+        "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3_backup/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1"
+      ]
+    },
+    {
+      "objectId": "726b3207f18d2dd7c025192df9250419b1346b50",
+      "paths": [
+        "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3_backup/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1"
+      ]
+    },
+    {
+      "objectId": "ba715d41189e621a852a8ffc6b4956a2e006e961",
+      "paths": [
+        "docs/guards/V3/skills/guard-bootstrap/SKILL.md",
+        "docs/guards/V3_backup/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "objectId": "846a7e4f97703ec089e94f22b67a2bb82f25aa38",
+      "paths": [
+        "docs/guards/V3/skills/guard-plan/SKILL.md",
+        "docs/guards/V3_backup/skills/guard-plan/SKILL.md"
+      ]
+    },
+    {
+      "objectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa",
+      "paths": [
+        "docs/guards/V3/templates/dotnet/AssemblyGuardTests.cs.in",
+        "docs/guards/V3_backup/templates/dotnet/AssemblyGuardTests.cs.in",
+        "docs/guards/V3_ifx/generated/stages/AssemblyGuardTests.cs",
+        "docs/guards/V3_ifx/templates/dotnet/AssemblyGuardTests.cs.in"
+      ]
+    },
+    {
+      "objectId": "94ebe6c985445cab87db4a23ceecb2d3f2abc0a7",
+      "paths": [
+        "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+        "docs/guards/V3_backup/templates/dotnet/GuardTests.cs.in"
+      ]
+    },
+    {
+      "objectId": "0e529d14b37c302c62e996d207b448c03c079e9c",
+      "paths": [
+        "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in",
+        "docs/guards/V3_backup/templates/dotnet/GuardV3.Tests.csproj.in",
+        "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in"
+      ]
+    },
+    {
+      "objectId": "cdf1ce9b71b756d96ad00e24baf98550c7fd9e94",
+      "paths": [
+        "docs/guards/V3/templates/plan/20260914-example.md",
+        "docs/guards/V3_backup/templates/plan/20260914-example.md",
+        "docs/guards/V3_ifx/templates/plan/20260914-example.md"
+      ]
+    },
+    {
+      "objectId": "dc57585da3f55caded3ee44e1292207f6a0a2613",
+      "paths": [
+        "docs/guards/V3/templates/plan/20260914-example.plan.json",
+        "docs/guards/V3_backup/templates/plan/20260914-example.plan.json"
+      ]
+    },
+    {
+      "objectId": "a4f54847a4cab171fa6a16951af9956acf976224",
+      "paths": [
+        "docs/guards/V3/templates/plan/README.md",
+        "docs/guards/V3_backup/templates/plan/README.md"
+      ]
+    },
+    {
+      "objectId": "067e743a299b01985e501a8d79dad5edc8145ee6",
+      "paths": [
+        "docs/guards/V3/tests/Test-V3.ps1",
+        "docs/guards/V3_backup/tests/Test-V3.ps1"
+      ]
+    },
+    {
+      "objectId": "5df8bd198bebf4818703f5cd83f3df1253179175",
+      "paths": [
+        "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3_backup/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1"
+      ]
+    },
+    {
+      "objectId": "265902e62474309f440ea50ef1bcd57bfa7af1d0",
+      "paths": [
+        "docs/guards/V3/tests/Test-V3Tools.ps1",
+        "docs/guards/V3_backup/tests/Test-V3Tools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+      ]
+    },
+    {
+      "objectId": "fdd8286ae6e3ce0f73d4c29afdae005d264f1a71",
+      "paths": [
+        "docs/guards/V3_ifx/analysis/ifx/review-profile/profile.json",
+        "docs/guards/V3_ifx/generated/stages/profile.json",
+        "docs/guards/V3_ifx/profiles/ifx/profile.json"
+      ]
+    },
+    {
+      "objectId": "9bb96ace28fd59935474e95a4c07221c8ed81bc8",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/LayerGuard.slnx",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+        "mcp/LayerGuard/LayerGuard.slnx"
+      ]
+    },
+    {
+      "objectId": "2c8bb5f01aeca3ed52d1e1cec39af07a1c9782be",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Analyzer.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Analyzer.cs",
+        "mcp/LayerGuard/src/LayerGuard/Analyzer.cs"
+      ]
+    },
+    {
+      "objectId": "f6b3a4334b0923dee0b8e08f63a704707986bc2f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/ArchitectureGraph.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/ArchitectureGraph.cs",
+        "mcp/LayerGuard/src/LayerGuard/ArchitectureGraph.cs"
+      ]
+    },
+    {
+      "objectId": "7bbfd9a1f49de7ccd86144926d5c4e20fcb80edb",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Baseline.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Baseline.cs",
+        "mcp/LayerGuard/src/LayerGuard/Baseline.cs"
+      ]
+    },
+    {
+      "objectId": "a95de6131f56670ec95afd55ed61b9ac08574c7e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/CsprojReader.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/CsprojReader.cs",
+        "mcp/LayerGuard/src/LayerGuard/CsprojReader.cs"
+      ]
+    },
+    {
+      "objectId": "6265917ffd8b0228f6b4e758108022c9352d5850",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/DeclarationIndex.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/DeclarationIndex.cs",
+        "mcp/LayerGuard/src/LayerGuard/DeclarationIndex.cs"
+      ]
+    },
+    {
+      "objectId": "6e7fe000cd544f27f22e4cdda4e4992e59156c42",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/DeclarationRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/DeclarationRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/DeclarationRules.cs"
+      ]
+    },
+    {
+      "objectId": "1d31dad0659abfc83234f6c5c81c492b0f7e3fc2",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/EmbeddedAdapterRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/EmbeddedAdapterRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/EmbeddedAdapterRules.cs"
+      ]
+    },
+    {
+      "objectId": "a77aea2059d50c1d4b41cb05456cfc9a267185b3",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Facts.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Facts.cs",
+        "mcp/LayerGuard/src/LayerGuard/Facts.cs"
+      ]
+    },
+    {
+      "objectId": "b8a4919c6f834c960dacdbe7f729c1d4a50f6590",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/GatePolicyBindings.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/GatePolicyBindings.cs",
+        "mcp/LayerGuard/src/LayerGuard/GatePolicyBindings.cs"
+      ]
+    },
+    {
+      "objectId": "4ef63e1f568cddab7ab50a0825bce040c4744183",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/ImportRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/ImportRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/ImportRules.cs"
+      ]
+    },
+    {
+      "objectId": "a4403fd59d0a611656f2db08cc3fd935c3711856",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/InjectionRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/InjectionRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/InjectionRules.cs"
+      ]
+    },
+    {
+      "objectId": "37712136631ea7e87c2f0b903ecd9a213e7ac0b8",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/LayerGuard.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/LayerGuard.csproj",
+        "mcp/LayerGuard/src/LayerGuard/LayerGuard.csproj"
+      ]
+    },
+    {
+      "objectId": "1e907aac2fa1398433c0940e320d479c37da62fa",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Model.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Model.cs",
+        "mcp/LayerGuard/src/LayerGuard/Model.cs"
+      ]
+    },
+    {
+      "objectId": "701ac06cb938073660499336dfb5536c7ab1062f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/OwnershipRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/OwnershipRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/OwnershipRules.cs"
+      ]
+    },
+    {
+      "objectId": "050007d04b9ffeeadc054cfada120b8931025454",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/PackageRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/PackageRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/PackageRules.cs"
+      ]
+    },
+    {
+      "objectId": "aa4930944eff7d64d419e28b25f6f10fcbd0e2c6",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Paths.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Paths.cs",
+        "mcp/LayerGuard/src/LayerGuard/Paths.cs"
+      ]
+    },
+    {
+      "objectId": "9a79df40a599148c758f53d94f69c13c5a288595",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Program.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Program.cs",
+        "mcp/LayerGuard/src/LayerGuard/Program.cs"
+      ]
+    },
+    {
+      "objectId": "edbf79fc015d5fcab5aa10facfbefec68e714d4e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/ProjectGraph.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/ProjectGraph.cs",
+        "mcp/LayerGuard/src/LayerGuard/ProjectGraph.cs"
+      ]
+    },
+    {
+      "objectId": "a324749683e74fccfc79c28528432e1ef5bed28c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/ReferenceRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/ReferenceRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/ReferenceRules.cs"
+      ]
+    },
+    {
+      "objectId": "809eea174706ae86227d50c55abda7e6dcb19f12",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/ReportWriter.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/ReportWriter.cs",
+        "mcp/LayerGuard/src/LayerGuard/ReportWriter.cs"
+      ]
+    },
+    {
+      "objectId": "0b03ac6d64f65d438ed45dd29de885ecf76f21fe",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/RuleDescription.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/RuleDescription.cs",
+        "mcp/LayerGuard/src/LayerGuard/RuleDescription.cs"
+      ]
+    },
+    {
+      "objectId": "bb0799b3d947a5b45cdacb490ef8c82e3b20eac9",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Ruleset.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Ruleset.cs",
+        "mcp/LayerGuard/src/LayerGuard/Ruleset.cs"
+      ]
+    },
+    {
+      "objectId": "0f51763502e2ac0132690d04104fbca0462c4371",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Scanner.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Scanner.cs",
+        "mcp/LayerGuard/src/LayerGuard/Scanner.cs"
+      ]
+    },
+    {
+      "objectId": "99932632b82a060fdbbfcc505338eca979d8b4d8",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/SourceFiles.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/SourceFiles.cs",
+        "mcp/LayerGuard/src/LayerGuard/SourceFiles.cs"
+      ]
+    },
+    {
+      "objectId": "92421714597cbc96b9dd73d94c96783b4e12ab7f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/SourcePolicyRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/SourcePolicyRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/SourcePolicyRules.cs"
+      ]
+    },
+    {
+      "objectId": "2f5a7181cbd9d90786681a4d2c97669d68a1e631",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/StructureRules.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/StructureRules.cs",
+        "mcp/LayerGuard/src/LayerGuard/StructureRules.cs"
+      ]
+    },
+    {
+      "objectId": "f269018b32064325006fa810f43493f5a6351858",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/Tools.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Tools.cs",
+        "mcp/LayerGuard/src/LayerGuard/Tools.cs"
+      ]
+    },
+    {
+      "objectId": "50d2aa16fa353a8944f8e6cb3806cab5dc1a330a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/AllowedDirectionTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/AllowedDirectionTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/AllowedDirectionTests.cs"
+      ]
+    },
+    {
+      "objectId": "cc4f89e4aa3b5fa8ea20d23dd3b807c9dfabf0f6",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/AllowedReferenceTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/AllowedReferenceTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/AllowedReferenceTests.cs"
+      ]
+    },
+    {
+      "objectId": "8af0710b662869ddb2cedeb8a740d4ba53139d41",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/BaselineTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/BaselineTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/BaselineTests.cs"
+      ]
+    },
+    {
+      "objectId": "aeeea46ced8e4c67ef03c7b0362f79520b0e848c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/BootstrapArchitectureTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/BootstrapArchitectureTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/BootstrapArchitectureTests.cs"
+      ]
+    },
+    {
+      "objectId": "42834ae443a950a9ac3339d0435326b9adcf9b4e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/BootstrapConfigurationTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/BootstrapConfigurationTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/BootstrapConfigurationTests.cs"
+      ]
+    },
+    {
+      "objectId": "ab43020fcd98d81da45ff812c54cef448502d092",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/CustomRulesTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/CustomRulesTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/CustomRulesTests.cs"
+      ]
+    },
+    {
+      "objectId": "5629bc948052838c46db10c794cabc7050e8c366",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/DeclarationPlacementTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/DeclarationPlacementTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/DeclarationPlacementTests.cs"
+      ]
+    },
+    {
+      "objectId": "93201a4535663da0db1e8dd0c60a2286366f4bbb",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/DirectReferenceTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/DirectReferenceTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/DirectReferenceTests.cs"
+      ]
+    },
+    {
+      "objectId": "ac62b041fb13fddbbb0d59628a9b9e3241e2529a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/Fixtures.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/Fixtures.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/Fixtures.cs"
+      ]
+    },
+    {
+      "objectId": "d0ba6635877c2c1dcc971e32ad93c8447c466b91",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/ForbiddenDependencyTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/ForbiddenDependencyTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/ForbiddenDependencyTests.cs"
+      ]
+    },
+    {
+      "objectId": "581ec48205a0dd036c6af8381836e23c5bc7f66a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/ForbiddenPackageTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/ForbiddenPackageTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/ForbiddenPackageTests.cs"
+      ]
+    },
+    {
+      "objectId": "27d060439be505fcb4d9a67985d42f8189166a7a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs"
+      ]
+    },
+    {
+      "objectId": "999e9a69db32ef7f7eebb06574fd5277f534623f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/ImplementsTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/ImplementsTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/ImplementsTests.cs"
+      ]
+    },
+    {
+      "objectId": "bfe3990393a5f02923f6ea8647978b72e01170cd",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/ImportTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/ImportTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/ImportTests.cs"
+      ]
+    },
+    {
+      "objectId": "1a7ca68faabeced1ad2766511044c22fdcc7913c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/IndirectReferenceTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/IndirectReferenceTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/IndirectReferenceTests.cs"
+      ]
+    },
+    {
+      "objectId": "c60386c12d989b9f1f58907d7515ecbe31a679a4",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj"
+      ]
+    },
+    {
+      "objectId": "ab15f514f857fea5bdb4acbf293123ba13f1fdc4",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/ReportFormatTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/ReportFormatTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/ReportFormatTests.cs"
+      ]
+    },
+    {
+      "objectId": "841462e6d1d3fda33335364ca64636ab1ba6779f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/RulebookTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/RulebookTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/RulebookTests.cs"
+      ]
+    },
+    {
+      "objectId": "7254f59f58240d0e05e7a9d5b942a0ee639a402b",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/ScopeTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/ScopeTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/ScopeTests.cs"
+      ]
+    },
+    {
+      "objectId": "2c68aed504ab1f4e6624e1210d03350f06ff678b",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/SeverityTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/SeverityTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/SeverityTests.cs"
+      ]
+    },
+    {
+      "objectId": "85825476c7e8b7cfa025381b352f23afbebd9b6d",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/StoppedReferenceTests.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/StoppedReferenceTests.cs",
+        "mcp/LayerGuard/tests/LayerGuard.Tests/StoppedReferenceTests.cs"
+      ]
+    },
+    {
+      "objectId": "1baf8f805810d518dc744bd99ec982725762aeed",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Application/Allowed.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedDirections/Allowed.Application/Allowed.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Application/Allowed.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "4340f62396308527391c023e4c9da435a64ff59d",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Domain/Allowed.Domain.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Abstractions/Acme.Billing.Abstractions.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Order/Acme.Order.Infrastructure/Acme.Order.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Domain/Acme.Shared.Domain.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/CustomRules/Shop.Core/Shop.Core.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Application/Acme.Application.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Domain/Acme.Domain.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Acme.Presentation.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DirectReference/Direct.Infrastructure/Direct.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DirectSiblingReference/Sibling.Presentation/Sibling.Presentation.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Infrastructure/NoFlow.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Application/Acme.Application.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Domain/Shop.Domain.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Domain/Acme.Domain.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Imports/Acme.Application/Acme.Application.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Imports/Acme.Shared/Acme.Shared.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Infrastructure/Private.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.Infrastructure/Indirect.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Infrastructure/Hop.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.Presentation/IndSibling.Presentation.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Infrastructure/Attr.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Helper/Acme.Billing.Helper.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/SolutionScope/Sln.Infrastructure/Sln.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedDirections/Allowed.Domain/Allowed.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Abstractions/Acme.Billing.Abstractions.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Order/Acme.Order.Infrastructure/Acme.Order.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Domain/Acme.Shared.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/CustomRules/Shop.Core/Shop.Core.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Application/Acme.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Domain/Acme.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Acme.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DirectReference/Direct.Infrastructure/Direct.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DirectSiblingReference/Sibling.Presentation/Sibling.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DisableTransitive/NoFlow.Infrastructure/NoFlow.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/Acme.Application/Acme.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/Shop.Domain/Shop.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Domain/Acme.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Imports/Acme.Application/Acme.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Imports/Acme.Shared/Acme.Shared.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.Infrastructure/Private.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.Infrastructure/Indirect.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSharedHop/Hop.Infrastructure/Hop.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSiblingReference/IndSibling.Presentation/IndSibling.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Infrastructure/Attr.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/Billing/Acme.Billing.Helper/Acme.Billing.Helper.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/SolutionScope/Sln.Infrastructure/Sln.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Domain/Allowed.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Abstractions/Acme.Billing.Abstractions.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Order/Acme.Order.Infrastructure/Acme.Order.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Domain/Acme.Shared.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
+        "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.Core/Shop.Core.csproj",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Application/Acme.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Domain/Acme.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Acme.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Infrastructure/Direct.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/DirectSiblingReference/Sibling.Presentation/Sibling.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Infrastructure/NoFlow.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Application/Acme.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Domain/Shop.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Domain/Acme.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/Imports/Acme.Application/Acme.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/Imports/Acme.Shared/Acme.Shared.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Infrastructure/Private.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Infrastructure/Indirect.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Infrastructure/Hop.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.Presentation/IndSibling.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Infrastructure/Attr.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Helper/Acme.Billing.Helper.csproj",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
+        "mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Infrastructure/Sln.Infrastructure.csproj"
+      ]
+    },
+    {
+      "objectId": "d5c2225fb06ccf5810badf470660923cc2e5fbff",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Infrastructure/Allowed.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Presentation/Allowed.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedDirections/Allowed.Infrastructure/Allowed.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedDirections/Allowed.Presentation/Allowed.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Infrastructure/Allowed.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Presentation/Allowed.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "cb22d3402fcc64a9f38c80a9ac22fa59f002aea5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "cead4416fef60540d8e7d075270d19c398d3e965",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "46069cb13ea60982f358c33d4b0de9560522dcaf",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "96e68da4a86addd902ede847437f79abcfcb8c96",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/Order/Acme.Order.Domain/Acme.Order.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/Order/Acme.Order.Domain/Acme.Order.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/Order/Acme.Order.Domain/Acme.Order.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "987bbc477ae2c16be2b9d76310d81d9e71bbd1a3",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/AllowedReferences/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/AllowedReferences/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/AllowedReferences/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "5ccc7d8119c33bd3b354d7013f9ec1a01bec028c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Acme.ApiHost/Acme.ApiHost.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Acme.ApiHost/Acme.ApiHost.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Acme.ApiHost/Acme.ApiHost.csproj"
+      ]
+    },
+    {
+      "objectId": "6b512ec9245ec39fc1b7b533a704aa5d6434ca52",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application.Tests/Acme.Billing.Application.Tests.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/BillingPlus/Acme.BillingPlus.Contracts/Acme.BillingPlus.Contracts.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Legacy/Acme.Legacy.Abstractions/Acme.Legacy.Abstractions.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/Acme.Sales.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application.Tests/Acme.Billing.Application.Tests.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/BillingPlus/Acme.BillingPlus.Contracts/Acme.BillingPlus.Contracts.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Legacy/Acme.Legacy.Abstractions/Acme.Legacy.Abstractions.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/Acme.Sales.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application.Tests/Acme.Billing.Application.Tests.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/BillingPlus/Acme.BillingPlus.Contracts/Acme.BillingPlus.Contracts.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Legacy/Acme.Legacy.Abstractions/Acme.Legacy.Abstractions.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/Acme.Sales.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "ede786761743e2f238c656946fa1228a591dbae5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "092e9a2a8179a820856304e82bc3369f283827f0",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Ports.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Ports.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Ports.cs"
+      ]
+    },
+    {
+      "objectId": "27810640166402295bbea14f82204677ccc4654f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Composition/Acme.Billing.Composition.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Composition/Acme.Billing.Composition.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Composition/Acme.Billing.Composition.csproj"
+      ]
+    },
+    {
+      "objectId": "9d6aaf74406c130888a48854a19546a1f77e7e95",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Acme.Billing.Contracts.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Acme.Billing.Contracts.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Acme.Billing.Contracts.csproj"
+      ]
+    },
+    {
+      "objectId": "55bf8d9764e4257bbd6b2567dc255f34bbc80fb1",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/BadContracts.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/BadContracts.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/BadContracts.cs"
+      ]
+    },
+    {
+      "objectId": "40bcc5cb677a9ac9333f62d427163e3588bea61e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/BillingContract.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/BillingContract.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/BillingContract.cs"
+      ]
+    },
+    {
+      "objectId": "57ad3f8e0abcd87ac82ba188aed24078b72b98e0",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Ignored.generated.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Ignored.generated.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Ignored.generated.cs"
+      ]
+    },
+    {
+      "objectId": "1f3219d8626044232fccf42de4538fc925cac404",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "910411a126af45f020c3e718aff86a5e572d8e99",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj"
+      ]
+    },
+    {
+      "objectId": "4e88d0a829f0a62851057603483f66895ca3d30a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/EmbeddedAdapters.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/EmbeddedAdapters.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/EmbeddedAdapters.cs"
+      ]
+    },
+    {
+      "objectId": "96551fea818a7ad9aa9a7c6611d8fff828ac2ed0",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Repositories/LeakingRepository.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Repositories/LeakingRepository.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Repositories/LeakingRepository.cs"
+      ]
+    },
+    {
+      "objectId": "33196b9e339300e3d9bfd53d14fcead74fd15895",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/Acme.Billing.Integration.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/Acme.Billing.Integration.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/Acme.Billing.Integration.csproj"
+      ]
+    },
+    {
+      "objectId": "3c5cf218a8f0d719af4c7acd9e47513d37f4cf51",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/SalesAdapter.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/SalesAdapter.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/SalesAdapter.cs"
+      ]
+    },
+    {
+      "objectId": "d35b2d222daf4f008aa2b0dfcbd5ee59a673b42b",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "603065c118457d21a52c24b91c143b2386cb8461",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Acme.Sales.Contracts.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Acme.Sales.Contracts.csproj",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Acme.Sales.Contracts.csproj"
+      ]
+    },
+    {
+      "objectId": "aae9ff5eb0d40a13283882eb84c75b0049b0e6e5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Context.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Context.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Context.cs"
+      ]
+    },
+    {
+      "objectId": "ff49a8c1475c192ebb5c7902366b6b18400da439",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Contracts.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Contracts.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Contracts.cs"
+      ]
+    },
+    {
+      "objectId": "1c0b56316ff4ea9c19591e54d44bbac9abe81bb6",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/SaleEntity.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/SaleEntity.cs",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/SaleEntity.cs"
+      ]
+    },
+    {
+      "objectId": "3c7a8be2310fb7bf3ca0cf8dfbaa41c7f8433cbf",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/BootstrapArchitecture/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/BootstrapArchitecture/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "9fe1bc8541b6d862c111c3c1ddad46eeec381777",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/CustomRules/Shop.Api/Shop.Api.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/CustomRules/Shop.Api/Shop.Api.csproj",
+        "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.Api/Shop.Api.csproj"
+      ]
+    },
+    {
+      "objectId": "c624234d23b1e969dc3e59ec9e24d5ffd76171b9",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/CustomRules/Shop.Persistence/Shop.Persistence.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/CustomRules/Shop.UseCases/Shop.UseCases.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/CustomRules/Shop.Persistence/Shop.Persistence.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/CustomRules/Shop.UseCases/Shop.UseCases.csproj",
+        "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.Persistence/Shop.Persistence.csproj",
+        "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.UseCases/Shop.UseCases.csproj"
+      ]
+    },
+    {
+      "objectId": "5ca9b3d71cb183c70d15c6a9a967920ce955d6dc",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/CustomRules/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/CustomRules/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/CustomRules/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "818b9977dee4c35183637916a4ff6eff62c9aac6",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Application/Orders.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Application/Orders.cs",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Application/Orders.cs"
+      ]
+    },
+    {
+      "objectId": "dc62fb206c6906df8ac89a010e9ee9f253c77aab",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Domain/Contracts.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Domain/Contracts.cs",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Domain/Contracts.cs"
+      ]
+    },
+    {
+      "objectId": "2b9372ca5705aca1b1f27f51916dd0b1c6c7d1d1",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Storage.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Storage.cs",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Storage.cs"
+      ]
+    },
+    {
+      "objectId": "c22fc9d4c92c8b974cd9aac16db4ae5003f54d87",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Endpoints.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Endpoints.cs",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Endpoints.cs"
+      ]
+    },
+    {
+      "objectId": "3748139f37f25be27135ad918d9f87af4644c951",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DeclarationPlacement/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DeclarationPlacement/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "29f0e1b7ede60f56675184647fb99c6ea0e33b1a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DirectReference/Direct.Application/Direct.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DirectReference/Direct.Application/Direct.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Application/Direct.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "c2df32428b992ef353f48b6b459abe3d40474ea4",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DirectReference/Direct.Domain/Direct.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DirectReference/Direct.Domain/Direct.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Domain/Direct.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "ea1ff424065f7af3ae2e95686f1c554ccdb14d98",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DirectReference/Direct.Presentation/Direct.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DirectReference/Direct.Presentation/Direct.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Presentation/Direct.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "0478ec97fd5998557fd6c4a209824bf288bc9474",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DirectSiblingReference/Sibling.Infrastructure/Sibling.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DirectSiblingReference/Sibling.Infrastructure/Sibling.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/DirectSiblingReference/Sibling.Infrastructure/Sibling.Infrastructure.csproj"
+      ]
+    },
+    {
+      "objectId": "e7cecfac0c3f0be7b8b53b08ce78220903350b42",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Carrier/NoFlow.Carrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DisableTransitive/NoFlow.Carrier/NoFlow.Carrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Carrier/NoFlow.Carrier.csproj"
+      ]
+    },
+    {
+      "objectId": "01640cda84bbec19b10cf68be16c302d281b8003",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Domain/NoFlow.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DisableTransitive/NoFlow.Domain/NoFlow.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Domain/NoFlow.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "548351c995f9a84c2c66ce7f9864d76f98ff8d50",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Presentation/NoFlow.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/DisableTransitive/NoFlow.Presentation/NoFlow.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Presentation/NoFlow.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "07aff8d9f69061832c2f918788cef4af05ea39dd",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Application/Handlers.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/Acme.Application/Handlers.cs",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Application/Handlers.cs"
+      ]
+    },
+    {
+      "objectId": "4006f3faec2c15ccdb44589dd9865096ff709779",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Acme.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Acme.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Acme.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "8480c78f98cdf6a9b55e584ff49353c9f39d8480",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/SqlOrderStore.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/SqlOrderStore.cs",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/SqlOrderStore.cs"
+      ]
+    },
+    {
+      "objectId": "3d35929eac9c8f6c9d5cdc2c4ad8baaf9e0d0284",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Endpoints.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Endpoints.cs",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Endpoints.cs"
+      ]
+    },
+    {
+      "objectId": "27480a350f9f1ccdef43e967d3b27edddf3037cc",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenDependencies/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenDependencies/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "485e95483b2a9118c6f204d185a741e63931be99",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Application/Shop.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/Shop.Application/Shop.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Application/Shop.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "c857ec4833edf40abe24e2737f389d3cdd9fe215",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Presentation/OrderEndpoints.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/Shop.Presentation/OrderEndpoints.cs",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Presentation/OrderEndpoints.cs"
+      ]
+    },
+    {
+      "objectId": "72ff7c9bf6b148aba64c4814b7bf44c324f24086",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Presentation/Shop.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/Shop.Presentation/Shop.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Presentation/Shop.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "b7c0adbcee35a7eee7c02b949f9cddb7b9eb9b9b",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/bad-severity.layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/bad-severity.layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/bad-severity.layerguard.json"
+      ]
+    },
+    {
+      "objectId": "c097209df7091afc8a81cb8716018f5e8fa3fe18",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/both-lists.layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/both-lists.layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/both-lists.layerguard.json"
+      ]
+    },
+    {
+      "objectId": "ad5690b249e20d532e1f9fa347bd0bf2831d9720",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/ForbiddenPackages/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/ForbiddenPackages/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "0ce9094da8b01f9a22874183d5af582c0e36e4c5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Domain/Contracts.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Domain/Contracts.cs",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Domain/Contracts.cs"
+      ]
+    },
+    {
+      "objectId": "0b6205530aeaaaef8277d8beefdb4f68797e68de",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Infrastructure/Acme.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/Acme.Infrastructure.csproj"
+      ]
+    },
+    {
+      "objectId": "9cf1bd0359ff3d64331346c527efeb226e51bd2d",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/AuditRepository.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Infrastructure/AuditRepository.cs",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/AuditRepository.cs"
+      ]
+    },
+    {
+      "objectId": "b50aafd373c18270e4acc4f0818638d535727c48",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/CacheRepository.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Infrastructure/CacheRepository.cs",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/CacheRepository.cs"
+      ]
+    },
+    {
+      "objectId": "b9c1c4bd5a7b7cf92fe486864dd31e425af888cc",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/OrderRepository.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Infrastructure/OrderRepository.cs",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/OrderRepository.cs"
+      ]
+    },
+    {
+      "objectId": "0f96b7fb99c8fe17913f397441da17f5f6bfc749",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/UserRepository.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/Acme.Infrastructure/UserRepository.cs",
+        "mcp/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/UserRepository.cs"
+      ]
+    },
+    {
+      "objectId": "1575498c495d8c97fad537a4c1f9ca46db2840b5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Implements/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Implements/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/Implements/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "a4e59a3d1e835572f6aefbf17f2b2495104e7a1e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Imports/Acme.Domain/Acme.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Imports/Acme.Domain/Acme.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/Imports/Acme.Domain/Acme.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "ad88852a8146de86c74a200304731cad1797fe62",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Imports/Acme.Domain/Entity.cs",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Imports/Acme.Domain/Entity.cs",
+        "mcp/LayerGuard/tests/fixtures/Imports/Acme.Domain/Entity.cs"
+      ]
+    },
+    {
+      "objectId": "b860d3cf9eeda6ed5f558924443750c6a2876255",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Imports/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Imports/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/Imports/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "89582eb88c9de8d58c3a16a5c43ced7f3adcb0ac",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.AppCarrier/Private.AppCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.AppCarrier/Private.AppCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.AppCarrier/Private.AppCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "a6d5609a2f6ec05c4d5f97962a31c858dd1f4567",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Application/Private.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.Application/Private.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Application/Private.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "70e9d90ccd6a4e5ad7889b91f7ee27648c3e08e5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Domain/Private.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.Domain/Private.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Domain/Private.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "2031bec52a627a027c8a2a7b804baa1f96ee295a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.InfraCarrier/Private.InfraCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.InfraCarrier/Private.InfraCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.InfraCarrier/Private.InfraCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "1d92b8788e73524b3d65219ea52e8747b730ed45",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.PresCarrier/Private.PresCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.PresCarrier/Private.PresCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.PresCarrier/Private.PresCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "229cef5333afe7f84c1775529c18f1b93eaf9bea",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Presentation/Private.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectKeptPrivate/Private.Presentation/Private.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Presentation/Private.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "b4495d321a6d00e84ba3ce396b6439ab178e021c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.AppCarrier/Indirect.AppCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.AppCarrier/Indirect.AppCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.AppCarrier/Indirect.AppCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "fe31cb01a27956d1ad5981321bd3680208eee397",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.Application/Indirect.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.Application/Indirect.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Application/Indirect.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "d1f6b0a60f03b4555e7b38d873626b578738440f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.Domain/Indirect.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.Domain/Indirect.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Domain/Indirect.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "a28f5dbe5130b05d2a9bdbbaa0e1c2ff63ed4556",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.InfraCarrier/Indirect.InfraCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.InfraCarrier/Indirect.InfraCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.InfraCarrier/Indirect.InfraCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "1cd7f7db39e110cfe1b529372da4d3a378503e8e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.PresCarrier/Indirect.PresCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.PresCarrier/Indirect.PresCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.PresCarrier/Indirect.PresCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "7da3d1ab5bcc8880fd820f2bc53fcb3b51599597",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectReference/Indirect.Presentation/Indirect.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectReference/Indirect.Presentation/Indirect.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Presentation/Indirect.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "afb82bdbb3cce8a75a425fb4db3c1be6ea854a08",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Application/Hop.Application.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSharedHop/Hop.Application/Hop.Application.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Application/Hop.Application.csproj"
+      ]
+    },
+    {
+      "objectId": "74a5ff7430687c1f8c60724075e972ebe882967e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Carrier/Hop.Carrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSharedHop/Hop.Carrier/Hop.Carrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Carrier/Hop.Carrier.csproj"
+      ]
+    },
+    {
+      "objectId": "7b216983c11f359c365dbd09918da9e4e50824db",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Domain/Hop.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSharedHop/Hop.Domain/Hop.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Domain/Hop.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "c8565be3d1145968968354cc9142bb5224b638e6",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.Infrastructure/IndSibling.Infrastructure.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSiblingReference/IndSibling.Infrastructure/IndSibling.Infrastructure.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.Infrastructure/IndSibling.Infrastructure.csproj"
+      ]
+    },
+    {
+      "objectId": "dcd7b48061441e9021cd2617bfbe4b0aa077c731",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.PresCarrier/IndSibling.PresCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/IndirectSiblingReference/IndSibling.PresCarrier/IndSibling.PresCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.PresCarrier/IndSibling.PresCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "06d5971c249ff7b4dd0a9e6b49d7d26cb4bea3cf",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Domain/Attr.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Domain/Attr.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Domain/Attr.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "51352a18d65e600f137e957beb96f43559f51a7e",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.OpenCarrier/Attr.OpenCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/PrivateAssetsAttributeForm/Attr.OpenCarrier/Attr.OpenCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.OpenCarrier/Attr.OpenCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "e4b027689e16ab4bfdd3a66848620d7dec116d11",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Presentation/Attr.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Presentation/Attr.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Presentation/Attr.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "c775d27d5e9dfe3f72c703b31778f9285f3013db",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.SealedCarrier/Attr.SealedCarrier.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/PrivateAssetsAttributeForm/Attr.SealedCarrier/Attr.SealedCarrier.csproj",
+        "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.SealedCarrier/Attr.SealedCarrier.csproj"
+      ]
+    },
+    {
+      "objectId": "8f3c9450f62039545f50cb34866f158b99e728f8",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj"
+      ]
+    },
+    {
+      "objectId": "4b1ff44ed54a1b49bedfac60de178c60a8807448",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "2caead4b847a1a7f21d76d9c8fa444c286ddcf3f",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/bad-rule.layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/bad-rule.layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/bad-rule.layerguard.json"
+      ]
+    },
+    {
+      "objectId": "13379dd97487b4ddef8d99e4bdca48afac7e7519",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/Rulebook/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/Rulebook/layerguard.json",
+        "mcp/LayerGuard/tests/fixtures/Rulebook/layerguard.json"
+      ]
+    },
+    {
+      "objectId": "103d413ef58c06aeeb20d9a3a7ebe64da56eb94b",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/SolutionScope/Sln.Domain/Sln.Domain.csproj",
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/SolutionScope/Sln.Presentation/Sln.Presentation.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/SolutionScope/Sln.Domain/Sln.Domain.csproj",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/SolutionScope/Sln.Presentation/Sln.Presentation.csproj",
+        "mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Domain/Sln.Domain.csproj",
+        "mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Presentation/Sln.Presentation.csproj"
+      ]
+    },
+    {
+      "objectId": "2fba10057823930ec20e1456474fbf6643bf4dc7",
+      "paths": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/fixtures/SolutionScope/SolutionScope.sln",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/fixtures/SolutionScope/SolutionScope.sln",
+        "mcp/LayerGuard/tests/fixtures/SolutionScope/SolutionScope.sln"
+      ]
+    },
+    {
+      "objectId": "dcfeb23dd0ad009243a346a8c6c04200cbebd8a3",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+        "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in"
+      ]
+    },
+    {
+      "objectId": "a8e7de152deb62007d36d55b5edcfaa4fca8a4b5",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/project-map.json",
+        "docs/guards/V3_ifx/profiles/ifx/project-map.json"
+      ]
+    },
+    {
+      "objectId": "c24c8f475b66ac6443cb7e6cb4a3bf1a383fc6c3",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json"
+      ]
+    },
+    {
+      "objectId": "c2e56bbaf757a8e17ac1b59073c3cecbe42707a3",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/ARCH.SEMANTIC.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json"
+      ]
+    },
+    {
+      "objectId": "ffae770f7a54d999395887f3c06aaa6d19d6e645",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L1.2.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json"
+      ]
+    },
+    {
+      "objectId": "146eea6a09e37286a84e850e833024cb97169aa6",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L2.2.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json"
+      ]
+    },
+    {
+      "objectId": "0248f33a9ec7c4160c174885d2041d4a921fdd8a",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L2.3.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json"
+      ]
+    },
+    {
+      "objectId": "9cb54bae17e5c8811ad71e199507971808ac358c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L2.4.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json"
+      ]
+    },
+    {
+      "objectId": "2c589c3a1e893193783bc9070eb9f912a147fabe",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L2.9.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json"
+      ]
+    },
+    {
+      "objectId": "e806579ee26ade1523f10682fe60b4c36932a45c",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L3.1.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json"
+      ]
+    },
+    {
+      "objectId": "1ebac46a91558ce8450345b6391f91d31b1ee15b",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L3.4.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json"
+      ]
+    },
+    {
+      "objectId": "2370ddd46f90724de48c085cc61970970c564e75",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L3.5.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json"
+      ]
+    },
+    {
+      "objectId": "7e730e779c5906c9e17c4494408c59012269cdd8",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/rules/L3.6.json",
+        "docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json"
+      ]
+    },
+    {
+      "objectId": "f044060e181a11508efbb6e873e48c9359f750d8",
+      "paths": [
+        "docs/guards/V3_ifx/generated/stages/tech-stack.json",
+        "docs/guards/V3_ifx/profiles/ifx/tech-stack.json"
+      ]
+    }
+  ]
+}
