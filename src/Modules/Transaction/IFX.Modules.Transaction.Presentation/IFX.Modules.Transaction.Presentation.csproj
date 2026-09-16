@@ -8,7 +8,7 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="MediatR" VersionOverride="12.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IFX.Modules.Transaction.Application\IFX.Modules.Transaction.Application.csproj" />

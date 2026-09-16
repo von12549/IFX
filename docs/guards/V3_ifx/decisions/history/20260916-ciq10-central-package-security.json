@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-ciq10-central-package-security",
+  "owner": "xiaolong-feng",
+  "summary": "Centralize active NuGet versions, align EF Core and dotnet-ef on 8.0.31, remediate high and critical transitive dependency chains, and enforce repository-wide direct and transitive auditing.",
+  "affectedPaths": [
+    ".config/**",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "Directory.Build.props",
+    "Directory.Packages.props",
+    "docs/**",
+    "mcp/Directory.Packages.props",
+    "src/**/*.csproj",
+    "tests/**/*.csproj",
+    "tools/**/*.csproj"
+  ],
+  "rationale": "CIQ-10 exposed vulnerable shared dependency graphs that project-local overrides would only mask. Central Package Management supplies one auditable version source for active projects, the repository tool manifest keeps database tooling aligned with EF Core, and the V3 quality gate now records and rejects high or critical direct and transitive advisories. Targeted top-level upgrades and explicit safe direct references were used only where the full audit proved they were required."
+}

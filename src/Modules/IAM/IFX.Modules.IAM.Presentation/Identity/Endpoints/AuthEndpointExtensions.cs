@@ -26,12 +26,11 @@ public static class AuthEndpointExtensions
             .Produces<object>(StatusCodes.Status200OK)
             .Produces<object>(StatusCodes.Status400BadRequest);
 
-        group.MapPost("/login", AuthEndpoints.Login)
-            .WithName("Login")
-            .WithSummary("[Deprecated] Authenticate user with email and password. Use /api/v1/auth/oauth/authorize for new integrations.")
-            .WithDescription("This endpoint is deprecated. For new integrations, use the OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize which provides better security with PKCE and access to /userinfo endpoint.")
-            .Produces<object>(StatusCodes.Status200OK)
-            .Produces<object>(StatusCodes.Status401Unauthorized);
+        group.MapPost("/login", AuthEndpoints.LegacyLogin)
+            .WithName("LegacyLogin")
+            .WithSummary("Return migration guidance for the retired password login endpoint")
+            .WithDescription("Password credentials are no longer processed. Use the OAuth 2.0 Authorization Code flow via /api/v1/auth/oauth/authorize.")
+            .Produces<object>(StatusCodes.Status410Gone);
 
         group.MapPost("/refresh", AuthEndpoints.RefreshToken)
             .WithName("RefreshToken")

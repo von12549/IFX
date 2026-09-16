@@ -38,7 +38,7 @@ public class AuthEndpointTests : IClassFixture<CustomWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Login_WithInvalidRequest_ReturnsErrorResponse()
+    public async Task Login_ReturnsGoneWithOAuthMigrationGuidance()
     {
         // Arrange
         var request = new LoginRequest
@@ -50,8 +50,9 @@ public class AuthEndpointTests : IClassFixture<CustomWebApplicationFactory>
         // Act
         var response = await _client.PostAsJsonAsync("/api/v1/auth/login", request);
 
-        // Assert - Should return error status (BadRequest for validation, Unauthorized for auth failure, or InternalServerError)
-        response.StatusCode.Should().BeOneOf(HttpStatusCode.BadRequest, HttpStatusCode.Unauthorized, HttpStatusCode.InternalServerError);
+        response.StatusCode.Should().Be(HttpStatusCode.Gone);
+        var body = await response.Content.ReadAsStringAsync();
+        body.Should().Contain("/api/v1/auth/oauth/authorize");
     }
 
     [Fact]

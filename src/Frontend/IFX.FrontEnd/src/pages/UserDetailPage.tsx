@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { userManagementApi } from '../api/userManagement'
 import { roleApi } from '../api/role'
@@ -19,10 +19,10 @@ export function UserDetailPage() {
   const [selected, setSelected] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
 
-  const load = () =>
+  const load = useCallback(() =>
     userManagementApi.getById(userId!)
       .then(r => setUser(r.data?.data ?? null))
-      .catch(() => setError('User not found'))
+      .catch(() => setError('User not found')), [userId])
 
   useEffect(() => {
     Promise.all([
@@ -30,7 +30,7 @@ export function UserDetailPage() {
       roleApi.getAll().then(r => setAllRoles(r.data?.data ?? [])),
       roleGroupApi.getAll().then(r => setAllGroups(r.data?.data ?? [])),
     ]).finally(() => setLoading(false))
-  }, [userId])
+  }, [load])
 
   const removeRole = async (roleId: string) => {
     await userManagementApi.removeRole(userId!, roleId)

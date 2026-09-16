@@ -1,5 +1,5 @@
 import { apiErrorMessage } from '../api/errors'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { roleApi } from '../api/role'
 import { permissionApi } from '../api/permission'
@@ -21,17 +21,17 @@ export function RoleDetailPage() {
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
 
-  const load = () =>
+  const load = useCallback(() =>
     roleApi.getById(roleId!).then(r => {
       const data = r.data?.data
       setRole(data ?? null)
       setForm({ name: data?.name ?? '', description: data?.description ?? '', tenantId: data?.tenantId ?? '' })
-    }).catch(() => setError('Role not found'))
+    }).catch(() => setError('Role not found')), [roleId])
 
   useEffect(() => {
     Promise.all([load(), permissionApi.getAll().then(r => setAllPerms(r.data?.data ?? []))])
       .finally(() => setLoading(false))
-  }, [roleId])
+  }, [load])
 
   const handleSave = async () => {
     setSaving(true)

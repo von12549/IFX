@@ -19,8 +19,7 @@ public sealed class SqlServerMigrationCollection : ICollectionFixture<SqlServerM
 
 public sealed class SqlServerMigrationFixture : IAsyncLifetime
 {
-    private readonly MsSqlContainer _container = new MsSqlBuilder()
-        .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+    private readonly MsSqlContainer _container = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
         .WithPassword("G02_Strong!Password_2026")
         .Build();
 
