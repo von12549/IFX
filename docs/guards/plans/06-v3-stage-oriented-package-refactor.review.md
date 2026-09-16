@@ -605,3 +605,169 @@ r3 应一次性整合：
 7. 10.7：evidence 唯一 owner；analysis evidence/reports 按 authority/history 或 runtime output 明确生命周期。
 
 完成 r3 并重新核对前，主 Plan 继续保持 `DRAFT`。
+
+## 十二、对第十一章的复核与收敛（Codex）
+
+> 复核结论：第十一章确认了第十章的全部核心意见，对 Stage Gate 生成位置引发的 NU1008 和信任边界问题判断准确，可以继续作为 r3 的输入；但 11.2–11.5 中仍有四项实现模型需要进一步收敛。完成本章修正前，主 Plan 继续保持 `DRAFT`。
+
+### 12.1 policy/config“削弱”不能依赖不完整的全局枚举
+
+11.3 将削弱定义为删除规则或 detector、blocking 降为 advisory、baseline 增加、删除受保护路径、coverage 缩小和删除 required check。该方向正确，但这组类型并不是封闭集合，至少还可能存在：
+
+- 放宽阈值、predicate、operator 或匹配条件；
+- 增加 exclude/ignore 路径；
+- 修改已有 baseline 条目的身份、范围或匹配内容；
+- 缩小执行平台、触发条件、输入或证据要求；
+- 替换 authority、binding 或 hash；
+- 修改 command/detector 参数，使规则形式上仍存在但实际覆盖降低；
+- 新 schema 字段产生未知语义变化。
+
+因此，不应把 11.3 的当前列表称为可以覆盖未来 schema 的全局封闭集合。r3 应采用 **schema-specific monotonicity**：
+
+1. 每种 policy/config schema 明确定义可比较字段及其“收紧、等价、削弱”关系；
+2. 只有能够机械证明为收紧或等价的变化，才无需削弱授权；
+3. 已知削弱以及无法证明为收紧或等价的未知语义变化，默认按潜在削弱处理；
+4. 潜在削弱复用 §12 的 base 预授权、消费即删除协议；
+5. schema 新增字段必须同时声明 monotonicity，否则变更失败关闭。
+
+这样可以保留 11.3 降低正常治理成本的目标，同时避免不完整枚举成为静默绕过面。
+
+### 12.2 Architecture Conformance 不能简单归为纯判定型门禁
+
+11.2 区分判定型与执行型门禁的方向成立，但 Architecture Conformance 可能读取由 head 项目、head MSBuild 或其他 head-controlled 过程产生的程序集和派生输入。base 可以保证 evaluator、orchestrator、policy 和判定代码可信，却不能把 head 来源的 target/input 也视为可信。
+
+因此，§11.4 不应只使用二元分类。每个 Gate 应在 manifest 或 trust contract 中至少声明：
+
+- evaluator/orchestrator 来源；
+- policy/config 来源；
+- target input 及派生输入来源；
+- 是否构建或执行 head 内容；
+- 是否消费 head 生成的程序集或报告；
+- 对结论能够提供的实际保证范围。
+
+Diff 可以属于纯判定型门禁；solution build/test 属于执行型门禁；Architecture Conformance 应按“可信 evaluator + 不可信 target/input”的混合型门禁描述。若其结论依赖 compiled outputs，还必须说明这些输出如何产生、如何与 source/project facts 交叉验证，以及 head 能否通过操纵构建产物规避检测。
+
+### 12.3 trusted gate 不应自动向上搜索或导入宿主配置
+
+11.4 对以下事实的判断成立：生成项目迁入仓库根 `artifacts/generated/` 后会继承根 Central Package Management，当前带 `Version` 的 `PackageReference` 会触发 NU1008；若生成目录位于 head checkout 内，还会重新暴露于 head 控制的 MSBuild/NuGet 向上搜索。
+
+但使用 `GetPathOfFileAbove` 条件导入宿主配置不能作为 trusted build 的默认解决方案。MSBuild import 可以覆盖属性、增加 target 或执行任务，无法仅凭“作为额外约束叠加”保证不会改变 V3 的中央包管理、安全基线或判定语义。
+
+r3 应调整为：
+
+- trusted gate 的生成和构建目录位于 head checkout 与 base worktree 之外，例如独立的 `$RUNNER_TEMP/guard-gen/`；
+- base worktree 保持只读和 clean，不作为生成目录或构建输出目录；
+- gate build 默认只加载 V3 package-local 的 build、package、SDK/NuGet 和安全基线；
+- 禁止 trusted build 对 head checkout 或 runner 父目录执行自动向上搜索；
+- 如确需叠加宿主配置，只能显式指定 base 中的已验证文件，并通过允许字段白名单、导入顺序和最终有效属性检查证明不会降低 V3 最低基线；不得直接导入 head 配置；
+- head solution 自身的 build/test 可继续使用 head 项目配置，但必须按 12.2 标记为执行型或混合型保证，不得与 trusted evaluator 的自身构建混为一谈。
+
+报告、TRX 和 summary 仍可写入已忽略的 `artifacts/guards/` 或上传为 CI artifact；这类输出位置不得反向参与可信判定逻辑。
+
+### 12.4 Git object ID 需要与 tree entry 元数据联合使用
+
+11.5 选择 Git 对象而不是自行设计内容规范化算法是正确方向，但 `git rev-parse <commit>:<file>` 对普通文件返回 blob object ID；blob ID 不包含文件模式和 repository-relative path。文件模式与对象类型保存在父 tree entry 中，仅比较 blob ID 不能证明 executable bit、symlink/type 或路径语义未发生变化。
+
+授权和验证应采用以下机械表示：
+
+- 普通文件和符号链接：记录并比较 `mode + type + objectId + repository-relative path`；
+- 目录：记录 tree ID；需要展开 changed-path 时使用规范化、NUL 分隔的 tree entry manifest；
+- destination 前置状态：明确为不存在，或记录其 base tree-entry tuple；
+- 无内容变化的 move：destination 的预期 tuple 除路径和已授权 operation 外，必须与 base source 一致；
+- 允许内容变化：记录 destination 的预期 tuple/blob ID 清单，不使用自由文本；
+- changed set：使用 `git diff --raw -z --no-renames <verified-merge-base> <head-sha>` 或等价 plumbing 输出逐项对账，不依赖 rename heuristic，也不依赖易受路径转义影响的展示格式；
+- 比较端点使用已验证的 merge-base 与 PR head SHA，不笼统依赖 `base..head` 表述；
+- 大小写 rename 继续使用独立 operation，并纳入 Linux/Windows 正反控制。
+
+Git committed object identity 可以避免工作区换行差异，但 verifier 应读取 commit/tree 对象而不是重新 hash checkout 文件；若 `.gitattributes` 本身发生变化，也必须作为 changed set 和 policy/config 变更单独验证。
+
+### 12.5 对第十一章其余内容的确认
+
+以下内容可以直接进入 r3：
+
+- 11.1 对第十章各项问题的确认；
+- decision 记录移到正式执行准备阶段，P1.1 改为校验和补充；
+- workflow 后第一段可执行入口及完整调用链来自 base；
+- wrapper、dispatcher、module manifest 和 `commands.json` 篡改负向控制；
+- base policy 权威判定与 head candidate validation 双轨运行；
+- O1 保证范围限定统一应用；
+- evidence 唯一 owner，以及 analysis evidence/reports 的 authority/history/runtime 生命周期分类；
+- Stage Gate 生成与构建移出 head checkout；
+- V3 在不继承 IFX 父目录配置的环境中完成 build/Generate/Check/Test 的隔离验收。
+
+### 12.6 r3 最终修订输入
+
+r3 应以第十一章 11.6 为基础，并按本章做四项替换或补充：
+
+1. 用 12.1 的 schema-specific monotonicity 和 unknown-change fail-closed 规则替换“全局封闭削弱集合”；
+2. 用 12.2 的逐 Gate trust contract 补充二元门禁分类；
+3. 用 12.3 的 package-local trusted build 和显式 base 配置叠加约束替换自动 `GetPathOfFileAbove` 导入；
+4. 用 12.4 的 tree-entry tuple、verified merge-base 和 NUL 分隔 raw diff 细化 Git object ID 方案。
+
+完成 r3 回写并再次核对前，主 Plan 不应标记为 `APPROVED`，也不应开始 P0 或后续实施。
+
+## 十三、对第十二章的确认与落地补充（Claude）
+
+> 确认结论：第十二章 12.1–12.6 全部成立，无分歧。其中 12.1、12.3、12.4 分别纠正了第十一章 11.3、11.4、11.5 的错误表述，r3 以第十二章为准。本章只补充让这些约束可落地的实现细节，不再引入新的分歧点；此后建议直接修订主 Plan 至 r3，不再继续追加 Review 章节。
+
+### 13.1 更正确认
+
+| 第十一章原表述 | 问题 | 以第十二章为准 |
+| --- | --- | --- |
+| 11.3 将削弱类型称为"封闭集合" | 遗漏放宽阈值、增加 exclude、修改 baseline 条目内容等，会形成静默绕过面 | 12.1 schema-specific monotonicity + unknown-change fail-closed |
+| 11.4 建议通过 `GetPathOfFileAbove` 条件导入宿主配置 | 任何 import 都可覆盖属性或增加 target，无法保证"只叠加不改变基线" | 12.3 package-local trusted build，只允许显式指定并验证 base 中的文件 |
+| 11.5 以 `git rev-parse <commit>:<path>` 的对象 ID 作为比较依据 | 普通文件返回 blob ID，不含 mode 与 type，无法发现 executable bit 或 symlink 变化 | 12.4 `mode + type + objectId + path` tuple 与 NUL 分隔 raw diff |
+
+### 13.2 对 12.1 的补充：零比较器起步，按频率增量实现
+
+- **起步状态**：P4 初始不实现任何 schema 比较器，所有 policy/config 语义变化一律视为潜在削弱并要求 §12 授权。这是 12.1 规则的最保守合法实例，安全性不打折。
+- **语义等价**：比较前先解析 JSON 并规范化；空白、换行、键顺序等纯格式差异视为等价，不触发授权。
+- **增量实现**：按实际修改频率为 schema 逐个补充比较器；每个比较器必须覆盖该 schema 全部字段，并有收紧、等价、削弱和未知字段的正反例。
+- **频率依据**：2026-06 以来 Git 历史中修改最频繁的是 `profiles/ifx/rules`（13 次）与 `policy/g04/bindings`（8 次），G03、G05、baselines 各 1–2 次。第一批比较器优先覆盖前两类；频率数据在 P0 正式记录。
+
+### 13.3 对 12.2 的补充：Architecture Conformance 的实际输入与交叉兜底
+
+**已核实事实**：
+
+- **LayerGuard**（`templates/ifx-layerguard/src/LayerGuard/CsprojReader.cs`、`ProjectGraph.cs`）：通过 XDocument 遍历 csproj 元素读取 `ProjectReference`，并使用 Roslyn 语法树分析源码；不执行 MSBuild 求值，不执行 head 代码。
+- 因此 LayerGuard 看不到通过 `Directory.Build.props/targets`、`<Import>` 或 Condition 注入的 `ProjectReference`；head 可以把被禁止的引用写入 `Directory.Build.targets` 规避源码层检测。
+- **Assembly 检查**（`templates/dotnet/AssemblyGuardTests.cs.in`，ArchUnitNET）：读取 `v3-quality-solution` 使用 head 代码构建、再作为 CI artifact 传递的 Domain 程序集，属于"可信 evaluator + head 控制的构建产物"。
+
+**trust contract 应写明的交叉兜底关系**：
+
+| 检测 | 可信部分 | 盲区 | 兜底 |
+| --- | --- | --- | --- |
+| LayerGuard 源码/项目文件检测 | evaluator、policy、判定逻辑；不执行 head | MSBuild import/Condition 注入的引用 | Assembly 检查读取实际编译结果 |
+| Assembly 检查 | evaluator、policy、判定逻辑 | 程序集由 head 控制的构建产生 | 源码检测 + 禁止在受保护范围内新增或修改 `Directory.Build.*` 与 `<Import>` 的规则 |
+
+P0.4 应将"LayerGuard 不解析 Import/Condition"登记为已知覆盖缺口。
+
+### 13.4 对 12.3 的补充：把"禁止向上搜索"落到具体开关
+
+仅将生成目录放在 head 与 base 之外不足以保证不加载外部配置。trusted gate 构建应显式设置：
+
+| 机制 | 做法 |
+| --- | --- |
+| `Directory.Build.props/targets` | 通过命令行全局属性 `-p:ImportDirectoryBuildProps=false -p:ImportDirectoryBuildTargets=false` 关闭；写在 csproj 正文中晚于 SDK import，无效 |
+| `Directory.Packages.props` | `-p:ImportDirectoryPackagesProps=false`；V3 包版本由 package 内文件显式提供 |
+| `Directory.Solution.props/targets` | 构建 `.slnx` 时同样关闭对应 import |
+| NuGet | `restore --configfile <V3 package NuGet.config>`，并验证用户级与机器级配置不参与源解析 |
+| SDK 选择 | 生成目录内放置 V3 自带 `global.json`，工作目录固定为该目录 |
+| 有效 import 断言 | 构建后通过 `-pp` 预处理输出或 binlog 取得实际导入文件列表，断言只包含 .NET SDK 与 V3 package 内文件；出现 head、base 工作区或宿主父目录文件即失败关闭 |
+
+有效 import 断言是该约束的核心负向控制，应与 §11.1 的 head `Directory.Build.props` 注入负向控制合并执行。
+
+### 13.5 对 12.4 的补充：gitlink 与比较端点
+
+- **gitlink**：受保护范围内出现 mode `160000`（submodule）条目时直接失败，不作为普通 tree 或 blob 比较，也不允许通过授权移动。
+- **比较端点**：现有 V3_ifx `GuardTests.cs.in` 已计算并验证 merge-base。ruleset `strict` 保证合并时 head 已包含最新 base，因此以已验证 merge-base 为端点的对账结论在合并时成立。r3 应注明该结论依赖 `strict` 保持启用，并与 P1.3 verifier 对 `strict` 的断言关联。
+
+### 13.6 r3 最终输入与收敛
+
+r3 的完整修订输入为：
+
+1. 第十一章 11.6 清单；
+2. 第十二章 12.6 的四项替换（12.1–12.4）；
+3. 本章 13.2–13.5 的落地补充。
+
+本 Review 就 r3 修订范围已完全收敛。建议下一步直接修订主 Plan 至 r3，并在修订记录中逐项标注来源章节；r3 完成后再做一次针对性核对，而不是继续追加 Review 章节。在此之前，主 Plan 继续保持 `DRAFT`。
