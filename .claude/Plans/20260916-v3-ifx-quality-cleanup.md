@@ -2,7 +2,7 @@
 
 ## Objective
 
-Resolve CIQ-01 through CIQ-08 from `docs/guards/plans/TODO.md`, strengthen the V3 quality gate after the warning baseline is clean, and record an evidence-based disposition for the upstream-only CIQ-09 warning.
+Resolve CIQ-01 through CIQ-10 from `docs/guards/plans/TODO.md`, strengthen the V3 quality gate after the warning baseline is clean, and record an evidence-based disposition for the upstream-only CIQ-09 warning.
 
 ## Scope and phases
 
@@ -21,10 +21,11 @@ Resolve CIQ-01 through CIQ-08 from `docs/guards/plans/TODO.md`, strengthen the V
 4. **Upstream action tracking (CIQ-09)**
    - Recheck the current `actions/download-artifact` release and upstream issue.
    - Keep the current latest major if no fixed release exists; record owner, review date, evidence, and the rule against suppressing Node warnings.
-
-## Out-of-scope finding
-
-An expanded `dotnet list package --vulnerable --include-transitive` audit found an older repository-wide EF Core 8.0.0 / SQL Server dependency chain with additional transitive advisories. This is broader than the direct AutoMapper, MemoryCache, and Cognito warnings that defined CIQ-01 through CIQ-03. It is recorded as CIQ-10 with an owner and target date so that a coordinated .NET 8 patch-line upgrade can validate migrations and runtime behavior instead of masking shared dependencies with local direct references.
+5. **Central package security (CIQ-10)**
+   - Move active product, test, and tool projects to NuGet Central Package Management while keeping generated documentation projects and LayerGuard fixtures independently versioned.
+   - Align the EF Core package family and repository `dotnet-ef` tool on 8.0.31.
+   - Remediate the additional high/critical Hangfire, Testcontainers, WireMock, Newtonsoft.Json, System.Net.Http, and System.Text.RegularExpressions dependency chains proven by the full audit.
+   - Run a direct/transitive audit for all active projects and make high or critical advisories blocking in V3 Solution quality.
 
 ## Security and compatibility decisions
 
@@ -32,6 +33,7 @@ An expanded `dotnet list package --vulnerable --include-transitive` audit found 
 - Cognito remains on the 3.7 API line to avoid an unrelated AWS SDK v4 migration.
 - The legacy login route no longer accepts or processes credentials. A stable 410 response avoids silently changing POST semantics or redirecting a credential-bearing request.
 - npm updates stay inside the existing major-version declarations unless a direct dependency must be raised to a patched compatible release.
+- Central Package Management is the version authority for active projects. V3 generated projects and fixtures opt out where their local versions are part of the test contract.
 
 ## Validation
 
@@ -44,4 +46,6 @@ An expanded `dotnet list package --vulnerable --include-transitive` audit found 
 - `npm run test:run`
 - `npm run build`
 - `./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Validate`
+- `./docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1`
+- `./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Database`
 - V3 Pre/Diff, package tests, architecture, quality, specialized, and historical integrity checks.

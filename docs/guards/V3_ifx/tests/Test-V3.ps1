@@ -21,6 +21,7 @@ $passed = $false
 try {
     [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'src/App'))
     [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'docs/plans'))
+    Copy-Item -LiteralPath (Join-Path $repo 'docs/Directory.Packages.props') -Destination (Join-Path $fixture 'docs/Directory.Packages.props')
     Copy-Item -LiteralPath (Join-Path $package 'examples/minimal') -Destination $profile -Recurse
     [IO.File]::WriteAllText((Join-Path $fixture '.gitignore'), "docs/guards/V3/generated/`nartifacts/`n")
     [IO.File]::WriteAllText((Join-Path $fixture 'NuGet.Test.Config'), '<configuration><packageSources><clear /><add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" /></packageSources></configuration>')

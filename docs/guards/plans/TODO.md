@@ -24,7 +24,7 @@
 
 ## 实施期间发现的后续项
 
-- [x] **CIQ-10 — .NET 传递依赖漏洞基线**：所有 81 个活动项目已采用 NuGet Central Package Management；EF Core 全家族及仓库 `dotnet-ef` 工具统一到 `8.0.31`。全量审计同时识别并修复 Hangfire、Testcontainers、WireMock 等既有高危传递链，V3 Solution 现在执行 direct/transitive JSON 审计并阻断 high/critical advisory。最终审计为 81 个项目、0 个漏洞发现；Release build、全量测试、数据库模型/迁移验证和 V3 package gate 均通过。详细计划：`docs/guards/plans/20260916-ciq10-central-package-security.plan.json`。
+- [x] **CIQ-10 — .NET 传递依赖漏洞基线**：所有 81 个活动项目已采用 NuGet Central Package Management；EF Core 全家族及仓库 `dotnet-ef` 工具统一到 `8.0.31`。全量审计同时识别并修复 Hangfire、Testcontainers、WireMock 等既有高危传递链，V3 Solution 现在执行 direct/transitive JSON 审计并阻断 high/critical advisory。最终审计为 81 个项目、0 个漏洞发现；Release build、全量测试、数据库模型/迁移验证和 V3 package gate 均通过。详细计划：`.claude/Plans/20260916-ciq10-central-package-security.md`。
 
 ## 完成定义
 
@@ -38,4 +38,4 @@
 - 实施计划：`docs/guards/plans/20260916-v3-ifx-quality-cleanup.plan.json`；详细风险和验证矩阵：`.claude/Plans/20260916-v3-ifx-quality-cleanup.md`。
 - NuGet deterministic restore、Release build、模块测试、前端 audit/lint/test/build 和 V3 全套门禁结果，以本分支 CI 及 `artifacts/guards/v3-ifx` 产物为准。
 - CIQ-09 属于上游未修复风险，以上 owner、复查日期和 issue 状态满足本清单的风险接受条件。
-- CIQ-10 实施计划：`docs/guards/plans/20260916-ciq10-central-package-security.plan.json`；81 个活动项目的 direct/transitive 审计结果为 0 个漏洞发现，并已通过 V3 Solution 与 Specialized Database 验证。
+- CIQ-10 详细计划：`.claude/Plans/20260916-ciq10-central-package-security.md`；其正式变更范围已合并到 `docs/guards/plans/20260916-v3-ifx-quality-cleanup.plan.json`。81 个活动项目的 direct/transitive 审计结果为 0 个漏洞发现，并已通过 V3 Solution 与 Specialized Database 验证。
