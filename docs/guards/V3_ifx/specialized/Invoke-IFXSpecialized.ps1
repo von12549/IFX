@@ -3,11 +3,15 @@ param(
     [ValidateSet('G03','G04','G05','Plan04','Database','All')]
     [string] $Gate = 'All',
     [string] $OutputDirectory = 'artifacts/guards/v3-ifx/specialized',
-    [switch] $NoBuild
+    [switch] $NoBuild,
+    [string] $TargetRoot
 )
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
+$repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
+# Detector scripts read the target through GUARD_TARGET_ROOT; their code and package configuration stay in this package.
+$previousTargetRoot = $env:GUARD_TARGET_ROOT
+$env:GUARD_TARGET_ROOT = $repositoryRoot
 $scriptRoot = Join-Path $PSScriptRoot 'scripts'
 $resolvedOutput = if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $repositoryRoot $OutputDirectory }
 New-Item -ItemType Directory -Force -Path $resolvedOutput | Out-Null
@@ -70,6 +74,7 @@ foreach ($gateId in $selected) {
         $results += [ordered]@{ id = $gateId; status = 'fail'; output = [IO.Path]::GetRelativePath($resolvedOutput, $gateOutput).Replace('\','/'); message = $_.Exception.Message }
     }
 }
+$env:GUARD_TARGET_ROOT = $previousTargetRoot
 
 $summary = [ordered]@{
     schemaVersion = 1

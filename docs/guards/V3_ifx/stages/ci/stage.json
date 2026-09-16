@@ -25,6 +25,24 @@
         "evaluator": "base orchestrator",
         "policy": "package validation contracts",
         "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+        "inputs": [
+          {
+            "ref": "package:contracts/",
+            "source": "base"
+          },
+          {
+            "ref": "package:shared/",
+            "source": "base"
+          },
+          {
+            "ref": "package:stages/",
+            "source": "base"
+          },
+          {
+            "ref": "target:docs/guards/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": true,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -39,6 +57,24 @@
         "evaluator": "base orchestrator",
         "policy": "package validation contracts",
         "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+        "inputs": [
+          {
+            "ref": "package:contracts/",
+            "source": "base"
+          },
+          {
+            "ref": "package:shared/",
+            "source": "base"
+          },
+          {
+            "ref": "package:stages/",
+            "source": "base"
+          },
+          {
+            "ref": "target:docs/guards/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": true,
         "consumesHeadArtifacts": false,
         "knownGaps": [],

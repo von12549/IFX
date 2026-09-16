@@ -28,6 +28,92 @@
         "evaluator": "base Architecture Conformance engine",
         "policy": "docs/guards/V3_ifx/policy/layerguard.json",
         "targetInput": "head csproj XML and C# source text; head guard package tests",
+        "inputs": [
+          {
+            "ref": "package:policy/layerguard.json",
+            "source": "base"
+          },
+          {
+            "ref": "package:policy/baselines/",
+            "source": "base"
+          },
+          {
+            "ref": "package:profiles/ifx/",
+            "source": "base"
+          },
+          {
+            "ref": "package:policy/authorities.json",
+            "source": "base"
+          },
+          {
+            "ref": "package:policy/g03/",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "package:policy/g04/",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "package:policy/g05/",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "authority:database-migration-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:database-release-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g03-contract-event-catalog",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g03-layerguard-governance-input",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "authority:g04-backpressure-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-deployment-unit-catalog",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-failure-matrix",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-infrastructure-compatibility",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-module-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-release-orchestration",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-release-runtime-manifest",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "authority:g05-context-protocol",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:docs/guards/V3_ifx/tests/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [
@@ -42,8 +128,37 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base G03 detectors",
-        "policy": "docs/guards/V3_ifx/policy/g03/",
+        "policy": "governing-policy and exception-authorization pointers of the head-candidate G03 catalog (Plan 06 D18)",
         "targetInput": "head contract/event source and documentation text",
+        "detectors": [
+          "specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+        ],
+        "inputs": [
+          {
+            "ref": "authority:g03-contract-event-catalog",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g03-layerguard-governance-input",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "authority:g03-serialization-golden",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "authority:g03-sync-api-snapshot",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:docs/architecture/review/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -56,8 +171,69 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base G04 detectors",
-        "policy": "docs/guards/V3_ifx/policy/g04/",
+        "policy": "governing-policy authorities under deployment/g04 as head candidates (Plan 06 D18)",
         "targetInput": "head deployment manifests, source and documentation text",
+        "detectors": [
+          "specialized/scripts/Invoke-G04Verification.ps1"
+        ],
+        "inputs": [
+          {
+            "ref": "authority:database-migration-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:database-release-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-backpressure-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-dependency-criticality",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-deployment-unit-catalog",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-failure-matrix",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-infrastructure-compatibility",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-module-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-module-manifest-schema",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-release-evidence-template",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-release-orchestration",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-release-runtime-manifest",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:docs/architecture/review/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -70,8 +246,73 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base G05 detectors",
-        "policy": "docs/guards/V3_ifx/policy/g05/",
+        "policy": "governing-policy authorities under docs/architecture/review/gates/G05 as head candidates (Plan 06 D18)",
         "targetInput": "head context and security source text",
+        "detectors": [
+          "specialized/scripts/Invoke-G05Verification.ps1"
+        ],
+        "inputs": [
+          {
+            "ref": "authority:g03-contract-event-catalog",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g03-layerguard-governance-input",
+            "source": "derived-candidate"
+          },
+          {
+            "ref": "authority:g05-context-protocol",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-contract-context-conformance",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-event-envelope-golden",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-event-envelope-schema",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-event-propagation-conformance",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-execution-context-sources",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-failure-replay-compatibility",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-observability-security-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-open-items",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-ops-evidence-map",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g05-verification-baseline",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:docs/architecture/review/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -84,8 +325,57 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base Plan04 governance detectors",
-        "policy": "docs/architecture/review/policies/plan04/",
+        "policy": "governing-policy authorities under docs/architecture/review/policies/plan04 as head candidates (Plan 06 D18)",
         "targetInput": "head module and tenant query source text",
+        "detectors": [
+          "specialized/scripts/Test-Plan04Governance.ps1"
+        ],
+        "inputs": [
+          {
+            "ref": "authority:g03-contract-event-catalog",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:g04-module-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-extraction-decision-schema",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-extraction-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-projection-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-projection-registration-schema",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-projection-registry",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-tenant-query-bypass-registry",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:plan04-tenant-query-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:docs/architecture/review/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -98,8 +388,35 @@
       "trustContract": {
         "type": "executing",
         "evaluator": "base orchestrator and migration safety policy",
-        "policy": "migration safety policy",
+        "policy": "deployment/migration-safety-policy.json as a head candidate (Plan 06 D18)",
         "targetInput": "head DatabaseBoundary tests, DatabaseInventory tool, ApiHost and DatabaseMigrator",
+        "detectors": [
+          "specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+          "specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+          "specialized/scripts/New-DatabaseMigrationArtifacts.ps1"
+        ],
+        "inputs": [
+          {
+            "ref": "authority:database-migration-safety-policy",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "authority:database-release-manifest",
+            "source": "head-candidate"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:tests/IFX.DatabaseBoundary.Tests/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:tools/IFX.DatabaseInventory/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": true,
         "consumesHeadArtifacts": true,
         "knownGaps": [],
@@ -114,6 +431,32 @@
         "evaluator": "base orchestrator",
         "policy": "restore -warnaserror and audit thresholds",
         "targetInput": "head solution",
+        "inputs": [
+          {
+            "ref": "package:quality/",
+            "source": "base"
+          },
+          {
+            "ref": "target:IFX.sln",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:Directory.Build.props",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:Directory.Packages.props",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:tests/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": true,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -128,6 +471,24 @@
         "evaluator": "base compiled assembly rules",
         "policy": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json assemblyGate",
         "targetInput": "Domain assemblies built from head by v3-quality-solution",
+        "inputs": [
+          {
+            "ref": "package:quality/",
+            "source": "base"
+          },
+          {
+            "ref": "package:profiles/ifx/tech-stack.json",
+            "source": "base"
+          },
+          {
+            "ref": "package:policy/layerguard.json",
+            "source": "base"
+          },
+          {
+            "ref": "target:src/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": true,
         "knownGaps": [],
@@ -142,6 +503,16 @@
         "evaluator": "base orchestrator",
         "policy": "npm audit and zero-warning lint thresholds",
         "targetInput": "head frontend",
+        "inputs": [
+          {
+            "ref": "package:quality/",
+            "source": "base"
+          },
+          {
+            "ref": "target:src/Frontend/IFX.FrontEnd/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": true,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
@@ -156,6 +527,20 @@
         "evaluator": "base history verifier",
         "policy": "docs/guards/V3_ifx/history/manifest.json",
         "targetInput": "tracked evidence files in head",
+        "inputs": [
+          {
+            "ref": "package:history/manifest.json",
+            "source": "base"
+          },
+          {
+            "ref": "target:docs/architecture/review/evidence/",
+            "source": "head-target"
+          },
+          {
+            "ref": "target:mcp/LayerGuard/baselines/",
+            "source": "head-target"
+          }
+        ],
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [],

@@ -521,6 +521,8 @@ lock-file restore、构建前 import 预检和构建后 binlog 复核共同构�
 - 已知盲区与交叉兜底关系；
 - 对结论能够提供的实际保证范围。
 
+按 D18，trust contract 还须以 `inputs` 逐项列出读取的输入（`authority:<id>`、`package:<路径>` 或 `target:<路径>`；authority 的角色只登记在 §12.6 registry 中，不在 trust contract 重复）以及来源——`base`（来自 base 的门禁包配置与代码）、`head-candidate`（来自 head、须经 §12.6 比较的 domain authority）、`derived-candidate`（base generator 由 head authority 在临时目录生成的 projection）或 `head-target`（被检查的源码与文档）。
+
 初始分类（P0.10 核实后冻结）：
 
 | Gate | 类型 | evaluator 与 policy | target input | 是否执行 head | 保证范围 |
@@ -664,6 +666,29 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - 之后按 P0.9 的实际修改频率逐个补充比较器；每个比较器覆盖该 schema 全部字段，并有收紧、等价、削弱和未知字段正反例；
 - r3 核对的频率参考：2026-06 以来修改最频繁的是 `profiles/ifx/rules`（13 次）与 `policy/g04/bindings`（8 次），G03、G05 和 baselines 各 1–2 次。
 
+### 12.6 Domain authority 混合信任模型（D18）
+
+部分 Gate 读取门禁包之外、由领域拥有的 authority（例如 G03 contract-event catalog、`deployment/g04/*`、Plan04 policies）。这些文件既不能只从 base 读取（会迫使每个 contract 或 deployment 变更拆成两个 PR），也不能把 head 版本当作普通输入无条件信任（PR 可以放宽自身策略或增加 waiver）。采用混合模型：
+
+1. detector、路径映射、schema、transform 与判定逻辑来自 base；
+2. domain authority 的 head 版本作为 candidate 输入；
+3. base detector 同时读取 base 与 head 版本，按角色比较；
+4. 角色登记在 `policy/authorities.json` 的 `domainAuthorities`（`defaultRole` 加按 JSON Pointer 覆盖的 `pointerRoles`，`*` 匹配任意成员或下标，最具体的 pointer 优先；同一文件可混合多种角色），schema 为 `contracts/authorities.schema.json`；有 `detectors` 的 Gate，其 detector 静态读取闭包必须与 trust contract 声明的 authority 输入一致，由 `Invoke-IFXManifestCheck.ps1` 校验：
+
+| 角色 | 含义 | 变更处理 |
+| --- | --- | --- |
+| `target-declaration` | 被治理对象的声明（例如新增 contract 条目、deployment unit） | schema、引用完整性与一致性校验；不需要授权，允许单 PR |
+| `governing-policy` | 约束规则（lifecycle、enforcement、owner、阈值、策略开关） | 按 §12.4 单调性判断；无法证明为收紧或等价时需要 `weaken-policy` 授权 |
+| `exception-authorization` | waiver、bypass、baseline、allowlist | 任何扩大都需要 `weaken-policy` 授权 |
+| `derived-projection` | 由 authority 生成的门禁包 projection | base generator 在临时目录由 head authority 重新生成，校验 hash、schema、parity 与单调性 |
+| `evidence` | 冻结证据 | 由 historical integrity 保护 |
+
+约束：
+
+- candidate projection 只有在 anti-weakening 检查全部通过后才能参与判定；检查失败时 Gate 失败，不退回使用 base projection 继续判定；
+- 在 P4 实现 `weaken-policy` 授权之前，`governing-policy` 与 `exception-authorization` 的语义变化没有授权通道，一律失败关闭，唯一例外路径是 §11.7 的仓库外 break-glass；
+- Pre risk 与 CODEOWNERS routing 只提供可见性，不构成安全边界（§18 O1）。
+
 ### 12.5 保证范围
 
 在 §11.4 保证范围内：
@@ -735,6 +760,8 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 ### P2 — Trusted Base Guard Execution
 
 前置：P5 已完成。
+
+- **进度**：CP04a（2026-09-17）完成前置工作，本检查点不勾选条目。判定链脚本已分离 package root 与 target root（`-TargetRoot`/`GUARD_TARGET_ROOT` 读取 target，包配置与生成工程从包自身读取，`Invoke-V3.ps1 -GenerationRoot`），包外副本对移除了包代码的 target worktree 运行时与原位判定一致（`tests/Test-IFXTargetRootSeparation.ps1`，含两个负向控制）；按 D18 建立 domain authority registry 与 trust contract `inputs`/`detectors`，属于 P2.4 的输入部分，Gate 保证范围写入 summary 留给 CP04b。
 
 - [ ] P2.1 实现 §11.1：base worktree 位于 head 之外、只读且 clean，base SHA 验证；workflow 之后的第一个可执行入口及完整调用链来自 base；head 仅作为显式 target 参数。
 - [ ] P2.2 实现 §11.2 可信构建隔离：仓库外生成根、关闭目录向上搜索的全部开关、显式 V3 `build/` 基线、显式 `NuGet.config` 与 `global.json`；宿主配置叠加默认关闭。
@@ -921,7 +948,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ## 17. 设计决策
 
-D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补充的决定。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
+D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补充的决定；D18 为 P2 实施分析补充的决定。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
 
 ### D1 — V3_ifx 的分发边界
 
@@ -1020,6 +1047,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 
 - **决定**：`Test-Plan04Documentation`、`Test-Plan04Phase0Baseline`、`Test-Plan04Phase1Inventory`、`Test-Plan04Phase2Audit` 不接入任何门禁，待 P4 授权机制可用后通过 base 预授权删除。
 - 来源：DRIFT-09；三者在基线上失败，四者默认改写冻结证据，能力已由 `Test-Plan04Governance.ps1` 覆盖；记录 `20260916-v3-stage-d17-plan04-phase-validator-retirement.json`。
+
+### D18 — Domain authority 混合信任模型（P2 补充，细化 D9、D13）
+
+- **决定**：Gate 读取的 domain authority 采用 base evaluator + head candidate authority + anti-weakening 授权的混合模型；角色按 JSON Pointer 登记为 `target-declaration`、`governing-policy`、`exception-authorization`、`derived-projection`、`evidence`；candidate projection 由 base generator 在临时目录生成并先通过 anti-weakening 检查；P4 之前削弱类变化失败关闭。见 §11.3、§12.6。
+- 来源：P2 实施分析；Codex 混合模型意见与 Claude 三点补充（字段粒度角色、与零比较器起步的协调、与 P4 的时序），用户于 2026-09-17 批准；记录 `20260917-v3-stage-d18-domain-authority-hybrid-trust.json`。
 
 ## 18. 暂缓项
 

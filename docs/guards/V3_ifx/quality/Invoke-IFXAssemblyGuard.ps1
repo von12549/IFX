@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $RepositoryRoot,
-    [string] $PolicyPath = 'docs/guards/V3_ifx/policy/layerguard.json',
+    [string] $PolicyPath,
     [string[]] $AssemblyPaths = @(),
     [string] $DomainProjectRoot = 'src/Modules',
     [int] $ExpectedProjectCount = 5,
@@ -10,7 +10,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
+$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
 function Resolve-PathInRoot([string] $path) {
     $resolved = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $root $path }))
     $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
@@ -21,7 +21,8 @@ function Resolve-PathInRoot([string] $path) {
 $output = Resolve-PathInRoot $ReportPath
 $report = [ordered]@{ schemaVersion = 1; mode = 'quality'; detector = 'assembly'; status = 'blocked'; checks = @(); message = $null }
 try {
-    $policyFile = Resolve-PathInRoot $PolicyPath
+    # The policy is package configuration: read it from this package unless a target-relative path is given explicitly.
+    $policyFile = if ($PolicyPath) { Resolve-PathInRoot $PolicyPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../policy/layerguard.json')) }
     if (-not (Test-Path -LiteralPath $policyFile -PathType Leaf)) { throw "Policy is missing: $PolicyPath" }
     $policy = Get-Content -Raw -LiteralPath $policyFile | ConvertFrom-Json -Depth 100
     $allowed = @($policy.allowedReferences.Domain)

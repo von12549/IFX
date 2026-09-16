@@ -9,6 +9,8 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $root = if ($RepositoryRoot) {
     [IO.Path]::GetFullPath($RepositoryRoot)
+} elseif ($env:GUARD_TARGET_ROOT) {
+    [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT)
 } else {
     [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 }

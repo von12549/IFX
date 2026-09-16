@@ -1,0 +1,150 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IFX policy authority registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "architecturePolicy",
+    "projections",
+    "g04Bindings",
+    "domainAuthorities"
+  ],
+  "definitions": {
+    "repoPath": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+(/[A-Za-z0-9_.-]+)*$"
+    },
+    "role": {
+      "enum": [
+        "target-declaration",
+        "governing-policy",
+        "exception-authorization",
+        "derived-projection",
+        "evidence"
+      ]
+    }
+  },
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "architecturePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "owner"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/definitions/repoPath"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "projections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source",
+          "target",
+          "transform"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "$ref": "#/definitions/repoPath"
+          },
+          "target": {
+            "$ref": "#/definitions/repoPath"
+          },
+          "transform": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "g04Bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "source",
+          "target"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "$ref": "#/definitions/repoPath"
+          },
+          "target": {
+            "$ref": "#/definitions/repoPath"
+          }
+        }
+      }
+    },
+    "domainAuthorities": {
+      "description": "Domain-owned authority files read by base detectors, with D18 trust roles at JSON Pointer granularity. The most specific matching pointer wins; * matches any member or index.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "defaultRole"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "path": {
+            "$ref": "#/definitions/repoPath"
+          },
+          "defaultRole": {
+            "$ref": "#/definitions/role"
+          },
+          "pointerRoles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pointer",
+                "role"
+              ],
+              "properties": {
+                "pointer": {
+                  "type": "string",
+                  "pattern": "^(/([^/~]|~[01])+)+$"
+                },
+                "role": {
+                  "$ref": "#/definitions/role"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

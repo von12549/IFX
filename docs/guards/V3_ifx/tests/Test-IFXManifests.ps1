@@ -10,7 +10,6 @@ $repository = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
 $artifacts = [IO.Path]::GetFullPath((Join-Path $repository 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-manifests-$([Guid]::NewGuid().ToString('N'))"))
 if (-not $fixture.StartsWith($artifacts + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture path.' }
-$checker = Join-Path $package 'scripts/Invoke-IFXManifestCheck.ps1'
 $utf8 = [Text.UTF8Encoding]::new($false)
 
 function Copy-Into([string] $source, [string] $relative) {
@@ -30,7 +29,7 @@ function Invoke-Case([string] $label, [int] $expected, [string] $relative, [scri
                 [IO.File]::WriteAllText($path, ($document | ConvertTo-Json -Depth 50) + "`n", $utf8)
             } else { & $mutate $path }
         }
-        $output = @(& pwsh -NoProfile -File $checker -TargetRoot $fixture 2>&1) -join ' | '
+        $output = @(& pwsh -NoProfile -File (Join-Path $fixture 'docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1') -TargetRoot $fixture 2>&1) -join ' | '
         if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $output" }
         if ($expectText -and -not $output.Contains($expectText, [StringComparison]::Ordinal)) { throw "$label did not report '$expectText': $output" }
         Write-Host "PASS $label"
@@ -51,6 +50,9 @@ try {
     Copy-Into (Join-Path $repository '.github/workflows/v3-ifx-guardrails.yml') '.github/workflows/v3-ifx-guardrails.yml'
     Copy-Into (Join-Path $repository '.github/CODEOWNERS') '.github/CODEOWNERS'
     foreach ($relative in @('Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')) { Copy-Into (Join-Path $repository $relative) $relative }
+    # Domain authority files are target data read by the registry lint (Plan 06 D18).
+    $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
+    foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
     foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests')) {
         foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repository $root) -Recurse -File) {
             $relative = [IO.Path]::GetRelativePath($repository, $file.FullName).Replace([IO.Path]::DirectorySeparatorChar, '/')
@@ -80,6 +82,19 @@ try {
     Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1`n") } 'Verdict-chain script is outside the trusted component manifest: docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1'
     Invoke-Case 'stage listed without manifest fails' 1 $system { param($d) $d.stages = @($d.stages | Where-Object { $_ -ne 'diff' }) } "Stage manifest 'diff' is not listed"
     Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
+    $authorities = 'docs/guards/V3_ifx/policy/authorities.json'
+    function Get-Gate($document, [string] $id) { return @($document.gates | Where-Object { $_.id -eq $id })[0] }
+    Invoke-Case 'engine script reading an unregistered authority fails' 1 'docs/guards/V3_ifx/specialized/scripts/Test-UnregisteredAuthorityProbe.ps1' { param($p) [IO.File]::WriteAllText($p, "Get-Content 'deployment/g04/unregistered-policy.json'`n") } 'reads an unregistered domain authority: deployment/g04/unregistered-policy.json'
+    Invoke-Case 'detector reading an undeclared authority fails' 1 $stagePost { param($d) $g = Get-Gate $d 'v3-specialized-g04'; $g.trustContract.inputs = @($g.trustContract.inputs | Where-Object { $_.ref -ne 'authority:g04-failure-matrix' }) } "Gate 'v3-specialized-g04' detectors read domain authority 'g04-failure-matrix' without declaring it"
+    Invoke-Case 'declared authority that detectors do not read fails' 1 $stagePost { param($d) (Get-Gate $d 'v3-specialized-g03').trustContract.inputs += [ordered]@{ ref = 'authority:g05-open-items'; source = 'head-candidate' } } "declares domain authority 'g05-open-items' that its detectors do not read"
+    Invoke-Case 'head authority sourced from base fails' 1 $stagePost { param($d) @((Get-Gate $d 'v3-specialized-g03').trustContract.inputs | Where-Object { $_.ref -eq 'authority:g03-contract-event-catalog' })[0].source = 'base' } 'must come from head-candidate, not base'
+    Invoke-Case 'derived projection sourced as head candidate fails' 1 $stagePost { param($d) @((Get-Gate $d 'v3-specialized-g03').trustContract.inputs | Where-Object { $_.ref -eq 'authority:g03-sync-api-snapshot' })[0].source = 'head-candidate' } 'must come from derived-candidate, not head-candidate'
+    Invoke-Case 'unknown authority reference fails' 1 $stagePost { param($d) (Get-Gate $d 'v3-specialized-g05').trustContract.inputs += [ordered]@{ ref = 'authority:g05-missing'; source = 'head-candidate' } } 'unknown domain authority: g05-missing'
+    Invoke-Case 'projection consumed without its authority fails' 1 $stagePost { param($d) $g = Get-Gate $d 'v3-architecture'; $g.trustContract.inputs = @($g.trustContract.inputs | Where-Object { $_.ref -ne 'authority:g05-context-protocol' }) } "without declaring its authority 'g05-context-protocol'"
+    Invoke-Case 'gate without trust inputs fails schema' 1 $stagePost { param($d) (Get-Gate $d 'v3-quality-frontend').trustContract.Remove('inputs') } 'Schema validation failed'
+    Invoke-Case 'pointer role matching nothing fails' 1 $authorities { param($d) @($d.domainAuthorities | Where-Object { $_.id -eq 'g03-contract-event-catalog' })[0].pointerRoles += [ordered]@{ pointer = '/missingPolicy'; role = 'governing-policy' } } "pointer /missingPolicy matches nothing"
+    Invoke-Case 'unknown authority role fails schema' 1 $authorities { param($d) $d.domainAuthorities[0].defaultRole = 'advisory' } 'Schema validation failed: docs/guards/V3_ifx/policy/authorities.json'
+    Invoke-Case 'unregistered projection source fails' 1 $authorities { param($d) $d.domainAuthorities = @($d.domainAuthorities | Where-Object { $_.id -ne 'g04-failure-matrix' }) } 'Policy projection source is not a registered domain authority: deployment/g04/failure-matrix.json'
     Write-Host 'IFX manifest tests passed.'
 }
 finally {

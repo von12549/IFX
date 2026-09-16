@@ -5,7 +5,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 function Repo([string] $path) { if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $repositoryRoot $path } }
 $matrix = Get-Content -Raw -LiteralPath (Repo $MatrixPath) | ConvertFrom-Json -Depth 100
 $expected = @('database-preflight-failed','database-migrator-failed','worker-v2-not-ready','api-rolling-failed','api-v2-produced-before-rollback','transport-or-storage-outage','single-worker-crash','worker-fleet-failure','shutdown-timeout')

@@ -2,7 +2,7 @@
 param([string] $StatusPath = 'docs/architecture/review/evidence/plan04/phase8-documentation-status.json')
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 function Repo([string] $path) { if ([IO.Path]::IsPathRooted($path)) { return $path }; Join-Path $repositoryRoot $path }
 function ReadJson([string] $path) { Get-Content -Raw -LiteralPath (Repo $path) | ConvertFrom-Json -Depth 100 }
 

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param([string] $ReportPath = 'artifacts/plan05/security-boundary.json')
 $ErrorActionPreference = 'Stop'
-$root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$root = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 function Read-Source([string] $relative) { Get-Content -LiteralPath (Join-Path $root $relative) -Raw }
 function Pure-Contract([string] $source) {
     # The standard SDK declaration is build metadata, not a dependency on a Microsoft framework type.

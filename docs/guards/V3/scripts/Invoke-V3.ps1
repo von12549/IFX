@@ -11,7 +11,8 @@ param(
     [string] $HeadRef,
     [string] $NuGetConfig,
     [ValidateSet('Locked', 'Update')][string] $LockMode = 'Locked',
-    [string] $LockRoot
+    [string] $LockRoot,
+    [string] $GenerationRoot
 )
 
 $ErrorActionPreference = 'Stop'
@@ -25,7 +26,13 @@ $output = [IO.Path]::GetFullPath($(if ($OutputDirectory) {
     if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $root $OutputDirectory }
 } else { Join-Path $packageRoot 'generated/dotnet' }))
 $rootPrefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
-if (-not $output.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'OutputDirectory must stay under TargetRoot.' }
+# Generated projects belong to the guard package, which may run from a trusted copy outside the target (Plan 06 P2).
+$generation = if ($GenerationRoot) { [IO.Path]::GetFullPath($GenerationRoot) } else { $root }
+if (-not [IO.Directory]::Exists($generation)) { throw "GenerationRoot does not exist: $generation" }
+$generationPrefix = $generation.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+if (-not $output.StartsWith($generationPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+    throw $(if ($GenerationRoot) { 'OutputDirectory must stay under GenerationRoot.' } else { 'OutputDirectory must stay under TargetRoot.' })
+}
 
 function Assert-SafeRelativePath {
     param([string] $Value, [switch] $AllowGlob)

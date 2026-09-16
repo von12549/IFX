@@ -2,7 +2,7 @@
 param([string] $StatusPath = 'docs/architecture/review/evidence/plan04/abstractions-retirement-status.json')
 
 $ErrorActionPreference = 'Stop'
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
+$repositoryRoot = if ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..')) }
 function Repo([string] $path) { if ([IO.Path]::IsPathRooted($path)) { return $path }; Join-Path $repositoryRoot $path }
 function ProjectName([string] $path) { [IO.Path]::GetFileNameWithoutExtension($path.Replace('\', '/')) }
 function DirectoryName([string] $path) { [IO.Path]::GetFileName($path.Replace('\', '/')) }
@@ -49,7 +49,7 @@ $projectReferences = @(
         }
     }
 )
-$layerGuard = Get-Content -Raw -LiteralPath (Repo 'docs/guards/V3_ifx/policy/layerguard.json') | ConvertFrom-Json -Depth 100
+$layerGuard = Get-Content -Raw -LiteralPath ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../policy/layerguard.json'))) | ConvertFrom-Json -Depth 100
 $layerGuardEnforcesRetirement = '*.Abstractions' -in @($layerGuard.forbiddenProjectNames) -and @($layerGuard.ruleRefs | Where-Object { $_.ref -eq 'L1.2' -and 'PROJECT-NAME-FORBIDDEN' -in @($_.rules) }).Count -eq 1
 $allProjectFiles = @(Get-ChildItem -LiteralPath (Repo 'src') -File -Recurse -Filter '*.csproj')
 $allProjectReferences = @(

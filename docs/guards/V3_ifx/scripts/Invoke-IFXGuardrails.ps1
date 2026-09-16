@@ -13,7 +13,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$root = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else { [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..')) }
+# Package code, configuration and generated projects come from the repository this package runs from; target data
+# comes from TargetRoot. In-place runs use one repository for both (Plan 06 P2 root separation).
+$packageRepository = [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..'))
+$root = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else { $packageRepository }
 $output = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $root $OutputDirectory }))
 $rootPrefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 if (-not $output.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'OutputDirectory must stay under TargetRoot.' }
@@ -50,21 +53,21 @@ $modes = if ($Mode -eq 'All') { @('Validate','Architecture','Specialized','Quali
 foreach ($current in $modes) {
     switch ($current) {
         'Validate' {
-            Invoke-Child 'profile-validate' $v3 @('-Mode','Validate','-ProfileDirectory',$profile,'-TargetRoot',$root) @()
+            Invoke-Child 'profile-validate' $v3 @('-Mode','Validate','-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$packageRepository) @()
             Invoke-Child 'architecture-input-validate' $architecture @('-Mode','Validate','-TargetRoot',$root) @()
-            Invoke-Child 'profile-views' $docs @('-Mode','Check','-ProfileDirectory',$profile,'-TargetRoot',$root) @()
+            Invoke-Child 'profile-views' $docs @('-Mode','Check','-ProfileDirectory',$profile,'-TargetRoot',$packageRepository) @()
             Invoke-Child 'ci-contract' $ciContract @('-TargetRoot',$root) @()
             Invoke-Child 'manifest-check' $manifestCheck @('-TargetRoot',$root) @()
         }
         'Pre' {
             $report = Join-Path $output 'pre.json'
-            $args = @('-Mode','Pre','-ProfileDirectory',$profile,'-TargetRoot',$root,'-ReportPath',(Relative $report))
+            $args = @('-Mode','Pre','-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$packageRepository,'-ReportPath',(Relative $report))
             if ($PlanPath) { $args += @('-PlanPath',$PlanPath) } else { $args += @('-PlannedPaths') + $PlannedPaths }
             Invoke-Child 'pre' $v3 $args @((Relative $report))
         }
         'Diff' {
             $generatedStages = Join-Path $packageRoot 'generated/stages'
-            $args = @('-Mode','Diff','-ProfileDirectory',$profile,'-TargetRoot',$root,'-OutputDirectory',(Relative $generatedStages),'-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
+            $args = @('-Mode','Diff','-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$packageRepository,'-OutputDirectory',$generatedStages,'-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
             if ($HeadRef) { $args += @('-HeadRef',$HeadRef) }
             Invoke-Child 'diff' $v3 $args @()
         }
@@ -74,11 +77,11 @@ foreach ($current in $modes) {
         }
         'Specialized' {
             $directory = Join-Path $output 'specialized'
-            Invoke-Child "specialized-$($SpecializedGate.ToLowerInvariant())" $specialized @('-Gate',$SpecializedGate,'-OutputDirectory',(Relative $directory)) @((Relative (Join-Path $directory 'summary.json')))
+            Invoke-Child "specialized-$($SpecializedGate.ToLowerInvariant())" $specialized @('-Gate',$SpecializedGate,'-TargetRoot',$root,'-OutputDirectory',(Relative $directory)) @((Relative (Join-Path $directory 'summary.json')))
         }
         'Quality' {
             $directory = Join-Path $output 'quality'
-            Invoke-Child "quality-$($QualityTarget.ToLowerInvariant())" $quality @('-Target',$QualityTarget,'-OutputDirectory',(Relative $directory)) @((Relative (Join-Path $directory 'summary.json')))
+            Invoke-Child "quality-$($QualityTarget.ToLowerInvariant())" $quality @('-Target',$QualityTarget,'-TargetRoot',$root,'-OutputDirectory',(Relative $directory)) @((Relative (Join-Path $directory 'summary.json')))
         }
         'HistoricalIntegrity' {
             $report = Join-Path $output 'history/summary.json'
