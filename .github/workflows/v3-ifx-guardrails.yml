@@ -60,6 +60,9 @@ jobs:
           ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
           ./docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1
           ./docs/guards/V3_ifx/tests/Test-IFXPackage.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1
+          ./docs/guards/V3_ifx/tests/Test-IFXManifests.ps1
+          ./docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1
       - name: Run the sole production architecture scan
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture

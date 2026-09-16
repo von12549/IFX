@@ -5,12 +5,9 @@
   "hasPlaceholders": false,
   "hasBlockingDetector": true,
   "profileDifferences": [],
-  "unmappedSourceProjects": [
-    "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
-    "tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj"
-  ],
+  "unmappedSourceProjects": [],
   "unmatchedDetectorRules": [],
   "observedForbiddenReferences": [],
-  "proposalSha256": "b665640aace164f429073a55166c9d65b064568c4cb0cd8e84a1b595301700f0",
+  "proposalSha256": "4eaab7b5899b412bf6e11bf7853e59fb37872d3936021a9f4b1442d62db527c7",
   "decision": "needs-review"
 }

@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "id": "ci",
+  "commands": [
+    "ifx-guardrails",
+    "ifx-ci-contract",
+    "ifx-manifest-check"
+  ],
+  "dependencies": [
+    "pre",
+    "post",
+    "diff"
+  ],
+  "enforcement": "blocking",
+  "executionClass": "orchestration",
+  "documentation": [
+    "docs/guards/V3_ifx/DEPLOYMENT.md"
+  ],
+  "gates": [
+    {
+      "id": "v3-cross-platform-ubuntu-latest",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "executing",
+        "evaluator": "base orchestrator",
+        "policy": "package validation contracts",
+        "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+        "executesHead": true,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base fixes commands; head package tests only add coverage (Plan 06 §11.5)."
+      }
+    },
+    {
+      "id": "v3-cross-platform-windows-latest",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "executing",
+        "evaluator": "base orchestrator",
+        "policy": "package validation contracts",
+        "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+        "executesHead": true,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base fixes commands; head package tests only add coverage (Plan 06 §11.5)."
+      }
+    }
+  ]
+}

@@ -722,14 +722,15 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - **门槛**：每个现有文件、命令和 Gate 都有唯一分类；全部 trusted-base component 均进入待 P1.5 materialize 的冻结清单；未分类项不得进入后续阶段。
 - **结果**：门槛通过。基线记录位于 `docs/guards/V3_ifx/analysis/ifx/refactor-baseline/`，汇总见其 `README.md`。
 
-### P1 — 决策校验与已知漂移修复
+### P1 — 决策校验与已知漂移修复— 已完成（2026-09-16，CP02）
 
-- [ ] P1.1 校验正式执行准备阶段已创建的 D1–D15 decision 记录与 P0 基线一致，补充 P0 中发现的新决定。
-- [ ] P1.2 修复 P0.5 登记的漂移。
-- [ ] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。
-- [ ] P1.4 为旧目录和旧命令定义兼容期、deprecation 输出和删除条件。
-- [ ] P1.5 在不移动现有目录的前提下，先建立 P2 所需的最小 `guard-system.json`、`stage.json`、`commands.json` 与 `trusted-components.json` schema/skeleton；字段 owner 遵循 §6。P8 负责最终补全、迁移与文档化，不得重新定义已冻结字段。
+- [x] P1.1 校验正式执行准备阶段已创建的 D1–D15 decision 记录与 P0 基线一致，补充 P0 中发现的新决定。 证据：D1–D15 记录 ID、schema 与 `affectedPaths` 全部校验通过；新增 D16（比较器按 commit 频率排序，细化 D13）与 D17（Plan04 阶段校验脚本退役）。
+- [x] P1.2 修复 P0.5 登记的漂移。 证据：DRIFT-01–09 已处理（DRIFT-09 由 D17 决定退役，删除等待 P4）；DRIFT-10 按设计留给 P3/P7；详见 CP02 pair。
+- [x] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。 证据：`ci/Invoke-IFXCiContract.ps1`（纳入 Validate）、`tests/Test-IFXCiContract.ps1`（15 个正反例，纳入 `v3-architecture`）；远端只读核对 42 项通过（`analysis/ifx/refactor-progress/cp02-ci-contract-remote.json`）。
+- [x] P1.4 为旧目录和旧命令定义兼容期、deprecation 输出和删除条件。 证据：`guard-system.json` `compatibility`（兼容期、deprecation 输出、内部路径规则、删除条件与 12 个条目）。
+- [x] P1.5 在不移动现有目录的前提下，先建立 P2 所需的最小 `guard-system.json`、`stage.json`、`commands.json` 与 `trusted-components.json` schema/skeleton；字段 owner 遵循 §6。P8 负责最终补全、迁移与文档化，不得重新定义已冻结字段。 证据：V3 与 V3_ifx `contracts/` 下 4 个 schema；V3_ifx `guard-system.json`、`shared/commands.json`、`shared/trusted-components.json`、6 个 `stages/*/stage.json`；`scripts/Invoke-IFXManifestCheck.ps1`（纳入 Validate）与 `tests/Test-IFXManifests.ps1`（16 个正反例）。
 - **门槛**：已知漂移清零并由 CI 阻止复发；required check 名称未变；P2 所需最小 manifest/TCB schema 已冻结且字段 owner 无冲突。
+- **结果**：门槛通过。已登记漂移中 DRIFT-01、04–08 由 CI 阻止复发（`profile-views`、`ci-contract`、`manifest-check`、`Test-IFXCiContract`、`Test-IFXManifests`、`Test-V3ArchUnit`）；DRIFT-02 的运行时分析产物已刷新，防复发依赖 P8.6 迁出仓库；DRIFT-03 的文档流程已重新执行通过；DRIFT-09 由 D17 决定退役；DRIFT-10 属于 P3/P7。13 个 required check 名称未变，远端 ruleset 只读核对通过。
 
 ### P2 — Trusted Base Guard Execution
 
@@ -919,7 +920,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ## 17. 设计决策
 
-D1–D15 已根据 Review 共识关闭。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
+D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补充的决定。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
 
 ### D1 — V3_ifx 的分发边界
 
@@ -1008,6 +1009,16 @@ D1–D15 已根据 Review 共识关闭。后续若要改变这些决定，必须
 
 - **决定**：所有下一次执行会进入 trusted base 的入口、orchestrator、engine、contracts、base-owned tests/fixtures、生成器、构建基线、lock files 与 activation contract 均进入 TCB manifest。head 候选不能控制当前 PR 判定，必须通过 base-owned validation 与固定 corpus parity；head tests 只允许补充。除 tuple/行为可机械证明等价的变化外，TCB 语义变化必须消费 `change-trusted-base` 预授权，合并后才成为下一次 trusted base。见 §11.5、§12。
 - 来源：最终审查；Review §14。
+
+### D16 — 比较器实现顺序（P1.1 补充，细化 D13）
+
+- **决定**：单调性比较器按各 schema 的 commit 修改次数排序实现：`profiles/ifx/rules`、`profiles/ifx/project-map`，其次 `contracts`、`profiles/ifx/tech-stack`；`ci/jobs.json` 因 P9 被取代而排除。D13 的零比较器起步与未知变化失败关闭规则不变。
+- 来源：P0.9 `change-frequency.json`；记录 `20260916-v3-stage-d16-comparator-order-by-commit-frequency.json`。
+
+### D17 — Plan04 阶段校验脚本退役（P1.1 补充）
+
+- **决定**：`Test-Plan04Documentation`、`Test-Plan04Phase0Baseline`、`Test-Plan04Phase1Inventory`、`Test-Plan04Phase2Audit` 不接入任何门禁，待 P4 授权机制可用后通过 base 预授权删除。
+- 来源：DRIFT-09；三者在基线上失败，四者默认改写冻结证据，能力已由 `Test-Plan04Governance.ps1` 覆盖；记录 `20260916-v3-stage-d17-plan04-phase-validator-retirement.json`。
 
 ## 18. 暂缓项
 

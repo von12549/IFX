@@ -17,7 +17,7 @@ Review target languages, commands, .NET gate framework, existing CI and independ
 | transaction-tests | dotnet test tests/IFX.Modules.Transaction.Application.Tests | . |
 | authentication-tests | dotnet test tests/IFX.Platform.Authentication.Tests | . |
 | authorization-tests | dotnet test tests/IFX.Platform.Authorization.Tests | . |
-| frontend-lint | npm run lint | src/Frontend/IFX.FrontEnd |
+| frontend-lint | npm run lint -- --max-warnings=0 | src/Frontend/IFX.FrontEnd |
 | frontend-test | npm run test:run | src/Frontend/IFX.FrontEnd |
 
 ## Existing CI evidence
@@ -126,7 +126,9 @@ Review target languages, commands, .NET gate framework, existing CI and independ
       "executable": "npm",
       "arguments": [
         "run",
-        "lint"
+        "lint",
+        "--",
+        "--max-warnings=0"
       ],
       "workingDirectory": "src/Frontend/IFX.FrontEnd"
     },

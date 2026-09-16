@@ -2,7 +2,7 @@
 
 Generated view of `tech-stack.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
 
-<!-- guard-config-source: tech-stack.json sha256: 874bcca0f145f02181778f7366a29904e969a040a03c392ae305c42aceebb74b -->
+<!-- guard-config-source: tech-stack.json sha256: 3cabdfbfc52576656c3450857a8958fd59a41b50f57ac0181cfd6e443b69ecc5 -->
 
 | Languages | .NET gate target | Framework |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Generated view of `tech-stack.json`. Edit the JSON block for policy changes, the
 | transaction-tests | dotnet | test, tests/IFX.Modules.Transaction.Application.Tests | . |
 | authentication-tests | dotnet | test, tests/IFX.Platform.Authentication.Tests | . |
 | authorization-tests | dotnet | test, tests/IFX.Platform.Authorization.Tests | . |
-| frontend-lint | npm | run, lint | src/Frontend/IFX.FrontEnd |
+| frontend-lint | npm | run, lint, --, --max-warnings=0 | src/Frontend/IFX.FrontEnd |
 | frontend-test | npm | run, test:run | src/Frontend/IFX.FrontEnd |
 
 ```json
@@ -42,7 +42,7 @@ Generated view of `tech-stack.json`. Edit the JSON block for policy changes, the
     { "id": "transaction-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.Transaction.Application.Tests"], "workingDirectory": "." },
     { "id": "authentication-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Platform.Authentication.Tests"], "workingDirectory": "." },
     { "id": "authorization-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Platform.Authorization.Tests"], "workingDirectory": "." },
-    { "id": "frontend-lint", "executable": "npm", "arguments": ["run", "lint"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
+    { "id": "frontend-lint", "executable": "npm", "arguments": ["run", "lint", "--", "--max-warnings=0"], "workingDirectory": "src/Frontend/IFX.FrontEnd" },
     { "id": "frontend-test", "executable": "npm", "arguments": ["run", "test:run"], "workingDirectory": "src/Frontend/IFX.FrontEnd" }
   ],
   "testProject": {

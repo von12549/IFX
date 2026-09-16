@@ -96,7 +96,9 @@
       "executable": "npm",
       "arguments": [
         "run",
-        "lint"
+        "lint",
+        "--",
+        "--max-warnings=0"
       ],
       "workingDirectory": "src/Frontend/IFX.FrontEnd"
     },

@@ -1,0 +1,241 @@
+{
+  "formatVersion": 1,
+  "recordedAt": "2026-09-16",
+  "command": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1 -Remote",
+  "ruleset": 23459908,
+  "readOnly": true,
+  "result": {
+    "formatVersion": 1,
+    "mode": "remote",
+    "status": "pass",
+    "workflow": ".github/workflows/v3-ifx-guardrails.yml",
+    "declaration": "docs/guards/V3_ifx/ci/jobs.json",
+    "checkNames": [
+      "v3-pre-diff",
+      "v3-architecture",
+      "v3-quality-solution",
+      "v3-quality-assembly",
+      "v3-quality-frontend",
+      "v3-specialized-g03",
+      "v3-specialized-g04",
+      "v3-specialized-g05",
+      "v3-specialized-plan04",
+      "v3-specialized-database",
+      "v3-historical-integrity",
+      "v3-cross-platform-ubuntu-latest",
+      "v3-cross-platform-windows-latest"
+    ],
+    "checks": [
+      {
+        "id": "workflow-needs:v3-quality-assembly->v3-quality-solution",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-needs:v3-specialized-g03->v3-architecture",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-needs:v3-specialized-g04->v3-architecture",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-needs:v3-specialized-g05->v3-architecture",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-needs:v3-specialized-plan04->v3-architecture",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-needs:v3-specialized-database->v3-architecture",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-needs:v3-specialized-database->v3-quality-solution",
+        "status": "pass",
+        "detail": "needs must reference a job in the same workflow"
+      },
+      {
+        "id": "workflow-triggers",
+        "status": "pass",
+        "detail": "pull_request and push to main are required; found triggers [pull_request, push, schedule, workflow_dispatch] push branches [main]"
+      },
+      {
+        "id": "declaration-workflow-path",
+        "status": "pass",
+        "detail": "jobs.json automaticGuardWorkflow is '.github/workflows/v3-ifx-guardrails.yml'"
+      },
+      {
+        "id": "declaration-unique-ids",
+        "status": "pass",
+        "detail": "job IDs must be unique"
+      },
+      {
+        "id": "declaration-matches-workflow",
+        "status": "pass",
+        "detail": "workflow checks not declared []; declared jobs not in workflow []"
+      },
+      {
+        "id": "declaration-required-count",
+        "status": "pass",
+        "detail": "ruleset.requiredCheckCount 13 != declared jobs 13"
+      },
+      {
+        "id": "declaration-blocking:v3-pre-diff",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-pre-diff",
+        "status": "pass",
+        "detail": "trigger pull-request requires job condition github.event_name == 'pull_request'; found 'github.event_name == 'pull_request''"
+      },
+      {
+        "id": "declaration-blocking:v3-architecture",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-architecture",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-specialized-g03",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-specialized-g03",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-specialized-g04",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-specialized-g04",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-specialized-g05",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-specialized-g05",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-specialized-plan04",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-specialized-plan04",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-specialized-database",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-specialized-database",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-quality-solution",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-quality-solution",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-quality-assembly",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-quality-assembly",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-quality-frontend",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-quality-frontend",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-historical-integrity",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-historical-integrity",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-cross-platform-ubuntu-latest",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-cross-platform-ubuntu-latest",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "declaration-blocking:v3-cross-platform-windows-latest",
+        "status": "pass",
+        "detail": "every declared job is a required, blocking check"
+      },
+      {
+        "id": "declaration-trigger:v3-cross-platform-windows-latest",
+        "status": "pass",
+        "detail": "trigger pull-request-and-main requires an unconditional job; found ''"
+      },
+      {
+        "id": "ruleset-identity",
+        "status": "pass",
+        "detail": "ruleset 23459908 'IFX V3 Required Checks' does not match jobs.json"
+      },
+      {
+        "id": "ruleset-active",
+        "status": "pass",
+        "detail": "enforcement is 'active'"
+      },
+      {
+        "id": "ruleset-strict",
+        "status": "pass",
+        "detail": "strict is True; strict up-to-date checks are required (Plan 06 \u00a712.3)"
+      },
+      {
+        "id": "ruleset-contexts",
+        "status": "pass",
+        "detail": "contexts not declared []; declared jobs not required []"
+      }
+    ]
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "formatVersion": 1,
+  "id": "post",
+  "commands": [
+    "ifx-guardrails",
+    "v3-runner",
+    "v3-docs",
+    "ifx-architecture",
+    "ifx-specialized",
+    "ifx-quality",
+    "ifx-historical-integrity",
+    "ifx-policy-sync",
+    "ifx-history-manifest"
+  ],
+  "dependencies": [],
+  "enforcement": "blocking",
+  "executionClass": "gate",
+  "documentation": [
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/trust-contracts.json"
+  ],
+  "gates": [
+    {
+      "id": "v3-architecture",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "mixed",
+        "evaluator": "base Architecture Conformance engine",
+        "policy": "docs/guards/V3_ifx/policy/layerguard.json",
+        "targetInput": "head csproj XML and C# source text; head guard package tests",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [
+          "layerguard-msbuild-evaluation"
+        ],
+        "guarantee": "Evaluator trusted; blind to references injected through MSBuild import/Condition, cross-covered by v3-quality-assembly."
+      }
+    },
+    {
+      "id": "v3-specialized-g03",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "judging",
+        "evaluator": "base G03 detectors",
+        "policy": "docs/guards/V3_ifx/policy/g03/",
+        "targetInput": "head contract/event source and documentation text",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base owns the verdict; detectors are static."
+      }
+    },
+    {
+      "id": "v3-specialized-g04",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "judging",
+        "evaluator": "base G04 detectors",
+        "policy": "docs/guards/V3_ifx/policy/g04/",
+        "targetInput": "head deployment manifests, source and documentation text",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base owns the verdict; detectors are static."
+      }
+    },
+    {
+      "id": "v3-specialized-g05",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "judging",
+        "evaluator": "base G05 detectors",
+        "policy": "docs/guards/V3_ifx/policy/g05/",
+        "targetInput": "head context and security source text",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base owns the verdict; detectors are static."
+      }
+    },
+    {
+      "id": "v3-specialized-plan04",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "judging",
+        "evaluator": "base Plan04 governance detectors",
+        "policy": "docs/architecture/review/policies/plan04/",
+        "targetInput": "head module and tenant query source text",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base owns the verdict; detectors are static."
+      }
+    },
+    {
+      "id": "v3-specialized-database",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "executing",
+        "evaluator": "base orchestrator and migration safety policy",
+        "policy": "migration safety policy",
+        "targetInput": "head DatabaseBoundary tests, DatabaseInventory tool, ApiHost and DatabaseMigrator",
+        "executesHead": true,
+        "consumesHeadArtifacts": true,
+        "knownGaps": [],
+        "guarantee": "Base fixes commands, arguments, exit-code judgement and required evidence only."
+      }
+    },
+    {
+      "id": "v3-quality-solution",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "executing",
+        "evaluator": "base orchestrator",
+        "policy": "restore -warnaserror and audit thresholds",
+        "targetInput": "head solution",
+        "executesHead": true,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base fixes commands and thresholds only."
+      }
+    },
+    {
+      "id": "v3-quality-assembly",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "mixed",
+        "evaluator": "base compiled assembly rules",
+        "policy": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json assemblyGate",
+        "targetInput": "Domain assemblies built from head by v3-quality-solution",
+        "executesHead": false,
+        "consumesHeadArtifacts": true,
+        "knownGaps": [],
+        "guarantee": "Evaluator trusted; assembly provenance is head-controlled."
+      }
+    },
+    {
+      "id": "v3-quality-frontend",
+      "executionClass": "gate",
+      "trustContract": {
+        "type": "executing",
+        "evaluator": "base orchestrator",
+        "policy": "npm audit and zero-warning lint thresholds",
+        "targetInput": "head frontend",
+        "executesHead": true,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base fixes commands and thresholds only."
+      }
+    },
+    {
+      "id": "v3-historical-integrity",
+      "executionClass": "governance-audit",
+      "trustContract": {
+        "type": "judging",
+        "evaluator": "base history verifier",
+        "policy": "docs/guards/V3_ifx/history/manifest.json",
+        "targetInput": "tracked evidence files in head",
+        "executesHead": false,
+        "consumesHeadArtifacts": false,
+        "knownGaps": [],
+        "guarantee": "Base owns the verdict."
+      }
+    }
+  ]
+}

@@ -37,6 +37,8 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | D13 | Policy/config 双轨验证与单调性 | `20260916-v3-stage-d13-policy-config-monotonicity.json` | §12.4、§17 D13 |
 | D14 | package-local 构建基线与可信构建隔离 | `20260916-v3-stage-d14-package-local-build-baseline.json` | §8.3、§11.2、§17 D14 |
 | D15 | Trusted Base Component 候选升级 | `20260916-v3-stage-d15-trusted-base-component-upgrade.json` | §11.5、§17 D15 |
+| D16 | 比较器实现顺序（P1.1 补充） | `20260916-v3-stage-d16-comparator-order-by-commit-frequency.json` | §17 D16 |
+| D17 | Plan04 阶段校验脚本退役（P1.1 补充） | `20260916-v3-stage-d17-plan04-phase-validator-retirement.json` | §17 D17 |
 
 每条记录的 `affectedPaths` 覆盖该决策未来会影响的路径，使后续检查点的 Pre 风险覆盖检查可以直接引用。decision schema 只允许 `summary` 与 `rationale` 两个文本字段，完整论证以 Plan 06 与 Review 为准。
 
@@ -47,8 +49,8 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | 检查点 | Plan 06 阶段 | 主要内容 | 受保护删除/移动 | §12 授权 PR | 前置 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | CP00 | §19 准备 | D1–D15 decision 记录、本 Plan pair、Plan 06 与 Review 入库 | 无 | 不需要 | Plan 06 `APPROVED` | 已完成（PR #29，`abb30e4`） |
-| CP01 | P0 | 只读基线：文件分类、调用图与 TCB 初始清单、.NET gate 冻结、漂移登记、继承配置盘点、修改频率、trust contract 分类 | 无 | 不需要 | CP00 | P0 已完成，待 PR 合入（`20260916-v3-stage-cp01-p0-baseline`） |
-| CP02 | P1 | decision 校验、漂移修复、ruleset verifier、P1.5 最小 manifest/TCB skeleton | 无 | 不需要 | CP01 | 未开始 |
+| CP01 | P0 | 只读基线：文件分类、调用图与 TCB 初始清单、.NET gate 冻结、漂移登记、继承配置盘点、修改频率、trust contract 分类 | 无 | 不需要 | CP00 | 已完成（PR #30，`d4057d0`） |
+| CP02 | P1 | decision 校验、漂移修复、ruleset verifier、P1.5 最小 manifest/TCB skeleton | 无 | 不需要 | CP01 | P1 已完成，待 PR 合入（`20260916-v3-stage-cp02-p1-decisions-drift`） |
 | CP03 | P5 | V3 `build/` 基线与 lock files、locked restore、import allowlist、输出迁出、隔离验收（bootstrap 窗口开启） | 无 | 不需要（首次引入例外窗口） | CP01；可与 CP02 并行 | 未开始 |
 | CP04 | P2 | Trusted base 执行、可信构建隔离、trust contract、TCB 候选升级协议、负向控制（关闭 bootstrap 窗口） | 无 | 不需要（§11.6 首次引入例外，须写入 decision） | CP02、CP03 | 未开始 |
 | CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP04 | 未开始 |

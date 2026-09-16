@@ -7,10 +7,10 @@ Decision: **needs-review**. Structured blocks are parsed; prose changes need an 
 - Placeholders: False
 - Blocking detector present: True
 - Profile differences: 0
-- Unmapped source projects: 2 (review whether they belong in scope)
+- Unmapped source projects: 0 (review whether they belong in scope)
 - Unmatched detector rules: (none)
 - Observed forbidden direct references: 0
-- Proposal SHA-256: `b665640aace164f429073a55166c9d65b064568c4cb0cd8e84a1b595301700f0`
+- Proposal SHA-256: `4eaab7b5899b412bf6e11bf7853e59fb37872d3936021a9f4b1442d62db527c7`
 
 ## Proposed profile differences
 
@@ -18,7 +18,6 @@ Decision: **needs-review**. Structured blocks are parsed; prose changes need an 
 
 ## Unmapped source projects
 
-- `src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj`
-- `tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj`
+
 
 ## Observed forbidden references

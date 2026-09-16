@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d17-plan04-phase-validator-retirement",
+  "owner": "xiaolong-feng",
+  "summary": "Do not wire Test-Plan04Documentation, Test-Plan04Phase0Baseline, Test-Plan04Phase1Inventory or Test-Plan04Phase2Audit into any gate; retire them through a base pre-authorized delete once the P4 authorization mechanism exists.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/specialized/scripts/**",
+    "docs/architecture/review/evidence/plan04/**"
+  ],
+  "rationale": "P0 found the four scripts unreachable from every entry point (DRIFT-09). Running them on the baseline showed that three fail against the current governed authority hashes (authorityArtifactsAreHashBound, authorityHashesMatchGovernedBindings, decisionBoundToInventory) and that all four rewrite tracked frozen evidence under docs/architecture/review/evidence/plan04 by default. They are historical Plan 04 phase validators superseded by Test-Plan04Governance.ps1, which the v3-specialized-plan04 gate already runs. Wiring them would either fail the gate or require rewriting frozen evidence, so retirement is the only change that keeps coverage and evidence intact. Deletion is a protected-path change and waits for P4."
+}

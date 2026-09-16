@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "20260916-v3-stage-d16-comparator-order-by-commit-frequency",
+  "owner": "xiaolong-feng",
+  "summary": "Order the incremental policy/config monotonicity comparators by the number of commits touching each schema (P0.9), starting with profiles/ifx/rules and profiles/ifx/project-map, followed by contracts and profiles/ifx/tech-stack; this refines D13.",
+  "affectedPaths": [
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "D13 and Plan 06 section 12.4 cited file-change counts from review r3, which ranked policy/g04/bindings second with 8 changes. The P0.9 baseline (analysis/ifx/refactor-baseline/change-frequency.json) shows those 8 changes came from a single commit, while profiles/ifx/rules and profiles/ifx/project-map each changed in 4 commits. Commit count reflects how often an authorization would otherwise be required, so it is the better ordering signal. ci/jobs.json (3 commits) is excluded because P9 replaces it with required-checks.json. D13 itself is unchanged: zero comparators first, unknown changes fail closed."
+}

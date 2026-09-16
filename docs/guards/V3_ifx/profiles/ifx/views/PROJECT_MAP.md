@@ -2,7 +2,7 @@
 
 Generated view of `project-map.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
 
-<!-- guard-config-source: project-map.json sha256: dc3e4a9e5e6681dc0d2b342457518d62ee5041fe1b7d6d7b884799ca26e43650 -->
+<!-- guard-config-source: project-map.json sha256: 7ff1aa34a534fbd09569428996a8b1fcf8bf44287f1ab317c60e14829516eaea -->
 
 ## Areas
 
@@ -17,16 +17,22 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
 | Authorization | src/Platform/Authorization/** | platform | xiaolong-feng | src/Platform/Authorization | ifx-layerguard, authorization-tests |
 | PlatformOther | src/Platform/** | platform | codeowners | src/Platform | ifx-layerguard |
 | Frontend | src/Frontend/** | frontend | codeowners | src/Frontend/IFX.FrontEnd/src | frontend-lint, frontend-test |
+| ApiHost | src/ApiHost/** | host | codeowners | src/ApiHost | ifx-layerguard |
 | DatabaseMigrator | src/DatabaseMigrator/** | database | codeowners | src/DatabaseMigrator | ifx-layerguard |
 | BuildingBlocks | src/BuildingBlocks/** | shared | codeowners | src/BuildingBlocks | ifx-layerguard |
 | WebUI | src/WebUI/** | web | codeowners | src/WebUI | ifx-layerguard |
-| SourceConfig | src/* | repository | codeowners | src | ifx-layerguard |
 | Tests | tests/** | test | codeowners | tests | ifx-layerguard |
+| Database | tools/** | tooling | codeowners | tools | ifx-layerguard |
 | GuardPackage | docs/guards/V3_ifx/** | tooling | codeowners | docs/guards/V3_ifx | ifx-package-test |
 | GuardDocs | docs/guards/** | tooling | codeowners | docs/guards | ifx-package-test |
 | LayerGuardLegacy | mcp/LayerGuard/** | tooling | codeowners | mcp/LayerGuard | ifx-layerguard |
 | GuardAuthorityInputs | docs/architecture/review/gates/** | tooling | codeowners | docs/architecture/review/gates | ifx-package-test |
 | ArchitectureDocs | docs/architecture/** | documentation | codeowners | docs/architecture | ifx-package-test |
+| RepositoryDocs | .claude/** | documentation | codeowners | .claude | ifx-package-test |
+| RepositoryDependencies | Directory.*.props | repository | codeowners | .config | ifx-package-test |
+| RepositoryTools | .config/** | repository | codeowners | .config | ifx-package-test |
+| DocumentationConfig | docs/Directory.Packages.props | tooling | codeowners | docs | ifx-package-test |
+| McpConfig | mcp/Directory.Packages.props | tooling | codeowners | mcp | ifx-package-test |
 | RepositoryScripts | scripts/** | tooling | codeowners | scripts | ifx-package-test |
 | Deployment | deployment/** | deployment | codeowners | deployment | ifx-package-test |
 | CI | .github/** | ci | codeowners | .github | ifx-package-test |
@@ -71,16 +77,22 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
     { "id": "Authorization", "pathPattern": "src/Platform/Authorization/**", "layer": "platform", "owner": "xiaolong-feng", "similarImplementationRoot": "src/Platform/Authorization", "focusedCommands": ["ifx-layerguard", "authorization-tests"] },
     { "id": "PlatformOther", "pathPattern": "src/Platform/**", "layer": "platform", "owner": "codeowners", "similarImplementationRoot": "src/Platform", "focusedCommands": ["ifx-layerguard"] },
     { "id": "Frontend", "pathPattern": "src/Frontend/**", "layer": "frontend", "owner": "codeowners", "similarImplementationRoot": "src/Frontend/IFX.FrontEnd/src", "focusedCommands": ["frontend-lint", "frontend-test"] },
+    { "id": "ApiHost", "pathPattern": "src/ApiHost/**", "layer": "host", "owner": "codeowners", "similarImplementationRoot": "src/ApiHost", "focusedCommands": ["ifx-layerguard"] },
     { "id": "DatabaseMigrator", "pathPattern": "src/DatabaseMigrator/**", "layer": "database", "owner": "codeowners", "similarImplementationRoot": "src/DatabaseMigrator", "focusedCommands": ["ifx-layerguard"] },
     { "id": "BuildingBlocks", "pathPattern": "src/BuildingBlocks/**", "layer": "shared", "owner": "codeowners", "similarImplementationRoot": "src/BuildingBlocks", "focusedCommands": ["ifx-layerguard"] },
     { "id": "WebUI", "pathPattern": "src/WebUI/**", "layer": "web", "owner": "codeowners", "similarImplementationRoot": "src/WebUI", "focusedCommands": ["ifx-layerguard"] },
-    { "id": "SourceConfig", "pathPattern": "src/*", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": "src", "focusedCommands": ["ifx-layerguard"] },
     { "id": "Tests", "pathPattern": "tests/**", "layer": "test", "owner": "codeowners", "similarImplementationRoot": "tests", "focusedCommands": ["ifx-layerguard"] },
+    { "id": "Database", "pathPattern": "tools/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "tools", "focusedCommands": ["ifx-layerguard"] },
     { "id": "GuardPackage", "pathPattern": "docs/guards/V3_ifx/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/guards/V3_ifx", "focusedCommands": ["ifx-package-test"] },
     { "id": "GuardDocs", "pathPattern": "docs/guards/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/guards", "focusedCommands": ["ifx-package-test"] },
     { "id": "LayerGuardLegacy", "pathPattern": "mcp/LayerGuard/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "mcp/LayerGuard", "focusedCommands": ["ifx-layerguard"] },
     { "id": "GuardAuthorityInputs", "pathPattern": "docs/architecture/review/gates/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/architecture/review/gates", "focusedCommands": ["ifx-package-test"] },
     { "id": "ArchitectureDocs", "pathPattern": "docs/architecture/**", "layer": "documentation", "owner": "codeowners", "similarImplementationRoot": "docs/architecture", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryDocs", "pathPattern": ".claude/**", "layer": "documentation", "owner": "codeowners", "similarImplementationRoot": ".claude", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryDependencies", "pathPattern": "Directory.*.props", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".config", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryTools", "pathPattern": ".config/**", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".config", "focusedCommands": ["ifx-package-test"] },
+    { "id": "DocumentationConfig", "pathPattern": "docs/Directory.Packages.props", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs", "focusedCommands": ["ifx-package-test"] },
+    { "id": "McpConfig", "pathPattern": "mcp/Directory.Packages.props", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "mcp", "focusedCommands": ["ifx-package-test"] },
     { "id": "RepositoryScripts", "pathPattern": "scripts/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts", "focusedCommands": ["ifx-package-test"] },
     { "id": "Deployment", "pathPattern": "deployment/**", "layer": "deployment", "owner": "codeowners", "similarImplementationRoot": "deployment", "focusedCommands": ["ifx-package-test"] },
     { "id": "CI", "pathPattern": ".github/**", "layer": "ci", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },

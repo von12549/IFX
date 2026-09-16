@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "V3 stage manifest (owns stage fields only; command fields live in commands.json)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "id",
+    "commands",
+    "dependencies",
+    "enforcement",
+    "executionClass",
+    "documentation",
+    "gates"
+  ],
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "id": {
+      "enum": [
+        "bootstrap",
+        "analysis",
+        "pre",
+        "post",
+        "diff",
+        "ci"
+      ]
+    },
+    "commands": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "bootstrap",
+          "analysis",
+          "pre",
+          "post",
+          "diff",
+          "ci"
+        ]
+      }
+    },
+    "enforcement": {
+      "enum": [
+        "advisory",
+        "blocking",
+        "mixed"
+      ]
+    },
+    "executionClass": {
+      "enum": [
+        "authoring",
+        "gate",
+        "governance-audit",
+        "orchestration"
+      ]
+    },
+    "documentation": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "executionClass",
+          "trustContract"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "executionClass": {
+            "enum": [
+              "gate",
+              "governance-audit"
+            ]
+          },
+          "trustContract": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type",
+              "evaluator",
+              "policy",
+              "targetInput",
+              "executesHead",
+              "consumesHeadArtifacts",
+              "knownGaps",
+              "guarantee"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "judging",
+                  "mixed",
+                  "executing"
+                ]
+              },
+              "evaluator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "policy": {
+                "type": "string",
+                "minLength": 1
+              },
+              "targetInput": {
+                "type": "string",
+                "minLength": 1
+              },
+              "executesHead": {
+                "type": "boolean"
+              },
+              "consumesHeadArtifacts": {
+                "type": "boolean"
+              },
+              "knownGaps": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "guarantee": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

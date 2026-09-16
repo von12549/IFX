@@ -1,0 +1,407 @@
+{
+  "formatVersion": 1,
+  "commands": [
+    {
+      "id": "ifx-guardrails",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "stages": [
+        "pre",
+        "post",
+        "diff",
+        "ci"
+      ],
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/profiles/ifx/",
+        "docs/guards/V3_ifx/policy/",
+        "docs/guards/V3_ifx/history/manifest.json",
+        "formal Plan (Pre/Diff)"
+      ],
+      "outputs": [
+        "artifacts/guards/v3-ifx/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/summary-<mode>.json"
+      ],
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "v3-runner",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "stages": [
+        "pre",
+        "post",
+        "diff"
+      ],
+      "audiences": [
+        "ci",
+        "agent",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/profiles/ifx/",
+        "docs/guards/V3_ifx/templates/dotnet/",
+        "formal Plan (Pre/Diff)"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/generated/stages/",
+        "artifacts/guards/v3-ifx/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/pre.json",
+        "artifacts/guards/v3-ifx/summary-diff.json"
+      ],
+      "mutability": "writes-generated",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "v3-setup",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "stages": [
+        "bootstrap",
+        "analysis"
+      ],
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "inputs": [
+        "repository tree"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/analysis/ifx/"
+      ],
+      "evidence": [
+        "docs/guards/V3_ifx/analysis/ifx/inventory.json"
+      ],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "v3-architecture-review",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "stages": [
+        "analysis"
+      ],
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE.md",
+        "docs/guards/V3_ifx/analysis/ifx/TECHNICAL.md",
+        "docs/guards/V3_ifx/profiles/ifx/"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/analysis/ifx/"
+      ],
+      "evidence": [
+        "docs/guards/V3_ifx/analysis/ifx/architecture-review.json"
+      ],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
+    },
+    {
+      "id": "v3-docs",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "stages": [
+        "pre",
+        "post"
+      ],
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/profiles/ifx/"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/profiles/ifx/views/"
+      ],
+      "evidence": [],
+      "mutability": "writes-generated",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-architecture",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "stages": [
+        "post"
+      ],
+      "audiences": [
+        "ci",
+        "validation-command",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/policy/layerguard.json",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/",
+        "artifacts/guards/v3-ifx/architecture/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/architecture/layerguard.json"
+      ],
+      "mutability": "writes-generated",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-ci-contract",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "stages": [
+        "ci"
+      ],
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "inputs": [
+        ".github/workflows/v3-ifx-guardrails.yml",
+        "docs/guards/V3_ifx/ci/jobs.json",
+        "GitHub ruleset (read-only, -Remote)"
+      ],
+      "outputs": [],
+      "evidence": [
+        "optional -ReportPath JSON"
+      ],
+      "mutability": "read-only",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-manifest-check",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "stages": [
+        "ci"
+      ],
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/guard-system.json",
+        "docs/guards/V3_ifx/shared/",
+        "docs/guards/V3_ifx/stages/",
+        "docs/guards/V3_ifx/contracts/",
+        ".github/workflows/v3-ifx-guardrails.yml",
+        "docs/guards/V3_ifx/ci/jobs.json"
+      ],
+      "outputs": [],
+      "evidence": [],
+      "mutability": "read-only",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-specialized",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "stages": [
+        "post"
+      ],
+      "audiences": [
+        "ci"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/policy/",
+        "repository source and documentation"
+      ],
+      "outputs": [
+        "artifacts/guards/v3-ifx/specialized/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/specialized/summary.json"
+      ],
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
+    },
+    {
+      "id": "ifx-quality",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "stages": [
+        "post"
+      ],
+      "audiences": [
+        "ci"
+      ],
+      "inputs": [
+        "IFX.sln",
+        "src/Frontend/IFX.FrontEnd/"
+      ],
+      "outputs": [
+        "artifacts/guards/v3-ifx/quality/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/quality/summary.json"
+      ],
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
+    },
+    {
+      "id": "ifx-historical-integrity",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "stages": [
+        "post"
+      ],
+      "audiences": [
+        "ci"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/history/manifest.json"
+      ],
+      "outputs": [
+        "artifacts/guards/v3-ifx/history/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/history/summary.json"
+      ],
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
+    },
+    {
+      "id": "ifx-policy-sync",
+      "kind": "maintenance",
+      "entryPoint": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "stages": [
+        "post"
+      ],
+      "audiences": [
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/policy/authorities.json",
+        "domain-owned policy sources"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/policy/"
+      ],
+      "evidence": [],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-history-manifest",
+      "kind": "maintenance",
+      "entryPoint": "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+      "stages": [
+        "post"
+      ],
+      "audiences": [
+        "human"
+      ],
+      "inputs": [
+        "tracked historical evidence"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/history/manifest.json"
+      ],
+      "evidence": [],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-refactor-baseline",
+      "kind": "maintenance",
+      "entryPoint": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+      "stages": [
+        "analysis"
+      ],
+      "audiences": [
+        "human"
+      ],
+      "inputs": [
+        "baseline commit Git objects"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/"
+      ],
+      "evidence": [],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    }
+  ]
+}

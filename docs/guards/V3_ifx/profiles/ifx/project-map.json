@@ -14,7 +14,6 @@
     { "id": "DatabaseMigrator", "pathPattern": "src/DatabaseMigrator/**", "layer": "database", "owner": "codeowners", "similarImplementationRoot": "src/DatabaseMigrator", "focusedCommands": ["ifx-layerguard"] },
     { "id": "BuildingBlocks", "pathPattern": "src/BuildingBlocks/**", "layer": "shared", "owner": "codeowners", "similarImplementationRoot": "src/BuildingBlocks", "focusedCommands": ["ifx-layerguard"] },
     { "id": "WebUI", "pathPattern": "src/WebUI/**", "layer": "web", "owner": "codeowners", "similarImplementationRoot": "src/WebUI", "focusedCommands": ["ifx-layerguard"] },
-    { "id": "SourceConfig", "pathPattern": "src/*", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": "src", "focusedCommands": ["ifx-layerguard"] },
     { "id": "Tests", "pathPattern": "tests/**", "layer": "test", "owner": "codeowners", "similarImplementationRoot": "tests", "focusedCommands": ["ifx-layerguard"] },
     { "id": "Database", "pathPattern": "tools/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "tools", "focusedCommands": ["ifx-layerguard"] },
     { "id": "GuardPackage", "pathPattern": "docs/guards/V3_ifx/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "docs/guards/V3_ifx", "focusedCommands": ["ifx-package-test"] },

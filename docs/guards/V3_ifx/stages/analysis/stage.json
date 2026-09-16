@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "id": "analysis",
+  "commands": [
+    "v3-setup",
+    "v3-architecture-review",
+    "ifx-refactor-baseline"
+  ],
+  "dependencies": [
+    "bootstrap"
+  ],
+  "enforcement": "advisory",
+  "executionClass": "authoring",
+  "documentation": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/README.md"
+  ],
+  "gates": []
+}
