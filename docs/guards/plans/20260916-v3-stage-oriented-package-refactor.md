@@ -76,10 +76,10 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | 3 | 建立正式 Plan pair 并给出 PR 检查点划分 | CP00 完成（本 pair 与 §3） |
 | 4 | sidecar 列出精确 planned paths、area IDs、rule IDs、commands 和 decisions | CP00 sidecar 完成；CP01 起由各检查点 pair 负责 |
 | 5 | 运行 Pre 并确认 risk、area、rule 和 command 关联完整 | CP00 以本 sidecar 运行 Pre（见 §6） |
-| 6 | 记录 clean baseline、恢复 commit 和测试证据位置 | 待完成：CP01 开始前记录 |
-| 7 | 再次获得明确的实施授权 | 待用户授权 |
+| 6 | 记录 clean baseline、恢复 commit 和测试证据位置 | 已完成（见 §7） |
+| 7 | 再次获得明确的实施授权 | 已完成（用户于 2026-09-16 明确授权实施） |
 
-第 6、7 项完成前，不开始 CP01（P0）。
+§19 前置条件全部完成，实施从 CP01（P0）开始。该授权覆盖本计划 P0–P11 的实施；CI 激活（P11.4）与任何远端 ruleset 写入仍需单独授权。
 
 ## 5. CP00 范围
 
@@ -101,3 +101,56 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | Package | `ifx-package-test`（CI `v3-architecture` 与 `v3-cross-platform-*`） | 通过 |
 
 集成分支 base 为 `codex/guards-principles-plan`（`d266339`）。
+
+## 7. Clean baseline 与恢复点
+
+记录日期：2026-09-16。以下事实均通过 Git 与 GitHub API 只读核实。
+
+### 7.1 恢复 commit
+
+| 项 | 值 |
+| --- | --- |
+| 恢复 commit | `d2663392db1bacd34dd866917c45b7cdf3ede7cc`（PR #28 合入集成分支 `codex/guards-principles-plan` 的 merge commit，2026-09-16T05:15:56Z） |
+| 父 commit | `98af67ab57b5a4e40dda70b5bfb03f36ea4135a0`（集成分支前一状态）、`6df2e11adc85033550ef504aad14945848936419`（PR #28 head） |
+| root tree | `c744f9c128337122bce92574bbacfa2505163c96` |
+| 默认分支 `main` | `ecb03726a6c67208d25e7988695c53f6326d77c0`，本重构不以其为 base，不受影响 |
+
+CP00 分支（`codex/v3-stage-oriented-package-refactor`）相对恢复 commit 只新增或修改 `docs/guards/plans/`、`docs/guards/V3_ifx/decisions/history/` 与 `.claude/`；门禁实现、profile、policy、workflow、CODEOWNERS、`mcp/LayerGuard/` 与构建配置均与恢复 commit 逐字节一致（`git diff d266339 HEAD` 排除上述三处后为空）。
+
+### 7.2 门禁相关对象 ID（恢复 commit）
+
+| 路径 | 类型 | object ID |
+| --- | --- | --- |
+| `docs/guards` | tree | `8b64f2fcecb591d0ebc9929b1de386d3338ffeda` |
+| `docs/guards/V3` | tree | `026bad5af343d74031b7410180de74adebb9a981` |
+| `docs/guards/V3_backup` | tree | `026bad5af343d74031b7410180de74adebb9a981`（与 V3 相同） |
+| `docs/guards/V3_ifx` | tree | `fa326bed7d65c9b4424a898cfb6da9846f1a6688` |
+| `.github/workflows` | tree | `3f345cba646da9112deb10bf0ab4984dceacade3` |
+| `.github/CODEOWNERS` | blob | `3b36962f22e2aeb3782cb7ff1b9788bd5430f42a` |
+| `mcp/LayerGuard` | tree | `79f33367698312262fa7eeec2a49a314fafa2100` |
+| `Directory.Build.props` | blob | `7e552f72fbb78404396eb07db4ba9f2b113578d7` |
+| `Directory.Packages.props` | blob | `d7234caf898e75045101ae0f269af80e8430f219` |
+| `docs/Directory.Packages.props` | blob | `5f9708a97f38de5ec3174674b50ebba430ba9504` |
+| `.gitattributes` | blob | `f03c45f29ecd37e5f333c6cef0d4d83f6b6cdbd1` |
+
+后续检查点可用 `git rev-parse <commit>:<path>` 与上表比对，判断某路径是否仍处于基线状态。
+
+### 7.3 基线测试证据
+
+| 项 | 值 |
+| --- | --- |
+| Workflow run | [V3 IFX Guardrails #35055279816](https://github.com/von12549/IFX/actions/runs/35055279816)（`pull_request`，attempt 1，2026-09-16T04:21:28Z，conclusion `success`） |
+| 被测 commit | PR #28 merge ref `5154f9cbbf0dd3102b79b759a6f62e282b4ad197`；其 root tree 为 `c744f9c128337122bce92574bbacfa2505163c96`，与恢复 commit 完全相同，即 CI 验证的正是恢复 commit 的内容 |
+| Required checks | 13/13 `SUCCESS`：`v3-pre-diff`、`v3-architecture`、`v3-quality-solution`、`v3-quality-assembly`、`v3-quality-frontend`、`v3-specialized-g03`、`v3-specialized-g04`、`v3-specialized-g05`、`v3-specialized-plan04`、`v3-specialized-database`、`v3-historical-integrity`、`v3-cross-platform-ubuntu-latest`、`v3-cross-platform-windows-latest` |
+| Ruleset | `23459908`（IFX V3 Required Checks），`strict: true`，作用于默认分支与 `codex/guards-principles-plan` |
+| 证据位置 | 该 run 的 13 个 artifact，名称为 `<check>-5154f9cbbf0dd3102b79b759a6f62e282b4ad197`，内容为 `artifacts/guards/v3-ifx` 下的 summary、report 与日志 |
+| 证据有效期 | 全部 artifact 于 **2026-12-15T04:21:29Z** 过期 |
+
+**证据保全**：artifact 过期时间早于本计划预计完成时间。CP01（P0.1）必须在过期前下载各 check 的 summary/report（`v3-quality-frontend` 的 48 MB 构建产物除外），纳入 P0 基线记录并记录其 SHA-256；此后以仓库内记录为准。
+
+### 7.4 恢复方式
+
+- **整体回退**：以恢复 commit 的路径内容为准，`git checkout d2663392db1bacd34dd866917c45b7cdf3ede7cc -- <paths>` 取回受影响路径，并以独立 PR 合入。
+- **选择性恢复**：按 §7.2 的 object ID 逐路径比对后，只恢复偏离基线的路径。
+- **门禁约束**：P4 生效前，恢复 PR 若需删除新增的受保护路径，会被现有 Diff 拒绝；P4 生效后，恢复中的受保护删除、移动或 TCB 非等价变化同样需要 §12 授权。若门禁自身故障导致无法合入恢复 PR，只能使用 Plan 06 §11.7 的仓库外 break-glass。
+- 每个检查点的 pair 应记录其合入 commit，作为该检查点之后的细粒度恢复点；P11.6 的 selective restore 演练以本节为起点。
