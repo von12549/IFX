@@ -1,0 +1,31 @@
+{
+  "ReleaseVersion": "plan05-s5",
+  "MigrationCatalogSha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6",
+  "Scripts": [
+    {
+      "Module": "Auth",
+      "File": "10-auth.idempotent.sql",
+      "Sha256": "0df5689c7ea3a70850c607dca310cdf804abcc07428e50c70d97742a9612d1f7"
+    },
+    {
+      "Module": "CRM",
+      "File": "20-crm.idempotent.sql",
+      "Sha256": "da8ecc2a159b917d6454d52e85f711eb5878fa9454d48719f3d00b0fcb1b1d09"
+    },
+    {
+      "Module": "Registry",
+      "File": "30-registry.idempotent.sql",
+      "Sha256": "0cf31b4163acf4d2f54038947b71fe8a62c0a615ccf7e579a5f53ccc4da448f9"
+    },
+    {
+      "Module": "Holdings",
+      "File": "40-holdings.idempotent.sql",
+      "Sha256": "3d72e7234159ffa87585e0de4a51b3bfb17514508d73e8598605a395eb58dbaa"
+    },
+    {
+      "Module": "Transaction",
+      "File": "50-transaction.idempotent.sql",
+      "Sha256": "b94c687f6c539c1ad4bba866b1adedf2c323273c12edb11a56ec51ece638de6a"
+    }
+  ]
+}

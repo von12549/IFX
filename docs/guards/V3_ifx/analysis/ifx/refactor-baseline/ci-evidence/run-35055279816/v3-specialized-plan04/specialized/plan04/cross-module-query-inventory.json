@@ -1,0 +1,229 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "slice": "P04-S5",
+  "asOf": "2026-09-10",
+  "approvedCrossModuleQueryConsumerCount": 0,
+  "publicProjectionSchemaCount": 0,
+  "references": [
+    {
+      "formatVersion": 1,
+      "id": "holdings-event-consumer",
+      "status": "reference-only",
+      "queryOwner": "holdings-application",
+      "dataOwner": "holdings",
+      "consumer": "holdings-domain-state",
+      "sourceProtocols": [
+        "ifx.transaction.transaction-processed.v1",
+        "ifx.registry.class-status-changed.v1"
+      ],
+      "store": {
+        "schemaVersion": 1,
+        "schema": "holdings",
+        "table": "Holdings",
+        "tenantPartitionKey": "TenantId"
+      },
+      "semantics": {
+        "inbox": "holdings.InboxMessages",
+        "idempotencyKey": "ConsumerId+EventId unique index",
+        "ordering": "No global ordering claim; handlers apply domain transitions and reject unsupported facts.",
+        "freshnessObjective": "Inherited from messaging runtime; no reporting SLO claimed.",
+        "eventualConsistencyDisclosure": "Not a reporting API; downstream state is eventually consistent."
+      },
+      "lifecycle": {
+        "bootstrap": "Not implemented for a reporting projection.",
+        "backfill": "Not implemented for a reporting projection.",
+        "rebuild": "Not claimed; reference is limited to delivery/idempotency.",
+        "incrementalCatchup": "Durable consumer resumes through messaging runtime.",
+        "checkpoint": "Inbox ConsumerId+EventId marker.",
+        "reconciliation": "Domain/integration tests only; no reporting reconciliation claimed.",
+        "driftDetection": "Protocol and database-boundary validators.",
+        "sourceRetentionDependency": "Not established; cannot approve a reporting consumer from this reference."
+      },
+      "failureRecovery": {
+        "sourceUnavailable": "Retry through durable transport; no cross-database fallback.",
+        "consumerUnavailable": "Durable delivery retries after recovery.",
+        "duplicate": "Inbox marker prevents duplicate business effect.",
+        "outOfOrder": "Unsupported domain transitions are rejected; no universal ordering guarantee claimed.",
+        "poison": "Messaging failure diagnostics; operator action required.",
+        "partialRebuild": "Not implemented and not claimed.",
+        "incompatibleSchema": "Versioned protocol handler rejects unsupported payloads."
+      },
+      "privacy": {
+        "classification": "C2",
+        "minimalFields": [
+          "TenantId",
+          "InvestmentAccountId",
+          "ClassId",
+          "Units",
+          "AverageCost",
+          "Status"
+        ],
+        "access": "Holdings module authorization and tenant predicates.",
+        "encryption": "Platform/database baseline; no additional production claim.",
+        "retention": "Pending DB6/Data Owner decision.",
+        "deletion": "Pending DB7/GOV6; reference cannot bypass tenant deletion.",
+        "logging": "No payload or subject identifier in routine logs."
+      },
+      "approvals": [
+        {
+          "role": "architecture",
+          "status": "not-required-reference"
+        },
+        {
+          "role": "query-owner",
+          "status": "not-required-reference"
+        },
+        {
+          "role": "source-data-owner",
+          "status": "not-required-reference"
+        },
+        {
+          "role": "reporting-data",
+          "status": "not-required-reference"
+        },
+        {
+          "role": "security-privacy",
+          "status": "not-required-reference"
+        }
+      ]
+    }
+  ],
+  "schemaValidationResults": [
+    {
+      "id": "holdings-event-consumer",
+      "valid": true
+    }
+  ],
+  "referenceProtocolResults": [
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "activeInG03": true
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "activeInG03": true
+    }
+  ],
+  "referenceImplementation": {
+    "tenantEnvelopeValidated": true,
+    "inboxUniqueConsumerEvent": true,
+    "transactionConsumerChecksInbox": true,
+    "classConsumerChecksInbox": true
+  },
+  "physicalCrossModuleEdges": [
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "crm",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.Registry.Contracts",
+      "toRole": "Contracts",
+      "toModule": "registry",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "ifx.registry.class-status-changed.v1"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "holdings",
+      "to": "IFX.Modules.Transaction.Contracts",
+      "toRole": "Contracts",
+      "toModule": "transaction",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "ifx.transaction.transaction-processed.v1"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "registry",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.CRM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "crm",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "crm.account-compliance.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "fromRole": "Composition",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.Registry.Contracts",
+      "toRole": "Contracts",
+      "toModule": "registry",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "registry.class-subscription-availability.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.CRM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "crm",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "crm.account-compliance.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.IAM.Contracts",
+      "toRole": "Contracts",
+      "toModule": "auth",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "auth.resource-authorization.v1"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "fromRole": "Infrastructure",
+      "fromModule": "transaction",
+      "to": "IFX.Modules.Registry.Contracts",
+      "toRole": "Contracts",
+      "toModule": "registry",
+      "uses": null,
+      "classification": "registered-cross-module-protocol",
+      "protocolIdentity": "registry.class-subscription-availability.v1"
+    }
+  ],
+  "forbiddenPhysicalEdges": [],
+  "crossDbContextFiles": [],
+  "conclusion": "No approved reporting/query consumer exists; no public projection schema is authorized. Holdings is reference-only."
+}

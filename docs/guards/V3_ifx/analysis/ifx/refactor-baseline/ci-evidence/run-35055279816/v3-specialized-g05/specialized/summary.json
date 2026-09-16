@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "mode": "specialized",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "G05",
+      "status": "pass",
+      "output": "g05"
+    }
+  ]
+}

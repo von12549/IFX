@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "mode": "quality",
+  "detector": "assembly",
+  "status": "pass",
+  "checks": [
+    {
+      "id": "IFX.Modules.CRM.Domain",
+      "assemblyPath": "src/Modules/CRM/IFX.Modules.CRM.Domain/bin/Release/net8.0/IFX.Modules.CRM.Domain.dll",
+      "status": "pass",
+      "stale": false,
+      "referencedAssemblies": [
+        "IFX.BuildingBlocks.Domain",
+        "System.Collections",
+        "System.Runtime"
+      ],
+      "forbiddenReferences": []
+    },
+    {
+      "id": "IFX.Modules.Holdings.Domain",
+      "assemblyPath": "src/Modules/Holdings/IFX.Modules.Holdings.Domain/bin/Release/net8.0/IFX.Modules.Holdings.Domain.dll",
+      "status": "pass",
+      "stale": false,
+      "referencedAssemblies": [
+        "IFX.BuildingBlocks.Domain",
+        "System.Runtime"
+      ],
+      "forbiddenReferences": []
+    },
+    {
+      "id": "IFX.Modules.IAM.Domain",
+      "assemblyPath": "src/Modules/IAM/IFX.Modules.IAM.Domain/bin/Release/net8.0/IFX.Modules.IAM.Domain.dll",
+      "status": "pass",
+      "stale": false,
+      "referencedAssemblies": [
+        "IFX.BuildingBlocks.Domain",
+        "System.Collections",
+        "System.Linq",
+        "System.Runtime",
+        "System.Text.RegularExpressions"
+      ],
+      "forbiddenReferences": []
+    },
+    {
+      "id": "IFX.Modules.Registry.Domain",
+      "assemblyPath": "src/Modules/Registry/IFX.Modules.Registry.Domain/bin/Release/net8.0/IFX.Modules.Registry.Domain.dll",
+      "status": "pass",
+      "stale": false,
+      "referencedAssemblies": [
+        "IFX.BuildingBlocks.Domain",
+        "System.Collections",
+        "System.Runtime"
+      ],
+      "forbiddenReferences": []
+    },
+    {
+      "id": "IFX.Modules.Transaction.Domain",
+      "assemblyPath": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/bin/Release/net8.0/IFX.Modules.Transaction.Domain.dll",
+      "status": "pass",
+      "stale": false,
+      "referencedAssemblies": [
+        "IFX.BuildingBlocks.Domain",
+        "System.Collections",
+        "System.Linq",
+        "System.Runtime"
+      ],
+      "forbiddenReferences": []
+    }
+  ],
+  "message": "5 compiled module Domain assemblies were inspected."
+}

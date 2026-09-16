@@ -1,0 +1,473 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "phase": 0,
+  "source": {
+    "commitSha": "b9f1c19fac235d39acda18b988d97c8cb5b72575",
+    "capturedAtUtc": "2026-09-08T02:59:29+10:00",
+    "repositoryScope": [
+      "src/**/*.csproj",
+      "src/**/*.cs"
+    ],
+    "exclusions": [
+      "**/bin/**",
+      "**/obj/**"
+    ],
+    "generator": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1"
+  },
+  "counts": {
+    "abstractionProjects": 0,
+    "contractProjects": 5,
+    "readers": 4,
+    "readerMethods": 4,
+    "dtos": 0,
+    "integrationEvents": 2,
+    "messagingAbstractionTypes": 4,
+    "abstractionProjectEdges": 41
+  },
+  "abstractionProjects": [],
+  "contractProjects": [
+    {
+      "name": "IFX.Modules.CRM.Contracts",
+      "module": "CRM",
+      "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Context.Contracts"
+      ],
+      "packageReferences": []
+    },
+    {
+      "name": "IFX.Modules.IAM.Contracts",
+      "module": "IAM",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Context.Contracts"
+      ],
+      "packageReferences": []
+    },
+    {
+      "name": "IFX.Modules.Registry.Contracts",
+      "module": "Registry",
+      "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Context.Contracts",
+        "IFX.Platform.Messaging.Contracts"
+      ],
+      "packageReferences": []
+    },
+    {
+      "name": "IFX.Modules.Transaction.Contracts",
+      "module": "Transaction",
+      "path": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj",
+      "projectReferences": [
+        "IFX.Platform.Messaging.Contracts"
+      ],
+      "packageReferences": []
+    },
+    {
+      "name": "IFX.Platform.Authorization.Contracts",
+      "module": "Authorization",
+      "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj",
+      "projectReferences": [],
+      "packageReferences": []
+    }
+  ],
+  "publicSurface": [
+    {
+      "project": "IFX.Modules.CRM.Contracts",
+      "module": "CRM",
+      "namespace": "IFX.Modules.CRM.Contracts.V1",
+      "name": "IAccountComplianceContract",
+      "kind": "reader",
+      "declaration": {
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Contracts/V1/IAccountComplianceContract.cs",
+        "line": 5
+      },
+      "baseType": null,
+      "methods": [
+        {
+          "name": "CheckAsync",
+          "signature": "Task<AccountComplianceResponse> CheckAsync( AccountComplianceRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
+          "callSites": {
+            "file": "src/ApiHost/IFX.ApiHost/HealthChecks/MessagingOutboxHealthCheck.cs",
+            "line": 14,
+            "kind": "reference",
+            "evidence": "var modules = await probe.CheckAsync(cancellationToken);"
+          }
+        }
+      ],
+      "sourceSites": {
+        "file": "src/Modules/CRM/IFX.Modules.CRM.Composition/CrmModuleInstaller.cs",
+        "line": 30,
+        "kind": "reference",
+        "evidence": "services.AddScoped<IAccountComplianceContract, AccountComplianceInboundAdapter>();"
+      }
+    },
+    {
+      "project": "IFX.Modules.IAM.Contracts",
+      "module": "IAM",
+      "namespace": "IFX.Modules.IAM.Contracts.V1.Authorization",
+      "name": "IResourceAuthorizationContract",
+      "kind": "reader",
+      "declaration": {
+        "file": "src/Modules/IAM/IFX.Modules.IAM.Contracts/V1/Authorization/IResourceAuthorizationContract.cs",
+        "line": 4
+      },
+      "baseType": null,
+      "methods": [
+        {
+          "name": "AuthorizeAsync",
+          "signature": "Task<ResourceAuthorizationResponse> AuthorizeAsync(ResourceAuthorizationRequest request, ContractRequestContext context, CancellationToken ct = default);",
+          "callSites": {
+            "file": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/Integrations/Outbound/IAM/ResourceAuthorizationAdapter.cs",
+            "line": 14,
+            "kind": "reference",
+            "evidence": "await client.AuthorizeAsync(Consumer, resourceType, action, resourceAttributes, parameters, ct);"
+          }
+        }
+      ],
+      "sourceSites": {
+        "file": "src/Modules/IAM/IFX.Modules.IAM.Client/Authorization/IamResourceAuthorizationClient.cs",
+        "line": 10,
+        "kind": "reference",
+        "evidence": "Contract.IResourceAuthorizationContract authorization,"
+      }
+    },
+    {
+      "project": "IFX.Modules.IAM.Contracts",
+      "module": "IAM",
+      "namespace": "IFX.Modules.IAM.Contracts.V1.Authorization",
+      "name": "ResourceAttributes",
+      "kind": "public-type",
+      "declaration": {
+        "file": "src/Modules/IAM/IFX.Modules.IAM.Contracts/V1/Authorization/ResourceAuthorization.cs",
+        "line": 4
+      },
+      "baseType": null,
+      "methods": [],
+      "sourceSites": {
+        "file": "src/BuildingBlocks/IFX.BuildingBlocks.Security/Authorization/ResourceAttributes.cs",
+        "line": 3,
+        "kind": "reference",
+        "evidence": "public class ResourceAttributes"
+      }
+    },
+    {
+      "project": "IFX.Modules.Registry.Contracts",
+      "module": "Registry",
+      "namespace": "IFX.Modules.Registry.Contracts.V1.Events",
+      "name": "ClassStatusChangedV1",
+      "kind": "integration-event",
+      "declaration": {
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Contracts/Events/V1/ClassStatusChangedV1.cs",
+        "line": 5
+      },
+      "baseType": "IIntegrationEventV1",
+      "methods": [],
+      "sourceSites": {
+        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs",
+        "line": 24,
+        "kind": "handler",
+        "evidence": "TransactionProcessedV1.EventType or ClassStatusChangedV1.EventType;"
+      }
+    },
+    {
+      "project": "IFX.Modules.Registry.Contracts",
+      "module": "Registry",
+      "namespace": "IFX.Modules.Registry.Contracts.V1",
+      "name": "IClassSubscriptionAvailabilityContract",
+      "kind": "reader",
+      "declaration": {
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Contracts/V1/IClassSubscriptionAvailabilityContract.cs",
+        "line": 5
+      },
+      "baseType": null,
+      "methods": [
+        {
+          "name": "CheckAsync",
+          "signature": "Task<ClassSubscriptionAvailabilityResponse> CheckAsync( ClassSubscriptionAvailabilityRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
+          "callSites": {
+            "file": "src/ApiHost/IFX.ApiHost/HealthChecks/MessagingOutboxHealthCheck.cs",
+            "line": 14,
+            "kind": "reference",
+            "evidence": "var modules = await probe.CheckAsync(cancellationToken);"
+          }
+        }
+      ],
+      "sourceSites": {
+        "file": "src/Modules/Registry/IFX.Modules.Registry.Composition/RegistryModuleInstaller.cs",
+        "line": 30,
+        "kind": "reference",
+        "evidence": "services.AddScoped<IClassSubscriptionAvailabilityContract, ClassSubscriptionAvailabilityInboundAdapter>();"
+      }
+    },
+    {
+      "project": "IFX.Modules.Transaction.Contracts",
+      "module": "Transaction",
+      "namespace": "IFX.Modules.Transaction.Contracts.V1.Events",
+      "name": "TransactionProcessedV1",
+      "kind": "integration-event",
+      "declaration": {
+        "file": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/Events/V1/TransactionProcessedV1.cs",
+        "line": 5
+      },
+      "baseType": "IIntegrationEventV1",
+      "methods": [],
+      "sourceSites": {
+        "file": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs",
+        "line": 24,
+        "kind": "handler",
+        "evidence": "TransactionProcessedV1.EventType or ClassStatusChangedV1.EventType;"
+      }
+    },
+    {
+      "project": "IFX.Platform.Authorization.Contracts",
+      "module": "Authorization",
+      "namespace": "IFX.Platform.Authorization.Contracts.V1",
+      "name": "DecisionOutcome",
+      "kind": "public-type",
+      "declaration": {
+        "file": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/V1/Evaluation.cs",
+        "line": 3
+      },
+      "baseType": null,
+      "methods": [],
+      "sourceSites": {
+        "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Outbound/Authorization/PolicyEvaluationAdapter.cs",
+        "line": 35,
+        "kind": "reference",
+        "evidence": "return result.Outcome == Contract.DecisionOutcome.Allow;"
+      }
+    },
+    {
+      "project": "IFX.Platform.Authorization.Contracts",
+      "module": "Authorization",
+      "namespace": "IFX.Platform.Authorization.Contracts.V1",
+      "name": "IAuthorizationEvaluationContract",
+      "kind": "reader",
+      "declaration": {
+        "file": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/V1/IAuthorizationEvaluationContract.cs",
+        "line": 3
+      },
+      "baseType": null,
+      "methods": [
+        {
+          "name": "EvaluateAsync",
+          "signature": "Task<EvaluationResponse> EvaluateAsync(EvaluationRequest request, CancellationToken ct = default);",
+          "callSites": {
+            "file": "src/Modules/IAM/IFX.Modules.IAM.Application/Access/ResourceAuthorizationService.cs",
+            "line": 56,
+            "kind": "reference",
+            "evidence": "if (!await evaluation.EvaluateAsync(subject, resourceAttributes, policy, facts, parameters, ct))"
+          }
+        }
+      ],
+      "sourceSites": {
+        "file": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Integrations/Outbound/Authorization/PolicyEvaluationAdapter.cs",
+        "line": 11,
+        "kind": "reference",
+        "evidence": "public sealed class PolicyEvaluationAdapter(Contract.IAuthorizationEvaluationContract evaluation, ILogger<PolicyEvaluationAdapter> logger) : IPolicyEvaluationPort"
+      }
+    }
+  ],
+  "messagingAbstractions": [
+    {
+      "name": "EventEnvelope",
+      "kind": "record",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs",
+      "packageReferences": []
+    },
+    {
+      "name": "EventIdentifier",
+      "kind": "record struct",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs",
+      "packageReferences": []
+    },
+    {
+      "name": "EventSchemaIdentity",
+      "kind": "record",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs",
+      "packageReferences": []
+    },
+    {
+      "name": "IIntegrationEventV1",
+      "kind": "interface",
+      "file": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs",
+      "packageReferences": []
+    }
+  ],
+  "projectEdges": [
+    {
+      "from": "IFX.BuildingBlocks.Application",
+      "to": "..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "to": "..\\..\\Registry\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Contracts",
+      "to": "..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Contracts\\IFX.Platform.Messaging.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "..\\IFX.Modules.Transaction.Contracts\\IFX.Modules.Transaction.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "..\\..\\CRM\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "..\\..\\Registry\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Infrastructure",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Auth0",
+      "to": "..\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Infrastructure.Cognito",
+      "to": "..\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Authentication.Runtime",
+      "to": "..\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Composition",
+      "to": "..\\IFX.Platform.Authorization.Contracts\\IFX.Platform.Authorization.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Infrastructure.Opa",
+      "to": "..\\IFX.Platform.Authorization.Contracts\\IFX.Platform.Authorization.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Authorization.Runtime",
+      "to": "..\\IFX.Platform.Authorization.Contracts\\IFX.Platform.Authorization.Contracts"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Composition",
+      "to": "..\\IFX.Platform.BackgroundJobs.Contracts\\IFX.Platform.BackgroundJobs.Contracts"
+    },
+    {
+      "from": "IFX.Platform.BackgroundJobs.Infrastructure.Hangfire",
+      "to": "..\\IFX.Platform.BackgroundJobs.Contracts\\IFX.Platform.BackgroundJobs.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Context.Runtime",
+      "to": "..\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Messaging.Runtime",
+      "to": "..\\IFX.Platform.Messaging.Contracts\\IFX.Platform.Messaging.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Messaging.Runtime",
+      "to": "..\\..\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Transaction.Composition",
+      "to": "..\\..\\CRM\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Composition",
+      "to": "..\\IFX.Platform.Notifications.Contracts\\IFX.Platform.Notifications.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Infrastructure",
+      "to": "..\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Contracts",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.CRM.Application",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.CRM.Composition",
+      "to": "..\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.CRM.Contracts",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.CRM.Infrastructure",
+      "to": "..\\IFX.Modules.CRM.Contracts\\IFX.Modules.CRM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "to": "..\\..\\Registry\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Holdings.Infrastructure",
+      "to": "..\\..\\Transaction\\IFX.Modules.Transaction.Contracts\\IFX.Modules.Transaction.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Application",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Client",
+      "to": "..\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "to": "..\\..\\..\\Platform\\BackgroundJobs\\IFX.Platform.BackgroundJobs.Contracts\\IFX.Platform.BackgroundJobs.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Composition",
+      "to": "..\\..\\..\\Platform\\Notifications\\IFX.Platform.Notifications.Contracts\\IFX.Platform.Notifications.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Contracts",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "to": "..\\IFX.Modules.IAM.Contracts\\IFX.Modules.IAM.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "to": "..\\..\\..\\Platform\\Authentication\\IFX.Platform.Authentication.Contracts\\IFX.Platform.Authentication.Contracts"
+    },
+    {
+      "from": "IFX.Modules.IAM.Infrastructure",
+      "to": "..\\..\\..\\Platform\\Authorization\\IFX.Platform.Authorization.Contracts\\IFX.Platform.Authorization.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Application",
+      "to": "..\\..\\..\\Platform\\Context\\IFX.Platform.Context.Contracts\\IFX.Platform.Context.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Composition",
+      "to": "..\\IFX.Modules.Registry.Contracts\\IFX.Modules.Registry.Contracts"
+    },
+    {
+      "from": "IFX.Modules.Registry.Contracts",
+      "to": "..\\..\\..\\Platform\\Messaging\\IFX.Platform.Messaging.Contracts\\IFX.Platform.Messaging.Contracts"
+    },
+    {
+      "from": "IFX.Platform.Notifications.Infrastructure.SendGrid",
+      "to": "..\\IFX.Platform.Notifications.Contracts\\IFX.Platform.Notifications.Contracts"
+    }
+  ],
+  "governanceCapabilities": {
+    "codeowners": true,
+    "apiDiff": false,
+    "serializationSnapshots": true,
+    "contractCatalog": true,
+    "ciWorkflow": true,
+    "externalConsumerEvidencePolicy": "A consumer outside this repository is recognized only with system identity, accountable owner/contact, supported version, connection evidence, and last-confirmed date."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "mode": "specialized",
+  "status": "pass",
+  "startedAt": "2026-09-16T04:23:44.2204336+00:00",
+  "completedAt": "2026-09-16T04:23:55.4936053+00:00",
+  "inputHash": "c299f24a743225f620d553438e7360ae1d3690c052a62668f718b9ad88eefdd9",
+  "reason": null,
+  "checks": [
+    {
+      "id": "specialized-g05",
+      "status": "pass",
+      "reason": null,
+      "evidencePaths": [
+        "artifacts/guards/v3-ifx/specialized/summary.json"
+      ]
+    }
+  ]
+}

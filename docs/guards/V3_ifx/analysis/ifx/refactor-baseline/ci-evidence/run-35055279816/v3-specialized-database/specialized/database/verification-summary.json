@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "gate": "Database",
+  "result": "passed",
+  "checks": {
+    "migrationSafety": true,
+    "pendingModelChanges": true,
+    "releaseArtifacts": true,
+    "publish": true,
+    "boundaryTests": true,
+    "sqlServerMatrix": true
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "formatVersion": 1,
+  "status": "authoritative-current",
+  "protocols": [
+    {
+      "identity": "auth.resource-authorization.v1",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "sourceSignature": "Task<ResourceAuthorizationResponse> AuthorizeAsync(ResourceAuthorizationRequest request, ContractRequestContext context, CancellationToken ct = default);",
+      "targetNamespace": "IFX.Modules.IAM.Contracts.V1",
+      "fields": [
+        {
+          "name": "resourceType",
+          "required": true,
+          "classification": "C1"
+        },
+        {
+          "name": "action",
+          "required": true,
+          "classification": "C1"
+        },
+        {
+          "name": "resource.type",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.id",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.isActive",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.ownerId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.departments",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "context",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "allowed",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "reasonCode",
+          "required": true,
+          "classification": "C1"
+        }
+      ]
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
+      "version": 1,
+      "lifecycle": "Proposed",
+      "sourceSignature": "Task<EvaluationResponse> EvaluateAsync(EvaluationRequest request, CancellationToken ct = default);",
+      "targetNamespace": "IFX.Platform.Authorization.Contracts.V1",
+      "fields": [
+        {
+          "name": "subject.id",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.departments",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.roles",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.permissions",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.mfa",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.globalRoles",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "subject.isGlobalAdmin",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.type",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.id",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.isActive",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.ownerId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "resource.departments",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "action",
+          "required": true,
+          "classification": "C1"
+        },
+        {
+          "name": "environment.ip",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "environment.network",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "environment.time",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "policy.version",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "policy.conditions",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "outcome",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "reasonCode",
+          "required": true,
+          "classification": "C1"
+        },
+        {
+          "name": "decisionId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "policyVersion",
+          "required": true,
+          "classification": "C1"
+        }
+      ]
+    },
+    {
+      "identity": "crm.account-compliance.v1",
+      "version": 1,
+      "lifecycle": "Active",
+      "sourceSignature": "Task<AccountComplianceResponse> CheckAsync( AccountComplianceRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
+      "targetNamespace": "IFX.Modules.CRM.Contracts.V1",
+      "fields": [
+        {
+          "name": "investmentAccountId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "isApproved",
+          "required": true,
+          "classification": "C3"
+        }
+      ]
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "version": 1,
+      "lifecycle": "Active",
+      "sourceSignature": "Task<ClassSubscriptionAvailabilityResponse> CheckAsync( ClassSubscriptionAvailabilityRequest request, ContractRequestContext context, CancellationToken cancellationToken = default);",
+      "targetNamespace": "IFX.Modules.Registry.Contracts.V1",
+      "fields": [
+        {
+          "name": "classId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "tenantId",
+          "required": true,
+          "classification": "C2"
+        },
+        {
+          "name": "isOpen",
+          "required": true,
+          "classification": "C1"
+        }
+      ]
+    }
+  ]
+}

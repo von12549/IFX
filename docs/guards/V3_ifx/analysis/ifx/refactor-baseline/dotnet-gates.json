@@ -1,0 +1,153 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "authoredBy": "P0 manual review (CP01)",
+  "recordedAt": "2026-09-16",
+  "gates": [
+    {
+      "id": "stage-gate",
+      "planName": "{ProjectId}.Guards.StageGate.Tests",
+      "currentProject": "docs/guards/V3_ifx/generated/stages/GuardV3.Tests.csproj",
+      "sources": {
+        "templates": "docs/guards/V3_ifx/templates/dotnet/ (AssemblyGuardTests.cs.in, GuardTests.cs.in, GuardV3.Tests.csproj.in)",
+        "generatedFrom": [
+          "docs/guards/V3_ifx/profiles/ifx/",
+          "docs/guards/V3_ifx/templates/dotnet/"
+        ],
+        "generatedTreeObjectId": "see inventory.json (docs/guards/V3_ifx/generated/stages/)"
+      },
+      "packages": [
+        "Microsoft.NET.Test.Sdk 17.11.1",
+        "xunit 2.9.2",
+        "xunit.runner.visualstudio 2.8.2",
+        "TngTech.ArchUnitNET 0.13.4 (added when tech-stack.assemblyGate is configured)"
+      ],
+      "targetFramework": "net10.0",
+      "testCategories": {
+        "Self": [
+          "DetectorAcceptsAllowedReference",
+          "DetectorRejectsForbiddenReference",
+          "DetectorRejectsWindowsStyleReferenceOnEveryPlatform",
+          "EveryBlockingRuleHasAWorkingPositiveAndNegativeFixture",
+          "SyntheticDependenciesAndImplementationPlacementExerciseBothOutcomes",
+          "EveryBlockingCompiledRuleHasAWorkingPositiveAndNegativeFixture"
+        ],
+        "Post": [
+          "TargetRepositorySatisfiesBlockingRules",
+          "ExplicitTargetAssembliesSatisfyConfiguredRules"
+        ],
+        "Diff": [
+          "DiffStaysWithinDeclaredPlan"
+        ]
+      },
+      "testCounts": {
+        "GuardTests.cs": 6,
+        "AssemblyGuardTests.cs": 3,
+        "totalTestMethods": 9
+      },
+      "executionPaths": [
+        "Invoke-V3.ps1 -Mode Generate|Check (byte check of generated sources)",
+        "Invoke-V3.ps1 -Mode Test (Self + Post)",
+        "Invoke-V3.ps1 -Mode Diff via Invoke-IFXGuardrails.ps1 -Mode Diff (CI v3-pre-diff)",
+        "Invoke-IFXAssemblyGuard.ps1 via Invoke-IFXQuality.ps1 -Target Assembly (CI v3-quality-assembly)"
+      ],
+      "reports": [
+        "artifacts/guards/v3-ifx/summary-diff.json",
+        "artifacts/guards/v3-ifx/quality/assembly.json"
+      ]
+    },
+    {
+      "id": "architecture-conformance",
+      "planName": "Guards.ArchitectureConformance",
+      "currentProject": "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx (built from generated/dotnet/LayerGuard/)",
+      "sources": {
+        "engine": "templates/ifx-layerguard/src/LayerGuard/ (27 files)",
+        "tests": "templates/ifx-layerguard/tests/LayerGuard.Tests/ (21 files: 19 test classes, Fixtures.cs, csproj)",
+        "fixtures": "templates/ifx-layerguard/tests/fixtures/ (125 files, 19 fixture sets)",
+        "copies": [
+          "docs/guards/V3_ifx/generated/dotnet/LayerGuard/ (tree identical)",
+          "mcp/LayerGuard/src (tree identical); mcp/LayerGuard/tests differs only in GatePolicyBindingTests.cs"
+        ]
+      },
+      "packages": {
+        "engine": [
+          "Microsoft.CodeAnalysis.CSharp 5.9.0",
+          "ModelContextProtocol 2.2.0",
+          "Microsoft.Extensions.Hosting 10.0.0"
+        ],
+        "tests": [
+          "Microsoft.NET.Test.Sdk 17.11.1",
+          "xunit 2.9.2",
+          "xunit.runner.visualstudio 2.8.2"
+        ]
+      },
+      "targetFramework": "net10.0",
+      "testCounts": {
+        "AllowedDirectionTests.cs": 7,
+        "AllowedReferenceTests.cs": 8,
+        "BaselineTests.cs": 7,
+        "BootstrapArchitectureTests.cs": 12,
+        "BootstrapConfigurationTests.cs": 4,
+        "CustomRulesTests.cs": 6,
+        "DeclarationPlacementTests.cs": 6,
+        "DirectReferenceTests.cs": 4,
+        "ForbiddenDependencyTests.cs": 11,
+        "ForbiddenPackageTests.cs": 7,
+        "GatePolicyBindingTests.cs": 10,
+        "ImplementsTests.cs": 7,
+        "ImportTests.cs": 6,
+        "IndirectReferenceTests.cs": 11,
+        "ReportFormatTests.cs": 6,
+        "RulebookTests.cs": 9,
+        "ScopeTests.cs": 4,
+        "SeverityTests.cs": 5,
+        "StoppedReferenceTests.cs": 6,
+        "totalTestMethods": 136
+      },
+      "executionPaths": [
+        "Invoke-IFX.ps1 -Mode Validate|Generate|Check|Test|Scan",
+        "Invoke-IFXGuardrails.ps1 -Mode Architecture (CI v3-architecture)",
+        "tech-stack command ifx-layerguard"
+      ],
+      "policyInputs": [
+        "docs/guards/V3_ifx/policy/layerguard.json",
+        "policy/g03/governance.json",
+        "policy/g04/runtime-manifest.json",
+        "policy/g05/context-protocol-v1.json",
+        "policy/baselines/plan05.json"
+      ],
+      "reports": [
+        "artifacts/guards/v3-ifx/architecture/layerguard.json"
+      ],
+      "ifxSpecificBindings": {
+        "scan": "git grep -i ifx on templates/ifx-layerguard excluding tests/fixtures; fixtures contain no IFX identifiers",
+        "engine": [
+          {
+            "path": "src/LayerGuard/GatePolicyBindings.cs",
+            "line": 380,
+            "detail": "runtime roles ifx-api, ifx-worker, ifx-all"
+          }
+        ],
+        "tests": [
+          {
+            "path": "tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+            "lines": [
+              150,
+              169,
+              172,
+              176
+            ],
+            "detail": "IFX.Platform.Context.Contracts, IFX.Modules.Consumer.Application, IFX.Modules.Unknown.Contracts"
+          }
+        ]
+      },
+      "knownCoverageGaps": [
+        {
+          "id": "layerguard-msbuild-evaluation",
+          "detail": "CsprojReader.cs reads csproj XML elements and does not evaluate <Import>, Condition or Directory.Build.* files, so ProjectReference items injected through MSBuild evaluation are invisible (Plan 06 §11.3).",
+          "crossCover": "Assembly check over compiled Domain assemblies (v3-quality-assembly), itself built from head."
+        }
+      ]
+    }
+  ]
+}

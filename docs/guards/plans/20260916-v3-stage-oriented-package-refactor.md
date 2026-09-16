@@ -44,21 +44,21 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 
 顺序遵循 Plan 06 §14 的阶段依赖：P5 须在 P2.2 之前完成，P5–P2 构成 §11.6 的受控 bootstrap 窗口。P2 生效前，受保护路径的删除和移动仍会被现有 Diff 门禁拒绝；P4 完成前，不执行任何受保护删除或移动。
 
-| 检查点 | Plan 06 阶段 | 主要内容 | 受保护删除/移动 | §12 授权 PR | 前置 |
-| --- | --- | --- | --- | --- | --- |
-| CP00 | §19 准备 | D1–D15 decision 记录、本 Plan pair、Plan 06 与 Review 入库 | 无 | 不需要 | Plan 06 `APPROVED` |
-| CP01 | P0 | 只读基线：文件分类、调用图与 TCB 初始清单、.NET gate 冻结、漂移登记、继承配置盘点、修改频率、trust contract 分类 | 无 | 不需要 | CP00 |
-| CP02 | P1 | decision 校验、漂移修复、ruleset verifier、P1.5 最小 manifest/TCB skeleton | 无 | 不需要 | CP01 |
-| CP03 | P5 | V3 `build/` 基线与 lock files、locked restore、import allowlist、输出迁出、隔离验收（bootstrap 窗口开启） | 无 | 不需要（首次引入例外窗口） | CP01；可与 CP02 并行 |
-| CP04 | P2 | Trusted base 执行、可信构建隔离、trust contract、TCB 候选升级协议、负向控制（关闭 bootstrap 窗口） | 无 | 不需要（§11.6 首次引入例外，须写入 decision） | CP02、CP03 |
-| CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP04 |
-| CP06 | P4 | 完整授权 schema、Git 对象验证、policy/config 双轨与零比较器、两 PR 演练 | 无 | TCB 变化需 `change-trusted-base`：CP06-auth → CP06-change | CP05 |
-| CP07 | P6 | LayerGuard 去重、IFX binding 剥离、engine 进入 V3、trust contract | 有 | 按变更拆分：删除生成副本、binding 剥离、engine 移动各自 auth → change | CP06 |
-| CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07 |
-| CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 可能（analysis 运行输出迁出） | 涉及受保护移动/删除时：auth → change | CP08 |
-| CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 |
-| CP11 | P10 | 按 Plan 06 §13 分组物理迁移、V3_backup 删除、兼容 wrapper | 有 | 每个迁移分组 auth → change | CP10 |
-| CP12 | P11 | 新旧 parity、失败关闭场景、隔离 Bootstrap、真实 PR 激活、旧入口清理与回退演练 | 有 | 清理删除：auth → change；激活需单独实施授权 | CP11 |
+| 检查点 | Plan 06 阶段 | 主要内容 | 受保护删除/移动 | §12 授权 PR | 前置 | 状态 |
+| --- | --- | --- | --- | --- | --- | --- |
+| CP00 | §19 准备 | D1–D15 decision 记录、本 Plan pair、Plan 06 与 Review 入库 | 无 | 不需要 | Plan 06 `APPROVED` | 已完成（PR #29，`abb30e4`） |
+| CP01 | P0 | 只读基线：文件分类、调用图与 TCB 初始清单、.NET gate 冻结、漂移登记、继承配置盘点、修改频率、trust contract 分类 | 无 | 不需要 | CP00 | P0 已完成，待 PR 合入（`20260916-v3-stage-cp01-p0-baseline`） |
+| CP02 | P1 | decision 校验、漂移修复、ruleset verifier、P1.5 最小 manifest/TCB skeleton | 无 | 不需要 | CP01 | 未开始 |
+| CP03 | P5 | V3 `build/` 基线与 lock files、locked restore、import allowlist、输出迁出、隔离验收（bootstrap 窗口开启） | 无 | 不需要（首次引入例外窗口） | CP01；可与 CP02 并行 | 未开始 |
+| CP04 | P2 | Trusted base 执行、可信构建隔离、trust contract、TCB 候选升级协议、负向控制（关闭 bootstrap 窗口） | 无 | 不需要（§11.6 首次引入例外，须写入 decision） | CP02、CP03 | 未开始 |
+| CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP04 | 未开始 |
+| CP06 | P4 | 完整授权 schema、Git 对象验证、policy/config 双轨与零比较器、两 PR 演练 | 无 | TCB 变化需 `change-trusted-base`：CP06-auth → CP06-change | CP05 | 未开始 |
+| CP07 | P6 | LayerGuard 去重、IFX binding 剥离、engine 进入 V3、trust contract | 有 | 按变更拆分：删除生成副本、binding 剥离、engine 移动各自 auth → change | CP06 | 未开始 |
+| CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07 | 未开始 |
+| CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 可能（analysis 运行输出迁出） | 涉及受保护移动/删除时：auth → change | CP08 | 未开始 |
+| CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 | 未开始 |
+| CP11 | P10 | 按 Plan 06 §13 分组物理迁移、V3_backup 删除、兼容 wrapper | 有 | 每个迁移分组 auth → change | CP10 | 未开始 |
+| CP12 | P11 | 新旧 parity、失败关闭场景、隔离 Bootstrap、真实 PR 激活、旧入口清理与回退演练 | 有 | 清理删除：auth → change；激活需单独实施授权 | CP11 | 未开始 |
 
 拆分原则：
 

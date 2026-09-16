@@ -1,0 +1,161 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "authoredBy": "P0 manual review (CP01)",
+  "recordedAt": "2026-09-16",
+  "method": "dotnet msbuild <project> -getProperty:<name> on the baseline tree (guard implementation identical to the baseline commit), SDK 10.0.303 on Windows; plus a copy of the generated Stage Gate project evaluated under artifacts/ to reproduce inheritance outside docs/.",
+  "repositoryFiles": {
+    "Directory.Build.props": {
+      "objectId": "7e552f72fbb78404396eb07db4ba9f2b113578d7",
+      "sets": [
+        "NuGetAudit=true",
+        "NuGetAuditMode=all",
+        "NuGetAuditLevel=moderate",
+        "WarningsAsErrors+=NU1903;NU1904"
+      ]
+    },
+    "Directory.Packages.props": {
+      "objectId": "d7234caf898e75045101ae0f269af80e8430f219",
+      "sets": [
+        "ManagePackageVersionsCentrally=true",
+        "CentralPackageTransitivePinningEnabled=false",
+        "PackageVersion items for product projects"
+      ]
+    },
+    "docs/Directory.Packages.props": {
+      "objectId": "5f9708a97f38de5ec3174674b50ebba430ba9504",
+      "sets": [
+        "ManagePackageVersionsCentrally=false"
+      ]
+    },
+    "mcp/Directory.Packages.props": {
+      "sets": [
+        "isolates mcp/LayerGuard from central package management"
+      ]
+    },
+    "global.json": null,
+    "NuGet.config": null,
+    "Directory.Build.targets": null,
+    "Directory.Solution.props": null,
+    "packages.lock.json": null
+  },
+  "projects": [
+    {
+      "project": "docs/guards/V3_ifx/generated/stages/GuardV3.Tests.csproj",
+      "packages": [
+        "Microsoft.NET.Test.Sdk 17.11.1",
+        "xunit 2.9.2",
+        "xunit.runner.visualstudio 2.8.2",
+        "TngTech.ArchUnitNET 0.13.4"
+      ],
+      "effective": {
+        "DirectoryBuildPropsPath": "Directory.Build.props",
+        "DirectoryPackagesPropsPath": "docs/Directory.Packages.props",
+        "ManagePackageVersionsCentrally": "false",
+        "NuGetAudit": "true",
+        "NuGetAuditMode": "all",
+        "NuGetAuditLevel": "moderate",
+        "WarningsAsErrors": ";NU1903;NU1904;NU1605;SYSLIB0011",
+        "TargetFramework": "net10.0",
+        "RestorePackagesWithLockFile": "",
+        "RestoreLockedMode": "",
+        "BaseOutputPath": "bin\\",
+        "BaseIntermediateOutputPath": "obj\\"
+      }
+    },
+    {
+      "project": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/LayerGuard.csproj",
+      "packages": [
+        "Microsoft.CodeAnalysis.CSharp 5.9.0",
+        "ModelContextProtocol 2.2.0",
+        "Microsoft.Extensions.Hosting 10.0.0"
+      ],
+      "effective": {
+        "DirectoryBuildPropsPath": "Directory.Build.props",
+        "DirectoryPackagesPropsPath": "docs/Directory.Packages.props",
+        "ManagePackageVersionsCentrally": "false",
+        "NuGetAudit": "true",
+        "NuGetAuditMode": "all",
+        "NuGetAuditLevel": "moderate",
+        "WarningsAsErrors": ";NU1903;NU1904;NU1605;SYSLIB0011",
+        "TargetFramework": "net10.0",
+        "RestorePackagesWithLockFile": "",
+        "RestoreLockedMode": "",
+        "BaseOutputPath": "bin\\",
+        "BaseIntermediateOutputPath": "obj\\"
+      }
+    },
+    {
+      "project": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
+      "packages": [
+        "Microsoft.NET.Test.Sdk 17.11.1",
+        "xunit 2.9.2",
+        "xunit.runner.visualstudio 2.8.2"
+      ],
+      "effective": {
+        "DirectoryBuildPropsPath": "Directory.Build.props",
+        "DirectoryPackagesPropsPath": "docs/Directory.Packages.props",
+        "ManagePackageVersionsCentrally": "false",
+        "NuGetAudit": "true",
+        "NuGetAuditMode": "all",
+        "NuGetAuditLevel": "moderate",
+        "WarningsAsErrors": ";NU1903;NU1904;NU1605;SYSLIB0011",
+        "TargetFramework": "net10.0",
+        "RestorePackagesWithLockFile": "",
+        "RestoreLockedMode": "",
+        "BaseOutputPath": "bin\\",
+        "BaseIntermediateOutputPath": "obj\\"
+      }
+    },
+    {
+      "project": "docs/guards/V3_ifx/generated/dotnet/LayerGuard/src/LayerGuard/LayerGuard.csproj",
+      "packages": [
+        "same as template"
+      ],
+      "effective": {
+        "DirectoryBuildPropsPath": "Directory.Build.props",
+        "DirectoryPackagesPropsPath": "docs/Directory.Packages.props",
+        "ManagePackageVersionsCentrally": "false",
+        "NuGetAudit": "true",
+        "NuGetAuditMode": "all",
+        "NuGetAuditLevel": "moderate",
+        "WarningsAsErrors": ";NU1903;NU1904;NU1605;SYSLIB0011",
+        "TargetFramework": "net10.0",
+        "RestorePackagesWithLockFile": "",
+        "RestoreLockedMode": "",
+        "BaseOutputPath": "bin\\",
+        "BaseIntermediateOutputPath": "obj\\"
+      }
+    },
+    {
+      "project": "artifacts/<temp>/GuardV3.Tests.csproj (generated Stage Gate evaluated outside docs/)",
+      "packages": [
+        "same as generated/stages"
+      ],
+      "effective": {
+        "DirectoryBuildPropsPath": "Directory.Build.props",
+        "DirectoryPackagesPropsPath": "Directory.Packages.props",
+        "ManagePackageVersionsCentrally": "true",
+        "NuGetAudit": "true",
+        "NuGetAuditMode": "all",
+        "NuGetAuditLevel": "moderate",
+        "WarningsAsErrors": ";NU1903;NU1904;NU1605;SYSLIB0011",
+        "TargetFramework": "net10.0",
+        "RestorePackagesWithLockFile": "",
+        "RestoreLockedMode": "",
+        "BaseOutputPath": "bin\\",
+        "BaseIntermediateOutputPath": "obj\\"
+      },
+      "consequence": "PackageReference items with Version under central package management fail restore with NU1008; reproduced by tests/Test-V3ArchUnit.ps1 (see local-results.json)."
+    }
+  ],
+  "findings": [
+    "Guard projects obtain NuGet auditing only from the root Directory.Build.props (P5 must carry an equal-or-stronger baseline, D14).",
+    "Guard projects build only because docs/Directory.Packages.props disables central package management; any location outside docs/ inherits the root CPM and fails with NU1008.",
+    "No global.json: the SDK floats (CI setup-dotnet 10.0.x; local 10.0.303).",
+    "No NuGet.config: package sources come from user/machine configuration.",
+    "No packages.lock.json and no locked restore; transitive dependencies are not pinned.",
+    "Default bin/ and obj/ output inside docs/guards (ignored by Git, still written into the source tree).",
+    "LayerGuard references ModelContextProtocol and Microsoft.Extensions.Hosting because the engine is also the legacy MCP server; this widens the trusted build dependency surface."
+  ]
+}

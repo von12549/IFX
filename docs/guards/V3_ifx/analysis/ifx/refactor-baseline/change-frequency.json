@@ -1,0 +1,121 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "generatedBy": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+  "window": {
+    "since": "2026-06-01",
+    "until": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+    "path": "docs/guards/V3_ifx",
+    "mergesExcluded": true
+  },
+  "limitation": "Counts commits at current V3_ifx paths only; history before files moved into V3_ifx (Plan 05 cutover) is not followed.",
+  "categories": [
+    {
+      "category": "profiles/ifx/rules",
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/",
+      "commits": 4,
+      "fileChanges": 13
+    },
+    {
+      "category": "profiles/ifx/project-map",
+      "path": "docs/guards/V3_ifx/profiles/ifx/project-map.json",
+      "commits": 4,
+      "fileChanges": 4
+    },
+    {
+      "category": "contracts",
+      "path": "docs/guards/V3_ifx/contracts/",
+      "commits": 3,
+      "fileChanges": 10
+    },
+    {
+      "category": "ci/jobs",
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "commits": 3,
+      "fileChanges": 3
+    },
+    {
+      "category": "profiles/ifx/tech-stack",
+      "path": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+      "commits": 3,
+      "fileChanges": 3
+    },
+    {
+      "category": "policy/baselines",
+      "path": "docs/guards/V3_ifx/policy/baselines/",
+      "commits": 2,
+      "fileChanges": 2
+    },
+    {
+      "category": "policy/layerguard",
+      "path": "docs/guards/V3_ifx/policy/layerguard.json",
+      "commits": 2,
+      "fileChanges": 2
+    },
+    {
+      "category": "policy/g04/bindings",
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/",
+      "commits": 1,
+      "fileChanges": 8
+    },
+    {
+      "category": "policy/g03",
+      "path": "docs/guards/V3_ifx/policy/g03/",
+      "commits": 1,
+      "fileChanges": 2
+    },
+    {
+      "category": "specialized/contracts",
+      "path": "docs/guards/V3_ifx/specialized/contracts/",
+      "commits": 1,
+      "fileChanges": 2
+    },
+    {
+      "category": "history/manifest",
+      "path": "docs/guards/V3_ifx/history/manifest.json",
+      "commits": 1,
+      "fileChanges": 1
+    },
+    {
+      "category": "policy/authorities",
+      "path": "docs/guards/V3_ifx/policy/authorities.json",
+      "commits": 1,
+      "fileChanges": 1
+    },
+    {
+      "category": "policy/g04/runtime-manifest",
+      "path": "docs/guards/V3_ifx/policy/g04/runtime-manifest.json",
+      "commits": 1,
+      "fileChanges": 1
+    },
+    {
+      "category": "policy/g05",
+      "path": "docs/guards/V3_ifx/policy/g05/",
+      "commits": 1,
+      "fileChanges": 1
+    },
+    {
+      "category": "profiles/ifx/profile",
+      "path": "docs/guards/V3_ifx/profiles/ifx/profile.json",
+      "commits": 1,
+      "fileChanges": 1
+    }
+  ],
+  "comparatorOrder": [
+    "profiles/ifx/rules",
+    "profiles/ifx/project-map",
+    "contracts",
+    "ci/jobs",
+    "profiles/ifx/tech-stack",
+    "policy/baselines",
+    "policy/layerguard",
+    "policy/g04/bindings",
+    "policy/g03",
+    "specialized/contracts",
+    "history/manifest",
+    "policy/authorities",
+    "policy/g04/runtime-manifest",
+    "policy/g05",
+    "profiles/ifx/profile"
+  ]
+}

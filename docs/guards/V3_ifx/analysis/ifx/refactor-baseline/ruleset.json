@@ -1,0 +1,116 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "authoredBy": "P0 manual review (CP01)",
+  "recordedAt": "2026-09-16",
+  "source": "GET repos/von12549/IFX/rulesets/23459908 (read-only)",
+  "ruleset": {
+    "id": 23459908,
+    "name": "IFX V3 Required Checks",
+    "target": "branch",
+    "sourceType": "Repository",
+    "enforcement": "active",
+    "createdAt": "2026-09-16T00:59:25.765+10:00",
+    "updatedAt": "2026-09-16T00:59:25.848+10:00",
+    "bypassActors": [],
+    "conditions": {
+      "ref_name": {
+        "exclude": [],
+        "include": [
+          "~DEFAULT_BRANCH",
+          "refs/heads/codex/guards-principles-plan"
+        ]
+      }
+    }
+  },
+  "rules": {
+    "deletion": true,
+    "nonFastForward": true,
+    "pullRequest": {
+      "required_approving_review_count": 0,
+      "dismiss_stale_reviews_on_push": false,
+      "required_reviewers": [],
+      "require_code_owner_review": false,
+      "require_last_push_approval": false,
+      "required_review_thread_resolution": true,
+      "require_extra_approval_for_unattributed_changes": false,
+      "allowed_merge_methods": [
+        "merge",
+        "squash",
+        "rebase"
+      ]
+    },
+    "requiredStatusChecks": {
+      "strict": true,
+      "doNotEnforceOnCreate": false,
+      "checks": [
+        {
+          "context": "v3-pre-diff",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-architecture",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-quality-solution",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-quality-assembly",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-quality-frontend",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-specialized-g03",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-specialized-g04",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-specialized-g05",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-specialized-plan04",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-specialized-database",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-historical-integrity",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-cross-platform-ubuntu-latest",
+          "integrationId": 15368
+        },
+        {
+          "context": "v3-cross-platform-windows-latest",
+          "integrationId": 15368
+        }
+      ]
+    }
+  },
+  "repository": {
+    "defaultBranch": "main",
+    "visibility": "private",
+    "allowMergeCommit": true,
+    "allowSquashMerge": true,
+    "allowRebaseMerge": true,
+    "classicBranchProtectionOnIntegrationBranch": false
+  },
+  "findings": [
+    "13 required checks match Plan 06 §10.3 exactly; strict up-to-date is enabled (precondition for §12.3 merge-base endpoints).",
+    "require_code_owner_review = false and required_approving_review_count = 0 (Plan 06 §18 O1, deferred; no change).",
+    "No bypass actors are configured.",
+    "Squash and rebase merges are allowed. Plan checkpoints assume merge commits so later branches keep a clean merge-base; recorded as an operating convention, no setting change."
+  ]
+}

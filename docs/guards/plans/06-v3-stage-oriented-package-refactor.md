@@ -707,19 +707,20 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 阶段依赖：P5 可与 P1 并行执行，但必须在 P2.2 之前完成；其余阶段按编号顺序执行。
 
-### P0 — 基线冻结与完整分类（只读）
+### P0 — 基线冻结与完整分类（只读）— 已完成（2026-09-16，CP01）
 
-- [ ] P0.1 记录 V3、V3_backup、V3_ifx、`mcp/LayerGuard/` 和 `.github/` 激活文件的 tracked 文件、hash、引用、生成关系和当前 Validate/Check/Test 结果。
-- [ ] P0.2 为每个文件标注 authority/implementation/generated/activation/evidence、Stage、owner 和保留/迁移/删除结论；`analysis/ifx/` 中每个文件明确归为"经评审长期输入/基线"、"经评审报告快照"或"运行时输出"。
-- [ ] P0.3 建立全部 PowerShell 及其他 executable 的调用图，区分公共入口和内部调用，标出每个 CI job 的第一个可执行入口，并冻结初始 TCB component 清单、base-owned validation suite 与 parity contract。
-- [ ] P0.4 冻结两个 .NET gate 的源码、fixture、项目、package、测试类别和执行路径；列出 LayerGuard 中全部 IFX-specific binding（大小写不敏感扫描）；登记"LayerGuard 不解析 `<Import>`/Condition/`Directory.Build.*`"为已知覆盖缺口。
-- [ ] P0.5 登记已知漂移为迁移前缺陷：Markdown views、architecture review、DEPLOYMENT、文件计数、无效 `SourceConfig`、未受校验的 `ci/jobs.json`，以及 `ci/jobs.json` 中 `v3-historical-integrity` 声明的 `history-change-schedule-manual` 触发与 workflow 实际每次运行不一致（待核实）。
-- [ ] P0.6 列出 V3 与 V3_ifx 的逐字节相同文件和已分叉文件，并把每处分叉归类为"通用加固"或"IFX-specific"。
-- [ ] P0.7 只读记录 13 个 required checks 与 ruleset `23459908` 的当前远端状态。
-- [ ] P0.8 盘点门禁工程当前继承的全部 MSBuild/NuGet/SDK 配置及其有效属性：根 `Directory.Build.props`、根 `Directory.Packages.props`、`docs/Directory.Packages.props`、NuGet config 和 `global.json`，作为 V3 `build/` 基线的输入。
-- [ ] P0.9 按 schema 统计 policy/config 文件的历史修改频率，作为比较器实现顺序的依据。
-- [ ] P0.10 核实并冻结 §11.3 每个 required check 的 trust contract 分类。
+- [x] P0.1 记录 V3、V3_backup、V3_ifx、`mcp/LayerGuard/` 和 `.github/` 激活文件的 tracked 文件、hash、引用、生成关系和当前 Validate/Check/Test 结果。 证据：`refactor-baseline/inventory.json`、`duplicates.json`、`local-results.json`、`ci-evidence/`。
+- [x] P0.2 为每个文件标注 authority/implementation/generated/activation/evidence、Stage、owner 和保留/迁移/删除结论；`analysis/ifx/` 中每个文件明确归为"经评审长期输入/基线"、"经评审报告快照"或"运行时输出"。 证据：`inventory.json`（820/820 已分类）。
+- [x] P0.3 建立全部 PowerShell 及其他 executable 的调用图，区分公共入口和内部调用，标出每个 CI job 的第一个可执行入口，并冻结初始 TCB component 清单、base-owned validation suite 与 parity contract。 证据：`call-graph.json`、`tcb.json`（17 个 component）。
+- [x] P0.4 冻结两个 .NET gate 的源码、fixture、项目、package、测试类别和执行路径；列出 LayerGuard 中全部 IFX-specific binding（大小写不敏感扫描）；登记"LayerGuard 不解析 `<Import>`/Condition/`Directory.Build.*`"为已知覆盖缺口。 证据：`dotnet-gates.json`。
+- [x] P0.5 登记已知漂移为迁移前缺陷：Markdown views、architecture review、DEPLOYMENT、文件计数、无效 `SourceConfig`、未受校验的 `ci/jobs.json`，以及 `ci/jobs.json` 中 `v3-historical-integrity` 声明的 `history-change-schedule-manual` 触发与 workflow 实际每次运行不一致（待核实）。 证据：`drift.json`（DRIFT-01–10，DRIFT-07 已核实）。
+- [x] P0.6 列出 V3 与 V3_ifx 的逐字节相同文件和已分叉文件，并把每处分叉归类为"通用加固"或"IFX-specific"。 证据：`v3-divergence.json`。
+- [x] P0.7 只读记录 13 个 required checks 与 ruleset `23459908` 的当前远端状态。 证据：`ruleset.json`。
+- [x] P0.8 盘点门禁工程当前继承的全部 MSBuild/NuGet/SDK 配置及其有效属性：根 `Directory.Build.props`、根 `Directory.Packages.props`、`docs/Directory.Packages.props`、NuGet config 和 `global.json`，作为 V3 `build/` 基线的输入。 证据：`build-inheritance.json`。
+- [x] P0.9 按 schema 统计 policy/config 文件的历史修改频率，作为比较器实现顺序的依据。 证据：`change-frequency.json`；按 commit 计首批比较器为 `profiles/ifx/rules`、`profiles/ifx/project-map`，修正 §12.4 的 r3 参考数据。
+- [x] P0.10 核实并冻结 §11.3 每个 required check 的 trust contract 分类。 证据：`trust-contracts.json`。
 - **门槛**：每个现有文件、命令和 Gate 都有唯一分类；全部 trusted-base component 均进入待 P1.5 materialize 的冻结清单；未分类项不得进入后续阶段。
+- **结果**：门槛通过。基线记录位于 `docs/guards/V3_ifx/analysis/ifx/refactor-baseline/`，汇总见其 `README.md`。
 
 ### P1 — 决策校验与已知漂移修复
 

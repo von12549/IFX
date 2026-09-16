@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "gate": "G05",
+  "phase": 11,
+  "result": "passed",
+  "scope": "specialized-context-and-security-no-build-or-layerguard",
+  "checks": {
+    "contextBoundary": true,
+    "securityBoundary": true
+  },
+  "reports": {
+    "contextBoundary": "context-boundary.json",
+    "securityBoundary": "security-boundary.json"
+  }
+}

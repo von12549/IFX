@@ -1,0 +1,72 @@
+{
+  "phase": "P05-S6",
+  "result": "passed",
+  "checks": {
+    "positiveAndNegativeDetectors": true,
+    "AuthenticationContractsArePure": true,
+    "AuthenticationRuntimeHasNoBusinessOrHttpDependency": true,
+    "AuthorizationContractsArePure": true,
+    "AuthorizationRuntimeHasNoBusinessOrHttpDependency": true,
+    "verifiedIdentityIsTheProductionSource": true,
+    "membershipFactsAreCurrentAndTenantBound": true,
+    "workerActorRequiresTrustedUserIdentity": true,
+    "internalAuthorizationRequiresExplicitContext": true,
+    "httpUsesIamDecision": true,
+    "hostUsesIamComposition": true,
+    "retiredTransitionTypesAreAbsent": true,
+    "legacyTypeNamesHaveExactCompatibilityEntries": true
+  },
+  "detectorCases": 10,
+  "sourceBindings": [
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj",
+      "sha256": "b74e2ed65b0ed73188135dd3ff266ab11d29d0d4b990a473f6e467ec097aa497"
+    },
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/V1/OidcProtocol.cs",
+      "sha256": "723c08ebc1ae50e31064fafb63b3fe00e988413d63fca5d906c5742774a71b42"
+    },
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/V1/ProviderServices.cs",
+      "sha256": "612119f6f2ca7945ddcec3ec3636d2095149a7b9e960637513a87495a04e457e"
+    },
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/V1/TokenValidation.cs",
+      "sha256": "fd1982691deec035addbf4506892adf8083580f26a5d859f76a4a20f176d7700"
+    },
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj",
+      "sha256": "5bbec633fda57d62e127b3a208d0e72d499f6ba28664bde4a5d9b37d25a75e35"
+    },
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs",
+      "sha256": "81508b8ed4d0b6d33d0e83e037a9b81a3c779a209c2833597706d6e321f07402"
+    },
+    {
+      "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/TokenValidationService.cs",
+      "sha256": "ea685f9a5d6d7792ebea57911e7da2b090358691e7f48da9bbccbb1c5f9fa2db"
+    },
+    {
+      "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj",
+      "sha256": "dd1aec33430afa1b6db95a49f061df13d29def748d9952f266d42cd9a6d43d41"
+    },
+    {
+      "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/V1/Evaluation.cs",
+      "sha256": "eb6e31b8ef6eafd952407dc8b7c58fe4a66a809ebbe3c1f3d879ef13e8bd7e02"
+    },
+    {
+      "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/V1/IAuthorizationEvaluationContract.cs",
+      "sha256": "29f79e0b6c08f277ab5a3ce372eaefd9b36464e42086cd356ab7e2d2f8f8d6d6"
+    },
+    {
+      "path": "src/Platform/Authorization/IFX.Platform.Authorization.Runtime/AuthorizationRuntime.cs",
+      "sha256": "42781b300abce1fe48f105ebe9233b0fc598d9d3909c4702a21482d012f3bee5"
+    },
+    {
+      "path": "src/Platform/Authorization/IFX.Platform.Authorization.Runtime/IFX.Platform.Authorization.Runtime.csproj",
+      "sha256": "6bf93e25c5335e631ea6d2bbfbddb77853a47e973fb78c26341e21342b434dc4"
+    }
+  ],
+  "runtimeTests": "SQL membership revocation, IAM mandatory/contract context, platform unknown attributes and composition tests run separately",
+  "namedApprovals": "not-inferred"
+}

@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "releaseId": "1.0.0-g04",
+  "businessBoundary": "ifx-backend",
+  "hostArtifact": {
+    "artifactId": "ifx-host",
+    "digest": "sha256:856503c6163622ac84b64cf665fbea99ab1d6b0581ba09b1a1616fc3592d3e3e",
+    "allowedRoles": [
+      "api",
+      "worker",
+      "all"
+    ]
+  },
+  "requiredModuleIds": [
+    "auth",
+    "crm",
+    "registry",
+    "holdings",
+    "transaction"
+  ],
+  "bindings": {
+    "moduleManifest": {
+      "path": "deployment/g04/module-manifest.json",
+      "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+    },
+    "deploymentUnitCatalog": {
+      "path": "deployment/g04/deployment-unit-catalog.json",
+      "sha256": "4302bd19a3415fac2d854a108b14223110c549bf5d839c35e1dffbf4e31944e1"
+    },
+    "infrastructureCompatibility": {
+      "path": "deployment/g04/infrastructure-compatibility-matrix.json",
+      "sha256": "7aa9a3ed5de7a9c0824bc40e3dbe9068883d276b4185748e89df9e6bc32c1a1b"
+    },
+    "schemaReleaseManifest": {
+      "path": "deployment/release-manifest.json",
+      "sha256": "0663fb88f6587bb00910bff97851a3fc485c576330ec596fb682700f9806117d"
+    },
+    "migrationManifest": {
+      "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+      "sha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6"
+    },
+    "releaseOrchestration": {
+      "path": "deployment/g04/release-orchestration.json",
+      "sha256": "56b1cc645e879459a97a0bcc04829e8aa838bd50c0e8b9fc72c27c9fb74adcfe"
+    },
+    "backpressurePolicy": {
+      "path": "deployment/g04/backpressure-policy.json",
+      "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
+    },
+    "failureMatrix": {
+      "path": "deployment/g04/failure-matrix.json",
+      "sha256": "5f238f5cc320af4aacfbfb4b99b7f8bc268c3cfed564f775ff2c19aee5e0a0f6"
+    }
+  },
+  "schemaCompatibility": {
+    "policy": "expand-contract",
+    "cleanupRequires": "observed-zero-old-version-demand"
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "formatVersion": 1,
+  "gate": "G03",
+  "result": "passed",
+  "mode": "migration",
+  "counts": {
+    "owners": 2,
+    "modules": 8,
+    "consumers": 5,
+    "protocols": 6,
+    "publicSurface": 46,
+    "legacyInternalize": 20,
+    "legacyReplace": 6,
+    "legacyRemove": 20,
+    "fieldSurfaces": 34,
+    "fields": 200,
+    "c3Fields": 11,
+    "fieldExceptions": 8,
+    "sharedPrimitives": 6,
+    "changeRecords": 4,
+    "graphEdges": 9,
+    "syncCycles": 0,
+    "mixedCycles": 0,
+    "errors": 0
+  },
+  "checks": {
+    "schema": true,
+    "uniqueIdentity": true,
+    "referenceIntegrity": true,
+    "backupOwnership": true,
+    "fieldClassification": true,
+    "sensitiveFieldGovernance": true,
+    "dependencyCycles": true,
+    "selfTests": true
+  },
+  "graph": [
+    {
+      "identity": "crm.account-compliance.v1",
+      "kind": "sync",
+      "provider": "crm",
+      "consumer": "transaction",
+      "consumerId": "transaction-application"
+    },
+    {
+      "identity": "registry.class-subscription-availability.v1",
+      "kind": "sync",
+      "provider": "registry",
+      "consumer": "transaction",
+      "consumerId": "transaction-application"
+    },
+    {
+      "identity": "ifx.transaction.transaction-processed.v1",
+      "kind": "event",
+      "provider": "transaction",
+      "consumer": "holdings",
+      "consumerId": "holdings-application"
+    },
+    {
+      "identity": "ifx.registry.class-status-changed.v1",
+      "kind": "event",
+      "provider": "registry",
+      "consumer": "holdings",
+      "consumerId": "holdings-application"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "crm",
+      "consumerId": "crm-authorization-adapter"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "registry",
+      "consumerId": "registry-authorization-adapter"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "transaction",
+      "consumerId": "transaction-application"
+    },
+    {
+      "identity": "auth.resource-authorization.v1",
+      "kind": "sync",
+      "provider": "auth",
+      "consumer": "holdings",
+      "consumerId": "holdings-application"
+    },
+    {
+      "identity": "authorization.policy-evaluation.v1",
+      "kind": "sync",
+      "provider": "authorization",
+      "consumer": "auth",
+      "consumerId": "iam-identity-adapter"
+    }
+  ],
+  "selfTests": [
+    {
+      "name": "duplicate identity",
+      "expected": "duplicate-id",
+      "passed": true
+    },
+    {
+      "name": "missing owner",
+      "expected": "owner-reference",
+      "passed": true
+    },
+    {
+      "name": "missing backup owner",
+      "expected": "backup-owner-reference",
+      "passed": true
+    },
+    {
+      "name": "self backup owner",
+      "expected": "backup-owner-reference",
+      "passed": true
+    },
+    {
+      "name": "missing consumer",
+      "expected": "missing-consumer",
+      "passed": true
+    },
+    {
+      "name": "broken reference",
+      "expected": "module-reference",
+      "passed": true
+    },
+    {
+      "name": "C4 exposure",
+      "expected": "secret-forbidden",
+      "passed": true
+    },
+    {
+      "name": "missing field inventory",
+      "expected": "field-surface-missing",
+      "passed": true
+    },
+    {
+      "name": "incomplete C4 semantics",
+      "expected": "c4-denylist",
+      "passed": true
+    },
+    {
+      "name": "C3 without exception",
+      "expected": "field-exception",
+      "passed": true
+    },
+    {
+      "name": "expired C3 field exception",
+      "expected": "field-exception-expired",
+      "passed": true
+    },
+    {
+      "name": "orphan Active protocol",
+      "expected": "active-admission",
+      "passed": true
+    },
+    {
+      "name": "illegal lifecycle",
+      "expected": "lifecycle",
+      "passed": true
+    },
+    {
+      "name": "expired waiver",
+      "expected": "waiver-expired",
+      "passed": true
+    },
+    {
+      "name": "unwaivable exposure",
+      "expected": "waiver-unwaivable",
+      "passed": true
+    },
+    {
+      "name": "durable credential protocol",
+      "expected": "infrastructure-sensitive-boundary",
+      "passed": true
+    },
+    {
+      "name": "logged credential protocol",
+      "expected": "infrastructure-sensitive-boundary",
+      "passed": true
+    },
+    {
+      "name": "unknown credential consumer",
+      "expected": "infrastructure-owner",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

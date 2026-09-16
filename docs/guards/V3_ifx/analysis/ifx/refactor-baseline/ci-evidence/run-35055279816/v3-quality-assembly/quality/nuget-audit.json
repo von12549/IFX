@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-09-16T04:23:12.0153639+00:00",
+  "status": "pass",
+  "projectCount": 81,
+  "auditMode": "all",
+  "blockingSeverities": [
+    "high",
+    "critical"
+  ],
+  "findings": [],
+  "audit": {
+    "version": 1,
+    "parameters": "--vulnerable --include-transitive",
+    "sources": [
+      "https://api.nuget.org/v3/index.json"
+    ],
+    "projects": [
+      {
+        "path": "/home/runner/work/IFX/IFX/src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/BuildingBlocks/IFX.BuildingBlocks.Composition/IFX.BuildingBlocks.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authentication/IFX.Platform.Authentication.Composition/IFX.Platform.Authentication.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Cognito/IFX.Platform.Authentication.Infrastructure.Cognito.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Auth0/IFX.Platform.Authentication.Infrastructure.Auth0.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Composition/IFX.Modules.IAM.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/IFX.Platform.BackgroundJobs.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/IFX.Platform.Shared/IFX.Platform.Shared.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Contracts/IFX.Platform.BackgroundJobs.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Notifications/IFX.Platform.Notifications.Contracts/IFX.Platform.Notifications.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Domain/IFX.Modules.IAM.Domain.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/BuildingBlocks/IFX.BuildingBlocks.EntityFrameworkCore/IFX.BuildingBlocks.EntityFrameworkCore.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Presentation/IFX.Modules.IAM.Presentation.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authorization/IFX.Platform.Authorization.Composition/IFX.Platform.Authorization.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authorization/IFX.Platform.Authorization.Runtime/IFX.Platform.Authorization.Runtime.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Authorization/IFX.Platform.Authorization.Infrastructure.Opa/IFX.Platform.Authorization.Infrastructure.Opa.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Registry/IFX.Modules.Registry.Composition/IFX.Modules.Registry.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Registry/IFX.Modules.Registry.Presentation/IFX.Modules.Registry.Presentation.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Holdings/IFX.Modules.Holdings.Composition/IFX.Modules.Holdings.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Holdings/IFX.Modules.Holdings.Domain/IFX.Modules.Holdings.Domain.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Holdings/IFX.Modules.Holdings.Presentation/IFX.Modules.Holdings.Presentation.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Transaction/IFX.Modules.Transaction.Composition/IFX.Modules.Transaction.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Transaction/IFX.Modules.Transaction.Domain/IFX.Modules.Transaction.Domain.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Modules/Transaction/IFX.Modules.Transaction.Presentation/IFX.Modules.Transaction.Presentation.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Messaging/IFX.Platform.Messaging.Composition/IFX.Platform.Messaging.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Notifications/IFX.Platform.Notifications.Composition/IFX.Platform.Notifications.Composition.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/IFX.Platform.Notifications.Infrastructure.SendGrid.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.BuildingBlocks.Application.Tests/IFX.BuildingBlocks.Application.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.IntegrationTests/IFX.IntegrationTests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Tests.Common/IFX.Tests.Common.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.CRM.Application.Tests/IFX.Modules.CRM.Application.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.CRM.Domain.Tests/IFX.Modules.CRM.Domain.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.Holdings.Application.Tests/IFX.Modules.Holdings.Application.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.Holdings.Domain.Tests/IFX.Modules.Holdings.Domain.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.IAM.Application.Tests/IFX.Modules.IAM.Application.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.IAM.Domain.Tests/IFX.Modules.IAM.Domain.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.IAM.Infrastructure.Tests/IFX.Modules.IAM.Infrastructure.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.IAM.Presentation.Tests/IFX.Modules.IAM.Presentation.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.Registry.Application.Tests/IFX.Modules.Registry.Application.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.Registry.Domain.Tests/IFX.Modules.Registry.Domain.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.Transaction.Application.Tests/IFX.Modules.Transaction.Application.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Modules.Transaction.Domain.Tests/IFX.Modules.Transaction.Domain.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Platform.Authentication.Tests/IFX.Platform.Authentication.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Platform.Authorization.Tests/IFX.Platform.Authorization.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Platform.BackgroundJobs.Tests/IFX.Platform.BackgroundJobs.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Platform.Notifications.Tests/IFX.Platform.Notifications.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tests/IFX.Platform.ProtocolContracts.Tests/IFX.Platform.ProtocolContracts.Tests.csproj"
+      },
+      {
+        "path": "/home/runner/work/IFX/IFX/tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj"
+      }
+    ]
+  }
+}

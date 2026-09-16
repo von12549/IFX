@@ -1,0 +1,1908 @@
+{
+  "formatVersion": 1,
+  "baselineCommit": "d2663392db1bacd34dd866917c45b7cdf3ede7cc",
+  "generatedBy": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+  "method": "Static: script and project file names referenced in PowerShell source, resolved within the same package; CI entries parsed from the baseline workflow; audiences from tech-stack commands, README/DEPLOYMENT and SKILL documents. ciReachable follows every edge from CI entries; verdictChain stops at package tests, so it lists only executables whose behavior decides a check verdict.",
+  "ciJobs": [
+    {
+      "jobId": "v3-pre-diff",
+      "checkNames": [
+        "v3-pre-diff"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-architecture",
+      "checkNames": [
+        "v3-architecture"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+        "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-quality-solution",
+      "checkNames": [
+        "v3-quality-solution"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-quality-assembly",
+      "checkNames": [
+        "v3-quality-assembly"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-quality-frontend",
+      "checkNames": [
+        "v3-quality-frontend"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-specialized-g03",
+      "checkNames": [
+        "v3-specialized-g03"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-specialized-g04",
+      "checkNames": [
+        "v3-specialized-g04"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-specialized-g05",
+      "checkNames": [
+        "v3-specialized-g05"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-specialized-plan04",
+      "checkNames": [
+        "v3-specialized-plan04"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-specialized-database",
+      "checkNames": [
+        "v3-specialized-database"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-historical-integrity",
+      "checkNames": [
+        "v3-historical-integrity"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    },
+    {
+      "jobId": "v3-cross-platform",
+      "checkNames": [
+        "v3-cross-platform-ubuntu-latest",
+        "v3-cross-platform-windows-latest"
+      ],
+      "firstExecutableEntry": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "directInvocations": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1"
+      ],
+      "entrySource": "head checkout (baseline)"
+    }
+  ],
+  "summary": {
+    "executables": 70,
+    "public": 27,
+    "internal": 38,
+    "testOnly": 0,
+    "unreferenced": 5,
+    "ciReachable": 51,
+    "verdictChain": 50,
+    "v3PackageCiReachable": 0
+  },
+  "nodes": [
+    {
+      "path": "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+      "scope": "V3",
+      "role": "agent-hook",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3/tests/Test-V3.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3/hooks/README.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "scope": "V3",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in"
+      ],
+      "calledBy": [
+        "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3/tests/Test-V3.ps1",
+        "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3/generated/README.md",
+        "docs/guards/V3/rules/README.md",
+        "docs/guards/V3/skills/guard-plan/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+      "scope": "V3",
+      "role": "analysis-engine",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3/README.md",
+        "docs/guards/V3/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+      "scope": "V3",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3/README.md",
+        "docs/guards/V3/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+      "scope": "V3",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3/README.md",
+        "docs/guards/V3/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/tests/Test-V3.ps1",
+      "scope": "V3",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+      "scope": "V3",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3/README.md",
+        "docs/guards/V3/rules/README.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3/tests/Test-V3Tools.ps1",
+      "scope": "V3",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Setup.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3/DEPLOYMENT.md",
+        "docs/guards/V3/README.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "scope": "V3_ifx",
+      "role": "historical-integrity-gate",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+      "scope": "V3_ifx",
+      "role": "maintenance-history-manifest",
+      "exposure": "unreferenced",
+      "audiences": [],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [],
+      "calledBy": [],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+      "scope": "V3_ifx",
+      "role": "agent-hook",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/tests/Test-V3.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/hooks/README.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+      "scope": "V3_ifx",
+      "role": "quality-gate",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+      "scope": "V3_ifx",
+      "role": "quality-gate",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "scope": "V3_ifx",
+      "role": "quality-gate",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+        "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "scope": "V3_ifx",
+      "role": "architecture-runner",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "validation-command",
+        "agent",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/LayerGuard.csproj"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md",
+        "docs/guards/V3_ifx/README.md",
+        "docs/guards/V3_ifx/generated/README.md",
+        "docs/guards/V3_ifx/policy/README.md",
+        "docs/guards/V3_ifx/profiles/ifx/README.md",
+        "docs/guards/V3_ifx/rules/README.md",
+        "docs/guards/V3_ifx/skills/guard-plan/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "scope": "V3_ifx",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+        "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md",
+        "docs/guards/V3_ifx/README.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "scope": "V3_ifx",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "agent",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md",
+        "docs/guards/V3_ifx/README.md",
+        "docs/guards/V3_ifx/generated/README.md",
+        "docs/guards/V3_ifx/rules/README.md",
+        "docs/guards/V3_ifx/skills/guard-plan/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "scope": "V3_ifx",
+      "role": "analysis-engine",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md",
+        "docs/guards/V3_ifx/README.md",
+        "docs/guards/V3_ifx/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "scope": "V3_ifx",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md",
+        "docs/guards/V3_ifx/README.md",
+        "docs/guards/V3_ifx/profiles/ifx/README.md",
+        "docs/guards/V3_ifx/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "scope": "V3_ifx",
+      "role": "public-command",
+      "exposure": "public",
+      "audiences": [
+        "agent",
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md",
+        "docs/guards/V3_ifx/README.md",
+        "docs/guards/V3_ifx/skills/guard-bootstrap/SKILL.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "scope": "V3_ifx",
+      "role": "maintenance-projection",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1"
+      ],
+      "documentedIn": [
+        "docs/guards/V3_ifx/README.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-dispatcher",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Export-G03LayerGuardGovernance.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G02DatabaseInventory.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G03Documentation.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeInventory.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G04Closeout.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G04Documentation.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G04FailureMatrix.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G04ReleaseOrchestration.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeInventory.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan02C1InboundConformance.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextInventory.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextInventory.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan05SecurityBoundary.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/New-G04ReleaseManifest.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-AbstractionsRetirement.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03Documentation.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Export-G03LayerGuardGovernance.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04Closeout.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04Documentation.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04FailureMatrix.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/New-G04ReleaseManifest.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04ReleaseOrchestration.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G02DatabaseInventory.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan02C1InboundConformance.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Documentation.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "unreferenced",
+      "audiences": [],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [],
+      "calledBy": [],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-AbstractionsRetirement.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ProjectionPolicy.ps1",
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04TenantQueryPolicy.ps1"
+      ],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase0Baseline.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "unreferenced",
+      "audiences": [],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [],
+      "calledBy": [],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "unreferenced",
+      "audiences": [],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase2Audit.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "unreferenced",
+      "audiences": [],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [],
+      "calledBy": [],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ProjectionPolicy.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04TenantQueryPolicy.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan05SecurityBoundary.ps1",
+      "scope": "V3_ifx",
+      "role": "specialized-detector",
+      "exposure": "internal",
+      "audiences": [],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [],
+      "calledBy": [
+        "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1"
+      ],
+      "documentedIn": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "validation-command",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+        "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/LayerGuard.csproj"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "ci",
+        "human"
+      ],
+      "ciReachable": true,
+      "verdictChain": true,
+      "calls": [
+        "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+      "scope": "V3_ifx",
+      "role": "package-test",
+      "exposure": "public",
+      "audiences": [
+        "human"
+      ],
+      "ciReachable": false,
+      "verdictChain": false,
+      "calls": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1"
+      ],
+      "calledBy": [],
+      "documentedIn": [
+        "docs/guards/V3_ifx/DEPLOYMENT.md"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "to": "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in",
+      "via": "GuardV3.Tests.csproj"
+    },
+    {
+      "from": "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+      "via": "Invoke-V3Architecture.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3.ps1",
+      "to": "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+      "via": "Invoke-PlanHook.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3.ps1",
+      "to": "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in",
+      "via": "GuardV3.Tests.csproj"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+      "to": "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in",
+      "via": "GuardV3.Tests.csproj"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+      "via": "Invoke-V3Architecture.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+      "via": "Invoke-V3Docs.ps1"
+    },
+    {
+      "from": "docs/guards/V3/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+      "via": "Invoke-V3Setup.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "to": "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+      "via": "Invoke-IFXAssemblyGuard.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "to": "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+      "via": "Invoke-IFXPackageAudit.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "via": "Sync-IFXPolicyInputs.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "to": "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+      "via": "LayerGuard.slnx"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "to": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/LayerGuard.csproj",
+      "via": "LayerGuard.csproj"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "to": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "via": "Invoke-IFXHistoricalIntegrity.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "to": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "via": "Invoke-IFXQuality.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "via": "Invoke-IFX.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "to": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "via": "Invoke-IFXSpecialized.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "to": "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in",
+      "via": "GuardV3.Tests.csproj"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "via": "Invoke-V3Architecture.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "via": "Invoke-G03ContractEventGuard.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+      "via": "Invoke-G04Verification.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+      "via": "Invoke-G05Verification.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "via": "New-DatabaseMigrationArtifacts.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+      "via": "Test-DatabasePendingModelChanges.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+      "via": "Test-MigrationSafetyPolicy.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "via": "Test-Plan04Governance.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+      "via": "Invoke-G03ContractEventInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+      "via": "Invoke-G03CompatibilitySnapshots.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+      "via": "Invoke-G03ContractEventInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+      "via": "Invoke-G03SourceReconciliation.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+      "via": "Test-G03CloseoutReadiness.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+      "via": "Test-G03ContractEventCatalog.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G03Documentation.ps1",
+      "via": "Test-G03Documentation.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+      "via": "Test-G03LayerGuardGovernance.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+      "via": "Invoke-G03ContractEventInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeInventory.ps1",
+      "via": "Invoke-G04DeploymentRuntimeInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+      "via": "Invoke-G04Verification.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G04Closeout.ps1",
+      "via": "Test-G04Closeout.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G04Documentation.ps1",
+      "via": "Test-G04Documentation.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G04FailureMatrix.ps1",
+      "via": "Test-G04FailureMatrix.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1",
+      "via": "Test-G04Manifests.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G04ReleaseOrchestration.ps1",
+      "via": "Test-G04ReleaseOrchestration.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "via": "Invoke-G04DeploymentRuntimeGuard.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan02C1InboundConformance.ps1",
+      "via": "Test-Plan02C1InboundConformance.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextInventory.ps1",
+      "via": "Invoke-G05ContextInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+      "via": "Invoke-G05Verification.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+      "via": "Test-G03ContractEventCatalog.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "via": "Invoke-G05ContextBoundaryGuard.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan05SecurityBoundary.ps1",
+      "via": "Test-Plan05SecurityBoundary.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Export-G03LayerGuardGovernance.ps1",
+      "via": "Export-G03LayerGuardGovernance.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/New-G04ReleaseManifest.ps1",
+      "via": "New-G04ReleaseManifest.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Invoke-G02DatabaseInventory.ps1",
+      "via": "Invoke-G02DatabaseInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+      "via": "New-Plan04BoundaryInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-AbstractionsRetirement.ps1",
+      "via": "Test-AbstractionsRetirement.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+      "via": "Test-Plan04ExtractionPolicy.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ProjectionPolicy.ps1",
+      "via": "Test-Plan04ProjectionPolicy.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04TenantQueryPolicy.ps1",
+      "via": "Test-Plan04TenantQueryPolicy.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+      "via": "New-Plan04BoundaryInventory.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
+      "to": "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+      "via": "LayerGuard.slnx"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+      "to": "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+      "via": "Invoke-IFXAssemblyGuard.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "via": "Sync-IFXPolicyInputs.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+      "to": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "via": "Invoke-IFXHistoricalIntegrity.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "to": "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+      "via": "Invoke-IFXPackageAudit.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "to": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "via": "Invoke-IFXQuality.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "via": "Invoke-IFX.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+      "to": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+      "via": "Test-Plan04ExtractionPolicy.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "via": "Invoke-V3Architecture.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "via": "Invoke-V3Docs.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "via": "Invoke-V3Setup.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "to": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/LayerGuard.csproj",
+      "via": "LayerGuard.csproj"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+      "to": "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+      "via": "Invoke-PlanHook.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+      "to": "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in",
+      "via": "GuardV3.Tests.csproj"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+      "to": "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in",
+      "via": "GuardV3.Tests.csproj"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "via": "Invoke-V3.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "via": "Invoke-V3Architecture.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "via": "Invoke-V3Docs.ps1"
+    },
+    {
+      "from": "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+      "to": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "via": "Invoke-V3Setup.ps1"
+    }
+  ],
+  "notCiReachable": [
+    "docs/guards/V3/hooks/Invoke-PlanHook.ps1",
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3/tests/Test-V3Tools.ps1",
+    "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Documentation.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase0Baseline.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase2Audit.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+  ]
+}

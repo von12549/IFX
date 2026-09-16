@@ -1,0 +1,84 @@
+{
+  "formatVersion": 1,
+  "plan": "04-module-boundary-evolution",
+  "slice": "P04-S4",
+  "result": "repository-passed-production-rls-not-claimed",
+  "checkedAt": "2026-09-16",
+  "policySha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998",
+  "bypassRegistrySha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af",
+  "inventorySha256": "463bbf98f56c849c17663dee33c165027ecb498ff42df9af0fef5c46f5db6ca4",
+  "checks": {
+    "policyDefaultsToExplicitPredicate": true,
+    "trustedNonNullableTenantRequired": true,
+    "tenantMethodsGuardedAndPredicated": true,
+    "contractsHaveNoNullableOrDefaultTenant": true,
+    "tenantOwnedContractSignaturesExplicit": true,
+    "noOrdinaryBypassFlags": true,
+    "noIgnoreQueryFilters": true,
+    "bypassRegistryComplete": true,
+    "noUnregisteredCrossTenantRepository": true,
+    "negativeFixturesPass": true,
+    "globalFilterDecisionRecorded": true,
+    "rlsExplicitlyNotClaimed": true
+  },
+  "fixtureResults": [
+    {
+      "fixture": "tenant-positive-explicit.txt",
+      "expectedErrors": [],
+      "actualErrors": [],
+      "passed": true
+    },
+    {
+      "fixture": "tenant-negative-missing-predicate.txt",
+      "expectedErrors": [
+        "missing-tenant-predicate"
+      ],
+      "actualErrors": [
+        "missing-tenant-predicate"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "tenant-negative-nullable.txt",
+      "expectedErrors": [
+        "nullable-tenant"
+      ],
+      "actualErrors": [
+        "nullable-tenant"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "tenant-negative-default.txt",
+      "expectedErrors": [
+        "default-tenant",
+        "missing-tenant-guard"
+      ],
+      "actualErrors": [
+        "default-tenant",
+        "missing-tenant-guard"
+      ],
+      "passed": true
+    },
+    {
+      "fixture": "tenant-negative-bypass.txt",
+      "expectedErrors": [
+        "ordinary-bypass"
+      ],
+      "actualErrors": [
+        "ordinary-bypass"
+      ],
+      "passed": true
+    }
+  ],
+  "metrics": {
+    "repositoryFiles": 33,
+    "tenantQueryMethods": 81,
+    "registeredCrossTenantEntries": 5,
+    "findings": 0
+  },
+  "globalQueryFilter": "not-selected",
+  "rls": "deferred-not-claimed",
+  "productionValidation": "not-run-not-claimed",
+  "failedChecks": []
+}
