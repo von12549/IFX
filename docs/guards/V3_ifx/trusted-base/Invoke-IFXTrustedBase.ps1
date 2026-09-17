@@ -98,6 +98,22 @@ try {
         Add-Check 'candidate-projection' 'skipped' "Mode $Mode uses base projections unchanged."
     }
 
+    # ---- Diff: an authorization record may be deleted only when the base verifier confirms this change consumes it (D20)
+    $guardEnvironment = @{}
+    if ($Mode -eq 'Diff') {
+        $consumptionReport = Join-Path $trustedOutput 'tcb-authorization-diff.json'
+        $verifierArguments = @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-AuthorizationOnly', '-ReportPath', $consumptionReport)
+        if ($HeadRef) { $verifierArguments += @('-HeadRevision', $HeadRef) }
+        $consumption = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXTrustedBaseCandidate.ps1') $verifierArguments
+        Write-Host $consumption.Output
+        $consumed = if ([IO.File]::Exists($consumptionReport)) { (Get-Content -LiteralPath $consumptionReport -Raw | ConvertFrom-Json).consumedAuthorization } else { $null }
+        if ($consumption.ExitCode -eq 0 -and $consumed) {
+            $guardEnvironment['GUARD_CONSUMED_AUTHORIZATIONS'] = [string]$consumed
+            Add-Check 'consumed-authorization' 'pass' "Verified consumption of $consumed." @($consumptionReport)
+        }
+        else { Add-Check 'consumed-authorization' 'skipped' 'No verified authorization consumption; every protected deletion stays blocked.' @($consumptionReport) }
+    }
+
     # ---- guard run from the candidate package, with head only as the target
     $arguments = @('-Mode', $Mode, '-TargetRoot', $head, '-OutputDirectory', $output)
     switch ($Mode) {
@@ -111,7 +127,8 @@ try {
     $buildRoot = Join-Path $generation 'build'
     $headGuardBuild = Join-Path $head 'artifacts/build/v3-ifx'
     $headGuardBuildExisted = [IO.Directory]::Exists($headGuardBuild)
-    $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment @{ GUARD_BUILD_ROOT = $buildRoot }
+    $guardEnvironment['GUARD_BUILD_ROOT'] = $buildRoot
+    $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
     Write-Host $run.Output
     $summaryName = switch ($Mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } default { "summary-$($Mode.ToLowerInvariant()).json" } }
     if (-not $headGuardBuildExisted -and [IO.Directory]::Exists($headGuardBuild)) { Add-Check 'trusted-build-isolation' 'fail' 'Trusted guard build output was written into the head checkout.' }

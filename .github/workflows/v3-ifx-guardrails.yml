@@ -92,7 +92,8 @@ jobs:
               ,@('./docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1')
               ,@('./docs/guards/V3_ifx/tests/Test-IFXManifests.ps1')
               ,@('./docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-ArchitectureOnly'))
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-ArchitectureOnly')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-DiffConsumptionOnly'))
           foreach ($command in $commands) {
             pwsh -NoProfile -File @command
             if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }

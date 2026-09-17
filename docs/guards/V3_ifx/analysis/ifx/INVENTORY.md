@@ -189,7 +189,7 @@ Evidence is recorded in [inventory.json](inventory.json). Project references are
 
 ## CI workflows
 
-- `.github/workflows/v3-ifx-guardrails.yml` (SHA-256 `d9dfa2f7e519efcb5a377de9b9dd2a78b2cff34e770ff863f82a75252ab560f6`)
+- `.github/workflows/v3-ifx-guardrails.yml` (SHA-256 `c3d1215fa355ca1abee7b2a195dddb318baf0e0b3f63a7a34061720efc32df84`)
 
 ## Agent/owner guidance
 

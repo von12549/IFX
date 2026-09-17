@@ -159,13 +159,18 @@ public sealed class GuardTests
             .Split('\0', StringSplitOptions.RemoveEmptyEntries);
         var changed = new List<string>();
         var protectedDeletions = new List<string>();
+        // The trusted base runner verifies a change-trusted-base authorization before this test runs and passes only the
+        // record that the change consumes (Plan 06 §11.5, D20). Only its exact deletion in a committed range is exempt.
+        var consumed = committedHead ? ConsumedAuthorizations() : new HashSet<string>(StringComparer.Ordinal);
+        var consumedDeleted = new HashSet<string>(StringComparer.Ordinal);
         for (var i = 0; i < parts.Length;)
         {
             var status = parts[i++];
             if (i >= parts.Length) throw new InvalidOperationException("Malformed git name-status output.");
             var firstPath = parts[i++].Replace('\\', '/');
             changed.Add(firstPath);
-            if ((status.StartsWith('D') || status.StartsWith('R')) && IsProtectedGuardPath(firstPath)) protectedDeletions.Add(firstPath);
+            if (status == "D" && consumed.Contains(firstPath)) consumedDeleted.Add(firstPath);
+            else if ((status.StartsWith('D') || status.StartsWith('R')) && IsProtectedGuardPath(firstPath)) protectedDeletions.Add(firstPath);
             if (status.StartsWith('R') || status.StartsWith('C'))
             {
                 if (i >= parts.Length) throw new InvalidOperationException("Malformed git rename output.");
@@ -176,6 +181,8 @@ public sealed class GuardTests
             .Split('\0', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Replace('\\', '/')));
         Assert.True(changed.Count > 0, "Diff changed set is empty; base/head inputs may be wrong or history may be incomplete.");
         Assert.True(protectedDeletions.Count == 0, "Protected guard deletions: " + string.Join(", ", protectedDeletions));
+        var unconsumed = consumed.Where(path => !consumedDeleted.Contains(path)).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+        Assert.True(unconsumed.Length == 0, "Verified authorizations were not deleted by this change: " + string.Join(", ", unconsumed));
         var planRelative = Relative(root, planPath);
         var companion = planRelative.EndsWith(".plan.json", StringComparison.Ordinal)
             ? planRelative[..^".plan.json".Length] + ".md" : "";
@@ -185,6 +192,21 @@ public sealed class GuardTests
                 && !declared.Contains(path, StringComparer.OrdinalIgnoreCase))
             .OrderBy(x => x, StringComparer.Ordinal).ToArray();
         Assert.True(outside.Length == 0, "Paths outside Plan: " + string.Join(", ", outside));
+    }
+
+    private const string AuthorizationDirectory = "docs/guards/V3_ifx/stages/diff/authorizations/";
+
+    private static HashSet<string> ConsumedAuthorizations()
+    {
+        var value = Environment.GetEnvironmentVariable("GUARD_CONSUMED_AUTHORIZATIONS") ?? "";
+        var paths = value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        foreach (var path in paths)
+        {
+            var name = path.StartsWith(AuthorizationDirectory, StringComparison.Ordinal) ? path[AuthorizationDirectory.Length..] : "";
+            if (name.Length == 0 || name.Contains('/') || !name.EndsWith(".json", StringComparison.Ordinal))
+                throw new InvalidOperationException("GUARD_CONSUMED_AUTHORIZATIONS may only name authorization records: " + path);
+        }
+        return new HashSet<string>(paths, StringComparer.Ordinal);
     }
 
     private static bool IsProtectedGuardPath(string path) =>
