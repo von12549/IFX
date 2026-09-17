@@ -20,7 +20,8 @@ param(
 # (prepared on HeadRevision) will consume. It writes a file for review and never commits.
 #  - change-trusted-base: every trusted component change of the prepared revision (needs -ParityContract);
 #  - delete, move, case-rename: the tree entries of -SourcePath (and -DestinationPath) and every changed path below them;
-#  - weaken-policy: every semantic change of a registered policy or configuration file (or -PolicyPaths), with its blob
+#  - weaken-policy: every semantic change of a registered policy or configuration file and every D18 domain authority
+#    with blocking findings (or -PolicyPaths), with its blob
 #    hashes, head tuple, registered schema or format and changed pointers, using the base registry (D24).
 # DecisionPaths is comma-separated; AllowedBehaviorDifferencesJson is an array of { mode, reason } objects.
 
@@ -63,6 +64,15 @@ elseif ($Operation -eq 'weaken-policy') {
     $policy = Get-GuardPolicyChanges $repositoryRoot $base $head $registry (Get-GuardProjectionTargets $authorities) @(Get-GuardChangedEntries $repositoryRoot $base $head)
     if ($policy.Unregistered.Count -gt 0) { throw "Unregistered policy or configuration files cannot be authorized: $($policy.Unregistered -join ', ')" }
     $changes = @($policy.Changes)
+    # D25: D18 blocking findings of domain authorities are authorized with their blocking pointers.
+    $entries = @(Get-GuardChangedEntries $repositoryRoot $base $head)
+    $authorityReport = Join-Path $repositoryRoot 'artifacts/guards/v3-ifx/trusted-base/domain-authorities-authorization.json'
+    [void](Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXDomainAuthorityCandidates.ps1') @('-TargetRoot', $repositoryRoot, '-BaseRevision', $base, '-HeadRevision', $head, '-ReportPath', $authorityReport))
+    if (-not [IO.File]::Exists($authorityReport)) { throw 'The domain authority comparison produced no report.' }
+    foreach ($authority in @((Get-Content -LiteralPath $authorityReport -Raw | ConvertFrom-Json).authorities | Where-Object { @($_.blockingPointers).Count -gt 0 })) {
+        $entry = @($entries | Where-Object { $_.Path -ceq [string]$authority.path })
+        $changes += [pscustomobject]@{ Path = [string]$authority.path; Schema = "domain-authority:$($authority.id)"; Head = if ($entry.Count -eq 1) { $entry[0].Head } else { $null }; BaseSha256 = $authority.baseSha256; HeadSha256 = $authority.headSha256; Pointers = [string[]]@($authority.blockingPointers | Sort-Object -Unique -CaseSensitive) }
+    }
     if ($PolicyPaths) {
         $selected = @($PolicyPaths.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ })
         foreach ($path in $selected) { if (@($changes | Where-Object { $_.Path -ceq $path }).Count -eq 0) { throw "$path has no semantic policy change." } }

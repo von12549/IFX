@@ -10,7 +10,7 @@ The schema is `contracts/authorization.schema.json` and covers all five operatio
 | `delete` | yes (CP06a) | removals of protected paths at or below `source` |
 | `move` | yes (CP06a) | removals below `source`, with the `destination` result |
 | `case-rename` | yes (CP06a) | the same as `move`, when source and destination differ only in letter case |
-| `weaken-policy` | yes (CP06b1) | semantic changes of registered policy and configuration files |
+| `weaken-policy` | yes (CP06b1, CP06b2) | semantic changes of registered policy and configuration files, and D18 domain authority blocking findings |
 
 ## Two-PR flow
 
@@ -46,7 +46,8 @@ The schema is `contracts/authorization.schema.json` and covers all five operatio
 
 - each removal of a path listed in `stages/diff/protection.json`;
 - one obligation for any trusted component change;
-- each semantic change of a file registered in `shared/policy-config.json` (D24). JSON is compared after parsing, and `.gitattributes` after line-ending normalization. With zero comparators every such change is a potential weakening.
+- each semantic change of a file registered in `shared/policy-config.json` (D24). JSON is compared after parsing, and `.gitattributes` after line-ending normalization. With zero comparators every such change is a potential weakening;
+- each D18 domain authority with blocking findings (a governing-policy change or a widened exception), with schema `domain-authority:<id>` and exactly the blocking pointers (D25).
 
 One path can carry several obligations. For example, deleting a protected engine script needs a `delete` record and a `change-trusted-base` record. A trust/meta-policy change, such as a stage manifest edit, needs a `change-trusted-base` record and a `weaken-policy` record, which can share one authorization PR.
 
@@ -85,3 +86,12 @@ Any other change in the same PR turns each deleted record into a consumption can
 - the base historical integrity engine checks a changed head `history/manifest.json` against head evidence;
 - the base projection generator must reproduce the head projections from head authority sources, for the exact targets in the base `policy/authorities.json`;
 - the head registry must declare monotonicity for every field of every schema it registers.
+
+## Domain authorities in the gates (D25)
+
+Validate, Architecture and Specialized runs receive the explicit pull request head as `-HeadRef`. The trusted runner compares domain authorities as Git objects of that commit and its merge base. When blocking findings exist, it runs the base protected change verifier for that commit and accepts the findings only when:
+
+- the report is bound to base, merge base, head and the base registry and schema hashes;
+- each blocking authority is covered by exactly one consumed `weaken-policy` authorization with the same pointers.
+
+Every changed authority in the checkout must also equal the explicit head commit. Without `-HeadRef`, blocking findings fail closed.

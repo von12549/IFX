@@ -2,6 +2,10 @@
 param(
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $BaseRepository,
+    # Git object mode (CP06b2, D25): compare the blobs of two commits in TargetRoot instead of the base worktree and the
+    # checked-out files, so that authorization coverage is recomputed for an explicit head commit.
+    [string] $BaseRevision,
+    [string] $HeadRevision,
     [string] $ReportPath = 'artifacts/guards/v3-ifx/trusted-base/domain-authorities.json'
 )
 
@@ -9,8 +13,9 @@ param(
 #  - target-declaration, derived-projection and evidence content may change (their gates validate it);
 #  - governing-policy content must stay equal, except fields that arrive or leave with a whole declared element;
 #  - exception-authorization content may only shrink.
-# No monotonicity comparator exists yet (D13 zero-comparator start) and weaken-policy authorization arrives in P4,
-# so every other change fails closed.
+# No monotonicity comparator exists yet (D13 zero-comparator start), so every other change is blocking. A blocking finding
+# fails closed unless the trusted runner finds it covered by a base weaken-policy authorization for the explicit head
+# commit (CP06b2, D25); this script only reports the findings.
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -21,6 +26,12 @@ $target = Get-GuardFullPath $TargetRoot
 $report = if ([IO.Path]::IsPathRooted($ReportPath)) { [IO.Path]::GetFullPath($ReportPath) } else { [IO.Path]::GetFullPath((Join-Path $target $ReportPath)) }
 if (-not (Test-GuardPathWithin $report $target)) { throw 'ReportPath must stay under TargetRoot.' }
 $registry = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+if ([bool]$BaseRevision -ne [bool]$HeadRevision) { throw 'BaseRevision and HeadRevision must be given together.' }
+$objectMode = [bool]$HeadRevision
+if ($objectMode) {
+    $BaseRevision = Resolve-GuardCommit $target $BaseRevision
+    $HeadRevision = Resolve-GuardCommit $target $HeadRevision
+}
 
 $script:Absent = [object]::new()
 $script:findings = $null
@@ -102,17 +113,17 @@ function Test-Node([string] $Role, [object] $Base, [object] $Head, [string[]] $S
         'governing-policy' {
             if ($Context -eq 'added') { Add-Finding $pointer $Role 'declared-with-new-element' $false 'Governing field arrives with a newly declared element.'; break }
             if ($Context -eq 'removed') { Add-Finding $pointer $Role 'removed-with-element' $false 'Governing field leaves with a removed element.'; break }
-            Add-Finding $pointer $Role 'governing-policy-change' $true 'Governing policy changed; no comparator proves it tightening or equivalent, and weaken-policy authorization is unavailable before Plan 06 P4.'
+            Add-Finding $pointer $Role 'governing-policy-change' $true 'Governing policy changed; no comparator proves it tightening or equivalent, so it needs a base weaken-policy authorization for the explicit head commit (D25).'
         }
         'exception-authorization' {
             if ($Context -eq 'removed' -or (Test-Absent $Head)) { Add-Finding $pointer $Role 'exception-removed' $false 'Exception removed.'; break }
             if ($Context -eq 'added' -or (Test-Absent $Base)) {
                 if (Test-Empty $Head) { break }
-                Add-Finding $pointer $Role 'exception-expansion' $true 'New exception content requires weaken-policy authorization, which is unavailable before Plan 06 P4.'
+                Add-Finding $pointer $Role 'exception-expansion' $true 'New exception content requires weaken-policy authorization for the explicit head commit (D25).'
                 break
             }
             if (Test-Subset $Head $Base) { Add-Finding $pointer $Role 'exception-narrowed' $false 'Exception content only shrank.'; break }
-            Add-Finding $pointer $Role 'exception-expansion' $true 'Exception content added or changed; requires weaken-policy authorization, which is unavailable before Plan 06 P4.'
+            Add-Finding $pointer $Role 'exception-expansion' $true 'Exception content added or changed; requires weaken-policy authorization for the explicit head commit (D25).'
         }
         default { Add-Finding $pointer $Role 'content-change' $false "Content with role $Role changed; the gate that consumes it validates the candidate." }
     }
@@ -177,7 +188,7 @@ function Test-Tree([object] $Base, [object] $Head, [string[]] $Segments, [string
         return
     }
     # A structural type change above governed fields cannot be compared field by field.
-    Add-Finding (Format-Pointer $Segments) $role 'structure-change' $true 'The structure above role-governed fields changed; requires weaken-policy authorization, which is unavailable before Plan 06 P4.'
+    Add-Finding (Format-Pointer $Segments) $role 'structure-change' $true 'The structure above role-governed fields changed; requires weaken-policy authorization for the explicit head commit (D25).'
 }
 
 $results = [Collections.Generic.List[object]]::new()
@@ -186,19 +197,28 @@ foreach ($authority in @($registry.domainAuthorities)) {
     $script:defaultRole = $authority.defaultRole
     $script:templates = @(@($(if ($authority.ContainsKey('pointerRoles')) { $authority.pointerRoles } else { @() })) | ForEach-Object { [pscustomobject]@{ Segments = (Split-GuardPointer $_.pointer); Role = $_.role } })
     $script:arrayKeys = @(@($(if ($authority.ContainsKey('arrayKeys')) { $authority.arrayKeys } else { @() })) | ForEach-Object { [pscustomobject]@{ Segments = (Split-GuardPointer $_.pointer); Key = $_.key } })
-    $baseFile = Join-Path $base $authority.path
-    $headFile = Join-Path $target $authority.path
+    if ($objectMode) {
+        $baseBytes = Get-GuardBlobBytes $target $BaseRevision $authority.path
+        $headBytes = Get-GuardBlobBytes $target $HeadRevision $authority.path
+    }
+    else {
+        $baseFile = Join-Path $base $authority.path
+        $headFile = Join-Path $target $authority.path
+        $baseBytes = if ([IO.File]::Exists($baseFile)) { [IO.File]::ReadAllBytes($baseFile) } else { $null }
+        $headBytes = if ([IO.File]::Exists($headFile)) { [IO.File]::ReadAllBytes($headFile) } else { $null }
+    }
     $status = 'unchanged'
-    if (-not [IO.File]::Exists($baseFile)) {
+    if ($null -eq $baseBytes) {
         Add-Finding '' $authority.defaultRole 'base-missing' $true 'The base registry names an authority that base does not contain.'
     }
-    elseif (-not [IO.File]::Exists($headFile)) {
+    elseif ($null -eq $headBytes) {
         $governed = $authority.defaultRole -in @('governing-policy', 'exception-authorization') -or @($script:templates | Where-Object { $_.Role -in @('governing-policy', 'exception-authorization') }).Count -gt 0
         Add-Finding '' $authority.defaultRole 'authority-removed' $governed 'The head candidate removes the authority file.'
     }
     else {
-        $baseText = [IO.File]::ReadAllText($baseFile).Replace("`r`n", "`n")
-        $headText = [IO.File]::ReadAllText($headFile).Replace("`r`n", "`n")
+        $utf8 = [Text.UTF8Encoding]::new($false)
+        $baseText = $utf8.GetString($baseBytes).TrimStart([char]0xFEFF).Replace("`r`n", "`n")
+        $headText = $utf8.GetString($headBytes).TrimStart([char]0xFEFF).Replace("`r`n", "`n")
         if ($baseText -cne $headText) {
             try { $baseDocument = ConvertFrom-GuardJsonText $baseText; $headDocument = ConvertFrom-GuardJsonText $headText }
             catch { $baseDocument = $null; $headDocument = $null; Add-Finding '' $authority.defaultRole 'invalid-json' $true "Authority is not valid JSON: $($_.Exception.Message)" }
@@ -208,7 +228,13 @@ foreach ($authority in @($registry.domainAuthorities)) {
     }
     $blocking = @($script:findings | Where-Object { $_.blocking })
     if ($blocking.Count -gt 0) { $status = 'fail' }
-    $results.Add([ordered]@{ id = $authority.id; path = $authority.path; status = $status; findings = @($script:findings) })
+    $results.Add([ordered]@{
+        id = $authority.id; path = $authority.path; status = $status
+        blockingPointers = @($blocking | ForEach-Object { [string]$_.pointer } | Sort-Object -Unique -CaseSensitive)
+        baseSha256 = if ($null -ne $baseBytes) { Get-GuardSha256 $baseBytes } else { $null }
+        headSha256 = if ($null -ne $headBytes) { Get-GuardSha256 $headBytes } else { $null }
+        findings = @($script:findings)
+    })
 }
 
 $failed = @($results | Where-Object { $_.status -eq 'fail' })
@@ -218,6 +244,8 @@ $summary = [ordered]@{
     status = if ($failed.Count -eq 0) { 'pass' } else { 'fail' }
     baseRepository = $base
     targetRoot = $target
+    baseRevision = if ($objectMode) { $BaseRevision } else { $null }
+    headRevision = if ($objectMode) { $HeadRevision } else { $null }
     authorities = @($results)
 }
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))

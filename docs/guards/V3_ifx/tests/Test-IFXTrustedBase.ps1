@@ -198,7 +198,9 @@ try {
         $stagePrepared = New-Head 'prepare-stage' $baseSha $stageEdit
         $stageTcbRecord = New-Record 'fixture-stage-tcb' $stagePrepared @('-ParityContract', 'Fixture: verdicts unchanged on the fixed corpus.')
         $stageWeakenRecord = New-Record 'fixture-stage-weaken' $stagePrepared @('-Operation', 'weaken-policy')
-        $authorizedBase = New-AuthorizedBase 'authorize' $baseSha @($tcbRecord, $deleteRecord, $moveRecord, $caseRecord, $weakenRecord, $ruleRecord, $newRuleRecord, $gitattributesRecord, $stageTcbRecord, $stageWeakenRecord)
+        $waiverEdit = { Edit-Json $catalog { param($d) $d.waivers += [ordered]@{ id = 'fixture-waiver' } } }
+        $waiverRecord = New-Record 'fixture-waiver' (New-Head 'prepare-waiver' $baseSha $waiverEdit) @('-Operation', 'weaken-policy')
+        $authorizedBase = New-AuthorizedBase 'authorize' $baseSha @($tcbRecord, $deleteRecord, $moveRecord, $caseRecord, $weakenRecord, $ruleRecord, $newRuleRecord, $gitattributesRecord, $stageTcbRecord, $stageWeakenRecord, $waiverRecord)
         $authorizedWorktree = New-BaseWorktree 'b-authorized' $authorizedBase
         $recordPath = "$authorizations/fixture-consumption.json"
 
@@ -288,6 +290,20 @@ try {
         Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/history/manifest.json' { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
         Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'
         Assert-Result 'a schema field without a monotonicity declaration fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'schema-field' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } })) 1 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
+
+        # ---- D18 domain authority coverage for an explicit head commit (D25)
+        Assert-Result 'a domain authority waiver without weaken-policy fails the verifier' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'waiver-unauthorized' $authorizedBase $waiverEdit)) 1 "Uncovered policy-weakening needs a base authorization that this change deletes: $catalog"
+        Assert-Result 'the same waiver fails a Validate run for its explicit head' (Invoke-Runner $authorizedWorktree $authorizedBase 'Validate' @('-HeadRef', (Invoke-FixtureGit $clone @('rev-parse', 'HEAD'))[0], '-GateId', 'v3-architecture')) 1 'blocking findings are not covered by exactly one base weaken-policy authorization'
+        $waiverHead = New-PlannedHead 'consume-waiver' $authorizedBase { & $waiverEdit; Remove-Record 'fixture-waiver' }
+        Assert-Result 'an authorized domain authority waiver passes the verifier' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase $waiverHead) 0 'obligation(s) covered'
+        Assert-Result 'an authorized waiver passes Validate for its explicit head' (Invoke-Runner $authorizedWorktree $authorizedBase 'Validate' @('-HeadRef', $waiverHead, '-GateId', 'v3-architecture')) 0 'Trusted base run passed'
+        $authorityCheck = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-validate.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'domain-authority-candidates' })
+        if ($authorityCheck.Count -ne 1 -or $authorityCheck[0].status -ne 'pass' -or -not ([string]$authorityCheck[0].reason).Contains("Blocking findings covered by base weaken-policy authorizations for head ${waiverHead}: $catalog")) { $failures.Add("Validate summary does not report the recomputed coverage: $($authorityCheck | ConvertTo-Json -Compress)") }
+        else { Write-Host 'PASS Validate summary reports the coverage recomputed for the explicit head' }
+        Assert-Result 'an authorized waiver still fails closed without an explicit head' (Invoke-Runner $authorizedWorktree $authorizedBase 'Validate' @('-GateId', 'v3-architecture')) 1 'without an explicit head and a covering base weaken-policy authorization'
+        Edit-Json $catalog { param($d) $d.waivers += [ordered]@{ id = 'fixture-checkout-only' } }
+        Assert-Result 'a checkout that differs from the explicit head fails' (Invoke-Runner $authorizedWorktree $authorizedBase 'Validate' @('-HeadRef', $waiverHead, '-GateId', 'v3-architecture')) 1 "The checked-out authorities differ from the explicit head commit ${waiverHead}: $catalog"
+        [void](Invoke-FixtureGit $clone @('checkout', '-q', '-f', $waiverHead))
 
         if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
         Write-Host 'IFX trusted base protected change authorization tests passed.'
