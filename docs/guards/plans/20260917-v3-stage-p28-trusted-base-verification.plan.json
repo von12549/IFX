@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-p28-trusted-base-verification",
+  "title": "V3 stage-oriented refactor P2.8 \u2014 trusted base mechanism verification",
+  "goal": "Record that trusted component candidate verification and the CI activation contract blocked real pull requests after CP04d, tick Plan 06 P2.8 and close P2, changing only plan documents.",
+  "acceptanceCriteria": [
+    "The pair records PR #37 failing only v3-cross-platform-ubuntu-latest on an unauthorized trusted component change and PR #38 failing Validate's CI contract on a runner bypass, with run links, both closed without merging.",
+    "Plan 06 P2.8 is ticked with evidence, the P2 result is recorded and the plan pair marks CP04d merged.",
+    "No trusted component changes, so candidate verification passes on this pull request and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-p28-trusted-base-verification.md",
+    "docs/guards/plans/20260917-v3-stage-p28-trusted-base-verification.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json"
+  ]
+}
