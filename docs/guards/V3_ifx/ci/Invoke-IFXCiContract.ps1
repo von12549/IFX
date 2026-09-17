@@ -34,11 +34,21 @@ $triggers = [Collections.Generic.List[string]]::new()
 $pushBranches = @()
 $jobs = [ordered]@{}
 $section = $null; $current = $null; $inMatrix = $false; $inPush = $false
+$schedule = [Collections.Generic.List[string]]::new()
+$concurrency = [ordered]@{ group = $null; cancelInProgress = $false }
+$inConcurrency = $false; $inSchedule = $false
 foreach ($line in $lines) {
-    if ($line -match '^(on|jobs|permissions):\s*$') { $section = $Matches[1]; $current = $null; continue }
-    if ($line -match '^\S') { $section = $null; continue }
+    if ($line -match '^(on|jobs|permissions):\s*$') { $section = $Matches[1]; $current = $null; $inConcurrency = $false; continue }
+    if ($line -match '^concurrency:\s*$') { $section = $null; $current = $null; $inConcurrency = $true; continue }
+    if ($line -match '^\S') { $section = $null; $inConcurrency = $false; continue }
+    if ($inConcurrency) {
+        if ($line -match '^  group:\s*(.+?)\s*$') { $concurrency.group = $Matches[1] }
+        elseif ($line -match '^  cancel-in-progress:\s*(true|false)\s*$') { $concurrency.cancelInProgress = $Matches[1] -eq 'true' }
+        continue
+    }
     if ($section -eq 'on') {
-        if ($line -match '^  ([a-z_]+):') { $triggers.Add($Matches[1]); $inPush = $Matches[1] -eq 'push'; continue }
+        if ($line -match '^  ([a-z_]+):') { $triggers.Add($Matches[1]); $inPush = $Matches[1] -eq 'push'; $inSchedule = $Matches[1] -eq 'schedule'; continue }
+        if ($inSchedule -and $line -match "^    - cron:\s*'(.+?)'\s*$") { $schedule.Add($Matches[1]); continue }
         if ($inPush -and $line -match '^    branches:\s*\[(.*)\]') { $pushBranches = @($Matches[1] -split ',' | ForEach-Object { $_.Trim().Trim("'", '"') }) }
         continue
     }
@@ -135,6 +145,66 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
         }
         Add-Check "trusted-base-worktree:$jobId" ($text -match 'git worktree add --detach "\$env:RUNNER_TEMP/guard-base"') 'jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base'
     }
+}
+
+# ---------------------------------------------------------------- cost controls and verified change scope (Plan 06 D28)
+# Cost controls may only make a run cheaper without changing what a gate proves: superseded runs are cancelled, reviewed
+# packages are cached, and gate work is inherited from the base only for the scope the base itself classifies.
+$costControls = if ($declaration.Contains('costControls')) { $declaration.costControls } else { $null }
+if ($null -ne $costControls) {
+    Add-Check 'cost-concurrency' ($concurrency.group -eq [string]$costControls.concurrencyGroup -and $concurrency.cancelInProgress -eq [bool]$costControls.cancelSupersededRuns -and [bool]$costControls.cancelSupersededRuns) "workflow concurrency group '$($concurrency.group)' cancel-in-progress $($concurrency.cancelInProgress) must match jobs.json"
+    Add-Check 'cost-schedule' (@($schedule) -contains [string]$costControls.scheduleCron) "workflow schedule [$(Format-Set @($schedule))] must contain the declared cron '$($costControls.scheduleCron)'"
+    $cache = $costControls.packageCache
+    foreach ($jobId in @($cache.jobs)) {
+        $job = if ($jobs.Contains($jobId)) { $jobs[$jobId] } else { $null }
+        if ($null -eq $job) { Add-Check "cost-package-cache:$jobId" $false 'declared cache job is not in the workflow'; continue }
+        $text = $job.lines -join "`n"
+        $hasAction = $text -match [Regex]::Escape([string]$cache.action)
+        $hasPath = $text -match [Regex]::Escape([string]$cache.path)
+        $hasKey = $text -match "key:\s*$([Regex]::Escape([string]$cache.keyPrefix))" -and $text -match [Regex]::Escape([string]$cache.lockGlob)
+        Add-Check "cost-package-cache:$jobId" ($hasAction -and $hasPath -and $hasKey) "job must cache $($cache.path) with $($cache.action) and a key derived from $($cache.lockGlob)"
+    }
+}
+$changeScope = if ($declaration.Contains('changeScope')) { $declaration.changeScope } else { $null }
+if ($null -ne $changeScope) {
+    # Classification runs through the base runner, so the workflow references no script that an older base lacks; both the
+    # entry point and the implementation are this package's own files.
+    $packagePrefix = 'docs/guards/V3_ifx/'
+    $scopeEntryPoint = [string]$changeScope.entryPoint
+    $scopeImplementation = [string]$changeScope.implementation
+    $inPackage = {
+        param([string] $relative)
+        return $relative.StartsWith($packagePrefix, [StringComparison]::Ordinal) -and
+            [IO.File]::Exists((Join-Path ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))) $relative.Substring($packagePrefix.Length)))
+    }
+    Add-Check 'change-scope-entry-point' ((& $inPackage $scopeEntryPoint) -and (& $inPackage $scopeImplementation)) "the declared classification entry point and implementation must be this package's own files: $scopeEntryPoint, $scopeImplementation"
+    foreach ($jobId in @($changeScope.candidateStepJobs)) {
+        $job = if ($jobs.Contains($jobId)) { $jobs[$jobId] } else { $null }
+        if ($null -eq $job) { Add-Check "change-scope-step:$jobId" $false 'declared change scope job is not in the workflow'; continue }
+        $text = $job.lines -join "`n"
+        # The classification step is read on its own, so a reference anywhere else in the job cannot satisfy it.
+        $current = [Collections.Generic.List[string]]::new()
+        $stepLines = $null
+        foreach ($line in $job.lines) {
+            if ($line -match '^      - ') {
+                if ($null -ne $stepLines) { break }
+                $current = [Collections.Generic.List[string]]::new()
+            }
+            $current.Add($line)
+            if ($line -match '^        id:\s*scope\s*$') { $stepLines = $current }
+        }
+        $step = if ($null -ne $stepLines) { $stepLines -join "`n" } else { '' }
+        $classifies = $step -ne '' -and
+            $step -match "\`$env:GUARD_BASE/$([Regex]::Escape($scopeEntryPoint))" -and
+            $step -match "-Mode\s+$([Regex]::Escape([string]$changeScope.mode))\b"
+        $failsOpen = $step -match '(?m)^        continue-on-error:\s*true\s*$'
+        $guards = @([Regex]::Matches($text, "(?m)^\s+if:\s*steps\.scope\.outputs\.scope\s*!=\s*'$([Regex]::Escape([string]$changeScope.inheritScope))'\s*$"))
+        Add-Check "change-scope-step:$jobId" $classifies "job must classify the changed set with $scopeEntryPoint -Mode $($changeScope.mode) from `$env:GUARD_BASE in a step with id scope"
+        Add-Check "change-scope-fails-open:$jobId" $failsOpen 'the classification step must be continue-on-error, so a base that cannot classify leads to a full run'
+        Add-Check "change-scope-guard:$jobId" ($guards.Count -ge 1) "job must skip its head candidate work when the base classifies the changed set as $($changeScope.inheritScope)"
+    }
+    $undeclared = @(@($changeScope.inheritingChecks) | Where-Object { $_ -notin $declaredIds })
+    Add-Check 'change-scope-inheriting-checks' ($undeclared.Count -eq 0) "checks that may inherit a base verdict must be declared jobs; found [$(Format-Set $undeclared)]"
 }
 
 # ---------------------------------------------------------------- ruleset (optional)

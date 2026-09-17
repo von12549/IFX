@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IFX verified change scope",
+  "description": "Plan 06 D28: base-owned classification of the verified changed set between the merge base and an explicit head commit. Scope records-and-plans means every changed path is a formal plan document, an authorization record or a decision record, so gate work may be inherited from the base; every other case, including failure, is full.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "check", "scope", "baseSha", "mergeBase", "headSha", "protectionSha256", "recordPrefixes", "changedPaths", "unrecognizedPaths", "reason"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "check": { "const": "change-scope" },
+    "scope": { "enum": ["records-and-plans", "full"] },
+    "baseSha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "mergeBase": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" },
+    "headSha": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" },
+    "protectionSha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+    "recordPrefixes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "changedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "unrecognizedPaths": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "reason": { "type": ["string", "null"] }
+  }
+}
