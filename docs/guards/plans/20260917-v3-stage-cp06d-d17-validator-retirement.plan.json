@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06d-d17-validator-retirement",
+  "title": "V3 stage-oriented refactor CP06d — retire the Plan04 phase validators through the first real protected deletion",
+  "goal": "Delete the four unreachable Plan04 phase validators under D17, consuming four delete authorizations and one change-trusted-base authorization as the first real protected deletion through the Plan 06 P4 mechanism.",
+  "acceptanceCriteria": [
+    "Test-Plan04Documentation.ps1, Test-Plan04Phase0Baseline.ps1, Test-Plan04Phase1Inventory.ps1 and Test-Plan04Phase2Audit.ps1 are deleted, with no runtime reference left; frozen evidence and historical baselines are unchanged.",
+    "The trusted Diff reports four protected-removal obligations and one trusted-component-change obligation, each covered by exactly one consumed CP06d-auth record.",
+    "Candidate verification passes the tcb.engine.specialized base-owned validation and parity, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Documentation.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase0Baseline.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase2Audit.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-d17-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04documentation.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04phase0baseline.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04phase1inventory.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04phase2audit.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06d-d17-validator-retirement.md",
+    "docs/guards/plans/20260917-v3-stage-cp06d-d17-validator-retirement.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

@@ -787,7 +787,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - **门槛**：V3 具备 V3_ifx 全部通用加固，通用模板中不含 IFX 路径。
 - **结果**：门槛通过（PR #46 → #47 CI 通过）。V3 模板具备 merge-base 校验、空 diff 失败关闭、受保护删除/重命名与 D20 授权消费；保护路径与授权目录由 Diff 配置提供，模板中不含 IFX 路径；V3_ifx 模板与 V3 逐字节相同；本阶段作为第一个常规两 PR TCB 变更（CP05-auth → CP05）完成。
 
-### P4 — 受保护变更授权与 policy/config 双轨验证
+### P4 — 受保护变更授权与 policy/config 双轨验证 — 已完成（2026-09-17，CP06a–CP06d；P4.4 延后）
 
 - [x] P4.1 完整 schema 化 §12.2 授权格式，包括 `move`、`delete`、`case-rename`、`weaken-policy`、`change-trusted-base` 与 tree-entry tuple；与 P2.6 已启用的 TCB 授权格式保持兼容。 证据：`contracts/authorization.schema.json` 按 operation 约束五种授权，`change-trusted-base` format 1 记录保持有效；`weaken-policy` 在 CP06b 启用前消费即失败关闭（D23）。
 - [x] P4.2 在 Diff 中实现 §12.3：Git plumbing 读取对象、已验证 merge-base 与 head SHA、`--raw -z --no-renames` changed set、gitlink 拒绝、`.gitattributes` 变更单独验证；授权从 trusted base 加载。 证据：`trusted-base/Test-IFXProtectedChanges.ps1` 以已验证 merge-base 与 head SHA、`--raw -z --no-renames` 派生保护义务并校验 base 授权（tree-entry tuple、gitlink 拒绝），报告绑定 base/merge-base/head/保护配置 hash，由 trusted runner 传给通用 Diff；`.gitattributes` 变更在 CP06a 失败关闭，CP06b 以 `weaken-policy` 开通（D23）。
@@ -814,7 +814,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P4.6 verifier 断言 ruleset `strict` 保持启用。 证据：`ci/Invoke-IFXCiContract.ps1` 的 `ruleset-strict` 检查；2026-09-17 针对 `3edb78a` 的 `-Remote` 报告 ruleset 检查全部通过（`docs/architecture/review/evidence/guards/p4-rehearsal-20260917/ci-contract-remote.json`）。
 - [x] P4.7 在临时仓库或 fixture 中完成一次完整两 PR 演练，覆盖 `move`、`weaken-policy` 与 `change-trusted-base`。 证据：`trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1` 针对 `3edb78a` 的两 PR 演练覆盖 `move`、`weaken-policy` 与 `change-trusted-base`，8 个步骤全部符合预期（`docs/architecture/review/evidence/guards/p4-rehearsal-20260917.md`）；演练发现过期 profile views 可随 policy-only PR 合入，已由 head policy 候选验证补上。
 - **门槛**：在 §11.4 保证范围内，受保护路径的删除、移动、大小写重命名、policy/config 潜在削弱和非等价 TCB 语义变化只能通过 base 预授权完成，授权只能消费一次，未知语义变化失败关闭。
-- **结果**：门槛通过（CP06a–CP06c）。受保护删除、移动、大小写重命名、policy/config 与 D18 domain authority 削弱、非等价 TCB 语义变化只能通过 base 预授权完成，授权按保护义务恰好消费一次，未知语义变化失败关闭；P4.4 比较器延后（D23），CP06d 以第一次真实 D17 删除验证。
+- **结果**：门槛通过（CP06a–CP06d）。受保护删除、移动、大小写重命名、policy/config 与 D18 domain authority 削弱、非等价 TCB 语义变化只能通过 base 预授权完成，授权按保护义务恰好消费一次，未知语义变化失败关闭；P4.4 比较器延后（D23），CP06d 以五条正交授权完成第一次真实受保护删除（D17）。
 
 ### P5 — V3 package-local 构建基线与输出迁出（可与 P1 并行，须在 P2.2 前完成）— 已完成（2026-09-17，CP03）
 
@@ -1052,7 +1052,7 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 
 ### D17 — Plan04 阶段校验脚本退役（P1.1 补充）
 
-- **决定**：`Test-Plan04Documentation`、`Test-Plan04Phase0Baseline`、`Test-Plan04Phase1Inventory`、`Test-Plan04Phase2Audit` 不接入任何门禁，待 P4 授权机制可用后通过 base 预授权删除。
+- **决定**：`Test-Plan04Documentation`、`Test-Plan04Phase0Baseline`、`Test-Plan04Phase1Inventory`、`Test-Plan04Phase2Audit` 不接入任何门禁，待 P4 授权机制可用后通过 base 预授权删除。 已由 CP06d 通过四条 `delete` 与一条 `change-trusted-base` 预授权删除。
 - 来源：DRIFT-09；三者在基线上失败，四者默认改写冻结证据，能力已由 `Test-Plan04Governance.ps1` 覆盖；记录 `20260916-v3-stage-d17-plan04-phase-validator-retirement.json`。
 
 ### D18 — Domain authority 混合信任模型（P2 补充，细化 D9、D13）
