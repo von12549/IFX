@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d24-policy-config-dual-track",
+  "owner": "xiaolong-feng",
+  "summary": "CP06b is split into CP06b1 and CP06b2. CP06b1 adds shared/policy-config.json (schema contracts/policy-config.schema.json) with editable policy (the IFX profile, project map, tech stack and rules, policy/layerguard.json, policy/baselines/plan05.json and history/manifest.json) and trust/meta-policy (policy/authorities.json, the six stage manifests and stages/diff/protection.json as explicit files, shared/commands.json, shared/trusted-components.json, shared/policy-config.json, guard-system.json, ci/jobs.json, contracts/*.schema.json and the root .gitattributes as normalized text with the root pointer). stages/diff/authorizations/ is excluded; derived projections are exactly the targets of the base policy/authorities.json registry. With zero comparators, every semantic change of a registered file (JSON compared after parsing, text after line-ending normalization) is a policy-weakening obligation, orthogonal to protected removal and trusted component obligations, so a trust/meta change needs both change-trusted-base and weaken-policy, which may share one authorization pull request. weaken-policy is enabled: a record covers a file only with the same base and head blob hashes, head tuple, registered schema or format and exactly the changed JSON Pointers. Unregistered JSON files inside the registry roots and unregistered .gitattributes files fail. The trusted Diff also validates head candidates from Git objects of the explicit pull request head: schemas, the base V3 runner on the head profile, the base historical integrity engine on the head history manifest with head evidence (references, hashes and summaries), the base projection generator against head authority sources, and a monotonicity declaration for every field of every registered schema. The report is bound to base, merge base, head and the hashes of the Diff protection configuration, the policy registry and the authorization schema, and the runner re-checks the registry and schema hashes. The template no longer honours GUARD_CONSUMED_AUTHORIZATIONS. CP06b1 is the first introduction of these rules: its change pull request is judged by the CP06a base and consumes only change-trusted-base, and the next pull request that changes registered policy must show the new rule in effect. Until CP06b2, D18 domain authority blocking findings keep failing closed; CP06b2 lets base verifiers recompute weaken-policy coverage for them from the explicit head commit, with records, algorithm and registry from base and without the implicit merge commit.",
+  "affectedPaths": [
+    ".gitattributes",
+    "docs/guards/V3/DEPLOYMENT.md",
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/ci/**",
+    "docs/guards/V3_ifx/contracts/**",
+    "docs/guards/V3_ifx/docs/**",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/history/**",
+    "docs/guards/V3_ifx/policy/**",
+    "docs/guards/V3_ifx/profiles/**",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/**",
+    "docs/guards/V3_ifx/stages/**",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/trusted-base/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "Before CP06b1 only D18 domain authorities had a head candidate check, so package policy such as rules, baselines and the history manifest could change without any authorization and took effect after merge. A registry with explicit roles and file sets makes the policy surface enumerable, and coverage of the registry roots makes an unregistered policy file fail instead of silently escaping. Zero comparators are the most conservative legal start of D13, and requiring weaken-policy for trust/meta changes in addition to change-trusted-base keeps component upgrades and policy weakening as separate, traceable authorizations. Binding a record to blob hashes, the head tuple, the schema and exact pointers prevents one authorization from covering a different or larger change. Head candidates are read from the explicit head commit and validated by base engines, so they cannot decide the current verdict, and a checked-out synthetic merge commit is never trusted. Removing the legacy variable completes the CP06a expand and contract step. The user approved the split, the classification with its conditions, the activation exception and the rule that coverage is only recomputed by base verifiers on 2026-09-17. Refines D13, D18, D20 and D23."
+}
