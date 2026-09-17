@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp05a-verify-authorization",
+  "title": "V3 stage-oriented refactor CP05a post-restore verification \u2014 authorization for a comment-only trusted component change",
+  "goal": "Add the change-trusted-base authorization for a comment-only change of Invoke-IFXTrustedBase.ps1, so the post-restore verification of D20 can consume it through a normal two-PR flow.",
+  "acceptanceCriteria": [
+    "The authorization lists exactly Invoke-IFXTrustedBase.ps1 in tcb.engine.trusted-base with base and head tuples from the prepared change.",
+    "No trusted component changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp05a-verify-runner-documentation.json",
+    "docs/guards/plans/20260917-v3-stage-cp05a-verify-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-verify-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json"
+  ]
+}
