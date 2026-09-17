@@ -56,8 +56,8 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP03 | P5 | V3 `build/` 基线与 lock files、locked restore、import allowlist、输出迁出、隔离验收（bootstrap 窗口开启） | 无 | 不需要（首次引入例外窗口） | CP01；可与 CP02 并行 | 已完成（PR #32，`0270e6f`） |
 | CP04a | P2（前置） | 引擎脚本分离 package root 与 target root（行为不变）、domain authority 盘点、D18、authority 角色与 trust contract 输入 schema | 无 | 不需要 | CP02、CP03 | 已完成（PR #33，`c2e42d5`） |
 | CP04b | P2 | trusted-base runner、candidate projection 生成与 anti-weakening 比较（P4 前失败关闭）、TCB 候选验证与 parity、`change-trusted-base` 校验、负向控制（未接入 workflow） | 无 | 不需要 | CP04a | 已完成（PR #34，`7b422c9`） |
-| CP04c | P2 | 可信构建输出迁出 head 与 base、LayerGuard 测试 target root 修正、CI 激活契约检查、构建隔离负向控制、workflow 退出码修正、D19、break-glass 与保证范围文档（不切换 workflow） | 无 | 不需要 | CP04b | 已完成，待 PR 合入（`20260917-v3-stage-cp04c-p2-trusted-build-isolation`） |
-| CP04d | P2 | workflow 全部 required check 切换为 base runner、`ci/jobs.json` 声明 trusted execution 与 TCB 候选验证生效、关闭 bootstrap 窗口；下一个 PR 验证机制生效 | 无 | 不需要（§11.6 首次引入例外，D19） | CP04c | 未开始 |
+| CP04c | P2 | 可信构建输出迁出 head 与 base、LayerGuard 测试 target root 修正、CI 激活契约检查、构建隔离负向控制、workflow 退出码修正、D19、break-glass 与保证范围文档（不切换 workflow） | 无 | 不需要 | CP04b | 已完成（PR #35，`dab8243`） |
+| CP04d | P2 | workflow 全部 required check 切换为 base runner、`ci/jobs.json` 声明 trusted execution 与 TCB 候选验证生效、关闭 bootstrap 窗口；下一个 PR 验证机制生效 | 无 | 不需要（§11.6 首次引入例外，D19） | CP04c | 已完成，待 PR 合入（`20260917-v3-stage-cp04d-p2-workflow-switch`） |
 | CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP04d | 未开始 |
 | CP06 | P4 | 完整授权 schema、Git 对象验证、policy/config 双轨与零比较器、两 PR 演练 | 无 | TCB 变化需 `change-trusted-base`：CP06-auth → CP06-change | CP05 | 未开始 |
 | CP07 | P6 | LayerGuard 去重、IFX binding 剥离、engine 进入 V3、trust contract | 有 | 按变更拆分：删除生成副本、binding 剥离、engine 移动各自 auth → change | CP06 | 未开始 |

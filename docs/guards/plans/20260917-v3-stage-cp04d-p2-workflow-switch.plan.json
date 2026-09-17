@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp04d-p2-workflow-switch",
+  "title": "V3 stage-oriented refactor CP04d \u2014 P2 workflow switch to the trusted base runner",
+  "goal": "Take every required check verdict from Invoke-IFXTrustedBase.ps1 in a base worktree outside the checkout, run trusted component candidate verification on pull requests when the base commit activates it, and declare trusted execution and candidate verification active in ci/jobs.json so that the activation contract applies from the next pull request, without renaming checks or changing the job graph.",
+  "acceptanceCriteria": [
+    "Every job creates $RUNNER_TEMP/guard-base at the pull request base SHA or the current commit and takes its verdict from the base runner with -GateId equal to its check name; no job runs the head dispatcher in place.",
+    "v3-cross-platform-ubuntu-latest runs Test-IFXTrustedBaseCandidate on pull requests only when the base commit's ci/jobs.json declares tcbCandidateVerification active.",
+    "ci/jobs.json declares trustedBase execution and tcbCandidateVerification active, Invoke-IFXCiContract passes against the switched workflow, and Test-IFXCiContract rejects wrong single and matrix gate IDs, an in-place head dispatcher and a missing base worktree.",
+    "The 13 required check names, triggers and job dependencies are unchanged, and the runner reproduces this pull request's CI verdicts locally from a worktree of the CP04c base.",
+    "Plan 06 P2.1 is ticked with evidence and P2.8 is left for verification on the next pull request per D19."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp04d-p2-workflow-switch.md",
+    "docs/guards/plans/20260917-v3-stage-cp04d-p2-workflow-switch.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json"
+  ]
+}

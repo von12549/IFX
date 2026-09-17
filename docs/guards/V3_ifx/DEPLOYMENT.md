@@ -16,7 +16,7 @@ Package code, configuration and generated projects are read from the copy the di
 
 ## Trusted base execution
 
-Plan 06 §11 requires CI verdicts to come from the base commit. `trusted-base/Invoke-IFXTrustedBase.ps1` must itself start from a clean worktree of the verified base SHA, created outside the head checkout. The workflow switch is CP04c; until then, run it locally the same way:
+Plan 06 §11 requires CI verdicts to come from the base commit. `trusted-base/Invoke-IFXTrustedBase.ps1` must itself start from a clean worktree of the verified base SHA, created outside the head checkout. CI runs every required check this way: each job creates `$RUNNER_TEMP/guard-base` at the pull request base SHA (or the pushed commit) and runs the runner from there with `-GateId <check name>`. Run it locally the same way:
 
 ```powershell
 git worktree add --detach $env:TEMP/guard-base <base-sha>
@@ -34,7 +34,7 @@ The runner does the following:
 
 The guarantee scope and the break-glass procedure are in `docs/authored/trusted-base.md`.
 
-Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandidate.ps1` from the same base worktree. They need a base `change-trusted-base` authorization that the change PR deletes; see `stages/diff/authorizations/README.md`.
+Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandidate.ps1` from the same base worktree, in the `v3-cross-platform-ubuntu-latest` job of every pull request once the base commit's `ci/jobs.json` declares `trustedBase.tcbCandidateVerification: active`. They need a base `change-trusted-base` authorization that the change PR deletes; see `stages/diff/authorizations/README.md`.
 
 `SpecializedGate` also accepts `G04`, `G05`, `Plan04`, `Database`, and `All`. `QualityTarget` accepts `Solution`, `Assembly`, `Frontend`, and `All`. Database validation requires the EF Core 8 CLI and Docker for the SQL Server Testcontainers matrix. Frontend validation runs `npm ci`, lint, `test:run`, and build.
 

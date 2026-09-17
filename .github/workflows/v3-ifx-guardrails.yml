@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+# Plan 06 §11.1: every gate verdict comes from Invoke-IFXTrustedBase.ps1 started from a clean worktree of the base
+# commit ($RUNNER_TEMP/guard-base, outside the checkout); the checkout is only the target. Steps that run
+# ./docs/guards/... from the checkout exercise the head candidate package and only add coverage (§11.5).
+
 jobs:
   v3-pre-diff:
     name: v3-pre-diff
@@ -23,7 +27,16 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - name: Resolve formal Plan and validate real PR diff
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+      - name: Resolve formal Plan and validate real PR diff from the trusted base
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -31,11 +44,8 @@ jobs:
         run: |
           $plans = @(git diff --name-only "$env:BASE_SHA..$env:HEAD_SHA" -- '*.plan.json')
           if ($plans.Count -ne 1) { throw "V3 Diff requires exactly one changed formal *.plan.json; found $($plans.Count)." }
-          foreach ($stage in @('Generate', 'Check')) {
-            pwsh -NoProfile -File ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode $stage -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
-            if ($LASTEXITCODE) { throw "Invoke-V3 $stage failed with exit code $LASTEXITCODE." }
-          }
-          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA -GateId v3-pre-diff
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -48,15 +58,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - name: Validate package projections, contracts and negative fixtures
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+      - name: Validate package projections and contracts from the trusted base
         shell: pwsh
         run: |
-          # Each script runs in its own process so a failing exit code cannot be masked by the next script.
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -GateId v3-architecture
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Run head candidate package tests
+        shell: pwsh
+        run: |
+          # Head candidate scripts run in their own process; that process's exit code is the result.
           $commands = @(
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1', '-Mode', 'Validate')
               ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
               ,@('./docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1')
               ,@('./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
@@ -72,9 +97,11 @@ jobs:
             pwsh -NoProfile -File @command
             if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
           }
-      - name: Run the sole production architecture scan
+      - name: Run the sole production architecture scan from the trusted base
         shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Architecture -GateId v3-architecture
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -87,12 +114,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - name: Restore, build and test the solution once
         shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Solution
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Solution -GateId v3-quality-solution
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -108,16 +148,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - uses: actions/download-artifact@v8
         with:
           name: v3-quality-solution-${{ github.sha }}
           path: .
       - name: Inspect all compiled Domain assemblies
         shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Assembly
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Assembly -GateId v3-quality-assembly
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -130,14 +183,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: src/Frontend/IFX.FrontEnd/package-lock.json
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - name: Run npm ci, lint, tests and build
         shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Quality -QualityTarget Frontend
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Frontend -GateId v3-quality-frontend
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -156,8 +222,19 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G03 -GateId v3-specialized-g03
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -176,8 +253,19 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G04
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G04 -GateId v3-specialized-g04
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -196,8 +284,19 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G05 -GateId v3-specialized-g05
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -216,8 +315,19 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Plan04 -GateId v3-specialized-plan04
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -238,8 +348,19 @@ jobs:
           dotnet-version: 10.0.x
       - name: Restore EF Core CLI
         run: dotnet tool restore
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Database
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Database -GateId v3-specialized-database
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -252,9 +373,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
       - name: Validate frozen evidence hashes and JSON
         shell: pwsh
-        run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity -GateId v3-historical-integrity
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -276,12 +410,38 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - name: Reproduce generated inputs and run stage negative fixtures
+      - name: Prepare trusted base worktree
+        shell: pwsh
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+        run: |
+          git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
+          "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+      - name: Validate from the trusted base
         shell: pwsh
         run: |
-          # Each script runs in its own process so a failing exit code cannot be masked by the next script.
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -GateId v3-cross-platform-${{ matrix.os }}
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Verify trusted component candidates
+        if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
+        shell: pwsh
+        run: |
+          # Activation is read from the base commit, so a PR cannot switch this verification off for itself (Plan 06 §11.6, D19).
+          $declaration = (git show "$($env:GUARD_BASE_SHA):docs/guards/V3_ifx/ci/jobs.json") -join "`n" | ConvertFrom-Json
+          $trusted = if ($declaration.PSObject.Properties.Name -contains 'trustedBase') { $declaration.trustedBase } else { $null }
+          if ($null -eq $trusted -or $trusted.tcbCandidateVerification -ne 'active') {
+            Write-Host 'Trusted component candidate verification is not active in the base commit (first introduction, Plan 06 §11.6).'
+            exit 0
+          }
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1" -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Reproduce head generated inputs and run head candidate tests
+        shell: pwsh
+        run: |
+          # Head candidate scripts run in their own process; that process's exit code is the result.
           $commands = @(
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1', '-Mode', 'Validate')
               ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
               ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
               ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')

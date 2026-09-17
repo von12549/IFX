@@ -24,9 +24,9 @@
       "executionClass": "gate",
       "trustContract": {
         "type": "executing",
-        "evaluator": "base orchestrator",
+        "evaluator": "base orchestrator (Invoke-IFXTrustedBase.ps1 Validate) and base TCB candidate verifier",
         "policy": "package validation contracts",
-        "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+        "targetInput": "head guard package validation and package tests; Test-IFXTrustedBaseCandidate against the pull request diff when the base commit activates it",
         "inputs": [
           {
             "ref": "package:contracts/",
@@ -48,7 +48,7 @@
         "executesHead": true,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
-        "guarantee": "Base fixes commands; head package tests only add coverage (Plan 06 §11.5)."
+        "guarantee": "Base owns Validate and the trusted component candidate verdict; head package tests only add coverage (Plan 06 §11.5)."
       }
     },
     {
@@ -56,9 +56,9 @@
       "executionClass": "gate",
       "trustContract": {
         "type": "executing",
-        "evaluator": "base orchestrator",
+        "evaluator": "base orchestrator (Invoke-IFXTrustedBase.ps1 Validate)",
         "policy": "package validation contracts",
-        "targetInput": "head guard package validation and package tests (candidate TCB validation)",
+        "targetInput": "head guard package validation and package tests",
         "inputs": [
           {
             "ref": "package:contracts/",
@@ -80,7 +80,7 @@
         "executesHead": true,
         "consumesHeadArtifacts": false,
         "knownGaps": [],
-        "guarantee": "Base fixes commands; head package tests only add coverage (Plan 06 §11.5)."
+        "guarantee": "Base owns Validate; head package tests only add coverage (Plan 06 §11.5)."
       }
     }
   ]
