@@ -41,7 +41,20 @@
 
 ## 4. 验证
 
-见 §4 表格（提交前补全）。
+本地（Windows，SDK 10.0.303）：
+
+| 项 | 结果 |
+| --- | --- |
+| 模拟本 PR 的 CI：从 CP04c base（`dab8243`）worktree 运行 runner，target 为本分支：Diff（本 pair）、Validate（`v3-architecture` 与 `v3-cross-platform-windows-latest` gate ID）、Architecture、Specialized G03、HistoricalIntegrity | 全部通过 |
+| 模拟 `Verify trusted component candidates` step：base `ci/jobs.json` 未声明 `trustedBase` | 跳过（exit 0） |
+| 预演下一个 PR：从 CP04c base 对本分支运行 `Test-IFXTrustedBaseCandidate.ps1` | 失败：`tcb.activation.ci`、`tcb.manifest`、`tcb.validation.package-tests` 需要 `change-trusted-base` 授权，证明激活后未授权 TCB 变更会被阻断 |
+| `Invoke-IFXCiContract.ps1`（激活声明下，针对切换后的 workflow） | 通过 |
+| `Test-IFXCiContract.ps1`（切换后 workflow 的 4 个激活用例与 1 个未声明用例）、`Test-IFXManifests.ps1` | 通过 |
+| `Invoke-IFXGuardrails -Mode Validate`（原位） | 通过 |
+| Test-IFXTools（workflow 变更后已刷新 `analysis/ifx/INVENTORY.md` 与 `inventory.json`） | 通过 |
+| 本 pair 的 Pre | advisory |
+
+其余 Gate 的判定路径在 CP04c 已以 runner 矩阵（12 个 mode）验证；本 PR 的 13 个 required check 由 GitHub Actions 以切换后的 workflow 实际运行。
 
 ## 5. 回退
 
