@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "id": "cp07ci-weaken-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07ci-cost-controls.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/contracts/change-scope.schema.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "baseSha256": "8894c43afbbd3900a849306dbf18d77f29afaccbe10d05fb03d1eacd5f2d1ca9",
+      "headSha256": "9e1bc61168056d953fc46cccef1ba304fb1b163d0f9aeef486572bf9cc8cc040",
+      "schema": "json",
+      "pointers": [
+        "/changeScope",
+        "/costControls"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1f6d5aab819501d402a0abb92cb2b657818c207c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+      "baseSha256": null,
+      "headSha256": "430e661ed161abe4341f1aac33f8e27db4ba53e42fcd8962eb40717d7434d455",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9d34746e1996e9f65a6bda4391a9af4d9f4dd1d9"
+      }
+    }
+  ]
+}

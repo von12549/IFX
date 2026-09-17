@@ -1,0 +1,132 @@
+{
+  "formatVersion": 1,
+  "id": "cp07ci-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07ci-cost-controls.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ],
+  "changedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.engine.trusted-base",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d098b70f06c166f41dfa2b28071a4ea6d8a9f247"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8b385cd2f9f1c68ebd0ecf53b451055a928061fa"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7f984a7cf3a8d54abc763482bb55054c9a9de2b0"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f71bc3002d1dd28177fc634555eed772c7ce8d0e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "40322c74f08a3c3da07019b6e990912ba74c1fbc"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1f6d5aab819501d402a0abb92cb2b657818c207c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8040e49606e55d5f79a2c522f27e6c2a177c8a0f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ecd461da24a011f6982d5ee32f6862cdafe50f8e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c04bd674a6372c905afe1c4901055d7d2663035"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d96f2025e9c9eee1ab69f1f67fb4eb6889ec88f9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c54dc9c20e7e912e24d7c5a15b3b85314367b88"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f2b5537b6472a8856972a309c5c6e856561f91f3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5fe4ec90c7c41085346b8615215c0dd4db9dae3c"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged; the 13 required check names, the job DAG, the trigger semantics and the ruleset stay unchanged. The new verdict difference is exactly the one D28 authorizes: with an explicit head whose verified changed set holds only formal plans, authorization records and decision records, v3-architecture, the three quality checks and v3-specialized-database record guardrails as skipped and inherit the base verdict of their unchanged inputs; classification is base-owned and fails closed to a full run.",
+  "allowedBehaviorDifferences": []
+}
