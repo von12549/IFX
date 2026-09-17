@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp05a-verify-negative",
+  "title": "V3 stage-oriented refactor CP05a post-restore verification \u2014 unconsumed authorization deletion (do not merge)",
+  "goal": "Show on a real pull request after the break-glass restoration that deleting an authorization that no change consumes remains a protected deletion.",
+  "acceptanceCriteria": [
+    "v3-pre-diff fails with Protected guard deletions for the record; the pull request is closed without merging."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp05a-verify-runner-documentation.json",
+    "docs/guards/plans/20260917-v3-stage-cp05a-verify-negative.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-verify-negative.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json"
+  ]
+}
