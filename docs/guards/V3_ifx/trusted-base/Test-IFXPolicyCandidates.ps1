@@ -11,7 +11,8 @@ param(
 # configuration files, read as Git objects of the explicit head commit, without letting them decide the current verdict.
 #  - json and json-schema entries parse, and validate against their registered schema (the head schema when this pull
 #    request changes that schema);
-#  - v3-profile entries: the base V3 runner validates the head profile in a detached worktree of the head commit;
+#  - v3-profile entries: the base V3 runner validates the head profile, and the base renderer checks its views, in a
+#    detached worktree of the head commit;
 #  - history-manifest: the base historical integrity engine checks the head manifest against head evidence (references,
 #    hashes and summaries);
 #  - derived projections equal what the base generator produces from head authority sources, using only the exact targets
@@ -102,6 +103,9 @@ try {
         $headTreeAdded = $true
         $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3.ps1') @('-Mode', 'Validate', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree, '-OutputDirectory', (Join-Path $headTree 'artifacts/guards/policy-candidate')) -WorkingDirectory $work
         Add-Validation 'v3-profile' "$packagePath/profiles/ifx/" $(if ($run.ExitCode -eq 0) { @() } else { @("the base V3 runner rejects the head profile: $(Get-RunTail $run)") })
+        # The generated profile views are checked after merge, so a head profile with stale views would break the next base.
+        $views = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3Docs.ps1') @('-Mode', 'Check', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree) -WorkingDirectory $work
+        Add-Validation 'v3-profile-views' "$packagePath/profiles/ifx/views/" $(if ($views.ExitCode -eq 0) { @() } else { @("the head profile views differ from what the base renderer produces: $(Get-RunTail $views)") })
     }
 
     if ($historyChanged) {

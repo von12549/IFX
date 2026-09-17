@@ -1,0 +1,330 @@
+{
+  "formatVersion": 1,
+  "check": "protected-change-rehearsal",
+  "status": "pass",
+  "baseSha": "3edb78a0fb0205dac3ba1045e1ab1cf06e80c22b",
+  "parity": "full fixed corpus",
+  "commits": {
+    "prepared": "f11f65cad37287a712bd155b78964a638ca72f5c",
+    "authorization": "40b1e7e35e7c910327a3b3dc73fe45c1a4368cbf",
+    "early": "e4e91f73c73b71e965db32b5d07874d3d8a6107f",
+    "authorizedBase": "934134d192e0d64b3278585cb4c8ca276528b735",
+    "change": "45201ab16865d99429d3b85132f950a61498881a",
+    "mergedBase": "617d0eec39e253edcdc7fb4b98cfd09dfb8dab90",
+    "replay": "8830470004cd3cc424cb741f3f4461c2e6c017da"
+  },
+  "authorizations": [
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-move.json",
+      "record": {
+        "formatVersion": 1,
+        "id": "rehearsal-move",
+        "operation": "move",
+        "planPath": "docs/guards/plans/20260917-rehearsal-change.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+        ],
+        "source": {
+          "path": "docs/guards/V3_backup/architecture",
+          "base": {
+            "mode": "040000",
+            "type": "tree",
+            "objectId": "5016d996aaff4671fce3a27e05a0286883eeb0ef"
+          }
+        },
+        "destination": {
+          "path": "docs/guards/V3_backup/design",
+          "base": null,
+          "head": {
+            "mode": "040000",
+            "type": "tree",
+            "objectId": "5016d996aaff4671fce3a27e05a0286883eeb0ef"
+          }
+        },
+        "changedPaths": [
+          "docs/guards/V3_backup/architecture/ARCHITECTURE.md",
+          "docs/guards/V3_backup/architecture/ARCHUNITNET.md",
+          "docs/guards/V3_backup/architecture/TECHNICAL.md",
+          "docs/guards/V3_backup/design/ARCHITECTURE.md",
+          "docs/guards/V3_backup/design/ARCHUNITNET.md",
+          "docs/guards/V3_backup/design/TECHNICAL.md"
+        ],
+        "entries": [
+          {
+            "path": "docs/guards/V3_backup/architecture/ARCHITECTURE.md",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "2f0e61ff9fb5ad36e6cde05a9d391eac22734e20"
+            },
+            "head": null
+          },
+          {
+            "path": "docs/guards/V3_backup/architecture/ARCHUNITNET.md",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b"
+            },
+            "head": null
+          },
+          {
+            "path": "docs/guards/V3_backup/architecture/TECHNICAL.md",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "e1d8363dafe1efa5512442c8d070a6002c9b3ca2"
+            },
+            "head": null
+          },
+          {
+            "path": "docs/guards/V3_backup/design/ARCHITECTURE.md",
+            "base": null,
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "2f0e61ff9fb5ad36e6cde05a9d391eac22734e20"
+            }
+          },
+          {
+            "path": "docs/guards/V3_backup/design/ARCHUNITNET.md",
+            "base": null,
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b"
+            }
+          },
+          {
+            "path": "docs/guards/V3_backup/design/TECHNICAL.md",
+            "base": null,
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "e1d8363dafe1efa5512442c8d070a6002c9b3ca2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-weaken-policy.json",
+      "record": {
+        "formatVersion": 1,
+        "id": "rehearsal-weaken-policy",
+        "operation": "weaken-policy",
+        "planPath": "docs/guards/plans/20260917-rehearsal-change.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+        ],
+        "changedPaths": [
+          "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json"
+        ],
+        "policies": [
+          {
+            "path": "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+            "baseSha256": "b7f41e1cbf9714875ff0ff1c35793284f2e80f1bc66663112313f4470d35ad04",
+            "headSha256": "a8401602017ef61db601949113feb089d151cf62233c1d138c2eb7c180b255a4",
+            "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+            "pointers": [
+              "/title"
+            ],
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "546d78305d5d2b6e8f0b41f4d095d4f16ea425d7"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-trusted-base.json",
+      "record": {
+        "formatVersion": 1,
+        "id": "rehearsal-trusted-base",
+        "operation": "change-trusted-base",
+        "planPath": "docs/guards/plans/20260917-rehearsal-change.plan.json",
+        "decisionPaths": [
+          "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+          "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+        ],
+        "changedPaths": [
+          "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1"
+        ],
+        "components": [
+          "tcb.engine.historical-integrity"
+        ],
+        "entries": [
+          {
+            "path": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+            "component": "tcb.engine.historical-integrity",
+            "base": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "87d71e6ab90391360c14a54beb07a7c6f1f47d68"
+            },
+            "head": {
+              "mode": "100644",
+              "type": "blob",
+              "objectId": "9181f008844a9a010d61a4fe42899f5e123a4348"
+            }
+          }
+        ],
+        "validationSuite": [
+          "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+          "v3-historical-integrity"
+        ],
+        "parityContract": "Rehearsal: verdicts unchanged on the fixed corpus.",
+        "allowedBehaviorDifferences": []
+      }
+    }
+  ],
+  "steps": [
+    {
+      "id": "authorization-pr-diff",
+      "description": "Authorization PR passes the trusted Diff.",
+      "baseSha": "3edb78a0fb0205dac3ba1045e1ab1cf06e80c22b",
+      "headSha": "40b1e7e35e7c910327a3b3dc73fe45c1a4368cbf",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "check": {
+        "id": "protected-changes",
+        "status": "pass",
+        "reason": "No protected changes."
+      },
+      "evidence": [
+        "Protected change verification passed (no protected changes): <temp>\\guard-gen-d9ad05a9\\protected-changes.json",
+        "Policy candidate validation passed (0 validation(s)): <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Trusted base run passed: <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "authorization-pr-candidates",
+      "description": "Authorization PR changes no trusted component.",
+      "baseSha": "3edb78a0fb0205dac3ba1045e1ab1cf06e80c22b",
+      "headSha": "40b1e7e35e7c910327a3b3dc73fe45c1a4368cbf",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "check": null,
+      "evidence": [
+        "Trusted component candidate check passed (no trusted component changes): <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "early-change-diff",
+      "description": "The change fails before the authorization PR merges.",
+      "baseSha": "3edb78a0fb0205dac3ba1045e1ab1cf06e80c22b",
+      "headSha": "e4e91f73c73b71e965db32b5d07874d3d8a6107f",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true,
+      "check": {
+        "id": "protected-changes",
+        "status": "fail",
+        "reason": "Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/ARCHITECTURE.md | Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/ARCHUNITNET.md | Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/TECHNICAL.md | Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1 | Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json"
+      },
+      "evidence": [
+        "FAIL Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/ARCHITECTURE.md",
+        "FAIL Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/ARCHUNITNET.md",
+        "FAIL Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/TECHNICAL.md",
+        "FAIL Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+        "FAIL Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+        "Protected change verification failed: <temp>\\guard-gen-183e15ca\\protected-changes.json",
+        "Policy candidate validation passed (2 validation(s)): <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "FAIL protected-changes: Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/ARCHITECTURE.md | Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/ARCHUNITNET.md | Uncovered protected-removal needs a base authorization that this change deletes: docs/guards/V3_backup/architecture/TECHNICAL.md | Uncovered trusted-component-change needs a base authorization that this change deletes: docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1 | Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+        "FAIL guardrails: Base guardrails returned exit code 1.",
+        "Trusted base run failed: <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "change-pr-diff",
+      "description": "The change PR consumes all three authorizations in the trusted Diff.",
+      "baseSha": "934134d192e0d64b3278585cb4c8ca276528b735",
+      "headSha": "45201ab16865d99429d3b85132f950a61498881a",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "check": {
+        "id": "protected-changes",
+        "status": "pass",
+        "reason": "Verified authorizations: docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-move.json (consumed), docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-trusted-base.json (consumed), docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-weaken-policy.json (consumed)."
+      },
+      "evidence": [
+        "Protected change verification passed (5 obligation(s) covered by 3 authorization(s)): <temp>\\guard-gen-425685c2\\protected-changes.json",
+        "Policy candidate validation passed (2 validation(s)): <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "Trusted base run passed: <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "id": "change-pr-candidates",
+      "description": "The trusted component change passes base-owned validation and parity.",
+      "baseSha": "934134d192e0d64b3278585cb4c8ca276528b735",
+      "headSha": "45201ab16865d99429d3b85132f950a61498881a",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "check": null,
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.engine.historical-integrity): <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "id": "change-pr-policy-candidates",
+      "description": "The head policy candidates of the change PR pass base validation.",
+      "baseSha": "934134d192e0d64b3278585cb4c8ca276528b735",
+      "headSha": "45201ab16865d99429d3b85132f950a61498881a",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "check": null,
+      "evidence": [
+        "Policy candidate validation passed (2 validation(s)): <temp>\\ifx-rehearsal-d599a8dd\\policy-candidates.json"
+      ]
+    },
+    {
+      "id": "change-pr-validate",
+      "description": "Validate passes for the explicit change head.",
+      "baseSha": "934134d192e0d64b3278585cb4c8ca276528b735",
+      "headSha": "45201ab16865d99429d3b85132f950a61498881a",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "check": {
+        "id": "domain-authority-candidates",
+        "status": "pass",
+        "reason": ""
+      },
+      "evidence": [
+        "Trusted base run passed: <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "id": "replay-diff",
+      "description": "A second PR cannot consume an authorization that the merged change already consumed.",
+      "baseSha": "617d0eec39e253edcdc7fb4b98cfd09dfb8dab90",
+      "headSha": "8830470004cd3cc424cb741f3f4461c2e6c017da",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true,
+      "check": {
+        "id": "protected-changes",
+        "status": "fail",
+        "reason": "Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json | Authorization docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-weaken-policy.json is rejected: the record is not in the base commit (already consumed or revoked)"
+      },
+      "evidence": [
+        "FAIL Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+        "FAIL Authorization docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-weaken-policy.json is rejected: the record is not in the base commit (already consumed or revoked)",
+        "Protected change verification failed: <temp>\\guard-gen-e90aff4f\\protected-changes.json",
+        "Policy candidate validation passed (2 validation(s)): <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\policy-candidates-diff.json",
+        "FAIL protected-changes: Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json | Authorization docs/guards/V3_ifx/stages/diff/authorizations/rehearsal-weaken-policy.json is rejected: the record is not in the base commit (already consumed or revoked)",
+        "FAIL guardrails: Base guardrails returned exit code 1.",
+        "Trusted base run failed: <temp>\\ifx-rehearsal-d599a8dd\\h\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    }
+  ]
+}

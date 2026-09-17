@@ -321,8 +321,8 @@ else {
         if (-not (Test-Json -Path (Full $protectionRelative) -SchemaFile (Full "$package/contracts/protection.schema.json") -ErrorAction Stop)) { Fail "Schema validation failed: $protectionRelative" }
     } catch { Fail "Schema validation failed: ${protectionRelative}: $($_.Exception.Message)" }
 }
-# Until P7.5 removes the copies, the IFX stage gate templates and runner must stay byte-identical to the portable V3
-# package, so the IFX copy's Linux and Windows CI run exercises the V3 Diff code. Each pair is checked where both package
+# Until P7.5 removes the copies, the IFX stage gate templates, runner and synthetic test must stay byte-identical to the
+# portable V3 package, so the IFX copy's Linux and Windows CI run exercises the V3 Diff code and tests. Each pair is checked where both package
 # directories exist (package fixtures carry only the parts they test).
 $parityPairs = [Collections.Generic.List[object]]::new()
 $v3Templates = Full 'docs/guards/V3/templates/dotnet'
@@ -333,6 +333,8 @@ if ([IO.Directory]::Exists($v3Templates) -and [IO.Directory]::Exists($forkTempla
     }
 }
 if ([IO.Directory]::Exists((Full 'docs/guards/V3/scripts')) -and [IO.Directory]::Exists((Full "$package/scripts"))) { $parityPairs.Add(@('docs/guards/V3/scripts/Invoke-V3.ps1', "$package/scripts/Invoke-V3.ps1")) }
+# Both Test-V3.ps1 copies are base-owned tests since CP05, so a candidate check overlays both and this pair stays checkable.
+if ([IO.Directory]::Exists((Full 'docs/guards/V3/tests')) -and [IO.Directory]::Exists((Full "$package/tests"))) { $parityPairs.Add(@('docs/guards/V3/tests/Test-V3.ps1', "$package/tests/Test-V3.ps1")) }
 foreach ($pair in $parityPairs) {
     if (-not [IO.File]::Exists((Full $pair[0])) -or -not [IO.File]::Exists((Full $pair[1]))) { Fail "V3 fork parity file exists in only one package: $($pair[0]) / $($pair[1])"; continue }
     $leftText = [IO.File]::ReadAllText((Full $pair[0])).Replace("`r`n", "`n")
