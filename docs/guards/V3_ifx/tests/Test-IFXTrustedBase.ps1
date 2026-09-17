@@ -1,5 +1,9 @@
 [CmdletBinding()]
-param([switch] $KeepWorkDirectory)
+param(
+    [switch] $KeepWorkDirectory,
+    # Runs only the trusted build isolation control, which builds LayerGuard (Plan 06 §11.2, P2.5).
+    [switch] $ArchitectureOnly
+)
 
 # Plan 06 P2.5 and P2.7 negative controls for trusted base execution (§11.1, §11.5, §12.6), outside the repository:
 #  - a disposable clone commits the current package as the base; the base runs from a separate worktree;
@@ -83,6 +87,22 @@ try {
     $baseSha = (Invoke-FixtureGit $clone @('rev-parse', 'HEAD'))[0]
     $base = New-BaseWorktree 'b' $baseSha
     Write-Host "Fixture base $baseSha at $base"
+
+    if ($ArchitectureOnly) {
+        # §11.1/§11.2: head MSBuild inheritance files cannot reach trusted guard builds, whose output stays outside head.
+        [void](New-Head 'architecture-injection' $baseSha {
+            [IO.File]::WriteAllText((Join-Path $clone 'Directory.Build.props'), "<Project><Target Name=`"InjectedFailure`" BeforeTargets=`"Restore;Build;VSTest`"><Error Text=`"head injection`" /></Target></Project>`n", $utf8)
+            [IO.File]::WriteAllText((Join-Path $clone 'Directory.Build.targets'), "<Project><Target Name=`"InjectedTargets`" AfterTargets=`"Build`"><Error Text=`"head targets injection`" /></Target></Project>`n", $utf8)
+            [IO.File]::WriteAllText((Join-Path $clone 'Directory.Packages.props'), "<Project><PropertyGroup><ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally><NuGetAudit>false</NuGetAudit></PropertyGroup></Project>`n", $utf8)
+        })
+        Assert-Result 'head MSBuild injection does not reach the trusted architecture build' (Invoke-Runner $base $baseSha 'Architecture' @('-GateId', 'v3-architecture')) 0 'Trusted base run passed'
+        $isolation = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-architecture.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'trusted-build-isolation' })
+        if ($isolation.Count -ne 1 -or $isolation[0].status -ne 'pass' -or [IO.Directory]::Exists((Join-Path $clone 'artifacts/build/v3-ifx'))) { $failures.Add("Trusted guard build output reached the head checkout: $($isolation | ConvertTo-Json -Compress)") }
+        else { Write-Host 'PASS trusted guard build output stays outside the head checkout' }
+        if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
+        Write-Host 'IFX trusted base architecture isolation test passed.'
+        return
+    }
 
     # ---- §11.1: provenance and cleanliness of the base worktree
     [void](New-Head 'benign' $baseSha { Edit-Text 'README.md' { param($t) $t + "`nfixture`n" } })

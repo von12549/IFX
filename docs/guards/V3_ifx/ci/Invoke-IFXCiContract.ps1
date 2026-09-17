@@ -45,10 +45,11 @@ foreach ($line in $lines) {
     if ($section -ne 'jobs') { continue }
     if ($line -match '^  ([A-Za-z0-9_-]+):\s*$') {
         $current = $Matches[1]; $inMatrix = $false
-        $jobs[$current] = [ordered]@{ name = $null; condition = $null; needs = @(); matrix = [ordered]@{} }
+        $jobs[$current] = [ordered]@{ name = $null; condition = $null; needs = @(); matrix = [ordered]@{}; lines = [Collections.Generic.List[string]]::new() }
         continue
     }
     if ($null -eq $current) { continue }
+    $jobs[$current].lines.Add($line)
     if ($line -match '^    name:\s*(.+?)\s*$') { $jobs[$current].name = $Matches[1]; continue }
     if ($line -match '^    if:\s*(.+?)\s*$') { $jobs[$current].condition = $Matches[1]; continue }
     if ($line -match '^    needs:\s*\[(.*)\]\s*$') { $jobs[$current].needs = @($Matches[1] -split ',' | ForEach-Object { $_.Trim() }); continue }
@@ -104,6 +105,35 @@ foreach ($entry in $declared) {
         'pull-request' { Add-Check "declaration-trigger:$id" ($condition -match "^github\.event_name\s*==\s*'pull_request'$") "trigger pull-request requires job condition github.event_name == 'pull_request'; found '$condition'" }
         'pull-request-and-main' { Add-Check "declaration-trigger:$id" ([string]::IsNullOrEmpty($condition)) "trigger pull-request-and-main requires an unconditional job; found '$condition'" }
         default { Add-Check "declaration-trigger:$id" $false "unknown trigger '$($entry.trigger)'" }
+    }
+}
+
+# ---------------------------------------------------------------- trusted base activation (Plan 06 §11.1)
+# When jobs.json declares trusted execution active, every required check must take its verdict from the runner in the
+# base worktree with its own gate ID, and no job may take a verdict from the head dispatcher in place.
+$trustedBase = if ($declaration.Contains('trustedBase')) { $declaration.trustedBase } else { $null }
+if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
+    foreach ($jobId in $jobs.Keys) {
+        $job = $jobs[$jobId]
+        $text = $job.lines -join "`n"
+        $inPlace = @($job.lines | Where-Object { $_ -match '\./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails\.ps1' })
+        Add-Check "trusted-base-no-head-dispatcher:$jobId" ($inPlace.Count -eq 0) 'jobs must not run the head dispatcher in place; use the trusted base runner'
+        $gateIds = @([Regex]::Matches($text, '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase\.ps1"?\s.*?-GateId\s+(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
+        # Gate IDs may use the job's inline matrix, expanded the same way as check names.
+        $resolved = @(foreach ($gateId in $gateIds) {
+            $values = @($gateId)
+            foreach ($match in [Regex]::Matches($gateId, '\$\{\{\s*matrix\.([A-Za-z0-9_-]+)\s*\}\}')) {
+                $key = $match.Groups[1].Value
+                if (-not $job.matrix.Contains($key)) { continue }
+                $values = @(foreach ($value in $values) { foreach ($item in $job.matrix[$key]) { $value.Replace($match.Value, $item) } })
+            }
+            $values
+        })
+        foreach ($name in @($checkNames.Keys | Where-Object { $checkNames[$_] -eq $jobId })) {
+            if ($name -notin $declaredIds) { continue }
+            Add-Check "trusted-base-runner:$name" ($name -in $resolved) "check $name must run Invoke-IFXTrustedBase.ps1 from `$env:GUARD_BASE with -GateId $name; found [$(Format-Set $resolved)]"
+        }
+        Add-Check "trusted-base-worktree:$jobId" ($text -match 'git worktree add --detach "\$env:RUNNER_TEMP/guard-base"') 'jobs must create the base worktree outside the checkout in $RUNNER_TEMP/guard-base'
     }
 }
 

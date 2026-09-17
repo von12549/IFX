@@ -29,7 +29,10 @@ The runner does the following:
 2. Compares head domain authorities with base by their registered D18 roles (`Test-IFXDomainAuthorityCandidates.ps1`). A governing-policy change or a widened exception fails closed until P4 provides `weaken-policy`.
 3. Regenerates the package projections from head authorities in a generation directory outside head and base.
 4. Runs the dispatcher from that base-derived copy with head as `-TargetRoot`.
-5. Writes `artifacts/guards/v3-ifx/trusted-base/summary-<mode>.json`, which includes the gate's trust type and guarantee, and checks that the base worktree is still clean.
+5. Builds the trusted guard projects with `GUARD_BUILD_ROOT` pointing into the generation directory, so their restore, build and test output never reaches head or base.
+6. Writes `artifacts/guards/v3-ifx/trusted-base/summary-<mode>[-<gate>].json`, which includes the gate's trust type and guarantee, and checks that the base worktree is still clean.
+
+The guarantee scope and the break-glass procedure are in `docs/authored/trusted-base.md`.
 
 Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandidate.ps1` from the same base worktree. They need a base `change-trusted-base` authorization that the change PR deletes; see `stages/diff/authorizations/README.md`.
 

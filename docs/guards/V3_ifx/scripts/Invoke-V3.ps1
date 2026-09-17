@@ -319,7 +319,7 @@ function Invoke-DotnetTests {
             $configPath = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $root $NuGetConfig }))
             if (-not [IO.File]::Exists($configPath)) { throw "NuGetConfig is missing: $configPath" }
             if ($IsWindows) {
-                $isolatedAppData = Join-Path $root 'artifacts/guards/v3-nuget-appdata'
+                $isolatedAppData = if ($env:GUARD_BUILD_ROOT) { Join-Path $env:GUARD_BUILD_ROOT 'nuget-appdata' } else { Join-Path $root 'artifacts/guards/v3-nuget-appdata' }
                 [void] [IO.Directory]::CreateDirectory($isolatedAppData)
                 $env:APPDATA = $isolatedAppData
             }
@@ -350,7 +350,9 @@ function Invoke-DotnetTests {
         Import-Module $buildModule -Force
         $packageId = [IO.Path]::GetFileName($packageRoot).ToLowerInvariant().Replace('_', '-')
         $lockDirectory = if ($LockRoot) { [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($LockRoot)) { $LockRoot } else { Join-Path $root $LockRoot })) } else { Join-Path $packageRoot 'build/locks' }
-        $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $root "artifacts/build/$packageId/stage-gate") -LockRoot $lockDirectory `
+        # A trusted base run (Plan 06 §11.2) places build output outside the head checkout and the base worktree.
+        $buildRoot = if ($env:GUARD_BUILD_ROOT) { [IO.Path]::GetFullPath($env:GUARD_BUILD_ROOT) } else { Join-Path $root 'artifacts/build' }
+        $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$packageId/stage-gate") -LockRoot $lockDirectory `
             -ReportRoot (Join-Path $root "artifacts/guards/$packageId/build/stage-gate") -LockMode $LockMode -NuGetConfig $configPath
         Invoke-GuardRestore $context $project @($project)
         Invoke-GuardBuildStep $context 'test' $project @($project) @('--filter', $Filter)

@@ -107,9 +107,16 @@ try {
         'Pre' { if (-not $PlanPath) { throw 'Pre requires -PlanPath in a trusted base run.' }; $arguments += @('-PlanPath', $PlanPath) }
         'Diff' { $arguments += @('-PlanPath', $PlanPath, '-BaseRef', $BaseRef); if ($HeadRef) { $arguments += @('-HeadRef', $HeadRef) } }
     }
-    $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head
+    # Trusted guard projects restore and build outside head and base (Plan 06 §11.2); head builds stay in head.
+    $buildRoot = Join-Path $generation 'build'
+    $headGuardBuild = Join-Path $head 'artifacts/build/v3-ifx'
+    $headGuardBuildExisted = [IO.Directory]::Exists($headGuardBuild)
+    $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment @{ GUARD_BUILD_ROOT = $buildRoot }
     Write-Host $run.Output
     $summaryName = switch ($Mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } default { "summary-$($Mode.ToLowerInvariant()).json" } }
+    if (-not $headGuardBuildExisted -and [IO.Directory]::Exists($headGuardBuild)) { Add-Check 'trusted-build-isolation' 'fail' 'Trusted guard build output was written into the head checkout.' }
+    elseif ($headGuardBuildExisted) { Add-Check 'trusted-build-isolation' 'skipped' 'The head checkout already contained guard build output, so isolation could not be observed.' }
+    else { Add-Check 'trusted-build-isolation' 'pass' $null }
     if ($run.ExitCode -eq 0) { Add-Check 'guardrails' 'pass' $null @((Join-Path $output $summaryName)) }
     else { Add-Check 'guardrails' 'fail' "Base guardrails returned exit code $($run.ExitCode)." @((Join-Path $output $summaryName)) }
 }
@@ -140,7 +147,12 @@ $summary = [ordered]@{
     gate = $gate
     checks = @($checks)
 }
-$summaryPath = Join-Path $trustedOutput "summary-$($Mode.ToLowerInvariant()).json"
+$trustedSummaryName = switch ($Mode) {
+    'Specialized' { "summary-specialized-$($SpecializedGate.ToLowerInvariant()).json" }
+    'Quality' { "summary-quality-$($QualityTarget.ToLowerInvariant()).json" }
+    default { "summary-$($Mode.ToLowerInvariant()).json" }
+}
+$summaryPath = Join-Path $trustedOutput $trustedSummaryName
 [IO.File]::WriteAllText($summaryPath, ($summary | ConvertTo-Json -Depth 10) + "`n", [Text.UTF8Encoding]::new($false))
 if (-not (Test-Json -Path $summaryPath -SchemaFile (Join-Path $packageRoot 'contracts/trusted-base-summary.schema.json') -ErrorAction Stop)) { throw 'Trusted base summary does not match its schema.' }
 foreach ($check in $checks) { if ($check.status -eq 'fail') { Write-Host "FAIL $($check.id): $($check.reason)" } }

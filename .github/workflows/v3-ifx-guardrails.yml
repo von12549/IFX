@@ -31,8 +31,10 @@ jobs:
         run: |
           $plans = @(git diff --name-only "$env:BASE_SHA..$env:HEAD_SHA" -- '*.plan.json')
           if ($plans.Count -ne 1) { throw "V3 Diff requires exactly one changed formal *.plan.json; found $($plans.Count)." }
-          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
-          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
+          foreach ($stage in @('Generate', 'Check')) {
+            pwsh -NoProfile -File ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode $stage -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
+            if ($LASTEXITCODE) { throw "Invoke-V3 $stage failed with exit code $LASTEXITCODE." }
+          }
           ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA
       - uses: actions/upload-artifact@v7
         if: always()
@@ -52,17 +54,24 @@ jobs:
       - name: Validate package projections, contracts and negative fixtures
         shell: pwsh
         run: |
-          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Validate
-          ./docs/guards/V3_ifx/tests/Test-IFXPre.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
-          ./docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXPackage.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXManifests.ps1
-          ./docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1
+          # Each script runs in its own process so a failing exit code cannot be masked by the next script.
+          $commands = @(
+              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1', '-Mode', 'Validate')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXPackage.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXManifests.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-ArchitectureOnly'))
+          foreach ($command in $commands) {
+            pwsh -NoProfile -File @command
+            if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
+          }
       - name: Run the sole production architecture scan
         shell: pwsh
         run: ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
@@ -270,20 +279,26 @@ jobs:
       - name: Reproduce generated inputs and run stage negative fixtures
         shell: pwsh
         run: |
-          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Validate
-          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
-          ./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages
-          ./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate
-          ./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check
-          ./docs/guards/V3_ifx/tests/Test-V3.ps1
-          ./docs/guards/V3/tests/Test-V3BuildBaseline.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXPre.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1
-          ./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1
+          # Each script runs in its own process so a failing exit code cannot be masked by the next script.
+          $commands = @(
+              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1', '-Mode', 'Validate')
+              ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
+              ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
+              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
+              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
+              ,@('./docs/guards/V3_ifx/tests/Test-V3.ps1')
+              ,@('./docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1')
+              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1'))
+          foreach ($command in $commands) {
+            pwsh -NoProfile -File @command
+            if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
+          }
       - uses: actions/upload-artifact@v7
         if: always()
         with:

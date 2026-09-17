@@ -60,6 +60,12 @@ try {
     Invoke-Case 'ruleset extra context fails' 1 -ruleset (New-Ruleset @($allChecks + 'legacy-guard')) -expectText 'ruleset-contexts'
     Invoke-Case 'ruleset without strict fails' 1 -ruleset (New-Ruleset $allChecks $false) -expectText 'ruleset-strict'
     Invoke-Case 'inactive ruleset fails' 1 -ruleset (New-Ruleset $allChecks $true 'evaluate') -expectText 'ruleset-active'
+    # Trusted base activation (Plan 06 §11.1, D19): once jobs.json declares it, every check must use the base runner.
+    $activeJobs = $jobsSource.Replace('"legacyWorkflowMode": "deleted-after-required-check-proof",', "`"legacyWorkflowMode`": `"deleted-after-required-check-proof`",`n  `"trustedBase`": { `"execution`": `"active`", `"tcbCandidateVerification`": `"active`" },")
+    if ($activeJobs -eq $jobsSource) { throw 'Fixture could not declare trusted base execution.' }
+    Invoke-Case 'declared trusted execution rejects a job without the base runner' 1 -jobs $activeJobs -expectText 'trusted-base-runner:v3-historical-integrity'
+    Invoke-Case 'declared trusted execution rejects the head dispatcher in place' 1 -jobs $activeJobs -expectText 'trusted-base-no-head-dispatcher:v3-architecture'
+    Invoke-Case 'declared trusted execution requires the base worktree' 1 -jobs $activeJobs -expectText 'trusted-base-worktree:v3-quality-frontend'
     Write-Host 'IFX CI contract tests passed.'
 }
 finally {
