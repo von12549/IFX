@@ -141,22 +141,30 @@ try {
         $nuget = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $target $NuGetConfig }))
         if (-not [IO.File]::Exists($nuget)) { throw "NuGet config is missing: $nuget" }
         if ($IsWindows) {
-            $isolated = Join-Path $target 'artifacts/guards/v3-ifx-nuget-appdata'
+            $isolated = if ($env:GUARD_BUILD_ROOT) { Join-Path $env:GUARD_BUILD_ROOT 'nuget-appdata' } else { Join-Path $target 'artifacts/guards/v3-ifx-nuget-appdata' }
             [void] [IO.Directory]::CreateDirectory($isolated)
             $env:APPDATA = $isolated
         }
     }
-    $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $target "artifacts/build/$packageId/architecture-conformance") `
+    # A trusted base run (Plan 06 §11.2) places build output outside the head checkout and the base worktree.
+    $buildRoot = if ($env:GUARD_BUILD_ROOT) { [IO.Path]::GetFullPath($env:GUARD_BUILD_ROOT) } else { Join-Path $target 'artifacts/build' }
+    $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$packageId/architecture-conformance") `
         -LockRoot $(if ($LockRoot) { [IO.Path]::GetFullPath($LockRoot) } else { Join-Path $packageRoot 'build/locks' }) `
         -ReportRoot (Join-Path $target "artifacts/guards/$packageId/build/architecture-conformance") -LockMode $LockMode -NuGetConfig $nuget
     Invoke-GuardRestore $context $solution @($project, $testProject)
     if ($Mode -eq 'Test') {
         $oldFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', 'Process')
+        $oldTarget = [Environment]::GetEnvironmentVariable('GUARD_TARGET_ROOT', 'Process')
         try {
             $env:LAYERGUARD_FIXTURES_ROOT = Join-Path $generated 'tests/fixtures'
+            # Policy binding tests analyze the target's src/, which is not next to a package copy run from outside it.
+            $env:GUARD_TARGET_ROOT = $target
             Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project)
         }
-        finally { [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process') }
+        finally {
+            [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process')
+            [Environment]::SetEnvironmentVariable('GUARD_TARGET_ROOT', $oldTarget, 'Process')
+        }
     }
     else { Invoke-GuardBuildStep $context 'build' $project @($project) }
 

@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d19-trusted-base-first-introduction",
+  "owner": "xiaolong-feng",
+  "summary": "Trusted Base Guard Execution is introduced in two merged steps under the Plan 06 section 11.6 first-introduction exception. CP04c lands every prerequisite without changing the workflow: trusted guard builds outside head and base, the target-root fix for LayerGuard policy binding tests, the CI activation contract checks, the build isolation negative control and the break-glass and guarantee documentation. CP04d then switches every required check to the base runner and declares trustedBase execution and tcbCandidateVerification active in ci/jobs.json. The CP04d PR is itself judged by the CP04c base runner; trusted component candidate verification and the activation contract checks are read from the base commit, so they first apply to the PR after CP04d, which must confirm that they block. From then on every trusted component change needs a consumed change-trusted-base authorization and the exception may not be reused.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/**",
+    "docs/guards/V3_ifx/**"
+  ],
+  "rationale": "Base has no trusted execution before this change, so the change that introduces it cannot be judged by it (Plan 06 section 11.6). Running every mode of the CP04b runner against the repository from a package copy exposed a location-derived repository root in the LayerGuard policy binding tests; a workflow switch judged by that base would fail v3-architecture. Landing the fixes first means the switching PR is already judged by a trusted base runner, which shrinks the exception to the activation flags themselves. Reading the activation flags from the base commit keeps a PR from disabling trusted component verification or the activation contract for itself, and CP04d changes trusted components without authorization only because base does not yet enforce it. The residual risk that the switch PR is approved without code owner review stays deferred with section 18 O1. Source: CP04c implementation analysis; refines D9 and D15."
+}

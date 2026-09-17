@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp04c-p2-trusted-build-isolation",
+  "title": "V3 stage-oriented refactor CP04c \u2014 P2 trusted build isolation and workflow switch prerequisites",
+  "goal": "Land every prerequisite for switching the required checks to the trusted base runner without changing any gate's judging entry point: place trusted guard build output outside head and base, fix the location-derived repository root in the LayerGuard policy binding tests, add CI activation contract checks that apply once jobs.json declares trusted execution, stop multi-script workflow steps from masking failing exit codes, prove that head MSBuild inheritance cannot reach trusted builds, and record D19 with the guarantee scope and break-glass procedure.",
+  "acceptanceCriteria": [
+    "With GUARD_BUILD_ROOT set, Invoke-V3 and Invoke-IFX restore, build and test guard projects outside the target, the trusted base runner sets it inside its generation root, and a trusted-build-isolation check fails when guard build output appears in head.",
+    "LayerGuard policy binding tests read GUARD_TARGET_ROOT, set by Invoke-IFX during tests, and every runner mode including Architecture, Diff, Quality and Database passes against the repository from a base worktree.",
+    "Invoke-IFXCiContract rejects a missing base runner or gate ID, an in-place head dispatcher and a missing base worktree once jobs.json declares trustedBase execution active, and the declaration stays absent in this checkpoint.",
+    "Workflow steps run each guard or test script in its own pwsh process and fail on its exit code, v3-architecture runs Test-IFXTrustedBase -ArchitectureOnly, and the 13 required check names and judging entry points are unchanged.",
+    "D19, the authored trusted base guarantees and break-glass page, Plan 06 P2.2, P2.3, P2.5 and P2.9 evidence and the CP04c/CP04d split are recorded, and all guard tests pass."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/docs/authored/trusted-base.md",
+    "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp04c-p2-trusted-build-isolation.md",
+    "docs/guards/plans/20260917-v3-stage-cp04c-p2-trusted-build-isolation.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json"
+  ]
+}

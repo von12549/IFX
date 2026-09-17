@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 # canonical JSON, D18 pointer roles and isolated child processes. Nothing here reads the target
 # repository except through explicit parameters.
 
-$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'LAYERGUARD_FIXTURES_ROOT')
+$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_BUILD_ROOT', 'LAYERGUARD_FIXTURES_ROOT')
 
 # Files outside docs/guards/ that the manifest checker validates as trusted components or compatibility entries.
 $script:PackageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')
@@ -238,7 +238,7 @@ function Get-GuardHeadExecutableReferences {
         }
     }
     $workflow = Get-GuardBlobText $Repository $Head '.github/workflows/v3-ifx-guardrails.yml'
-    if ($null -ne $workflow) { foreach ($match in [Regex]::Matches($workflow, '\./(docs/guards/[^\s''"]+\.psm?1)')) { [void]$references.Add($match.Groups[1].Value) } }
+    if ($null -ne $workflow) { foreach ($match in [Regex]::Matches($workflow, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.psm?1)')) { [void]$references.Add($match.Groups[1].Value) } }
     return [string[]]@($references)
 }
 

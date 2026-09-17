@@ -11,7 +11,12 @@ public class GatePolicyBindingTests
     private static readonly string PackageRoot = Path.GetFullPath(
         Path.Combine(Fixtures.PathTo(Fixtures.BootstrapArchitecture), "..", "..", "..", "..", "..", "..")
     );
-    private static readonly string RepositoryRoot = Path.GetFullPath(Path.Combine(PackageRoot, "..", "..", ".."));
+    // A trusted base run executes these tests from a package copy outside the target repository (Plan 06 §11.1).
+    private static readonly string RepositoryRoot = Path.GetFullPath(
+        Environment.GetEnvironmentVariable("GUARD_TARGET_ROOT") is { Length: > 0 } target
+            ? target
+            : Path.Combine(PackageRoot, "..", "..", "..")
+    );
     private static readonly string G03 = Package("policy/g03/governance.json");
     private static readonly string G04 = Package("policy/g04/runtime-manifest.json");
     private static readonly string G05 = Package("policy/g05/context-protocol-v1.json");

@@ -122,7 +122,8 @@ if ($null -ne $tcb) {
 
     # Verdict chain: workflow entries and the package scripts they reference, without following package tests.
     $workflow = [IO.File]::ReadAllText((Join-Path $targetRepository $WorkflowPath))
-    $entries = @([Regex]::Matches($workflow, '\./(docs/guards/[^\s''"]+\.ps1)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique)
+    # Entries run from the checkout (./docs/guards/...) or from the trusted base worktree ($env:GUARD_BASE/docs/guards/...).
+    $entries = @([Regex]::Matches($workflow, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.ps1)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique)
     $scripts = @{}
     $scanRoots = @((Full $package), (Full 'docs/guards/V3/build'), (Full 'docs/guards/V3/tests')) | Where-Object { [IO.Directory]::Exists($_) }
     foreach ($file in @($scanRoots | ForEach-Object { Get-ChildItem -LiteralPath $_ -Recurse -File } | Where-Object { $_.Extension -in @('.ps1', '.psm1') })) {
