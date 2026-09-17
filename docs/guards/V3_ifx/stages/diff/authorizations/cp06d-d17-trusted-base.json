@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "id": "cp06d-d17-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260917-v3-stage-cp06d-d17-validator-retirement.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Documentation.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase0Baseline.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase2Audit.ps1"
+  ],
+  "components": [
+    "tcb.engine.specialized"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Documentation.ps1",
+      "component": "tcb.engine.specialized",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "17404e90716ad44aad80ca99a0f60b87b1ed5f92"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase0Baseline.ps1",
+      "component": "tcb.engine.specialized",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "56d7d38543646fdb42468c8987337cdf18ad07b8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase1Inventory.ps1",
+      "component": "tcb.engine.specialized",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f94aeb3ecd6364ed0bde370875cc496eb855ff99"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Phase2Audit.ps1",
+      "component": "tcb.engine.specialized",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f4e9a02f9bdda438b889cade4786e5b2136a1ca9"
+      },
+      "head": null
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+    "v3-specialized-*"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged: the four deleted Plan04 phase validators are unreachable from every gate (D17).",
+  "allowedBehaviorDifferences": []
+}

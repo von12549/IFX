@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06d-authorization",
+  "title": "V3 stage-oriented refactor CP06d-auth — delete and change-trusted-base authorizations for the D17 validator retirement",
+  "goal": "Add the four delete authorizations and the change-trusted-base authorization that the CP06d change PR will consume, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "Four delete records, one per Plan04 phase validator, record the base tree entry of each source, and one change-trusted-base record covers tcb.engine.specialized; all are schema-valid and generated from the prepared deletion.",
+    "The plan pair marks CP06c complete and CP06d in progress.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-d17-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04documentation.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04phase0baseline.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04phase1inventory.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06d-delete-test-plan04phase2audit.json",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06d-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp06d-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
