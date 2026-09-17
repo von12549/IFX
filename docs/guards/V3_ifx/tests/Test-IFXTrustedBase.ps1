@@ -4,7 +4,9 @@ param(
     # Runs only the trusted build isolation control, which builds LayerGuard (Plan 06 §11.2, P2.5).
     [switch] $ArchitectureOnly,
     # Runs only the end-to-end Diff and protected change verifier controls for authorization consumption (D20, D22, D23).
-    [switch] $DiffConsumptionOnly
+    [switch] $DiffConsumptionOnly,
+    # Runs only the verified change scope controls that decide which gate work a pull request inherits from its base (D28).
+    [switch] $ChangeScopeOnly
 )
 
 # Plan 06 P2.5 and P2.7 negative controls for trusted base execution (§11.1, §11.5, §12.6), outside the repository:
@@ -104,6 +106,66 @@ try {
         if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
         Write-Host 'IFX trusted base architecture isolation test passed.'
         return
+    }
+
+    if ($ChangeScopeOnly -or -not ($ArchitectureOnly -or $DiffConsumptionOnly)) {
+        # D28: the base classifies the verified changed set, and only gates whose inputs lie entirely outside formal plan
+        # documents, authorization records and decision records may inherit the verdict their inputs have at the base.
+        $plan = 'docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md'
+        $record = 'docs/guards/V3_ifx/stages/diff/authorizations/README.md'
+        $scopeScript = Join-Path $base 'docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1'
+        $scopeEngineChange = { Edit-Text $historyEngine { param($t) $t.Replace("`$ErrorActionPreference = 'Stop'", "# fixture: scope change`n`$ErrorActionPreference = 'Stop'") } }
+        function Invoke-Scope([string] $HeadSha, [string] $BaseArgument = $baseSha) {
+            return Invoke-GuardIsolatedPwsh $scopeScript @('-TargetRoot', $clone, '-BaseSha', $BaseArgument, '-HeadRevision', $HeadSha, '-ReportPath', 'artifacts/guards/v3-ifx/trusted-base/change-scope-fixture.json') -WorkingDirectory $clone
+        }
+
+        $recordsHead = New-Head 'scope-records' $baseSha {
+            Edit-Text $plan { param($t) $t + "`n" }
+            Edit-Text $record { param($t) $t + "`n" }
+        }
+        Assert-Result 'plan and record changes classify as records-and-plans' (Invoke-Scope $recordsHead) 0 'Change scope records-and-plans'
+        $engineHead = New-Head 'scope-engine' $baseSha $scopeEngineChange
+        Assert-Result 'an engine change classifies as full' (Invoke-Scope $engineHead) 0 'Change scope full'
+        $mixedHead = New-Head 'scope-mixed' $baseSha {
+            Edit-Text $plan { param($t) $t + "`n" }
+            & $scopeEngineChange
+        }
+        Assert-Result 'a plan change with an engine change classifies as full' (Invoke-Scope $mixedHead) 0 'Change scope full'
+        Assert-Result 'classification from the wrong base fails closed to full' (Invoke-Scope $recordsHead ('0' * 40)) 0 'Change scope full'
+        Assert-Result 'an empty changed set fails closed to full' (Invoke-Scope $baseSha) 0 'Change scope full'
+
+        # The workflow calls classification through the runner, so an older base simply fails the step and everything runs.
+        Assert-Result 'the runner classifies a records-and-plans change in Scope mode' (Invoke-Runner $base $baseSha 'Scope' @('-HeadRef', $recordsHead)) 0 'Change scope records-and-plans'
+        Assert-Result 'the runner classifies an engine change in Scope mode' (Invoke-Runner $base $baseSha 'Scope' @('-HeadRef', $engineHead)) 0 'Change scope full'
+        Assert-Result 'Scope without an explicit head fails' (Invoke-Runner $base $baseSha 'Scope') 1 'Scope requires -HeadRef'
+        $outputFile = Join-Path $work 'github-output.txt'
+        [void](Invoke-Runner $base $baseSha 'Scope' @('-HeadRef', $recordsHead, '-GitHubOutput', $outputFile))
+        if (-not [IO.File]::Exists($outputFile) -or -not ([IO.File]::ReadAllText($outputFile).Contains('scope=records-and-plans'))) {
+            $failures.Add("Scope mode did not report the scope to the workflow output: $(if ([IO.File]::Exists($outputFile)) { [IO.File]::ReadAllText($outputFile) } else { 'missing' })")
+        }
+        else { Write-Host 'PASS Scope mode reports the scope to the workflow output' }
+
+        Assert-Result 'Quality inherits its base verdict for a records-and-plans change' (Invoke-Runner $base $baseSha 'Quality' @('-QualityTarget', 'Frontend', '-HeadRef', $recordsHead, '-GateId', 'v3-quality-frontend')) 0 'Trusted base run passed'
+        $inherited = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-quality-frontend.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'guardrails' })
+        if ($inherited.Count -ne 1 -or $inherited[0].status -ne 'skipped' -or -not ([string]$inherited[0].reason).Contains('inherits the verdict of base')) {
+            $failures.Add("Quality did not inherit the base verdict: $($inherited | ConvertTo-Json -Compress)")
+        }
+        else { Write-Host 'PASS the inherited Quality verdict is recorded as skipped with its reason' }
+
+        Assert-Result 'Validate always runs for a records-and-plans change' (Invoke-Runner $base $baseSha 'Validate' @('-HeadRef', $recordsHead, '-GateId', 'v3-cross-platform-ubuntu-latest')) 0 'Trusted base run passed'
+        $validated = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-validate.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -in @('guardrails', 'change-scope') })
+        $validateGuardrails = @($validated | Where-Object { $_.id -eq 'guardrails' })
+        $validateScope = @($validated | Where-Object { $_.id -eq 'change-scope' })
+        if ($validateGuardrails.Count -ne 1 -or $validateGuardrails[0].status -ne 'pass' -or $validateScope.Count -ne 1 -or -not ([string]$validateScope[0].reason).StartsWith('records-and-plans')) {
+            $failures.Add("Validate did not run with a recorded records-and-plans scope: $($validated | ConvertTo-Json -Compress)")
+        }
+        else { Write-Host 'PASS Validate runs and records the change scope' }
+
+        if ($ChangeScopeOnly) {
+            if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
+            Write-Host 'IFX trusted base change scope tests passed.'
+            return
+        }
     }
 
     if ($DiffConsumptionOnly) {

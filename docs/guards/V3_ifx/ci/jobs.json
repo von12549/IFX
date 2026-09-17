@@ -6,6 +6,26 @@
   "ruleset": { "id": 23459908, "name": "IFX V3 Required Checks", "strict": true, "requiredCheckCount": 13 },
   "legacyWorkflowMode": "deleted-after-required-check-proof",
   "trustedBase": { "execution": "active", "tcbCandidateVerification": "active" },
+  "costControls": {
+    "scheduleCron": "17 3 1 * *",
+    "concurrencyGroup": "v3-ifx-guardrails-${{ github.event.pull_request.number || github.ref }}",
+    "cancelSupersededRuns": true,
+    "packageCache": {
+      "action": "actions/cache@v4",
+      "path": "~/.nuget/packages",
+      "keyPrefix": "guard-nuget-",
+      "lockGlob": "docs/guards/*/build/locks/*.packages.lock.json",
+      "jobs": ["v3-architecture", "v3-quality-solution", "v3-specialized-database", "v3-cross-platform"]
+    }
+  },
+  "changeScope": {
+    "entryPoint": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "mode": "Scope",
+    "implementation": "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+    "inheritScope": "records-and-plans",
+    "candidateStepJobs": ["v3-architecture", "v3-cross-platform"],
+    "inheritingChecks": ["v3-architecture", "v3-quality-solution", "v3-quality-assembly", "v3-quality-frontend", "v3-specialized-database"]
+  },
   "jobs": [
     { "id": "v3-pre-diff", "mode": "diff", "trigger": "pull-request", "blocking": true },
     { "id": "v3-architecture", "mode": "architecture", "trigger": "pull-request-and-main", "blocking": true },

@@ -64,6 +64,24 @@ try {
     Invoke-Case 'matrix check without its trusted base gate fails' 1 -workflow $workflowSource.Replace('-GateId v3-cross-platform-${{ matrix.os }}', '-GateId v3-cross-platform-ubuntu-latest') -expectText 'trusted-base-runner:v3-cross-platform-windows-latest'
     Invoke-Case 'head dispatcher run in place fails' 1 -workflow $workflowSource.Replace('-Mode HistoricalIntegrity -GateId v3-historical-integrity', "-Mode HistoricalIntegrity -GateId v3-historical-integrity`n          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity") -expectText 'trusted-base-no-head-dispatcher:v3-historical-integrity'
     Invoke-Case 'job without the base worktree fails' 1 -workflow ([Regex]::new('git worktree add --detach').Replace($workflowSource, 'git worktree list', 1)) -expectText 'trusted-base-worktree:v3-pre-diff'
+    # Plan 06 D28: cost controls and the base-owned change scope are declared in ci/jobs.json and enforced in the workflow.
+    Invoke-Case 'missing concurrency fails' 1 -workflow ([Regex]::Replace($workflowSource, '(?m)^concurrency:\n(  .*\n)+', '')) -expectText 'cost-concurrency'
+    Invoke-Case 'keeping superseded runs fails' 1 -workflow $workflowSource.Replace('  cancel-in-progress: true', '  cancel-in-progress: false') -expectText 'cost-concurrency'
+    Invoke-Case 'undeclared schedule fails' 1 -workflow $workflowSource.Replace("    - cron: '17 3 1 * *'", "    - cron: '17 3 * * 1'") -expectText 'cost-schedule'
+    Invoke-Case 'missing package cache fails' 1 -workflow ([Regex]::Replace($workflowSource, '(?m)^      - name: Cache reviewed guard packages\n(        .*\n|          .*\n)+', '', 1)) -expectText 'cost-package-cache:v3-architecture'
+    Invoke-Case 'package cache not keyed by the reviewed locks fails' 1 -workflow $workflowSource.Replace("hashFiles('docs/guards/*/build/locks/*.packages.lock.json')", "github.sha") -expectText 'cost-package-cache:v3-architecture'
+    Invoke-Case 'missing change scope classification fails' 1 -workflow ([Regex]::new('(?m)^        id: scope\n').Replace($workflowSource, '', 1)) -expectText 'change-scope-step:v3-architecture'
+    Invoke-Case 'head candidate work without the scope guard fails' 1 -workflow ([Regex]::new("(?m)^        if: steps\.scope\.outputs\.scope != 'records-and-plans'\n").Replace($workflowSource, '', 1)) -expectText 'change-scope-guard:v3-architecture'
+    Invoke-Case 'classification outside the trusted base fails' 1 -workflow ([Regex]::new('"\$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot \$env:GITHUB_WORKSPACE -BaseSha \$env:GUARD_BASE_SHA -Mode Scope').Replace($workflowSource, './docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1 -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope', 1)) -expectText 'change-scope-step:v3-architecture'
+    Invoke-Case 'a classification step in another mode fails' 1 -workflow ([Regex]::new('-Mode Scope').Replace($workflowSource, '-Mode Validate', 1)) -expectText 'change-scope-step:v3-architecture'
+    Invoke-Case 'a classification step that blocks the run fails' 1 -workflow ([Regex]::new('(?m)^        continue-on-error: true\n').Replace($workflowSource, '', 1)) -expectText 'change-scope-fails-open:v3-architecture'
+    Invoke-Case 'an undeclared classification implementation fails' 1 -jobs $jobsSource.Replace('"implementation": "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1"', '"implementation": "docs/guards/V3_ifx/trusted-base/Get-IFXMissingScope.ps1"') -expectText 'change-scope-entry-point'
+    Invoke-Case 'an undeclared inheriting check fails' 1 -jobs $jobsSource.Replace('"inheritingChecks": ["v3-architecture"', '"inheritingChecks": ["v3-legacy-guard", "v3-architecture"') -expectText 'change-scope-inheriting-checks'
+    $costStart = $jobsSource.IndexOf('  "costControls": {', [StringComparison]::Ordinal)
+    $costEnd = $jobsSource.IndexOf('  "changeScope": {', [StringComparison]::Ordinal)
+    if ($costStart -lt 0 -or $costEnd -le $costStart) { throw 'Fixture could not locate the cost control declaration.' }
+    $noCostJobs = $jobsSource.Remove($costStart, $costEnd - $costStart)
+    Invoke-Case 'undeclared cost controls skip their checks' 0 -jobs $noCostJobs -workflow ([Regex]::Replace($workflowSource, '(?m)^concurrency:\n(  .*\n)+', ''))
     $inactiveJobs = [Regex]::Replace($jobsSource, '\s*"trustedBase":\s*\{[^}]*\},', '')
     if ($inactiveJobs -eq $jobsSource) { throw 'Fixture could not remove the trusted base declaration.' }
     Invoke-Case 'undeclared trusted base execution skips runner checks' 0 -jobs $inactiveJobs -workflow $workflowSource.Replace('-GateId v3-historical-integrity', '-GateId v3-other')

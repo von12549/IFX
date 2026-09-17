@@ -1100,6 +1100,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：P6.2–P6.3 以 CP07b-prep、CP07b 交付，每个都是精确候选授权 PR 加消费变更 PR，不使用 activation exception。engine 中硬编码的 IFX 值（`ifx-api`/`ifx-worker`/`ifx-all` 部署单元与 `Runtime:Role`、必需 host role、授权 backup owner、G03 不可豁免类别、豁免上限与 `BCL-only`、G05 禁止依赖清单、`gatePolicies` 输入与 G04 RuntimeHost→Composition 角色绑定）迁入受 TCB 管控的 IFX binding 代码；这是所有权迁移，不是 policy 外部化，所有 policy 文件与 composite hash 输入逐字节不变。通用 engine 成为带 binding 扩展点的库与命令行，原样把 `gatePolicies` 段交给已注册的 binding，存在该段而无 binding 时失败关闭；IFX binding 与轻量 host 注册 binding，并保持 CLI/MCP 契约。CP07b-prep 为 expand：新增显式引用的 IFX facade 项目 `src/LayerGuard.Ifx`（入口 `LayerGuard.Ifx.IfxArchitectureConformance.Analyze`，CP07b 前转发到 engine，之后保持同一路径与入口），把 `GatePolicyBindingTests` 迁入只引用 facade 的 base-owned `tests/LayerGuard.Ifx.Tests`。project reference 全部显式：`Invoke-IFX.ps1` 检查精确的 solution 项目集合与每个项目的引用集合，拒绝通配符引用，并对每个列出的项目执行锁文件与 import allowlist 校验。report 字段、tool version、CLI/MCP 契约、`v3-architecture`、13 个 required check 与 policy composite hash 不变；`mcp/LayerGuard` 仍不在范围内。
 - 来源：CP07b 设计评审，用户于 2026-09-18 批准 A1、B1、C1 及其限定条件；记录 `20260918-v3-stage-d27-architecture-conformance-binding-separation.json`。
 
+### D28 — CI 成本控制与 base 判定的变更范围（§10.3 补充，细化 D10、D19）
+
+- **决定**：workflow 增加只降低成本、不改变 gate 证明内容的控制项，由 `ci/jobs.json` 声明、由只读 CI contract verifier 强制：按 PR 取消被替代的运行、在重型 job 中缓存已评审 NuGet 包（key 由已评审 lock 派生）、再验证 schedule 由每周改为每月。base 另外用 `trusted-base/Get-IFXChangeScope.ps1` 判定 verified changed set：带明确 head 时，`records-and-plans` 表示 merge base 到该 head 之间每个路径都是 formal plan、authorization record 或 decision record；空变更集、无法识别路径与任何失败都是 `full`。判定为 `records-and-plans` 时，workflow 跳过 `v3-architecture` 与两条 `v3-cross-platform` leg 的 head candidate 步骤，runner 让 `v3-architecture`、三个 quality 与 `v3-specialized-database` 以 `guardrails: skipped` 继承 base 判定；`v3-pre-diff`、Validate、Pre、HistoricalIntegrity 与 G03/G04/G05/Plan04 始终运行。13 个 required check 名称、job DAG、trigger 语义、ruleset 与 strict 策略不变，也没有任何 job 变为条件执行。
+- 来源：2026-09-17 度量单次 PR 运行 73–75 计费分钟（Windows leg 30、`v3-architecture` 13、Ubuntu leg 10、`v3-quality-solution` 6、`v3-specialized-database` 5），配额 2700/3000 不足以完成剩余约 19–23 次运行；用户于 2026-09-18 要求先做 CI 优化再继续 Plan 06；记录 `20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。

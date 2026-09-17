@@ -2,7 +2,7 @@
 param(
     [Parameter(Mandatory)][string] $HeadRoot,
     [Parameter(Mandatory)][ValidatePattern('^[0-9a-f]{40}$')][string] $BaseSha,
-    [Parameter(Mandatory)][ValidateSet('Validate', 'Pre', 'Diff', 'Architecture', 'Specialized', 'Quality', 'HistoricalIntegrity')][string] $Mode,
+    [Parameter(Mandatory)][ValidateSet('Validate', 'Pre', 'Diff', 'Architecture', 'Specialized', 'Quality', 'HistoricalIntegrity', 'Scope')][string] $Mode,
     [ValidateSet('G03', 'G04', 'G05', 'Plan04', 'Database', 'All')][string] $SpecializedGate = 'All',
     [ValidateSet('Solution', 'Assembly', 'Frontend', 'All')][string] $QualityTarget = 'All',
     [string] $PlanPath,
@@ -10,7 +10,9 @@ param(
     [string] $HeadRef,
     [string] $OutputDirectory = 'artifacts/guards/v3-ifx',
     [string] $GenerationRoot,
-    [string] $GateId
+    [string] $GateId,
+    # Scope mode appends `scope=<value>` for the workflow step that decides which head candidate work to skip (D28).
+    [string] $GitHubOutput
 )
 
 # Plan 06 §11.1 Trusted Base Guard Execution. This script must itself be started from a clean base worktree created
@@ -22,6 +24,11 @@ param(
 # verifier first checks that every protected obligation of the committed head is covered by exactly one base
 # authorization that head deletes (Plan 06 §12.3, D22, D23); only its passing report, bound to base, merge base, head
 # and the Diff protection configuration, is passed to the Diff stage, which exempts exactly the reported deletions.
+# With an explicit -HeadRef, the base also classifies the verified changed set (D28): when every changed path is a formal
+# plan document, an authorization record or a decision record, the gates whose inputs are entirely outside those
+# artifacts inherit the verdict their inputs already have at the base instead of repeating the work. Classification is
+# base-owned and fails closed to a full run; Validate, Pre, Diff, HistoricalIntegrity and the G03/G04/G05/Plan04 gates
+# always run.
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -47,6 +54,19 @@ function Get-WorktreeState([string] $Repository) {
     return @(Invoke-GuardGit $Repository @('status', '--porcelain', '--ignored', '--untracked-files=all'))
 }
 
+# ---- Scope: classify the verified changed set and report nothing else (D28). The workflow calls this entry point from
+# the base worktree, so an older base that does not know the mode simply fails the step, which means a full run.
+if ($Mode -eq 'Scope') {
+    if (-not $HeadRef) { throw 'Scope requires -HeadRef.' }
+    $baseHead = @(Invoke-GuardGit $baseRepository @('rev-parse', 'HEAD'))
+    if ($baseHead.Count -ne 1 -or $baseHead[0] -ne $BaseSha) { throw "The trusted base worktree is at $($baseHead -join ''), not $BaseSha." }
+    $scopeArguments = @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-HeadRevision', $HeadRef, '-ReportPath', (Join-Path $trustedOutput 'change-scope.json'))
+    if ($GitHubOutput) { $scopeArguments += @('-GitHubOutput', $GitHubOutput) }
+    $scopeOnly = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Get-IFXChangeScope.ps1') $scopeArguments
+    Write-Host $scopeOnly.Output
+    exit $scopeOnly.ExitCode
+}
+
 try {
     # ---- base and head provenance
     $baseHead = @(Invoke-GuardGit $baseRepository @('rev-parse', 'HEAD'))
@@ -68,6 +88,21 @@ try {
         $gate = [ordered]@{ id = $GateId; type = $contract.type; guarantee = $contract.guarantee; knownGaps = @($contract.knownGaps) }
     }
     Add-Check 'base-provenance' 'pass' $null
+
+    # ---- verified change scope: which gate work this pull request may inherit from its base (D28)
+    $inheritable = ($Mode -in @('Architecture', 'Quality')) -or ($Mode -eq 'Specialized' -and $SpecializedGate -eq 'Database')
+    $scope = 'full'
+    $scopeReport = $null
+    if ($HeadRef) {
+        $scopeReport = Join-Path $trustedOutput "change-scope-$($Mode.ToLowerInvariant()).json"
+        $scopeRun = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Get-IFXChangeScope.ps1') @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-HeadRevision', $HeadRef, '-ReportPath', $scopeReport)
+        Write-Host $scopeRun.Output
+        $scopeResult = if ([IO.File]::Exists($scopeReport)) { Get-Content -LiteralPath $scopeReport -Raw | ConvertFrom-Json } else { $null }
+        if ($scopeRun.ExitCode -ne 0 -or $null -eq $scopeResult) { Add-Check 'change-scope' 'fail' "The change scope classification returned exit code $($scopeRun.ExitCode)." @(@($scopeReport) | Where-Object { [IO.File]::Exists($_) }); throw 'Change scope classification failed.' }
+        $scope = [string]$scopeResult.scope
+        Add-Check 'change-scope' 'pass' "$scope. $([string]$scopeResult.reason)" @($scopeReport)
+    }
+    else { Add-Check 'change-scope' 'skipped' 'Without an explicit head there is no verified changed set, so every gate repeats its work.' }
 
     # ---- candidate package: base package files, plus projections regenerated from head authorities after anti-weakening checks
     $usesAuthorities = $Mode -in @('Validate', 'Architecture', 'Specialized')
@@ -218,14 +253,21 @@ try {
     $headGuardBuild = Join-Path $head 'artifacts/build/v3-ifx'
     $headGuardBuildExisted = [IO.Directory]::Exists($headGuardBuild)
     $guardEnvironment['GUARD_BUILD_ROOT'] = $buildRoot
-    $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
-    Write-Host $run.Output
-    $summaryName = switch ($Mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } default { "summary-$($Mode.ToLowerInvariant()).json" } }
-    if (-not $headGuardBuildExisted -and [IO.Directory]::Exists($headGuardBuild)) { Add-Check 'trusted-build-isolation' 'fail' 'Trusted guard build output was written into the head checkout.' }
-    elseif ($headGuardBuildExisted) { Add-Check 'trusted-build-isolation' 'skipped' 'The head checkout already contained guard build output, so isolation could not be observed.' }
-    else { Add-Check 'trusted-build-isolation' 'pass' $null }
-    if ($run.ExitCode -eq 0) { Add-Check 'guardrails' 'pass' $null @((Join-Path $output $summaryName)) }
-    else { Add-Check 'guardrails' 'fail' "Base guardrails returned exit code $($run.ExitCode)." @((Join-Path $output $summaryName)) }
+    if ($inheritable -and $scope -eq 'records-and-plans') {
+        # The inputs of this gate are unchanged between the verified merge base and head, so its base verdict still holds.
+        Add-Check 'trusted-build-isolation' 'skipped' 'The gate inherited its base verdict, so no guard build ran.'
+        Add-Check 'guardrails' 'skipped' "Every changed path is a formal plan document, an authorization record or a decision record, so $Mode$(if ($Mode -eq 'Specialized') { " $SpecializedGate" } elseif ($Mode -eq 'Quality') { " $QualityTarget" }) inherits the verdict of base $BaseSha (D28)." @($scopeReport)
+    }
+    else {
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
+        Write-Host $run.Output
+        $summaryName = switch ($Mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } default { "summary-$($Mode.ToLowerInvariant()).json" } }
+        if (-not $headGuardBuildExisted -and [IO.Directory]::Exists($headGuardBuild)) { Add-Check 'trusted-build-isolation' 'fail' 'Trusted guard build output was written into the head checkout.' }
+        elseif ($headGuardBuildExisted) { Add-Check 'trusted-build-isolation' 'skipped' 'The head checkout already contained guard build output, so isolation could not be observed.' }
+        else { Add-Check 'trusted-build-isolation' 'pass' $null }
+        if ($run.ExitCode -eq 0) { Add-Check 'guardrails' 'pass' $null @((Join-Path $output $summaryName)) }
+        else { Add-Check 'guardrails' 'fail' "Base guardrails returned exit code $($run.ExitCode)." @((Join-Path $output $summaryName)) }
+    }
 }
 catch {
     if (@($checks | Where-Object { $_.status -eq 'fail' }).Count -eq 0) { Add-Check 'trusted-base' 'fail' $_.Exception.Message }

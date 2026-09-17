@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07ci-authorization",
+  "title": "V3 stage-oriented refactor CP07-ci-auth — authorizations for the CI cost controls and the verified change scope",
+  "goal": "Add the change-trusted-base and weaken-policy authorizations that the CP07-ci change PR will consume and record D28, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "A change-trusted-base record covers tcb.activation.ci, tcb.engine.trusted-base and tcb.validation.package-tests, with a parity contract that states the only authorized verdict difference, and a weaken-policy record covers ci/jobs.json and contracts/change-scope.schema.json.",
+    "D28 records the measured per-run cost, the cost controls and the base-owned change scope, and states that the 13 required check names, the job DAG, the trigger semantics and the ruleset stay unchanged; Plan 06 section 17 and the plan pair index both list it.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07ci-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07ci-weaken-policy.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07ci-authorization.md",
+    "docs/guards/plans/20260918-v3-stage-cp07ci-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
