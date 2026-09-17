@@ -5,6 +5,7 @@ param(
     [string] $ReportPath = 'artifacts/guards/v3-ifx/history/summary.json'
 )
 
+# P2.8 negative control: unauthorized trusted component change. Do not merge.
 $ErrorActionPreference = 'Stop'
 $root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
 function Resolve-InRoot([string] $path) {
