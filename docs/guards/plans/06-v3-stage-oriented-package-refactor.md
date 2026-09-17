@@ -832,7 +832,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P6 — LayerGuard 去重与 generic engine / IFX binding 分离
 
-- [ ] P6.1 通过 §12 授权删除 `generated/dotnet/LayerGuard`，改为直接构建运行唯一源码；验证 build/test、policy binding、strict scan、正反 fixture、CI 调用路径和恢复。
+- [x] P6.1 通过 §12 授权删除 `generated/dotnet/LayerGuard`，改为直接构建运行唯一源码；验证 build/test、policy binding、strict scan、正反 fixture、CI 调用路径和恢复。 证据：CP07a-prep（PR #58 → #59）先让 base-owned 绑定测试不依赖副本深度；CP07a 以 `delete`、`change-trusted-base` 与 `weaken-policy` 三条正交授权删除副本（174 个文件），`Invoke-IFX.ps1` 直接构建、测试、扫描 `templates/ifx-layerguard/`；`Test-IFXPackage.ps1` 覆盖隔离 build/test、policy binding、L2.2 strict scan 负向、只读 Generate 与源码清单、TCB 覆盖、fixture 对应的负向用例；CI 调用路径由 `v3-architecture` 与保留的 Generate/Check 调用验证；恢复需要新的授权，副本重新出现时 Check 失败（D26）。
 - [ ] P6.2 参数化 runtime role 和 IFX project/type names，移入 IFX policy/fixtures；通用测试改用 synthetic fixture。
 - [ ] P6.3 分离通用检测引擎与 IFX policy binding。
 - [ ] P6.4 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。

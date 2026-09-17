@@ -15,12 +15,16 @@ $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $target = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else {
     [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..'))
 }
+# Plan 06 P6.1 (CP07a, D26): the Architecture Conformance Gate builds, tests and scans its single source tree directly;
+# the retired generated copy must not come back.
 $template = Join-Path $packageRoot 'templates/ifx-layerguard'
-$generated = Join-Path $packageRoot 'generated/dotnet/LayerGuard'
+$retiredCopy = Join-Path $packageRoot 'generated/dotnet/LayerGuard'
 $policy = Join-Path $packageRoot 'policy/layerguard.json'
 $baseline = Join-Path $packageRoot 'policy/baselines/plan05.json'
-$solution = Join-Path $generated 'LayerGuard.slnx'
-$project = Join-Path $generated 'src/LayerGuard/LayerGuard.csproj'
+$solution = Join-Path $template 'LayerGuard.slnx'
+$project = Join-Path $template 'src/LayerGuard/LayerGuard.csproj'
+$testProject = Join-Path $template 'tests/LayerGuard.Tests/LayerGuard.Tests.csproj'
+$fixturesRoot = Join-Path $template 'tests/fixtures'
 
 function Get-SourceFiles {
     $files = @(Get-ChildItem -LiteralPath $template -Recurse -File | Sort-Object FullName)
@@ -87,54 +91,64 @@ function Assert-Inputs {
     [void] (Get-SourceFiles)
 }
 
-function Assert-Generated {
-    if (-not [IO.Directory]::Exists($generated)) { throw "Generated .NET project is missing: $generated" }
-    $expected = @(Get-SourceFiles | ForEach-Object { [IO.Path]::GetRelativePath($template, $_.FullName).Replace('\', '/') })
-    foreach ($relative in $expected) {
-        $source = Join-Path $template $relative
-        $destination = Join-Path $generated $relative
-        if (-not [IO.File]::Exists($destination)) { throw "Generated file is missing: $relative" }
-        $left = [IO.File]::ReadAllBytes($source)
-        $right = [IO.File]::ReadAllBytes($destination)
-        if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $left, [byte[]] $right)) {
-            throw "Generated file drift: $relative"
-        }
+function Get-TemplateRelative([string] $Path) { return [IO.Path]::GetRelativePath($template, $Path).Replace('\', '/') }
+
+function Assert-Source {
+    # Check and Generate verify the single source tree instead of comparing a copy.
+    if ([IO.Directory]::Exists($retiredCopy)) { throw "The retired generated LayerGuard copy exists again: $retiredCopy. Build from templates/ifx-layerguard (Plan 06 P6.1)." }
+    $files = @(Get-SourceFiles | Where-Object { (Get-TemplateRelative $_.FullName) -notmatch '(^|/)(bin|obj)/' })
+
+    # Source manifest: the solution names exactly the engine and test projects, and the test project references the engine.
+    [xml] $solutionXml = [IO.File]::ReadAllText($solution)
+    $declared = @($solutionXml.SelectNodes('//Project') | ForEach-Object { ([string] $_.Path).Replace('\', '/') } | Sort-Object -Unique)
+    $actual = @($files | Where-Object { $_.Extension -eq '.csproj' } | ForEach-Object { Get-TemplateRelative $_.FullName } | Where-Object { -not $_.StartsWith('tests/fixtures/', [StringComparison]::Ordinal) } | Sort-Object -Unique)
+    if (($declared -join "`n") -cne ($actual -join "`n")) { throw "LayerGuard.slnx projects differ from the source tree. Declared: $($declared -join ', '); found: $($actual -join ', ')" }
+    foreach ($required in @($project, $testProject)) {
+        if ((Get-TemplateRelative $required) -notin $declared) { throw "LayerGuard.slnx does not declare $(Get-TemplateRelative $required)" }
     }
-    $actual = @(Get-ChildItem -LiteralPath $generated -Recurse -File | ForEach-Object {
-        [IO.Path]::GetRelativePath($generated, $_.FullName).Replace('\', '/')
-    } | Where-Object { $_ -notmatch '(^|/)(bin|obj)/' })
-    $extra = @($actual | Where-Object { $_ -notin $expected })
-    if ($extra.Count -gt 0) { throw "Unexpected generated files: $($extra -join ', ')" }
+    [xml] $testXml = [IO.File]::ReadAllText($testProject)
+    $references = @($testXml.SelectNodes('//ProjectReference') | ForEach-Object { [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $testProject) (([string] $_.Include).Replace('\', '/')))) })
+    if ([IO.Path]::GetFullPath($project) -notin $references) { throw 'LayerGuard.Tests does not reference the LayerGuard engine project.' }
+
+    # Every source file belongs to a trusted component, so no engine or test file escapes base-owned validation.
+    $manifest = Get-Content -LiteralPath (Join-Path $packageRoot 'shared/trusted-components.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 50
+    $componentPaths = @($manifest.components | Where-Object { $_.status -eq 'active' } | ForEach-Object { $_.paths })
+    foreach ($file in $files) {
+        $repositoryPath = 'docs/guards/V3_ifx/templates/ifx-layerguard/' + (Get-TemplateRelative $file.FullName)
+        $covered = @($componentPaths | Where-Object { $repositoryPath -ceq $_ -or ($_.EndsWith('/') -and $repositoryPath.StartsWith($_, [StringComparison]::Ordinal)) }).Count -gt 0
+        if (-not $covered) { throw "LayerGuard source file is outside the trusted component manifest: $repositoryPath" }
+    }
+
+    # Fixtures: every fixture the tests name exists as a project fixture, and no fixture directory is orphaned.
+    $fixtureSource = [IO.File]::ReadAllText((Join-Path $template 'tests/LayerGuard.Tests/Fixtures.cs'))
+    $named = @([Regex]::Matches($fixtureSource, 'public const string (\w+) = "(\w+)";') | ForEach-Object { $_.Groups[2].Value } | Sort-Object -Unique)
+    if ($named.Count -eq 0) { throw 'LayerGuard.Tests names no fixtures.' }
+    $directories = @(if ([IO.Directory]::Exists($fixturesRoot)) { Get-ChildItem -LiteralPath $fixturesRoot -Directory | ForEach-Object Name | Sort-Object -Unique })
+    if (($named -join "`n") -cne ($directories -join "`n")) { throw "LayerGuard fixtures differ from the fixtures the tests name. Named: $($named -join ', '); found: $($directories -join ', ')" }
+    foreach ($name in $named) {
+        if (@(Get-ChildItem -LiteralPath (Join-Path $fixturesRoot $name) -Recurse -File | Where-Object { $_.Extension -in @('.csproj', '.slnx', '.sln') }).Count -eq 0) { throw "LayerGuard fixture has no project: $name" }
+    }
 }
 
 $sync = Join-Path $PSScriptRoot 'Sync-IFXPolicyInputs.ps1'
 if (-not $SkipAuthorityCheck) {
-    & $sync -Mode $(if ($Mode -eq 'Generate') { 'Generate' } else { 'Check' }) -TargetRoot $target
+    # Generate is read-only since P6.1, so policy projections are only checked here.
+    & $sync -Mode Check -TargetRoot $target
 }
 Assert-Inputs
 if ($Mode -eq 'Validate') { Write-Host 'IFX gate inputs are present and locally bound.'; exit 0 }
-if ($Mode -eq 'Generate') {
-    foreach ($file in Get-SourceFiles) {
-        $relative = [IO.Path]::GetRelativePath($template, $file.FullName)
-        $destination = Join-Path $generated $relative
-        [void] [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination))
-        [IO.File]::WriteAllBytes($destination, [IO.File]::ReadAllBytes($file.FullName))
-    }
-}
+Assert-Source
 if ($Mode -in @('Generate', 'Check')) {
-    Assert-Generated
-    Write-Host "IFX .NET gate matches local templates: $generated"
+    # Generate stays callable for the active workflow during the transition, but writes nothing (D26).
+    Write-Host "IFX .NET gate source verified ($Mode, read-only): $template"
     exit 0
 }
-# Byte identity with the template is owned by Check (and Generate); Test and Scan build the generated copy as it is, so a
-# candidate check that overlays base-owned template tests does not fail on the overlay itself (CP07a-prep, D26).
 
 $buildModule = @((Join-Path $packageRoot 'build/GuardBuild.psm1'), (Join-Path $packageRoot '../V3/build/GuardBuild.psm1')) |
     Where-Object { [IO.File]::Exists($_) } | Select-Object -First 1
 if (-not $buildModule) { throw 'V3 build baseline (build/GuardBuild.psm1) is missing.' }
 Import-Module $buildModule -Force
 $packageId = [IO.Path]::GetFileName($packageRoot).ToLowerInvariant().Replace('_', '-')
-$testProject = Join-Path $generated 'tests/LayerGuard.Tests/LayerGuard.Tests.csproj'
 
 $oldAppData = [Environment]::GetEnvironmentVariable('APPDATA', 'Process')
 try {
@@ -159,7 +173,7 @@ try {
         $oldTarget = [Environment]::GetEnvironmentVariable('GUARD_TARGET_ROOT', 'Process')
         $oldPackageRoot = [Environment]::GetEnvironmentVariable('LAYERGUARD_PACKAGE_ROOT', 'Process')
         try {
-            $env:LAYERGUARD_FIXTURES_ROOT = Join-Path $generated 'tests/fixtures'
+            $env:LAYERGUARD_FIXTURES_ROOT = $fixturesRoot
             # Policy binding tests analyze the target's src/, which is not next to a package copy run from outside it.
             $env:GUARD_TARGET_ROOT = $target
             # Binding tests read the package policy; the root is passed so the test source may move (Plan 06 P6.1).

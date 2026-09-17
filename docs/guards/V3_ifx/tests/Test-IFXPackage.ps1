@@ -62,6 +62,25 @@ foreach ($phase in @('LayerGuard.imports.pre-build.json', 'LayerGuard.Tests.impo
     if (-not [IO.File]::Exists($importReport) -or (Get-Content -LiteralPath $importReport -Raw | ConvertFrom-Json).status -ne 'pass') { throw "Guard import allowlist evidence is missing or failing: $phase" }
 }
 
+# Plan 06 P6.1 (D26): Generate is read-only, and Check verifies the single LayerGuard source tree.
+$templateRoot = Join-Path $fixture 'docs/guards/V3_ifx/templates/ifx-layerguard'
+$retiredCopy = Join-Path $fixture 'docs/guards/V3_ifx/generated/dotnet/LayerGuard'
+$generate = @(& pwsh @arguments -Mode Generate -TargetRoot $fixture 2>&1)
+if ($LASTEXITCODE -ne 0 -or [IO.Directory]::Exists($retiredCopy)) { throw "IFX Generate is not read-only or failed: $($generate -join ' | ')" }
+function Assert-CheckFails([string] $Label, [scriptblock] $Mutate, [string] $Cleanup, [string] $ExpectText) {
+    & $Mutate
+    try {
+        $output = @(& pwsh @arguments -Mode Check -TargetRoot $fixture 2>&1)
+        if ($LASTEXITCODE -eq 0 -or -not (($output -join ' ') -replace '\s+', ' ').Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
+    }
+    finally { if (Test-Path -LiteralPath $Cleanup) { Remove-Item -LiteralPath $Cleanup -Recurse -Force } }
+}
+function Write-FixtureFile([string] $Path, [string] $Text) { [void] [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path)); [IO.File]::WriteAllText($Path, $Text) }
+Assert-CheckFails 'a recreated generated copy' { Write-FixtureFile (Join-Path $retiredCopy 'LayerGuard.slnx') '<Solution />' } (Join-Path $fixture 'docs/guards/V3_ifx/generated/dotnet') 'The retired generated LayerGuard copy exists again'
+Assert-CheckFails 'an undeclared project' { Write-FixtureFile (Join-Path $templateRoot 'tests/Extra.Tests/Extra.Tests.csproj') '<Project />' } (Join-Path $templateRoot 'tests/Extra.Tests') 'LayerGuard.slnx projects differ from the source tree'
+Assert-CheckFails 'an orphaned fixture' { Write-FixtureFile (Join-Path $templateRoot 'tests/fixtures/Orphan/Orphan.Domain/Orphan.Domain.csproj') '<Project />' } (Join-Path $templateRoot 'tests/fixtures/Orphan') 'LayerGuard fixtures differ from the fixtures the tests name'
+Assert-CheckFails 'a source file outside the trusted component manifest' { Write-FixtureFile (Join-Path $templateRoot 'NOTES.md') 'untracked' } (Join-Path $templateRoot 'NOTES.md') 'LayerGuard source file is outside the trusted component manifest'
+
 $qualityRunner = [IO.File]::ReadAllText((Join-Path $package 'quality/Invoke-IFXQuality.ps1'))
 $requiredQualityGates = @(
     '-warnaserror:NU1603',
@@ -123,5 +142,5 @@ $data.bindings.moduleManifest.path = 'deployment/g04/module-manifest.json'
 $invalidBinding = @(& pwsh @arguments -Mode Validate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -eq 0) { throw 'IFX package accepted a binding outside its local policy tree.' }
 
-Write-Host "IFX isolated positive, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
+Write-Host "IFX isolated positive, read-only Generate, source Check negatives, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
 $global:LASTEXITCODE = 0
