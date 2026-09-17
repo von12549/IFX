@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp07a-prep-authorization",
+  "title": "V3 stage-oriented refactor CP07a-prep-auth — change-trusted-base authorization for the binding test package root",
+  "goal": "Add the base change-trusted-base authorization that the CP07a-prep change PR will consume, and record D26 with the CP07 split, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "The authorization record is schema-valid and generated from the prepared CP07a-prep revision, listing its trusted component paths, base and head tuples and base validation suites.",
+    "D26 records the CP07a-prep, CP07a, CP07b and CP07c split, the Generate and Check transition and the mcp/LayerGuard scope; Plan 06 section 17 and the plan pair index both list it.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07a-prep-binding-root.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp07a-prep-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp07a-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json"
+  ]
+}

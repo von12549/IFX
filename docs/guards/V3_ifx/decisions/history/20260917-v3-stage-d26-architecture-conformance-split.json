@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d26-architecture-conformance-split",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P6 is delivered as CP07a-prep, CP07a (P6.1), CP07b (P6.2 and P6.3) and CP07c (P6.4 to P6.6), each as an exact-candidate authorization pull request followed by its consuming change pull request. CP07a-prep makes GatePolicyBindingTests resolve the package root from LAYERGUARD_PACKAGE_ROOT, set by Invoke-IFX.ps1 and stripped from isolated trusted base processes, or otherwise from the nearest directory above the fixtures that holds policy/layerguard.json, identically in the template and the generated copy, so that the base-owned tests of the next base work from the template location; Invoke-IFX.ps1 Test and Scan stop re-checking byte identity with the template, which Check and Generate keep enforcing, because candidate verification overlays only the base-owned template tests and would otherwise report its own overlay as drift. CP07a builds, tests and scans templates/ifx-layerguard directly and deletes generated/dotnet/LayerGuard. During the transition Invoke-IFX.ps1 keeps its Generate and Check modes and the active workflow calls: Generate becomes read-only and must never recreate the deleted tree, and Check performs substantive source-manifest, trusted component coverage, policy-binding and fixture checks; neither emits the formal DEPRECATED wrapper message before CP07c establishes the replacement in P6.4. P9 removes the calls only from the candidate workflow, and active workflow cleanup follows P11.4 and P11.5. mcp/LayerGuard stays out of P6: it is an out-of-scope legacy MCP project bound to historical integrity and cutover preservation, and any later deduplication needs a separate decision and plan.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/generated/**",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/**",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/V3_ifx/shared/**",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/architecture/**",
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "The generated LayerGuard copy duplicates 174 protected trusted component files, and removing it is a protected deletion that must be authorized exactly. Building from the template exposed that GatePolicyBindingTests located the policy by a fixed number of parent directories that only matched the generated layout; because those tests are base-owned, candidate verification of the deletion would run the previous base's version against the template and fail, so the path resolution has to reach base first (expand before contract). Keeping Generate and Check callable avoids an activation change during the transition, while making Generate read-only and Check substantive keeps them meaningful after the copy is gone. The deprecation message belongs to the point where a replacement exists. mcp/LayerGuard carries historical baselines under cutover preservation and is not the duplicate Plan 06 counts. The user approved the split, the Generate and Check qualifications and the mcp/LayerGuard scope on 2026-09-17, and approved inserting CP07a-prep after the overlay conflict was found. Refines D12 and D23."
+}

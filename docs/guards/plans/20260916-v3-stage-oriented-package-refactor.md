@@ -47,6 +47,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | D23 | 保护义务模型、CP06 拆分与绑定报告（P4 补充） | `20260917-v3-stage-d23-protected-change-obligations.json` | §12.2–§12.4、§14 P4、§17 D23 |
 | D24 | policy/config 双轨、`weaken-policy` 与 CP06b 拆分（P4 补充） | `20260917-v3-stage-d24-policy-config-dual-track.json` | §12.4、§12.6、§14 P4.3、§17 D24 |
 | D25 | D18 domain authority 的 `weaken-policy` 覆盖（P4 补充） | `20260917-v3-stage-d25-domain-authority-coverage.json` | §12.4、§12.6、§14 P4.3、§17 D25 |
+| D26 | Architecture Conformance 拆分、Generate/Check 过渡与 `mcp/LayerGuard` 范围（P6 补充） | `20260917-v3-stage-d26-architecture-conformance-split.json` | §14 P6、§17 D26、D12 |
 
 每条记录的 `affectedPaths` 覆盖该决策未来会影响的路径，使后续检查点的 Pre 风险覆盖检查可以直接引用。decision schema 只允许 `summary` 与 `rationale` 两个文本字段，完整论证以 Plan 06 与 Review 为准。
 
@@ -70,9 +71,12 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP06b1 | P4 | policy/config 注册表（editable policy、trust/meta-policy、derived projection 精确 target、排除授权目录）、零比较器 `policy-weakening` 义务与 `weaken-policy`、`.gitattributes` 根指针通道、head 候选验证（schema、profile、history manifest、projection、monotonicity 声明）、移除旧消费变量（D24；activation exception） | 无 | `change-trusted-base`：CP06b1-auth → CP06b1-change | CP06a | 已完成（PR #50 `8086c96` → #51 `1d073ee`） |
 | CP06b2 | P4 | D18 domain authority 覆盖：base verifier 针对明确 PR head SHA 重新计算 `weaken-policy` 覆盖，报告绑定 base/merge-base/head 与 registry/schema hash；此前 D18 blocking findings 失败关闭 | 无 | `change-trusted-base` 与 `weaken-policy`：CP06b2-auth → CP06b2-change（验证 CP06b1 新规则生效） | CP06b1 | 已完成（PR #52 `f6fae63` → #53 `3edb78a`；首个同时消费 `change-trusted-base` 与 `weaken-policy` 的 PR） |
 | CP06c | P4 | 临时仓库两 PR 演练（`move`、`weaken-policy`、`change-trusted-base`）与证据、ruleset `strict` 断言证据、`Test-V3.ps1` parity 检查 | 无 | `change-trusted-base`：CP06c-auth → CP06c-change | CP06b2 | 已完成（PR #54 `0c523df` → #55 `1e12167`；证据 `docs/architecture/review/evidence/guards/p4-rehearsal-20260917.md`） |
-| CP06d | P4 | 第一次真实受保护删除：D17 四个 Plan04 阶段校验脚本（`delete` 与 `change-trusted-base` 正交授权） | 有 | CP06d-auth → CP06d-change | CP06c | 已完成，待 PR 合入（`20260917-v3-stage-cp06d-authorization` → `20260917-v3-stage-cp06d-d17-validator-retirement`） |
-| CP07 | P6 | LayerGuard 去重、IFX binding 剥离、engine 进入 V3、trust contract | 有 | 按变更拆分：删除生成副本、binding 剥离、engine 移动各自 auth → change | CP06d | 未开始 |
-| CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07 | 未开始 |
+| CP06d | P4 | 第一次真实受保护删除：D17 四个 Plan04 阶段校验脚本（`delete` 与 `change-trusted-base` 正交授权） | 有 | CP06d-auth → CP06d-change | CP06c | 已完成（PR #56 `b6dfacd` → #57 `7871439`；第一次真实受保护删除） |
+| CP07a-prep | P6（前置） | `GatePolicyBindingTests` 的 package root 改为由 runner 传入或向上寻找 policy，使 base-owned 测试可从模板位置运行（D26，expand） | 无 | `change-trusted-base`：CP07a-prep-auth → CP07a-prep-change | CP06d | 进行中（`20260917-v3-stage-cp07a-prep-authorization`、`20260917-v3-stage-cp07a-prep-binding-root`） |
+| CP07a | P6.1 | 直接构建运行 `templates/ifx-layerguard`，删除 `generated/dotnet/LayerGuard`；Generate 只读、Check 做源码清单、TCB 覆盖、policy 绑定与 fixture 检查 | 有 | `delete`、`change-trusted-base` 与 `weaken-policy`：CP07a-auth → CP07a-change | CP07a-prep | 未开始 |
+| CP07b | P6.2–P6.3 | runtime role 与 IFX project/type names 移入 IFX policy/fixtures，通用测试改用 synthetic fixture，分离通用检测引擎与 IFX binding | 无 | CP07b-auth → CP07b-change | CP07a | 未开始 |
+| CP07c | P6.4–P6.6 | 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`，混合型 trust contract，policy composite hash、report、失败类别与 check 名称不变的证明 | 有 | CP07c-auth → CP07c-change | CP07b | 未开始 |
+| CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07c | 未开始 |
 | CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 可能（analysis 运行输出迁出） | 涉及受保护移动/删除时：auth → change | CP08 | 未开始 |
 | CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 | 未开始 |
 | CP11 | P10 | 按 Plan 06 §13 分组物理迁移、V3_backup 删除、兼容 wrapper | 有 | 每个迁移分组 auth → change | CP10 | 未开始 |
