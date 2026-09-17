@@ -778,13 +778,14 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P3 — 通用 Diff 加固合回 V3
 
-- [ ] P3.0 本阶段对 Diff engine/template 的修改按 §11.5 作为 TCB 候选升级，使用 base-owned validation/parity；非等价语义变化消费 `change-trusted-base` 授权。
-- [ ] P3.1 将 merge-base 校验和 empty-diff fail-closed 合回 V3 模板。
-- [ ] P3.2 将受保护路径从通用 C# 模板参数化到 Diff 配置（V3_ifx `stages/diff/protection.json` 或等价旧路径位置），并由 trusted base 加载。
-- [ ] P3.3 以明确决策统一 `Test-V3.ps1` 的 NuGet 源配置分叉（V3 离线 `NuGet.Offline.Config` 与 V3_ifx nuget.org `NuGet.Test.Config`），与 V3 `build/NuGet.config` 保持一致。
-- [ ] P3.4 在 V3 补齐正反例和 Linux/Windows 测试。
-- [ ] P3.5 证明 V3 Diff 与 V3_ifx 当前 Diff 等价或更强；此阶段不删除 V3_ifx 副本（见 P7.5）。
+- [x] P3.0 本阶段对 Diff engine/template 的修改按 §11.5 作为 TCB 候选升级，使用 base-owned validation/parity；非等价语义变化消费 `change-trusted-base` 授权。 证据：本 PR 消费 base 中的 `stages/diff/authorizations/cp05-p3-diff-hardening.json`（CP05-auth），`v3-cross-platform-ubuntu-latest` 的候选验证运行 base-owned validation 与 parity，`v3-pre-diff` 以 `consumed-authorization` 接受记录删除（D20）。
+- [x] P3.1 将 merge-base 校验和 empty-diff fail-closed 合回 V3 模板。 证据：`docs/guards/V3/templates/dotnet/GuardTests.cs.in` 验证 base/head commit、从 merge base 比较，changed set 为空时失败；`Test-V3.ps1` 的 committed 与空 diff 用例。
+- [x] P3.2 将受保护路径从通用 C# 模板参数化到 Diff 配置（V3_ifx `stages/diff/protection.json` 或等价旧路径位置），并由 trusted base 加载。 证据：`stages/diff/protection.json` 与 `contracts/protection.schema.json`；`Invoke-V3.ps1 -ProtectionPath`（默认 package 配置，Diff 阶段校验后设置 `GUARD_PROTECTION_PATH`），trusted base runner 从 base 包副本加载；`v3-pre-diff` trust contract 增加 base 输入；V3 与 V3_ifx 模板不含 IFX 路径。
+- [x] P3.3 以明确决策统一 `Test-V3.ps1` 的 NuGet 源配置分叉（V3 离线 `NuGet.Offline.Config` 与 V3_ifx nuget.org `NuGet.Test.Config`），与 V3 `build/NuGet.config` 保持一致。 证据：D21（`20260917-v3-stage-d21-test-v3-nuget-source.json`）；两份 `Test-V3.ps1` 逐字节相同，经 V3 `build/NuGet.config` restore。
+- [x] P3.4 在 V3 补齐正反例和 Linux/Windows 测试。 证据：`Test-V3.ps1` 新增 11 个 Diff 正反例（committed、空 diff、非法配置、受保护删除与重命名、无配置、授权消费及其 4 个负例）；两份逐字节相同，V3_ifx 副本已在 `v3-cross-platform` 的 Linux/Windows 运行；V3 副本登记为 `tcb.validation.v3-package-tests`（`Test-V3.ps1` parity 检查随 CP06 加入，见 CP05 pair §3）。
+- [x] P3.5 证明 V3 Diff 与 V3_ifx 当前 Diff 等价或更强；此阶段不删除 V3_ifx 副本（见 P7.5）。 证据：V3_ifx 与 V3 的 `templates/dotnet`、`scripts/Invoke-V3.ps1` 逐字节相同，由 `Invoke-IFXManifestCheck.ps1` 强制（`Test-IFXManifests.ps1` 负例）；`protection.json` 条目与原硬编码列表逐项相同；`Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 在配置化模板下通过；V3_ifx 副本保留至 P7.5。
 - **门槛**：V3 具备 V3_ifx 全部通用加固，通用模板中不含 IFX 路径。
+- **结果**：门槛通过（本地；CI 以本 PR 验证）。V3 模板具备 merge-base 校验、空 diff 失败关闭、受保护删除/重命名与 D20 授权消费；保护路径与授权目录由 Diff 配置提供，模板中不含 IFX 路径；V3_ifx 模板与 V3 逐字节相同；本阶段作为第一个常规两 PR TCB 变更（CP05-auth → CP05）完成。
 
 ### P4 — 受保护变更授权与 policy/config 双轨验证
 

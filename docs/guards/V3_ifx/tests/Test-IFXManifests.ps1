@@ -53,7 +53,7 @@ try {
     # Domain authority files are target data read by the registry lint (Plan 06 D18).
     $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
     foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
-    foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests')) {
+    foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts')) {
         foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repository $root) -Recurse -File) {
             $relative = [IO.Path]::GetRelativePath($repository, $file.FullName).Replace([IO.Path]::DirectorySeparatorChar, '/')
             if ($relative -match '(^|/)(bin|obj)/') { continue }
@@ -97,6 +97,13 @@ try {
     Invoke-Case 'unregistered projection source fails' 1 $authorities { param($d) $d.domainAuthorities = @($d.domainAuthorities | Where-Object { $_.id -ne 'g04-failure-matrix' }) } 'Policy projection source is not a registered domain authority: deployment/g04/failure-matrix.json'
     Invoke-Case 'wildcard pointer without an array key fails' 1 $authorities { param($d) $a = @($d.domainAuthorities | Where-Object { $_.id -eq 'g04-dependency-criticality' })[0]; $a.Remove('arrayKeys') } 'needs an arrayKeys entry for /dependencies'
     Invoke-Case 'array key that is not unique fails' 1 $authorities { param($d) @($d.domainAuthorities | Where-Object { $_.id -eq 'g04-dependency-criticality' })[0].arrayKeys[0].key = 'criticality' } "arrayKeys /dependencies is not an array of objects with a unique string 'criticality'"
+    Invoke-Case 'invalid Diff protection configuration fails' 1 'docs/guards/V3_ifx/stages/diff/protection.json' { param($d) $d.protectedPaths = @('../outside') } 'Schema validation failed: docs/guards/V3_ifx/stages/diff/protection.json'
+    $protectionFixture = Join-Path $fixture 'docs/guards/V3_ifx/stages/diff/protection.json'
+    $protectionBytes = [IO.File]::ReadAllBytes($protectionFixture)
+    try { Invoke-Case 'missing Diff protection configuration fails' 1 $null { [IO.File]::Delete($protectionFixture) } 'Diff protection configuration is missing' }
+    finally { [IO.File]::WriteAllBytes($protectionFixture, $protectionBytes) }
+    Invoke-Case 'stage gate template diverging from V3 fails' 1 'docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in' { param($p) [IO.File]::AppendAllText($p, "// divergence`n") } 'V3 fork copy diverges from V3: docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in'
+    Invoke-Case 'runner diverging from V3 fails' 1 'docs/guards/V3_ifx/scripts/Invoke-V3.ps1' { param($p) [IO.File]::AppendAllText($p, "# divergence`n") } 'V3 fork copy diverges from V3: docs/guards/V3_ifx/scripts/Invoke-V3.ps1'
     Write-Host 'IFX manifest tests passed.'
 }
 finally {

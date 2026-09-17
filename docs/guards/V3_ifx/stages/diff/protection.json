@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "protectedPaths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "mcp/LayerGuard/",
+    "docs/guards/plans/",
+    "docs/guards/V3/",
+    "docs/guards/V3_backup/",
+    "docs/guards/V3_ifx/"
+  ],
+  "authorizationDirectory": "docs/guards/V3_ifx/stages/diff/authorizations/"
+}

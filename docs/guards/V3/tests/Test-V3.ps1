@@ -11,10 +11,17 @@ $runner = Join-Path $package 'scripts/Invoke-V3.ps1'
 $output = 'docs/guards/V3/generated/dotnet'
 if (-not $fixture.StartsWith($fixtureParent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture path.' }
 
+$protectionFile = Join-Path $fixtureParent "v3-protection-$([Guid]::NewGuid().ToString('N')).json"
+
 function Assert-Run {
-    param([int] $Expected, [string[]] $Arguments, [string] $Label)
+    param([int] $Expected, [string[]] $Arguments, [string] $Label, [string] $ExpectText)
     $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -OutputDirectory $output -LockMode Update -LockRoot (Join-Path $fixture 'locks') @Arguments 2>&1)
     if ($LASTEXITCODE -ne $Expected) { throw "$Label expected exit $Expected, got ${LASTEXITCODE}: $($result -join ' | ')" }
+    if ($ExpectText -and -not (($result -join ' ') -replace '\s+', ' ').Contains($ExpectText, [StringComparison]::Ordinal)) { throw "$Label did not report '$ExpectText': $($result -join ' | ')" }
+}
+function Invoke-FixtureGit {
+    & git -C $fixture @args
+    if ($LASTEXITCODE -ne 0) { throw "git $($args -join ' ') failed in the fixture." }
 }
 
 $passed = $false
@@ -23,10 +30,13 @@ try {
     [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'docs/plans'))
     Copy-Item -LiteralPath (Join-Path $package 'examples/minimal') -Destination $profile -Recurse
     [IO.File]::WriteAllText((Join-Path $fixture '.gitignore'), "docs/guards/V3/generated/`nartifacts/`n")
-    [IO.File]::WriteAllText((Join-Path $fixture 'NuGet.Offline.Config'), '<configuration><packageSources><clear /></packageSources></configuration>')
     $projectFile = Join-Path $fixture 'src/App/App.csproj'
     $good = '<Project><ItemGroup><ProjectReference Include="../Core/Core.csproj" /></ItemGroup></Project>'
     $bad = '<Project><ItemGroup><ProjectReference Include="../Legacy/Legacy.csproj" /></ItemGroup></Project>'
+    [void] [IO.Directory]::CreateDirectory((Join-Path $fixture 'src/App/Guarded/authorizations'))
+    [IO.File]::WriteAllText((Join-Path $fixture 'src/App/Guarded/keep.txt'), 'protected')
+    [IO.File]::WriteAllText((Join-Path $fixture 'src/App/Guarded/authorizations/sample.json'), '{}')
+    [IO.File]::WriteAllText((Join-Path $fixture 'src/App/Guarded/authorizations/other.json'), '{}')
     [IO.File]::WriteAllText($projectFile, $good)
     Assert-Run 0 @('-Mode', 'Validate') 'validate synthetic profile'
     $sampleRule = Join-Path $profile 'rules/ARCH.SAMPLE.json'
@@ -52,21 +62,21 @@ try {
     Remove-Item -LiteralPath (Join-Path $profile 'rules/ARCH.UNCOVERED.json') -Force
     Assert-Run 1 @('-Mode', 'Check') 'removed rule leaves stale snapshot'
     Assert-Run 0 @('-Mode', 'Generate') 'regenerate removes stale rule snapshot'
-    Assert-Run 0 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'allowed project reference and detector fixtures'
+    Assert-Run 0 @('-Mode', 'Test') 'allowed project reference and detector fixtures'
     $ruleData = Get-Content -LiteralPath $sampleRule -Raw | ConvertFrom-Json -AsHashtable
     $ruleData.sourcePattern = 'src/Never/**/*.csproj'
     [IO.File]::WriteAllText($sampleRule,($ruleData | ConvertTo-Json -Depth 20))
     Assert-Run 0 @('-Mode', 'Generate') 'generate unmatched-source rule'
-    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'unmatched-source rule cannot pass'
+    Assert-Run 1 @('-Mode', 'Test') 'unmatched-source rule cannot pass'
     $ruleData.sourcePattern = 'src/**/*.csproj'
     $ruleData.negativeFixture.referenceInclude = '../Core/Core.csproj'
     [IO.File]::WriteAllText($sampleRule,($ruleData | ConvertTo-Json -Depth 20))
     Assert-Run 0 @('-Mode', 'Generate') 'generate ineffective negative fixture'
-    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'ineffective negative fixture cannot pass'
+    Assert-Run 1 @('-Mode', 'Test') 'ineffective negative fixture cannot pass'
     [IO.File]::WriteAllText($sampleRule, $originalRule)
     Assert-Run 0 @('-Mode', 'Generate') 'restore effective rule'
     [IO.File]::WriteAllText($projectFile, $bad)
-    Assert-Run 1 @('-Mode', 'Test', '-NuGetConfig', 'NuGet.Offline.Config') 'forbidden project reference'
+    Assert-Run 1 @('-Mode', 'Test') 'forbidden project reference'
     [IO.File]::WriteAllText($projectFile, $good)
 
     Assert-Run 0 @('-Mode', 'Pre', '-PlannedPaths', 'src/App/Program.cs') 'ordinary summary Pre'
@@ -120,9 +130,54 @@ try {
     }
     finally { Pop-Location }
     [IO.File]::AppendAllText($projectFile, "`n<!-- planned -->")
-    Assert-Run 0 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-NuGetConfig', 'NuGet.Offline.Config') 'planned diff'
+    Assert-Run 0 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD') 'planned diff'
     [IO.File]::WriteAllText((Join-Path $fixture 'src/Unplanned.cs'), 'class Unplanned {}')
-    Assert-Run 1 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-NuGetConfig', 'NuGet.Offline.Config') 'out-of-plan diff'
+    Assert-Run 1 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD') 'out-of-plan diff'
+    [IO.File]::Delete((Join-Path $fixture 'src/Unplanned.cs'))
+
+    # Plan 06 P3.1/P3.2: committed ranges use the verified merge base, an empty changed set fails closed, and protected
+    # paths and consumable authorization records come from the Diff protection configuration.
+    [IO.File]::WriteAllText($protectionFile, '{"formatVersion":1,"protectedPaths":["src/App/Guarded/"],"authorizationDirectory":"src/App/Guarded/authorizations/"}')
+    $guarded = @('src/App/Guarded/keep.txt', 'src/App/Guarded/keep-renamed.txt', 'src/App/Guarded/authorizations/sample.json', 'src/App/Guarded/authorizations/other.json')
+    $planData.plannedPaths = @('src/App/App.csproj') + $guarded
+    [IO.File]::WriteAllText($planFile, ($planData | ConvertTo-Json -Depth 20))
+    Invoke-FixtureGit add -A
+    Invoke-FixtureGit commit -qm 'planned change'
+    $protected = @('-ProtectionPath', $protectionFile)
+    Assert-Run 0 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'committed planned diff'
+    Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD', '-HeadRef', 'HEAD') + $protected) 'empty committed diff fails closed' 'Diff changed set is empty'
+    [IO.File]::WriteAllText($protectionFile, '{"formatVersion":1,"protectedPaths":["../outside"]}')
+    Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'invalid protection configuration fails' '/protectedPaths/0'
+    [IO.File]::WriteAllText($protectionFile, '{"formatVersion":1,"protectedPaths":["src/App/Guarded/"],"authorizationDirectory":"src/App/Guarded/authorizations/"}')
+
+    [IO.File]::Delete((Join-Path $fixture 'src/App/Guarded/keep.txt'))
+    Invoke-FixtureGit commit -qam 'delete protected file'
+    Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'protected deletion fails' 'Protected guard deletions: src/App/Guarded/keep.txt'
+    Assert-Run 0 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') 'without protection configuration nothing is protected'
+    Invoke-FixtureGit reset -q --hard HEAD~1
+    Invoke-FixtureGit mv src/App/Guarded/keep.txt src/App/Guarded/keep-renamed.txt
+    Invoke-FixtureGit commit -qm 'rename protected file'
+    Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'protected rename fails' 'Protected guard deletions: src/App/Guarded/keep.txt'
+    Invoke-FixtureGit reset -q --hard HEAD~1
+
+    $sample = 'src/App/Guarded/authorizations/sample.json'
+    Invoke-FixtureGit rm -q $sample
+    Invoke-FixtureGit commit -qm 'consume authorization'
+    try {
+        $env:GUARD_CONSUMED_AUTHORIZATIONS = $sample
+        Assert-Run 0 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'verified consumed authorization deletion passes'
+        $env:GUARD_CONSUMED_AUTHORIZATIONS = "$sample`nsrc/App/Guarded/authorizations/other.json"
+        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'consumed authorization that was not deleted fails' 'Verified authorizations were not deleted by this change: src/App/Guarded/authorizations/other.json'
+        $env:GUARD_CONSUMED_AUTHORIZATIONS = 'src/App/Guarded/keep.txt'
+        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'consumption outside the authorization directory fails' 'may only name authorization records'
+        $env:GUARD_CONSUMED_AUTHORIZATIONS = $null
+        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'unverified authorization deletion fails' "Protected guard deletions: $sample"
+        Invoke-FixtureGit reset -q --hard HEAD~1
+        Invoke-FixtureGit rm -q $sample
+        $env:GUARD_CONSUMED_AUTHORIZATIONS = $sample
+        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD') + $protected) 'consumption is not honoured for uncommitted changes' "Protected guard deletions: $sample"
+    }
+    finally { $env:GUARD_CONSUMED_AUTHORIZATIONS = $null }
     $passed = $true
     Write-Host 'V3 synthetic positive/negative tests passed.'
 }
@@ -133,4 +188,6 @@ finally {
         Remove-Item -LiteralPath $verified -Recurse -Force
     }
     elseif (-not $passed) { Write-Warning "Failed fixture retained at $fixture" }
+    if ([IO.File]::Exists($protectionFile)) { [IO.File]::Delete($protectionFile) }
 }
+$global:LASTEXITCODE = 0

@@ -12,7 +12,9 @@ param(
     [string] $NuGetConfig,
     [ValidateSet('Locked', 'Update')][string] $LockMode = 'Locked',
     [string] $LockRoot,
-    [string] $GenerationRoot
+    [string] $GenerationRoot,
+    # Diff protection configuration; defaults to the package's stages/diff/protection.json when it exists (Plan 06 P3.2).
+    [string] $ProtectionPath
 )
 
 $ErrorActionPreference = 'Stop'
@@ -308,11 +310,14 @@ function Invoke-DotnetTests {
     $oldGenerated = [Environment]::GetEnvironmentVariable('GUARD_GENERATED_ROOT', 'Process')
     $oldInputHash = [Environment]::GetEnvironmentVariable('GUARD_INPUT_SHA256', 'Process')
     $oldAppData = [Environment]::GetEnvironmentVariable('APPDATA', 'Process')
+    $oldProtection = [Environment]::GetEnvironmentVariable('GUARD_PROTECTION_PATH', 'Process')
     try {
         $env:GUARD_TARGET_ROOT = $root
         $env:GUARD_GENERATED_ROOT = $output
         $env:GUARD_INPUT_SHA256 = Get-InputHash $data
         if ($PlanFile) { $env:GUARD_PLAN_PATH = $PlanFile; $env:GUARD_BASE_REF = $BaseRef; $env:GUARD_HEAD_REF = $HeadRef }
+        # Only this package's validated protection configuration reaches the Diff stage; an inherited value never does.
+        [Environment]::SetEnvironmentVariable('GUARD_PROTECTION_PATH', $(if ($PlanFile) { Get-ProtectionFile } else { $null }), 'Process')
         $project = Join-Path $output 'GuardV3.Tests.csproj'
         $configPath = $null
         if ($NuGetConfig) {
@@ -365,7 +370,20 @@ function Invoke-DotnetTests {
         [Environment]::SetEnvironmentVariable('GUARD_GENERATED_ROOT', $oldGenerated, 'Process')
         [Environment]::SetEnvironmentVariable('GUARD_INPUT_SHA256', $oldInputHash, 'Process')
         [Environment]::SetEnvironmentVariable('APPDATA', $oldAppData, 'Process')
+        [Environment]::SetEnvironmentVariable('GUARD_PROTECTION_PATH', $oldProtection, 'Process')
     }
+}
+
+function Get-ProtectionFile {
+    $candidate = if ($ProtectionPath) {
+        [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ProtectionPath)) { $ProtectionPath } else { Join-Path $packageRoot $ProtectionPath }))
+    } else { Join-Path $packageRoot 'stages/diff/protection.json' }
+    if (-not [IO.File]::Exists($candidate)) {
+        if ($ProtectionPath) { throw "Diff protection configuration is missing: $candidate" }
+        return $null
+    }
+    [void] (Read-ValidatedJson $candidate 'protection')
+    return $candidate
 }
 
 if ($Mode -eq 'Pre') {

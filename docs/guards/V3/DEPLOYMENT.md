@@ -83,7 +83,7 @@ For the optional [ArchUnitNET detector](architecture/ARCHUNITNET.md), add `assem
 
 The full rule fields and exact-namespace semantics are in the [rule guide](rules/README.md). The target's SDK must support its own projects and the generated xUnit target framework. The NuGet feed or local cache must provide the pinned ArchUnitNET package. A new or renamed target project must be added to the manifest explicitly; adjacency in `bin/` does not expand checked scope.
 
-An isolated end-to-end synthetic test creates a disposable target repository and verifies compliant and violating project references, Plan risk checks and out-of-Plan Diff behavior:
+An isolated end-to-end synthetic test creates a disposable target repository. It verifies compliant and violating project references, Plan risk checks, out-of-Plan Diff behavior, committed-range and empty-diff handling, protected deletions and renames, and authorization consumption. Guard projects restore through `build/NuGet.config` (D21):
 
 ```powershell
 pwsh "$v3/tests/Test-V3.ps1"
@@ -116,6 +116,15 @@ pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRo
 ```
 
 For CI, also pass `-HeadRef <head-commit>`. Local Diff includes tracked working-tree changes and untracked files. A formal Plan's `plannedPaths` are exact paths, so expanding scope requires revising the Plan. Plan and linked decision files are allowed as part of their own change.
+
+With `-HeadRef`, Diff verifies both commits and compares from their merge base. An empty changed set fails closed, because it usually means wrong refs or incomplete history.
+
+Protected paths come from a Diff protection configuration: `-ProtectionPath`, or by default the package's `stages/diff/protection.json`. Its schema is `contracts/protection.schema.json`. The configuration fields work as follows:
+
+- `protectedPaths`: entries ending in `/` protect a directory prefix, and other entries protect one exact path. Matching ignores case. Deleting or renaming a protected path fails Diff.
+- `authorizationDirectory`: names where change-trusted-base records live. A committed Diff accepts the plain deletion of a record only when `GUARD_CONSUMED_AUTHORIZATIONS` names it. A trusted base runner sets this variable only after verifying that the change consumes the record.
+
+Without a configuration nothing is protected.
 
 ## Enable a hard merge gate
 

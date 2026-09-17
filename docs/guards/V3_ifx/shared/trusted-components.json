@@ -181,6 +181,7 @@
         "docs/guards/V3_ifx/contracts/pre-result.schema.json",
         "docs/guards/V3_ifx/contracts/profile.schema.json",
         "docs/guards/V3_ifx/contracts/project-map.schema.json",
+        "docs/guards/V3_ifx/contracts/protection.schema.json",
         "docs/guards/V3_ifx/contracts/rule.schema.json",
         "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
         "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json"
@@ -311,7 +312,8 @@
       "type": "base-owned-tests",
       "status": "active",
       "paths": [
-        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1"
+        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+        "docs/guards/V3/tests/Test-V3.ps1"
       ],
       "validationSuite": [
         "v3-cross-platform-*"

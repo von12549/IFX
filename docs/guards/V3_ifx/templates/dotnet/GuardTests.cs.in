@@ -159,9 +159,11 @@ public sealed class GuardTests
             .Split('\0', StringSplitOptions.RemoveEmptyEntries);
         var changed = new List<string>();
         var protectedDeletions = new List<string>();
-        // The trusted base runner verifies a change-trusted-base authorization before this test runs and passes only the
-        // record that the change consumes (Plan 06 §11.5, D20). Only its exact deletion in a committed range is exempt.
-        var consumed = committedHead ? ConsumedAuthorizations() : new HashSet<string>(StringComparer.Ordinal);
+        // Protected paths and the authorization directory come from the package Diff configuration (Plan 06 P3.2). The trusted
+        // base runner passes only the authorization record that the change consumes (§11.5, D20); only its exact deletion in
+        // a committed range is exempt.
+        var protection = Protection.Load();
+        var consumed = committedHead ? protection.ConsumedAuthorizations() : new HashSet<string>(StringComparer.Ordinal);
         var consumedDeleted = new HashSet<string>(StringComparer.Ordinal);
         for (var i = 0; i < parts.Length;)
         {
@@ -170,7 +172,7 @@ public sealed class GuardTests
             var firstPath = parts[i++].Replace('\\', '/');
             changed.Add(firstPath);
             if (status == "D" && consumed.Contains(firstPath)) consumedDeleted.Add(firstPath);
-            else if ((status.StartsWith('D') || status.StartsWith('R')) && IsProtectedGuardPath(firstPath)) protectedDeletions.Add(firstPath);
+            else if ((status.StartsWith('D') || status.StartsWith('R')) && protection.IsProtected(firstPath)) protectedDeletions.Add(firstPath);
             if (status.StartsWith('R') || status.StartsWith('C'))
             {
                 if (i >= parts.Length) throw new InvalidOperationException("Malformed git rename output.");
@@ -194,29 +196,48 @@ public sealed class GuardTests
         Assert.True(outside.Length == 0, "Paths outside Plan: " + string.Join(", ", outside));
     }
 
-    private const string AuthorizationDirectory = "docs/guards/V3_ifx/stages/diff/authorizations/";
-
-    private static HashSet<string> ConsumedAuthorizations()
+    private sealed class Protection
     {
-        var value = Environment.GetEnvironmentVariable("GUARD_CONSUMED_AUTHORIZATIONS") ?? "";
-        var paths = value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        foreach (var path in paths)
-        {
-            var name = path.StartsWith(AuthorizationDirectory, StringComparison.Ordinal) ? path[AuthorizationDirectory.Length..] : "";
-            if (name.Length == 0 || name.Contains('/') || !name.EndsWith(".json", StringComparison.Ordinal))
-                throw new InvalidOperationException("GUARD_CONSUMED_AUTHORIZATIONS may only name authorization records: " + path);
-        }
-        return new HashSet<string>(paths, StringComparer.Ordinal);
-    }
+        private readonly string[] _paths;
+        private readonly string? _authorizationDirectory;
 
-    private static bool IsProtectedGuardPath(string path) =>
-        path.Equals(".github/CODEOWNERS", StringComparison.OrdinalIgnoreCase) ||
-        path.Equals(".github/workflows/v3-ifx-guardrails.yml", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("mcp/LayerGuard/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("docs/guards/plans/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("docs/guards/V3/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("docs/guards/V3_backup/", StringComparison.OrdinalIgnoreCase) ||
-        path.StartsWith("docs/guards/V3_ifx/", StringComparison.OrdinalIgnoreCase);
+        private Protection(string[] paths, string? authorizationDirectory)
+        {
+            _paths = paths;
+            _authorizationDirectory = authorizationDirectory;
+        }
+
+        // GUARD_PROTECTION_PATH names the package Diff configuration, validated by Invoke-V3 against protection.schema.json.
+        // Without it no path is protected and no authorization record may be consumed.
+        public static Protection Load()
+        {
+            var file = Environment.GetEnvironmentVariable("GUARD_PROTECTION_PATH");
+            if (string.IsNullOrWhiteSpace(file)) return new Protection(Array.Empty<string>(), null);
+            using var document = JsonDocument.Parse(File.ReadAllText(file));
+            var paths = document.RootElement.GetProperty("protectedPaths").EnumerateArray().Select(x => x.GetString()!).ToArray();
+            var directory = document.RootElement.TryGetProperty("authorizationDirectory", out var value) ? value.GetString() : null;
+            return new Protection(paths, directory);
+        }
+
+        // Entries ending in '/' protect a directory prefix, other entries one exact path; matching ignores case so a
+        // case-only rename cannot escape protection.
+        public bool IsProtected(string path) => _paths.Any(entry => entry.EndsWith('/')
+            ? path.StartsWith(entry, StringComparison.OrdinalIgnoreCase)
+            : path.Equals(entry, StringComparison.OrdinalIgnoreCase));
+
+        public HashSet<string> ConsumedAuthorizations()
+        {
+            var value = Environment.GetEnvironmentVariable("GUARD_CONSUMED_AUTHORIZATIONS") ?? "";
+            var paths = value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            foreach (var path in paths)
+            {
+                var name = _authorizationDirectory is not null && path.StartsWith(_authorizationDirectory, StringComparison.Ordinal) ? path[_authorizationDirectory.Length..] : "";
+                if (name.Length == 0 || name.Contains('/') || !name.EndsWith(".json", StringComparison.Ordinal))
+                    throw new InvalidOperationException("GUARD_CONSUMED_AUTHORIZATIONS may only name authorization records: " + path);
+            }
+            return new HashSet<string>(paths, StringComparer.Ordinal);
+        }
+    }
 
     private static string Git(string root, params string[] arguments)
     {

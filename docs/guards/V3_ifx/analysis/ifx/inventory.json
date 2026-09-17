@@ -8,7 +8,7 @@
     {
       "path": "mcp/LayerGuard/src/LayerGuard/LayerGuard.csproj",
       "role": "source",
-      "sha256": "4d6d69d7c879f04bb95441137251318e12454e145527a182d68029e892add8a1",
+      "sha256": "a94781860e22ef83ef64a2d66d4a7c33d909b3fa2d9c4568741f3211bdac8eb3",
       "frameworks": [
         "net10.0"
       ],
@@ -17,7 +17,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Application/Allowed.Application.csproj",
       "role": "fixture",
-      "sha256": "0ceaff53753c6917b4b141e4adec38d8b49e8a15653b3067b499d01b2a31c425",
+      "sha256": "41da542e4b043355759677716b06a98b270ec52c5f16db1c7155a62cd4514118",
       "frameworks": [
         "net10.0"
       ],
@@ -31,7 +31,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Domain/Allowed.Domain.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -40,7 +40,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Infrastructure/Allowed.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "7a01141d42c8596045bcd768dddcb0ae5d4ef1c0d151c0c0368093ae29e88ff4",
+      "sha256": "9e8065b429b0abf4f58a06abd1b85a88e1b0ef7d0cb9a3e7b2ddc9a64b6b5e73",
       "frameworks": [
         "net10.0"
       ],
@@ -58,7 +58,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedDirections/Allowed.Presentation/Allowed.Presentation.csproj",
       "role": "fixture",
-      "sha256": "7a01141d42c8596045bcd768dddcb0ae5d4ef1c0d151c0c0368093ae29e88ff4",
+      "sha256": "9e8065b429b0abf4f58a06abd1b85a88e1b0ef7d0cb9a3e7b2ddc9a64b6b5e73",
       "frameworks": [
         "net10.0"
       ],
@@ -76,7 +76,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Abstractions/Acme.Billing.Abstractions.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -85,7 +85,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
       "role": "fixture",
-      "sha256": "9cf901245ef8781c3ca5b1529b5eeca0cb10578d228d5a09080f5c3e1da5a4f7",
+      "sha256": "626e1a7165c3ee4bf5114ce363f35fe10fdb39e1e167ec3fddca564d042d6dd5",
       "frameworks": [
         "net10.0"
       ],
@@ -103,7 +103,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
       "role": "fixture",
-      "sha256": "71b202b198c23209fbac231e6818a589acb462cf168a0927781903b36ea01884",
+      "sha256": "fc4ee5ec6dabcf607e9b4fa00aa27dcb98c03bcf02c4f6ce667793109e62a0d9",
       "frameworks": [
         "net10.0"
       ],
@@ -121,7 +121,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "b6959ce2ae349901e7a81a08ac6837f833f7a7734608075800b9c083bc517544",
+      "sha256": "db5b13326291ef9bdaca276e4e44e63579a56fb6fc12a4866fdee1584bed017f",
       "frameworks": [
         "net10.0"
       ],
@@ -135,7 +135,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Order/Acme.Order.Domain/Acme.Order.Domain.csproj",
       "role": "fixture",
-      "sha256": "2e34214197f6e821e0b0bb4c8de5d507362f99c417d8986ae734523a0006923c",
+      "sha256": "14a1007ce8621a192f36f2220487f244ed16138ac794e417a819bf7049450596",
       "frameworks": [
         "net10.0"
       ],
@@ -149,7 +149,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Order/Acme.Order.Infrastructure/Acme.Order.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -158,7 +158,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Domain/Acme.Shared.Domain.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -167,7 +167,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/AllowedReferences/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -176,7 +176,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Acme.ApiHost/Acme.ApiHost.csproj",
       "role": "fixture",
-      "sha256": "4d2d9dc419bce839dee41f048063aa5b5840d638abd9b9c2236ca334aca9fa35",
+      "sha256": "fe9c47da33c454a19981de2291302bb78ef2275b1d6b417064751cb1b3c3a793",
       "frameworks": [],
       "projectReferences": [
         {
@@ -192,14 +192,14 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application.Tests/Acme.Billing.Application.Tests.csproj",
       "role": "fixture",
-      "sha256": "e6fcb8e1e93a724d47a829cffd19d47840a5eb088e9ace43f3a34bbaf1524b07",
+      "sha256": "8d654c44b7bebb6b31a9f2f606927f45b5072193adc4eef8cce3f3cf3b278df3",
       "frameworks": [],
       "projectReferences": []
     },
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
       "role": "fixture",
-      "sha256": "8e658ddae7690e6b5a82e3c93290c30704bce9f1cb874910e7aa1e36e555b26e",
+      "sha256": "c8efd037f6396ba4c5675d1d1de69a24058189dd2be51803874cd14a8a45fa86",
       "frameworks": [],
       "projectReferences": [
         {
@@ -223,7 +223,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Composition/Acme.Billing.Composition.csproj",
       "role": "fixture",
-      "sha256": "404b1b21128a88ba381406e7fdb9d1f5d140609ca424df92bc4979e4b760a4cf",
+      "sha256": "6df3058c86005228ae0267ba0fddea5df6111f44705621c84553f461ca1ea304",
       "frameworks": [],
       "projectReferences": [
         {
@@ -243,7 +243,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Contracts/Acme.Billing.Contracts.csproj",
       "role": "fixture",
-      "sha256": "4411db70bac92e8375cf15d72eb628bbab5d6922a62f08a548687a80d2d0d7cc",
+      "sha256": "a4594a095a1c39d008e3031c2100cc331c9d64e564ce64da794d4bca85b95330",
       "frameworks": [],
       "projectReferences": [
         {
@@ -259,7 +259,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
       "role": "fixture",
-      "sha256": "bda979ee3effd55d847b8fcb0c4c428a10fd28378b48ced4a8ff89f0575b21be",
+      "sha256": "25eefa71ed365b7981c4edec0dad640d96dc855085ab228aa11147db785bf2de",
       "frameworks": [],
       "projectReferences": [
         {
@@ -271,7 +271,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Infrastructure/Acme.Billing.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "0fca494da180fe7790537195c3ecf87388f6264bac7de747dac030d426ed2a4a",
+      "sha256": "8b4bacf3412f01c2fdd825f0dd6eebdaab444c6b1807d99c027a221209b65079",
       "frameworks": [],
       "projectReferences": [
         {
@@ -291,7 +291,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Integration/Acme.Billing.Integration.csproj",
       "role": "fixture",
-      "sha256": "628de201baedaf0c45d4b4904f31cf3d57ce99fd855596275a3af536c34b0870",
+      "sha256": "8c070d8fee30d724e096d78961d47e114ae578423b1d83a9c50700e4b8139fde",
       "frameworks": [],
       "projectReferences": [
         {
@@ -307,7 +307,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj",
       "role": "fixture",
-      "sha256": "38f30bfc2b9a29987ebb30e36256a79b95ff510dd140db2ed6f70cf2d13c8095",
+      "sha256": "c0c7f5ef3ca2125b10b2b5fd66965f80641aef90b4664f75c67751974b2cd7b8",
       "frameworks": [],
       "projectReferences": [
         {
@@ -319,21 +319,21 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/BillingPlus/Acme.BillingPlus.Contracts/Acme.BillingPlus.Contracts.csproj",
       "role": "fixture",
-      "sha256": "e6fcb8e1e93a724d47a829cffd19d47840a5eb088e9ace43f3a34bbaf1524b07",
+      "sha256": "8d654c44b7bebb6b31a9f2f606927f45b5072193adc4eef8cce3f3cf3b278df3",
       "frameworks": [],
       "projectReferences": []
     },
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Legacy/Acme.Legacy.Abstractions/Acme.Legacy.Abstractions.csproj",
       "role": "fixture",
-      "sha256": "e6fcb8e1e93a724d47a829cffd19d47840a5eb088e9ace43f3a34bbaf1524b07",
+      "sha256": "8d654c44b7bebb6b31a9f2f606927f45b5072193adc4eef8cce3f3cf3b278df3",
       "frameworks": [],
       "projectReferences": []
     },
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Contracts/Acme.Sales.Contracts.csproj",
       "role": "fixture",
-      "sha256": "cbf6e9aeba4ceba1b97b7a876cbabad860e2394d889c66df5d558193bdc79d1a",
+      "sha256": "15017d5d3b08a743e63db2952e82a442c57f20c3885083eac8d0518bb8008869",
       "frameworks": [],
       "projectReferences": [
         {
@@ -345,14 +345,14 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/BootstrapArchitecture/Sales/Acme.Sales.Domain/Acme.Sales.Domain.csproj",
       "role": "fixture",
-      "sha256": "e6fcb8e1e93a724d47a829cffd19d47840a5eb088e9ace43f3a34bbaf1524b07",
+      "sha256": "8d654c44b7bebb6b31a9f2f606927f45b5072193adc4eef8cce3f3cf3b278df3",
       "frameworks": [],
       "projectReferences": []
     },
     {
       "path": "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.Api/Shop.Api.csproj",
       "role": "fixture",
-      "sha256": "e43d813b106f76100827ba5c4d04738ba815ac5324650ab347050ecaf5310e2d",
+      "sha256": "71f1c83bdfcee6235400c1927331dc6ea450a218f0ae7b5161a9522749d860fa",
       "frameworks": [
         "net10.0"
       ],
@@ -370,7 +370,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.Core/Shop.Core.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -379,7 +379,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.Persistence/Shop.Persistence.csproj",
       "role": "fixture",
-      "sha256": "a4620332c2a64c5ab3c91958b9a021567ce74362eb69ca4c9711a5a892235d99",
+      "sha256": "2f9e9a685307f409b4ddfc72ff507da4b2a04d9e4da24f85f4189991e3773729",
       "frameworks": [
         "net10.0"
       ],
@@ -393,7 +393,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/CustomRules/Shop.UseCases/Shop.UseCases.csproj",
       "role": "fixture",
-      "sha256": "a4620332c2a64c5ab3c91958b9a021567ce74362eb69ca4c9711a5a892235d99",
+      "sha256": "2f9e9a685307f409b4ddfc72ff507da4b2a04d9e4da24f85f4189991e3773729",
       "frameworks": [
         "net10.0"
       ],
@@ -407,7 +407,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Application/Acme.Application.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -416,7 +416,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Domain/Acme.Domain.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -425,7 +425,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Infrastructure/Acme.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -434,7 +434,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DeclarationPlacement/Acme.Presentation/Acme.Presentation.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -443,7 +443,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Application/Direct.Application.csproj",
       "role": "fixture",
-      "sha256": "c062a526853a58aa6e32463b3906d90c632a51faddd8d23aae4b4579cdb4e096",
+      "sha256": "54d74a5ddd2f392ba61e134bcad59b7d09541e881d883aa6b99fd0aad7f50710",
       "frameworks": [
         "net10.0"
       ],
@@ -461,7 +461,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Domain/Direct.Domain.csproj",
       "role": "fixture",
-      "sha256": "f13c26b75b7ace0edc1eb0ba7431ed9d9517d0e21810662d8ac87fc539a03a0f",
+      "sha256": "3115a9835718dc7a0a5a097d63ed6c19275b738b54af7764fd4cb10007c0af16",
       "frameworks": [
         "net10.0"
       ],
@@ -483,7 +483,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Infrastructure/Direct.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -492,7 +492,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DirectReference/Direct.Presentation/Direct.Presentation.csproj",
       "role": "fixture",
-      "sha256": "55271acf6a6618d73a2a21ddbb47f80bb5ddeb7a248c18996b69a9b68a514dfe",
+      "sha256": "20fb2a297b28cb6dd83707868f0401f22adcae999b915dcef81815c4b9d2d1c3",
       "frameworks": [
         "net10.0"
       ],
@@ -506,7 +506,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DirectSiblingReference/Sibling.Infrastructure/Sibling.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "72f4edf31075ad4eb959d993617a8d29fbe3076fd5203625b104d633a46bb15e",
+      "sha256": "57fd840921c1ff772956c9398be468045d50a08a7d88bd9fd7f877f78484b841",
       "frameworks": [
         "net10.0"
       ],
@@ -520,7 +520,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DirectSiblingReference/Sibling.Presentation/Sibling.Presentation.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -529,7 +529,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Carrier/NoFlow.Carrier.csproj",
       "role": "fixture",
-      "sha256": "ec1b32cf25804fd76fc11ba4f03f6f48e28d37811f691eee4d1d0ef48e641a6a",
+      "sha256": "dbde4a78ad7b3e23d4d816a2090d488945b9474622ba8eb30004deea5fe80706",
       "frameworks": [
         "net10.0"
       ],
@@ -543,7 +543,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Domain/NoFlow.Domain.csproj",
       "role": "fixture",
-      "sha256": "0f17cb06de084ea267842b00b9ea52b72820a14c065b0eb23c00faa70fdab4d2",
+      "sha256": "a20cca4ee53e2fafe2334b124152b7968674e7215cbc82d145a4b98c5e3d24dc",
       "frameworks": [
         "net10.0"
       ],
@@ -557,7 +557,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Infrastructure/NoFlow.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -566,7 +566,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/DisableTransitive/NoFlow.Presentation/NoFlow.Presentation.csproj",
       "role": "fixture",
-      "sha256": "dcd563690f68db1a618788c26d92e579684a313da02a2bcf1a63fd509c52d492",
+      "sha256": "b33891c66a0569675a97494caa89bfbe0029ca071f09e368314e66a143672cc5",
       "frameworks": [
         "net10.0"
       ],
@@ -580,7 +580,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Application/Acme.Application.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -589,7 +589,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Infrastructure/Acme.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "c8b7d515e027af36e6d7fe87a6ac13c726ddd044749185127b8d09cc44948f37",
+      "sha256": "aeb661f15ad2e91a7e3deda10bc4031b8dd2c19a6c70a4ee827b1bb55bcf9e2a",
       "frameworks": [
         "net10.0"
       ],
@@ -603,7 +603,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/ForbiddenDependencies/Acme.Presentation/Acme.Presentation.csproj",
       "role": "fixture",
-      "sha256": "c8b7d515e027af36e6d7fe87a6ac13c726ddd044749185127b8d09cc44948f37",
+      "sha256": "aeb661f15ad2e91a7e3deda10bc4031b8dd2c19a6c70a4ee827b1bb55bcf9e2a",
       "frameworks": [
         "net10.0"
       ],
@@ -617,7 +617,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Application/Shop.Application.csproj",
       "role": "fixture",
-      "sha256": "da3d88fd9b7013b31878340ecf8a89648c24f92c72e2a3942231092f98cd46db",
+      "sha256": "a368758c047d397489facf4edce1d6788e862e5e486088aec4ec950622aebb6d",
       "frameworks": [
         "net10.0"
       ],
@@ -631,7 +631,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Domain/Shop.Domain.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -640,7 +640,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/ForbiddenPackages/Shop.Presentation/Shop.Presentation.csproj",
       "role": "fixture",
-      "sha256": "ae76350c0d965be21d32329316ead7df521ebb7dd647156a16dad7606134742c",
+      "sha256": "1e85a1077f63759e0648edc622c5445330dc6330b34e88ba25336a8c2a80adc6",
       "frameworks": [
         "net10.0"
       ],
@@ -654,7 +654,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Implements/Acme.Domain/Acme.Domain.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -663,7 +663,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Implements/Acme.Infrastructure/Acme.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "2326d5d760005d56fc9638b33564ae04af4ddad516f7eef71da7ee515be437e5",
+      "sha256": "7df61ac92fe2b3cb75b72d88f6ccc5230fa67b5e6481fa8498fe87509d32182a",
       "frameworks": [
         "net10.0"
       ],
@@ -677,7 +677,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Imports/Acme.Application/Acme.Application.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -686,7 +686,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Imports/Acme.Domain/Acme.Domain.csproj",
       "role": "fixture",
-      "sha256": "7faebb52b518a0856806c83902bb29de1c2914174393a9d3392ae61cd078f859",
+      "sha256": "63a42b5c9da83bb1e14f9dc3f048000057524765ed5dbaf2225382fbd2d4eea9",
       "frameworks": [
         "net10.0"
       ],
@@ -700,7 +700,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Imports/Acme.Shared/Acme.Shared.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -709,7 +709,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.AppCarrier/Private.AppCarrier.csproj",
       "role": "fixture",
-      "sha256": "52268b98a614996b72b8c5af681764c90e6b81444c9b306c232d72f6a0f57009",
+      "sha256": "4e9171714937b16a90530eb8773814f2e0cb933170ef11e56849f37827531e2f",
       "frameworks": [
         "net10.0"
       ],
@@ -723,7 +723,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Application/Private.Application.csproj",
       "role": "fixture",
-      "sha256": "d8d47bb1ec0d92489b9ab5a6b07474479c825e522649782b394be16f726a1b23",
+      "sha256": "f087e7d854ff9722cab7ca925dc92b3007bc29dc8260e7c76418a541c9a3b3a8",
       "frameworks": [
         "net10.0"
       ],
@@ -741,7 +741,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Domain/Private.Domain.csproj",
       "role": "fixture",
-      "sha256": "50ebe3019791fbdba1251aeb463c4ab801393dcea818916796fc0aa4458caafb",
+      "sha256": "6dfabd55991be20f6202357ada3da390f0306890208a3540d9ede50d0ca80b81",
       "frameworks": [
         "net10.0"
       ],
@@ -763,7 +763,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.InfraCarrier/Private.InfraCarrier.csproj",
       "role": "fixture",
-      "sha256": "af2f78de836932deabc98fc42699a649e0b4ed306afcca273ad1cf1027045bc4",
+      "sha256": "914eab752cf48cb21f94a0fb059e98311a8716be08db9109a73db3152f0377e5",
       "frameworks": [
         "net10.0"
       ],
@@ -777,7 +777,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Infrastructure/Private.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -786,7 +786,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.PresCarrier/Private.PresCarrier.csproj",
       "role": "fixture",
-      "sha256": "1709dfcb1eb44801340f7774ebd70fe57eee4ff159edf3a220728a35d7bd954c",
+      "sha256": "06e716f265e2bb86116daac7191f920c8b2e95ff6b7832b550935cd1ab4cccac",
       "frameworks": [
         "net10.0"
       ],
@@ -800,7 +800,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectKeptPrivate/Private.Presentation/Private.Presentation.csproj",
       "role": "fixture",
-      "sha256": "0f1583e1379db9d1518e6cde5449f89be5466490cb55a32177fab1768a0ba30c",
+      "sha256": "c8893a1872897e5229a15f9aaadcf869f5aae3edf4ba5408069be1092de9c719",
       "frameworks": [
         "net10.0"
       ],
@@ -814,7 +814,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.AppCarrier/Indirect.AppCarrier.csproj",
       "role": "fixture",
-      "sha256": "59ae570c0a95a711304af5785d4f49f5fe4bb6f2037e2340ddcfe240cad4a0c4",
+      "sha256": "b6207f58dc425d3170dcb31616939a6a9908108a11d66629cb70991e3a9646af",
       "frameworks": [
         "net10.0"
       ],
@@ -828,7 +828,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Application/Indirect.Application.csproj",
       "role": "fixture",
-      "sha256": "46375b452543ea5e354651ab71dd3b1c270093b0b724fe5d4fa675c6b9cce68f",
+      "sha256": "372c8b38f14727e1f25702a60f268cf47bed563a3b1d5548d05f73a415ae970d",
       "frameworks": [
         "net10.0"
       ],
@@ -846,7 +846,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Domain/Indirect.Domain.csproj",
       "role": "fixture",
-      "sha256": "33a9c3103220a5afa01a2e8db1a2710d99097ff805949046ac48f6c2397efb45",
+      "sha256": "ec3e3a14bd9c432419be9ccec75054be7afec7d9f50cd3c02ac0143602223909",
       "frameworks": [
         "net10.0"
       ],
@@ -868,7 +868,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.InfraCarrier/Indirect.InfraCarrier.csproj",
       "role": "fixture",
-      "sha256": "8c129bbd83e8c3207baff507577976ec99cd1f20f45ed525d90ed06e49a3a9c4",
+      "sha256": "89b8dc9a9f412d55f5953f985b7dee48f143f10268559e20305a0f7bb05a6234",
       "frameworks": [
         "net10.0"
       ],
@@ -882,7 +882,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Infrastructure/Indirect.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -891,7 +891,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.PresCarrier/Indirect.PresCarrier.csproj",
       "role": "fixture",
-      "sha256": "373cb69106e662fe6443b466fa92ba70224e54e3b58824d451d7a15abced9fd8",
+      "sha256": "74fcebc7991681fc5be2395d5a6cfef746ed4f66d2eae6ce7a7d997d0b53509a",
       "frameworks": [
         "net10.0"
       ],
@@ -905,7 +905,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectReference/Indirect.Presentation/Indirect.Presentation.csproj",
       "role": "fixture",
-      "sha256": "afd9ba72f208ccb2adab44d186f4a32ab014c546ce335f908b587320e306de0d",
+      "sha256": "39bd5bd4fa3f15a5b02e001e613fc28393fb2fb79cd5150c6c8caf9817a0e5b0",
       "frameworks": [
         "net10.0"
       ],
@@ -919,7 +919,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Application/Hop.Application.csproj",
       "role": "fixture",
-      "sha256": "947885773d0ffdf11a3331a93e5c57843c8f2e22b0ea5bdcc8b3a2203d485d47",
+      "sha256": "fb077bc75371ec65e45f2842e1b9302387221d2f00e433a646af3d7cf0fdf697",
       "frameworks": [
         "net10.0"
       ],
@@ -933,7 +933,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Carrier/Hop.Carrier.csproj",
       "role": "fixture",
-      "sha256": "bae42eea7a0b2e615325063d0a98253f42b4102c46b395a12fdb7562a61df7ac",
+      "sha256": "830e492b6ca016298d8ac8e8907368c6da89a50817139bf3cef2fc6f0b90c26d",
       "frameworks": [
         "net10.0"
       ],
@@ -947,7 +947,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Domain/Hop.Domain.csproj",
       "role": "fixture",
-      "sha256": "c9230e22725cd724a0fb8efe44ed09c67ab6527bdef023fe7ba1a7f85e253a40",
+      "sha256": "3284e7b72057a38094f297263ae7048ef5a8b250b7662ad74280d08968b6cbed",
       "frameworks": [
         "net10.0"
       ],
@@ -961,7 +961,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSharedHop/Hop.Infrastructure/Hop.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -970,7 +970,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.Infrastructure/IndSibling.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "8a9317e45c569021a06dd7a8565431a8559849b3bb6320eff21d290e16e0add6",
+      "sha256": "64513f5ed842f761eb1bfe63093d76441ec5b463ed2bd64a80f023ba0b93fc05",
       "frameworks": [
         "net10.0"
       ],
@@ -984,7 +984,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.PresCarrier/IndSibling.PresCarrier.csproj",
       "role": "fixture",
-      "sha256": "ecf19b56a435ba2143b3d54d045c81f257627f4da1bdef2beb76142d4d0ba774",
+      "sha256": "88f9eaef53a0a58f5548a9d3b1693253c2625ebfef35d542b248411524a6162c",
       "frameworks": [
         "net10.0"
       ],
@@ -998,7 +998,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/IndirectSiblingReference/IndSibling.Presentation/IndSibling.Presentation.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -1007,7 +1007,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Domain/Attr.Domain.csproj",
       "role": "fixture",
-      "sha256": "d5beb532073186113f0a2158b6a699ac93767e64719c587724c77346a29c39f0",
+      "sha256": "779fc0d2b67de204862067d59869bd19d4c53fcb4e5a3f1906a13b532c6ccaf3",
       "frameworks": [
         "net10.0"
       ],
@@ -1021,7 +1021,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Infrastructure/Attr.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -1030,7 +1030,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.OpenCarrier/Attr.OpenCarrier.csproj",
       "role": "fixture",
-      "sha256": "529a4d8b7785c227952ddd3190cc3a47880e88aa00da6c69e76c338e231ecec4",
+      "sha256": "af3c6443344823668aeb954eb81fd33e7a826248f8fdd9fc4b752e792fed3153",
       "frameworks": [
         "net10.0"
       ],
@@ -1044,7 +1044,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.Presentation/Attr.Presentation.csproj",
       "role": "fixture",
-      "sha256": "ae097e4195ad34128a468ddf0f74f38e6f1640262831a1a33000b5d19bced49b",
+      "sha256": "62e833607e372a387586e4a160f2f469ec1fff27ec206c83a64122b5b389a79b",
       "frameworks": [
         "net10.0"
       ],
@@ -1058,7 +1058,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/PrivateAssetsAttributeForm/Attr.SealedCarrier/Attr.SealedCarrier.csproj",
       "role": "fixture",
-      "sha256": "daea151daf90b02b49763e562cf3641ff1fe80161a78ecc354090146a4a4c85e",
+      "sha256": "64be40aef09fb8b56b922ec2069ba98d977f165c672f567f0e806875b1c916e2",
       "frameworks": [
         "net10.0"
       ],
@@ -1072,7 +1072,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Application/Acme.Billing.Application.csproj",
       "role": "fixture",
-      "sha256": "b6959ce2ae349901e7a81a08ac6837f833f7a7734608075800b9c083bc517544",
+      "sha256": "db5b13326291ef9bdaca276e4e44e63579a56fb6fc12a4866fdee1584bed017f",
       "frameworks": [
         "net10.0"
       ],
@@ -1086,7 +1086,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Domain/Acme.Billing.Domain.csproj",
       "role": "fixture",
-      "sha256": "bca0eccea7f2c17c87684bdb37121ab4aa0f5043e6b3a56640284e7194985f54",
+      "sha256": "e3536337b251e8dbb5e9ab19bec2ed6d3885e4d2fbd56912b24d5c8461670634",
       "frameworks": [
         "net10.0"
       ],
@@ -1104,7 +1104,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Helper/Acme.Billing.Helper.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -1113,7 +1113,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Rulebook/Billing/Acme.Billing.Presentation/Acme.Billing.Presentation.csproj",
       "role": "fixture",
-      "sha256": "64085fe457fbf08f82cc8a8ab142fa2f9902ff1ef5cfbcb28080c2f6182efdc7",
+      "sha256": "e3056dc946a6f467c34e9ebc37789baa1f3306ce800d4e565324a78fb9581180",
       "frameworks": [
         "net10.0"
       ],
@@ -1122,7 +1122,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/Rulebook/Shared/Acme.Shared.Legacy/Acme.Shared.Legacy.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -1131,7 +1131,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Domain/Sln.Domain.csproj",
       "role": "fixture",
-      "sha256": "bbfa76f84fe201270674fe22ead5606d27549b58abc4a4a0543d3f0d6d91fdeb",
+      "sha256": "d1d430b38baa5f515509dee77691e1edfe637dc7edecd1c534479e06fb54f6ef",
       "frameworks": [
         "net10.0"
       ],
@@ -1145,7 +1145,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Infrastructure/Sln.Infrastructure.csproj",
       "role": "fixture",
-      "sha256": "1c43c7cc8c35b222c7c4b03bf4237ba9301a67db28f76a85ef1b77d2a46c0df3",
+      "sha256": "dbc560432e1064a38589480fae4687553c22ed6a9ba02296fb9dd80c157a2bbe",
       "frameworks": [
         "net10.0"
       ],
@@ -1154,7 +1154,7 @@
     {
       "path": "mcp/LayerGuard/tests/fixtures/SolutionScope/Sln.Presentation/Sln.Presentation.csproj",
       "role": "fixture",
-      "sha256": "bbfa76f84fe201270674fe22ead5606d27549b58abc4a4a0543d3f0d6d91fdeb",
+      "sha256": "d1d430b38baa5f515509dee77691e1edfe637dc7edecd1c534479e06fb54f6ef",
       "frameworks": [
         "net10.0"
       ],
@@ -1168,7 +1168,7 @@
     {
       "path": "mcp/LayerGuard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
       "role": "test",
-      "sha256": "46f59f744b7aefd7ca445d9572c086c5e076ad788fafb125df927703dbedb66e",
+      "sha256": "c5e43defa9df2290a061de889148a240fbddf4a300cbd562c6ef3e455c43b515",
       "frameworks": [
         "net10.0"
       ],
@@ -1244,7 +1244,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj",
       "role": "source",
-      "sha256": "f0ae1c7f9fd9f87d725f0b5e75963f07cbbd58be624923f577d45bf0b05be139",
+      "sha256": "8d9dc0833fe975b1e668bfe90b1823e935b023b34635704cc4344dabf99bb8d1",
       "frameworks": [
         "net8.0"
       ],
@@ -1258,7 +1258,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Composition/IFX.BuildingBlocks.Composition.csproj",
       "role": "source",
-      "sha256": "56a0ea1413047a986c2bf5cdb2e2090bd729d990ce53ffe50e5098aae0e43722",
+      "sha256": "c756bd29f4a6fb3e24cd75307f6b627bac32cb013cbb9ded457d4c84ddf4e385",
       "frameworks": [
         "net8.0"
       ],
@@ -1267,7 +1267,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj",
       "role": "source",
-      "sha256": "50a4358f1cf8fe20edf3862e58aff352f66812d56899196d82ae2963cc9d0455",
+      "sha256": "2da823240e0026033d25d1c29a009e59f7e1cfd0d97c6da26aa4ecae53fc49e3",
       "frameworks": [
         "net8.0"
       ],
@@ -1276,7 +1276,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.EntityFrameworkCore/IFX.BuildingBlocks.EntityFrameworkCore.csproj",
       "role": "source",
-      "sha256": "9de264d06d9749d59f764d0bb45118e1040747314d7a5d78dd27089cf68cbe86",
+      "sha256": "e9e5b5b84a9d29b9f0f5fec626eb1f7be8909034044d76f007f0d018fd63458c",
       "frameworks": [
         "net8.0"
       ],
@@ -1290,7 +1290,7 @@
     {
       "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj",
       "role": "source",
-      "sha256": "b375d7c4b26bab8437ca9540888062677fab0f55ba0a82a03cbae5917d986eb3",
+      "sha256": "5efb131f6aeeee44df75953c1a58be3a10151c93cabf219b10465a5ed24b949e",
       "frameworks": [
         "net8.0"
       ],
@@ -1299,7 +1299,7 @@
     {
       "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj",
       "role": "source",
-      "sha256": "941afd9bbb9c81b77b7e875a59dbbde0a29aa0b7437823730eba0c30b00e28da",
+      "sha256": "9b96a84c5024e537c77a1d6c6a28afc0bc406e7e59edbfa71a9fa4bdf2b216f3",
       "frameworks": [
         "net8.0"
       ],
@@ -1333,7 +1333,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj",
       "role": "source",
-      "sha256": "0ca2f1daebe1f4f44db7018bbc423dfc9e63fb5b80a3ec946d9554a9dd2e6b72",
+      "sha256": "90929191de7e8b047c8fed77f58718614293a62fd62af0de20b396477fc939e4",
       "frameworks": [
         "net8.0"
       ],
@@ -1359,7 +1359,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj",
       "role": "source",
-      "sha256": "0d8253b68367ae9d2f41bcf1c84eefb539bcbcef43bc69bb6f39307c537c4ca5",
+      "sha256": "7e2c696427dfda79a4b0d35152ddbbebe334681577ce08a192bbc7089700b830",
       "frameworks": [
         "net8.0"
       ],
@@ -1389,7 +1389,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
       "role": "source",
-      "sha256": "81d607516ea40e0c0d39902e465a462ad452aa2525ac4b0f30a164c4ac0a4d5d",
+      "sha256": "a47b66d3c248abf2b8f5da09898adf506d22113988a6e5368c1f91d49afff8f9",
       "frameworks": [
         "net8.0"
       ],
@@ -1403,7 +1403,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj",
       "role": "source",
-      "sha256": "af748c968f3b3137ae6dbe5e0d693078684bcc3bc44bc85ec1f66765c2467db9",
+      "sha256": "5f70dea2db97d47cd72ea7f79ce1840e5b35d8e0e3914d262f0e4ddbc64a7710",
       "frameworks": [
         "net8.0"
       ],
@@ -1417,7 +1417,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj",
       "role": "source",
-      "sha256": "676927caa5dbef8f24f0df622b4012e9bde6de9d209bf3542766858531a210c9",
+      "sha256": "4fb413b361e5eb42d13a55e564c0399dc86e8efaaab98ba60eaeb404decb2d87",
       "frameworks": [
         "net8.0"
       ],
@@ -1451,7 +1451,7 @@
     {
       "path": "src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj",
       "role": "source",
-      "sha256": "4a4dc642e4ff06d9401a6e01f5a9c50c2e9489e48da1ea8eeecfcae0f4cb3eb0",
+      "sha256": "d337d79afdc2f64b514012307c0bc778a78f00b1ede2f9312613fc5a3d23362b",
       "frameworks": [
         "net8.0"
       ],
@@ -1465,7 +1465,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj",
       "role": "source",
-      "sha256": "221608dce4609c8d38c68fa045b00c1f38ec3b3581e84d1daf13c54195223dca",
+      "sha256": "d33f3353fa56c4c87c7bbaf8b50d63d3b8513e8c3c4fdcc37394205464275272",
       "frameworks": [
         "net8.0"
       ],
@@ -1487,7 +1487,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Composition/IFX.Modules.Holdings.Composition.csproj",
       "role": "source",
-      "sha256": "45a4f317367e48bd66eca7d98e6a1bb83976fd2c1efa5fb9e3560d156956a1de",
+      "sha256": "93d6c120fa186b45cfd91bf8aeb0c2abe3979f8829cf7a25b254092bc621941f",
       "frameworks": [
         "net8.0"
       ],
@@ -1513,7 +1513,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Domain/IFX.Modules.Holdings.Domain.csproj",
       "role": "source",
-      "sha256": "4c19d957ae3fd8b3d5545059df2299ae1a04380a6b89579d208780a15b4dfba4",
+      "sha256": "32954a9978b60974697f2d78c40cf50026285f2557f3d082957e639b0363107e",
       "frameworks": [
         "net8.0"
       ],
@@ -1527,7 +1527,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj",
       "role": "source",
-      "sha256": "6ab1d69a99ed7279c69def5353b5a216ab3d84c9d7184072e0b7891facf6858c",
+      "sha256": "0a962563e219b2af70dfe13a00b5f6a747a7d1516c0db50241b82c981de12c3e",
       "frameworks": [
         "net8.0"
       ],
@@ -1573,7 +1573,7 @@
     {
       "path": "src/Modules/Holdings/IFX.Modules.Holdings.Presentation/IFX.Modules.Holdings.Presentation.csproj",
       "role": "source",
-      "sha256": "3349276a3e7c920701f66c573d15ca87a4ab710db9d67942eb2c87ef57e075e4",
+      "sha256": "df488c0c6f2c141f947f27d90c0db7d7a362ca3df80aabc14870bf39a4f282b0",
       "frameworks": [
         "net8.0"
       ],
@@ -1587,7 +1587,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj",
       "role": "source",
-      "sha256": "9ea1a4c798fa0df367f9bc810e388c30024b9135ca354f4749edba42c542e338",
+      "sha256": "c9f61e8aeab254b19507ee8a452d70445c9c75d305ea6f5a76f0b6da25b455bd",
       "frameworks": [
         "net8.0"
       ],
@@ -1617,7 +1617,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj",
       "role": "source",
-      "sha256": "b9f390e078baab773a619ee1bf55761c88479435c350766e5af2c86704257a20",
+      "sha256": "d634a42c5034901bee243f830b58549601918ee86a32224b003ef9e4259cba3e",
       "frameworks": [
         "net8.0"
       ],
@@ -1639,7 +1639,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Composition/IFX.Modules.IAM.Composition.csproj",
       "role": "source",
-      "sha256": "2f21358d51dac3cb9fa304a0a32021cb34afaafadd2b90ab2d0de133384768a9",
+      "sha256": "e64656bade8c0322b7b24d34bba23f22a27ba2007a5e20573b582bfdfb473326",
       "frameworks": [
         "net8.0"
       ],
@@ -1685,7 +1685,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj",
       "role": "source",
-      "sha256": "e7f3004505f4f571ba8cb094831693317977bff768a1ac683b808800cbdb8995",
+      "sha256": "8827183a4ed3e9054126a1036f4a11d9008fa4411f082b397d8ff12fe832fafe",
       "frameworks": [
         "net8.0"
       ],
@@ -1699,7 +1699,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/IFX.Modules.IAM.Domain.csproj",
       "role": "source",
-      "sha256": "deb8a2728bb003f0e227feaa8ea2ea79761a3bae2c8e4c680775ff16ef9f1470",
+      "sha256": "09eddb4bf0e7e9749d78c922985d896d114f5168eb2439b85a3b3509c3d0157a",
       "frameworks": [
         "net8.0"
       ],
@@ -1713,7 +1713,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj",
       "role": "source",
-      "sha256": "469cab8533ea8fa651d33fff6ebe0d54736642f8c1ea4e81f454b5939dea11fe",
+      "sha256": "442d2e50a9d0cdd7507b3f69e3244af38e3881ab764d903a805aa1082b005cb0",
       "frameworks": [
         "net8.0"
       ],
@@ -1759,7 +1759,7 @@
     {
       "path": "src/Modules/IAM/IFX.Modules.IAM.Presentation/IFX.Modules.IAM.Presentation.csproj",
       "role": "source",
-      "sha256": "8b22e5c0cd33690b2a806eefd959f7479873b63e5a51621b403a618e5922468a",
+      "sha256": "39268f4a71db832d142bc18738179e4badf8725a2244a2b249b2eb243f504377",
       "frameworks": [
         "net8.0"
       ],
@@ -1773,7 +1773,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj",
       "role": "source",
-      "sha256": "d6c1c08cead7946f9b8d4c66a5ce1414d6262a3d6dae1d6556754864b5a20dbb",
+      "sha256": "8774e0561429877a0b7daddff8b2cfdd29130e12b44de3aa1e695f9fdc17c438",
       "frameworks": [
         "net8.0"
       ],
@@ -1799,7 +1799,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Composition/IFX.Modules.Registry.Composition.csproj",
       "role": "source",
-      "sha256": "4f777730e37389fe20d962bb1a1f32e44e0debc623effd93010a1aa07e67fda9",
+      "sha256": "7f0a80b2caf6bde313167d869813721f154a476d58e66cb282c41e9fee7e2e5a",
       "frameworks": [
         "net8.0"
       ],
@@ -1829,7 +1829,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj",
       "role": "source",
-      "sha256": "897ca2f7a3dfb11ccc8dc2db1af1e3cb35b2dc1c1c6cea8b84851cb80890f66a",
+      "sha256": "b0cc8c62eca0a9a3390ab14953b5a984acc87c32074e5968ebad90ae80aca72f",
       "frameworks": [
         "net8.0"
       ],
@@ -1847,7 +1847,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj",
       "role": "source",
-      "sha256": "af748c968f3b3137ae6dbe5e0d693078684bcc3bc44bc85ec1f66765c2467db9",
+      "sha256": "5f70dea2db97d47cd72ea7f79ce1840e5b35d8e0e3914d262f0e4ddbc64a7710",
       "frameworks": [
         "net8.0"
       ],
@@ -1861,7 +1861,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj",
       "role": "source",
-      "sha256": "70f93285e40e582be760a5d3fd56760cf311aef12de6394f6de6e450c528fc62",
+      "sha256": "8ce92f404723fd741554deb34758f2adb7c9e964c3c3e71e2f4350c75a385c3d",
       "frameworks": [
         "net8.0"
       ],
@@ -1899,7 +1899,7 @@
     {
       "path": "src/Modules/Registry/IFX.Modules.Registry.Presentation/IFX.Modules.Registry.Presentation.csproj",
       "role": "source",
-      "sha256": "a293d1a23b7093ca8b2c25f6d6b6692c3017868844e96c90be8bc42ab6a1bf29",
+      "sha256": "fa06e38844b8c5e1a3d3a99e9a2ead82bca51a07eb16bf852478f2ea0d699e2d",
       "frameworks": [
         "net8.0"
       ],
@@ -1913,7 +1913,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj",
       "role": "source",
-      "sha256": "4ae3aaa6f7880df8cf3c24054ec5deef9cddca31efca1bff0fc1bbc108cb8585",
+      "sha256": "a8c33259a3b2437185b06ee1afb86b8b6ff6e573a93f6d9d913e522c1e0b30a3",
       "frameworks": [
         "net8.0"
       ],
@@ -1935,7 +1935,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Composition/IFX.Modules.Transaction.Composition.csproj",
       "role": "source",
-      "sha256": "d3d76563882c0f603b688bbedf3eb0687a50e4d35d4d3cbf5e248c623f58321f",
+      "sha256": "c83220bc9fd8b7307b74928caae2dc9c77a028c021bf1bc5a8a49290bcd712c8",
       "frameworks": [
         "net8.0"
       ],
@@ -1969,7 +1969,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj",
       "role": "source",
-      "sha256": "594d622837dca2aa1a6f264dc3f3b94c12ab1fdfdbc2458628456918ded6e1bf",
+      "sha256": "ef1171c9c7f4dd3aa69ae22d1df756fa90afcd40e2fc36e5292842d5d7959e4e",
       "frameworks": [
         "net8.0"
       ],
@@ -1983,7 +1983,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/IFX.Modules.Transaction.Domain.csproj",
       "role": "source",
-      "sha256": "4c19d957ae3fd8b3d5545059df2299ae1a04380a6b89579d208780a15b4dfba4",
+      "sha256": "32954a9978b60974697f2d78c40cf50026285f2557f3d082957e639b0363107e",
       "frameworks": [
         "net8.0"
       ],
@@ -1997,7 +1997,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj",
       "role": "source",
-      "sha256": "4abbba9cbe0bf0c4ead2e156895164ac4f59d98e2a6883f11c0bff11d0a113c0",
+      "sha256": "1f65692794ea709f4ec5651ef77b0cd567be2d0c50366514eb9e1320da66f40c",
       "frameworks": [
         "net8.0"
       ],
@@ -2051,7 +2051,7 @@
     {
       "path": "src/Modules/Transaction/IFX.Modules.Transaction.Presentation/IFX.Modules.Transaction.Presentation.csproj",
       "role": "source",
-      "sha256": "fb0f7936f7fd44cb1c608ae0e45603803a4738693ba438f7b9bf9862a6d18829",
+      "sha256": "01d8577125721a1d17ac3fc5dbc8709cc3cfb3bd0d24fc9de0eaac60ddd7dd55",
       "frameworks": [
         "net8.0"
       ],
@@ -2065,7 +2065,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Composition/IFX.Platform.Authentication.Composition.csproj",
       "role": "source",
-      "sha256": "e4e3f30aa931e93f8743425b5720c98a3d030dba7a36d0b79357eb10cd8ccdb8",
+      "sha256": "9ad44b2a248b18af444b25440778bca6dd3270f97804ca02d4f9c4cf4a2212c6",
       "frameworks": [
         "net8.0"
       ],
@@ -2087,7 +2087,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj",
       "role": "source",
-      "sha256": "8bfbe2bf0c6036509cacdfd064a59d230c80b49cac589bd8119be4e9f07c9084",
+      "sha256": "b74e2ed65b0ed73188135dd3ff266ab11d29d0d4b990a473f6e467ec097aa497",
       "frameworks": [
         "net8.0"
       ],
@@ -2096,7 +2096,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Auth0/IFX.Platform.Authentication.Infrastructure.Auth0.csproj",
       "role": "source",
-      "sha256": "871b0a48855036c877a0b868e75bfcc5f7dace6f9a054e4d96ecf548e595a5d0",
+      "sha256": "913b7e04cb00a7998b0db4c31c79e58d6bf9375b70074cea42a563d037f50d57",
       "frameworks": [
         "net8.0"
       ],
@@ -2110,7 +2110,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Cognito/IFX.Platform.Authentication.Infrastructure.Cognito.csproj",
       "role": "source",
-      "sha256": "056aa1d23fe521edd7eb27eb4d74a35743c559f52ca31d324fd328b6975eb951",
+      "sha256": "484aaf361c1669118e73d29bbc9ebeeec241873709872985300624a7704a4635",
       "frameworks": [
         "net8.0"
       ],
@@ -2124,7 +2124,7 @@
     {
       "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj",
       "role": "source",
-      "sha256": "9361b49ce7b947e627f5845731a0c0843141231edf80d96fe4bdd1ea47ff83ef",
+      "sha256": "5bbec633fda57d62e127b3a208d0e72d499f6ba28664bde4a5d9b37d25a75e35",
       "frameworks": [
         "net8.0"
       ],
@@ -2138,7 +2138,7 @@
     {
       "path": "src/Platform/Authorization/IFX.Platform.Authorization.Composition/IFX.Platform.Authorization.Composition.csproj",
       "role": "source",
-      "sha256": "effe9a99bcd3aa0359e06eefd696c403c87b9cf9ac8b2b3b4b1362daabbf409f",
+      "sha256": "9adebb778b75e1d1c4ff52cc97951aaa2ab91e70c1db7e504d649240d1897348",
       "frameworks": [
         "net8.0"
       ],
@@ -2160,7 +2160,7 @@
     {
       "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj",
       "role": "source",
-      "sha256": "db5f6c13ee05bb9c620cf8a3549ff9bac4d367116fb11c0f3c3a1e8bd5d52ad6",
+      "sha256": "dd1aec33430afa1b6db95a49f061df13d29def748d9952f266d42cd9a6d43d41",
       "frameworks": [
         "net8.0"
       ],
@@ -2169,7 +2169,7 @@
     {
       "path": "src/Platform/Authorization/IFX.Platform.Authorization.Infrastructure.Opa/IFX.Platform.Authorization.Infrastructure.Opa.csproj",
       "role": "source",
-      "sha256": "e02903ba0784916a75d8ab9ea0ecf103a6cc48ef494f017b20332c962171fc49",
+      "sha256": "c43365f8b865ab3826d9557474505f9f39de90137d11dc7d9baeefe0d744117a",
       "frameworks": [
         "net8.0"
       ],
@@ -2187,7 +2187,7 @@
     {
       "path": "src/Platform/Authorization/IFX.Platform.Authorization.Runtime/IFX.Platform.Authorization.Runtime.csproj",
       "role": "source",
-      "sha256": "825c991113164cc89f1e32ef424b7a8e1d6516c17eb8764beb6cfb3ff4c0a5eb",
+      "sha256": "6bf93e25c5335e631ea6d2bbfbddb77853a47e973fb78c26341e21342b434dc4",
       "frameworks": [
         "net8.0"
       ],
@@ -2201,7 +2201,7 @@
     {
       "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/IFX.Platform.BackgroundJobs.Composition.csproj",
       "role": "source",
-      "sha256": "c4a89c6eefd456fd8c3d99ac88b6e72b2e46280149956913862314fe3232b4e1",
+      "sha256": "18723f9972f20027751b50a5407256183dc391a4f4c94ab76357bf6c5b3a2f06",
       "frameworks": [
         "net8.0"
       ],
@@ -2223,7 +2223,7 @@
     {
       "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Contracts/IFX.Platform.BackgroundJobs.Contracts.csproj",
       "role": "source",
-      "sha256": "427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca",
+      "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604",
       "frameworks": [
         "net8.0"
       ],
@@ -2232,7 +2232,7 @@
     {
       "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj",
       "role": "source",
-      "sha256": "ff87cf4f71d036701b607f3af7feb9239a500bc31e4f28d9360f889f5ce3ec77",
+      "sha256": "99b0e5f642a3cf53d2d60e0242f4d799b3ee531da502727e3941c814d79c2b6e",
       "frameworks": [
         "net8.0"
       ],
@@ -2246,7 +2246,7 @@
     {
       "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
       "role": "source",
-      "sha256": "427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca",
+      "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604",
       "frameworks": [
         "net8.0"
       ],
@@ -2255,7 +2255,7 @@
     {
       "path": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj",
       "role": "source",
-      "sha256": "51481621e645025c19887baead51a6e3489999771d9465b53059e6ba7f79f843",
+      "sha256": "7fea411e6566abf24466d662c926b13ff0e73a6cf20ccd410b6c3a7fa865c492",
       "frameworks": [
         "net8.0"
       ],
@@ -2273,7 +2273,7 @@
     {
       "path": "src/Platform/IFX.Platform.Shared/IFX.Platform.Shared.csproj",
       "role": "source",
-      "sha256": "e151f959964eb450a5b86b72765e3f9c505645fa9516eae485743d2b43911c8e",
+      "sha256": "b540adba501c839ec1d75143e106dfb9dd5593d9ff7cdd036af82c25c9387053",
       "frameworks": [
         "net8.0"
       ],
@@ -2282,7 +2282,7 @@
     {
       "path": "src/Platform/Messaging/IFX.Platform.Messaging.Composition/IFX.Platform.Messaging.Composition.csproj",
       "role": "source",
-      "sha256": "d18c86af33ae75522df3ded32e586c3d5d55679fc8b9dd054a7d8776ca2edbdc",
+      "sha256": "338480dc4902d7d9db564500b9a78026c963eb0d7b863afa81e73e96891e72d2",
       "frameworks": [
         "net8.0"
       ],
@@ -2296,7 +2296,7 @@
     {
       "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
       "role": "source",
-      "sha256": "427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca",
+      "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604",
       "frameworks": [
         "net8.0"
       ],
@@ -2305,7 +2305,7 @@
     {
       "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj",
       "role": "source",
-      "sha256": "c5a8c79ae33a994299bfadbe98b05f15ce6e08448566e11dbb4d4f35f103a987",
+      "sha256": "6da94a9675f74d9cb88602540c6dfb7b9b8bdc5583c16712e02e3783bdfffa88",
       "frameworks": [
         "net8.0"
       ],
@@ -2327,7 +2327,7 @@
     {
       "path": "src/Platform/Notifications/IFX.Platform.Notifications.Composition/IFX.Platform.Notifications.Composition.csproj",
       "role": "source",
-      "sha256": "04a2bddd5cbefb08a0f34740fc2f9a7a7b121db543bebbc3fad52e7716ba52bd",
+      "sha256": "7d95a0411b8641afe69b127ed1ed7b39aa48c6957f259d5f72671883f95322f7",
       "frameworks": [
         "net8.0"
       ],
@@ -2345,7 +2345,7 @@
     {
       "path": "src/Platform/Notifications/IFX.Platform.Notifications.Contracts/IFX.Platform.Notifications.Contracts.csproj",
       "role": "source",
-      "sha256": "427d1e050e34969c21ed62ae104c9f0d53391d4c9f6f6d67e43ac6cada4d0dca",
+      "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604",
       "frameworks": [
         "net8.0"
       ],
@@ -2354,7 +2354,7 @@
     {
       "path": "src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/IFX.Platform.Notifications.Infrastructure.SendGrid.csproj",
       "role": "source",
-      "sha256": "3912e766d3f5748da9247c4ee5048bfac5f1510a6eee9357068502c01af16f01",
+      "sha256": "cc04bdd4e595118fbd027aa426d0a68e509e7cf61ac65be5438903ca081e28af",
       "frameworks": [
         "net8.0"
       ],
@@ -2372,7 +2372,7 @@
     {
       "path": "tests/IFX.BuildingBlocks.Application.Tests/IFX.BuildingBlocks.Application.Tests.csproj",
       "role": "test",
-      "sha256": "8b3cb70c92b0c132c72be6b8b7772f50f7f1e94ce843d170bf325d84b509dbc4",
+      "sha256": "7e3435410e411dd174e71b4c62d38ce599b0415cd0a1cce523d4796d99213cde",
       "frameworks": [
         "net8.0"
       ],
@@ -2386,7 +2386,7 @@
     {
       "path": "tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests/IFX.BuildingBlocks.EntityFrameworkCore.Tests.csproj",
       "role": "test",
-      "sha256": "5a1080ebcd98bc87a973caf81f3d82e8e8a73e904cf4f5ae252f6318491c9ae9",
+      "sha256": "e9f5f1f38a97c2b089c0347839737528a3ffd4189d1e325ae31d79733c67f824",
       "frameworks": [
         "net8.0"
       ],
@@ -2400,7 +2400,7 @@
     {
       "path": "tests/IFX.DatabaseBoundary.Tests/IFX.DatabaseBoundary.Tests.csproj",
       "role": "test",
-      "sha256": "03714839c57f17cdadb179a3a8475318100a44bc0ed15b3cfe86d6f102a82376",
+      "sha256": "c4eb04584db82ea3e7db9929f8781d3068345ed38d462473146692316d234f91",
       "frameworks": [
         "net8.0"
       ],
@@ -2442,7 +2442,7 @@
     {
       "path": "tests/IFX.IntegrationTests/IFX.IntegrationTests.csproj",
       "role": "test",
-      "sha256": "fc02fbcbedecb0539611ecd565ed989ad2eff20d387dab13e9ed3da8a6737736",
+      "sha256": "b090daf59320c3defe9252fe5f59af148a3eab666a4615a025cf78e1436e3840",
       "frameworks": [
         "net8.0"
       ],
@@ -2484,7 +2484,7 @@
     {
       "path": "tests/IFX.Modules.CRM.Application.Tests/IFX.Modules.CRM.Application.Tests.csproj",
       "role": "test",
-      "sha256": "fc17d5a866eec2e15b73ecdcc612de16145282ecd6b93526ed2386e8caafb4a9",
+      "sha256": "4b03fe886bf8108873f89b3cc56e9adfc61765597dcb19bbad0d1819ba532304",
       "frameworks": [
         "net8.0"
       ],
@@ -2506,7 +2506,7 @@
     {
       "path": "tests/IFX.Modules.CRM.Domain.Tests/IFX.Modules.CRM.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "0ace8d9b67281e080eadcd652d04595b0896d1237c9efa29aeb236aa4f6f8c42",
+      "sha256": "bc72a9fbececcc3eaa15ab7b9fde0a635cd719370fd5a411f0cd3efe0603b941",
       "frameworks": [
         "net8.0"
       ],
@@ -2520,7 +2520,7 @@
     {
       "path": "tests/IFX.Modules.Holdings.Application.Tests/IFX.Modules.Holdings.Application.Tests.csproj",
       "role": "test",
-      "sha256": "8fb87c0f3115c56f16db50dc75ae39d32ca955b1020d4d6fe905a92f4d7c9fc5",
+      "sha256": "5a3367cab02d7ad182c2c3057a3233a08068c33859179913ef9ad63226b467ad",
       "frameworks": [
         "net8.0"
       ],
@@ -2534,7 +2534,7 @@
     {
       "path": "tests/IFX.Modules.Holdings.Domain.Tests/IFX.Modules.Holdings.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "7f219de9ae3d8b7d7748b037cd6005f91cac10965ad183aa3c484cabc57b2a24",
+      "sha256": "ade96404a140b15cb93ccb92521945f3ca7d3104ab17d03ecbf7b32df46f28a3",
       "frameworks": [
         "net8.0"
       ],
@@ -2548,7 +2548,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Application.Tests/IFX.Modules.IAM.Application.Tests.csproj",
       "role": "test",
-      "sha256": "ea7e1f4fc5469e881f3aa4f12ca86d471dbe1673630a43f582ab41d71ad17020",
+      "sha256": "17ba3f82e06c2ceb7517486cfb40c160c916a02b6f954bd718c4e6252aaa4545",
       "frameworks": [
         "net8.0"
       ],
@@ -2566,7 +2566,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Domain.Tests/IFX.Modules.IAM.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "2a205f246cd39053bea56ae6746a0ec295d75f386e11665900ad48d3b0b1a4e8",
+      "sha256": "eeb1b9185e53dc3562c76b3e666453c8906e62b8bb1f8ef73dc625c6c812aeea",
       "frameworks": [
         "net8.0"
       ],
@@ -2584,7 +2584,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Infrastructure.Tests/IFX.Modules.IAM.Infrastructure.Tests.csproj",
       "role": "test",
-      "sha256": "1e6440b1806350d709a67f2e8b9ef7d693101babf0d07fce498b6715ec309741",
+      "sha256": "d4fb8a83a6e9fa75528a5e4605f38910c9635688dc49c0061f1f69f716120291",
       "frameworks": [
         "net8.0"
       ],
@@ -2606,7 +2606,7 @@
     {
       "path": "tests/IFX.Modules.IAM.Presentation.Tests/IFX.Modules.IAM.Presentation.Tests.csproj",
       "role": "test",
-      "sha256": "1dc9b5f8ec2401b6863dba365e0989807fcd69fc6faa064d0eff9b98f5effd46",
+      "sha256": "a3f289b5f6c83a6b38431c5e228bad1f8b1a209e0570a4b6c2b9f4a45081114c",
       "frameworks": [
         "net8.0"
       ],
@@ -2624,7 +2624,7 @@
     {
       "path": "tests/IFX.Modules.Registry.Application.Tests/IFX.Modules.Registry.Application.Tests.csproj",
       "role": "test",
-      "sha256": "73a8d5830a74fe97facf9a9ebdff194028359b86467501c417cea7cdd5ed9734",
+      "sha256": "f16893d31ee8e57e0939ed1248f7615f64626320af40a7cd88327d5a83f2568e",
       "frameworks": [
         "net8.0"
       ],
@@ -2646,7 +2646,7 @@
     {
       "path": "tests/IFX.Modules.Registry.Domain.Tests/IFX.Modules.Registry.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "663ec0e31342ecdda8007bd5bf07fe32202c5ce799362ca2ba8ab9fcc544af0c",
+      "sha256": "831d01dfb8cadf006e95f998c3abd19aac41636105ff699a5ea09f845b6f2c02",
       "frameworks": [
         "net8.0"
       ],
@@ -2660,7 +2660,7 @@
     {
       "path": "tests/IFX.Modules.Transaction.Application.Tests/IFX.Modules.Transaction.Application.Tests.csproj",
       "role": "test",
-      "sha256": "f765e9e3e706b23a7b233da90f280888b707db91aee2fd1e2ea62823a2e905c4",
+      "sha256": "de0dc69523662e6e998f0270a857277eb9abb2305c202068ccc2d039b3c51873",
       "frameworks": [
         "net8.0"
       ],
@@ -2674,7 +2674,7 @@
     {
       "path": "tests/IFX.Modules.Transaction.Domain.Tests/IFX.Modules.Transaction.Domain.Tests.csproj",
       "role": "test",
-      "sha256": "6955b5502520ecd3c872bbdfd095c01ee0011b6a3f175c10f3e2d1ecfcbfdb02",
+      "sha256": "7f41f310bccd43e11673d9c4fc5fb1652aba035a6a302df61ce680044f5138f0",
       "frameworks": [
         "net8.0"
       ],
@@ -2688,7 +2688,7 @@
     {
       "path": "tests/IFX.Platform.Authentication.Tests/IFX.Platform.Authentication.Tests.csproj",
       "role": "test",
-      "sha256": "97560bf9567d00d30ba611fe4b74d6d9030c93c530122a40ca4ae54e2e321b8e",
+      "sha256": "b72b40138c4860db7c9947916a4658710fff8f379bd90b525168f6c4bc319be7",
       "frameworks": [
         "net8.0"
       ],
@@ -2706,7 +2706,7 @@
     {
       "path": "tests/IFX.Platform.Authorization.Tests/IFX.Platform.Authorization.Tests.csproj",
       "role": "test",
-      "sha256": "4cfb1a844f6338d077c57d0a7c6b44272306effa5fdcc680ca8c1e128057f5f2",
+      "sha256": "e22273de60bfacb242ab43ba108ef85d16212f3acfb40fa2db1565c4f61793d4",
       "frameworks": [
         "net8.0"
       ],
@@ -2724,7 +2724,7 @@
     {
       "path": "tests/IFX.Platform.BackgroundJobs.Tests/IFX.Platform.BackgroundJobs.Tests.csproj",
       "role": "test",
-      "sha256": "166e55ef7292dfd482bab5651787de1f37846fbe7c38e005a8d32e96a893be7d",
+      "sha256": "7f82d93c5151e88e20f8f700b7a9776da9366e9d499f3245d57cf6df5968493f",
       "frameworks": [
         "net8.0"
       ],
@@ -2742,7 +2742,7 @@
     {
       "path": "tests/IFX.Platform.Notifications.Tests/IFX.Platform.Notifications.Tests.csproj",
       "role": "test",
-      "sha256": "980362bc3856397a851a4abde4283aa15030138d9baa574f1adce18661fffe3c",
+      "sha256": "23536817bcdbf4eb8ee0ad328e2c1f6e8918c8cb1f126bb1becea93fb1263a20",
       "frameworks": [
         "net8.0"
       ],
@@ -2764,7 +2764,7 @@
     {
       "path": "tests/IFX.Platform.ProtocolContracts.Tests/IFX.Platform.ProtocolContracts.Tests.csproj",
       "role": "test",
-      "sha256": "39f4d39206ce9fbb1ee26e62d5cf4cda7ade67204f7e2090325ecc1290f6ea3c",
+      "sha256": "dd076680fd4b935ff72943b2b0141aa5c4a6139bc850d4177e46864e5a0f04d2",
       "frameworks": [
         "net8.0"
       ],
@@ -2798,7 +2798,7 @@
     {
       "path": "tests/IFX.Tests.Common/IFX.Tests.Common.csproj",
       "role": "test",
-      "sha256": "b1e08f2785be07775e92be6275859aa57c1c7390e6b8dbe10d5c719f6c2fed58",
+      "sha256": "38741d4432d19edf325f662c416b977a1e504d4c7d3b97a1a5c9c31fb53918e6",
       "frameworks": [
         "net8.0"
       ],
@@ -2816,7 +2816,7 @@
     {
       "path": "tools/IFX.DatabaseInventory/IFX.DatabaseInventory.csproj",
       "role": "source",
-      "sha256": "df069526d2a1c30797b76e893a442606bff7bcf49189e0214316ad91ff23ee58",
+      "sha256": "6fabff7dcb18e78d7f939430e3ddf10f6fe56a2896557e69c9de7a2ca7381ab8",
       "frameworks": [
         "net8.0"
       ],
@@ -2847,37 +2847,37 @@
   "manifests": [
     {
       "path": "Directory.Build.props",
-      "sha256": "92b9390a169bd048f661d260145dc2c176c2886d2e7551b66e322e78a55cae06",
+      "sha256": "1e5d8d41ae2726ae27326d9070353698655ddabe4aa31df81fbaa93dff80549c",
       "kind": "Directory.Build.props",
       "scriptNames": []
     },
     {
       "path": "IFX.sln",
-      "sha256": "078bc0b7266ba0be545229492a7a9a93f36d750d0984ba7c63822abf07856994",
+      "sha256": "a855255f5373c03301ae40a8aae1ad82382aa5038e930de025aa95371c7a4b17",
       "kind": "IFX.sln",
       "scriptNames": []
     },
     {
       "path": "mcp/LayerGuard/LayerGuard.slnx",
-      "sha256": "f00e5b973bed62eaf8c1b87b37befae3d5c1ae979e307056b4d83e351f8f4adb",
+      "sha256": "9a5f0a7215b7525eb76a76e9cc4338bfcd24add8307a943fd4fae7e5707b69ae",
       "kind": "LayerGuard.slnx",
       "scriptNames": []
     },
     {
       "path": "mcp/LayerGuard/tests/fixtures/SolutionScope/SolutionScope.sln",
-      "sha256": "5a7f66cef572db5d3bbc1f3643828c3504d6e5992b661d2adc5241dcdf640ac2",
+      "sha256": "4bd18d14fa5d30e62535914c7ac313cafd99fe870bfe384a2e1afa1171e751c6",
       "kind": "SolutionScope.sln",
       "scriptNames": []
     },
     {
       "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.sln",
-      "sha256": "0a56236cd32f80c399c5b003852ffa301d8cadf7fdaaa561734bcf238b032b91",
+      "sha256": "6382b0a84aeccf799abe4a1df2543b76fe020f16ee14294a7696c4cdd04d28b5",
       "kind": "IFX.ApiHost.sln",
       "scriptNames": []
     },
     {
       "path": "src/Frontend/IFX.FrontEnd/package.json",
-      "sha256": "42095d50bc43d63199367e51524a1cebde3445cb1651f26c09b169364860f53f",
+      "sha256": "8c4e911c067e0e7fbd01a3926696dcb23d5d718ce3cc20c6641b89e09f737932",
       "kind": "package.json",
       "scriptNames": [
         "build",
@@ -2899,11 +2899,11 @@
   "guidance": [
     {
       "path": ".github/CODEOWNERS",
-      "sha256": "e6df36b23aa0578b02ef8135e67e22b3b93370f60f408e9feee9f591993529f4"
+      "sha256": "0d2d27a49e49077db1a2946954118bce8b73cbb33b78c6fc13df6cbfc5d3adea"
     },
     {
       "path": "CLAUDE.md",
-      "sha256": "a7c485a879101d4e60113d6530a0b418c7ead808280b3a2a6e275ac305c9a4c4"
+      "sha256": "b889dfd02dacc7ba0b7e642cdedc17f24f09ed6d8ed690e3a71027d2b013914c"
     }
   ],
   "areaCandidates": [
