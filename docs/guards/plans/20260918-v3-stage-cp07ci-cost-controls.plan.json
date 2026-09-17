@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07ci-cost-controls",
+  "title": "V3 stage-oriented refactor CP07-ci — CI cost controls and the base-owned verified change scope",
+  "goal": "Cut the Actions cost of a pull request run without changing what any gate proves: cancel superseded runs, cache the reviewed packages, run the re-validation schedule monthly, and let the base classify the verified changed set so that records-and-plans pull requests inherit the verdicts of unchanged gate inputs (D28).",
+  "acceptanceCriteria": [
+    "Get-IFXChangeScope.ps1 classifies the changed set from the verified merge base to the explicit head as records-and-plans only when every path is a formal plan document, an authorization record or a decision record, and returns full for an empty changed set, an unrecognized path or any failure.",
+    "On records-and-plans the workflow skips the head candidate steps of v3-architecture and both cross-platform legs, and the runner records guardrails as skipped for v3-architecture, the three quality checks and v3-specialized-database; v3-pre-diff, Validate, Pre, HistoricalIntegrity and the G03/G04/G05/Plan04 gates always run.",
+    "ci/jobs.json declares the cost controls and the change scope, Invoke-IFXCiContract.ps1 enforces them read-only, Test-IFXCiContract.ps1 and Test-IFXTrustedBase.ps1 -ChangeScopeOnly cover the negatives, the 13 required check names and the ruleset are unchanged, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07ci-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07ci-weaken-policy.json",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07ci-cost-controls.md",
+    "docs/guards/plans/20260918-v3-stage-cp07ci-cost-controls.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}

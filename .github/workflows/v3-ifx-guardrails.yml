@@ -5,11 +5,16 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: '17 3 * * 1'
+    - cron: '17 3 1 * *'
   workflow_dispatch:
 
 permissions:
   contents: read
+
+# Plan 06 D28: a superseded head no longer needs its run, and the ruleset still requires every check on the final head.
+concurrency:
+  group: v3-ifx-guardrails-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 # Plan 06 §11.1: every gate verdict comes from Invoke-IFXTrustedBase.ps1 started from a clean worktree of the base
 # commit ($RUNNER_TEMP/guard-base, outside the checkout); the checkout is only the target. Steps that run
@@ -76,12 +81,28 @@ jobs:
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
+      - name: Cache reviewed guard packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: guard-nuget-${{ runner.os }}-${{ hashFiles('docs/guards/*/build/locks/*.packages.lock.json') }}
+          restore-keys: guard-nuget-${{ runner.os }}-
+      - name: Classify the verified changed set from the trusted base
+        id: scope
+        if: github.event_name == 'pull_request'
+        # A base that cannot classify, or any failure here, leaves the scope empty, and every step below then runs.
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Validate package projections and contracts from the trusted base
         shell: pwsh
         run: |
           pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Run head candidate package tests
+        if: steps.scope.outputs.scope != 'records-and-plans'
         shell: pwsh
         run: |
           # Head candidate scripts run in their own process; that process's exit code is the result.
@@ -135,6 +156,12 @@ jobs:
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
+      - name: Cache reviewed guard packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: guard-nuget-${{ runner.os }}-${{ hashFiles('docs/guards/*/build/locks/*.packages.lock.json') }}
+          restore-keys: guard-nuget-${{ runner.os }}-
       - name: Restore, build and test the solution once
         shell: pwsh
         run: |
@@ -365,6 +392,12 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      - name: Cache reviewed guard packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: guard-nuget-${{ runner.os }}-${{ hashFiles('docs/guards/*/build/locks/*.packages.lock.json') }}
+          restore-keys: guard-nuget-${{ runner.os }}-
       - name: Restore EF Core CLI
         run: dotnet tool restore
       - name: Prepare trusted base worktree
@@ -444,6 +477,21 @@ jobs:
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
+      - name: Cache reviewed guard packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: guard-nuget-${{ runner.os }}-${{ hashFiles('docs/guards/*/build/locks/*.packages.lock.json') }}
+          restore-keys: guard-nuget-${{ runner.os }}-
+      - name: Classify the verified changed set from the trusted base
+        id: scope
+        if: github.event_name == 'pull_request'
+        # A base that cannot classify, or any failure here, leaves the scope empty, and every step below then runs.
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Validate from the trusted base
         shell: pwsh
         run: |
@@ -463,6 +511,7 @@ jobs:
           pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1" -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Reproduce head generated inputs and run head candidate tests
+        if: steps.scope.outputs.scope != 'records-and-plans'
         shell: pwsh
         run: |
           # Head candidate scripts run in their own process; that process's exit code is the result.
