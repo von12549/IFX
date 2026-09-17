@@ -1090,6 +1090,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：D18 比较增加 Git 对象模式，按 merge base 与明确 head commit 的 blob 报告 blocking pointers 与 blob hash；base protected change verifier 把有 blocking findings 的 authority 作为 `policy-weakening` 义务（schema `domain-authority:<id>`，pointer 为 blocking pointers），由 `weaken-policy` 精确覆盖。Validate、Architecture 与 Specialized 在收到明确 `-HeadRef` 时以 Git 对象比较 authority，blocking findings 只有在 base verifier 针对该 commit 重新计算、报告绑定 base、merge base、head 与保护配置、registry、授权 schema hash，且每个 blocking authority 恰好由一条已消费的 `weaken-policy` 以相同 pointer 覆盖时才通过；授权记录、算法与 registry 全部来自 base，checkout 中变化的 authority 必须与明确 head 一致；没有明确 head 时继续失败关闭。workflow 为这些 gate 传入 PR head SHA（非 PR 事件为 `github.sha`）。CP06b2 是第一个由 CP06b1 规则判定的 PR，同时消费 `change-trusted-base` 与 `weaken-policy`。
 - 来源：CP06b 设计评审（C、D），用户于 2026-09-17 批准；记录 `20260917-v3-stage-d25-domain-authority-coverage.json`。
 
+### D26 — Architecture Conformance 拆分、Generate/Check 过渡与 `mcp/LayerGuard` 范围（P6 补充，细化 D12、D23）
+
+- **决定**：P6 以 CP07a-prep、CP07a（P6.1）、CP07b（P6.2–P6.3）、CP07c（P6.4–P6.6）交付，每个都是精确候选授权 PR 加消费变更 PR。CP07a-prep 先让 base-owned `GatePolicyBindingTests` 从 runner 传入的 `LAYERGUARD_PACKAGE_ROOT` 或向上寻找 `policy/layerguard.json` 解析 package root，并把模板与 generated 副本的逐字节比较限定在 Check/Generate（候选验证只叠加 base-owned 模板测试，Test/Scan 若仍比较会把叠加本身报为漂移）（expand），CP07a 再从模板直接构建并删除 generated 副本。过渡期保留 `Invoke-IFX.ps1` 的 Generate/Check 与 active workflow 调用：Generate 只读且不得重建已删除的树，Check 做源码清单、policy 绑定与 fixture 的实质检查；P6.4 建立替代入口前不输出正式 DEPRECATED 信息；P9 只从候选 workflow 移除调用，active workflow 清理随 P11.4/P11.5。`mcp/LayerGuard` 作为历史完整性与切换保留约束下的遗留 MCP 项目不在 P6 范围，后续去重需要单独决定与 plan。
+- 来源：CP07 设计评审，用户于 2026-09-17 批准；CP07a 实施发现 base-owned 测试的固定深度路径冲突后，用户批准插入 CP07a-prep；记录 `20260917-v3-stage-d26-architecture-conformance-split.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。

@@ -1,0 +1,91 @@
+{
+  "formatVersion": 1,
+  "id": "cp07a-prep-binding-root",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260917-v3-stage-cp07a-prep-binding-root.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.engine.architecture-runner",
+    "tcb.engine.trusted-base",
+    "tcb.generated.architecture-conformance",
+    "tcb.validation.architecture-conformance"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.generated.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8eda46fc513ea38e8422230e2a4cdd854f24ea1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "db2e36f0b93ac4a20a8a17c58857b47a0dfec709"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2280a32b98fad6334e5cc0b724b0a0f4c02fc88e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d896af64f0be2cda6b77215894143a9d2e5f7501"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8eda46fc513ea38e8422230e2a4cdd854f24ea1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "db2e36f0b93ac4a20a8a17c58857b47a0dfec709"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ee8c8b2370af0f47e9a20f1a5768929f4469a8fc"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "855ba500afa8d3c64f7c0741ddc42be5ac547705"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFX.ps1 -Mode Check",
+    "Invoke-IFX.ps1 -Mode Test",
+    "v3-architecture"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged: the binding tests resolve the same package root for the current layout, and the runner only passes that root explicitly; the template identity check moves from every mode to Check and Generate, which CI still runs.",
+  "allowedBehaviorDifferences": []
+}
