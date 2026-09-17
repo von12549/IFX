@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp05a-break-glass-evidence",
+  "title": "V3 stage-oriented refactor CP05a \u2014 break-glass evidence record",
+  "goal": "Record the D20 break-glass execution, the ruleset snapshots and CI contract proofs, the local simulation and the post-restore verification, and mark CP05a complete, without changing any trusted component.",
+  "acceptanceCriteria": [
+    "The evidence record lists authorizer and reviewer, reason and failing run, affected check, start, merge and restore times, snapshot and request hashes, CI contract reports, and the #42, #43 and #44 results with run links.",
+    "The committed snapshots show before and after equal except for updated_at and during differing only by the removed v3-pre-diff context.",
+    "No trusted component changes and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a.md",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ci-contract-after.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ci-contract-before.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/cp05a-simulation.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ruleset-after.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ruleset-before-request.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ruleset-before.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ruleset-during-request.json",
+    "docs/architecture/review/evidence/guards/break-glass-20260917-cp05a/ruleset-during.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-break-glass-evidence.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-break-glass-evidence.plan.json"
+  ],
+  "areaIds": [
+    "ArchitectureDocs",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json"
+  ]
+}
