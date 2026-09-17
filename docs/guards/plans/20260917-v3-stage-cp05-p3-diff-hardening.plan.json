@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp05-p3-diff-hardening",
+  "title": "V3 stage-oriented refactor CP05 \u2014 P3 generic Diff hardening in V3 and protected path configuration",
+  "goal": "Bring merge-base verification, empty-diff fail-closed, protected deletion and rename detection and D20 authorization consumption into the portable V3 Diff template, move protected paths and the authorization directory into a validated Diff protection configuration loaded from the trusted base, unify the Test-V3 NuGet source per D21, and consume the CP05-auth authorization.",
+  "acceptanceCriteria": [
+    "The V3 and V3_ifx Diff templates are byte-identical, contain no IFX paths, and read protected paths and the authorization directory from GUARD_PROTECTION_PATH, which Invoke-V3 sets only after validating the package protection configuration.",
+    "docs/guards/V3_ifx/stages/diff/protection.json protects the same paths as the previous hardcoded list and the manifest check requires it and the template parity.",
+    "Both Test-V3.ps1 copies are identical, restore through the V3 build baseline and cover committed, empty, protected deletion and rename, missing configuration and authorization consumption cases; the identical V3_ifx copy runs in v3-cross-platform on Linux and Windows, and the manifest check enforces template and runner parity with V3.",
+    "The pull request consumes the CP05-auth authorization: candidate verification passes and v3-pre-diff reports consumed-authorization pass, with all 13 required checks passing."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3/DEPLOYMENT.md",
+    "docs/guards/V3/contracts/protection.schema.json",
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp05-p3-diff-hardening.json",
+    "docs/guards/V3_ifx/stages/diff/protection.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp05-p3-diff-hardening.md",
+    "docs/guards/plans/20260917-v3-stage-cp05-p3-diff-hardening.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json"
+  ]
+}

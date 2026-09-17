@@ -313,6 +313,33 @@ if ($null -ne $registry) {
     }
 }
 
+# ---------------------------------------------------------------- Diff protection and V3 fork parity (Plan 06 P3.2, P3.5)
+$protectionRelative = "$package/stages/diff/protection.json"
+if (-not [IO.File]::Exists((Full $protectionRelative))) { Fail "Diff protection configuration is missing: $protectionRelative" }
+else {
+    try {
+        if (-not (Test-Json -Path (Full $protectionRelative) -SchemaFile (Full "$package/contracts/protection.schema.json") -ErrorAction Stop)) { Fail "Schema validation failed: $protectionRelative" }
+    } catch { Fail "Schema validation failed: ${protectionRelative}: $($_.Exception.Message)" }
+}
+# Until P7.5 removes the copies, the IFX stage gate templates and runner must stay byte-identical to the portable V3
+# package, so the IFX copy's Linux and Windows CI run exercises the V3 Diff code. Each pair is checked where both package
+# directories exist (package fixtures carry only the parts they test).
+$parityPairs = [Collections.Generic.List[object]]::new()
+$v3Templates = Full 'docs/guards/V3/templates/dotnet'
+$forkTemplates = Full "$package/templates/dotnet"
+if ([IO.Directory]::Exists($v3Templates) -and [IO.Directory]::Exists($forkTemplates)) {
+    foreach ($name in @(@(Get-ChildItem -LiteralPath $v3Templates -File) + @(Get-ChildItem -LiteralPath $forkTemplates -File) | ForEach-Object Name | Sort-Object -Unique)) {
+        $parityPairs.Add(@("docs/guards/V3/templates/dotnet/$name", "$package/templates/dotnet/$name"))
+    }
+}
+if ([IO.Directory]::Exists((Full 'docs/guards/V3/scripts')) -and [IO.Directory]::Exists((Full "$package/scripts"))) { $parityPairs.Add(@('docs/guards/V3/scripts/Invoke-V3.ps1', "$package/scripts/Invoke-V3.ps1")) }
+foreach ($pair in $parityPairs) {
+    if (-not [IO.File]::Exists((Full $pair[0])) -or -not [IO.File]::Exists((Full $pair[1]))) { Fail "V3 fork parity file exists in only one package: $($pair[0]) / $($pair[1])"; continue }
+    $leftText = [IO.File]::ReadAllText((Full $pair[0])).Replace("`r`n", "`n")
+    $rightText = [IO.File]::ReadAllText((Full $pair[1])).Replace("`r`n", "`n")
+    if ($leftText -cne $rightText) { Fail "V3 fork copy diverges from V3: $($pair[1])" }
+}
+
 # ---------------------------------------------------------------- compatibility entries
 foreach ($entry in $system.compatibility.entries) {
     $legacy = $entry.legacyPath
