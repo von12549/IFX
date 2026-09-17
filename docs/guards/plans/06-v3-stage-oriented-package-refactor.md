@@ -776,7 +776,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P2.9 在 `docs/authored/` 记录 §11.7 break-glass 外部治理流程和 §11.4 保证范围。 证据：`docs/guards/V3_ifx/docs/authored/trusted-base.md`（§11.4 保证范围、D19 首次引入、§11.7 break-glass 步骤与记录字段）。
 - **门槛**：在 §11.4 保证范围内，head 修改入口调用链、engine、保护配置、policy 或 MSBuild/NuGet/SDK 继承文件均无法改变判定型结论；有效 import 断言通过；每个 required check 都有 trust contract；所有 TCB 候选变更都通过 base-owned validation/parity，非等价语义变化具备 base 预授权。
 
-### P3 — 通用 Diff 加固合回 V3
+### P3 — 通用 Diff 加固合回 V3 — 已完成（2026-09-17，CP05）
 
 - [x] P3.0 本阶段对 Diff engine/template 的修改按 §11.5 作为 TCB 候选升级，使用 base-owned validation/parity；非等价语义变化消费 `change-trusted-base` 授权。 证据：本 PR 消费 base 中的 `stages/diff/authorizations/cp05-p3-diff-hardening.json`（CP05-auth），`v3-cross-platform-ubuntu-latest` 的候选验证运行 base-owned validation 与 parity，`v3-pre-diff` 以 `consumed-authorization` 接受记录删除（D20）。
 - [x] P3.1 将 merge-base 校验和 empty-diff fail-closed 合回 V3 模板。 证据：`docs/guards/V3/templates/dotnet/GuardTests.cs.in` 验证 base/head commit、从 merge base 比较，changed set 为空时失败；`Test-V3.ps1` 的 committed 与空 diff 用例。
@@ -785,7 +785,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P3.4 在 V3 补齐正反例和 Linux/Windows 测试。 证据：`Test-V3.ps1` 新增 11 个 Diff 正反例（committed、空 diff、非法配置、受保护删除与重命名、无配置、授权消费及其 4 个负例）；两份逐字节相同，V3_ifx 副本已在 `v3-cross-platform` 的 Linux/Windows 运行；V3 副本登记为 `tcb.validation.v3-package-tests`（`Test-V3.ps1` parity 检查随 CP06 加入，见 CP05 pair §3）。
 - [x] P3.5 证明 V3 Diff 与 V3_ifx 当前 Diff 等价或更强；此阶段不删除 V3_ifx 副本（见 P7.5）。 证据：V3_ifx 与 V3 的 `templates/dotnet`、`scripts/Invoke-V3.ps1` 逐字节相同，由 `Invoke-IFXManifestCheck.ps1` 强制（`Test-IFXManifests.ps1` 负例）；`protection.json` 条目与原硬编码列表逐项相同；`Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 在配置化模板下通过；V3_ifx 副本保留至 P7.5。
 - **门槛**：V3 具备 V3_ifx 全部通用加固，通用模板中不含 IFX 路径。
-- **结果**：门槛通过（本地；CI 以本 PR 验证）。V3 模板具备 merge-base 校验、空 diff 失败关闭、受保护删除/重命名与 D20 授权消费；保护路径与授权目录由 Diff 配置提供，模板中不含 IFX 路径；V3_ifx 模板与 V3 逐字节相同；本阶段作为第一个常规两 PR TCB 变更（CP05-auth → CP05）完成。
+- **结果**：门槛通过（PR #46 → #47 CI 通过）。V3 模板具备 merge-base 校验、空 diff 失败关闭、受保护删除/重命名与 D20 授权消费；保护路径与授权目录由 Diff 配置提供，模板中不含 IFX 路径；V3_ifx 模板与 V3 逐字节相同；本阶段作为第一个常规两 PR TCB 变更（CP05-auth → CP05）完成。
 
 ### P4 — 受保护变更授权与 policy/config 双轨验证
 
@@ -1065,6 +1065,16 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 
 - **决定**：trusted Diff 只接受 base 候选 verifier（runner 以 authorization-only 模式针对精确 PR head 运行）确认被本变更消费的授权记录的普通删除；重命名、其他受保护删除、未验证或注入的消费、未被消费的授权删除仍失败；不把任意授权删除定义为安全撤销，撤销等待 P4。修复本身按 §11.7 以一次性 break-glass 合入：授权 PR 加入记录，修复 PR 消费记录，仅在修复 PR 合入期间从 ruleset 移除 `v3-pre-diff`，保留前后快照并立即恢复，事后以常规 PR 做正反复验。
 - 来源：CP05 准备时发现 CP04b 的 verifier（要求删除被消费记录）与 base Diff（禁止 `docs/guards/V3_ifx/` 下删除）互相阻断；用户于 2026-09-17 选择方案 A，并只授权本地准备与模拟；记录 `20260917-v3-stage-d20-authorization-consumption-and-break-glass.json`。
+
+### D22 — 未消费授权的 revocation-only 撤销（P4 补充，细化 D10、D20）
+
+- **决定**：未被消费的授权只能在 revocation-only PR 中撤销：committed changed set 只包含 base 中 schema-valid 授权记录的普通删除，以及本次 formal plan pair 的新增或修改；混入任何其他变更时，被删除的记录都作为消费候选，未使用即失败。撤销适用于所有 schema-valid operation，包括尚未启用消费的 operation。
+- 来源：D20 将未消费授权的删除留待 P4；用户于 2026-09-17 批准；记录 `20260917-v3-stage-d22-revocation-only-authorization-deletion.json`。
+
+### D23 — 保护义务、CP06 拆分与绑定报告（P4 补充，细化 D10、D13、D15、D20）
+
+- **决定**：P4 拆分为 CP06a（完整授权 schema、Git 对象验证、路径操作）、CP06b（policy/config 双轨与 `weaken-policy`）、CP06c（两 PR 演练与证据）、CP06d（第一次真实 D17 删除），P4.4 延后。trusted Diff 以 `--raw -z --no-renames` 从已验证 merge-base 派生保护义务（受保护路径删除、TCB 变化，CP06b 增加 policy 削弱），以 head 删除的 base schema-valid 记录为候选，每个义务恰好由一个候选覆盖、每个候选至少覆盖一个义务；未启用的 operation 即使 schema-valid 也失败关闭，`.gitattributes` 在 CP06a 一律拒绝、CP06b 以 `weaken-policy` 开通；受保护范围 gitlink 失败，授权记录不可修改。允许集合报告由 base 生成，绑定 base、merge-base、head 与 Diff 保护配置 hash，通用 Diff 仅在全部绑定一致时精确豁免报告列出的删除。旧消费变量在 CP06a 模板中保留兼容，CP06b 删除。
+- 来源：CP06 设计评审，用户于 2026-09-17 有条件批准；记录 `20260917-v3-stage-d23-protected-change-obligations.json`。
 
 ## 18. 暂缓项
 

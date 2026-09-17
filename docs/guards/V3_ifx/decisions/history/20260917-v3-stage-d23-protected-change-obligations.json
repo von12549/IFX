@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d23-protected-change-obligations",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P4 is delivered as CP06a (full authorization schema, Git object verification and path operations), CP06b (policy and config dual-track validation and weaken-policy), CP06c (two-PR rehearsal and evidence) and CP06d (the first real D17 deletion); P4.4 comparators are deferred. From CP06a, a base protected change verifier (trusted-base/Test-IFXProtectedChanges.ps1) runs in the trusted Diff against the committed head. It reads the changed set with git diff --raw -z --no-renames from the verified merge base and derives protection obligations rather than per-path coverage: each removal of a protected path, and one obligation for any trusted component change; CP06b adds policy weakening obligations. The same path can carry several orthogonal obligations, such as a protected deletion and a trusted component change. The candidate authorizations are the schema-valid base records that head deletes; every obligation must be covered by exactly one candidate, every candidate must cover at least one obligation, and uncovered, duplicate and unused coverage fail. Operations that the base verifier has not enabled fail closed even when schema-valid; in CP06a weaken-policy is not enabled, and every .gitattributes change fails until CP06b opens it through weaken-policy. Gitlinks in the protected scope fail. Authorization records are immutable, and added records must be schema-valid with a file name equal to their id. The verifier writes a report bound to the base commit, the merge base, the head commit and the SHA-256 of the base Diff protection configuration; the trusted runner keeps it outside head and passes it to the generic Diff test, which exempts exactly its allowedDeletions only when every binding matches, and otherwise fails. The report replaces GUARD_CONSUMED_AUTHORIZATIONS: trusted runners no longer set that variable and strip it from child processes, and the CP06a template still honours it only so that the base-owned Test-V3.ps1 of the previous base validates the CP06a candidate (expand and contract); CP06b removes it. Trusted component candidate verification uses the same record checks.",
+  "affectedPaths": [
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/contracts/**",
+    "docs/guards/V3_ifx/docs/**",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/trusted-base/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "Covering by path cannot express that one change needs several independent authorizations, for example deleting a protected trusted engine script needs both a delete and a change-trusted-base record, while covering by record lets one record hide an unrelated change. Deriving obligations from the verified changed set and requiring exactly-once coverage makes both mistakes fail. Reading only committed Git objects without rename detection keeps the result independent of checkout line endings and rename heuristics. Binding the report to the exact commits and the base configuration hash prevents a report produced for another pull request, another head or another configuration from exempting anything, and failing on any mismatch avoids silently ignoring a stale report. Keeping unimplemented operations and .gitattributes fail-closed means a schema that already describes weaken-policy cannot become an authorization channel before its checks exist. The portable C# Diff stays generic by consuming only allowedDeletions. The user approved the split, the obligation model, the fail-closed rules and the bound report on 2026-09-17. Refines D10, D13, D15 and D20."
+}

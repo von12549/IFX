@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06a-authorization",
+  "title": "V3 stage-oriented refactor CP06a-auth — change-trusted-base authorization for protected change obligations",
+  "goal": "Add the base change-trusted-base authorization that the CP06a change PR will consume, and record D22 and D23 with the CP06 checkpoint split, without changing any trusted component.",
+  "acceptanceCriteria": [
+    "The authorization record is schema-valid and generated from the prepared CP06a revision, listing its trusted component paths, base and head tuples and base validation suites.",
+    "D22 records revocation-only deletion of unused authorizations and D23 records the obligation model, the CP06a to CP06d split, fail-closed operations and the bound report; Plan 06 section 17 and the plan pair index both list them.",
+    "No trusted component changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06a-protected-change-obligations.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06a-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp06a-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
