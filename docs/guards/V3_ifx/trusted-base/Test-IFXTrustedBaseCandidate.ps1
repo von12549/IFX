@@ -5,7 +5,10 @@ param(
     [string] $HeadRevision = 'HEAD',
     [ValidateSet('Validate', 'HistoricalIntegrity', 'G03', 'G04', 'G05', 'Plan04')][string[]] $ParityModes = @('Validate', 'HistoricalIntegrity', 'G03', 'G04', 'G05', 'Plan04'),
     [string] $WorkRoot,
-    [string] $ReportPath = 'artifacts/guards/v3-ifx/trusted-base/tcb-candidate.json'
+    [string] $ReportPath = 'artifacts/guards/v3-ifx/trusted-base/tcb-candidate.json',
+    # Checks mapping and authorization matching only, and reports the consumed record for the trusted Diff (D20);
+    # base-owned validation and parity still run in the full verification.
+    [switch] $AuthorizationOnly
 )
 
 # Plan 06 §11.5 Trusted Base Component candidate upgrade, verified from the base worktree:
@@ -37,6 +40,8 @@ $result = [ordered]@{
     components = @()
     changes = @()
     authorization = $null
+    consumedAuthorization = $null
+    authorizationOnly = [bool]$AuthorizationOnly
     validation = @()
     parity = @()
     failures = @()
@@ -113,7 +118,8 @@ try {
                 if ($LASTEXITCODE -ne 0) { $failures.Add("Authorization reference is missing in head: $path") }
             }
 
-            if ($failures.Count -eq 0) {
+            if ($failures.Count -eq 0) { $result.consumedAuthorization = $authorization.Path }
+            if ($failures.Count -eq 0 -and -not $AuthorizationOnly) {
                 # ---- base-owned validation of the head candidate
                 [void][IO.Directory]::CreateDirectory($work)
                 [void](Invoke-GuardGit $target @('worktree', 'add', '--detach', $candidate, $headSha))
@@ -175,6 +181,7 @@ finally {
 
 $result.failures = @($failures)
 $result.status = if ($failures.Count -eq 0) { 'pass' } else { 'fail' }
+if ($failures.Count -gt 0) { $result.consumedAuthorization = $null }
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
 [IO.File]::WriteAllText($report, ($result | ConvertTo-Json -Depth 20) + "`n", [Text.UTF8Encoding]::new($false))
 if ($failures.Count -gt 0) {

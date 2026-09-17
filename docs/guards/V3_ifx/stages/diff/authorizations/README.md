@@ -27,4 +27,12 @@ P2 enables `change-trusted-base` (Plan 06 §11.5). P4 adds `move`, `delete`, `ca
 
 It then runs the base-owned validation against the head candidate, with base tests overlaid, and compares guard verdicts on the fixed corpus. A verdict difference passes only for a mode listed in `allowedBehaviorDifferences`.
 
+Records in this directory are protected paths. `v3-pre-diff` accepts the deletion of a record only when all of the following hold (D20):
+
+- the trusted base runner has run the verifier in authorization-only mode against the exact PR head;
+- the verifier confirmed that this change consumes that record;
+- the deletion is a plain deletion of exactly that path, not a rename.
+
+Deleting an authorization that the change does not consume, for example to revoke it, remains a protected deletion until P4.
+
 The schema is `contracts/authorization.schema.json`. Records in this directory are protocol data and are not themselves trusted component changes.

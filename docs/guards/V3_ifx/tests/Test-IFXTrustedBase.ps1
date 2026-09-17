@@ -2,7 +2,9 @@
 param(
     [switch] $KeepWorkDirectory,
     # Runs only the trusted build isolation control, which builds LayerGuard (Plan 06 §11.2, P2.5).
-    [switch] $ArchitectureOnly
+    [switch] $ArchitectureOnly,
+    # Runs only the end-to-end Diff and candidate verification controls for authorization consumption (D20).
+    [switch] $DiffConsumptionOnly
 )
 
 # Plan 06 P2.5 and P2.7 negative controls for trusted base execution (§11.1, §11.5, §12.6), outside the repository:
@@ -101,6 +103,74 @@ try {
         else { Write-Host 'PASS trusted guard build output stays outside the head checkout' }
         if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
         Write-Host 'IFX trusted base architecture isolation test passed.'
+        return
+    }
+
+    if ($DiffConsumptionOnly) {
+        # §11.5/§12.1 with D20: the trusted Diff exempts only the authorization record that the base verifier confirms the
+        # change consumes; every other protected deletion or rename, and any unverified consumption, stays blocked.
+        $recordId = 'fixture-consumption'
+        $recordPath = "docs/guards/V3_ifx/stages/diff/authorizations/$recordId.json"
+        $changePlan = 'docs/guards/plans/20260917-fixture-change.plan.json'
+        $decision = 'docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json'
+        $engineComment = { Edit-Text $historyEngine { param($t) $t.Replace("`$ErrorActionPreference = 'Stop'", "# fixture: behaviour-equivalent change`n`$ErrorActionPreference = 'Stop'") } }
+
+        function New-PlannedHead([string] $Name, [string] $From, [scriptblock] $Edits) {
+            [void](Invoke-FixtureGit $clone @('checkout', '-q', '-f', '-B', $Name, $From))
+            & $Edits
+            [void](Invoke-FixtureGit $clone @('add', '-A'))
+            [string[]] $planned = Invoke-FixtureGit $clone @('diff', '--cached', '--no-renames', '--name-only', $From)
+            $planFile = Join-Path $clone $changePlan
+            [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($planFile))
+            $plan = [ordered]@{
+                formatVersion = 1; id = '20260917-fixture-change'; title = "Fixture $Name"; goal = 'Exercise authorization consumption in the trusted Diff.'
+                acceptanceCriteria = @('The trusted Diff verdict matches the expected authorization consumption outcome.')
+                plannedPaths = @($planned | Sort-Object); areaIds = @('CI', 'GuardDocs', 'GuardPackage'); ruleIds = @(); validationCommands = @('ifx-package-test')
+                decisionPaths = @($decision, 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json')
+            }
+            [IO.File]::WriteAllText($planFile, ($plan | ConvertTo-Json -Depth 5), $utf8)
+            [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/plans/20260917-fixture-change.md'), "# Fixture $Name`n", $utf8)
+            [void](Invoke-FixtureGit $clone @('add', '-A'))
+            [void](Invoke-FixtureGit $clone @('commit', '-q', '-m', $Name))
+            return (Invoke-FixtureGit $clone @('rev-parse', 'HEAD'))[0]
+        }
+        function Invoke-TrustedDiff([string] $Base, [string] $BaseSha, [string] $HeadSha, [hashtable] $Environment = @{}) {
+            $script = Join-Path $Base 'docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1'
+            return Invoke-GuardIsolatedPwsh $script @('-HeadRoot', $clone, '-BaseSha', $BaseSha, '-Mode', 'Diff', '-PlanPath', $changePlan, '-BaseRef', $BaseSha, '-HeadRef', $HeadSha, '-GateId', 'v3-pre-diff') -WorkingDirectory $clone -Environment $Environment
+        }
+
+        # Authorization PR: record generated from the prepared change, then committed to the base alone.
+        $prepared = New-Head 'prepare-consumption' $baseSha $engineComment
+        $recordFile = Join-Path $work "$recordId.json"
+        $helper = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1') @('-Id', $recordId, '-BaseRevision', $baseSha, '-HeadRevision', $prepared, '-PlanPath', $changePlan, '-DecisionPaths', $decision, '-ParityContract', 'Fixture: verdicts unchanged on the fixed corpus.', '-Repository', $clone, '-OutputPath', $recordFile) -WorkingDirectory $clone
+        if ($helper.ExitCode -ne 0) { throw "Authorization helper failed: $($helper.Output)" }
+        $authorizedBase = New-Head 'authorize-consumption' $baseSha { Copy-GuardFiles $work $clone @() ; [void][IO.Directory]::CreateDirectory((Split-Path (Join-Path $clone $recordPath))); [IO.File]::Copy($recordFile, (Join-Path $clone $recordPath), $true) }
+        $authorizedWorktree = New-BaseWorktree 'b-consumption' $authorizedBase
+
+        $consume = New-PlannedHead 'consume' $authorizedBase { & $engineComment; [IO.File]::Delete((Join-Path $clone $recordPath)) }
+        $result = Invoke-TrustedDiff $authorizedWorktree $authorizedBase $consume
+        Assert-Result 'trusted Diff accepts the deletion of the exactly consumed authorization' $result 0 'Trusted base run passed'
+        $check = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-diff.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'consumed-authorization' })
+        if ($check.Count -ne 1 -or $check[0].status -ne 'pass' -or -not ([string]$check[0].reason).Contains($recordPath)) { $failures.Add("Diff summary does not report the verified consumption: $($check | ConvertTo-Json -Compress)") }
+        else { Write-Host 'PASS Diff summary reports the verified consumption' }
+        Assert-Result 'candidate verification accepts the consuming change' (Invoke-GuardIsolatedPwsh (Join-Path $authorizedWorktree 'docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1') @('-TargetRoot', $clone, '-BaseSha', $authorizedBase, '-ParityModes', 'HistoricalIntegrity') -WorkingDirectory $clone) 0 'authorized change of tcb.engine.historical-integrity'
+        Assert-Result 'an injected consumption variable does not reach the trusted Diff' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase (New-PlannedHead 'revoke-injected' $authorizedBase { [IO.File]::Delete((Join-Path $clone $recordPath)) }) @{ GUARD_CONSUMED_AUTHORIZATIONS = $recordPath }) 1 "Protected guard deletions: $recordPath"
+
+        $revoke = New-PlannedHead 'revoke-only' $authorizedBase { [IO.File]::Delete((Join-Path $clone $recordPath)) }
+        Assert-Result 'deleting an authorization without consuming it stays a protected deletion' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $revoke) 1 "Protected guard deletions: $recordPath"
+
+        $mismatch = New-PlannedHead 'consume-mismatch' $authorizedBase { & $engineComment; Edit-Text $historyEngine { param($t) $t + "`n# unauthorized extra change`n" }; [IO.File]::Delete((Join-Path $clone $recordPath)) }
+        Assert-Result 'a change that differs from the authorization keeps the deletion blocked' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $mismatch) 1 "Protected guard deletions: $recordPath"
+        Assert-Result 'candidate verification rejects the mismatched change' (Invoke-GuardIsolatedPwsh (Join-Path $authorizedWorktree 'docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1') @('-TargetRoot', $clone, '-BaseSha', $authorizedBase, '-ParityModes', 'HistoricalIntegrity') -WorkingDirectory $clone) 1 'differs from the authorization'
+
+        $extra = New-PlannedHead 'consume-plus-protected-deletion' $authorizedBase { & $engineComment; [IO.File]::Delete((Join-Path $clone $recordPath)); [IO.File]::Delete((Join-Path $clone 'docs/guards/V3_ifx/README.md')) }
+        Assert-Result 'consumption does not exempt another protected deletion' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $extra) 1 'Protected guard deletions: docs/guards/V3_ifx/README.md'
+
+        $renamed = New-PlannedHead 'consume-by-rename' $authorizedBase { & $engineComment; [void](Invoke-FixtureGit $clone @('mv', $recordPath, 'docs/guards/V3_ifx/stages/diff/authorizations/fixture-renamed.json')) }
+        Assert-Result 'renaming the consumed authorization stays a protected deletion' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $renamed) 1 "Protected guard deletions: $recordPath"
+
+        if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
+        Write-Host 'IFX trusted base authorization consumption tests passed.'
         return
     }
 
