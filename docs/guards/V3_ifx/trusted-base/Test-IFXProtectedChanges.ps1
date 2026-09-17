@@ -9,12 +9,14 @@ param(
 
 # Plan 06 §12.3 protected change verifier (CP06a, D22, D23), run from the base worktree against a committed head:
 #  1. the changed set is the NUL-separated raw diff without rename detection from the verified merge base to head;
-#  2. the change creates obligations: each removal of a protected path, and one for any trusted component change;
+#  2. the change creates obligations: each removal of a protected path, one for any trusted component change, and one for
+#     each semantic change of a registered policy or configuration file (D24, zero comparators);
 #  3. the candidate authorizations are the schema-valid base records that head deletes, and each obligation must be
 #     covered by exactly one of them, while every candidate must cover at least one obligation;
 #  4. a change that only deletes schema-valid base records and writes its own plan pair revokes them (D22);
-#  5. gitlinks in the protected scope and .gitattributes changes fail; weaken-policy is not enabled yet and fails closed.
-# The report binds base, merge base, head and the Diff protection configuration hash; only a passing report lets the
+#  5. gitlinks in the protected scope, unregistered policy or configuration files and changed records fail.
+# The report binds base, merge base, head and the hashes of the Diff protection configuration, the policy registry and
+# the authorization schema; only a passing report lets the
 # generated Diff test exempt its allowedDeletions.
 
 $ErrorActionPreference = 'Stop'
@@ -38,6 +40,8 @@ $result = [ordered]@{
     mergeBase = $null
     headSha = $null
     protectionSha256 = $null
+    policyRegistrySha256 = $null
+    authorizationSchemaSha256 = $null
     planPath = if ($PlanPath) { $PlanPath.Replace('\', '/') } else { $null }
     revocation = $false
     obligations = @()
@@ -84,6 +88,29 @@ function Test-PathRecord([object] $Candidate, [object[]] $Entries, [string] $Mer
     return [string[]]@($problems)
 }
 
+function Test-PolicyRecord([object] $Record, [object[]] $Obligations, [string] $Head) {
+    # weaken-policy (D24): every listed policy must be an actual semantic change of this pull request, with the same base and
+    # head blob hashes, head tree entry, registered schema or format and exactly the changed pointers.
+    $problems = [Collections.Generic.List[string]]::new()
+    $items = @($Record.policies)
+    $itemPaths = [string[]]@($items | ForEach-Object { [string]$_.path } | Sort-Object -Unique -CaseSensitive)
+    $recordPaths = [string[]]@($Record.changedPaths | Sort-Object -Unique -CaseSensitive)
+    if ($itemPaths.Count -ne $items.Count) { $problems.Add('policies list a path more than once') }
+    if (($itemPaths -join "`n") -cne ($recordPaths -join "`n")) { $problems.Add("changedPaths differ from the policies: $($recordPaths -join ', ')") }
+    foreach ($item in $items) {
+        $obligation = @($Obligations | Where-Object { $_.kind -eq 'policy-weakening' -and $_.paths[0] -ceq [string]$item.path })
+        if ($obligation.Count -ne 1) { $problems.Add("$($item.path) has no semantic policy change in this pull request"); continue }
+        $change = $obligation[0].change
+        if ([string]$item.baseSha256 -cne [string]$change.BaseSha256 -or [string]$item.headSha256 -cne [string]$change.HeadSha256) { $problems.Add("blob hashes of $($item.path) differ from the authorization") }
+        if (-not (Test-GuardTupleEqual $item.head $change.Head)) { $problems.Add("head tuple of $($item.path) differs from the authorization") }
+        if ([string]$item.schema -cne $change.Schema) { $problems.Add("$($item.path) is registered with $($change.Schema), not $($item.schema)") }
+        $pointers = [string[]]@(@($item.pointers) | Sort-Object -Unique -CaseSensitive)
+        if (($pointers -join "`n") -cne ($change.Pointers -join "`n")) { $problems.Add("changed pointers of $($item.path) differ from the authorization. Actual: $($change.Pointers -join ', '); authorized: $($pointers -join ', ')") }
+    }
+    foreach ($failure in (Test-GuardAuthorizationReferences $target $Head $Record)) { $problems.Add($failure) }
+    return [string[]]@($problems)
+}
+
 try {
     $packageHead = @(Invoke-GuardGit $baseRepository @('rev-parse', 'HEAD'))
     if ($packageHead.Count -ne 1 -or $packageHead[0] -ne $BaseSha) { throw "The verifier must run from the base commit $BaseSha, not $($packageHead -join '')." }
@@ -97,6 +124,11 @@ try {
 
     $protection = Read-GuardProtection $packageRoot
     $result.protectionSha256 = $protection.Sha256
+    $registry = Read-GuardPolicyRegistry $packageRoot
+    $result.policyRegistrySha256 = $registry.sha256
+    $result.authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes($authorizationSchema))
+    $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+    $projectionTargets = Get-GuardProjectionTargets $authorities
     $directory = $protection.AuthorizationDirectory
     if ($directory -and $directory -cne $AuthorizationDirectory) { throw "The Diff protection authorizationDirectory $directory differs from the trusted base protocol directory $AuthorizationDirectory." }
 
@@ -118,10 +150,8 @@ try {
     # ---- changed set: hard failures, candidate authorizations and obligations
     $removals = [Collections.Generic.List[object]]::new()
     foreach ($entry in $entries) {
-        $leaf = $entry.Path.Substring($entry.Path.LastIndexOf('/') + 1)
         $isGitlink = ($null -ne $entry.Base -and $entry.Base.mode -eq '160000') -or ($null -ne $entry.Head -and $entry.Head.mode -eq '160000')
         if ($isGitlink -and (Test-GuardProtectedPath $protection $entry.Path) -and $entry.Path -notin $tcb.Gitlinks) { $failures.Add("Gitlink (mode 160000) in the protected scope: $($entry.Path)") }
-        if ($leaf -ceq '.gitattributes') { $failures.Add("Changing $($entry.Path) is not authorizable yet; .gitattributes changes fail closed until weaken-policy is enabled (D23).") }
         $isRecord = $directory -and $entry.Path.StartsWith($directory, [StringComparison]::Ordinal) -and $entry.Path.IndexOf('/', $directory.Length) -lt 0 -and $entry.Path.EndsWith('.json', [StringComparison]::Ordinal)
         if ($isRecord) {
             if ($null -ne $entry.Base -and $null -ne $entry.Head) { $failures.Add("Authorization records are immutable; revoke and add a new record instead of changing $($entry.Path).") }
@@ -136,9 +166,16 @@ try {
         }
         if ($null -eq $entry.Head -and (Test-GuardProtectedPath $protection $entry.Path)) { $removals.Add($entry) }
     }
-    foreach ($removal in $removals) { $obligations.Add([pscustomobject]@{ id = "protected-removal:$($removal.Path)"; kind = 'protected-removal'; paths = @($removal.Path); coveredBy = [Collections.Generic.List[string]]::new() }) }
+    foreach ($removal in $removals) { $obligations.Add([pscustomobject]@{ id = "protected-removal:$($removal.Path)"; kind = 'protected-removal'; paths = @($removal.Path); pointers = @(); change = $null; coveredBy = [Collections.Generic.List[string]]::new() }) }
     if ($tcb.Components.Count -gt 0) {
-        $obligations.Add([pscustomobject]@{ id = "trusted-component-change:$($tcb.Components -join ',')"; kind = 'trusted-component-change'; paths = @($tcb.Changes | ForEach-Object { $_.Path } | Sort-Object -Unique -CaseSensitive); coveredBy = [Collections.Generic.List[string]]::new() })
+        $obligations.Add([pscustomobject]@{ id = "trusted-component-change:$($tcb.Components -join ',')"; kind = 'trusted-component-change'; paths = @($tcb.Changes | ForEach-Object { $_.Path } | Sort-Object -Unique -CaseSensitive); pointers = @(); change = $null; coveredBy = [Collections.Generic.List[string]]::new() })
+    }
+    # D24: with zero comparators every semantic policy or configuration change is a potential weakening, orthogonal to
+    # any trusted component obligation of the same path.
+    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries
+    foreach ($path in $policy.Unregistered) { $failures.Add("Unregistered policy or configuration file: $path; register it in shared/policy-config.json or keep it outside the registry roots.") }
+    foreach ($change in $policy.Changes) {
+        $obligations.Add([pscustomobject]@{ id = "policy-weakening:$($change.Path)"; kind = 'policy-weakening'; paths = @($change.Path); pointers = @($change.Pointers); change = $change; coveredBy = [Collections.Generic.List[string]]::new() })
     }
 
     # ---- candidates: base records deleted by head
@@ -183,6 +220,10 @@ try {
                         if ($problems.Count -eq 0) { foreach ($obligation in $covered) { $candidate.Covers.Add($obligation.id) } }
                     }
                 }
+                'weaken-policy' {
+                    $problems = @(Test-PolicyRecord $record $obligations $headSha)
+                    if ($problems.Count -eq 0) { foreach ($item in @($record.policies)) { $candidate.Covers.Add("policy-weakening:$($item.path)") } }
+                }
                 default { $problems = @("operation $($record.operation) is not enabled by this base; consuming it fails closed (D23)") }
             }
             foreach ($problem in $problems) { $candidate.Problems.Add($problem) }
@@ -203,7 +244,7 @@ catch {
     $failures.Add($_.Exception.Message)
 }
 
-$result.obligations = @($obligations | ForEach-Object { [ordered]@{ id = $_.id; kind = $_.kind; paths = @($_.paths); coveredBy = @($_.coveredBy) } })
+$result.obligations = @($obligations | ForEach-Object { [ordered]@{ id = $_.id; kind = $_.kind; paths = @($_.paths); pointers = @($_.pointers); coveredBy = @($_.coveredBy) } })
 $result.authorizations = @($candidates | ForEach-Object { [ordered]@{ path = $_.Path; id = if ($_.Record) { [string]$_.Record.id } else { $null }; operation = if ($_.Record) { [string]$_.Record.operation } else { $null }; covers = @($_.Covers); status = $_.Status } })
 $result.failures = @($failures)
 if ($failures.Count -eq 0) {

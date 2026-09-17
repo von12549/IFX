@@ -113,15 +113,32 @@ try {
         $verification = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXProtectedChanges.ps1') $verifierArguments
         Write-Host $verification.Output
         $protectedResult = if ([IO.File]::Exists($protectedReport)) { [IO.File]::Copy($protectedReport, $protectedEvidence, $true); Get-Content -LiteralPath $protectedReport -Raw | ConvertFrom-Json } else { $null }
-        if ($verification.ExitCode -eq 0 -and $null -ne $protectedResult -and $protectedResult.status -eq 'pass') {
+        # The runner re-checks the hashes that bind the report to the base registry and authorization schema (D24).
+        $bindingProblems = @()
+        if ($null -ne $protectedResult) {
+            foreach ($binding in @(@('policyRegistrySha256', 'shared/policy-config.json'), @('authorizationSchemaSha256', 'contracts/authorization.schema.json'))) {
+                $expected = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([IO.File]::ReadAllBytes((Join-Path $packageRoot $binding[1])))).ToLowerInvariant()
+                if ([string]$protectedResult.($binding[0]) -cne $expected) { $bindingProblems += "The protected change report $($binding[0]) is not bound to the base $($binding[1])." }
+            }
+        }
+        if ($verification.ExitCode -eq 0 -and $null -ne $protectedResult -and $protectedResult.status -eq 'pass' -and $bindingProblems.Count -eq 0) {
             $guardEnvironment['GUARD_PROTECTED_CHANGES'] = $protectedReport
             $covered = @($protectedResult.authorizations | ForEach-Object { "$($_.path) ($($_.status))" })
             $reason = if ($covered.Count -gt 0) { "Verified authorizations: $($covered -join ', ')." } else { 'No protected changes.' }
             Add-Check 'protected-changes' 'pass' $reason @($protectedEvidence)
         }
         else {
-            $reasons = if ($null -ne $protectedResult) { @($protectedResult.failures) } else { @("The protected change verifier returned exit code $($verification.ExitCode) without a report.") }
+            $reasons = if ($null -ne $protectedResult) { @($protectedResult.failures) + $bindingProblems } else { @("The protected change verifier returned exit code $($verification.ExitCode) without a report.") }
             Add-Check 'protected-changes' 'fail' ($reasons -join ' | ') @(@($protectedEvidence) | Where-Object { [IO.File]::Exists($_) })
+        }
+        # Plan 06 §12.4 track two: head policy and configuration candidates are validated, never used for this verdict.
+        $candidateReport = Join-Path $trustedOutput 'policy-candidates-diff.json'
+        $candidates = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXPolicyCandidates.ps1') @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-HeadRevision', $HeadRef, '-ReportPath', $candidateReport)
+        Write-Host $candidates.Output
+        if ($candidates.ExitCode -eq 0) { Add-Check 'policy-candidates' 'pass' $null @($candidateReport) }
+        else {
+            $candidateFailures = if ([IO.File]::Exists($candidateReport)) { @((Get-Content -LiteralPath $candidateReport -Raw | ConvertFrom-Json).failures) } else { @("The policy candidate validator returned exit code $($candidates.ExitCode) without a report.") }
+            Add-Check 'policy-candidates' 'fail' ($candidateFailures -join ' | ') @(@($candidateReport) | Where-Object { [IO.File]::Exists($_) })
         }
     }
 

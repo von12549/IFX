@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06b1-policy-config-dual-track",
+  "title": "V3 stage-oriented refactor CP06b1 — policy and configuration registry, weaken-policy and head candidate validation",
+  "goal": "Implement the package policy and configuration part of Plan 06 P4.3 with D24: a registry of editable and trust/meta policy, zero-comparator policy-weakening obligations covered by weaken-policy, head candidate validation from the explicit head commit, report binding to the registry and authorization schema, and removal of the legacy consumption variable.",
+  "acceptanceCriteria": [
+    "shared/policy-config.json registers editable and trust/meta policy with explicit stage files, excludes the authorization directory, never claims derived projection targets, and declares monotonicity for every field of every registered schema; the manifest check enforces all of this.",
+    "Every semantic change of a registered file is a policy-weakening obligation covered only by a weaken-policy record with the same blob hashes, head tuple, schema or format and changed pointers; trust/meta changes need change-trusted-base as well, and unregistered policy files fail.",
+    "The trusted Diff validates head candidates from Git objects of the explicit head commit: schemas, the head profile, the history manifest against head evidence, derived projections and monotonicity declarations.",
+    "The pull request consumes the CP06b1-auth authorization under the CP06a base, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/docs/authored/trusted-base.md",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/policy/README.md",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06b1-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b1-policy-config-dual-track.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b1-policy-config-dual-track.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

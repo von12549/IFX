@@ -5,11 +5,13 @@ param(
     [Parameter(Mandatory)][string] $HeadRevision,
     [Parameter(Mandatory)][string] $PlanPath,
     [Parameter(Mandatory)][string] $DecisionPaths,
-    [ValidateSet('change-trusted-base', 'delete', 'move', 'case-rename')][string] $Operation = 'change-trusted-base',
+    [ValidateSet('change-trusted-base', 'delete', 'move', 'case-rename', 'weaken-policy')][string] $Operation = 'change-trusted-base',
     [string] $ParityContract,
     [string] $AllowedBehaviorDifferencesJson = '[]',
     [string] $SourcePath,
     [string] $DestinationPath,
+    # weaken-policy: comma-separated registered paths to cover; all semantic policy changes when omitted.
+    [string] $PolicyPaths,
     [string] $Repository = '.',
     [string] $OutputPath
 )
@@ -17,9 +19,10 @@ param(
 # Maintenance helper for the authorization PR of Plan 06 §12.1: records the exact authorization that the change PR
 # (prepared on HeadRevision) will consume. It writes a file for review and never commits.
 #  - change-trusted-base: every trusted component change of the prepared revision (needs -ParityContract);
-#  - delete, move, case-rename: the tree entries of -SourcePath (and -DestinationPath) and every changed path below them.
+#  - delete, move, case-rename: the tree entries of -SourcePath (and -DestinationPath) and every changed path below them;
+#  - weaken-policy: every semantic change of a registered policy or configuration file (or -PolicyPaths), with its blob
+#    hashes, head tuple, registered schema or format and changed pointers, using the base registry (D24).
 # DecisionPaths is comma-separated; AllowedBehaviorDifferencesJson is an array of { mode, reason } objects.
-# weaken-policy records are not generated until the base verifier enables them.
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -52,6 +55,23 @@ if ($Operation -eq 'change-trusted-base') {
     $record.parityContract = $ParityContract
     $record.allowedBehaviorDifferences = @(ConvertFrom-Json $AllowedBehaviorDifferencesJson -AsHashtable)
     $summary = "$($tcb.Components -join ', ') ($($tcb.Changes.Count) paths)"
+}
+elseif ($Operation -eq 'weaken-policy') {
+    $registry = Read-GuardJsonBlob $repositoryRoot $base 'docs/guards/V3_ifx/shared/policy-config.json'
+    $authorities = Read-GuardJsonBlob $repositoryRoot $base 'docs/guards/V3_ifx/policy/authorities.json'
+    if ($null -eq $registry -or $null -eq $authorities) { throw "Base $base has no policy registry or authority registry." }
+    $policy = Get-GuardPolicyChanges $repositoryRoot $base $head $registry (Get-GuardProjectionTargets $authorities) @(Get-GuardChangedEntries $repositoryRoot $base $head)
+    if ($policy.Unregistered.Count -gt 0) { throw "Unregistered policy or configuration files cannot be authorized: $($policy.Unregistered -join ', ')" }
+    $changes = @($policy.Changes)
+    if ($PolicyPaths) {
+        $selected = @($PolicyPaths.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+        foreach ($path in $selected) { if (@($changes | Where-Object { $_.Path -ceq $path }).Count -eq 0) { throw "$path has no semantic policy change." } }
+        $changes = @($changes | Where-Object { $selected -ccontains $_.Path })
+    }
+    if ($changes.Count -eq 0) { throw 'The head revision changes no registered policy or configuration semantically; no authorization is needed.' }
+    $record.changedPaths = @($changes | ForEach-Object { $_.Path } | Sort-Object -Unique -CaseSensitive)
+    $record.policies = @($changes | Sort-Object Path -CaseSensitive | ForEach-Object { [ordered]@{ path = $_.Path; baseSha256 = $_.BaseSha256; headSha256 = $_.HeadSha256; schema = $_.Schema; pointers = @($_.Pointers); head = $_.Head } })
+    $summary = "weaken-policy of $($changes.Count) policy file(s)"
 }
 else {
     if (-not $SourcePath) { throw "$Operation needs -SourcePath." }

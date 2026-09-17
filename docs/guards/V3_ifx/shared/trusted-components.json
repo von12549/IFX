@@ -178,6 +178,7 @@
         "docs/guards/V3_ifx/contracts/decision.schema.json",
         "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
         "docs/guards/V3_ifx/contracts/plan.schema.json",
+        "docs/guards/V3_ifx/contracts/policy-config.schema.json",
         "docs/guards/V3_ifx/contracts/pre-result.schema.json",
         "docs/guards/V3_ifx/contracts/profile.schema.json",
         "docs/guards/V3_ifx/contracts/project-map.schema.json",
