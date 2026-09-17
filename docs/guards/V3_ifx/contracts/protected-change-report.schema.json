@@ -1,0 +1,165 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "V3 protected change verification report",
+  "description": "Written by the base protected change verifier (Plan 06 §12.3, D23). The Diff stage accepts only a passing report bound to its own base, merge base, head and Diff protection configuration, and exempts exactly allowedDeletions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "check",
+    "status",
+    "baseSha",
+    "mergeBase",
+    "headSha",
+    "protectionSha256",
+    "planPath",
+    "revocation",
+    "obligations",
+    "authorizations",
+    "allowedDeletions",
+    "failures"
+  ],
+  "definitions": {
+    "sha": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{40}$"
+    }
+  },
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "check": {
+      "const": "protected-changes"
+    },
+    "status": {
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "baseSha": {
+      "$ref": "#/definitions/sha"
+    },
+    "mergeBase": {
+      "$ref": "#/definitions/sha"
+    },
+    "headSha": {
+      "$ref": "#/definitions/sha"
+    },
+    "protectionSha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "planPath": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "revocation": {
+      "description": "D22: the change only deletes schema-valid base authorization records and adds or edits its own plan pair.",
+      "type": "boolean"
+    },
+    "obligations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "paths",
+          "coveredBy"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "protected-removal",
+              "trusted-component-change"
+            ]
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coveredBy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "authorizations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "id",
+          "operation",
+          "covers",
+          "status"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "operation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "covers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "enum": [
+              "consumed",
+              "revoked",
+              "rejected"
+            ]
+          }
+        }
+      }
+    },
+    "allowedDeletions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "failures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

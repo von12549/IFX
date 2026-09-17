@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 # canonical JSON, D18 pointer roles and isolated child processes. Nothing here reads the target
 # repository except through explicit parameters.
 
-$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_BUILD_ROOT', 'GUARD_CONSUMED_AUTHORIZATIONS', 'GUARD_PROTECTION_PATH', 'LAYERGUARD_FIXTURES_ROOT')
+$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_BUILD_ROOT', 'GUARD_CONSUMED_AUTHORIZATIONS', 'GUARD_PROTECTED_CHANGES', 'GUARD_PROTECTION_PATH', 'LAYERGUARD_FIXTURES_ROOT')
 
 # Files outside docs/guards/ that the manifest checker validates as trusted components or compatibility entries.
 $script:PackageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')
@@ -258,6 +258,88 @@ function Read-GuardJsonBlob {
     $text = Get-GuardBlobText $Repository $Commit $Path
     if ($null -eq $text) { return $null }
     return , (ConvertFrom-Json $text -AsHashtable -Depth 100)
+}
+
+function Test-GuardJsonSchema {
+    # Test-Json reports an unreadable schema as an error but can still return True, so every error counts as invalid.
+    param([Parameter(Mandatory)][string] $Schema, [string] $Path, [string] $Json)
+    try {
+        $valid = if ($PSBoundParameters.ContainsKey('Json')) { Test-Json -Json $Json -SchemaFile $Schema -ErrorAction Stop } else { Test-Json -Path $Path -SchemaFile $Schema -ErrorAction Stop }
+        return [bool]$valid
+    }
+    catch { return $false }
+}
+
+function Get-GuardTreeEntry {
+    # Plan 06 §12.3: the tree entry tuple of one repository path at a commit (null when absent), read from the parent tree
+    # so that the name comparison is ordinal on every platform.
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Commit, [Parameter(Mandatory)][string] $Path)
+    $slash = $Path.LastIndexOf('/')
+    $arguments = @('ls-tree', '-z', '--full-tree', $Commit)
+    if ($slash -ge 0) { $arguments += @('--', $Path.Substring(0, $slash + 1)) }
+    foreach ($line in @(Invoke-GuardGitNul $Repository $arguments)) {
+        $tab = $line.IndexOf("`t")
+        $meta = $line.Substring(0, $tab).Split(' ')
+        if ($line.Substring($tab + 1) -ceq $Path) { return New-GuardTuple $meta[0] $meta[2] }
+    }
+    return $null
+}
+
+function Read-GuardProtection {
+    # The Diff protection configuration of a package (Plan 06 P3.2), validated, with the SHA-256 of its exact bytes.
+    param([Parameter(Mandatory)][string] $PackageRoot)
+    $path = Join-Path $PackageRoot 'stages/diff/protection.json'
+    if (-not [IO.File]::Exists($path)) { throw "Diff protection configuration is missing: $path" }
+    if (-not (Test-GuardJsonSchema -Schema (Join-Path $PackageRoot 'contracts/protection.schema.json') -Path $path)) { throw "Diff protection configuration does not match its schema: $path" }
+    $bytes = [IO.File]::ReadAllBytes($path)
+    $document = ConvertFrom-Json ([Text.UTF8Encoding]::new($false).GetString($bytes)) -AsHashtable -Depth 20
+    return [pscustomobject]@{
+        Paths = [string[]]@($document.protectedPaths)
+        AuthorizationDirectory = if ($document.ContainsKey('authorizationDirectory')) { [string]$document.authorizationDirectory } else { $null }
+        Sha256 = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+    }
+}
+
+function Test-GuardProtectedPath {
+    # Same matching as the generated Diff test: entries ending in '/' protect a prefix, others one path; case is ignored.
+    param([Parameter(Mandatory)][object] $Protection, [Parameter(Mandatory)][string] $Path)
+    foreach ($entry in $Protection.Paths) {
+        if ($entry.EndsWith('/')) { if ($Path.StartsWith($entry, [StringComparison]::OrdinalIgnoreCase)) { return $true } }
+        elseif ($Path.Equals($entry, [StringComparison]::OrdinalIgnoreCase)) { return $true }
+    }
+    return $false
+}
+
+function Test-GuardTrustedBaseRecord {
+    # Plan 06 §12.3 change-trusted-base checks of one base record against the verified trusted component changes. The caller
+    # has already matched the component set; returns the failures.
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Head, [Parameter(Mandatory)][object] $Record, [Parameter(Mandatory)][object] $Tcb, [Parameter(Mandatory)][object] $BaseManifest, [object] $HeadManifest)
+    $failures = [Collections.Generic.List[string]]::new()
+    $actualPaths = [string[]]@($Tcb.Changes | ForEach-Object { $_.Path } | Sort-Object -Unique -CaseSensitive)
+    $authorizedPaths = [string[]]@($Record.changedPaths | Sort-Object -Unique -CaseSensitive)
+    if (($actualPaths -join "`n") -cne ($authorizedPaths -join "`n")) { $failures.Add("Changed trusted paths differ from the authorization. Actual: $($actualPaths -join ', '); authorized: $($authorizedPaths -join ', ')") }
+    foreach ($change in $Tcb.Changes) {
+        $entry = @($Record.entries | Where-Object { $_.path -ceq $change.Path })
+        if ($entry.Count -ne 1) { $failures.Add("Authorization has no single entry for $($change.Path)"); continue }
+        if ($entry[0].component -cne $change.Component) { $failures.Add("Authorization assigns $($change.Path) to $($entry[0].component), not $($change.Component)") }
+        if (-not (Test-GuardTupleEqual $entry[0].base $change.Base)) { $failures.Add("Base tuple of $($change.Path) differs from the authorization.") }
+        if (-not (Test-GuardTupleEqual $entry[0].head $change.Head)) { $failures.Add("Head tuple of $($change.Path) differs from the authorization.") }
+    }
+    $suite = Get-GuardTcbValidationSuite $BaseManifest $HeadManifest $Tcb.Components
+    [string[]] $authorizedSuite = @($Record.validationSuite | Sort-Object -Unique -CaseSensitive)
+    if ((@($suite | Sort-Object -Unique -CaseSensitive) -join "`n") -cne ($authorizedSuite -join "`n")) { $failures.Add("Authorization validationSuite differs from the base component suites: $(@($suite) -join ', ')") }
+    foreach ($failure in (Test-GuardAuthorizationReferences $Repository $Head $Record)) { $failures.Add($failure) }
+    return [string[]]@($failures)
+}
+
+function Test-GuardAuthorizationReferences {
+    param([string] $Repository, [string] $Head, [object] $Record)
+    $failures = [Collections.Generic.List[string]]::new()
+    foreach ($path in @($Record.planPath) + @($Record.decisionPaths)) {
+        [void](Invoke-GuardGit $Repository @('cat-file', '-e', "${Head}:$path") -AllowFailure)
+        if ($LASTEXITCODE -ne 0) { $failures.Add("Authorization reference is missing in head: $path") }
+    }
+    return [string[]]@($failures)
 }
 
 Export-ModuleMember -Function * -Variable PackageRepositoryFiles, PackageDirectories, AuthorizationDirectory, GuardEnvironmentVariables

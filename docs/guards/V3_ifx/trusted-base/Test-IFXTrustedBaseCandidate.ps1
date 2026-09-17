@@ -5,16 +5,14 @@ param(
     [string] $HeadRevision = 'HEAD',
     [ValidateSet('Validate', 'HistoricalIntegrity', 'G03', 'G04', 'G05', 'Plan04')][string[]] $ParityModes = @('Validate', 'HistoricalIntegrity', 'G03', 'G04', 'G05', 'Plan04'),
     [string] $WorkRoot,
-    [string] $ReportPath = 'artifacts/guards/v3-ifx/trusted-base/tcb-candidate.json',
-    # Checks mapping and authorization matching only, and reports the consumed record for the trusted Diff (D20);
-    # base-owned validation and parity still run in the full verification.
-    [switch] $AuthorizationOnly
+    [string] $ReportPath = 'artifacts/guards/v3-ifx/trusted-base/tcb-candidate.json'
 )
 
 # Plan 06 §11.5 Trusted Base Component candidate upgrade, verified from the base worktree:
 #  1. map the verified changed set onto trusted components (base manifest, then head manifest for new paths);
 #  2. fail on gitlinks and on executables the head would activate that neither manifest registers;
-#  3. require exactly one base change-trusted-base authorization for the changed components, consumed by head;
+#  3. require exactly one base change-trusted-base authorization for the changed components, consumed by head
+#     (the same record checks as the protected change verifier that the trusted Diff runs, D23);
 #  4. run the base-owned validation suites against the head candidate with base tests overlaid;
 #  5. compare base and candidate guard verdicts on a fixed corpus (parity).
 # The current PR's verdicts never come from the candidate.
@@ -40,8 +38,6 @@ $result = [ordered]@{
     components = @()
     changes = @()
     authorization = $null
-    consumedAuthorization = $null
-    authorizationOnly = [bool]$AuthorizationOnly
     validation = @()
     parity = @()
     failures = @()
@@ -84,7 +80,7 @@ try {
         $matching = [Collections.Generic.List[object]]::new()
         if ([IO.Directory]::Exists($authorizationRoot)) {
             foreach ($file in @(Get-ChildItem -LiteralPath $authorizationRoot -Filter '*.json' -File)) {
-                if (-not (Test-Json -Path $file.FullName -SchemaFile (Join-Path $packageRoot 'contracts/authorization.schema.json') -ErrorAction SilentlyContinue)) { $failures.Add("Base authorization does not match its schema: $($file.Name)"); continue }
+                if (-not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorization.schema.json') -Path $file.FullName)) { $failures.Add("Base authorization does not match its schema: $($file.Name)"); continue }
                 $record = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json -AsHashtable -Depth 50
                 if ("$($record.id).json" -cne $file.Name) { $failures.Add("Authorization file name must equal its id: $($file.Name)"); continue }
                 if ($record.operation -ne 'change-trusted-base') { continue }
@@ -100,26 +96,10 @@ try {
             $result.authorization = $authorization.Path
             $consumed = @($tcb.Authorizations | Where-Object { $_.Path -ceq $authorization.Path -and $null -eq $_.Head })
             if ($consumed.Count -ne 1) { $failures.Add("Head must delete the consumed authorization $($authorization.Path).") }
-            $actualPaths = [string[]]@($tcb.Changes | ForEach-Object { $_.Path } | Sort-Object -Unique -CaseSensitive)
-            $authorizedPaths = [string[]]@($record.changedPaths | Sort-Object -Unique -CaseSensitive)
-            if (($actualPaths -join "`n") -cne ($authorizedPaths -join "`n")) { $failures.Add("Changed trusted paths differ from the authorization. Actual: $($actualPaths -join ', '); authorized: $($authorizedPaths -join ', ')") }
-            foreach ($change in $tcb.Changes) {
-                $entry = @($record.entries | Where-Object { $_.path -ceq $change.Path })
-                if ($entry.Count -ne 1) { $failures.Add("Authorization has no single entry for $($change.Path)"); continue }
-                if ($entry[0].component -cne $change.Component) { $failures.Add("Authorization assigns $($change.Path) to $($entry[0].component), not $($change.Component)") }
-                if (-not (Test-GuardTupleEqual $entry[0].base $change.Base)) { $failures.Add("Base tuple of $($change.Path) differs from the authorization.") }
-                if (-not (Test-GuardTupleEqual $entry[0].head $change.Head)) { $failures.Add("Head tuple of $($change.Path) differs from the authorization.") }
-            }
-            $suite = Get-GuardTcbValidationSuite $baseManifest $headManifest $tcb.Components
+            foreach ($failure in (Test-GuardTrustedBaseRecord $target $headSha $record $tcb $baseManifest $headManifest)) { $failures.Add($failure) }
             [string[]] $authorizedSuite = @($record.validationSuite | Sort-Object -Unique -CaseSensitive)
-            if ((@($suite | Sort-Object -Unique -CaseSensitive) -join "`n") -cne ($authorizedSuite -join "`n")) { $failures.Add("Authorization validationSuite differs from the base component suites: $(@($suite) -join ', ')") }
-            foreach ($path in @($record.planPath) + @($record.decisionPaths)) {
-                [void](Invoke-GuardGit $target @('cat-file', '-e', "${headSha}:$path") -AllowFailure)
-                if ($LASTEXITCODE -ne 0) { $failures.Add("Authorization reference is missing in head: $path") }
-            }
 
-            if ($failures.Count -eq 0) { $result.consumedAuthorization = $authorization.Path }
-            if ($failures.Count -eq 0 -and -not $AuthorizationOnly) {
+            if ($failures.Count -eq 0) {
                 # ---- base-owned validation of the head candidate
                 [void][IO.Directory]::CreateDirectory($work)
                 [void](Invoke-GuardGit $target @('worktree', 'add', '--detach', $candidate, $headSha))
@@ -157,7 +137,7 @@ try {
                         $output = Join-Path $candidate "artifacts/guards/v3-ifx-tcb-parity/$side/$($mode.ToLowerInvariant())"
                         $run = Invoke-GuardIsolatedPwsh $runner ($arguments + @('-TargetRoot', $candidate, '-OutputDirectory', $output)) -WorkingDirectory $candidate
                         $summary = Join-Path $output $summaryName
-                        $schemaValid = [IO.File]::Exists($summary) -and (Test-Json -Path $summary -SchemaFile (Join-Path $packageRoot 'contracts/guard-summary.schema.json') -ErrorAction SilentlyContinue)
+                        $schemaValid = [IO.File]::Exists($summary) -and (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/guard-summary.schema.json') -Path $summary)
                         $outcomes[$side] = [ordered]@{ exitCode = $run.ExitCode; checks = (Get-SummaryChecks $summary); schemaValid = [bool]$schemaValid }
                     }
                     $equal = $outcomes.base.exitCode -eq $outcomes.candidate.exitCode -and $outcomes.base.checks -ceq $outcomes.candidate.checks -and $outcomes.candidate.schemaValid
@@ -181,7 +161,6 @@ finally {
 
 $result.failures = @($failures)
 $result.status = if ($failures.Count -eq 0) { 'pass' } else { 'fail' }
-if ($failures.Count -gt 0) { $result.consumedAuthorization = $null }
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
 [IO.File]::WriteAllText($report, ($result | ConvertTo-Json -Depth 20) + "`n", [Text.UTF8Encoding]::new($false))
 if ($failures.Count -gt 0) {

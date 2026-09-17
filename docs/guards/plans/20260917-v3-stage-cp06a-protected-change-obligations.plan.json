@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06a-protected-change-obligations",
+  "title": "V3 stage-oriented refactor CP06a — protected change obligations, Git object verification and path operation authorizations",
+  "goal": "Implement Plan 06 P4.1 and P4.2 with D22 and D23: a full authorization schema, a base protected change verifier that covers every protection obligation of a committed head with exactly one deleted base authorization, delete, move and case-rename authorizations, revocation-only pull requests, and a report bound to base, merge base, head and the protection configuration that the generic Diff stage requires before exempting deletions.",
+  "acceptanceCriteria": [
+    "The authorization schema covers move, delete, case-rename, weaken-policy and change-trusted-base, and existing change-trusted-base records stay valid; consuming weaken-policy fails closed.",
+    "The trusted Diff derives protected removal and trusted component obligations from the raw diff without rename detection, requires exactly-once coverage by deleted base records, rejects gitlinks in the protected scope, .gitattributes changes, changed records and invalid added records, and accepts revocation-only pull requests.",
+    "The V3 and V3_ifx Diff templates are byte-identical and exempt only the deletions of a passing report bound to the verified base, merge base, head and protection configuration hash.",
+    "Test-V3.ps1 and Test-IFXTrustedBase.ps1 -DiffConsumptionOnly cover the positive and negative controls, the previous base-owned Test-V3.ps1 still passes against the candidate, and the pull request consumes the CP06a-auth authorization with all 13 required checks passing."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3/DEPLOYMENT.md",
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/docs/authored/trusted-base.md",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06a-protected-change-obligations.json",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06a-protected-change-obligations.md",
+    "docs/guards/plans/20260917-v3-stage-cp06a-protected-change-obligations.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

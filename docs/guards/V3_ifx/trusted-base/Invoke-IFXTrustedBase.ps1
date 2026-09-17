@@ -16,9 +16,10 @@ param(
 # Plan 06 §11.1 Trusted Base Guard Execution. This script must itself be started from a clean base worktree created
 # outside the head checkout; the head checkout is only ever passed as -TargetRoot. Domain authorities from head are
 # compared with base by role (§12.6) before candidate projections are generated in a directory outside head and base,
-# and the guard dispatcher then runs from that base-derived candidate package. In Diff mode the base candidate verifier
-# first checks, in authorization-only mode, whether the change consumes a change-trusted-base authorization; only that
-# verified record is passed to the Diff stage, which may then accept its exact deletion (Plan 06 §11.5, D20).
+# and the guard dispatcher then runs from that base-derived candidate package. In Diff mode the base protected change
+# verifier first checks that every protected obligation of the committed head is covered by exactly one base
+# authorization that head deletes (Plan 06 §12.3, D22, D23); only its passing report, bound to base, merge base, head
+# and the Diff protection configuration, is passed to the Diff stage, which exempts exactly the reported deletions.
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -100,20 +101,28 @@ try {
         Add-Check 'candidate-projection' 'skipped' "Mode $Mode uses base projections unchanged."
     }
 
-    # ---- Diff: an authorization record may be deleted only when the base verifier confirms this change consumes it (D20)
+    # ---- Diff: protected changes of a committed head must be covered by base authorizations that head deletes (D23)
     $guardEnvironment = @{}
-    if ($Mode -eq 'Diff') {
-        $consumptionReport = Join-Path $trustedOutput 'tcb-authorization-diff.json'
-        $verifierArguments = @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-AuthorizationOnly', '-ReportPath', $consumptionReport)
-        if ($HeadRef) { $verifierArguments += @('-HeadRevision', $HeadRef) }
-        $consumption = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXTrustedBaseCandidate.ps1') $verifierArguments
-        Write-Host $consumption.Output
-        $consumed = if ([IO.File]::Exists($consumptionReport)) { (Get-Content -LiteralPath $consumptionReport -Raw | ConvertFrom-Json).consumedAuthorization } else { $null }
-        if ($consumption.ExitCode -eq 0 -and $consumed) {
-            $guardEnvironment['GUARD_CONSUMED_AUTHORIZATIONS'] = [string]$consumed
-            Add-Check 'consumed-authorization' 'pass' "Verified consumption of $consumed." @($consumptionReport)
+    if ($Mode -eq 'Diff' -and -not $HeadRef) { Add-Check 'protected-changes' 'skipped' 'Uncommitted Diff: no authorization is honoured, so every protected deletion stays blocked.' }
+    elseif ($Mode -eq 'Diff') {
+        # The report the Diff stage reads stays outside head; a copy is kept under head as evidence.
+        $protectedReport = Join-Path $generation 'protected-changes.json'
+        $protectedEvidence = Join-Path $trustedOutput 'protected-changes-diff.json'
+        $verifierArguments = @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-HeadRevision', $HeadRef, '-ReportPath', $protectedReport)
+        if ($PlanPath) { $verifierArguments += @('-PlanPath', $PlanPath) }
+        $verification = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXProtectedChanges.ps1') $verifierArguments
+        Write-Host $verification.Output
+        $protectedResult = if ([IO.File]::Exists($protectedReport)) { [IO.File]::Copy($protectedReport, $protectedEvidence, $true); Get-Content -LiteralPath $protectedReport -Raw | ConvertFrom-Json } else { $null }
+        if ($verification.ExitCode -eq 0 -and $null -ne $protectedResult -and $protectedResult.status -eq 'pass') {
+            $guardEnvironment['GUARD_PROTECTED_CHANGES'] = $protectedReport
+            $covered = @($protectedResult.authorizations | ForEach-Object { "$($_.path) ($($_.status))" })
+            $reason = if ($covered.Count -gt 0) { "Verified authorizations: $($covered -join ', ')." } else { 'No protected changes.' }
+            Add-Check 'protected-changes' 'pass' $reason @($protectedEvidence)
         }
-        else { Add-Check 'consumed-authorization' 'skipped' 'No verified authorization consumption; every protected deletion stays blocked.' @($consumptionReport) }
+        else {
+            $reasons = if ($null -ne $protectedResult) { @($protectedResult.failures) } else { @("The protected change verifier returned exit code $($verification.ExitCode) without a report.") }
+            Add-Check 'protected-changes' 'fail' ($reasons -join ' | ') @(@($protectedEvidence) | Where-Object { [IO.File]::Exists($_) })
+        }
     }
 
     # ---- guard run from the candidate package, with head only as the target
