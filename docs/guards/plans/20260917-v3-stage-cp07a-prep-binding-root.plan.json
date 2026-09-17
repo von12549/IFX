@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp07a-prep-binding-root",
+  "title": "V3 stage-oriented refactor CP07a-prep — depth-independent package root for the Architecture Conformance binding tests",
+  "goal": "Make the base-owned GatePolicyBindingTests resolve the package root from LAYERGUARD_PACKAGE_ROOT or the nearest directory holding policy/layerguard.json, so that CP07a can build the single template source tree under candidate verification (D26).",
+  "acceptanceCriteria": [
+    "Both GatePolicyBindingTests.cs copies stay byte-identical and resolve the package root from LAYERGUARD_PACKAGE_ROOT or by searching upward from the fixtures, failing when no policy is found.",
+    "Invoke-IFX.ps1 passes LAYERGUARD_PACKAGE_ROOT for Test and restores it, isolated trusted base processes do not inherit it, and the template identity check runs in Check and Generate only.",
+    "The binding tests pass from the template fixture location without the variable, the package tests pass, and the pull request consumes the CP07a-prep-auth authorization with all 13 required checks passing."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/generated/dotnet/LayerGuard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07a-prep-binding-root.json",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp07a-prep-binding-root.md",
+    "docs/guards/plans/20260917-v3-stage-cp07a-prep-binding-root.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json"
+  ]
+}

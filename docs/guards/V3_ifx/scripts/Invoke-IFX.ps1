@@ -121,11 +121,13 @@ if ($Mode -eq 'Generate') {
         [IO.File]::WriteAllBytes($destination, [IO.File]::ReadAllBytes($file.FullName))
     }
 }
-Assert-Generated
 if ($Mode -in @('Generate', 'Check')) {
+    Assert-Generated
     Write-Host "IFX .NET gate matches local templates: $generated"
     exit 0
 }
+# Byte identity with the template is owned by Check (and Generate); Test and Scan build the generated copy as it is, so a
+# candidate check that overlays base-owned template tests does not fail on the overlay itself (CP07a-prep, D26).
 
 $buildModule = @((Join-Path $packageRoot 'build/GuardBuild.psm1'), (Join-Path $packageRoot '../V3/build/GuardBuild.psm1')) |
     Where-Object { [IO.File]::Exists($_) } | Select-Object -First 1
@@ -155,15 +157,19 @@ try {
     if ($Mode -eq 'Test') {
         $oldFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', 'Process')
         $oldTarget = [Environment]::GetEnvironmentVariable('GUARD_TARGET_ROOT', 'Process')
+        $oldPackageRoot = [Environment]::GetEnvironmentVariable('LAYERGUARD_PACKAGE_ROOT', 'Process')
         try {
             $env:LAYERGUARD_FIXTURES_ROOT = Join-Path $generated 'tests/fixtures'
             # Policy binding tests analyze the target's src/, which is not next to a package copy run from outside it.
             $env:GUARD_TARGET_ROOT = $target
+            # Binding tests read the package policy; the root is passed so the test source may move (Plan 06 P6.1).
+            $env:LAYERGUARD_PACKAGE_ROOT = $packageRoot
             Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project)
         }
         finally {
             [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process')
             [Environment]::SetEnvironmentVariable('GUARD_TARGET_ROOT', $oldTarget, 'Process')
+            [Environment]::SetEnvironmentVariable('LAYERGUARD_PACKAGE_ROOT', $oldPackageRoot, 'Process')
         }
     }
     else { Invoke-GuardBuildStep $context 'build' $project @($project) }

@@ -8,9 +8,9 @@ namespace LayerGuard.Tests;
 
 public class GatePolicyBindingTests
 {
-    private static readonly string PackageRoot = Path.GetFullPath(
-        Path.Combine(Fixtures.PathTo(Fixtures.BootstrapArchitecture), "..", "..", "..", "..", "..", "..")
-    );
+    // The runner passes the package root; otherwise it is the nearest directory above the fixtures that holds the policy,
+    // so the tests do not depend on where the source tree sits inside the package (Plan 06 P6.1).
+    private static readonly string PackageRoot = ResolvePackageRoot();
     // A trusted base run executes these tests from a package copy outside the target repository (Plan 06 §11.1).
     private static readonly string RepositoryRoot = Path.GetFullPath(
         Environment.GetEnvironmentVariable("GUARD_TARGET_ROOT") is { Length: > 0 } target
@@ -249,5 +249,17 @@ public class GatePolicyBindingTests
     }
 
     private static string Repo(string path) => Path.Combine(RepositoryRoot, path.Replace('/', Path.DirectorySeparatorChar));
+    private static string ResolvePackageRoot()
+    {
+        if (Environment.GetEnvironmentVariable("LAYERGUARD_PACKAGE_ROOT") is { Length: > 0 } configured)
+            return Path.GetFullPath(configured);
+        for (var directory = new DirectoryInfo(Fixtures.PathTo(Fixtures.BootstrapArchitecture)); directory is not null; directory = directory.Parent)
+        {
+            if (File.Exists(Path.Combine(directory.FullName, "policy", "layerguard.json")))
+                return directory.FullName;
+        }
+        throw new InvalidOperationException("Cannot find the package root (policy/layerguard.json) above the LayerGuard fixtures.");
+    }
+
     private static string Package(string path) => Path.Combine(PackageRoot, path.Replace('/', Path.DirectorySeparatorChar));
 }
