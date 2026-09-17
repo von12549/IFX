@@ -121,8 +121,15 @@ With `-HeadRef`, Diff verifies both commits and compares from their merge base. 
 
 Protected paths come from a Diff protection configuration: `-ProtectionPath`, or by default the package's `stages/diff/protection.json`. Its schema is `contracts/protection.schema.json`. The configuration fields work as follows:
 
-- `protectedPaths`: entries ending in `/` protect a directory prefix, and other entries protect one exact path. Matching ignores case. Deleting or renaming a protected path fails Diff.
-- `authorizationDirectory`: names where change-trusted-base records live. A committed Diff accepts the plain deletion of a record only when `GUARD_CONSUMED_AUTHORIZATIONS` names it. A trusted base runner sets this variable only after verifying that the change consumes the record.
+- `protectedPaths`: entries ending in `/` protect a directory prefix, and other entries protect one exact path. Matching ignores case. Diff reads changes without rename detection, so deleting or renaming a protected path fails, and so does a gitlink at a protected path.
+- `authorizationDirectory`: names where a trusted verifier looks for authorization records.
+
+A committed Diff exempts a protected deletion only through a protected change report named by `GUARD_PROTECTED_CHANGES` (schema `protected-change-report.schema.json` in the IFX package). The report must:
+
+- have status `pass`;
+- be bound to the verified base commit, merge base, head commit and the SHA-256 of the protection configuration file.
+
+Diff then exempts exactly the report's `allowedDeletions`, and fails if any of them was not deleted. A report that does not match fails Diff instead of being ignored. Uncommitted Diff runs never honour a report. Only a trusted base runner should produce the report, after verifying base authorizations; a report written by the change itself is not evidence.
 
 Without a configuration nothing is protected.
 

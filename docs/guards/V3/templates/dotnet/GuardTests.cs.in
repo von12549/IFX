@@ -147,43 +147,49 @@ public sealed class GuardTests
             .Select(x => x.GetString()!).ToArray();
         var committedHead = !string.IsNullOrWhiteSpace(headRef);
         var range = baseRef;
+        string? verifiedBase = null, verifiedHead = null, mergeBase = null;
         if (committedHead)
         {
-            var verifiedBase = Git(root, "rev-parse", "--verify", baseRef + "^{commit}").Trim();
-            var verifiedHead = Git(root, "rev-parse", "--verify", headRef! + "^{commit}").Trim();
-            var mergeBase = Git(root, "merge-base", verifiedBase, verifiedHead).Trim();
+            verifiedBase = Git(root, "rev-parse", "--verify", baseRef + "^{commit}").Trim();
+            verifiedHead = Git(root, "rev-parse", "--verify", headRef! + "^{commit}").Trim();
+            mergeBase = Git(root, "merge-base", verifiedBase, verifiedHead).Trim();
             if (string.IsNullOrWhiteSpace(mergeBase)) throw new InvalidOperationException("Diff has no merge base; fetch complete history.");
             range = mergeBase + ".." + verifiedHead;
         }
-        var parts = Git(root, "diff", "--name-status", "-z", "--find-renames", range, "--")
+        // Plan 06 §12.3: NUL-separated raw diff without rename detection, so a rename is a deletion plus an addition.
+        var parts = Git(root, "diff", "--raw", "-z", "--no-renames", "--no-abbrev", range, "--")
             .Split('\0', StringSplitOptions.RemoveEmptyEntries);
         var changed = new List<string>();
         var protectedDeletions = new List<string>();
-        // Protected paths and the authorization directory come from the package Diff configuration (Plan 06 P3.2). The trusted
-        // base runner passes only the authorization record that the change consumes (§11.5, D20); only its exact deletion in
-        // a committed range is exempt.
+        var protectedGitlinks = new List<string>();
+        var deleted = new HashSet<string>(StringComparer.Ordinal);
+        // Protected paths come from the package Diff configuration (Plan 06 P3.2). A trusted runner may pass a protected
+        // change report whose verifier checked every protected deletion against base authorizations (D23); only a passing
+        // report bound to this base, merge base, head and configuration exempts its deletions, and only in a committed range.
         var protection = Protection.Load();
-        var consumed = committedHead ? protection.ConsumedAuthorizations() : new HashSet<string>(StringComparer.Ordinal);
-        var consumedDeleted = new HashSet<string>(StringComparer.Ordinal);
-        for (var i = 0; i < parts.Length;)
+        var allowed = committedHead ? protection.AllowedDeletions(verifiedBase!, mergeBase!, verifiedHead!) : new HashSet<string>(StringComparer.Ordinal);
+        var legacy = committedHead ? protection.LegacyConsumedAuthorizations() : new HashSet<string>(StringComparer.Ordinal);
+        for (var i = 0; i < parts.Length; i += 2)
         {
-            var status = parts[i++];
-            if (i >= parts.Length) throw new InvalidOperationException("Malformed git name-status output.");
-            var firstPath = parts[i++].Replace('\\', '/');
-            changed.Add(firstPath);
-            if (status == "D" && consumed.Contains(firstPath)) consumedDeleted.Add(firstPath);
-            else if ((status.StartsWith('D') || status.StartsWith('R')) && protection.IsProtected(firstPath)) protectedDeletions.Add(firstPath);
-            if (status.StartsWith('R') || status.StartsWith('C'))
-            {
-                if (i >= parts.Length) throw new InvalidOperationException("Malformed git rename output.");
-                changed.Add(parts[i++].Replace('\\', '/'));
-            }
+            if (i + 1 >= parts.Length || !parts[i].StartsWith(':')) throw new InvalidOperationException("Malformed git raw diff output.");
+            var meta = parts[i][1..].Split(' ');
+            if (meta.Length < 5) throw new InvalidOperationException("Malformed git raw diff record: " + parts[i]);
+            var path = parts[i + 1].Replace('\\', '/');
+            changed.Add(path);
+            var isProtected = protection.IsProtected(path);
+            if (isProtected && (meta[0] == "160000" || meta[1] == "160000")) protectedGitlinks.Add(path);
+            if (meta[1] != "000000") continue;
+            deleted.Add(path);
+            if (isProtected && !allowed.Contains(path) && !legacy.Contains(path)) protectedDeletions.Add(path);
         }
         if (!committedHead) changed.AddRange(Git(root, "ls-files", "--others", "--exclude-standard", "-z")
             .Split('\0', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Replace('\\', '/')));
         Assert.True(changed.Count > 0, "Diff changed set is empty; base/head inputs may be wrong or history may be incomplete.");
+        Assert.True(protectedGitlinks.Count == 0, "Gitlinks in protected paths: " + string.Join(", ", protectedGitlinks));
         Assert.True(protectedDeletions.Count == 0, "Protected guard deletions: " + string.Join(", ", protectedDeletions));
-        var unconsumed = consumed.Where(path => !consumedDeleted.Contains(path)).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+        var unused = allowed.Where(path => !deleted.Contains(path)).OrderBy(x => x, StringComparer.Ordinal).ToArray();
+        Assert.True(unused.Length == 0, "Allowed deletions were not deleted by this change: " + string.Join(", ", unused));
+        var unconsumed = legacy.Where(path => !deleted.Contains(path)).OrderBy(x => x, StringComparer.Ordinal).ToArray();
         Assert.True(unconsumed.Length == 0, "Verified authorizations were not deleted by this change: " + string.Join(", ", unconsumed));
         var planRelative = Relative(root, planPath);
         var companion = planRelative.EndsWith(".plan.json", StringComparison.Ordinal)
@@ -200,23 +206,26 @@ public sealed class GuardTests
     {
         private readonly string[] _paths;
         private readonly string? _authorizationDirectory;
+        private readonly string? _sha256;
 
-        private Protection(string[] paths, string? authorizationDirectory)
+        private Protection(string[] paths, string? authorizationDirectory, string? sha256)
         {
             _paths = paths;
             _authorizationDirectory = authorizationDirectory;
+            _sha256 = sha256;
         }
 
         // GUARD_PROTECTION_PATH names the package Diff configuration, validated by Invoke-V3 against protection.schema.json.
-        // Without it no path is protected and no authorization record may be consumed.
+        // Without it no path is protected and no protected change report is accepted.
         public static Protection Load()
         {
             var file = Environment.GetEnvironmentVariable("GUARD_PROTECTION_PATH");
-            if (string.IsNullOrWhiteSpace(file)) return new Protection(Array.Empty<string>(), null);
-            using var document = JsonDocument.Parse(File.ReadAllText(file));
+            if (string.IsNullOrWhiteSpace(file)) return new Protection(Array.Empty<string>(), null, null);
+            var bytes = File.ReadAllBytes(file);
+            using var document = JsonDocument.Parse(bytes);
             var paths = document.RootElement.GetProperty("protectedPaths").EnumerateArray().Select(x => x.GetString()!).ToArray();
             var directory = document.RootElement.TryGetProperty("authorizationDirectory", out var value) ? value.GetString() : null;
-            return new Protection(paths, directory);
+            return new Protection(paths, directory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant());
         }
 
         // Entries ending in '/' protect a directory prefix, other entries one exact path; matching ignores case so a
@@ -225,7 +234,28 @@ public sealed class GuardTests
             ? path.StartsWith(entry, StringComparison.OrdinalIgnoreCase)
             : path.Equals(entry, StringComparison.OrdinalIgnoreCase));
 
-        public HashSet<string> ConsumedAuthorizations()
+        // GUARD_PROTECTED_CHANGES names a protected change report (protected-change-report.schema.json). It must pass and
+        // be bound to exactly this Diff; anything else fails instead of being ignored.
+        public HashSet<string> AllowedDeletions(string baseSha, string mergeBase, string headSha)
+        {
+            var file = Environment.GetEnvironmentVariable("GUARD_PROTECTED_CHANGES");
+            if (string.IsNullOrWhiteSpace(file)) return new HashSet<string>(StringComparer.Ordinal);
+            if (_sha256 is null) throw new InvalidOperationException("GUARD_PROTECTED_CHANGES requires a Diff protection configuration.");
+            using var report = JsonDocument.Parse(File.ReadAllBytes(file));
+            var root = report.RootElement;
+            string Text(string name) => root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString()! : "";
+            foreach (var (name, expected) in new[] { ("check", "protected-changes"), ("status", "pass"), ("baseSha", baseSha), ("mergeBase", mergeBase), ("headSha", headSha), ("protectionSha256", _sha256) })
+            {
+                if (!string.Equals(Text(name), expected, StringComparison.Ordinal))
+                    throw new InvalidOperationException($"GUARD_PROTECTED_CHANGES is not bound to this Diff: {name} is '{Text(name)}', expected '{expected}'.");
+            }
+            return new HashSet<string>(root.GetProperty("allowedDeletions").EnumerateArray().Select(x => x.GetString()!), StringComparer.Ordinal);
+        }
+
+        // Legacy D20 variable, kept only so that the base-owned tests of the previous trusted base still validate this
+        // candidate (D23 expand/contract); trusted runners no longer set it and strip it from child processes. It names
+        // authorization records whose plain deletion is exempt. Removed with CP06b.
+        public HashSet<string> LegacyConsumedAuthorizations()
         {
             var value = Environment.GetEnvironmentVariable("GUARD_CONSUMED_AUTHORIZATIONS") ?? "";
             var paths = value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);

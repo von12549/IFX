@@ -11,7 +11,14 @@ Within that scope:
 - **Judging gates** (`v3-pre-diff`, `v3-specialized-g03`/`g04`/`g05`/`plan04`, `v3-historical-integrity`): a PR head cannot change the verdict by modifying the public entry point, dispatcher, modules, `commands.json`, engine scripts, contracts, package policy, authorizations, or MSBuild/NuGet/SDK inheritance files. The base runner executes from a clean base worktree and reads head only as the target.
 - **Domain authorities** (D18): head content is compared with base by the role recorded in `policy/authorities.json`. Declarations may change in a single PR. A governing-policy change, or any widening of an exception, fails closed until P4 provides `weaken-policy` authorization.
 - **Mixed and executing gates** (`v3-architecture`, `v3-quality-*`, `v3-specialized-database`, `v3-cross-platform-*`): each gate's guarantee is the one stated in its trust contract in `stages/*/stage.json`. Executing gates build and run head code; base fixes only the commands, arguments, exit-code judgement and required evidence.
-- **Trusted components** (§11.5): the current PR is always judged by the base components. A change to a trusted component needs a base `change-trusted-base` authorization that the change PR deletes. The head candidate must pass the base-owned validation and parity. This makes such changes explicit and traceable. It does not stop an unreviewed two-step sequence (authorize, then change) while O1 is deferred.
+- **Trusted components** (§11.5): the current PR is always judged by the base components. A change to a trusted component needs a base `change-trusted-base` authorization that the change PR deletes. The head candidate must pass the base-owned validation and parity.
+- **Protected changes** (§12.3, D22, D23): in `v3-pre-diff`, the base verifier derives obligations from the committed diff (read without rename detection): each protected path removal, plus any trusted component change.
+  - Each obligation must be covered by exactly one base authorization that the PR deletes. Uncovered, duplicate and unused authorizations fail.
+  - Operations not yet enabled fail closed. So do `.gitattributes` changes, gitlinks in the protected scope and changed authorization records.
+  - The Diff stage exempts only the deletions listed in the verifier's report, which is bound to base, merge base, head and the protection configuration.
+  - Deleting unused authorizations is allowed only in a revocation-only PR.
+
+These rules make trusted component and protected path changes explicit and traceable. They do not stop an unreviewed two-step sequence (authorize, then change) while O1 is deferred.
 
 Do not describe the guards as offering more than this.
 

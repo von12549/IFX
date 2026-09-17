@@ -138,7 +138,7 @@ try {
     # Plan 06 P3.1/P3.2: committed ranges use the verified merge base, an empty changed set fails closed, and protected
     # paths and consumable authorization records come from the Diff protection configuration.
     [IO.File]::WriteAllText($protectionFile, '{"formatVersion":1,"protectedPaths":["src/App/Guarded/"],"authorizationDirectory":"src/App/Guarded/authorizations/"}')
-    $guarded = @('src/App/Guarded/keep.txt', 'src/App/Guarded/keep-renamed.txt', 'src/App/Guarded/authorizations/sample.json', 'src/App/Guarded/authorizations/other.json')
+    $guarded = @('src/App/Guarded/keep.txt', 'src/App/Guarded/keep-renamed.txt', 'src/App/Guarded/module', 'src/App/Guarded/authorizations/sample.json', 'src/App/Guarded/authorizations/other.json')
     $planData.plannedPaths = @('src/App/App.csproj') + $guarded
     [IO.File]::WriteAllText($planFile, ($planData | ConvertTo-Json -Depth 20))
     Invoke-FixtureGit add -A
@@ -160,24 +160,53 @@ try {
     Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'protected rename fails' 'Protected guard deletions: src/App/Guarded/keep.txt'
     Invoke-FixtureGit reset -q --hard HEAD~1
 
+    # Plan 06 §12.3: a protected path in a gitlink fails, whatever the tree entry points to.
+    $gitlinkTarget = (& git -C $fixture rev-parse HEAD).Trim()
+    Invoke-FixtureGit update-index --add --cacheinfo "160000,$gitlinkTarget,src/App/Guarded/module"
+    Invoke-FixtureGit commit -qm 'protected gitlink'
+    Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'protected gitlink fails' 'Gitlinks in protected paths: src/App/Guarded/module'
+    Invoke-FixtureGit reset -q --hard HEAD~1
+
+    # D23: only a passing protected change report bound to this base, merge base, head and configuration exempts deletions.
     $sample = 'src/App/Guarded/authorizations/sample.json'
     Invoke-FixtureGit rm -q $sample
     Invoke-FixtureGit commit -qm 'consume authorization'
+    $reportFile = Join-Path $fixtureParent "v3-protected-changes-$([Guid]::NewGuid().ToString('N')).json"
+    function Write-ProtectedChangeReport([string[]] $Allowed, [hashtable] $Override = @{}) {
+        $baseSha = (& git -C $fixture rev-parse HEAD~1).Trim()
+        $headSha = (& git -C $fixture rev-parse HEAD).Trim()
+        $report = [ordered]@{
+            formatVersion = 1; check = 'protected-changes'; status = 'pass'; baseSha = $baseSha; mergeBase = $baseSha; headSha = $headSha
+            protectionSha256 = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([IO.File]::ReadAllBytes($protectionFile))).ToLowerInvariant()
+            planPath = $plan; revocation = $false; obligations = @(); authorizations = @(); allowedDeletions = @($Allowed); failures = @()
+        }
+        foreach ($key in $Override.Keys) { $report[$key] = $Override[$key] }
+        [IO.File]::WriteAllText($reportFile, ($report | ConvertTo-Json -Depth 5))
+    }
+    $committedRange = @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD')
     try {
-        $env:GUARD_CONSUMED_AUTHORIZATIONS = $sample
-        Assert-Run 0 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'verified consumed authorization deletion passes'
-        $env:GUARD_CONSUMED_AUTHORIZATIONS = "$sample`nsrc/App/Guarded/authorizations/other.json"
-        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'consumed authorization that was not deleted fails' 'Verified authorizations were not deleted by this change: src/App/Guarded/authorizations/other.json'
-        $env:GUARD_CONSUMED_AUTHORIZATIONS = 'src/App/Guarded/keep.txt'
-        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'consumption outside the authorization directory fails' 'may only name authorization records'
-        $env:GUARD_CONSUMED_AUTHORIZATIONS = $null
-        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD~1', '-HeadRef', 'HEAD') + $protected) 'unverified authorization deletion fails' "Protected guard deletions: $sample"
+        $env:GUARD_PROTECTED_CHANGES = $reportFile
+        Write-ProtectedChangeReport @($sample)
+        Assert-Run 0 ($committedRange + $protected) 'deletion allowed by a bound report passes'
+        Write-ProtectedChangeReport @($sample, 'src/App/Guarded/authorizations/other.json')
+        Assert-Run 1 ($committedRange + $protected) 'allowed deletion that was not deleted fails' 'Allowed deletions were not deleted by this change: src/App/Guarded/authorizations/other.json'
+        Write-ProtectedChangeReport @($sample) @{ headSha = (& git -C $fixture rev-parse HEAD~1).Trim() }
+        Assert-Run 1 ($committedRange + $protected) 'report bound to another head fails' 'GUARD_PROTECTED_CHANGES is not bound to this Diff: headSha'
+        Write-ProtectedChangeReport @($sample) @{ protectionSha256 = ('0' * 64) }
+        Assert-Run 1 ($committedRange + $protected) 'report bound to another protection configuration fails' 'GUARD_PROTECTED_CHANGES is not bound to this Diff: protectionSha256'
+        Write-ProtectedChangeReport @($sample) @{ status = 'fail' }
+        Assert-Run 1 ($committedRange + $protected) 'failed report fails' 'GUARD_PROTECTED_CHANGES is not bound to this Diff: status'
+        $env:GUARD_PROTECTED_CHANGES = $null
+        Assert-Run 1 ($committedRange + $protected) 'deletion without a report fails' "Protected guard deletions: $sample"
         Invoke-FixtureGit reset -q --hard HEAD~1
         Invoke-FixtureGit rm -q $sample
-        $env:GUARD_CONSUMED_AUTHORIZATIONS = $sample
-        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD') + $protected) 'consumption is not honoured for uncommitted changes' "Protected guard deletions: $sample"
+        $env:GUARD_PROTECTED_CHANGES = $reportFile
+        Assert-Run 1 (@('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD') + $protected) 'report is not honoured for uncommitted changes' "Protected guard deletions: $sample"
     }
-    finally { $env:GUARD_CONSUMED_AUTHORIZATIONS = $null }
+    finally {
+        $env:GUARD_PROTECTED_CHANGES = $null
+        if ([IO.File]::Exists($reportFile)) { [IO.File]::Delete($reportFile) }
+    }
     $passed = $true
     Write-Host 'V3 synthetic positive/negative tests passed.'
 }

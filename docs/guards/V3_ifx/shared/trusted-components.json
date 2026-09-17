@@ -181,6 +181,7 @@
         "docs/guards/V3_ifx/contracts/pre-result.schema.json",
         "docs/guards/V3_ifx/contracts/profile.schema.json",
         "docs/guards/V3_ifx/contracts/project-map.schema.json",
+        "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
         "docs/guards/V3_ifx/contracts/protection.schema.json",
         "docs/guards/V3_ifx/contracts/rule.schema.json",
         "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
