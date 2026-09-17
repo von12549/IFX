@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d20-authorization-consumption-and-break-glass",
+  "owner": "xiaolong-feng",
+  "summary": "The trusted Diff may accept the deletion of a change-trusted-base authorization record only when the base candidate verifier, run by the trusted base runner in authorization-only mode against the exact pull request head, confirms that this change consumes that record: matching component set, changed paths, base and head tuples, validation suite, plan and decision references, and deletion by head. The runner passes only that verified path to the generated Diff test, which exempts only its exact plain deletion under stages/diff/authorizations/ in a committed range; renames, other protected deletions, unverified or injected consumption, and deleting an authorization that the change does not consume stay protected deletions. Deleting an unused authorization is not defined as safe revocation; that waits for P4. Because the base before this fix blocks every consumed deletion, this fix is landed once through the Plan 06 section 11.7 break-glass: an authorization PR adds the record, the fix PR consumes it, and only v3-pre-diff is removed from ruleset 23459908 for the fix PR's merge, with before and after ruleset snapshots, immediate restoration, a remote CI contract proof and post-restore positive and negative verification.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/architecture/review/evidence/**",
+    "docs/guards/V3_ifx/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "After CP04d, candidate verification requires a change PR to delete the base authorization it consumes, while the base Diff template treats every deletion under docs/guards/V3_ifx/ as a protected deletion until P4 implements authorized deletions. Every trusted component change, including a fix of this conflict, is therefore blocked, which is the base-engine false failure that section 11.7 break-glass exists for. The CP04b tests exercised the verifier and the Diff separately, so the conflict was not caught. Tying the exemption to the base verifier's exact consumption keeps the exemption as narrow as the authorization itself and prevents head content or process environment from widening it; a general revocation rule would allow deleting authorization records that nobody consumed, which is not needed now and needs its own policy. End-to-end tests run the trusted Diff and the candidate verifier together with positive and negative cases. The user chose option A on 2026-09-17 and authorized only local preparation and simulation; pushing, merging and any ruleset change require separate authorization. Refines D10, D15 and D19."
+}

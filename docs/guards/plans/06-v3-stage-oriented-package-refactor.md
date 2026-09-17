@@ -949,7 +949,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ## 17. 设计决策
 
-D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补充的决定；D18、D19 为 P2 实施分析补充的决定。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
+D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补充的决定；D18、D19 为 P2 实施分析补充的决定；D20 为 P2 验证后发现授权消费冲突而补充的决定。后续若要改变这些决定，必须新增 decision JSON/ADR，并重新评估受影响阶段，不得在实施中静默改变。
 
 ### D1 — V3_ifx 的分发边界
 
@@ -1058,6 +1058,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 
 - **决定**：§11.6 首次引入例外分两步合入。CP04c 合入全部前置（可信构建输出迁出、LayerGuard 测试 target root 修正、CI 激活契约检查、负向控制与文档），不改变 workflow；CP04d 把全部 required check 切换为 base runner，并在 `ci/jobs.json` 声明 `trustedBase.execution` 与 `tcbCandidateVerification` 生效。激活标志从 base commit 读取，因此在 CP04d 之后的下一个 PR 首次生效并须验证其阻断；此后 TCB 变更一律需要 `change-trusted-base` 授权，例外不得复用。
 - 来源：CP04c 以 CP04b runner 对仓库逐一运行全部 mode 时发现的 LayerGuard 测试根推导缺陷；记录 `20260917-v3-stage-d19-trusted-base-first-introduction.json`。
+
+### D20 — 授权记录消费与一次性 break-glass（P3 前补充，细化 D10、D15、D19）
+
+- **决定**：trusted Diff 只接受 base 候选 verifier（runner 以 authorization-only 模式针对精确 PR head 运行）确认被本变更消费的授权记录的普通删除；重命名、其他受保护删除、未验证或注入的消费、未被消费的授权删除仍失败；不把任意授权删除定义为安全撤销，撤销等待 P4。修复本身按 §11.7 以一次性 break-glass 合入：授权 PR 加入记录，修复 PR 消费记录，仅在修复 PR 合入期间从 ruleset 移除 `v3-pre-diff`，保留前后快照并立即恢复，事后以常规 PR 做正反复验。
+- 来源：CP05 准备时发现 CP04b 的 verifier（要求删除被消费记录）与 base Diff（禁止 `docs/guards/V3_ifx/` 下删除）互相阻断；用户于 2026-09-17 选择方案 A，并只授权本地准备与模拟；记录 `20260917-v3-stage-d20-authorization-consumption-and-break-glass.json`。
 
 ## 18. 暂缓项
 
