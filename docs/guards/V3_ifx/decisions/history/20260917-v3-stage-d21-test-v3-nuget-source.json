@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d21-test-v3-nuget-source",
+  "owner": "xiaolong-feng",
+  "summary": "Both Test-V3.ps1 copies restore the generated guard project through the V3 package-local build baseline, docs/guards/V3/build/NuGet.config (nuget.org with package source mapping and locked restore), by not passing -NuGetConfig. The V3 fixture no longer writes an offline NuGet.Offline.Config with no sources, the V3_ifx fixture no longer writes a nuget.org NuGet.Test.Config or copies docs/Directory.Packages.props, and the two copies are byte-identical until P7.5 removes the V3_ifx copy.",
+  "affectedPaths": [
+    "docs/guards/V3/build/NuGet.config",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1"
+  ],
+  "rationale": "Plan 06 P3.3 requires an explicit decision on the NuGet source fork. The offline configuration only passed with a warm global package cache and hid restore failures, while the nuget.org test configuration duplicated what the D14 build baseline already provides with source mapping and lock verification. Since CP03 guard builds disable Directory.Build and Directory.Packages imports, so copying docs/Directory.Packages.props no longer affects the guard project. Using the baseline in both copies makes the Diff and detector tests exercise the same restore path as CI and trusted base runs, and lets the copies stay identical. Refines D14."
+}
