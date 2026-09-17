@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp05a-verify-change",
+  "title": "V3 stage-oriented refactor CP05a post-restore verification \u2014 consume the authorization with a comment-only runner change",
+  "goal": "Document the Diff consumption step in the trusted base runner header and consume its authorization through a normal pull request, showing that v3-pre-diff accepts the verified consumed deletion after the break-glass restoration.",
+  "acceptanceCriteria": [
+    "v3-pre-diff passes and its trusted base summary reports consumed-authorization pass for the record.",
+    "Candidate verification passes as an authorized change of tcb.engine.trusted-base, and all 13 required checks pass without ruleset changes."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp05a-verify-runner-documentation.json",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260917-v3-stage-cp05a-verify-change.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-verify-change.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json"
+  ]
+}

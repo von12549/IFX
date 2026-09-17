@@ -16,7 +16,9 @@ param(
 # Plan 06 §11.1 Trusted Base Guard Execution. This script must itself be started from a clean base worktree created
 # outside the head checkout; the head checkout is only ever passed as -TargetRoot. Domain authorities from head are
 # compared with base by role (§12.6) before candidate projections are generated in a directory outside head and base,
-# and the guard dispatcher then runs from that base-derived candidate package.
+# and the guard dispatcher then runs from that base-derived candidate package. In Diff mode the base candidate verifier
+# first checks, in authorization-only mode, whether the change consumes a change-trusted-base authorization; only that
+# verified record is passed to the Diff stage, which may then accept its exact deletion (Plan 06 §11.5, D20).
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
