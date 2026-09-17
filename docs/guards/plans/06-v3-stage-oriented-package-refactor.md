@@ -1083,6 +1083,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：CP06b 拆为 CP06b1 与 CP06b2。CP06b1 以 `shared/policy-config.json` 登记 editable policy（IFX profile、project map、tech stack、rules、`policy/layerguard.json`、`policy/baselines/plan05.json`、`history/manifest.json`）与 trust/meta-policy（`policy/authorities.json`、明确列出的 stage manifests 与 `stages/diff/protection.json`、`shared/*.json`、`guard-system.json`、`ci/jobs.json`、`contracts/*.schema.json`、根 `.gitattributes` normalized text 根指针），排除 `stages/diff/authorizations/`；derived projection 只能是 base `policy/authorities.json` 的精确 target。零比较器下每个已登记文件的语义变化都是 `policy-weakening` 义务，与 TCB 义务正交，trust/meta 变化同时需要 `change-trusted-base` 与 `weaken-policy`（可在同一授权 PR）；`weaken-policy` 按 blob hash、head tuple、schema 与 pointer 集合精确覆盖。trusted Diff 从明确 head commit 的 Git 对象验证 head 候选（schema、profile、history manifest 引用/hash/summary、projection、monotonicity 声明），报告绑定 base、merge-base、head 与保护配置、registry、授权 schema hash。CP06b1 由 CP06a base 判定（activation exception），下一个修改已登记 policy 的 PR 验证新规则；CP06b2 合入前 D18 blocking findings 继续失败关闭，b2 由 base verifier 针对明确 head SHA 重新计算覆盖，不信任 checked-out head 或隐式 merge commit。
 - 来源：CP06b 设计评审，用户于 2026-09-17 有条件批准；记录 `20260917-v3-stage-d24-policy-config-dual-track.json`。
 
+### D25 — D18 domain authority 的 `weaken-policy` 覆盖（P4 补充，细化 D18、D23、D24）
+
+- **决定**：D18 比较增加 Git 对象模式，按 merge base 与明确 head commit 的 blob 报告 blocking pointers 与 blob hash；base protected change verifier 把有 blocking findings 的 authority 作为 `policy-weakening` 义务（schema `domain-authority:<id>`，pointer 为 blocking pointers），由 `weaken-policy` 精确覆盖。Validate、Architecture 与 Specialized 在收到明确 `-HeadRef` 时以 Git 对象比较 authority，blocking findings 只有在 base verifier 针对该 commit 重新计算、报告绑定 base、merge base、head 与保护配置、registry、授权 schema hash，且每个 blocking authority 恰好由一条已消费的 `weaken-policy` 以相同 pointer 覆盖时才通过；授权记录、算法与 registry 全部来自 base，checkout 中变化的 authority 必须与明确 head 一致；没有明确 head 时继续失败关闭。workflow 为这些 gate 传入 PR head SHA（非 PR 事件为 `github.sha`）。CP06b2 是第一个由 CP06b1 规则判定的 PR，同时消费 `change-trusted-base` 与 `weaken-policy`。
+- 来源：CP06b 设计评审（C、D），用户于 2026-09-17 批准；记录 `20260917-v3-stage-d25-domain-authority-coverage.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。

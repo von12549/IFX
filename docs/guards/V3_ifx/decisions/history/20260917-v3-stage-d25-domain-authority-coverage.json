@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d25-domain-authority-coverage",
+  "owner": "xiaolong-feng",
+  "summary": "CP06b2 gives D18 blocking findings an authorization path. The D18 comparison gains a Git object mode that compares an authority's blobs at the merge base and at an explicit head commit and reports the blocking pointers with both blob hashes. The base protected change verifier turns each domain authority with blocking findings into a policy-weakening obligation on the authority file, with schema domain-authority:<id> and exactly the blocking pointers, covered only by a base weaken-policy record with the same blob hashes, head tuple, schema and pointers; the authorization generator emits such items. In Validate, Architecture and Specialized runs, the trusted runner compares authorities from Git objects of the explicit -HeadRef commit, never from the checked-out synthetic merge tree; when blocking findings exist it runs the base verifier for that commit, requires its report to be bound to the base commit, the merge base, the explicit head and the hashes of the Diff protection configuration, the policy registry and the authorization schema, and accepts the findings only when each blocking authority is covered by exactly one consumed weaken-policy authorization with the same pointers. Records, algorithm and registry all come from base. Because candidate projections and gates read the checkout, every changed authority in the checkout must equal the explicit head commit. Without an explicit head, blocking findings keep failing closed. The workflow passes the pull request head SHA, or the pushed commit on other events, as -HeadRef to those runs, and the D18 gate trust contracts describe the coverage. CP06b2 is the first pull request judged by the CP06b1 rules and changes trust/meta policy, so it needs both change-trusted-base and weaken-policy.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/analysis/ifx/**",
+    "docs/guards/V3_ifx/docs/**",
+    "docs/guards/V3_ifx/stages/**",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/trusted-base/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "Until CP06b2 a governing-policy change or exception widening of a domain authority had no authorization channel, so legitimate policy decisions could not merge without break-glass. Coverage must not come from the checkout: on pull requests it is a synthetic merge commit that the change author does not fix, and the authorization record binds blob hashes of the head commit. Recomputing coverage in base code for the explicit head commit, binding the report to that commit and to the base registry and schema hashes, and requiring exactly one consumed record per blocking authority keeps the same exactly-once rules as the trusted Diff, so v3-pre-diff and the authority gates cannot disagree about whether a weakening is authorized. Comparing against the merge base keeps base-side changes out of the pull request's obligations, and checking that the checkout equals the head commit for changed authorities ensures that the gates evaluate the authorized content. The user approved recomputing coverage only in base verifiers for the explicit pull request head, and fail-closed findings until CP06b2, on 2026-09-17. Refines D18, D23 and D24."
+}

@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06b2-authorization",
+  "title": "V3 stage-oriented refactor CP06b2-auth — change-trusted-base and weaken-policy authorizations for domain authority coverage",
+  "goal": "Add the base change-trusted-base and weaken-policy authorizations that the CP06b2 change PR will consume, and record D25, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "Both authorization records are schema-valid and generated from the prepared CP06b2 revision: change-trusted-base for its trusted component paths and weaken-policy for the semantic change of stages/post/stage.json.",
+    "D25 records how D18 blocking findings are covered by weaken-policy authorizations recomputed for the explicit pull request head; Plan 06 section 17 and the plan pair index both list it.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06b2-domain-authority-coverage-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06b2-domain-authority-coverage-trusted-base.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b2-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b2-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json"
+  ]
+}
