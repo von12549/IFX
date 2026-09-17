@@ -42,6 +42,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | D18 | Domain authority 混合信任模型（P2 补充） | `20260917-v3-stage-d18-domain-authority-hybrid-trust.json` | §11.3、§12.6、§17 D18 |
 | D19 | Trusted base 首次引入例外与分步启用（P2 补充） | `20260917-v3-stage-d19-trusted-base-first-introduction.json` | §11.6、§17 D19 |
 | D20 | 授权记录消费与一次性 break-glass（P3 前补充） | `20260917-v3-stage-d20-authorization-consumption-and-break-glass.json` | §11.5、§11.7、§12.1、§17 D20 |
+| D21 | `Test-V3.ps1` NuGet 源统一（P3.3） | `20260917-v3-stage-d21-test-v3-nuget-source.json` | §14 P3.3、D14 |
 
 每条记录的 `affectedPaths` 覆盖该决策未来会影响的路径，使后续检查点的 Pre 风险覆盖检查可以直接引用。decision schema 只允许 `summary` 与 `rationale` 两个文本字段，完整论证以 Plan 06 与 Review 为准。
 
@@ -60,7 +61,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP04c | P2 | 可信构建输出迁出 head 与 base、LayerGuard 测试 target root 修正、CI 激活契约检查、构建隔离负向控制、workflow 退出码修正、D19、break-glass 与保证范围文档（不切换 workflow） | 无 | 不需要 | CP04b | 已完成（PR #35，`dab8243`） |
 | CP04d | P2 | workflow 全部 required check 切换为 base runner、`ci/jobs.json` 声明 trusted execution 与 TCB 候选验证生效、关闭 bootstrap 窗口；下一个 PR 验证机制生效 | 无 | 不需要（§11.6 首次引入例外，D19） | CP04c | 已完成（PR #36，`a714716`）；P2.8 验证见 `20260917-v3-stage-p28-trusted-base-verification` |
 | CP05a | P2 修复 | Diff 仅接受经 base verifier 确认被本变更消费的授权记录删除（D20）、端到端回归；授权 PR → 修复 PR，修复 PR 合入需一次性 break-glass（§11.7） | 无 | `change-trusted-base`：CP05a-auth → CP05a-change | CP04d | 已完成（PR #40 `86b6150`、#41 `852d22b` 经 break-glass 合入；事后复验 #42 `2c4ed9a`、#43 `95882a6`、#44 关闭；证据 `docs/architecture/review/evidence/guards/break-glass-20260917-cp05a.md`） |
-| CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP05a | 未开始 |
+| CP05 | P3 | 通用 Diff 加固合回 V3、保护路径参数化 | 无 | TCB 非等价语义变化需 `change-trusted-base`：CP05-auth → CP05-change | CP05a | 进行中（`20260917-v3-stage-cp05-authorization`、`20260917-v3-stage-cp05-p3-diff-hardening`） |
 | CP06 | P4 | 完整授权 schema、Git 对象验证、policy/config 双轨与零比较器、两 PR 演练 | 无 | TCB 变化需 `change-trusted-base`：CP06-auth → CP06-change | CP05 | 未开始 |
 | CP07 | P6 | LayerGuard 去重、IFX binding 剥离、engine 进入 V3、trust contract | 有 | 按变更拆分：删除生成副本、binding 剥离、engine 移动各自 auth → change | CP06 | 未开始 |
 | CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07 | 未开始 |
