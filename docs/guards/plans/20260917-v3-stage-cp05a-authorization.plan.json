@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp05a-authorization",
+  "title": "V3 stage-oriented refactor CP05a-auth \u2014 change-trusted-base authorization for authorization consumption",
+  "goal": "Add the base change-trusted-base authorization that the CP05a fix PR will consume, record D20 on exact authorization consumption and the one-time break-glass, and provide the break-glass runbook and ruleset snapshot plan for review, without changing any trusted component.",
+  "acceptanceCriteria": [
+    "The authorization record is schema-valid, generated from the prepared fix revision, and lists exactly its trusted component paths, base and head tuples and validation suites.",
+    "D20 records that only the base-verified consumed authorization deletion is exempt from protected deletions and that the fix lands once through section 11.7 break-glass.",
+    "The runbook covers read-only checks, before, during and after ruleset snapshots, the single-context temporary change, merge, restoration, remote CI contract proof, abort conditions and post-restore verification.",
+    "No trusted component changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp05a-authorization-consumption.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp05a-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json"
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "formatVersion": 1,
+  "id": "cp05a-authorization-consumption",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260917-v3-stage-cp05a-authorization-consumption.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json"
+  ],
+  "changedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.engine.trusted-base",
+    "tcb.generated.stage-gate",
+    "tcb.generator.stage-gate",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8d200da5c8300c918fb0ba1fbb8a978a24ce7e48"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9949af8c97734e98f50238a98b38580d243b46ee"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dcfeb23dd0ad009243a346a8c6c04200cbebd8a3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8c962bd3cb4b94a704d9b32a21018658cc676ef5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+      "component": "tcb.generator.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dcfeb23dd0ad009243a346a8c6c04200cbebd8a3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8c962bd3cb4b94a704d9b32a21018658cc676ef5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e0372c92373938cdde16bdc79ba2b1d792d2ee9e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "08d570f50184ce25c123d6c341df6f3d0434c88e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b82823d612dd4c37b569f75efeb7a0e5981aa77f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c6b370dfed403489be6ea54a3a55d46e7d33f7b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8f7571f8b900967358594113809dafbbaf257566"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5dffb286dfc98b895d9a658932744757c84a213c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a2098416fd3aab877777a322327d27d2ec0479a9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e6e017ab9f74b413f252ac7181384d425f1f03fc"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-V3.ps1 -Mode Check",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged; the trusted Diff additionally accepts only the plain deletion of the authorization record that the base verifier confirms this change consumes (D20).",
+  "allowedBehaviorDifferences": []
+}
