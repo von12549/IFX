@@ -21,7 +21,7 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base V3 engine, Diff configuration and authorizations",
-        "policy": "protected guard paths and consumable authorization records from package stages/diff/protection.json",
+        "policy": "protected guard paths from package stages/diff/protection.json, authorization records, and the policy and configuration registry shared/policy-config.json with the base authority registry",
         "targetInput": "Git objects of verified merge-base and head",
         "inputs": [
           {
@@ -34,6 +34,14 @@
           },
           {
             "ref": "package:stages/diff/protection.json",
+            "source": "base"
+          },
+          {
+            "ref": "package:shared/policy-config.json",
+            "source": "base"
+          },
+          {
+            "ref": "package:policy/authorities.json",
             "source": "base"
           },
           {

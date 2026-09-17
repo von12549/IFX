@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "V3 protected change authorization",
-  "description": "Base pre-authorization consumed and deleted by the change PR (Plan 06 §12.1–§12.3). Every operation of §12.2 has a schema; an operation the base verifier has not enabled fails closed when a change tries to consume it (D23). Format 1 change-trusted-base records from P2 stay valid.",
+  "description": "Base pre-authorization consumed and deleted by the change PR (Plan 06 §12.1–§12.3). Every operation of §12.2 has a schema; an operation the base verifier has not enabled fails closed when a change tries to consume it (D23); weaken-policy is enabled from CP06b1 (D24). Format 1 change-trusted-base records from P2 stay valid.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -213,7 +213,7 @@
       }
     },
     "policies": {
-      "description": "weaken-policy: each authority before and after, with the affected schema and fields.",
+      "description": "weaken-policy: each registered policy or configuration file whose semantic change the record authorizes (D24).",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -232,16 +232,34 @@
             "$ref": "#/definitions/repoPath"
           },
           "baseSha256": {
-            "$ref": "#/definitions/sha256"
+            "description": "SHA-256 of the blob at the merge base; null when head adds the file.",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/sha256"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "headSha256": {
-            "$ref": "#/definitions/sha256"
+            "description": "SHA-256 of the head blob; null when head removes the file.",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/sha256"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "schema": {
+            "description": "The registered schema path of the file, or its registered format (json, normalized-text) when it has no schema.",
             "type": "string",
             "minLength": 1
           },
           "pointers": {
+            "description": "Exactly the changed JSON Pointers; the empty string is the whole document.",
             "type": "array",
             "minItems": 1,
             "uniqueItems": true,
@@ -251,7 +269,7 @@
             }
           },
           "head": {
-            "$ref": "#/definitions/tuple"
+            "$ref": "#/definitions/optionalTuple"
           }
         }
       }

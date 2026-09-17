@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "V3 protected change verification report",
-  "description": "Written by the base protected change verifier (Plan 06 §12.3, D23). The Diff stage accepts only a passing report bound to its own base, merge base, head and Diff protection configuration, and exempts exactly allowedDeletions.",
+  "description": "Written by the base protected change verifier (Plan 06 §12.3, D23). The Diff stage accepts only a passing report bound to its own base, merge base, head and Diff protection configuration; the trusted runner also checks the policy registry and authorization schema hashes, and exempts exactly allowedDeletions.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,6 +12,8 @@
     "mergeBase",
     "headSha",
     "protectionSha256",
+    "policyRegistrySha256",
+    "authorizationSchemaSha256",
     "planPath",
     "revocation",
     "obligations",
@@ -57,6 +59,20 @@
       ],
       "pattern": "^[0-9a-f]{64}$"
     },
+    "policyRegistrySha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "authorizationSchemaSha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
     "planPath": {
       "type": [
         "string",
@@ -76,6 +92,7 @@
           "id",
           "kind",
           "paths",
+          "pointers",
           "coveredBy"
         ],
         "properties": {
@@ -86,10 +103,18 @@
           "kind": {
             "enum": [
               "protected-removal",
-              "trusted-component-change"
+              "trusted-component-change",
+              "policy-weakening"
             ]
           },
           "paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pointers": {
+            "description": "policy-weakening: the changed JSON Pointers (empty string for the whole document).",
             "type": "array",
             "items": {
               "type": "string"

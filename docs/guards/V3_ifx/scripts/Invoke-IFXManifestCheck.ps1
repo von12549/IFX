@@ -340,6 +340,36 @@ foreach ($pair in $parityPairs) {
     if ($leftText -cne $rightText) { Fail "V3 fork copy diverges from V3: $($pair[1])" }
 }
 
+# ---------------------------------------------------------------- policy and configuration registry (Plan 06 §12.4, D24)
+Import-Module (Join-Path $root "$package/trusted-base/TrustedBase.psm1") -Force
+$policyRegistry = Read-Manifest "$package/shared/policy-config.json" 'policy-config'
+if ($null -ne $policyRegistry) {
+    $authorityRegistry = Get-Content -LiteralPath (Full "$package/policy/authorities.json") -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+    $projectionTargets = Get-GuardProjectionTargets $authorityRegistry $package
+    $entryIds = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($entry in @($policyRegistry.entries)) {
+        if (-not $entryIds.Add([string]$entry.id)) { Fail "Duplicate policy registry entry id: $($entry.id)" }
+        if ($entry.ContainsKey('schema') -and -not (Exists $entry.schema)) { Fail "Policy registry entry '$($entry.id)' names a missing schema: $($entry.schema)" }
+        if ($entry.format -eq 'normalized-text' -and $entry.candidateValidation -ne 'normalized-text') { Fail "Policy registry entry '$($entry.id)' is normalized text but validated as $($entry.candidateValidation)" }
+        foreach ($path in @($(if ($entry.ContainsKey('paths')) { $entry.paths } else { @() }))) {
+            if ($projectionTargets.Contains($path)) { Fail "Policy registry entry '$($entry.id)' claims derived projection target $path" }
+            if (@($policyRegistry.excluded | Where-Object { $path.StartsWith([string]$_, [StringComparison]::Ordinal) }).Count -gt 0) { Fail "Policy registry entry '$($entry.id)' claims excluded path $path" }
+            # Paths outside the package, such as the root .gitattributes, belong to the target repository.
+            if ($path.StartsWith("$package/", [StringComparison]::Ordinal) -and -not (Exists $path)) { Fail "Policy registry entry '$($entry.id)' names a missing file: $path" }
+        }
+    }
+    foreach ($registryRoot in @($policyRegistry.roots)) {
+        if (-not [IO.Directory]::Exists((Full $registryRoot))) { continue }
+        foreach ($file in @(Get-ChildItem -LiteralPath (Full $registryRoot) -Recurse -File -Filter '*.json')) {
+            $relative = [IO.Path]::GetRelativePath($root, $file.FullName).Replace('\', '/')
+            if (-not (Test-GuardPolicyScope $policyRegistry $relative) -or $projectionTargets.Contains($relative)) { continue }
+            if ($null -eq (Get-GuardPolicyEntry $policyRegistry $relative)) { Fail "Policy or configuration file is not registered in shared/policy-config.json: $relative" }
+        }
+    }
+    $readSchema = { param($schema) if (Exists $schema) { [IO.File]::ReadAllText((Full $schema)) } else { $null } }
+    foreach ($problem in (Test-GuardMonotonicityDeclarations $policyRegistry $readSchema)) { Fail $problem }
+}
+
 # ---------------------------------------------------------------- compatibility entries
 foreach ($entry in $system.compatibility.entries) {
     $legacy = $entry.legacyPath

@@ -1,0 +1,947 @@
+{
+  "formatVersion": 1,
+  "roots": [
+    "docs/guards/V3_ifx/ci/",
+    "docs/guards/V3_ifx/contracts/",
+    "docs/guards/V3_ifx/history/",
+    "docs/guards/V3_ifx/policy/",
+    "docs/guards/V3_ifx/profiles/ifx/",
+    "docs/guards/V3_ifx/shared/",
+    "docs/guards/V3_ifx/stages/"
+  ],
+  "excluded": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/"
+  ],
+  "entries": [
+    {
+      "id": "ifx-profile",
+      "role": "editable-policy",
+      "paths": [
+        "docs/guards/V3_ifx/profiles/ifx/profile.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "candidateValidation": "v3-profile"
+    },
+    {
+      "id": "ifx-project-map",
+      "role": "editable-policy",
+      "paths": [
+        "docs/guards/V3_ifx/profiles/ifx/project-map.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "candidateValidation": "v3-profile"
+    },
+    {
+      "id": "ifx-tech-stack",
+      "role": "editable-policy",
+      "paths": [
+        "docs/guards/V3_ifx/profiles/ifx/tech-stack.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "candidateValidation": "v3-profile"
+    },
+    {
+      "id": "ifx-rules",
+      "role": "editable-policy",
+      "directory": "docs/guards/V3_ifx/profiles/ifx/rules/",
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "candidateValidation": "v3-profile"
+    },
+    {
+      "id": "layerguard-policy",
+      "role": "editable-policy",
+      "paths": [
+        "docs/guards/V3_ifx/policy/layerguard.json"
+      ],
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "plan05-baseline",
+      "role": "editable-policy",
+      "paths": [
+        "docs/guards/V3_ifx/policy/baselines/plan05.json"
+      ],
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "history-manifest",
+      "role": "editable-policy",
+      "paths": [
+        "docs/guards/V3_ifx/history/manifest.json"
+      ],
+      "format": "json",
+      "candidateValidation": "history-manifest"
+    },
+    {
+      "id": "authority-registry",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/policy/authorities.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "stage-manifests",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/analysis/stage.json",
+        "docs/guards/V3_ifx/stages/bootstrap/stage.json",
+        "docs/guards/V3_ifx/stages/ci/stage.json",
+        "docs/guards/V3_ifx/stages/diff/stage.json",
+        "docs/guards/V3_ifx/stages/post/stage.json",
+        "docs/guards/V3_ifx/stages/pre/stage.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "diff-protection",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/diff/protection.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "command-manifest",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/shared/commands.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "trusted-component-manifest",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/shared/trusted-components.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "policy-config-registry",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/shared/policy-config.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "guard-system",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/guard-system.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "ci-jobs",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/ci/jobs.json"
+      ],
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/contracts/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "gitattributes",
+      "role": "trust-meta-policy",
+      "paths": [
+        ".gitattributes"
+      ],
+      "format": "normalized-text",
+      "candidateValidation": "normalized-text"
+    }
+  ],
+  "monotonicity": [
+    {
+      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/architecturePolicy",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/architecturePolicy/properties/owner",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/architecturePolicy/properties/path",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/arrayKeys",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/arrayKeys/items/properties/key",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/arrayKeys/items/properties/pointer",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/defaultRole",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/path",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/pointerRoles",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/pointerRoles/items/properties/pointer",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/domainAuthorities/items/properties/pointerRoles/items/properties/role",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/g04Bindings",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/g04Bindings/items/properties/key",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/g04Bindings/items/properties/source",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/g04Bindings/items/properties/target",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projections",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projections/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projections/items/properties/source",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projections/items/properties/target",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projections/items/properties/transform",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/commands",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/audiences",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/entryPoint",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/evidence",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/inputs",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/mutability",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/outputs",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/platforms",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/requiresExplicitAcceptance",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/stability",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/stages",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/compatibility",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries/items/properties/compatibility",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries/items/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries/items/properties/legacyPath",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries/items/properties/phase",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries/items/properties/removeWhen",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/entries/items/properties/replacement",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/policy",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/policy/properties/deprecationOutput",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/policy/properties/internalPaths",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/policy/properties/period",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/compatibility/properties/policy/properties/removal",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/engine",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/engine/properties/package",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/engine/properties/status",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifests",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifests/properties/commands",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifests/properties/stages",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifests/properties/trustedComponents",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/packageId",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/role",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/stages",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/entries",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/candidateValidation",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/directory",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/format",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/paths",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/role",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/entries/items/properties/schema",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/excluded",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/monotonicity",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/monotonicity/items/properties/fields",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/monotonicity/items/properties/fields/items/properties/comparator",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/monotonicity/items/properties/fields/items/properties/pointer",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/monotonicity/items/properties/schema",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/roots",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projectId",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/areas",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/areas/items/properties/focusedCommands",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/areas/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/areas/items/properties/layer",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/areas/items/properties/owner",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/areas/items/properties/pathPattern",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/areas/items/properties/similarImplementationRoot",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/riskTriggers",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/riskTriggers/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/riskTriggers/items/properties/pathPattern",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/riskTriggers/items/properties/reason",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/authorizationDirectory",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/protectedPaths",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "fields": [
+        {
+          "pointer": "/allOf/0/else/properties/coverage",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/allOf/0/if/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/allOf/0/then/properties/coverage",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/allOf/0/then/properties/enforcement",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/allOf/1/if/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/allOf/2/if/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/allOf/3/if/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/appliesTo",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/authority",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/coverage",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/enforcement",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/forbiddenAssembly",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/forbiddenNamespace",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/forbiddenTargetPattern",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/implementationAssembly",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/implementationNamespace",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/interfaceAssembly",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/interfaceType",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/kind",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/minimumMatches",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/negativeFixture",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/negativeFixture/properties/referenceInclude",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/negativeFixture/properties/sourceProject",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/sourceAssembly",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/sourceNamespace",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/sourcePattern",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/title",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/commands",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/dependencies",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/documentation",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/enforcement",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/executionClass",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/executionClass",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/consumesHeadArtifacts",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/detectors",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/evaluator",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/executesHead",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/guarantee",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/inputs",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/inputs/items/properties/ref",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/inputs/items/properties/source",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/knownGaps",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/policy",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/targetInput",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/type",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/id",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/assemblyGate",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/assemblyGate/properties/assemblies",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/assemblyGate/properties/assemblies/items/properties/assemblyName",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/assemblyGate/properties/assemblies/items/properties/assemblyPath",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/assemblyGate/properties/assemblies/items/properties/projectPath",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/assemblyGate/properties/buildTarget",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/assemblyGate/properties/configuration",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/arguments",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/executable",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/commands/items/properties/workingDirectory",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/targetLanguages",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/testProject",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/testProject/properties/framework",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/testProject/properties/targetFramework",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/components",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/allowedChange",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/parityContract",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/paths",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/plannedPaths",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/status",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/type",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/components/items/properties/validationSuite",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifest",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifest/properties/path",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifest/properties/schema",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifest/properties/verifier",
+          "comparator": "none"
+        }
+      ]
+    }
+  ]
+}

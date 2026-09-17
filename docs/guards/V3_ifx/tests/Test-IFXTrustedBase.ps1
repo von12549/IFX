@@ -135,7 +135,7 @@ try {
                 formatVersion = 1; id = '20260917-fixture-change'; title = "Fixture $Name"; goal = 'Exercise protected change authorization in the trusted Diff.'
                 acceptanceCriteria = @('The trusted Diff verdict matches the expected authorization outcome.')
                 plannedPaths = @($planned | Sort-Object); areaIds = @('CI', 'GuardDocs', 'GuardPackage'); ruleIds = @(); validationCommands = @('ifx-package-test')
-                decisionPaths = @($decision, 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json', 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json')
+                decisionPaths = @($decision, 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json', 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json', 'docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json')
             }
             [IO.File]::WriteAllText($planFile, ($plan | ConvertTo-Json -Depth 5), $utf8)
             [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/plans/20260917-fixture-change.md'), "# Fixture $Name`n", $utf8)
@@ -166,6 +166,10 @@ try {
             $script = Join-Path $Base 'docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1'
             return Invoke-GuardIsolatedPwsh $script @('-TargetRoot', $clone, '-BaseSha', $BaseSha, '-HeadRevision', $HeadSha, '-PlanPath', $changePlan, '-ReportPath', (Join-Path $work 'protected-changes.json')) -WorkingDirectory $clone
         }
+        function Invoke-PolicyCandidates([string] $Base, [string] $BaseSha, [string] $HeadSha) {
+            $script = Join-Path $Base 'docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1'
+            return Invoke-GuardIsolatedPwsh $script @('-TargetRoot', $clone, '-BaseSha', $BaseSha, '-HeadRevision', $HeadSha, '-ReportPath', (Join-Path $work 'policy-candidates.json')) -WorkingDirectory $clone
+        }
         function Get-DiffCheck {
             return @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-diff.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'protected-changes' })
         }
@@ -183,7 +187,18 @@ try {
         $weaken = [ordered]@{ formatVersion = 1; id = 'fixture-weaken'; operation = 'weaken-policy'; planPath = $changePlan; decisionPaths = @($decision); changedPaths = @($backupFile)
             policies = @([ordered]@{ path = $backupFile; baseSha256 = ('a' * 64); headSha256 = ('b' * 64); schema = 'contracts/profile.schema.json'; pointers = @('/rules'); head = [ordered]@{ mode = '100644'; type = 'blob'; objectId = ('c' * 40) } }) }
         [IO.File]::WriteAllText($weakenRecord, ($weaken | ConvertTo-Json -Depth 20), $utf8)
-        $authorizedBase = New-AuthorizedBase 'authorize' $baseSha @($tcbRecord, $deleteRecord, $moveRecord, $caseRecord, $weakenRecord)
+        $ruleFile = 'docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json'
+        $ruleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
+        $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }
+        $gitattributesEdit = { [IO.File]::AppendAllText((Join-Path $clone '.gitattributes'), "*.fixture text eol=lf`n") }
+        $stageEdit = { Edit-Json 'docs/guards/V3_ifx/stages/diff/stage.json' { param($d) $d.gates[0].trustContract.guarantee = $d.gates[0].trustContract.guarantee + ' Fixture.' } }
+        $ruleRecord = New-Record 'fixture-rule' (New-Head 'prepare-rule' $baseSha $ruleTitle) @('-Operation', 'weaken-policy')
+        $newRuleRecord = New-Record 'fixture-new-rule' (New-Head 'prepare-new-rule' $baseSha $newRule) @('-Operation', 'weaken-policy')
+        $gitattributesRecord = New-Record 'fixture-gitattributes' (New-Head 'prepare-gitattributes' $baseSha $gitattributesEdit) @('-Operation', 'weaken-policy')
+        $stagePrepared = New-Head 'prepare-stage' $baseSha $stageEdit
+        $stageTcbRecord = New-Record 'fixture-stage-tcb' $stagePrepared @('-ParityContract', 'Fixture: verdicts unchanged on the fixed corpus.')
+        $stageWeakenRecord = New-Record 'fixture-stage-weaken' $stagePrepared @('-Operation', 'weaken-policy')
+        $authorizedBase = New-AuthorizedBase 'authorize' $baseSha @($tcbRecord, $deleteRecord, $moveRecord, $caseRecord, $weakenRecord, $ruleRecord, $newRuleRecord, $gitattributesRecord, $stageTcbRecord, $stageWeakenRecord)
         $authorizedWorktree = New-BaseWorktree 'b-authorized' $authorizedBase
         $recordPath = "$authorizations/fixture-consumption.json"
 
@@ -237,7 +252,7 @@ try {
         $duplicateBase = New-AuthorizedBase 'authorize-duplicate' $authorizedBase @($duplicateRecord)
         $duplicateWorktree = New-BaseWorktree 'b-duplicate' $duplicateBase
         Assert-Result 'an obligation covered by two authorizations fails' (Invoke-ProtectedVerifier $duplicateWorktree $duplicateBase (New-PlannedHead 'delete-twice' $duplicateBase { & $deleteBackupFile; Remove-Record 'fixture-delete'; Remove-Record 'fixture-delete-again' })) 1 'is covered by more than one authorization'
-        Assert-Result 'consuming a weaken-policy authorization fails closed' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-weaken' $authorizedBase { & $deleteBackupFile; Remove-Record 'fixture-delete'; Remove-Record 'fixture-weaken' })) 1 'operation weaken-policy is not enabled by this base'
+        Assert-Result 'a weaken-policy authorization without a matching policy change fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-weaken' $authorizedBase { & $deleteBackupFile; Remove-Record 'fixture-delete'; Remove-Record 'fixture-weaken' })) 1 'has no semantic policy change in this pull request'
         Assert-Result 'an authorization that exists only in head fails' (Invoke-ProtectedVerifier $base $baseSha (New-PlannedHead 'head-only' $baseSha { & $deleteBackupFile; [IO.File]::Copy($deleteRecord, (Join-Path $clone "$authorizations/fixture-delete.json"), $true) })) 1 'Uncovered protected-removal'
         Assert-Result 'a protected deletion that keeps its authorization fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'delete-keep-record' $authorizedBase $deleteBackupFile)) 1 'Uncovered protected-removal'
         Assert-Result 'an unused path authorization fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unused-move' $authorizedBase { & $engineComment; Remove-Record 'fixture-consumption'; Remove-Record 'fixture-move' })) 1 'fixture-move.json is rejected: the record covers no protected change'
@@ -248,8 +263,31 @@ try {
 
         Assert-Result 'changing an authorization record fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'edit-record' $authorizedBase { Edit-Json "$authorizations/fixture-move.json" { param($d) $d.planPath = 'README.md' } })) 1 'Authorization records are immutable'
         Assert-Result 'adding a schema-invalid authorization fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'add-invalid' $authorizedBase { [IO.File]::WriteAllText((Join-Path $clone "$authorizations/fixture-invalid.json"), '{"formatVersion":1,"id":"fixture-invalid","operation":"rename"}', $utf8) })) 1 'Added authorization does not match its schema'
-        Assert-Result 'changing .gitattributes fails closed' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'gitattributes' $authorizedBase { [IO.File]::AppendAllText((Join-Path $clone '.gitattributes'), "*.fixture text eol=lf`n") })) 1 '.gitattributes changes fail closed'
         Assert-Result 'a gitlink in the protected scope fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'gitlink' $authorizedBase { Edit-Text 'README.md' { param($t) $t + "`nfixture`n" } } { [void](Invoke-FixtureGit $clone @('update-index', '--add', '--cacheinfo', "160000,$authorizedBase,docs/guards/V3_backup/module")) })) 1 'Gitlink (mode 160000) in the protected scope: docs/guards/V3_backup/module'
+
+        # ---- policy and configuration obligations and head candidates (D24)
+        $ruleHead = New-PlannedHead 'consume-rule' $authorizedBase { & $ruleTitle; Remove-Record 'fixture-rule' }
+        Assert-Result 'trusted Diff accepts an authorized editable policy change' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $ruleHead) 0 'Trusted base run passed'
+        $check = Get-DiffCheck
+        $candidateCheck = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-diff.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'policy-candidates' })
+        if ($check.Count -ne 1 -or -not ([string]$check[0].reason).Contains("$authorizations/fixture-rule.json (consumed)") -or $candidateCheck.Count -ne 1 -or $candidateCheck[0].status -ne 'pass') { $failures.Add("Diff summary does not report the weaken-policy consumption and candidate validation: $($check | ConvertTo-Json -Compress) $($candidateCheck | ConvertTo-Json -Compress)") }
+        else { Write-Host 'PASS Diff summary reports the weaken-policy consumption and candidate validation' }
+        Assert-Result 'an editable policy change without weaken-policy fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-unauthorized' $authorizedBase $ruleTitle)) 1 "Uncovered policy-weakening needs a base authorization that this change deletes: $ruleFile"
+        Assert-Result 'a formatting-only policy change needs no authorization' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-format' $authorizedBase { Edit-Json $ruleFile { param($d) } })) 0 'no protected changes'
+        Assert-Result 'a policy change beyond the authorized pointers fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-extra-pointer' $authorizedBase { & $ruleTitle; Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "blocking"') }; Remove-Record 'fixture-rule' })) 1 "changed pointers of $ruleFile differ from the authorization"
+        Assert-Result 'an authorized added policy file passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-new-rule' $authorizedBase { & $newRule; Remove-Record 'fixture-new-rule' })) 0 'obligation(s) covered'
+        Assert-Result 'an unregistered policy file fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unregistered-policy' $authorizedBase { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/policy/fixture-extra.json'), "{}`n", $utf8) })) 1 'Unregistered policy or configuration file: docs/guards/V3_ifx/policy/fixture-extra.json'
+        Assert-Result 'a .gitattributes change without weaken-policy fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'gitattributes' $authorizedBase $gitattributesEdit)) 1 'Uncovered policy-weakening needs a base authorization that this change deletes: .gitattributes'
+        Assert-Result 'an authorized .gitattributes change passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-gitattributes' $authorizedBase { & $gitattributesEdit; Remove-Record 'fixture-gitattributes' })) 0 'obligation(s) covered'
+        Assert-Result 'a trust/meta change with only change-trusted-base fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'stage-tcb-only' $authorizedBase { & $stageEdit; Remove-Record 'fixture-stage-tcb' })) 1 'Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/stages/diff/stage.json'
+        Assert-Result 'a trust/meta change with both authorizations passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'stage-both' $authorizedBase { & $stageEdit; Remove-Record 'fixture-stage-tcb'; Remove-Record 'fixture-stage-weaken' })) 0 '2 obligation(s) covered'
+        Assert-Result 'an unused weaken-policy authorization fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unused-weaken' $authorizedBase { & $engineComment; Remove-Record 'fixture-consumption'; Remove-Record 'fixture-rule' })) 1 'has no semantic policy change in this pull request'
+
+        Assert-Result 'head candidates of an authorized policy change pass' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase $ruleHead) 0 'Policy candidate validation passed'
+        Assert-Result 'an invalid head profile fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-invalid' $authorizedBase { Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "sometimes"') } })) 1 'the base V3 runner rejects the head profile'
+        Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/history/manifest.json' { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
+        Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'
+        Assert-Result 'a schema field without a monotonicity declaration fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'schema-field' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } })) 1 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
 
         if ($failures.Count -gt 0) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
         Write-Host 'IFX trusted base protected change authorization tests passed.'

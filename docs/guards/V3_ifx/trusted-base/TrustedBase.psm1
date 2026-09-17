@@ -82,7 +82,7 @@ function Test-GuardTupleEqual([object] $Left, [object] $Right) {
     return $Left.mode -eq $Right.mode -and $Left.type -eq $Right.type -and $Left.objectId -eq $Right.objectId
 }
 
-function Get-GuardBlobText {
+function Get-GuardBlobBytes {
     param([string] $Repository, [string] $Commit, [string] $Path)
     $exists = @(Invoke-GuardGit $Repository @('cat-file', '-e', "${Commit}:$Path") -AllowFailure)
     if ($LASTEXITCODE -ne 0) { return $null }
@@ -95,7 +95,18 @@ function Get-GuardBlobText {
     $process.StandardOutput.BaseStream.CopyTo($memory)
     $process.WaitForExit()
     if ($process.ExitCode -ne 0) { throw "Cannot read ${Commit}:$Path" }
-    return [Text.UTF8Encoding]::new($false).GetString($memory.ToArray())
+    return , $memory.ToArray()
+}
+
+function Get-GuardBlobText {
+    param([string] $Repository, [string] $Commit, [string] $Path)
+    $bytes = Get-GuardBlobBytes $Repository $Commit $Path
+    if ($null -eq $bytes) { return $null }
+    return [Text.UTF8Encoding]::new($false).GetString($bytes)
+}
+
+function Get-GuardSha256([byte[]] $Bytes) {
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($Bytes)).ToLowerInvariant()
 }
 
 function Get-GuardPackageRepositoryFiles {
@@ -329,6 +340,163 @@ function Test-GuardTrustedBaseRecord {
     [string[]] $authorizedSuite = @($Record.validationSuite | Sort-Object -Unique -CaseSensitive)
     if ((@($suite | Sort-Object -Unique -CaseSensitive) -join "`n") -cne ($authorizedSuite -join "`n")) { $failures.Add("Authorization validationSuite differs from the base component suites: $(@($suite) -join ', ')") }
     foreach ($failure in (Test-GuardAuthorizationReferences $Repository $Head $Record)) { $failures.Add($failure) }
+    return [string[]]@($failures)
+}
+
+function Read-GuardPolicyRegistry {
+    # Plan 06 §12.4 policy and configuration registry of a package (D24), validated, with the SHA-256 of its exact bytes.
+    param([Parameter(Mandatory)][string] $PackageRoot)
+    $path = Join-Path $PackageRoot 'shared/policy-config.json'
+    if (-not [IO.File]::Exists($path)) { throw "Policy and configuration registry is missing: $path" }
+    if (-not (Test-GuardJsonSchema -Schema (Join-Path $PackageRoot 'contracts/policy-config.schema.json') -Path $path)) { throw "Policy and configuration registry does not match its schema: $path" }
+    $bytes = [IO.File]::ReadAllBytes($path)
+    $document = ConvertFrom-Json ([Text.UTF8Encoding]::new($false).GetString($bytes)) -AsHashtable -Depth 50
+    $document['sha256'] = Get-GuardSha256 $bytes
+    return $document
+}
+
+function Get-GuardPolicyEntry {
+    # The registered entry of a repository path: exact paths first, then *.json files directly in a registered directory.
+    param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][string] $Path)
+    foreach ($entry in @($Registry.entries)) { if ($entry.ContainsKey('paths') -and @($entry.paths) -ccontains $Path) { return $entry } }
+    foreach ($entry in @($Registry.entries)) {
+        if (-not $entry.ContainsKey('directory')) { continue }
+        $directory = [string]$entry.directory
+        if ($Path.StartsWith($directory, [StringComparison]::Ordinal) -and $Path.IndexOf('/', $directory.Length) -lt 0 -and $Path.EndsWith('.json', [StringComparison]::Ordinal)) { return $entry }
+    }
+    return $null
+}
+
+function Test-GuardPolicyScope {
+    # True for a JSON path inside a registry root and outside its excluded protocol directories.
+    param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][string] $Path)
+    if (-not $Path.EndsWith('.json', [StringComparison]::Ordinal)) { return $false }
+    foreach ($excluded in @($Registry.excluded)) { if ($Path.StartsWith([string]$excluded, [StringComparison]::Ordinal)) { return $false } }
+    foreach ($root in @($Registry.roots)) { if ($Path.StartsWith([string]$root, [StringComparison]::Ordinal)) { return $true } }
+    return $false
+}
+
+function Get-GuardProjectionTargets {
+    # Derived projections are exactly the targets that the base authority registry declares (D24).
+    param([Parameter(Mandatory)][object] $Authorities, [string] $PackagePath = 'docs/guards/V3_ifx')
+    $targets = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($projection in @(@($Authorities.projections) + @($Authorities.g04Bindings))) { [void]$targets.Add("$PackagePath/$($projection.target)") }
+    return , $targets
+}
+
+function Add-GuardJsonDifferences {
+    # Leaf JSON Pointers where two parsed documents differ; key order and whitespace never count (Plan 06 §12.4).
+    param([AllowNull()][object] $Base, [AllowNull()][object] $Head, [string] $Pointer, [Collections.Generic.List[string]] $Differences)
+    if ((ConvertTo-GuardCanonicalJson $Base) -ceq (ConvertTo-GuardCanonicalJson $Head)) { return }
+    if ($Base -is [Collections.IDictionary] -and $Head -is [Collections.IDictionary]) {
+        $keys = [Collections.Generic.SortedSet[string]]::new([StringComparer]::Ordinal)
+        foreach ($key in @($Base.Keys) + @($Head.Keys)) { [void]$keys.Add([string]$key) }
+        foreach ($key in $keys) {
+            $child = "$Pointer/" + $key.Replace('~', '~0').Replace('/', '~1')
+            if (-not $Base.Contains($key) -or -not $Head.Contains($key)) { $Differences.Add($child); continue }
+            Add-GuardJsonDifferences $Base[$key] $Head[$key] $child $Differences
+        }
+        return
+    }
+    $baseList = $Base -is [Collections.IList] -and $Base -isnot [string]
+    $headList = $Head -is [Collections.IList] -and $Head -isnot [string]
+    if ($baseList -and $headList) {
+        $count = [Math]::Max($Base.Count, $Head.Count)
+        for ($i = 0; $i -lt $count; $i++) {
+            if ($i -ge $Base.Count -or $i -ge $Head.Count) { $Differences.Add("$Pointer/$i"); continue }
+            Add-GuardJsonDifferences $Base[$i] $Head[$i] "$Pointer/$i" $Differences
+        }
+        return
+    }
+    $Differences.Add($Pointer)
+}
+
+function Get-GuardPolicyChanges {
+    # Semantic changes of registered policy and configuration files between two commits (D24). JSON is compared after
+    # parsing, normalized text after line-ending normalization; an added, removed or unparsable file changes at the root
+    # pointer. Unregistered JSON files that head adds or changes inside the registry roots, and unregistered .gitattributes
+    # files, are reported separately. Derived projection targets are never policy changes themselves.
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Base, [Parameter(Mandatory)][string] $Head, [Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][Collections.Generic.HashSet[string]] $ProjectionTargets, [object[]] $Entries)
+    $changes = [Collections.Generic.List[object]]::new()
+    $unregistered = [Collections.Generic.List[string]]::new()
+    $utf8 = [Text.UTF8Encoding]::new($false)
+    foreach ($entry in @($Entries)) {
+        $path = [string]$entry.Path
+        if (($null -ne $entry.Base -and $entry.Base.type -ne 'blob') -or ($null -ne $entry.Head -and $entry.Head.type -ne 'blob')) { continue }
+        $policy = Get-GuardPolicyEntry $Registry $path
+        if ($null -eq $policy) {
+            $leaf = $path.Substring($path.LastIndexOf('/') + 1)
+            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ((Test-GuardPolicyScope $Registry $path) -and -not $ProjectionTargets.Contains($path)))) { $unregistered.Add($path) }
+            continue
+        }
+        $baseBytes = if ($null -ne $entry.Base) { Get-GuardBlobBytes $Repository $Base $path } else { $null }
+        $headBytes = if ($null -ne $entry.Head) { Get-GuardBlobBytes $Repository $Head $path } else { $null }
+        $pointers = [Collections.Generic.List[string]]::new()
+        if ($null -eq $baseBytes -or $null -eq $headBytes) { $pointers.Add('') }
+        else {
+            $baseText = $utf8.GetString($baseBytes).Replace("`r`n", "`n")
+            $headText = $utf8.GetString($headBytes).Replace("`r`n", "`n")
+            if ($policy.format -eq 'normalized-text') { if ($baseText -cne $headText) { $pointers.Add('') } }
+            else {
+                try { Add-GuardJsonDifferences (ConvertFrom-GuardJsonText $baseText) (ConvertFrom-GuardJsonText $headText) '' $pointers }
+                catch { $pointers.Clear(); $pointers.Add('') }
+            }
+        }
+        if ($pointers.Count -eq 0) { continue }
+        $changes.Add([pscustomobject]@{
+            Path = $path
+            Entry = $policy
+            Schema = if ($policy.ContainsKey('schema')) { [string]$policy.schema } else { [string]$policy.format }
+            Base = $entry.Base
+            Head = $entry.Head
+            BaseSha256 = if ($null -ne $baseBytes) { Get-GuardSha256 $baseBytes } else { $null }
+            HeadSha256 = if ($null -ne $headBytes) { Get-GuardSha256 $headBytes } else { $null }
+            Pointers = [string[]]@($pointers | Sort-Object -Unique -CaseSensitive)
+        })
+    }
+    return [pscustomobject]@{ Changes = $changes.ToArray(); Unregistered = $unregistered.ToArray() }
+}
+
+function Add-GuardSchemaFieldPointers {
+    # JSON Pointers of every property definition in a schema document; each needs a monotonicity declaration (D13, D24).
+    param([AllowNull()][object] $Node, [string] $Pointer, [Collections.Generic.List[string]] $Pointers)
+    if ($Node -is [Collections.IDictionary]) {
+        foreach ($key in @($Node.Keys)) {
+            $child = "$Pointer/" + ([string]$key).Replace('~', '~0').Replace('/', '~1')
+            if ([string]$key -ceq 'properties' -and $Node[$key] -is [Collections.IDictionary]) {
+                foreach ($name in @($Node[$key].Keys)) {
+                    $property = "$child/" + ([string]$name).Replace('~', '~0').Replace('/', '~1')
+                    $Pointers.Add($property)
+                    Add-GuardSchemaFieldPointers $Node[$key][$name] $property $Pointers
+                }
+            }
+            else { Add-GuardSchemaFieldPointers $Node[$key] $child $Pointers }
+        }
+    }
+    elseif ($Node -is [Collections.IList] -and $Node -isnot [string]) {
+        for ($i = 0; $i -lt $Node.Count; $i++) { Add-GuardSchemaFieldPointers $Node[$i] "$Pointer/$i" $Pointers }
+    }
+}
+
+function Test-GuardMonotonicityDeclarations {
+    # Every property definition of every schema a registry entry names is declared exactly once; returns the failures.
+    param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][scriptblock] $ReadSchemaText)
+    $failures = [Collections.Generic.List[string]]::new()
+    $schemas = [Collections.Generic.SortedSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($entry in @($Registry.entries)) { if ($entry.ContainsKey('schema')) { [void]$schemas.Add([string]$entry.schema) } }
+    foreach ($schema in $schemas) {
+        $declarations = @(@($Registry.monotonicity) | Where-Object { $_.schema -ceq $schema })
+        if ($declarations.Count -ne 1) { $failures.Add("Schema $schema needs exactly one monotonicity declaration block."); continue }
+        $text = & $ReadSchemaText $schema
+        if ($null -eq $text) { $failures.Add("Registered schema is missing: $schema"); continue }
+        $pointers = [Collections.Generic.List[string]]::new()
+        Add-GuardSchemaFieldPointers (ConvertFrom-GuardJsonText $text) '' $pointers
+        $actual = [Collections.Generic.SortedSet[string]]::new([string[]]@($pointers), [StringComparer]::Ordinal)
+        $declared = [Collections.Generic.SortedSet[string]]::new([string[]]@(@($declarations[0].fields) | ForEach-Object { [string]$_.pointer }), [StringComparer]::Ordinal)
+        foreach ($pointer in $actual) { if (-not $declared.Contains($pointer)) { $failures.Add("Schema field without a monotonicity declaration: $schema#$pointer") } }
+        foreach ($pointer in $declared) { if (-not $actual.Contains($pointer)) { $failures.Add("Monotonicity declaration for a missing schema field: $schema#$pointer") } }
+    }
+    foreach ($block in @($Registry.monotonicity)) { if (-not $schemas.Contains([string]$block.schema)) { $failures.Add("Monotonicity declarations for an unregistered schema: $($block.schema)") } }
     return [string[]]@($failures)
 }
 

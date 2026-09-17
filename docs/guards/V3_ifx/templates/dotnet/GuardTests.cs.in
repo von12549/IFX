@@ -168,7 +168,6 @@ public sealed class GuardTests
         // report bound to this base, merge base, head and configuration exempts its deletions, and only in a committed range.
         var protection = Protection.Load();
         var allowed = committedHead ? protection.AllowedDeletions(verifiedBase!, mergeBase!, verifiedHead!) : new HashSet<string>(StringComparer.Ordinal);
-        var legacy = committedHead ? protection.LegacyConsumedAuthorizations() : new HashSet<string>(StringComparer.Ordinal);
         for (var i = 0; i < parts.Length; i += 2)
         {
             if (i + 1 >= parts.Length || !parts[i].StartsWith(':')) throw new InvalidOperationException("Malformed git raw diff output.");
@@ -180,7 +179,7 @@ public sealed class GuardTests
             if (isProtected && (meta[0] == "160000" || meta[1] == "160000")) protectedGitlinks.Add(path);
             if (meta[1] != "000000") continue;
             deleted.Add(path);
-            if (isProtected && !allowed.Contains(path) && !legacy.Contains(path)) protectedDeletions.Add(path);
+            if (isProtected && !allowed.Contains(path)) protectedDeletions.Add(path);
         }
         if (!committedHead) changed.AddRange(Git(root, "ls-files", "--others", "--exclude-standard", "-z")
             .Split('\0', StringSplitOptions.RemoveEmptyEntries).Select(x => x.Replace('\\', '/')));
@@ -189,8 +188,6 @@ public sealed class GuardTests
         Assert.True(protectedDeletions.Count == 0, "Protected guard deletions: " + string.Join(", ", protectedDeletions));
         var unused = allowed.Where(path => !deleted.Contains(path)).OrderBy(x => x, StringComparer.Ordinal).ToArray();
         Assert.True(unused.Length == 0, "Allowed deletions were not deleted by this change: " + string.Join(", ", unused));
-        var unconsumed = legacy.Where(path => !deleted.Contains(path)).OrderBy(x => x, StringComparer.Ordinal).ToArray();
-        Assert.True(unconsumed.Length == 0, "Verified authorizations were not deleted by this change: " + string.Join(", ", unconsumed));
         var planRelative = Relative(root, planPath);
         var companion = planRelative.EndsWith(".plan.json", StringComparison.Ordinal)
             ? planRelative[..^".plan.json".Length] + ".md" : "";
@@ -205,13 +202,11 @@ public sealed class GuardTests
     private sealed class Protection
     {
         private readonly string[] _paths;
-        private readonly string? _authorizationDirectory;
         private readonly string? _sha256;
 
-        private Protection(string[] paths, string? authorizationDirectory, string? sha256)
+        private Protection(string[] paths, string? sha256)
         {
             _paths = paths;
-            _authorizationDirectory = authorizationDirectory;
             _sha256 = sha256;
         }
 
@@ -220,12 +215,11 @@ public sealed class GuardTests
         public static Protection Load()
         {
             var file = Environment.GetEnvironmentVariable("GUARD_PROTECTION_PATH");
-            if (string.IsNullOrWhiteSpace(file)) return new Protection(Array.Empty<string>(), null, null);
+            if (string.IsNullOrWhiteSpace(file)) return new Protection(Array.Empty<string>(), null);
             var bytes = File.ReadAllBytes(file);
             using var document = JsonDocument.Parse(bytes);
             var paths = document.RootElement.GetProperty("protectedPaths").EnumerateArray().Select(x => x.GetString()!).ToArray();
-            var directory = document.RootElement.TryGetProperty("authorizationDirectory", out var value) ? value.GetString() : null;
-            return new Protection(paths, directory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant());
+            return new Protection(paths, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant());
         }
 
         // Entries ending in '/' protect a directory prefix, other entries one exact path; matching ignores case so a
@@ -250,22 +244,6 @@ public sealed class GuardTests
                     throw new InvalidOperationException($"GUARD_PROTECTED_CHANGES is not bound to this Diff: {name} is '{Text(name)}', expected '{expected}'.");
             }
             return new HashSet<string>(root.GetProperty("allowedDeletions").EnumerateArray().Select(x => x.GetString()!), StringComparer.Ordinal);
-        }
-
-        // Legacy D20 variable, kept only so that the base-owned tests of the previous trusted base still validate this
-        // candidate (D23 expand/contract); trusted runners no longer set it and strip it from child processes. It names
-        // authorization records whose plain deletion is exempt. Removed with CP06b.
-        public HashSet<string> LegacyConsumedAuthorizations()
-        {
-            var value = Environment.GetEnvironmentVariable("GUARD_CONSUMED_AUTHORIZATIONS") ?? "";
-            var paths = value.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-            foreach (var path in paths)
-            {
-                var name = _authorizationDirectory is not null && path.StartsWith(_authorizationDirectory, StringComparison.Ordinal) ? path[_authorizationDirectory.Length..] : "";
-                if (name.Length == 0 || name.Contains('/') || !name.EndsWith(".json", StringComparison.Ordinal))
-                    throw new InvalidOperationException("GUARD_CONSUMED_AUTHORIZATIONS may only name authorization records: " + path);
-            }
-            return new HashSet<string>(paths, StringComparer.Ordinal);
         }
     }
 
