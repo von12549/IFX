@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-d22-revocation-only-authorization-deletion",
+  "owner": "xiaolong-feng",
+  "summary": "An authorization record may be deleted without being consumed only in a revocation-only pull request: its committed changed set consists of plain deletions of authorization records that exist in the base commit and are schema-valid there, plus additions or edits of the pull request's own formal plan pair (the plan JSON and its Markdown companion). Any other change in the same pull request, including another deletion, a rename or modification of a record, a schema-invalid or base-missing record, or any protected or trusted component obligation, turns every deleted record into a consumption candidate that must cover an obligation, and an unused candidate fails. Revocation applies to every schema-valid operation, including operations the base verifier has not enabled for consumption. The base protected change verifier reports revoked records, and only its bound report lets the Diff stage accept their deletions.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/**",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in"
+  ],
+  "rationale": "D20 left the deletion of an unused authorization blocked until P4 because a general revocation rule needed its own policy. Removing a base authorization can only narrow what base allows, so revocation itself cannot weaken a guard; the risk is a deletion that hides inside an unrelated change and is mistaken for consumption, or a deletion of a record that base never accepted. Restricting revocation to a pull request that changes nothing else, to plain deletions of schema-valid base records and to the pull request's own plan pair keeps each revocation explicit and reviewable and leaves no path by which a revocation exempts another change. The user approved this policy on 2026-09-17 while approving the CP06 split. Refines D10 and D20."
+}
