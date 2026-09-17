@@ -1,0 +1,101 @@
+{
+  "formatVersion": 1,
+  "id": "cp06c-rehearsal-evidence",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260917-v3-stage-cp06c-rehearsal-evidence.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1"
+  ],
+  "components": [
+    "tcb.engine.trusted-base",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b7c82e609b93a9fbb83a56ff7a1ee0566a9fcaad"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6b408835b8a349cce440d10f7874eddc455ad536"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "17d95ace72073da667585cee9299844078193866"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9e6779af16bbf6a6db68d245a2d8f81dbca1f4f6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4382cac5e65efe91cd9032efec6164dbcf08272a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c04bd674a6372c905afe1c4901055d7d2663035"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "eb756b6e47e6ed4d1e8b84d2f15da177eaee440b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1f579a3c51f920e563839dc857886e766f7a0d12"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "306daf330b7f6a54b949ad99e7276d20ee2ee5c3"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged. The manifest check adds Test-V3.ps1 parity, head policy candidates add a profile views check, and the rehearsal command is maintenance only.",
+  "allowedBehaviorDifferences": []
+}
