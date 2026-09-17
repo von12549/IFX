@@ -48,6 +48,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | D24 | policy/config 双轨、`weaken-policy` 与 CP06b 拆分（P4 补充） | `20260917-v3-stage-d24-policy-config-dual-track.json` | §12.4、§12.6、§14 P4.3、§17 D24 |
 | D25 | D18 domain authority 的 `weaken-policy` 覆盖（P4 补充） | `20260917-v3-stage-d25-domain-authority-coverage.json` | §12.4、§12.6、§14 P4.3、§17 D25 |
 | D26 | Architecture Conformance 拆分、Generate/Check 过渡与 `mcp/LayerGuard` 范围（P6 补充） | `20260917-v3-stage-d26-architecture-conformance-split.json` | §14 P6、§17 D26、D12 |
+| D27 | Architecture Conformance engine 与 IFX binding 分离、IFX facade 与 expand 步骤（P6.2–P6.3 补充） | `20260918-v3-stage-d27-architecture-conformance-binding-separation.json` | §14 P6、§17 D27、D12、D26 |
 
 每条记录的 `affectedPaths` 覆盖该决策未来会影响的路径，使后续检查点的 Pre 风险覆盖检查可以直接引用。decision schema 只允许 `summary` 与 `rationale` 两个文本字段，完整论证以 Plan 06 与 Review 为准。
 
@@ -73,8 +74,9 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP06c | P4 | 临时仓库两 PR 演练（`move`、`weaken-policy`、`change-trusted-base`）与证据、ruleset `strict` 断言证据、`Test-V3.ps1` parity 检查 | 无 | `change-trusted-base`：CP06c-auth → CP06c-change | CP06b2 | 已完成（PR #54 `0c523df` → #55 `1e12167`；证据 `docs/architecture/review/evidence/guards/p4-rehearsal-20260917.md`） |
 | CP06d | P4 | 第一次真实受保护删除：D17 四个 Plan04 阶段校验脚本（`delete` 与 `change-trusted-base` 正交授权） | 有 | CP06d-auth → CP06d-change | CP06c | 已完成（PR #56 `b6dfacd` → #57 `7871439`；第一次真实受保护删除） |
 | CP07a-prep | P6（前置） | `GatePolicyBindingTests` 的 package root 改为由 runner 传入或向上寻找 policy，使 base-owned 测试可从模板位置运行（D26，expand） | 无 | `change-trusted-base`：CP07a-prep-auth → CP07a-prep-change | CP06d | 已完成（PR #58 `45f53cd` → #59 `8d41d57`） |
-| CP07a | P6.1 | 直接构建运行 `templates/ifx-layerguard`，删除 `generated/dotnet/LayerGuard`；Generate 只读、Check 做源码清单、TCB 覆盖、policy 绑定与 fixture 检查 | 有 | `delete`、`change-trusted-base` 与 `weaken-policy`：CP07a-auth → CP07a-change | CP07a-prep | 已完成，待 PR 合入（`20260918-v3-stage-cp07a-authorization` → `20260918-v3-stage-cp07a-single-source-layerguard`） |
-| CP07b | P6.2–P6.3 | runtime role 与 IFX project/type names 移入 IFX policy/fixtures，通用测试改用 synthetic fixture，分离通用检测引擎与 IFX binding | 无 | CP07b-auth → CP07b-change | CP07a | 未开始 |
+| CP07a | P6.1 | 直接构建运行 `templates/ifx-layerguard`，删除 `generated/dotnet/LayerGuard`；Generate 只读、Check 做源码清单、TCB 覆盖、policy 绑定与 fixture 检查 | 有 | `delete`、`change-trusted-base` 与 `weaken-policy`：CP07a-auth → CP07a-change | CP07a-prep | 已完成（PR #60 `79d84f3` → #61 `bd79f0b`；generated 副本 174 个文件删除） |
+| CP07b-prep | P6.3（前置） | 显式引用的 IFX facade 项目 `src/LayerGuard.Ifx` 与 base-owned `tests/LayerGuard.Ifx.Tests`，`GatePolicyBindingTests` 迁入；runner 检查精确项目集合与引用（D27，expand） | 有（移动） | `move` 与 `change-trusted-base`：CP07b-prep-auth → CP07b-prep-change | CP07a | 进行中（`20260918-v3-stage-cp07b-prep-authorization`、`20260918-v3-stage-cp07b-prep-ifx-facade`） |
+| CP07b | P6.2–P6.3 | IFX 常量作为受 TCB 管控的 IFX binding 代码移出通用 engine（所有权迁移，policy 文件不变），engine 提供 binding 扩展点，IFX binding 与 host 位于 facade 项目，通用测试只用 synthetic fixture，engine 大小写不敏感 IFX 扫描 | 以 verifier 为准 | CP07b-auth → CP07b-change | CP07b-prep | 未开始 |
 | CP07c | P6.4–P6.6 | 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`，混合型 trust contract，policy composite hash、report、失败类别与 check 名称不变的证明 | 有 | CP07c-auth → CP07c-change | CP07b | 未开始 |
 | CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07c | 未开始 |
 | CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 可能（analysis 运行输出迁出） | 涉及受保护移动/删除时：auth → change | CP08 | 未开始 |

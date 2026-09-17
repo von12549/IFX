@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "cp07b-prep-move-binding-tests",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07b-prep-ifx-facade.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "db2e36f0b93ac4a20a8a17c58857b47a0dfec709"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "909989172f35d15b9b4704a325243e8702f5e8aa"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "909989172f35d15b9b4704a325243e8702f5e8aa"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "db2e36f0b93ac4a20a8a17c58857b47a0dfec709"
+      },
+      "head": null
+    }
+  ]
+}

@@ -1095,6 +1095,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：P6 以 CP07a-prep、CP07a（P6.1）、CP07b（P6.2–P6.3）、CP07c（P6.4–P6.6）交付，每个都是精确候选授权 PR 加消费变更 PR。CP07a-prep 先让 base-owned `GatePolicyBindingTests` 从 runner 传入的 `LAYERGUARD_PACKAGE_ROOT` 或向上寻找 `policy/layerguard.json` 解析 package root，并把模板与 generated 副本的逐字节比较限定在 Check/Generate（候选验证只叠加 base-owned 模板测试，Test/Scan 若仍比较会把叠加本身报为漂移）（expand），CP07a 再从模板直接构建并删除 generated 副本。过渡期保留 `Invoke-IFX.ps1` 的 Generate/Check 与 active workflow 调用：Generate 只读且不得重建已删除的树，Check 做源码清单、policy 绑定与 fixture 的实质检查；P6.4 建立替代入口前不输出正式 DEPRECATED 信息；P9 只从候选 workflow 移除调用，active workflow 清理随 P11.4/P11.5。`mcp/LayerGuard` 作为历史完整性与切换保留约束下的遗留 MCP 项目不在 P6 范围，后续去重需要单独决定与 plan。
 - 来源：CP07 设计评审，用户于 2026-09-17 批准；CP07a 实施发现 base-owned 测试的固定深度路径冲突后，用户批准插入 CP07a-prep；记录 `20260917-v3-stage-d26-architecture-conformance-split.json`。
 
+### D27 — Architecture Conformance engine 与 IFX binding 分离、IFX facade 与 expand 步骤（P6.2–P6.3 补充，细化 D12、D23、D26）
+
+- **决定**：P6.2–P6.3 以 CP07b-prep、CP07b 交付，每个都是精确候选授权 PR 加消费变更 PR，不使用 activation exception。engine 中硬编码的 IFX 值（`ifx-api`/`ifx-worker`/`ifx-all` 部署单元与 `Runtime:Role`、必需 host role、授权 backup owner、G03 不可豁免类别、豁免上限与 `BCL-only`、G05 禁止依赖清单、`gatePolicies` 输入与 G04 RuntimeHost→Composition 角色绑定）迁入受 TCB 管控的 IFX binding 代码；这是所有权迁移，不是 policy 外部化，所有 policy 文件与 composite hash 输入逐字节不变。通用 engine 成为带 binding 扩展点的库与命令行，原样把 `gatePolicies` 段交给已注册的 binding，存在该段而无 binding 时失败关闭；IFX binding 与轻量 host 注册 binding，并保持 CLI/MCP 契约。CP07b-prep 为 expand：新增显式引用的 IFX facade 项目 `src/LayerGuard.Ifx`（入口 `LayerGuard.Ifx.IfxArchitectureConformance.Analyze`，CP07b 前转发到 engine，之后保持同一路径与入口），把 `GatePolicyBindingTests` 迁入只引用 facade 的 base-owned `tests/LayerGuard.Ifx.Tests`。project reference 全部显式：`Invoke-IFX.ps1` 检查精确的 solution 项目集合与每个项目的引用集合，拒绝通配符引用，并对每个列出的项目执行锁文件与 import allowlist 校验。report 字段、tool version、CLI/MCP 契约、`v3-architecture`、13 个 required check 与 policy composite hash 不变；`mcp/LayerGuard` 仍不在范围内。
+- 来源：CP07b 设计评审，用户于 2026-09-18 批准 A1、B1、C1 及其限定条件；记录 `20260918-v3-stage-d27-architecture-conformance-binding-separation.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。
