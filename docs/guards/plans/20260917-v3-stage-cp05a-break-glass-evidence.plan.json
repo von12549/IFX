@@ -24,6 +24,7 @@
     "docs/guards/plans/20260917-v3-stage-cp05a-break-glass-evidence.plan.json"
   ],
   "areaIds": [
+    "ArchitectureDocs",
     "GuardDocs",
     "GuardPackage"
   ],
