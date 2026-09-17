@@ -1077,6 +1077,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：P4 拆分为 CP06a（完整授权 schema、Git 对象验证、路径操作）、CP06b（policy/config 双轨与 `weaken-policy`）、CP06c（两 PR 演练与证据）、CP06d（第一次真实 D17 删除），P4.4 延后。trusted Diff 以 `--raw -z --no-renames` 从已验证 merge-base 派生保护义务（受保护路径删除、TCB 变化，CP06b 增加 policy 削弱），以 head 删除的 base schema-valid 记录为候选，每个义务恰好由一个候选覆盖、每个候选至少覆盖一个义务；未启用的 operation 即使 schema-valid 也失败关闭，`.gitattributes` 在 CP06a 一律拒绝、CP06b 以 `weaken-policy` 开通；受保护范围 gitlink 失败，授权记录不可修改。允许集合报告由 base 生成，绑定 base、merge-base、head 与 Diff 保护配置 hash，通用 Diff 仅在全部绑定一致时精确豁免报告列出的删除。旧消费变量在 CP06a 模板中保留兼容，CP06b 删除。
 - 来源：CP06 设计评审，用户于 2026-09-17 有条件批准；记录 `20260917-v3-stage-d23-protected-change-obligations.json`。
 
+### D24 — policy/config 双轨、`weaken-policy` 与 CP06b 拆分（P4 补充，细化 D13、D18、D20、D23）
+
+- **决定**：CP06b 拆为 CP06b1 与 CP06b2。CP06b1 以 `shared/policy-config.json` 登记 editable policy（IFX profile、project map、tech stack、rules、`policy/layerguard.json`、`policy/baselines/plan05.json`、`history/manifest.json`）与 trust/meta-policy（`policy/authorities.json`、明确列出的 stage manifests 与 `stages/diff/protection.json`、`shared/*.json`、`guard-system.json`、`ci/jobs.json`、`contracts/*.schema.json`、根 `.gitattributes` normalized text 根指针），排除 `stages/diff/authorizations/`；derived projection 只能是 base `policy/authorities.json` 的精确 target。零比较器下每个已登记文件的语义变化都是 `policy-weakening` 义务，与 TCB 义务正交，trust/meta 变化同时需要 `change-trusted-base` 与 `weaken-policy`（可在同一授权 PR）；`weaken-policy` 按 blob hash、head tuple、schema 与 pointer 集合精确覆盖。trusted Diff 从明确 head commit 的 Git 对象验证 head 候选（schema、profile、history manifest 引用/hash/summary、projection、monotonicity 声明），报告绑定 base、merge-base、head 与保护配置、registry、授权 schema hash。CP06b1 由 CP06a base 判定（activation exception），下一个修改已登记 policy 的 PR 验证新规则；CP06b2 合入前 D18 blocking findings 继续失败关闭，b2 由 base verifier 针对明确 head SHA 重新计算覆盖，不信任 checked-out head 或隐式 merge commit。
+- 来源：CP06b 设计评审，用户于 2026-09-17 有条件批准；记录 `20260917-v3-stage-d24-policy-config-dual-track.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。

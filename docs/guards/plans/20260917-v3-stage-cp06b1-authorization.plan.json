@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06b1-authorization",
+  "title": "V3 stage-oriented refactor CP06b1-auth — change-trusted-base authorization for the policy and configuration dual track",
+  "goal": "Add the base change-trusted-base authorization that the CP06b1 change PR will consume, and record D24 with the CP06b split, without changing any trusted component.",
+  "acceptanceCriteria": [
+    "The authorization record is schema-valid and generated from the prepared CP06b1 revision, listing its trusted component paths, base and head tuples and base validation suites.",
+    "D24 records the policy and configuration registry roles, weaken-policy coverage, head candidate validation, the CP06b1 activation exception and the CP06b1 and CP06b2 split; Plan 06 section 17 and the plan pair index both list it.",
+    "No trusted component changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06b1-policy-config-dual-track.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b1-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b1-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
