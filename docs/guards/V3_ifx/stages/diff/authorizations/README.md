@@ -82,7 +82,7 @@ Any other change in the same PR turns each deleted record into a consumption can
 `trusted-base/Test-IFXPolicyCandidates.ps1` also runs in the trusted Diff, from base, on the Git objects of the explicit head commit. The head versions are validated but never decide the current verdict:
 
 - registered JSON parses and matches its schema; the head schema is used when this PR changes that schema;
-- the base V3 runner validates a changed head profile;
+- the base V3 runner validates a changed head profile, and the base renderer checks its views;
 - the base historical integrity engine checks a changed head `history/manifest.json` against head evidence;
 - the base projection generator must reproduce the head projections from head authority sources, for the exact targets in the base `policy/authorities.json`;
 - the head registry must declare monotonicity for every field of every schema it registers.
@@ -95,3 +95,7 @@ Validate, Architecture and Specialized runs receive the explicit pull request he
 - each blocking authority is covered by exactly one consumed `weaken-policy` authorization with the same pointers.
 
 Every changed authority in the checkout must also equal the explicit head commit. Without `-HeadRef`, blocking findings fail closed.
+
+## Rehearsal (P4.7)
+
+`trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1 -BaseRevision <base>` runs a complete two-PR sequence in a disposable clone, judged entirely by that base's own trusted scripts. The change combines a protected move, a `weaken-policy` change and a `change-trusted-base` change. The report lists every commit and verdict, including the negative steps: the change opened before its authorizations exist, and a replay after the change merges. The 2026-09-17 evidence is in `docs/architecture/review/evidence/guards/p4-rehearsal-20260917.md`.

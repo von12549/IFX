@@ -188,7 +188,12 @@ try {
             policies = @([ordered]@{ path = $backupFile; baseSha256 = ('a' * 64); headSha256 = ('b' * 64); schema = 'contracts/profile.schema.json'; pointers = @('/rules'); head = [ordered]@{ mode = '100644'; type = 'blob'; objectId = ('c' * 40) } }) }
         [IO.File]::WriteAllText($weakenRecord, ($weaken | ConvertTo-Json -Depth 20), $utf8)
         $ruleFile = 'docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json'
-        $ruleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
+        $staleRuleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
+        $ruleTitle = {
+            & $staleRuleTitle
+            $render = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone) -WorkingDirectory $clone
+            if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
+        }
         $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }
         $gitattributesEdit = { [IO.File]::AppendAllText((Join-Path $clone '.gitattributes'), "*.fixture text eol=lf`n") }
         $stageEdit = { Edit-Json 'docs/guards/V3_ifx/stages/diff/stage.json' { param($d) $d.gates[0].trustContract.guarantee = $d.gates[0].trustContract.guarantee + ' Fixture.' } }
@@ -286,6 +291,7 @@ try {
         Assert-Result 'an unused weaken-policy authorization fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unused-weaken' $authorizedBase { & $engineComment; Remove-Record 'fixture-consumption'; Remove-Record 'fixture-rule' })) 1 'has no semantic policy change in this pull request'
 
         Assert-Result 'head candidates of an authorized policy change pass' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase $ruleHead) 0 'Policy candidate validation passed'
+        Assert-Result 'a policy change with stale profile views fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-stale-views' $authorizedBase $staleRuleTitle)) 1 'the head profile views differ from what the base renderer produces'
         Assert-Result 'an invalid head profile fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-invalid' $authorizedBase { Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "sometimes"') } })) 1 'the base V3 runner rejects the head profile'
         Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/history/manifest.json' { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
         Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'

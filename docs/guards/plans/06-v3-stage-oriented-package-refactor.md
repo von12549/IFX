@@ -793,7 +793,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P4.2 在 Diff 中实现 §12.3：Git plumbing 读取对象、已验证 merge-base 与 head SHA、`--raw -z --no-renames` changed set、gitlink 拒绝、`.gitattributes` 变更单独验证；授权从 trusted base 加载。 证据：`trusted-base/Test-IFXProtectedChanges.ps1` 以已验证 merge-base 与 head SHA、`--raw -z --no-renames` 派生保护义务并校验 base 授权（tree-entry tuple、gitlink 拒绝），报告绑定 base/merge-base/head/保护配置 hash，由 trusted runner 传给通用 Diff；`.gitattributes` 变更在 CP06a 失败关闭，CP06b 以 `weaken-policy` 开通（D23）。
 - [x] P4.3 实现 §12.4 双轨验证与 JSON 规范化；以零比较器状态上线，所有 policy/config 语义变化要求 `weaken-policy` 授权；schema 新增字段未声明 monotonicity 时失败关闭。 进度（CP06b1）：`shared/policy-config.json` 登记 editable 与 trust/meta policy，trusted Diff 以零比较器产生 `policy-weakening` 义务、启用 `weaken-policy`，`Test-IFXPolicyCandidates.ps1` 从明确 head commit 验证 head 候选与 monotonicity 声明。 证据（CP06b2）：D18 blocking findings 作为 `policy-weakening` 义务由 `weaken-policy` 覆盖，authority gate 以 base verifier 针对明确 PR head SHA 重新计算覆盖（D25）；双轨验证在零比较器状态上线完成。
 - [ ] P4.4 零比较器状态稳定后，按 P0.9 频率为首批 schema 增量实现比较器，每个比较器有收紧、等价、削弱和未知字段正反例；该项可在后续阶段持续进行。 延后（D23）。
-- [ ] P4.5 负向控制：
+- [x] P4.5 负向控制： 证据：全部负向控制由 `Test-IFXTrustedBase.ps1`（默认 TCB 与 domain authority 用例）与 `-DiffConsumptionOnly`（授权、路径操作、大小写重命名、gitlink、`.gitattributes`、policy 与 D18 覆盖）覆盖；大小写重命名在 CI Linux 与本地 Windows 运行；汇总见 CP06a、CP06b1、CP06b2 进度。
   - 仅 head 存在的授权；
   - tuple 不匹配（mode、type、objectId 任一不同）；
   - 额外删除、新增或重命名；
@@ -811,9 +811,10 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
   - 进度（CP06a）：仅 head 存在的授权、tuple 不匹配、额外删除/新增/重命名、未删除已消费授权、并发 PR 重复消费、未声明的大小写重命名、受保护范围 gitlink、`.gitattributes` 变更（失败关闭）由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 覆盖；TCB 相关项沿用 CP04b 用例；policy/config 相关项随 CP06b。
   - 进度（CP06b1）：`.gitattributes` 变更改由 `weaken-policy` 授权；head 候选配置试图控制当前判定（候选只由 base engine 从 head Git 对象验证）、未授权的候选削弱、未声明 monotonicity 的新 schema 字段由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 与 `Test-IFXManifests.ps1` 覆盖。
   - 进度（CP06b2）：D18 domain authority 的未授权削弱在 `v3-pre-diff` 与 authority gate 中一致失败，授权削弱在明确 head 下通过、无明确 head 时失败关闭，checkout 与明确 head 不一致时失败，由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 覆盖。
-- [ ] P4.6 verifier 断言 ruleset `strict` 保持启用。
-- [ ] P4.7 在临时仓库或 fixture 中完成一次完整两 PR 演练，覆盖 `move`、`weaken-policy` 与 `change-trusted-base`。
+- [x] P4.6 verifier 断言 ruleset `strict` 保持启用。 证据：`ci/Invoke-IFXCiContract.ps1` 的 `ruleset-strict` 检查；2026-09-17 针对 `3edb78a` 的 `-Remote` 报告 ruleset 检查全部通过（`docs/architecture/review/evidence/guards/p4-rehearsal-20260917/ci-contract-remote.json`）。
+- [x] P4.7 在临时仓库或 fixture 中完成一次完整两 PR 演练，覆盖 `move`、`weaken-policy` 与 `change-trusted-base`。 证据：`trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1` 针对 `3edb78a` 的两 PR 演练覆盖 `move`、`weaken-policy` 与 `change-trusted-base`，8 个步骤全部符合预期（`docs/architecture/review/evidence/guards/p4-rehearsal-20260917.md`）；演练发现过期 profile views 可随 policy-only PR 合入，已由 head policy 候选验证补上。
 - **门槛**：在 §11.4 保证范围内，受保护路径的删除、移动、大小写重命名、policy/config 潜在削弱和非等价 TCB 语义变化只能通过 base 预授权完成，授权只能消费一次，未知语义变化失败关闭。
+- **结果**：门槛通过（CP06a–CP06c）。受保护删除、移动、大小写重命名、policy/config 与 D18 domain authority 削弱、非等价 TCB 语义变化只能通过 base 预授权完成，授权按保护义务恰好消费一次，未知语义变化失败关闭；P4.4 比较器延后（D23），CP06d 以第一次真实 D17 删除验证。
 
 ### P5 — V3 package-local 构建基线与输出迁出（可与 P1 并行，须在 P2.2 前完成）— 已完成（2026-09-17，CP03）
 

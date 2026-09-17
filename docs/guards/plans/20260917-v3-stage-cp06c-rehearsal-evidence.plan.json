@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06c-rehearsal-evidence",
+  "title": "V3 stage-oriented refactor CP06c — two-PR rehearsal, ruleset strict evidence and Test-V3 parity",
+  "goal": "Complete Plan 06 P4.5, P4.6 and P4.7: a repeatable two-PR rehearsal judged by the merged base, committed rehearsal and ruleset evidence, a head profile views check found by the rehearsal, and the Test-V3.ps1 parity check carried over from CP05.",
+  "acceptanceCriteria": [
+    "Invoke-IFXProtectedChangeRehearsal.ps1 rehearses move, weaken-policy and change-trusted-base against a base commit using only that base scripts, and its report for 3edb78a shows all eight steps as expected.",
+    "The evidence page records the rehearsal and the read-only remote CI contract report with ruleset strict passing.",
+    "Head policy candidate validation checks the head profile views, and the manifest check requires the V3 and V3_ifx Test-V3.ps1 copies to be byte-identical, each with a negative test.",
+    "The pull request consumes the CP06c-auth authorization, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/architecture/review/evidence/guards/p4-rehearsal-20260917.md",
+    "docs/architecture/review/evidence/guards/p4-rehearsal-20260917/ci-contract-remote.json",
+    "docs/architecture/review/evidence/guards/p4-rehearsal-20260917/protected-change-rehearsal.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06c-rehearsal-evidence.json",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06c-rehearsal-evidence.md",
+    "docs/guards/plans/20260917-v3-stage-cp06c-rehearsal-evidence.plan.json"
+  ],
+  "areaIds": [
+    "ArchitectureDocs",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json"
+  ]
+}
