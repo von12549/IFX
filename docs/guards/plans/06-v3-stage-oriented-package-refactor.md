@@ -791,7 +791,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 - [x] P4.1 完整 schema 化 §12.2 授权格式，包括 `move`、`delete`、`case-rename`、`weaken-policy`、`change-trusted-base` 与 tree-entry tuple；与 P2.6 已启用的 TCB 授权格式保持兼容。 证据：`contracts/authorization.schema.json` 按 operation 约束五种授权，`change-trusted-base` format 1 记录保持有效；`weaken-policy` 在 CP06b 启用前消费即失败关闭（D23）。
 - [x] P4.2 在 Diff 中实现 §12.3：Git plumbing 读取对象、已验证 merge-base 与 head SHA、`--raw -z --no-renames` changed set、gitlink 拒绝、`.gitattributes` 变更单独验证；授权从 trusted base 加载。 证据：`trusted-base/Test-IFXProtectedChanges.ps1` 以已验证 merge-base 与 head SHA、`--raw -z --no-renames` 派生保护义务并校验 base 授权（tree-entry tuple、gitlink 拒绝），报告绑定 base/merge-base/head/保护配置 hash，由 trusted runner 传给通用 Diff；`.gitattributes` 变更在 CP06a 失败关闭，CP06b 以 `weaken-policy` 开通（D23）。
-- [ ] P4.3 实现 §12.4 双轨验证与 JSON 规范化；以零比较器状态上线，所有 policy/config 语义变化要求 `weaken-policy` 授权；schema 新增字段未声明 monotonicity 时失败关闭。 进度（CP06b1）：`shared/policy-config.json` 登记 editable 与 trust/meta policy，trusted Diff 以零比较器产生 `policy-weakening` 义务、启用 `weaken-policy`，`Test-IFXPolicyCandidates.ps1` 从明确 head commit 验证 head 候选与 monotonicity 声明；D18 domain authority 覆盖随 CP06b2（D24）。
+- [x] P4.3 实现 §12.4 双轨验证与 JSON 规范化；以零比较器状态上线，所有 policy/config 语义变化要求 `weaken-policy` 授权；schema 新增字段未声明 monotonicity 时失败关闭。 进度（CP06b1）：`shared/policy-config.json` 登记 editable 与 trust/meta policy，trusted Diff 以零比较器产生 `policy-weakening` 义务、启用 `weaken-policy`，`Test-IFXPolicyCandidates.ps1` 从明确 head commit 验证 head 候选与 monotonicity 声明。 证据（CP06b2）：D18 blocking findings 作为 `policy-weakening` 义务由 `weaken-policy` 覆盖，authority gate 以 base verifier 针对明确 PR head SHA 重新计算覆盖（D25）；双轨验证在零比较器状态上线完成。
 - [ ] P4.4 零比较器状态稳定后，按 P0.9 频率为首批 schema 增量实现比较器，每个比较器有收紧、等价、削弱和未知字段正反例；该项可在后续阶段持续进行。 延后（D23）。
 - [ ] P4.5 负向控制：
   - 仅 head 存在的授权；
@@ -809,7 +809,8 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
   - 未经 `change-trusted-base` 授权的非等价 TCB 语义变化；
   - TCB tuple、base-owned validation suite 或 parity contract 与授权不匹配。
   - 进度（CP06a）：仅 head 存在的授权、tuple 不匹配、额外删除/新增/重命名、未删除已消费授权、并发 PR 重复消费、未声明的大小写重命名、受保护范围 gitlink、`.gitattributes` 变更（失败关闭）由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 覆盖；TCB 相关项沿用 CP04b 用例；policy/config 相关项随 CP06b。
-  - 进度（CP06b1）：`.gitattributes` 变更改由 `weaken-policy` 授权；head 候选配置试图控制当前判定（候选只由 base engine 从 head Git 对象验证）、未授权的候选削弱、未声明 monotonicity 的新 schema 字段由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 与 `Test-IFXManifests.ps1` 覆盖；D18 部分随 CP06b2。
+  - 进度（CP06b1）：`.gitattributes` 变更改由 `weaken-policy` 授权；head 候选配置试图控制当前判定（候选只由 base engine 从 head Git 对象验证）、未授权的候选削弱、未声明 monotonicity 的新 schema 字段由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 与 `Test-IFXManifests.ps1` 覆盖。
+  - 进度（CP06b2）：D18 domain authority 的未授权削弱在 `v3-pre-diff` 与 authority gate 中一致失败，授权削弱在明确 head 下通过、无明确 head 时失败关闭，checkout 与明确 head 不一致时失败，由 `Test-IFXTrustedBase.ps1 -DiffConsumptionOnly` 覆盖。
 - [ ] P4.6 verifier 断言 ruleset `strict` 保持启用。
 - [ ] P4.7 在临时仓库或 fixture 中完成一次完整两 PR 演练，覆盖 `move`、`weaken-policy` 与 `change-trusted-base`。
 - **门槛**：在 §11.4 保证范围内，受保护路径的删除、移动、大小写重命名、policy/config 潜在削弱和非等价 TCB 语义变化只能通过 base 预授权完成，授权只能消费一次，未知语义变化失败关闭。

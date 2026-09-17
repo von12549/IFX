@@ -31,11 +31,13 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - name: Resolve formal Plan and validate real PR diff from the trusted base
         shell: pwsh
         env:
@@ -67,15 +69,17 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - name: Validate package projections and contracts from the trusted base
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -GateId v3-architecture
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Run head candidate package tests
         shell: pwsh
@@ -101,7 +105,7 @@ jobs:
       - name: Run the sole production architecture scan from the trusted base
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Architecture -GateId v3-architecture
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Architecture -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -124,11 +128,13 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - name: Restore, build and test the solution once
         shell: pwsh
         run: |
@@ -158,11 +164,13 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - uses: actions/download-artifact@v8
         with:
           name: v3-quality-solution-${{ github.sha }}
@@ -195,11 +203,13 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - name: Run npm ci, lint, tests and build
         shell: pwsh
         run: |
@@ -227,14 +237,16 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G03 -GateId v3-specialized-g03
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G03 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g03
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -258,14 +270,16 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G04 -GateId v3-specialized-g04
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g04
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -289,14 +303,16 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G05 -GateId v3-specialized-g05
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G05 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g05
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -320,14 +336,16 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Plan04 -GateId v3-specialized-plan04
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Plan04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-plan04
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -353,14 +371,16 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Database -GateId v3-specialized-database
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Database -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-database
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -380,11 +400,13 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - name: Validate frozen evidence hashes and JSON
         shell: pwsh
         run: |
@@ -415,15 +437,17 @@ jobs:
         shell: pwsh
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
           git worktree add --detach "$env:RUNNER_TEMP/guard-base" $env:BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           "GUARD_BASE=$env:RUNNER_TEMP/guard-base" >> $env:GITHUB_ENV
           "GUARD_BASE_SHA=$env:BASE_SHA" >> $env:GITHUB_ENV
+          "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - name: Validate from the trusted base
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -GateId v3-cross-platform-${{ matrix.os }}
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-cross-platform-${{ matrix.os }}
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Verify trusted component candidates
         if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'

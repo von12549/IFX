@@ -16,7 +16,9 @@ param(
 # Plan 06 §11.1 Trusted Base Guard Execution. This script must itself be started from a clean base worktree created
 # outside the head checkout; the head checkout is only ever passed as -TargetRoot. Domain authorities from head are
 # compared with base by role (§12.6) before candidate projections are generated in a directory outside head and base,
-# and the guard dispatcher then runs from that base-derived candidate package. In Diff mode the base protected change
+# and the guard dispatcher then runs from that base-derived candidate package. With an explicit -HeadRef, authorities are
+# compared as Git objects of that commit, and blocking findings pass only when the base protected change verifier covers
+# them with base weaken-policy authorizations for that commit (D25). In Diff mode the base protected change
 # verifier first checks that every protected obligation of the committed head is covered by exactly one base
 # authorization that head deletes (Plan 06 §12.3, D22, D23); only its passing report, bound to base, merge base, head
 # and the Diff protection configuration, is passed to the Diff stage, which exempts exactly the reported deletions.
@@ -75,13 +77,73 @@ try {
     $candidatePackage = Join-Path $candidateRepository 'docs/guards/V3_ifx'
     if ($usesAuthorities) {
         $authorityReport = Join-Path $trustedOutput "domain-authorities-$($Mode.ToLowerInvariant()).json"
-        $authority = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXDomainAuthorityCandidates.ps1') @('-TargetRoot', $head, '-BaseRepository', $baseRepository, '-ReportPath', $authorityReport)
-        Write-Host $authority.Output
-        if ($authority.ExitCode -ne 0) {
-            Add-Check 'domain-authority-candidates' 'fail' 'Head domain authorities change governing policy or widen exceptions (Plan 06 §12.6); candidate projections are not generated.' @($authorityReport)
-            throw 'Domain authority candidates failed.'
+        $explicitHead = $null
+        if ($HeadRef) {
+            # D25: with an explicit pull request head, authorities are compared as Git objects of that commit and its merge base,
+            # never through the checked-out (possibly synthetic merge) tree.
+            $explicitHead = Resolve-GuardCommit $head $HeadRef
+            $authorityMergeBase = @(Invoke-GuardGit $head @('merge-base', $BaseSha, $explicitHead) -AllowFailure)
+            if ($LASTEXITCODE -ne 0 -or $authorityMergeBase.Count -ne 1) { throw 'Base and the explicit head have no single merge base; fetch complete history.' }
+            $authorityMergeBase = $authorityMergeBase[0]
+            $authority = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXDomainAuthorityCandidates.ps1') @('-TargetRoot', $head, '-BaseRevision', $authorityMergeBase, '-HeadRevision', $explicitHead, '-ReportPath', $authorityReport)
         }
-        Add-Check 'domain-authority-candidates' 'pass' $null @($authorityReport)
+        else { $authority = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXDomainAuthorityCandidates.ps1') @('-TargetRoot', $head, '-BaseRepository', $baseRepository, '-ReportPath', $authorityReport) }
+        Write-Host $authority.Output
+        $authorityResult = if ([IO.File]::Exists($authorityReport)) { Get-Content -LiteralPath $authorityReport -Raw | ConvertFrom-Json } else { $null }
+        if ($authority.ExitCode -ne 0) {
+            $blocking = @(if ($null -ne $authorityResult) { $authorityResult.authorities | Where-Object { @($_.blockingPointers).Count -gt 0 } })
+            if (-not $HeadRef -or $blocking.Count -eq 0) {
+                Add-Check 'domain-authority-candidates' 'fail' 'Head domain authorities change governing policy or widen exceptions (Plan 06 §12.6); without an explicit head and a covering base weaken-policy authorization, candidate projections are not generated.' @($authorityReport)
+                throw 'Domain authority candidates failed.'
+            }
+            # D25: the base protected change verifier recomputes coverage for the explicit head from base records, algorithm
+            # and registry; each blocking authority must be covered by exactly one consumed weaken-policy authorization.
+            $coverageReport = Join-Path $generation "protected-changes-$($Mode.ToLowerInvariant()).json"
+            $coverageEvidence = Join-Path $trustedOutput "protected-changes-$($Mode.ToLowerInvariant()).json"
+            $coverage = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXProtectedChanges.ps1') @('-TargetRoot', $head, '-BaseSha', $BaseSha, '-HeadRevision', $explicitHead, '-ReportPath', $coverageReport)
+            Write-Host $coverage.Output
+            $problems = [Collections.Generic.List[string]]::new()
+            if (-not [IO.File]::Exists($coverageReport)) { $problems.Add("The protected change verifier returned exit code $($coverage.ExitCode) without a report.") }
+            else {
+                [IO.File]::Copy($coverageReport, $coverageEvidence, $true)
+                $covered = Get-Content -LiteralPath $coverageReport -Raw | ConvertFrom-Json
+                $expectedBindings = [ordered]@{
+                    baseSha = $BaseSha; mergeBase = $authorityMergeBase; headSha = $explicitHead
+                    protectionSha256 = (Read-GuardProtection $packageRoot).Sha256
+                    policyRegistrySha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes((Join-Path $packageRoot 'shared/policy-config.json')))
+                    authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes((Join-Path $packageRoot 'contracts/authorization.schema.json')))
+                }
+                foreach ($binding in $expectedBindings.GetEnumerator()) { if ([string]$covered.($binding.Key) -cne [string]$binding.Value) { $problems.Add("The coverage report is not bound to this run: $($binding.Key).") } }
+                foreach ($item in $blocking) {
+                    $obligation = @($covered.obligations | Where-Object { $_.id -ceq "policy-weakening:$($item.path)" })
+                    $expectedPointers = (@($item.blockingPointers) | Sort-Object -Unique -CaseSensitive) -join "`n"
+                    if ($obligation.Count -ne 1) { $problems.Add("Domain authority $($item.id) has no weakening obligation in the coverage report.") }
+                    elseif (@($obligation[0].coveredBy).Count -ne 1) { $problems.Add("Domain authority $($item.id) blocking findings are not covered by exactly one base weaken-policy authorization: $($item.path) [$(@($item.blockingPointers) -join ', ')]") }
+                    elseif (((@($obligation[0].pointers) | Sort-Object -Unique -CaseSensitive) -join "`n") -cne $expectedPointers) { $problems.Add("Domain authority $($item.id) coverage pointers differ from its blocking findings.") }
+                }
+            }
+            if ($problems.Count -gt 0) {
+                Add-Check 'domain-authority-candidates' 'fail' ($problems -join ' | ') @(@($authorityReport, $coverageEvidence) | Where-Object { [IO.File]::Exists($_) })
+                throw 'Domain authority candidates failed.'
+            }
+            Add-Check 'domain-authority-candidates' 'pass' "Blocking findings covered by base weaken-policy authorizations for head ${explicitHead}: $(@($blocking | ForEach-Object { $_.path }) -join ', ')." @($authorityReport, $coverageEvidence)
+        }
+        else { Add-Check 'domain-authority-candidates' 'pass' $null @($authorityReport) }
+        if ($HeadRef) {
+            # Projections and gates read the checkout, so every changed authority there must equal the explicit head commit.
+            $mismatched = [Collections.Generic.List[string]]::new()
+            foreach ($item in @(if ($null -ne $authorityResult) { $authorityResult.authorities | Where-Object { $_.status -ne 'unchanged' } })) {
+                $headText = Get-GuardBlobText $head $explicitHead ([string]$item.path)
+                $checkoutFile = Join-Path $head ([string]$item.path)
+                $checkoutText = if ([IO.File]::Exists($checkoutFile)) { [IO.File]::ReadAllText($checkoutFile) } else { $null }
+                if (($null -eq $headText) -ne ($null -eq $checkoutText) -or ($null -ne $headText -and $headText.TrimStart([char]0xFEFF).Replace("`r`n", "`n") -cne $checkoutText.Replace("`r`n", "`n"))) { $mismatched.Add([string]$item.path) }
+            }
+            if ($mismatched.Count -gt 0) {
+                Add-Check 'domain-authority-checkout' 'fail' "The checked-out authorities differ from the explicit head commit ${explicitHead}: $($mismatched -join ', ')"
+                throw 'The checkout does not match the explicit head.'
+            }
+            Add-Check 'domain-authority-checkout' 'pass' $null
+        }
 
         $registry = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
         $projectionTargets = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)

@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06b2-domain-authority-coverage",
+  "title": "V3 stage-oriented refactor CP06b2 — weaken-policy coverage for D18 domain authorities",
+  "goal": "Complete Plan 06 P4.3 with D25: D18 blocking findings become policy-weakening obligations covered by weaken-policy, and the authority gates recompute that coverage with the base verifier for the explicit pull request head, never from the checkout.",
+  "acceptanceCriteria": [
+    "The D18 comparison has a Git object mode, and the protected change verifier and the authorization generator treat blocking findings as policy-weakening obligations with schema domain-authority:<id> and the blocking pointers.",
+    "Validate, Architecture and Specialized runs with an explicit -HeadRef accept blocking findings only when the base verifier report bound to base, merge base, head and the base registry and schema hashes covers each with exactly one consumed weaken-policy authorization; the checkout must match the explicit head, and without it the findings fail closed.",
+    "The workflow passes the pull request head SHA to those runs, and the D18 gate trust contracts describe the coverage.",
+    "The pull request consumes both CP06b2-auth authorizations under the CP06b1 base, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/V3_ifx/docs/authored/trusted-base.md",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06b2-domain-authority-coverage-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06b2-domain-authority-coverage-trusted-base.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b2-domain-authority-coverage.md",
+    "docs/guards/plans/20260917-v3-stage-cp06b2-domain-authority-coverage.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json"
+  ]
+}

@@ -10,7 +10,8 @@ param(
 # Plan 06 §12.3 protected change verifier (CP06a, D22, D23), run from the base worktree against a committed head:
 #  1. the changed set is the NUL-separated raw diff without rename detection from the verified merge base to head;
 #  2. the change creates obligations: each removal of a protected path, one for any trusted component change, and one for
-#     each semantic change of a registered policy or configuration file (D24, zero comparators);
+#     each semantic change of a registered policy or configuration file (D24, zero comparators), and each D18 domain
+#     authority with blocking findings for the explicit head commit (D25);
 #  3. the candidate authorizations are the schema-valid base records that head deletes, and each obligation must be
 #     covered by exactly one of them, while every candidate must cover at least one obligation;
 #  4. a change that only deletes schema-valid base records and writes its own plan pair revokes them (D22);
@@ -175,6 +176,25 @@ try {
     $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries
     foreach ($path in $policy.Unregistered) { $failures.Add("Unregistered policy or configuration file: $path; register it in shared/policy-config.json or keep it outside the registry roots.") }
     foreach ($change in $policy.Changes) {
+        $obligations.Add([pscustomobject]@{ id = "policy-weakening:$($change.Path)"; kind = 'policy-weakening'; paths = @($change.Path); pointers = @($change.Pointers); change = $change; coveredBy = [Collections.Generic.List[string]]::new() })
+    }
+    # D25: D18 blocking findings (governing-policy changes, exception widening) of the explicit head commit are
+    # policy-weakening obligations on the authority file, with the blocking pointers and schema domain-authority:<id>.
+    $authorityReport = Join-Path $target 'artifacts/guards/v3-ifx/trusted-base/domain-authorities-protected-changes.json'
+    $authorityRun = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXDomainAuthorityCandidates.ps1') @('-TargetRoot', $target, '-BaseRevision', $mergeBase, '-HeadRevision', $headSha, '-ReportPath', $authorityReport)
+    if (-not [IO.File]::Exists($authorityReport)) { throw "The domain authority comparison returned exit code $($authorityRun.ExitCode) without a report." }
+    foreach ($authority in @((Get-Content -LiteralPath $authorityReport -Raw | ConvertFrom-Json).authorities | Where-Object { @($_.blockingPointers).Count -gt 0 })) {
+        if (@($authority.findings | Where-Object { $_.change -eq 'base-missing' }).Count -gt 0) { $failures.Add("Domain authority $($authority.id) is missing at the merge base: $($authority.path)"); continue }
+        $entry = @($entries | Where-Object { $_.Path -ceq [string]$authority.path })
+        $change = [pscustomobject]@{
+            Path = [string]$authority.path
+            Schema = "domain-authority:$($authority.id)"
+            Base = if ($entry.Count -eq 1) { $entry[0].Base } else { $null }
+            Head = if ($entry.Count -eq 1) { $entry[0].Head } else { $null }
+            BaseSha256 = $authority.baseSha256
+            HeadSha256 = $authority.headSha256
+            Pointers = [string[]]@($authority.blockingPointers | Sort-Object -Unique -CaseSensitive)
+        }
         $obligations.Add([pscustomobject]@{ id = "policy-weakening:$($change.Path)"; kind = 'policy-weakening'; paths = @($change.Path); pointers = @($change.Pointers); change = $change; coveredBy = [Collections.Generic.List[string]]::new() })
     }
 
