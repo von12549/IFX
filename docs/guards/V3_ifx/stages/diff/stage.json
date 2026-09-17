@@ -3,7 +3,8 @@
   "id": "diff",
   "commands": [
     "ifx-guardrails",
-    "v3-runner"
+    "v3-runner",
+    "ifx-trusted-base-authorization"
   ],
   "dependencies": [
     "pre"

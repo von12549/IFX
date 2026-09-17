@@ -4,7 +4,9 @@
   "commands": [
     "ifx-guardrails",
     "ifx-ci-contract",
-    "ifx-manifest-check"
+    "ifx-manifest-check",
+    "ifx-trusted-base",
+    "ifx-tcb-candidate"
   ],
   "dependencies": [
     "pre",

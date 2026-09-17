@@ -761,15 +761,15 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 前置：P5 已完成。
 
-- **进度**：CP04a（2026-09-17）完成前置工作，本检查点不勾选条目。判定链脚本已分离 package root 与 target root（`-TargetRoot`/`GUARD_TARGET_ROOT` 读取 target，包配置与生成工程从包自身读取，`Invoke-V3.ps1 -GenerationRoot`），包外副本对移除了包代码的 target worktree 运行时与原位判定一致（`tests/Test-IFXTargetRootSeparation.ps1`，含两个负向控制）；按 D18 建立 domain authority registry 与 trust contract `inputs`/`detectors`，属于 P2.4 的输入部分，Gate 保证范围写入 summary 留给 CP04b。
+- **进度**：CP04b（2026-09-17）完成 trusted-base runner、D18 候选比较与 candidate projection、TCB 候选验证与 `change-trusted-base` 授权，勾选 P2.4、P2.6、P2.7；P2.1、P2.5 的机制与负向控制已实现（`tests/Test-IFXTrustedBase.ps1`），但 workflow 入口切换与 Architecture 构建注入控制在 CP04c 完成后勾选；P2.2、P2.3、P2.8、P2.9 属于 CP04c。CP04a（2026-09-17）完成前置工作，该检查点不勾选条目。判定链脚本已分离 package root 与 target root（`-TargetRoot`/`GUARD_TARGET_ROOT` 读取 target，包配置与生成工程从包自身读取，`Invoke-V3.ps1 -GenerationRoot`），包外副本对移除了包代码的 target worktree 运行时与原位判定一致（`tests/Test-IFXTargetRootSeparation.ps1`，含两个负向控制）；按 D18 建立 domain authority registry 与 trust contract `inputs`/`detectors`，属于 P2.4 的输入部分，Gate 保证范围写入 summary 留给 CP04b。
 
 - [ ] P2.1 实现 §11.1：base worktree 位于 head 之外、只读且 clean，base SHA 验证；workflow 之后的第一个可执行入口及完整调用链来自 base；head 仅作为显式 target 参数。
 - [ ] P2.2 实现 §11.2 可信构建隔离：仓库外生成根、关闭目录向上搜索的全部开关、显式 V3 `build/` 基线、显式 `NuGet.config` 与 `global.json`；宿主配置叠加默认关闭。
 - [ ] P2.3 实现 locked restore、构建前 import allowlist 预检与构建后 binlog 复核：允许固定 SDK、V3 package、隔离生成根中的 NuGet 生成文件和与 lock 中 package ID/version/content hash 一致的 NuGet build assets；其他 import 失败关闭。
-- [ ] P2.4 在 `stage.json` 中落实 §11.3 trust contract，summary 报告每个 Gate 的保证范围。
+- [x] P2.4 在 `stage.json` 中落实 §11.3 trust contract，summary 报告每个 Gate 的保证范围。 证据：13 个 Gate 的 trust contract 含 `inputs`/`detectors`（CP04a）；`trusted-base/Invoke-IFXTrustedBase.ps1 -GateId` 写出的 `trusted-base/summary-<mode>.json`（schema `contracts/trusted-base-summary.schema.json`）报告 Gate 类型、保证范围、已知缺口与 base/head 来源。
 - [ ] P2.5 完成负向控制：head 修改公共 wrapper、dispatcher、module manifest、`commands.json`、受保护路径清单、engine 脚本、policy，以及 head 根 `Directory.Build.props`/`Directory.Packages.props` 注入。
-- [ ] P2.6 实现 §11.5 TCB manifest 与候选升级验证：base-owned tests/fixtures/contracts/负向控制、固定 corpus parity、独立候选进程和 `change-trusted-base` 预授权；head 测试只允许补充。
-- [ ] P2.7 负向控制：head 同时修改 engine 与自身测试、删除候选测试、改变 command/report contract、修改 package-local build baseline 或 lock file、从 head manifest 移除自身或其他组件、引用未登记可执行组件，均不能绕过 base-owned validation 或未经授权成为下一次 trusted base。
+- [x] P2.6 实现 §11.5 TCB manifest 与候选升级验证：base-owned tests/fixtures/contracts/负向控制、固定 corpus parity、独立候选进程和 `change-trusted-base` 预授权；head 测试只允许补充。 证据：`trusted-base/Test-IFXTrustedBaseCandidate.ps1`（从 base worktree 运行：按 base manifest 与 head manifest 映射 TCB 变更；gitlink 与未登记可执行组件失败关闭；要求恰好一条 base `change-trusted-base` 授权并由 head 删除，逐路径核对 tuple 与 validation suite；在独立 worktree 中以 base-owned tests 覆盖后运行候选验证；对固定 corpus 比较 base 与候选 verdict 和 summary schema）；授权 schema `contracts/authorization.schema.json`，生成工具 `trusted-base/New-IFXTrustedBaseAuthorization.ps1`，授权目录 `stages/diff/authorizations/`。
+- [x] P2.7 负向控制：head 同时修改 engine 与自身测试、删除候选测试、改变 command/report contract、修改 package-local build baseline 或 lock file、从 head manifest 移除自身或其他组件、引用未登记可执行组件，均不能绕过 base-owned validation 或未经授权成为下一次 trusted base。 证据：`tests/Test-IFXTrustedBase.ps1`：engine 与自身测试同时削弱、删除候选测试、改变 summary contract、改变 verdict（parity 失败）、未授权修改 lock file、head manifest 移除组件、workflow 引用未登记脚本、授权未消费、head 内容与授权不符，均失败；等价变更经授权通过。
 - [ ] P2.8 记录 §11.6 首次引入例外，并在下一个 PR 上验证机制生效。
 - [ ] P2.9 在 `docs/authored/` 记录 §11.7 break-glass 外部治理流程和 §11.4 保证范围。
 - **门槛**：在 §11.4 保证范围内，head 修改入口调用链、engine、保护配置、policy 或 MSBuild/NuGet/SDK 继承文件均无法改变判定型结论；有效 import 断言通过；每个 required check 都有 trust contract；所有 TCB 候选变更都通过 base-owned validation/parity，非等价语义变化具备 base 预授权。

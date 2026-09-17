@@ -95,6 +95,8 @@ try {
     Invoke-Case 'pointer role matching nothing fails' 1 $authorities { param($d) @($d.domainAuthorities | Where-Object { $_.id -eq 'g03-contract-event-catalog' })[0].pointerRoles += [ordered]@{ pointer = '/missingPolicy'; role = 'governing-policy' } } "pointer /missingPolicy matches nothing"
     Invoke-Case 'unknown authority role fails schema' 1 $authorities { param($d) $d.domainAuthorities[0].defaultRole = 'advisory' } 'Schema validation failed: docs/guards/V3_ifx/policy/authorities.json'
     Invoke-Case 'unregistered projection source fails' 1 $authorities { param($d) $d.domainAuthorities = @($d.domainAuthorities | Where-Object { $_.id -ne 'g04-failure-matrix' }) } 'Policy projection source is not a registered domain authority: deployment/g04/failure-matrix.json'
+    Invoke-Case 'wildcard pointer without an array key fails' 1 $authorities { param($d) $a = @($d.domainAuthorities | Where-Object { $_.id -eq 'g04-dependency-criticality' })[0]; $a.Remove('arrayKeys') } 'needs an arrayKeys entry for /dependencies'
+    Invoke-Case 'array key that is not unique fails' 1 $authorities { param($d) @($d.domainAuthorities | Where-Object { $_.id -eq 'g04-dependency-criticality' })[0].arrayKeys[0].key = 'criticality' } "arrayKeys /dependencies is not an array of objects with a unique string 'criticality'"
     Write-Host 'IFX manifest tests passed.'
 }
 finally {

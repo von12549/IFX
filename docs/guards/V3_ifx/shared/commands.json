@@ -410,6 +410,90 @@
         "windows"
       ],
       "stability": "stable"
+    },
+    {
+      "id": "ifx-trusted-base",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "stages": [
+        "ci"
+      ],
+      "audiences": [
+        "ci"
+      ],
+      "inputs": [
+        "clean base worktree at the verified base SHA",
+        "head checkout as -HeadRoot",
+        "docs/guards/V3_ifx/policy/authorities.json"
+      ],
+      "outputs": [
+        "artifacts/guards/v3-ifx/trusted-base/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/trusted-base/summary-<mode>.json"
+      ],
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
+    },
+    {
+      "id": "ifx-tcb-candidate",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+      "stages": [
+        "ci"
+      ],
+      "audiences": [
+        "ci"
+      ],
+      "inputs": [
+        "clean base worktree at the verified base SHA",
+        "docs/guards/V3_ifx/shared/trusted-components.json",
+        "docs/guards/V3_ifx/stages/diff/authorizations/"
+      ],
+      "outputs": [
+        "artifacts/guards/v3-ifx/trusted-base/"
+      ],
+      "evidence": [
+        "artifacts/guards/v3-ifx/trusted-base/tcb-candidate.json"
+      ],
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
+    },
+    {
+      "id": "ifx-trusted-base-authorization",
+      "kind": "maintenance",
+      "entryPoint": "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+      "stages": [
+        "diff"
+      ],
+      "audiences": [
+        "human"
+      ],
+      "inputs": [
+        "prepared change revision",
+        "docs/guards/V3_ifx/shared/trusted-components.json"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/stages/diff/authorizations/"
+      ],
+      "evidence": [],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "internal"
     }
   ]
 }

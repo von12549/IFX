@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp04b-p2-trusted-base-runner",
+  "title": "V3 stage-oriented refactor CP04b \u2014 P2 trusted-base runner, D18 candidate comparison and TCB candidate upgrade",
+  "goal": "Run guard verdicts from a verified clean base worktree against an explicit head target, compare head domain authorities with base by D18 role before generating candidate projections, verify trusted component candidates through base-owned validation, parity and a consumed change-trusted-base authorization, and prove with negative controls that head tampering cannot change judging verdicts or bypass base-owned validation, without switching the workflow yet.",
+  "acceptanceCriteria": [
+    "Invoke-IFXTrustedBase refuses a base worktree at another SHA, a dirty base worktree, or a base worktree inside the head checkout, runs the dispatcher from a base-derived package copy outside head and base with head only as target, leaves the base worktree clean, and reports the gate trust type and guarantee in a schema-validated summary.",
+    "Test-IFXDomainAuthorityCandidates allows declaration changes, keyed reordering and narrowed exceptions, and fails closed on governing-policy changes, widened exceptions, removed or invalid authorities and duplicate identities; candidate projections are generated only after it passes and may change only registered projection targets.",
+    "Test-IFXTrustedBaseCandidate maps changed paths to trusted components, rejects gitlinks and unregistered executables, requires exactly one consumed base change-trusted-base authorization whose paths, tuples and validation suite match, runs base-owned validation against the candidate with base tests overlaid, and fails on parity differences not listed in the authorization.",
+    "Test-IFXTrustedBase covers dispatcher, module, commands.json, engine, policy and MSBuild inheritance tampering, authority waiver and declaration cases, unauthorized, unconsumed and mismatched TCB changes, weakened or deleted tests, summary contract and verdict changes, and runs with Test-IFXDomainAuthorityCandidates in v3-cross-platform on Linux and Windows.",
+    "All existing guard tests pass, the workflow's gate entry points are unchanged, and the 13 required check names are unchanged."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/V3_ifx/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/policy/authorities.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp04b-p2-trusted-base-runner.md",
+    "docs/guards/plans/20260917-v3-stage-cp04b-p2-trusted-base-runner.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json"
+  ]
+}
