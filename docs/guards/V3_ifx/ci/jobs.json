@@ -5,6 +5,7 @@
   "mergeEnforcement": "github-ruleset-required-checks",
   "ruleset": { "id": 23459908, "name": "IFX V3 Required Checks", "strict": true, "requiredCheckCount": 13 },
   "legacyWorkflowMode": "deleted-after-required-check-proof",
+  "trustedBase": { "execution": "active", "tcbCandidateVerification": "active" },
   "jobs": [
     { "id": "v3-pre-diff", "mode": "diff", "trigger": "pull-request", "blocking": true },
     { "id": "v3-architecture", "mode": "architecture", "trigger": "pull-request-and-main", "blocking": true },

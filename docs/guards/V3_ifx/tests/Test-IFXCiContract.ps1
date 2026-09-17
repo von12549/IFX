@@ -60,12 +60,13 @@ try {
     Invoke-Case 'ruleset extra context fails' 1 -ruleset (New-Ruleset @($allChecks + 'legacy-guard')) -expectText 'ruleset-contexts'
     Invoke-Case 'ruleset without strict fails' 1 -ruleset (New-Ruleset $allChecks $false) -expectText 'ruleset-strict'
     Invoke-Case 'inactive ruleset fails' 1 -ruleset (New-Ruleset $allChecks $true 'evaluate') -expectText 'ruleset-active'
-    # Trusted base activation (Plan 06 §11.1, D19): once jobs.json declares it, every check must use the base runner.
-    $activeJobs = $jobsSource.Replace('"legacyWorkflowMode": "deleted-after-required-check-proof",', "`"legacyWorkflowMode`": `"deleted-after-required-check-proof`",`n  `"trustedBase`": { `"execution`": `"active`", `"tcbCandidateVerification`": `"active`" },")
-    if ($activeJobs -eq $jobsSource) { throw 'Fixture could not declare trusted base execution.' }
-    Invoke-Case 'declared trusted execution rejects a job without the base runner' 1 -jobs $activeJobs -expectText 'trusted-base-runner:v3-historical-integrity'
-    Invoke-Case 'declared trusted execution rejects the head dispatcher in place' 1 -jobs $activeJobs -expectText 'trusted-base-no-head-dispatcher:v3-architecture'
-    Invoke-Case 'declared trusted execution requires the base worktree' 1 -jobs $activeJobs -expectText 'trusted-base-worktree:v3-quality-frontend'
+    Invoke-Case 'check without its trusted base gate fails' 1 -workflow $workflowSource.Replace('-GateId v3-historical-integrity', '-GateId v3-other') -expectText 'trusted-base-runner:v3-historical-integrity'
+    Invoke-Case 'matrix check without its trusted base gate fails' 1 -workflow $workflowSource.Replace('-GateId v3-cross-platform-${{ matrix.os }}', '-GateId v3-cross-platform-ubuntu-latest') -expectText 'trusted-base-runner:v3-cross-platform-windows-latest'
+    Invoke-Case 'head dispatcher run in place fails' 1 -workflow $workflowSource.Replace('-Mode HistoricalIntegrity -GateId v3-historical-integrity', "-Mode HistoricalIntegrity -GateId v3-historical-integrity`n          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity") -expectText 'trusted-base-no-head-dispatcher:v3-historical-integrity'
+    Invoke-Case 'job without the base worktree fails' 1 -workflow ([Regex]::new('git worktree add --detach').Replace($workflowSource, 'git worktree list', 1)) -expectText 'trusted-base-worktree:v3-pre-diff'
+    $inactiveJobs = [Regex]::Replace($jobsSource, '\s*"trustedBase":\s*\{[^}]*\},', '')
+    if ($inactiveJobs -eq $jobsSource) { throw 'Fixture could not remove the trusted base declaration.' }
+    Invoke-Case 'undeclared trusted base execution skips runner checks' 0 -jobs $inactiveJobs -workflow $workflowSource.Replace('-GateId v3-historical-integrity', '-GateId v3-other')
     Write-Host 'IFX CI contract tests passed.'
 }
 finally {
