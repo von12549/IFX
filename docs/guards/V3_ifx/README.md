@@ -27,10 +27,9 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | `quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |
 | `history/` | Frozen evidence manifest, validator and explicit regeneration command |
 | `templates/ifx-layerguard/` | Local .NET implementation, tests, and fixtures used by the IFX generator |
-| `generated/dotnet/LayerGuard/` | Generated independent .NET project, byte-checked against the template |
 | `generated/stages/` | Generated V3 Plan/Post/Diff test project |
 | `contracts/`, `templates/plan/`, `skills/`, `hooks/` | V3 input contracts and optional Agent planning integration |
-| `scripts/Invoke-IFX.ps1` | Generate, check, test, and strict-scan the independent IFX LayerGuard project |
+| `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard project directly from `templates/ifx-layerguard/`; `Generate` is read-only during the transition |
 | `scripts/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
 | `scripts/Invoke-V3.ps1` | Validate, generate, check, test, Pre, and Diff for the V3 stage profile |
 | `scripts/Invoke-V3Setup.ps1`, `Invoke-V3Architecture.ps1`, `Invoke-V3Docs.ps1` | Analyze/Init, architecture draft/review/adopt and Markdown render/check/import tools copied from V3 |

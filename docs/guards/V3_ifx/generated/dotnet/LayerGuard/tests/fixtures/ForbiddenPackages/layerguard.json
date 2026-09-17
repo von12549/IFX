@@ -1,5 +1,0 @@
-{
-  "forbiddenPackages": {
-    "Presentation": ["Microsoft.EntityFrameworkCore*", "Dapper*", "Npgsql*"]
-  }
-}

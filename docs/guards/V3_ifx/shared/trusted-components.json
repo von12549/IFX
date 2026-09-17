@@ -112,19 +112,6 @@
       "allowedChange": "change-trusted-base"
     },
     {
-      "id": "tcb.generated.architecture-conformance",
-      "type": "generated-candidate",
-      "status": "active",
-      "paths": [
-        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/"
-      ],
-      "validationSuite": [
-        "Invoke-IFX.ps1 -Mode Check"
-      ],
-      "parityContract": "Byte-identical copy of templates/ifx-layerguard.",
-      "allowedChange": "delete in P6.1 (D12)"
-    },
-    {
       "id": "tcb.engine.specialized",
       "type": "engine-detectors",
       "status": "active",

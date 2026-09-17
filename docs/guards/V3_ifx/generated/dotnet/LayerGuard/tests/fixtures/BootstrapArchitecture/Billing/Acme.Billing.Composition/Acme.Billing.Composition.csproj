@@ -1,7 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\Acme.Billing.Application\Acme.Billing.Application.csproj" />
-    <ProjectReference Include="..\Acme.Billing.Infrastructure\Acme.Billing.Infrastructure.csproj" />
-    <ProjectReference Include="..\Acme.Billing.Presentation\Acme.Billing.Presentation.csproj" />
-  </ItemGroup>
-</Project>

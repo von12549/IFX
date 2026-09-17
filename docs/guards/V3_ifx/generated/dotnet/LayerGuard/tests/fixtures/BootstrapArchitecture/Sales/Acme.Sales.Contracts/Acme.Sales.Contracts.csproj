@@ -1,3 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup><ProjectReference Include="..\..\Billing\Acme.Billing.Contracts\Acme.Billing.Contracts.csproj" /></ItemGroup>
-</Project>

@@ -179,7 +179,6 @@
         "docs/guards/V3_ifx/build/locks/"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/generated/dotnet/LayerGuard/",
         "artifacts/guards/v3-ifx/architecture/",
         "artifacts/build/v3-ifx/architecture-conformance/",
         "artifacts/guards/v3-ifx/build/architecture-conformance/"
@@ -187,7 +186,7 @@
       "evidence": [
         "artifacts/guards/v3-ifx/architecture/layerguard.json"
       ],
-      "mutability": "writes-generated",
+      "mutability": "writes-artifacts",
       "requiresExplicitAcceptance": false,
       "platforms": [
         "linux",

@@ -92,14 +92,6 @@
         "phase": "P7.2"
       },
       {
-        "legacyPath": "docs/guards/V3_ifx/generated/dotnet/LayerGuard",
-        "kind": "directory",
-        "replacement": "docs/guards/V3_ifx/templates/ifx-layerguard (single source)",
-        "compatibility": "none",
-        "removeWhen": "P6.1 after build/test/scan/fixture parity",
-        "phase": "P6.1"
-      },
-      {
         "legacyPath": "docs/guards/V3_ifx/ci/jobs.json",
         "kind": "file",
         "replacement": "docs/guards/V3_ifx/stages/ci/required-checks.json",
