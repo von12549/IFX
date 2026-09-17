@@ -1,0 +1,97 @@
+{
+  "name": "IFX V3 Required Checks",
+  "target": "branch",
+  "enforcement": "active",
+  "bypass_actors": [],
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "~DEFAULT_BRANCH",
+        "refs/heads/codex/guards-principles-plan"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 0,
+        "dismiss_stale_reviews_on_push": false,
+        "required_reviewers": [],
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": true,
+        "require_extra_approval_for_unattributed_changes": false,
+        "allowed_merge_methods": [
+          "merge",
+          "squash",
+          "rebase"
+        ]
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "do_not_enforce_on_create": false,
+        "required_status_checks": [
+          {
+            "context": "v3-architecture",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-quality-solution",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-quality-assembly",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-quality-frontend",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-specialized-g03",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-specialized-g04",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-specialized-g05",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-specialized-plan04",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-specialized-database",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-historical-integrity",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-cross-platform-ubuntu-latest",
+            "integration_id": 15368
+          },
+          {
+            "context": "v3-cross-platform-windows-latest",
+            "integration_id": 15368
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "shas": {
+    "B0": [
+      "59d5d203a9743387a4dbd96a237b4f6335ad8b3e"
+    ],
+    "A1": [
+      "065b4513e56970a6cc10b6ce57fd801b3e6db1f3"
+    ],
+    "F1": [
+      "334c23f3338288911daf3d7cb226327e1c42e40b"
+    ],
+    "M1": [
+      "10e8db2fd514e2aac92e6a97ddd5f4b678ab08c5"
+    ],
+    "U1": [
+      "a24d1137e9afd78fa63b81d39e68ff2b88630aaa"
+    ],
+    "M2": [
+      "d7877530e5689fb86149554315d4bfb1a4c38e68"
+    ],
+    "P2": [
+      "9439c9e7c330e46c9f1ce1decb9e9d4e2f8d883c"
+    ],
+    "A2": [
+      "db50c611ae74b5574731af47257cf91ce4404f57"
+    ],
+    "M3": [
+      "7ebbe9fbcaf8c31061de87519a018750aaed8be8"
+    ],
+    "U2": [
+      "301e368fc159b6f7d3d48f6129d5ce5d3b5ba2f5"
+    ],
+    "N2": [
+      "4cac815ab778c5a97859a3d3797b7a86482c4571"
+    ]
+  },
+  "results": [
+    {
+      "step": "S1 auth PR",
+      "check": "v3-pre-diff (trusted Diff)",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "step": "S1 auth PR",
+      "check": "Validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "step": "S1 auth PR",
+      "check": "HistoricalIntegrity",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-historicalintegrity.json"
+      ]
+    },
+    {
+      "step": "S1 auth PR",
+      "check": "Verify trusted component candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (no trusted component changes): D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "step": "S2 fix PR",
+      "check": "v3-pre-diff (trusted Diff, pre-fix base)",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true,
+      "evidence": [
+        "Protected guard deletions: docs/guards/V3_ifx/stages/diff/authorizations/cp05a-authorization-consumption.json",
+        "FAIL guardrails: Base guardrails returned exit code 1.",
+        "Trusted base run failed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "step": "S2 fix PR",
+      "check": "Validate",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-validate.json"
+      ]
+    },
+    {
+      "step": "S2 fix PR",
+      "check": "Architecture",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-architecture.json"
+      ]
+    },
+    {
+      "step": "S2 fix PR",
+      "check": "HistoricalIntegrity",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-historicalintegrity.json"
+      ]
+    },
+    {
+      "step": "S2 fix PR",
+      "check": "Verify trusted component candidates (full validation and parity)",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.activation.ci, tcb.engine.trusted-base, tcb.generated.stage-gate, tcb.generator.stage-gate, tcb.validation.package-tests): D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "step": "S3 post-restore positive",
+      "check": "v3-pre-diff (trusted Diff, fixed base)",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.engine.historical-integrity): D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-authorization-diff.json",
+        "Trusted base run passed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    },
+    {
+      "step": "S3 post-restore positive",
+      "check": "summary consumed-authorization",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "pass: Verified consumption of docs/guards/V3_ifx/stages/diff/authorizations/sim-post-restore.json."
+      ]
+    },
+    {
+      "step": "S3 post-restore positive",
+      "check": "Verify trusted component candidates",
+      "expectedExit": 0,
+      "exit": 0,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (authorized change of tcb.engine.historical-integrity): D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-candidate.json"
+      ]
+    },
+    {
+      "step": "S3 post-restore negative",
+      "check": "v3-pre-diff (unconsumed authorization deletion)",
+      "expectedExit": 1,
+      "exit": 1,
+      "asExpected": true,
+      "evidence": [
+        "Trusted component candidate check passed (no trusted component changes): D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\tcb-authorization-diff.json",
+        "Protected guard deletions: docs/guards/V3_ifx/stages/diff/authorizations/sim-post-restore.json",
+        "FAIL guardrails: Base guardrails returned exit code 1.",
+        "Trusted base run failed: D:\\IFX\\artifacts\\guards\\v3-ifx\\trusted-base\\summary-diff.json"
+      ]
+    }
+  ],
+  "allAsExpected": true
+}
