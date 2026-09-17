@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-cp06c-authorization",
+  "title": "V3 stage-oriented refactor CP06c-auth — change-trusted-base authorization for the two-PR rehearsal and evidence",
+  "goal": "Add the base change-trusted-base authorization that the CP06c change PR will consume, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "The authorization record is schema-valid and generated from the prepared CP06c revision, listing its trusted component paths, base and head tuples and base validation suites.",
+    "The plan pair marks CP06b2 complete and CP06c in progress.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp06c-rehearsal-evidence.json",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260917-v3-stage-cp06c-authorization.md",
+    "docs/guards/plans/20260917-v3-stage-cp06c-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
