@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260917-v3-stage-p28-negative-runner-bypass",
+  "title": "V3 stage-oriented refactor P2.8 negative control \u2014 required check bypasses the trusted base runner (do not merge)",
+  "goal": "Show on a real pull request that a workflow in which a required check runs the head dispatcher in place instead of the base runner fails the CI activation contract after CP04d declared trusted execution active.",
+  "acceptanceCriteria": [
+    "The base CI contract in Validate fails v3-architecture and both v3-cross-platform checks with trusted-base-runner and trusted-base-no-head-dispatcher for v3-historical-integrity; the pull request is closed without merging."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/plans/20260917-v3-stage-p28-negative-runner-bypass.md",
+    "docs/guards/plans/20260917-v3-stage-p28-negative-runner-bypass.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json"
+  ]
+}
