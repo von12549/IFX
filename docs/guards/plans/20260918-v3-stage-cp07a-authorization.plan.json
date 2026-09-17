@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07a-authorization",
+  "title": "V3 stage-oriented refactor CP07a-auth — delete, change-trusted-base and weaken-policy authorizations for the LayerGuard single source",
+  "goal": "Add the delete, change-trusted-base and weaken-policy authorizations that the CP07a change PR will consume, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "A delete record binds the base tree entry of generated/dotnet/LayerGuard, a change-trusted-base record covers the architecture runner, generated copy, manifest and package test components, and a weaken-policy record covers guard-system.json, commands.json and trusted-components.json; all are schema-valid and generated from the prepared change.",
+    "The plan pair marks CP07a-prep complete and CP07a in progress.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07a-delete-generated-layerguard.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07a-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07a-weaken-policy.json",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07a-authorization.md",
+    "docs/guards/plans/20260918-v3-stage-cp07a-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json"
+  ]
+}
