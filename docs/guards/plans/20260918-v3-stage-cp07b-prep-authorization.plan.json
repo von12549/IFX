@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07b-prep-authorization",
+  "title": "V3 stage-oriented refactor CP07b-prep-auth — move and change-trusted-base authorizations for the IFX facade",
+  "goal": "Add the move and change-trusted-base authorizations that the CP07b-prep change PR will consume and record D27, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "A move record binds the base tree entry of tests/LayerGuard.Tests/GatePolicyBindingTests.cs and the head tree entry of tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs, and a change-trusted-base record covers the package-local build locks, the architecture conformance engine, the runner, the architecture conformance tests and the package tests; both are schema-valid and generated from the prepared change.",
+    "D27 records the CP07b-prep and CP07b split, the ownership move of IFX constants into trusted binding code with byte-identical policy files, the binding extension point and the explicitly referenced IFX facade; Plan 06 section 17 and the plan pair index both list it.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-prep-move-binding-tests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-prep-trusted-base.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07b-prep-authorization.md",
+    "docs/guards/plans/20260918-v3-stage-cp07b-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ]
+}

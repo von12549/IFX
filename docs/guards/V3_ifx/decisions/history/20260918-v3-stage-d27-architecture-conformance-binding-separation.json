@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-d27-architecture-conformance-binding-separation",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P6.2 and P6.3 are delivered as CP07b-prep and CP07b, each as an exact-candidate authorization pull request followed by its consuming change pull request, without an activation exception. The IFX-specific values hard-coded in the engine (the ifx-api, ifx-worker and ifx-all deployment units and their Runtime:Role values, the required host roles, the authorized backup owner, the unwaivable G03 categories, the waiver maximum and BCL-only default, the G05 forbidden dependency list, the gatePolicies inputs and the G04 RuntimeHost to Composition role binding) move into IFX policy binding code governed as a trusted component; this is an ownership move, not policy externalization, and every policy file and composite hash input stays byte-identical. The generic engine becomes a library and command line with a policy binding extension point that receives the gatePolicies section unread and fails closed when the section is present and no binding is registered; an IFX binding and thin IFX host register the binding and run the unchanged CLI and MCP contracts. CP07b-prep is the expand step: it adds the explicitly referenced IFX facade project src/LayerGuard.Ifx with the entry point LayerGuard.Ifx.IfxArchitectureConformance.Analyze, which forwards to the engine until CP07b and keeps its path and entry point afterwards, and moves GatePolicyBindingTests into the base-owned tests/LayerGuard.Ifx.Tests project, which references only the facade, so that the generic tests hold no IFX binding. Project references are explicit: Invoke-IFX.ps1 checks the exact solution project set and each project's exact references, rejects wildcard references, and restores, locks and allowlists the imports of every listed project. Report fields, tool version, CLI and MCP contracts, the v3-architecture check, all 13 required checks and the policy composite hash stay unchanged, and mcp/LayerGuard remains out of scope.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/**",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/build/locks/**",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/shared/**",
+    "docs/guards/V3_ifx/architecture/**",
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "Plan 06 section 8.2 requires the IFX binding to be stripped before the engine moves to V3, and acceptance criterion 3 requires a case-insensitive scan to find no IFX identifier in the generic engine. Keeping the IFX constants as trusted binding code avoids new editable policy fields and keeps policy files and the composite hash byte-identical, which P6.6 requires; lowering them remains a change-trusted-base change. Base-owned tests intentionally overwrite candidate tests during candidate verification, so a split that removed the binding from the engine assembly would run the previous base's binding tests without the binding; the facade project gives those tests a stable, explicitly referenced entry point first. Wildcard project references were not adopted because they would need proof of deterministic expansion, locked restore and import allowlisting on every platform. The user approved A1, B1 and C1 with these qualifications on 2026-09-18. Refines D12, D23 and D26."
+}

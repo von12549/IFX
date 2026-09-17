@@ -1,0 +1,155 @@
+{
+  "formatVersion": 1,
+  "id": "cp07b-prep-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07b-prep-ifx-facade.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.packages.lock.json",
+    "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+  ],
+  "components": [
+    "tcb.build.package-local",
+    "tcb.engine.architecture-conformance",
+    "tcb.engine.architecture-runner",
+    "tcb.validation.architecture-conformance",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.packages.lock.json",
+      "component": "tcb.build.package-local",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cea63c95eb1a605065970344257a4b2af0a32a09"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.Tests.packages.lock.json",
+      "component": "tcb.build.package-local",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "02e1c0c1fd4e2528bace4e6f0252f0a6fe7d2022"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5aed982c3eb0d19e7e13bbda893e993d7665759f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b9ddc02558ad230665a248b170068f2ec6b2f443"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9bb96ace28fd59935474e95a4c07221c8ed81bc8"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c2ce8436f8816cdf148886c8b7740a137996bbe"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f2aef3faf0b2239bd55daac1fd27f2bf69fe816"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cb972dc58b0d7c7d110b7354154e580e9b1bb28e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "909989172f35d15b9b4704a325243e8702f5e8aa"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1088f0d13b5ee505fff2a2b66ee8beea29ca76b0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "db2e36f0b93ac4a20a8a17c58857b47a0dfec709"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fec535dace3ce66b6992269bd9e047768c910811"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "33f07c764e1b21f3c29d520ecfd60334299c851f"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+    "Invoke-IFX.ps1 -Mode Test",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged: the IFX facade forwards to the unchanged engine, the ten IFX policy binding tests keep their assertions in their own project, and policy files and composite hash inputs are byte-identical.",
+  "allowedBehaviorDifferences": []
+}
