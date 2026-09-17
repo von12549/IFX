@@ -1,6 +1,6 @@
 # CP07b-prep — Plan 06 P6.3 前置：IFX facade 项目与 IFX policy binding 测试迁移
 
-本 pair 是 [正式 Plan pair](20260916-v3-stage-oriented-package-refactor.md) 检查点 CP07b-prep 的变更 PR，依据 D27 为 CP07b（[Plan 06](06-v3-stage-oriented-package-refactor.md) §14 P6.2–P6.3）的 engine/IFX binding 分离做 expand 步骤。它消费 `20260918-v3-stage-cp07b-prep-authorization` 加入的两条正交授权：
+本 pair 是 [正式 Plan pair](20260916-v3-stage-oriented-package-refactor.md) 检查点 CP07b-prep 的变更 PR，依据 D27 为 CP07b（[Plan 06](06-v3-stage-oriented-package-refactor.md) §14 P6.2–P6.3）的 engine/IFX binding 分离做 expand 步骤。它消费两条正交授权：`20260918-v3-stage-cp07b-prep-authorization` 加入的 `move`，以及 `20260918-v3-stage-cp07b-prep-authorization-r2` 加入的 `change-trusted-base`（第一条 `change-trusted-base` 绑定了修正前的 `Test-IFXPackage.ps1`，已由 `20260918-v3-stage-cp07b-prep-revocation` 按 D22 撤销）：
 
 - `move`：`tests/LayerGuard.Tests/GatePolicyBindingTests.cs` → `tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs`，覆盖该受保护路径的 protected-removal；
 - `change-trusted-base`：`tcb.build.package-local`、`tcb.engine.architecture-conformance`、`tcb.engine.architecture-runner`、`tcb.validation.architecture-conformance` 与 `tcb.validation.package-tests` 的变化。
@@ -20,7 +20,7 @@ CP07b 要把 IFX policy binding 从通用 engine assembly 中分离。候选验�
   - Check 要求 solution 恰好是 engine、IFX facade、engine 测试与 IFX 测试四个项目，每个项目的 project reference 恰好是预期集合（engine 无引用；facade 与 engine 测试引用 engine；IFX 测试只引用 facade），拒绝通配符引用；
   - restore 与 test 步骤显式列出四个项目，锁文件、effective properties 与 pre-/post-build import allowlist 覆盖每个项目；
 - `build/locks/`：新增 `LayerGuard.Ifx` 与 `LayerGuard.Ifx.Tests` 的 reviewed lock（`-LockMode Update` 生成，包版本与既有测试项目相同）；
-- `tests/Test-IFXPackage.ps1`：新增 facade 缺失、solution 声明意外项目、IFX 测试绕过 facade、通配符引用四个负向用例，并检查新项目的 pre-build import 报告；
+- `tests/Test-IFXPackage.ps1`：新增 facade 缺失、solution 声明意外项目、IFX 测试绕过 facade、通配符引用四个负向用例，并检查新项目的 pre-build import 报告；比较 Check 负向用例输出前去掉颜色转义、`|` 边栏与换行，因为 Linux runner 按较窄控制台宽度折行错误记录（首次 CI 在 Linux 上因此失败，已在 `pwsh` Linux 容器中复现并验证修正）；
 - 文档：`V3_ifx/README.md` 与 `architecture/IFX-MIGRATION.md`。
 
 未使用通配符 `ProjectReference`（D27）。

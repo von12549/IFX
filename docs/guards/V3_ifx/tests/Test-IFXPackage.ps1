@@ -67,11 +67,14 @@ $templateRoot = Join-Path $fixture 'docs/guards/V3_ifx/templates/ifx-layerguard'
 $retiredCopy = Join-Path $fixture 'docs/guards/V3_ifx/generated/dotnet/LayerGuard'
 $generate = @(& pwsh @arguments -Mode Generate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0 -or [IO.Directory]::Exists($retiredCopy)) { throw "IFX Generate is not read-only or failed: $($generate -join ' | ')" }
+# Error records are colored and wrapped at the console width with `|` gutters, which differs between Windows and Linux
+# runners; compare the message text without escape sequences, gutters or line breaks.
+function ConvertTo-PlainOutput([object[]] $Output) { return (($Output -join ' ') -replace "`e\[[0-9;?]*[A-Za-z]", '' -replace '[\s|]+', ' ') }
 function Assert-CheckFails([string] $Label, [scriptblock] $Mutate, [string] $Cleanup, [string] $ExpectText) {
     & $Mutate
     try {
         $output = @(& pwsh @arguments -Mode Check -TargetRoot $fixture 2>&1)
-        if ($LASTEXITCODE -eq 0 -or -not (($output -join ' ') -replace '\s+', ' ').Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
+        if ($LASTEXITCODE -eq 0 -or -not (ConvertTo-PlainOutput $output).Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
     }
     finally { if (Test-Path -LiteralPath $Cleanup) { Remove-Item -LiteralPath $Cleanup -Recurse -Force } }
 }
@@ -86,7 +89,7 @@ function Assert-CheckFailsWithEdit([string] $Label, [string] $Path, [scriptblock
     try {
         & $Edit
         $output = @(& pwsh @arguments -Mode Check -TargetRoot $fixture 2>&1)
-        if ($LASTEXITCODE -eq 0 -or -not (($output -join ' ') -replace '\s+', ' ').Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
+        if ($LASTEXITCODE -eq 0 -or -not (ConvertTo-PlainOutput $output).Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
     }
     finally { [IO.File]::WriteAllBytes($Path, $original) }
 }

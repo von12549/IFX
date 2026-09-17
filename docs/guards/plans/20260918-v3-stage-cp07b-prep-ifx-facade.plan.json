@@ -6,7 +6,7 @@
   "acceptanceCriteria": [
     "src/LayerGuard.Ifx exposes LayerGuard.Ifx.IfxArchitectureConformance.Analyze, forwarding to the engine; tests/LayerGuard.Ifx.Tests references only the facade and holds GatePolicyBindingTests with unchanged assertions; tests/LayerGuard.Tests holds no IFX binding test.",
     "Invoke-IFX.ps1 Check requires the exact solution project set and each project's exact project references, rejects wildcard references, and the restore and test steps lock and allowlist the imports of all four projects; Test-IFXPackage.ps1 covers a missing facade, an unexpected project, a facade bypass and a wildcard reference.",
-    "The trusted Diff reports one protected-removal and one trusted-component-change obligation, each covered by exactly one consumed CP07b-prep-auth record; candidate verification passes the CP07a base-owned validation and parity; policy files and the composite hash are unchanged and all 13 required checks pass."
+    "The trusted Diff reports one protected-removal and one trusted-component-change obligation, covered by exactly one consumed record each: the CP07b-prep-auth move record and the CP07b-prep-auth-r2 change-trusted-base record; candidate verification passes the CP07a base-owned validation and parity; Test-IFXPackage.ps1 matches Check failures independently of console wrapping on Linux and Windows; policy files and the composite hash are unchanged and all 13 required checks pass."
   ],
   "plannedPaths": [
     "docs/guards/V3_ifx/README.md",
@@ -15,7 +15,7 @@
     "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.packages.lock.json",
     "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
     "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-prep-move-binding-tests.json",
-    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-prep-trusted-base-r2.json",
     "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
     "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
     "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
@@ -37,6 +37,7 @@
   ],
   "decisionPaths": [
     "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
     "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
     "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
   ]
