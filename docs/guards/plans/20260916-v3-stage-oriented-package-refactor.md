@@ -50,6 +50,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | D26 | Architecture Conformance 拆分、Generate/Check 过渡与 `mcp/LayerGuard` 范围（P6 补充） | `20260917-v3-stage-d26-architecture-conformance-split.json` | §14 P6、§17 D26、D12 |
 | D27 | Architecture Conformance engine 与 IFX binding 分离、IFX facade 与 expand 步骤（P6.2–P6.3 补充） | `20260918-v3-stage-d27-architecture-conformance-binding-separation.json` | §14 P6、§17 D27、D12、D26 |
 | D28 | CI 成本控制与 base 判定的变更范围（Actions 配额） | `20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json` | §10.3、§17 D28、D10、D19 |
+| D29 | Architecture Conformance engine 迁入 V3 的路径、命名与测试桥（P6.4 补充） | `20260918-v3-stage-d29-architecture-conformance-v3-relocation.json` | §14 P6.4、§17 D29、D12、D27 |
 
 每条记录的 `affectedPaths` 覆盖该决策未来会影响的路径，使后续检查点的 Pre 风险覆盖检查可以直接引用。decision schema 只允许 `summary` 与 `rationale` 两个文本字段，完整论证以 Plan 06 与 Review 为准。
 
@@ -79,6 +80,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP07b-prep | P6.3（前置） | 显式引用的 IFX facade 项目 `src/LayerGuard.Ifx` 与 base-owned `tests/LayerGuard.Ifx.Tests`，`GatePolicyBindingTests` 迁入；runner 检查精确项目集合与引用（D27，expand） | 有（移动） | `move` 与 `change-trusted-base`：CP07b-prep-auth → D22 撤销过期记录 → CP07b-prep-auth-r2 → CP07b-prep-change | CP07a | 已完成（PR #62 `a70fafa` → #63 `22fb907`；期间按 D22 以 #64 撤销过期记录、#65 重新授权） |
 | CP07-ci | §10.3（配额） | CI 成本控制（concurrency 取消、package cache、月度 schedule）与 base 判定的变更范围：records-and-plans 时跳过 head candidate 步骤并让 architecture/quality/database 继承 base 判定 | 无 | `change-trusted-base` 与 `weaken-policy`：CP07-ci-auth → CP07-ci-change | CP07b-prep | 已完成（PR #66 `27d6109` → #67 `73ec9e9`） |
 | CP07b | P6.2–P6.3 | IFX 常量作为受 TCB 管控的 IFX binding 代码移出通用 engine（所有权迁移，policy 文件不变），engine 提供 binding 扩展点，IFX binding 与 host 位于 facade 项目，通用测试只用 synthetic fixture，engine 大小写不敏感 IFX 扫描 | 以 verifier 为准 | CP07b-auth → CP07b-change | CP07b-prep | 已完成，待 PR 合入（`20260918-v3-stage-cp07b-authorization` → `20260918-v3-stage-cp07b-engine-binding-separation`） |
+| CP07c-prep | P6.4（前置） | engine 的 V3 目标项目与测试路径（`Guards.ArchitectureConformance*`）、通用测试与 fixture 迁入 V3、IFX 专属 binding fixture、跨包 Check（D29，expand） | 有（移动） | 21 条 `move` 与 `change-trusted-base`：CP07c-prep-auth → CP07c-prep-change | CP07b | 进行中（`20260918-v3-stage-cp07c-prep-authorization`、`20260918-v3-stage-cp07c-prep-v3-engine-paths`） |
 | CP07c | P6.4–P6.6 | 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`，混合型 trust contract，policy composite hash、report、失败类别与 check 名称不变的证明 | 有 | CP07c-auth → CP07c-change | CP07b | 未开始 |
 | CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07c | 未开始 |
 | CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 可能（analysis 运行输出迁出） | 涉及受保护移动/删除时：auth → change | CP08 | 未开始 |

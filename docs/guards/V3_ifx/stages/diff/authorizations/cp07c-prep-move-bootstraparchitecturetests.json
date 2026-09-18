@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "cp07c-prep-move-bootstraparchitecturetests",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07c-prep-v3-engine-paths.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/BootstrapArchitectureTests.cs",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "aeeea46ced8e4c67ef03c7b0362f79520b0e848c"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/BootstrapArchitectureTests.cs",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "aeeea46ced8e4c67ef03c7b0362f79520b0e848c"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/BootstrapArchitectureTests.cs",
+    "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/BootstrapArchitectureTests.cs"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/BootstrapArchitectureTests.cs",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "aeeea46ced8e4c67ef03c7b0362f79520b0e848c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/BootstrapArchitectureTests.cs",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "aeeea46ced8e4c67ef03c7b0362f79520b0e848c"
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07c-prep-authorization",
+  "title": "V3 stage-oriented refactor CP07c-prep-auth — move and change-trusted-base authorizations for the V3 engine paths",
+  "goal": "Add the two move authorizations and the change-trusted-base authorization that the CP07c-prep change PR will consume and record D29, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "Twenty move records bind the base tree entry of each generic engine test source and the head tree entry of its final V3 path, one move record covers the fixture directory, and a change-trusted-base record covers the runner, the engine and base-owned test components, the package-local locks and the package tests.",
+    "D29 records the V3 stage path, the project and assembly rename with the namespace kept as an internal compatibility surface, the IFX-specific fixture and the expand and contract bridge; Plan 06 section 17 and the plan pair index both list it.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-alloweddirectiontests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-allowedreferencetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-baselinetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-bootstraparchitecturetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-bootstrapconfigurationtests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-customrulestests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-declarationplacementtests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-directreferencetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-engine-fixtures.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-fixtures.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-forbiddendependencytests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-forbiddenpackagetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-implementstests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-importtests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-indirectreferencetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-policybindingtests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-reportformattests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-rulebooktests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-scopetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-severitytests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-move-stoppedreferencetests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-prep-weaken-policy.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07c-prep-authorization.md",
+    "docs/guards/plans/20260918-v3-stage-cp07c-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json"
+  ]
+}

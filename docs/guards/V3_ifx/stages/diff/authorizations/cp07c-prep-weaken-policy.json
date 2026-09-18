@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "cp07c-prep-weaken-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07c-prep-v3-engine-paths.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/trusted-components.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "a18d30ab92067930ea88552619cae03608fd58a12afacf99c5cc0990fcbe182d",
+      "headSha256": "4e9ebb77768a3beaa2d56883dce8b7521214916ea9f7c8ce1303cac31b5e691f",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/5/paths/2",
+        "/components/5/paths/3",
+        "/components/6/paths/0",
+        "/components/6/paths/1",
+        "/components/6/paths/2"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "04eb846d99971086f7a36eb223206c4b3e87536b"
+      }
+    }
+  ]
+}

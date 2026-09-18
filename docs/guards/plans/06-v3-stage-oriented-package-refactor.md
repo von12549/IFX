@@ -1113,6 +1113,11 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **边界**：这是经明确授权的重复证据削减，不宣称 Windows smoke 与全量 suite 等价；若 smoke 命令、Windows required check、Ubuntu full suite 或 P11.4 全量入口被移除，CI contract 必须失败。仓库公开期间标准 runner 不计 Actions minutes，但本约束仍保留，以便仓库回到 private 后控制成本。
 - 来源：2026-09-21 对最近真实运行复核：Windows leg 15.70 分钟，其中 head candidate 14.17 分钟；本地把 trusted-base 差异消费测试加入 smoke 的试跑超过 3 分钟仍未结束，故该套件保留在 Ubuntu full/P11.4 Windows full。用户于 2026-09-21 授权 CP12-ci2，并要求更新 D28、Plan 06 与 CI 信任契约；记录 `20260921-v3-stage-d35-windows-portability-smoke.json`。
 
+### D29 — Architecture Conformance engine 迁入 V3 的路径、命名与测试桥（P6.4 补充，细化 D12、D27）
+
+- **决定**：P6.4–P6.6 以 CP07c-prep 与 CP07c 交付。通用 engine 的最终位置是 `docs/guards/V3/stages/post/gates/architecture/dotnet/`，项目与 assembly 名为 `Guards.ArchitectureConformance`；C# namespace 仍为 `LayerGuard`，作为内部兼容面而非稳定门禁身份，使 base-owned engine 测试跨迁移仍可编译。CP07c-prep 为 expand：在 engine 源码仍位于 V3_ifx 时建立 V3 项目与测试路径，V3 engine 项目本检查点内转发到 V3_ifx engine；通用测试与 fixture 迁入 V3 并只引用 V3 项目；V3_ifx 旧测试项目保留为已声明的空项目，因为本 prep 的候选验证会把上一 base 的 engine 测试恢复到该路径并必须仍能编译运行；base-owned 归属改为 V3 路径，使 CP07c 的候选验证恢复的测试可编译到迁移后的 engine。IFX policy binding 测试改用本包自有的最小 IFX fixture。CP07c 再迁移 engine 源码、删除 V3_ifx engine 与空测试项目、把 IFX binding 与 host 指向 V3 项目，并写入 §11.3 混合型 trust contract 与 P6.6 的不变性证明。
+- 来源：CP07c 设计评审，用户于 2026-09-18 批准 A1（V3 stage 路径）、B1（项目/assembly 改名、namespace 作为内部兼容面）、C1（IFX 专属 fixture），并要求先证明 expand/contract 桥；记录 `20260918-v3-stage-d29-architecture-conformance-v3-relocation.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。
