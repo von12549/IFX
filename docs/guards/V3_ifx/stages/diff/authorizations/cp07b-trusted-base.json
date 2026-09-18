@@ -1,0 +1,219 @@
+{
+  "formatVersion": 1,
+  "id": "cp07b-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260918-v3-stage-cp07b-engine-binding-separation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/Program.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Cli.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/GatePolicyBindings.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/PolicyBinding.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Program.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Ruleset.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/PolicyBindingTests.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+  ],
+  "components": [
+    "tcb.build.package-local",
+    "tcb.engine.architecture-conformance",
+    "tcb.engine.architecture-runner",
+    "tcb.validation.architecture-conformance",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.Tests.packages.lock.json",
+      "component": "tcb.build.package-local",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "02e1c0c1fd4e2528bace4e6f0252f0a6fe7d2022"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b5783154079af401b0a378c7e857f364737f55cb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b9ddc02558ad230665a248b170068f2ec6b2f443"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "295bfbda540d04a39d5b4cc78922bec1e3d9fad3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f2aef3faf0b2239bd55daac1fd27f2bf69fe816"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b5a2f8b363dabb1653cc51fe8c062cf18567c362"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fb230be12200ea34e78a61d1ddb09f51c6d1830b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cb972dc58b0d7c7d110b7354154e580e9b1bb28e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "318e90078544a245a1b757401e45c01e43e0dadb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/Program.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64c0ac76bde29633c2e68472354e5a6677a68f7e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Cli.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "119d4e89528684be27538d925ca9db6fed8e05f5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/GatePolicyBindings.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b8a4919c6f834c960dacdbe7f729c1d4a50f6590"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/PolicyBinding.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0753a0e687ff787394be058591b69cf92bce2477"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Program.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9a79df40a599148c758f53d94f69c13c5a288595"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2b1e1424b4a0bcc02cf821048faac882127f65c4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Ruleset.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bb0799b3d947a5b45cdacb490ef8c82e3b20eac9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fcfdf1816fbe27dfbbc40d4298a7d3fd2d8274ca"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/PolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ce58a7928088b9e4d02e397674fd441a4ae595b7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9e6779af16bbf6a6db68d245a2d8f81dbca1f4f6"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8df548a1a53826235ab6389b5f777a4bbd46c1c2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "59f139214a6048a40c62a72451b26f09cd10d73b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b7077f430157a9cff18d8a1a6a21b0d73991ef53"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+    "Invoke-IFX.ps1 -Mode Test",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Verdicts of Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 on the fixed corpus are unchanged: the IFX gate rules move from the engine into the IFX policy binding without a policy file change, the composite policy hash stays d25e881a0cb6f2408b7e0a8fd5f2af37cd362e25ba241d5bb516d2d2f0c7a76f, the report fields, the twelve policy bindings, tool version 0.4.0-a1 and the command line and MCP contracts are unchanged, and the engine without a registered binding now fails closed on a configuration that binds a section.",
+  "allowedBehaviorDifferences": []
+}
