@@ -760,6 +760,22 @@
           "comparator": "none"
         },
         {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover/items/properties/coveredBy",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover/items/properties/gap",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover/items/properties/how",
+          "comparator": "none"
+        },
+        {
           "pointer": "/properties/gates/items/properties/trustContract/properties/detectors",
           "comparator": "none"
         },
@@ -773,6 +789,10 @@
         },
         {
           "pointer": "/properties/gates/items/properties/trustContract/properties/guarantee",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/importInjectionRule",
           "comparator": "none"
         },
         {
@@ -793,6 +813,10 @@
         },
         {
           "pointer": "/properties/gates/items/properties/trustContract/properties/policy",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/policyBinding",
           "comparator": "none"
         },
         {

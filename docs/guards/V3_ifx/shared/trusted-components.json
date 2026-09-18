@@ -94,7 +94,7 @@
         "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/",
         "Invoke-IFX.ps1 -Mode Test"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Plan 06 P6.4 (CP07c-prep, D29): the generic engine tests moved to their final V3 path. This project stays declared
-       and empty during the transition, because candidate verification restores the previous base's engine tests here and
-       they must still compile and run against the engine that is still in this package. CP07c deletes it. -->
+  <!-- Plan 06 P6.4 (CP07c, D29): the generic engine tests moved to V3. This project stays declared and empty while the
+       previous base still owns this path, so candidate verification can restore those tests here and run them; a later
+       checkpoint deletes it once the base no longer owns the path. -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\LayerGuard\LayerGuard.csproj" />
+    <ProjectReference Include="..\..\..\..\..\V3\stages\post\gates\architecture\dotnet\Guards.ArchitectureConformance\Guards.ArchitectureConformance.csproj" />
   </ItemGroup>
 
 </Project>

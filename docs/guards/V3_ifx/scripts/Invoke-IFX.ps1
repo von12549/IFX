@@ -22,37 +22,30 @@ $retiredCopy = Join-Path $packageRoot 'generated/dotnet/LayerGuard'
 $policy = Join-Path $packageRoot 'policy/layerguard.json'
 $baseline = Join-Path $packageRoot 'policy/baselines/plan05.json'
 $solution = Join-Path $template 'LayerGuard.slnx'
-$project = Join-Path $template 'src/LayerGuard/LayerGuard.csproj'
-$testProject = Join-Path $template 'tests/LayerGuard.Tests/LayerGuard.Tests.csproj'
 # Plan 06 P6.3 (CP07b-prep, D27): IFX policy binding tests reach the gate only through the IFX facade project, whose path
 # and entry point stay the same when the binding is separated from the generic engine.
 $ifxProject = Join-Path $template 'src/LayerGuard.Ifx/LayerGuard.Ifx.csproj'
 $ifxTestProject = Join-Path $template 'tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj'
-# Plan 06 P6.4 (CP07c-prep, D29): the generic engine, its tests and their fixtures take their final V3 path. Until the
-# engine sources move in CP07c, the V3 engine project forwards to the engine that still sits in this package, so the
-# base-owned engine tests compile and run against the same V3 project path before and after the move.
+# The empty bridge project stays declared until the base stops owning its path; a later checkpoint deletes it (D29).
+$bridgeTestProject = Join-Path $template 'tests/LayerGuard.Tests/LayerGuard.Tests.csproj'
+# Plan 06 P6.4 (CP07c, D29): the generic engine, its tests and their fixtures live in V3; this package keeps the IFX
+# policy binding, its host, the IFX binding tests and their fixture.
 $v3Dotnet = [IO.Path]::GetFullPath((Join-Path $packageRoot '../V3/stages/post/gates/architecture/dotnet'))
-$enginePackage = Join-Path $v3Dotnet 'Guards.ArchitectureConformance/Guards.ArchitectureConformance.csproj'
+$project = Join-Path $v3Dotnet 'Guards.ArchitectureConformance/Guards.ArchitectureConformance.csproj'
 $engineTestProject = Join-Path $v3Dotnet 'Guards.ArchitectureConformance.Tests/Guards.ArchitectureConformance.Tests.csproj'
 $fixturesRoot = Join-Path $v3Dotnet 'fixtures'
 $ifxFixturesRoot = Join-Path $template 'tests/LayerGuard.Ifx.Tests/fixtures'
 $sourceRoots = @($template, $v3Dotnet)
 # Plan 06 P6.2 (CP07b, D27): the generic engine, its tests and their fixtures carry no IFX identifier; the scan is
-# case-insensitive, so `ifx`, `IFX` and `Ifx` all count. The V3 engine project itself is excluded while it forwards to
-# this package; CP07c removes that reference and brings it into the scan.
-$genericRoots = @(
-    'docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/',
-    'docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/',
-    'docs/guards/V3/stages/post/gates/architecture/dotnet/fixtures/'
-)
+# case-insensitive, so `ifx`, `IFX` and `Ifx` all count; since P6.4 that is the whole V3 engine tree.
+$genericRoots = @('docs/guards/V3/stages/post/gates/architecture/dotnet/')
 # Every project of the solution with the exact project references it may declare; nothing is discovered by wildcard.
 $projectReferences = [ordered]@{
     $project = @()
-    $enginePackage = @($project)
-    $engineTestProject = @($enginePackage)
+    $engineTestProject = @($project)
     $ifxProject = @($project)
-    $testProject = @($project)
     $ifxTestProject = @($ifxProject)
+    $bridgeTestProject = @($project)
 }
 
 function Get-SourceFiles {
@@ -222,7 +215,7 @@ try {
     $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$packageId/architecture-conformance") `
         -LockRoot $(if ($LockRoot) { [IO.Path]::GetFullPath($LockRoot) } else { Join-Path $packageRoot 'build/locks' }) `
         -ReportRoot (Join-Path $target "artifacts/guards/$packageId/build/architecture-conformance") -LockMode $LockMode -NuGetConfig $nuget
-    Invoke-GuardRestore $context $solution @($project, $enginePackage, $engineTestProject, $ifxProject, $testProject, $ifxTestProject)
+    Invoke-GuardRestore $context $solution @($project, $engineTestProject, $ifxProject, $ifxTestProject, $bridgeTestProject)
     if ($Mode -eq 'Test') {
         $oldFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', 'Process')
         $oldIfxFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_IFX_FIXTURES_ROOT', 'Process')
@@ -235,7 +228,7 @@ try {
             $env:GUARD_TARGET_ROOT = $target
             # Binding tests read the package policy; the root is passed so the test source may move (Plan 06 P6.1).
             $env:LAYERGUARD_PACKAGE_ROOT = $packageRoot
-            Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project, $enginePackage, $engineTestProject, $ifxProject, $ifxTestProject)
+            Invoke-GuardBuildStep $context 'test' $solution @($engineTestProject, $project, $ifxProject, $ifxTestProject, $bridgeTestProject)
         }
         finally {
             [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process')

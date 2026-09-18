@@ -431,12 +431,6 @@
           "xunit.extensibility.core": "[2.9.2]"
         }
       },
-      "guards.architectureconformance": {
-        "type": "Project",
-        "dependencies": {
-          "layerguard": "[0.4.0-a1, )"
-        }
-      },
       "layerguard": {
         "type": "Project",
         "dependencies": {

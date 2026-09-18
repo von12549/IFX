@@ -123,6 +123,31 @@
                 "type": "string",
                 "minLength": 1
               },
+        "policyBinding": {
+          "description": "Plan 06 P6.5: where the repository policy binding comes from, for a gate whose engine carries no policy of its own.",
+          "type": "string",
+          "minLength": 1
+        },
+        "crossCover": {
+          "description": "Plan 06 P6.5: which other required check covers each known blind spot of this gate, and how.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gap", "coveredBy", "how"],
+            "properties": {
+              "gap": { "type": "string", "minLength": 1 },
+              "coveredBy": { "type": "string", "minLength": 1 },
+              "how": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "importInjectionRule": {
+          "description": "Plan 06 P6.5: the status of the MSBuild import injection detection rule, which is registered as a standalone proposal rather than part of the gate.",
+          "type": "string",
+          "minLength": 1
+        },
               "targetInput": {
                 "type": "string",
                 "minLength": 1

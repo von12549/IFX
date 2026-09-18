@@ -25,7 +25,7 @@
       "executionClass": "gate",
       "trustContract": {
         "type": "mixed",
-        "evaluator": "base Architecture Conformance engine",
+        "evaluator": "base generic Architecture Conformance engine (docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance), run through the base IFX host that registers the IFX policy binding (docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx)",
         "policy": "docs/guards/V3_ifx/policy/layerguard.json",
         "targetInput": "head csproj XML and C# source text; head guard package tests",
         "inputs": [
@@ -117,9 +117,24 @@
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [
-          "layerguard-msbuild-evaluation"
+          "layerguard-msbuild-evaluation",
+          "layerguard-generated-sources"
         ],
-        "guarantee": "Evaluator trusted; blind to references injected through MSBuild import/Condition, cross-covered by v3-quality-assembly."
+        "guarantee": "Evaluator, policy binding and policy all come from base; the verdict covers project references, rings, ownership, declarations, packages, imports and the G03/G04/G05 bindings as declared in csproj XML and C# source text, with the composite policy hash bound to the reviewed baseline. Blind to references and properties that only exist after MSBuild evaluation (imports, Conditions, SDK defaults, generated items), which v3-quality-assembly cross-covers by checking the compiled assemblies of the same commit; blind to runtime behaviour, which the quality and specialized gates cover.",
+        "policyBinding": "IFX G03/G04/G05 binding in the base package; the engine reads no repository policy of its own and fails closed when a configuration binds a section for which the host registered no binding",
+        "crossCover": [
+          {
+            "gap": "layerguard-msbuild-evaluation",
+            "coveredBy": "v3-quality-assembly",
+            "how": "compiled assembly references of the five Domain assemblies are checked after a real build, so a reference that only appears through an MSBuild import or Condition still fails a required check"
+          },
+          {
+            "gap": "layerguard-generated-sources",
+            "coveredBy": "v3-quality-solution",
+            "how": "the solution build and tests compile generated sources, so a violation introduced by a generator fails there"
+          }
+        ],
+        "importInjectionRule": "a detection rule for MSBuild import injection is registered as a standalone rule proposal only (Plan 06 P6.5); it is not part of this gate today"
       }
     },
     {
