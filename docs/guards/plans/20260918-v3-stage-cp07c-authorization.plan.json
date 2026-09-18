@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07c-authorization",
+  "title": "V3 stage-oriented refactor CP07c-auth — authorizations for the engine relocation into V3",
+  "goal": "Add the move, delete, change-trusted-base and weaken-policy authorizations that the CP07c change PR will consume, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "One move record per generic engine source binds its base tree entry and the head tree entry of its V3 path, and two delete records cover the retired engine project and its reviewed lock.",
+    "The change-trusted-base parity contract states that the composite policy hash, the report fields, the twelve policy bindings, the tool version, the failure categories, the command line and MCP contracts and the v3-architecture check name stay unchanged.",
+    "The weaken-policy record covers the stage trust contract, the stage schema, the monotonicity declarations and the trusted component paths; no trusted component or registered policy changes in this pull request and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-delete-layerguard-csproj.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-delete-layerguard-packages-lock-json.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-analyzer.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-architecturegraph.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-baseline.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-cli.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-csprojreader.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-declarationindex.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-declarationrules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-embeddedadapterrules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-facts.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-importrules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-injectionrules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-model.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-ownershiprules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-packagerules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-paths.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-policybinding.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-program.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-projectgraph.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-referencerules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-reportwriter.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-ruledescription.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-ruleset.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-scanner.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-sourcefiles.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-sourcepolicyrules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-structurerules.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-move-tools.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07c-weaken-policy.json",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07c-authorization.md",
+    "docs/guards/plans/20260918-v3-stage-cp07c-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json"
+  ]
+}
