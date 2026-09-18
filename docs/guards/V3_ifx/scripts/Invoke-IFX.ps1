@@ -24,6 +24,17 @@ $baseline = Join-Path $packageRoot 'policy/baselines/plan05.json'
 $solution = Join-Path $template 'LayerGuard.slnx'
 $project = Join-Path $template 'src/LayerGuard/LayerGuard.csproj'
 $testProject = Join-Path $template 'tests/LayerGuard.Tests/LayerGuard.Tests.csproj'
+# Plan 06 P6.3 (CP07b-prep, D27): IFX policy binding tests reach the gate only through the IFX facade project, whose path
+# and entry point stay the same when the binding is separated from the generic engine.
+$ifxProject = Join-Path $template 'src/LayerGuard.Ifx/LayerGuard.Ifx.csproj'
+$ifxTestProject = Join-Path $template 'tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj'
+# Every project of the solution with the exact project references it may declare; nothing is discovered by wildcard.
+$projectReferences = [ordered]@{
+    $project = @()
+    $ifxProject = @($project)
+    $testProject = @($project)
+    $ifxTestProject = @($ifxProject)
+}
 $fixturesRoot = Join-Path $template 'tests/fixtures'
 
 function Get-SourceFiles {
@@ -98,17 +109,21 @@ function Assert-Source {
     if ([IO.Directory]::Exists($retiredCopy)) { throw "The retired generated LayerGuard copy exists again: $retiredCopy. Build from templates/ifx-layerguard (Plan 06 P6.1)." }
     $files = @(Get-SourceFiles | Where-Object { (Get-TemplateRelative $_.FullName) -notmatch '(^|/)(bin|obj)/' })
 
-    # Source manifest: the solution names exactly the engine and test projects, and the test project references the engine.
+    # Source manifest: the solution names exactly the engine, IFX facade and test projects, each with its exact project references.
     [xml] $solutionXml = [IO.File]::ReadAllText($solution)
     $declared = @($solutionXml.SelectNodes('//Project') | ForEach-Object { ([string] $_.Path).Replace('\', '/') } | Sort-Object -Unique)
     $actual = @($files | Where-Object { $_.Extension -eq '.csproj' } | ForEach-Object { Get-TemplateRelative $_.FullName } | Where-Object { -not $_.StartsWith('tests/fixtures/', [StringComparison]::Ordinal) } | Sort-Object -Unique)
     if (($declared -join "`n") -cne ($actual -join "`n")) { throw "LayerGuard.slnx projects differ from the source tree. Declared: $($declared -join ', '); found: $($actual -join ', ')" }
-    foreach ($required in @($project, $testProject)) {
-        if ((Get-TemplateRelative $required) -notin $declared) { throw "LayerGuard.slnx does not declare $(Get-TemplateRelative $required)" }
+    $expected = @($projectReferences.Keys | ForEach-Object { Get-TemplateRelative $_ } | Sort-Object -Unique)
+    if (($declared -join "`n") -cne ($expected -join "`n")) { throw "LayerGuard.slnx projects differ from the expected project set. Declared: $($declared -join ', '); expected: $($expected -join ', ')" }
+    foreach ($entry in $projectReferences.GetEnumerator()) {
+        [xml] $projectXml = [IO.File]::ReadAllText($entry.Key)
+        $includes = @($projectXml.SelectNodes('//ProjectReference') | ForEach-Object { ([string] $_.Include).Replace('\', '/') })
+        if (@($includes | Where-Object { $_ -match '[*?]' }).Count -gt 0) { throw "$(Get-TemplateRelative $entry.Key) uses a wildcard project reference: $($includes -join ', ')" }
+        $references = @($includes | ForEach-Object { Get-TemplateRelative ([IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $entry.Key) $_))) } | Sort-Object -Unique)
+        $allowed = @($entry.Value | ForEach-Object { Get-TemplateRelative $_ } | Sort-Object -Unique)
+        if (($references -join "`n") -cne ($allowed -join "`n")) { throw "$(Get-TemplateRelative $entry.Key) project references differ from the expected set. Found: $($references -join ', '); expected: $($allowed -join ', ')" }
     }
-    [xml] $testXml = [IO.File]::ReadAllText($testProject)
-    $references = @($testXml.SelectNodes('//ProjectReference') | ForEach-Object { [IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $testProject) (([string] $_.Include).Replace('\', '/')))) })
-    if ([IO.Path]::GetFullPath($project) -notin $references) { throw 'LayerGuard.Tests does not reference the LayerGuard engine project.' }
 
     # Every source file belongs to a trusted component, so no engine or test file escapes base-owned validation.
     $manifest = Get-Content -LiteralPath (Join-Path $packageRoot 'shared/trusted-components.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 50
@@ -167,7 +182,7 @@ try {
     $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$packageId/architecture-conformance") `
         -LockRoot $(if ($LockRoot) { [IO.Path]::GetFullPath($LockRoot) } else { Join-Path $packageRoot 'build/locks' }) `
         -ReportRoot (Join-Path $target "artifacts/guards/$packageId/build/architecture-conformance") -LockMode $LockMode -NuGetConfig $nuget
-    Invoke-GuardRestore $context $solution @($project, $testProject)
+    Invoke-GuardRestore $context $solution @($project, $ifxProject, $testProject, $ifxTestProject)
     if ($Mode -eq 'Test') {
         $oldFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', 'Process')
         $oldTarget = [Environment]::GetEnvironmentVariable('GUARD_TARGET_ROOT', 'Process')
@@ -178,7 +193,7 @@ try {
             $env:GUARD_TARGET_ROOT = $target
             # Binding tests read the package policy; the root is passed so the test source may move (Plan 06 P6.1).
             $env:LAYERGUARD_PACKAGE_ROOT = $packageRoot
-            Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project)
+            Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project, $ifxProject, $ifxTestProject)
         }
         finally {
             [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process')

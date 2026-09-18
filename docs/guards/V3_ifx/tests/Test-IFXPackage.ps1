@@ -57,7 +57,7 @@ $positive = @(& pwsh @arguments -Mode Test -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0) { throw "Isolated package test failed: $($positive -join ' | ')" }
 $sourceTreeOutput = @(Get-ChildItem -LiteralPath (Join-Path $fixture 'docs/guards') -Recurse -Directory -Force | Where-Object { $_.Name -in @('bin', 'obj') })
 if ($sourceTreeOutput.Count -gt 0) { throw "Guard build wrote output into the package source tree: $(($sourceTreeOutput | ForEach-Object FullName) -join ', ')" }
-foreach ($phase in @('LayerGuard.imports.pre-build.json', 'LayerGuard.Tests.imports.pre-build.json', 'LayerGuard.Tests.imports.post-build.json')) {
+foreach ($phase in @('LayerGuard.imports.pre-build.json', 'LayerGuard.Ifx.imports.pre-build.json', 'LayerGuard.Tests.imports.pre-build.json', 'LayerGuard.Ifx.Tests.imports.pre-build.json', 'LayerGuard.Tests.imports.post-build.json')) {
     $importReport = Join-Path $fixture "artifacts/guards/v3-ifx/build/architecture-conformance/$phase"
     if (-not [IO.File]::Exists($importReport) -or (Get-Content -LiteralPath $importReport -Raw | ConvertFrom-Json).status -ne 'pass') { throw "Guard import allowlist evidence is missing or failing: $phase" }
 }
@@ -67,11 +67,14 @@ $templateRoot = Join-Path $fixture 'docs/guards/V3_ifx/templates/ifx-layerguard'
 $retiredCopy = Join-Path $fixture 'docs/guards/V3_ifx/generated/dotnet/LayerGuard'
 $generate = @(& pwsh @arguments -Mode Generate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0 -or [IO.Directory]::Exists($retiredCopy)) { throw "IFX Generate is not read-only or failed: $($generate -join ' | ')" }
+# Error records are colored and wrapped at the console width with `|` gutters, which differs between Windows and Linux
+# runners; compare the message text without escape sequences, gutters or line breaks.
+function ConvertTo-PlainOutput([object[]] $Output) { return (($Output -join ' ') -replace "`e\[[0-9;?]*[A-Za-z]", '' -replace '[\s|]+', ' ') }
 function Assert-CheckFails([string] $Label, [scriptblock] $Mutate, [string] $Cleanup, [string] $ExpectText) {
     & $Mutate
     try {
         $output = @(& pwsh @arguments -Mode Check -TargetRoot $fixture 2>&1)
-        if ($LASTEXITCODE -eq 0 -or -not (($output -join ' ') -replace '\s+', ' ').Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
+        if ($LASTEXITCODE -eq 0 -or -not (ConvertTo-PlainOutput $output).Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
     }
     finally { if (Test-Path -LiteralPath $Cleanup) { Remove-Item -LiteralPath $Cleanup -Recurse -Force } }
 }
@@ -80,6 +83,27 @@ Assert-CheckFails 'a recreated generated copy' { Write-FixtureFile (Join-Path $r
 Assert-CheckFails 'an undeclared project' { Write-FixtureFile (Join-Path $templateRoot 'tests/Extra.Tests/Extra.Tests.csproj') '<Project />' } (Join-Path $templateRoot 'tests/Extra.Tests') 'LayerGuard.slnx projects differ from the source tree'
 Assert-CheckFails 'an orphaned fixture' { Write-FixtureFile (Join-Path $templateRoot 'tests/fixtures/Orphan/Orphan.Domain/Orphan.Domain.csproj') '<Project />' } (Join-Path $templateRoot 'tests/fixtures/Orphan') 'LayerGuard fixtures differ from the fixtures the tests name'
 Assert-CheckFails 'a source file outside the trusted component manifest' { Write-FixtureFile (Join-Path $templateRoot 'NOTES.md') 'untracked' } (Join-Path $templateRoot 'NOTES.md') 'LayerGuard source file is outside the trusted component manifest'
+# Plan 06 P6.3 (D27): the solution holds exactly the engine, the IFX facade and their test projects, with explicit references.
+function Assert-CheckFailsWithEdit([string] $Label, [string] $Path, [scriptblock] $Edit, [string] $ExpectText) {
+    $original = [IO.File]::ReadAllBytes($Path)
+    try {
+        & $Edit
+        $output = @(& pwsh @arguments -Mode Check -TargetRoot $fixture 2>&1)
+        if ($LASTEXITCODE -eq 0 -or -not (ConvertTo-PlainOutput $output).Contains($ExpectText, [StringComparison]::Ordinal)) { throw "IFX Check accepted ${Label}: $($output -join ' | ')" }
+    }
+    finally { [IO.File]::WriteAllBytes($Path, $original) }
+}
+$solutionFile = Join-Path $templateRoot 'LayerGuard.slnx'
+$ifxFacade = Join-Path $templateRoot 'src/LayerGuard.Ifx/LayerGuard.Ifx.csproj'
+$ifxTests = Join-Path $templateRoot 'tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj'
+Assert-CheckFailsWithEdit 'a missing IFX facade project' $ifxFacade { Remove-Item -LiteralPath $ifxFacade -Force } 'LayerGuard.slnx projects differ from the source tree'
+Assert-CheckFailsWithEdit 'an unexpected declared project' $solutionFile {
+    Write-FixtureFile (Join-Path $templateRoot 'src/Extra/Extra.csproj') '<Project />'
+    [IO.File]::WriteAllText($solutionFile, [IO.File]::ReadAllText($solutionFile).Replace('</Solution>', '<Project Path="src/Extra/Extra.csproj" /></Solution>'))
+} 'LayerGuard.slnx projects differ from the expected project set'
+Remove-Item -LiteralPath (Join-Path $templateRoot 'src/Extra') -Recurse -Force
+Assert-CheckFailsWithEdit 'IFX tests that bypass the IFX facade' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\LayerGuard\LayerGuard.csproj')) } 'project references differ from the expected set'
+Assert-CheckFailsWithEdit 'a wildcard project reference' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\*\*.csproj')) } 'uses a wildcard project reference'
 
 $qualityRunner = [IO.File]::ReadAllText((Join-Path $package 'quality/Invoke-IFXQuality.ps1'))
 $requiredQualityGates = @(
@@ -142,5 +166,5 @@ $data.bindings.moduleManifest.path = 'deployment/g04/module-manifest.json'
 $invalidBinding = @(& pwsh @arguments -Mode Validate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -eq 0) { throw 'IFX package accepted a binding outside its local policy tree.' }
 
-Write-Host "IFX isolated positive, read-only Generate, source Check negatives, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
+Write-Host "IFX isolated positive, read-only Generate, source and project-set Check negatives, rule-ID drift negative, L2.2 negative, and external-binding negative tests passed. Evidence: $fixture"
 $global:LASTEXITCODE = 0

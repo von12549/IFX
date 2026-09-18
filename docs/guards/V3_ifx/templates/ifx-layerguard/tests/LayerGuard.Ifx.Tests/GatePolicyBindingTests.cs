@@ -2,9 +2,10 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using LayerGuard;
+using LayerGuard.Ifx;
 using Xunit;
 
-namespace LayerGuard.Tests;
+namespace LayerGuard.Ifx.Tests;
 
 public class GatePolicyBindingTests
 {
@@ -24,7 +25,7 @@ public class GatePolicyBindingTests
     [Fact]
     public void Production_policy_directly_binds_all_gate_artifacts()
     {
-        var report = Analyzer.Analyze(Repo("src"), Package("policy/layerguard.json"));
+        var report = IfxArchitectureConformance.Analyze(Repo("src"), Package("policy/layerguard.json"));
 
         Assert.Equal("0.4.0-a1", report.ToolVersion);
         Assert.Contains(report.Ruleset.PolicyBindings, binding => binding.Gate == "G03-catalog");
@@ -149,7 +150,7 @@ public class GatePolicyBindingTests
     [Fact]
     public void Bound_shared_context_primitives_are_allowed_without_becoming_provider_edges()
     {
-        var report = Analyzer.Analyze(Repo("src"), Package("policy/layerguard.json"));
+        var report = IfxArchitectureConformance.Analyze(Repo("src"), Package("policy/layerguard.json"));
 
         Assert.DoesNotContain(report.Violations, violation =>
             violation.ToProject == "IFX.Platform.Context.Contracts" &&
@@ -159,7 +160,7 @@ public class GatePolicyBindingTests
     [Fact]
     public void Bound_waiver_policy_rejects_overlong_and_unwaivable_entries()
     {
-        var report = Analyzer.Analyze(Repo("src"), Package("policy/layerguard.json"));
+        var report = IfxArchitectureConformance.Analyze(Repo("src"), Package("policy/layerguard.json"));
         var overlong = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(91);
         var expiryError = Assert.Throws<InvalidDataException>(() => Baseline.Snapshot(
             report, "owner", "reason", overlong, "remove after migration"));
@@ -214,7 +215,7 @@ public class GatePolicyBindingTests
                 g05ContextPolicy = g05,
             },
         }));
-        return Analyzer.Analyze(Fixtures.PathTo(Fixtures.AllowedDirections), config);
+        return IfxArchitectureConformance.Analyze(FixturePath("AllowedDirections"), config);
     }
 
     private static void WithPolicyCopy(Action<string, string, string, string> action)
@@ -253,13 +254,19 @@ public class GatePolicyBindingTests
     {
         if (Environment.GetEnvironmentVariable("LAYERGUARD_PACKAGE_ROOT") is { Length: > 0 } configured)
             return Path.GetFullPath(configured);
-        for (var directory = new DirectoryInfo(Fixtures.PathTo(Fixtures.BootstrapArchitecture)); directory is not null; directory = directory.Parent)
+        for (var directory = new DirectoryInfo(FixturePath("BootstrapArchitecture")); directory is not null; directory = directory.Parent)
         {
             if (File.Exists(Path.Combine(directory.FullName, "policy", "layerguard.json")))
                 return directory.FullName;
         }
         throw new InvalidOperationException("Cannot find the package root (policy/layerguard.json) above the LayerGuard fixtures.");
     }
+
+    // The IFX tests share the synthetic fixtures of the engine tests; the runner passes their root explicitly.
+    private static string FixturePath(string fixture) => Path.Combine(Path.GetFullPath(
+        Environment.GetEnvironmentVariable("LAYERGUARD_FIXTURES_ROOT") is { Length: > 0 } configured
+            ? configured
+            : Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "fixtures")), fixture);
 
     private static string Package(string path) => Path.Combine(PackageRoot, path.Replace('/', Path.DirectorySeparatorChar));
 }
