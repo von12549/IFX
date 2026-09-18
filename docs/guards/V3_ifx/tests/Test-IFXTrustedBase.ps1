@@ -475,7 +475,9 @@ try {
         [IO.File]::Delete((Join-Path $clone $historyTest))
     } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
     Test-AuthorizedChange 'summary-contract-changed' { Edit-Text 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' { param($t) [Regex]::Replace($t, 'formatVersion = 1(\r?\n\s+mode = \$summaryMode)', 'formatVersion = 2$1').Replace("if (-not (Test-Json -LiteralPath `$summaryPath", "if (`$false -and -not (Test-Json -LiteralPath `$summaryPath") } } 1 'candidate summary schema valid: False'
-    [void](New-Head 'tcb-lock-file' $baseSha { Edit-Text 'docs/guards/V3_ifx/build/locks/LayerGuard.packages.lock.json' { param($t) $t.Replace('"version": 1', '"version": 1 ') } })
+    # The reviewed locks follow the guard projects, which move between packages during Plan 06 P6.4.
+    $lockName = @(Get-ChildItem -LiteralPath (Join-Path $clone 'docs/guards/V3_ifx/build/locks') -File -Filter '*.packages.lock.json' | Sort-Object Name | ForEach-Object Name)[0]
+    [void](New-Head 'tcb-lock-file' $baseSha { Edit-Text "docs/guards/V3_ifx/build/locks/$lockName" { param($t) $t.Replace('"version": 1', '"version": 1 ') } })
     Assert-Result 'lock file change without authorization fails' (Invoke-Verifier $base $baseSha) 1 'require a base change-trusted-base authorization for: tcb.build.package-local'
     Test-AuthorizedChange 'verdict-changing-engine' { Edit-Text $historyEngine { param($t) $t.Replace("`$status = 'pass'; `$message = 'Frozen evidence is intact;", "`$status = 'fail'; `$message = 'Frozen evidence is intact;") } } 1 'Parity failed for HistoricalIntegrity'
 

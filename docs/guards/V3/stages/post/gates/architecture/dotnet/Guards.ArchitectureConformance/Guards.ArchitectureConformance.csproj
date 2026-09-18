@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Plan 06 P6.4 (CP07c-prep, D29): the generic Architecture Conformance engine takes its final V3 project name and
+       path here. Until the sources move in CP07c this project forwards to the engine that still sits in V3_ifx, so the
+       base-owned engine tests already compile and run against this project path before and after the move. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>LayerGuard</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\V3_ifx\templates\ifx-layerguard\src\LayerGuard\LayerGuard.csproj" />
+  </ItemGroup>
+
+</Project>

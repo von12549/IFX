@@ -28,11 +28,11 @@ try {
         Copy-ToFixture (Join-Path $repository $relative) $relative
     }
     Copy-ToFixture (Join-Path $repository 'docs/Directory.Packages.props') 'docs/Directory.Packages.props'
-    # The guard build baseline is canonical in V3 (Plan 06 D14), and P6.4 moves the generic engine, its tests and their
-    # fixtures into V3 as well; both are copied from ../V3, the engine tree once it exists there.
+    # The guard build baseline is canonical in V3 (Plan 06 D14), and since P6.4 the generic engine, its tests and their
+    # fixtures live in V3 as well; the package resolves both from ../V3.
     foreach ($v3Relative in @('build', 'stages/post/gates/architecture/dotnet')) {
         $v3Directory = Join-Path $repository "docs/guards/V3/$v3Relative"
-        if (-not [IO.Directory]::Exists($v3Directory)) { continue }
+        if (-not [IO.Directory]::Exists($v3Directory)) { throw "V3 directory is missing: docs/guards/V3/$v3Relative" }
         foreach ($file in Get-ChildItem -LiteralPath $v3Directory -File -Recurse) {
             $relative = [IO.Path]::GetRelativePath($v3Directory, $file.FullName).Replace('\', '/')
             if ($relative -match '(^|/)(bin|obj)/') { continue }
@@ -61,9 +61,19 @@ $positive = @(& pwsh @arguments -Mode Test -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0) { throw "Isolated package test failed: $($positive -join ' | ')" }
 $sourceTreeOutput = @(Get-ChildItem -LiteralPath (Join-Path $fixture 'docs/guards') -Recurse -Directory -Force | Where-Object { $_.Name -in @('bin', 'obj') })
 if ($sourceTreeOutput.Count -gt 0) { throw "Guard build wrote output into the package source tree: $(($sourceTreeOutput | ForEach-Object FullName) -join ', ')" }
-foreach ($phase in @('LayerGuard.imports.pre-build.json', 'LayerGuard.Ifx.imports.pre-build.json', 'LayerGuard.Tests.imports.pre-build.json', 'LayerGuard.Ifx.Tests.imports.pre-build.json', 'LayerGuard.Tests.imports.post-build.json')) {
-    $importReport = Join-Path $fixture "artifacts/guards/v3-ifx/build/architecture-conformance/$phase"
+# Every project the solution declares reports its imports before the build, and the build reports its own imports after
+# it; the names follow the projects, which move between packages during Plan 06 P6.4.
+$solutionProjects = @(([xml] [IO.File]::ReadAllText((Join-Path $fixture 'docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx'))).SelectNodes('//Project') |
+    ForEach-Object { [IO.Path]::GetFileNameWithoutExtension(([string] $_.Path).Replace('\', '/')) })
+if ($solutionProjects.Count -lt 2) { throw "The solution declares too few projects: $($solutionProjects -join ', ')" }
+$importRoot = Join-Path $fixture 'artifacts/guards/v3-ifx/build/architecture-conformance'
+foreach ($phase in @($solutionProjects | ForEach-Object { "$_.imports.pre-build.json" })) {
+    $importReport = Join-Path $importRoot $phase
     if (-not [IO.File]::Exists($importReport) -or (Get-Content -LiteralPath $importReport -Raw | ConvertFrom-Json).status -ne 'pass') { throw "Guard import allowlist evidence is missing or failing: $phase" }
+}
+$postBuild = @(Get-ChildItem -LiteralPath $importRoot -File | Where-Object { $_.Name.EndsWith('.imports.post-build.json', [StringComparison]::Ordinal) })
+if ($postBuild.Count -ne 1 -or (Get-Content -LiteralPath $postBuild[0].FullName -Raw | ConvertFrom-Json).status -ne 'pass') {
+    throw "Guard import allowlist evidence is missing or failing after the build: $(($postBuild | ForEach-Object Name) -join ', ')"
 }
 
 # Plan 06 P6.1 (D26): Generate is read-only, and Check verifies the single LayerGuard source tree.
@@ -110,7 +120,9 @@ Assert-CheckFailsWithEdit 'an unexpected declared project' $solutionFile {
 } 'LayerGuard.slnx projects differ from the expected project set'
 Remove-Item -LiteralPath (Join-Path $templateRoot 'src/Extra') -Recurse -Force
 Assert-CheckFailsWithEdit 'IFX tests that bypass the IFX facade' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\LayerGuard\LayerGuard.csproj')) } 'project references differ from the expected set'
-$enginePaths = Join-Path $templateRoot 'src/LayerGuard/Paths.cs'
+# P6.4 moves the engine into V3; the scan negative follows the engine source rather than assuming one package.
+$enginePaths = Join-Path $fixture 'docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/Paths.cs'
+if (-not [IO.File]::Exists($enginePaths)) { $enginePaths = Join-Path $templateRoot 'src/LayerGuard/Paths.cs' }
 Assert-CheckFailsWithEdit 'an IFX identifier in the generic engine' $enginePaths { [IO.File]::AppendAllText($enginePaths, "// Ifx`n") } 'Generic LayerGuard source names IFX'
 Assert-CheckFailsWithEdit 'a wildcard project reference' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\*\*.csproj')) } 'uses a wildcard project reference'
 

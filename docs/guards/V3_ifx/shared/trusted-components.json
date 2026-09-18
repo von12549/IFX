@@ -89,7 +89,9 @@
       "status": "active",
       "paths": [
         "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
-        "docs/guards/V3_ifx/templates/ifx-layerguard/src/"
+        "docs/guards/V3_ifx/templates/ifx-layerguard/src/",
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/",
+        "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/templates/ifx-layerguard/tests/",
@@ -103,7 +105,9 @@
       "type": "base-owned-tests-and-fixtures",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/"
+        "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/",
+        "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/",
+        "docs/guards/V3/stages/post/gates/architecture/dotnet/fixtures/"
       ],
       "validationSuite": [
         "Invoke-IFX.ps1 -Mode Test"

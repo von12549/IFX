@@ -26,7 +26,7 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | `specialized/` | V3-owned G03, G04, G05, Plan04 and Database runners and detectors |
 | `quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |
 | `history/` | Frozen evidence manifest, validator and explicit regeneration command |
-| `templates/ifx-layerguard/` | Generic .NET engine (`src/LayerGuard`) with a policy binding extension point, the IFX binding and host (`src/LayerGuard.Ifx`), their tests, and synthetic fixtures |
+| `templates/ifx-layerguard/` | The engine sources during the P6.4 transition, the IFX binding and host (`src/LayerGuard.Ifx`) and the IFX binding tests with their own fixture; the generic engine project, its tests and their synthetic fixtures live in `../V3/stages/post/gates/architecture/dotnet/` |
 | `generated/stages/` | Generated V3 Plan/Post/Diff test project |
 | `contracts/`, `templates/plan/`, `skills/`, `hooks/` | V3 input contracts and optional Agent planning integration |
 | `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `templates/ifx-layerguard/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |

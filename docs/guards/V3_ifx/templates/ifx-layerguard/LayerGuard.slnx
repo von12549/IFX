@@ -2,9 +2,11 @@
   <Folder Name="/src/">
     <Project Path="src/LayerGuard/LayerGuard.csproj" />
     <Project Path="src/LayerGuard.Ifx/LayerGuard.Ifx.csproj" />
+    <Project Path="../../../V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/Guards.ArchitectureConformance.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LayerGuard.Tests/LayerGuard.Tests.csproj" />
     <Project Path="tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj" />
+    <Project Path="../../../V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/Guards.ArchitectureConformance.Tests.csproj" />
   </Folder>
 </Solution>

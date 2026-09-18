@@ -28,21 +28,36 @@ $testProject = Join-Path $template 'tests/LayerGuard.Tests/LayerGuard.Tests.cspr
 # and entry point stay the same when the binding is separated from the generic engine.
 $ifxProject = Join-Path $template 'src/LayerGuard.Ifx/LayerGuard.Ifx.csproj'
 $ifxTestProject = Join-Path $template 'tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj'
+# Plan 06 P6.4 (CP07c-prep, D29): the generic engine, its tests and their fixtures take their final V3 path. Until the
+# engine sources move in CP07c, the V3 engine project forwards to the engine that still sits in this package, so the
+# base-owned engine tests compile and run against the same V3 project path before and after the move.
+$v3Dotnet = [IO.Path]::GetFullPath((Join-Path $packageRoot '../V3/stages/post/gates/architecture/dotnet'))
+$enginePackage = Join-Path $v3Dotnet 'Guards.ArchitectureConformance/Guards.ArchitectureConformance.csproj'
+$engineTestProject = Join-Path $v3Dotnet 'Guards.ArchitectureConformance.Tests/Guards.ArchitectureConformance.Tests.csproj'
+$fixturesRoot = Join-Path $v3Dotnet 'fixtures'
+$ifxFixturesRoot = Join-Path $template 'tests/LayerGuard.Ifx.Tests/fixtures'
+$sourceRoots = @($template, $v3Dotnet)
 # Plan 06 P6.2 (CP07b, D27): the generic engine, its tests and their fixtures carry no IFX identifier; the scan is
-# case-insensitive, so `ifx`, `IFX` and `Ifx` all count.
-$genericRoots = @('src/LayerGuard/', 'tests/LayerGuard.Tests/', 'tests/fixtures/')
+# case-insensitive, so `ifx`, `IFX` and `Ifx` all count. The V3 engine project itself is excluded while it forwards to
+# this package; CP07c removes that reference and brings it into the scan.
+$genericRoots = @(
+    'docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/',
+    'docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance.Tests/',
+    'docs/guards/V3/stages/post/gates/architecture/dotnet/fixtures/'
+)
 # Every project of the solution with the exact project references it may declare; nothing is discovered by wildcard.
 $projectReferences = [ordered]@{
     $project = @()
+    $enginePackage = @($project)
+    $engineTestProject = @($enginePackage)
     $ifxProject = @($project)
     $testProject = @($project)
     $ifxTestProject = @($ifxProject)
 }
-$fixturesRoot = Join-Path $template 'tests/fixtures'
 
 function Get-SourceFiles {
-    $files = @(Get-ChildItem -LiteralPath $template -Recurse -File | Sort-Object FullName)
-    if ($files.Count -eq 0) { throw 'IFX LayerGuard template is empty.' }
+    $files = @($sourceRoots | Where-Object { [IO.Directory]::Exists($_) } | ForEach-Object { Get-ChildItem -LiteralPath $_ -Recurse -File } | Sort-Object FullName)
+    if ($files.Count -eq 0) { throw 'IFX LayerGuard sources are empty.' }
     return $files
 }
 
@@ -106,52 +121,67 @@ function Assert-Inputs {
 }
 
 function Get-TemplateRelative([string] $Path) { return [IO.Path]::GetRelativePath($template, $Path).Replace('\', '/') }
+# The gate now owns sources in two packages, so paths are reported and compared as repository paths.
+function Get-GuardRelative([string] $Path) { return [IO.Path]::GetRelativePath([IO.Path]::GetFullPath((Join-Path $packageRoot '../../..')), $Path).Replace('\', '/') }
 
 function Assert-Source {
     # Check and Generate verify the single source tree instead of comparing a copy.
     if ([IO.Directory]::Exists($retiredCopy)) { throw "The retired generated LayerGuard copy exists again: $retiredCopy. Build from templates/ifx-layerguard (Plan 06 P6.1)." }
-    $files = @(Get-SourceFiles | Where-Object { (Get-TemplateRelative $_.FullName) -notmatch '(^|/)(bin|obj)/' })
+    $files = @(Get-SourceFiles | Where-Object { (Get-GuardRelative $_.FullName) -notmatch '(^|/)(bin|obj)/' })
 
-    # Source manifest: the solution names exactly the engine, IFX facade and test projects, each with its exact project references.
+    # Source manifest: the solution names exactly the engine, its V3 project, the IFX facade and the test projects, each
+    # with its exact project references, across both packages.
     [xml] $solutionXml = [IO.File]::ReadAllText($solution)
-    $declared = @($solutionXml.SelectNodes('//Project') | ForEach-Object { ([string] $_.Path).Replace('\', '/') } | Sort-Object -Unique)
-    $actual = @($files | Where-Object { $_.Extension -eq '.csproj' } | ForEach-Object { Get-TemplateRelative $_.FullName } | Where-Object { -not $_.StartsWith('tests/fixtures/', [StringComparison]::Ordinal) } | Sort-Object -Unique)
+    $declared = @($solutionXml.SelectNodes('//Project') | ForEach-Object { Get-GuardRelative ([IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $solution) (([string] $_.Path).Replace('\', '/'))))) } | Sort-Object -Unique)
+    # Fixture projects are test data wherever a fixtures directory sits; candidate verification may also restore the
+    # previous base's fixtures at their old path while the move is in flight (D29).
+    $fixturePattern = '(^|/)fixtures/'
+    $actual = @($files | Where-Object { $_.Extension -eq '.csproj' } | ForEach-Object { Get-GuardRelative $_.FullName } | Where-Object { $_ -cnotmatch $fixturePattern } | Sort-Object -Unique)
     if (($declared -join "`n") -cne ($actual -join "`n")) { throw "LayerGuard.slnx projects differ from the source tree. Declared: $($declared -join ', '); found: $($actual -join ', ')" }
-    $expected = @($projectReferences.Keys | ForEach-Object { Get-TemplateRelative $_ } | Sort-Object -Unique)
+    $expected = @($projectReferences.Keys | ForEach-Object { Get-GuardRelative $_ } | Sort-Object -Unique)
     if (($declared -join "`n") -cne ($expected -join "`n")) { throw "LayerGuard.slnx projects differ from the expected project set. Declared: $($declared -join ', '); expected: $($expected -join ', ')" }
     foreach ($entry in $projectReferences.GetEnumerator()) {
         [xml] $projectXml = [IO.File]::ReadAllText($entry.Key)
         $includes = @($projectXml.SelectNodes('//ProjectReference') | ForEach-Object { ([string] $_.Include).Replace('\', '/') })
-        if (@($includes | Where-Object { $_ -match '[*?]' }).Count -gt 0) { throw "$(Get-TemplateRelative $entry.Key) uses a wildcard project reference: $($includes -join ', ')" }
-        $references = @($includes | ForEach-Object { Get-TemplateRelative ([IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $entry.Key) $_))) } | Sort-Object -Unique)
-        $allowed = @($entry.Value | ForEach-Object { Get-TemplateRelative $_ } | Sort-Object -Unique)
-        if (($references -join "`n") -cne ($allowed -join "`n")) { throw "$(Get-TemplateRelative $entry.Key) project references differ from the expected set. Found: $($references -join ', '); expected: $($allowed -join ', ')" }
+        if (@($includes | Where-Object { $_ -match '[*?]' }).Count -gt 0) { throw "$(Get-GuardRelative $entry.Key) uses a wildcard project reference: $($includes -join ', ')" }
+        $references = @($includes | ForEach-Object { Get-GuardRelative ([IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $entry.Key) $_))) } | Sort-Object -Unique)
+        $allowed = @($entry.Value | ForEach-Object { Get-GuardRelative $_ } | Sort-Object -Unique)
+        if (($references -join "`n") -cne ($allowed -join "`n")) { throw "$(Get-GuardRelative $entry.Key) project references differ from the expected set. Found: $($references -join ', '); expected: $($allowed -join ', ')" }
     }
 
     # The generic engine and its tests hold no IFX identifier; only the IFX projects may name IFX policy and artifacts.
-    foreach ($file in @($files | Where-Object { $relative = Get-TemplateRelative $_.FullName; @($genericRoots | Where-Object { $relative.StartsWith($_, [StringComparison]::Ordinal) }).Count -gt 0 })) {
-        $relative = Get-TemplateRelative $file.FullName
+    foreach ($file in @($files | Where-Object { $relative = Get-GuardRelative $_.FullName; @($genericRoots | Where-Object { $relative.StartsWith($_, [StringComparison]::Ordinal) }).Count -gt 0 })) {
+        $relative = Get-GuardRelative $file.FullName
         $matched = @([Regex]::Matches([IO.File]::ReadAllText($file.FullName), 'ifx', 'IgnoreCase'))
-        if ($matched.Count -gt 0 -or $relative -match '(?i)ifx') { throw "Generic LayerGuard source names IFX: $relative. IFX policy and artifacts belong to src/LayerGuard.Ifx and tests/LayerGuard.Ifx.Tests (Plan 06 P6.2)." }
+        if ($matched.Count -gt 0 -or ($relative.Substring((Get-GuardRelative $v3Dotnet).Length) -match '(?i)ifx' -and -not $relative.StartsWith('docs/guards/V3_ifx/', [StringComparison]::Ordinal))) {
+            throw "Generic LayerGuard source names IFX: $relative. IFX policy, artifacts and fixtures belong to the IFX projects (Plan 06 P6.2)."
+        }
     }
 
     # Every source file belongs to a trusted component, so no engine or test file escapes base-owned validation.
     $manifest = Get-Content -LiteralPath (Join-Path $packageRoot 'shared/trusted-components.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 50
     $componentPaths = @($manifest.components | Where-Object { $_.status -eq 'active' } | ForEach-Object { $_.paths })
     foreach ($file in $files) {
-        $repositoryPath = 'docs/guards/V3_ifx/templates/ifx-layerguard/' + (Get-TemplateRelative $file.FullName)
+        $repositoryPath = Get-GuardRelative $file.FullName
         $covered = @($componentPaths | Where-Object { $repositoryPath -ceq $_ -or ($_.EndsWith('/') -and $repositoryPath.StartsWith($_, [StringComparison]::Ordinal)) }).Count -gt 0
         if (-not $covered) { throw "LayerGuard source file is outside the trusted component manifest: $repositoryPath" }
     }
 
     # Fixtures: every fixture the tests name exists as a project fixture, and no fixture directory is orphaned.
-    $fixtureSource = [IO.File]::ReadAllText((Join-Path $template 'tests/LayerGuard.Tests/Fixtures.cs'))
+    $fixtureSource = [IO.File]::ReadAllText((Join-Path $v3Dotnet 'Guards.ArchitectureConformance.Tests/Fixtures.cs'))
     $named = @([Regex]::Matches($fixtureSource, 'public const string (\w+) = "(\w+)";') | ForEach-Object { $_.Groups[2].Value } | Sort-Object -Unique)
-    if ($named.Count -eq 0) { throw 'LayerGuard.Tests names no fixtures.' }
+    if ($named.Count -eq 0) { throw 'The engine tests name no fixtures.' }
     $directories = @(if ([IO.Directory]::Exists($fixturesRoot)) { Get-ChildItem -LiteralPath $fixturesRoot -Directory | ForEach-Object Name | Sort-Object -Unique })
     if (($named -join "`n") -cne ($directories -join "`n")) { throw "LayerGuard fixtures differ from the fixtures the tests name. Named: $($named -join ', '); found: $($directories -join ', ')" }
     foreach ($name in $named) {
         if (@(Get-ChildItem -LiteralPath (Join-Path $fixturesRoot $name) -Recurse -File | Where-Object { $_.Extension -in @('.csproj', '.slnx', '.sln') }).Count -eq 0) { throw "LayerGuard fixture has no project: $name" }
+    }
+
+    # The IFX policy binding tests keep their own fixtures in this package and depend on no engine test data (D29).
+    $ifxFixtures = @(if ([IO.Directory]::Exists($ifxFixturesRoot)) { Get-ChildItem -LiteralPath $ifxFixturesRoot -Directory | ForEach-Object Name | Sort-Object -Unique })
+    if ($ifxFixtures.Count -eq 0) { throw "The IFX policy binding tests have no fixture under $(Get-GuardRelative $ifxFixturesRoot)." }
+    foreach ($name in $ifxFixtures) {
+        if (@(Get-ChildItem -LiteralPath (Join-Path $ifxFixturesRoot $name) -Recurse -File | Where-Object { $_.Extension -in @('.csproj', '.slnx', '.sln') }).Count -eq 0) { throw "IFX policy binding fixture has no project: $name" }
     }
 }
 
@@ -192,21 +222,24 @@ try {
     $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$packageId/architecture-conformance") `
         -LockRoot $(if ($LockRoot) { [IO.Path]::GetFullPath($LockRoot) } else { Join-Path $packageRoot 'build/locks' }) `
         -ReportRoot (Join-Path $target "artifacts/guards/$packageId/build/architecture-conformance") -LockMode $LockMode -NuGetConfig $nuget
-    Invoke-GuardRestore $context $solution @($project, $ifxProject, $testProject, $ifxTestProject)
+    Invoke-GuardRestore $context $solution @($project, $enginePackage, $engineTestProject, $ifxProject, $testProject, $ifxTestProject)
     if ($Mode -eq 'Test') {
         $oldFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', 'Process')
+        $oldIfxFixtures = [Environment]::GetEnvironmentVariable('LAYERGUARD_IFX_FIXTURES_ROOT', 'Process')
         $oldTarget = [Environment]::GetEnvironmentVariable('GUARD_TARGET_ROOT', 'Process')
         $oldPackageRoot = [Environment]::GetEnvironmentVariable('LAYERGUARD_PACKAGE_ROOT', 'Process')
         try {
             $env:LAYERGUARD_FIXTURES_ROOT = $fixturesRoot
+            $env:LAYERGUARD_IFX_FIXTURES_ROOT = $ifxFixturesRoot
             # Policy binding tests analyze the target's src/, which is not next to a package copy run from outside it.
             $env:GUARD_TARGET_ROOT = $target
             # Binding tests read the package policy; the root is passed so the test source may move (Plan 06 P6.1).
             $env:LAYERGUARD_PACKAGE_ROOT = $packageRoot
-            Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project, $ifxProject, $ifxTestProject)
+            Invoke-GuardBuildStep $context 'test' $solution @($testProject, $project, $enginePackage, $engineTestProject, $ifxProject, $ifxTestProject)
         }
         finally {
             [Environment]::SetEnvironmentVariable('LAYERGUARD_FIXTURES_ROOT', $oldFixtures, 'Process')
+            [Environment]::SetEnvironmentVariable('LAYERGUARD_IFX_FIXTURES_ROOT', $oldIfxFixtures, 'Process')
             [Environment]::SetEnvironmentVariable('GUARD_TARGET_ROOT', $oldTarget, 'Process')
             [Environment]::SetEnvironmentVariable('LAYERGUARD_PACKAGE_ROOT', $oldPackageRoot, 'Process')
         }

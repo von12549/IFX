@@ -201,8 +201,8 @@ public class GatePolicyBindingTests
         {
             rings = new Dictionary<string, string[]>
             {
-                ["Composition"] = ["Acme.*.Composition"],
-                ["RuntimeHost"] = ["Acme.*.Host"],
+                ["Composition"] = ["IFX.*.Composition"],
+                ["RuntimeHost"] = ["IFX.ApiHost"],
             },
             allowedDependencies = new Dictionary<string, string[]>
             {
@@ -215,7 +215,7 @@ public class GatePolicyBindingTests
                 g05ContextPolicy = g05,
             },
         }));
-        return IfxArchitectureConformance.Analyze(FixturePath("AllowedDirections"), config);
+        return IfxArchitectureConformance.Analyze(FixturePath("IfxBinding"), config);
     }
 
     private static void WithPolicyCopy(Action<string, string, string, string> action)
@@ -254,7 +254,7 @@ public class GatePolicyBindingTests
     {
         if (Environment.GetEnvironmentVariable("LAYERGUARD_PACKAGE_ROOT") is { Length: > 0 } configured)
             return Path.GetFullPath(configured);
-        for (var directory = new DirectoryInfo(FixturePath("BootstrapArchitecture")); directory is not null; directory = directory.Parent)
+        for (var directory = new DirectoryInfo(FixturePath("IfxBinding")); directory is not null; directory = directory.Parent)
         {
             if (File.Exists(Path.Combine(directory.FullName, "policy", "layerguard.json")))
                 return directory.FullName;
@@ -262,9 +262,9 @@ public class GatePolicyBindingTests
         throw new InvalidOperationException("Cannot find the package root (policy/layerguard.json) above the LayerGuard fixtures.");
     }
 
-    // The IFX tests share the synthetic fixtures of the engine tests; the runner passes their root explicitly.
+    // The IFX binding tests own their fixtures in this package (Plan 06 P6.4, D29); the runner passes their root.
     private static string FixturePath(string fixture) => Path.Combine(Path.GetFullPath(
-        Environment.GetEnvironmentVariable("LAYERGUARD_FIXTURES_ROOT") is { Length: > 0 } configured
+        Environment.GetEnvironmentVariable("LAYERGUARD_IFX_FIXTURES_ROOT") is { Length: > 0 } configured
             ? configured
             : Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "fixtures")), fixture);
 
