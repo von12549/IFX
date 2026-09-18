@@ -1,66 +1,51 @@
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
+using static LayerGuard.PolicyDocument;
 
-namespace LayerGuard;
+namespace LayerGuard.Ifx;
 
-public sealed record GatePolicyPaths(
-    string G03Governance,
-    string G04RuntimeManifest,
-    string G05ContextPolicy
-);
-
-public sealed record PolicyBindingInfo(string Gate, string Source, string Sha256);
-
-public sealed record WaiverPolicyInfo(
-    int MaximumDays,
-    IReadOnlyList<string> UnwaivableCategories,
-    IReadOnlyList<string> UnwaivableRules
-);
-
-internal sealed record GatePolicySet(
-    IReadOnlyDictionary<string, string[]> ProviderContracts,
-    IReadOnlyList<string> SharedPrimitiveProjects,
-    IReadOnlyList<PolicyBindingInfo> Bindings,
-    WaiverPolicyInfo? WaiverPolicy,
-    string CompositeHash
-)
+/// The IFX policy binding: everything the Architecture Conformance Gate knows about the IFX G03, G04 and G05 review
+/// gates lives here rather than in the engine (Plan 06 P6.2 and P6.3, D27). These values are trusted component code,
+/// not editable policy, so lowering any of them is a change-trusted-base change; the policy files and the composite
+/// policy hash stay byte-identical to what the engine produced before the separation.
+public sealed class IfxGatePolicyBinding : IPolicyBinding
 {
-    public static GatePolicySet Unbound(string configPath) => new(
-        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase),
-        [],
-        [],
-        null,
-        GatePolicyLoader.CompositeHash([("layerguard", configPath)])
-    );
-}
+    public string Section => "gatePolicies";
 
-internal static class GatePolicyLoader
-{
-    private static readonly JsonDocumentOptions JsonOptions = new()
+    private static readonly string[] RequiredUnwaivableCategories =
+    [
+        "missing-owner", "missing-consumer", "internal-model-exposure",
+        "C4-exposure", "unapproved-C3-exposure", "identity-reuse",
+    ];
+
+    private static readonly string[] ForbiddenContextDependencies =
+    [
+        "ASP.NET", "ClaimsPrincipal", "Activity", "dependency injection",
+        "serializer", "broker", "Entity Framework", "MediatR",
+    ];
+
+    private static readonly (string Id, string Role)[] RequiredDeploymentUnits =
+    [
+        ("ifx-api", "api"), ("ifx-worker", "worker"), ("ifx-all", "all"),
+    ];
+
+    private const string AuthorizedBackupCodeownersHandle = "@jimkeecn";
+    private const int MaximumWaiverDays = 90;
+
+    public PolicyBindingResult Load(JsonElement section, JsonElement config, string configPath)
     {
-        AllowTrailingCommas = true,
-        CommentHandling = JsonCommentHandling.Skip,
-    };
+        var g03Reference = RequiredPath(section, "g03Governance", configPath);
+        var g04Reference = RequiredPath(section, "g04RuntimeManifest", configPath);
+        var g05Reference = RequiredPath(section, "g05ContextPolicy", configPath);
+        ValidateGateRoleBinding(config, configPath);
 
-    public static GatePolicySet Load(GatePolicyPaths? paths, string configPath)
-    {
-        if (paths is null)
-            return GatePolicySet.Unbound(configPath);
-
-        RequirePath(paths.G03Governance, "gatePolicies.g03Governance", configPath);
-        RequirePath(paths.G04RuntimeManifest, "gatePolicies.g04RuntimeManifest", configPath);
-        RequirePath(paths.G05ContextPolicy, "gatePolicies.g05ContextPolicy", configPath);
-
-        var g03Path = Resolve(configPath, paths.G03Governance);
-        var g04Path = Resolve(configPath, paths.G04RuntimeManifest);
-        var g05Path = Resolve(configPath, paths.G05ContextPolicy);
-        var hashedFiles = new List<(string Label, string Path)>
+        var g03Path = Resolve(configPath, g03Reference);
+        var g04Path = Resolve(configPath, g04Reference);
+        var g05Path = Resolve(configPath, g05Reference);
+        var hashedFiles = new List<PolicyBindingFile>
         {
-            ("layerguard", configPath),
-            ("G03-governance", g03Path),
-            ("G04-runtime", g04Path),
-            ("G05-context", g05Path),
+            new("G03-governance", g03Path),
+            new("G04-runtime", g04Path),
+            new("G05-context", g05Path),
         };
 
         using var g03 = Parse(g03Path, "G03 governance input");
@@ -68,7 +53,7 @@ internal static class GatePolicyLoader
         var catalogReference = RequiredString(g03.RootElement, "source", g03Path);
         var catalogPath = Resolve(configPath, catalogReference);
         VerifyHash(catalogPath, RequiredString(g03.RootElement, "catalogSha256", g03Path), "G03 catalog");
-        hashedFiles.Add(("G03-catalog", catalogPath));
+        hashedFiles.Add(new PolicyBindingFile("G03-catalog", catalogPath));
         using var catalog = Parse(catalogPath, "G03 catalog");
         RequireVersion(catalog.RootElement, catalogPath);
         ValidateG03Projection(g03.RootElement, catalog.RootElement, g03Path, catalogPath);
@@ -109,20 +94,15 @@ internal static class GatePolicyLoader
 
         var waiver = RequiredObject(g03.RootElement, "waiverPolicy", g03Path);
         var maximumDays = RequiredInt(waiver, "maximumDays", g03Path);
-        if (maximumDays <= 0 || maximumDays > 90)
-            throw new InvalidDataException($"{g03Path} waiverPolicy.maximumDays must be between 1 and 90.");
+        if (maximumDays <= 0 || maximumDays > MaximumWaiverDays)
+            throw new InvalidDataException($"{g03Path} waiverPolicy.maximumDays must be between 1 and {MaximumWaiverDays}.");
         var categories = RequiredArray(waiver, "unwaivable", g03Path)
             .EnumerateArray()
             .Select(item => item.GetString())
             .Where(item => !string.IsNullOrWhiteSpace(item))
             .Select(item => item!)
             .ToArray();
-        var requiredCategories = new[]
-        {
-            "missing-owner", "missing-consumer", "internal-model-exposure",
-            "C4-exposure", "unapproved-C3-exposure", "identity-reuse",
-        };
-        var missingCategory = requiredCategories.FirstOrDefault(required =>
+        var missingCategory = RequiredUnwaivableCategories.FirstOrDefault(required =>
             !categories.Contains(required, StringComparer.OrdinalIgnoreCase));
         if (missingCategory is not null)
             throw new InvalidDataException($"{g03Path} waiverPolicy.unwaivable omits `{missingCategory}`.");
@@ -131,7 +111,7 @@ internal static class GatePolicyLoader
         RequireVersion(g04.RootElement, g04Path);
         ValidateRuntimeRoles(g04.RootElement, g04Path);
         var g04Bindings = VerifyG04Bindings(g04.RootElement, configPath, g04Path);
-        hashedFiles.AddRange(g04Bindings.Select(binding => ($"G04-{binding.Name}", binding.Path)));
+        hashedFiles.AddRange(g04Bindings.Select(binding => new PolicyBindingFile($"G04-{binding.Name}", binding.Path)));
         ValidateDeploymentUnits(g04.RootElement, g04Bindings, g04Path);
 
         using var g05 = Parse(g05Path, "G05 context policy");
@@ -147,74 +127,55 @@ internal static class GatePolicyLoader
             throw new InvalidDataException($"{g05Path} Context/Messaging Contracts must remain BCL-only.");
         var forbiddenContext = RequiredArray(dependencyPolicy, "forbidden", g05Path)
             .EnumerateArray().Select(item => item.GetString() ?? "").ToArray();
-        foreach (var required in new[]
-        {
-            "ASP.NET", "ClaimsPrincipal", "Activity", "dependency injection",
-            "serializer", "broker", "Entity Framework", "MediatR",
-        })
+        foreach (var required in ForbiddenContextDependencies)
             if (!forbiddenContext.Contains(required, StringComparer.OrdinalIgnoreCase))
                 throw new InvalidDataException($"{g05Path} dependencyPolicy.forbidden omits `{required}`.");
 
-        return new GatePolicySet(
+        return new PolicyBindingResult(
             providers,
             sharedProjects,
             [
-                new("G03", g03Path, RawHash(g03Path)),
-                new("G03-catalog", catalogPath, RawHash(catalogPath)),
-                new("G04", g04Path, RawHash(g04Path)),
+                new PolicyBindingInfo("G03", g03Path, RawHash(g03Path)),
+                new PolicyBindingInfo("G03-catalog", catalogPath, RawHash(catalogPath)),
+                new PolicyBindingInfo("G04", g04Path, RawHash(g04Path)),
                 .. g04Bindings.Select(binding => new PolicyBindingInfo($"G04-{binding.Name}", binding.Path, binding.Sha256)),
-                new("G05", g05Path, RawHash(g05Path)),
+                new PolicyBindingInfo("G05", g05Path, RawHash(g05Path)),
             ],
             new WaiverPolicyInfo(
                 maximumDays,
                 categories,
                 [OwnershipRules.UnknownOwnershipRule, SourcePolicyRules.PayloadRuleId]
             ),
-            CompositeHash(hashedFiles)
+            hashedFiles
         );
     }
 
-    internal static string CompositeHash(IEnumerable<(string Label, string Path)> files)
+    private static string RequiredPath(JsonElement section, string property, string configPath)
     {
-        var text = new StringBuilder();
-        foreach (var (label, path) in files.OrderBy(item => item.Label, StringComparer.Ordinal))
-        {
-            var normalized = File.ReadAllText(path).Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n');
-            text.Append(label).Append('\n').Append(normalized).Append('\n');
-        }
-        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(text.ToString()))).ToLowerInvariant();
+        if (!section.TryGetProperty(property, out var value) || value.ValueKind != JsonValueKind.String
+            || string.IsNullOrWhiteSpace(value.GetString()))
+            throw new InvalidDataException($"{configPath} requires non-empty `gatePolicies.{property}` for 03-A1.");
+        return value.GetString()!;
     }
 
-    private static JsonDocument Parse(string path, string label)
+    /// The G04 host artifact is only meaningful when the configuration also binds the composition and host project roles.
+    private static void ValidateGateRoleBinding(JsonElement config, string configPath)
     {
-        try { return JsonDocument.Parse(File.ReadAllText(path), JsonOptions); }
-        catch (Exception error) { throw new InvalidDataException($"Cannot read {label} `{path}`: {error.Message}", error); }
-    }
+        var rings = config.TryGetProperty("rings", out var declaredRings) && declaredRings.ValueKind == JsonValueKind.Object
+            ? declaredRings
+            : throw new InvalidDataException($"{configPath} must bind the G04 `{Ring.Composition}` project role.");
+        foreach (var role in new[] { Ring.Composition.ToString(), Ring.RuntimeHost.ToString() })
+            if (!rings.TryGetProperty(role, out _))
+                throw new InvalidDataException($"{configPath} must bind the G04 `{role}` project role.");
 
-    private static void RequireVersion(JsonElement root, string path)
-    {
-        if (!root.TryGetProperty("formatVersion", out var version) || version.GetInt32() != 1)
-            throw new InvalidDataException($"{path} requires formatVersion 1.");
-    }
-
-    private static IReadOnlyDictionary<string, string[]> ReadProviderGraph(JsonElement element, string path)
-    {
-        var result = new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase);
-        foreach (var consumer in element.EnumerateObject())
-        {
-            var providers = consumer.Value.EnumerateArray()
-                .Select(item => item.GetString())
-                .Where(item => !string.IsNullOrWhiteSpace(item))
-                .Select(item => item!)
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .ToArray();
-            if (providers.Length == 0)
-                throw new InvalidDataException($"{path} provider graph consumer `{consumer.Name}` has no providers.");
-            result.Add(consumer.Name, providers);
-        }
-        if (result.Count == 0)
-            throw new InvalidDataException($"{path} contains an empty provider graph.");
-        return result;
+        var allowed = config.TryGetProperty("allowedDependencies", out var dependencies)
+            && dependencies.ValueKind == JsonValueKind.Object
+            && dependencies.TryGetProperty(Ring.RuntimeHost.ToString(), out var runtimeHost)
+            && runtimeHost.ValueKind == JsonValueKind.Array
+                ? runtimeHost.EnumerateArray().Select(item => item.GetString() ?? "").ToArray()
+                : [];
+        if (allowed.Length != 1 || !allowed[0].Equals(Ring.Composition.ToString(), StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException($"{configPath} must bind G04 RuntimeHost references to Composition only.");
     }
 
     private static void ValidateG03Projection(
@@ -230,9 +191,9 @@ internal static class GatePolicyLoader
         var approval = RequiredObject(catalog, "approvalPolicy", catalogPath);
         var authorizedBackup = RequiredString(approval, "backupOwner", catalogPath);
         if (!owners.Contains(authorizedBackup)
-            || !RequiredString(approval, "backupCodeownersHandle", catalogPath).Equals("@jimkeecn", StringComparison.OrdinalIgnoreCase)
+            || !RequiredString(approval, "backupCodeownersHandle", catalogPath).Equals(AuthorizedBackupCodeownersHandle, StringComparison.OrdinalIgnoreCase)
             || !RequiredString(approval, "backupAssignmentStatus", catalogPath).Equals("assigned-and-authorized", StringComparison.OrdinalIgnoreCase))
-            throw new InvalidDataException($"{catalogPath} backup owner does not resolve to the authorized Junxi record.");
+            throw new InvalidDataException($"{catalogPath} backup owner does not resolve to the authorized record.");
 
         var modules = RequiredArray(catalog, "modules", catalogPath).EnumerateArray().ToList();
         var moduleById = modules.ToDictionary(
@@ -317,17 +278,6 @@ internal static class GatePolicyLoader
         RequireSameSet(expectedShared, actualShared, "shared primitive projects", projectionPath);
     }
 
-    private static void RequireSameSet(IEnumerable<string> expected, IEnumerable<string> actual, string label, string path)
-    {
-        var expectedSet = expected.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var actualSet = actual.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        if (!expectedSet.SetEquals(actualSet))
-            throw new InvalidDataException(
-                $"{path} {label} drifted from the G03 catalog. Missing: [{string.Join(", ", expectedSet.Except(actualSet))}]; "
-                + $"unexpected: [{string.Join(", ", actualSet.Except(expectedSet))}]."
-            );
-    }
-
     private static void ValidateAdapterEdges(JsonElement edges, IReadOnlyDictionary<string, string[]> providers, string path)
     {
         if (edges.GetArrayLength() == 0)
@@ -347,7 +297,7 @@ internal static class GatePolicyLoader
         var host = RequiredObject(root, "hostArtifact", path);
         var roles = RequiredArray(host, "allowedRoles", path)
             .EnumerateArray().Select(item => item.GetString() ?? "").ToArray();
-        foreach (var required in new[] { "api", "worker", "all" })
+        foreach (var required in RequiredDeploymentUnits.Select(unit => unit.Role))
             if (!roles.Contains(required, StringComparer.OrdinalIgnoreCase))
                 throw new InvalidDataException($"{path} hostArtifact.allowedRoles omits `{required}`.");
     }
@@ -377,7 +327,7 @@ internal static class GatePolicyLoader
         using var document = Parse(catalog.Path, "G04 deployment unit catalog");
         var artifact = RequiredString(RequiredObject(root, "hostArtifact", manifestPath), "artifactId", manifestPath);
         var units = RequiredArray(document.RootElement, "units", catalog.Path).EnumerateArray().ToList();
-        foreach (var expected in new[] { (Id: "ifx-api", Role: "api"), (Id: "ifx-worker", Role: "worker"), (Id: "ifx-all", Role: "all") })
+        foreach (var expected in RequiredDeploymentUnits)
         {
             var unit = units.SingleOrDefault(item =>
                 RequiredString(item, "unitId", catalog.Path).Equals(expected.Id, StringComparison.OrdinalIgnoreCase));
@@ -394,86 +344,5 @@ internal static class GatePolicyLoader
         var value = RequiredString(roles, property, path);
         if (!Enum.TryParse<Ring>(value, true, out var role) || role != expected)
             throw new InvalidDataException($"{path} contractRoles.{property} must be `{expected}`; found `{value}`.");
-    }
-
-    private static string RequiredString(JsonElement element, string property, string path)
-    {
-        if (!element.TryGetProperty(property, out var value) || value.ValueKind != JsonValueKind.String
-            || string.IsNullOrWhiteSpace(value.GetString()))
-            throw new InvalidDataException($"{path} requires non-empty `{property}`.");
-        return value.GetString()!;
-    }
-
-    private static int RequiredInt(JsonElement element, string property, string path)
-    {
-        if (!element.TryGetProperty(property, out var value) || value.ValueKind != JsonValueKind.Number)
-            throw new InvalidDataException($"{path} requires numeric `{property}`.");
-        return value.GetInt32();
-    }
-
-    private static JsonElement RequiredObject(JsonElement element, string property, string path)
-    {
-        if (!element.TryGetProperty(property, out var value) || value.ValueKind != JsonValueKind.Object)
-            throw new InvalidDataException($"{path} requires object `{property}`.");
-        return value;
-    }
-
-    private static JsonElement RequiredArray(JsonElement element, string property, string path)
-    {
-        if (!element.TryGetProperty(property, out var value) || value.ValueKind != JsonValueKind.Array)
-            throw new InvalidDataException($"{path} requires array `{property}`.");
-        return value;
-    }
-
-    private static void RequirePath(string? value, string property, string configPath)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            throw new InvalidDataException($"{configPath} requires non-empty `{property}` for 03-A1.");
-    }
-
-    private static string Resolve(string configPath, string reference)
-    {
-        if (Path.IsPathRooted(reference))
-        {
-            var rooted = Paths.Normalize(reference);
-            if (File.Exists(rooted)) return rooted;
-            throw new FileNotFoundException($"Bound Gate artifact does not exist: {rooted}", rooted);
-        }
-
-        for (var directory = new FileInfo(configPath).Directory; directory is not null; directory = directory.Parent)
-        {
-            var candidate = Path.GetFullPath(Path.Combine(directory.FullName, reference));
-            if (File.Exists(candidate)) return candidate;
-        }
-        throw new FileNotFoundException($"Cannot resolve bound Gate artifact `{reference}` from `{configPath}`.");
-    }
-
-    private static void VerifyHash(string path, string expected, string label)
-    {
-        var actual = RawHash(path);
-        if (!actual.Equals(expected, StringComparison.OrdinalIgnoreCase) &&
-            !CanonicalTextHash(path).Equals(expected, StringComparison.OrdinalIgnoreCase))
-            throw new InvalidDataException($"{label} hash mismatch for `{path}`: expected {expected}, actual {actual}.");
-    }
-
-    private static string RawHash(string path) =>
-        Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path))).ToLowerInvariant();
-
-    // Governed text artifacts are generated with LF in Git. A Windows checkout may materialize
-    // the same committed content as CRLF, which must not invalidate the binding. Raw bytes are
-    // checked first; this fallback removes only CR bytes that precede LF and preserves all other
-    // bytes, so a semantic or whitespace change still fails closed.
-    private static string CanonicalTextHash(string path)
-    {
-        var bytes = File.ReadAllBytes(path);
-        using var canonical = new MemoryStream(bytes.Length);
-        for (var index = 0; index < bytes.Length; index++)
-        {
-            if (bytes[index] == (byte)'\r' && index + 1 < bytes.Length && bytes[index + 1] == (byte)'\n')
-                continue;
-            canonical.WriteByte(bytes[index]);
-        }
-
-        return Convert.ToHexString(SHA256.HashData(canonical.ToArray())).ToLowerInvariant();
     }
 }

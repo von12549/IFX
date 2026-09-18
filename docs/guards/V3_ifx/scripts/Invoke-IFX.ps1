@@ -28,6 +28,9 @@ $testProject = Join-Path $template 'tests/LayerGuard.Tests/LayerGuard.Tests.cspr
 # and entry point stay the same when the binding is separated from the generic engine.
 $ifxProject = Join-Path $template 'src/LayerGuard.Ifx/LayerGuard.Ifx.csproj'
 $ifxTestProject = Join-Path $template 'tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj'
+# Plan 06 P6.2 (CP07b, D27): the generic engine, its tests and their fixtures carry no IFX identifier; the scan is
+# case-insensitive, so `ifx`, `IFX` and `Ifx` all count.
+$genericRoots = @('src/LayerGuard/', 'tests/LayerGuard.Tests/', 'tests/fixtures/')
 # Every project of the solution with the exact project references it may declare; nothing is discovered by wildcard.
 $projectReferences = [ordered]@{
     $project = @()
@@ -125,6 +128,13 @@ function Assert-Source {
         if (($references -join "`n") -cne ($allowed -join "`n")) { throw "$(Get-TemplateRelative $entry.Key) project references differ from the expected set. Found: $($references -join ', '); expected: $($allowed -join ', ')" }
     }
 
+    # The generic engine and its tests hold no IFX identifier; only the IFX projects may name IFX policy and artifacts.
+    foreach ($file in @($files | Where-Object { $relative = Get-TemplateRelative $_.FullName; @($genericRoots | Where-Object { $relative.StartsWith($_, [StringComparison]::Ordinal) }).Count -gt 0 })) {
+        $relative = Get-TemplateRelative $file.FullName
+        $matched = @([Regex]::Matches([IO.File]::ReadAllText($file.FullName), 'ifx', 'IgnoreCase'))
+        if ($matched.Count -gt 0 -or $relative -match '(?i)ifx') { throw "Generic LayerGuard source names IFX: $relative. IFX policy and artifacts belong to src/LayerGuard.Ifx and tests/LayerGuard.Ifx.Tests (Plan 06 P6.2)." }
+    }
+
     # Every source file belongs to a trusted component, so no engine or test file escapes base-owned validation.
     $manifest = Get-Content -LiteralPath (Join-Path $packageRoot 'shared/trusted-components.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 50
     $componentPaths = @($manifest.components | Where-Object { $_.status -eq 'active' } | ForEach-Object { $_.paths })
@@ -201,14 +211,15 @@ try {
             [Environment]::SetEnvironmentVariable('LAYERGUARD_PACKAGE_ROOT', $oldPackageRoot, 'Process')
         }
     }
-    else { Invoke-GuardBuildStep $context 'build' $project @($project) }
+    # Scan runs the IFX host, which registers the IFX policy binding the engine no longer knows (Plan 06 P6.3, D27).
+    else { Invoke-GuardBuildStep $context 'build' $ifxProject @($ifxProject, $project) }
 
     $report = if ($ReportPath) {
         if ([IO.Path]::IsPathRooted($ReportPath)) { [IO.Path]::GetFullPath($ReportPath) }
         else { [IO.Path]::GetFullPath((Join-Path $target $ReportPath)) }
     } else { Join-Path $target 'artifacts/guards/v3-ifx-layerguard.json' }
     [void] [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
-    Invoke-GuardDotnet $context (@('run', '--no-build', '--artifacts-path', $context.ArtifactsRoot, '--project', $project) + $context.Properties + @('--', 'check', (Join-Path $target 'src'), '--config', $policy, '--baseline', $baseline, '--format', 'json', '--report', $report, '--quiet'))
+    Invoke-GuardDotnet $context (@('run', '--no-build', '--artifacts-path', $context.ArtifactsRoot, '--project', $ifxProject) + $context.Properties + @('--', 'check', (Join-Path $target 'src'), '--config', $policy, '--baseline', $baseline, '--format', 'json', '--report', $report, '--quiet'))
     Write-Host "IFX independent LayerGuard gate passed. Report: $report"
 }
 finally { [Environment]::SetEnvironmentVariable('APPDATA', $oldAppData, 'Process') }

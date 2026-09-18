@@ -28,12 +28,16 @@ try {
         Copy-ToFixture (Join-Path $repository $relative) $relative
     }
     Copy-ToFixture (Join-Path $repository 'docs/Directory.Packages.props') 'docs/Directory.Packages.props'
-    # The guard build baseline is canonical in V3 (Plan 06 D14); the package resolves it from ../V3/build.
-    $v3Build = Join-Path $repository 'docs/guards/V3/build'
-    foreach ($file in Get-ChildItem -LiteralPath $v3Build -File -Recurse) {
-        $relative = [IO.Path]::GetRelativePath($v3Build, $file.FullName).Replace('\', '/')
-        if ($relative -match '(^|/)(bin|obj)/') { continue }
-        Copy-ToFixture $file.FullName "docs/guards/V3/build/$relative"
+    # The guard build baseline is canonical in V3 (Plan 06 D14), and P6.4 moves the generic engine, its tests and their
+    # fixtures into V3 as well; both are copied from ../V3, the engine tree once it exists there.
+    foreach ($v3Relative in @('build', 'stages/post/gates/architecture/dotnet')) {
+        $v3Directory = Join-Path $repository "docs/guards/V3/$v3Relative"
+        if (-not [IO.Directory]::Exists($v3Directory)) { continue }
+        foreach ($file in Get-ChildItem -LiteralPath $v3Directory -File -Recurse) {
+            $relative = [IO.Path]::GetRelativePath($v3Directory, $file.FullName).Replace('\', '/')
+            if ($relative -match '(^|/)(bin|obj)/') { continue }
+            Copy-ToFixture $file.FullName "docs/guards/V3/$v3Relative/$relative"
+        }
     }
     foreach ($file in Get-ChildItem -LiteralPath $package -File -Recurse) {
         $relative = [IO.Path]::GetRelativePath($package, $file.FullName).Replace('\', '/')
@@ -81,7 +85,10 @@ function Assert-CheckFails([string] $Label, [scriptblock] $Mutate, [string] $Cle
 function Write-FixtureFile([string] $Path, [string] $Text) { [void] [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path)); [IO.File]::WriteAllText($Path, $Text) }
 Assert-CheckFails 'a recreated generated copy' { Write-FixtureFile (Join-Path $retiredCopy 'LayerGuard.slnx') '<Solution />' } (Join-Path $fixture 'docs/guards/V3_ifx/generated/dotnet') 'The retired generated LayerGuard copy exists again'
 Assert-CheckFails 'an undeclared project' { Write-FixtureFile (Join-Path $templateRoot 'tests/Extra.Tests/Extra.Tests.csproj') '<Project />' } (Join-Path $templateRoot 'tests/Extra.Tests') 'LayerGuard.slnx projects differ from the source tree'
-Assert-CheckFails 'an orphaned fixture' { Write-FixtureFile (Join-Path $templateRoot 'tests/fixtures/Orphan/Orphan.Domain/Orphan.Domain.csproj') '<Project />' } (Join-Path $templateRoot 'tests/fixtures/Orphan') 'LayerGuard fixtures differ from the fixtures the tests name'
+# P6.4 moves the engine fixtures into V3; the negative follows the fixtures rather than assuming one layout.
+$engineFixtures = Join-Path $fixture 'docs/guards/V3/stages/post/gates/architecture/dotnet/fixtures'
+if (-not [IO.Directory]::Exists($engineFixtures)) { $engineFixtures = Join-Path $templateRoot 'tests/fixtures' }
+Assert-CheckFails 'an orphaned fixture' { Write-FixtureFile (Join-Path $engineFixtures 'Orphan/Orphan.Domain/Orphan.Domain.csproj') '<Project />' } (Join-Path $engineFixtures 'Orphan') 'LayerGuard fixtures differ from the fixtures the tests name'
 Assert-CheckFails 'a source file outside the trusted component manifest' { Write-FixtureFile (Join-Path $templateRoot 'NOTES.md') 'untracked' } (Join-Path $templateRoot 'NOTES.md') 'LayerGuard source file is outside the trusted component manifest'
 # Plan 06 P6.3 (D27): the solution holds exactly the engine, the IFX facade and their test projects, with explicit references.
 function Assert-CheckFailsWithEdit([string] $Label, [string] $Path, [scriptblock] $Edit, [string] $ExpectText) {
@@ -103,6 +110,8 @@ Assert-CheckFailsWithEdit 'an unexpected declared project' $solutionFile {
 } 'LayerGuard.slnx projects differ from the expected project set'
 Remove-Item -LiteralPath (Join-Path $templateRoot 'src/Extra') -Recurse -Force
 Assert-CheckFailsWithEdit 'IFX tests that bypass the IFX facade' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\LayerGuard\LayerGuard.csproj')) } 'project references differ from the expected set'
+$enginePaths = Join-Path $templateRoot 'src/LayerGuard/Paths.cs'
+Assert-CheckFailsWithEdit 'an IFX identifier in the generic engine' $enginePaths { [IO.File]::AppendAllText($enginePaths, "// Ifx`n") } 'Generic LayerGuard source names IFX'
 Assert-CheckFailsWithEdit 'a wildcard project reference' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\*\*.csproj')) } 'uses a wildcard project reference'
 
 $qualityRunner = [IO.File]::ReadAllText((Join-Path $package 'quality/Invoke-IFXQuality.ps1'))

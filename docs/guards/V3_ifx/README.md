@@ -26,10 +26,10 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | `specialized/` | V3-owned G03, G04, G05, Plan04 and Database runners and detectors |
 | `quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |
 | `history/` | Frozen evidence manifest, validator and explicit regeneration command |
-| `templates/ifx-layerguard/` | Local .NET engine, IFX facade (`src/LayerGuard.Ifx`), engine and IFX policy binding tests, and fixtures |
+| `templates/ifx-layerguard/` | Generic .NET engine (`src/LayerGuard`) with a policy binding extension point, the IFX binding and host (`src/LayerGuard.Ifx`), their tests, and synthetic fixtures |
 | `generated/stages/` | Generated V3 Plan/Post/Diff test project |
 | `contracts/`, `templates/plan/`, `skills/`, `hooks/` | V3 input contracts and optional Agent planning integration |
-| `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard project directly from `templates/ifx-layerguard/`; `Generate` is read-only during the transition |
+| `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `templates/ifx-layerguard/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |
 | `scripts/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
 | `scripts/Invoke-V3.ps1` | Validate, generate, check, test, Pre, and Diff for the V3 stage profile |
 | `scripts/Invoke-V3Setup.ps1`, `Invoke-V3Architecture.ps1`, `Invoke-V3Docs.ps1` | Analyze/Init, architecture draft/review/adopt and Markdown render/check/import tools copied from V3 |

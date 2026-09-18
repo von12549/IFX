@@ -833,8 +833,8 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 ### P6 — LayerGuard 去重与 generic engine / IFX binding 分离
 
 - [x] P6.1 通过 §12 授权删除 `generated/dotnet/LayerGuard`，改为直接构建运行唯一源码；验证 build/test、policy binding、strict scan、正反 fixture、CI 调用路径和恢复。 证据：CP07a-prep（PR #58 → #59）先让 base-owned 绑定测试不依赖副本深度；CP07a 以 `delete`、`change-trusted-base` 与 `weaken-policy` 三条正交授权删除副本（174 个文件），`Invoke-IFX.ps1` 直接构建、测试、扫描 `templates/ifx-layerguard/`；`Test-IFXPackage.ps1` 覆盖隔离 build/test、policy binding、L2.2 strict scan 负向、只读 Generate 与源码清单、TCB 覆盖、fixture 对应的负向用例；CI 调用路径由 `v3-architecture` 与保留的 Generate/Check 调用验证；恢复需要新的授权，副本重新出现时 Check 失败（D26）。
-- [ ] P6.2 参数化 runtime role 和 IFX project/type names，移入 IFX policy/fixtures；通用测试改用 synthetic fixture。
-- [ ] P6.3 分离通用检测引擎与 IFX policy binding。
+- [x] P6.2 参数化 runtime role 和 IFX project/type names，移入 IFX policy/fixtures；通用测试改用 synthetic fixture。 证据：`ifx-api`/`ifx-worker`/`ifx-all` 与 `Runtime:Role`、必需 host role、授权 backup owner handle、不可豁免类别、豁免上限、`BCL-only` 与 G05 禁止依赖清单全部移入受 TCB 管控的 `src/LayerGuard.Ifx/IfxGatePolicyBinding.cs`（所有权迁移，policy 文件与 composite hash 不变，D27）；通用测试与 fixture 早已是 synthetic（`Acme`/`Shop`），`Invoke-IFX.ps1 -Mode Check` 对 `src/LayerGuard/`、`tests/LayerGuard.Tests/` 与 `tests/fixtures/` 执行大小写不敏感的 IFX 标识扫描，`Test-IFXPackage.ps1` 有对应负向用例。
+- [x] P6.3 分离通用检测引擎与 IFX policy binding。 证据：engine 新增 `IPolicyBinding`、`PolicyBindings` 注册表与 `PolicyDocument` 助手，`gatePolicies` 原样交给已注册 binding；没有 binding 时失败关闭（`PolicyBindingTests` 两个用例）；IFX binding 与 host（`layerguard-ifx`）位于 `src/LayerGuard.Ifx`，Scan 运行该 host；composite hash `d25e881a…` 与 `policy/baselines/plan05.json` 一致，report 字段、12 条 policy binding、tool version `0.4.0-a1` 与 CLI/MCP 契约不变。
 - [ ] P6.4 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。
 - [ ] P6.5 按 §11.3 写入 Architecture Conformance 混合型 trust contract，包括 MSBuild import/Condition 盲区与 Assembly 检查的交叉兜底；针对 import 注入的检测规则仅作为独立规则提案登记。
 - [ ] P6.6 证明 policy composite hash、report 字段、失败类别和 `v3-architecture` check 名称不变。

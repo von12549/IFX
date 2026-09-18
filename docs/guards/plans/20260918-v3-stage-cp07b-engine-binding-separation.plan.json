@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07b-engine-binding-separation",
+  "title": "V3 stage-oriented refactor CP07b — separate the generic engine from the IFX policy binding",
+  "goal": "Move the IFX G03, G04 and G05 gate rules out of the generic engine into a trusted IFX policy binding behind an engine extension point, keeping every policy file, the composite policy hash, the report contract and the command line and MCP contracts unchanged (P6.2, P6.3, D27).",
+  "acceptanceCriteria": [
+    "The engine exposes IPolicyBinding, a binding registry and reading helpers, hands the bound configuration section to the registered binding unread, and fails closed when a configuration binds a section that no binding serves.",
+    "The IFX gate rules and constants live in src/LayerGuard.Ifx with a host that registers the binding and runs the unchanged command line; the strict scan runs that host; Check rejects any IFX identifier in the generic engine, its tests and their fixtures, case-insensitively.",
+    "The composite policy hash, the twelve policy bindings, the report fields and the tool version are unchanged, all policy files are byte-identical, the 184 engine tests and 10 IFX binding tests pass, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/architecture/TECHNICAL.md",
+    "docs/guards/V3_ifx/build/locks/LayerGuard.Ifx.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-delete-gate-policy-bindings.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-trusted-base.json",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/Program.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Cli.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/GatePolicyBindings.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/PolicyBinding.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Program.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard/Ruleset.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/PolicyBindingTests.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07b-engine-binding-separation.md",
+    "docs/guards/plans/20260918-v3-stage-cp07b-engine-binding-separation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ]
+}
