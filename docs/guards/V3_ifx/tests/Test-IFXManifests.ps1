@@ -53,7 +53,7 @@ try {
     # Domain authority files are target data read by the registry lint (Plan 06 D18).
     $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
     foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
-    $v3Roots = @('docs/guards/V3/build', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/hooks', 'docs/guards/V3/stages')
+    $v3Roots = @('docs/guards/V3/build', 'docs/guards/V3/contracts', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/hooks', 'docs/guards/V3/stages')
     if ([IO.Directory]::Exists((Join-Path $repository 'docs/guards/V3/commands'))) { $v3Roots += 'docs/guards/V3/commands' }
     foreach ($root in $v3Roots) {
         foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repository $root) -Recurse -File) {
