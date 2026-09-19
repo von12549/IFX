@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "cp11a-maintenance-bridge-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1"
+  ],
+  "components": [
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "447f7e91c262884bca02114fd4f2e06153031d09"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bd58bc0df5c7275d59b96ce37e3ed9bac660f49e"
+      }
+    }
+  ],
+  "validationSuite": [
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Production policy projection behavior is unchanged; assertions grow only to select exactly one declared legacy or maintenance entry point and exercise fail-closed ambiguity controls.",
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "Authorization-only plan files make the base generated documentation view stale; the candidate changes only a base-owned test and every other Validate check plus all five verdict parity modes remains equal."
+    }
+  ]
+}
+
