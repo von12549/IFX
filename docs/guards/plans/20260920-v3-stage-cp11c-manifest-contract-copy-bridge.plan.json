@@ -10,6 +10,7 @@
   ],
   "plannedPaths": [
     "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-manifest-contract-copy-bridge-trusted-base.json",
     "docs/guards/plans/20260920-v3-stage-cp11c-manifest-contract-copy-bridge.md",
     "docs/guards/plans/20260920-v3-stage-cp11c-manifest-contract-copy-bridge.plan.json"
   ],
