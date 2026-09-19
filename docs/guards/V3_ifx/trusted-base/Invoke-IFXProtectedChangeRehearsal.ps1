@@ -95,7 +95,10 @@ $ruleEdit = {
     $render = Invoke-GuardIsolatedPwsh (Join-Path $baseTree 'docs/guards/V3/commands/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileLayoutPath', (Join-Path $clone 'docs/guards/V3_ifx/shared/profile-layout.json'), '-TargetRoot', $clone, '-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) -WorkingDirectory $clone
     if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
 }
-$engineFile = 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+$legacyEngineFile = 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+$stageEngineFile = 'docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
+if ([IO.File]::Exists((Join-Path $repositoryRoot $legacyEngineFile)) -eq [IO.File]::Exists((Join-Path $repositoryRoot $stageEngineFile))) { throw 'Historical Integrity engine must have exactly one active package path.' }
+$engineFile = if ([IO.File]::Exists((Join-Path $repositoryRoot $stageEngineFile))) { $stageEngineFile } else { $legacyEngineFile }
 $engineEdit = { $path = Join-Path $clone $engineFile; [IO.File]::WriteAllText($path, [IO.File]::ReadAllText($path).Replace("`$ErrorActionPreference = 'Stop'", "# rehearsal: behaviour-equivalent change`n`$ErrorActionPreference = 'Stop'"), $utf8) }
 $change = { & $moveEdit; & $ruleEdit; & $engineEdit }
 $records = @('rehearsal-move', 'rehearsal-weaken-policy', 'rehearsal-trusted-base')

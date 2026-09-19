@@ -113,7 +113,12 @@ try {
 
     if ($historyChanged) {
         $historyRoot = Join-Path $work 'history'
-        $manifestPath = "$packagePath/history/manifest.json"
+        $legacyManifestPath = "$packagePath/history/manifest.json"
+        $stageManifestPath = "$packagePath/stages/post/gates/historical-integrity/manifest.json"
+        $legacyManifest = $null -ne (Get-GuardTreeEntry $target $headSha $legacyManifestPath)
+        $stageManifest = $null -ne (Get-GuardTreeEntry $target $headSha $stageManifestPath)
+        if ($legacyManifest -eq $stageManifest) { throw 'Head must contain exactly one legacy or stage-owned Historical Integrity manifest.' }
+        $manifestPath = if ($stageManifest) { $stageManifestPath } else { $legacyManifestPath }
         [void](Write-HeadBlob $headSha $manifestPath (Join-Path $historyRoot $manifestPath))
         $manifest = ConvertFrom-GuardJsonText (Get-GuardBlobText $target $headSha $manifestPath)
         $referenced = @(@($manifest.entries) | ForEach-Object { [string]$_.path }) + @(@($manifest.references) | ForEach-Object { [string]$_.source; [string]$_.target })

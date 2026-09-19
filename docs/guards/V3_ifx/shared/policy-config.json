@@ -14,6 +14,13 @@
   ],
   "entries": [
     {
+      "id": "cp11d-historical-integrity-migration",
+      "role": "editable-policy",
+      "directory": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/",
+      "format": "json",
+      "candidateValidation": "history-manifest"
+    },
+    {
       "id": "ifx-profile-layout",
       "role": "trust-meta-policy",
       "paths": [

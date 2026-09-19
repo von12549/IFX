@@ -105,11 +105,15 @@ try {
         finally { [IO.File]::WriteAllBytes($detector, $original) }
 
         # Package configuration read through the target root must fail, because the target no longer carries the package.
-        $history = Join-Path $packageCopy 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+        $legacyHistory = Join-Path $packageCopy 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+        $stageHistory = Join-Path $packageCopy 'docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
+        if ([IO.File]::Exists($legacyHistory) -eq [IO.File]::Exists($stageHistory)) { throw 'Historical Integrity engine must have exactly one active package path.' }
+        $history = if ([IO.File]::Exists($stageHistory)) { $stageHistory } else { $legacyHistory }
+        $historyManifestPath = if ([IO.File]::Exists($stageHistory)) { 'docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json' } else { 'docs/guards/V3_ifx/history/manifest.json' }
         $original = [IO.File]::ReadAllBytes($history)
         try {
             $text = [Text.Encoding]::UTF8.GetString($original)
-            $leaky = $text.Replace("[IO.Path]::GetFullPath((Join-Path `$PSScriptRoot 'manifest.json'))", "(Resolve-InRoot 'docs/guards/V3_ifx/history/manifest.json')")
+            $leaky = $text.Replace("[IO.Path]::GetFullPath((Join-Path `$PSScriptRoot 'manifest.json'))", "(Resolve-InRoot '$historyManifestPath')")
             if ($leaky -eq $text) { throw 'Negative control could not route the history manifest through the target root.' }
             [IO.File]::WriteAllText($history, $leaky, [Text.UTF8Encoding]::new($false))
             $result = Invoke-Guardrails $separatedRunner $target 'HistoricalIntegrity' 'negative-package'

@@ -70,7 +70,14 @@ function Assert-Result([string] $Label, [object] $Result, [int] $Expected, [stri
 }
 
 $evidence = 'mcp/LayerGuard/baselines/b1.json'
-$historyEngine = 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+$legacyHistoryRoot = 'docs/guards/V3_ifx/history'
+$stageHistoryRoot = 'docs/guards/V3_ifx/stages/post/gates/historical-integrity'
+$legacyHistoryComplete = [IO.File]::Exists((Join-Path $repository "$legacyHistoryRoot/Invoke-IFXHistoricalIntegrity.ps1")) -and [IO.File]::Exists((Join-Path $repository "$legacyHistoryRoot/manifest.json"))
+$stageHistoryComplete = [IO.File]::Exists((Join-Path $repository "$stageHistoryRoot/Invoke-IFXHistoricalIntegrity.ps1")) -and [IO.File]::Exists((Join-Path $repository "$stageHistoryRoot/manifest.json"))
+if ($legacyHistoryComplete -eq $stageHistoryComplete) { throw 'Historical Integrity must have exactly one complete legacy or stage-owned layout.' }
+$historyRoot = if ($stageHistoryComplete) { $stageHistoryRoot } else { $legacyHistoryRoot }
+$historyEngine = "$historyRoot/Invoke-IFXHistoricalIntegrity.ps1"
+$historyManifest = "$historyRoot/manifest.json"
 $historyTest = 'docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
 $catalog = 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
 $breakEvidence = { Edit-Json $evidence { param($d) $d['fixtureTamper'] = $true } }
@@ -360,7 +367,7 @@ try {
         Assert-Result 'head candidates of an authorized policy change pass' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase $ruleHead) 0 'Policy candidate validation passed'
         Assert-Result 'a policy change with stale profile views fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-stale-views' $authorizedBase $staleRuleTitle)) 1 'the head profile views differ from what the base renderer produces'
         Assert-Result 'an invalid head profile fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-invalid' $authorizedBase { Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "sometimes"') } })) 1 'the base V3 runner rejects the head profile'
-        Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/history/manifest.json' { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
+        Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json $historyManifest { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
         Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'
         Assert-Result 'a schema field without a monotonicity declaration fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'schema-field' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } })) 1 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
 
@@ -413,7 +420,7 @@ try {
         & $breakEvidence
         $text = [IO.File]::ReadAllText((Join-Path $clone $evidence)).Replace("`r`n", "`n")
         $hash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($utf8.GetBytes($text))).ToLowerInvariant()
-        Edit-Json 'docs/guards/V3_ifx/history/manifest.json' { param($d) @($d.entries | Where-Object { $_.path -eq $evidence })[0].sha256 = $hash }
+        Edit-Json $historyManifest { param($d) @($d.entries | Where-Object { $_.path -eq $evidence })[0].sha256 = $hash }
     })
     $inPlace = Invoke-GuardIsolatedPwsh (Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1') @('-Mode', 'HistoricalIntegrity') -WorkingDirectory $clone
     if ($inPlace.ExitCode -ne 0) { $failures.Add('The policy tamper fixture is not effective in place.') } else { Write-Host 'PASS policy tamper passes when run from head' }
