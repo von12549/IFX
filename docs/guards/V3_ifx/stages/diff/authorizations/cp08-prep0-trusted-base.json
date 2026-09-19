@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp08-prep0-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260919-v3-stage-cp08-prep0-base-tests.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1"
+  ],
+  "components": [
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8df548a1a53826235ab6389b5f777a4bbd46c1c2"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "31e6e6add26e602a6664b3b163feb6de20fd8d3c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "493e041e795df0697e7f99d9d6324806fe2da484"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a4d10923a47a416da37fc042d5c3dada0abc234f"
+      }
+    }
+  ],
+  "validationSuite": [
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Only base-owned test contracts change: the manifest suite keeps missing-executable, template and synthetic-test negative controls while preparing the public runner for a thin wrapper; the tools suite compares two isolated canonical V3 analysis runs and preserves authored snapshots. Production scripts, manifests, policy, workflow, all 13 required-check verdicts and report schemas remain byte-identical.",
+  "allowedBehaviorDifferences": []
+}

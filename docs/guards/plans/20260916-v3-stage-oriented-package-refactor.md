@@ -51,6 +51,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | D27 | Architecture Conformance engine 与 IFX binding 分离、IFX facade 与 expand 步骤（P6.2–P6.3 补充） | `20260918-v3-stage-d27-architecture-conformance-binding-separation.json` | §14 P6、§17 D27、D12、D26 |
 | D28 | CI 成本控制与 base 判定的变更范围（Actions 配额） | `20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json` | §10.3、§17 D28、D10、D19 |
 | D29 | Architecture Conformance engine 迁入 V3 的路径、命名与测试桥（P6.4 补充） | `20260918-v3-stage-d29-architecture-conformance-v3-relocation.json` | §14 P6.4、§17 D29、D12、D27 |
+| D30 | Stage Gate 仓库外生成与 V3 overlay expand/contract 切换（P7 补充） | `20260919-v3-stage-d30-stage-gate-cutover.json` | §14 P7、§17 D1、D3、D6、D9、D14 |
 
 每条记录的 `affectedPaths` 覆盖该决策未来会影响的路径，使后续检查点的 Pre 风险覆盖检查可以直接引用。decision schema 只允许 `summary` 与 `rationale` 两个文本字段，完整论证以 Plan 06 与 Review 为准。
 
@@ -82,7 +83,9 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP07b | P6.2–P6.3 | IFX 常量作为受 TCB 管控的 IFX binding 代码移出通用 engine（所有权迁移，policy 文件不变），engine 提供 binding 扩展点，IFX binding 与 host 位于 facade 项目，通用测试只用 synthetic fixture，engine 大小写不敏感 IFX 扫描 | 以 verifier 为准 | CP07b-auth → CP07b-change | CP07b-prep | 已完成，待 PR 合入（`20260918-v3-stage-cp07b-authorization` → `20260918-v3-stage-cp07b-engine-binding-separation`） |
 | CP07c-prep | P6.4（前置） | engine 的 V3 目标项目与测试路径（`Guards.ArchitectureConformance*`）、通用测试与 fixture 迁入 V3、IFX 专属 binding fixture、跨包 Check（D29，expand） | 有（移动） | 21 条 `move` 与 `change-trusted-base`：CP07c-prep-auth → CP07c-prep-change | CP07b | 已完成（本地验证：候选验证在旧位置恢复 base engine 测试并通过） |
 | CP07c | P6.4–P6.6 | 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`，混合型 trust contract，policy composite hash、report、失败类别与 check 名称不变的证明 | 有 | CP07c-auth → CP07c-change | CP07b | 已完成，待 PR 合入（`20260918-v3-stage-cp07c-authorization` → `20260918-v3-stage-cp07c-engine-in-v3`） |
-| CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay 切换并删除重复副本 | 有 | 取消跟踪与删除副本：auth → change | CP07c | 未开始 |
+| CP08-prep0 | P7（测试桥） | base-owned manifest/tools 测试先接受 public runner wrapper 与跨平台隔离 analysis reproducibility（D30） | 无 | `change-trusted-base`：CP08-prep0-auth → CP08-prep0-change | CP07c | 本地实施与验证完成，待授权模拟 |
+| CP08-prep | P7（前置） | IFX overlay、command manifest 与 base-owned validation 切换到 canonical V3；trusted-base 显式传递仓库外 generation root；legacy workflow runner 成为薄 wrapper（D30） | 无 | `change-trusted-base`：CP08-prep-auth → CP08-prep-change | CP08-prep0 | 未开始 |
+| CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay contract 并删除重复实现（保留声明期内的薄 public wrapper） | 有 | 取消跟踪与删除副本：auth → change | CP08-prep | 未开始 |
 | CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 可能（analysis 运行输出迁出） | 涉及受保护移动/删除时：auth → change | CP08 | 未开始 |
 | CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 | 未开始 |
 | CP11 | P10 | 按 Plan 06 §13 分组物理迁移、V3_backup 删除、兼容 wrapper | 有 | 每个迁移分组 auth → change | CP10 | 未开始 |
