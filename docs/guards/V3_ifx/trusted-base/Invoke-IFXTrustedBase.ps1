@@ -184,7 +184,7 @@ try {
         $projectionTargets = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
         foreach ($projection in @(@($registry.projections) + @($registry.g04Bindings))) { [void]$projectionTargets.Add("docs/guards/V3_ifx/$($projection.target)") }
         $before = Get-GuardFileHashes $candidateRepository $packageFiles
-        $sync = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Generate', '-PackageRoot', $candidatePackage, '-TargetRoot', $head)
+        $sync = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'maintenance/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Apply', '-AcceptMaintenance', '-PackageRoot', $candidatePackage, '-TargetRoot', $head)
         Write-Host $sync.Output
         if ($sync.ExitCode -ne 0) { Add-Check 'candidate-projection' 'fail' 'The base generator could not project head authorities.'; throw 'Candidate projection failed.' }
         $after = Get-GuardFileHashes $candidateRepository $packageFiles

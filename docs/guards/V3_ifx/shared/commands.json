@@ -376,7 +376,7 @@
     {
       "id": "ifx-policy-sync",
       "kind": "maintenance",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
       "stages": [
         "post"
       ],
@@ -402,7 +402,7 @@
     {
       "id": "ifx-history-manifest",
       "kind": "maintenance",
-      "entryPoint": "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1",
       "stages": [
         "post"
       ],

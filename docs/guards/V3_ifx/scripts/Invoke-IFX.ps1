@@ -178,7 +178,7 @@ function Assert-Source {
     }
 }
 
-$sync = Join-Path $PSScriptRoot 'Sync-IFXPolicyInputs.ps1'
+$sync = Join-Path $PSScriptRoot '../maintenance/Sync-IFXPolicyInputs.ps1'
 if (-not $SkipAuthorityCheck) {
     # Generate is read-only since P6.1, so policy projections are only checked here.
     & $sync -Mode Check -TargetRoot $target

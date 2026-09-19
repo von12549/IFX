@@ -4,9 +4,23 @@ param()
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $runner = Join-Path $root 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+$maintenance = Join-Path $root 'docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1'
 $fixtureRoot = Join-Path $root "artifacts/guards/v3-ifx/history-fixture-$([Guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Force -Path $fixtureRoot | Out-Null
 try {
+    & $maintenance -Mode Check
+    $trackedManifest = Join-Path $root 'docs/guards/V3_ifx/history/manifest.json'
+    $trackedHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $trackedManifest).Hash
+    $preview = Join-Path $fixtureRoot 'preview.json'
+    & $maintenance -Mode Preview -PreviewPath ([IO.Path]::GetRelativePath($root, $preview).Replace('\','/'))
+    if (-not (Test-Path -LiteralPath $preview -PathType Leaf)) { throw 'History Preview produced no candidate.' }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $trackedManifest).Hash -cne $trackedHash) { throw 'History Preview changed the tracked manifest.' }
+    $applied = Join-Path $fixtureRoot 'applied.json'
+    $rejected = @(& pwsh -NoProfile -File $maintenance -Mode Apply -OutputPath ([IO.Path]::GetRelativePath($root, $applied).Replace('\','/')) 2>&1)
+    if ($LASTEXITCODE -eq 0 -or (Test-Path -LiteralPath $applied)) { throw "History Apply without acceptance did not fail closed: $($rejected -join ' | ')" }
+    & $maintenance -Mode Apply -AcceptMaintenance -OutputPath ([IO.Path]::GetRelativePath($root, $applied).Replace('\','/'))
+    & $maintenance -Mode Check -OutputPath ([IO.Path]::GetRelativePath($root, $applied).Replace('\','/'))
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $preview).Hash -cne (Get-FileHash -Algorithm SHA256 -LiteralPath $applied).Hash) { throw 'History Preview and Apply candidates differ.' }
     & $runner -ReportPath ([IO.Path]::GetRelativePath($root, (Join-Path $fixtureRoot 'positive.json')).Replace('\','/'))
     $manifest = Get-Content -Raw (Join-Path $root 'docs/guards/V3_ifx/history/manifest.json') | ConvertFrom-Json -Depth 100
     $manifest.entries[0].sha256 = '0' * 64

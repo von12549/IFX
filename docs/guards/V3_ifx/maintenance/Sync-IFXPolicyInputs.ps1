@@ -1,8 +1,10 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('Validate', 'Generate', 'Check')][string] $Mode,
+    [Parameter(Mandatory)][ValidateSet('Validate', 'Preview', 'Check', 'Apply')][string] $Mode,
     [string] $TargetRoot,
-    [string] $PackageRoot
+    [string] $PackageRoot,
+    [switch] $AcceptMaintenance,
+    [string] $ReportPath
 )
 
 $ErrorActionPreference = 'Stop'
@@ -12,6 +14,7 @@ $repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else 
 $registryPath = Join-Path $packageRoot 'policy/authorities.json'
 $registry = Get-Content -LiteralPath $registryPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $utf8 = [Text.UTF8Encoding]::new($false)
+if ($Mode -eq 'Apply' -and -not $AcceptMaintenance) { throw 'Apply requires -AcceptMaintenance.' }
 
 function Resolve-ContainedPath {
     param([string] $Root, [string] $Relative, [string] $Label)
@@ -75,14 +78,37 @@ $differences = [Collections.Generic.List[string]]::new()
 foreach ($entry in $expected.GetEnumerator()) {
     if (-not [IO.File]::Exists($entry.Key)) {
         $differences.Add([IO.Path]::GetRelativePath($packageRoot, $entry.Key).Replace('\', '/'))
-        if ($Mode -eq 'Generate') { [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($entry.Key)) | Out-Null; [IO.File]::WriteAllText($entry.Key, $entry.Value, $utf8) }
         continue
     }
     if ((Get-CanonicalText $entry.Key) -cne $entry.Value) {
         $differences.Add([IO.Path]::GetRelativePath($packageRoot, $entry.Key).Replace('\', '/'))
-        if ($Mode -eq 'Generate') { [IO.File]::WriteAllText($entry.Key, $entry.Value, $utf8) }
     }
 }
 
 if ($Mode -eq 'Check' -and $differences.Count -gt 0) { throw "IFX policy projections are stale: $($differences -join ', ')" }
+if ($Mode -eq 'Preview') {
+    $report = if ($ReportPath) {
+        if ([IO.Path]::IsPathRooted($ReportPath)) { [IO.Path]::GetFullPath($ReportPath) } else { [IO.Path]::GetFullPath((Join-Path $repositoryRoot $ReportPath)) }
+    } else { Join-Path $repositoryRoot 'artifacts/guards/v3-ifx/maintenance/policy-projection-preview.json' }
+    $repositoryPrefix = $repositoryRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    if (-not $report.StartsWith($repositoryPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'ReportPath must stay under TargetRoot.' }
+    [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report)) | Out-Null
+    $preview = [ordered]@{
+        formatVersion = 1
+        operation = 'policy-projection-preview'
+        status = if ($differences.Count -eq 0) { 'current' } else { 'drift' }
+        packageRoot = [IO.Path]::GetRelativePath($repositoryRoot, $packageRoot).Replace('\', '/')
+        projectionCount = $expected.Count
+        changedPaths = @($differences)
+    }
+    [IO.File]::WriteAllText($report, (($preview | ConvertTo-Json -Depth 10) + "`n"), $utf8)
+    Write-Host "IFX policy projection Preview passed ($($expected.Count) files; changed: $($differences.Count)): $report"
+    exit 0
+}
+if ($Mode -eq 'Apply') {
+    foreach ($entry in $expected.GetEnumerator()) {
+        [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($entry.Key)) | Out-Null
+        [IO.File]::WriteAllText($entry.Key, $entry.Value, $utf8)
+    }
+}
 Write-Host "IFX policy projection $Mode passed ($($expected.Count) files; changed: $($differences.Count))."

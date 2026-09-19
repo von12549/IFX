@@ -41,10 +41,20 @@ try {
     Add-Content -LiteralPath $projection -Value ' '
     $output = @(& pwsh -NoProfile -File $sync -Mode Check -TargetRoot $root -PackageRoot $fixture 2>&1)
     if ($LASTEXITCODE -eq 0) { throw "Projection drift unexpectedly passed: $($output -join ' | ')" }
+    $driftHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $projection).Hash
+    $preview = Join-Path $fixture 'policy-preview.json'
+    & $sync -Mode Preview -TargetRoot $root -PackageRoot $fixture -ReportPath $preview
+    $previewDocument = Get-Content -Raw -LiteralPath $preview | ConvertFrom-Json
+    if ($previewDocument.status -ne 'drift' -or @($previewDocument.changedPaths).Count -ne 1) { throw 'Projection Preview did not report the single drifted projection.' }
+    if ((Get-FileHash -Algorithm SHA256 -LiteralPath $projection).Hash -cne $driftHash) { throw 'Projection Preview changed an authority projection.' }
+    if ($sync -ceq $selection.MaintenancePath) {
+        $rejected = @(& pwsh -NoProfile -File $sync -Mode Apply -TargetRoot $root -PackageRoot $fixture 2>&1)
+        if ($LASTEXITCODE -eq 0 -or (Get-FileHash -Algorithm SHA256 -LiteralPath $projection).Hash -cne $driftHash) { throw "Projection Apply without acceptance did not fail closed: $($rejected -join ' | ')" }
+    }
     & pwsh -NoProfile -File $sync @applyArguments -TargetRoot $root -PackageRoot $fixture
     if ($LASTEXITCODE -ne 0) { throw "Projection maintenance failed with exit code $LASTEXITCODE." }
     & $sync -Mode Check -TargetRoot $root -PackageRoot $fixture
-    Write-Host 'IFX authority projection Check rejects drift and the single declared maintenance entry point restores deterministic content.'
+    Write-Host 'IFX authority projection Preview is read-only, Check rejects drift and the single declared maintenance entry point restores deterministic content.'
 } finally {
     if (Test-Path $fixture) { Remove-Item -LiteralPath $fixture -Recurse -Force }
 }

@@ -134,7 +134,7 @@ try {
         [IO.File]::Copy((Join-Path $packageRoot 'policy/authorities.json'), (Join-Path $package 'policy/authorities.json'), $true)
         foreach ($projectionTarget in $projectionTargets) { [void](Write-HeadBlob $headSha $projectionTarget (Join-Path $work "projection/package/$projectionTarget")) }
         foreach ($source in @($sources | Sort-Object -Unique)) { [void](Write-HeadBlob $headSha $source (Join-Path $sourceRoot $source)) }
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Check', '-PackageRoot', $package, '-TargetRoot', $sourceRoot) -WorkingDirectory $work
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'maintenance/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Check', '-PackageRoot', $package, '-TargetRoot', $sourceRoot) -WorkingDirectory $work
         Add-Validation 'derived-projection' "$packagePath/policy/" $(if ($run.ExitCode -eq 0) { @() } else { @("head projections differ from the base generator output for head authorities: $(Get-RunTail $run)") })
     }
 

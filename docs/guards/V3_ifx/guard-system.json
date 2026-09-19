@@ -93,14 +93,6 @@
         "phase": "P6.4"
       },
       {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
-        "kind": "internal-command",
-        "replacement": "docs/guards/V3_ifx/maintenance/",
-        "compatibility": "none",
-        "removeWhen": "P10.3 move",
-        "phase": "P10.3"
-      },
-      {
         "legacyPath": "docs/guards/V3_ifx/profiles/ifx/views",
         "kind": "directory",
         "replacement": "docs/guards/V3_ifx/docs/generated/",

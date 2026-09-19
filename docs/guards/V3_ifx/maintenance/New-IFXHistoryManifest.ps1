@@ -1,5 +1,10 @@
 [CmdletBinding()]
-param([string] $OutputPath = 'docs/guards/V3_ifx/history/manifest.json')
+param(
+    [Parameter(Mandatory)][ValidateSet('Preview', 'Check', 'Apply')][string] $Mode,
+    [string] $OutputPath = 'docs/guards/V3_ifx/history/manifest.json',
+    [string] $PreviewPath = 'artifacts/guards/v3-ifx/maintenance/history-manifest.json',
+    [switch] $AcceptMaintenance
+)
 
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
@@ -52,7 +57,30 @@ $manifest = [ordered]@{
         [ordered]@{ source = 'docs/architecture/review/evidence/layerguard/B4-validation-status.json'; target = 'docs/architecture/review/evidence/layerguard/B4-report.json' }
     )
 }
-$resolved = if ([IO.Path]::IsPathRooted($OutputPath)) { $OutputPath } else { Join-Path $root $OutputPath }
-New-Item -ItemType Directory -Force -Path (Split-Path -Parent $resolved) | Out-Null
-[IO.File]::WriteAllText($resolved, (($manifest | ConvertTo-Json -Depth 20).Replace("`r`n", "`n") + "`n"), [Text.UTF8Encoding]::new($false))
-Write-Host "IFX history manifest generated: $resolved"
+$utf8 = [Text.UTF8Encoding]::new($false)
+$candidate = ($manifest | ConvertTo-Json -Depth 20).Replace("`r`n", "`n") + "`n"
+$resolved = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($OutputPath)) { $OutputPath } else { Join-Path $root $OutputPath }))
+$rootPrefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+if (-not $resolved.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'OutputPath must stay under the repository root.' }
+$current = if ([IO.File]::Exists($resolved)) { [IO.File]::ReadAllText($resolved).Replace("`r`n", "`n").Replace("`r", "`n") } else { $null }
+$isCurrent = $null -ne $current -and $current -ceq $candidate
+
+if ($Mode -eq 'Check') {
+    if (-not $isCurrent) { throw "IFX history manifest is stale: $resolved" }
+    Write-Host "IFX history manifest Check passed: $resolved"
+    exit 0
+}
+if ($Mode -eq 'Preview') {
+    $preview = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($PreviewPath)) { $PreviewPath } else { Join-Path $root $PreviewPath }))
+    $artifactRoot = [IO.Path]::GetFullPath((Join-Path $root 'artifacts'))
+    $artifactPrefix = $artifactRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    if (-not $preview.StartsWith($artifactPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'PreviewPath must stay under artifacts/.' }
+    [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($preview)) | Out-Null
+    [IO.File]::WriteAllText($preview, $candidate, $utf8)
+    Write-Host "IFX history manifest Preview passed ($(if ($isCurrent) { 'current' } else { 'drift' })): $preview"
+    exit 0
+}
+if (-not $AcceptMaintenance) { throw 'Apply requires -AcceptMaintenance.' }
+[IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($resolved)) | Out-Null
+[IO.File]::WriteAllText($resolved, $candidate, $utf8)
+Write-Host "IFX history manifest Apply passed: $resolved"

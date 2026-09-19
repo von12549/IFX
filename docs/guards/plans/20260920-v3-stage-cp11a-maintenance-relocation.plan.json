@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11a-maintenance-relocation",
+  "title": "V3 stage-oriented refactor CP11a — maintenance tool relocation",
+  "goal": "Move policy projection and history regeneration into maintenance with read-only Preview/Check and explicitly accepted Apply semantics.",
+  "acceptanceCriteria": [
+    "The two internal tools exist only under maintenance/ and all live callers and manifests use the new paths.",
+    "Policy Preview writes only an artifact report, Check rejects drift, and Apply requires explicit acceptance while preserving projection bytes.",
+    "History Preview leaves the tracked manifest unchanged, Check rejects drift, and accepted Apply is byte-identical to Preview.",
+    "Required check names, workflow activation and policy/history authorities remain unchanged; protected-change and TCB candidate verification pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+    "docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-history-generator-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-maintenance-relocation-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-maintenance-relocation-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-policy-sync-move.json",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

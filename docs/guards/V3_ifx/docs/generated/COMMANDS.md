@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `bf0f06d4a090e13c4162686607cbcefb5c92bd5f6241a7bde6e8c6ccb6d8580a`
+Composite SHA-256: `a5b74b1b2559896709ee60f214d725945e3c0dd18af5686bb29d1d0fdfa15a3c`
 
 Sources:
 
@@ -22,8 +22,8 @@ Sources:
 | ifx-specialized | internal | `docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1` | post | writes-artifacts | False |
 | ifx-quality | internal | `docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1` | post | writes-artifacts | False |
 | ifx-historical-integrity | internal | `docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1` | post | writes-artifacts | False |
-| ifx-policy-sync | maintenance | `docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1` | post | writes-authority | True |
-| ifx-history-manifest | maintenance | `docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1` | post | writes-authority | True |
+| ifx-policy-sync | maintenance | `docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1` | post | writes-authority | True |
+| ifx-history-manifest | maintenance | `docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1` | post | writes-authority | True |
 | ifx-analysis-evidence | maintenance | `docs/guards/V3_ifx/maintenance/Update-IFXAnalysisEvidence.ps1` | analysis | writes-authority | True |
 | ifx-refactor-baseline | maintenance | `docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1` | analysis | writes-authority | True |
 | ifx-trusted-base | internal | `docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1` | ci | writes-artifacts | False |

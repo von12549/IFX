@@ -63,8 +63,8 @@
       "type": "engine-runner",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
-        "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1"
+        "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
