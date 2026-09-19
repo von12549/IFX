@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp09-registry-prep",
+  "title": "V3 stage-oriented refactor CP09 — prepare analysis evidence destinations",
+  "goal": "Temporarily exclude empty reviewed analysis destination directories so a later protected move can register their exact JSON paths without trusting head-defined policy.",
+  "acceptanceCriteria": [
+    "The two future analysis evidence/report directories are temporarily excluded while they remain empty; no evidence file is moved or created.",
+    "The policy registry remains schema-valid and its trusted-base and weaken-policy obligations are authorized and consumed in separate commits.",
+    "The subsequent CP09 candidate can add and register the exact JSON paths while removing the exclusions, and can be evaluated entirely by the prepared base registry without any head-defined registration exception."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-registry-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-registry-prep-weaken-policy.json",
+    "docs/guards/plans/20260919-v3-stage-cp09-registry-prep.md",
+    "docs/guards/plans/20260919-v3-stage-cp09-registry-prep.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

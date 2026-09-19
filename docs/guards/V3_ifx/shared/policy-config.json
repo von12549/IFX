@@ -10,6 +10,8 @@
     "docs/guards/V3_ifx/stages/"
   ],
   "excluded": [
+    "docs/guards/V3_ifx/stages/analysis/evidence/",
+    "docs/guards/V3_ifx/stages/analysis/reports/",
     "docs/guards/V3_ifx/stages/diff/authorizations/"
   ],
   "entries": [
