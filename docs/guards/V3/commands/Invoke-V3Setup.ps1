@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory)][ValidateSet('Init', 'Analyze')][string] $Mode,
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $ProfileDirectory,
+    [string] $ProfileLayoutPath,
     [string] $OutputDirectory,
     [string] $EvidenceDirectory,
     [ValidatePattern('^[a-z0-9][a-z0-9-]*$')][string] $PackageId = 'v3',
@@ -31,6 +32,7 @@ function Relative([string] $path) { return [IO.Path]::GetRelativePath($root, $pa
 function Hash-File([string] $path) { return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([IO.File]::ReadAllBytes($path))).ToLowerInvariant() }
 
 if ($Mode -eq 'Init') {
+    if ($ProfileLayoutPath) { throw 'Init creates a legacy directory profile and does not accept ProfileLayoutPath.' }
     if (-not $ProfileDirectory -or -not $ProjectId -or -not $TargetFramework) { throw 'Init requires ProfileDirectory, ProjectId and TargetFramework.' }
     if ($ProjectId -cnotmatch '^[a-z][a-z0-9-]+$') { throw 'ProjectId must match the profile contract.' }
     if ($TargetFramework -cnotmatch '^net[0-9]+\.0$') { throw 'TargetFramework must be a netN.0 target.' }
@@ -165,6 +167,7 @@ Write-Lf (Join-Path $output 'PROPOSAL.md') "# Guard profile review proposal`n`nT
 $draftArgs = @{ Mode = 'Draft'; TargetRoot = $root; AnalysisDirectory = $output }
 if ($EvidenceDirectory) { $draftArgs.EvidenceDirectory = $EvidenceDirectory }
 if ($ProfileDirectory) { $draftArgs.ProfileDirectory = $ProfileDirectory }
+if ($ProfileLayoutPath) { $draftArgs.ProfileLayoutPath = $ProfileLayoutPath }
 if ($ProjectId) { $draftArgs.ProjectId = $ProjectId }
 if ($TargetFramework) { $draftArgs.TargetFramework = $TargetFramework }
 & (Join-Path $PSScriptRoot '../scripts/Invoke-V3Architecture.ps1') @draftArgs

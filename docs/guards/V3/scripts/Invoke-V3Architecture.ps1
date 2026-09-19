@@ -5,6 +5,7 @@ param(
     [Parameter(Mandatory)][string] $AnalysisDirectory,
     [string] $EvidenceDirectory,
     [string] $ProfileDirectory,
+    [string] $ProfileLayoutPath,
     [string] $DestinationProfileDirectory,
     [string] $ProjectId,
     [string] $TargetFramework = 'net10.0',
@@ -16,6 +17,10 @@ Set-StrictMode -Version Latest
 $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $root = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists($root)) { throw "TargetRoot does not exist: $root" }
+Import-Module (Join-Path $packageRoot 'scripts/ProfileLayout.psm1') -Force
+$activeLayout = if ($ProfileDirectory -or $ProfileLayoutPath) {
+    Resolve-V3ProfileLayout -TargetRoot $root -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $packageRoot 'contracts/profile-layout.schema.json')
+} else { $null }
 $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 function Resolve-UnderRoot([string] $value) {
     $path = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($value)) { $value } else { Join-Path $root $value }))
@@ -64,13 +69,12 @@ if ($Mode -eq 'Draft') {
     if ($EvidenceDirectory -and (-not [IO.File]::Exists($architecturePath) -or -not [IO.File]::Exists($technicalPath))) {
         throw 'EvidenceDirectory must contain reviewed ARCHITECTURE.md and TECHNICAL.md; update them through the maintenance Preview/Apply command.'
     }
-    if ($ProfileDirectory) {
-        $profileRoot = Resolve-UnderRoot $ProfileDirectory
-        $profile = Read-Contract (Join-Path $profileRoot 'profile.json') 'profile'
-        $map = Read-Contract (Join-Path $profileRoot 'project-map.json') 'project-map'
-        $tech = Read-Contract (Join-Path $profileRoot 'tech-stack.json') 'tech-stack'
+    if ($activeLayout) {
+        $profile = Read-Contract $activeLayout.Profile 'profile'
+        $map = Read-Contract $activeLayout.ProjectMap 'project-map'
+        $tech = Read-Contract $activeLayout.TechStack 'tech-stack'
         $rules = @{}
-        foreach ($file in @(Get-ChildItem -LiteralPath (Join-Path $profileRoot 'rules') -File -Filter '*.json' | Sort-Object Name)) { $rules[$file.Name] = Read-Contract $file.FullName 'rule' }
+        foreach ($file in @(Get-ChildItem -LiteralPath $activeLayout.RulesDirectory -File -Filter '*.json' | Sort-Object Name)) { $rules[$file.Name] = Read-Contract $file.FullName 'rule' }
     }
     else {
         $id = if ($ProjectId) { $ProjectId } else { [IO.Path]::GetFileName($root).ToLowerInvariant() -replace '[^a-z0-9-]', '-' }
@@ -157,11 +161,11 @@ foreach ($rule in @($rules | Where-Object { $_.kind -eq 'forbidden-project-refer
     }
 }
 $profileDifferences = @()
-if ($ProfileDirectory) {
-    $current = Resolve-UnderRoot $ProfileDirectory
-    $currentNames = @('profile.json', 'project-map.json', 'tech-stack.json') + @(Get-ChildItem -LiteralPath (Join-Path $current 'rules') -File -Filter '*.json' | ForEach-Object { "rules/$($_.Name)" })
-    foreach ($name in @($currentNames + @($blocks.Keys) | Sort-Object -Unique)) {
-        $path = Join-Path $current $name
+if ($activeLayout) {
+    $currentPaths = [ordered]@{ 'profile.json' = $activeLayout.Profile; 'project-map.json' = $activeLayout.ProjectMap; 'tech-stack.json' = $activeLayout.TechStack }
+    foreach ($file in @(Get-ChildItem -LiteralPath $activeLayout.RulesDirectory -File -Filter '*.json')) { $currentPaths["rules/$($file.Name)"] = $file.FullName }
+    foreach ($name in @(@($currentPaths.Keys) + @($blocks.Keys) | Sort-Object -Unique)) {
+        $path = if ($currentPaths.Contains($name)) { $currentPaths[$name] } else { '' }
         if (-not [IO.File]::Exists($path) -or -not $blocks.Contains($name) -or (Canonical-Json ([IO.File]::ReadAllText($path))) -cne (Canonical-Json $blocks[$name])) { $profileDifferences += $name }
     }
 }

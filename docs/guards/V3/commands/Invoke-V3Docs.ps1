@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('Render', 'Check')][string] $Mode,
-    [Parameter(Mandatory)][string] $ProfileDirectory,
+    [string] $ProfileDirectory,
+    [string] $ProfileLayoutPath,
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $DocsDirectory,
     [string] $PackageDirectory,
@@ -47,24 +48,40 @@ function Add-Expected([Collections.IDictionary] $set, [string] $rootDirectory, [
     $set[$path] = Normalize $content
 }
 
-$profileRoot = Resolve-UnderRoot $ProfileDirectory
-if (-not [IO.Directory]::Exists($profileRoot)) { throw "ProfileDirectory does not exist: $profileRoot" }
-$viewsRoot = if ($DocsDirectory) { Resolve-UnderRoot $DocsDirectory } else { Join-Path $profileRoot 'views' }
-if ($viewsRoot -eq $profileRoot) { throw 'DocsDirectory must differ from ProfileDirectory.' }
-$overlayRoot = if ($PackageDirectory) { Resolve-UnderRoot $PackageDirectory } else { [IO.Path]::GetFullPath((Join-Path $profileRoot '../..')) }
+$profileSchemaRoot = Join-Path $engineRoot 'contracts'
+Import-Module (Join-Path $engineRoot 'scripts/ProfileLayout.psm1') -Force
+$profileLayout = Resolve-V3ProfileLayout -TargetRoot $root -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $profileSchemaRoot 'profile-layout.schema.json')
+$profilePath = $profileLayout.Profile
+$projectMapPath = $profileLayout.ProjectMap
+$techStackPath = $profileLayout.TechStack
+$ruleRoot = $profileLayout.RulesDirectory
+$viewsRoot = if ($DocsDirectory) { Resolve-UnderRoot $DocsDirectory } else { $profileLayout.ViewsDirectory }
+if ($viewsRoot -in @($profilePath, $projectMapPath, $techStackPath, $ruleRoot)) { throw 'DocsDirectory must differ from profile authority paths.' }
+$overlayRoot = if ($PackageDirectory) { Resolve-UnderRoot $PackageDirectory } elseif ($profileLayout.Mode -eq 'directory') { [IO.Path]::GetFullPath((Join-Path ([IO.Path]::GetDirectoryName($profilePath)) '../..')) } else { $root }
 $mapPath = if ($DocsMapPath) { Resolve-UnderRoot $DocsMapPath } else { Join-Path $overlayRoot 'docs/docs-map.json' }
 
-$profileSchemaRoot = Join-Path $engineRoot 'contracts'
-$profile = Read-Json (Join-Path $profileRoot 'profile.json') (Join-Path $profileSchemaRoot 'profile.schema.json')
-$map = Read-Json (Join-Path $profileRoot 'project-map.json') (Join-Path $profileSchemaRoot 'project-map.schema.json')
-$tech = Read-Json (Join-Path $profileRoot 'tech-stack.json') (Join-Path $profileSchemaRoot 'tech-stack.schema.json')
-$ruleFiles = @(Get-ChildItem -LiteralPath (Join-Path $profileRoot 'rules') -File -Filter '*.json' | Sort-Object Name)
+$profile = Read-Json $profilePath (Join-Path $profileSchemaRoot 'profile.schema.json')
+$map = Read-Json $projectMapPath (Join-Path $profileSchemaRoot 'project-map.schema.json')
+$tech = Read-Json $techStackPath (Join-Path $profileSchemaRoot 'tech-stack.schema.json')
+$ruleFiles = @(Get-ChildItem -LiteralPath $ruleRoot -File -Filter '*.json' | Sort-Object Name)
 if ($ruleFiles.Count -eq 0) { throw 'At least one rule is required.' }
 $rules = @($ruleFiles | ForEach-Object { Read-Json $_.FullName (Join-Path $profileSchemaRoot 'rule.schema.json') })
 $expected = [ordered]@{}
 
 function Profile-Header([string] $title, [string[]] $paths) {
-    $sources = @($paths | ForEach-Object { $full = Join-Path $profileRoot $_; [pscustomobject]@{ path = Relative $full; role = 'authority'; fullPath = $full } })
+    $sources = @($paths | ForEach-Object {
+        $logical = $_
+        $full = switch ($logical) {
+            'profile.json' { $profilePath }
+            'project-map.json' { $projectMapPath }
+            'tech-stack.json' { $techStackPath }
+            default {
+                if (-not $logical.StartsWith('rules/')) { throw "Unknown profile authority source: $logical" }
+                Join-Path $ruleRoot ([IO.Path]::GetFileName($logical))
+            }
+        }
+        [pscustomobject]@{ path = Relative $full; role = 'authority'; fullPath = $full }
+    })
     return New-Header $title $sources
 }
 $areaLines = @($map.areas | ForEach-Object { "| $(Cell $_.id) | $(Cell $_.pathPattern) | $(Cell $_.layer) | $(Cell $_.owner) | $(Cell $_.similarImplementationRoot) | $(Cell $_.focusedCommands) |" })

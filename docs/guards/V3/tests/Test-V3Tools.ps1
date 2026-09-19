@@ -18,6 +18,26 @@ try {
     [IO.File]::WriteAllText((Join-Path $trial '.github/workflows/build.yml'), 'name: build', $utf8)
     & $setup -Mode Init -TargetRoot $trial -ProfileDirectory 'guard/profile' -ProjectId sample -TargetFramework net10.0
     & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/profile' -OutputDirectory 'guard/generated'
+    $layoutPath = Join-Path $trial 'guard/profile-layout.json'
+    $layout = [ordered]@{
+        formatVersion = 1
+        profile = 'guard/profile/profile.json'
+        projectMap = 'guard/profile/project-map.json'
+        techStack = 'guard/profile/tech-stack.json'
+        rulesDirectory = 'guard/profile/rules'
+        viewsDirectory = 'guard/profile/views'
+    }
+    [IO.File]::WriteAllText($layoutPath, (ConvertTo-Json -InputObject $layout -Depth 20) + "`n", $utf8)
+    & $guard -Mode Validate -TargetRoot $trial -ProfileLayoutPath 'guard/profile-layout.json' -OutputDirectory 'guard/generated'
+    $exclusive = $false
+    try { & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/profile' -ProfileLayoutPath 'guard/profile-layout.json' -OutputDirectory 'guard/generated' } catch { $exclusive = $_.Exception.Message -match 'exactly one' }
+    if (-not $exclusive) { throw 'Profile inputs did not reject an ambiguous directory-plus-layout invocation.' }
+    $missingLayout = [ordered]@{} + $layout
+    $missingLayout.profile = 'guard/profile/missing.json'
+    [IO.File]::WriteAllText((Join-Path $trial 'guard/missing-profile-layout.json'), (ConvertTo-Json -InputObject $missingLayout -Depth 20) + "`n", $utf8)
+    $noFallback = $false
+    try { & $guard -Mode Validate -TargetRoot $trial -ProfileLayoutPath 'guard/missing-profile-layout.json' -OutputDirectory 'guard/generated' } catch { $noFallback = $_.Exception.Message -match 'does not exist' }
+    if (-not $noFallback) { throw 'Explicit profile layout silently fell back after a missing authority path.' }
     $profile = Join-Path $trial 'guard/profile'
     $rulePath = Join-Path $profile 'rules/ARCH.UNCONFIGURED.json'
     $rule = Get-Content -LiteralPath $rulePath -Raw | ConvertFrom-Json
@@ -37,7 +57,7 @@ try {
     $architecturePath = Join-Path $trial 'guard/analysis/ARCHITECTURE.md'
     $technicalPath = Join-Path $trial 'guard/analysis/TECHNICAL.md'
     if (-not [IO.File]::Exists($architecturePath) -or -not [IO.File]::Exists($technicalPath)) { throw 'Analyze did not create editable architecture drafts.' }
-    & $architecture -Mode Review -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -ProfileDirectory 'guard/profile'
+    & $architecture -Mode Review -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -ProfileLayoutPath 'guard/profile-layout.json'
     $draftReview = Get-Content -LiteralPath (Join-Path $trial 'guard/analysis/architecture-review.json') -Raw | ConvertFrom-Json
     if ($draftReview.decision -ne 'needs-review' -or -not $draftReview.hasPlaceholders) { throw 'Unreviewed architecture draft was treated as adoptable.' }
     $archText = [IO.File]::ReadAllText($architecturePath).Replace('Guard review status: DRAFT', 'Guard review status: REVIEWED').Replace('"layer": "UNREVIEWED"', '"layer": "application"').Replace('"owner": "UNREVIEWED"', '"owner": "sample-owner"')
@@ -76,7 +96,7 @@ try {
     }
     finally { [IO.File]::WriteAllText($projectPath, $goodProject, $utf8) }
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
-    & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
+    & $docs -Mode Check -TargetRoot $trial -ProfileLayoutPath 'guard/profile-layout.json'
     $view = Join-Path $profile 'views/rules/ARCH.UNCONFIGURED.md'
     $edited = [IO.File]::ReadAllText($view) + "`nmanual edit`n"
     [IO.File]::WriteAllText($view, $edited, $utf8)
@@ -95,7 +115,7 @@ try {
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
     if ([IO.File]::ReadAllText($view) -notmatch 'GENERATED READ-ONLY' -or [IO.File]::ReadAllText($view) -match '```json') { throw 'Generated profile view is not unambiguously read-only.' }
-    Write-Host 'V3 setup/docs tests passed: fail-closed Init, evidence inventory, architecture review/adoption, generated positive/negative gate, and read-only Markdown drift checks.'
+    Write-Host 'V3 setup/docs tests passed: fail-closed Init, directory/layout parity without fallback, evidence inventory, architecture review/adoption, generated positive/negative gate, and read-only Markdown drift checks.'
 }
 finally {
     $resolved = [IO.Path]::GetFullPath($trial)

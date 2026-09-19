@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('Validate', 'Pre', 'Generate', 'Check', 'Test', 'Diff')][string] $Mode,
-    [Parameter(Mandatory)][string] $ProfileDirectory,
+    [string] $ProfileDirectory,
+    [string] $ProfileLayoutPath,
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $OutputDirectory,
     [string] $PlanPath,
@@ -25,8 +26,12 @@ $guardPackageId = $PackageId.ToLowerInvariant()
 if ($guardPackageId -cnotmatch '^[a-z][a-z0-9-]+$') { throw 'PackageId must be a lowercase kebab-case identifier.' }
 $root = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists($root)) { throw "TargetRoot does not exist: $root" }
-$profileRoot = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ProfileDirectory)) { $ProfileDirectory } else { Join-Path $root $ProfileDirectory }))
-if (-not [IO.Directory]::Exists($profileRoot)) { throw "ProfileDirectory does not exist: $profileRoot" }
+Import-Module (Join-Path $packageRoot 'scripts/ProfileLayout.psm1') -Force
+$profileLayout = Resolve-V3ProfileLayout -TargetRoot $root -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $packageRoot 'contracts/profile-layout.schema.json')
+$profilePath = $profileLayout.Profile
+$projectMapPath = $profileLayout.ProjectMap
+$techStackPath = $profileLayout.TechStack
+$ruleRoot = $profileLayout.RulesDirectory
 $stageRoot = [IO.Path]::GetFullPath($(if ($OutputDirectory) {
     if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory }
     elseif ($GenerationRoot) { Join-Path ([IO.Path]::GetFullPath($GenerationRoot)) $OutputDirectory }
@@ -96,10 +101,9 @@ function Read-ValidatedJson {
 }
 
 function Get-Profile {
-    $profile = Read-ValidatedJson (Join-Path $profileRoot 'profile.json') 'profile'
-    $map = Read-ValidatedJson (Join-Path $profileRoot 'project-map.json') 'project-map'
-    $tech = Read-ValidatedJson (Join-Path $profileRoot 'tech-stack.json') 'tech-stack'
-    $ruleRoot = Join-Path $profileRoot 'rules'
+    $profile = Read-ValidatedJson $profilePath 'profile'
+    $map = Read-ValidatedJson $projectMapPath 'project-map'
+    $tech = Read-ValidatedJson $techStackPath 'tech-stack'
     if (-not [IO.Directory]::Exists($ruleRoot)) { throw "Missing rules directory: $ruleRoot" }
     $ruleFiles = @(Get-ChildItem -LiteralPath $ruleRoot -File -Filter '*.json' | Sort-Object Name)
     if ($ruleFiles.Count -eq 0) { throw 'At least one rule is required.' }
@@ -295,20 +299,20 @@ function Get-ExpectedFiles {
     $files['Diff/Stage.cs'] = ConvertTo-Lf ('namespace {0}.Diff; internal static class Stage {{ internal const string Name = "Diff"; }}' -f $namespace)
     $identity = [ordered]@{ formatVersion = 1; projectId = $Data.Profile.projectId; projectIdentifier = $projectIdentifier; projectName = $projectName }
     $files['GeneratedInputs/identity.json'] = ConvertTo-Lf (ConvertTo-Json -InputObject $identity -Compress)
-    $files['GeneratedInputs/profile.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'profile.json') -Raw)
-    $files['GeneratedInputs/project-map.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'project-map.json') -Raw)
-    $files['GeneratedInputs/tech-stack.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'tech-stack.json') -Raw)
+    $files['GeneratedInputs/profile.json'] = ConvertTo-Lf (Get-Content -LiteralPath $profilePath -Raw)
+    $files['GeneratedInputs/project-map.json'] = ConvertTo-Lf (Get-Content -LiteralPath $projectMapPath -Raw)
+    $files['GeneratedInputs/tech-stack.json'] = ConvertTo-Lf (Get-Content -LiteralPath $techStackPath -Raw)
     foreach ($file in $Data.RuleFiles) { $files["GeneratedInputs/rules/$($file.Name)"] = ConvertTo-Lf (Get-Content -LiteralPath $file.FullName -Raw) }
     return $files
 }
 
 function Get-InputHash {
     param([object] $Data)
-    $names = @('profile.json', 'project-map.json', 'tech-stack.json') + @($Data.RuleFiles | ForEach-Object { "rules/$($_.Name)" })
+    $inputs = [ordered]@{ 'profile.json' = $profilePath; 'project-map.json' = $projectMapPath; 'tech-stack.json' = $techStackPath }
+    foreach ($file in $Data.RuleFiles) { $inputs["rules/$($file.Name)"] = $file.FullName }
     $builder = [Text.StringBuilder]::new()
-    foreach ($name in $names) {
-        $path = Join-Path $profileRoot $name
-        [void] $builder.Append($name).Append("`n").Append((ConvertTo-Lf ([IO.File]::ReadAllText($path))))
+    foreach ($name in $inputs.Keys) {
+        [void] $builder.Append($name).Append("`n").Append((ConvertTo-Lf ([IO.File]::ReadAllText($inputs[$name]))))
     }
     $bytes = [Text.Encoding]::UTF8.GetBytes($builder.ToString())
     return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
