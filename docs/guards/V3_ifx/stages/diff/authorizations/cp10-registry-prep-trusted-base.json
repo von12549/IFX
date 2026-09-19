@@ -52,5 +52,10 @@
     "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
   ],
   "parityContract": "Existing registered policy and configuration semantics remain unchanged; the schema only permits exact-file exclusions and the registry temporarily excludes three absent CP10 CI JSON destinations.",
-  "allowedBehaviorDifferences": []
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "The pre-bridge base renderer cannot validate exact-file registry exclusions; the candidate makes only that schema extension, and every other Validate check plus all five verdict parity modes remains equal."
+    }
+  ]
 }
