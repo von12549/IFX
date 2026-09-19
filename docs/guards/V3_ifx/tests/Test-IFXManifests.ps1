@@ -79,7 +79,7 @@ try {
     Invoke-Case 'manifest removing itself from protection fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.manifest' }).paths = @('docs/guards/V3_ifx/stages/') } 'not self-protecting'
     Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' } 'overlap'
     Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) $d.components += [ordered]@{ id = 'tcb.future-component'; type = 'future'; status = 'planned'; paths = @('Directory.Build.props'); validationSuite = @('future'); parityContract = 'future'; allowedChange = 'change-trusted-base' } } "Planned component 'tcb.future-component'"
-    Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1`n") } 'Verdict-chain script is outside the trusted component manifest: docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1'
+    Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1`n") } 'Workflow references a missing script: docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1'
     Invoke-Case 'stage listed without manifest fails' 1 $system { param($d) $d.stages = @($d.stages | Where-Object { $_ -ne 'diff' }) } "Stage manifest 'diff' is not listed"
     Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
     $authorities = 'docs/guards/V3_ifx/policy/authorities.json'
@@ -108,7 +108,6 @@ try {
     Invoke-Case 'policy registry claiming a derived projection fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths += 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' } "Policy registry entry 'layerguard-policy' claims derived projection target docs/guards/V3_ifx/policy/g05/context-protocol-v1.json"
     Invoke-Case 'policy registry claiming an authorization record fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'diff-protection' })[0].paths += 'docs/guards/V3_ifx/stages/diff/authorizations/fixture.json' } "Policy registry entry 'diff-protection' claims excluded path docs/guards/V3_ifx/stages/diff/authorizations/fixture.json"
     Invoke-Case 'synthetic test diverging from V3 fails' 1 'docs/guards/V3_ifx/tests/Test-V3.ps1' { param($p) [IO.File]::AppendAllText($p, "# divergence`n") } 'V3 fork copy diverges from V3: docs/guards/V3_ifx/tests/Test-V3.ps1'
-    Invoke-Case 'runner diverging from V3 fails' 1 'docs/guards/V3_ifx/scripts/Invoke-V3.ps1' { param($p) [IO.File]::AppendAllText($p, "# divergence`n") } 'V3 fork copy diverges from V3: docs/guards/V3_ifx/scripts/Invoke-V3.ps1'
     Write-Host 'IFX manifest tests passed.'
 }
 finally {

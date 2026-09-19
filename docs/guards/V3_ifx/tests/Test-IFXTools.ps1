@@ -2,25 +2,34 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $root = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
+$v3 = Join-Path $root 'docs/guards/V3'
 $profile = Join-Path $package 'profiles/ifx'
-$inventoryRoot = Join-Path $package 'analysis/ifx'
+$artifacts = [IO.Path]::GetFullPath((Join-Path $root 'artifacts/guards'))
+$inventoryRoot = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-tools-$([Guid]::NewGuid().ToString('N'))"))
+if (-not $inventoryRoot.StartsWith($artifacts.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar,
+    [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe IFX tools fixture path.' }
 $inventoryPath = Join-Path $inventoryRoot 'inventory.json'
 $architecturePath = Join-Path $inventoryRoot 'ARCHITECTURE.md'
 $technicalPath = Join-Path $inventoryRoot 'TECHNICAL.md'
 $policyPath = Join-Path $package 'policy/layerguard.json'
 $policyBefore = [IO.File]::ReadAllBytes($policyPath)
-$profileBefore = @(Get-ChildItem -LiteralPath $profile -File -Recurse | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($profile, $_.FullName)):$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)" })
-& (Join-Path $package 'scripts/Invoke-V3.ps1') -Mode Validate -TargetRoot $root -ProfileDirectory $profile -OutputDirectory (Join-Path $package 'generated/stages')
-& (Join-Path $package 'scripts/Invoke-V3Docs.ps1') -Mode Check -TargetRoot $root -ProfileDirectory $profile
-if (-not [IO.File]::Exists($inventoryPath)) { throw 'IFX inventory has not been generated.' }
-$first = [IO.File]::ReadAllBytes($inventoryPath)
-$architectureBefore = [IO.File]::ReadAllBytes($architecturePath)
-$technicalBefore = [IO.File]::ReadAllBytes($technicalPath)
-& (Join-Path $package 'scripts/Invoke-V3Setup.ps1') -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
-if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $first, [byte[]] [IO.File]::ReadAllBytes($inventoryPath))) { throw 'IFX analysis is not reproducible.' }
-if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $architectureBefore, [byte[]] [IO.File]::ReadAllBytes($architecturePath)) -or
-    -not [Linq.Enumerable]::SequenceEqual([byte[]] $technicalBefore, [byte[]] [IO.File]::ReadAllBytes($technicalPath))) { throw 'Analyze overwrote editable IFX architecture drafts.' }
-& (Join-Path $package 'scripts/Invoke-V3Architecture.ps1') -Mode Review -TargetRoot $root -AnalysisDirectory $inventoryRoot -ProfileDirectory $profile
+try {
+    [void][IO.Directory]::CreateDirectory($inventoryRoot)
+    [IO.File]::WriteAllBytes($architecturePath, [IO.File]::ReadAllBytes((Join-Path $package 'analysis/ifx/ARCHITECTURE.md')))
+    [IO.File]::WriteAllBytes($technicalPath, [IO.File]::ReadAllBytes((Join-Path $package 'analysis/ifx/TECHNICAL.md')))
+    $profileBefore = @(Get-ChildItem -LiteralPath $profile -File -Recurse | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($profile, $_.FullName)):$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)" })
+    & (Join-Path $v3 'scripts/Invoke-V3.ps1') -Mode Validate -TargetRoot $root -ProfileDirectory $profile
+    & (Join-Path $v3 'scripts/Invoke-V3Docs.ps1') -Mode Check -TargetRoot $root -ProfileDirectory $profile
+    $architectureBefore = [IO.File]::ReadAllBytes($architecturePath)
+    $technicalBefore = [IO.File]::ReadAllBytes($technicalPath)
+    & (Join-Path $v3 'scripts/Invoke-V3Setup.ps1') -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
+    if (-not [IO.File]::Exists($inventoryPath)) { throw 'IFX inventory was not generated.' }
+    $first = [IO.File]::ReadAllBytes($inventoryPath)
+    & (Join-Path $v3 'scripts/Invoke-V3Setup.ps1') -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
+    if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $first, [byte[]] [IO.File]::ReadAllBytes($inventoryPath))) { throw 'IFX analysis is not reproducible across consecutive runs.' }
+    if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $architectureBefore, [byte[]] [IO.File]::ReadAllBytes($architecturePath)) -or
+        -not [Linq.Enumerable]::SequenceEqual([byte[]] $technicalBefore, [byte[]] [IO.File]::ReadAllBytes($technicalPath))) { throw 'Analyze overwrote editable IFX architecture drafts.' }
+    & (Join-Path $v3 'scripts/Invoke-V3Architecture.ps1') -Mode Review -TargetRoot $root -AnalysisDirectory $inventoryRoot -ProfileDirectory $profile
 $review = Get-Content -LiteralPath (Join-Path $inventoryRoot 'architecture-review.json') -Raw | ConvertFrom-Json
 if ($review.projectId -ne 'ifx' -or $review.documentReviewed -or $review.profileDifferences.Count -ne 0 -or -not $review.hasBlockingDetector -or $review.observedForbiddenReferences.Count -ne 0) { throw 'IFX architecture review does not match current evidence/profile.' }
 $profileAfter = @(Get-ChildItem -LiteralPath $profile -File -Recurse | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($profile, $_.FullName)):$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)" })
@@ -34,4 +43,8 @@ if (@($inventory.workflows | Where-Object { $_.path -match '(coding-guardrails|c
 if ('src/Modules/CRM' -notin @($inventory.areaCandidates)) { throw 'IFX module candidate was not detected.' }
 $coverage = [IO.File]::ReadAllText((Join-Path $profile 'views/COVERAGE.md'))
 if ($coverage -notmatch '\[L2\.2\].*blocking' -or $coverage -notmatch '\[L2\.3\].*advisory') { throw 'IFX stage coverage view misstates enforcement.' }
-Write-Host "IFX V3 tools passed: $($inventory.projects.Count) projects, $($inventory.workflows.Count) workflows, reproducible analysis, preserved architecture drafts, zero profile drift, unchanged LayerGuard policy and checked Markdown views."
+    Write-Host "IFX V3 tools passed: $($inventory.projects.Count) projects, $($inventory.workflows.Count) workflows, reproducible analysis, preserved architecture drafts, zero profile drift, unchanged LayerGuard policy and checked Markdown views."
+}
+finally {
+    if ([IO.Directory]::Exists($inventoryRoot)) { [IO.Directory]::Delete($inventoryRoot, $true) }
+}

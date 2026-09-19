@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp08-prep0-base-tests",
+  "title": "V3 stage-oriented refactor CP08-prep0 — base-owned transition test bridge",
+  "goal": "Make the base-owned manifest and tools tests valid across the canonical-V3 and thin-wrapper transition before production paths change.",
+  "acceptanceCriteria": [
+    "The manifest negative control uses a genuinely missing workflow executable and still fails closed, while template and synthetic-test fork parity remain covered.",
+    "The tools test proves two consecutive canonical V3 Analyze runs are byte-reproducible in an isolated artifacts directory and never rewrites tracked analysis snapshots.",
+    "Both tests pass on Windows, IFX Validate remains unchanged, and only the consumed authorization record is deleted; no runner, policy, workflow or required-check behavior changes."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-prep0-trusted-base.json",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-prep0-base-tests.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-prep0-base-tests.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ]
+}
