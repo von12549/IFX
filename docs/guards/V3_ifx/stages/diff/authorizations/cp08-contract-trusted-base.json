@@ -1,0 +1,586 @@
+{
+  "formatVersion": 1,
+  "id": "cp08-contract-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260919-v3-stage-cp08-stage-gate-contract.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ],
+  "changedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/build/locks/GuardV3.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/build/locks/Ifx.Guards.StageGate.Tests.packages.lock.json",
+    "docs/guards/V3_ifx/generated/stages/AssemblyGuardTests.cs",
+    "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+    "docs/guards/V3_ifx/generated/stages/GuardV3.Tests.csproj",
+    "docs/guards/V3_ifx/generated/stages/profile.json",
+    "docs/guards/V3_ifx/generated/stages/project-map.json",
+    "docs/guards/V3_ifx/generated/stages/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+    "docs/guards/V3_ifx/generated/stages/rules/ARCH.SEMANTIC.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L1.2.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L2.2.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L2.3.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L2.4.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L2.9.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L3.1.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L3.4.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L3.5.json",
+    "docs/guards/V3_ifx/generated/stages/rules/L3.6.json",
+    "docs/guards/V3_ifx/generated/stages/tech-stack.json",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+    "docs/guards/V3_ifx/hooks/README.md",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/templates/dotnet/AssemblyGuardTests.cs.in",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/templates/dotnet/AssemblyGuardTests.cs.in",
+    "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3/tests/Test-V3BuildBaseline.ps1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.build.package-local",
+    "tcb.compatibility.v3-public-wrappers",
+    "tcb.compatibility.v3-transition",
+    "tcb.engine.v3-runner",
+    "tcb.entry.ifx-guardrails",
+    "tcb.generated.stage-gate",
+    "tcb.generator.stage-gate",
+    "tcb.manifest",
+    "tcb.validation.v3-package-tests"
+  ],
+  "entries": [
+    {
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8b385cd2f9f1c68ebd0ecf53b451055a928061fa"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d944ef854da5aefa6e2a2f35d87ea82d9e397534"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/build/locks/GuardV3.Tests.packages.lock.json",
+      "component": "tcb.build.package-local",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94b877285806ad25bfc85386f9588d61071af5a0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/build/locks/Ifx.Guards.StageGate.Tests.packages.lock.json",
+      "component": "tcb.build.package-local",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94b877285806ad25bfc85386f9588d61071af5a0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/AssemblyGuardTests.cs",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/GuardTests.cs",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94b38f768fe2b6bd82abbdcbd0395583e8a1a09b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/GuardV3.Tests.csproj",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b92009109bc970968f9984cd65233076afe547b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/profile.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fdd8286ae6e3ce0f73d4c29afdae005d264f1a71"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/project-map.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9ca56550742d48eb494051634e64b28e06802d13"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c24c8f475b66ac6443cb7e6cb4a3bf1a383fc6c3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/ARCH.SEMANTIC.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c2e56bbaf757a8e17ac1b59073c3cecbe42707a3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L1.2.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ffae770f7a54d999395887f3c06aaa6d19d6e645"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L2.2.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "146eea6a09e37286a84e850e833024cb97169aa6"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L2.3.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0248f33a9ec7c4160c174885d2041d4a921fdd8a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L2.4.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9cb54bae17e5c8811ad71e199507971808ac358c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L2.9.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c589c3a1e893193783bc9070eb9f912a147fabe"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L3.1.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e806579ee26ade1523f10682fe60b4c36932a45c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L3.4.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1ebac46a91558ce8450345b6391f91d31b1ee15b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L3.5.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2370ddd46f90724de48c085cc61970970c564e75"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/rules/L3.6.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7e730e779c5906c9e17c4494408c59012269cdd8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/generated/stages/tech-stack.json",
+      "component": "tcb.generated.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f044060e181a11508efbb6e873e48c9359f750d8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/guard-system.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "eb6d6892ab18ca8c4c75d717ec219f91163c60b1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "780dac32414542bd3ffb0ea2b50c3615167e9bfa"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf7066b19316ba563d73d6274f6eb078fa0514d2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/hooks/README.md",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "238117a5f82645573bbeaa99ad24b003a883e8b9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4376c3cba88260c692072c5a0a9883897960681f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "935a6f643a7abc6dd3f7b5e8fe11cc8c2071fe7e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d72753efceaf1467f9162c64924e80db87cee507"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7ecb4ae274136445852303629fd260d271ab983f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b2c428d5d8ebdfc08304acf6b0a9e69aed9ca368"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "609ce96694a643d4e4948f91cbc481b369bd082f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "672646625579c4b50003573a29a5b65524025e4b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "726b3207f18d2dd7c025192df9250419b1346b50"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8c890ddfe87eba9148b9510a5000064cc55ce378"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6260d8484754ae20accbf72127abe9d39b69ae10"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "74b8eaab8092b8743a148cfb60bb3a2c9546a825"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/stage.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "07bd1e254c44ae397e2a34b7e7b74c1bad3e5913"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b44941c7e13142411e5c4697b7fa821de497b96e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/AssemblyGuardTests.cs.in",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94b38f768fe2b6bd82abbdcbd0395583e8a1a09b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e529d14b37c302c62e996d207b448c03c079e9c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e5da00bad6ac6c89726be9a3fa4fc5181e1a983c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bc063ca9856a0e26fb03c42939ae9f0c3b9b3b01"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+      "component": "tcb.compatibility.v3-transition",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bec54db33b3ed2f3997a4c64ffc737ade824728b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "component": "tcb.engine.v3-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a0401695a00401339c90cfa168dde711dbdea83b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9f4f0a1487c4212397915c9eb875355e72d88f61"
+      }
+    },
+    {
+      "path": "docs/guards/V3/templates/dotnet/AssemblyGuardTests.cs.in",
+      "component": "tcb.generator.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0aa463e5a19892530ebb6423af2d1ffc98b07aa4"
+      }
+    },
+    {
+      "path": "docs/guards/V3/templates/dotnet/GuardTests.cs.in",
+      "component": "tcb.generator.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94b38f768fe2b6bd82abbdcbd0395583e8a1a09b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "29976ed1759c13b876cbe7fc11b9e07c6dddcc2e"
+      }
+    },
+    {
+      "path": "docs/guards/V3/templates/dotnet/GuardV3.Tests.csproj.in",
+      "component": "tcb.generator.stage-gate",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e529d14b37c302c62e996d207b448c03c079e9c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "544e1c414cf45ac3318a9e0e334d5dc213e9af1f"
+      }
+    },
+    {
+      "path": "docs/guards/V3/tests/Test-V3.ps1",
+      "component": "tcb.validation.v3-package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e5da00bad6ac6c89726be9a3fa4fc5181e1a983c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "05203b5049a6fb0dc083dec462ba862588eb5cd1"
+      }
+    },
+    {
+      "path": "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+      "component": "tcb.validation.v3-package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e42a7af2253488eb09d442bbc9fd50995296a11e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3e4c768259a0a37cd74f2c3d394fdeff451eec72"
+      }
+    },
+    {
+      "path": "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+      "component": "tcb.validation.v3-package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f5d04fba5f0e2d0c68fe216f6d396a1add7ab7fe"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cbe1b0c04f4590c2133a8e3bcadf93dd6b9fa38a"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "Invoke-V3.ps1 -Mode Check",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "Canonical V3 remains the only Stage Gate implementation; Validate, HistoricalIntegrity, G03, G04, G05 and Plan04 keep the same verdicts while project-specific generation is externalized, IFX protection stays bound explicitly, and internal copies are removed.",
+  "allowedBehaviorDifferences": []
+}

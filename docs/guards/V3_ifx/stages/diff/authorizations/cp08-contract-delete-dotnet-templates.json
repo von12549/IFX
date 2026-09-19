@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "id": "cp08-contract-delete-dotnet-templates",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260919-v3-stage-cp08-stage-gate-contract.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/templates/dotnet",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "f8ff010a4c3946a4cc428b4243e3c3574edd369a"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/templates/dotnet/AssemblyGuardTests.cs.in",
+    "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/AssemblyGuardTests.cs.in",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94b38f768fe2b6bd82abbdcbd0395583e8a1a09b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/dotnet/GuardV3.Tests.csproj.in",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e529d14b37c302c62e996d207b448c03c079e9c"
+      },
+      "head": null
+    }
+  ]
+}

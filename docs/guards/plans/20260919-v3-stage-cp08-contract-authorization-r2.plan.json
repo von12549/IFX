@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp08-contract-authorization-r2",
+  "title": "V3 stage-oriented refactor CP08-auth-r2 — exact Stage Gate contract authorization with Diff protection binding",
+  "goal": "Authorize exact candidate 2448cec0 on verified CP08-prep base 32fcf3a7 after establishing the IFX protection binding, base-owned test bridge and RepositoryIgnore mapping.",
+  "acceptanceCriteria": [
+    "The change-trusted-base record binds all and only the 43 trusted paths and 10 base/head components changed by candidate 2448cec0.",
+    "The weaken-policy record binds the exact semantic changes in the three registered trust/stage files; project-map policy was authorized and applied by CP08-prep.",
+    "Seven delete records and one move record bind every protected removal and the reviewed lock rename; this authorization changes no trusted component or registered policy itself."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-dotnet-templates.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-generated-stages.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-hooks.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-test-v3-archunit.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-test-v3-tools.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-test-v3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-delete-v3-architecture.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-move-lock.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-contract-weaken-policy.json",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-contract-authorization-r2.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-contract-authorization-r2.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ]
+}
