@@ -11,6 +11,8 @@
   ],
   "plannedPaths": [
     "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-registry-prep-tcb-r2.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-registry-prep-weaken-policy-r2.json",
     "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
     "docs/guards/plans/20260920-v3-stage-cp11c-profile-registry-prep.md",
     "docs/guards/plans/20260920-v3-stage-cp11c-profile-registry-prep.plan.json"
