@@ -6,7 +6,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
+$root = if ($RepositoryRoot) { [IO.Path]::GetFullPath($RepositoryRoot) } elseif ($env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../..')) }
 function Resolve-InRoot([string] $path) {
     $resolved = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($path)) { $path } else { Join-Path $root $path }))
     $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar

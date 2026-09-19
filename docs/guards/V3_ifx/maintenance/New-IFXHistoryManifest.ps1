@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('Preview', 'Check', 'Apply')][string] $Mode,
-    [string] $OutputPath = 'docs/guards/V3_ifx/history/manifest.json',
+    [string] $OutputPath = 'docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json',
     [string] $PreviewPath = 'artifacts/guards/v3-ifx/maintenance/history-manifest.json',
     [switch] $AcceptMaintenance
 )

@@ -3,7 +3,6 @@
   "roots": [
     "docs/guards/V3_ifx/ci/",
     "docs/guards/V3_ifx/contracts/",
-    "docs/guards/V3_ifx/history/",
     "docs/guards/V3_ifx/policy/",
     "docs/guards/V3_ifx/profiles/ifx/",
     "docs/guards/V3_ifx/shared/",
@@ -13,13 +12,6 @@
     "docs/guards/V3_ifx/stages/diff/authorizations/"
   ],
   "entries": [
-    {
-      "id": "cp11d-historical-integrity-migration",
-      "role": "editable-policy",
-      "directory": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/",
-      "format": "json",
-      "candidateValidation": "history-manifest"
-    },
     {
       "id": "ifx-profile-layout",
       "role": "trust-meta-policy",
@@ -90,7 +82,7 @@
       "id": "history-manifest",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/history/manifest.json"
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json"
       ],
       "format": "json",
       "candidateValidation": "history-manifest"

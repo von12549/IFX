@@ -124,7 +124,7 @@ $v3 = Join-Path $packageRepository 'docs/guards/V3/commands/Invoke-V3.ps1'
 $architecture = Join-Path $PSScriptRoot '../scripts/Invoke-IFX.ps1'
 $specialized = Join-Path $packageRoot 'specialized/Invoke-IFXSpecialized.ps1'
 $quality = Join-Path $packageRoot 'quality/Invoke-IFXQuality.ps1'
-$history = Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1'
+$history = Join-Path $packageRoot 'stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
 $docs = Join-Path $packageRepository 'docs/guards/V3/commands/Invoke-V3Docs.ps1'
 $ciContract = Join-Path $packageRoot 'ci/Invoke-IFXCiContract.ps1'
 $manifestCheck = Join-Path $PSScriptRoot '../scripts/Invoke-IFXManifestCheck.ps1'
@@ -184,7 +184,7 @@ foreach ($current in $modes) {
 }
 
 $inputBuilder = [Text.StringBuilder]::new()
-foreach ($relative in @('shared/profile-layout.json','shared/profile.json','stages/pre/project-map.json','shared/toolchain.json','policy/authorities.json','policy/layerguard.json','history/manifest.json')) {
+foreach ($relative in @('shared/profile-layout.json','shared/profile.json','stages/pre/project-map.json','shared/toolchain.json','policy/authorities.json','policy/layerguard.json','stages/post/gates/historical-integrity/manifest.json')) {
     $path = Join-Path $packageRoot $relative
     if (Test-Path -LiteralPath $path -PathType Leaf) {
         [void]$inputBuilder.Append($relative).Append("`n").Append(([IO.File]::ReadAllText($path).Replace("`r`n", "`n").Replace("`r", "`n")))

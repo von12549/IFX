@@ -18,7 +18,7 @@
       "inputs": [
         "docs/guards/V3_ifx/shared/profile-layout.json",
         "docs/guards/V3_ifx/policy/",
-        "docs/guards/V3_ifx/history/manifest.json",
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
         "formal Plan (Pre/Diff)",
         "clean base worktree plus explicit BaseSha (-TrustedBase)",
         "reviewed head candidate test suites (CandidateTests)"
@@ -349,7 +349,7 @@
     {
       "id": "ifx-historical-integrity",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "entryPoint": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1",
       "stages": [
         "post"
       ],
@@ -357,7 +357,7 @@
         "ci"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/history/manifest.json"
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/history/"
@@ -413,7 +413,7 @@
         "tracked historical evidence"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/history/manifest.json"
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json"
       ],
       "evidence": [],
       "mutability": "writes-authority",

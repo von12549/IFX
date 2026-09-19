@@ -541,11 +541,11 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base history verifier",
-        "policy": "docs/guards/V3_ifx/history/manifest.json",
+        "policy": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
         "targetInput": "tracked evidence files in head",
         "inputs": [
           {
-            "ref": "package:history/manifest.json",
+            "ref": "package:stages/post/gates/historical-integrity/manifest.json",
             "source": "base"
           },
           {

@@ -126,7 +126,11 @@ try {
             if ([IO.Path]::IsPathRooted($path) -or $path -match '(^|[\\/])\.\.([\\/]|$)') { continue }
             [void](Write-HeadBlob $headSha $path.Replace('\', '/') (Join-Path $historyRoot $path))
         }
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1') @('-RepositoryRoot', $historyRoot, '-ManifestPath', $manifestPath, '-ReportPath', (Join-Path $historyRoot 'history-summary.json')) -WorkingDirectory $work
+        $legacyEnginePath = Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1'
+        $stageEnginePath = Join-Path $packageRoot 'stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
+        if ([IO.File]::Exists($legacyEnginePath) -eq [IO.File]::Exists($stageEnginePath)) { throw 'Base package must contain exactly one legacy or stage-owned Historical Integrity engine.' }
+        $historyEngine = if ([IO.File]::Exists($stageEnginePath)) { $stageEnginePath } else { $legacyEnginePath }
+        $run = Invoke-GuardIsolatedPwsh $historyEngine @('-RepositoryRoot', $historyRoot, '-ManifestPath', $manifestPath, '-ReportPath', (Join-Path $historyRoot 'history-summary.json')) -WorkingDirectory $work
         Add-Validation 'history-manifest' $manifestPath $(if ($run.ExitCode -eq 0) { @() } else { @("the base historical integrity engine rejects the head manifest against head evidence: $(Get-RunTail $run)") })
     }
 

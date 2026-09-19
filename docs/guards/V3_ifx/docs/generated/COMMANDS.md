@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `6e8e376dcf3a622e548cc07821dcfea364a3d1929a5c345bcba122661327c620`
+Composite SHA-256: `1ede7ef6c77f62b69116ee7ba603aaf0ef67ff4adc2e94e5acacdcb5895a78b4`
 
 Sources:
 
@@ -21,7 +21,7 @@ Sources:
 | ifx-manifest-check | public | `docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1` | ci | read-only | False |
 | ifx-specialized | internal | `docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1` | post | writes-artifacts | False |
 | ifx-quality | internal | `docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1` | post | writes-artifacts | False |
-| ifx-historical-integrity | internal | `docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1` | post | writes-artifacts | False |
+| ifx-historical-integrity | internal | `docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1` | post | writes-artifacts | False |
 | ifx-policy-sync | maintenance | `docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1` | post | writes-authority | True |
 | ifx-history-manifest | maintenance | `docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1` | post | writes-authority | True |
 | ifx-analysis-evidence | maintenance | `docs/guards/V3_ifx/maintenance/Update-IFXAnalysisEvidence.ps1` | analysis | writes-authority | True |
@@ -33,7 +33,7 @@ Sources:
 ## ifx-guardrails
 
 - Audiences: ci, human
-- Inputs: docs/guards/V3_ifx/shared/profile-layout.json; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/history/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
+- Inputs: docs/guards/V3_ifx/shared/profile-layout.json; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
 - Outputs: artifacts/guards/v3-ifx/
 - Evidence: artifacts/guards/v3-ifx/summary-<mode>.json
 
@@ -110,7 +110,7 @@ Sources:
 ## ifx-historical-integrity
 
 - Audiences: ci
-- Inputs: docs/guards/V3_ifx/history/manifest.json
+- Inputs: docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json
 - Outputs: artifacts/guards/v3-ifx/history/
 - Evidence: artifacts/guards/v3-ifx/history/summary.json
 
@@ -125,7 +125,7 @@ Sources:
 
 - Audiences: human
 - Inputs: tracked historical evidence
-- Outputs: docs/guards/V3_ifx/history/manifest.json
+- Outputs: docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json
 - Evidence: (none)
 
 ## ifx-analysis-evidence
