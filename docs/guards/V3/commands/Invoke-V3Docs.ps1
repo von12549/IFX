@@ -127,7 +127,7 @@ if ([IO.File]::Exists($mapPath)) {
             }
             'ci' {
                 $ci = Read-Json (Join-Path $overlayRoot 'stages/ci/stage.json') $null
-                $jobs = Read-Json (Join-Path $overlayRoot 'ci/jobs.json') $null
+                $jobs = Read-Json (Join-Path $overlayRoot 'stages/ci/required-checks.json') (Join-Path $overlayRoot 'contracts/required-checks.schema.json')
                 $rows = @($jobs.jobs | ForEach-Object { $gate = if ($_.ContainsKey('gate')) { $_.gate } else { '' }; "| $($_.id) | $($_.mode) | $gate | $($_.trigger) | $($_.blocking) |" })
                 $body = "$header`nWorkflow: ``$($jobs.automaticGuardWorkflow)``. Merge enforcement: $($jobs.mergeEnforcement). Ruleset strict: $($jobs.ruleset.strict). Trusted-base execution: $($jobs.trustedBase.execution).`n`n| Required check | Mode | Gate | Trigger | Blocking |`n| --- | --- | --- | --- | --- |`n$($rows -join "`n")`n`nCI Stage dependencies: $(@($ci.dependencies) -join ', ')."
             }

@@ -862,12 +862,12 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P9 — 轻量 workflow candidate 与激活验证
 
-- [ ] P9.1 建立 V3 通用 renderer 与 V3_ifx `workflow.template.yml`、`workflow.variables.json`、`required-checks.json`、`activation.json`。
-- [ ] P9.2 实现 §10.2 的 Generate/Check，candidate 写入 `artifacts/generated/`；Check 包含"PR 判定第一个可执行入口位于 base worktree"。
-- [ ] P9.3 实现 Preview、`Install -AcceptDeployment` 和人工复制后的 Verify；激活副本带 source path/hash 头。
-- [ ] P9.4 以 `required-checks.json` 取代 `ci/jobs.json`，远端只读 verifier 比较 ruleset；远端写入保持独立授权。
-- [ ] P9.5 CODEOWNERS managed block 纳入同一生命周期。
-- [ ] P9.6 候选与现有激活 workflow 并行比较，不改变任何 check 名称，不立即切换。
+- [x] P9.1 建立 V3 通用 renderer 与 V3_ifx `workflow.template.yml`、`workflow.variables.json`、`required-checks.json`、`activation.json`。证据：`V3/commands/Invoke-V3Deployment.ps1`、`stages/ci/` 权威文件及 activation/variables/required-checks schema（CP10）。
+- [x] P9.2 实现 §10.2 的 Generate/Check，candidate 写入 `artifacts/generated/`；Check 包含"PR 判定第一个可执行入口位于 base worktree"。证据：candidate 只写 artifacts；CI contract 覆盖 canonical YAML、DAG/名称/触发、仅 public command 与 `trusted-base-first-verdict` 正反例（CP10）。
+- [x] P9.3 实现 Preview、`Install -AcceptDeployment` 和人工复制后的 Verify；激活副本带 source path/hash 头。证据：fixture 拒绝无接受开关，验证 provenance header、source SHA、managed block 保留 unmanaged 内容及 Verify 漂移失败（CP10）。
+- [x] P9.4 以 `required-checks.json` 取代 `ci/jobs.json`，远端只读 verifier 比较 ruleset；远端写入保持独立授权。证据：schema-valid authority 与 read-only verifier；ruleset `23459908`、strict、13 个名称不变；旧文件受控删除（CP10）。
+- [x] P9.5 CODEOWNERS managed block 纳入同一生命周期。证据：`codeowners.template` 与 activation mapping；真实 CODEOWNERS 本检查点不激活，fixture 覆盖 Install/Verify（CP10）。
+- [x] P9.6 候选与现有激活 workflow 并行比较，不改变任何 check 名称，不立即切换。证据：Preview 将两个现有目标标记为 `legacy-equivalent`，active workflow 未经 Install 改写，13 个 check 精确相等（CP10）。
 - **门槛**：候选与激活副本之间不存在未解释差异；workflow 只调用公共命令；模板检查器有正反例。
 
 ### P10 — 物理目录迁移、V3_backup 删除与兼容入口清理

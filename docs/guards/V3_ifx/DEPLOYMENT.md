@@ -20,10 +20,10 @@ Plan 06 §11 requires CI verdicts to come from the base commit. `trusted-base/In
 
 ```powershell
 git worktree add --detach $env:TEMP/guard-base <base-sha>
-pwsh -NoProfile -File "$env:TEMP/guard-base/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot . -BaseSha <base-sha> -Mode Specialized -SpecializedGate G03 -GateId v3-specialized-g03
+pwsh -NoProfile -File "$env:TEMP/guard-base/docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot . -BaseSha <base-sha> -Mode Specialized -SpecializedGate G03 -GateId v3-specialized-g03
 ```
 
-The runner does the following:
+The public command forwards this explicitly trusted invocation to the internal base runner. The runner does the following:
 
 1. Verifies the worktree's SHA, cleanliness and location.
 2. Compares head domain authorities with base by their registered D18 roles (`Test-IFXDomainAuthorityCandidates.ps1`). A governing-policy change or a widened exception fails closed until P4 provides `weaken-policy`.
@@ -34,7 +34,28 @@ The runner does the following:
 
 The guarantee scope and the break-glass procedure are in `docs/authored/trusted-base.md`.
 
-Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandidate.ps1` from the same base worktree, in the `v3-cross-platform-ubuntu-latest` job of every pull request once the base commit's `ci/jobs.json` declares `trustedBase.tcbCandidateVerification: active`. They need a base `change-trusted-base` authorization that the change PR deletes; see `stages/diff/authorizations/README.md`.
+Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandidate.ps1` from the same base worktree, in the `v3-cross-platform-ubuntu-latest` job of every pull request once the base commit's `stages/ci/required-checks.json` declares `trustedBase.tcbCandidateVerification: active`. They need a base `change-trusted-base` authorization that the change PR deletes; see `stages/diff/authorizations/README.md`.
+
+## CI activation lifecycle
+
+`stages/ci/required-checks.json` is the machine authority for the 13 stable check names, trigger contract, trusted-base activation, cost controls and GitHub ruleset identity. The workflow candidate is rendered from `stages/ci/workflow.template.yml` plus the two stable values in `workflow.variables.json`; the CODEOWNERS guard routing is a managed block rendered from `codeowners.template`. `activation.json` maps both candidates to their activated targets.
+
+```powershell
+$deploy = 'docs/guards/V3/commands/Invoke-V3Deployment.ps1'
+$activation = 'docs/guards/V3_ifx/stages/ci/activation.json'
+pwsh -NoProfile -File $deploy -Mode Generate -ActivationPath $activation -TargetRoot .
+pwsh -NoProfile -File $deploy -Mode Check -ActivationPath $activation -TargetRoot .
+pwsh -NoProfile -File $deploy -Mode Preview -ActivationPath $activation -TargetRoot . -ReportPath artifacts/guards/v3-ifx/activation-preview.json
+```
+
+`Generate` writes only below `artifacts/generated/v3-ifx/activation/`. `Check` rejects template drift and runs the declared public CI-contract command, including schema, job DAG, stable check names, trusted-base first verdict entry and ruleset declaration. `Preview` is read-only; `legacy-equivalent` means the activated body is identical but predates the source-path/SHA header or managed-block markers. Installation is intentionally separate and requires an explicit acceptance switch:
+
+```powershell
+pwsh -NoProfile -File $deploy -Mode Install -ActivationPath $activation -TargetRoot . -AcceptDeployment
+pwsh -NoProfile -File $deploy -Mode Verify -ActivationPath $activation -TargetRoot .
+```
+
+`Install` writes the exact generated workflow (with source path and composite SHA-256 header) and replaces only the marker-owned CODEOWNERS block, preserving all unmanaged lines. Do not use it merely because a candidate was generated: review `Preview`, obtain the required activation authorization, then install in a separate activation change. `Invoke-IFXCiContract.ps1 -Remote` remains GET-only and compares ruleset `23459908`, all 13 contexts, enforcement and strict up-to-date mode. It never writes remote settings.
 
 `SpecializedGate` also accepts `G04`, `G05`, `Plan04`, `Database`, and `All`. `QualityTarget` accepts `Solution`, `Assembly`, `Frontend`, and `All`. Database validation requires the EF Core 8 CLI and Docker for the SQL Server Testcontainers matrix. Frontend validation runs `npm ci`, lint, `test:run`, and build.
 
@@ -75,6 +96,7 @@ pwsh -NoProfile -File "$v3/tests/Test-IFXSpecializedContracts.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXHistoricalIntegrity.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-CutoverPreservation.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXCiContract.ps1"
+pwsh -NoProfile -File "$v3/tests/Test-IFXDeployment.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXManifests.ps1"
 pwsh -NoProfile -File "$engine/tests/Test-V3Tools.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXTools.ps1"
@@ -89,7 +111,7 @@ Analysis is a runtime review artifact, not an automatic policy migration. Invent
 
 Both IFX .NET gates build through the V3 trusted build baseline (`docs/guards/V3/build/`, Plan 06 D14): SDK from its `global.json`, packages only from its `NuGet.config`, explicit `V3.Build.props`, no `Directory.*` discovery, output under `artifacts/build/v3-ifx/{stage-gate,architecture-conformance}/`, locked restore against the reviewed lock files in `build/locks/`, and pre-/post-build import allowlist reports under `artifacts/guards/v3-ifx/build/`. A missing, edited or stale lock fails the gate. When a guard project's package references change, run `Invoke-V3.ps1 -Mode Test ... -LockMode Update` or `Invoke-IFX.ps1 -Mode Test -LockMode Update`, review the lock diff and commit it with the formal Plan. No `bin/` or `obj/` directory is written under `docs/guards`.
 
-`Invoke-IFXGuardrails.ps1 -Mode Validate` runs profile validation, LayerGuard input validation, the Markdown view check (`profile-views`), the workflow/`ci/jobs.json` contract (`ci-contract`) and the Plan 06 manifest check (`manifest-check`), so stale views, undeclared or renamed CI jobs and trusted-component gaps fail in CI. `Invoke-IFXCiContract.ps1 -Remote` additionally compares the live ruleset (required contexts, strict mode, enforcement) and is run manually because it needs GitHub API access.
+`Invoke-IFXGuardrails.ps1 -Mode Validate` runs profile validation, LayerGuard input validation, the Markdown view check (`profile-views`), the workflow/`stages/ci/required-checks.json` contract (`ci-contract`) and the Plan 06 manifest check (`manifest-check`), so stale views, undeclared or renamed CI jobs and trusted-component gaps fail in CI. `Invoke-IFXCiContract.ps1 -Remote` additionally compares the live ruleset (required contexts, strict mode, enforcement) and is run manually because it needs GitHub API access.
 
 `Test-IFXTools.ps1` creates fresh analysis under `artifacts/`, checks reproducibility and proves that reviewed evidence, the active profile and independent policy remain unchanged. If IFX authority JSON changes, run Docs `Render` and then `Check`; profile views and the four aggregate documents are read-only and carry source roles plus a composite hash. Keep free-form rationale under `docs/authored/`. The profile view's coverage matrix is **V3 stage-only** and does not downgrade the separate independent Architecture Conformance policy.
 

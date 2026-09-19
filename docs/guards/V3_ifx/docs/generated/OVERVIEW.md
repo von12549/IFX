@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `79de6489b16113189857361386f577a1d9777b1e9a5dfaa8ec46c6b97eb0c1a9`
+Composite SHA-256: `eef1655b66386a54d71b22d187f08966e7f131d73e54cc697f417c1ca8afe766`
 
 Sources:
 
@@ -21,7 +21,7 @@ Package `v3-ifx` is an `overlay` package using engine `docs/guards/V3`. Authorit
 | --- | --- | --- | --- | --- |
 | analysis | advisory | authoring | bootstrap | v3-setup, v3-architecture-review, ifx-analysis-evidence, ifx-refactor-baseline |
 | bootstrap | advisory | authoring |  | v3-setup |
-| ci | blocking | orchestration | pre, post, diff | ifx-guardrails, ifx-ci-contract, ifx-manifest-check, ifx-trusted-base, ifx-tcb-candidate |
+| ci | blocking | orchestration | pre, post, diff | ifx-guardrails, ifx-ci-contract, v3-deployment, ifx-manifest-check, ifx-trusted-base, ifx-tcb-candidate |
 | diff | blocking | gate | pre | ifx-guardrails, v3-runner, ifx-trusted-base-authorization |
 | post | blocking | gate |  | ifx-guardrails, v3-runner, v3-docs, ifx-architecture, ifx-specialized, ifx-quality, ifx-historical-integrity, ifx-policy-sync, ifx-history-manifest |
 | pre | advisory | authoring |  | ifx-guardrails, v3-runner, v3-docs |

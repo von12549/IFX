@@ -2,13 +2,13 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `3ac4cd7e20db330060034f9c006a39207e4788df3291969228945f084a2d8a47`
+Composite SHA-256: `23f02136fae9fec0545cffc8690b4096ad0fb779b7501f9e1d767e61d0d745d0`
 
 Sources:
 
 - `.github/workflows/v3-ifx-guardrails.yml` — ci-contract
-- `docs/guards/V3_ifx/ci/jobs.json` — ci-contract
 - `docs/guards/V3_ifx/shared/commands.json` — command-contract
+- `docs/guards/V3_ifx/stages/ci/required-checks.json` — ci-contract
 - `docs/guards/V3_ifx/stages/ci/stage.json` — trust-contract
 
 Workflow: `.github/workflows/v3-ifx-guardrails.yml`. Merge enforcement: github-ruleset-required-checks. Ruleset strict: True. Trusted-base execution: active.

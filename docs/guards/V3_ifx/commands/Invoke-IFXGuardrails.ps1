@@ -1,7 +1,12 @@
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('Validate','Pre','Diff','Architecture','Specialized','Quality','HistoricalIntegrity','All')][string] $Mode,
+    [Parameter(Mandatory)][ValidateSet('Validate','Pre','Diff','Architecture','Specialized','Quality','HistoricalIntegrity','Scope','CandidateTests','TrustedComponentCandidate','All')][string] $Mode,
     [string] $TargetRoot,
+    [switch] $TrustedBase,
+    [string] $BaseSha,
+    [string] $GateId,
+    [string] $GitHubOutput,
+    [ValidateSet('Architecture','CrossPlatform')][string] $CandidateSuite,
     [ValidateSet('G03','G04','G05','Plan04','Database','All')][string] $SpecializedGate = 'All',
     [ValidateSet('Solution','Assembly','Frontend','All')][string] $QualityTarget = 'All',
     [string] $PlanPath,
@@ -38,6 +43,80 @@ function Invoke-Child([string] $id, [string] $script, [string[]] $arguments, [st
     } catch {
         $script:checks += [ordered]@{ id = $id; status = 'fail'; reason = $_.Exception.Message; evidencePaths = @($evidence) }
     }
+}
+
+# CI calls only this public façade. TrustedBase forwards into the base-owned internal runner; the candidate modes
+# keep supplemental head tests and TCB verification behind the same stable command boundary (Plan 06 P9).
+if ($TrustedBase) {
+    if (-not $BaseSha) { throw '-TrustedBase requires -BaseSha.' }
+    if ($Mode -notin @('Validate','Pre','Diff','Architecture','Specialized','Quality','HistoricalIntegrity','Scope')) { throw "Mode $Mode is not available with -TrustedBase." }
+    $arguments = @('-HeadRoot', $root, '-BaseSha', $BaseSha, '-Mode', $Mode, '-OutputDirectory', $OutputDirectory)
+    foreach ($pair in @(
+        @('SpecializedGate', $SpecializedGate),
+        @('QualityTarget', $QualityTarget),
+        @('PlanPath', $PlanPath),
+        @('BaseRef', $BaseRef),
+        @('HeadRef', $HeadRef),
+        @('GenerationRoot', $GenerationRoot),
+        @('GateId', $GateId),
+        @('GitHubOutput', $GitHubOutput)
+    )) { if (-not [string]::IsNullOrWhiteSpace([string]$pair[1])) { $arguments += @("-$($pair[0])", [string]$pair[1]) } }
+    & pwsh -NoProfile -File (Join-Path $packageRoot 'trusted-base/Invoke-IFXTrustedBase.ps1') @arguments
+    exit $LASTEXITCODE
+}
+
+if ($Mode -eq 'TrustedComponentCandidate') {
+    if (-not $BaseSha) { throw 'TrustedComponentCandidate requires -BaseSha.' }
+    & pwsh -NoProfile -File (Join-Path $packageRoot 'trusted-base/Test-IFXTrustedBaseCandidate.ps1') -TargetRoot $root -BaseSha $BaseSha
+    exit $LASTEXITCODE
+}
+
+if ($Mode -eq 'CandidateTests') {
+    if (-not $CandidateSuite) { throw 'CandidateTests requires -CandidateSuite.' }
+    if ($CandidateSuite -eq 'CrossPlatform' -and -not $GenerationRoot) { throw 'CrossPlatform candidate tests require -GenerationRoot.' }
+    $candidateStage = if ($GenerationRoot) { Join-Path ([IO.Path]::GetFullPath($GenerationRoot)) 'v3-ifx/gates/stage' } else { $null }
+    $testCommands = if ($CandidateSuite -eq 'Architecture') {
+        @(
+            ,@('docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXPackage.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXManifests.ps1')
+            ,@('docs/guards/V3/tests/Test-V3ArchUnit.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-ArchitectureOnly')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-DiffConsumptionOnly')
+        )
+    } else {
+        @(
+            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+            ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
+            ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
+            ,@('docs/guards/V3/tests/Test-V3.ps1')
+            ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1')
+            ,@('docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1')
+        )
+    }
+    foreach ($command in $testCommands) {
+        $script = [IO.Path]::GetFullPath((Join-Path $packageRepository $command[0]))
+        $arguments = if ($command.Count -gt 1) { @($command[1..($command.Count - 1)]) } else { @() }
+        & pwsh -NoProfile -File $script @arguments
+        if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
+    }
+    Write-Host "IFX $CandidateSuite candidate tests passed."
+    exit 0
 }
 
 $profile = Join-Path $packageRoot 'profiles/ifx'

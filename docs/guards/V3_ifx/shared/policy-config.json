@@ -178,13 +178,34 @@
       "candidateValidation": "json-schema"
     },
     {
-      "id": "ci-jobs",
+      "id": "ci-required-checks",
       "role": "trust-meta-policy",
       "paths": [
-        "docs/guards/V3_ifx/ci/jobs.json"
+        "docs/guards/V3_ifx/stages/ci/required-checks.json"
       ],
       "format": "json",
-      "candidateValidation": "json"
+      "schema": "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "ci-activation",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/ci/activation.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "ci-workflow-variables",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/ci/workflow.variables.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "candidateValidation": "json-schema"
     },
     {
       "id": "contracts",
@@ -949,6 +970,70 @@
       ]
     },
     {
+      "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "fields": [
+        { "pointer": "/properties/artifacts", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/allOf/0/if/properties/kind", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/candidate", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/id", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/kind", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/marker", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/target", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/template", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/variables", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/variablesSchema", "comparator": "none" },
+        { "pointer": "/properties/commandsManifest", "comparator": "none" },
+        { "pointer": "/properties/formatVersion", "comparator": "none" },
+        { "pointer": "/properties/packageId", "comparator": "none" },
+        { "pointer": "/properties/schema", "comparator": "none" },
+        { "pointer": "/properties/validators", "comparator": "none" },
+        { "pointer": "/properties/validators/items/properties/arguments", "comparator": "none" },
+        { "pointer": "/properties/validators/items/properties/commandId", "comparator": "none" },
+        { "pointer": "/properties/validators/items/properties/id", "comparator": "none" }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+      "fields": [
+        { "pointer": "/properties/automaticGuardWorkflow", "comparator": "none" },
+        { "pointer": "/properties/changeScope", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/candidateStepJobs", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/entryPoint", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/implementation", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/inheritingChecks", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/inheritScope", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/mode", "comparator": "none" },
+        { "pointer": "/properties/costControls", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/cancelSupersededRuns", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/concurrencyGroup", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/action", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/jobs", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/keyPrefix", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/lockGlob", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/path", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/scheduleCron", "comparator": "none" },
+        { "pointer": "/properties/formatVersion", "comparator": "none" },
+        { "pointer": "/properties/jobs", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/blocking", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/gate", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/id", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/mode", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/trigger", "comparator": "none" },
+        { "pointer": "/properties/legacyWorkflowMode", "comparator": "none" },
+        { "pointer": "/properties/mergeEnforcement", "comparator": "none" },
+        { "pointer": "/properties/ruleset", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/id", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/name", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/requiredCheckCount", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/strict", "comparator": "none" },
+        { "pointer": "/properties/trustedBase", "comparator": "none" },
+        { "pointer": "/properties/trustedBase/properties/execution", "comparator": "none" },
+        { "pointer": "/properties/trustedBase/properties/tcbCandidateVerification", "comparator": "none" },
+        { "pointer": "/properties/workflow", "comparator": "none" }
+      ]
+    },
+    {
       "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
       "fields": [
         {
@@ -1007,6 +1092,13 @@
           "pointer": "/properties/manifest/properties/verifier",
           "comparator": "none"
         }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "fields": [
+        { "pointer": "/properties/DOTNET_VERSION", "comparator": "none" },
+        { "pointer": "/properties/NODE_VERSION", "comparator": "none" }
       ]
     }
   ]

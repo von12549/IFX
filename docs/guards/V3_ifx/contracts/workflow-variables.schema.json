@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "V3 workflow stable variables",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["DOTNET_VERSION", "NODE_VERSION"],
+  "properties": {
+    "DOTNET_VERSION": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.x$" },
+    "NODE_VERSION": { "type": "string", "pattern": "^[0-9]+$" }
+  }
+}

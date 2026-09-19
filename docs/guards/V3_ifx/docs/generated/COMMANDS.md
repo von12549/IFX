@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `e039e39b0cc2ab969dee2f26805c5bbed1bcba65b24ef8b170f8ed5051c7e463`
+Composite SHA-256: `bf0f06d4a090e13c4162686607cbcefb5c92bd5f6241a7bde6e8c6ccb6d8580a`
 
 Sources:
 
@@ -15,6 +15,7 @@ Sources:
 | v3-setup | public | `docs/guards/V3/commands/Invoke-V3Setup.ps1` | bootstrap, analysis | writes-artifacts | False |
 | v3-architecture-review | internal | `docs/guards/V3/scripts/Invoke-V3Architecture.ps1` | analysis | writes-artifacts | False |
 | v3-docs | public | `docs/guards/V3/commands/Invoke-V3Docs.ps1` | pre, post | writes-generated | False |
+| v3-deployment | public | `docs/guards/V3/commands/Invoke-V3Deployment.ps1` | ci | writes-activation | True |
 | ifx-architecture | public | `docs/guards/V3_ifx/scripts/Invoke-IFX.ps1` | post | writes-artifacts | False |
 | ifx-ci-contract | public | `docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1` | ci | read-only | False |
 | ifx-manifest-check | public | `docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1` | ci | read-only | False |
@@ -32,7 +33,7 @@ Sources:
 ## ifx-guardrails
 
 - Audiences: ci, human
-- Inputs: docs/guards/V3_ifx/profiles/ifx/; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/history/manifest.json; formal Plan (Pre/Diff)
+- Inputs: docs/guards/V3_ifx/profiles/ifx/; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/history/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
 - Outputs: artifacts/guards/v3-ifx/
 - Evidence: artifacts/guards/v3-ifx/summary-<mode>.json
 
@@ -64,6 +65,13 @@ Sources:
 - Outputs: docs/guards/V3_ifx/docs/generated/; docs/guards/V3_ifx/profiles/ifx/views/
 - Evidence: (none)
 
+## v3-deployment
+
+- Audiences: ci, agent, human
+- Inputs: docs/guards/V3_ifx/stages/ci/activation.json; docs/guards/V3_ifx/stages/ci/workflow.template.yml; docs/guards/V3_ifx/stages/ci/workflow.variables.json; docs/guards/V3_ifx/stages/ci/codeowners.template
+- Outputs: artifacts/generated/v3-ifx/activation/; .github/workflows/v3-ifx-guardrails.yml (Install only); .github/CODEOWNERS managed block (Install only)
+- Evidence: optional -ReportPath JSON
+
 ## ifx-architecture
 
 - Audiences: ci, validation-command, human
@@ -74,14 +82,14 @@ Sources:
 ## ifx-ci-contract
 
 - Audiences: ci, human
-- Inputs: .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/ci/jobs.json; GitHub ruleset (read-only, -Remote)
+- Inputs: .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/stages/ci/required-checks.json; GitHub ruleset (read-only, -Remote)
 - Outputs: 
 - Evidence: optional -ReportPath JSON
 
 ## ifx-manifest-check
 
 - Audiences: ci, human
-- Inputs: docs/guards/V3_ifx/guard-system.json; docs/guards/V3_ifx/shared/; docs/guards/V3_ifx/stages/; docs/guards/V3_ifx/contracts/; .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/ci/jobs.json
+- Inputs: docs/guards/V3_ifx/guard-system.json; docs/guards/V3_ifx/shared/; docs/guards/V3_ifx/stages/; docs/guards/V3_ifx/contracts/; .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/stages/ci/required-checks.json
 - Outputs: 
 - Evidence: (none)
 

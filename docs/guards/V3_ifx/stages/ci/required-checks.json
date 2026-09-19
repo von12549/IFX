@@ -51,7 +51,7 @@
     }
   },
   "changeScope": {
-    "entryPoint": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "entryPoint": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
     "mode": "Scope",
     "implementation": "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
     "inheritScope": "records-and-plans",

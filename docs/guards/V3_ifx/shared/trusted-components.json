@@ -29,6 +29,7 @@
         "docs/guards/V3/commands/Invoke-V3.ps1",
         "docs/guards/V3/commands/Invoke-V3Setup.ps1",
         "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+        "docs/guards/V3/commands/Invoke-V3Deployment.ps1",
         "docs/guards/V3/scripts/Invoke-V3Architecture.ps1"
       ],
       "validationSuite": [
@@ -156,6 +157,7 @@
       "status": "active",
       "paths": [
         "docs/guards/V3_ifx/contracts/authorization.schema.json",
+        "docs/guards/V3_ifx/contracts/activation.schema.json",
         "docs/guards/V3_ifx/contracts/decision.schema.json",
         "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
         "docs/guards/V3_ifx/contracts/plan.schema.json",
@@ -165,9 +167,11 @@
         "docs/guards/V3_ifx/contracts/project-map.schema.json",
         "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
         "docs/guards/V3_ifx/contracts/protection.schema.json",
+        "docs/guards/V3_ifx/contracts/required-checks.schema.json",
         "docs/guards/V3_ifx/contracts/rule.schema.json",
         "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
-        "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json"
+        "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+        "docs/guards/V3_ifx/contracts/workflow-variables.schema.json"
       ],
       "validationSuite": [
         "Invoke-IFXGuardrails.ps1 -Mode Validate",
@@ -219,6 +223,7 @@
         "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+        "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
@@ -239,7 +244,6 @@
       "paths": [
         ".github/workflows/v3-ifx-guardrails.yml",
         ".github/CODEOWNERS",
-        "docs/guards/V3_ifx/ci/jobs.json",
         "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1"
       ],
       "validationSuite": [

@@ -87,7 +87,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP08-prep | P7（前置） | IFX overlay、command manifest 与 base-owned validation 切换到 canonical V3；trusted-base 显式传递仓库外 generation root；legacy workflow runner 成为薄 wrapper（D30） | 无 | `change-trusted-base`：CP08-prep-auth-r2 → CP08-prep-change | CP08-prep0 | 本地授权/消费与 candidate parity 已通过（`bda4ae7b` → `32fcf3a7`） |
 | CP08 | P7 | Stage Gate 参数化命名、仓库外生成、取消跟踪 `generated/stages`、overlay contract 并删除重复实现（保留声明期内的薄 public wrapper） | 有 | `move`、`delete`、`change-trusted-base`、`weaken-policy`：CP08-auth-r2 → CP08-change | CP08-prep | 本地授权/消费验证均已通过；十条 r2 授权由 `2cbf9e9d` 提供并由 change 一次性消费 |
 | CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 有（authored/evidence/report 移动；runtime 输出删除） | registry prep → base compatibility bridge → CP09 r3 auth/change | CP08 | 已完成（本地）：registry prep 与 base compatibility 授权/消费验证通过；CP09 r3 授权 `8e7bb8c6` 绑定 raw candidate `0fa43780`；最终 41 项 protected obligations/15 条授权、8 类 TCB candidate parity、Validate、Docs Check 与 package 聚合测试均通过 |
-| CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 | 未开始 |
+| CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 | 本地实现与回归完成；待完成 auth → change 提交链（2026-09-20，未 push/PR） |
 | CP11 | P10 | 按 Plan 06 §13 分组物理迁移、V3_backup 删除、兼容 wrapper | 有 | 每个迁移分组 auth → change | CP10 | 未开始 |
 | CP12 | P11 | 新旧 parity、失败关闭场景、隔离 Bootstrap、真实 PR 激活、旧入口清理与回退演练 | 有 | 清理删除：auth → change；激活需单独实施授权 | CP11 | 未开始 |
 

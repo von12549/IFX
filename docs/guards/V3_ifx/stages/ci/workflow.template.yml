@@ -7,15 +7,6 @@ on:
   schedule:
     - cron: '17 3 1 * *'
   workflow_dispatch:
-    inputs:
-      windowsCoverage:
-        description: Windows candidate coverage (P11.4 uses full once for final certification)
-        required: true
-        default: smoke
-        type: choice
-        options:
-          - smoke
-          - full
 
 permissions:
   contents: read
@@ -40,7 +31,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -78,7 +69,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -137,7 +128,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -179,7 +170,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -216,7 +207,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: @@NODE_VERSION@@
           cache: npm
           cache-dependency-path: src/Frontend/IFX.FrontEnd/package-lock.json
       - name: Prepare trusted base worktree
@@ -252,7 +243,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -285,7 +276,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -318,7 +309,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -351,7 +342,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -384,7 +375,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Cache reviewed guard packages
         uses: actions/cache@v4
         with:
@@ -458,7 +449,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: @@DOTNET_VERSION@@
       - name: Prepare trusted base worktree
         shell: pwsh
         env:
@@ -506,13 +497,10 @@ jobs:
       - name: Reproduce head generated inputs and run head candidate tests
         if: steps.scope.outputs.scope != 'records-and-plans'
         shell: pwsh
-        env:
-          WINDOWS_COVERAGE: ${{ github.event_name == 'workflow_dispatch' && inputs.windowsCoverage || 'smoke' }}
         run: |
           $generation = Join-Path $env:RUNNER_TEMP 'v3-ifx-generation'
           New-Item -ItemType Directory -Force -Path $generation | Out-Null
-          $coverage = if ($env:RUNNER_OS -eq 'Windows') { $env:WINDOWS_COVERAGE } else { 'full' }
-          pwsh -NoProfile -File "./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite CrossPlatform -CandidateCoverage $coverage -TargetRoot $env:GITHUB_WORKSPACE -GenerationRoot $generation
+          pwsh -NoProfile -File "./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite CrossPlatform -TargetRoot $env:GITHUB_WORKSPACE -GenerationRoot $generation
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()

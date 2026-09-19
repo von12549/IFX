@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+  "packageId": "v3-ifx",
+  "commandsManifest": "docs/guards/V3_ifx/shared/commands.json",
+  "artifacts": [
+    {
+      "id": "guard-workflow",
+      "kind": "full-file",
+      "template": "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
+      "variables": "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
+      "variablesSchema": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "candidate": "artifacts/generated/v3-ifx/activation/.github/workflows/v3-ifx-guardrails.yml",
+      "target": ".github/workflows/v3-ifx-guardrails.yml"
+    },
+    {
+      "id": "guard-codeowners",
+      "kind": "managed-block",
+      "template": "docs/guards/V3_ifx/stages/ci/codeowners.template",
+      "candidate": "artifacts/generated/v3-ifx/activation/.github/CODEOWNERS.guardrails",
+      "target": ".github/CODEOWNERS",
+      "marker": "v3-ifx-guardrails"
+    }
+  ],
+  "validators": [
+    {
+      "id": "ci-contract",
+      "commandId": "ifx-ci-contract",
+      "arguments": [
+        "-WorkflowPath",
+        "artifacts/generated/v3-ifx/activation/.github/workflows/v3-ifx-guardrails.yml",
+        "-RequiredChecksPath",
+        "docs/guards/V3_ifx/stages/ci/required-checks.json"
+      ]
+    }
+  ]
+}

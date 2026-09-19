@@ -119,14 +119,14 @@ foreach ($stage in $stageDocs.Values) {
 }
 
 # ---------------------------------------------------------------- one gate per required check
-$jobs = Get-Content -LiteralPath (Full "$package/ci/jobs.json") -Raw | ConvertFrom-Json -AsHashtable
+$jobs = Read-Manifest "$package/stages/ci/required-checks.json" 'required-checks'
 $required = @($jobs.jobs | ForEach-Object { [string]$_.id })
 $gateIds = @($stageDocs.Values | ForEach-Object { @($_.gates) } | ForEach-Object { [string]$_.id })
 foreach ($id in $required) {
     $count = @($gateIds | Where-Object { $_ -eq $id }).Count
     if ($count -ne 1) { Fail "Required check '$id' must be declared by exactly one stage gate (found $count)" }
 }
-foreach ($id in ($gateIds | Select-Object -Unique)) { if ($id -notin $required) { Fail "Stage gate '$id' is not a required check in ci/jobs.json" } }
+foreach ($id in ($gateIds | Select-Object -Unique)) { if ($id -notin $required) { Fail "Stage gate '$id' is not a required check in stages/ci/required-checks.json" } }
 
 # ---------------------------------------------------------------- trusted components
 if ($null -ne $tcb) {

@@ -19,7 +19,9 @@
         "docs/guards/V3_ifx/profiles/ifx/",
         "docs/guards/V3_ifx/policy/",
         "docs/guards/V3_ifx/history/manifest.json",
-        "formal Plan (Pre/Diff)"
+        "formal Plan (Pre/Diff)",
+        "clean base worktree plus explicit BaseSha (-TrustedBase)",
+        "reviewed head candidate test suites (CandidateTests)"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/"
@@ -164,6 +166,40 @@
       "stability": "stable"
     },
     {
+      "id": "v3-deployment",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3/commands/Invoke-V3Deployment.ps1",
+      "stages": [
+        "ci"
+      ],
+      "audiences": [
+        "ci",
+        "agent",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/stages/ci/activation.json",
+        "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
+        "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
+        "docs/guards/V3_ifx/stages/ci/codeowners.template"
+      ],
+      "outputs": [
+        "artifacts/generated/v3-ifx/activation/",
+        ".github/workflows/v3-ifx-guardrails.yml (Install only)",
+        ".github/CODEOWNERS managed block (Install only)"
+      ],
+      "evidence": [
+        "optional -ReportPath JSON"
+      ],
+      "mutability": "writes-activation",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
       "id": "ifx-architecture",
       "kind": "public",
       "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
@@ -210,7 +246,7 @@
       ],
       "inputs": [
         ".github/workflows/v3-ifx-guardrails.yml",
-        "docs/guards/V3_ifx/ci/jobs.json",
+        "docs/guards/V3_ifx/stages/ci/required-checks.json",
         "GitHub ruleset (read-only, -Remote)"
       ],
       "outputs": [],
@@ -242,7 +278,7 @@
         "docs/guards/V3_ifx/stages/",
         "docs/guards/V3_ifx/contracts/",
         ".github/workflows/v3-ifx-guardrails.yml",
-        "docs/guards/V3_ifx/ci/jobs.json"
+        "docs/guards/V3_ifx/stages/ci/required-checks.json"
       ],
       "outputs": [],
       "evidence": [],

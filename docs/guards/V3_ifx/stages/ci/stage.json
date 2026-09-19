@@ -4,6 +4,7 @@
   "commands": [
     "ifx-guardrails",
     "ifx-ci-contract",
+    "v3-deployment",
     "ifx-manifest-check",
     "ifx-trusted-base",
     "ifx-tcb-candidate"

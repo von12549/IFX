@@ -2,15 +2,15 @@
 param(
     [string] $TargetRoot,
     [string] $WorkflowPath = '.github/workflows/v3-ifx-guardrails.yml',
-    [string] $JobsPath,
+    [string] $RequiredChecksPath,
     [string] $RulesetJsonPath,
     [switch] $Remote,
     [string] $Repository,
     [string] $ReportPath
 )
 
-# Read-only CI contract verifier (Plan 06 P1.3): workflow jobs <-> ci/jobs.json <-> GitHub ruleset.
-# Local mode checks the workflow against ci/jobs.json. -RulesetJsonPath or -Remote adds the ruleset comparison;
+# Read-only CI contract verifier: workflow jobs <-> stages/ci/required-checks.json <-> GitHub ruleset.
+# Local mode checks the workflow against required-checks.json. -RulesetJsonPath or -Remote adds the ruleset comparison;
 # -Remote only issues GET requests through the GitHub CLI.
 
 $ErrorActionPreference = 'Stop'
@@ -42,6 +42,19 @@ function Get-MarkedCommands([string] $text, [string] $beginMarker, [string] $end
 $workflowFile = Resolve-InRoot $WorkflowPath
 if (-not [IO.File]::Exists($workflowFile)) { throw "Workflow is missing: $WorkflowPath" }
 $lines = [IO.File]::ReadAllText($workflowFile).Replace("`r`n", "`n") -split "`n"
+$yamlProblems = [Collections.Generic.List[string]]::new()
+$topLevel = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+foreach ($line in $lines) {
+    if ($line.Contains("`t")) { $yamlProblems.Add('tab indentation is not allowed') }
+    if ($line -match '^( +)\S' -and ($Matches[1].Length % 2) -ne 0) { $yamlProblems.Add("odd indentation: $line") }
+    if ($line -match '^([A-Za-z][A-Za-z0-9_-]*):') {
+        if (-not $topLevel.Add($Matches[1])) { $yamlProblems.Add("duplicate top-level key: $($Matches[1])") }
+    }
+}
+foreach ($requiredTopLevel in @('name', 'on', 'permissions', 'jobs')) {
+    if (-not $topLevel.Contains($requiredTopLevel)) { $yamlProblems.Add("missing top-level key: $requiredTopLevel") }
+}
+Add-Check 'workflow-yaml-canonical' ($yamlProblems.Count -eq 0) "canonical YAML structural parse problems [$(Format-Set @($yamlProblems))]"
 $triggers = [Collections.Generic.List[string]]::new()
 $pushBranches = @()
 $jobs = [ordered]@{}
@@ -105,14 +118,24 @@ foreach ($jobId in $jobs.Keys) {
 }
 Add-Check 'workflow-triggers' (@(@('pull_request', 'push') | Where-Object { $_ -notin $triggers }).Count -eq 0 -and 'main' -in $pushBranches) "pull_request and push to main are required; found triggers [$(Format-Set $triggers)] push branches [$(Format-Set $pushBranches)]"
 
-# ---------------------------------------------------------------- ci/jobs.json
-# ci/jobs.json is package configuration (read from this package by default); the workflow is read from the target repository.
-$jobsFile = if ($JobsPath) { Resolve-InRoot $JobsPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'jobs.json')) }
-if (-not [IO.File]::Exists($jobsFile)) { throw "CI job declaration is missing: $jobsFile" }
-$declaration = Get-Content -LiteralPath $jobsFile -Raw | ConvertFrom-Json -AsHashtable
+# Every repository PowerShell entry in the workflow must be a stable public command. Internal engines and tests remain
+# reachable only behind those commands, so physical moves cannot silently change the CI integration surface (P9/P10).
+$commandManifest = Get-Content -LiteralPath ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../shared/commands.json'))) -Raw | ConvertFrom-Json -AsHashtable -Depth 30
+$publicEntries = @($commandManifest.commands | Where-Object { $_.kind -eq 'public' } | ForEach-Object { [string]$_.entryPoint })
+$workflowEntries = @([Regex]::Matches(($lines -join "`n"), '(?m)-File\s+"?(?:\$env:GUARD_BASE/|\./)(docs/guards/[A-Za-z0-9_./-]+\.ps1)"?') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
+$nonPublicEntries = @($workflowEntries | Where-Object { $_ -notin $publicEntries })
+Add-Check 'workflow-public-commands' ($nonPublicEntries.Count -eq 0) "workflow script entries not declared public [$(Format-Set $nonPublicEntries)]"
+
+# ---------------------------------------------------------------- stages/ci/required-checks.json
+# The declaration is package authority by default; the workflow is read from the target repository.
+$requiredChecksFile = if ($RequiredChecksPath) { Resolve-InRoot $RequiredChecksPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../stages/ci/required-checks.json')) }
+if (-not [IO.File]::Exists($requiredChecksFile)) { throw "Required-check declaration is missing: $requiredChecksFile" }
+$declaration = Get-Content -LiteralPath $requiredChecksFile -Raw | ConvertFrom-Json -AsHashtable
+$requiredChecksSchema = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../contracts/required-checks.schema.json'))
+if (-not (Test-Json -Path $requiredChecksFile -SchemaFile $requiredChecksSchema -ErrorAction Stop)) { throw "Required-check declaration does not match its schema: $requiredChecksFile" }
 $declared = @($declaration.jobs)
 $declaredIds = @($declared | ForEach-Object { [string]$_.id })
-Add-Check 'declaration-workflow-path' ($declaration.automaticGuardWorkflow -eq $WorkflowPath.Replace('\', '/')) "jobs.json automaticGuardWorkflow is '$($declaration.automaticGuardWorkflow)'"
+Add-Check 'declaration-workflow-path' ($declaration.automaticGuardWorkflow -eq '.github/workflows/v3-ifx-guardrails.yml') "required-checks.json automaticGuardWorkflow is '$($declaration.automaticGuardWorkflow)'"
 Add-Check 'declaration-unique-ids' ((@($declaredIds | Select-Object -Unique)).Count -eq $declaredIds.Count) 'job IDs must be unique'
 $missingInDeclaration = @($checkNames.Keys | Where-Object { $_ -notin $declaredIds })
 $missingInWorkflow = @($declaredIds | Where-Object { -not $checkNames.Contains($_) })
@@ -131,7 +154,7 @@ foreach ($entry in $declared) {
 }
 
 # ---------------------------------------------------------------- trusted base activation (Plan 06 §11.1)
-# When jobs.json declares trusted execution active, every required check must take its verdict from the runner in the
+# When required-checks.json declares trusted execution active, every required check must take its verdict from the runner in the
 # base worktree with its own gate ID, and no job may take a verdict from the head dispatcher in place.
 $trustedBase = if ($declaration.Contains('trustedBase')) { $declaration.trustedBase } else { $null }
 if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
@@ -140,7 +163,10 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
         $text = $job.lines -join "`n"
         $inPlace = @($job.lines | Where-Object { $_ -match '\./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails\.ps1' })
         Add-Check "trusted-base-no-head-dispatcher:$jobId" ($inPlace.Count -eq 0) 'jobs must not run the head dispatcher in place; use the trusted base runner'
-        $gateIds = @([Regex]::Matches($text, '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase\.ps1"?\s.*?-GateId\s+(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
+        $guardExecutables = @($job.lines | Where-Object { $_ -match '^\s+(pwsh\s+.*?-File\s+|\./)"?[^" ]*docs/guards/' })
+        $firstExecutable = if ($guardExecutables.Count) { $guardExecutables[0].Trim() } else { '' }
+        Add-Check "trusted-base-first-verdict:$jobId" ($firstExecutable -match '\$env:GUARD_BASE/docs/guards/') "the first guard executable must come from the base worktree; found '$firstExecutable'"
+        $gateIds = @([Regex]::Matches($text, '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/commands/Invoke-IFXGuardrails\.ps1"?\s+-TrustedBase\s+.*?-GateId\s+(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
         # Gate IDs may use the job's inline matrix, expanded the same way as check names.
         $resolved = @(foreach ($gateId in $gateIds) {
             $values = @($gateId)
@@ -164,7 +190,7 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
 # packages are cached, and gate work is inherited from the base only for the scope the base itself classifies.
 $costControls = if ($declaration.Contains('costControls')) { $declaration.costControls } else { $null }
 if ($null -ne $costControls) {
-    Add-Check 'cost-concurrency' ($concurrency.group -eq [string]$costControls.concurrencyGroup -and $concurrency.cancelInProgress -eq [bool]$costControls.cancelSupersededRuns -and [bool]$costControls.cancelSupersededRuns) "workflow concurrency group '$($concurrency.group)' cancel-in-progress $($concurrency.cancelInProgress) must match jobs.json"
+    Add-Check 'cost-concurrency' ($concurrency.group -eq [string]$costControls.concurrencyGroup -and $concurrency.cancelInProgress -eq [bool]$costControls.cancelSupersededRuns -and [bool]$costControls.cancelSupersededRuns) "workflow concurrency group '$($concurrency.group)' cancel-in-progress $($concurrency.cancelInProgress) must match required-checks.json"
     Add-Check 'cost-schedule' (@($schedule) -contains [string]$costControls.scheduleCron) "workflow schedule [$(Format-Set @($schedule))] must contain the declared cron '$($costControls.scheduleCron)'"
     $cache = $costControls.packageCache
     foreach ($jobId in @($cache.jobs)) {
@@ -238,6 +264,7 @@ if ($null -ne $changeScope) {
         $step = if ($null -ne $stepLines) { $stepLines -join "`n" } else { '' }
         $classifies = $step -ne '' -and
             $step -match "\`$env:GUARD_BASE/$([Regex]::Escape($scopeEntryPoint))" -and
+            $step -match '-TrustedBase\b' -and
             $step -match "-Mode\s+$([Regex]::Escape([string]$changeScope.mode))\b"
         $failsOpen = $step -match '(?m)^        continue-on-error:\s*true\s*$'
         $guards = @([Regex]::Matches($text, "(?m)^\s+if:\s*steps\.scope\.outputs\.scope\s*!=\s*'$([Regex]::Escape([string]$changeScope.inheritScope))'\s*$"))
@@ -264,7 +291,7 @@ if ($Remote) {
     $ruleset = Get-Content -LiteralPath (Resolve-InRoot $RulesetJsonPath) -Raw | ConvertFrom-Json -AsHashtable
 }
 if ($null -ne $ruleset) {
-    Add-Check 'ruleset-identity' ([string]$ruleset.id -eq [string]$declaration.ruleset.id -and $ruleset.name -eq $declaration.ruleset.name) "ruleset $($ruleset.id) '$($ruleset.name)' does not match jobs.json"
+    Add-Check 'ruleset-identity' ([string]$ruleset.id -eq [string]$declaration.ruleset.id -and $ruleset.name -eq $declaration.ruleset.name) "ruleset $($ruleset.id) '$($ruleset.name)' does not match required-checks.json"
     Add-Check 'ruleset-active' ($ruleset.enforcement -eq 'active') "enforcement is '$($ruleset.enforcement)'"
     $statusRule = @($ruleset.rules | Where-Object { $_.type -eq 'required_status_checks' })
     if ($statusRule.Count -ne 1) {
@@ -281,7 +308,7 @@ if ($null -ne $ruleset) {
 $status = if ($failures.Count -eq 0) { 'pass' } else { 'fail' }
 $report = [ordered]@{
     formatVersion = 1; mode = if ($Remote) { 'remote' } elseif ($RulesetJsonPath) { 'ruleset-file' } else { 'local' }
-    status = $status; workflow = $WorkflowPath; declaration = $JobsPath
+    status = $status; workflow = $WorkflowPath; declaration = if ($RequiredChecksPath) { $RequiredChecksPath } else { 'docs/guards/V3_ifx/stages/ci/required-checks.json' }
     checkNames = @($checkNames.Keys); checks = @($checks)
 }
 if ($ReportPath) {
@@ -294,4 +321,4 @@ if ($failures.Count -gt 0) {
     Write-Host "CI contract failed: $($failures.Count) problem(s)."
     exit 1
 }
-Write-Host "CI contract passed ($($report.mode)): $($checkNames.Count) checks match $JobsPath"
+Write-Host "CI contract passed ($($report.mode)): $($checkNames.Count) checks match required-checks.json"

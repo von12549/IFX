@@ -41,7 +41,7 @@
       "sources": [
         { "path": "docs/guards/V3_ifx/stages/ci/stage.json", "role": "trust-contract" },
         { "path": "docs/guards/V3_ifx/shared/commands.json", "role": "command-contract" },
-        { "path": "docs/guards/V3_ifx/ci/jobs.json", "role": "ci-contract" },
+        { "path": "docs/guards/V3_ifx/stages/ci/required-checks.json", "role": "ci-contract" },
         { "path": ".github/workflows/v3-ifx-guardrails.yml", "role": "ci-contract" }
       ]
     }
