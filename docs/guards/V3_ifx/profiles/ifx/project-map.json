@@ -29,7 +29,8 @@
     { "id": "RepositoryScripts", "pathPattern": "scripts/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts", "focusedCommands": ["ifx-package-test"] },
     { "id": "Deployment", "pathPattern": "deployment/**", "layer": "deployment", "owner": "codeowners", "similarImplementationRoot": "deployment", "focusedCommands": ["ifx-package-test"] },
     { "id": "CI", "pathPattern": ".github/**", "layer": "ci", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },
-    { "id": "RepositoryConfig", "pathPattern": ".gitattributes", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] }
+    { "id": "RepositoryConfig", "pathPattern": ".gitattributes", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryIgnore", "pathPattern": ".gitignore", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] }
   ],
   "riskTriggers": [
     { "id": "public-contract", "pathPattern": "src/**/IFX.*.Contracts/**", "reason": "Public contract or protocol change" },

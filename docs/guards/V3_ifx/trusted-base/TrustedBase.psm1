@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 # canonical JSON, D18 pointer roles and isolated child processes. Nothing here reads the target
 # repository except through explicit parameters.
 
-$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_BUILD_ROOT', 'GUARD_CONSUMED_AUTHORIZATIONS', 'GUARD_PROTECTED_CHANGES', 'GUARD_PROTECTION_PATH', 'LAYERGUARD_FIXTURES_ROOT', 'LAYERGUARD_PACKAGE_ROOT')
+$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_GENERATION_ROOT', 'GUARD_BUILD_ROOT', 'GUARD_CONSUMED_AUTHORIZATIONS', 'GUARD_PROTECTED_CHANGES', 'GUARD_PROTECTION_PATH', 'LAYERGUARD_FIXTURES_ROOT', 'LAYERGUARD_PACKAGE_ROOT')
 
 # Files outside docs/guards/ that the manifest checker validates as trusted components or compatibility entries.
 $script:PackageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')

@@ -1,0 +1,60 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp08-prep-canonical-v3",
+  "title": "V3 stage-oriented refactor CP08-prep — canonical V3 references and base-owned validation expansion",
+  "goal": "Make the IFX overlay, trusted-base chain and base-owned validation use the canonical V3 runner, tools, templates and tests before CP08 removes the duplicate IFX copies, including the repository-ignore mapping needed by that cutover (P7, D30).",
+  "acceptanceCriteria": [
+    "The IFX orchestrator and command manifest reference canonical V3 entry points, the workflow-facing legacy runner is a thin forwarder, Diff generates and checks its Stage Gate below an out-of-repository generation root, and the trusted-base runner passes its isolated generation root explicitly.",
+    "Base-owned generic validation is rooted only at docs/guards/V3/tests, canonical Stage Gate tests use an external generation root and the future project naming/layout, IFX-specific validation calls canonical V3 paths with an isolated profile-generation root, and existing IFX duplicates remain separately declared until the contract checkpoint.",
+    "The IFX project map and generated view declare .gitignore as RepositoryIgnore before CP08 edits that repository-level file, so the later trusted Diff evaluates it against base policy.",
+    "Manifest positive and negative tests, IFX Validate and Pre, and canonical V3 out-of-repository Generate and Check pass; only the two consumed authorization records are deleted, with no product move or workflow activation."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+    "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE.md",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/profiles/ifx/project-map.json",
+    "docs/guards/V3_ifx/profiles/ifx/views/PROJECT_MAP.md",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-prep-weaken-policy.json",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-prep-canonical-v3.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-prep-canonical-v3.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ]
+}

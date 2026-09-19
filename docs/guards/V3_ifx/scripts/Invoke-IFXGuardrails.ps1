@@ -8,6 +8,7 @@ param(
     [string[]] $PlannedPaths = @(),
     [string] $BaseRef,
     [string] $HeadRef,
+    [string] $GenerationRoot,
     [string] $OutputDirectory = 'artifacts/guards/v3-ifx'
 )
 
@@ -40,12 +41,12 @@ function Invoke-Child([string] $id, [string] $script, [string[]] $arguments, [st
 }
 
 $profile = Join-Path $packageRoot 'profiles/ifx'
-$v3 = Join-Path $PSScriptRoot 'Invoke-V3.ps1'
+$v3 = Join-Path $packageRepository 'docs/guards/V3/scripts/Invoke-V3.ps1'
 $architecture = Join-Path $PSScriptRoot 'Invoke-IFX.ps1'
 $specialized = Join-Path $packageRoot 'specialized/Invoke-IFXSpecialized.ps1'
 $quality = Join-Path $packageRoot 'quality/Invoke-IFXQuality.ps1'
 $history = Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1'
-$docs = Join-Path $PSScriptRoot 'Invoke-V3Docs.ps1'
+$docs = Join-Path $packageRepository 'docs/guards/V3/scripts/Invoke-V3Docs.ps1'
 $ciContract = Join-Path $packageRoot 'ci/Invoke-IFXCiContract.ps1'
 $manifestCheck = Join-Path $PSScriptRoot 'Invoke-IFXManifestCheck.ps1'
 $modes = if ($Mode -eq 'All') { @('Validate','Architecture','Specialized','Quality','HistoricalIntegrity') } else { @($Mode) }
@@ -66,10 +67,23 @@ foreach ($current in $modes) {
             Invoke-Child 'pre' $v3 $args @((Relative $report))
         }
         'Diff' {
-            $generatedStages = Join-Path $packageRoot 'generated/stages'
-            $args = @('-Mode','Diff','-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$packageRepository,'-OutputDirectory',$generatedStages,'-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
-            if ($HeadRef) { $args += @('-HeadRef',$HeadRef) }
-            Invoke-Child 'diff' $v3 $args @()
+            $ownsGenerationRoot = -not $GenerationRoot
+            $generation = [IO.Path]::GetFullPath($(if ($GenerationRoot) { $GenerationRoot } else {
+                Join-Path ([IO.Path]::GetTempPath()) "guard-gen-$([Guid]::NewGuid().ToString('N').Substring(0, 8))"
+            }))
+            $generatedStages = Join-Path $generation 'v3-ifx/gates/stage/GuardV3.Tests'
+            try {
+                [void][IO.Directory]::CreateDirectory($generation)
+                $common = @('-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$generation,'-OutputDirectory',$generatedStages,'-LockRoot',(Join-Path $packageRoot 'build/locks'),'-ProtectionPath',(Join-Path $packageRoot 'stages/diff/protection.json'))
+                Invoke-Child 'stage-gate-generate' $v3 (@('-Mode','Generate') + $common) @()
+                Invoke-Child 'stage-gate-check' $v3 (@('-Mode','Check') + $common) @()
+                $args = @('-Mode','Diff') + $common + @('-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
+                if ($HeadRef) { $args += @('-HeadRef',$HeadRef) }
+                Invoke-Child 'diff' $v3 $args @()
+            }
+            finally {
+                if ($ownsGenerationRoot -and [IO.Directory]::Exists($generation)) { [IO.Directory]::Delete($generation, $true) }
+            }
         }
         'Architecture' {
             $report = Join-Path $output 'architecture/layerguard.json'

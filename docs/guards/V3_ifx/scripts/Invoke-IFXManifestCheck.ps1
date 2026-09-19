@@ -76,6 +76,26 @@ if ($null -ne $commands) {
             if ($command.id -notin @($stageDocs[$stage].commands)) { Fail "Command '$($command.id)' claims stage '$stage' but that stage does not list it" }
         }
     }
+    $canonicalV3Entries = [ordered]@{
+        'v3-runner' = 'docs/guards/V3/scripts/Invoke-V3.ps1'
+        'v3-setup' = 'docs/guards/V3/scripts/Invoke-V3Setup.ps1'
+        'v3-architecture-review' = 'docs/guards/V3/scripts/Invoke-V3Architecture.ps1'
+        'v3-docs' = 'docs/guards/V3/scripts/Invoke-V3Docs.ps1'
+    }
+    foreach ($id in $canonicalV3Entries.Keys) {
+        $entry = @($commands.commands | Where-Object { $_.id -eq $id })
+        if ($entry.Count -ne 1 -or $entry[0].entryPoint -cne $canonicalV3Entries[$id]) {
+            Fail "Command '$id' must reference the canonical V3 entry point: $($canonicalV3Entries[$id])"
+        }
+    }
+    $orchestratorPath = Full "$package/scripts/Invoke-IFXGuardrails.ps1"
+    if ([IO.File]::Exists($orchestratorPath)) {
+        $orchestrator = [IO.File]::ReadAllText($orchestratorPath)
+        if (-not $orchestrator.Contains("'-ProtectionPath'", [StringComparison]::Ordinal) -or
+            -not $orchestrator.Contains("'stages/diff/protection.json'", [StringComparison]::Ordinal)) {
+            Fail 'IFX Diff must pass the overlay protection configuration to canonical V3.'
+        }
+    }
 }
 foreach ($stage in $stageDocs.Values) {
     if ($null -ne $commands) { foreach ($id in $stage.commands) { if ($id -notin $commandIds) { Fail "Stage '$($stage.id)' references unknown command '$id'" } } }
@@ -140,9 +160,25 @@ if ($null -ne $tcb) {
         if (-not (Exists $current)) { Fail "Workflow references a missing script: $current"; continue }
         if ($current -match '/tests/') { continue }
         $text = [IO.File]::ReadAllText((Full $current))
+        $explicitReferences = @([Regex]::Matches($text, 'docs/guards/[A-Za-z0-9_./-]+\.psm?1') | ForEach-Object { $_.Value } | Select-Object -Unique)
+        foreach ($reference in $explicitReferences) {
+            if ((Exists $reference) -and $seen.Add($reference)) { $queue.Enqueue($reference) }
+        }
         foreach ($token in ([Regex]::Matches($text, '[A-Za-z0-9][A-Za-z0-9.-]*\.psm?1') | ForEach-Object { $_.Value } | Select-Object -Unique)) {
             if (-not $scripts.ContainsKey($token)) { continue }
-            foreach ($candidate in $scripts[$token]) { if ($seen.Add($candidate)) { $queue.Enqueue($candidate) } }
+            $candidates = [string[]]@($scripts[$token])
+            $explicitMatches = [string[]]@($explicitReferences | Where-Object { $_.EndsWith("/$token", [StringComparison]::Ordinal) -or $_ -ceq $token })
+            if ($explicitMatches.Count -gt 0) { continue }
+            $local = [IO.Path]::GetRelativePath($root, [IO.Path]::GetFullPath((Join-Path ([IO.Path]::GetDirectoryName((Full $current))) $token))).Replace('\', '/')
+            if ($candidates -ccontains $local) {
+                if ($seen.Add($local)) { $queue.Enqueue($local) }
+                continue
+            }
+            if ($candidates.Count -eq 1) {
+                if ($seen.Add($candidates[0])) { $queue.Enqueue($candidates[0]) }
+                continue
+            }
+            Fail "Ambiguous script reference '$token' from $current; use an explicit repository-relative path."
         }
     }
     foreach ($path in $seen) {
@@ -332,7 +368,7 @@ if ([IO.Directory]::Exists($v3Templates) -and [IO.Directory]::Exists($forkTempla
         $parityPairs.Add(@("docs/guards/V3/templates/dotnet/$name", "$package/templates/dotnet/$name"))
     }
 }
-if ([IO.Directory]::Exists((Full 'docs/guards/V3/scripts')) -and [IO.Directory]::Exists((Full "$package/scripts"))) { $parityPairs.Add(@('docs/guards/V3/scripts/Invoke-V3.ps1', "$package/scripts/Invoke-V3.ps1")) }
+# The legacy public Invoke-V3 path becomes a thin forwarding wrapper in CP08-prep (D30), so byte parity no longer applies.
 # Both Test-V3.ps1 copies are base-owned tests since CP05, so a candidate check overlays both and this pair stays checkable.
 if ([IO.Directory]::Exists((Full 'docs/guards/V3/tests')) -and [IO.Directory]::Exists((Full "$package/tests"))) { $parityPairs.Add(@('docs/guards/V3/tests/Test-V3.ps1', "$package/tests/Test-V3.ps1")) }
 foreach ($pair in $parityPairs) {

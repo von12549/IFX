@@ -25,16 +25,18 @@
       "type": "engine-dispatcher",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
-        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1"
+        "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Docs.ps1"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3/tests/Test-V3.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
         "v3-pre-diff",
         "v3-cross-platform-*",
         "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
-        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1"
+        "docs/guards/V3/tests/Test-V3ArchUnit.ps1"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
       "allowedChange": "change-trusted-base"
@@ -44,10 +46,10 @@
       "type": "generator-template",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/templates/dotnet/"
+        "docs/guards/V3/templates/dotnet/"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3/tests/Test-V3.ps1",
         "Invoke-V3.ps1 -Mode Check",
         "v3-pre-diff"
       ],
@@ -228,10 +230,8 @@
         "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
         "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
-        "docs/guards/V3_ifx/tests/Test-V3.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
-        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
         "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
@@ -305,14 +305,33 @@
       "type": "base-owned-tests",
       "status": "active",
       "paths": [
-        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
-        "docs/guards/V3/tests/Test-V3.ps1"
+        "docs/guards/V3/tests/"
       ],
       "validationSuite": [
         "v3-cross-platform-*"
       ],
       "parityContract": "Assertions and negative controls may only grow.",
       "allowedChange": "change-trusted-base"
+    },
+    {
+      "id": "tcb.compatibility.v3-transition",
+      "type": "compatibility-copies",
+      "status": "active",
+      "paths": [
+        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+        "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+        "docs/guards/V3_ifx/templates/dotnet/",
+        "docs/guards/V3_ifx/hooks/README.md",
+        "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1",
+        "docs/guards/V3_ifx/tests/Test-V3Tools.ps1"
+      ],
+      "validationSuite": [
+        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1"
+      ],
+      "parityContract": "The workflow-facing legacy runner is a thin forwarder to canonical V3 with unchanged arguments and exit code; internal compatibility copies remain byte-identical until CP08 removes them. Other public legacy scripts remain governed by guard-system compatibility entries and must not become workflow executables.",
+      "allowedChange": "change-trusted-base; deletion also requires per-path delete authorization"
     }
   ]
 }

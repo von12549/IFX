@@ -38,7 +38,7 @@
     {
       "id": "v3-runner",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "entryPoint": "docs/guards/V3/scripts/Invoke-V3.ps1",
       "stages": [
         "pre",
         "post",
@@ -51,13 +51,13 @@
       ],
       "inputs": [
         "docs/guards/V3_ifx/profiles/ifx/",
-        "docs/guards/V3_ifx/templates/dotnet/",
+        "docs/guards/V3/templates/dotnet/",
         "formal Plan (Pre/Diff)",
         "docs/guards/V3/build/",
         "docs/guards/V3_ifx/build/locks/"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/generated/stages/",
+        "<generation-root>/v3-ifx/gates/stage/",
         "artifacts/guards/v3-ifx/",
         "artifacts/build/v3-ifx/stage-gate/",
         "artifacts/guards/v3-ifx/build/stage-gate/"
@@ -77,7 +77,7 @@
     {
       "id": "v3-setup",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "entryPoint": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
       "stages": [
         "bootstrap",
         "analysis"
@@ -106,7 +106,7 @@
     {
       "id": "v3-architecture-review",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "entryPoint": "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
       "stages": [
         "analysis"
       ],
@@ -136,7 +136,7 @@
     {
       "id": "v3-docs",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "entryPoint": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
       "stages": [
         "pre",
         "post"

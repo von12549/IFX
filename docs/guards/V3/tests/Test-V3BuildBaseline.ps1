@@ -12,7 +12,8 @@ $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $temp = [IO.Path]::GetFullPath((Join-Path ([IO.Path]::GetTempPath()) "v3-build-isolation-$([Guid]::NewGuid().ToString('N'))"))
 $copy = Join-Path $temp 'docs/guards/V3'
 $profile = Join-Path $temp 'profile'
-$output = 'generated/stage-gate'
+$generationRoot = [IO.Path]::GetFullPath("$temp-generation")
+$output = Join-Path $generationRoot 'v3/gates/stage'
 $locks = Join-Path $temp 'locks'
 $utf8 = [Text.UTF8Encoding]::new($false)
 
@@ -22,7 +23,7 @@ function Write-Text([string] $path, [string] $content) {
 }
 
 function Invoke-Runner([int] $expected, [string[]] $arguments, [string] $label, [string] $expectText) {
-    $result = @(& pwsh -NoProfile -File (Join-Path $copy 'scripts/Invoke-V3.ps1') -ProfileDirectory $profile -TargetRoot $temp -OutputDirectory $output @arguments 2>&1) -join ' | '
+    $result = @(& pwsh -NoProfile -File (Join-Path $copy 'scripts/Invoke-V3.ps1') -ProfileDirectory $profile -TargetRoot $temp -GenerationRoot $generationRoot -OutputDirectory $output @arguments 2>&1) -join ' | '
     if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $result" }
     # Error records wrap at the host width; compare without whitespace and line separators.
     $flat = ($result -replace '[\s|]', ''); $wanted = ($expectText -replace '\s', '')
@@ -56,6 +57,7 @@ try {
     Write-Text (Join-Path $temp 'global.json') '{ "sdk": { "version": "9.9.999", "rollForward": "disable" } }'
 
     Copy-Item -LiteralPath (Join-Path $package 'examples/minimal') -Destination $profile -Recurse
+    [void][IO.Directory]::CreateDirectory($generationRoot)
     Write-Text (Join-Path $temp 'src/App/App.csproj') '<Project><ItemGroup><ProjectReference Include="../Core/Core.csproj" /></ItemGroup></Project>'
 
     Invoke-Runner 0 @('-Mode', 'Validate') 'isolated package validates'
@@ -65,7 +67,8 @@ try {
     Invoke-Runner 0 @('-Mode', 'Test', '-LockMode', 'Update', '-LockRoot', $locks) 'update restore writes the lock file'
     Invoke-Runner 0 @('-Mode', 'Test', '-LockMode', 'Locked', '-LockRoot', $locks) 'locked restore with the reviewed lock passes'
 
-    $lockFile = Join-Path $locks 'GuardV3.Tests.packages.lock.json'
+    $projectName = if ([IO.File]::Exists((Join-Path $locks 'Sample.Guards.StageGate.Tests.packages.lock.json'))) { 'Sample.Guards.StageGate.Tests' } else { 'GuardV3.Tests' }
+    $lockFile = Join-Path $locks "$projectName.packages.lock.json"
     $reviewed = [IO.File]::ReadAllText($lockFile)
     $lock = $reviewed | ConvertFrom-Json -AsHashtable -Depth 20
     $framework = @($lock.dependencies.Keys)[0]
@@ -80,7 +83,7 @@ try {
     [IO.File]::WriteAllText($lockFile, $reviewed, $utf8)
 
     $reports = Join-Path $temp 'artifacts/guards/v3/build/stage-gate'
-    foreach ($name in @('GuardV3.Tests.imports.pre-build.json', 'GuardV3.Tests.imports.post-build.json')) {
+    foreach ($name in @("$projectName.imports.pre-build.json", "$projectName.imports.post-build.json")) {
         $report = Get-Content -LiteralPath (Join-Path $reports $name) -Raw | ConvertFrom-Json
         if ($report.status -ne 'pass' -or $report.categories.baseline -lt 1) { throw "Import allowlist evidence is missing or failing: $name" }
     }
@@ -105,4 +108,5 @@ try {
 finally {
     Remove-Module GuardBuild -ErrorAction SilentlyContinue
     if ([IO.Directory]::Exists($temp)) { [IO.Directory]::Delete($temp, $true) }
+    if ([IO.Directory]::Exists($generationRoot)) { [IO.Directory]::Delete($generationRoot, $true) }
 }

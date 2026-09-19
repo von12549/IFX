@@ -37,6 +37,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
 | Deployment | deployment/** | deployment | codeowners |
 | CI | .github/** | ci | codeowners |
 | RepositoryConfig | .gitattributes | repository | codeowners |
+| RepositoryIgnore | .gitignore | repository | codeowners |
 
 ## Profile identity
 
@@ -346,6 +347,16 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
     {
       "id": "RepositoryConfig",
       "pathPattern": ".gitattributes",
+      "layer": "repository",
+      "owner": "codeowners",
+      "similarImplementationRoot": ".github",
+      "focusedCommands": [
+        "ifx-package-test"
+      ]
+    },
+    {
+      "id": "RepositoryIgnore",
+      "pathPattern": ".gitignore",
       "layer": "repository",
       "owner": "codeowners",
       "similarImplementationRoot": ".github",

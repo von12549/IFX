@@ -253,7 +253,7 @@ try {
         $staleRuleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
         $ruleTitle = {
             & $staleRuleTitle
-            $render = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone) -WorkingDirectory $clone
+            $render = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3/scripts/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone) -WorkingDirectory $clone
             if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
         }
         $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }

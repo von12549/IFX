@@ -53,7 +53,7 @@ try {
     # Domain authority files are target data read by the registry lint (Plan 06 D18).
     $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
     foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
-    foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/stages')) {
+    foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/hooks', 'docs/guards/V3/stages')) {
         foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repository $root) -Recurse -File) {
             $relative = [IO.Path]::GetRelativePath($repository, $file.FullName).Replace([IO.Path]::DirectorySeparatorChar, '/')
             if ($relative -match '(^|/)(bin|obj)/') { continue }
@@ -65,6 +65,7 @@ try {
     $commands = 'docs/guards/V3_ifx/shared/commands.json'
     $tcb = 'docs/guards/V3_ifx/shared/trusted-components.json'
     $system = 'docs/guards/V3_ifx/guard-system.json'
+    $orchestrator = 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1'
 
     Invoke-Case 'current manifests pass' 0
     Invoke-Case 'stage declaring a command-owned field fails' 1 $stagePost { param($d) $d['entryPoint'] = 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' } "command-owned field 'entryPoint'"
@@ -80,6 +81,8 @@ try {
     Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' } 'overlap'
     Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) $d.components += [ordered]@{ id = 'tcb.future-component'; type = 'future'; status = 'planned'; paths = @('Directory.Build.props'); validationSuite = @('future'); parityContract = 'future'; allowedChange = 'change-trusted-base' } } "Planned component 'tcb.future-component'"
     Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1`n") } 'Workflow references a missing script: docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1'
+    Invoke-Case 'IFX command redirecting to a forked V3 runner fails' 1 $commands { param($d) ($d.commands | Where-Object { $_.id -eq 'v3-runner' }).entryPoint = 'docs/guards/V3_ifx/scripts/Invoke-V3.ps1' } "Command 'v3-runner' must reference the canonical V3 entry point"
+    Invoke-Case 'IFX Diff without explicit overlay protection fails' 1 $orchestrator { param($p) [IO.File]::WriteAllText($p, ([IO.File]::ReadAllText($p).Replace(",'-ProtectionPath',(Join-Path `$packageRoot 'stages/diff/protection.json')", '')), $utf8) } 'IFX Diff must pass the overlay protection configuration to canonical V3.'
     Invoke-Case 'stage listed without manifest fails' 1 $system { param($d) $d.stages = @($d.stages | Where-Object { $_ -ne 'diff' }) } "Stage manifest 'diff' is not listed"
     Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
     $authorities = 'docs/guards/V3_ifx/policy/authorities.json'
@@ -102,12 +105,10 @@ try {
     $protectionBytes = [IO.File]::ReadAllBytes($protectionFixture)
     try { Invoke-Case 'missing Diff protection configuration fails' 1 $null { [IO.File]::Delete($protectionFixture) } 'Diff protection configuration is missing' }
     finally { [IO.File]::WriteAllBytes($protectionFixture, $protectionBytes) }
-    Invoke-Case 'stage gate template diverging from V3 fails' 1 'docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in' { param($p) [IO.File]::AppendAllText($p, "// divergence`n") } 'V3 fork copy diverges from V3: docs/guards/V3_ifx/templates/dotnet/GuardTests.cs.in'
     Invoke-Case 'unregistered policy file fails' 1 'docs/guards/V3_ifx/policy/fixture-extra.json' { param($p) [IO.File]::WriteAllText($p, "{}`n", $utf8) } 'Policy or configuration file is not registered in shared/policy-config.json: docs/guards/V3_ifx/policy/fixture-extra.json'
     Invoke-Case 'schema field without a monotonicity declaration fails' 1 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
     Invoke-Case 'policy registry claiming a derived projection fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths += 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' } "Policy registry entry 'layerguard-policy' claims derived projection target docs/guards/V3_ifx/policy/g05/context-protocol-v1.json"
     Invoke-Case 'policy registry claiming an authorization record fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'diff-protection' })[0].paths += 'docs/guards/V3_ifx/stages/diff/authorizations/fixture.json' } "Policy registry entry 'diff-protection' claims excluded path docs/guards/V3_ifx/stages/diff/authorizations/fixture.json"
-    Invoke-Case 'synthetic test diverging from V3 fails' 1 'docs/guards/V3_ifx/tests/Test-V3.ps1' { param($p) [IO.File]::AppendAllText($p, "# divergence`n") } 'V3 fork copy diverges from V3: docs/guards/V3_ifx/tests/Test-V3.ps1'
     Write-Host 'IFX manifest tests passed.'
 }
 finally {

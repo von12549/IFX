@@ -101,10 +101,12 @@ try {
         $headTree = Join-Path $work 'head-tree'
         [void](Invoke-GuardGit $target @('worktree', 'add', '--detach', '--quiet', $headTree, $headSha))
         $headTreeAdded = $true
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3.ps1') @('-Mode', 'Validate', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree, '-OutputDirectory', (Join-Path $headTree 'artifacts/guards/policy-candidate')) -WorkingDirectory $work
+        $profileGeneration = Join-Path $work 'profile-generation'
+        [void][IO.Directory]::CreateDirectory($profileGeneration)
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $baseRepository 'docs/guards/V3/scripts/Invoke-V3.ps1') @('-Mode', 'Validate', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree, '-GenerationRoot', $profileGeneration) -WorkingDirectory $work
         Add-Validation 'v3-profile' "$packagePath/profiles/ifx/" $(if ($run.ExitCode -eq 0) { @() } else { @("the base V3 runner rejects the head profile: $(Get-RunTail $run)") })
         # The generated profile views are checked after merge, so a head profile with stale views would break the next base.
-        $views = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3Docs.ps1') @('-Mode', 'Check', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree) -WorkingDirectory $work
+        $views = Invoke-GuardIsolatedPwsh (Join-Path $baseRepository 'docs/guards/V3/scripts/Invoke-V3Docs.ps1') @('-Mode', 'Check', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree) -WorkingDirectory $work
         Add-Validation 'v3-profile-views' "$packagePath/profiles/ifx/views/" $(if ($views.ExitCode -eq 0) { @() } else { @("the head profile views differ from what the base renderer produces: $(Get-RunTail $views)") })
     }
 

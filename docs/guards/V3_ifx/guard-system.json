@@ -4,7 +4,7 @@
   "role": "overlay",
   "engine": {
     "package": "docs/guards/V3",
-    "status": "forked-until-p7"
+    "status": "referenced"
   },
   "stages": [
     "bootstrap",

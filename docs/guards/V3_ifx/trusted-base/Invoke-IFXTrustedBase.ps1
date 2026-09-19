@@ -240,7 +240,7 @@ try {
     }
 
     # ---- guard run from the candidate package, with head only as the target
-    $arguments = @('-Mode', $Mode, '-TargetRoot', $head, '-OutputDirectory', $output)
+    $arguments = @('-Mode', $Mode, '-TargetRoot', $head, '-OutputDirectory', $output, '-GenerationRoot', $generation)
     switch ($Mode) {
         'Specialized' { $arguments += @('-SpecializedGate', $SpecializedGate) }
         'Quality' { $arguments += @('-QualityTarget', $QualityTarget) }

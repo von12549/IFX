@@ -2,7 +2,7 @@
 
 Generated view of `project-map.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
 
-<!-- guard-config-source: project-map.json sha256: 7ff1aa34a534fbd09569428996a8b1fcf8bf44287f1ab317c60e14829516eaea -->
+<!-- guard-config-source: project-map.json sha256: 18866678b214f4d3ade70fefa6274c5ee00c9f03de71a42100a36fd16ff7e80c -->
 
 ## Areas
 
@@ -37,6 +37,7 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
 | Deployment | deployment/** | deployment | codeowners | deployment | ifx-package-test |
 | CI | .github/** | ci | codeowners | .github | ifx-package-test |
 | RepositoryConfig | .gitattributes | repository | codeowners | .github | ifx-package-test |
+| RepositoryIgnore | .gitignore | repository | codeowners | .github | ifx-package-test |
 
 ## Risk triggers
 
@@ -96,7 +97,8 @@ Generated view of `project-map.json`. Edit the JSON block for policy changes, th
     { "id": "RepositoryScripts", "pathPattern": "scripts/**", "layer": "tooling", "owner": "codeowners", "similarImplementationRoot": "scripts", "focusedCommands": ["ifx-package-test"] },
     { "id": "Deployment", "pathPattern": "deployment/**", "layer": "deployment", "owner": "codeowners", "similarImplementationRoot": "deployment", "focusedCommands": ["ifx-package-test"] },
     { "id": "CI", "pathPattern": ".github/**", "layer": "ci", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },
-    { "id": "RepositoryConfig", "pathPattern": ".gitattributes", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] }
+    { "id": "RepositoryConfig", "pathPattern": ".gitattributes", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] },
+    { "id": "RepositoryIgnore", "pathPattern": ".gitignore", "layer": "repository", "owner": "codeowners", "similarImplementationRoot": ".github", "focusedCommands": ["ifx-package-test"] }
   ],
   "riskTriggers": [
     { "id": "public-contract", "pathPattern": "src/**/IFX.*.Contracts/**", "reason": "Public contract or protocol change" },

@@ -1120,8 +1120,8 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 
 ### D30 — Stage Gate 仓库外生成与 V3 overlay expand/contract 切换（P7 补充，细化 D1、D3、D6、D9、D14）
 
-- **决定**：P7 以 CP08-prep0、CP08-prep 与 CP08 交付。CP08-prep0 先修正 base-owned manifest/tools 测试：workflow 未登记脚本负向控制使用真正缺失的路径，public runner 不再要求与 canonical 实现 byte parity，analysis reproducibility 改为隔离目录连续两次生成比较且不覆盖 tracked snapshot。CP08-prep 再让 IFX 调用链与 base-owned ownership 使用 canonical V3，并把 workflow-facing legacy runner 收敛为薄 wrapper；CP08 参数化 `{ProjectId}.Guards.StageGate.Tests`，在仓库外生成 Self/Post/Diff，取消跟踪 snapshot 并删除无兼容职责的重复实现。三个检查点各自使用 exact-candidate authorization → change pair；required check 名称、ruleset 与 O1 保持不变。
-- 来源：P7 实施时的 base-owned overlay 失败报告；旧测试会覆盖 candidate 的新版测试并拒绝预期 wrapper，且 tracked inventory byte 比较受 Windows checkout 换行影响，因此测试契约必须先成为 base；记录 `20260919-v3-stage-d30-stage-gate-cutover.json`。
+- **决定**：P7 以 CP08-prep0、CP08-prep 与 CP08 交付。CP08-prep0 先修正 base-owned manifest/tools 测试：workflow 未登记脚本负向控制使用真正缺失的路径，public runner 不再要求与 canonical 实现 byte parity，analysis reproducibility 改为隔离目录连续两次生成比较且不覆盖 tracked snapshot。CP08-prep 再让 IFX orchestrator、command manifest、trusted-base 调用链与 base-owned ownership 使用 canonical V3，把 workflow-facing legacy runner 收敛为薄 wrapper，并将 generation root 显式传到底层。CP08 参数化 `{ProjectId}.Guards.StageGate.Tests`，在 `<generation-root>/<package>/gates/stage/` 下生成 Self/Post/Diff，拒绝 identifier 碰撞，取消跟踪 snapshot 并删除无兼容职责的内部副本；声明期内的 public legacy path 保留薄 wrapper。三个检查点各自使用 exact-candidate authorization → change pair；required check 名称、ruleset 与 O1 保持不变。
+- 来源：P7 实施时的 base-owned overlay 失败报告与生成路径审计；旧测试会覆盖 candidate 的新版测试并拒绝预期 wrapper，tracked inventory byte 比较受 Windows checkout 换行影响，直接删除重复测试又会被 base overlay 恢复，因此必须 test-bridge → expand → contract；记录 `20260919-v3-stage-d30-stage-gate-cutover.json`。
 
 ## 18. 暂缓项
 
