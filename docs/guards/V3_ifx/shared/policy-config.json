@@ -14,6 +14,27 @@
   ],
   "entries": [
     {
+      "id": "cp11c-shared-authority-migration",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/shared/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "cp11c-pre-authority-migration",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/pre/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "cp11c-post-rule-migration",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/post/rules/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
       "id": "ifx-profile",
       "role": "editable-policy",
       "paths": [
