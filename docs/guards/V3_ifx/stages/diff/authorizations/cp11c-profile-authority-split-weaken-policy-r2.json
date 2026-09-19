@@ -1,0 +1,807 @@
+{
+  "formatVersion": 1,
+  "id": "cp11c-profile-authority-split-weaken-policy-r2",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11c-profile-authority-split.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/docs/docs-map.json",
+    "docs/guards/V3_ifx/profiles/ifx/profile.json",
+    "docs/guards/V3_ifx/profiles/ifx/project-map.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json",
+    "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/profile-layout.json",
+    "docs/guards/V3_ifx/shared/profile.json",
+    "docs/guards/V3_ifx/shared/toolchain.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+    "docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json",
+    "docs/guards/V3_ifx/stages/post/rules/L1.2.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.2.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.3.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.4.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.9.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.1.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.4.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.5.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.6.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/stages/pre/project-map.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/docs/docs-map.json",
+      "baseSha256": "e3e8730a23967f8e1ab5660d7f253be5e8b97811298a24047585ee7a3284e596",
+      "headSha256": "b58592adf4afa1720dfb3c3a1fbb941531ebf88bd3a732cee001bee634cbf309",
+      "schema": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+      "pointers": [
+        "/documents/2/sources/2/path"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "211440dd6fb4eae1a7ad14b5c272e9cc36e8f818"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/profile.json",
+      "baseSha256": "a2a1a7e1e6ac506133663580696d48ed1e7fd103785a1fbb163f98a29251cc9e",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/project-map.json",
+      "baseSha256": "18866678b214f4d3ade70fefa6274c5ee00c9f03de71a42100a36fd16ff7e80c",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "baseSha256": "b54bc598b45645d579b7c9badc2a4bbf8a7640b26c2e973e36c1ba65a2e1f565",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json",
+      "baseSha256": "436a9c16b47b9a640bdf1caf3bb1bae24494b4e7c5079b85897b4ed169c224b5",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+      "baseSha256": "b7f41e1cbf9714875ff0ff1c35793284f2e80f1bc66663112313f4470d35ad04",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json",
+      "baseSha256": "ffe8ce2f85d28656a1f764217a0794f9ca047e6bca3f7f0232624168d8aa3d7f",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json",
+      "baseSha256": "6b956c60a0547ed1fb904b6ccae8b28c2d17ad91ad3eb87b7488a1e7a7de1279",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json",
+      "baseSha256": "c863b55397056e63a5d08fabb3010cf3d9007d783adb5fabb677d33f9b5ec5f0",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json",
+      "baseSha256": "8d5e7bf020413cbbb90c9c582b75e019e612a5f30283c76493418378565f9e3f",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json",
+      "baseSha256": "4ff25e3c719caeaafe35e3985ea8f0e5f3dae38e4fd4948fe18ded1464a08d10",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json",
+      "baseSha256": "78a3c509b87b13e5d85e11699c2a27f37827fc2f1f3210868c9ffffefb513634",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json",
+      "baseSha256": "4252c1c30470aa69c2a8b995cd59bf2642f9c6400e1c9fa725c607ca2ad90c94",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json",
+      "baseSha256": "1d76170b4c19ae981a69e3400b2a2f15610da7e50026f5e25f9cb37c13c3de0b",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+      "baseSha256": "3cabdfbfc52576656c3450857a8958fd59a41b50f57ac0181cfd6e443b69ecc5",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "baseSha256": "18e5e72aa3ca19c04e0b1e39391cda7a697d2043e390fbbfdfaf3c6d3cd20834",
+      "headSha256": "94c8cef519d4fa24df5b7a2d940a3548651118d9481281abaf85f89bd3cde540",
+      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "pointers": [
+        "/commands/0/inputs/0",
+        "/commands/1/inputs/0",
+        "/commands/3/inputs/2",
+        "/commands/4/inputs/1"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e0ab634840c8bf28fd3899426f14f44e172b932f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "9f05b477f1ee4c6385217f0a7d64e66d83ddd4698d5ed0bebb286158a1ad4b8f",
+      "headSha256": "f1cab22e7da6408a817c5f53931702c1abef66f4e406a10af7ab5d1037842cdd",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/0/candidateValidation",
+        "/entries/0/directory",
+        "/entries/0/id",
+        "/entries/0/paths",
+        "/entries/0/schema",
+        "/entries/1/candidateValidation",
+        "/entries/1/directory",
+        "/entries/1/id",
+        "/entries/1/paths",
+        "/entries/1/role",
+        "/entries/1/schema",
+        "/entries/10/id",
+        "/entries/10/paths/0",
+        "/entries/10/schema",
+        "/entries/11/candidateValidation",
+        "/entries/11/id",
+        "/entries/11/paths/0",
+        "/entries/11/paths/1",
+        "/entries/11/paths/2",
+        "/entries/11/paths/3",
+        "/entries/11/paths/4",
+        "/entries/11/paths/5",
+        "/entries/11/schema",
+        "/entries/12/id",
+        "/entries/12/paths/0",
+        "/entries/12/schema",
+        "/entries/13/candidateValidation",
+        "/entries/13/id",
+        "/entries/13/paths/0",
+        "/entries/13/paths/1",
+        "/entries/13/paths/2",
+        "/entries/13/schema",
+        "/entries/14/id",
+        "/entries/14/paths/0",
+        "/entries/14/schema",
+        "/entries/15/id",
+        "/entries/15/paths/0",
+        "/entries/15/schema",
+        "/entries/16/id",
+        "/entries/16/paths/0",
+        "/entries/16/schema",
+        "/entries/17/id",
+        "/entries/17/paths/0",
+        "/entries/17/schema",
+        "/entries/18/id",
+        "/entries/18/paths/0",
+        "/entries/18/schema",
+        "/entries/19/id",
+        "/entries/19/paths/0",
+        "/entries/19/schema",
+        "/entries/2/candidateValidation",
+        "/entries/2/directory",
+        "/entries/2/id",
+        "/entries/2/paths",
+        "/entries/2/role",
+        "/entries/2/schema",
+        "/entries/20/candidateValidation",
+        "/entries/20/directory",
+        "/entries/20/id",
+        "/entries/20/paths",
+        "/entries/20/schema",
+        "/entries/21/candidateValidation",
+        "/entries/21/format",
+        "/entries/21/id",
+        "/entries/21/paths/0",
+        "/entries/21/schema",
+        "/entries/22",
+        "/entries/23",
+        "/entries/3/id",
+        "/entries/3/paths/0",
+        "/entries/3/schema",
+        "/entries/4/directory",
+        "/entries/4/id",
+        "/entries/4/paths",
+        "/entries/4/schema",
+        "/entries/5/candidateValidation",
+        "/entries/5/id",
+        "/entries/5/paths/0",
+        "/entries/5/schema",
+        "/entries/6/candidateValidation",
+        "/entries/6/directory",
+        "/entries/6/id",
+        "/entries/6/paths",
+        "/entries/6/schema",
+        "/entries/7/candidateValidation",
+        "/entries/7/id",
+        "/entries/7/paths/0",
+        "/entries/8/candidateValidation",
+        "/entries/8/id",
+        "/entries/8/paths/0",
+        "/entries/8/role",
+        "/entries/8/schema",
+        "/entries/9/candidateValidation",
+        "/entries/9/id",
+        "/entries/9/paths/0",
+        "/entries/9/paths/1",
+        "/entries/9/paths/2",
+        "/entries/9/paths/3",
+        "/entries/9/paths/4",
+        "/entries/9/paths/5",
+        "/entries/9/role",
+        "/entries/9/schema",
+        "/monotonicity/10/fields/0/pointer",
+        "/monotonicity/10/fields/1/pointer",
+        "/monotonicity/10/fields/10/pointer",
+        "/monotonicity/10/fields/11/pointer",
+        "/monotonicity/10/fields/12/pointer",
+        "/monotonicity/10/fields/13/pointer",
+        "/monotonicity/10/fields/14/pointer",
+        "/monotonicity/10/fields/15/pointer",
+        "/monotonicity/10/fields/16/pointer",
+        "/monotonicity/10/fields/17",
+        "/monotonicity/10/fields/18",
+        "/monotonicity/10/fields/19",
+        "/monotonicity/10/fields/2/pointer",
+        "/monotonicity/10/fields/20",
+        "/monotonicity/10/fields/21",
+        "/monotonicity/10/fields/22",
+        "/monotonicity/10/fields/23",
+        "/monotonicity/10/fields/24",
+        "/monotonicity/10/fields/25",
+        "/monotonicity/10/fields/26",
+        "/monotonicity/10/fields/27",
+        "/monotonicity/10/fields/28",
+        "/monotonicity/10/fields/3/pointer",
+        "/monotonicity/10/fields/4/pointer",
+        "/monotonicity/10/fields/5/pointer",
+        "/monotonicity/10/fields/6/pointer",
+        "/monotonicity/10/fields/7/pointer",
+        "/monotonicity/10/fields/8/pointer",
+        "/monotonicity/10/fields/9/pointer",
+        "/monotonicity/10/schema",
+        "/monotonicity/11/fields/0/pointer",
+        "/monotonicity/11/fields/1/pointer",
+        "/monotonicity/11/fields/10/pointer",
+        "/monotonicity/11/fields/11/pointer",
+        "/monotonicity/11/fields/12/pointer",
+        "/monotonicity/11/fields/13/pointer",
+        "/monotonicity/11/fields/14/pointer",
+        "/monotonicity/11/fields/15/pointer",
+        "/monotonicity/11/fields/16/pointer",
+        "/monotonicity/11/fields/17",
+        "/monotonicity/11/fields/2/pointer",
+        "/monotonicity/11/fields/3/pointer",
+        "/monotonicity/11/fields/4/pointer",
+        "/monotonicity/11/fields/5/pointer",
+        "/monotonicity/11/fields/6/pointer",
+        "/monotonicity/11/fields/7/pointer",
+        "/monotonicity/11/fields/8/pointer",
+        "/monotonicity/11/fields/9/pointer",
+        "/monotonicity/11/schema",
+        "/monotonicity/12/fields/0/pointer",
+        "/monotonicity/12/fields/1/pointer",
+        "/monotonicity/12/fields/10/pointer",
+        "/monotonicity/12/fields/11/pointer",
+        "/monotonicity/12/fields/12/pointer",
+        "/monotonicity/12/fields/13/pointer",
+        "/monotonicity/12/fields/14/pointer",
+        "/monotonicity/12/fields/15/pointer",
+        "/monotonicity/12/fields/16/pointer",
+        "/monotonicity/12/fields/17/pointer",
+        "/monotonicity/12/fields/18",
+        "/monotonicity/12/fields/19",
+        "/monotonicity/12/fields/2/pointer",
+        "/monotonicity/12/fields/20",
+        "/monotonicity/12/fields/21",
+        "/monotonicity/12/fields/22",
+        "/monotonicity/12/fields/23",
+        "/monotonicity/12/fields/24",
+        "/monotonicity/12/fields/25",
+        "/monotonicity/12/fields/26",
+        "/monotonicity/12/fields/27",
+        "/monotonicity/12/fields/28",
+        "/monotonicity/12/fields/29",
+        "/monotonicity/12/fields/3/pointer",
+        "/monotonicity/12/fields/30",
+        "/monotonicity/12/fields/31",
+        "/monotonicity/12/fields/32",
+        "/monotonicity/12/fields/33",
+        "/monotonicity/12/fields/34",
+        "/monotonicity/12/fields/35",
+        "/monotonicity/12/fields/4/pointer",
+        "/monotonicity/12/fields/5/pointer",
+        "/monotonicity/12/fields/6/pointer",
+        "/monotonicity/12/fields/7/pointer",
+        "/monotonicity/12/fields/8/pointer",
+        "/monotonicity/12/fields/9/pointer",
+        "/monotonicity/12/schema",
+        "/monotonicity/13/fields/0/pointer",
+        "/monotonicity/13/fields/1/pointer",
+        "/monotonicity/13/fields/10/pointer",
+        "/monotonicity/13/fields/11/pointer",
+        "/monotonicity/13/fields/12/pointer",
+        "/monotonicity/13/fields/13/pointer",
+        "/monotonicity/13/fields/14",
+        "/monotonicity/13/fields/15",
+        "/monotonicity/13/fields/16",
+        "/monotonicity/13/fields/17",
+        "/monotonicity/13/fields/18",
+        "/monotonicity/13/fields/19",
+        "/monotonicity/13/fields/2/pointer",
+        "/monotonicity/13/fields/20",
+        "/monotonicity/13/fields/21",
+        "/monotonicity/13/fields/22",
+        "/monotonicity/13/fields/23",
+        "/monotonicity/13/fields/24",
+        "/monotonicity/13/fields/25",
+        "/monotonicity/13/fields/26",
+        "/monotonicity/13/fields/27",
+        "/monotonicity/13/fields/28",
+        "/monotonicity/13/fields/29",
+        "/monotonicity/13/fields/3/pointer",
+        "/monotonicity/13/fields/30",
+        "/monotonicity/13/fields/31",
+        "/monotonicity/13/fields/32",
+        "/monotonicity/13/fields/33",
+        "/monotonicity/13/fields/34",
+        "/monotonicity/13/fields/35",
+        "/monotonicity/13/fields/4/pointer",
+        "/monotonicity/13/fields/5/pointer",
+        "/monotonicity/13/fields/6/pointer",
+        "/monotonicity/13/fields/7/pointer",
+        "/monotonicity/13/fields/8/pointer",
+        "/monotonicity/13/fields/9/pointer",
+        "/monotonicity/13/schema",
+        "/monotonicity/14/fields/0/pointer",
+        "/monotonicity/14/fields/1/pointer",
+        "/monotonicity/14/fields/10",
+        "/monotonicity/14/fields/11",
+        "/monotonicity/14/fields/12",
+        "/monotonicity/14/fields/13",
+        "/monotonicity/14/fields/2",
+        "/monotonicity/14/fields/3",
+        "/monotonicity/14/fields/4",
+        "/monotonicity/14/fields/5",
+        "/monotonicity/14/fields/6",
+        "/monotonicity/14/fields/7",
+        "/monotonicity/14/fields/8",
+        "/monotonicity/14/fields/9",
+        "/monotonicity/14/schema",
+        "/monotonicity/15",
+        "/monotonicity/5/fields/1/pointer",
+        "/monotonicity/5/fields/2",
+        "/monotonicity/5/fields/3",
+        "/monotonicity/5/fields/4",
+        "/monotonicity/5/fields/5",
+        "/monotonicity/5/schema",
+        "/monotonicity/6/fields/0/pointer",
+        "/monotonicity/6/fields/1/pointer",
+        "/monotonicity/6/fields/10",
+        "/monotonicity/6/fields/11",
+        "/monotonicity/6/fields/2",
+        "/monotonicity/6/fields/3",
+        "/monotonicity/6/fields/4",
+        "/monotonicity/6/fields/5",
+        "/monotonicity/6/fields/6",
+        "/monotonicity/6/fields/7",
+        "/monotonicity/6/fields/8",
+        "/monotonicity/6/fields/9",
+        "/monotonicity/6/schema",
+        "/monotonicity/7/fields/0/pointer",
+        "/monotonicity/7/fields/1/pointer",
+        "/monotonicity/7/fields/10",
+        "/monotonicity/7/fields/11",
+        "/monotonicity/7/fields/2/pointer",
+        "/monotonicity/7/fields/3",
+        "/monotonicity/7/fields/4",
+        "/monotonicity/7/fields/5",
+        "/monotonicity/7/fields/6",
+        "/monotonicity/7/fields/7",
+        "/monotonicity/7/fields/8",
+        "/monotonicity/7/fields/9",
+        "/monotonicity/7/schema",
+        "/monotonicity/8/fields/0/pointer",
+        "/monotonicity/8/fields/1/pointer",
+        "/monotonicity/8/fields/10",
+        "/monotonicity/8/fields/11",
+        "/monotonicity/8/fields/12",
+        "/monotonicity/8/fields/13",
+        "/monotonicity/8/fields/14",
+        "/monotonicity/8/fields/15",
+        "/monotonicity/8/fields/16",
+        "/monotonicity/8/fields/17",
+        "/monotonicity/8/fields/18",
+        "/monotonicity/8/fields/19",
+        "/monotonicity/8/fields/2/pointer",
+        "/monotonicity/8/fields/20",
+        "/monotonicity/8/fields/21",
+        "/monotonicity/8/fields/22",
+        "/monotonicity/8/fields/23",
+        "/monotonicity/8/fields/24",
+        "/monotonicity/8/fields/25",
+        "/monotonicity/8/fields/26",
+        "/monotonicity/8/fields/27",
+        "/monotonicity/8/fields/28",
+        "/monotonicity/8/fields/3",
+        "/monotonicity/8/fields/4",
+        "/monotonicity/8/fields/5",
+        "/monotonicity/8/fields/6",
+        "/monotonicity/8/fields/7",
+        "/monotonicity/8/fields/8",
+        "/monotonicity/8/fields/9",
+        "/monotonicity/8/schema",
+        "/monotonicity/9/fields/0/pointer",
+        "/monotonicity/9/fields/1/pointer",
+        "/monotonicity/9/fields/10/pointer",
+        "/monotonicity/9/fields/11/pointer",
+        "/monotonicity/9/fields/12/pointer",
+        "/monotonicity/9/fields/13/pointer",
+        "/monotonicity/9/fields/14/pointer",
+        "/monotonicity/9/fields/15/pointer",
+        "/monotonicity/9/fields/16/pointer",
+        "/monotonicity/9/fields/17/pointer",
+        "/monotonicity/9/fields/18/pointer",
+        "/monotonicity/9/fields/19/pointer",
+        "/monotonicity/9/fields/2/pointer",
+        "/monotonicity/9/fields/20/pointer",
+        "/monotonicity/9/fields/21/pointer",
+        "/monotonicity/9/fields/22/pointer",
+        "/monotonicity/9/fields/23/pointer",
+        "/monotonicity/9/fields/24/pointer",
+        "/monotonicity/9/fields/25/pointer",
+        "/monotonicity/9/fields/26/pointer",
+        "/monotonicity/9/fields/27/pointer",
+        "/monotonicity/9/fields/28/pointer",
+        "/monotonicity/9/fields/3/pointer",
+        "/monotonicity/9/fields/4/pointer",
+        "/monotonicity/9/fields/5/pointer",
+        "/monotonicity/9/fields/6/pointer",
+        "/monotonicity/9/fields/7/pointer",
+        "/monotonicity/9/fields/8/pointer",
+        "/monotonicity/9/fields/9/pointer",
+        "/monotonicity/9/schema"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "73533398660c1029572ae9c61334093a8ed183b3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/profile-layout.json",
+      "baseSha256": null,
+      "headSha256": "e943a952be789c4484fe3c86f9bd3c27f5333bc4f98c0c2e03d56b84e29f31ae",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "668003e43b41e237c663e7b2268f5b51aae356a1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/profile.json",
+      "baseSha256": null,
+      "headSha256": "a2a1a7e1e6ac506133663580696d48ed1e7fd103785a1fbb163f98a29251cc9e",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fdd8286ae6e3ce0f73d4c29afdae005d264f1a71"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/toolchain.json",
+      "baseSha256": null,
+      "headSha256": "3cabdfbfc52576656c3450857a8958fd59a41b50f57ac0181cfd6e443b69ecc5",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f044060e181a11508efbb6e873e48c9359f750d8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/stage.json",
+      "baseSha256": "ada06cec48e4e29d59b1db807bde1559c9079ce500810b0f4e4ad2aaddc3ae5e",
+      "headSha256": "267f8a4fb8e14364ce07aaa075e2955fbdf3f14f486968391576c630dc5edadc",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/gates/0/trustContract/inputs/0/ref"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c797e3e285cde2a2c2336942abaed10e9d80f97b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "baseSha256": null,
+      "headSha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e062090994c7ebca968f3bbb65afd58a879d671"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json",
+      "baseSha256": null,
+      "headSha256": "436a9c16b47b9a640bdf1caf3bb1bae24494b4e7c5079b85897b4ed169c224b5",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c2e56bbaf757a8e17ac1b59073c3cecbe42707a3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L1.2.json",
+      "baseSha256": null,
+      "headSha256": "b7f41e1cbf9714875ff0ff1c35793284f2e80f1bc66663112313f4470d35ad04",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ffae770f7a54d999395887f3c06aaa6d19d6e645"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.2.json",
+      "baseSha256": null,
+      "headSha256": "ffe8ce2f85d28656a1f764217a0794f9ca047e6bca3f7f0232624168d8aa3d7f",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "146eea6a09e37286a84e850e833024cb97169aa6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.3.json",
+      "baseSha256": null,
+      "headSha256": "6b956c60a0547ed1fb904b6ccae8b28c2d17ad91ad3eb87b7488a1e7a7de1279",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0248f33a9ec7c4160c174885d2041d4a921fdd8a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.4.json",
+      "baseSha256": null,
+      "headSha256": "c863b55397056e63a5d08fabb3010cf3d9007d783adb5fabb677d33f9b5ec5f0",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9cb54bae17e5c8811ad71e199507971808ac358c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.9.json",
+      "baseSha256": null,
+      "headSha256": "8d5e7bf020413cbbb90c9c582b75e019e612a5f30283c76493418378565f9e3f",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c589c3a1e893193783bc9070eb9f912a147fabe"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.1.json",
+      "baseSha256": null,
+      "headSha256": "4ff25e3c719caeaafe35e3985ea8f0e5f3dae38e4fd4948fe18ded1464a08d10",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e806579ee26ade1523f10682fe60b4c36932a45c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.4.json",
+      "baseSha256": null,
+      "headSha256": "78a3c509b87b13e5d85e11699c2a27f37827fc2f1f3210868c9ffffefb513634",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1ebac46a91558ce8450345b6391f91d31b1ee15b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.5.json",
+      "baseSha256": null,
+      "headSha256": "4252c1c30470aa69c2a8b995cd59bf2642f9c6400e1c9fa725c607ca2ad90c94",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2370ddd46f90724de48c085cc61970970c564e75"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.6.json",
+      "baseSha256": null,
+      "headSha256": "1d76170b4c19ae981a69e3400b2a2f15610da7e50026f5e25f9cb37c13c3de0b",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7e730e779c5906c9e17c4494408c59012269cdd8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "baseSha256": "fdcc53d348c014ff9841e3568fa968eeb2c068f319a1dfbcf524c95d5f5e3aa7",
+      "headSha256": "acf3a4fff1ed3896246a3d0c538d2c84416e411893d3991836f708790a191c7a",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/gates/0/trustContract/inputs/2/ref",
+        "/gates/7/trustContract/inputs/1/ref",
+        "/gates/7/trustContract/policy"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fcfb5205aa3306f2d4afe072669e95a4fc49e9cb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/pre/project-map.json",
+      "baseSha256": null,
+      "headSha256": "18866678b214f4d3ade70fefa6274c5ee00c9f03de71a42100a36fd16ff7e80c",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "989e841493f6b261eff32f1a3b2ff3a40bc5b433"
+      }
+    }
+  ]
+}

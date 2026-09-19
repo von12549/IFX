@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "cp11c-toolchain-move-r2",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11c-profile-authority-split.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "f044060e181a11508efbb6e873e48c9359f750d8"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/shared/toolchain.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "f044060e181a11508efbb6e873e48c9359f750d8"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+    "docs/guards/V3_ifx/shared/toolchain.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f044060e181a11508efbb6e873e48c9359f750d8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/toolchain.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f044060e181a11508efbb6e873e48c9359f750d8"
+      }
+    }
+  ]
+}
