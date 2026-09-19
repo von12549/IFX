@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp09-authorization-r3",
+  "title": "Authorize Plan 06 CP09 commands, docs, and analysis lifecycle r3",
+  "goal": "Pre-authorize the exact protected moves, deletions, policy changes, and trusted-component upgrade in the CP09 candidate after the base validation bridge.",
+  "acceptanceCriteria": [
+    "The record set binds raw candidate 0fa43780 to verified dual-layout base 2b45b48a and the CP09 plan/decisions.",
+    "Exactly one change-trusted-base and one weaken-policy record cover their independently computed obligations.",
+    "Seven move and six delete records cover every protected path operation without overlap or omission.",
+    "The authorization commit contains only this plan pair and the 15 authorization records."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-delete-analysis-inventory-json-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-delete-analysis-inventory-markdown-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-delete-analysis-proposal-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-delete-analysis-review-json-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-delete-analysis-review-markdown-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-delete-analysis-review-profile-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-docs-analysis-trusted-base-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-docs-analysis-weaken-policy-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-analysis-architecture-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-analysis-deletion-manifest-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-analysis-technical-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-authored-architecture-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-cutover-json-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-cutover-markdown-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-move-specialized-parity-r3.json",
+    "docs/guards/plans/20260919-v3-stage-cp09-authorization-r3.md",
+    "docs/guards/plans/20260919-v3-stage-cp09-authorization-r3.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

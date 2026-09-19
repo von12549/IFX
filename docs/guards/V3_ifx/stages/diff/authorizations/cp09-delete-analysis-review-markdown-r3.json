@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "id": "cp09-delete-analysis-review-markdown-r3",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260919-v3-stage-cp09-docs-analysis.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE-REVIEW.md",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "0ed888e292796ff88d10d5f4e909e4eaff5a6b19"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE-REVIEW.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE-REVIEW.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0ed888e292796ff88d10d5f4e909e4eaff5a6b19"
+      },
+      "head": null
+    }
+  ]
+}

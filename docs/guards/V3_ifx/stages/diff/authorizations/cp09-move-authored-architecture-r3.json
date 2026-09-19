@@ -1,0 +1,136 @@
+{
+  "formatVersion": 1,
+  "id": "cp09-move-authored-architecture-r3",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260919-v3-stage-cp09-docs-analysis.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/architecture",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "2d11a4cfb7e287d3516f543d7fe809b24826fb0f"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/docs/authored/architecture",
+    "base": null,
+    "head": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "96b4ac10a71ebd5b8b0a7262a6d6d76017d221a0"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/architecture/ARCHITECTURE.md",
+    "docs/guards/V3_ifx/architecture/ARCHUNITNET.md",
+    "docs/guards/V3_ifx/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/architecture/INBOUND-ADAPTER-TARGET.md",
+    "docs/guards/V3_ifx/architecture/TECHNICAL.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/ARCHITECTURE.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/ARCHUNITNET.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/INBOUND-ADAPTER-TARGET.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/TECHNICAL.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/architecture/ARCHITECTURE.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e691a2e81373cd8286832b51ef67243e2e8c3b0d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/architecture/ARCHUNITNET.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/architecture/IFX-MIGRATION.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8295515e2ffb044cf95a0782d806788d902e325d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/architecture/INBOUND-ADAPTER-TARGET.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7fe68fa4f39e43e7b4087d3cceba3bfaaa0da890"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/architecture/TECHNICAL.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5f5837d4ad7430df7f7efaff95b517bcde1f0320"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/architecture/ARCHITECTURE.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a6e332367cb3db2a9376bef4ddf23adfa3409bf0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/architecture/ARCHUNITNET.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1ce160f321e8dd7a0cbcfaa2c3c78f865e1f6570"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fd7bfe939dacb7847fee6f9c797d7a3e5d31abbb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/architecture/INBOUND-ADAPTER-TARGET.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7fe68fa4f39e43e7b4087d3cceba3bfaaa0da890"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/architecture/TECHNICAL.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5f5837d4ad7430df7f7efaff95b517bcde1f0320"
+      }
+    }
+  ]
+}
