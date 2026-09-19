@@ -34,5 +34,10 @@
     "v3-cross-platform-*"
   ],
   "parityContract": "Production verifier, workflow, required checks and all verdicts are unchanged; only the base-owned test selects the declaration format present in the candidate package.",
-  "allowedBehaviorDifferences": []
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "Authorization-only plan files make the base generated documentation view stale; the candidate test bridge changes no renderer or production validator, and every other Validate check plus all five verdict parity modes remains equal."
+    }
+  ]
 }
