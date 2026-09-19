@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp10-base-compat",
+  "title": "V3 stage-oriented refactor CP10 — base-compatible CI declaration test",
+  "goal": "Teach the base-owned CI contract test to select either the legacy jobs declaration or the new required-checks declaration without changing production verdict semantics.",
+  "acceptanceCriteria": [
+    "The test passes its complete legacy fixture matrix on the current jobs.json base.",
+    "The same file selects required-checks.json, copies its schema and uses -RequiredChecksPath when evaluated inside the final CP10 candidate.",
+    "No production verifier, workflow, policy, required check or activation target changes."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-base-compat-trusted-base.json",
+    "docs/guards/plans/20260920-v3-stage-cp10-base-compat.md",
+    "docs/guards/plans/20260920-v3-stage-cp10-base-compat.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
