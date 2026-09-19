@@ -176,14 +176,16 @@ try {
         $authorizations = 'docs/guards/V3_ifx/stages/diff/authorizations'
         $changePlan = 'docs/guards/plans/20260917-fixture-change.plan.json'
         $decision = 'docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json'
-        $backupFile = 'docs/guards/V3_backup/README.md'
-        $backupDirectory = 'docs/guards/V3_backup/architecture'
+        # Use the canonical V3 package as the protected-path fixture. V3_backup is itself
+        # scheduled for deletion in P10.5 and must not be a prerequisite of this suite.
+        $backupFile = 'docs/guards/V3/README.md'
+        $backupDirectory = 'docs/guards/V3/architecture'
         $engineComment = { Edit-Text $historyEngine { param($t) $t.Replace("`$ErrorActionPreference = 'Stop'", "# fixture: behaviour-equivalent change`n`$ErrorActionPreference = 'Stop'") } }
         $deleteBackupFile = { [void](Invoke-FixtureGit $clone @('rm', '-q', $backupFile)) }
-        $moveBackupDirectory = { [void](Invoke-FixtureGit $clone @('mv', $backupDirectory, 'docs/guards/V3_backup/design')) }
+        $moveBackupDirectory = { [void](Invoke-FixtureGit $clone @('mv', $backupDirectory, 'docs/guards/V3/design')) }
         $caseRenameBackupDirectory = {
-            [void](Invoke-FixtureGit $clone @('mv', $backupDirectory, 'docs/guards/V3_backup/architecture-case'))
-            [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_backup/architecture-case', 'docs/guards/V3_backup/Architecture'))
+            [void](Invoke-FixtureGit $clone @('mv', $backupDirectory, 'docs/guards/V3/architecture-case'))
+            [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3/architecture-case', 'docs/guards/V3/Architecture'))
         }
 
         function New-PlannedHead([string] $Name, [string] $From, [scriptblock] $Edits, [scriptblock] $Staged) {
@@ -239,8 +241,8 @@ try {
         # ---- records generated from prepared changes, then committed to one authorized base
         $tcbRecord = New-Record 'fixture-consumption' (New-Head 'prepare-consumption' $baseSha $engineComment) @('-ParityContract', 'Fixture: verdicts unchanged on the fixed corpus.')
         $deleteRecord = New-Record 'fixture-delete' (New-Head 'prepare-delete' $baseSha $deleteBackupFile) @('-Operation', 'delete', '-SourcePath', $backupFile)
-        $moveRecord = New-Record 'fixture-move' (New-Head 'prepare-move' $baseSha $moveBackupDirectory) @('-Operation', 'move', '-SourcePath', $backupDirectory, '-DestinationPath', 'docs/guards/V3_backup/design')
-        $caseRecord = New-Record 'fixture-case-rename' (New-Head 'prepare-case-rename' $baseSha $caseRenameBackupDirectory) @('-Operation', 'case-rename', '-SourcePath', $backupDirectory, '-DestinationPath', 'docs/guards/V3_backup/Architecture')
+        $moveRecord = New-Record 'fixture-move' (New-Head 'prepare-move' $baseSha $moveBackupDirectory) @('-Operation', 'move', '-SourcePath', $backupDirectory, '-DestinationPath', 'docs/guards/V3/design')
+        $caseRecord = New-Record 'fixture-case-rename' (New-Head 'prepare-case-rename' $baseSha $caseRenameBackupDirectory) @('-Operation', 'case-rename', '-SourcePath', $backupDirectory, '-DestinationPath', 'docs/guards/V3/Architecture')
         $duplicateRecord = Join-Path $work 'fixture-delete-again.json'
         $duplicate = Get-Content -LiteralPath $deleteRecord -Raw | ConvertFrom-Json -AsHashtable -Depth 20
         $duplicate.id = 'fixture-delete-again'
@@ -313,8 +315,8 @@ try {
         Assert-Result 'authorized case-only rename passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-case' $authorizedBase { & $caseRenameBackupDirectory; Remove-Record 'fixture-case-rename' })) 0 'obligation(s) covered'
         Assert-Result 'a case-only rename consumed as a move fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'case-as-move' $authorizedBase { & $caseRenameBackupDirectory; Remove-Record 'fixture-move' })) 1 'Uncovered protected-removal'
         Assert-Result 'an undeclared case-only rename fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'case-undeclared' $authorizedBase { & $caseRenameBackupDirectory })) 1 'Uncovered protected-removal needs a base authorization'
-        Assert-Result 'an extra file under the move destination fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'move-extra' $authorizedBase { & $moveBackupDirectory; [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_backup/design/extra.md'), "extra`n", $utf8); Remove-Record 'fixture-move' })) 1 'changed paths differ from the authorization'
-        Assert-Result 'a delete authorization does not cover a case-only rename' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'delete-kept-case' $authorizedBase { [void](Invoke-FixtureGit $clone @('mv', $backupFile, 'docs/guards/V3_backup/readme.md')); Remove-Record 'fixture-delete' })) 1 'differs from docs/guards/V3_backup/README.md only in case'
+        Assert-Result 'an extra file under the move destination fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'move-extra' $authorizedBase { & $moveBackupDirectory; [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3/design/extra.md'), "extra`n", $utf8); Remove-Record 'fixture-move' })) 1 'changed paths differ from the authorization'
+        Assert-Result 'a delete authorization does not cover a case-only rename' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'delete-kept-case' $authorizedBase { [void](Invoke-FixtureGit $clone @('mv', $backupFile, 'docs/guards/V3/readme.md')); Remove-Record 'fixture-delete' })) 1 'differs from docs/guards/V3/README.md only in case'
 
         $changedBase = New-Head 'authorize-after-edit' $authorizedBase { Edit-Text $backupFile { param($t) $t + "`nchanged after authorization`n" } }
         $changedWorktree = New-BaseWorktree 'b-changed' $changedBase

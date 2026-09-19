@@ -86,7 +86,7 @@ function Add-Step([string] $Id, [string] $Description, [string] $BaseSha, [strin
     Write-Host ("[{0}] {1}: exit {2} (expected {3})" -f $(if ($ok) { 'OK' } else { 'UNEXPECTED' }), $Id, $Run.ExitCode, $Expected)
 }
 
-$moveEdit = { [void](Invoke-RehearsalGit @('mv', 'docs/guards/V3_backup/architecture', 'docs/guards/V3_backup/design')) }
+$moveEdit = { [void](Invoke-RehearsalGit @('mv', 'docs/guards/V3/architecture', 'docs/guards/V3/design')) }
 $ruleFile = 'docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json'
 $ruleEdit = {
     $path = Join-Path $clone $ruleFile
@@ -115,7 +115,7 @@ try {
     $changePlan = 'docs/guards/plans/20260917-rehearsal-change.plan.json'
     $generator = @('-BaseRevision', $baseSha, '-HeadRevision', $prepared, '-PlanPath', $changePlan, '-DecisionPaths', "$decisions/20260917-v3-stage-d23-protected-change-obligations.json,$decisions/20260917-v3-stage-d24-policy-config-dual-track.json", '-Repository', $clone)
     foreach ($spec in @(
-            @('rehearsal-move', @('-Operation', 'move', '-SourcePath', 'docs/guards/V3_backup/architecture', '-DestinationPath', 'docs/guards/V3_backup/design')),
+            @('rehearsal-move', @('-Operation', 'move', '-SourcePath', 'docs/guards/V3/architecture', '-DestinationPath', 'docs/guards/V3/design')),
             @('rehearsal-weaken-policy', @('-Operation', 'weaken-policy')),
             @('rehearsal-trusted-base', @('-ParityContract', 'Rehearsal: verdicts unchanged on the fixed corpus.')))) {
         $run = Invoke-Trusted $baseTree 'New-IFXTrustedBaseAuthorization.ps1' (@('-Id', $spec[0], '-OutputPath', (Join-Path $work "$($spec[0]).json")) + $spec[1] + $generator)

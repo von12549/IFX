@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11b-v3-backup-bridge",
+  "title": "V3 stage-oriented refactor CP11b — V3_backup retirement compatibility bridge",
+  "goal": "Remove V3_backup as a prerequisite of base-owned test fixtures and isolated package copies before its authorized deletion.",
+  "acceptanceCriteria": [
+    "Protected-change fixtures exercise the canonical V3 protected tree without depending on V3_backup.",
+    "Cutover preservation accepts only a backup-present/compatibility-present or backup-absent/compatibility-absent state.",
+    "Manifest and separation fixtures pass before and after V3_backup retirement without changing production verdicts.",
+    "Trusted-base candidate verification and the full package suite pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11b-v3-backup-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11b-v3-backup-bridge.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

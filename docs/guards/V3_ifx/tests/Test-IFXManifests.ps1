@@ -49,7 +49,10 @@ try {
     }
     Copy-Into (Join-Path $repository '.github/workflows/v3-ifx-guardrails.yml') '.github/workflows/v3-ifx-guardrails.yml'
     Copy-Into (Join-Path $repository '.github/CODEOWNERS') '.github/CODEOWNERS'
-    foreach ($relative in @('Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')) { Copy-Into (Join-Path $repository $relative) $relative }
+    foreach ($relative in @('Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')) {
+        $source = Join-Path $repository $relative
+        if ([IO.File]::Exists($source)) { Copy-Into $source $relative }
+    }
     # Domain authority files are target data read by the registry lint (Plan 06 D18).
     $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
     foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
