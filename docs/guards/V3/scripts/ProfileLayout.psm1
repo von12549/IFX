@@ -4,6 +4,7 @@ function Resolve-V3ProfileLayout {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string] $TargetRoot,
+        [string] $ProfileRepositoryRoot,
         [string] $ProfileDirectory,
         [string] $ProfileLayoutPath,
         [Parameter(Mandatory)][string] $SchemaPath
@@ -15,21 +16,23 @@ function Resolve-V3ProfileLayout {
 
     $root = [IO.Path]::GetFullPath($TargetRoot)
     if (-not [IO.Directory]::Exists($root)) { throw "TargetRoot does not exist: $root" }
-    $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    $authorityRoot = [IO.Path]::GetFullPath($(if ($ProfileRepositoryRoot) { $ProfileRepositoryRoot } else { $root }))
+    if (-not [IO.Directory]::Exists($authorityRoot)) { throw "ProfileRepositoryRoot does not exist: $authorityRoot" }
+    $authorityPrefix = $authorityRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
     function Resolve-RepositoryPath([string] $value) {
         $normalized = $value.Replace('\', '/')
         if ([string]::IsNullOrWhiteSpace($normalized) -or $normalized.StartsWith('/') -or $normalized -match '^[A-Za-z]:' -or
             $normalized -match '[*?]' -or @($normalized -split '/' | Where-Object { $_ -in @('', '.', '..') }).Count -gt 0) {
             throw "Unsafe repository-relative profile layout path: $value"
         }
-        $full = [IO.Path]::GetFullPath((Join-Path $root $normalized))
-        if (-not $full.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { throw "Profile layout path escapes TargetRoot: $value" }
+        $full = [IO.Path]::GetFullPath((Join-Path $authorityRoot $normalized))
+        if (-not $full.StartsWith($authorityPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw "Profile layout path escapes ProfileRepositoryRoot: $value" }
         return $full
     }
 
     if ($hasDirectory) {
-        $profileRoot = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ProfileDirectory)) { $ProfileDirectory } else { Join-Path $root $ProfileDirectory }))
-        if ($profileRoot -ne $root -and -not $profileRoot.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { throw "ProfileDirectory must stay under TargetRoot: $ProfileDirectory" }
+        $profileRoot = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ProfileDirectory)) { $ProfileDirectory } else { Join-Path $authorityRoot $ProfileDirectory }))
+        if ($profileRoot -ne $authorityRoot -and -not $profileRoot.StartsWith($authorityPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw "ProfileDirectory must stay under ProfileRepositoryRoot: $ProfileDirectory" }
         if (-not [IO.Directory]::Exists($profileRoot)) { throw "ProfileDirectory does not exist: $profileRoot" }
         $resolved = [ordered]@{
             Mode = 'directory'
@@ -41,7 +44,11 @@ function Resolve-V3ProfileLayout {
         }
     }
     else {
-        $layoutPath = Resolve-RepositoryPath $ProfileLayoutPath
+        $layoutPath = if ([IO.Path]::IsPathRooted($ProfileLayoutPath)) {
+            $candidate = [IO.Path]::GetFullPath($ProfileLayoutPath)
+            if ($candidate -ne $authorityRoot -and -not $candidate.StartsWith($authorityPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw "ProfileLayoutPath must stay under ProfileRepositoryRoot: $ProfileLayoutPath" }
+            $candidate
+        } else { Resolve-RepositoryPath $ProfileLayoutPath }
         if (-not [IO.File]::Exists($layoutPath)) { throw "ProfileLayoutPath does not exist: $layoutPath" }
         if (-not [IO.File]::Exists($SchemaPath) -or -not (Test-Json -Path $layoutPath -SchemaFile $SchemaPath -ErrorAction Stop)) {
             throw "Invalid profile layout JSON: $layoutPath"

@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory)][ValidateSet('Render', 'Check')][string] $Mode,
     [string] $ProfileDirectory,
     [string] $ProfileLayoutPath,
+    [string] $ProfileRepositoryRoot,
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $DocsDirectory,
     [string] $PackageDirectory,
@@ -50,7 +51,7 @@ function Add-Expected([Collections.IDictionary] $set, [string] $rootDirectory, [
 
 $profileSchemaRoot = Join-Path $engineRoot 'contracts'
 Import-Module (Join-Path $engineRoot 'scripts/ProfileLayout.psm1') -Force
-$profileLayout = Resolve-V3ProfileLayout -TargetRoot $root -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $profileSchemaRoot 'profile-layout.schema.json')
+$profileLayout = Resolve-V3ProfileLayout -TargetRoot $root -ProfileRepositoryRoot $ProfileRepositoryRoot -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $profileSchemaRoot 'profile-layout.schema.json')
 $profilePath = $profileLayout.Profile
 $projectMapPath = $profileLayout.ProjectMap
 $techStackPath = $profileLayout.TechStack

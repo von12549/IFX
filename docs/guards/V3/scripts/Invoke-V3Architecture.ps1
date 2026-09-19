@@ -6,6 +6,7 @@ param(
     [string] $EvidenceDirectory,
     [string] $ProfileDirectory,
     [string] $ProfileLayoutPath,
+    [string] $ProfileRepositoryRoot,
     [string] $DestinationProfileDirectory,
     [string] $ProjectId,
     [string] $TargetFramework = 'net10.0',
@@ -19,7 +20,7 @@ $root = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists($root)) { throw "TargetRoot does not exist: $root" }
 Import-Module (Join-Path $packageRoot 'scripts/ProfileLayout.psm1') -Force
 $activeLayout = if ($ProfileDirectory -or $ProfileLayoutPath) {
-    Resolve-V3ProfileLayout -TargetRoot $root -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $packageRoot 'contracts/profile-layout.schema.json')
+    Resolve-V3ProfileLayout -TargetRoot $root -ProfileRepositoryRoot $ProfileRepositoryRoot -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $packageRoot 'contracts/profile-layout.schema.json')
 } else { $null }
 $prefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 function Resolve-UnderRoot([string] $value) {

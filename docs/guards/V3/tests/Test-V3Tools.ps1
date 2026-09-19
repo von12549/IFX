@@ -29,6 +29,14 @@ try {
     }
     [IO.File]::WriteAllText($layoutPath, (ConvertTo-Json -InputObject $layout -Depth 20) + "`n", $utf8)
     & $guard -Mode Validate -TargetRoot $trial -ProfileLayoutPath 'guard/profile-layout.json' -OutputDirectory 'guard/generated'
+    $authorityRoot = Join-Path $generation 'authority'
+    [void][IO.Directory]::CreateDirectory((Join-Path $authorityRoot 'guard'))
+    Copy-Item -LiteralPath (Join-Path $trial 'guard/profile') -Destination (Join-Path $authorityRoot 'guard/profile') -Recurse
+    [IO.File]::WriteAllText((Join-Path $authorityRoot 'guard/profile-layout.json'), (ConvertTo-Json -InputObject $layout -Depth 20) + "`n", $utf8)
+    & $guard -Mode Validate -TargetRoot $trial -ProfileRepositoryRoot $authorityRoot -ProfileLayoutPath 'guard/profile-layout.json' -OutputDirectory 'guard/generated'
+    $wrongAuthorityRoot = $false
+    try { & $guard -Mode Validate -TargetRoot $trial -ProfileRepositoryRoot $trial -ProfileLayoutPath (Join-Path $authorityRoot 'guard/profile-layout.json') -OutputDirectory 'guard/generated' } catch { $wrongAuthorityRoot = $_.Exception.Message -match 'ProfileRepositoryRoot' }
+    if (-not $wrongAuthorityRoot) { throw 'Absolute profile layout escaped its declared ProfileRepositoryRoot.' }
     $exclusive = $false
     try { & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/profile' -ProfileLayoutPath 'guard/profile-layout.json' -OutputDirectory 'guard/generated' } catch { $exclusive = $_.Exception.Message -match 'exactly one' }
     if (-not $exclusive) { throw 'Profile inputs did not reject an ambiguous directory-plus-layout invocation.' }
@@ -115,7 +123,7 @@ try {
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
     if ([IO.File]::ReadAllText($view) -notmatch 'GENERATED READ-ONLY' -or [IO.File]::ReadAllText($view) -match '```json') { throw 'Generated profile view is not unambiguously read-only.' }
-    Write-Host 'V3 setup/docs tests passed: fail-closed Init, directory/layout parity without fallback, evidence inventory, architecture review/adoption, generated positive/negative gate, and read-only Markdown drift checks.'
+    Write-Host 'V3 setup/docs tests passed: fail-closed Init, directory/layout and repository-root separation without fallback, evidence inventory, architecture review/adoption, generated positive/negative gate, and read-only Markdown drift checks.'
 }
 finally {
     $resolved = [IO.Path]::GetFullPath($trial)

@@ -4,6 +4,7 @@ param(
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $ProfileDirectory,
     [string] $ProfileLayoutPath,
+    [string] $ProfileRepositoryRoot,
     [string] $OutputDirectory,
     [string] $EvidenceDirectory,
     [ValidatePattern('^[a-z0-9][a-z0-9-]*$')][string] $PackageId = 'v3',
@@ -168,6 +169,7 @@ $draftArgs = @{ Mode = 'Draft'; TargetRoot = $root; AnalysisDirectory = $output 
 if ($EvidenceDirectory) { $draftArgs.EvidenceDirectory = $EvidenceDirectory }
 if ($ProfileDirectory) { $draftArgs.ProfileDirectory = $ProfileDirectory }
 if ($ProfileLayoutPath) { $draftArgs.ProfileLayoutPath = $ProfileLayoutPath }
+if ($ProfileRepositoryRoot) { $draftArgs.ProfileRepositoryRoot = $ProfileRepositoryRoot }
 if ($ProjectId) { $draftArgs.ProjectId = $ProjectId }
 if ($TargetFramework) { $draftArgs.TargetFramework = $TargetFramework }
 & (Join-Path $PSScriptRoot '../scripts/Invoke-V3Architecture.ps1') @draftArgs

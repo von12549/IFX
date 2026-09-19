@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory)][ValidateSet('Validate', 'Pre', 'Generate', 'Check', 'Test', 'Diff')][string] $Mode,
     [string] $ProfileDirectory,
     [string] $ProfileLayoutPath,
+    [string] $ProfileRepositoryRoot,
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $OutputDirectory,
     [string] $PlanPath,
@@ -27,7 +28,7 @@ if ($guardPackageId -cnotmatch '^[a-z][a-z0-9-]+$') { throw 'PackageId must be a
 $root = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists($root)) { throw "TargetRoot does not exist: $root" }
 Import-Module (Join-Path $packageRoot 'scripts/ProfileLayout.psm1') -Force
-$profileLayout = Resolve-V3ProfileLayout -TargetRoot $root -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $packageRoot 'contracts/profile-layout.schema.json')
+$profileLayout = Resolve-V3ProfileLayout -TargetRoot $root -ProfileRepositoryRoot $ProfileRepositoryRoot -ProfileDirectory $ProfileDirectory -ProfileLayoutPath $ProfileLayoutPath -SchemaPath (Join-Path $packageRoot 'contracts/profile-layout.schema.json')
 $profilePath = $profileLayout.Profile
 $projectMapPath = $profileLayout.ProjectMap
 $techStackPath = $profileLayout.TechStack

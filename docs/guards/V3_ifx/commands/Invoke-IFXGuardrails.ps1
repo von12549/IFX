@@ -93,8 +93,8 @@ if ($Mode -eq 'CandidateTests') {
         )
     } else {
         @(
-            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
-            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
             ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
             ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
             ,@('docs/guards/V3/tests/Test-V3.ps1')
@@ -133,15 +133,15 @@ $modes = if ($Mode -eq 'All') { @('Validate','Architecture','Specialized','Quali
 foreach ($current in $modes) {
     switch ($current) {
         'Validate' {
-            Invoke-Child 'profile-validate' $v3 @('-Mode','Validate','-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$packageRepository) @()
+            Invoke-Child 'profile-validate' $v3 @('-Mode','Validate','-ProfileDirectory',$profile,'-ProfileRepositoryRoot',$packageRepository,'-TargetRoot',$root,'-GenerationRoot',$packageRepository) @()
             Invoke-Child 'architecture-input-validate' $architecture @('-Mode','Validate','-TargetRoot',$root) @()
-            Invoke-Child 'profile-views' $docs @('-Mode','Check','-ProfileDirectory',$profile,'-TargetRoot',$packageRepository) @()
+            Invoke-Child 'profile-views' $docs @('-Mode','Check','-ProfileDirectory',$profile,'-ProfileRepositoryRoot',$packageRepository,'-TargetRoot',$packageRepository) @()
             Invoke-Child 'ci-contract' $ciContract @('-TargetRoot',$root) @()
             Invoke-Child 'manifest-check' $manifestCheck @('-TargetRoot',$root) @()
         }
         'Pre' {
             $report = Join-Path $output 'pre.json'
-            $args = @('-Mode','Pre','-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$packageRepository,'-ReportPath',(Relative $report))
+            $args = @('-Mode','Pre','-ProfileDirectory',$profile,'-ProfileRepositoryRoot',$packageRepository,'-TargetRoot',$root,'-GenerationRoot',$packageRepository,'-ReportPath',(Relative $report))
             if ($PlanPath) { $args += @('-PlanPath',$PlanPath) } else { $args += @('-PlannedPaths') + $PlannedPaths }
             Invoke-Child 'pre' $v3 $args @((Relative $report))
         }
@@ -153,7 +153,7 @@ foreach ($current in $modes) {
             $generatedStages = Join-Path $generation 'v3-ifx/gates/stage'
             try {
                 [void][IO.Directory]::CreateDirectory($generation)
-                $common = @('-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$generation,'-PackageId','v3-ifx','-OutputDirectory',$generatedStages,'-LockRoot',(Join-Path $packageRoot 'build/locks'),'-ProtectionPath',(Join-Path $packageRoot 'stages/diff/protection.json'))
+                $common = @('-ProfileDirectory',$profile,'-ProfileRepositoryRoot',$packageRepository,'-TargetRoot',$root,'-GenerationRoot',$generation,'-PackageId','v3-ifx','-OutputDirectory',$generatedStages,'-LockRoot',(Join-Path $packageRoot 'build/locks'),'-ProtectionPath',(Join-Path $packageRoot 'stages/diff/protection.json'))
                 Invoke-Child 'stage-gate-generate' $v3 (@('-Mode','Generate') + $common) @()
                 Invoke-Child 'stage-gate-check' $v3 (@('-Mode','Check') + $common) @()
                 $args = @('-Mode','Diff') + $common + @('-PlanPath',$PlanPath,'-BaseRef',$BaseRef)
