@@ -10,6 +10,7 @@
   ],
   "plannedPaths": [
     "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-layout-bridge-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-layout-bridge-weaken-policy.json",
     "docs/guards/plans/20260920-v3-stage-cp11c-profile-layout-bridge-authorization.md",
     "docs/guards/plans/20260920-v3-stage-cp11c-profile-layout-bridge-authorization.plan.json"
   ],
