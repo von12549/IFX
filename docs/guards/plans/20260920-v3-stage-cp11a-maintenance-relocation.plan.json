@@ -32,8 +32,12 @@
     "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
     "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
     "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge.md",
     "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.md",
-    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.plan.json"
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.plan.json",
+    "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge.md"
   ],
   "areaIds": [
     "GuardDocs",

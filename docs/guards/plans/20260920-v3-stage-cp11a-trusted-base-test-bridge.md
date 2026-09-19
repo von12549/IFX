@@ -5,4 +5,3 @@ The first CP11 maintenance relocation candidate exposed a stale base-owned negat
 This bridge selects one of the two explicitly recognized workflow generations: the legacy direct historical-integrity entry or the current public facade. Absence of both anchors fails closed. It then injects the unregistered executable reference and retains the existing assertion that TCB candidate verification must reject it.
 
 Production workflow, verifier and manifests are unchanged. The exact base-owned test change requires a separate change-trusted-base authorization and must pass candidate parity before the maintenance relocation is rebuilt on top of it.
-

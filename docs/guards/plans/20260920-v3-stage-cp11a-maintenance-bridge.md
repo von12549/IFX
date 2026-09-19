@@ -5,4 +5,3 @@ This checkpoint starts Plan 06 P10 with the base-owned test bridge required befo
 The bridge deliberately accepts exactly one of the legacy or maintenance paths. It uses `Generate` only for the legacy implementation and `Apply -AcceptMaintenance` only for the relocated implementation. Both paths present, neither path present, or an unsuccessful maintenance invocation fail closed, so this is not a silent fallback and does not create a permanent internal compatibility surface.
 
 This checkpoint changes no production runner, authority, projection, workflow or required check. Its only trusted-component change is the base-owned authority projection test. The exact candidate is authorized by a separate authorization-only checkpoint and consumes that record in the change diff before it can become the base for the maintenance relocation.
-
