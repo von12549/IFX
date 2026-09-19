@@ -17,6 +17,7 @@
     "docs/guards/V3/scripts/ProfileLayout.psm1",
     "docs/guards/V3/tests/Test-V3Tools.ps1",
     "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-repository-root-trusted-base.json",
     "docs/guards/plans/20260920-v3-stage-cp11c-profile-repository-root.md",
     "docs/guards/plans/20260920-v3-stage-cp11c-profile-repository-root.plan.json"
   ],
