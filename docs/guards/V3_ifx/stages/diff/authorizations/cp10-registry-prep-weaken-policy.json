@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "id": "cp10-registry-prep-weaken-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp10-registry-prep.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "baseSha256": "fea4b84420a72edd2ab515c5015a8f1f33a1f4078a1e2ac09113de37ea8060d2",
+      "headSha256": "0782574ce83ceeaab686ecb3e945696c048f1428f26ff841ccb9999da6ac55e3",
+      "schema": "json",
+      "pointers": [
+        "/properties/excluded/description",
+        "/properties/excluded/items/$ref",
+        "/properties/excluded/items/oneOf"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "33611fae351cef9ce7d4dcaf72b79c70820733e5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "fa014ef95f74597523ce752c27af766bd501bd2feee708b4c34c7e1f3320b2d0",
+      "headSha256": "833feab1e75d4fb0be51380a214b73afcdd2317cc0bd020f1d508dde102194ec",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/excluded/1",
+        "/excluded/2",
+        "/excluded/3"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8dfd7417eff723c532937b77037db01491de6d53"
+      }
+    }
+  ]
+}
