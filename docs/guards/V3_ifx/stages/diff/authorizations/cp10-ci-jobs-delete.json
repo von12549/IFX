@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "cp10-ci-jobs-delete",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp10-ci-activation-lifecycle.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/ci/jobs.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "1f6d5aab819501d402a0abb92cb2b657818c207c"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/jobs.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1f6d5aab819501d402a0abb92cb2b657818c207c"
+      },
+      "head": null
+    }
+  ]
+}
