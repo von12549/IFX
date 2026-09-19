@@ -11,7 +11,7 @@ $profile = Join-Path $fixture 'profile'
 $runner = Join-Path $package 'scripts/Invoke-V3.ps1'
 $generationRoot = [IO.Path]::GetFullPath((Join-Path $parent "v3-archunit-generation-$([Guid]::NewGuid().ToString('N'))"))
 $output = Join-Path $generationRoot 'v3/gates/stage'
-$newGeneratedRoot = Join-Path $output 'Sample.Guards.StageGate.Tests'
+$generatedRoot = Join-Path $output 'Sample.Guards.StageGate.Tests'
 $utf8 = [Text.UTF8Encoding]::new($false)
 
 function Write-Text([string] $relative, [string] $content) {
@@ -97,11 +97,7 @@ try {
     Write-Json 'profile/tech-stack.json' $tech
     Assert-Run 0 @('-Mode', 'Generate') 'remove optional detector cleanly'
     Assert-Run 0 @('-Mode', 'Check') 'project-only generation remains exact'
-    $usesProjectLayout = [IO.Directory]::Exists($newGeneratedRoot)
-    $generatedRoot = if ($usesProjectLayout) { $newGeneratedRoot } else { $output }
-    $assemblyTest = Join-Path $generatedRoot $(if ($usesProjectLayout) { 'Post/AssemblyGuardTests.cs' } else { 'AssemblyGuardTests.cs' })
-    $generatedProject = Join-Path $generatedRoot $(if ($usesProjectLayout) { 'Sample.Guards.StageGate.Tests.csproj' } else { 'GuardV3.Tests.csproj' })
-    if ([IO.File]::Exists($assemblyTest) -or [IO.File]::ReadAllText($generatedProject).Contains('TngTech.ArchUnitNET')) { throw 'Unselected detector left a generated dependency.' }
+    if ([IO.File]::Exists((Join-Path $generatedRoot 'Post/AssemblyGuardTests.cs')) -or [IO.File]::ReadAllText((Join-Path $generatedRoot 'Sample.Guards.StageGate.Tests.csproj')).Contains('TngTech.ArchUnitNET')) { throw 'Unselected detector left a generated dependency.' }
     Assert-Run 0 @('-Mode', 'Test') 'project-only profile still passes'
     Write-Host 'V3 ArchUnitNET synthetic integration tests passed.'
 }

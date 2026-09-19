@@ -40,26 +40,30 @@ Trusted component changes are checked by `trusted-base/Test-IFXTrustedBaseCandid
 
 ```powershell
 $v3 = 'docs/guards/V3_ifx'
+$engine = 'docs/guards/V3'
 $profile = "$v3/profiles/ifx"
+$generation = Join-Path ([IO.Path]::GetTempPath()) 'v3-ifx-generation'
+$stage = Join-Path $generation 'v3-ifx/gates/stage'
+New-Item -ItemType Directory -Force -Path $generation | Out-Null
 
 # Refresh evidence and check human-readable profile views.
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -OutputDirectory "$v3/analysis/ifx" -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Architecture.ps1" -Mode Review -TargetRoot . -AnalysisDirectory "$v3/analysis/ifx" -ProfileDirectory $profile
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileDirectory $profile
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -OutputDirectory "$v3/analysis/ifx" -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3Architecture.ps1" -Mode Review -TargetRoot . -AnalysisDirectory "$v3/analysis/ifx" -ProfileDirectory $profile
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileDirectory $profile
 
 # Recreate and byte-check the two independent .NET projects.
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot . -OutputDirectory "$v3/generated/stages"
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot . -OutputDirectory "$v3/generated/stages"
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot . -OutputDirectory "$v3/generated/stages"
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Validate
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Generate
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Check
 
 # Run the V3 detector self-tests/Post check and the full IFX LayerGuard tests/strict scan.
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -OutputDirectory "$v3/generated/stages"
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Test -ReportPath artifacts/guards/v3-ifx-layerguard.json
-pwsh -NoProfile -File "$v3/tests/Test-V3.ps1"
-pwsh -NoProfile -File "$v3/tests/Test-V3ArchUnit.ps1"
+pwsh -NoProfile -File "$engine/tests/Test-V3.ps1"
+pwsh -NoProfile -File "$engine/tests/Test-V3ArchUnit.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPre.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXPackage.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXTargetRootSeparation.ps1"
@@ -72,7 +76,7 @@ pwsh -NoProfile -File "$v3/tests/Test-IFXHistoricalIntegrity.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-CutoverPreservation.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXCiContract.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXManifests.ps1"
-pwsh -NoProfile -File "$v3/tests/Test-V3Tools.ps1"
+pwsh -NoProfile -File "$engine/tests/Test-V3Tools.ps1"
 pwsh -NoProfile -File "$v3/tests/Test-IFXTools.ps1"
 
 # Read-only CI and manifest contracts (both also run inside Invoke-IFXGuardrails.ps1 -Mode Validate).
@@ -94,14 +98,14 @@ Both IFX .NET gates build through the V3 trusted build baseline (`docs/guards/V3
 For an ordinary low-risk edit, declare exact proposed paths and read `artifacts/guards/v3-pre.json` for areas, owners, applicable rules and suggested command IDs:
 
 ```powershell
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlannedPaths 'src/Modules/CRM/IFX.Modules.CRM.Domain/Example.cs'
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlannedPaths 'src/Modules/CRM/IFX.Modules.CRM.Domain/Example.cs'
 ```
 
 For a substantial or risk-triggered task, create matching `YYYYMMDD-slug.md` and `YYYYMMDD-slug.plan.json` files using `templates/plan/`. Include a goal, acceptance criteria, exact paths, all affected area IDs, all applicable rule IDs, focused validation command IDs from `tech-stack.json`, and covering decisions. Then run:
 
 ```powershell
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json -OutputDirectory "$v3/generated/stages"
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json -BaseRef <base-commit> -HeadRef <head-commit> -OutputDirectory "$v3/generated/stages"
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json -BaseRef <base-commit> -HeadRef <head-commit> -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 ```
 
 Pre success is advisory and includes a profile-input SHA-256; it does not prove code or decision quality. For local working-tree Diff, omit `-HeadRef`; CI should supply both exact commits. The generated stage project handles Plan scope, its `L2.2` detector and the compiled CRM pilot. `Invoke-V3 -Mode Test` freshly builds the explicit CRM Domain/Contracts manifest in Debug, then writes `artifacts/guards/v3-assembly.json`. The pilot matched 12 Domain entity types and four public Contract types. The [all-module Inbound Adapter target](architecture/INBOUND-ADAPTER-TARGET.md) remains a separate future migration. Run `Invoke-IFX -Mode Test` as the full post-code architecture gate regardless of the Plan's selected paths.

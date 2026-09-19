@@ -13,6 +13,7 @@ param(
     [ValidateSet('Locked', 'Update')][string] $LockMode = 'Locked',
     [string] $LockRoot,
     [string] $GenerationRoot,
+    [string] $PackageId = 'v3',
     # Diff protection configuration; defaults to the package's stages/diff/protection.json when it exists (Plan 06 P3.2).
     [string] $ProtectionPath
 )
@@ -20,20 +21,32 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+$guardPackageId = $PackageId.ToLowerInvariant()
+if ($guardPackageId -cnotmatch '^[a-z][a-z0-9-]+$') { throw 'PackageId must be a lowercase kebab-case identifier.' }
 $root = [IO.Path]::GetFullPath($TargetRoot)
 if (-not [IO.Directory]::Exists($root)) { throw "TargetRoot does not exist: $root" }
 $profileRoot = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ProfileDirectory)) { $ProfileDirectory } else { Join-Path $root $ProfileDirectory }))
 if (-not [IO.Directory]::Exists($profileRoot)) { throw "ProfileDirectory does not exist: $profileRoot" }
-$output = [IO.Path]::GetFullPath($(if ($OutputDirectory) {
-    if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory } else { Join-Path $root $OutputDirectory }
-} else { Join-Path $packageRoot 'generated/dotnet' }))
+$stageRoot = [IO.Path]::GetFullPath($(if ($OutputDirectory) {
+    if ([IO.Path]::IsPathRooted($OutputDirectory)) { $OutputDirectory }
+    elseif ($GenerationRoot) { Join-Path ([IO.Path]::GetFullPath($GenerationRoot)) $OutputDirectory }
+    else { Join-Path $root $OutputDirectory }
+} elseif ($GenerationRoot) { Join-Path ([IO.Path]::GetFullPath($GenerationRoot)) "$guardPackageId/gates/stage" }
+else { Join-Path $packageRoot 'generated/dotnet' }))
+$output = $stageRoot
 $rootPrefix = $root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 # Generated projects belong to the guard package, which may run from a trusted copy outside the target (Plan 06 P2).
 $generation = if ($GenerationRoot) { [IO.Path]::GetFullPath($GenerationRoot) } else { $root }
 if (-not [IO.Directory]::Exists($generation)) { throw "GenerationRoot does not exist: $generation" }
 $generationPrefix = $generation.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
-if (-not $output.StartsWith($generationPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+if (-not $stageRoot.StartsWith($generationPrefix, [StringComparison]::OrdinalIgnoreCase)) {
     throw $(if ($GenerationRoot) { 'OutputDirectory must stay under GenerationRoot.' } else { 'OutputDirectory must stay under TargetRoot.' })
+}
+if ($Mode -in @('Generate', 'Check', 'Test', 'Diff')) {
+    if (-not $GenerationRoot) { throw "$Mode requires GenerationRoot outside TargetRoot." }
+    if ($generation.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase) -or $root.StartsWith($generationPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        throw 'GenerationRoot must be outside TargetRoot.'
+    }
 }
 
 function Assert-SafeRelativePath {
@@ -256,19 +269,36 @@ function ConvertTo-Lf {
     return $Value.Replace("`r`n", "`n").Replace("`r", "`n").TrimEnd("`n") + "`n"
 }
 
+function ConvertTo-ProjectIdentifier {
+    param([Parameter(Mandatory)][string] $ProjectId)
+    $parts = [string[]]@($ProjectId.Split('-', [StringSplitOptions]::RemoveEmptyEntries))
+    if ($parts.Count -eq 0) { throw "Project ID cannot map to a .NET identifier: $ProjectId" }
+    $identifier = @($parts | ForEach-Object {
+        if ($_.Length -eq 1) { $_.ToUpperInvariant() }
+        else { $_.Substring(0, 1).ToUpperInvariant() + $_.Substring(1).ToLowerInvariant() }
+    }) -join ''
+    if ($identifier -notmatch '^[A-Za-z_][A-Za-z0-9_]*$') { throw "Project ID maps to an invalid .NET identifier: $ProjectId -> $identifier" }
+    return $identifier
+}
+
 function Get-ExpectedFiles {
     param([object] $Data)
     $files = [ordered]@{}
     $project = Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/GuardV3.Tests.csproj.in') -Raw
     $hasAssemblies = @($Data.Rules | Where-Object { $_.kind -in @('forbidden-type-dependency', 'interface-implementation-location') }).Count -gt 0
     $packageReference = if ($hasAssemblies) { '    <PackageReference Include="TngTech.ArchUnitNET" Version="0.13.4" />' } else { '' }
-    $files['GuardV3.Tests.csproj'] = ConvertTo-Lf ($project.Replace('__TARGET_FRAMEWORK__', $Data.Tech.testProject.targetFramework).Replace('__ARCHUNIT_PACKAGE_REFERENCE__', $packageReference))
-    $files['GuardTests.cs'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/GuardTests.cs.in') -Raw)
-    if ($hasAssemblies) { $files['AssemblyGuardTests.cs'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/AssemblyGuardTests.cs.in') -Raw) }
-    $files['profile.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'profile.json') -Raw)
-    $files['project-map.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'project-map.json') -Raw)
-    $files['tech-stack.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'tech-stack.json') -Raw)
-    foreach ($file in $Data.RuleFiles) { $files["rules/$($file.Name)"] = ConvertTo-Lf (Get-Content -LiteralPath $file.FullName -Raw) }
+    $namespace = "$projectIdentifier.Guards.StageGate.Tests"
+    $files["$projectName.csproj"] = ConvertTo-Lf ($project.Replace('__TARGET_FRAMEWORK__', $Data.Tech.testProject.targetFramework).Replace('__ARCHUNIT_PACKAGE_REFERENCE__', $packageReference).Replace('__PROJECT_NAMESPACE__', $namespace))
+    $files['Post/GuardTests.cs'] = ConvertTo-Lf ((Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/GuardTests.cs.in') -Raw).Replace('GuardV3.Generated', $namespace))
+    if ($hasAssemblies) { $files['Post/AssemblyGuardTests.cs'] = ConvertTo-Lf ((Get-Content -LiteralPath (Join-Path $packageRoot 'templates/dotnet/AssemblyGuardTests.cs.in') -Raw).Replace('GuardV3.Generated', $namespace)) }
+    $files['Self/Stage.cs'] = ConvertTo-Lf ('namespace {0}.Self; internal static class Stage {{ internal const string Name = "Self"; }}' -f $namespace)
+    $files['Diff/Stage.cs'] = ConvertTo-Lf ('namespace {0}.Diff; internal static class Stage {{ internal const string Name = "Diff"; }}' -f $namespace)
+    $identity = [ordered]@{ formatVersion = 1; projectId = $Data.Profile.projectId; projectIdentifier = $projectIdentifier; projectName = $projectName }
+    $files['GeneratedInputs/identity.json'] = ConvertTo-Lf (ConvertTo-Json -InputObject $identity -Compress)
+    $files['GeneratedInputs/profile.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'profile.json') -Raw)
+    $files['GeneratedInputs/project-map.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'project-map.json') -Raw)
+    $files['GeneratedInputs/tech-stack.json'] = ConvertTo-Lf (Get-Content -LiteralPath (Join-Path $profileRoot 'tech-stack.json') -Raw)
+    foreach ($file in $Data.RuleFiles) { $files["GeneratedInputs/rules/$($file.Name)"] = ConvertTo-Lf (Get-Content -LiteralPath $file.FullName -Raw) }
     return $files
 }
 
@@ -318,7 +348,7 @@ function Invoke-DotnetTests {
         if ($PlanFile) { $env:GUARD_PLAN_PATH = $PlanFile; $env:GUARD_BASE_REF = $BaseRef; $env:GUARD_HEAD_REF = $HeadRef }
         # Only this package's validated protection configuration reaches the Diff stage; an inherited value never does.
         [Environment]::SetEnvironmentVariable('GUARD_PROTECTION_PATH', $(if ($PlanFile) { Get-ProtectionFile } else { $null }), 'Process')
-        $project = Join-Path $output 'GuardV3.Tests.csproj'
+        $project = Join-Path $output "$projectName.csproj"
         $configPath = $null
         if ($NuGetConfig) {
             $configPath = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($NuGetConfig)) { $NuGetConfig } else { Join-Path $root $NuGetConfig }))
@@ -353,12 +383,11 @@ function Invoke-DotnetTests {
             Where-Object { [IO.File]::Exists($_) } | Select-Object -First 1
         if (-not $buildModule) { throw 'V3 build baseline (build/GuardBuild.psm1) is missing.' }
         Import-Module $buildModule -Force
-        $packageId = [IO.Path]::GetFileName($packageRoot).ToLowerInvariant().Replace('_', '-')
         $lockDirectory = if ($LockRoot) { [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($LockRoot)) { $LockRoot } else { Join-Path $root $LockRoot })) } else { Join-Path $packageRoot 'build/locks' }
         # A trusted base run (Plan 06 §11.2) places build output outside the head checkout and the base worktree.
         $buildRoot = if ($env:GUARD_BUILD_ROOT) { [IO.Path]::GetFullPath($env:GUARD_BUILD_ROOT) } else { Join-Path $root 'artifacts/build' }
-        $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$packageId/stage-gate") -LockRoot $lockDirectory `
-            -ReportRoot (Join-Path $root "artifacts/guards/$packageId/build/stage-gate") -LockMode $LockMode -NuGetConfig $configPath
+        $context = New-GuardBuildContext -ArtifactsRoot (Join-Path $buildRoot "$guardPackageId/stage-gate") -LockRoot $lockDirectory `
+            -ReportRoot (Join-Path $root "artifacts/guards/$guardPackageId/build/stage-gate") -LockMode $LockMode -NuGetConfig $configPath
         Invoke-GuardRestore $context $project @($project)
         Invoke-GuardBuildStep $context 'test' $project @($project) @('--filter', $Filter)
     }
@@ -441,18 +470,29 @@ if ($Mode -eq 'Pre') {
 }
 $data = Get-Profile
 if ($Mode -eq 'Validate') { Write-Host "V3 profile valid: $($data.Profile.projectId)"; exit 0 }
+$projectIdentifier = ConvertTo-ProjectIdentifier $data.Profile.projectId
+$projectName = "$projectIdentifier.Guards.StageGate.Tests"
+foreach ($existing in @(Get-ChildItem -LiteralPath $stageRoot -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name.Equals($projectName, [StringComparison]::OrdinalIgnoreCase) })) {
+    $identityPath = Join-Path $existing.FullName 'GeneratedInputs/identity.json'
+    if ([IO.File]::Exists($identityPath)) {
+        $identity = Get-Content -LiteralPath $identityPath -Raw | ConvertFrom-Json
+        if ($identity.projectId -cne $data.Profile.projectId) { throw "Stage Gate identifier collision: '$($identity.projectId)' and '$($data.Profile.projectId)' both map to '$projectIdentifier'." }
+    }
+    else { throw "Stage Gate output has no identity and cannot be reused safely: $($existing.FullName)" }
+}
+$output = Join-Path $stageRoot $projectName
 $expected = Get-ExpectedFiles $data
 if ($Mode -eq 'Generate') {
-    $optionalAssemblyTest = Join-Path $output 'AssemblyGuardTests.cs'
-    if (-not $expected.Contains('AssemblyGuardTests.cs') -and [IO.File]::Exists($optionalAssemblyTest)) {
+    $optionalAssemblyTest = Join-Path $output 'Post/AssemblyGuardTests.cs'
+    if (-not $expected.Contains('Post/AssemblyGuardTests.cs') -and [IO.File]::Exists($optionalAssemblyTest)) {
         $resolved = [IO.Path]::GetFullPath($optionalAssemblyTest)
         if (-not $resolved.StartsWith($output.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe generated-file cleanup path.' }
         Remove-Item -LiteralPath $resolved -Force
     }
-    $generatedRules = Join-Path $output 'rules'
+    $generatedRules = Join-Path $output 'GeneratedInputs/rules'
     if ([IO.Directory]::Exists($generatedRules)) {
         foreach ($stale in @(Get-ChildItem -LiteralPath $generatedRules -File -Filter '*.json')) {
-            $relative = "rules/$($stale.Name)"
+            $relative = "GeneratedInputs/rules/$($stale.Name)"
             if (-not $expected.Contains($relative)) {
                 $resolved = [IO.Path]::GetFullPath($stale.FullName)
                 if (-not $resolved.StartsWith([IO.Path]::GetFullPath($generatedRules).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe generated-rule cleanup path.' }

@@ -29,10 +29,6 @@
             "source": "base"
           },
           {
-            "ref": "package:generated/stages/",
-            "source": "base"
-          },
-          {
             "ref": "package:stages/diff/protection.json",
             "source": "base"
           },

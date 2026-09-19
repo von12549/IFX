@@ -57,16 +57,18 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot .
 
 ## Generate and verify
 
-Run the following commands with a reviewed project-specific profile. For a synthetic smoke test, set `$profile` to `"$v3/examples/minimal"` in a disposable repository. `-OutputDirectory` stays under V3 by default, but may point into an isolated test fixture. The generator refuses to write outside the target repository, or outside `-GenerationRoot` when the package runs from a trusted copy outside the target; the target is still read only from `-TargetRoot`.
+Run the following commands with a reviewed project-specific profile. For a synthetic smoke test, set `$profile` to `"$v3/examples/minimal"` in a disposable repository. Generate/Check/Test/Diff require a generation root outside `-TargetRoot`; the target is read only from `-TargetRoot`. The default `-PackageId v3` stage root is `<generation-root>/v3/gates/stage/`; an overlay passes its own lowercase kebab-case package ID. The project is named `{ProjectId}.Guards.StageGate.Tests` after deterministic kebab-case-to-.NET-identifier conversion. An identifier collision fails closed.
 
 ```powershell
 pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot .
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot .
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot .
+$generation = Join-Path ([IO.Path]::GetTempPath()) 'guard-generation'
+New-Item -ItemType Directory -Force -Path $generation | Out-Null
+pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
+pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
+pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
 ```
 
-`Validate` checks schemas, unique IDs, command/area references, supported detectors, required negative fixtures and path safety. `Generate` writes a .NET xUnit project and a snapshot of the inputs, including the project map. `Check` compares every generated file byte-for-byte without changing files; missing or extra generated files fail. `Test` runs `Check` and then `dotnet test`, including per-rule detector self-tests and the configured repository rule. A blocking rule that matches no source project fails. Missing tooling or incomplete input is an error, never a pass. The generated project lives at `docs/guards/V3/generated/dotnet/` unless `-OutputDirectory` is supplied.
+`Validate` checks schemas, unique IDs, command/area references, supported detectors, required negative fixtures and path safety. `Generate` writes a .NET xUnit project with `Self/`, `Post/`, `Diff/` and `GeneratedInputs/` subdirectories. `Check` compares every generated file byte-for-byte without changing files; missing or extra generated files fail. `Test` runs `Check` and then `dotnet test`, including per-rule detector self-tests and the configured repository rule. A blocking rule that matches no source project fails. Missing tooling or incomplete input is an error, never a pass. Generated profile inputs are reproducible runtime material and are never tracked in the target repository.
 
 For the optional [ArchUnitNET detector](architecture/ARCHUNITNET.md), add `assemblyGate` to `tech-stack.json` and one or more compiled-rule JSON files. Example paths are relative to the target repository; list **each assembly whose types are checked**. The generated test project adds pinned `TngTech.ArchUnitNET` 0.13.4 only in this case. `Test` builds `buildTarget` and each listed `.csproj` in Debug with `--no-incremental`, then checks exact DLL identities and namespaces. Use `Invoke-V3 -Mode Test` rather than invoking the generated test project directly. Its report is `artifacts/guards/v3-assembly.json`; a missing assembly, interface, source type, target type or implementation fails closed.
 

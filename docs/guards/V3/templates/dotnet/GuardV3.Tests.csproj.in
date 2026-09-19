@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <RootNamespace>__PROJECT_NAMESPACE__</RootNamespace>
+    <AssemblyName>__PROJECT_NAMESPACE__</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
@@ -13,8 +15,10 @@
 __ARCHUNIT_PACKAGE_REFERENCE__
   </ItemGroup>
   <ItemGroup>
-    <None Include="profile.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="tech-stack.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="rules/*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="GeneratedInputs/profile.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="GeneratedInputs/project-map.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="GeneratedInputs/tech-stack.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="GeneratedInputs/identity.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="GeneratedInputs/rules/*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

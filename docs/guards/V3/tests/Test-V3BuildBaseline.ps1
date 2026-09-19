@@ -67,8 +67,7 @@ try {
     Invoke-Runner 0 @('-Mode', 'Test', '-LockMode', 'Update', '-LockRoot', $locks) 'update restore writes the lock file'
     Invoke-Runner 0 @('-Mode', 'Test', '-LockMode', 'Locked', '-LockRoot', $locks) 'locked restore with the reviewed lock passes'
 
-    $projectName = if ([IO.File]::Exists((Join-Path $locks 'Sample.Guards.StageGate.Tests.packages.lock.json'))) { 'Sample.Guards.StageGate.Tests' } else { 'GuardV3.Tests' }
-    $lockFile = Join-Path $locks "$projectName.packages.lock.json"
+    $lockFile = Join-Path $locks 'Sample.Guards.StageGate.Tests.packages.lock.json'
     $reviewed = [IO.File]::ReadAllText($lockFile)
     $lock = $reviewed | ConvertFrom-Json -AsHashtable -Depth 20
     $framework = @($lock.dependencies.Keys)[0]
@@ -83,7 +82,7 @@ try {
     [IO.File]::WriteAllText($lockFile, $reviewed, $utf8)
 
     $reports = Join-Path $temp 'artifacts/guards/v3/build/stage-gate'
-    foreach ($name in @("$projectName.imports.pre-build.json", "$projectName.imports.post-build.json")) {
+    foreach ($name in @('Sample.Guards.StageGate.Tests.imports.pre-build.json', 'Sample.Guards.StageGate.Tests.imports.post-build.json')) {
         $report = Get-Content -LiteralPath (Join-Path $reports $name) -Raw | ConvertFrom-Json
         if ($report.status -ne 'pass' -or $report.categories.baseline -lt 1) { throw "Import allowlist evidence is missing or failing: $name" }
     }

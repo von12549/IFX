@@ -33,6 +33,8 @@ bld/
 project.lock.json
 project.fragment.lock.json
 artifacts/
+/docs/guards/V3/generated/
+/docs/guards/V3_ifx/generated/stages/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt

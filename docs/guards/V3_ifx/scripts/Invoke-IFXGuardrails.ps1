@@ -71,10 +71,10 @@ foreach ($current in $modes) {
             $generation = [IO.Path]::GetFullPath($(if ($GenerationRoot) { $GenerationRoot } else {
                 Join-Path ([IO.Path]::GetTempPath()) "guard-gen-$([Guid]::NewGuid().ToString('N').Substring(0, 8))"
             }))
-            $generatedStages = Join-Path $generation 'v3-ifx/gates/stage/GuardV3.Tests'
+            $generatedStages = Join-Path $generation 'v3-ifx/gates/stage'
             try {
                 [void][IO.Directory]::CreateDirectory($generation)
-                $common = @('-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$generation,'-OutputDirectory',$generatedStages,'-LockRoot',(Join-Path $packageRoot 'build/locks'),'-ProtectionPath',(Join-Path $packageRoot 'stages/diff/protection.json'))
+                $common = @('-ProfileDirectory',$profile,'-TargetRoot',$root,'-GenerationRoot',$generation,'-PackageId','v3-ifx','-OutputDirectory',$generatedStages,'-LockRoot',(Join-Path $packageRoot 'build/locks'),'-ProtectionPath',(Join-Path $packageRoot 'stages/diff/protection.json'))
                 Invoke-Child 'stage-gate-generate' $v3 (@('-Mode','Generate') + $common) @()
                 Invoke-Child 'stage-gate-check' $v3 (@('-Mode','Check') + $common) @()
                 $args = @('-Mode','Diff') + $common + @('-PlanPath',$PlanPath,'-BaseRef',$BaseRef)

@@ -68,28 +68,12 @@
         "phase": "P6.4"
       },
       {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
-        "kind": "internal-command",
-        "replacement": "docs/guards/V3/engine/stages/analysis/",
-        "compatibility": "none",
-        "removeWhen": "P7.5 duplicate deletion",
-        "phase": "P7.5"
-      },
-      {
         "legacyPath": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
         "kind": "internal-command",
         "replacement": "docs/guards/V3_ifx/maintenance/",
         "compatibility": "none",
         "removeWhen": "P10.3 move",
         "phase": "P10.3"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/generated/stages",
-        "kind": "directory",
-        "replacement": "<out-of-repository generation root>/v3-ifx/gates/stage",
-        "compatibility": "none",
-        "removeWhen": "P7.2 untrack after clean-checkout Generate/Check/Test/Diff proof",
-        "phase": "P7.2"
       },
       {
         "legacyPath": "docs/guards/V3_ifx/ci/jobs.json",

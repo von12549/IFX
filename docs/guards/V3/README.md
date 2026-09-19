@@ -24,9 +24,9 @@ The [architecture](architecture/ARCHITECTURE.md) separates lightweight Plan/Pre 
 | `scripts/Invoke-V3Docs.ps1` | Render/check Markdown views and preview/apply controlled JSON import |
 | `tests/Test-V3Tools.ps1` | Synthetic setup, inventory and Markdown round-trip tests |
 | `tests/Test-V3ArchUnit.ps1` | Compiled dependency, implementation placement and fail-closed synthetic tests |
-| `generated/` | Output created after configuration; initially has no .NET project |
+| external generation root | Untracked Stage Gate output at `<generation-root>/v3/gates/stage/{ProjectId}.Guards.StageGate.Tests/` |
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for every command and its expected result. `Analyze` writes only its requested analysis directory and preserves edited architecture drafts on reruns. `Review` writes a proposal/report in that directory; `Adopt` requires explicit acceptance and refuses to overwrite a profile. `Render` writes a dedicated `views/` directory, never the hand-written profile README or notes. Generate only writes the specified output directory. Activating a GitHub workflow or registering a host Skill/Hook is a separate installation step because those hosts read configuration outside this directory.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for every command and its expected result. `Analyze` writes only its requested analysis directory and preserves edited architecture drafts on reruns. `Review` writes a proposal/report in that directory; `Adopt` requires explicit acceptance and refuses to overwrite a profile. `Render` writes a dedicated `views/` directory, never the hand-written profile README or notes. Generate requires an out-of-repository generation root and writes only the project-specific Stage Gate below it. Activating a GitHub workflow or registering a host Skill/Hook is a separate installation step because those hosts read configuration outside this directory.
 
 ## Support boundary
 
