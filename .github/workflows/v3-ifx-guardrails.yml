@@ -531,8 +531,8 @@ jobs:
           $stage = Join-Path $generation 'v3-ifx/gates/stage'
           New-Item -ItemType Directory -Force -Path $generation | Out-Null
           $fullCommands = @(
-              ,@('./docs/guards/V3/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
-              ,@('./docs/guards/V3/scripts/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
+              ,@('./docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
+              ,@('./docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
               ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
               ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
               ,@('./docs/guards/V3/tests/Test-V3.ps1')
@@ -550,8 +550,8 @@ jobs:
           # execution of platform-neutral policy suites on every PR. The base-owned Validate gate above still runs.
           # BEGIN WINDOWS PORTABILITY SMOKE
           $windowsSmokeCommands = @(
-              ,@('./docs/guards/V3/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
-              ,@('./docs/guards/V3/scripts/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
+              ,@('./docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
+              ,@('./docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-GenerationRoot', $generation, '-PackageId', 'v3-ifx', '-OutputDirectory', $stage)
               ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
               ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
               ,@('./docs/guards/V3/tests/Test-V3BuildBaseline.ps1')

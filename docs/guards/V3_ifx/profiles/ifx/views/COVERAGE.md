@@ -1,5 +1,23 @@
 # V3 stage coverage
 
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
+
+Composite SHA-256: `42ccc22d6ff931f8e7f0e5604d4b3da87268206e482e6ee56a4e5cbe72f37c03`
+
+Sources:
+
+- `docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json` — authority
+
 This table describes only detectors configured in the V3 stage profile. External gates require separate evidence; advisory rules do not block.
 
 | Rule | Enforcement | Detector | Coverage | Authority |

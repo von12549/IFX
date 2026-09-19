@@ -10,8 +10,6 @@
     "docs/guards/V3_ifx/stages/"
   ],
   "excluded": [
-    "docs/guards/V3_ifx/stages/analysis/evidence/",
-    "docs/guards/V3_ifx/stages/analysis/reports/",
     "docs/guards/V3_ifx/stages/diff/authorizations/"
   ],
   "entries": [
@@ -113,6 +111,27 @@
       ],
       "format": "json",
       "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "analysis-evidence",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json",
+        "docs/guards/V3_ifx/stages/analysis/reports/cutover-baseline.json",
+        "docs/guards/V3_ifx/stages/analysis/reports/specialized-parity.json"
+      ],
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "docs-map",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/docs/docs-map.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -341,6 +360,20 @@
       ]
     },
     {
+      "schema": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+      "fields": [
+        { "pointer": "/properties/documents", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/id", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/output", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/renderer", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/sources", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/sources/items/properties/path", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/sources/items/properties/role", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/title", "comparator": "none" },
+        { "pointer": "/properties/formatVersion", "comparator": "none" }
+      ]
+    },
+    {
       "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
       "fields": [
         {
@@ -417,6 +450,10 @@
         },
         {
           "pointer": "/properties/manifests/properties/commands",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/manifests/properties/docsMap",
           "comparator": "none"
         },
         {

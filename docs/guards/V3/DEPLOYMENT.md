@@ -19,8 +19,8 @@ Restore is locked: the reviewed lock file `<lock root>/<ProjectName>.packages.lo
 ```powershell
 $v3 = 'docs/guards/V3'
 $profile = 'docs/guards/profiles/my-project'
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Init -TargetRoot . -ProfileDirectory $profile -ProjectId my-project -TargetFramework net10.0
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -OutputDirectory 'artifacts/guards/target-analysis' -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
+pwsh -NoProfile -File "$v3/commands/Invoke-V3Setup.ps1" -Mode Init -TargetRoot . -ProfileDirectory $profile -ProjectId my-project -TargetFramework net10.0
+pwsh -NoProfile -File "$v3/commands/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -PackageId my-project -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
 ```
 
 `Analyze` inventories literal `.csproj` frameworks/references, package scripts, solution/build manifests, CI workflows and Agent/owner guidance. Its `inventory.json`, `INVENTORY.md` and `PROPOSAL.md` contain source paths and SHA-256 evidence. It also creates target-specific `ARCHITECTURE.md` and `TECHNICAL.md` drafts in the analysis directory; passing `-ProfileDirectory` seeds their structured blocks from the current profile. Without a profile, the draft uses explicitly unreviewed candidates. Repeat analysis refreshes evidence but preserves edited drafts. It does not evaluate MSBuild conditions, infer owners or create blocking rules. Adjust `-ExcludePaths` to omit copied packages and fixtures; the tool also skips transient `bin`, `obj`, `node_modules`, `artifacts` and `generated` directories.
@@ -28,7 +28,7 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot
 Read the drafts as an architecture proposal. Revise the prose and the fenced JSON blocks for the intended profile, map, stage rules and technical commands. The deterministic reviewer parses **only the structured blocks**; an Agent or human must translate a prose-only architectural change into those blocks. It validates the proposal, checks source evidence freshness, compares the proposed profile to the current profile and reports unmapped projects, unsupported detector scope and observed forbidden direct references. It does not rewrite the current profile or independent policies.
 
 ```powershell
-$analysis = 'artifacts/guards/target-analysis'
+$analysis = 'artifacts/guards/my-project/analysis'
 pwsh -NoProfile -File "$v3/scripts/Invoke-V3Architecture.ps1" -Mode Review -TargetRoot . -AnalysisDirectory $analysis -ProfileDirectory $profile
 ```
 
@@ -44,13 +44,11 @@ Run the normal Validate/Generate/Check/Test commands below with this new profile
 
 ## Markdown configuration views
 
-After reviewing JSON, render a readable index, project map, tech stack, rules and **V3 stage-only** coverage matrix. JSON remains the machine authority. Tables are generated summaries; edit the fenced JSON block for semantic changes. `Import` previews changes without writing. `-Apply` requires that the Markdown source hash still matches current JSON, validates the schema and full profile, rolls back a failed import, then re-renders. Put free-form reasoning in a separate `notes/` directory outside `views/`.
+After reviewing JSON, render a readable index, project map, tech stack, rules and **V3 stage-only** coverage matrix. JSON remains the machine authority. The Markdown is generated and read-only: make semantic changes in JSON, then run Render and Check. Put free-form reasoning in a separate `notes/` directory outside `views/`.
 
 ```powershell
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Render -TargetRoot . -ProfileDirectory $profile
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileDirectory $profile
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot . -ProfileDirectory $profile
-pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot . -ProfileDirectory $profile -Apply
+pwsh -NoProfile -File "$v3/commands/Invoke-V3Docs.ps1" -Mode Render -TargetRoot . -ProfileDirectory $profile
+pwsh -NoProfile -File "$v3/commands/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileDirectory $profile
 ```
 
 `Check` fails for a missing, changed or extra view. `Render` writes the profile's `views/` directory; rerun it after editing JSON. Import reads only the structured JSON blocks, not table or prose edits. The original profile README and notes remain manually editable.
@@ -60,12 +58,12 @@ pwsh -NoProfile -File "$v3/scripts/Invoke-V3Docs.ps1" -Mode Import -TargetRoot .
 Run the following commands with a reviewed project-specific profile. For a synthetic smoke test, set `$profile` to `"$v3/examples/minimal"` in a disposable repository. Generate/Check/Test/Diff require a generation root outside `-TargetRoot`; the target is read only from `-TargetRoot`. The default `-PackageId v3` stage root is `<generation-root>/v3/gates/stage/`; an overlay passes its own lowercase kebab-case package ID. The project is named `{ProjectId}.Guards.StageGate.Tests` after deterministic kebab-case-to-.NET-identifier conversion. An identifier collision fails closed.
 
 ```powershell
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .
 $generation = Join-Path ([IO.Path]::GetTempPath()) 'guard-generation'
 New-Item -ItemType Directory -Force -Path $generation | Out-Null
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation
 ```
 
 `Validate` checks schemas, unique IDs, command/area references, supported detectors, required negative fixtures and path safety. `Generate` writes a .NET xUnit project with `Self/`, `Post/`, `Diff/` and `GeneratedInputs/` subdirectories. `Check` compares every generated file byte-for-byte without changing files; missing or extra generated files fail. `Test` runs `Check` and then `dotnet test`, including per-rule detector self-tests and the configured repository rule. A blocking rule that matches no source project fails. Missing tooling or incomplete input is an error, never a pass. Generated profile inputs are reproducible runtime material and are never tracked in the target repository.
@@ -100,13 +98,13 @@ If the local environment has a restricted user-level NuGet configuration, provid
 For an ordinary low-risk edit, provide exact planned paths and read `artifacts/guards/v3-pre.json` for areas, owners, applicable rules and suggested command IDs:
 
 ```powershell
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlannedPaths 'src/App/Program.cs'
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlannedPaths 'src/App/Program.cs'
 ```
 
 For substantial or risk-triggered work, copy the [Plan pair](templates/plan/README.md) to a task directory. Keep the JSON and Markdown stems identical (`YYYYMMDD-short-slug`). List exact expected repository-relative paths, affected area IDs, all applicable rule IDs, focused validation command IDs, and decisions. Run:
 
 ```powershell
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlanPath 'docs/plans/20260914-example.plan.json'
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlanPath 'docs/plans/20260914-example.plan.json'
 ```
 
 Pre blocks unmapped paths, omitted area/rule/command associations and risk-triggered paths without a covering decision. Summary mode blocks risk paths until a formal Plan exists. Its JSON report follows `contracts/pre-result.schema.json`, carries a SHA-256 of the selected profile inputs, and is advisory on success; it cannot verify future code. Use `-ReportPath` to change the repository-relative report location. The [hook adapter](hooks/README.md) calls the same command; installing it in an Agent host is optional.
@@ -114,7 +112,7 @@ Pre blocks unmapped paths, omitted area/rule/command associations and risk-trigg
 After implementation, compare the final diff to the formal Plan:
 
 ```powershell
-pwsh "$v3/scripts/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRoot . -PlanPath 'docs/plans/20260914-example.plan.json' -BaseRef <base-commit>
+pwsh "$v3/commands/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRoot . -PlanPath 'docs/plans/20260914-example.plan.json' -BaseRef <base-commit>
 ```
 
 For CI, also pass `-HeadRef <head-commit>`. Local Diff includes tracked working-tree changes and untracked files. A formal Plan's `plannedPaths` are exact paths, so expanding scope requires revising the Plan. Plan and linked decision files are allowed as part of their own change.

@@ -1,16 +1,13 @@
 # Profile
 
-Generated view of `profile.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-<!-- guard-config-source: profile.json sha256: a2a1a7e1e6ac506133663580696d48ed1e7fd103785a1fbb163f98a29251cc9e -->
+Composite SHA-256: `e3dc0703fecc9cf377579624300cc63676f1b7fc451c2acdf790cee2c3fd390e`
+
+Sources:
+
+- `docs/guards/V3_ifx/profiles/ifx/profile.json` — authority
 
 | Field | Value |
 | --- | --- |
 | Project ID | ifx |
-
-```json
-{
-  "formatVersion": 1,
-  "projectId": "ifx"
-}
-```

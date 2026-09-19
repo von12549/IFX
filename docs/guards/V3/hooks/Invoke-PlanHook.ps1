@@ -16,5 +16,5 @@ if ($PlanPath) { $preArgs.PlanPath = $PlanPath } else { $preArgs.PlannedPaths = 
 if ($ReportPath) { $preArgs.ReportPath = $ReportPath }
 if ($OutputDirectory) { $preArgs.OutputDirectory = $OutputDirectory }
 if ($GenerationRoot) { $preArgs.GenerationRoot = $GenerationRoot }
-& (Join-Path $PSScriptRoot '../scripts/Invoke-V3.ps1') @preArgs
+& (Join-Path $PSScriptRoot '../commands/Invoke-V3.ps1') @preArgs
 exit $LASTEXITCODE

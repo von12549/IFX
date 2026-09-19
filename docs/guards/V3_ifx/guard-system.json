@@ -17,7 +17,8 @@
   "manifests": {
     "commands": "docs/guards/V3_ifx/shared/commands.json",
     "trustedComponents": "docs/guards/V3_ifx/shared/trusted-components.json",
-    "stages": "docs/guards/V3_ifx/stages"
+    "stages": "docs/guards/V3_ifx/stages",
+    "docsMap": "docs/guards/V3_ifx/docs/docs-map.json"
   },
   "compatibility": {
     "policy": {
@@ -27,6 +28,30 @@
       "removal": "A wrapper or legacy path is removed only after P11.5, through a base pre-authorized delete (Plan 06 §12), when a repository reference scan finds no runtime reference."
     },
     "entries": [
+      {
+        "legacyPath": "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after all callers use commands/",
+        "phase": "P8.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after all callers use commands/",
+        "phase": "P8.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after all callers use commands/",
+        "phase": "P8.2"
+      },
       {
         "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
         "kind": "public-command",

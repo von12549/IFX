@@ -1,12 +1,13 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$setup = Join-Path $package 'scripts/Invoke-V3Setup.ps1'
-$docs = Join-Path $package 'scripts/Invoke-V3Docs.ps1'
+$setup = Join-Path $package 'commands/Invoke-V3Setup.ps1'
+$docs = Join-Path $package 'commands/Invoke-V3Docs.ps1'
 $architecture = Join-Path $package 'scripts/Invoke-V3Architecture.ps1'
-$guard = Join-Path $package 'scripts/Invoke-V3.ps1'
+$guard = Join-Path $package 'commands/Invoke-V3.ps1'
 $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
 $trial = Join-Path $tempRoot ('v3-tools-' + [Guid]::NewGuid().ToString('N'))
+$generation = Join-Path $tempRoot ('v3-tools-generation-' + [Guid]::NewGuid().ToString('N'))
 $trialPrefix = $tempRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 if (-not $trial.StartsWith($trialPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe trial directory.' }
 $utf8 = [Text.UTF8Encoding]::new($false)
@@ -61,47 +62,44 @@ try {
     try { & $architecture -Mode Adopt -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -DestinationProfileDirectory 'guard/adopted' } catch { $confirmation = $_.Exception.Message -match 'requires -AcceptDocument' }
     if (-not $confirmation) { throw 'Architecture adoption did not require explicit acceptance.' }
     & $architecture -Mode Adopt -TargetRoot $trial -AnalysisDirectory 'guard/analysis' -DestinationProfileDirectory 'guard/adopted' -AcceptDocument
-    & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
-    & $guard -Mode Generate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
-    & $guard -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
-    & $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks'
+    $generatedStage = Join-Path $generation 'sample/gates/stage'
+    [void][IO.Directory]::CreateDirectory($generation)
+    & $guard -Mode Validate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -GenerationRoot $generation -PackageId sample -OutputDirectory $generatedStage -LockMode Update -LockRoot 'guard/locks'
+    & $guard -Mode Generate -TargetRoot $trial -ProfileDirectory 'guard/adopted' -GenerationRoot $generation -PackageId sample -OutputDirectory $generatedStage -LockMode Update -LockRoot 'guard/locks'
+    & $guard -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/adopted' -GenerationRoot $generation -PackageId sample -OutputDirectory $generatedStage -LockMode Update -LockRoot 'guard/locks'
+    & $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -GenerationRoot $generation -PackageId sample -OutputDirectory $generatedStage -LockMode Update -LockRoot 'guard/locks'
     $goodProject = [IO.File]::ReadAllText($projectPath)
     try {
         [IO.File]::WriteAllText($projectPath, $goodProject.Replace('../Core/Core.csproj', '../Legacy/Legacy.csproj'), $utf8)
-        $badGate = @(& pwsh -NoProfile -File $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -OutputDirectory 'guard/generated' -LockMode Update -LockRoot 'guard/locks' 2>&1)
+        $badGate = @(& pwsh -NoProfile -File $guard -Mode Test -TargetRoot $trial -ProfileDirectory 'guard/adopted' -GenerationRoot $generation -PackageId sample -OutputDirectory $generatedStage -LockMode Update -LockRoot 'guard/locks' 2>&1)
         if ($LASTEXITCODE -eq 0 -or ($badGate -join ' | ') -notmatch 'ARCH.SAMPLE') { throw 'Adopted architecture gate accepted a deliberate forbidden reference.' }
     }
     finally { [IO.File]::WriteAllText($projectPath, $goodProject, $utf8) }
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
     $view = Join-Path $profile 'views/rules/ARCH.UNCONFIGURED.md'
-    $edited = [IO.File]::ReadAllText($view).Replace('"title": "Replace with reviewed target rules"', '"title": "Review source boundaries"')
+    $edited = [IO.File]::ReadAllText($view) + "`nmanual edit`n"
     [IO.File]::WriteAllText($view, $edited, $utf8)
     $drift = $false
-    try { & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile' } catch { $drift = $_.Exception.Message -match 'Markdown view drift' }
+    try { & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile' } catch { $drift = $_.Exception.Message -match 'Generated Markdown drift' }
     if (-not $drift) { throw 'Check did not detect edited Markdown.' }
-    & $docs -Mode Import -TargetRoot $trial -ProfileDirectory 'guard/profile'
-    if ((Get-Content -LiteralPath $rulePath -Raw | ConvertFrom-Json).title -ne 'Replace with reviewed target rules') { throw 'Import preview mutated JSON.' }
-    & $docs -Mode Import -TargetRoot $trial -ProfileDirectory 'guard/profile' -Apply
-    & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
-    if ((Get-Content -LiteralPath $rulePath -Raw | ConvertFrom-Json).title -ne 'Review source boundaries') { throw 'Import did not update JSON.' }
+    $importRejected = $false
+    try { & $docs -Mode Import -TargetRoot $trial -ProfileDirectory 'guard/profile' } catch { $importRejected = $_.Exception.Message -match 'Import' }
+    if (-not $importRejected) { throw 'Generated Markdown unexpectedly remained an import surface.' }
+    if ((Get-Content -LiteralPath $rulePath -Raw | ConvertFrom-Json).title -ne 'Replace with reviewed target rules') { throw 'Editing generated Markdown changed JSON authority.' }
+    & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     [IO.File]::WriteAllText((Join-Path $profile 'views/rules/STALE.md'), 'stale', $utf8)
     $extra = $false
-    try { & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile' } catch { $extra = $_.Exception.Message -match 'Unexpected generated views' }
+    try { & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile' } catch { $extra = $_.Exception.Message -match 'Unexpected generated Markdown' }
     if (-not $extra) { throw 'Check did not detect an extra view.' }
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
-    $edited = [IO.File]::ReadAllText($view).Replace('"title": "Review source boundaries"', '"title": "Markdown proposal"')
-    [IO.File]::WriteAllText($view, $edited, $utf8)
-    $source = [IO.File]::ReadAllText($rulePath).Replace('"title": "Review source boundaries"', '"title": "Independent JSON change"')
-    [IO.File]::WriteAllText($rulePath, $source, $utf8)
-    $conflict = $false
-    try { & $docs -Mode Import -TargetRoot $trial -ProfileDirectory 'guard/profile' -Apply } catch { $conflict = $_.Exception.Message -match 'JSON changed since Markdown render' }
-    if (-not $conflict) { throw 'Import did not reject a stale Markdown base hash.' }
-    Write-Host 'V3 setup/docs tests passed: fail-closed Init, evidence inventory, architecture review/adoption, generated positive/negative gate, Markdown sync and conflict rejection.'
+    if ([IO.File]::ReadAllText($view) -notmatch 'GENERATED READ-ONLY' -or [IO.File]::ReadAllText($view) -match '```json') { throw 'Generated profile view is not unambiguously read-only.' }
+    Write-Host 'V3 setup/docs tests passed: fail-closed Init, evidence inventory, architecture review/adoption, generated positive/negative gate, and read-only Markdown drift checks.'
 }
 finally {
     $resolved = [IO.Path]::GetFullPath($trial)
     if (-not $resolved.StartsWith($trialPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe trial cleanup path.' }
     if ([IO.Directory]::Exists($resolved)) { Remove-Item -LiteralPath $resolved -Recurse -Force }
+    if ([IO.Directory]::Exists($generation)) { Remove-Item -LiteralPath $generation -Recurse -Force }
 }

@@ -1,6 +1,6 @@
 # Optional ArchUnitNET detector
 
-**Status: implemented, opt-in.** The generator adds `TngTech.ArchUnitNET` 0.13.4 and `AssemblyGuardTests.cs` only for configured `forbidden-type-dependency` or `interface-implementation-location` rules. Without them, the generated project has no ArchUnitNET dependency. See the [implementation plan](../../plans/04-v3-archunitnet-assembly-gate.md).
+**Status: implemented, opt-in.** The generator adds `TngTech.ArchUnitNET` 0.13.4 and `AssemblyGuardTests.cs` only for configured `forbidden-type-dependency` or `interface-implementation-location` rules. Without them, the generated project has no ArchUnitNET dependency. See the [implementation plan](../../../../plans/04-v3-archunitnet-assembly-gate.md).
 
 ArchUnitNET reads compiled .NET assemblies. The optional detector tests actual type dependencies, interface implementation and declaration location inside a generated xUnit project. It complements the existing `.csproj` detector: an unused but forbidden `ProjectReference` is still a project-boundary violation, while a compiled type dependency can reveal a class-level relationship inside an otherwise permitted project. The generated gate keeps rule IDs, target scope, positive/negative fixtures and non-vacuous evidence under V3 control. See the [official guide](https://github.com/TNG/ArchUnitNET/blob/main/documentation/docs/guide.md) for the library's rule model.
 

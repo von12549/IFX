@@ -23,7 +23,7 @@ function Write-Text([string] $path, [string] $content) {
 }
 
 function Invoke-Runner([int] $expected, [string[]] $arguments, [string] $label, [string] $expectText) {
-    $result = @(& pwsh -NoProfile -File (Join-Path $copy 'scripts/Invoke-V3.ps1') -ProfileDirectory $profile -TargetRoot $temp -GenerationRoot $generationRoot -OutputDirectory $output @arguments 2>&1) -join ' | '
+    $result = @(& pwsh -NoProfile -File (Join-Path $copy 'commands/Invoke-V3.ps1') -ProfileDirectory $profile -TargetRoot $temp -GenerationRoot $generationRoot -OutputDirectory $output @arguments 2>&1) -join ' | '
     if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $result" }
     # Error records wrap at the host width; compare without whitespace and line separators.
     $flat = ($result -replace '[\s|]', ''); $wanted = ($expectText -replace '\s', '')

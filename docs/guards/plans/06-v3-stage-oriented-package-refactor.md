@@ -851,13 +851,13 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P8 — 最小 manifests、analysis 生命周期与首批只读聚合文档
 
-- [ ] P8.1 在 P1.5 最小 skeleton 上补全并迁移 `guard-system.json`、`stage.json`、`commands.json`、`trusted-components.json`，新增并 schema 化 `docs-map.json`；按 §6 字段 owner 表校验无重复字段，`evidence` 仅由 `commands.json` 拥有，不得改变 P2 已使用的稳定字段语义。
-- [ ] P8.2 建立 `commands/` 稳定入口；旧公共路径保留薄 wrapper。
-- [ ] P8.3 确认无消费者后移除 `Invoke-V3Docs` 的 `Import` 模式。
-- [ ] P8.4 实现 renderer/checker，生成 `OVERVIEW.md`、`COMMANDS.md`、`POST.md`、`CI.md`，含来源路径、角色和 composite hash。
-- [ ] P8.5 将人工背景迁入 `docs/authored/`，确保 Render 不覆盖。
-- [ ] P8.6 按 P0.2 结论落实 analysis 生命周期：运行时输出改写到 `artifacts/guards/<package>/analysis/`；经评审的长期输入与报告快照只通过 `maintenance/` Preview/Apply 更新。
-- [ ] P8.7 决定 `profiles/ifx/views/` 保留为只读生成视图或并入首批文档。
+- [x] P8.1 在 P1.5 最小 skeleton 上补全并迁移 `guard-system.json`、`stage.json`、`commands.json`、`trusted-components.json`，新增并 schema 化 `docs-map.json`；按 §6 字段 owner 表校验无重复字段，`evidence` 仅由 `commands.json` 拥有，不得改变 P2 已使用的稳定字段语义。证据：manifest checker 验证 6 stages、18 commands、18 trusted components、13 gates，并校验 docs-map schema、字段 owner 与命令路径。
+- [x] P8.2 建立 `commands/` 稳定入口；旧公共路径保留薄 wrapper。证据：V3 runner/setup/docs 与 IFX dispatcher 已迁入 `commands/`，workflow、hooks、tests、manifest 与 trusted-base 使用 canonical 路径；原公共路径仅输出弃用提示并转发参数和退出码。
+- [x] P8.3 确认无消费者后移除 `Invoke-V3Docs` 的 `Import` 模式。证据：入口只接受 Render/Check；工具回归显式断言 Import 被拒绝且编辑生成 Markdown 不改变 JSON authority。
+- [x] P8.4 实现 renderer/checker，生成 `OVERVIEW.md`、`COMMANDS.md`、`POST.md`、`CI.md`，含来源路径、角色和 composite hash。证据：Docs Check 对 20 份 authority-derived Markdown 逐字节通过，并以正反例覆盖 authority drift、手工编辑、缺失及额外输出。
+- [x] P8.5 将人工背景迁入 `docs/authored/`，确保 Render 不覆盖。证据：五份 architecture 背景文档迁入 `docs/authored/architecture/`，不属于 docs-map 输出集合。
+- [x] P8.6 按 P0.2 结论落实 analysis 生命周期：运行时输出改写到 `artifacts/guards/<package>/analysis/`；经评审的长期输入与报告快照只通过 `maintenance/` Preview/Apply 更新。证据：Analyze/Review 的默认输出位于 artifacts；工具测试证明连续运行可复现且不改长期证据；maintenance 测试证明 Preview 只读、未接受的 Apply 失败、显式接受后才更新。
+- [x] P8.7 决定 `profiles/ifx/views/` 保留为只读生成视图或并入首批文档。证据：按 D4 保留 read-only profile views，移除内嵌 JSON 写回面，并纳入同一 Render/Check 完整输出集。
 - **门槛**：任意 authority 变化都会导致相关 Markdown Check 失败；无陈旧生成视图；Analysis 运行不再写入 `docs/guards`。
 
 ### P9 — 轻量 workflow candidate 与激活验证

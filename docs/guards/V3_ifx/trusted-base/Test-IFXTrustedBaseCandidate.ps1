@@ -133,7 +133,7 @@ try {
                     $summaryName = switch ($mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } 'Validate' { 'summary-validate.json' } default { 'summary-specialized.json' } }
                     $outcomes = @{}
                     foreach ($side in @('base', 'candidate')) {
-                        $runner = if ($side -eq 'base') { Join-Path $packageRoot 'scripts/Invoke-IFXGuardrails.ps1' } else { Join-Path $candidate 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }
+                        $runner = if ($side -eq 'base') { Join-Path $packageRoot 'commands/Invoke-IFXGuardrails.ps1' } else { Join-Path $candidate 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' }
                         $output = Join-Path $candidate "artifacts/guards/v3-ifx-tcb-parity/$side/$($mode.ToLowerInvariant())"
                         $run = Invoke-GuardIsolatedPwsh $runner ($arguments + @('-TargetRoot', $candidate, '-OutputDirectory', $output)) -WorkingDirectory $candidate
                         $summary = Join-Path $output $summaryName

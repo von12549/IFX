@@ -35,7 +35,7 @@ This example is Plan metadata only. Do not switch it to `blocking` by changing J
 
 ## Change procedure and consistency
 
-1. Read the relevant `profiles/ifx/rules/*.json`, `policy/layerguard.json` entry, current source paths, and [IFX architecture review](../analysis/ifx/ARCHITECTURE-REVIEW.md). State which gate proves each part of the concern.
+1. Read the relevant `profiles/ifx/rules/*.json`, `policy/layerguard.json` entry, current source paths, reviewed [IFX architecture evidence](../stages/analysis/evidence/ARCHITECTURE.md), and the current runtime review under `artifacts/guards/v3-ifx/analysis/`. State which gate proves each part of the concern.
 2. Keep numbered rule IDs aligned with `policy/layerguard.json:ruleRefs`; run `Invoke-IFX.ps1 -Mode Validate`. The alignment check verifies IDs and stage authority markers, not full semantic equivalence.
 3. Run V3 `Validate`, `Pre` positive/negative, Markdown `Render`/`Check`, generated stage `Generate`/`Check`/`Test`, and independent `Invoke-IFX -Mode Test` with a deliberate violation. Run Diff for Plan scope.
 4. If the independent policy changes, review local G03/G04/G05 bindings and the strict baseline before updating any hash. Preserve existing CI gates until a replacement is verified and required.

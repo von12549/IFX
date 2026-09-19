@@ -68,7 +68,8 @@
       "required": [
         "commands",
         "trustedComponents",
-        "stages"
+        "stages",
+        "docsMap"
       ],
       "properties": {
         "commands": {
@@ -80,6 +81,10 @@
           "minLength": 1
         },
         "stages": {
+          "type": "string",
+          "minLength": 1
+        },
+        "docsMap": {
           "type": "string",
           "minLength": 1
         }

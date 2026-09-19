@@ -4,7 +4,7 @@ Pre now accepts an ordinary path summary or a formal Plan. The local `profiles/i
 
 `V3_ifx` is the IFX overlay on the canonical portable `V3` source package. `V3_backup` is the validated reusable source snapshot. This directory owns IFX profile and policy, guard orchestration, architecture scanning, specialized validation, compiled assembly checks, solution/frontend quality and frozen-history integrity. Its production architecture command does not invoke `mcp/LayerGuard` or root guard scripts. GitHub ruleset `IFX V3 Required Checks` requires all 13 stable V3 jobs on the default branch and `codex/guards-principles-plan`. The replaced workflows, root validators, duplicate policy and non-V3 guard documentation were removed after the required-check cutover.
 
-The [IFX target inventory](analysis/ifx/INVENTORY.md) records repository project, CI and guidance evidence with file hashes. It seeds editable [target architecture](analysis/ifx/ARCHITECTURE.md) and [technical](analysis/ifx/TECHNICAL.md) drafts; their [review report](analysis/ifx/ARCHITECTURE-REVIEW.md) compares structured intent with the current profile and observed source. The drafts are proposals and have not rewritten the IFX profile or architecture policy. The [profile views](profiles/ifx/views/README.md) give a readable map, tech stack, rules and V3 stage coverage. JSON remains authoritative; the coverage view deliberately describes only the narrow stage runner, while the independent LayerGuard gate below retains its own policy.
+Analysis writes inventory, proposal and review output only to `artifacts/guards/v3-ifx/analysis/`. Reviewed [target architecture](stages/analysis/evidence/ARCHITECTURE.md) and [technical](stages/analysis/evidence/TECHNICAL.md) inputs are long-lived evidence updated only through the maintenance Preview/Apply command. The [profile views](profiles/ifx/views/README.md) and [aggregate docs](docs/generated/OVERVIEW.md) are read-only generated Markdown. JSON remains authoritative; the coverage view deliberately describes only the narrow stage runner, while the independent Architecture Conformance gate retains its own policy.
 
 ## What is enforced
 
@@ -18,7 +18,7 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | --- | --- |
 | `profiles/ifx/` | Editable V3 Plan/Pre/Diff profile, `L2.2` project-reference detector and compiled CRM boundary pilot |
 | `profiles/ifx/views/` | Generated Markdown index, map, tech stack, rule pages and V3 stage coverage |
-| `analysis/ifx/` | Target evidence, editable architecture/technical drafts, review report and generated profile proposal |
+| `stages/analysis/evidence/`, `reports/` | Reviewed long-lived inputs and frozen report snapshots; runtime output is under `artifacts/guards/v3-ifx/analysis/` |
 | `policy/layerguard.json` | Editable IFX architecture rules, copied from the existing policy with only the three Gate paths made local |
 | `policy/g03/`, `policy/g04/`, `policy/g05/` | Local policy facts and G04-bound artifacts; edit together with their verified hashes |
 | `policy/baselines/plan05.json` | Local strict baseline, bound to the composite policy hash; never silently update after a rule edit |
@@ -31,8 +31,8 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | `contracts/`, `templates/plan/`, `skills/` | IFX input contracts and optional Agent planning integration; generic hooks and templates live in `../V3/` |
 | `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `templates/ifx-layerguard/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |
 | `scripts/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
-| `scripts/Invoke-V3.ps1`, `Invoke-V3Setup.ps1`, `Invoke-V3Docs.ps1` | Deprecated public wrappers that forward unchanged arguments and exit codes to canonical `../V3/scripts/` |
+| `commands/` | Stable public command entry points; legacy `scripts/` paths are deprecation wrappers |
 
 Agent workflow: read this README and [deployment commands](DEPLOYMENT.md), compare the architecture drafts with evidence and current profile, then edit a reviewed profile or local policy. Review changed rules and bound hashes, regenerate both projects, run Check, run positive/negative tests and strict scan, then run Pre/Diff against the task Plan. `Invoke-IFX -Mode Validate` checks the nine numbered stage/policy rule IDs for drift. A policy hash change requires an explicit baseline review. Do not treat a refreshed hash alone as proof that a weakened rule is acceptable.
 
-The [migration record](architecture/IFX-MIGRATION.md) identifies the ownership and cutover boundary. `.github/workflows/v3-ifx-guardrails.yml` is the sole PR/main guard workflow. Ruleset `23459908` enforces its 13 jobs with strict up-to-date checking, pull-request-only updates, conversation resolution, deletion protection and force-push protection. The [deletion manifest](analysis/ifx/legacy-deletion-manifest.json) records every retired path and the pre-deletion restore commit.
+The [migration record](docs/authored/architecture/IFX-MIGRATION.md) identifies the ownership and cutover boundary. `.github/workflows/v3-ifx-guardrails.yml` is the sole PR/main guard workflow. Ruleset `23459908` enforces its 13 jobs with strict up-to-date checking, pull-request-only updates, conversation resolution, deletion protection and force-push protection. The [deletion manifest](stages/analysis/evidence/legacy-deletion-manifest.json) records every retired path and the pre-deletion restore commit.

@@ -1,8 +1,12 @@
 # ARCH.SAMPLE: Sample project must not reference Legacy
 
-Generated view of `rules/ARCH.SAMPLE.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-<!-- guard-config-source: rules/ARCH.SAMPLE.json sha256: 22d66cf8663f53975f7cb862bfb4346eefd99a0296ffa29e9351af08c83239b1 -->
+Composite SHA-256: `198744df392551b5a49dfceaf94b6aa94339e7fc266719d1db4ebfb3bad106e6`
+
+Sources:
+
+- `docs/guards/V3/examples/minimal/rules/ARCH.SAMPLE.json` — authority
 
 | Field | Value |
 | --- | --- |
@@ -12,26 +16,3 @@ Generated view of `rules/ARCH.SAMPLE.json`. Edit the JSON block for policy chang
 | Detector coverage | partial |
 | Authority | Synthetic sample policy; replace in a real profile |
 | Applies to | src/App/** |
-| Source pattern | src/**/*.csproj |
-| Forbidden target | **/Legacy/*.csproj |
-| Negative source | src/App/App.csproj |
-| Negative reference | ../Legacy/Legacy.csproj |
-
-```json
-{
-  "formatVersion": 1,
-  "id": "ARCH.SAMPLE",
-  "title": "Sample project must not reference Legacy",
-  "kind": "forbidden-project-reference",
-  "enforcement": "blocking",
-  "coverage": "partial",
-  "authority": "Synthetic sample policy; replace in a real profile",
-  "appliesTo": ["src/App/**"],
-  "sourcePattern": "src/**/*.csproj",
-  "forbiddenTargetPattern": "**/Legacy/*.csproj",
-  "negativeFixture": {
-    "sourceProject": "src/App/App.csproj",
-    "referenceInclude": "../Legacy/Legacy.csproj"
-  }
-}
-```

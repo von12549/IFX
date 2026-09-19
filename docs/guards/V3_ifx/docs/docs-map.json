@@ -1,0 +1,49 @@
+{
+  "formatVersion": 1,
+  "documents": [
+    {
+      "id": "overview",
+      "title": "IFX guard system overview",
+      "output": "docs/generated/OVERVIEW.md",
+      "renderer": "overview",
+      "sources": [
+        { "path": "docs/guards/V3_ifx/guard-system.json", "role": "authority" },
+        { "path": "docs/guards/V3_ifx/shared/commands.json", "role": "command-contract" },
+        { "path": "docs/guards/V3_ifx/stages/*/stage.json", "role": "trust-contract" }
+      ]
+    },
+    {
+      "id": "commands",
+      "title": "IFX guard commands",
+      "output": "docs/generated/COMMANDS.md",
+      "renderer": "commands",
+      "sources": [
+        { "path": "docs/guards/V3_ifx/shared/commands.json", "role": "command-contract" }
+      ]
+    },
+    {
+      "id": "post",
+      "title": "IFX Post stage",
+      "output": "docs/generated/POST.md",
+      "renderer": "post",
+      "sources": [
+        { "path": "docs/guards/V3_ifx/stages/post/stage.json", "role": "trust-contract" },
+        { "path": "docs/guards/V3_ifx/shared/commands.json", "role": "command-contract" },
+        { "path": "docs/guards/V3_ifx/profiles/ifx/rules/*.json", "role": "profile-policy" },
+        { "path": "docs/guards/V3_ifx/policy/layerguard.json", "role": "profile-policy" }
+      ]
+    },
+    {
+      "id": "ci",
+      "title": "IFX CI contract",
+      "output": "docs/generated/CI.md",
+      "renderer": "ci",
+      "sources": [
+        { "path": "docs/guards/V3_ifx/stages/ci/stage.json", "role": "trust-contract" },
+        { "path": "docs/guards/V3_ifx/shared/commands.json", "role": "command-contract" },
+        { "path": "docs/guards/V3_ifx/ci/jobs.json", "role": "ci-contract" },
+        { "path": ".github/workflows/v3-ifx-guardrails.yml", "role": "ci-contract" }
+      ]
+    }
+  ]
+}

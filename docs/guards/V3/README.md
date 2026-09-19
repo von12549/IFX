@@ -1,6 +1,6 @@
 # Guardrails V3 source package
 
-V3 is a portable source package for guiding coding agents before they edit code and generating an independent .NET test gate after a project profile is configured. It contains no target-project policy, copied gate rule, or generated production test project. Existing guard projects remain authoritative and unchanged. `Init` creates an explicitly unreviewed profile; `Analyze` inventories target evidence and creates editable target architecture/technical drafts without modifying policy. `Review` compares their structured intent with repository evidence and the current profile; explicit `Adopt` writes a new profile for normal generation and tests. A reviewed profile can also produce human-readable Markdown views with a controlled JSON import.
+V3 is a portable source package for guiding coding agents before they edit code and generating an independent .NET test gate after a project profile is configured. It contains no target-project policy, copied gate rule, or generated production test project. Existing guard projects remain authoritative and unchanged. `Init` creates an explicitly unreviewed profile; `Analyze` inventories target evidence under `artifacts/guards/<package>/analysis/`. `Review` compares reviewed architecture inputs with repository evidence and the current profile; explicit `Adopt` writes a new profile for normal generation and tests. A reviewed profile can also produce read-only human-readable Markdown views.
 
 ## Design
 
@@ -18,15 +18,16 @@ The [architecture](architecture/ARCHITECTURE.md) separates lightweight Plan/Pre 
 | `templates/dotnet/` | Deterministic test-project source templates |
 | `skills/` | Optional Agent bootstrapping and planning skills, installed explicitly by the host |
 | `hooks/` | Optional Pre trigger adapter and host installation guidance |
-| `scripts/` | Validate, Pre, Generate, Check, Test and Diff entry points |
-| `scripts/Invoke-V3Setup.ps1` | Fail-closed profile scaffold and read-only target inventory |
+| `commands/` | Stable public Validate, Pre, Generate, Check, Test, Diff, Setup/Analysis and Docs entry points |
+| `scripts/` | Internal engines plus deprecated public-path wrappers |
+| `commands/Invoke-V3Setup.ps1` | Fail-closed profile scaffold and read-only target inventory |
 | `scripts/Invoke-V3Architecture.ps1` | Target architecture draft, evidence/profile review, and explicit adoption to a new profile |
-| `scripts/Invoke-V3Docs.ps1` | Render/check Markdown views and preview/apply controlled JSON import |
-| `tests/Test-V3Tools.ps1` | Synthetic setup, inventory and Markdown round-trip tests |
+| `commands/Invoke-V3Docs.ps1` | Render/check read-only Markdown views and aggregate documents |
+| `tests/Test-V3Tools.ps1` | Synthetic setup, inventory and read-only Markdown drift tests |
 | `tests/Test-V3ArchUnit.ps1` | Compiled dependency, implementation placement and fail-closed synthetic tests |
 | external generation root | Untracked Stage Gate output at `<generation-root>/v3/gates/stage/{ProjectId}.Guards.StageGate.Tests/` |
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for every command and its expected result. `Analyze` writes only its requested analysis directory and preserves edited architecture drafts on reruns. `Review` writes a proposal/report in that directory; `Adopt` requires explicit acceptance and refuses to overwrite a profile. `Render` writes a dedicated `views/` directory, never the hand-written profile README or notes. Generate requires an out-of-repository generation root and writes only the project-specific Stage Gate below it. Activating a GitHub workflow or registering a host Skill/Hook is a separate installation step because those hosts read configuration outside this directory.
+See [DEPLOYMENT.md](DEPLOYMENT.md) for every command and its expected result. `Analyze` defaults to `artifacts/guards/<package>/analysis/`; a separate reviewed evidence directory is read-only during analysis. `Review` writes a proposal/report in the runtime directory; `Adopt` requires explicit acceptance and refuses to overwrite a profile. `Render` writes dedicated generated-document directories, never authored documentation. Generate requires an out-of-repository generation root and writes only the project-specific Stage Gate below it. Activating a GitHub workflow or registering a host Skill/Hook is a separate installation step because those hosts read configuration outside this directory.
 
 ## Support boundary
 

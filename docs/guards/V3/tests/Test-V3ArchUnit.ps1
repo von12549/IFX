@@ -8,7 +8,7 @@ $parent = [IO.Path]::GetFullPath((Join-Path $repo 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $parent "v3-archunit-$([Guid]::NewGuid().ToString('N'))"))
 if (-not $fixture.StartsWith($parent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture.' }
 $profile = Join-Path $fixture 'profile'
-$runner = Join-Path $package 'scripts/Invoke-V3.ps1'
+$runner = Join-Path $package 'commands/Invoke-V3.ps1'
 $generationRoot = [IO.Path]::GetFullPath((Join-Path $parent "v3-archunit-generation-$([Guid]::NewGuid().ToString('N'))"))
 $output = Join-Path $generationRoot 'v3/gates/stage'
 $generatedRoot = Join-Path $output 'Sample.Guards.StageGate.Tests'

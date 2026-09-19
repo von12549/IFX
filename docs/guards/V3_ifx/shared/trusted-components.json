@@ -11,6 +11,7 @@
       "type": "public-entry-orchestrator",
       "status": "active",
       "paths": [
+        "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
         "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
       ],
       "validationSuite": [
@@ -25,10 +26,10 @@
       "type": "engine-dispatcher",
       "status": "active",
       "paths": [
-        "docs/guards/V3/scripts/Invoke-V3.ps1",
-        "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
-        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
-        "docs/guards/V3/scripts/Invoke-V3Docs.ps1"
+        "docs/guards/V3/commands/Invoke-V3.ps1",
+        "docs/guards/V3/commands/Invoke-V3Setup.ps1",
+        "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Architecture.ps1"
       ],
       "validationSuite": [
         "docs/guards/V3/tests/Test-V3.ps1",
@@ -257,7 +258,9 @@
         "docs/guards/V3_ifx/guard-system.json",
         "docs/guards/V3_ifx/shared/",
         "docs/guards/V3_ifx/stages/",
+        "docs/guards/V3_ifx/docs/docs-map.json",
         "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+        "docs/guards/V3_ifx/contracts/docs-map.schema.json",
         "docs/guards/V3_ifx/contracts/guard-system.schema.json",
         "docs/guards/V3_ifx/contracts/stage.schema.json",
         "docs/guards/V3_ifx/contracts/commands.schema.json",
@@ -305,6 +308,9 @@
       "type": "compatibility-wrappers",
       "status": "active",
       "paths": [
+        "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+        "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
         "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
         "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
         "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1"

@@ -19,7 +19,7 @@ The G03/G04/G05 inputs are generated projections for LayerGuard's policy loader.
 
 `Invoke-IFXGuardrails.ps1` is the stable dispatcher and emits the unified summary contract. `quality/` centralizes solution regression, frontend commands, and compiled references for all five Domain assemblies. `history/manifest.json` freezes fifteen historical JSON artifacts using canonical LF hashes and labels them as history rather than current readiness. PR #26 runs `34978867655` and `34981819869` proved the complete V3 job set on Linux and Windows. Active GitHub ruleset `23459908` requires all 13 stable V3 checks on the default branch and `codex/guards-principles-plan`; negative-control PR #27 failed `v3-pre-diff` in run `34985968761` and was reported `BLOCKED`.
 
-After that proof, the seven replaced workflows, root guard implementations, duplicate `src/layerguard.json` policy and non-V3 `docs/guards` content were deleted. `analysis/ifx/legacy-deletion-manifest.json` is the authoritative deletion and rollback inventory. `mcp/LayerGuard`, all eight historical baselines, `docs/guards/plans` and domain-owned authorities remain preserved.
+After that proof, the seven replaced workflows, root guard implementations, duplicate `src/layerguard.json` policy and non-V3 `docs/guards` content were deleted. `stages/analysis/evidence/legacy-deletion-manifest.json` is the authoritative deletion and rollback inventory. `mcp/LayerGuard`, all eight historical baselines, `docs/guards/plans` and domain-owned authorities remain preserved.
 
 ## Migration verification
 

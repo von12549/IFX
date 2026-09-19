@@ -18,7 +18,7 @@ $work = [IO.Path]::GetFullPath((Join-Path $tempRoot "ifxsep-$([Guid]::NewGuid().
 if ($work.StartsWith($repository.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'The package copy must be outside the target repository.' }
 $packageCopy = Join-Path $work 'p'
 $target = Join-Path $work 't'
-$packageOwned = '^(docs/guards/V3_ifx/(build|ci|contracts|generated|history|hooks|policy|profiles|quality|rules|scripts|shared|specialized|stages|templates|tests)/|docs/guards/V3_ifx/guard-system\.json$|docs/guards/V3/(build|contracts|generated|rules|scripts|templates|tests)/)'
+$packageOwned = '^(docs/guards/V3_ifx/(build|ci|commands|contracts|docs|generated|history|hooks|maintenance|policy|profiles|quality|rules|scripts|shared|specialized|stages|templates|tests)/|docs/guards/V3_ifx/guard-system\.json$|docs/guards/V3/(build|commands|contracts|generated|rules|scripts|templates|tests)/)'
 # Files outside the package that the manifest checker validates as trusted components or compatibility entries.
 $packageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')
 $previousTargetRoot = $env:GUARD_TARGET_ROOT
@@ -34,7 +34,7 @@ function Copy-File([string] $root, [string] $relative) {
 function Invoke-Git([string[]] $arguments) {
     $output = @(& git -C $repository @arguments 2>&1)
     if ($LASTEXITCODE -ne 0) { throw "git $($arguments -join ' ') failed: $($output -join ' | ')" }
-    return $output
+    return @($output | ForEach-Object { [string]$_ } | Where-Object { -not $_.StartsWith('warning: unable to access', [StringComparison]::OrdinalIgnoreCase) })
 }
 function Invoke-Guardrails([string] $runner, [string] $root, [string] $mode, [string] $label) {
     $arguments = switch -Regex ($mode) {
@@ -77,7 +77,7 @@ try {
     }
 
     $inPlaceRunner = Join-Path $package 'scripts/Invoke-IFXGuardrails.ps1'
-    $separatedRunner = Join-Path $packageCopy 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1'
+    $separatedRunner = Join-Path $packageCopy 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
     foreach ($mode in $Modes) {
         $inPlace = Invoke-Guardrails $inPlaceRunner $repository $mode 'in-place'
         $separated = Invoke-Guardrails $separatedRunner $target $mode 'separated'

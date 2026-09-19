@@ -1,6 +1,16 @@
 # ifx guard configuration views
 
-JSON files in the parent profile are the machine authority. These views are generated from them. Edit a fenced JSON block and run Import to propose or apply a semantic change; edit `notes/` for human rationale. Render refreshes views; Check fails on drift.
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
+
+Composite SHA-256: `dc753060d186e79a6e1f4b86932698f3c907dbd2f4012d378cff77a655afdb9e`
+
+Sources:
+
+- `docs/guards/V3_ifx/profiles/ifx/profile.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/project-map.json` — authority
+- `docs/guards/V3_ifx/profiles/ifx/tech-stack.json` — authority
+
+JSON in the parent profile is authoritative. These Markdown files are generated, read-only views; edit authority JSON and rerun Render.
 
 - [Profile](PROFILE.md)
 - [Project map](PROJECT_MAP.md)

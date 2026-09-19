@@ -259,7 +259,7 @@ try {
         Add-Check 'guardrails' 'skipped' "Every changed path is a formal plan document, an authorization record or a decision record, so $Mode$(if ($Mode -eq 'Specialized') { " $SpecializedGate" } elseif ($Mode -eq 'Quality') { " $QualityTarget" }) inherits the verdict of base $BaseSha (D28)." @($scopeReport)
     }
     else {
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $candidateRepository 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
         Write-Host $run.Output
         $summaryName = switch ($Mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } default { "summary-$($Mode.ToLowerInvariant()).json" } }
         if (-not $headGuardBuildExisted -and [IO.Directory]::Exists($headGuardBuild)) { Add-Check 'trusted-build-isolation' 'fail' 'Trusted guard build output was written into the head checkout.' }
