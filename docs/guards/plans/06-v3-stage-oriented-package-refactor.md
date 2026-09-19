@@ -842,11 +842,11 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P7 — Stage Gate 命名、生成位置与 overlay 切换
 
-- [ ] P7.1 生成 `{ProjectId}.Guards.StageGate.Tests`，实现 identifier 转换与碰撞检查，内部划分 Self/Post/Diff。
-- [ ] P7.2 通过授权从 Git 移除 `generated/stages`；Generate 输出改为仓库外生成根 `<生成根>/<package>/gates/stage/`，按 §11.2 隔离构建。
-- [ ] P7.3 同步更新 workflow、`Invoke-IFXGuardrails -Mode Diff`、`.gitignore` 和 Check 逻辑；profile snapshot 不再以 tracked generated copy 存在。
-- [ ] P7.4 clean checkout 证明没有预生成源码也能完成 Generate/Check/Test/Diff。
-- [ ] P7.5 V3_ifx 切换为直接引用 V3 engine，通过授权删除与 V3 逐字节相同的 scripts、hooks 和 tests。
+- [x] P7.1 生成 `{ProjectId}.Guards.StageGate.Tests`，实现 identifier 转换与碰撞检查，内部划分 Self/Post/Diff。 证据：canonical runner 从 profile `projectId` 生成确定性 .NET identifier 与工程名，identity 文件阻止 `sample-a`/`samplea` 一类大小写不敏感碰撞；生成树包含 `Self/`、`Post/`、`Diff/`、`GeneratedInputs/`，canonical synthetic 与 ArchUnitNET 正/负向套件通过。
+- [x] P7.2 通过授权从 Git 移除 `generated/stages`；Generate 输出改为仓库外生成根 `<生成根>/<package>/gates/stage/`，按 §11.2 隔离构建。 证据：Generate/Check/Test/Diff 对 `GenerationRoot` 执行与 `TargetRoot` 双向隔离校验，IFX 使用 package id `v3-ifx`；tracked snapshot 17 个文件删除，Stage Gate build 输出在外部 `build/v3-ifx/stage-gate/`，reviewed lock 移为 `Ifx.Guards.StageGate.Tests.packages.lock.json` 并通过 Locked restore。
+- [x] P7.3 同步更新 workflow、`Invoke-IFXGuardrails -Mode Diff`、`.gitignore` 和 Check 逻辑；profile snapshot 不再以 tracked generated copy 存在。 证据：head candidate workflow 与 dispatcher 均直接调用 canonical V3 并传递 package/generation/stage root；`.gitignore`、project map、生成视图与 architecture draft 登记旧 generated 路径；Check 对项目专属外部树逐字节验证且拒绝多余文件。
+- [x] P7.4 clean checkout 证明没有预生成源码也能完成 Generate/Check/Test/Diff。 证据：detached raw candidate `c645cecd` 从无预生成源码的 clean checkout 在仓库外 generation/build root 完成 IFX Generate、Check、8 项 Post/Self Test 与 1 项 Diff Test；`git ls-files docs/guards/V3_ifx/generated/stages` 为空，运行后 checkout 无 tracked 或未忽略改动。
+- [x] P7.5 V3_ifx 切换为直接引用 V3 engine，通过授权删除与 V3 逐字节相同的 scripts、hooks 和 tests。 证据：IFX workflow、orchestrator、manifest 与 base-owned validation 只引用 canonical V3；内部 architecture script、hooks、dotnet templates 和三个 generic tests 删除，TCB transition component 移除，仅三个声明期 public legacy path 保留 thin wrapper。
 - **门槛**：Stage Gate 可从 JSON 和模板确定性重建，且不在仓库目录内构建；V3_ifx 不含通用实现副本。
 
 ### P8 — 最小 manifests、analysis 生命周期与首批只读聚合文档
