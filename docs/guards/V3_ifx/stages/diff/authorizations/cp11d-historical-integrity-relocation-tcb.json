@@ -1,0 +1,157 @@
+{
+  "formatVersion": 1,
+  "id": "cp11d-historical-integrity-relocation-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11d-historical-integrity-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1"
+  ],
+  "components": [
+    "tcb.engine.historical-integrity",
+    "tcb.engine.trusted-base",
+    "tcb.entry.ifx-guardrails",
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8a5ba8fdd59686a40bb0689829d6646a26b8b6b6"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4608d58d0812bd8f2015ebec0baa6842ac162fbb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "component": "tcb.engine.historical-integrity",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "87d71e6ab90391360c14a54beb07a7c6f1f47d68"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e0ab634840c8bf28fd3899426f14f44e172b932f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c4ed53858008996acfe42d8ca2efa30a1d46af4b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5a9af8599d72773853652a72c2faf0067a47a88f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d8cac24e084fffe920f7bb50659254cb24375478"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a09d267338581ef92e85ce301346264620b80bc0"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "60ac2bebe4c0614784b3b8c6da4572ca269615fa"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b52cc546adace5fffd2771b85544a030877fb6fc"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c5ce3a0fd3ea1acc75c6164160bf6ae4684c8c3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fcfb5205aa3306f2d4afe072669e95a4fc49e9cb"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9f63bf60682ece6f97a8bb4bc9dac55c79b8ab8f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1cb9ab58831c4f0f07750c6d19a05f7ddb2df703"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fc6e631b3286c367aba6287f6b7466ac8814965d"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-historical-integrity"
+  ],
+  "parityContract": "Historical Integrity keeps the fixed-corpus verdict, report contract, target-root separation and fail-closed behavior; only ownership paths and the direct-invocation repository-root derivation change.",
+  "allowedBehaviorDifferences": []
+}

@@ -1,0 +1,219 @@
+{
+  "formatVersion": 1,
+  "id": "cp11d-historical-integrity-relocation-weaken-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11d-historical-integrity-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/history/manifest.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+    "docs/guards/V3_ifx/stages/post/stage.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/history/manifest.json",
+      "baseSha256": "6530806bdc71f9baa4a1ed7e4d4d26020aa9ceb328c55286c07a42f83ae99b20",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "baseSha256": "94c8cef519d4fa24df5b7a2d940a3548651118d9481281abaf85f89bd3cde540",
+      "headSha256": "3ad4597b892f27a12c81970e26716ae9d1ee0c036867f3828ae31e00704fe342",
+      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "pointers": [
+        "/commands/0/inputs/2",
+        "/commands/11/entryPoint",
+        "/commands/11/inputs/0",
+        "/commands/13/outputs/0"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c4ed53858008996acfe42d8ca2efa30a1d46af4b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "9322af64a815b08b8a1f9b1b4253a8bba4f359e7c0ce308a7027e8630b0175f2",
+      "headSha256": "dab0260926efa8352437dc51eb3ce939dc3cd0efa73d361077f0a2e0f4bd50e4",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/0/candidateValidation",
+        "/entries/0/directory",
+        "/entries/0/id",
+        "/entries/0/paths",
+        "/entries/0/role",
+        "/entries/0/schema",
+        "/entries/1/id",
+        "/entries/1/paths/0",
+        "/entries/1/role",
+        "/entries/1/schema",
+        "/entries/10/id",
+        "/entries/10/paths/0",
+        "/entries/10/paths/1",
+        "/entries/10/paths/2",
+        "/entries/10/paths/3",
+        "/entries/10/paths/4",
+        "/entries/10/paths/5",
+        "/entries/10/schema",
+        "/entries/11/candidateValidation",
+        "/entries/11/id",
+        "/entries/11/paths/0",
+        "/entries/11/paths/1",
+        "/entries/11/paths/2",
+        "/entries/11/schema",
+        "/entries/12/candidateValidation",
+        "/entries/12/id",
+        "/entries/12/paths/0",
+        "/entries/12/paths/1",
+        "/entries/12/paths/2",
+        "/entries/12/schema",
+        "/entries/13/id",
+        "/entries/13/paths/0",
+        "/entries/13/schema",
+        "/entries/14/id",
+        "/entries/14/paths/0",
+        "/entries/14/schema",
+        "/entries/15/id",
+        "/entries/15/paths/0",
+        "/entries/15/schema",
+        "/entries/16/id",
+        "/entries/16/paths/0",
+        "/entries/16/schema",
+        "/entries/17/id",
+        "/entries/17/paths/0",
+        "/entries/17/schema",
+        "/entries/18/id",
+        "/entries/18/paths/0",
+        "/entries/18/schema",
+        "/entries/19/id",
+        "/entries/19/paths/0",
+        "/entries/19/schema",
+        "/entries/2/id",
+        "/entries/2/paths/0",
+        "/entries/2/schema",
+        "/entries/20/candidateValidation",
+        "/entries/20/directory",
+        "/entries/20/id",
+        "/entries/20/paths",
+        "/entries/20/schema",
+        "/entries/21/candidateValidation",
+        "/entries/21/directory",
+        "/entries/21/format",
+        "/entries/21/id",
+        "/entries/21/paths",
+        "/entries/22",
+        "/entries/3/id",
+        "/entries/3/paths/0",
+        "/entries/3/schema",
+        "/entries/4/directory",
+        "/entries/4/id",
+        "/entries/4/paths",
+        "/entries/4/schema",
+        "/entries/5/candidateValidation",
+        "/entries/5/directory",
+        "/entries/5/id",
+        "/entries/5/paths",
+        "/entries/5/schema",
+        "/entries/6/id",
+        "/entries/6/paths/0",
+        "/entries/7/candidateValidation",
+        "/entries/7/id",
+        "/entries/7/paths/0",
+        "/entries/8/candidateValidation",
+        "/entries/8/id",
+        "/entries/8/paths/0",
+        "/entries/8/role",
+        "/entries/8/schema",
+        "/entries/9/id",
+        "/entries/9/paths/0",
+        "/entries/9/paths/1",
+        "/entries/9/paths/2",
+        "/entries/9/paths/3",
+        "/entries/9/paths/4",
+        "/entries/9/paths/5",
+        "/entries/9/schema",
+        "/roots/2",
+        "/roots/3",
+        "/roots/4",
+        "/roots/5",
+        "/roots/6"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d8cac24e084fffe920f7bb50659254cb24375478"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "253ca2d09883568c958305870e22d10a8a6364b1847715f24e5e91a54990a96b",
+      "headSha256": "2d582446c05d497668d0f47f88857d9b5b288f68ca141f8556e1e344a50d4f08",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/14/paths/10",
+        "/components/14/paths/11",
+        "/components/14/paths/12",
+        "/components/14/paths/13",
+        "/components/14/paths/14",
+        "/components/14/paths/15",
+        "/components/14/paths/2",
+        "/components/14/paths/3",
+        "/components/14/paths/4",
+        "/components/14/paths/5",
+        "/components/14/paths/6",
+        "/components/14/paths/7",
+        "/components/14/paths/8",
+        "/components/14/paths/9",
+        "/components/8/paths/0"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "60ac2bebe4c0614784b3b8c6da4572ca269615fa"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+      "baseSha256": null,
+      "headSha256": "6530806bdc71f9baa4a1ed7e4d4d26020aa9ceb328c55286c07a42f83ae99b20",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c5ce3a0fd3ea1acc75c6164160bf6ae4684c8c3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "baseSha256": "acf3a4fff1ed3896246a3d0c538d2c84416e411893d3991836f708790a191c7a",
+      "headSha256": "dccbf6d28eb81726f37a64e78efdc2935a3f39a410245958913225743c1f3b97",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/gates/9/trustContract/inputs/0/ref",
+        "/gates/9/trustContract/policy"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9f63bf60682ece6f97a8bb4bc9dac55c79b8ab8f"
+      }
+    }
+  ]
+}
