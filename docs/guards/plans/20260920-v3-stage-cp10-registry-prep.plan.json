@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp10-registry-prep",
+  "title": "V3 stage-oriented refactor CP10 — prepare CI authority destinations",
+  "goal": "Temporarily exclude three absent stages/ci JSON destinations so the final CP10 change can add and schema-register them without relying on head-defined policy.",
+  "acceptanceCriteria": [
+    "Only the three exact future CI JSON paths are added to the exclusion list; no CI authority or activation file is created.",
+    "The policy registry remains schema-valid and the trusted-base and weaken-policy obligations are authorized and consumed in separate local commits.",
+    "The final CP10 change removes every temporary exclusion while adding exact schema-bound registry entries."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-registry-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-registry-prep-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp10-registry-prep.md",
+    "docs/guards/plans/20260920-v3-stage-cp10-registry-prep.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

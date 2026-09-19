@@ -10,7 +10,10 @@
     "docs/guards/V3_ifx/stages/"
   ],
   "excluded": [
-    "docs/guards/V3_ifx/stages/diff/authorizations/"
+    "docs/guards/V3_ifx/stages/diff/authorizations/",
+    "docs/guards/V3_ifx/stages/ci/activation.json",
+    "docs/guards/V3_ifx/stages/ci/required-checks.json",
+    "docs/guards/V3_ifx/stages/ci/workflow.variables.json"
   ],
   "entries": [
     {

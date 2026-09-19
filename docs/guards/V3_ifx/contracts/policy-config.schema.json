@@ -35,11 +35,14 @@
       }
     },
     "excluded": {
-      "description": "Directories inside the roots that hold protocol data rather than policy, such as authorization records.",
+      "description": "Exact files or directories inside the roots that hold protocol or staged migration data rather than active policy.",
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "$ref": "#/definitions/repoDirectory"
+        "oneOf": [
+          { "$ref": "#/definitions/repoDirectory" },
+          { "$ref": "#/definitions/repoPath" }
+        ]
       }
     },
     "entries": {
