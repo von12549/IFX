@@ -20,7 +20,7 @@ $packageCopy = Join-Path $work 'p'
 $target = Join-Path $work 't'
 $packageOwned = '^(docs/guards/V3_ifx/(build|ci|commands|contracts|docs|generated|history|hooks|maintenance|policy|profiles|quality|rules|scripts|shared|specialized|stages|templates|tests)/|docs/guards/V3_ifx/guard-system\.json$|docs/guards/V3/(build|commands|contracts|generated|rules|scripts|templates|tests)/)'
 # Files outside the package that the manifest checker validates as trusted components or compatibility entries.
-$packageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')
+$packageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props')
 $previousTargetRoot = $env:GUARD_TARGET_ROOT
 $env:GUARD_TARGET_ROOT = $null
 

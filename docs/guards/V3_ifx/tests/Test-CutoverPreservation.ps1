@@ -27,13 +27,11 @@ if ($baselines.Count -ne 8) { throw "Expected eight preserved LayerGuard baselin
 $deletionManifest = Get-Content -Raw -LiteralPath (Join-Path $root 'docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json') | ConvertFrom-Json
 $remaining = @($deletionManifest.deletedPaths | Where-Object { Test-Path -LiteralPath (Join-Path $root $_) })
 if ($remaining.Count -gt 0) { throw "Retired guard paths remain: $($remaining -join ', ')" }
-$backupPresent = Test-Path -LiteralPath (Join-Path $root 'docs/guards/V3_backup')
+if (Test-Path -LiteralPath (Join-Path $root 'docs/guards/V3_backup')) { throw 'V3_backup must remain retired after Plan 06 P10.5.' }
 $system = Get-Content -Raw -LiteralPath (Join-Path $root 'docs/guards/V3_ifx/guard-system.json') | ConvertFrom-Json
-$backupCompatibility = @($system.compatibility.entries | Where-Object { $_.legacyPath -eq 'docs/guards/V3_backup' })
-if ($backupPresent -and $backupCompatibility.Count -ne 1) { throw 'V3_backup exists but its transitional compatibility entry is missing.' }
-if (-not $backupPresent -and $backupCompatibility.Count -ne 0) { throw 'V3_backup is retired but its compatibility entry remains.' }
+if (@($system.compatibility.entries | Where-Object { $_.legacyPath -eq 'docs/guards/V3_backup' }).Count -ne 0) { throw 'The retired V3_backup compatibility entry remains.' }
 $topLevel = @(Get-ChildItem -LiteralPath (Join-Path $root 'docs/guards') -Force | ForEach-Object Name | Sort-Object)
-$expectedTopLevel = @('plans', 'V3', 'V3_ifx') + $(if ($backupPresent) { 'V3_backup' }) | Sort-Object
+$expectedTopLevel = @('plans', 'V3', 'V3_ifx') | Sort-Object
 if (@(Compare-Object $expectedTopLevel $topLevel).Count -ne 0) {
     throw "docs/guards top level contains an unexpected entry: $($topLevel -join ', ')"
 }
@@ -41,4 +39,4 @@ $v3Workflow = Get-Content -Raw -LiteralPath (Join-Path $root '.github/workflows/
 foreach ($trigger in @('pull_request', 'push', 'workflow_dispatch')) {
     if ($v3Workflow -notmatch "(?m)^  ${trigger}:") { throw "V3 workflow is missing its $trigger trigger." }
 }
-Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) retired paths absent, V3_backup transition consistent and one V3 workflow active."
+Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) retired paths absent, V3_backup retired and one V3 workflow active."

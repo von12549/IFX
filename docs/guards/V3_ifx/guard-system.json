@@ -99,14 +99,6 @@
         "compatibility": "none",
         "removeWhen": "P8.7 decision",
         "phase": "P8.7"
-      },
-      {
-        "legacyPath": "docs/guards/V3_backup",
-        "kind": "directory",
-        "replacement": "docs/guards/V3 and Git history",
-        "compatibility": "none",
-        "removeWhen": "P10.5 base pre-authorized delete (D2)",
-        "phase": "P10.5"
       }
     ]
   }

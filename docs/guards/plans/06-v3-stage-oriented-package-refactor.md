@@ -876,7 +876,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [ ] P10.2 按 §13 映射以检查点分组移动，每组使用授权 PR + 变更 PR。
 - [ ] P10.3 将内部实现迁入 `engine/`，生成逻辑迁入 `generators/`，hooks/skills/GitHub glue 迁入 `integrations/`，policy sync、history regeneration、analysis evidence 更新和迁移工具迁入 `maintenance/` 并补齐 Preview/Apply；按 Stage 重组测试，不改变覆盖。
 - [ ] P10.4 每组移动后更新 manifest、链接、脚本、tests 和 docs，并运行完整 Check。
-- [ ] P10.5 通过授权删除 V3_backup（D2）。
+- [x] P10.5 通过授权删除 V3_backup（D2）。证据：CP11b 先以 base-owned bridge 移除测试夹具对备份树的依赖，再消费目录级 `delete`、TCB 与 policy/config 授权删除 41 个重复文件；canonical V3 与 Git history 为唯一恢复边界。
 - [ ] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。
 - [ ] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。
 - **门槛**：新结构可在 Linux/Windows clean checkout 重现，旧兼容入口只剩批准范围。
