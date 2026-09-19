@@ -2,11 +2,11 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `e3dc0703fecc9cf377579624300cc63676f1b7fc451c2acdf790cee2c3fd390e`
+Composite SHA-256: `8cd6140554e1315d41f71a6ad0b45816756584a6436422f4d937f2803be8864f`
 
 Sources:
 
-- `docs/guards/V3_ifx/profiles/ifx/profile.json` — authority
+- `docs/guards/V3_ifx/shared/profile.json` — authority
 
 | Field | Value |
 | --- | --- |

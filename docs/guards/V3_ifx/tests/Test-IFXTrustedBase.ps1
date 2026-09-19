@@ -251,17 +251,17 @@ try {
         $weaken = [ordered]@{ formatVersion = 1; id = 'fixture-weaken'; operation = 'weaken-policy'; planPath = $changePlan; decisionPaths = @($decision); changedPaths = @($backupFile)
             policies = @([ordered]@{ path = $backupFile; baseSha256 = ('a' * 64); headSha256 = ('b' * 64); schema = 'contracts/profile.schema.json'; pointers = @('/rules'); head = [ordered]@{ mode = '100644'; type = 'blob'; objectId = ('c' * 40) } }) }
         [IO.File]::WriteAllText($weakenRecord, ($weaken | ConvertTo-Json -Depth 20), $utf8)
-        $ruleFile = 'docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json'
+        $ruleFile = 'docs/guards/V3_ifx/stages/post/rules/L1.2.json'
         $staleRuleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
         $ruleTitle = {
             & $staleRuleTitle
             $docsCommand = if ([IO.File]::Exists((Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1'))) { Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1' } else { Join-Path $base 'docs/guards/V3/scripts/Invoke-V3Docs.ps1' }
-            $docsArguments = @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone)
+            $docsArguments = @('-Mode', 'Render', '-ProfileLayoutPath', (Join-Path $clone 'docs/guards/V3_ifx/shared/profile-layout.json'), '-TargetRoot', $clone)
             if ($docsCommand -match '[/\\]commands[/\\]') { $docsArguments += @('-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) }
             $render = Invoke-GuardIsolatedPwsh $docsCommand $docsArguments -WorkingDirectory $clone
             if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
         }
-        $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }
+        $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/stages/post/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }
         $gitattributesEdit = { [IO.File]::AppendAllText((Join-Path $clone '.gitattributes'), "*.fixture text eol=lf`n") }
         $stageEdit = { Edit-Json 'docs/guards/V3_ifx/stages/diff/stage.json' { param($d) $d.gates[0].trustContract.guarantee = $d.gates[0].trustContract.guarantee + ' Fixture.' } }
         $ruleRecord = New-Record 'fixture-rule' (New-Head 'prepare-rule' $baseSha $ruleTitle) @('-Operation', 'weaken-policy')

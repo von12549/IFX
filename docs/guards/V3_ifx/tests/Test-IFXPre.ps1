@@ -7,7 +7,7 @@ $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $fixtureParent = [IO.Path]::GetFullPath((Join-Path $repo 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $fixtureParent "v3-ifx-pre-$([Guid]::NewGuid().ToString('N'))"))
 $runner = Join-Path $repo 'docs/guards/V3/commands/Invoke-V3.ps1'
-$profile = Join-Path $package 'profiles/ifx'
+$profileLayout = Join-Path $package 'shared/profile-layout.json'
 $reportRelative = [IO.Path]::GetRelativePath($repo, (Join-Path $fixture 'report.json')).Replace('\', '/')
 $planRelative = [IO.Path]::GetRelativePath($repo, (Join-Path $fixture '20260914-ifx-pre.plan.json')).Replace('\', '/')
 $planFile = Join-Path $fixture '20260914-ifx-pre.plan.json'
@@ -16,7 +16,7 @@ $riskyPath = 'src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.cspr
 
 function Assert-Pre {
     param([int] $Expected, [string[]] $Arguments, [string] $Label)
-    $output = @(& pwsh -NoProfile -File $runner -Mode Pre -ProfileDirectory $profile -TargetRoot $repo -ReportPath $reportRelative @Arguments 2>&1)
+    $output = @(& pwsh -NoProfile -File $runner -Mode Pre -ProfileLayoutPath $profileLayout -TargetRoot $repo -ReportPath $reportRelative @Arguments 2>&1)
     if ($LASTEXITCODE -ne $Expected) { throw "$Label expected exit $Expected, got ${LASTEXITCODE}: $($output -join ' | ')" }
     $result = Get-Content -LiteralPath (Join-Path $fixture 'report.json') -Raw | ConvertFrom-Json
     if ($Expected -eq 0 -and $result.status -ne 'advisory') { throw "$Label did not produce an advisory result." }

@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `a5b74b1b2559896709ee60f214d725945e3c0dd18af5686bb29d1d0fdfa15a3c`
+Composite SHA-256: `6e8e376dcf3a622e548cc07821dcfea364a3d1929a5c345bcba122661327c620`
 
 Sources:
 
@@ -33,14 +33,14 @@ Sources:
 ## ifx-guardrails
 
 - Audiences: ci, human
-- Inputs: docs/guards/V3_ifx/profiles/ifx/; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/history/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
+- Inputs: docs/guards/V3_ifx/shared/profile-layout.json; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/history/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
 - Outputs: artifacts/guards/v3-ifx/
 - Evidence: artifacts/guards/v3-ifx/summary-<mode>.json
 
 ## v3-runner
 
 - Audiences: ci, agent, human
-- Inputs: docs/guards/V3_ifx/profiles/ifx/; docs/guards/V3/templates/dotnet/; formal Plan (Pre/Diff); docs/guards/V3/build/; docs/guards/V3_ifx/build/locks/
+- Inputs: docs/guards/V3_ifx/shared/profile-layout.json; docs/guards/V3/templates/dotnet/; formal Plan (Pre/Diff); docs/guards/V3/build/; docs/guards/V3_ifx/build/locks/
 - Outputs: <generation-root>/v3-ifx/gates/stage/; artifacts/guards/v3-ifx/; artifacts/build/v3-ifx/stage-gate/; artifacts/guards/v3-ifx/build/stage-gate/
 - Evidence: artifacts/guards/v3-ifx/pre.json; artifacts/guards/v3-ifx/summary-diff.json
 
@@ -54,14 +54,14 @@ Sources:
 ## v3-architecture-review
 
 - Audiences: agent, human
-- Inputs: docs/guards/V3_ifx/stages/analysis/evidence/ARCHITECTURE.md; docs/guards/V3_ifx/stages/analysis/evidence/TECHNICAL.md; docs/guards/V3_ifx/profiles/ifx/
+- Inputs: docs/guards/V3_ifx/stages/analysis/evidence/ARCHITECTURE.md; docs/guards/V3_ifx/stages/analysis/evidence/TECHNICAL.md; docs/guards/V3_ifx/shared/profile-layout.json
 - Outputs: artifacts/guards/v3-ifx/analysis/
 - Evidence: artifacts/guards/v3-ifx/analysis/architecture-review.json
 
 ## v3-docs
 
 - Audiences: agent, human
-- Inputs: docs/guards/V3_ifx/docs/docs-map.json; docs/guards/V3_ifx/profiles/ifx/; declared authority and trust-contract sources
+- Inputs: docs/guards/V3_ifx/docs/docs-map.json; docs/guards/V3_ifx/shared/profile-layout.json; declared authority and trust-contract sources
 - Outputs: docs/guards/V3_ifx/docs/generated/; docs/guards/V3_ifx/profiles/ifx/views/
 - Evidence: (none)
 

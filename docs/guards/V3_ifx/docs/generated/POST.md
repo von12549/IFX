@@ -2,23 +2,23 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `e0713218a5e6f15258dd9970cdc857bfcf8616096479c085e4af99510453ea28`
+Composite SHA-256: `402226f02e4caff262b47f86b2146236d98a6434d3044271db449f92722f6b50`
 
 Sources:
 
 - `docs/guards/V3_ifx/policy/layerguard.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json` — profile-policy
-- `docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json` — profile-policy
 - `docs/guards/V3_ifx/shared/commands.json` — command-contract
+- `docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L1.2.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L2.2.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L2.3.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L2.4.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L2.9.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L3.1.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L3.4.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L3.5.json` — profile-policy
+- `docs/guards/V3_ifx/stages/post/rules/L3.6.json` — profile-policy
 - `docs/guards/V3_ifx/stages/post/stage.json` — trust-contract
 
 Post commands: ifx-guardrails, v3-runner, v3-docs, ifx-architecture, ifx-specialized, ifx-quality, ifx-historical-integrity, ifx-policy-sync, ifx-history-manifest.

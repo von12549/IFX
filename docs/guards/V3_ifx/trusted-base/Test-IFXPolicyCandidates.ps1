@@ -104,12 +104,10 @@ try {
         $profileGeneration = Join-Path $work 'profile-generation'
         [void][IO.Directory]::CreateDirectory($profileGeneration)
         $layoutPath = Join-Path $headTree "$packagePath/shared/profile-layout.json"
-        $profileArguments = if ([IO.File]::Exists($layoutPath)) { @('-ProfileLayoutPath', $layoutPath) } else { @('-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx")) }
-        $profileSource = if ([IO.File]::Exists($layoutPath)) { "$packagePath/shared/profile-layout.json" } else { "$packagePath/profiles/ifx/" }
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $baseRepository 'docs/guards/V3/commands/Invoke-V3.ps1') (@('-Mode', 'Validate') + $profileArguments + @('-TargetRoot', $headTree, '-GenerationRoot', $profileGeneration)) -WorkingDirectory $work
-        Add-Validation 'v3-profile' $profileSource $(if ($run.ExitCode -eq 0) { @() } else { @("the base V3 runner rejects the head profile: $(Get-RunTail $run)") })
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $baseRepository 'docs/guards/V3/commands/Invoke-V3.ps1') @('-Mode', 'Validate', '-ProfileLayoutPath', $layoutPath, '-TargetRoot', $headTree, '-GenerationRoot', $profileGeneration) -WorkingDirectory $work
+        Add-Validation 'v3-profile' "$packagePath/shared/profile-layout.json" $(if ($run.ExitCode -eq 0) { @() } else { @("the base V3 runner rejects the head profile: $(Get-RunTail $run)") })
         # The generated profile views are checked after merge, so a head profile with stale views would break the next base.
-        $views = Invoke-GuardIsolatedPwsh (Join-Path $baseRepository 'docs/guards/V3/commands/Invoke-V3Docs.ps1') (@('-Mode', 'Check') + $profileArguments + @('-TargetRoot', $headTree, '-PackageDirectory', (Join-Path $headTree $packagePath))) -WorkingDirectory $work
+        $views = Invoke-GuardIsolatedPwsh (Join-Path $baseRepository 'docs/guards/V3/commands/Invoke-V3Docs.ps1') @('-Mode', 'Check', '-ProfileLayoutPath', $layoutPath, '-TargetRoot', $headTree, '-PackageDirectory', (Join-Path $headTree $packagePath)) -WorkingDirectory $work
         Add-Validation 'v3-profile-views' "$packagePath/profiles/ifx/views/" $(if ($views.ExitCode -eq 0) { @() } else { @("the head profile views differ from what the base renderer produces: $(Get-RunTail $views)") })
     }
 

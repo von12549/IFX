@@ -25,7 +25,7 @@
         "targetInput": "Git objects of verified merge-base and head",
         "inputs": [
           {
-            "ref": "package:profiles/ifx/",
+            "ref": "package:shared/profile-layout.json",
             "source": "base"
           },
           {

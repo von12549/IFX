@@ -62,26 +62,26 @@ pwsh -NoProfile -File $deploy -Mode Verify -ActivationPath $activation -TargetRo
 ```powershell
 $v3 = 'docs/guards/V3_ifx'
 $engine = 'docs/guards/V3'
-$profile = "$v3/profiles/ifx"
+$profileLayout = "$v3/shared/profile-layout.json"
 $generation = Join-Path ([IO.Path]::GetTempPath()) 'v3-ifx-generation'
 $stage = Join-Path $generation 'v3-ifx/gates/stage'
 New-Item -ItemType Directory -Force -Path $generation | Out-Null
 
 # Refresh runtime analysis and check human-readable generated docs.
-pwsh -NoProfile -File "$engine/commands/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -PackageId v3-ifx -ProfileDirectory $profile -EvidenceDirectory "$v3/stages/analysis/evidence" -ExcludePaths 'docs/guards/**'
-pwsh -NoProfile -File "$engine/scripts/Invoke-V3Architecture.ps1" -Mode Review -TargetRoot . -AnalysisDirectory 'artifacts/guards/v3-ifx/analysis' -EvidenceDirectory "$v3/stages/analysis/evidence" -ProfileDirectory $profile
-pwsh -NoProfile -File "$engine/commands/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileDirectory $profile -PackageDirectory $v3
+pwsh -NoProfile -File "$engine/commands/Invoke-V3Setup.ps1" -Mode Analyze -TargetRoot . -PackageId v3-ifx -ProfileLayoutPath $profileLayout -EvidenceDirectory "$v3/stages/analysis/evidence" -ExcludePaths 'docs/guards/**'
+pwsh -NoProfile -File "$engine/scripts/Invoke-V3Architecture.ps1" -Mode Review -TargetRoot . -AnalysisDirectory 'artifacts/guards/v3-ifx/analysis' -EvidenceDirectory "$v3/stages/analysis/evidence" -ProfileLayoutPath $profileLayout
+pwsh -NoProfile -File "$engine/commands/Invoke-V3Docs.ps1" -Mode Check -TargetRoot . -ProfileLayoutPath $profileLayout -PackageDirectory $v3
 
 # Recreate and byte-check the two independent .NET projects.
-pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Validate -ProfileDirectory $profile -TargetRoot .
-pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Generate -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
-pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Check -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
+pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Validate -ProfileLayoutPath $profileLayout -TargetRoot .
+pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Generate -ProfileLayoutPath $profileLayout -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
+pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Check -ProfileLayoutPath $profileLayout -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Validate
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Generate
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Check
 
 # Run the V3 detector self-tests/Post check and the full IFX LayerGuard tests/strict scan.
-pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Test -ProfileDirectory $profile -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
+pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Test -ProfileLayoutPath $profileLayout -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Test -ReportPath artifacts/guards/v3-ifx-layerguard.json
 pwsh -NoProfile -File "$engine/tests/Test-V3.ps1"
 pwsh -NoProfile -File "$engine/tests/Test-V3ArchUnit.ps1"
@@ -107,7 +107,7 @@ pwsh -NoProfile -File "$v3/ci/Invoke-IFXCiContract.ps1" -Remote   # GET only; re
 pwsh -NoProfile -File "$v3/scripts/Invoke-IFXManifestCheck.ps1"
 ```
 
-Analysis is a runtime review artifact, not an automatic policy migration. Inventory, proposal, generated profile and review reports are written only to `artifacts/guards/v3-ifx/analysis/`. Reviewed architecture and technical inputs live under `stages/analysis/evidence/`; update those authority files only with `maintenance/Update-IFXAnalysisEvidence.ps1 -Mode Preview`, followed by `-Mode Apply -AcceptAnalysisEvidence`. Frozen snapshots live under `stages/analysis/reports/`. Review never adopts either document as policy; explicit `Adopt -AcceptDocument` still writes only a new profile and refuses to overwrite `profiles/ifx`.
+Analysis is a runtime review artifact, not an automatic policy migration. Inventory, proposal, generated profile and review reports are written only to `artifacts/guards/v3-ifx/analysis/`. Reviewed architecture and technical inputs live under `stages/analysis/evidence/`; update those authority files only with `maintenance/Update-IFXAnalysisEvidence.ps1 -Mode Preview`, followed by `-Mode Apply -AcceptAnalysisEvidence`. Frozen snapshots live under `stages/analysis/reports/`. Review never adopts either document as policy; explicit `Adopt -AcceptDocument` writes only a new legacy-layout profile and never overwrites the active authorities bound by `shared/profile-layout.json`.
 
 Both IFX .NET gates build through the V3 trusted build baseline (`docs/guards/V3/build/`, Plan 06 D14): SDK from its `global.json`, packages only from its `NuGet.config`, explicit `V3.Build.props`, no `Directory.*` discovery, output under `artifacts/build/v3-ifx/{stage-gate,architecture-conformance}/`, locked restore against the reviewed lock files in `build/locks/`, and pre-/post-build import allowlist reports under `artifacts/guards/v3-ifx/build/`. A missing, edited or stale lock fails the gate. When a guard project's package references change, run `Invoke-V3.ps1 -Mode Test ... -LockMode Update` or `Invoke-IFX.ps1 -Mode Test -LockMode Update`, review the lock diff and commit it with the formal Plan. No `bin/` or `obj/` directory is written under `docs/guards`.
 

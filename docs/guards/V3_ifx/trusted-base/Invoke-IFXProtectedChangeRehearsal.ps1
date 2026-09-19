@@ -87,12 +87,12 @@ function Add-Step([string] $Id, [string] $Description, [string] $BaseSha, [strin
 }
 
 $moveEdit = { [void](Invoke-RehearsalGit @('mv', 'docs/guards/V3/architecture', 'docs/guards/V3/design')) }
-$ruleFile = 'docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json'
+$ruleFile = 'docs/guards/V3_ifx/stages/post/rules/L1.2.json'
 $ruleEdit = {
     $path = Join-Path $clone $ruleFile
     [IO.File]::WriteAllText($path, [IO.File]::ReadAllText($path).Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"'), $utf8)
     # A complete policy change also regenerates the profile views with the base renderer.
-    $render = Invoke-GuardIsolatedPwsh (Join-Path $baseTree 'docs/guards/V3/commands/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone, '-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) -WorkingDirectory $clone
+    $render = Invoke-GuardIsolatedPwsh (Join-Path $baseTree 'docs/guards/V3/commands/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileLayoutPath', (Join-Path $clone 'docs/guards/V3_ifx/shared/profile-layout.json'), '-TargetRoot', $clone, '-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) -WorkingDirectory $clone
     if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
 }
 $engineFile = 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'

@@ -5,7 +5,7 @@
   "kind": "forbidden-type-dependency",
   "enforcement": "blocking",
   "coverage": "partial",
-  "authority": "profiles/ifx/rules/L2.2.json (parallel compiled-type evidence)",
+  "authority": "stages/post/rules/L2.2.json (parallel compiled-type evidence)",
   "appliesTo": ["src/Modules/CRM/IFX.Modules.CRM.Domain/**"],
   "sourceAssembly": "IFX.Modules.CRM.Domain",
   "sourceNamespace": "IFX.Modules.CRM.Domain.Entities",

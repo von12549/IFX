@@ -2,11 +2,11 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `cc3dec8a99895539c25ba83ee1e6ce40fcc0e59d55b5b59beb076d3eac987459`
+Composite SHA-256: `1e41ac5c43eeda1f985786d1e9ede590ef343a33032d91ced74353d43ac0f156`
 
 Sources:
 
-- `docs/guards/V3_ifx/profiles/ifx/project-map.json` — authority
+- `docs/guards/V3_ifx/stages/pre/project-map.json` — authority
 
 ## Areas
 

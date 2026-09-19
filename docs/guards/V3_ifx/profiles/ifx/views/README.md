@@ -2,13 +2,13 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `dc753060d186e79a6e1f4b86932698f3c907dbd2f4012d378cff77a655afdb9e`
+Composite SHA-256: `843a008b2af845051f9076d133272965541401b4b2a22d76024d403165dbf2da`
 
 Sources:
 
-- `docs/guards/V3_ifx/profiles/ifx/profile.json` — authority
-- `docs/guards/V3_ifx/profiles/ifx/project-map.json` — authority
-- `docs/guards/V3_ifx/profiles/ifx/tech-stack.json` — authority
+- `docs/guards/V3_ifx/shared/profile.json` — authority
+- `docs/guards/V3_ifx/shared/toolchain.json` — authority
+- `docs/guards/V3_ifx/stages/pre/project-map.json` — authority
 
 JSON in the parent profile is authoritative. These Markdown files are generated, read-only views; edit authority JSON and rerun Render.
 

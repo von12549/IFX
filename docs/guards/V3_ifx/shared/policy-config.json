@@ -14,31 +14,20 @@
   ],
   "entries": [
     {
-      "id": "cp11c-shared-authority-migration",
+      "id": "ifx-profile-layout",
       "role": "trust-meta-policy",
-      "directory": "docs/guards/V3_ifx/shared/",
+      "paths": [
+        "docs/guards/V3_ifx/shared/profile-layout.json"
+      ],
       "format": "json",
-      "candidateValidation": "json"
-    },
-    {
-      "id": "cp11c-pre-authority-migration",
-      "role": "trust-meta-policy",
-      "directory": "docs/guards/V3_ifx/stages/pre/",
-      "format": "json",
-      "candidateValidation": "json"
-    },
-    {
-      "id": "cp11c-post-rule-migration",
-      "role": "trust-meta-policy",
-      "directory": "docs/guards/V3_ifx/stages/post/rules/",
-      "format": "json",
-      "candidateValidation": "json"
+      "schema": "docs/guards/V3/contracts/profile-layout.schema.json",
+      "candidateValidation": "v3-profile"
     },
     {
       "id": "ifx-profile",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/profiles/ifx/profile.json"
+        "docs/guards/V3_ifx/shared/profile.json"
       ],
       "format": "json",
       "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
@@ -48,7 +37,7 @@
       "id": "ifx-project-map",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/profiles/ifx/project-map.json"
+        "docs/guards/V3_ifx/stages/pre/project-map.json"
       ],
       "format": "json",
       "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
@@ -58,7 +47,7 @@
       "id": "ifx-tech-stack",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/profiles/ifx/tech-stack.json"
+        "docs/guards/V3_ifx/shared/toolchain.json"
       ],
       "format": "json",
       "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
@@ -67,7 +56,7 @@
     {
       "id": "ifx-rules",
       "role": "editable-policy",
-      "directory": "docs/guards/V3_ifx/profiles/ifx/rules/",
+      "directory": "docs/guards/V3_ifx/stages/post/rules/",
       "format": "json",
       "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
       "candidateValidation": "v3-profile"
@@ -585,6 +574,35 @@
         },
         {
           "pointer": "/properties/roots",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3/contracts/profile-layout.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/profile",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projectMap",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/rulesDirectory",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/techStack",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/viewsDirectory",
           "comparator": "none"
         }
       ]

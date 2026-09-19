@@ -488,7 +488,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   "kind": "forbidden-type-dependency",
   "enforcement": "blocking",
   "coverage": "partial",
-  "authority": "profiles/ifx/rules/L2.2.json (parallel compiled-type evidence)",
+  "authority": "stages/post/rules/L2.2.json (parallel compiled-type evidence)",
   "appliesTo": [
     "src/Modules/CRM/IFX.Modules.CRM.Domain/**"
   ],

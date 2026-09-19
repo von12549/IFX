@@ -1,6 +1,6 @@
 # IFX Guardrails V3 migration package
 
-Pre now accepts an ordinary path summary or a formal Plan. The local `profiles/ifx/project-map.json` classifies paths into areas, owners, examples, focused validation commands and risk triggers; `rules/*.json` declares applicability for all nine numbered LayerGuard rules. A successful Pre result is advisory and written under `artifacts/guards/` with a profile-input hash. Risk paths require a formal Plan and covering decision. Unknown modules remain unmapped and fail closed.
+Pre now accepts an ordinary path summary or a formal Plan. `shared/profile-layout.json` binds the split authorities: `stages/pre/project-map.json` classifies paths into areas, owners, examples, focused validation commands and risk triggers, while `stages/post/rules/*.json` declares applicability for all nine numbered LayerGuard rules. A successful Pre result is advisory and written under `artifacts/guards/` with a profile-input hash. Risk paths require a formal Plan and covering decision. Unknown modules remain unmapped and fail closed.
 
 `V3_ifx` is the IFX overlay on the canonical portable `V3` source package. The redundant `V3_backup` snapshot was retired in Plan 06 P10.5; recovery uses Git history. This directory owns IFX profile and policy, guard orchestration, architecture scanning, specialized validation, compiled assembly checks, solution/frontend quality and frozen-history integrity. Its production architecture command does not invoke `mcp/LayerGuard` or root guard scripts. GitHub ruleset `IFX V3 Required Checks` requires all 13 stable V3 jobs on the default branch and `codex/guards-principles-plan`. The replaced workflows, root validators, duplicate policy and non-V3 guard documentation were removed after the required-check cutover.
 
@@ -16,7 +16,10 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 
 | Path | Purpose |
 | --- | --- |
-| `profiles/ifx/` | Editable V3 Plan/Pre/Diff profile, `L2.2` project-reference detector and compiled CRM boundary pilot |
+| `shared/profile-layout.json` | Exact binding for the split profile, project-map, toolchain, rules and generated-view locations |
+| `shared/profile.json`, `shared/toolchain.json` | Shared identity and command/assembly authority |
+| `stages/pre/project-map.json` | Pre path, owner, risk and focused-command authority |
+| `stages/post/rules/` | Stage rule applicability, project-reference detector and compiled CRM boundary pilot |
 | `profiles/ifx/views/` | Generated Markdown index, map, tech stack, rule pages and V3 stage coverage |
 | `stages/analysis/evidence/`, `reports/` | Reviewed long-lived inputs and frozen report snapshots; runtime output is under `artifacts/guards/v3-ifx/analysis/` |
 | `policy/layerguard.json` | Editable IFX architecture rules, copied from the existing policy with only the three Gate paths made local |

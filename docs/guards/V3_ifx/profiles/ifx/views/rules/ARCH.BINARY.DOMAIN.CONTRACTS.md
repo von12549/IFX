@@ -2,11 +2,11 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `bce87e74b3c832c14e468c375382594fce41a95fe28dde8afb81b73470dc347d`
+Composite SHA-256: `cdb5c8e55e41fc900afdb14c9b55e14a6adf7fc6f80dd9ffe979ee5424bc8415`
 
 Sources:
 
-- `docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — authority
+- `docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — authority
 
 | Field | Value |
 | --- | --- |
@@ -14,5 +14,5 @@ Sources:
 | Kind | forbidden-type-dependency |
 | Enforcement | blocking |
 | Detector coverage | partial |
-| Authority | profiles/ifx/rules/L2.2.json (parallel compiled-type evidence) |
+| Authority | stages/post/rules/L2.2.json (parallel compiled-type evidence) |
 | Applies to | src/Modules/CRM/IFX.Modules.CRM.Domain/** |

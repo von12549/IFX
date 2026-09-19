@@ -71,7 +71,7 @@ function Assert-LocalBinding {
 
 function Assert-RuleAlignment {
     param([object] $Config)
-    $ruleRoot = Join-Path $packageRoot 'profiles/ifx/rules'
+    $ruleRoot = Join-Path $packageRoot 'stages/post/rules'
     if (-not [IO.Directory]::Exists($ruleRoot)) { throw "IFX stage rules are missing: $ruleRoot" }
     $stageIds = @()
     foreach ($file in @(Get-ChildItem -LiteralPath $ruleRoot -File -Filter '*.json')) {

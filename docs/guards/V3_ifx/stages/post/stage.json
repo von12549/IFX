@@ -39,7 +39,7 @@
             "source": "base"
           },
           {
-            "ref": "package:profiles/ifx/",
+            "ref": "package:shared/profile-layout.json",
             "source": "base"
           },
           {
@@ -485,7 +485,7 @@
       "trustContract": {
         "type": "mixed",
         "evaluator": "base compiled assembly rules",
-        "policy": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json assemblyGate",
+        "policy": "docs/guards/V3_ifx/shared/toolchain.json assemblyGate",
         "targetInput": "Domain assemblies built from head by v3-quality-solution",
         "inputs": [
           {
@@ -493,7 +493,7 @@
             "source": "base"
           },
           {
-            "ref": "package:profiles/ifx/tech-stack.json",
+            "ref": "package:shared/toolchain.json",
             "source": "base"
           },
           {

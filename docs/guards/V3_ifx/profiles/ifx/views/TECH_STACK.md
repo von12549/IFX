@@ -2,11 +2,11 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `62e6ff1e91f06be720ff37aa2c255f579cc6a1c32a85be75cb57d4ece8098efa`
+Composite SHA-256: `769b2ea194e6620f95be05ab98ac51b44099bf7af33b81ab1321ac01677c67e3`
 
 Sources:
 
-- `docs/guards/V3_ifx/profiles/ifx/tech-stack.json` — authority
+- `docs/guards/V3_ifx/shared/toolchain.json` — authority
 
 | Languages | .NET gate target | Framework |
 | --- | --- | --- |

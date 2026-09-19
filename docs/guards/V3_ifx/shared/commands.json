@@ -16,7 +16,7 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/profiles/ifx/",
+        "docs/guards/V3_ifx/shared/profile-layout.json",
         "docs/guards/V3_ifx/policy/",
         "docs/guards/V3_ifx/history/manifest.json",
         "formal Plan (Pre/Diff)",
@@ -52,7 +52,7 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/profiles/ifx/",
+        "docs/guards/V3_ifx/shared/profile-layout.json",
         "docs/guards/V3/templates/dotnet/",
         "formal Plan (Pre/Diff)",
         "docs/guards/V3/build/",
@@ -119,7 +119,7 @@
       "inputs": [
         "docs/guards/V3_ifx/stages/analysis/evidence/ARCHITECTURE.md",
         "docs/guards/V3_ifx/stages/analysis/evidence/TECHNICAL.md",
-        "docs/guards/V3_ifx/profiles/ifx/"
+        "docs/guards/V3_ifx/shared/profile-layout.json"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/analysis/"
@@ -149,7 +149,7 @@
       ],
       "inputs": [
         "docs/guards/V3_ifx/docs/docs-map.json",
-        "docs/guards/V3_ifx/profiles/ifx/",
+        "docs/guards/V3_ifx/shared/profile-layout.json",
         "declared authority and trust-contract sources"
       ],
       "outputs": [
