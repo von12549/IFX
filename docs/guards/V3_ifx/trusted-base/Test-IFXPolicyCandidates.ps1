@@ -126,7 +126,7 @@ try {
             if ([IO.Path]::IsPathRooted($path) -or $path -match '(^|[\\/])\.\.([\\/]|$)') { continue }
             [void](Write-HeadBlob $headSha $path.Replace('\', '/') (Join-Path $historyRoot $path))
         }
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1') @('-RepositoryRoot', $historyRoot, '-ManifestPath', $manifestPath, '-ReportPath', (Join-Path $work 'history-summary.json')) -WorkingDirectory $work
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1') @('-RepositoryRoot', $historyRoot, '-ManifestPath', $manifestPath, '-ReportPath', (Join-Path $historyRoot 'history-summary.json')) -WorkingDirectory $work
         Add-Validation 'history-manifest' $manifestPath $(if ($run.ExitCode -eq 0) { @() } else { @("the base historical integrity engine rejects the head manifest against head evidence: $(Get-RunTail $run)") })
     }
 

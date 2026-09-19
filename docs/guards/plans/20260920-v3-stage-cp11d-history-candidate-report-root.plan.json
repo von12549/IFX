@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11d-history-candidate-report-root",
+  "title": "V3 stage-oriented refactor CP11d — history candidate report-root fix",
+  "goal": "Keep Historical Integrity candidate-validation artifacts inside their isolated repository root and prove a valid changed manifest passes.",
+  "acceptanceCriteria": [
+    "The base candidate verifier writes the Historical Integrity report inside its isolated history repository root.",
+    "A semantically changed but valid head history manifest passes candidate validation.",
+    "A manifest whose recorded evidence hash is wrong still fails candidate validation.",
+    "Production inputs, command paths and Historical Integrity verdicts remain unchanged."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-history-candidate-report-root-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11d-history-candidate-report-root.md",
+    "docs/guards/plans/20260920-v3-stage-cp11d-history-candidate-report-root.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
