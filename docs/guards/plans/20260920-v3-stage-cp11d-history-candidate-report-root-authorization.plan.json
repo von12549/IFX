@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11d-history-candidate-report-root-authorization",
+  "title": "Authorize CP11d history candidate report-root fix",
+  "goal": "Pre-authorize the exact trusted-base verifier and positive-test change for isolated Historical Integrity candidate reports.",
+  "acceptanceCriteria": [
+    "The trusted-base authorization binds exactly the candidate verifier and its base-owned test.",
+    "The authorization-only change modifies no trusted component or production policy.",
+    "The report-root candidate consumes the authorization in the same protected diff."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-history-candidate-report-root-tcb.json",
+    "docs/guards/plans/20260920-v3-stage-cp11d-history-candidate-report-root-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11d-history-candidate-report-root-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
