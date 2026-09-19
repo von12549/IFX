@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "cp11a-trusted-base-test-bridge",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1"
+  ],
+  "components": [
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cc15d9a5664d887579bc4304a9104bc20151fa0d"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8d743ae1a7e9a65d8ffc5b42e26c413e2374a828"
+      }
+    }
+  ],
+  "validationSuite": [
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Production verifier and workflow behavior are unchanged; the base-owned fixture restores the existing unregistered-executable negative control across the two explicitly recognized workflow generations.",
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "Authorization-only plan files make the base generated documentation view stale; the candidate changes only a base-owned test and every other Validate check plus all five verdict parity modes remains equal."
+    }
+  ]
+}
+

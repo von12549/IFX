@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11a-trusted-base-test-bridge-authorization",
+  "title": "Authorize CP11a trusted-base workflow fixture bridge",
+  "goal": "Authorize the exact base-owned negative-fixture repair without changing production verifier or workflow behavior.",
+  "acceptanceCriteria": [
+    "The record binds the single trusted-base test path and exact old/new tuples.",
+    "The record references the bridge Plan and frozen TCB/workflow decisions.",
+    "No production verifier, workflow, manifest or required-check changes in this authorization checkpoint."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-trusted-base-test-bridge.json",
+    "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
