@@ -253,7 +253,10 @@ try {
         $staleRuleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
         $ruleTitle = {
             & $staleRuleTitle
-            $render = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3/scripts/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone) -WorkingDirectory $clone
+            $docsCommand = if ([IO.File]::Exists((Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1'))) { Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1' } else { Join-Path $base 'docs/guards/V3/scripts/Invoke-V3Docs.ps1' }
+            $docsArguments = @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone)
+            if ($docsCommand -match '[/\\]commands[/\\]') { $docsArguments += @('-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) }
+            $render = Invoke-GuardIsolatedPwsh $docsCommand $docsArguments -WorkingDirectory $clone
             if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
         }
         $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }
@@ -474,7 +477,7 @@ try {
         Edit-Text $historyEngine { param($t) $t.Replace('$hashMatches = (Hash-CanonicalText $full) -eq $entry.sha256', '$hashMatches = $true') }
         [IO.File]::Delete((Join-Path $clone $historyTest))
     } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
-    Test-AuthorizedChange 'summary-contract-changed' { Edit-Text 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' { param($t) [Regex]::Replace($t, 'formatVersion = 1(\r?\n\s+mode = \$summaryMode)', 'formatVersion = 2$1').Replace("if (-not (Test-Json -LiteralPath `$summaryPath", "if (`$false -and -not (Test-Json -LiteralPath `$summaryPath") } } 1 'candidate summary schema valid: False'
+    Test-AuthorizedChange 'summary-contract-changed' { $guardrailsPath = if ([IO.File]::Exists((Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))) { 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' } else { 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }; Edit-Text $guardrailsPath { param($t) [Regex]::Replace($t, 'formatVersion = 1(\r?\n\s+mode = \$summaryMode)', 'formatVersion = 2$1').Replace("if (-not (Test-Json -LiteralPath `$summaryPath", "if (`$false -and -not (Test-Json -LiteralPath `$summaryPath") } } 1 'candidate summary schema valid: False'
     # The reviewed locks follow the guard projects, which move between packages during Plan 06 P6.4.
     $lockName = @(Get-ChildItem -LiteralPath (Join-Path $clone 'docs/guards/V3_ifx/build/locks') -File -Filter '*.packages.lock.json' | Sort-Object Name | ForEach-Object Name)[0]
     [void](New-Head 'tcb-lock-file' $baseSha { Edit-Text "docs/guards/V3_ifx/build/locks/$lockName" { param($t) $t.Replace('"version": 1', '"version": 1 ') } })

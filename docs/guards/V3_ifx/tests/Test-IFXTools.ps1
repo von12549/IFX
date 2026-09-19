@@ -9,27 +9,69 @@ $inventoryRoot = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-tools-$([G
 if (-not $inventoryRoot.StartsWith($artifacts.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar,
     [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe IFX tools fixture path.' }
 $inventoryPath = Join-Path $inventoryRoot 'inventory.json'
-$architecturePath = Join-Path $inventoryRoot 'ARCHITECTURE.md'
-$technicalPath = Join-Path $inventoryRoot 'TECHNICAL.md'
+$usesCommandLayout = [IO.File]::Exists((Join-Path $v3 'commands/Invoke-V3.ps1')) -and [IO.File]::Exists((Join-Path $package 'commands/Invoke-IFXGuardrails.ps1'))
+$entryDirectory = if ($usesCommandLayout) { 'commands' } else { 'scripts' }
+$evidenceRoot = if ($usesCommandLayout) { Join-Path $package 'stages/analysis/evidence' } else { $inventoryRoot }
+$architecturePath = Join-Path $evidenceRoot 'ARCHITECTURE.md'
+$technicalPath = Join-Path $evidenceRoot 'TECHNICAL.md'
+$v3Runner = Join-Path $v3 "$entryDirectory/Invoke-V3.ps1"
+$v3Docs = Join-Path $v3 "$entryDirectory/Invoke-V3Docs.ps1"
+$v3Setup = Join-Path $v3 "$entryDirectory/Invoke-V3Setup.ps1"
 $policyPath = Join-Path $package 'policy/layerguard.json'
 $policyBefore = [IO.File]::ReadAllBytes($policyPath)
 try {
     [void][IO.Directory]::CreateDirectory($inventoryRoot)
-    [IO.File]::WriteAllBytes($architecturePath, [IO.File]::ReadAllBytes((Join-Path $package 'analysis/ifx/ARCHITECTURE.md')))
-    [IO.File]::WriteAllBytes($technicalPath, [IO.File]::ReadAllBytes((Join-Path $package 'analysis/ifx/TECHNICAL.md')))
+    if (-not $usesCommandLayout) {
+        [IO.File]::WriteAllBytes($architecturePath, [IO.File]::ReadAllBytes((Join-Path $package 'analysis/ifx/ARCHITECTURE.md')))
+        [IO.File]::WriteAllBytes($technicalPath, [IO.File]::ReadAllBytes((Join-Path $package 'analysis/ifx/TECHNICAL.md')))
+    }
     $profileBefore = @(Get-ChildItem -LiteralPath $profile -File -Recurse | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($profile, $_.FullName)):$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)" })
-    & (Join-Path $v3 'scripts/Invoke-V3.ps1') -Mode Validate -TargetRoot $root -ProfileDirectory $profile
-    & (Join-Path $v3 'scripts/Invoke-V3Docs.ps1') -Mode Check -TargetRoot $root -ProfileDirectory $profile
+    & $v3Runner -Mode Validate -TargetRoot $root -ProfileDirectory $profile
+    if ($usesCommandLayout) { & $v3Docs -Mode Check -TargetRoot $root -ProfileDirectory $profile -PackageDirectory $package }
+    else { & $v3Docs -Mode Check -TargetRoot $root -ProfileDirectory $profile }
+    if ($usesCommandLayout) {
+        $commandsPath = Join-Path $package 'shared/commands.json'
+        $commandsBefore = [IO.File]::ReadAllBytes($commandsPath)
+        try {
+            [IO.File]::WriteAllText($commandsPath, [IO.File]::ReadAllText($commandsPath).Replace('formal Plan (Pre/Diff)', 'reviewed formal Plan (Pre/Diff)'), [Text.UTF8Encoding]::new($false))
+            $docsDrift = @(& pwsh -NoProfile -File $v3Docs -Mode Check -TargetRoot $root -ProfileDirectory $profile -PackageDirectory $package 2>&1)
+            if ($LASTEXITCODE -eq 0 -or ($docsDrift -join ' | ') -notmatch 'Generated Markdown drift') { throw 'Docs Check accepted an authority change without regeneration.' }
+        }
+        finally { [IO.File]::WriteAllBytes($commandsPath, $commandsBefore) }
+        $maintenancePackage = Join-Path $inventoryRoot 'maintenance-fixture/docs/guards/V3_ifx'
+        $maintenanceDirectory = Join-Path $maintenancePackage 'maintenance'
+        $maintenanceEvidence = Join-Path $maintenancePackage 'stages/analysis/evidence'
+        $maintenanceSource = Join-Path $inventoryRoot 'maintenance-fixture/reviewed'
+        [void][IO.Directory]::CreateDirectory($maintenanceDirectory)
+        [void][IO.Directory]::CreateDirectory($maintenanceEvidence)
+        [void][IO.Directory]::CreateDirectory($maintenanceSource)
+        $maintenanceCommand = Join-Path $maintenanceDirectory 'Update-IFXAnalysisEvidence.ps1'
+        Copy-Item -LiteralPath (Join-Path $package 'maintenance/Update-IFXAnalysisEvidence.ps1') -Destination $maintenanceCommand
+        $maintenanceTarget = Join-Path $maintenanceEvidence 'ARCHITECTURE.md'
+        $maintenanceCandidate = Join-Path $maintenanceSource 'ARCHITECTURE.md'
+        [IO.File]::WriteAllText($maintenanceTarget, "accepted`n", [Text.UTF8Encoding]::new($false))
+        [IO.File]::WriteAllText($maintenanceCandidate, "reviewed`n", [Text.UTF8Encoding]::new($false))
+        & $maintenanceCommand -Mode Preview -TargetRoot (Join-Path $inventoryRoot 'maintenance-fixture') -SourceDirectory $maintenanceSource -Names 'ARCHITECTURE.md'
+        if ([IO.File]::ReadAllText($maintenanceTarget) -ne "accepted`n") { throw 'Analysis evidence Preview modified long-lived evidence.' }
+        $applyRejected = $false
+        try { & $maintenanceCommand -Mode Apply -TargetRoot (Join-Path $inventoryRoot 'maintenance-fixture') -SourceDirectory $maintenanceSource -Names 'ARCHITECTURE.md' } catch { $applyRejected = $_.Exception.Message -match 'AcceptAnalysisEvidence' }
+        if (-not $applyRejected) { throw 'Analysis evidence Apply succeeded without explicit acceptance.' }
+        & $maintenanceCommand -Mode Apply -TargetRoot (Join-Path $inventoryRoot 'maintenance-fixture') -SourceDirectory $maintenanceSource -Names 'ARCHITECTURE.md' -AcceptAnalysisEvidence
+        if ([IO.File]::ReadAllText($maintenanceTarget) -ne "reviewed`n") { throw 'Accepted analysis evidence was not applied.' }
+    }
     $architectureBefore = [IO.File]::ReadAllBytes($architecturePath)
     $technicalBefore = [IO.File]::ReadAllBytes($technicalPath)
-    & (Join-Path $v3 'scripts/Invoke-V3Setup.ps1') -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
+    if ($usesCommandLayout) { & $v3Setup -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -EvidenceDirectory $evidenceRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**' -PackageId v3-ifx }
+    else { & $v3Setup -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**' }
     if (-not [IO.File]::Exists($inventoryPath)) { throw 'IFX inventory was not generated.' }
     $first = [IO.File]::ReadAllBytes($inventoryPath)
-    & (Join-Path $v3 'scripts/Invoke-V3Setup.ps1') -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**'
+    if ($usesCommandLayout) { & $v3Setup -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -EvidenceDirectory $evidenceRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**' -PackageId v3-ifx }
+    else { & $v3Setup -Mode Analyze -TargetRoot $root -OutputDirectory $inventoryRoot -ProfileDirectory $profile -ExcludePaths 'docs/guards/**' }
     if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $first, [byte[]] [IO.File]::ReadAllBytes($inventoryPath))) { throw 'IFX analysis is not reproducible across consecutive runs.' }
     if (-not [Linq.Enumerable]::SequenceEqual([byte[]] $architectureBefore, [byte[]] [IO.File]::ReadAllBytes($architecturePath)) -or
         -not [Linq.Enumerable]::SequenceEqual([byte[]] $technicalBefore, [byte[]] [IO.File]::ReadAllBytes($technicalPath))) { throw 'Analyze overwrote editable IFX architecture drafts.' }
-    & (Join-Path $v3 'scripts/Invoke-V3Architecture.ps1') -Mode Review -TargetRoot $root -AnalysisDirectory $inventoryRoot -ProfileDirectory $profile
+    if ($usesCommandLayout) { & (Join-Path $v3 'scripts/Invoke-V3Architecture.ps1') -Mode Review -TargetRoot $root -AnalysisDirectory $inventoryRoot -EvidenceDirectory $evidenceRoot -ProfileDirectory $profile }
+    else { & (Join-Path $v3 'scripts/Invoke-V3Architecture.ps1') -Mode Review -TargetRoot $root -AnalysisDirectory $inventoryRoot -ProfileDirectory $profile }
 $review = Get-Content -LiteralPath (Join-Path $inventoryRoot 'architecture-review.json') -Raw | ConvertFrom-Json
 if ($review.projectId -ne 'ifx' -or $review.documentReviewed -or $review.profileDifferences.Count -ne 0 -or -not $review.hasBlockingDetector -or $review.observedForbiddenReferences.Count -ne 0) { throw 'IFX architecture review does not match current evidence/profile.' }
 $profileAfter = @(Get-ChildItem -LiteralPath $profile -File -Recurse | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($profile, $_.FullName)):$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash)" })
@@ -43,7 +85,7 @@ if (@($inventory.workflows | Where-Object { $_.path -match '(coding-guardrails|c
 if ('src/Modules/CRM' -notin @($inventory.areaCandidates)) { throw 'IFX module candidate was not detected.' }
 $coverage = [IO.File]::ReadAllText((Join-Path $profile 'views/COVERAGE.md'))
 if ($coverage -notmatch '\[L2\.2\].*blocking' -or $coverage -notmatch '\[L2\.3\].*advisory') { throw 'IFX stage coverage view misstates enforcement.' }
-    Write-Host "IFX V3 tools passed: $($inventory.projects.Count) projects, $($inventory.workflows.Count) workflows, reproducible analysis, preserved architecture drafts, zero profile drift, unchanged LayerGuard policy and checked Markdown views."
+    Write-Host "IFX V3 tools passed: $($inventory.projects.Count) projects, $($inventory.workflows.Count) workflows, reproducible analysis, preserved architecture drafts, zero profile drift, unchanged LayerGuard policy and checked Markdown views$(if ($usesCommandLayout) { ', explicit evidence acceptance' } else { '' })."
 }
 finally {
     if ([IO.Directory]::Exists($inventoryRoot)) { [IO.Directory]::Delete($inventoryRoot, $true) }

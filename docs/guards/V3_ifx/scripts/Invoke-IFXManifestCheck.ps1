@@ -36,6 +36,8 @@ $system = Read-Manifest "$package/guard-system.json" 'guard-system'
 if ($null -eq $system) { foreach ($failure in $failures) { Write-Host "FAIL $failure" }; exit 1 }
 $commands = Read-Manifest $system.manifests.commands 'commands'
 $tcb = Read-Manifest $system.manifests.trustedComponents 'trusted-components'
+$usesCommandLayout = $system.manifests.ContainsKey('docsMap')
+$docsMap = if ($usesCommandLayout) { Read-Manifest $system.manifests.docsMap 'docs-map' } else { $null }
 
 # ---------------------------------------------------------------- stages and field owners
 $commandOwned = @('entryPoint', 'inputs', 'outputs', 'evidence', 'mutability', 'requiresExplicitAcceptance', 'platforms', 'stability')
@@ -77,10 +79,10 @@ if ($null -ne $commands) {
         }
     }
     $canonicalV3Entries = [ordered]@{
-        'v3-runner' = 'docs/guards/V3/scripts/Invoke-V3.ps1'
-        'v3-setup' = 'docs/guards/V3/scripts/Invoke-V3Setup.ps1'
+        'v3-runner' = if ($usesCommandLayout) { 'docs/guards/V3/commands/Invoke-V3.ps1' } else { 'docs/guards/V3/scripts/Invoke-V3.ps1' }
+        'v3-setup' = if ($usesCommandLayout) { 'docs/guards/V3/commands/Invoke-V3Setup.ps1' } else { 'docs/guards/V3/scripts/Invoke-V3Setup.ps1' }
         'v3-architecture-review' = 'docs/guards/V3/scripts/Invoke-V3Architecture.ps1'
-        'v3-docs' = 'docs/guards/V3/scripts/Invoke-V3Docs.ps1'
+        'v3-docs' = if ($usesCommandLayout) { 'docs/guards/V3/commands/Invoke-V3Docs.ps1' } else { 'docs/guards/V3/scripts/Invoke-V3Docs.ps1' }
     }
     foreach ($id in $canonicalV3Entries.Keys) {
         $entry = @($commands.commands | Where-Object { $_.id -eq $id })
@@ -88,12 +90,25 @@ if ($null -ne $commands) {
             Fail "Command '$id' must reference the canonical V3 entry point: $($canonicalV3Entries[$id])"
         }
     }
-    $orchestratorPath = Full "$package/scripts/Invoke-IFXGuardrails.ps1"
+    $orchestratorPath = Full $(if ($usesCommandLayout) { "$package/commands/Invoke-IFXGuardrails.ps1" } else { "$package/scripts/Invoke-IFXGuardrails.ps1" })
     if ([IO.File]::Exists($orchestratorPath)) {
         $orchestrator = [IO.File]::ReadAllText($orchestratorPath)
         if (-not $orchestrator.Contains("'-ProtectionPath'", [StringComparison]::Ordinal) -or
             -not $orchestrator.Contains("'stages/diff/protection.json'", [StringComparison]::Ordinal)) {
             Fail 'IFX Diff must pass the overlay protection configuration to canonical V3.'
+        }
+    }
+}
+
+# The bridge accepts no alternate docs surface: docsMap is optional only until the commands/docs lifecycle candidate lands.
+if ($null -ne $docsMap) {
+    $documentIds = @($docsMap.documents | ForEach-Object { $_.id })
+    $documentOutputs = @($docsMap.documents | ForEach-Object { $_.output })
+    if (@($documentIds | Select-Object -Unique).Count -ne $documentIds.Count) { Fail 'docs-map document IDs must be unique.' }
+    if (@($documentOutputs | Select-Object -Unique).Count -ne $documentOutputs.Count) { Fail 'docs-map output paths must be unique.' }
+    foreach ($document in $docsMap.documents) {
+        foreach ($source in $document.sources) {
+            if (([string]$source.path).IndexOfAny([char[]]'*?[') -lt 0 -and -not (Exists $source.path)) { Fail "Docs source is missing for '$($document.id)': $($source.path)" }
         }
     }
 }

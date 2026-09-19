@@ -53,7 +53,9 @@ try {
     # Domain authority files are target data read by the registry lint (Plan 06 D18).
     $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
     foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
-    foreach ($root in @('docs/guards/V3/build', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/hooks', 'docs/guards/V3/stages')) {
+    $v3Roots = @('docs/guards/V3/build', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/hooks', 'docs/guards/V3/stages')
+    if ([IO.Directory]::Exists((Join-Path $repository 'docs/guards/V3/commands'))) { $v3Roots += 'docs/guards/V3/commands' }
+    foreach ($root in $v3Roots) {
         foreach ($file in Get-ChildItem -LiteralPath (Join-Path $repository $root) -Recurse -File) {
             $relative = [IO.Path]::GetRelativePath($repository, $file.FullName).Replace([IO.Path]::DirectorySeparatorChar, '/')
             if ($relative -match '(^|/)(bin|obj)/') { continue }
@@ -65,10 +67,11 @@ try {
     $commands = 'docs/guards/V3_ifx/shared/commands.json'
     $tcb = 'docs/guards/V3_ifx/shared/trusted-components.json'
     $system = 'docs/guards/V3_ifx/guard-system.json'
-    $orchestrator = 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1'
+    $usesCommandLayout = [IO.File]::Exists((Join-Path $fixture 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))
+    $orchestrator = if ($usesCommandLayout) { 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' } else { 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }
 
     Invoke-Case 'current manifests pass' 0
-    Invoke-Case 'stage declaring a command-owned field fails' 1 $stagePost { param($d) $d['entryPoint'] = 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' } "command-owned field 'entryPoint'"
+    Invoke-Case 'stage declaring a command-owned field fails' 1 $stagePost { param($d) $d['entryPoint'] = $orchestrator } "command-owned field 'entryPoint'"
     Invoke-Case 'command declaring a stage-owned field fails' 1 $commands { param($d) $d.commands[0]['dependencies'] = @('pre') } "stage-owned field 'dependencies'"
     Invoke-Case 'stage referencing an unknown command fails' 1 $stagePost { param($d) $d.commands += 'ifx-missing-command' } "unknown command 'ifx-missing-command'"
     Invoke-Case 'command claiming an unlisted stage fails' 1 $commands { param($d) ($d.commands | Where-Object { $_.id -eq 'ifx-quality' }).stages += 'diff' } "claims stage 'diff'"
@@ -78,7 +81,7 @@ try {
     Invoke-Case 'invalid trust contract type fails schema' 1 $stagePost { param($d) $d.gates[0].trustContract.type = 'trusted' } 'Schema validation failed'
     Invoke-Case 'verdict-chain script outside TCB fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths = @('docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1') } 'Verdict-chain script is outside the trusted component manifest: docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1'
     Invoke-Case 'manifest removing itself from protection fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.manifest' }).paths = @('docs/guards/V3_ifx/stages/') } 'not self-protecting'
-    Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' } 'overlap'
+    Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += $orchestrator } 'overlap'
     Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) $d.components += [ordered]@{ id = 'tcb.future-component'; type = 'future'; status = 'planned'; paths = @('Directory.Build.props'); validationSuite = @('future'); parityContract = 'future'; allowedChange = 'change-trusted-base' } } "Planned component 'tcb.future-component'"
     Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1`n") } 'Workflow references a missing script: docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1'
     Invoke-Case 'IFX command redirecting to a forked V3 runner fails' 1 $commands { param($d) ($d.commands | Where-Object { $_.id -eq 'v3-runner' }).entryPoint = 'docs/guards/V3_ifx/scripts/Invoke-V3.ps1' } "Command 'v3-runner' must reference the canonical V3 entry point"
