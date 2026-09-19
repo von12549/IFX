@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11a-trusted-base-test-bridge",
+  "title": "V3 stage-oriented refactor CP11a — trusted-base workflow fixture bridge",
+  "goal": "Restore the base-owned unregistered-workflow-executable negative control across the legacy and current public-facade workflow generations.",
+  "acceptanceCriteria": [
+    "The fixture injects an unregistered executable after an explicitly recognized workflow guard entry point.",
+    "Legacy direct-test and current public-facade workflow shapes are supported without a silent fallback.",
+    "The unregistered executable is rejected by TCB candidate verification and the full trusted-base fixture suite passes.",
+    "Protected-change and TCB candidate verification pass from the authorization base."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-trusted-base-test-bridge.json",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-trusted-base-test-bridge.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}

@@ -445,7 +445,13 @@ try {
     Assert-Result 'removing a component from the head manifest fails' (Invoke-Verifier $base $baseSha) 1 'tcb.manifest'
     [void](New-Head 'tcb-unregistered' $baseSha {
         [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1'), "exit 0`n", $utf8)
-        Edit-Text '.github/workflows/v3-ifx-guardrails.yml' { param($t) $t.Replace('./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1', "./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1`n          ./docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1") }
+        Edit-Text '.github/workflows/v3-ifx-guardrails.yml' {
+            param($t)
+            $legacy = './docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
+            $facade = './docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
+            $anchor = if ($t.Contains($legacy, [StringComparison]::Ordinal)) { $legacy } elseif ($t.Contains($facade, [StringComparison]::Ordinal)) { $facade } else { throw 'Workflow has no declared public guard entry point fixture anchor.' }
+            $t.Replace($anchor, "$anchor`n          ./docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1")
+        }
     })
     Assert-Result 'workflow activating an unregistered executable fails' (Invoke-Verifier $base $baseSha) 1 'no trusted component manifest registers: docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1'
 
