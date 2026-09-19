@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "cp09-registry-prep-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260919-v3-stage-cp09-registry-prep.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "components": [
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "707ecdb7a4dec72d98fe1feb6012429d679b81e9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "34e3c4e4bd7d5a456aba3cc7b9db8adbcff775af"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+  ],
+  "parityContract": "The temporary empty-directory exclusions do not change any current policy verdict, command, gate, or evidence interpretation.",
+  "allowedBehaviorDifferences": []
+}
