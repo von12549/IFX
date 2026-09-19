@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "id": "cp11a-policy-sync-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "ce8e01af3cd8afdcf7058bbb9cc13cc6fa22a6d1"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "fbfe3c6f3317be5b41e3681e4691b684f6f87613"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fbfe3c6f3317be5b41e3681e4691b684f6f87613"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ce8e01af3cd8afdcf7058bbb9cc13cc6fa22a6d1"
+      },
+      "head": null
+    }
+  ]
+}
+

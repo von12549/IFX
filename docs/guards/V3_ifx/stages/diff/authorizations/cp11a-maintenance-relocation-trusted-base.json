@@ -1,0 +1,182 @@
+{
+  "formatVersion": 1,
+  "id": "cp11a-maintenance-relocation-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1"
+  ],
+  "components": [
+    "tcb.engine.architecture-runner",
+    "tcb.engine.trusted-base",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/guard-system.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e8a2eb9db376ee6fc4233e2a5e8839fdfade1dd2"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b7889742f420f67f231fb79e37a0f7dab4ee05ac"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fbfe3c6f3317be5b41e3681e4691b684f6f87613"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1abe00e6f7fe15f9924af30be48987f434761609"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f5438528df2e109c4428bb5a0429c3c413223b8a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ce8e01af3cd8afdcf7058bbb9cc13cc6fa22a6d1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e573e84b326316840a6fdea0c887efee75249571"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b3b2b2d5083e304230a2eb59cffda8b6050643c1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c70516f0356724f710d2d22f4734669de550c734"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cc8d42810671fb28db92c7aa8242308d33930481"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bd58bc0df5c7275d59b96ce37e3ed9bac660f49e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8436a674893af10e4076384706fad1b86af006e3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b2df10221cc0857452beea7ab08cd2e5aaebfd5c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cb1b12f964e88f6620b4bc26f61dd157092c9206"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "46ab3618b3a7f16e71879b11ace34d0b83e8697b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "14fd0c473c280d004e094e62adf39aba23eacf0f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5f637e2f98057be336901ffc23f65ecb69b2f171"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b4fd574db8cf31b3979a15d7c781301a1e2a809b"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Policy projection bytes, history integrity verdicts, required checks and workflow behavior remain unchanged; internal maintenance tools move to their declared owner and mutating maintenance requires explicit acceptance.",
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "Authorization-only plan files make the base generated documentation view stale; the candidate regenerates authority-derived docs and every other Validate check plus all five verdict parity modes is explicitly compared."
+    }
+  ]
+}
+
