@@ -1,0 +1,171 @@
+{
+  "formatVersion": 1,
+  "id": "cp11j-policy-layout-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11j-policy-layout-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-AbstractionsRetirement.ps1",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1"
+  ],
+  "components": [
+    "tcb.engine.architecture-runner",
+    "tcb.engine.quality",
+    "tcb.engine.specialized",
+    "tcb.entry.ifx-guardrails",
+    "tcb.validation.architecture-conformance",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "42c2f89bcb238e47e3982845702a06a1917c9675"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ec216dc590e0b69bf5e473afa0f3e5b2fbcc6465"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fbfe3c6f3317be5b41e3681e4691b684f6f87613"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d048f97c58a24cb4f8e0396310810eb0da40d612"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9ee0a768f6eeb223cb5068c0c9b2f7a82cd74fc9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b23ae74b2e55a3df2980a0275a72fc3534314036"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "component": "tcb.engine.quality",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6de7b272dd186385663ad72fd95b9a47896369ad"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dde947de2fe2e8ef51780e57721d648a6e4ea38d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-AbstractionsRetirement.ps1",
+      "component": "tcb.engine.specialized",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "74689927ca65f22ff93d2823b9c225922ff35de1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d6705aed543679801212553a80b5f0aba38025ec"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c9b236aa43d64b85202d9faeeb716d507b140569"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1ab13f426cc62b96d8d279958b656c8ccab35848"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8436a674893af10e4076384706fad1b86af006e3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4a3f3be611e2d772a716fc0afa40e48cb470584f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "110c57d37c8fe34be1f138981c8ab8fe6bad5d64"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "466cc7572c6f56aad85c8586b4592205ff70666b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fd9ab2d8b53979c71f392a37ef47df2d8f87678c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d97e6ef19d7531162a4282569a8ce59a009db251"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+    "Invoke-IFX.ps1 -Mode Test",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-quality-*",
+    "v3-specialized-*"
+  ],
+  "parityContract": "Architecture, Quality, Specialized, package validation, policy projection and all 13 required check verdicts remain unchanged while exactly one legacy or stage-owned policy data layout is accepted.",
+  "allowedBehaviorDifferences": []
+}
