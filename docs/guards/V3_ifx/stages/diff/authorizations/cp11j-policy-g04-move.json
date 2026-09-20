@@ -1,0 +1,211 @@
+{
+  "formatVersion": 1,
+  "id": "cp11j-policy-g04-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11j-policy-data-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/policy/g04",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "ac8530e752fd2f166fd06ff0d962e3edbaafa850"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/g04",
+    "base": null,
+    "head": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "ac8530e752fd2f166fd06ff0d962e3edbaafa850"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/policy/g04/bindings/backpressure-policy.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/deployment-unit-catalog.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/failure-matrix.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/infrastructure-compatibility-matrix.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/migration-manifest.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/module-manifest.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/release-manifest.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/release-orchestration.json",
+    "docs/guards/V3_ifx/policy/g04/runtime-manifest.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/backpressure-policy.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/deployment-unit-catalog.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/failure-matrix.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/infrastructure-compatibility-matrix.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/migration-manifest.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/module-manifest.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/release-manifest.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/bindings/release-orchestration.json",
+    "docs/guards/V3_ifx/stages/post/policy/g04/runtime-manifest.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/backpressure-policy.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "87df114e25cd234bdee23b2b18fb6ee93749bc23"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/deployment-unit-catalog.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f2e27d4bf45ab9e25f4c5e79cee6abe70e7108ae"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/failure-matrix.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c6006d10f8013706fea3e7eabc80f7e6909ab8e3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/infrastructure-compatibility-matrix.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "53a2a504c01e063ba321aab732a6a2a9bb920a3b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/migration-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4443c58848f0f8d814dcbb095a88aea1fa8d71b7"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/module-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a5ae2deec53a69f2291536e87ab0b9211741ecb8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/release-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64057d3dbfa403fb76727c2db69583785301609f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/release-orchestration.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1184b6d08edba1d2e034b4d200aabc021f7d8953"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/runtime-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f62906daf24458779b23f54e92293e8a92638eef"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/backpressure-policy.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "87df114e25cd234bdee23b2b18fb6ee93749bc23"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/deployment-unit-catalog.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f2e27d4bf45ab9e25f4c5e79cee6abe70e7108ae"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/failure-matrix.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c6006d10f8013706fea3e7eabc80f7e6909ab8e3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/infrastructure-compatibility-matrix.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "53a2a504c01e063ba321aab732a6a2a9bb920a3b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/migration-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4443c58848f0f8d814dcbb095a88aea1fa8d71b7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/module-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a5ae2deec53a69f2291536e87ab0b9211741ecb8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/release-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64057d3dbfa403fb76727c2db69583785301609f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/bindings/release-orchestration.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1184b6d08edba1d2e034b4d200aabc021f7d8953"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/runtime-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f62906daf24458779b23f54e92293e8a92638eef"
+      }
+    }
+  ]
+}

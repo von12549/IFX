@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "cp11j-policy-baselines-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11j-policy-data-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/policy/baselines",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "63cfd7977f843f14840e817816f9a467abf5e414"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/baselines",
+    "base": null,
+    "head": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "0183e9946e3da8e3a6add9092ac2670cc2bf7a1e"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/policy/baselines/plan05.json",
+    "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/policy/baselines/plan05.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dee3e45769ed8b18ad1ab550ea29f399a27f4244"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d2c44cac82968f16b31332c924e71226249abbf3"
+      }
+    }
+  ]
+}

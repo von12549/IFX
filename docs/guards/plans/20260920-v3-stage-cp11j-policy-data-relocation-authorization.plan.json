@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11j-policy-data-relocation-authorization",
+  "title": "Authorize the IFX policy data relocation",
+  "goal": "Pre-authorize the exact protected moves, trusted-component tuples and policy/config changes of the frozen CP11j relocation candidate.",
+  "acceptanceCriteria": [
+    "Five move records bind the complete baselines, G03, G04, G05 and LayerGuard source/destination tuples.",
+    "One TCB record binds all 17 changed trusted paths to the three affected components.",
+    "One weaken-policy record binds all 19 zero-comparator policy/config changes.",
+    "The authorization-only checkpoint changes no runtime implementation or policy authority.",
+    "The relocation candidate consumes every authorization exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-layerguard-policy-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-baselines-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-data-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-data-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-g03-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-g04-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-g05-move.json",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-data-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-data-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test", "ifx-layerguard"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ]
+}
