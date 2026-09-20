@@ -37,11 +37,27 @@ function Get-MarkedCommands([string] $text, [string] $beginMarker, [string] $end
         }
     })
 }
+function Get-MarkedCommandIds([string] $text, [string] $beginMarker, [string] $endMarker) {
+    $begin = $text.IndexOf($beginMarker, [StringComparison]::Ordinal)
+    $end = if ($begin -ge 0) { $text.IndexOf($endMarker, $begin + $beginMarker.Length, [StringComparison]::Ordinal) } else { -1 }
+    if ($begin -lt 0 -or $end -lt 0) { return @() }
+    $block = $text.Substring($begin, ($end + $endMarker.Length) - $begin)
+    return @($block -split "`n" | ForEach-Object {
+        if ($_ -notmatch ',@\(') { return }
+        $tokens = @([Regex]::Matches($_, "'([^']*)'") | ForEach-Object { $_.Groups[1].Value })
+        if ($tokens.Count -eq 0) { return }
+        if ($tokens.Count -ge 3 -and $tokens[1] -eq '-Mode') { return "$($tokens[0]) -Mode $($tokens[2])" }
+        return $tokens[0]
+    })
+}
 
 # ---------------------------------------------------------------- workflow (line-based; the workflow is hand-authored with 2-space indentation)
 $workflowFile = Resolve-InRoot $WorkflowPath
 if (-not [IO.File]::Exists($workflowFile)) { throw "Workflow is missing: $WorkflowPath" }
 $lines = [IO.File]::ReadAllText($workflowFile).Replace("`r`n", "`n") -split "`n"
+$workflowText = $lines -join "`n"
+$publicFacadeRelative = 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
+$usesPublicFacade = $workflowText.Contains("`$env:GUARD_BASE/$publicFacadeRelative", [StringComparison]::Ordinal)
 $triggers = [Collections.Generic.List[string]]::new()
 $pushBranches = @()
 $jobs = [ordered]@{}
@@ -104,6 +120,10 @@ foreach ($jobId in $jobs.Keys) {
     }
 }
 Add-Check 'workflow-triggers' (@(@('pull_request', 'push') | Where-Object { $_ -notin $triggers }).Count -eq 0 -and 'main' -in $pushBranches) "pull_request and push to main are required; found triggers [$(Format-Set $triggers)] push branches [$(Format-Set $pushBranches)]"
+$aggregatePlanSelection = $workflowText.Contains("`$aggregatePlans = @(`$plans | Where-Object { `$_ -match '(?i)-aggregate\.plan\.json$' })", [StringComparison]::Ordinal) -and
+    $workflowText.Contains('elseif ($aggregatePlans.Count -eq 1)', [StringComparison]::Ordinal) -and
+    $workflowText.Contains('-PlanPath $plan ', [StringComparison]::Ordinal)
+Add-Check 'workflow-aggregate-plan-selection' $aggregatePlanSelection 'multiple changed historical plans require exactly one *-aggregate.plan.json, which alone is passed to Diff'
 
 # ---------------------------------------------------------------- ci/jobs.json
 # ci/jobs.json is package configuration (read from this package by default); the workflow is read from the target repository.
@@ -140,7 +160,12 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
         $text = $job.lines -join "`n"
         $inPlace = @($job.lines | Where-Object { $_ -match '\./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails\.ps1' })
         Add-Check "trusted-base-no-head-dispatcher:$jobId" ($inPlace.Count -eq 0) 'jobs must not run the head dispatcher in place; use the trusted base runner'
-        $gateIds = @([Regex]::Matches($text, '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase\.ps1"?\s.*?-GateId\s+(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
+        $runnerPattern = if ($usesPublicFacade) {
+            '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/commands/Invoke-IFXGuardrails\.ps1"?\s+-TrustedBase\s+.*?-GateId\s+(.+?)\s*$'
+        } else {
+            '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase\.ps1"?\s.*?-GateId\s+(.+?)\s*$'
+        }
+        $gateIds = @([Regex]::Matches($text, $runnerPattern) | ForEach-Object { $_.Groups[1].Value })
         # Gate IDs may use the job's inline matrix, expanded the same way as check names.
         $resolved = @(foreach ($gateId in $gateIds) {
             $values = @($gateId)
@@ -180,7 +205,6 @@ if ($null -ne $costControls) {
     if ($null -ne $windows) {
         $crossPlatform = if ($jobs.Contains('v3-cross-platform')) { $jobs['v3-cross-platform'] } else { $null }
         $crossText = if ($null -ne $crossPlatform) { $crossPlatform.lines -join "`n" } else { '' }
-        $workflowText = $lines -join "`n"
         $declaredWindows = @($declaration.jobs | Where-Object { $_.id -eq [string]$windows.requiredCheck })
         $runnerDeclared = $null -ne $crossPlatform -and $crossPlatform.matrix.Contains('os') -and [string]$windows.runner -in @($crossPlatform.matrix.os)
         $contractShape = [string]$windows.requiredCheck -eq "v3-cross-platform-$($windows.runner)" -and
@@ -196,14 +220,48 @@ if ($null -ne $costControls) {
         $coverageEnvironment = $crossText.Contains("WINDOWS_COVERAGE: `${{ github.event_name == 'workflow_dispatch' && inputs.windowsCoverage || 'smoke' }}", [StringComparison]::Ordinal)
         Add-Check 'cost-windows-full-certification-dispatch' ($dispatchInput -and $coverageEnvironment) 'workflow_dispatch must expose smoke/full windowsCoverage, default to smoke, and pass it only to the cross-platform candidate step'
 
-        $actualSmoke = @(Get-MarkedCommands $crossText '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE')
-        $expectedSmoke = @($windows.smokeCommands | ForEach-Object { [string]$_ })
-        $actualFull = @(Get-MarkedCommands $crossText '# BEGIN FULL CANDIDATE SUITE' '# END FULL CANDIDATE SUITE')
-        $expectedFull = @($windows.fullSuiteCommands | ForEach-Object { [string]$_ })
-        Add-Check 'cost-windows-smoke-commands' ($actualSmoke.Count -eq $expectedSmoke.Count -and (Format-Set $actualSmoke) -eq (Format-Set $expectedSmoke)) "Windows smoke commands [$(Format-Set $actualSmoke)] must exactly match jobs.json [$(Format-Set $expectedSmoke)]"
-        Add-Check 'cost-full-suite-commands' ($actualFull.Count -eq $expectedFull.Count -and (Format-Set $actualFull) -eq (Format-Set $expectedFull)) "full suite commands [$(Format-Set $actualFull)] must exactly match jobs.json [$(Format-Set $expectedFull)]"
-        $selectsSmoke = $crossText.Contains("`$useWindowsSmoke = `$env:RUNNER_OS -eq 'Windows' -and `$env:WINDOWS_COVERAGE -ne 'full'", [StringComparison]::Ordinal) -and
-            $crossText.Contains('`$commands = if (`$useWindowsSmoke) { `$windowsSmokeCommands } else { `$fullCommands }'.Replace('`$', '$'), [StringComparison]::Ordinal)
+        if ($usesPublicFacade) {
+            $facadeFile = Resolve-InRoot $publicFacadeRelative
+            $facadeText = if ([IO.File]::Exists($facadeFile)) { [IO.File]::ReadAllText($facadeFile).Replace("`r`n", "`n") } else { '' }
+            $actualSmoke = @(Get-MarkedCommandIds $facadeText '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE')
+            $expectedSmoke = @(
+                'docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate',
+                'docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check',
+                'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate',
+                'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check',
+                'docs/guards/V3/tests/Test-V3BuildBaseline.ps1',
+                'docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1'
+            )
+            $actualFull = @(Get-MarkedCommandIds $facadeText '# BEGIN FULL CROSS-PLATFORM CANDIDATE SUITE' '# END FULL CROSS-PLATFORM CANDIDATE SUITE')
+            $expectedFull = @(
+                'docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate',
+                'docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check',
+                'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate',
+                'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check',
+                'docs/guards/V3/tests/Test-V3.ps1',
+                'docs/guards/V3/tests/Test-V3BuildBaseline.ps1',
+                'docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1',
+                'docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1',
+                'docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1',
+                'docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1',
+                'docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1',
+                'docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1',
+                'docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1',
+                'docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1'
+            )
+            Add-Check 'cost-candidate-facade' ([IO.File]::Exists($facadeFile) -and $facadeText.Contains("[ValidateSet('smoke','full')][string] `$CandidateCoverage = 'full'", [StringComparison]::Ordinal)) 'the candidate public facade must expose smoke/full coverage with a fail-safe full default'
+            $selectsSmoke = $crossText.Contains("`$coverage = if (`$env:RUNNER_OS -eq 'Windows') { `$env:WINDOWS_COVERAGE } else { 'full' }", [StringComparison]::Ordinal) -and
+                $crossText.Contains('-Mode CandidateTests -CandidateSuite CrossPlatform -CandidateCoverage $coverage', [StringComparison]::Ordinal)
+        } else {
+            $actualSmoke = @(Get-MarkedCommands $crossText '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE')
+            $expectedSmoke = @($windows.smokeCommands | ForEach-Object { [string]$_ })
+            $actualFull = @(Get-MarkedCommands $crossText '# BEGIN FULL CANDIDATE SUITE' '# END FULL CANDIDATE SUITE')
+            $expectedFull = @($windows.fullSuiteCommands | ForEach-Object { [string]$_ })
+            $selectsSmoke = $crossText.Contains("`$useWindowsSmoke = `$env:RUNNER_OS -eq 'Windows' -and `$env:WINDOWS_COVERAGE -ne 'full'", [StringComparison]::Ordinal) -and
+                $crossText.Contains('`$commands = if (`$useWindowsSmoke) { `$windowsSmokeCommands } else { `$fullCommands }'.Replace('`$', '$'), [StringComparison]::Ordinal)
+        }
+        Add-Check 'cost-windows-smoke-commands' (($actualSmoke -join "`n") -ceq ($expectedSmoke -join "`n")) "Windows smoke commands [$(Format-Set $actualSmoke)] must exactly match the declared compatibility contract [$(Format-Set $expectedSmoke)]"
+        Add-Check 'cost-full-suite-commands' (($actualFull -join "`n") -ceq ($expectedFull -join "`n")) "full suite commands [$(Format-Set $actualFull)] must exactly match the declared compatibility contract [$(Format-Set $expectedFull)]"
         Add-Check 'cost-windows-coverage-selection' $selectsSmoke 'only Windows ordinary runs may select the smoke command set; Ubuntu and windowsCoverage=full must select the full suite'
     }
 }
@@ -212,14 +270,15 @@ if ($null -ne $changeScope) {
     # Classification runs through the base runner, so the workflow references no script that an older base lacks; both the
     # entry point and the implementation are this package's own files.
     $packagePrefix = 'docs/guards/V3_ifx/'
-    $scopeEntryPoint = [string]$changeScope.entryPoint
+    $declaredScopeEntryPoint = [string]$changeScope.entryPoint
+    $scopeEntryPoint = if ($usesPublicFacade) { $publicFacadeRelative } else { $declaredScopeEntryPoint }
     $scopeImplementation = [string]$changeScope.implementation
     $inPackage = {
         param([string] $relative)
         return $relative.StartsWith($packagePrefix, [StringComparison]::Ordinal) -and
             [IO.File]::Exists((Join-Path ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))) $relative.Substring($packagePrefix.Length)))
     }
-    Add-Check 'change-scope-entry-point' ((& $inPackage $scopeEntryPoint) -and (& $inPackage $scopeImplementation)) "the declared classification entry point and implementation must be this package's own files: $scopeEntryPoint, $scopeImplementation"
+    Add-Check 'change-scope-entry-point' ((& $inPackage $declaredScopeEntryPoint) -and (& $inPackage $scopeImplementation)) "the declared classification entry point and implementation must be this package's own files: $declaredScopeEntryPoint, $scopeImplementation"
     foreach ($jobId in @($changeScope.candidateStepJobs)) {
         $job = if ($jobs.Contains($jobId)) { $jobs[$jobId] } else { $null }
         if ($null -eq $job) { Add-Check "change-scope-step:$jobId" $false 'declared change scope job is not in the workflow'; continue }
@@ -238,6 +297,7 @@ if ($null -ne $changeScope) {
         $step = if ($null -ne $stepLines) { $stepLines -join "`n" } else { '' }
         $classifies = $step -ne '' -and
             $step -match "\`$env:GUARD_BASE/$([Regex]::Escape($scopeEntryPoint))" -and
+            (-not $usesPublicFacade -or $step -match '-TrustedBase\b') -and
             $step -match "-Mode\s+$([Regex]::Escape([string]$changeScope.mode))\b"
         $failsOpen = $step -match '(?m)^        continue-on-error:\s*true\s*$'
         $guards = @([Regex]::Matches($text, "(?m)^\s+if:\s*steps\.scope\.outputs\.scope\s*!=\s*'$([Regex]::Escape([string]$changeScope.inheritScope))'\s*$"))

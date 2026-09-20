@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-minimal-compat-bridge",
+  "title": "V3 stage-oriented refactor P11 minimal compatibility bridge",
+  "goal": "Enable the current trusted base to verify the aggregate P11 publication and its public facade without exempting any protected deletion, trusted-component change or policy weakening.",
+  "acceptanceCriteria": [
+    "Multiple changed formal plans are accepted only when exactly one changed *-aggregate.plan.json covers the real pull request diff; zero or multiple aggregate plans fail closed.",
+    "The old CI and manifest verifiers recognize the candidate public facade only through the base worktree and a schema-valid active candidate TCB, while preserving all 13 required checks and the D35 Windows smoke/full contract.",
+    "New-layout JSON is classified only by a schema-valid candidate policy registry whose own semantic change remains subject to the existing weaken-policy authorization, and all positive and negative fixtures pass."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge.md",
+    "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json"
+  ]
+}

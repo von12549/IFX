@@ -74,6 +74,7 @@ try {
     Invoke-Case 'matrix check without its trusted base gate fails' 1 -workflow $workflowSource.Replace('-GateId v3-cross-platform-${{ matrix.os }}', '-GateId v3-cross-platform-ubuntu-latest') -expectText 'trusted-base-runner:v3-cross-platform-windows-latest'
     Invoke-Case 'head dispatcher run in place fails' 1 -workflow $workflowSource.Replace('-Mode HistoricalIntegrity -GateId v3-historical-integrity', "-Mode HistoricalIntegrity -GateId v3-historical-integrity`n          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity") -expectText 'trusted-base-no-head-dispatcher:v3-historical-integrity'
     Invoke-Case 'job without the base worktree fails' 1 -workflow ([Regex]::new('git worktree add --detach').Replace($workflowSource, 'git worktree list', 1)) -expectText 'trusted-base-worktree:v3-pre-diff'
+    Invoke-Case 'aggregate plan selector removal fails' 1 -workflow $workflowSource.Replace("`$aggregatePlans = @(`$plans | Where-Object { `$_ -match '(?i)-aggregate\.plan\.json$' })", '`$aggregatePlans = @()') -expectText 'workflow-aggregate-plan-selection'
     # Plan 06 D28: cost controls and the base-owned change scope are declared in ci/jobs.json and enforced in the workflow.
     Invoke-Case 'missing concurrency fails' 1 -workflow ([Regex]::Replace($workflowSource, '(?m)^concurrency:\n(  .*\n)+', '')) -expectText 'cost-concurrency'
     Invoke-Case 'keeping superseded runs fails' 1 -workflow $workflowSource.Replace('  cancel-in-progress: true', '  cancel-in-progress: false') -expectText 'cost-concurrency'

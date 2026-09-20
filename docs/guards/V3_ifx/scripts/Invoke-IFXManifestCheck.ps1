@@ -23,6 +23,10 @@ function Exists([string] $relative) {
     if ($relative.EndsWith('/')) { return [IO.Directory]::Exists((Full $relative)) }
     return [IO.File]::Exists((Full $relative))
 }
+function Target-Exists([string] $relative) {
+    if ($relative.EndsWith('/')) { return [IO.Directory]::Exists((Join-Path $targetRepository $relative)) }
+    return [IO.File]::Exists((Join-Path $targetRepository $relative))
+}
 function Read-Manifest([string] $relative, [string] $schema) {
     $path = Full $relative
     if (-not [IO.File]::Exists($path)) { Fail "Missing manifest: $relative"; return $null }
@@ -115,6 +119,30 @@ if ($null -ne $tcb) {
         }
         return $null
     }
+    # A separated trusted-base run may inspect a newer candidate layout whose public workflow entry does not exist in
+    # the base package. Accept only an exact path already claimed by the candidate's schema-valid active TCB. The base
+    # still owns traversal of every script it has, and the candidate TCB is independently checked by every required run.
+    $candidateActivePaths = [Collections.Generic.List[string]]::new()
+    $candidateTcbRelative = "$package/shared/trusted-components.json"
+    $candidateTcbPath = Join-Path $targetRepository $candidateTcbRelative
+    if ($targetRepository -ne $root -and [IO.File]::Exists($candidateTcbPath)) {
+        try {
+            if (-not (Test-Json -Path $candidateTcbPath -SchemaFile (Full "$package/contracts/trusted-components.schema.json") -ErrorAction Stop)) {
+                Fail "Candidate trusted component manifest does not match the base schema: $candidateTcbRelative"
+            } else {
+                $candidateTcb = Get-Content -LiteralPath $candidateTcbPath -Raw | ConvertFrom-Json -AsHashtable -Depth 50
+                foreach ($component in @($candidateTcb.components | Where-Object { $_.status -eq 'active' })) {
+                    foreach ($path in @($component.paths)) { $candidateActivePaths.Add([string]$path) }
+                }
+            }
+        } catch { Fail "Candidate trusted component manifest could not be validated: $($_.Exception.Message)" }
+    }
+    function Get-CandidateComponentFor([string] $path) {
+        foreach ($entry in $candidateActivePaths) {
+            if ($entry -eq $path -or ($entry.EndsWith('/') -and $path.StartsWith($entry, [StringComparison]::Ordinal))) { return $entry }
+        }
+        return $null
+    }
     foreach ($self in @($tcb.manifest.path, $tcb.manifest.schema, $tcb.manifest.verifier, "$package/guard-system.json")) {
         if ($null -eq (Get-ComponentFor $self)) { Fail "Trusted component manifest is not self-protecting: $self is not a component path" }
     }
@@ -137,7 +165,11 @@ if ($null -ne $tcb) {
     foreach ($entry in $entries) { if ($seen.Add($entry)) { $queue.Enqueue($entry) } }
     while ($queue.Count -gt 0) {
         $current = $queue.Dequeue()
-        if (-not (Exists $current)) { Fail "Workflow references a missing script: $current"; continue }
+        if (-not (Exists $current)) {
+            if ((Target-Exists $current) -and $null -ne (Get-CandidateComponentFor $current)) { continue }
+            Fail "Workflow references a missing script not declared by the candidate trusted component manifest: $current"
+            continue
+        }
         if ($current -match '/tests/') { continue }
         $text = [IO.File]::ReadAllText((Full $current))
         foreach ($token in ([Regex]::Matches($text, '[A-Za-z0-9][A-Za-z0-9.-]*\.psm?1') | ForEach-Object { $_.Value } | Select-Object -Unique)) {
@@ -146,7 +178,7 @@ if ($null -ne $tcb) {
         }
     }
     foreach ($path in $seen) {
-        if ($null -eq (Get-ComponentFor $path)) { Fail "Verdict-chain script is outside the trusted component manifest: $path" }
+        if ($null -eq (Get-ComponentFor $path) -and $null -eq (Get-CandidateComponentFor $path)) { Fail "Verdict-chain script is outside the trusted component manifest: $path" }
     }
     $gateCommands = if ($null -ne $commands) { @($commands.commands) } else { @() }
     foreach ($command in @($gateCommands | Where-Object { $_.kind -ne 'maintenance' -and @($_.stages | Where-Object { $_ -in @('post', 'diff', 'ci') }).Count -gt 0 })) {
