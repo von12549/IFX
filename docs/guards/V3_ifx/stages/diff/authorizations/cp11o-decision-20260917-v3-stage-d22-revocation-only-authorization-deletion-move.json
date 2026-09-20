@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11o-decision-20260917-v3-stage-d22-revocation-only-authorization-deletion-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11o-decision-history-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "e7fe166e2e299829631d71637328ba62ddb5c000"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "e7fe166e2e299829631d71637328ba62ddb5c000"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7fe166e2e299829631d71637328ba62ddb5c000"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7fe166e2e299829631d71637328ba62ddb5c000"
+      }
+    }
+  ]
+}

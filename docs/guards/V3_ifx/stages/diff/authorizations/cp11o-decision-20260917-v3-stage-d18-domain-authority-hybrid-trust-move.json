@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11o-decision-20260917-v3-stage-d18-domain-authority-hybrid-trust-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11o-decision-history-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "558ca05b3d21aa42287a964f83c4464c74808627"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "558ca05b3d21aa42287a964f83c4464c74808627"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "558ca05b3d21aa42287a964f83c4464c74808627"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "558ca05b3d21aa42287a964f83c4464c74808627"
+      }
+    }
+  ]
+}

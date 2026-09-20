@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11o-decision-20260916-v3-stage-d17-plan04-phase-validator-retirement-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11o-decision-history-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "ea481a5349f386a3ff69784c34c7c836ad0a2c6a"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "ea481a5349f386a3ff69784c34c7c836ad0a2c6a"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ea481a5349f386a3ff69784c34c7c836ad0a2c6a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ea481a5349f386a3ff69784c34c7c836ad0a2c6a"
+      }
+    }
+  ]
+}

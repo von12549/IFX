@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11o-decision-20260916-v3-stage-d06-stable-naming-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11o-decision-history-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "91ae7e766739615cc8ffb0f03163094158b83031"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "91ae7e766739615cc8ffb0f03163094158b83031"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91ae7e766739615cc8ffb0f03163094158b83031"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91ae7e766739615cc8ffb0f03163094158b83031"
+      }
+    }
+  ]
+}
