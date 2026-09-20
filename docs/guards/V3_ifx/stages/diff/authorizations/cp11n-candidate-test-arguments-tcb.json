@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-candidate-test-arguments-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-candidate-test-arguments.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1"
+  ],
+  "components": [
+    "tcb.entry.ifx-guardrails",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b030d38e5b9f0f3a3437c71286c31633842eb5c3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e322ae399e9bce7c95698e883f829d4007c1bbd4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cf9bcd63d2655712f64cedc0c2044a70749df72b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94a66fcafbfe3f655695519b16f4c7caa54e337c"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "CandidateTests preserves zero, one and many argument boundaries; Architecture and CrossPlatform selections, protected-change negative controls, public command contract and blocking verdicts remain unchanged.",
+  "allowedBehaviorDifferences": []
+}
