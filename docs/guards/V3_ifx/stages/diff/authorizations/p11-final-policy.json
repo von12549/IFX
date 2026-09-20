@@ -1,0 +1,2678 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/contracts/decision.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/contracts/plan.schema.json",
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+    "docs/guards/V3_ifx/contracts/profile.schema.json",
+    "docs/guards/V3_ifx/contracts/project-map.schema.json",
+    "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/contracts/rule.schema.json",
+    "docs/guards/V3_ifx/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+    "docs/guards/V3_ifx/docs/docs-map.json",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/history/manifest.json",
+    "docs/guards/V3_ifx/policy/authorities.json",
+    "docs/guards/V3_ifx/policy/baselines/plan05.json",
+    "docs/guards/V3_ifx/policy/layerguard.json",
+    "docs/guards/V3_ifx/profiles/ifx/profile.json",
+    "docs/guards/V3_ifx/profiles/ifx/project-map.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json",
+    "docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json",
+    "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+    "docs/guards/V3_ifx/shared/authorities/authorities.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260915-v3-ifx-ci-cutover.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-ciq10-central-package-security.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-ifx-quality-cleanup.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d16-comparator-order-by-commit-frequency.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d31-shared-decision-history.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/profile-layout.json",
+    "docs/guards/V3_ifx/shared/profile.json",
+    "docs/guards/V3_ifx/shared/toolchain.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json",
+    "docs/guards/V3_ifx/stages/analysis/reports/cutover-baseline.json",
+    "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json",
+    "docs/guards/V3_ifx/stages/analysis/reports/specialized-parity.json",
+    "docs/guards/V3_ifx/stages/analysis/stage.json",
+    "docs/guards/V3_ifx/stages/bootstrap/stage.json",
+    "docs/guards/V3_ifx/stages/ci/activation.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+    "docs/guards/V3_ifx/stages/ci/required-checks.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+    "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/detector-result.schema.json",
+    "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/fixture.schema.json",
+    "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json",
+    "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+    "docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json",
+    "docs/guards/V3_ifx/stages/post/rules/L1.2.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.2.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.3.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.4.json",
+    "docs/guards/V3_ifx/stages/post/rules/L2.9.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.1.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.4.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.5.json",
+    "docs/guards/V3_ifx/stages/post/rules/L3.6.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/stages/pre/project-map.json",
+    "docs/guards/V3_ifx/stages/pre/stage.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "baseSha256": "bbf4ae7472c6569299ddf9347363a2d97eea0a19544b5e01e4379a84bfdb86fb",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "baseSha256": "d5168d2115e2ae37b2ffab88dacecb815e41a4b235dbb15421799e1d34c2f1af",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorization.schema.json",
+      "baseSha256": "1d942a0060365c3c509939f83879cddc21a831d8ac4104710db93fad85564913",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+      "baseSha256": "430e661ed161abe4341f1aac33f8e27db4ba53e42fcd8962eb40717d7434d455",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "baseSha256": "846fe21238fa7d771b35d466366e2a3cbecfc0a220813422e193828c448356aa",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "baseSha256": "7c448e1d7ea6e99b82bfbbdfa283eba4f4cc9bb3d4057b8fc05ce29e94887848",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+      "baseSha256": "70315ed5f752eea1286294e14c79bd76079a3cae4eda0d4e33d3624480e03855",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "baseSha256": "8991e3aa8089e4ab9487222087e99bd6504179be2853bc91c6e24c07be9b37fd",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/plan.schema.json",
+      "baseSha256": "a54ff7b1630d79cfd923a2b85ec3e3aaf6f512767d03f772daa65b47f85db9ba",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "baseSha256": "fea4b84420a72edd2ab515c5015a8f1f33a1f4078a1e2ac09113de37ea8060d2",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+      "baseSha256": "4cc078280edb49ac093f40c16445aed8b957e3477c8d17e25defe26edf64f836",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "baseSha256": "4f8d4bf37a9e2c376ee7a09dc0321ce51c853cb0e8b898f7776e3ac802342409",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "baseSha256": "2d7e42a10852c38c172c9c75f33619130c4caece460bba7025a4b12916d37520",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+      "baseSha256": "7228bd3c400ebdbf53e9d93724cd617ba297dffb5de6566643ee1f4409dac4c8",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "baseSha256": "74698ab5ab171a9a85e95628cbc5891844904f4c3a1235f8095eaf51e157beb0",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "baseSha256": "1d1c34bcaeb3dde381c9580cc5beaae68294ff1f453099c03e3bb6c7376441d9",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "baseSha256": "0d11cf59e670d5658e8c2ef3c4edb87226aa72eb9432e7709bd1dd035945e7b0",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "baseSha256": "0bd0327253ec45d839dee5a4665c36adf7dbf1d14f73190bcab026b65ade2225",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+      "baseSha256": "e1a4f2223eceacc856131ece28a730171ba283219b91d079465a22d5fea142e2",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "baseSha256": "83d22f615de8dec45ff9080f90883021d63c2aa07bb60818248b8cf707842f87",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/docs-map.json",
+      "baseSha256": null,
+      "headSha256": "cdeba7108d6679afee40a915ab7b1ec37a69a0f6b3ceb3502ee9205790d81959",
+      "schema": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "71d8908b5eae7400545eeac96c1c39a0d2d4e370"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/guard-system.json",
+      "baseSha256": "2eb8fe2c479bdc78f99cc1e5d0ba11b4d8240a8ad36cd84c4493d7408e7be6ea",
+      "headSha256": "2f38b42f46df943c9124e6fbdccc229c7b6b4c3a28ff3514c80f1a6d4530e2ef",
+      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "pointers": [
+        "/compatibility/entries/0/legacyPath",
+        "/compatibility/entries/0/removeWhen",
+        "/compatibility/entries/0/replacement",
+        "/compatibility/entries/1/legacyPath",
+        "/compatibility/entries/1/phase",
+        "/compatibility/entries/1/removeWhen",
+        "/compatibility/entries/1/replacement",
+        "/compatibility/entries/10",
+        "/compatibility/entries/2/legacyPath",
+        "/compatibility/entries/2/phase",
+        "/compatibility/entries/2/removeWhen",
+        "/compatibility/entries/2/replacement",
+        "/compatibility/entries/3/legacyPath",
+        "/compatibility/entries/3/phase",
+        "/compatibility/entries/3/removeWhen",
+        "/compatibility/entries/3/replacement",
+        "/compatibility/entries/4/legacyPath",
+        "/compatibility/entries/4/phase",
+        "/compatibility/entries/4/removeWhen",
+        "/compatibility/entries/4/replacement",
+        "/compatibility/entries/5/compatibility",
+        "/compatibility/entries/5/kind",
+        "/compatibility/entries/5/legacyPath",
+        "/compatibility/entries/5/removeWhen",
+        "/compatibility/entries/5/replacement",
+        "/compatibility/entries/6/compatibility",
+        "/compatibility/entries/6/kind",
+        "/compatibility/entries/6/legacyPath",
+        "/compatibility/entries/6/phase",
+        "/compatibility/entries/6/removeWhen",
+        "/compatibility/entries/6/replacement",
+        "/compatibility/entries/7/compatibility",
+        "/compatibility/entries/7/kind",
+        "/compatibility/entries/7/legacyPath",
+        "/compatibility/entries/7/phase",
+        "/compatibility/entries/7/removeWhen",
+        "/compatibility/entries/7/replacement",
+        "/compatibility/entries/8/compatibility",
+        "/compatibility/entries/8/kind",
+        "/compatibility/entries/8/legacyPath",
+        "/compatibility/entries/8/phase",
+        "/compatibility/entries/8/removeWhen",
+        "/compatibility/entries/8/replacement",
+        "/engine/status",
+        "/manifests/docsMap"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c9594448a95cc771a7893ee7423121d338f467f1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/history/manifest.json",
+      "baseSha256": "6530806bdc71f9baa4a1ed7e4d4d26020aa9ceb328c55286c07a42f83ae99b20",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/authorities.json",
+      "baseSha256": "cb69cedfaeb56126c78aa90e0e286c3c6aebcaf11c1edc37026e26ebd1adeed2",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/baselines/plan05.json",
+      "baseSha256": "cf7fff8211ce40f29ea3f387795eae0cc9ccce1f87d30b0d9725ab34fcde6185",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/layerguard.json",
+      "baseSha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/profile.json",
+      "baseSha256": "a2a1a7e1e6ac506133663580696d48ed1e7fd103785a1fbb163f98a29251cc9e",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/project-map.json",
+      "baseSha256": "7ff1aa34a534fbd09569428996a8b1fcf8bf44287f1ab317c60e14829516eaea",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "baseSha256": "b54bc598b45645d579b7c9badc2a4bbf8a7640b26c2e973e36c1ba65a2e1f565",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/ARCH.SEMANTIC.json",
+      "baseSha256": "436a9c16b47b9a640bdf1caf3bb1bae24494b4e7c5079b85897b4ed169c224b5",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json",
+      "baseSha256": "b7f41e1cbf9714875ff0ff1c35793284f2e80f1bc66663112313f4470d35ad04",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.2.json",
+      "baseSha256": "ffe8ce2f85d28656a1f764217a0794f9ca047e6bca3f7f0232624168d8aa3d7f",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.3.json",
+      "baseSha256": "6b956c60a0547ed1fb904b6ccae8b28c2d17ad91ad3eb87b7488a1e7a7de1279",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.4.json",
+      "baseSha256": "c863b55397056e63a5d08fabb3010cf3d9007d783adb5fabb677d33f9b5ec5f0",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L2.9.json",
+      "baseSha256": "8d5e7bf020413cbbb90c9c582b75e019e612a5f30283c76493418378565f9e3f",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.1.json",
+      "baseSha256": "4ff25e3c719caeaafe35e3985ea8f0e5f3dae38e4fd4948fe18ded1464a08d10",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.4.json",
+      "baseSha256": "78a3c509b87b13e5d85e11699c2a27f37827fc2f1f3210868c9ffffefb513634",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.5.json",
+      "baseSha256": "4252c1c30470aa69c2a8b995cd59bf2642f9c6400e1c9fa725c607ca2ad90c94",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/rules/L3.6.json",
+      "baseSha256": "1d76170b4c19ae981a69e3400b2a2f15610da7e50026f5e25f9cb37c13c3de0b",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json",
+      "baseSha256": "3cabdfbfc52576656c3450857a8958fd59a41b50f57ac0181cfd6e443b69ecc5",
+      "headSha256": null,
+      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/authorities/authorities.json",
+      "baseSha256": null,
+      "headSha256": "e51bbf815dfb85fd83a632360520123ed0ffe44aaf2045ee550a3aa73af5931b",
+      "schema": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c1592c87abef8bcf4e6e70a656321d30c10d7431"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "baseSha256": "6b5734b86be99a4645fbedb6f9f5b0c7c6398ffb88b381c694b37787c348b3d2",
+      "headSha256": "0402358358a4db9abd8f16473f88c25e1b9dd4612d2f96d27ab57754866573bf",
+      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "pointers": [
+        "/commands/0/entryPoint",
+        "/commands/0/inputs/0",
+        "/commands/0/inputs/1",
+        "/commands/0/inputs/2",
+        "/commands/0/inputs/4",
+        "/commands/0/inputs/5",
+        "/commands/1/entryPoint",
+        "/commands/1/inputs/0",
+        "/commands/1/inputs/1",
+        "/commands/1/outputs/0",
+        "/commands/10/entryPoint",
+        "/commands/10/evidence/0",
+        "/commands/10/id",
+        "/commands/10/inputs/0",
+        "/commands/10/inputs/1",
+        "/commands/10/outputs/0",
+        "/commands/11/audiences/0",
+        "/commands/11/entryPoint",
+        "/commands/11/evidence/0",
+        "/commands/11/id",
+        "/commands/11/inputs/0",
+        "/commands/11/inputs/1",
+        "/commands/11/kind",
+        "/commands/11/mutability",
+        "/commands/11/outputs/0",
+        "/commands/11/requiresExplicitAcceptance",
+        "/commands/11/stability",
+        "/commands/12/entryPoint",
+        "/commands/12/id",
+        "/commands/12/inputs/0",
+        "/commands/12/inputs/1",
+        "/commands/12/outputs/0",
+        "/commands/13/entryPoint",
+        "/commands/13/id",
+        "/commands/13/inputs/0",
+        "/commands/13/outputs/0",
+        "/commands/13/stages/0",
+        "/commands/14/audiences/0",
+        "/commands/14/entryPoint",
+        "/commands/14/evidence/0",
+        "/commands/14/id",
+        "/commands/14/inputs/0",
+        "/commands/14/inputs/1",
+        "/commands/14/inputs/2",
+        "/commands/14/kind",
+        "/commands/14/mutability",
+        "/commands/14/outputs/0",
+        "/commands/14/outputs/1",
+        "/commands/14/requiresExplicitAcceptance",
+        "/commands/14/stability",
+        "/commands/14/stages/0",
+        "/commands/15/audiences/0",
+        "/commands/15/entryPoint",
+        "/commands/15/evidence/0",
+        "/commands/15/id",
+        "/commands/15/inputs/0",
+        "/commands/15/inputs/1",
+        "/commands/15/inputs/2",
+        "/commands/15/kind",
+        "/commands/15/mutability",
+        "/commands/15/outputs/0",
+        "/commands/15/requiresExplicitAcceptance",
+        "/commands/15/stability",
+        "/commands/15/stages/0",
+        "/commands/16/audiences/0",
+        "/commands/16/entryPoint",
+        "/commands/16/evidence/0",
+        "/commands/16/id",
+        "/commands/16/inputs/0",
+        "/commands/16/inputs/1",
+        "/commands/16/inputs/2",
+        "/commands/16/kind",
+        "/commands/16/mutability",
+        "/commands/16/outputs/0",
+        "/commands/16/requiresExplicitAcceptance",
+        "/commands/16/stages/0",
+        "/commands/17",
+        "/commands/18",
+        "/commands/2/entryPoint",
+        "/commands/2/evidence/0",
+        "/commands/2/mutability",
+        "/commands/2/outputs/0",
+        "/commands/2/requiresExplicitAcceptance",
+        "/commands/3/entryPoint",
+        "/commands/3/evidence/0",
+        "/commands/3/inputs/0",
+        "/commands/3/inputs/1",
+        "/commands/3/inputs/2",
+        "/commands/3/mutability",
+        "/commands/3/outputs/0",
+        "/commands/3/requiresExplicitAcceptance",
+        "/commands/4/entryPoint",
+        "/commands/4/inputs/0",
+        "/commands/4/inputs/1",
+        "/commands/4/inputs/2",
+        "/commands/4/outputs/0",
+        "/commands/4/outputs/1",
+        "/commands/5/audiences/1",
+        "/commands/5/entryPoint",
+        "/commands/5/evidence/0",
+        "/commands/5/id",
+        "/commands/5/inputs/0",
+        "/commands/5/inputs/1",
+        "/commands/5/inputs/2",
+        "/commands/5/inputs/3",
+        "/commands/5/mutability",
+        "/commands/5/outputs/0",
+        "/commands/5/outputs/1",
+        "/commands/5/outputs/2",
+        "/commands/5/requiresExplicitAcceptance",
+        "/commands/5/stages/0",
+        "/commands/6/audiences/1",
+        "/commands/6/audiences/2",
+        "/commands/6/entryPoint",
+        "/commands/6/evidence/0",
+        "/commands/6/id",
+        "/commands/6/inputs/0",
+        "/commands/6/inputs/1",
+        "/commands/6/inputs/2",
+        "/commands/6/inputs/3",
+        "/commands/6/mutability",
+        "/commands/6/outputs/0",
+        "/commands/6/outputs/1",
+        "/commands/6/outputs/2",
+        "/commands/6/stages/0",
+        "/commands/7/entryPoint",
+        "/commands/7/evidence/0",
+        "/commands/7/id",
+        "/commands/7/inputs/0",
+        "/commands/7/inputs/1",
+        "/commands/7/inputs/2",
+        "/commands/7/inputs/3",
+        "/commands/7/inputs/4",
+        "/commands/7/inputs/5",
+        "/commands/8/entryPoint",
+        "/commands/8/evidence/0",
+        "/commands/8/id",
+        "/commands/8/inputs/0",
+        "/commands/8/inputs/1",
+        "/commands/8/inputs/2",
+        "/commands/8/inputs/3",
+        "/commands/8/inputs/4",
+        "/commands/8/inputs/5",
+        "/commands/8/inputs/6",
+        "/commands/8/inputs/7",
+        "/commands/8/inputs/8",
+        "/commands/8/mutability",
+        "/commands/8/outputs/0",
+        "/commands/8/stages/0",
+        "/commands/9/entryPoint",
+        "/commands/9/evidence/0",
+        "/commands/9/id",
+        "/commands/9/inputs/0",
+        "/commands/9/inputs/1",
+        "/commands/9/outputs/0"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f56237cc7ea755c78190e4b125c4b091b4cb8ad8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+      "baseSha256": null,
+      "headSha256": "d5168d2115e2ae37b2ffab88dacecb815e41a4b235dbb15421799e1d34c2f1af",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5af8b69ebc71b3de1e5e9ae00e1bc32eb65a28bb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+      "baseSha256": null,
+      "headSha256": "846fe21238fa7d771b35d466366e2a3cbecfc0a220813422e193828c448356aa",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6962a1df9903294399064a9e9dbf081420be1f2a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+      "baseSha256": null,
+      "headSha256": "e67d9cb06a0eb2c1998f0732f198f2a33d33bd4ec9634ef6aa70f0d68478061a",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c76fdd57f284bc2823827acc637170696b1ac55"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+      "baseSha256": null,
+      "headSha256": "70315ed5f752eea1286294e14c79bd76079a3cae4eda0d4e33d3624480e03855",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9dbef6f48b4efd41a9e07cdbddadc88bfd563f6f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+      "baseSha256": null,
+      "headSha256": "a780b972866c088ebe8db1e667f4d59fc3a0613fc882ad5d34f53923bf0d11dd",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+      "baseSha256": null,
+      "headSha256": "162a35e5e6e157724efde063b61659c9da59eca371bd7e439898479981246f6d",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c08c847abdcc62575276f0db08cfb196b8635ab9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+      "baseSha256": null,
+      "headSha256": "7678c7383e165091599c880826d298936b645208a8b84c6a0436788f50c8f3d1",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c976e0245177edd24f021cf9407253daba7c8d6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json",
+      "baseSha256": null,
+      "headSha256": "e1a4f2223eceacc856131ece28a730171ba283219b91d079465a22d5fea142e2",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a9d312a77229d5ee561f18b1fca674f7243a65d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+      "baseSha256": null,
+      "headSha256": "83d22f615de8dec45ff9080f90883021d63c2aa07bb60818248b8cf707842f87",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fe40c65f94277cb692f3fe9d8be54fc7d5fcef9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260915-v3-ifx-ci-cutover.json",
+      "baseSha256": null,
+      "headSha256": "2e566a5bbad8c7bd5a89fe443555161661abb69e6f344d0293178a7c88cbd31c",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2b5888f38f3c45a30f46161f3d2ef91650f46a0f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-ciq10-central-package-security.json",
+      "baseSha256": null,
+      "headSha256": "82c07abf32c930127ba0ee7ead596f6f6af72474a2305dddee0fa52f5fd2bbe0",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b37acdbe33f39587f074731a1b6d63e8fdfecea"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-ifx-quality-cleanup.json",
+      "baseSha256": null,
+      "headSha256": "867ca0c9c9fae532445cb38c46056080c722c1d10c5a7eab9db721283e47c10f",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cbddf7a25b478281e43b67aeba8d5c0776436498"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+      "baseSha256": null,
+      "headSha256": "0541864d63135790afef5cae38abdda06b09c04754ffc04bb2595a1054009e0d",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "05155894e0f8258d3de46cd45e67dc14fd14e568"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+      "baseSha256": null,
+      "headSha256": "4399dae3adcfb5ea7fed1d3542a9dcdc321afcac37b6113b6b5ca89012889849",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d858f0266bd8fae6480935806d5c6eff780a1bb3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+      "baseSha256": null,
+      "headSha256": "bad54d8c733a47cb0de481e0bbd0b876a6ba238b02847ed3437227b31a3bcc98",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "35acf8929ebaa7dc095ee547882bed7d91a652e1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+      "baseSha256": null,
+      "headSha256": "234ae110e70518ce6969e31146c49b0a3f7c89cadf4ebcef6a7484293f616f74",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f75b9a52771b6eef3fe784e32b45e2b28ded1622"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+      "baseSha256": null,
+      "headSha256": "d0706f8bd7747f0e3fae63bbe8ff4e7f0bb192e21a2ed285a23e8362a90f71fd",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fa5aac2a6deddca02c9d3b1b7d34a50c56c903ad"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+      "baseSha256": null,
+      "headSha256": "12a249309f504f1a425ea56f24743ccf43358ca3794abcc83263c05a6efec6f9",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91ae7e766739615cc8ffb0f03163094158b83031"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+      "baseSha256": null,
+      "headSha256": "51c81c43abebd37134476c9cc8c9061e5c304f865e585eab263f9daf0d90fe15",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a1de81897e88ab2c92f60b0e19cc04f711d78d25"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+      "baseSha256": null,
+      "headSha256": "1bc6ea206fb4d731e03776929427ef81f33e640d44f42b5c0cf4a60478acb9ea",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f502a8d720cad548ddc45d14953242852338d5fe"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+      "baseSha256": null,
+      "headSha256": "686bfd2687295f59c67b1046dac1314017323ae36c58bba89f4a20322ea433fe",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "30fed710e4d11deb13ef60c34c47cc2231040222"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+      "baseSha256": null,
+      "headSha256": "c0fcebeb982f093b168f312bf45d9af26e59a00f29a4c187b5a55b98dc643837",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dc6f9100bb2087ce0631b267adc5eace70146be0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+      "baseSha256": null,
+      "headSha256": "8df5db9dde52d574ed2fb557fb32259b74320dd53ed13f99e92489b9ae9ee033",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ce53becc38c6c8107ff3c8cbeb17ba29382c3657"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+      "baseSha256": null,
+      "headSha256": "b584c4903f3ca439a4315ff8b38934667a0289a200ed01da7c02794e3de36533",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b53dd2089915e6efb46fbe76a6552a431d73f0f4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+      "baseSha256": null,
+      "headSha256": "7118066675059b7bd87c7b0e7d626c2bf11615876f9c406229c27e06fdc5c828",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "557c15a2fa3fa0e5ef72894090239b8ad0d58fb7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+      "baseSha256": null,
+      "headSha256": "07c04ea8e5be5d81f8c0b9bcf5abb6285f1ea40ce898d3443777592558e13710",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2aa49a809d2beeb1fd3034e1d969b9a38e42c5cb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+      "baseSha256": null,
+      "headSha256": "d0577bd650440270237977b5af695e4885bdf13fe281b40500e24a86c3a2892b",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "261a8b0cd8f60866665be95b474bddc115e89b19"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d16-comparator-order-by-commit-frequency.json",
+      "baseSha256": null,
+      "headSha256": "b107112123ff12d762c25bf2dd69a50059a142b6df8beea9118dec04c2876727",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8f58811806427b9be2eb627ffd8f907a1035c89"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+      "baseSha256": null,
+      "headSha256": "1fcc5b7417f8f1c642970bc530dded787ef974bfd7626e44b4d215fe88eb5fcf",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ea481a5349f386a3ff69784c34c7c836ad0a2c6a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+      "baseSha256": null,
+      "headSha256": "9fa8dd368619ee4e6a74dda432d3fdef0e20e7e5c429168e1e0f35c9c1e4c03d",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "558ca05b3d21aa42287a964f83c4464c74808627"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+      "baseSha256": null,
+      "headSha256": "bfc0af24eb7d921d0ef08a76aa37f4ee191af68c54b8eb4519482d3bb7957788",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "10867fa75d91dd6f5dc96c4a9eca296680812544"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+      "baseSha256": null,
+      "headSha256": "97f4c924b862f608ecb829630545bab05ac27725a8bf5589a5a372414ec8d47d",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "076ce8201cacff3e8778d19935c13f88435c3e26"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+      "baseSha256": null,
+      "headSha256": "a3eb20ad3105fb1da04a21889e78965cc791cb863d89598435cfa29132c832ca",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "44563987e798d3c53a394c41a76e2cf8b5f63b9b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+      "baseSha256": null,
+      "headSha256": "97ddd8194f2a6e6bb801800e32c6bddf2f2c528bfb48616259907d22562ea9cc",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7fe166e2e299829631d71637328ba62ddb5c000"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+      "baseSha256": null,
+      "headSha256": "4461b25b7203c293fb0de8d3c3741d6dfbc63588687e14642ae5a2530e8db9eb",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "77c153d3f9f956546cf04ee73e107a497a2f7a46"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+      "baseSha256": null,
+      "headSha256": "6479617c169e66c520aff03f1ee33feae1e87233aa153a03078445298a7a5f5f",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1786647323042238ae8c5e4779677290d9f79319"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+      "baseSha256": null,
+      "headSha256": "1d61ebb5217713369ca3403ed56c2c081edad4044b346e244c878cc66b7edd09",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1210892c67d4ea9b72107ca01828b7433ffd8ab9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+      "baseSha256": null,
+      "headSha256": "97468223031ae35da6906beee5e09a50ae656961cc1c06c594a698aec732e905",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c49b391589c51d52e30fe6624eda2dc3385e3dcb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+      "baseSha256": null,
+      "headSha256": "bd0f585141b90fdf5106a92a422cad2abf4f8e3106654dbd6af45c506e462ad8",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1183dca58fc81dfdfdf73b03731c7f00a5816f67"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+      "baseSha256": null,
+      "headSha256": "97f74f4850287ca62601cabe5f1d7a8f0eaedac0532a89d5f16651580970ee38",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1b5714f36da5fd867cf826f6673c01172ae2985c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+      "baseSha256": null,
+      "headSha256": "ca4f0757d02c63038ec7553ff6c75c53cf6e15cd08bec92aca96aaa607416497",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9576d3cc4b961a0fc66b47665874a19a91c65341"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+      "baseSha256": null,
+      "headSha256": "e6864983c3bcf30440c9401a4d60ea57f535885682cd85af86f36275e0f9dde3",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5abc34352d1be8843180a22d1faa275a7f248ad0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d31-shared-decision-history.json",
+      "baseSha256": null,
+      "headSha256": "de6e4144bf5c53ded2e1a4622a322199f199af1cf074849797e442f0385986cd",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "155ef603035b0f438fcc26ce7324b6076d2df17a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+      "baseSha256": null,
+      "headSha256": "33e0ab5bd439b52b24872d64c4a27cec3f0ad7a8c450c73570cb824eeeda4c53",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7870314dde869e6f20489334b9ed5f1ab950dd31"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+      "baseSha256": null,
+      "headSha256": "d0d0682a5fa9d1c6a0a62e5ac1c007700fe1cfedc72122924ab44f0d0d9a0af2",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "44e42bec4a7c5092f440315d4909f97cfb3349dd"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+      "baseSha256": null,
+      "headSha256": "eb35ba9f3dc7401b4fcc49ed101e74a846fba130db37b3a7a09f12d3667d1598",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c3ba1183a63d2dadf3f1dbf2a22edeb8ef617a7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+      "baseSha256": null,
+      "headSha256": "a1f7123bab360be37ca04113baf36acad9cdbe736ef8414b43856e790c559a47",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "16187d952e5e9862b5c976e4001a040dfe7af64b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+      "baseSha256": null,
+      "headSha256": "80f0aae530e60af96ae8d9ed41fb06b14a77e99e6e7adc914204884a68a17076",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7367c14e1563d3e1446c0e8cc866c61c06342ef"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+      "baseSha256": null,
+      "headSha256": "0fd3ed140d660077d1a936e4e6439b4a84a6129bfe605ed44f33a6ed7a8bb504",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4a483fb7c769f4e41bbc815a6466ff460f81c607"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json",
+      "baseSha256": null,
+      "headSha256": "317fcdbb17f336ec154348935d2705d06d0d10efbd877cda9a31e177c030bd1c",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b28fa2c44e7aeea9905c0e28fa92e11b780966d5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "01da18a2b45166d033b45ee7068c58022b5ad887d6df35c3bec29fa52564868c",
+      "headSha256": "3a837c1b858ba4f6b4d038832517db90298d697205ff761ab4c94d5151289111",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/0/id",
+        "/entries/0/paths/0",
+        "/entries/0/role",
+        "/entries/0/schema",
+        "/entries/1/id",
+        "/entries/1/paths/0",
+        "/entries/1/schema",
+        "/entries/10/id",
+        "/entries/10/paths/0",
+        "/entries/10/schema",
+        "/entries/11/candidateValidation",
+        "/entries/11/id",
+        "/entries/11/paths/0",
+        "/entries/11/paths/1",
+        "/entries/11/paths/2",
+        "/entries/11/paths/3",
+        "/entries/11/schema",
+        "/entries/12/id",
+        "/entries/12/paths/0",
+        "/entries/12/schema",
+        "/entries/13/id",
+        "/entries/13/paths/0",
+        "/entries/13/schema",
+        "/entries/14/candidateValidation",
+        "/entries/14/id",
+        "/entries/14/paths/0",
+        "/entries/14/schema",
+        "/entries/15/candidateValidation",
+        "/entries/15/directory",
+        "/entries/15/id",
+        "/entries/15/paths",
+        "/entries/15/schema",
+        "/entries/16/candidateValidation",
+        "/entries/16/format",
+        "/entries/16/id",
+        "/entries/16/paths/0",
+        "/entries/16/schema",
+        "/entries/17",
+        "/entries/18",
+        "/entries/19",
+        "/entries/2/id",
+        "/entries/2/paths/0",
+        "/entries/2/schema",
+        "/entries/20",
+        "/entries/21",
+        "/entries/22",
+        "/entries/23",
+        "/entries/24",
+        "/entries/25",
+        "/entries/3/directory",
+        "/entries/3/id",
+        "/entries/3/paths",
+        "/entries/3/schema",
+        "/entries/4/candidateValidation",
+        "/entries/4/directory",
+        "/entries/4/id",
+        "/entries/4/paths",
+        "/entries/4/schema",
+        "/entries/5/id",
+        "/entries/5/paths/0",
+        "/entries/6/candidateValidation",
+        "/entries/6/id",
+        "/entries/6/paths/0",
+        "/entries/7/candidateValidation",
+        "/entries/7/id",
+        "/entries/7/paths/0",
+        "/entries/7/role",
+        "/entries/7/schema",
+        "/entries/8/id",
+        "/entries/8/paths/0",
+        "/entries/8/paths/1",
+        "/entries/8/paths/2",
+        "/entries/8/paths/3",
+        "/entries/8/paths/4",
+        "/entries/8/paths/5",
+        "/entries/8/schema",
+        "/entries/9/id",
+        "/entries/9/paths/0",
+        "/entries/9/paths/1",
+        "/entries/9/paths/2",
+        "/entries/9/paths/3",
+        "/entries/9/paths/4",
+        "/entries/9/paths/5",
+        "/entries/9/schema",
+        "/excluded/1",
+        "/monotonicity/0/fields/0/pointer",
+        "/monotonicity/0/fields/1/pointer",
+        "/monotonicity/0/fields/10",
+        "/monotonicity/0/fields/11",
+        "/monotonicity/0/fields/12",
+        "/monotonicity/0/fields/13",
+        "/monotonicity/0/fields/14",
+        "/monotonicity/0/fields/15",
+        "/monotonicity/0/fields/16",
+        "/monotonicity/0/fields/17",
+        "/monotonicity/0/fields/18",
+        "/monotonicity/0/fields/19",
+        "/monotonicity/0/fields/2/pointer",
+        "/monotonicity/0/fields/20",
+        "/monotonicity/0/fields/21",
+        "/monotonicity/0/fields/22",
+        "/monotonicity/0/fields/3/pointer",
+        "/monotonicity/0/fields/4/pointer",
+        "/monotonicity/0/fields/5/pointer",
+        "/monotonicity/0/fields/6",
+        "/monotonicity/0/fields/7",
+        "/monotonicity/0/fields/8",
+        "/monotonicity/0/fields/9",
+        "/monotonicity/0/schema",
+        "/monotonicity/1/fields/0/pointer",
+        "/monotonicity/1/fields/1/pointer",
+        "/monotonicity/1/fields/10/pointer",
+        "/monotonicity/1/fields/11/pointer",
+        "/monotonicity/1/fields/12/pointer",
+        "/monotonicity/1/fields/14",
+        "/monotonicity/1/fields/15",
+        "/monotonicity/1/fields/16",
+        "/monotonicity/1/fields/17",
+        "/monotonicity/1/fields/18",
+        "/monotonicity/1/fields/19",
+        "/monotonicity/1/fields/2/pointer",
+        "/monotonicity/1/fields/20",
+        "/monotonicity/1/fields/21",
+        "/monotonicity/1/fields/22",
+        "/monotonicity/1/fields/3/pointer",
+        "/monotonicity/1/fields/4/pointer",
+        "/monotonicity/1/fields/5/pointer",
+        "/monotonicity/1/fields/6/pointer",
+        "/monotonicity/1/fields/7/pointer",
+        "/monotonicity/1/fields/8/pointer",
+        "/monotonicity/1/fields/9/pointer",
+        "/monotonicity/1/schema",
+        "/monotonicity/10/fields/0/pointer",
+        "/monotonicity/10/fields/1/pointer",
+        "/monotonicity/10/fields/10/pointer",
+        "/monotonicity/10/fields/11/pointer",
+        "/monotonicity/10/fields/12/pointer",
+        "/monotonicity/10/fields/13/pointer",
+        "/monotonicity/10/fields/14",
+        "/monotonicity/10/fields/15",
+        "/monotonicity/10/fields/16",
+        "/monotonicity/10/fields/17",
+        "/monotonicity/10/fields/18",
+        "/monotonicity/10/fields/19",
+        "/monotonicity/10/fields/2/pointer",
+        "/monotonicity/10/fields/20",
+        "/monotonicity/10/fields/21",
+        "/monotonicity/10/fields/22",
+        "/monotonicity/10/fields/23",
+        "/monotonicity/10/fields/24",
+        "/monotonicity/10/fields/25",
+        "/monotonicity/10/fields/26",
+        "/monotonicity/10/fields/27",
+        "/monotonicity/10/fields/28",
+        "/monotonicity/10/fields/3/pointer",
+        "/monotonicity/10/fields/4/pointer",
+        "/monotonicity/10/fields/5/pointer",
+        "/monotonicity/10/fields/6/pointer",
+        "/monotonicity/10/fields/7/pointer",
+        "/monotonicity/10/fields/8/pointer",
+        "/monotonicity/10/fields/9/pointer",
+        "/monotonicity/10/schema",
+        "/monotonicity/11",
+        "/monotonicity/12",
+        "/monotonicity/13",
+        "/monotonicity/14",
+        "/monotonicity/15",
+        "/monotonicity/16",
+        "/monotonicity/2/fields/0/pointer",
+        "/monotonicity/2/fields/1/pointer",
+        "/monotonicity/2/fields/10/pointer",
+        "/monotonicity/2/fields/11/pointer",
+        "/monotonicity/2/fields/12/pointer",
+        "/monotonicity/2/fields/13/pointer",
+        "/monotonicity/2/fields/14",
+        "/monotonicity/2/fields/15",
+        "/monotonicity/2/fields/16",
+        "/monotonicity/2/fields/17",
+        "/monotonicity/2/fields/18",
+        "/monotonicity/2/fields/19",
+        "/monotonicity/2/fields/2/pointer",
+        "/monotonicity/2/fields/20",
+        "/monotonicity/2/fields/21",
+        "/monotonicity/2/fields/22",
+        "/monotonicity/2/fields/23",
+        "/monotonicity/2/fields/3/pointer",
+        "/monotonicity/2/fields/4/pointer",
+        "/monotonicity/2/fields/5/pointer",
+        "/monotonicity/2/fields/6/pointer",
+        "/monotonicity/2/fields/7/pointer",
+        "/monotonicity/2/fields/8/pointer",
+        "/monotonicity/2/fields/9/pointer",
+        "/monotonicity/2/schema",
+        "/monotonicity/3/fields/0/pointer",
+        "/monotonicity/3/fields/1/pointer",
+        "/monotonicity/3/fields/10",
+        "/monotonicity/3/fields/11",
+        "/monotonicity/3/fields/12",
+        "/monotonicity/3/fields/13",
+        "/monotonicity/3/fields/14",
+        "/monotonicity/3/fields/15",
+        "/monotonicity/3/fields/2/pointer",
+        "/monotonicity/3/fields/3/pointer",
+        "/monotonicity/3/fields/4/pointer",
+        "/monotonicity/3/fields/5/pointer",
+        "/monotonicity/3/fields/6/pointer",
+        "/monotonicity/3/fields/7/pointer",
+        "/monotonicity/3/fields/8/pointer",
+        "/monotonicity/3/fields/9",
+        "/monotonicity/3/schema",
+        "/monotonicity/4/fields/0/pointer",
+        "/monotonicity/4/fields/1/pointer",
+        "/monotonicity/4/fields/10",
+        "/monotonicity/4/fields/11",
+        "/monotonicity/4/fields/12",
+        "/monotonicity/4/fields/13",
+        "/monotonicity/4/fields/14",
+        "/monotonicity/4/fields/15",
+        "/monotonicity/4/fields/16",
+        "/monotonicity/4/fields/17",
+        "/monotonicity/4/fields/18",
+        "/monotonicity/4/fields/19",
+        "/monotonicity/4/fields/2",
+        "/monotonicity/4/fields/20",
+        "/monotonicity/4/fields/21",
+        "/monotonicity/4/fields/22",
+        "/monotonicity/4/fields/23",
+        "/monotonicity/4/fields/24",
+        "/monotonicity/4/fields/3",
+        "/monotonicity/4/fields/4",
+        "/monotonicity/4/fields/5",
+        "/monotonicity/4/fields/6",
+        "/monotonicity/4/fields/7",
+        "/monotonicity/4/fields/8",
+        "/monotonicity/4/fields/9",
+        "/monotonicity/4/schema",
+        "/monotonicity/5/fields/0/pointer",
+        "/monotonicity/5/fields/1/pointer",
+        "/monotonicity/5/fields/10/pointer",
+        "/monotonicity/5/fields/11/pointer",
+        "/monotonicity/5/fields/12",
+        "/monotonicity/5/fields/13",
+        "/monotonicity/5/fields/14",
+        "/monotonicity/5/fields/15",
+        "/monotonicity/5/fields/2/pointer",
+        "/monotonicity/5/fields/3/pointer",
+        "/monotonicity/5/fields/4/pointer",
+        "/monotonicity/5/fields/5/pointer",
+        "/monotonicity/5/fields/6/pointer",
+        "/monotonicity/5/fields/7/pointer",
+        "/monotonicity/5/fields/8/pointer",
+        "/monotonicity/5/fields/9/pointer",
+        "/monotonicity/5/schema",
+        "/monotonicity/6/fields/0/pointer",
+        "/monotonicity/6/fields/1/pointer",
+        "/monotonicity/6/fields/2/pointer",
+        "/monotonicity/6/fields/3",
+        "/monotonicity/6/fields/4",
+        "/monotonicity/6/fields/5",
+        "/monotonicity/6/schema",
+        "/monotonicity/7/fields/0/pointer",
+        "/monotonicity/7/fields/1/pointer",
+        "/monotonicity/7/fields/10",
+        "/monotonicity/7/fields/11",
+        "/monotonicity/7/fields/12",
+        "/monotonicity/7/fields/13",
+        "/monotonicity/7/fields/14",
+        "/monotonicity/7/fields/15",
+        "/monotonicity/7/fields/16",
+        "/monotonicity/7/fields/17",
+        "/monotonicity/7/fields/18",
+        "/monotonicity/7/fields/19",
+        "/monotonicity/7/fields/2",
+        "/monotonicity/7/fields/20",
+        "/monotonicity/7/fields/21",
+        "/monotonicity/7/fields/22",
+        "/monotonicity/7/fields/23",
+        "/monotonicity/7/fields/24",
+        "/monotonicity/7/fields/25",
+        "/monotonicity/7/fields/26",
+        "/monotonicity/7/fields/27",
+        "/monotonicity/7/fields/28",
+        "/monotonicity/7/fields/3",
+        "/monotonicity/7/fields/4",
+        "/monotonicity/7/fields/5",
+        "/monotonicity/7/fields/6",
+        "/monotonicity/7/fields/7",
+        "/monotonicity/7/fields/8",
+        "/monotonicity/7/fields/9",
+        "/monotonicity/7/schema",
+        "/monotonicity/8/fields/0/pointer",
+        "/monotonicity/8/fields/1/pointer",
+        "/monotonicity/8/fields/10/pointer",
+        "/monotonicity/8/fields/11/pointer",
+        "/monotonicity/8/fields/12",
+        "/monotonicity/8/fields/13",
+        "/monotonicity/8/fields/14",
+        "/monotonicity/8/fields/15",
+        "/monotonicity/8/fields/16",
+        "/monotonicity/8/fields/17",
+        "/monotonicity/8/fields/18",
+        "/monotonicity/8/fields/19",
+        "/monotonicity/8/fields/2/pointer",
+        "/monotonicity/8/fields/20",
+        "/monotonicity/8/fields/21",
+        "/monotonicity/8/fields/22",
+        "/monotonicity/8/fields/3/pointer",
+        "/monotonicity/8/fields/4/pointer",
+        "/monotonicity/8/fields/5/pointer",
+        "/monotonicity/8/fields/6/pointer",
+        "/monotonicity/8/fields/7/pointer",
+        "/monotonicity/8/fields/8/pointer",
+        "/monotonicity/8/fields/9/pointer",
+        "/monotonicity/8/schema",
+        "/monotonicity/9/fields/0/pointer",
+        "/monotonicity/9/fields/1/pointer",
+        "/monotonicity/9/fields/10",
+        "/monotonicity/9/fields/11",
+        "/monotonicity/9/fields/12",
+        "/monotonicity/9/fields/13",
+        "/monotonicity/9/fields/14",
+        "/monotonicity/9/fields/15",
+        "/monotonicity/9/fields/16",
+        "/monotonicity/9/fields/2/pointer",
+        "/monotonicity/9/fields/3",
+        "/monotonicity/9/fields/4",
+        "/monotonicity/9/fields/5",
+        "/monotonicity/9/fields/6",
+        "/monotonicity/9/fields/7",
+        "/monotonicity/9/fields/8",
+        "/monotonicity/9/fields/9",
+        "/monotonicity/9/schema",
+        "/roots/1",
+        "/roots/2",
+        "/roots/3",
+        "/roots/4",
+        "/roots/5",
+        "/roots/6"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "abb8a7ecbcc8cdba0205ef416f3295ea94bb56e1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/profile-layout.json",
+      "baseSha256": null,
+      "headSha256": "e943a952be789c4484fe3c86f9bd3c27f5333bc4f98c0c2e03d56b84e29f31ae",
+      "schema": "docs/guards/V3/contracts/profile-layout.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "668003e43b41e237c663e7b2268f5b51aae356a1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/profile.json",
+      "baseSha256": null,
+      "headSha256": "a2a1a7e1e6ac506133663580696d48ed1e7fd103785a1fbb163f98a29251cc9e",
+      "schema": "docs/guards/V3/contracts/profile.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fdd8286ae6e3ce0f73d4c29afdae005d264f1a71"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/toolchain.json",
+      "baseSha256": null,
+      "headSha256": "977e93491fa68ce7d4f94beb3ebee62672ca979025cf1adbd7dbbaba62d9c05f",
+      "schema": "docs/guards/V3/contracts/tech-stack.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5f8f3ed533bd50f4c79e877c4df447ce5b2d73cf"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "029bb3c4fd4e40be9a8565c5d25fdb38068f6a4646e83d65e5ae03c3cb1d57b3",
+      "headSha256": "d0970eb8d2d0b7d7dffaf2aa0c01f540b7fee37efca7cd555fd61caf64702868",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/0/paths/0",
+        "/components/0/paths/1",
+        "/components/0/validationSuite/1",
+        "/components/1/paths/0",
+        "/components/1/paths/1",
+        "/components/1/paths/2",
+        "/components/1/paths/3",
+        "/components/1/paths/4",
+        "/components/1/paths/5",
+        "/components/1/validationSuite/0",
+        "/components/1/validationSuite/1",
+        "/components/1/validationSuite/4",
+        "/components/1/validationSuite/5",
+        "/components/10/id",
+        "/components/10/parityContract",
+        "/components/10/paths/0",
+        "/components/10/paths/1",
+        "/components/10/paths/10",
+        "/components/10/paths/11",
+        "/components/10/paths/12",
+        "/components/10/paths/2",
+        "/components/10/paths/3",
+        "/components/10/paths/4",
+        "/components/10/paths/5",
+        "/components/10/paths/6",
+        "/components/10/paths/7",
+        "/components/10/paths/8",
+        "/components/10/paths/9",
+        "/components/10/type",
+        "/components/10/validationSuite/0",
+        "/components/10/validationSuite/1",
+        "/components/11/allowedChange",
+        "/components/11/id",
+        "/components/11/parityContract",
+        "/components/11/paths/0",
+        "/components/11/paths/1",
+        "/components/11/type",
+        "/components/11/validationSuite/0",
+        "/components/11/validationSuite/1",
+        "/components/11/validationSuite/2",
+        "/components/12/allowedChange",
+        "/components/12/id",
+        "/components/12/parityContract",
+        "/components/12/paths/0",
+        "/components/12/paths/1",
+        "/components/12/paths/10",
+        "/components/12/paths/11",
+        "/components/12/paths/12",
+        "/components/12/paths/13",
+        "/components/12/paths/2",
+        "/components/12/paths/3",
+        "/components/12/paths/4",
+        "/components/12/paths/5",
+        "/components/12/paths/6",
+        "/components/12/paths/7",
+        "/components/12/paths/8",
+        "/components/12/paths/9",
+        "/components/12/type",
+        "/components/12/validationSuite/0",
+        "/components/12/validationSuite/1",
+        "/components/12/validationSuite/2",
+        "/components/13/allowedChange",
+        "/components/13/id",
+        "/components/13/parityContract",
+        "/components/13/paths/0",
+        "/components/13/paths/1",
+        "/components/13/paths/10",
+        "/components/13/paths/11",
+        "/components/13/paths/12",
+        "/components/13/paths/13",
+        "/components/13/paths/14",
+        "/components/13/paths/2",
+        "/components/13/paths/3",
+        "/components/13/paths/4",
+        "/components/13/paths/5",
+        "/components/13/paths/6",
+        "/components/13/paths/7",
+        "/components/13/paths/8",
+        "/components/13/paths/9",
+        "/components/13/type",
+        "/components/13/validationSuite/0",
+        "/components/13/validationSuite/1",
+        "/components/13/validationSuite/2",
+        "/components/14/allowedChange",
+        "/components/14/id",
+        "/components/14/parityContract",
+        "/components/14/paths/0",
+        "/components/14/paths/1",
+        "/components/14/paths/10",
+        "/components/14/paths/11",
+        "/components/14/paths/12",
+        "/components/14/paths/13",
+        "/components/14/paths/14",
+        "/components/14/paths/15",
+        "/components/14/paths/16",
+        "/components/14/paths/17",
+        "/components/14/paths/18",
+        "/components/14/paths/19",
+        "/components/14/paths/2",
+        "/components/14/paths/20",
+        "/components/14/paths/3",
+        "/components/14/paths/4",
+        "/components/14/paths/5",
+        "/components/14/paths/6",
+        "/components/14/paths/7",
+        "/components/14/paths/8",
+        "/components/14/paths/9",
+        "/components/14/type",
+        "/components/14/validationSuite/0",
+        "/components/14/validationSuite/1",
+        "/components/14/validationSuite/2",
+        "/components/15/id",
+        "/components/15/parityContract",
+        "/components/15/paths/0",
+        "/components/15/paths/1",
+        "/components/15/paths/2",
+        "/components/15/paths/3",
+        "/components/15/paths/4",
+        "/components/15/paths/5",
+        "/components/15/paths/6",
+        "/components/15/paths/7",
+        "/components/15/type",
+        "/components/15/validationSuite/0",
+        "/components/15/validationSuite/1",
+        "/components/15/validationSuite/2",
+        "/components/15/validationSuite/3",
+        "/components/16/id",
+        "/components/16/parityContract",
+        "/components/16/paths/0",
+        "/components/16/paths/1",
+        "/components/16/type",
+        "/components/16/validationSuite/0",
+        "/components/16/validationSuite/1",
+        "/components/16/validationSuite/2",
+        "/components/16/validationSuite/3",
+        "/components/17/allowedChange",
+        "/components/17/id",
+        "/components/17/parityContract",
+        "/components/17/paths/0",
+        "/components/17/paths/1",
+        "/components/17/paths/2",
+        "/components/17/paths/3",
+        "/components/17/paths/4",
+        "/components/17/paths/5",
+        "/components/17/type",
+        "/components/17/validationSuite/0",
+        "/components/2/paths/0",
+        "/components/2/validationSuite/0",
+        "/components/3/allowedChange",
+        "/components/3/id",
+        "/components/3/parityContract",
+        "/components/3/paths/0",
+        "/components/3/paths/1",
+        "/components/3/type",
+        "/components/3/validationSuite/0",
+        "/components/3/validationSuite/1",
+        "/components/3/validationSuite/2",
+        "/components/4/id",
+        "/components/4/paths/0",
+        "/components/4/paths/1",
+        "/components/4/paths/2",
+        "/components/4/paths/3",
+        "/components/4/type",
+        "/components/4/validationSuite/0",
+        "/components/4/validationSuite/1",
+        "/components/4/validationSuite/2",
+        "/components/5/id",
+        "/components/5/parityContract",
+        "/components/5/paths/0",
+        "/components/5/paths/1",
+        "/components/5/paths/2",
+        "/components/5/type",
+        "/components/5/validationSuite/0",
+        "/components/5/validationSuite/1",
+        "/components/6/id",
+        "/components/6/parityContract",
+        "/components/6/paths/0",
+        "/components/6/paths/1",
+        "/components/6/paths/2",
+        "/components/6/type",
+        "/components/6/validationSuite/0",
+        "/components/6/validationSuite/1",
+        "/components/7/id",
+        "/components/7/paths/0",
+        "/components/7/paths/1",
+        "/components/7/paths/2",
+        "/components/7/type",
+        "/components/7/validationSuite/0",
+        "/components/7/validationSuite/1",
+        "/components/7/validationSuite/2",
+        "/components/8/id",
+        "/components/8/paths/0",
+        "/components/8/type",
+        "/components/8/validationSuite/0",
+        "/components/8/validationSuite/1",
+        "/components/8/validationSuite/2",
+        "/components/9/id",
+        "/components/9/parityContract",
+        "/components/9/paths/0",
+        "/components/9/paths/1",
+        "/components/9/paths/10",
+        "/components/9/paths/2",
+        "/components/9/paths/3",
+        "/components/9/paths/4",
+        "/components/9/paths/5",
+        "/components/9/paths/6",
+        "/components/9/paths/7",
+        "/components/9/paths/8",
+        "/components/9/paths/9",
+        "/components/9/type",
+        "/components/9/validationSuite/0",
+        "/components/9/validationSuite/1",
+        "/manifest/schema",
+        "/manifest/verifier"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "33dc7d4b99f96f6c3509a3499261c0ab6c14520b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json",
+      "baseSha256": null,
+      "headSha256": "0af313bf39e18158190f25c801e921c61c9756d4a3309be8c77158bd509ceb15",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "79eb39cde5441cf085d09e9d593550b3d2d94778"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/reports/cutover-baseline.json",
+      "baseSha256": null,
+      "headSha256": "fce7bf1f315dcf3881dd2a2d677203a63e508bdf9714256cb47e5c4c78c2f8b1",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c648addc80b07e03a0604cdce76cea3a79a9a960"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json",
+      "baseSha256": null,
+      "headSha256": "0e3c230cf35d2ad6e0b0f69f993f7a865c1def9b3880abd7f6853cd3e7534172",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3c68b271ff5e70d882cf5d91bb7e66d434dd2431"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/reports/specialized-parity.json",
+      "baseSha256": null,
+      "headSha256": "5591359d596f14a9552c371e06fa42651233e303c860d0435681e0772c7ee2f6",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0d78922d0d72135b40b696009edaf88c35fcbd2a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/stage.json",
+      "baseSha256": "75275bfc33261870c5ac9222b87d3ef89c8c679f258a270b969baba334eb3af6",
+      "headSha256": "87e6ea83c94fce416893705ab184cbedd22b4a05ddeaaa38377b847d4546ca5f",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/commands/2",
+        "/commands/3",
+        "/documentation/0",
+        "/documentation/1",
+        "/documentation/2"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e25cbc5fb0e14cc6aa30c56780e19a89eb643384"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/bootstrap/stage.json",
+      "baseSha256": "30190a759aa729fb92dad696362b55b5b9250b32259c6b92b8b746de581a2998",
+      "headSha256": "a3390f82eb9cc6fd77d186aacc3c95ca1753556bf0152f0cb6b3b881a4ed8e03",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/documentation/0"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a2591eeb70253fda87fe4d3aee70ee979a6305f8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/activation.json",
+      "baseSha256": null,
+      "headSha256": "5ae9cd316f146a539a6397d9eb7980444a95dcd94b32b59a32c623d1961b8507",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1caf3579315eb89fd467b95f686c48bb7c8865d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+      "baseSha256": null,
+      "headSha256": "f69b5d94a4d35daa86ef8bd1e13c4f4974541a85b05ac11929d963b73297fbee",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "291fdc8cbb5640f0d581e4601ff37fd83cc26787"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+      "baseSha256": null,
+      "headSha256": "a4a6f718c0ded77bca9356d0dba76f75dd45ab9deb4f68a67c39ceb06fafb8ff",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e4528533bda610ff5a32c72510319d8451526bf1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+      "baseSha256": null,
+      "headSha256": "5c696b999f42ee35104b5769206a024ba5627c3a36850441281fa7b78f1f32fb",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e050c462866eca4a73f4f3314a97b260ab8508f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/required-checks.json",
+      "baseSha256": null,
+      "headSha256": "348a19c73bdc774a4e719346553ebf18facb35f4ab0b11c1731ea90d442b67a2",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c71a7c82407eea1c085a4ce900999ae86e5463c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/stage.json",
+      "baseSha256": "350e4d543cd88abbd4e4387d58d74c0f605c6c80decd7e1d04300b3722c7871f",
+      "headSha256": "7e71a5b1d9077b83a57ef690a4f06aa854fefe4453d2ffe20fc9796c0e551c73",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/commands/2",
+        "/commands/3",
+        "/commands/4",
+        "/commands/5",
+        "/documentation/0",
+        "/documentation/1",
+        "/gates/0/trustContract/inputs/0/ref",
+        "/gates/0/trustContract/inputs/1/ref",
+        "/gates/0/trustContract/inputs/2/ref",
+        "/gates/0/trustContract/inputs/2/source",
+        "/gates/0/trustContract/inputs/3",
+        "/gates/1/trustContract/inputs/0/ref",
+        "/gates/1/trustContract/inputs/1/ref",
+        "/gates/1/trustContract/inputs/2/ref",
+        "/gates/1/trustContract/inputs/2/source",
+        "/gates/1/trustContract/inputs/3"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "23b44c91c411b11299bc49020abdd1717d0a0fe9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
+      "baseSha256": null,
+      "headSha256": "842e2ecd37e54bae1c7965797a306ff4ef78d95328b6684b4aa2f1426c9a3bf4",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "93509f3c2f3cb3fa7f1ce9d5da691572abe42080"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/authorization.schema.json",
+      "baseSha256": null,
+      "headSha256": "1d942a0060365c3c509939f83879cddc21a831d8ac4104710db93fad85564913",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "47f611a82f31c21fa316e480aa3e608f712cd9e9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/change-scope.schema.json",
+      "baseSha256": null,
+      "headSha256": "430e661ed161abe4341f1aac33f8e27db4ba53e42fcd8962eb40717d7434d455",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9d34746e1996e9f65a6bda4391a9af4d9f4dd1d9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protected-change-report.schema.json",
+      "baseSha256": null,
+      "headSha256": "7228bd3c400ebdbf53e9d93724cd617ba297dffb5de6566643ee1f4409dac4c8",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ad483e92182d49b2b6d2f3fddf265bac56e79f04"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+      "baseSha256": null,
+      "headSha256": "74698ab5ab171a9a85e95628cbc5891844904f4c3a1235f8095eaf51e157beb0",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/stage.json",
+      "baseSha256": "60f617f3391617db1388ac86f4b2e92728dd0541096f2ad0a6e0d9d429e1b56e",
+      "headSha256": "3a4ddc79ff31a46fd4165556e1a930ad6553698486bb17f61289c154e20095ad",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/documentation/0",
+        "/gates/0/trustContract/inputs/0/ref",
+        "/gates/0/trustContract/inputs/1/ref",
+        "/gates/0/trustContract/inputs/2/ref",
+        "/gates/0/trustContract/inputs/3/ref",
+        "/gates/0/trustContract/inputs/4/ref",
+        "/gates/0/trustContract/inputs/4/source",
+        "/gates/0/trustContract/inputs/5/ref",
+        "/gates/0/trustContract/inputs/6"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d87e7aaa42502fb23d8d5e46b0d6f15ac435b849"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+      "baseSha256": null,
+      "headSha256": "6530806bdc71f9baa4a1ed7e4d4d26020aa9ceb328c55286c07a42f83ae99b20",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c5ce3a0fd3ea1acc75c6164160bf6ae4684c8c3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/detector-result.schema.json",
+      "baseSha256": null,
+      "headSha256": "e2bd581202e14ce66bdcb16c4c9cd26957b5d4295811f23fc093ed1af2f6dacb",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "912b24d8d32acd17abb05c55f661f6f6c557ce90"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/fixture.schema.json",
+      "baseSha256": null,
+      "headSha256": "08d5e0f27e1b0aae74db6dfed86a30fc78c5702a07bc4a671d92a7a726990470",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "88cea22a8edd7c5df9e8f70918f971fb611d8805"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json",
+      "baseSha256": null,
+      "headSha256": "9aea573dd2bee6991c2d43ddfc754c998d00c8501dc28d94133dd950e778da7c",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d2c44cac82968f16b31332c924e71226249abbf3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+      "baseSha256": null,
+      "headSha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "50e5bb5187423acb7d56377de8b2816b3d063ef1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json",
+      "baseSha256": null,
+      "headSha256": "d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e062090994c7ebca968f3bbb65afd58a879d671"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json",
+      "baseSha256": null,
+      "headSha256": "606eaacc82bdb2ea227738d58bfef076f81d444410bc0451c0948c6c95b21e7f",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5521ee6e5006bd24b622a040a7bafeb043c0cbdf"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L1.2.json",
+      "baseSha256": null,
+      "headSha256": "584007ec88e47dcdbe92796745ce107f557cac8d033c3c71a0418f29d7cc3e06",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b164b5cdfe8d2db624289f1f7660d5e3b16e039a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.2.json",
+      "baseSha256": null,
+      "headSha256": "3061250248352bc621763df6ed6f087e2795104ee642244081858fdd90892145",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c9ccbb4fdd6281432488e1fcde96d88844686691"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.3.json",
+      "baseSha256": null,
+      "headSha256": "f79c575925632d65653af3b48375160f0c9124657699b14fbe37221a1fe48473",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4c13c52c528519427b2b50cb56c26ac91ab7f39c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.4.json",
+      "baseSha256": null,
+      "headSha256": "cafdf0eb9c8186fbe3f55c22a201a0513a80420bc1f53c504e8f1a5b3fccd12d",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1604a64ea83ce6b59cf40fe5174f71471aeab040"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L2.9.json",
+      "baseSha256": null,
+      "headSha256": "c9a324509e022949ca4f18f0857fe9063dcfdeab4d2fd4809fbdbf59bb9675e0",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ddac101ff95b2b21b27345e91a35b82acb7463d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.1.json",
+      "baseSha256": null,
+      "headSha256": "afef5fcdcf2f09f0f3ae2c850c0807876682d694e35cd511310b23d416c31a3a",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b74c8aa29a8c0ae1d8e833a5ce5c3feed3b1b94"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.4.json",
+      "baseSha256": null,
+      "headSha256": "c2383c2bc47bc56ab60afa99fe9ddea46572282a9790b7d26832bf0cdf6d265e",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d2b3de851e16979a27eda65ea753f7e643bf7213"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.5.json",
+      "baseSha256": null,
+      "headSha256": "166192cf788c72b3b2e87703d4350ca10e10b184fe7efcae62fec04a19135f4f",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d581fb5c5a57672a640d3e2bd9b42151fc71dc3d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/rules/L3.6.json",
+      "baseSha256": null,
+      "headSha256": "768c8f06aa99353fd9a2d76b466d55db3f75c5d3c2b65ee41472ee19bc6e1f0d",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f1c3e718a4b39d7f076b0080c5fa11768cb7fa04"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "baseSha256": "aa99f11f71f6f65b6068ffc0c146da38d46a622d3837915b6cb36c0d088a03ea",
+      "headSha256": "529786389749061b5e63bc4d7b3fc746ef66ed1b6492c1dfc8d154996dac80c7",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/documentation/1",
+        "/documentation/2",
+        "/gates/0/trustContract/crossCover",
+        "/gates/0/trustContract/evaluator",
+        "/gates/0/trustContract/guarantee",
+        "/gates/0/trustContract/importInjectionRule",
+        "/gates/0/trustContract/inputs/0/ref",
+        "/gates/0/trustContract/inputs/1/ref",
+        "/gates/0/trustContract/inputs/2/ref",
+        "/gates/0/trustContract/inputs/3/ref",
+        "/gates/0/trustContract/inputs/4/ref",
+        "/gates/0/trustContract/inputs/5/ref",
+        "/gates/0/trustContract/inputs/6/ref",
+        "/gates/0/trustContract/knownGaps/1",
+        "/gates/0/trustContract/policy",
+        "/gates/0/trustContract/policyBinding",
+        "/gates/1/trustContract/detectors/0",
+        "/gates/2/trustContract/detectors/0",
+        "/gates/3/trustContract/detectors/0",
+        "/gates/4/trustContract/detectors/0",
+        "/gates/5/trustContract/detectors/0",
+        "/gates/5/trustContract/detectors/1",
+        "/gates/5/trustContract/detectors/2",
+        "/gates/6/trustContract/inputs/0/ref",
+        "/gates/7/trustContract/inputs/0/ref",
+        "/gates/7/trustContract/inputs/1/ref",
+        "/gates/7/trustContract/inputs/2/ref",
+        "/gates/7/trustContract/policy",
+        "/gates/8/trustContract/inputs/0/ref",
+        "/gates/9/trustContract/inputs/0/ref",
+        "/gates/9/trustContract/policy"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d3075a263d3f0a1ba574417535a83ea66f0ee03c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/pre/project-map.json",
+      "baseSha256": null,
+      "headSha256": "18866678b214f4d3ade70fefa6274c5ee00c9f03de71a42100a36fd16ff7e80c",
+      "schema": "docs/guards/V3/contracts/project-map.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "989e841493f6b261eff32f1a3b2ff3a40bc5b433"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/pre/stage.json",
+      "baseSha256": "62d12cd068a5809e3eb4be0bc57c6c4a8c00f61886da314ff3d28f96e65decdf",
+      "headSha256": "905c7849ecf3a714b9b6f37c97564a45e906c5daaab96f4b935f7d032243e776",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/documentation/0"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1e686f1cf89cf04b9b0fdc8bc6f508b3c1fa2bb9"
+      }
+    }
+  ]
+}

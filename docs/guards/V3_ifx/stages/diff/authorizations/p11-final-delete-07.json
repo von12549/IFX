@@ -1,0 +1,213 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-07",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/contracts",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "d90a8ee0dbffbe1de1f167000c825d31e4231fb6"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/contracts/decision.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/contracts/plan.schema.json",
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+    "docs/guards/V3_ifx/contracts/profile.schema.json",
+    "docs/guards/V3_ifx/contracts/project-map.schema.json",
+    "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/contracts/rule.schema.json",
+    "docs/guards/V3_ifx/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-components.schema.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5af8b69ebc71b3de1e5e9ae00e1bc32eb65a28bb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorization.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "47f611a82f31c21fa316e480aa3e608f712cd9e9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9d34746e1996e9f65a6bda4391a9af4d9f4dd1d9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6962a1df9903294399064a9e9dbf081420be1f2a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ac78b3c05543a79db363f8d4dd19e94e917d121d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9dbef6f48b4efd41a9e07cdbddadc88bfd563f6f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "107cb00a34df9d7aa15dfc8b821648211b37c49c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/plan.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dc2aa8ce49cf2a5786132bb4a6506234173bc75d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91273685736b969fa493abb0d278607af0508e1a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f3f922f6038c23fe7601aaace2680c481bf4abf1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b9fc5ddabd71019de91b96e47619662bfb996b00"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2191effc81970473dcc766c6b29a36036d216ad8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ad483e92182d49b2b6d2f3fddf265bac56e79f04"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f30e4b44a2e3beb880c36046227ffdba7f65e9d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3bc5fd50514999a518c75f595799075a96ddcfc2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4c1736fa2fb66fbb946d036ceec6489bed25665b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a9d312a77229d5ee561f18b1fca674f7243a65d0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fe40c65f94277cb692f3fe9d8be54fc7d5fcef9"
+      },
+      "head": null
+    }
+  ]
+}
