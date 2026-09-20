@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "id": "cp11q-verifier-ownership-relocation-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/guard-system.json",
+      "baseSha256": "3f09d487bedef4458f3244cfac8b960d7da8640d01490be45d4b1f845cb8be4b",
+      "headSha256": "2f38b42f46df943c9124e6fbdccc229c7b6b4c3a28ff3514c80f1a6d4530e2ef",
+      "schema": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+      "pointers": [
+        "/compatibility/entries/4/legacyPath",
+        "/compatibility/entries/4/phase",
+        "/compatibility/entries/4/removeWhen",
+        "/compatibility/entries/4/replacement",
+        "/compatibility/entries/5/legacyPath",
+        "/compatibility/entries/5/removeWhen",
+        "/compatibility/entries/5/replacement",
+        "/compatibility/entries/6/legacyPath",
+        "/compatibility/entries/6/replacement",
+        "/compatibility/entries/7/legacyPath",
+        "/compatibility/entries/7/phase",
+        "/compatibility/entries/7/removeWhen",
+        "/compatibility/entries/7/replacement",
+        "/compatibility/entries/8/compatibility",
+        "/compatibility/entries/8/kind",
+        "/compatibility/entries/8/legacyPath",
+        "/compatibility/entries/8/phase",
+        "/compatibility/entries/8/removeWhen",
+        "/compatibility/entries/8/replacement",
+        "/compatibility/entries/9"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c9594448a95cc771a7893ee7423121d338f467f1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "baseSha256": "55d5caf099144d628aa0c873f8a93d116333250ad1bc93f34712a526dae91652",
+      "headSha256": "2709002a0c5617f3e201a57aea6a1fcdbc255d12200fee70c7090195271b4583",
+      "schema": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+      "pointers": [
+        "/commands/7/entryPoint",
+        "/commands/8/audiences/1",
+        "/commands/8/entryPoint",
+        "/commands/8/kind",
+        "/commands/8/stability"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "873e80489595121fbcd7f0a1f266d33c7f70e84d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "fc3219281ba9f2115afe49b5a20c5989c203413be37fa0e83d4b419fec82f21b",
+      "headSha256": "bf9664454465e6083cf60af79e52dd7588214671926f73dfc4676de383c14e63",
+      "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/11/validationSuite/0",
+        "/components/13/paths/3",
+        "/components/14/paths/15",
+        "/manifest/verifier"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dffdbe9ce3920e77b8e0f567161bb05b52ed84ce"
+      }
+    }
+  ]
+}

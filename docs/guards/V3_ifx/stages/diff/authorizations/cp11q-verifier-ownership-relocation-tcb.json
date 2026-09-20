@@ -1,0 +1,141 @@
+{
+  "formatVersion": 1,
+  "id": "cp11q-verifier-ownership-relocation-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.entry.ifx-guardrails",
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "93a7a6fae257940489bf3ca58b30f64e69cdf41b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dba25428e6e369ce49f773e3e8cf70653cec27b0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "93a7a6fae257940489bf3ca58b30f64e69cdf41b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "46374fbea635030f45923a2a670ade4cb8e29763"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "40ade95fec1dbc6acfadd6cb6c3f78f18fff155d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d57a766c229ce2da4eb02d0cfafce3ca966c11e8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/guard-system.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7fd656ca1d9a89b5babcc5984a961b91b41327c6"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c9594448a95cc771a7893ee7423121d338f467f1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "564e17b69319e8b9e3b6449159d892e3fbaab6da"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1dadfd2aec938a1f052875b5c74001a9a59a8aad"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "873e80489595121fbcd7f0a1f266d33c7f70e84d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "855769d20d07c1fdaac3e02638ee4feb9275fb0d"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dffdbe9ce3920e77b8e0f567161bb05b52ed84ce"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-pre-diff"
+  ],
+  "parityContract": "CI contract inputs, 13 required-check verdicts, remote GET-only behavior, manifest self-protection and every positive/negative fixture remain unchanged; only canonical ownership and the explicit legacy wrapper change.",
+  "allowedBehaviorDifferences": []
+}

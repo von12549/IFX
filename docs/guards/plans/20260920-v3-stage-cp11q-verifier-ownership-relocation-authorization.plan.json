@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11q-verifier-ownership-relocation-authorization",
+  "title": "Authorize the verifier ownership relocation",
+  "goal": "Pre-authorize the exact move, trusted-component and policy tuples of the frozen verifier relocation.",
+  "acceptanceCriteria": [
+    "The move record binds the legacy and engine-owned manifest verifier tree entries.",
+    "The TCB record binds every changed verifier, dispatcher and manifest path.",
+    "The policy record binds command, TCB and compatibility registry changes.",
+    "The authorization-only checkpoint changes no verifier implementation.",
+    "The relocation candidate consumes all three records exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11q-move-manifest-verifier.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11q-verifier-ownership-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11q-verifier-ownership-relocation-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["CI", "GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "id": "cp11q-move-manifest-verifier",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "564e17b69319e8b9e3b6449159d892e3fbaab6da"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "d57a766c229ce2da4eb02d0cfafce3ca966c11e8"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d57a766c229ce2da4eb02d0cfafce3ca966c11e8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "564e17b69319e8b9e3b6449159d892e3fbaab6da"
+      },
+      "head": null
+    }
+  ]
+}
