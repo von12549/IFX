@@ -474,6 +474,26 @@ function Read-GuardCandidatePolicyRegistry {
     return , (ConvertFrom-Json $json -AsHashtable -Depth 50)
 }
 
+function Read-GuardCandidateAuthorityRegistry {
+    # Candidate projection targets may move with the policy layout. Read exactly one candidate authority registry and
+    # validate it with exactly one candidate schema; this classifies targets but cannot authorize the registry change.
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Commit, [string] $PackagePath = 'docs/guards/V3_ifx')
+    $registryCandidates = @("$PackagePath/policy/authorities.json", "$PackagePath/shared/authorities/authorities.json")
+    $registries = @($registryCandidates | Where-Object { $null -ne (Get-GuardBlobBytes $Repository $Commit $_) })
+    if ($registries.Count -ne 1) { throw "Candidate must contain exactly one supported authority registry; found $($registries.Count)." }
+    $schemaCandidates = @("$PackagePath/contracts/authorities.schema.json", "$PackagePath/shared/contracts/authorities.schema.json")
+    $schemas = @($schemaCandidates | Where-Object { $null -ne (Get-GuardBlobBytes $Repository $Commit $_) })
+    if ($schemas.Count -ne 1) { throw "Candidate must contain exactly one supported authority registry schema; found $($schemas.Count)." }
+    $json = Get-GuardBlobText $Repository $Commit $registries[0]
+    $temporarySchema = Join-Path ([IO.Path]::GetTempPath()) "ifx-authorities-$([Guid]::NewGuid().ToString('N')).schema.json"
+    try {
+        [IO.File]::WriteAllBytes($temporarySchema, (Get-GuardBlobBytes $Repository $Commit $schemas[0]))
+        if (-not (Test-GuardJsonSchema -Schema $temporarySchema -Json $json)) { throw "Candidate authority registry does not match $($schemas[0])." }
+    }
+    finally { if ([IO.File]::Exists($temporarySchema)) { [IO.File]::Delete($temporarySchema) } }
+    return [pscustomobject]@{ Path = $registries[0]; Document = (ConvertFrom-Json $json -AsHashtable -Depth 100) }
+}
+
 function Get-GuardPolicyEntry {
     # The registered entry of a repository path: exact paths first, then *.json files directly in a registered directory.
     param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][string] $Path)
@@ -492,6 +512,15 @@ function Test-GuardPolicyScope {
     if (-not $Path.EndsWith('.json', [StringComparison]::Ordinal)) { return $false }
     foreach ($excluded in @($Registry.excluded)) { if ($Path.StartsWith([string]$excluded, [StringComparison]::Ordinal)) { return $false } }
     foreach ($root in @($Registry.roots)) { if ($Path.StartsWith([string]$root, [StringComparison]::Ordinal)) { return $true } }
+    return $false
+}
+
+function Test-GuardPolicyExcluded {
+    # Candidate exclusions are explicit meta-policy. A narrower candidate roots list alone cannot make a base-scope
+    # JSON disappear; only a matching excluded prefix, whose registry edit is itself protected, can do that.
+    param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][string] $Path)
+    if (-not $Path.EndsWith('.json', [StringComparison]::Ordinal)) { return $false }
+    foreach ($excluded in @($Registry.excluded)) { if ($Path.StartsWith([string]$excluded, [StringComparison]::Ordinal)) { return $true } }
     return $false
 }
 
@@ -558,7 +587,8 @@ function Get-GuardPolicyChanges {
         if ($null -eq $policy) {
             $leaf = $path.Substring($path.LastIndexOf('/') + 1)
             $inPolicyScope = (Test-GuardPolicyScope $Registry $path) -or ($null -ne $HeadRegistry -and (Test-GuardPolicyScope $HeadRegistry $path))
-            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ($inPolicyScope -and -not $effectiveProjectionTargets.Contains($path)))) { $unregistered.Add($path) }
+            $candidateExcludes = $null -ne $HeadRegistry -and (Test-GuardPolicyExcluded $HeadRegistry $path)
+            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ($inPolicyScope -and -not $effectiveProjectionTargets.Contains($path) -and -not $candidateExcludes))) { $unregistered.Add($path) }
             continue
         }
         $baseBytes = if ($null -ne $entry.Base) { Get-GuardBlobBytes $Repository $Base $path } else { $null }

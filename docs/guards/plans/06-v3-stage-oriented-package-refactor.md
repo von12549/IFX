@@ -887,7 +887,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。证据：CP12a 从 CP11 最终树完整运行 Architecture 与 CrossPlatform candidate suites；Pre、Post/Architecture、Diff、CI contract、specialized、quality、historical-integrity 以及 authority/deployment/manifest 正反例全部通过。
 - [x] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。证据：CP12a 的 generic V3、IFX trusted-base、protected-change、package isolation 与 target-root separation 矩阵逐项执行这些负例且均按预期阻断。
 - [x] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。证据：CP12a 的 `Test-V3BuildBaseline.ps1` 将源码包复制到仓库外并在 hostile parent 配置下验证 locked restore、content hash 与 import allowlist；`Test-V3.ps1` 在空白 synthetic Git fixture 上生成并运行 Validate、Pre、Test/Post 与 Diff，Architecture candidate suite 同时验证隔离 IFX Architecture package。
-- [ ] P11.4 通过以 `codex/guards-principles-plan` 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。
+- [ ] P11.4 先按 D36、D37 将仅用于旧 base 识别聚合发布与候选布局的最小兼容桥分别通过正常授权协议合入 `codex/guards-principles-plan`；随后以该 branch 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。
 - [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
 - [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
 - **门槛**：新结构是唯一生产路径，旧路径零运行时引用，全部 blocking 能力有可审查正反证据。
@@ -1129,6 +1129,18 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：P11.4 之前先把一个受正常 `change-trusted-base` 授权约束的最小兼容桥合入 base。桥只让旧 base 识别候选 TCB 已登记的新 public facade、由 schema-valid 候选 policy registry 分类的新布局 JSON，以及一次性聚合发布中的唯一 `*-aggregate.plan.json`；零个或多个 aggregate plan 均失败。候选 registry 的变化本身仍是旧 base 已登记的 trust/meta-policy 变化，必须消费精确 `weaken-policy` 授权；受保护删除、TCB 变化和 policy 变化的既有义务不被豁免。
 - **边界**：桥不接受目录级排除、不降低 13 个 required checks、不改变 ruleset、不跳过 Windows required check，也不授权 P11 最终候选的 511 个受保护删除。旧 verifier 仅对候选树真实存在且由 schema-valid active TCB 精确覆盖的缺失 workflow 入口提供兼容；旧 package 中存在的脚本仍由旧 TCB 完整遍历。聚合 plan 仍必须覆盖真实 PR changed set。
 - 来源：P11.4 前基于 `codex/guards-principles-plan` 的审计得到 511 个 protected-removal、48 个 policy-weakening、1 个 trusted-component-change 与 176 个仅因新布局尚未被旧 registry 识别的 JSON 分类失败；架构验证已通过。用户授权继续最小兼容桥与 P11.4；记录 `20260921-v3-stage-d36-p11-minimal-compat-bridge.json`。
+
+### D37 — P11 候选布局的 base-owned 验证兼容（P11.4 补充，细化 D24、D36）
+
+- **决定**：在 D36 之后追加第二个窄兼容桥。旧 base 的 policy candidate verifier 可读取且只接受恰好一套 legacy/shared authority registry 与 schema，使用 schema-valid candidate policy registry 对新布局文件逐项产生普通 `weaken-policy` 义务，并以 base-owned 实现验证 candidate registry 的 monotonicity。旧 profile validator 仍通过隔离 materialization 验证内容；旧 Markdown renderer 新增只读 split-layout 模式，直接按候选 `profile-layout.json` 的安全 repository-relative 路径重算 provenance 与 views。authority projection 和 historical manifest 同样只接受恰好一个已知 legacy 或 stage-owned 布局。通用 V3 仅当 plan id 与文件名同时以 `-aggregate` 结尾时，允许 plannedPaths 使用 base taxonomy 尚未知的路径/area；真实 Diff 的精确集合比较保持不变。
+- **边界**：不允许 silent fallback、双布局、绝对路径、遍历、glob 或 candidate executable；split-layout 禁止 Markdown Import。candidate registry 自身及其新增条目仍分别形成受保护 trust/meta-policy 与 policy-weakening 义务，`.gitattributes` 仍无条件进入 policy gate，未登记 JSON 仍失败。桥不覆盖或授权最终候选的任何义务，也不改变 required checks、runner、ruleset 或 D35 Windows 契约。
+- 来源：D36 合入后从独立 base worktree 对 P11 候选 `c2a072d8` 复审：旧硬编码 profile/history/projection 路径与 base taxonomy 仍阻止候选验证。第二桥的 base-owned 审计通过后，policy candidates 全部通过；protected verifier 收敛为 512 个 protected-removal、132 个 policy-weakening、1 个 trusted-component-change、0 个 unregistered，共 645 个必须由后续精确授权覆盖的义务。记录 `20260921-v3-stage-d37-p11-candidate-layout-compatibility.json`。
+
+### D38 — 跨平台 inventory authority bytes（P11.4 补充，细化 D35、D37）
+
+- **决定**：V3 Analyze inventory 已纳入的文本类型必须由 `.gitattributes` 明确声明 `text eol=lf`，包括 .NET project/solution/build 文件、Node/global/NuGet manifest、workflow 与 agent/owner guidance。inventory 继续记录实际 checkout bytes 的 SHA-256；通过 LF checkout authority，使 Windows 与 Linux fresh checkout 产生相同 hash，而不是在 verifier 中忽略或重写差异。既有 inventory JSON/Markdown 按 Linux fresh checkout 重算。
+- **边界**：不对二进制文件或 inventory 未覆盖类型做全仓库 renormalize，不放松逐字节可重复性测试，不改变源码语义；`.gitattributes` 的 trust/meta-policy 变化仍须独立 `weaken-policy` 授权。Windows 本地旧 worktree 可能保留既有 CRLF，验证以 fresh checkout 为准。
+- 来源：P11 candidate-layout bridge 的真实 PR #73 在 Ubuntu base-owned TCB candidate 验证中发现 `Test-IFXTools.ps1` 失败。Linux 容器复现证明项目数 171、manifest 数 6、workflow 数 1、guidance 数 2、顺序与语义均一致，差异仅为未声明文本类型的 CRLF/LF raw SHA-256。记录 `20260921-v3-stage-d38-cross-platform-inventory-bytes.json`。
 
 ## 18. 暂缓项
 

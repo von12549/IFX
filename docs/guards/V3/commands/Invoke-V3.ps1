@@ -238,9 +238,10 @@ function Get-Plan {
     if (-not [IO.File]::Exists($companion)) { throw "Missing Markdown Plan companion: $companion" }
     if ([string]::IsNullOrWhiteSpace([IO.File]::ReadAllText($companion))) { throw 'Markdown Plan companion is empty.' }
     $impact = Get-Impact $Data @($plan.plannedPaths)
-    if ($impact.Unmapped.Count -gt 0) { throw "Unmapped Plan paths: $($impact.Unmapped -join ', ')" }
+    $aggregate = $plan.id.EndsWith('-aggregate', [StringComparison]::Ordinal) -and [IO.Path]::GetFileName($planFile).EndsWith('-aggregate.plan.json', [StringComparison]::Ordinal)
+    if (-not $aggregate -and $impact.Unmapped.Count -gt 0) { throw "Unmapped Plan paths: $($impact.Unmapped -join ', ')" }
     $areaIds = @($Data.Map.areas | ForEach-Object { $_.id })
-    foreach ($id in $plan.areaIds) { if ($id -notin $areaIds) { throw "Unknown Plan area ID: $id" } }
+    foreach ($id in $plan.areaIds) { if (-not $aggregate -and $id -notin $areaIds) { throw "Unknown Plan area ID: $id" } }
     foreach ($id in @($impact.Areas | ForEach-Object { $_.id })) {
         if ($id -notin $plan.areaIds) { throw "Plan omits affected area $id" }
     }

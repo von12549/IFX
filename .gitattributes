@@ -22,3 +22,19 @@ docs/guards/** text eol=lf
 scripts/guards/** text eol=lf
 tests/guards/** text eol=lf
 .github/workflows/coding-guardrails.yml text eol=lf
+
+# Repository inventory hashes are cross-platform authority bytes. Fresh checkouts
+# must expose the same LF bytes for every text class included by V3 Analyze.
+*.csproj text eol=lf
+*.sln text eol=lf
+*.slnx text eol=lf
+*.props text eol=lf
+*.targets text eol=lf
+package.json text eol=lf
+global.json text eol=lf
+NuGet.Config text eol=lf
+.github/workflows/*.yml text eol=lf
+.github/workflows/*.yaml text eol=lf
+AGENTS.md text eol=lf
+CLAUDE.md text eol=lf
+CODEOWNERS text eol=lf
