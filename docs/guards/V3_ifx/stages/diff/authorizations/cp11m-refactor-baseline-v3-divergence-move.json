@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11m-refactor-baseline-v3-divergence-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/v3-divergence.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "2942c58c722767fc15add369b642b59da1da98d8"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/v3-divergence.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "2942c58c722767fc15add369b642b59da1da98d8"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/v3-divergence.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/v3-divergence.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/v3-divergence.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2942c58c722767fc15add369b642b59da1da98d8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/v3-divergence.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2942c58c722767fc15add369b642b59da1da98d8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11m-refactor-baseline-readme-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/README.md",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "d2aba1c4e17e133c17ef4b3b206218f23b052e37"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/README.md",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "6217b2e8b319bdaba36edb720bf907167c3e3fac"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/README.md",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/README.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d2aba1c4e17e133c17ef4b3b206218f23b052e37"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/README.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6217b2e8b319bdaba36edb720bf907167c3e3fac"
+      }
+    }
+  ]
+}

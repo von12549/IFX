@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11m-refactor-baseline-relocation-authorization",
+  "title": "Authorize the refactor baseline relocation",
+  "goal": "Pre-authorize the exact move, TCB and active-manifest tuples of the frozen refactor baseline relocation candidate.",
+  "acceptanceCriteria": [
+    "Thirteen top-level baseline files, the CI evidence directory and the tools directory each have one non-overlapping move authorization.",
+    "The TCB authorization binds exactly the 86 affected tcb.manifest paths.",
+    "The weaken-policy authorization binds exactly commands.json and the Analysis and Post Stage documentation pointers.",
+    "The authorization-only checkpoint changes no implementation or evidence.",
+    "The relocation candidate consumes all seventeen authorizations exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-build-inheritance-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-call-graph-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-change-frequency-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-ci-evidence-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-dotnet-gates-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-drift-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-duplicates-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-inventory-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-local-results-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-readme-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-ruleset-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-tcb-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-tools-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-trust-contracts-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-v3-divergence-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-weaken.json",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

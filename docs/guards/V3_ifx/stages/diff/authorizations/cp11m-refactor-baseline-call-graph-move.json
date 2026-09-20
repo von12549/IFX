@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "cp11m-refactor-baseline-call-graph-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/call-graph.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "a4f6b35a31ea770b0cdf4817396e0caf102d9815"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/call-graph.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "a4f6b35a31ea770b0cdf4817396e0caf102d9815"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/call-graph.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/call-graph.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/call-graph.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a4f6b35a31ea770b0cdf4817396e0caf102d9815"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/call-graph.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a4f6b35a31ea770b0cdf4817396e0caf102d9815"
+      }
+    }
+  ]
+}

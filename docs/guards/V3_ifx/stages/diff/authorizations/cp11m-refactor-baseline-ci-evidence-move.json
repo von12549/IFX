@@ -1,0 +1,1433 @@
+{
+  "formatVersion": 1,
+  "id": "cp11m-refactor-baseline-ci-evidence-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "e7a9412cce8bc0751e223b3308674e271f60a573"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence",
+    "base": null,
+    "head": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "e7a9412cce8bc0751e223b3308674e271f60a573"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/manifest.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/architecture/layerguard.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-architecture.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-validate.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-ubuntu-latest/summary-validate.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-windows-latest/summary-validate.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/history/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/summary-historical-integrity.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-pre-diff/summary-diff.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/assembly.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/nuget-audit.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/summary-quality.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit-production.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/summary-quality.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/nuget-audit.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/summary-quality.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-database-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-migration-manifest.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/migration-safety.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/artifact-manifest.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/migration-manifest.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/release-manifest.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/verification-summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/summary-specialized.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-contract-event-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-catalog-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-documentation-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-layerguard-handoff-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-source-reconciliation.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-status.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-serialization-golden.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-sync-api-snapshot.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/guard.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/layerguard-governance-input.generated.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/summary-specialized.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase11-documentation-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-closeout-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-manifest-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase8-orchestration-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase9-failure-matrix-report.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-runtime-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/guard.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/plan02-c1.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/release-runtime-manifest.generated.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/verification-summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/summary-specialized.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/context-boundary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/G05-context-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/security-boundary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/verification-summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/summary-specialized.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/abstractions-retirement.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/cross-module-query-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/extraction-policy.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-dependency-graph.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/projection-policy.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-inventory.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-policy.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/verification-summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/summary.json",
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/summary-specialized.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/manifest.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/architecture/layerguard.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-architecture.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-validate.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-ubuntu-latest/summary-validate.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-windows-latest/summary-validate.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/history/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/summary-historical-integrity.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-pre-diff/summary-diff.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/assembly.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/nuget-audit.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/summary-quality.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit-production.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/summary-quality.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/nuget-audit.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/summary-quality.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-database-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-migration-manifest.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/migration-safety.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/artifact-manifest.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/migration-manifest.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/release-manifest.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/verification-summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/summary-specialized.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-contract-event-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-catalog-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-documentation-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-layerguard-handoff-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-source-reconciliation.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-status.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-serialization-golden.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-sync-api-snapshot.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/guard.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/layerguard-governance-input.generated.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/summary-specialized.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase11-documentation-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-closeout-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-manifest-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase8-orchestration-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase9-failure-matrix-report.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-runtime-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/guard.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/plan02-c1.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/release-runtime-manifest.generated.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/verification-summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/summary-specialized.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/context-boundary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/G05-context-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/security-boundary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/verification-summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/summary-specialized.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/abstractions-retirement.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/cross-module-query-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/extraction-policy.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-dependency-graph.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/projection-policy.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-inventory.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-policy.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/verification-summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/summary.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/summary-specialized.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f59a8e33b504017674b829fe856fa8c6502a1662"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/architecture/layerguard.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b85af789208f507628f84de0c1af9b1bb276fb55"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-architecture.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "42979c56f72b88d3c403bd80fb34f79d04c853e5"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-validate.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f2e7e3bb14bc2511f7e751585cdae292791ae46a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-ubuntu-latest/summary-validate.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2807e7495e769e3f42dc9c9d2896f06fe21aa57b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-windows-latest/summary-validate.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "39f7212cc8adffe1ea6e89c6dc56f32c14cf8040"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/history/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ae374902a3e6810511c4f329644de26577086a91"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/summary-historical-integrity.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6d527b87c166f48a6c4c1d0dc4c78082fab02eb3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-pre-diff/summary-diff.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "77a24f07fa2d68c9d70927ae767ed75b56333879"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/assembly.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f19d57147aa1acfbe666518cd193fafd167e925d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/nuget-audit.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "637d7c6b5800ecb8d0b2b6653d615759e80d78ae"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dca10cb45915e86000b98ba504dae14ebbec1be1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/summary-quality.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9b5841216a86b964b7794e691728e1f3cca231a9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit-production.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ef54069f3db99b39cbd229523fd3c048988ea0b0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ef54069f3db99b39cbd229523fd3c048988ea0b0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "527c6335f1f7eabe676ea3e0a5feda8e85f5e2d5"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/summary-quality.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c8e6174b4612446a24ae562e54ca8356ab77f49f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/nuget-audit.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "637d7c6b5800ecb8d0b2b6653d615759e80d78ae"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f30f9cc233429a337e83371e58fd8824d1fa3f5"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/summary-quality.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b45d2f105630bc1e2dfc8dca1aeb8bd754d1725a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-database-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a78816df980b9116eb2a7870b1fec72436caac92"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-migration-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b63c5f650edbfdcde6b4bfb3b82808a02ab30f4a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/migration-safety.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2219b90229e83791a017ab4c54f59adaa1520ac5"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/artifact-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dad6bfd6b680aff0bc0b911f594dc24804b8774f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/migration-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4443c58848f0f8d814dcbb095a88aea1fa8d71b7"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/release-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64057d3dbfa403fb76727c2db69583785301609f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/verification-summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dfc0902e49801f7e8b6fd6eeb7fb4f01d745bffc"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "598146cd0958991717887263f93d02575a129547"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/summary-specialized.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3344cb4a3bde43c583d87de139d6531014a0f84b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-contract-event-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9371cd729d29eca32f35dbe4b755c67616982bc0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-catalog-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fde6348d131becd5622db609ae3b3dec19bf4a0b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-documentation-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b3087e13bebe4bfd5c3c01317bc1a96a530908a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-layerguard-handoff-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "257e12bb9d2e3e4f8135319d2b926dcd8a3768dc"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-source-reconciliation.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "05074a8448be51b7d861343e452717fefe162e74"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-status.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d561a77545c93c8ec564fcd4425e5a7325c0b902"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-serialization-golden.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1bb65f88676ff736ab9656810677f5e0a31892f6"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-sync-api-snapshot.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "457a501a7a7524f47b8dcda071956e34719cf3cd"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/guard.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "73556067bd12e35fcc1da93794732e701da2b638"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/layerguard-governance-input.generated.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e415376a49927a900f5fcfebb4a1d14806af4421"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b57f84eb1aa927770de70c35a052ecb3b95b4059"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/summary-specialized.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "63ab0e95b4a86a46ef46ccb36c7ce466dcceb2a4"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase11-documentation-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c62e975c36cbe67d9f65262f7edbe36d6a43a399"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-closeout-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91b34ed0d873178c16ea3ba3808c15f223876ada"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-manifest-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9081a54127a532c84d64cece670aa6cece57942a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase8-orchestration-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c91edda4351c310977bdd0629133a250f2a23012"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase9-failure-matrix-report.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1024b1ca3feb576a71143087b8e57246d26f62df"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-runtime-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fa9c287c9b11bfd438ef465ba12dc0c97d6c7804"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/guard.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "11b7604e105719568fcf0d8d6e96acde6e731d92"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/plan02-c1.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "516cf23cbb95e99ad69ba933f39936c90b94aa0d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/release-runtime-manifest.generated.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b41c12b0e285e0a64e1ff8d54f3fc454f42b420f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/verification-summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6e6b0f89689e4aa361cf16c5cd100d216033af45"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d93e4452d659580bb38a0a99f9c0b2666ca6486f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/summary-specialized.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "37e464a15db982ab7ea121a23b0ec38cf9766998"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/context-boundary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "212ecf933079b4c1c5a24c18ccc71c25b28b17f0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/G05-context-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "048a1f8d7691d59860e1ac328501f102979fe9ee"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/security-boundary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7e30fdee2502d2516e9f4eb9ca5ae086e5907f39"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/verification-summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "aaba75057a8cc36ebf356a1f4b469e9c8ee2b6dc"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c5b73ff865f21b763e02bb12fbdf8d08b2ca22f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/summary-specialized.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fc63f8d17d0afada0e05add78c3e858163de8a2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/abstractions-retirement.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7e92f425bc6dd920fb694df982370617a4a41b65"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/cross-module-query-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "813e9f3f9c58b73ac96cc451d85c88b985d1b42f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/extraction-policy.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "749a6f47ec279176e0b6fcd47cb8e6902971087e"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-dependency-graph.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "904b39c01d2654205510135129067483195ae145"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f0def6708d411de0249233edd90ee4c80b107933"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/projection-policy.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f14b3ca1dffa826e5af2b1a819c87cdeb2873c4"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-inventory.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d8ea99b94466d175c47a2bdab580481aef7f3372"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-policy.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b0f891ecfd773c531c9f893ee866fdea28ddd342"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/verification-summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "98fe862e9c33f12fa5f7b82bf718a1c096859fb2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/summary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b92eaa3244cbea92591c8a60c5aa88657e2a8d20"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/summary-specialized.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "73fc117ce737b18ad1d82d4c6e0c1030dcc8748b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f59a8e33b504017674b829fe856fa8c6502a1662"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/architecture/layerguard.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b85af789208f507628f84de0c1af9b1bb276fb55"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-architecture.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "42979c56f72b88d3c403bd80fb34f79d04c853e5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-architecture/summary-validate.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f2e7e3bb14bc2511f7e751585cdae292791ae46a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-ubuntu-latest/summary-validate.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2807e7495e769e3f42dc9c9d2896f06fe21aa57b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-cross-platform-windows-latest/summary-validate.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "39f7212cc8adffe1ea6e89c6dc56f32c14cf8040"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/history/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ae374902a3e6810511c4f329644de26577086a91"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-historical-integrity/summary-historical-integrity.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6d527b87c166f48a6c4c1d0dc4c78082fab02eb3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-pre-diff/summary-diff.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "77a24f07fa2d68c9d70927ae767ed75b56333879"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/assembly.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f19d57147aa1acfbe666518cd193fafd167e925d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/nuget-audit.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "637d7c6b5800ecb8d0b2b6653d615759e80d78ae"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/quality/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dca10cb45915e86000b98ba504dae14ebbec1be1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-assembly/summary-quality.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9b5841216a86b964b7794e691728e1f3cca231a9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit-production.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ef54069f3db99b39cbd229523fd3c048988ea0b0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/npm-audit.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ef54069f3db99b39cbd229523fd3c048988ea0b0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/quality/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "527c6335f1f7eabe676ea3e0a5feda8e85f5e2d5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-frontend/summary-quality.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c8e6174b4612446a24ae562e54ca8356ab77f49f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/nuget-audit.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "637d7c6b5800ecb8d0b2b6653d615759e80d78ae"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/quality/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f30f9cc233429a337e83371e58fd8824d1fa3f5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-quality-solution/summary-quality.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b45d2f105630bc1e2dfc8dca1aeb8bd754d1725a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-database-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a78816df980b9116eb2a7870b1fec72436caac92"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/G02-migration-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b63c5f650edbfdcde6b4bfb3b82808a02ab30f4a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/migration-safety.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2219b90229e83791a017ab4c54f59adaa1520ac5"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/artifact-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dad6bfd6b680aff0bc0b911f594dc24804b8774f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/migration-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4443c58848f0f8d814dcbb095a88aea1fa8d71b7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/release/release-manifest.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64057d3dbfa403fb76727c2db69583785301609f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/database/verification-summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dfc0902e49801f7e8b6fd6eeb7fb4f01d745bffc"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/specialized/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "598146cd0958991717887263f93d02575a129547"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-database/summary-specialized.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3344cb4a3bde43c583d87de139d6531014a0f84b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-contract-event-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9371cd729d29eca32f35dbe4b755c67616982bc0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-catalog-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fde6348d131becd5622db609ae3b3dec19bf4a0b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-documentation-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b3087e13bebe4bfd5c3c01317bc1a96a530908a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-layerguard-handoff-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "257e12bb9d2e3e4f8135319d2b926dcd8a3768dc"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-source-reconciliation.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "05074a8448be51b7d861343e452717fefe162e74"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-phase9-status.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d561a77545c93c8ec564fcd4425e5a7325c0b902"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-serialization-golden.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1bb65f88676ff736ab9656810677f5e0a31892f6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/G03-sync-api-snapshot.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "457a501a7a7524f47b8dcda071956e34719cf3cd"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/guard.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "73556067bd12e35fcc1da93794732e701da2b638"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/g03/layerguard-governance-input.generated.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e415376a49927a900f5fcfebb4a1d14806af4421"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/specialized/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b57f84eb1aa927770de70c35a052ecb3b95b4059"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g03/summary-specialized.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "63ab0e95b4a86a46ef46ccb36c7ce466dcceb2a4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase11-documentation-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c62e975c36cbe67d9f65262f7edbe36d6a43a399"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-closeout-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91b34ed0d873178c16ea3ba3808c15f223876ada"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase12-manifest-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9081a54127a532c84d64cece670aa6cece57942a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase8-orchestration-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c91edda4351c310977bdd0629133a250f2a23012"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-phase9-failure-matrix-report.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1024b1ca3feb576a71143087b8e57246d26f62df"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/G04-runtime-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fa9c287c9b11bfd438ef465ba12dc0c97d6c7804"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/guard.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "11b7604e105719568fcf0d8d6e96acde6e731d92"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/plan02-c1.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "516cf23cbb95e99ad69ba933f39936c90b94aa0d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/release-runtime-manifest.generated.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b41c12b0e285e0a64e1ff8d54f3fc454f42b420f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/g04/verification-summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6e6b0f89689e4aa361cf16c5cd100d216033af45"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/specialized/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d93e4452d659580bb38a0a99f9c0b2666ca6486f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g04/summary-specialized.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "37e464a15db982ab7ea121a23b0ec38cf9766998"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/context-boundary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "212ecf933079b4c1c5a24c18ccc71c25b28b17f0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/G05-context-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "048a1f8d7691d59860e1ac328501f102979fe9ee"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/security-boundary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7e30fdee2502d2516e9f4eb9ca5ae086e5907f39"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/g05/verification-summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "aaba75057a8cc36ebf356a1f4b469e9c8ee2b6dc"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/specialized/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c5b73ff865f21b763e02bb12fbdf8d08b2ca22f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-g05/summary-specialized.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fc63f8d17d0afada0e05add78c3e858163de8a2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/abstractions-retirement.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7e92f425bc6dd920fb694df982370617a4a41b65"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/cross-module-query-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "813e9f3f9c58b73ac96cc451d85c88b985d1b42f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/extraction-policy.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "749a6f47ec279176e0b6fcd47cb8e6902971087e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-dependency-graph.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "904b39c01d2654205510135129067483195ae145"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/module-boundary-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f0def6708d411de0249233edd90ee4c80b107933"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/projection-policy.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f14b3ca1dffa826e5af2b1a819c87cdeb2873c4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-inventory.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d8ea99b94466d175c47a2bdab580481aef7f3372"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/tenant-query-policy.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b0f891ecfd773c531c9f893ee866fdea28ddd342"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/plan04/verification-summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "98fe862e9c33f12fa5f7b82bf718a1c096859fb2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/specialized/summary.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b92eaa3244cbea92591c8a60c5aa88657e2a8d20"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/run-35055279816/v3-specialized-plan04/summary-specialized.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "73fc117ce737b18ad1d82d4c6e0c1030dcc8748b"
+      }
+    }
+  ]
+}
