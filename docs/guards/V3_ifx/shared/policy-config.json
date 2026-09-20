@@ -9,7 +9,8 @@
     "docs/guards/V3_ifx/stages/"
   ],
   "excluded": [
-    "docs/guards/V3_ifx/stages/diff/authorizations/"
+    "docs/guards/V3_ifx/stages/diff/authorizations/",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/"
   ],
   "entries": [
     {

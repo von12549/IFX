@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11m-refactor-baseline-policy-bridge",
+  "title": "Bridge the refactor baseline policy exclusion",
+  "goal": "Teach the trusted base that the future Stage-owned refactor baseline is frozen historical evidence, not active verdict policy.",
+  "acceptanceCriteria": [
+    "Only the exact refactor-baseline evidence destination is added to policy exclusions.",
+    "The excluded destination contains no files in this bridge checkpoint.",
+    "Manifest, documentation, policy-candidate and trusted-component validation pass.",
+    "Trusted Diff consumes exact policy and TCB authorizations once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-policy-bridge-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-policy-bridge-weaken.json",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-policy-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-policy-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["v3-docs", "ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
