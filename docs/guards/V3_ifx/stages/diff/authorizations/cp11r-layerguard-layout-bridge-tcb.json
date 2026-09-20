@@ -71,5 +71,10 @@
     "v3-cross-platform-*"
   ],
   "parityContract": "Architecture Check, Test, strict scan, fixed fixtures and package negative controls remain identical; only fail-closed source-root resolution is added.",
-  "allowedBehaviorDifferences": []
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "The base runner intentionally reports profile-views stale because the bridge candidate registers D34 and regenerates the authority-derived Markdown; the candidate Validate, direct Docs Check, manifest check and all functional parity modes must pass."
+    }
+  ]
 }
