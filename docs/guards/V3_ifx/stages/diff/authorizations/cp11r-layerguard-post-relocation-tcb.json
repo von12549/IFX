@@ -359,5 +359,10 @@
     "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
   ],
   "parityContract": "LayerGuard solution membership, IFX G03/G04/G05 policy binding, strict-scan verdicts, fixture coverage, command behavior and every positive/negative package-test outcome remain unchanged; only final Post ownership and the relative references required by the deeper path change.",
-  "allowedBehaviorDifferences": []
+  "allowedBehaviorDifferences": [
+    {
+      "mode": "Validate",
+      "reason": "The base runner intentionally reports profile-views stale when it renders the pre-relocation authority set against the candidate's regenerated Post-owned Markdown; the candidate Validate, direct Docs Check, manifest check and all functional parity modes must pass."
+    }
+  ]
 }
