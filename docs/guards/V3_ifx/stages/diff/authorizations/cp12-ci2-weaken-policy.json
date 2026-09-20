@@ -1,0 +1,47 @@
+{
+  "formatVersion": 1,
+  "id": "cp12-ci2-weaken-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260921-v3-stage-cp12-ci2-windows-portability-smoke.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "baseSha256": "9e1bc61168056d953fc46cccef1ba304fb1b163d0f9aeef486572bf9cc8cc040",
+      "headSha256": "bbf4ae7472c6569299ddf9347363a2d97eea0a19544b5e01e4379a84bfdb86fb",
+      "schema": "json",
+      "pointers": [
+        "/costControls/windowsPortability"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fc2e8ad2641b7b363628ac4575e04a6384dde27e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "a18d30ab92067930ea88552619cae03608fd58a12afacf99c5cc0990fcbe182d",
+      "headSha256": "029bb3c4fd4e40be9a8565c5d25fdb38068f6a4646e83d65e5ae03c3cb1d57b3",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/14/parityContract"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3b2b7c2a756a75aa697074602006c13089d1c47e"
+      }
+    }
+  ]
+}
