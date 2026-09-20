@@ -40,6 +40,11 @@ function Resolve-AuthorityRegistryRelativePath([string] $PackageRoot) {
     if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
     return $available[0]
 }
+function Resolve-IFXContractPath([string] $PackageRoot, [string] $relative) {
+    $available = @(@("contracts/$relative", "shared/contracts/$relative") | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared contract must exist for $relative; found $($available.Count)." }
+    return $available[0]
+}
 $policyRelativeRoot = Resolve-PolicyRelativeRoot $packageRoot
 $authorityRegistryRelativePath = Resolve-AuthorityRegistryRelativePath $packageRoot
 
@@ -222,6 +227,6 @@ $summary = [ordered]@{
 }
 $summaryPath = Join-Path $output "summary-$summaryMode.json"
 $summary | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $summaryPath -Encoding utf8NoBOM
-if (-not (Test-Json -LiteralPath $summaryPath -SchemaFile (Join-Path $packageRoot 'contracts/guard-summary.schema.json') -ErrorAction Stop)) { throw 'Unified summary does not match guard-summary.schema.json.' }
+if (-not (Test-Json -LiteralPath $summaryPath -SchemaFile (Resolve-IFXContractPath $packageRoot 'guard-summary.schema.json') -ErrorAction Stop)) { throw 'Unified summary does not match guard-summary.schema.json.' }
 if ($summary.status -ne 'pass') { throw "IFX guardrails failed: $summaryPath" }
 Write-Host "IFX guardrails passed: $summaryPath"

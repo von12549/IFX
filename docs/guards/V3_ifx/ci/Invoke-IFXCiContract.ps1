@@ -17,6 +17,12 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $root = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..')) }
 function Resolve-InRoot([string] $path) { if ([IO.Path]::IsPathRooted($path)) { return $path } return (Join-Path $root $path) }
+function Resolve-RequiredChecksSchema {
+    $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+    $available = @(@('contracts/required-checks.schema.json', 'stages/ci/contracts/required-checks.schema.json') | ForEach-Object { Join-Path $package $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or CI-owned required-checks schema must exist; found $($available.Count)." }
+    return $available[0]
+}
 
 $failures = [Collections.Generic.List[string]]::new()
 $checks = [Collections.Generic.List[object]]::new()
@@ -131,7 +137,7 @@ Add-Check 'workflow-public-commands' ($nonPublicEntries.Count -eq 0) "workflow s
 $requiredChecksFile = if ($RequiredChecksPath) { Resolve-InRoot $RequiredChecksPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../stages/ci/required-checks.json')) }
 if (-not [IO.File]::Exists($requiredChecksFile)) { throw "Required-check declaration is missing: $requiredChecksFile" }
 $declaration = Get-Content -LiteralPath $requiredChecksFile -Raw | ConvertFrom-Json -AsHashtable
-$requiredChecksSchema = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../contracts/required-checks.schema.json'))
+$requiredChecksSchema = Resolve-RequiredChecksSchema
 if (-not (Test-Json -Path $requiredChecksFile -SchemaFile $requiredChecksSchema -ErrorAction Stop)) { throw "Required-check declaration does not match its schema: $requiredChecksFile" }
 $declared = @($declaration.jobs)
 $declaredIds = @($declared | ForEach-Object { [string]$_.id })

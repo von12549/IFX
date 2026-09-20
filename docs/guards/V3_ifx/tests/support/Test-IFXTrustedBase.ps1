@@ -94,6 +94,8 @@ $policyRelativeRoot = $policyRelativeRootCandidates[0]
 $g03CatalogProjection = "docs/guards/V3_ifx/$policyRelativeRoot/g03/catalog.json"
 $g05Projection = "docs/guards/V3_ifx/$policyRelativeRoot/g05/context-protocol-v1.json"
 $decisionHistory = [IO.Path]::GetRelativePath($repository, (Resolve-GuardDecisionHistoryPath $package)).Replace('\', '/')
+$policyRegistryDocument = Get-Content -LiteralPath (Join-Path $package 'shared/policy-config.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+$ruleSchema = [string]@($policyRegistryDocument.entries | Where-Object { $_.id -eq 'ifx-rules' })[0].schema
 
 try {
     # ---- base commit: the current package (including uncommitted work) on top of HEAD
@@ -109,6 +111,20 @@ try {
     if ((Resolve-GuardDecisionHistoryPath $decisionLayoutFixture) -cne $sharedDecisionFixture) { throw 'Shared decision-history resolution changed unexpectedly.' }
     [IO.Directory]::Delete((Join-Path $decisionLayoutFixture 'shared'), $true)
     try { [void](Resolve-GuardDecisionHistoryPath $decisionLayoutFixture); $failures.Add('Missing decision-history layouts did not fail closed.') } catch { Write-Host 'PASS missing decision-history layout fails closed' }
+    $contractLayoutRoot = Join-Path $work 'contract-layout'
+    $contractPackage = Join-Path $contractLayoutRoot 'docs/guards/V3_ifx'
+    $legacyContract = Join-Path $contractPackage 'contracts/guard-summary.schema.json'
+    $sharedContract = Join-Path $contractPackage 'shared/contracts/guard-summary.schema.json'
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($legacyContract))
+    [IO.File]::WriteAllText($legacyContract, "{}`n", $utf8)
+    if ((Resolve-GuardContractPath $contractPackage 'guard-summary') -cne $legacyContract) { throw 'Legacy contract resolution changed unexpectedly.' }
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($sharedContract))
+    [IO.File]::WriteAllText($sharedContract, "{}`n", $utf8)
+    try { [void](Resolve-GuardContractPath $contractPackage 'guard-summary'); $failures.Add('Ambiguous contract layouts did not fail closed.') } catch { Write-Host 'PASS ambiguous contract layouts fail closed' }
+    [IO.File]::Delete($legacyContract)
+    if ((Resolve-GuardContractPath $contractPackage 'guard-summary') -cne $sharedContract) { throw 'Shared contract resolution changed unexpectedly.' }
+    [IO.File]::Delete($sharedContract)
+    try { [void](Resolve-GuardContractPath $contractPackage 'guard-summary'); $failures.Add('Missing contract layouts did not fail closed.') } catch { Write-Host 'PASS missing contract layout fails closed' }
     $headCommit = (Invoke-FixtureGit $repository @('rev-parse', 'HEAD'))[0]
     [void](Invoke-FixtureGit $work @('clone', '-q', '--shared', '--no-checkout', $repository, $clone))
     [void](Invoke-FixtureGit $clone @('checkout', '-q', '--detach', $headCommit))
@@ -425,7 +441,7 @@ try {
         Assert-Result 'a valid head history manifest passes candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-valid' $authorizedBase { Edit-Json $historyManifest { param($d) $d['fixtureNote'] = 'candidate validation' } })) 0 'Policy candidate validation passed'
         Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json $historyManifest { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
         Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json $g05Projection { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'
-        Assert-Result 'a schema field without a monotonicity declaration fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'schema-field' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } })) 1 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
+        Assert-Result 'a schema field without a monotonicity declaration fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'schema-field' $authorizedBase { Edit-Json $ruleSchema { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } })) 1 "Schema field without a monotonicity declaration: $ruleSchema#/properties/fixtureField"
 
         # ---- D18 domain authority coverage for an explicit head commit (D25)
         Assert-Result 'a domain authority waiver without weaken-policy fails the verifier' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'waiver-unauthorized' $authorizedBase $waiverEdit)) 1 "Uncovered policy-weakening needs a base authorization that this change deletes: $catalog"

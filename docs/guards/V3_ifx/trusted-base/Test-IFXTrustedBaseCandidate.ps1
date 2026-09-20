@@ -80,7 +80,7 @@ try {
         $matching = [Collections.Generic.List[object]]::new()
         if ([IO.Directory]::Exists($authorizationRoot)) {
             foreach ($file in @(Get-ChildItem -LiteralPath $authorizationRoot -Filter '*.json' -File)) {
-                if (-not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorization.schema.json') -Path $file.FullName)) { $failures.Add("Base authorization does not match its schema: $($file.Name)"); continue }
+                if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'authorization') -Path $file.FullName)) { $failures.Add("Base authorization does not match its schema: $($file.Name)"); continue }
                 $record = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json -AsHashtable -Depth 50
                 if ("$($record.id).json" -cne $file.Name) { $failures.Add("Authorization file name must equal its id: $($file.Name)"); continue }
                 if ($record.operation -ne 'change-trusted-base') { continue }
@@ -137,7 +137,7 @@ try {
                         $output = Join-Path $candidate "artifacts/guards/v3-ifx-tcb-parity/$side/$($mode.ToLowerInvariant())"
                         $run = Invoke-GuardIsolatedPwsh $runner ($arguments + @('-TargetRoot', $candidate, '-OutputDirectory', $output)) -WorkingDirectory $candidate
                         $summary = Join-Path $output $summaryName
-                        $schemaValid = [IO.File]::Exists($summary) -and (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/guard-summary.schema.json') -Path $summary)
+                        $schemaValid = [IO.File]::Exists($summary) -and (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'guard-summary') -Path $summary)
                         $outcomes[$side] = [ordered]@{ exitCode = $run.ExitCode; checks = (Get-SummaryChecks $summary); schemaValid = [bool]$schemaValid }
                     }
                     $equal = $outcomes.base.exitCode -eq $outcomes.candidate.exitCode -and $outcomes.base.checks -ceq $outcomes.candidate.checks -and $outcomes.candidate.schemaValid

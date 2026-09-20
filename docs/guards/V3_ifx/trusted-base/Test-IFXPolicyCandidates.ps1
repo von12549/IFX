@@ -74,7 +74,7 @@ try {
     $headProjectionTargets = Get-GuardProjectionTargets $headAuthorities $packagePath
     $registryPath = "$packagePath/shared/policy-config.json"
     $headRegistryText = Get-GuardBlobText $target $headSha $registryPath
-    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
+    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'policy-config') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
     $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
     $entries = @(Get-GuardChangedEntries $target $mergeBase $headSha)
     $changedPaths = [Collections.Generic.HashSet[string]]::new([string[]]@($entries | ForEach-Object { $_.Path }), [StringComparer]::Ordinal)
@@ -166,17 +166,20 @@ try {
     }
 
     # ---- head registry: schema-valid, and a monotonicity declaration for every field of every registered schema
-    $registryTouched = $changedPaths.Contains($registryPath) -or @($entries | Where-Object { $_.Path.StartsWith("$packagePath/contracts/", [StringComparison]::Ordinal) }).Count -gt 0
+    $registeredSchemas = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($entry in @(@($registry.entries) + @($headRegistry.entries))) { if ($entry.ContainsKey('schema')) { [void]$registeredSchemas.Add([string]$entry.schema) } }
+    $registryTouched = $changedPaths.Contains($registryPath) -or @($entries | Where-Object { $registeredSchemas.Contains($_.Path) -or $_.Path.EndsWith('.schema.json', [StringComparison]::Ordinal) }).Count -gt 0
     if ($registryTouched) {
         $problems = [Collections.Generic.List[string]]::new()
         if ($null -eq $headRegistryText) { $problems.Add('head removes the policy and configuration registry') }
         else {
-            $registrySchema = Join-Path $packageRoot 'contracts/policy-config.schema.json'
-            if ($changedPaths.Contains("$packagePath/contracts/policy-config.schema.json")) {
+            $registrySchema = Resolve-GuardContractPath $packageRoot 'policy-config'
+            $headRegistrySchemaPath = Get-GuardContractPathAtCommit $target $headSha 'policy-config' $packagePath
+            if ($changedPaths.Contains($headRegistrySchemaPath) -or @($entries | Where-Object { $_.Path.EndsWith('/policy-config.schema.json', [StringComparison]::Ordinal) }).Count -gt 0) {
                 $registrySchema = Join-Path $work 'schemas/policy-config.schema.json'
-                [void](Write-HeadBlob $headSha "$packagePath/contracts/policy-config.schema.json" $registrySchema)
+                if (-not (Write-HeadBlob $headSha $headRegistrySchemaPath $registrySchema)) { $problems.Add("head removes the policy-config schema: $headRegistrySchemaPath") }
             }
-            if (-not (Test-GuardJsonSchema -Schema $registrySchema -Json $headRegistryText)) { $problems.Add('does not match the policy-config schema') }
+            if ($problems.Count -eq 0 -and -not (Test-GuardJsonSchema -Schema $registrySchema -Json $headRegistryText)) { $problems.Add('does not match the policy-config schema') }
             else {
                 $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
                 $read = { param($schema) Get-GuardBlobText $target $headSha $schema }

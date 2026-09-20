@@ -28,7 +28,7 @@ $baseRepository = Get-GuardFullPath (Join-Path $packageRoot '../../..')
 $target = Get-GuardFullPath $TargetRoot
 $report = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Path $target $ReportPath }))
 $manifestPath = 'docs/guards/V3_ifx/shared/trusted-components.json'
-$authorizationSchema = Join-Path $packageRoot 'contracts/authorization.schema.json'
+$authorizationSchema = Resolve-GuardContractPath $packageRoot 'authorization'
 $pathOperations = @('delete', 'move', 'case-rename')
 $failures = [Collections.Generic.List[string]]::new()
 $obligations = [Collections.Generic.List[object]]::new()
@@ -133,8 +133,8 @@ try {
     $headRegistryText = Get-GuardBlobText $target $headSha 'docs/guards/V3_ifx/shared/policy-config.json'
     $headAuthorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $target $headSha
     $headAuthoritiesText = Get-GuardBlobText $target $headSha $headAuthorityRegistryPath
-    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
-    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorities.schema.json') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
+    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'policy-config') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
+    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'authorities') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
     $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
     $headAuthorities = ConvertFrom-GuardJsonText $headAuthoritiesText
     $directory = $protection.AuthorizationDirectory
@@ -283,7 +283,7 @@ if ($failures.Count -eq 0) {
 }
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
 [IO.File]::WriteAllText($report, ($result | ConvertTo-Json -Depth 10) + "`n", [Text.UTF8Encoding]::new($false))
-if (-not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/protected-change-report.schema.json') -Path $report)) { throw "Protected change report does not match its schema: $report" }
+if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'protected-change-report') -Path $report)) { throw "Protected change report does not match its schema: $report" }
 if ($failures.Count -gt 0) {
     foreach ($failure in $failures) { Write-Host "FAIL $failure" }
     Write-Host "Protected change verification failed: $report"

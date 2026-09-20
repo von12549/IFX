@@ -65,8 +65,8 @@ elseif ($Operation -eq 'weaken-policy') {
     $headRegistryText = Get-GuardBlobText $repositoryRoot $head 'docs/guards/V3_ifx/shared/policy-config.json'
     $headAuthorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $repositoryRoot $head
     $headAuthoritiesText = Get-GuardBlobText $repositoryRoot $head $headAuthorityRegistryPath
-    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
-    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorities.schema.json') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
+    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'policy-config') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
+    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'authorities') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
     $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
     $headAuthorities = ConvertFrom-GuardJsonText $headAuthoritiesText
     $policy = Get-GuardPolicyChanges $repositoryRoot $base $head $registry (Get-GuardProjectionTargets $authorities) @(Get-GuardChangedEntries $repositoryRoot $base $head) -HeadRegistry $headRegistry -HeadProjectionTargets (Get-GuardProjectionTargets $headAuthorities)
@@ -116,5 +116,5 @@ else {
 $destination = if ($OutputPath) { [IO.Path]::GetFullPath($OutputPath) } else { Join-Path $repositoryRoot "$AuthorizationDirectory$Id.json" }
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination))
 [IO.File]::WriteAllText($destination, ($record | ConvertTo-Json -Depth 10) + "`n", [Text.UTF8Encoding]::new($false))
-if (-not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorization.schema.json') -Path $destination)) { throw 'Authorization does not match its schema.' }
+if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'authorization') -Path $destination)) { throw 'Authorization does not match its schema.' }
 Write-Host "Authorization for $summary written: $destination"

@@ -26,7 +26,9 @@ function Invoke-Mode([string] $label, [string] $mode, [int] $expected, [string[]
 try {
     [void][IO.Directory]::CreateDirectory($fixture)
     [void][IO.Directory]::CreateDirectory((Join-Path $fixture 'config'))
-    Copy-Item -LiteralPath (Join-Path $repository 'docs/guards/V3_ifx/contracts/activation.schema.json') -Destination (Join-Path $fixture 'config/activation.schema.json')
+    $activationSchemas = @(@('docs/guards/V3_ifx/contracts/activation.schema.json', 'docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json') | ForEach-Object { Join-Path $repository $_ } | Where-Object { [IO.File]::Exists($_) })
+    if ($activationSchemas.Count -ne 1) { throw "Exactly one legacy or CI-owned activation schema must exist; found $($activationSchemas.Count)." }
+    Copy-Item -LiteralPath $activationSchemas[0] -Destination (Join-Path $fixture 'config/activation.schema.json')
     Write-Fixture 'config/workflow.template.yml' "name: Fixture`n# runtime @@RUNTIME@@`njobs:`n  verify:`n    name: fixture-check`n"
     Write-Fixture 'config/variables.json' "{`n  `"RUNTIME`": `"pwsh`"`n}`n"
     Write-Fixture 'config/variables.schema.json' '{ "type": "object", "additionalProperties": false, "required": ["RUNTIME"], "properties": { "RUNTIME": { "const": "pwsh" } } }'

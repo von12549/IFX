@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11p-contract-layout-bridge",
+  "title": "Bridge contract paths across Shared and Stage ownership",
+  "goal": "Let the previous trusted base validate the legacy and final CP11p contract layouts without ambiguity or silent fallback.",
+  "acceptanceCriteria": [
+    "IFX-only contract consumers resolve exactly one legacy or owned Shared, Diff or CI schema.",
+    "Missing and ambiguous IFX contract layouts fail closed.",
+    "Portable IFX copies are accepted only when byte-identical to their canonical V3 contracts.",
+    "Policy candidate validation discovers registered schemas in either layout from explicit Git objects.",
+    "Existing manifest, CI, deployment and trusted-base tests pass in the legacy layout.",
+    "Trusted Diff and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-layout-bridge-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-layout-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-layout-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-layout-bridge.plan.json"
+  ],
+  "areaIds": ["CI", "GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

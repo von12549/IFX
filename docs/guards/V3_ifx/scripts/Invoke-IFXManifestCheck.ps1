@@ -23,6 +23,28 @@ function Exists([string] $relative) {
     if ($relative.EndsWith('/')) { return [IO.Directory]::Exists((Full $relative)) }
     return [IO.File]::Exists((Full $relative))
 }
+function Resolve-ContractRelativePath([string] $name) {
+    $file = if ($name.EndsWith('.schema.json', [StringComparison]::Ordinal)) { $name } else { "$name.schema.json" }
+    $shared = @('authorities.schema.json', 'commands.schema.json', 'docs-map.schema.json', 'guard-summary.schema.json', 'guard-system.schema.json', 'policy-config.schema.json', 'stage.schema.json', 'trusted-base-summary.schema.json', 'trusted-components.schema.json')
+    $diff = @('authorization.schema.json', 'change-scope.schema.json', 'protected-change-report.schema.json', 'protection.schema.json')
+    $ci = @('activation.schema.json', 'required-checks.schema.json', 'workflow-variables.schema.json')
+    $portable = @('decision.schema.json', 'plan.schema.json', 'pre-result.schema.json', 'profile.schema.json', 'project-map.schema.json', 'rule.schema.json', 'tech-stack.schema.json')
+    $final = if ($file -in $shared) { "$package/shared/contracts/$file" }
+        elseif ($file -in $diff) { "$package/stages/diff/contracts/$file" }
+        elseif ($file -in $ci) { "$package/stages/ci/contracts/$file" }
+        elseif ($file -in $portable) { "docs/guards/V3/contracts/$file" }
+        else { throw "Unknown IFX contract: $file" }
+    $legacy = "$package/contracts/$file"
+    $available = @(@($final, $legacy) | Where-Object { [IO.File]::Exists((Full $_)) })
+    if ($file -in $portable -and $available.Count -eq 2) {
+        $canonicalHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Full $final)).Hash
+        $legacyHash = (Get-FileHash -Algorithm SHA256 -LiteralPath (Full $legacy)).Hash
+        if ($canonicalHash -cne $legacyHash) { throw "Legacy IFX contract differs from canonical V3 contract: $file" }
+        return $final
+    }
+    if ($available.Count -ne 1) { throw "Exactly one legacy or owned contract must exist for $file; found $($available.Count)." }
+    return $available[0]
+}
 function Resolve-AuthorityRegistryRelativePath {
     $available = @(@("$package/policy/authorities.json", "$package/shared/authorities/authorities.json") | Where-Object { [IO.File]::Exists((Full $_)) })
     if ($available.Count -ne 1) { Fail "Exactly one legacy or shared authority registry must exist; found $($available.Count)."; return $null }
@@ -32,7 +54,7 @@ function Read-Manifest([string] $relative, [string] $schema) {
     $path = Full $relative
     if (-not [IO.File]::Exists($path)) { Fail "Missing manifest: $relative"; return $null }
     try {
-        if (-not (Test-Json -Path $path -SchemaFile (Full "$package/contracts/$schema.schema.json") -ErrorAction Stop)) { Fail "Schema validation failed: $relative"; return $null }
+        if (-not (Test-Json -Path $path -SchemaFile (Full (Resolve-ContractRelativePath $schema)) -ErrorAction Stop)) { Fail "Schema validation failed: $relative"; return $null }
     } catch { Fail "Schema validation failed: ${relative}: $($_.Exception.Message)"; return $null }
     return Get-Content -LiteralPath $path -Raw | ConvertFrom-Json -AsHashtable -Depth 50
 }
@@ -375,7 +397,7 @@ $protectionRelative = "$package/stages/diff/protection.json"
 if (-not [IO.File]::Exists((Full $protectionRelative))) { Fail "Diff protection configuration is missing: $protectionRelative" }
 else {
     try {
-        if (-not (Test-Json -Path (Full $protectionRelative) -SchemaFile (Full "$package/contracts/protection.schema.json") -ErrorAction Stop)) { Fail "Schema validation failed: $protectionRelative" }
+        if (-not (Test-Json -Path (Full $protectionRelative) -SchemaFile (Full (Resolve-ContractRelativePath 'protection')) -ErrorAction Stop)) { Fail "Schema validation failed: $protectionRelative" }
     } catch { Fail "Schema validation failed: ${protectionRelative}: $($_.Exception.Message)" }
 }
 # ---------------------------------------------------------------- policy and configuration registry (Plan 06 §12.4, D24)

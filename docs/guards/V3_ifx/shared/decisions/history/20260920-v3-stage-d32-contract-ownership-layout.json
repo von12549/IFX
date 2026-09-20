@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-d32-contract-ownership-layout",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P10 assigns IFX-only contracts to Shared, Diff or CI ownership and removes seven byte-identical IFX copies in favor of canonical V3 contracts through a fail-closed expand/contract bridge.",
+  "affectedPaths": [
+    "docs/guards/V3/contracts/**",
+    "docs/guards/V3_ifx/contracts/**",
+    "docs/guards/V3_ifx/shared/contracts/**",
+    "docs/guards/V3_ifx/stages/ci/contracts/**",
+    "docs/guards/V3_ifx/stages/diff/contracts/**",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/trusted-base/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "The package-root contracts directory obscures authority. Cross-stage IFX schemas belong to shared/contracts; authorization and protected-change schemas belong to Diff; deployment and required-check schemas belong to CI. decision, plan, pre-result, profile, project-map, rule and tech-stack are byte-identical to the portable V3 contracts and therefore use V3 as their single authority instead of moving duplicate copies. The migration first teaches base-owned readers to accept exactly one IFX legacy or owned path, while permitting a portable legacy copy only when byte-identical to V3, then consumes exact move/delete, trusted-base and policy authorizations. This applies D7, D15, D23 and D24 to the contracts mapping in Plan 06 section 13."
+}

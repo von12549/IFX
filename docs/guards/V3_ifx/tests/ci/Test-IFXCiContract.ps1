@@ -41,9 +41,7 @@ function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $wor
     [IO.File]::WriteAllText((Join-Path $case '.github/workflows/v3-ifx-guardrails.yml'), $workflow, $utf8)
     if ($usingRequiredChecks) {
         [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/stages/ci'))
-        [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/contracts'))
         [IO.File]::WriteAllText((Join-Path $case 'docs/guards/V3_ifx/stages/ci/required-checks.json'), $requiredChecks, $utf8)
-        [IO.File]::Copy((Join-Path $package 'contracts/required-checks.schema.json'), (Join-Path $case 'docs/guards/V3_ifx/contracts/required-checks.schema.json'))
         $arguments = @('-NoProfile', '-File', $verifier, '-TargetRoot', $case, '-RequiredChecksPath', 'docs/guards/V3_ifx/stages/ci/required-checks.json')
     } else {
         [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/ci'))
