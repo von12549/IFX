@@ -17,6 +17,8 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { $package = [IO.Path]::GetFullPath((Join-Path $package '..')) }
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { throw 'Cannot resolve the IFX guard package root.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
 Import-Module (Join-Path $package 'trusted-base/TrustedBase.psm1') -Force
 $tempRoot = if ($env:RUNNER_TEMP) { $env:RUNNER_TEMP } else { [IO.Path]::GetTempPath() }

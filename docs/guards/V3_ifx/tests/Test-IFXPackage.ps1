@@ -4,6 +4,8 @@ param([string] $NuGetConfig)
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { $package = [IO.Path]::GetFullPath((Join-Path $package '..')) }
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { throw 'Cannot resolve the IFX guard package root.' }
 $repository = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
 $artifacts = [IO.Path]::GetFullPath((Join-Path $repository 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-package-test-$([Guid]::NewGuid().ToString('N'))"))

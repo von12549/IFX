@@ -1,6 +1,8 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { $package = [IO.Path]::GetFullPath((Join-Path $package '..')) }
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { throw 'Cannot resolve the IFX guard package root.' }
 $root = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
 $v3 = Join-Path $root 'docs/guards/V3'
 $profileLayout = Join-Path $package 'shared/profile-layout.json'

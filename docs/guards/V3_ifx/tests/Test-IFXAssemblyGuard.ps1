@@ -2,7 +2,10 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
+$package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { $package = [IO.Path]::GetFullPath((Join-Path $package '..')) }
+if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { throw 'Cannot resolve the IFX guard package root.' }
+$root = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
 $legacyQuality = Join-Path $root 'docs/guards/V3_ifx/quality'
 $stageQuality = Join-Path $root 'docs/guards/V3_ifx/stages/post/gates/quality'
 $qualityFiles = @('Invoke-IFXAssemblyGuard.ps1', 'Invoke-IFXPackageAudit.ps1', 'Invoke-IFXQuality.ps1')
