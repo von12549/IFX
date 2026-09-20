@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "id": "p11-final-trusted-base-r2",
+  "id": "p11-final-trusted-base",
   "operation": "change-trusted-base",
   "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
   "decisionPaths": [
@@ -796,7 +796,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "de116a646add4eb9c9a2550c5504aee6a60d6138"
+        "objectId": "e7dbde728ae0b296cf0308cb901a744df325ae3c"
       }
     },
     {
@@ -894,7 +894,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "fcfce1c333e260c62b1fc9dde1a4720caed4b1bd"
+        "objectId": "1ca01c37ea7051dddf25ed34451e3a32fec6203b"
       }
     },
     {
@@ -3402,7 +3402,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "d0d7a7622025e636939a26ef1afb7f54bf03ca08"
+        "objectId": "c5d07b014a02aa4aa35eec6ec5585f0362afa624"
       }
     },
     {
@@ -6114,7 +6114,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "7252227cc49c5b31ff3064951bbb6610e7ceffbb"
+        "objectId": "32d0afa712c4be8237bbe566025b2178da16efe1"
       }
     },
     {
@@ -8499,6 +8499,6 @@
     "v3-quality-*",
     "v3-specialized-*"
   ],
-  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 the workflow calls the retained base scripts facade while head candidate tests use the new commands facade, and no weaker verdict is permitted.",
+  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; the aggregate relocation changes ownership and layout without permitting a weaker verdict.",
   "allowedBehaviorDifferences": []
 }
