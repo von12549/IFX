@@ -751,7 +751,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 - [x] P1.1 校验正式执行准备阶段已创建的 D1–D15 decision 记录与 P0 基线一致，补充 P0 中发现的新决定。 证据：D1–D15 记录 ID、schema 与 `affectedPaths` 全部校验通过；新增 D16（比较器按 commit 频率排序，细化 D13）与 D17（Plan04 阶段校验脚本退役）。
 - [x] P1.2 修复 P0.5 登记的漂移。 证据：DRIFT-01–09 已处理（DRIFT-09 由 D17 决定退役，删除等待 P4）；DRIFT-10 按设计留给 P3/P7；详见 CP02 pair。
-- [x] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。 证据：`ci/Invoke-IFXCiContract.ps1`（纳入 Validate）、`tests/Test-IFXCiContract.ps1`（15 个正反例，纳入 `v3-architecture`）；远端只读核对 42 项通过（`analysis/ifx/refactor-progress/cp02-ci-contract-remote.json`）。
+- [x] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。 证据：`ci/Invoke-IFXCiContract.ps1`（纳入 Validate）、`tests/Test-IFXCiContract.ps1`（15 个正反例，纳入 `v3-architecture`）；远端只读核对 42 项通过（`stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json`）。
 - [x] P1.4 为旧目录和旧命令定义兼容期、deprecation 输出和删除条件。 证据：`guard-system.json` `compatibility`（兼容期、deprecation 输出、内部路径规则、删除条件与 12 个条目）。
 - [x] P1.5 在不移动现有目录的前提下，先建立 P2 所需的最小 `guard-system.json`、`stage.json`、`commands.json` 与 `trusted-components.json` schema/skeleton；字段 owner 遵循 §6。P8 负责最终补全、迁移与文档化，不得重新定义已冻结字段。 证据：V3 与 V3_ifx `contracts/` 下 4 个 schema；V3_ifx `guard-system.json`、`shared/commands.json`、`shared/trusted-components.json`、6 个 `stages/*/stage.json`；`scripts/Invoke-IFXManifestCheck.ps1`（纳入 Validate）与 `tests/Test-IFXManifests.ps1`（16 个正反例）。
 - **门槛**：已知漂移清零并由 CI 阻止复发；required check 名称未变；P2 所需最小 manifest/TCB schema 已冻结且字段 owner 无冲突。
