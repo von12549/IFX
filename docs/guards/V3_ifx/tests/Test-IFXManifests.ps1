@@ -44,7 +44,7 @@ function Invoke-Case([string] $label, [int] $expected, [string] $relative, [scri
 try {
     foreach ($file in Get-ChildItem -LiteralPath $package -Recurse -File) {
         $relative = [IO.Path]::GetRelativePath($package, $file.FullName).Replace('\', '/')
-        if ($relative -match '(^|/)(bin|obj)/' -or $relative.StartsWith('analysis/ifx/refactor-baseline/ci-evidence/')) { continue }
+        if ($relative -match '(^|/)(bin|obj)/' -or @(@('analysis/ifx/refactor-baseline/ci-evidence/', 'stages/analysis/evidence/refactor-baseline/ci-evidence/') | Where-Object { $relative.StartsWith($_, [StringComparison]::Ordinal) }).Count -gt 0) { continue }
         Copy-Into $file.FullName "docs/guards/V3_ifx/$relative"
     }
     Copy-Into (Join-Path $repository '.github/workflows/v3-ifx-guardrails.yml') '.github/workflows/v3-ifx-guardrails.yml'

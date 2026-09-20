@@ -113,7 +113,14 @@ function Get-GuardPackageRepositoryFiles {
     # Tracked files a package copy needs: both guard packages plus the files the manifest checker validates.
     param([Parameter(Mandatory)][string] $Repository)
     $files = @(Invoke-GuardGitNul $Repository (@('ls-files', '-z', '--') + $script:PackageDirectories + $script:PackageRepositoryFiles))
-    return @($files | Where-Object { $_ -notmatch '(^|/)(bin|obj)/' -and -not $_.StartsWith('docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/') })
+    $evidenceArchives = @(
+        'docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/',
+        'docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/'
+    )
+    return @($files | Where-Object {
+        $path = $_
+        $path -notmatch '(^|/)(bin|obj)/' -and @($evidenceArchives | Where-Object { $path.StartsWith($_, [StringComparison]::Ordinal) }).Count -eq 0
+    })
 }
 
 function Copy-GuardFiles {

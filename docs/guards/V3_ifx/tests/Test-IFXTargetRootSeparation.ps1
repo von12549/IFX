@@ -65,7 +65,7 @@ $failures = [Collections.Generic.List[string]]::new()
 try {
     [void][IO.Directory]::CreateDirectory($work)
     foreach ($relative in @(Invoke-Git @('ls-files', '--cached', '--others', '--exclude-standard', '--', 'docs/guards/V3', 'docs/guards/V3_ifx'))) {
-        if ($relative -match '(^|/)(bin|obj)/' -or $relative.StartsWith('docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/')) { continue }
+        if ($relative -match '(^|/)(bin|obj)/' -or @(@('docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/', 'docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/') | Where-Object { $relative.StartsWith($_, [StringComparison]::Ordinal) }).Count -gt 0) { continue }
         Copy-File $packageCopy $relative
     }
     foreach ($relative in $packageRepositoryFiles) { Copy-File $packageCopy $relative }

@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11m-refactor-baseline-copy-bridge",
+  "title": "Bridge refactor-baseline archive copy exclusions",
+  "goal": "Keep base-owned candidate and fixture copies bounded while the frozen refactor baseline moves into the Analysis Stage.",
+  "acceptanceCriteria": [
+    "Trusted package copies omit ci-evidence from exactly the legacy or Stage-owned refactor-baseline path.",
+    "Manifest and target-root fixtures apply the same two-path archive exclusion.",
+    "No other package, policy or evidence path is excluded.",
+    "Package tests and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-copy-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-copy-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-copy-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
