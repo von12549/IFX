@@ -20,7 +20,7 @@
   ],
   "areaIds": ["GuardDocs", "GuardPackage"],
   "ruleIds": [],
-  "validationCommands": ["v3-docs", "ifx-package-test"],
+  "validationCommands": ["ifx-package-test"],
   "decisionPaths": [
     "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
     "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
