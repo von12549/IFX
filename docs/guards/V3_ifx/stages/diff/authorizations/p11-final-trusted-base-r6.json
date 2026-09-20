@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "id": "p11-final-trusted-base-r7",
+  "id": "p11-final-trusted-base-r6",
   "operation": "change-trusted-base",
   "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
   "decisionPaths": [
@@ -6235,7 +6235,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "aeaa9ef3e4c3a9bff99625bfde12e76561b6917d"
+        "objectId": "e5ab9e0d46b62adf524b2fba7b297713c5bf3196"
       }
     },
     {
@@ -6511,7 +6511,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "d628bc5f47c2fe31253c87da508684ea82524d9f"
+        "objectId": "e514f3bfd84fcc31070bd6f905cc4b580948727f"
       }
     },
     {
@@ -8500,6 +8500,6 @@
     "v3-quality-*",
     "v3-specialized-*"
   ],
-  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the base trusted runner, TCB candidate verification uses the base candidate verifier, and head candidate tests use the new commands facade. Executable-entry discovery in both the manifest checker and trusted-base candidate verifier excludes only the exact syntactically closed non-executable PRE-LAYOUT CI CONTRACT block; malformed or unclosed blocks and every executable reference outside that block remain visible and fail closed. No production verdict, command coverage, exit-code assertion, semantic expectation, smoke/full selection, or executable control is weakened.",
+  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the base trusted runner, TCB candidate verification uses the base candidate verifier, and head candidate tests use the new commands facade. The CI contract test normalizes only presentation-level ANSI escape sequences, console gutters, and line breaks before matching unchanged expected error text; exit-code assertions, semantic expectations, smoke/full coverage, executable-entry discovery, and every production verdict remain unchanged.",
   "allowedBehaviorDifferences": []
 }
