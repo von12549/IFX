@@ -61,7 +61,13 @@ elseif ($Operation -eq 'weaken-policy') {
     $registry = Read-GuardJsonBlob $repositoryRoot $base 'docs/guards/V3_ifx/shared/policy-config.json'
     $authorities = Read-GuardJsonBlob $repositoryRoot $base 'docs/guards/V3_ifx/policy/authorities.json'
     if ($null -eq $registry -or $null -eq $authorities) { throw "Base $base has no policy registry or authority registry." }
-    $policy = Get-GuardPolicyChanges $repositoryRoot $base $head $registry (Get-GuardProjectionTargets $authorities) @(Get-GuardChangedEntries $repositoryRoot $base $head)
+    $headRegistryText = Get-GuardBlobText $repositoryRoot $head 'docs/guards/V3_ifx/shared/policy-config.json'
+    $headAuthoritiesText = Get-GuardBlobText $repositoryRoot $head 'docs/guards/V3_ifx/policy/authorities.json'
+    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
+    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorities.schema.json') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
+    $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
+    $headAuthorities = ConvertFrom-GuardJsonText $headAuthoritiesText
+    $policy = Get-GuardPolicyChanges $repositoryRoot $base $head $registry (Get-GuardProjectionTargets $authorities) @(Get-GuardChangedEntries $repositoryRoot $base $head) -HeadRegistry $headRegistry -HeadProjectionTargets (Get-GuardProjectionTargets $headAuthorities)
     if ($policy.Unregistered.Count -gt 0) { throw "Unregistered policy or configuration files cannot be authorized: $($policy.Unregistered -join ', ')" }
     $changes = @($policy.Changes)
     # D25: D18 blocking findings of domain authorities are authorized with their blocking pointers.

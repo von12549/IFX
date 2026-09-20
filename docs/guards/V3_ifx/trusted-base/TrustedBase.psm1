@@ -416,17 +416,30 @@ function Get-GuardPolicyChanges {
     # parsing, normalized text after line-ending normalization; an added, removed or unparsable file changes at the root
     # pointer. Unregistered JSON files that head adds or changes inside the registry roots, and unregistered .gitattributes
     # files, are reported separately. Derived projection targets are never policy changes themselves.
-    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Base, [Parameter(Mandatory)][string] $Head, [Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][Collections.Generic.HashSet[string]] $ProjectionTargets, [object[]] $Entries)
+    param(
+        [Parameter(Mandatory)][string] $Repository,
+        [Parameter(Mandatory)][string] $Base,
+        [Parameter(Mandatory)][string] $Head,
+        [Parameter(Mandatory)][object] $Registry,
+        [Parameter(Mandatory)][Collections.Generic.HashSet[string]] $ProjectionTargets,
+        [object[]] $Entries,
+        [object] $HeadRegistry,
+        [Collections.Generic.HashSet[string]] $HeadProjectionTargets
+    )
     $changes = [Collections.Generic.List[object]]::new()
     $unregistered = [Collections.Generic.List[string]]::new()
     $utf8 = [Text.UTF8Encoding]::new($false)
+    $effectiveProjectionTargets = [Collections.Generic.HashSet[string]]::new($ProjectionTargets, [StringComparer]::Ordinal)
+    if ($null -ne $HeadProjectionTargets) { foreach ($path in $HeadProjectionTargets) { [void]$effectiveProjectionTargets.Add($path) } }
     foreach ($entry in @($Entries)) {
         $path = [string]$entry.Path
         if (($null -ne $entry.Base -and $entry.Base.type -ne 'blob') -or ($null -ne $entry.Head -and $entry.Head.type -ne 'blob')) { continue }
         $policy = Get-GuardPolicyEntry $Registry $path
+        if ($null -eq $policy -and $null -ne $HeadRegistry) { $policy = Get-GuardPolicyEntry $HeadRegistry $path }
         if ($null -eq $policy) {
             $leaf = $path.Substring($path.LastIndexOf('/') + 1)
-            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ((Test-GuardPolicyScope $Registry $path) -and -not $ProjectionTargets.Contains($path)))) { $unregistered.Add($path) }
+            $inPolicyScope = (Test-GuardPolicyScope $Registry $path) -or ($null -ne $HeadRegistry -and (Test-GuardPolicyScope $HeadRegistry $path))
+            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ($inPolicyScope -and -not $effectiveProjectionTargets.Contains($path)))) { $unregistered.Add($path) }
             continue
         }
         $baseBytes = if ($null -ne $entry.Base) { Get-GuardBlobBytes $Repository $Base $path } else { $null }

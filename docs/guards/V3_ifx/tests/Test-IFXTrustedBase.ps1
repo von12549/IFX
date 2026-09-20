@@ -292,6 +292,22 @@ try {
         $authorizedWorktree = New-BaseWorktree 'b-authorized' $authorizedBase
         $recordPath = "$authorizations/fixture-consumption.json"
 
+        # A protected policy move may update the head registries, but those registries never decide the verdict: the
+        # base engine validates them, treats their registered additions/removals as policy changes, and excludes only
+        # the derived targets that the base generator can reproduce from head authorities.
+        $policyMoveHead = New-PlannedHead 'policy-layout-scope' $authorizedBase {
+            [void][IO.Directory]::CreateDirectory((Join-Path $clone 'docs/guards/V3_ifx/stages/post/policy/g05'))
+            [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_ifx/policy/layerguard.json', 'docs/guards/V3_ifx/stages/post/policy/layerguard.json'))
+            [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json', 'docs/guards/V3_ifx/stages/post/policy/g05/context-protocol-v1.json'))
+            Edit-Json 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths[0] = 'docs/guards/V3_ifx/stages/post/policy/layerguard.json' }
+            Edit-Json 'docs/guards/V3_ifx/policy/authorities.json' { param($d) @($d.projections | Where-Object { $_.id -eq 'g05-context' })[0].target = 'stages/post/policy/g05/context-protocol-v1.json' }
+        }
+        $policyMoveResult = Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase $policyMoveHead
+        $policyMoveText = ($policyMoveResult.Output -replace '\s+', ' ')
+        if ($policyMoveResult.ExitCode -ne 1 -or $policyMoveText.Contains('Unregistered policy or configuration file:', [StringComparison]::Ordinal) -or -not $policyMoveText.Contains('policy-weakening', [StringComparison]::Ordinal)) {
+            $failures.Add("Policy relocation was not classified as registered policy changes plus protected moves: $policyMoveText")
+        } else { Write-Host 'PASS schema-valid head policy paths remain base-owned policy obligations during relocation' }
+
         # ---- runner: exemptions reach the Diff stage only through the base verifier's bound report
         $consume = New-PlannedHead 'consume' $authorizedBase { & $engineComment; Remove-Record 'fixture-consumption' }
         Assert-Result 'trusted Diff accepts the deletion of the exactly consumed authorization' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $consume) 0 'Trusted base run passed'

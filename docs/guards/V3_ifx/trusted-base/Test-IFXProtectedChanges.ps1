@@ -130,6 +130,12 @@ try {
     $result.authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes($authorizationSchema))
     $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
     $projectionTargets = Get-GuardProjectionTargets $authorities
+    $headRegistryText = Get-GuardBlobText $target $headSha 'docs/guards/V3_ifx/shared/policy-config.json'
+    $headAuthoritiesText = Get-GuardBlobText $target $headSha 'docs/guards/V3_ifx/policy/authorities.json'
+    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
+    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorities.schema.json') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
+    $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
+    $headAuthorities = ConvertFrom-GuardJsonText $headAuthoritiesText
     $directory = $protection.AuthorizationDirectory
     if ($directory -and $directory -cne $AuthorizationDirectory) { throw "The Diff protection authorizationDirectory $directory differs from the trusted base protocol directory $AuthorizationDirectory." }
 
@@ -173,7 +179,7 @@ try {
     }
     # D24: with zero comparators every semantic policy or configuration change is a potential weakening, orthogonal to
     # any trusted component obligation of the same path.
-    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries
+    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries -HeadRegistry $headRegistry -HeadProjectionTargets (Get-GuardProjectionTargets $headAuthorities)
     foreach ($path in $policy.Unregistered) { $failures.Add("Unregistered policy or configuration file: $path; register it in shared/policy-config.json or keep it outside the registry roots.") }
     foreach ($change in $policy.Changes) {
         $obligations.Add([pscustomobject]@{ id = "policy-weakening:$($change.Path)"; kind = 'policy-weakening'; paths = @($change.Path); pointers = @($change.Pointers); change = $change; coveredBy = [Collections.Generic.List[string]]::new() })
