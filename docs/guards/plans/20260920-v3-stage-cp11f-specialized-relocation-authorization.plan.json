@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11f-specialized-relocation-authorization",
+  "title": "Authorize CP11f Specialized relocation",
+  "goal": "Pre-authorize the exact move, TCB and policy tuples required to relocate the Specialized gate package into the post-stage ownership boundary.",
+  "acceptanceCriteria": [
+    "The move authorization binds the complete legacy and stage-owned Specialized trees.",
+    "The TCB authorization binds every changed trusted path to the affected trusted components.",
+    "The policy authorization binds all five semantic configuration changes.",
+    "The authorization-only change modifies no trusted implementation or active runtime path.",
+    "The relocation candidate consumes all three authorizations exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-relocation-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-relocation-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
