@@ -22,9 +22,9 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | `stages/post/rules/` | Stage rule applicability, project-reference detector and compiled CRM boundary pilot |
 | `profiles/ifx/views/` | Generated Markdown index, map, tech stack, rule pages and V3 stage coverage |
 | `stages/analysis/evidence/`, `reports/` | Reviewed long-lived inputs and frozen report snapshots; runtime output is under `artifacts/guards/v3-ifx/analysis/` |
-| `policy/layerguard.json` | Editable IFX architecture rules, copied from the existing policy with only the three Gate paths made local |
-| `policy/g03/`, `policy/g04/`, `policy/g05/` | Local policy facts and G04-bound artifacts; edit together with their verified hashes |
-| `policy/baselines/plan05.json` | Local strict baseline, bound to the composite policy hash; never silently update after a rule edit |
+| `stages/post/policy/layerguard.json` | Editable IFX architecture rules, copied from the existing policy with only the three Gate paths made local |
+| `stages/post/policy/g03/`, `stages/post/policy/g04/`, `stages/post/policy/g05/` | Local policy facts and G04-bound artifacts; edit together with their verified hashes |
+| `stages/post/policy/baselines/plan05.json` | Local strict baseline, bound to the composite policy hash; never silently update after a rule edit |
 | `policy/authorities.json` | Registry of editable domain authorities and deterministic V3 projections |
 | `stages/post/gates/specialized/` | V3-owned G03, G04, G05, Plan04 and Database runners and detectors |
 | `stages/post/gates/quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |

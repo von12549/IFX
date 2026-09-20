@@ -2,12 +2,12 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `321fa0c781c47997711b681cfebdc87d74272049db924468a1d3141fb4506560`
+Composite SHA-256: `1aa56f88ece6456cea168fb0a756ec95ac477c4a3414642001065c3b38608ae4`
 
 Sources:
 
-- `docs/guards/V3_ifx/policy/layerguard.json` — profile-policy
 - `docs/guards/V3_ifx/shared/commands.json` — command-contract
+- `docs/guards/V3_ifx/stages/post/policy/layerguard.json` — profile-policy
 - `docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — profile-policy
 - `docs/guards/V3_ifx/stages/post/rules/ARCH.SEMANTIC.json` — profile-policy
 - `docs/guards/V3_ifx/stages/post/rules/L1.2.json` — profile-policy

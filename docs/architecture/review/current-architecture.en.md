@@ -142,4 +142,4 @@ These findings form the starting point for the target Contracts/Adapters/Events 
 | Transaction pipeline transaction | [`TransactionBehavior.cs`](../../../src/Modules/Transaction/IFX.Modules.Transaction.Application/Behaviors/TransactionBehavior.cs) |
 | Current synchronous in-memory event bus | [`InMemoryIntegrationEventBus.cs`](../../../src/Platform/Messaging/IFX.Platform.Messaging.Infrastructure.InMemory/InMemoryIntegrationEventBus.cs) |
 | Holdings event consumption and persistence | [`TransactionProcessedEventHandler.cs`](../../../src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs) |
-| Current architecture-check rules | [`V3_ifx policy`](../../guards/V3_ifx/policy/layerguard.json) |
+| Current architecture-check rules | [`V3_ifx policy`](../../guards/V3_ifx/stages/post/policy/layerguard.json) |

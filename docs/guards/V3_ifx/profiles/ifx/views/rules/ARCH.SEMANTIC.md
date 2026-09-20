@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `1062de6db76f93631d6a5adcbe918c35c626f3aa1424edefd8fc358c84c704bd`
+Composite SHA-256: `ba13928cd90b97a9e1fc5c1e3edba7cd85b68452d82557b2016842d7604b92e5`
 
 Sources:
 
@@ -14,5 +14,5 @@ Sources:
 | Kind | none |
 | Enforcement | advisory |
 | Detector coverage | none |
-| Authority | policy/layerguard.json:ruleRefs |
+| Authority | stages/post/policy/layerguard.json:ruleRefs |
 | Applies to | src/**/*.cs |

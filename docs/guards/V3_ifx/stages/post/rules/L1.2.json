@@ -6,5 +6,5 @@
   "appliesTo": ["src/**/*.csproj"],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L1.2] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L1.2] (blocking in Invoke-IFX)"
 }

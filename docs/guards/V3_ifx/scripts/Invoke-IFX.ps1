@@ -23,6 +23,7 @@ function Resolve-PolicyRoot([string] $PackageRoot) {
     return $available[0]
 }
 $policyRoot = Resolve-PolicyRoot $packageRoot
+$policyRelativeRoot = [IO.Path]::GetRelativePath($packageRoot, $policyRoot).Replace('\','/')
 # Plan 06 P6.1 (CP07a, D26): the Architecture Conformance Gate builds, tests and scans its single source tree directly;
 # the retired generated copy must not come back.
 $template = Join-Path $packageRoot 'templates/ifx-layerguard'
@@ -86,7 +87,7 @@ function Assert-RuleAlignment {
         $stage = Get-Content -LiteralPath $file.FullName -Raw | ConvertFrom-Json -AsHashtable -Depth 100
         if ($file.BaseName -cne [string] $stage.id) { throw "Stage rule ID/file mismatch: $($file.Name)" }
         if ($stage.id -match '^L[0-9]+\.[0-9]+$') {
-            if (-not ([string] $stage.authority).StartsWith('policy/layerguard.json:', [StringComparison]::Ordinal)) { throw "Stage rule lacks local LayerGuard authority: $($stage.id)" }
+            if (-not ([string] $stage.authority).StartsWith("$policyRelativeRoot/layerguard.json:", [StringComparison]::Ordinal)) { throw "Stage rule lacks local LayerGuard authority: $($stage.id)" }
             $stageIds += [string] $stage.id
         }
     }

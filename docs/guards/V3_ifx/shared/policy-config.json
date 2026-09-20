@@ -64,7 +64,7 @@
       "id": "layerguard-policy",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/policy/layerguard.json"
+        "docs/guards/V3_ifx/stages/post/policy/layerguard.json"
       ],
       "format": "json",
       "candidateValidation": "json"
@@ -73,7 +73,7 @@
       "id": "plan05-baseline",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/policy/baselines/plan05.json"
+        "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json"
       ],
       "format": "json",
       "candidateValidation": "json"

@@ -1,44 +1,44 @@
 {
   "formatVersion": 1,
   "architecturePolicy": {
-    "path": "docs/guards/V3_ifx/policy/layerguard.json",
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
     "owner": "V3_ifx"
   },
   "projections": [
     {
       "id": "g03-catalog",
       "source": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
-      "target": "policy/g03/catalog.json",
+      "target": "stages/post/policy/g03/catalog.json",
       "transform": "copy-lf"
     },
     {
       "id": "g03-governance",
       "source": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
-      "target": "policy/g03/governance.json",
+      "target": "stages/post/policy/g03/governance.json",
       "transform": "g03-governance"
     },
     {
       "id": "g04-runtime",
       "source": "deployment/g04/release-runtime-manifest.json",
-      "target": "policy/g04/runtime-manifest.json",
+      "target": "stages/post/policy/g04/runtime-manifest.json",
       "transform": "g04-runtime"
     },
     {
       "id": "g05-context",
       "source": "docs/architecture/review/gates/G05/context-protocol-v1.json",
-      "target": "policy/g05/context-protocol-v1.json",
+      "target": "stages/post/policy/g05/context-protocol-v1.json",
       "transform": "copy-lf"
     }
   ],
   "g04Bindings": [
-    { "key": "moduleManifest", "source": "deployment/g04/module-manifest.json", "target": "policy/g04/bindings/module-manifest.json" },
-    { "key": "deploymentUnitCatalog", "source": "deployment/g04/deployment-unit-catalog.json", "target": "policy/g04/bindings/deployment-unit-catalog.json" },
-    { "key": "infrastructureCompatibility", "source": "deployment/g04/infrastructure-compatibility-matrix.json", "target": "policy/g04/bindings/infrastructure-compatibility-matrix.json" },
-    { "key": "schemaReleaseManifest", "source": "deployment/release-manifest.json", "target": "policy/g04/bindings/release-manifest.json" },
-    { "key": "migrationManifest", "source": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json", "target": "policy/g04/bindings/migration-manifest.json" },
-    { "key": "releaseOrchestration", "source": "deployment/g04/release-orchestration.json", "target": "policy/g04/bindings/release-orchestration.json" },
-    { "key": "backpressurePolicy", "source": "deployment/g04/backpressure-policy.json", "target": "policy/g04/bindings/backpressure-policy.json" },
-    { "key": "failureMatrix", "source": "deployment/g04/failure-matrix.json", "target": "policy/g04/bindings/failure-matrix.json" }
+    { "key": "moduleManifest", "source": "deployment/g04/module-manifest.json", "target": "stages/post/policy/g04/bindings/module-manifest.json" },
+    { "key": "deploymentUnitCatalog", "source": "deployment/g04/deployment-unit-catalog.json", "target": "stages/post/policy/g04/bindings/deployment-unit-catalog.json" },
+    { "key": "infrastructureCompatibility", "source": "deployment/g04/infrastructure-compatibility-matrix.json", "target": "stages/post/policy/g04/bindings/infrastructure-compatibility-matrix.json" },
+    { "key": "schemaReleaseManifest", "source": "deployment/release-manifest.json", "target": "stages/post/policy/g04/bindings/release-manifest.json" },
+    { "key": "migrationManifest", "source": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json", "target": "stages/post/policy/g04/bindings/migration-manifest.json" },
+    { "key": "releaseOrchestration", "source": "deployment/g04/release-orchestration.json", "target": "stages/post/policy/g04/bindings/release-orchestration.json" },
+    { "key": "backpressurePolicy", "source": "deployment/g04/backpressure-policy.json", "target": "stages/post/policy/g04/bindings/backpressure-policy.json" },
+    { "key": "failureMatrix", "source": "deployment/g04/failure-matrix.json", "target": "stages/post/policy/g04/bindings/failure-matrix.json" }
   ],
   "domainAuthorities": [
     { "id": "g03-contract-event-catalog", "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml", "defaultRole": "target-declaration",

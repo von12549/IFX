@@ -17,7 +17,7 @@
       ],
       "inputs": [
         "docs/guards/V3_ifx/shared/profile-layout.json",
-        "docs/guards/V3_ifx/policy/",
+        "docs/guards/V3_ifx/stages/post/policy/",
         "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
         "formal Plan (Pre/Diff)",
         "clean base worktree plus explicit BaseSha (-TrustedBase)",
@@ -212,7 +212,7 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/policy/layerguard.json",
+        "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
         "docs/guards/V3_ifx/templates/ifx-layerguard/",
         "docs/guards/V3/build/",
         "docs/guards/V3_ifx/build/locks/"
@@ -301,7 +301,7 @@
         "ci"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/policy/",
+        "docs/guards/V3_ifx/stages/post/policy/",
         "repository source and documentation"
       ],
       "outputs": [
@@ -388,7 +388,7 @@
         "domain-owned policy sources"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/policy/"
+        "docs/guards/V3_ifx/stages/post/policy/"
       ],
       "evidence": [],
       "mutability": "writes-authority",

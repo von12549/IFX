@@ -142,4 +142,4 @@ Transaction.Application
 | Transaction 管道事务 | [`TransactionBehavior.cs`](../../../src/Modules/Transaction/IFX.Modules.Transaction.Application/Behaviors/TransactionBehavior.cs) |
 | 当前同步内存事件总线 | [`InMemoryIntegrationEventBus.cs`](../../../src/Platform/Messaging/IFX.Platform.Messaging.Infrastructure.InMemory/InMemoryIntegrationEventBus.cs) |
 | Holdings 事件消费与保存 | [`TransactionProcessedEventHandler.cs`](../../../src/Modules/Holdings/IFX.Modules.Holdings.Application/EventHandlers/TransactionProcessedEventHandler.cs) |
-| 当前架构检查规则 | [`V3_ifx policy`](../../guards/V3_ifx/policy/layerguard.json) |
+| 当前架构检查规则 | [`V3_ifx policy`](../../guards/V3_ifx/stages/post/policy/layerguard.json) |

@@ -6,5 +6,5 @@
   "appliesTo": ["src/Modules/*/IFX.Modules.*.Contracts/**","src/Modules/*/IFX.Modules.*.Events/**","src/Platform/Messaging/**"],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L3.6] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L3.6] (blocking in Invoke-IFX)"
 }

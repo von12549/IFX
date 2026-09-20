@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `a44364266c7b4634f77de82cb5cd998d92522ac9e82acd0db7b5e14648416c6c`
+Composite SHA-256: `b18c2d87f9107191538eb8e28d10011b485c7272964d44256d9248cd8c404d96`
 
 Sources:
 
@@ -33,7 +33,7 @@ Sources:
 ## ifx-guardrails
 
 - Audiences: ci, human
-- Inputs: docs/guards/V3_ifx/shared/profile-layout.json; docs/guards/V3_ifx/policy/; docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
+- Inputs: docs/guards/V3_ifx/shared/profile-layout.json; docs/guards/V3_ifx/stages/post/policy/; docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json; formal Plan (Pre/Diff); clean base worktree plus explicit BaseSha (-TrustedBase); reviewed head candidate test suites (CandidateTests)
 - Outputs: artifacts/guards/v3-ifx/
 - Evidence: artifacts/guards/v3-ifx/summary-<mode>.json
 
@@ -75,7 +75,7 @@ Sources:
 ## ifx-architecture
 
 - Audiences: ci, validation-command, human
-- Inputs: docs/guards/V3_ifx/policy/layerguard.json; docs/guards/V3_ifx/templates/ifx-layerguard/; docs/guards/V3/build/; docs/guards/V3_ifx/build/locks/
+- Inputs: docs/guards/V3_ifx/stages/post/policy/layerguard.json; docs/guards/V3_ifx/templates/ifx-layerguard/; docs/guards/V3/build/; docs/guards/V3_ifx/build/locks/
 - Outputs: artifacts/guards/v3-ifx/architecture/; artifacts/build/v3-ifx/architecture-conformance/; artifacts/guards/v3-ifx/build/architecture-conformance/
 - Evidence: artifacts/guards/v3-ifx/architecture/layerguard.json
 
@@ -96,7 +96,7 @@ Sources:
 ## ifx-specialized
 
 - Audiences: ci
-- Inputs: docs/guards/V3_ifx/policy/; repository source and documentation
+- Inputs: docs/guards/V3_ifx/stages/post/policy/; repository source and documentation
 - Outputs: artifacts/guards/v3-ifx/specialized/
 - Evidence: artifacts/guards/v3-ifx/specialized/summary.json
 
@@ -118,7 +118,7 @@ Sources:
 
 - Audiences: human
 - Inputs: docs/guards/V3_ifx/policy/authorities.json; domain-owned policy sources
-- Outputs: docs/guards/V3_ifx/policy/
+- Outputs: docs/guards/V3_ifx/stages/post/policy/
 - Evidence: (none)
 
 ## ifx-history-manifest

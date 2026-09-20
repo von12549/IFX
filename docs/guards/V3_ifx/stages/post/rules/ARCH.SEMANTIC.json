@@ -6,5 +6,5 @@
   "appliesTo": ["src/**/*.cs"],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs"
 }

@@ -514,7 +514,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs"
 }
 ```
 
@@ -532,7 +532,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L1.2] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L1.2] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -550,7 +550,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "blocking",
   "coverage": "partial",
-  "authority": "policy/layerguard.json:allowedReferences.Domain",
+  "authority": "stages/post/policy/layerguard.json:allowedReferences.Domain",
   "sourcePattern": "src/Modules/*/IFX.Modules.*.Domain/*.csproj",
   "forbiddenTargetPattern": "**/*.Contracts/*.csproj",
   "negativeFixture": {
@@ -574,7 +574,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L2.3] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L2.3] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -593,7 +593,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L2.4] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L2.4] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -612,7 +612,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L2.9] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L2.9] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -632,7 +632,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L3.1] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L3.1] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -651,7 +651,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L3.4] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L3.4] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -670,7 +670,7 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L3.5] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L3.5] (blocking in Invoke-IFX)"
 }
 ```
 
@@ -690,6 +690,6 @@ This draft was seeded from [inventory.json](inventory.json) and, when supplied, 
   ],
   "enforcement": "advisory",
   "coverage": "none",
-  "authority": "policy/layerguard.json:ruleRefs[L3.6] (blocking in Invoke-IFX)"
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L3.6] (blocking in Invoke-IFX)"
 }
 ```

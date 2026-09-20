@@ -27,15 +27,15 @@
       "trustContract": {
         "type": "mixed",
         "evaluator": "base generic Architecture Conformance engine (docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance), run through the base IFX host that registers the IFX policy binding (docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx)",
-        "policy": "docs/guards/V3_ifx/policy/layerguard.json",
+        "policy": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
         "targetInput": "head csproj XML and C# source text; head guard package tests",
         "inputs": [
           {
-            "ref": "package:policy/layerguard.json",
+            "ref": "package:stages/post/policy/layerguard.json",
             "source": "base"
           },
           {
-            "ref": "package:policy/baselines/",
+            "ref": "package:stages/post/policy/baselines/",
             "source": "base"
           },
           {
@@ -47,15 +47,15 @@
             "source": "base"
           },
           {
-            "ref": "package:policy/g03/",
+            "ref": "package:stages/post/policy/g03/",
             "source": "derived-candidate"
           },
           {
-            "ref": "package:policy/g04/",
+            "ref": "package:stages/post/policy/g04/",
             "source": "derived-candidate"
           },
           {
-            "ref": "package:policy/g05/",
+            "ref": "package:stages/post/policy/g05/",
             "source": "derived-candidate"
           },
           {
@@ -497,7 +497,7 @@
             "source": "base"
           },
           {
-            "ref": "package:policy/layerguard.json",
+            "ref": "package:stages/post/policy/layerguard.json",
             "source": "base"
           },
           {
