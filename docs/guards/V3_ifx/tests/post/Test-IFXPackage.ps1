@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param([string] $NuGetConfig)
 
+# Stage-oriented test group: Post.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param()
 
+# Stage-oriented test group: Post.
 $ErrorActionPreference = 'Stop'
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 if (-not [IO.File]::Exists((Join-Path $package 'guard-system.json'))) { $package = [IO.Path]::GetFullPath((Join-Path $package '..')) }

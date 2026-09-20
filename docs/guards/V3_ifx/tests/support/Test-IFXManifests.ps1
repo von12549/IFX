@@ -3,6 +3,7 @@ param()
 
 # Positive and negative fixtures for scripts/Invoke-IFXManifestCheck.ps1 (Plan 06 P1.5).
 
+# Stage-oriented test group: support.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

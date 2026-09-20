@@ -3,6 +3,8 @@ param()
 
 # Positive and negative fixtures for ci/Invoke-IFXCiContract.ps1 (Plan 06 P1.3).
 
+# Stage-oriented test group: CI.
+
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -94,7 +96,7 @@ try {
     Invoke-Case 'matrix check without its trusted base gate fails' 1 -workflow $workflowSource.Replace('-GateId v3-cross-platform-${{ matrix.os }}', '-GateId v3-cross-platform-ubuntu-latest') -expectText 'trusted-base-runner:v3-cross-platform-windows-latest'
     if ($usingRequiredChecks) {
         Invoke-Case 'first verdict executable outside base fails' 1 -workflow $workflowSource.Replace('pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity', 'pwsh -NoProfile -File "./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity') -expectText 'trusted-base-first-verdict:v3-historical-integrity'
-        Invoke-Case 'workflow internal script entry fails' 1 -workflow $workflowSource.Replace('"./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite Architecture', '"./docs/guards/V3_ifx/tests/Test-IFXPre.ps1"') -expectText 'workflow-public-commands'
+        Invoke-Case 'workflow internal script entry fails' 1 -workflow $workflowSource.Replace('"./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite Architecture', '"./docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1"') -expectText 'workflow-public-commands'
     }
     Invoke-Case 'head dispatcher run in place fails' 1 -workflow $workflowSource.Replace('-Mode HistoricalIntegrity -GateId v3-historical-integrity', "-Mode HistoricalIntegrity -GateId v3-historical-integrity`n          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity") -expectText 'trusted-base-no-head-dispatcher:v3-historical-integrity'
     Invoke-Case 'job without the base worktree fails' 1 -workflow ([Regex]::new('git worktree add --detach').Replace($workflowSource, 'git worktree list', 1)) -expectText 'trusted-base-worktree:v3-pre-diff'

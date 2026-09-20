@@ -1,3 +1,4 @@
+# Stage-oriented test group: CI.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

@@ -14,6 +14,7 @@ param(
 #  - head branches tamper with the dispatcher, engine, policy, module and MSBuild inheritance, change domain
 #    authorities, or change trusted components with and without a consumed base authorization.
 
+# Stage-oriented test group: support.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -80,7 +81,7 @@ if ($legacyHistoryComplete -eq $stageHistoryComplete) { throw 'Historical Integr
 $historyRoot = if ($stageHistoryComplete) { $stageHistoryRoot } else { $legacyHistoryRoot }
 $historyEngine = "$historyRoot/Invoke-IFXHistoricalIntegrity.ps1"
 $historyManifest = "$historyRoot/manifest.json"
-$historyTest = 'docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
+$historyTest = 'docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
 $catalog = 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
 $breakEvidence = { Edit-Json $evidence { param($d) $d['fixtureTamper'] = $true } }
 $policyRelativeRootCandidates = @(
@@ -485,7 +486,7 @@ try {
         [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1'), "exit 0`n", $utf8)
         Edit-Text '.github/workflows/v3-ifx-guardrails.yml' {
             param($t)
-            $legacy = './docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
+            $legacy = './docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
             $facade = './docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
             $anchor = if ($t.Contains($legacy, [StringComparison]::Ordinal)) { $legacy } elseif ($t.Contains($facade, [StringComparison]::Ordinal)) { $facade } else { throw 'Workflow has no declared public guard entry point fixture anchor.' }
             $t.Replace($anchor, "$anchor`n          ./docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1")
@@ -516,11 +517,11 @@ try {
     Test-AuthorizedChange 'engine-and-own-test-weakened' {
         Edit-Text $historyEngine { param($t) $t.Replace('$hashMatches = (Hash-CanonicalText $full) -eq $entry.sha256', '$hashMatches = $true') }
         [IO.File]::WriteAllText((Join-Path $clone $historyTest), "Write-Host 'weakened test'`n", $utf8)
-    } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
+    } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
     Test-AuthorizedChange 'engine-weakened-and-test-deleted' {
         Edit-Text $historyEngine { param($t) $t.Replace('$hashMatches = (Hash-CanonicalText $full) -eq $entry.sha256', '$hashMatches = $true') }
         [IO.File]::Delete((Join-Path $clone $historyTest))
-    } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
+    } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
     Test-AuthorizedChange 'summary-contract-changed' { $guardrailsPath = if ([IO.File]::Exists((Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))) { 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' } else { 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }; Edit-Text $guardrailsPath { param($t) [Regex]::Replace($t, 'formatVersion = 1(\r?\n\s+mode = \$summaryMode)', 'formatVersion = 2$1').Replace("if (-not (Test-Json -LiteralPath `$summaryPath", "if (`$false -and -not (Test-Json -LiteralPath `$summaryPath") } } 1 'candidate summary schema valid: False'
     # The reviewed locks follow the guard projects, which move between packages during Plan 06 P6.4.
     $lockName = @(Get-ChildItem -LiteralPath (Join-Path $clone 'docs/guards/V3_ifx/build/locks') -File -Filter '*.packages.lock.json' | Sort-Object Name | ForEach-Object Name)[0]

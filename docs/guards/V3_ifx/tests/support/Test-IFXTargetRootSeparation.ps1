@@ -9,6 +9,7 @@ param(
 # worktree from which package code and configuration have been removed. Verdicts must equal the in-place run, and a
 # detector that derives the target from its own location, or package configuration read through the target, must fail.
 
+# Stage-oriented test group: support.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

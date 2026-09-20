@@ -4,6 +4,7 @@ param()
 # Positive and negative fixtures for trusted-base/Test-IFXDomainAuthorityCandidates.ps1 (Plan 06 §12.6, D18).
 # Base is this repository; each case mutates a head candidate copy of the registered domain authorities.
 
+# Stage-oriented test group: support.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))

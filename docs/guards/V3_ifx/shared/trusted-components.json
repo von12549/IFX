@@ -16,7 +16,7 @@
       ],
       "validationSuite": [
         "all 13 required checks",
-        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+        "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
       "allowedChange": "change-trusted-base"
@@ -35,10 +35,10 @@
       ],
       "validationSuite": [
         "docs/guards/V3/tests/Test-V3.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1",
         "v3-pre-diff",
         "v3-cross-platform-*",
-        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTools.ps1",
         "docs/guards/V3/tests/Test-V3ArchUnit.ps1"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
@@ -68,8 +68,8 @@
         "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
         "v3-architecture"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
@@ -117,7 +117,7 @@
         "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1",
         "v3-specialized-*"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
@@ -131,8 +131,8 @@
         "docs/guards/V3_ifx/stages/post/gates/quality/"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1",
         "v3-quality-*"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
@@ -146,7 +146,7 @@
         "docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1",
         "v3-historical-integrity"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
@@ -177,7 +177,7 @@
       ],
       "validationSuite": [
         "Invoke-IFXGuardrails.ps1 -Mode Validate",
-        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1"
+        "docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1"
       ],
       "parityContract": "Schemas may only tighten or stay equivalent for existing valid documents.",
       "allowedChange": "change-trusted-base"
@@ -190,8 +190,8 @@
         "docs/guards/V3_ifx/trusted-base/"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1"
+        "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1"
       ],
       "parityContract": "Base provenance checks, anti-weakening roles, candidate projection targets, authorization matching and parity comparison fail closed in the same cases on the fixed negative-control corpus.",
       "allowedChange": "change-trusted-base"
@@ -206,8 +206,8 @@
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1"
+        "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1"
       ],
       "parityContract": "Every domain authority read by a detector stays registered with a role; roles and gate inputs may only be added or tightened without a weaken-policy authorization (Plan 06 D18).",
       "allowedChange": "change-trusted-base; loosening a role or removing coverage also requires weaken-policy"
@@ -217,20 +217,20 @@
       "type": "base-owned-tests",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
-        "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1"
+        "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+        "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+        "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+        "docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTools.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1"
       ],
       "validationSuite": [
         "v3-architecture",
@@ -249,7 +249,7 @@
         "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+        "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
         "Invoke-IFXCiContract.ps1 -Remote (read-only)",
         "v3-pre-diff"
       ],
@@ -284,7 +284,7 @@
         "docs/guards/V3_ifx/contracts/trusted-components.schema.json"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
         "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
       ],
       "parityContract": "Self-protecting: the manifest, its schemas and verifier are components of this entry; removing or reclassifying a component is a non-equivalent change.",
@@ -300,7 +300,7 @@
       ],
       "validationSuite": [
         "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
-        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
         "v3-architecture",
         "v3-cross-platform-*"
       ],
@@ -333,7 +333,7 @@
         "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1"
+        "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1"
       ],
       "parityContract": "Each public legacy path is a thin forwarder to canonical V3 with unchanged arguments and exit code, emits the declared deprecation message, and is not a workflow executable.",
       "allowedChange": "change-trusted-base; wrapper deletion requires the P11.5 compatibility-removal authorization"

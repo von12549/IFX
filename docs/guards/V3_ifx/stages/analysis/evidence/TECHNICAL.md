@@ -9,7 +9,7 @@ Review target languages, commands, .NET gate framework, existing CI and independ
 | ID | Command | Working directory |
 | --- | --- | --- |
 | ifx-layerguard | pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Test | . |
-| ifx-package-test | pwsh -NoProfile -File docs/guards/V3_ifx/tests/Test-IFXPackage.ps1 | . |
+| ifx-package-test | pwsh -NoProfile -File docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1 | . |
 | iam-tests | dotnet test tests/IFX.Modules.IAM.Application.Tests | . |
 | crm-tests | dotnet test tests/IFX.Modules.CRM.Application.Tests | . |
 | registry-tests | dotnet test tests/IFX.Modules.Registry.Application.Tests | . |
@@ -54,7 +54,7 @@ Review target languages, commands, .NET gate framework, existing CI and independ
       "arguments": [
         "-NoProfile",
         "-File",
-        "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+        "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1"
       ],
       "workingDirectory": "."
     },
