@@ -126,7 +126,14 @@ if (-not [IO.File]::Exists($enginePaths)) { $enginePaths = Join-Path $templateRo
 Assert-CheckFailsWithEdit 'an IFX identifier in the generic engine' $enginePaths { [IO.File]::AppendAllText($enginePaths, "// Ifx`n") } 'Generic LayerGuard source names IFX'
 Assert-CheckFailsWithEdit 'a wildcard project reference' $ifxTests { [IO.File]::WriteAllText($ifxTests, [IO.File]::ReadAllText($ifxTests).Replace('src\LayerGuard.Ifx\LayerGuard.Ifx.csproj', 'src\*\*.csproj')) } 'uses a wildcard project reference'
 
-$qualityRunner = [IO.File]::ReadAllText((Join-Path $package 'quality/Invoke-IFXQuality.ps1'))
+$legacyQuality = Join-Path $package 'quality'
+$stageQuality = Join-Path $package 'stages/post/gates/quality'
+$qualityFiles = @('Invoke-IFXAssemblyGuard.ps1', 'Invoke-IFXPackageAudit.ps1', 'Invoke-IFXQuality.ps1')
+$legacyComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $legacyQuality $_)) }).Count -eq 0
+$stageComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $stageQuality $_)) }).Count -eq 0
+if ($legacyComplete -eq $stageComplete) { throw 'Quality must have exactly one complete legacy or stage-owned layout.' }
+$qualityRoot = if ($stageComplete) { $stageQuality } else { $legacyQuality }
+$qualityRunner = [IO.File]::ReadAllText((Join-Path $qualityRoot 'Invoke-IFXQuality.ps1'))
 $requiredQualityGates = @(
     '-warnaserror:NU1603',
     'Invoke-IFXPackageAudit.ps1',

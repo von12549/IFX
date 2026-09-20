@@ -69,6 +69,13 @@ try {
     $system = 'docs/guards/V3_ifx/guard-system.json'
     $usesCommandLayout = [IO.File]::Exists((Join-Path $fixture 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))
     $orchestrator = if ($usesCommandLayout) { 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' } else { 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }
+    $legacyQualityRoot = 'docs/guards/V3_ifx/quality'
+    $stageQualityRoot = 'docs/guards/V3_ifx/stages/post/gates/quality'
+    $qualityFiles = @('Invoke-IFXAssemblyGuard.ps1', 'Invoke-IFXPackageAudit.ps1', 'Invoke-IFXQuality.ps1')
+    $legacyQualityComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $fixture "$legacyQualityRoot/$_")) }).Count -eq 0
+    $stageQualityComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $fixture "$stageQualityRoot/$_")) }).Count -eq 0
+    if ($legacyQualityComplete -eq $stageQualityComplete) { throw 'Quality must have exactly one complete legacy or stage-owned layout.' }
+    $qualityRoot = if ($stageQualityComplete) { $stageQualityRoot } else { $legacyQualityRoot }
 
     Invoke-Case 'current manifests pass' 0
     Invoke-Case 'stage declaring a command-owned field fails' 1 $stagePost { param($d) $d['entryPoint'] = $orchestrator } "command-owned field 'entryPoint'"
@@ -79,7 +86,7 @@ try {
     Invoke-Case 'duplicate gate fails' 1 $stagePost { param($d) $d.gates += ($d.gates | Where-Object { $_.id -eq 'v3-architecture' }) } "Required check 'v3-architecture' must be declared by exactly one stage gate (found 2)"
     Invoke-Case 'gate that is not a required check fails' 1 $stagePost { param($d) $extra = ($d.gates[0] | ConvertTo-Json -Depth 10 | ConvertFrom-Json -AsHashtable); $extra.id = 'v3-extra'; $d.gates += $extra } "Stage gate 'v3-extra' is not a required check"
     Invoke-Case 'invalid trust contract type fails schema' 1 $stagePost { param($d) $d.gates[0].trustContract.type = 'trusted' } 'Schema validation failed'
-    Invoke-Case 'verdict-chain script outside TCB fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths = @('docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1') } 'Verdict-chain script is outside the trusted component manifest: docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1'
+    Invoke-Case 'verdict-chain script outside TCB fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths = @("$qualityRoot/Invoke-IFXQuality.ps1") } "Verdict-chain script is outside the trusted component manifest: $qualityRoot/Invoke-IFXAssemblyGuard.ps1"
     Invoke-Case 'manifest removing itself from protection fails' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.manifest' }).paths = @('docs/guards/V3_ifx/stages/') } 'not self-protecting'
     Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += $orchestrator } 'overlap'
     Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) $d.components += [ordered]@{ id = 'tcb.future-component'; type = 'future'; status = 'planned'; paths = @('Directory.Build.props'); validationSuite = @('future'); parityContract = 'future'; allowedChange = 'change-trusted-base' } } "Planned component 'tcb.future-component'"

@@ -3,7 +3,14 @@ param()
 
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
-$guard = Join-Path $root 'docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1'
+$legacyQuality = Join-Path $root 'docs/guards/V3_ifx/quality'
+$stageQuality = Join-Path $root 'docs/guards/V3_ifx/stages/post/gates/quality'
+$qualityFiles = @('Invoke-IFXAssemblyGuard.ps1', 'Invoke-IFXPackageAudit.ps1', 'Invoke-IFXQuality.ps1')
+$legacyComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $legacyQuality $_)) }).Count -eq 0
+$stageComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $stageQuality $_)) }).Count -eq 0
+if ($legacyComplete -eq $stageComplete) { throw 'Quality must have exactly one complete legacy or stage-owned layout.' }
+$qualityRoot = if ($stageComplete) { $stageQuality } else { $legacyQuality }
+$guard = Join-Path $qualityRoot 'Invoke-IFXAssemblyGuard.ps1'
 $fixture = Join-Path $root "artifacts/guards/v3-ifx/assembly-fixture-$([Guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Force -Path $fixture | Out-Null
 function Relative([string] $path) { [IO.Path]::GetRelativePath($root, $path).Replace('\','/') }

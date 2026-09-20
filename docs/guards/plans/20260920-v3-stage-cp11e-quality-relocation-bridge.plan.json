@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11e-quality-relocation-bridge",
+  "title": "V3 stage-oriented refactor CP11e — quality relocation bridge",
+  "goal": "Let base-owned tests validate exactly one legacy or Post-stage Quality layout before the authorized physical relocation.",
+  "acceptanceCriteria": [
+    "The current complete legacy Quality layout remains active and production entry points remain unchanged.",
+    "Assembly, Package and manifest tests select exactly one complete legacy or stage-owned layout.",
+    "Missing, partial or ambiguous Quality layouts fail closed.",
+    "The subsequent physical relocation removes the legacy directory without retaining a production fallback."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-relocation-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation-bridge.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
