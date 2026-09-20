@@ -11,13 +11,12 @@
   "plannedPaths": [
     ".github/workflows/v3-ifx-guardrails.yml",
     "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
-    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
     "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-minimal-compat-bridge.json",
     "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
     "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
     "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
     "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
-    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
     "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge.md",
     "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge.plan.json"
   ],

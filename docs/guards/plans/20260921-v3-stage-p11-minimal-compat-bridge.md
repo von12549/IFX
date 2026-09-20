@@ -2,6 +2,8 @@
 
 This checkpoint prepares the existing `codex/guards-principles-plan` trusted base to evaluate the already completed P11 candidate layout. It is a compatibility release, not the P11 publication itself.
 
+This change consumes and deletes the base authorization `p11-minimal-compat-bridge.json`, whose tuples bind the seven TCB paths of the prepared bridge candidate.
+
 ## Scope
 
 - Resolve one changed formal plan normally; when several historical plan files are published together, require exactly one changed `*-aggregate.plan.json` and pass only that plan to Diff.
