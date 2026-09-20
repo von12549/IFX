@@ -1113,6 +1113,12 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **边界**：这是经明确授权的重复证据削减，不宣称 Windows smoke 与全量 suite 等价；若 smoke 命令、Windows required check、Ubuntu full suite 或 P11.4 全量入口被移除，CI contract 必须失败。仓库公开期间标准 runner 不计 Actions minutes，但本约束仍保留，以便仓库回到 private 后控制成本。
 - 来源：2026-09-21 对最近真实运行复核：Windows leg 15.70 分钟，其中 head candidate 14.17 分钟；本地把 trusted-base 差异消费测试加入 smoke 的试跑超过 3 分钟仍未结束，故该套件保留在 Ubuntu full/P11.4 Windows full。用户于 2026-09-21 授权 CP12-ci2，并要求更新 D28、Plan 06 与 CI 信任契约；记录 `20260921-v3-stage-d35-windows-portability-smoke.json`。
 
+### D36 — P11 聚合发布的最小兼容桥（P11.4 补充，细化 D10、D19、D24）
+
+- **决定**：P11.4 之前先把一个受正常 `change-trusted-base` 授权约束的最小兼容桥合入 base。桥只让旧 base 识别候选 TCB 已登记的新 public facade、由 schema-valid 候选 policy registry 分类的新布局 JSON，以及一次性聚合发布中的唯一 `*-aggregate.plan.json`；零个或多个 aggregate plan 均失败。候选 registry 的变化本身仍是旧 base 已登记的 trust/meta-policy 变化，必须消费精确 `weaken-policy` 授权；受保护删除、TCB 变化和 policy 变化的既有义务不被豁免。
+- **边界**：桥不接受目录级排除、不降低 13 个 required checks、不改变 ruleset、不跳过 Windows required check，也不授权 P11 最终候选的 511 个受保护删除。旧 verifier 仅对候选树真实存在且由 schema-valid active TCB 精确覆盖的缺失 workflow 入口提供兼容；旧 package 中存在的脚本仍由旧 TCB 完整遍历。聚合 plan 仍必须覆盖真实 PR changed set。
+- 来源：P11.4 前基于 `codex/guards-principles-plan` 的审计得到 511 个 protected-removal、48 个 policy-weakening、1 个 trusted-component-change 与 176 个仅因新布局尚未被旧 registry 识别的 JSON 分类失败；架构验证已通过。用户授权继续最小兼容桥与 P11.4；记录 `20260921-v3-stage-d36-p11-minimal-compat-bridge.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。
