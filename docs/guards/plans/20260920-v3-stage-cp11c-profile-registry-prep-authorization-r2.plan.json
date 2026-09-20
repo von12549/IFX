@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11c-profile-registry-prep-authorization-r2",
+  "title": "Authorize rebased CP11c profile registry preparation",
+  "goal": "Pre-authorize the exact trusted-base and policy-registry preparation needed before moving profile authorities.",
+  "acceptanceCriteria": [
+    "The trusted-base authorization binds the exact transition selector and registry tuples.",
+    "The weaken-policy authorization covers only the temporary policy-config directory registrations.",
+    "The authorization-only change modifies no trusted component or production policy.",
+    "The candidate consumes both authorizations in the same protected diff."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-registry-prep-tcb-r2.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-registry-prep-weaken-policy-r2.json",
+    "docs/guards/plans/20260920-v3-stage-cp11c-profile-registry-prep-authorization-r2.md",
+    "docs/guards/plans/20260920-v3-stage-cp11c-profile-registry-prep-authorization-r2.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

@@ -2,60 +2,69 @@
   "formatVersion": 1,
   "roots": [
     "docs/guards/V3_ifx/ci/",
-    "docs/guards/V3_ifx/contracts/",
-    "docs/guards/V3_ifx/history/",
     "docs/guards/V3_ifx/policy/",
     "docs/guards/V3_ifx/profiles/ifx/",
     "docs/guards/V3_ifx/shared/",
     "docs/guards/V3_ifx/stages/"
   ],
   "excluded": [
-    "docs/guards/V3_ifx/stages/diff/authorizations/"
+    "docs/guards/V3_ifx/stages/diff/authorizations/",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/"
   ],
   "entries": [
+    {
+      "id": "ifx-profile-layout",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/shared/profile-layout.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3/contracts/profile-layout.schema.json",
+      "candidateValidation": "v3-profile"
+    },
     {
       "id": "ifx-profile",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/profiles/ifx/profile.json"
+        "docs/guards/V3_ifx/shared/profile.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "schema": "docs/guards/V3/contracts/profile.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
       "id": "ifx-project-map",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/profiles/ifx/project-map.json"
+        "docs/guards/V3_ifx/stages/pre/project-map.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "schema": "docs/guards/V3/contracts/project-map.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
       "id": "ifx-tech-stack",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/profiles/ifx/tech-stack.json"
+        "docs/guards/V3_ifx/shared/toolchain.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "schema": "docs/guards/V3/contracts/tech-stack.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
       "id": "ifx-rules",
       "role": "editable-policy",
-      "directory": "docs/guards/V3_ifx/profiles/ifx/rules/",
+      "directory": "docs/guards/V3_ifx/stages/post/rules/",
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
       "id": "layerguard-policy",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/policy/layerguard.json"
+        "docs/guards/V3_ifx/stages/post/policy/layerguard.json"
       ],
       "format": "json",
       "candidateValidation": "json"
@@ -64,7 +73,7 @@
       "id": "plan05-baseline",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/policy/baselines/plan05.json"
+        "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json"
       ],
       "format": "json",
       "candidateValidation": "json"
@@ -73,7 +82,7 @@
       "id": "history-manifest",
       "role": "editable-policy",
       "paths": [
-        "docs/guards/V3_ifx/history/manifest.json"
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json"
       ],
       "format": "json",
       "candidateValidation": "history-manifest"
@@ -82,10 +91,10 @@
       "id": "authority-registry",
       "role": "trust-meta-policy",
       "paths": [
-        "docs/guards/V3_ifx/policy/authorities.json"
+        "docs/guards/V3_ifx/shared/authorities/authorities.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -100,7 +109,7 @@
         "docs/guards/V3_ifx/stages/pre/stage.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -110,7 +119,29 @@
         "docs/guards/V3_ifx/stages/diff/protection.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "analysis-evidence",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json",
+        "docs/guards/V3_ifx/stages/analysis/reports/cutover-baseline.json",
+        "docs/guards/V3_ifx/stages/analysis/reports/specialized-parity.json",
+        "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json"
+      ],
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "docs-map",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/docs/docs-map.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -120,7 +151,7 @@
         "docs/guards/V3_ifx/shared/commands.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -130,7 +161,7 @@
         "docs/guards/V3_ifx/shared/trusted-components.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -140,7 +171,7 @@
         "docs/guards/V3_ifx/shared/policy-config.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -150,24 +181,116 @@
         "docs/guards/V3_ifx/guard-system.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
       "candidateValidation": "json-schema"
     },
     {
-      "id": "ci-jobs",
+      "id": "ci-required-checks",
       "role": "trust-meta-policy",
       "paths": [
-        "docs/guards/V3_ifx/ci/jobs.json"
+        "docs/guards/V3_ifx/stages/ci/required-checks.json"
       ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "ci-activation",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/ci/activation.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "ci-workflow-variables",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/stages/ci/workflow.variables.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
+      "id": "shared-contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/shared/contracts/",
       "format": "json",
       "candidateValidation": "json"
     },
     {
-      "id": "contracts",
+      "id": "diff-contracts",
       "role": "trust-meta-policy",
-      "directory": "docs/guards/V3_ifx/contracts/",
+      "directory": "docs/guards/V3_ifx/stages/diff/contracts/",
       "format": "json",
       "candidateValidation": "json"
+    },
+    {
+      "id": "ci-contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/ci/contracts/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "specialized-contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "decision-history",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/shared/decisions/history/20260915-v3-ifx-ci-cutover.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-ciq10-central-package-security.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-ifx-quality-cleanup.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d16-comparator-order-by-commit-frequency.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d31-shared-decision-history.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "candidateValidation": "json-schema"
     },
     {
       "id": "gitattributes",
@@ -181,7 +304,36 @@
   ],
   "monotonicity": [
     {
-      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/affectedPaths",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/owner",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/rationale",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/summary",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
       "fields": [
         {
           "pointer": "/properties/architecturePolicy",
@@ -278,7 +430,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
       "fields": [
         {
           "pointer": "/properties/commands",
@@ -339,7 +491,21 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+      "fields": [
+        { "pointer": "/properties/documents", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/id", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/output", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/renderer", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/sources", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/sources/items/properties/path", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/sources/items/properties/role", "comparator": "none" },
+        { "pointer": "/properties/documents/items/properties/title", "comparator": "none" },
+        { "pointer": "/properties/formatVersion", "comparator": "none" }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
       "fields": [
         {
           "pointer": "/properties/compatibility",
@@ -418,6 +584,10 @@
           "comparator": "none"
         },
         {
+          "pointer": "/properties/manifests/properties/docsMap",
+          "comparator": "none"
+        },
+        {
           "pointer": "/properties/manifests/properties/stages",
           "comparator": "none"
         },
@@ -440,7 +610,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
       "fields": [
         {
           "pointer": "/properties/entries",
@@ -509,7 +679,36 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "schema": "docs/guards/V3/contracts/profile-layout.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/profile",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/projectMap",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/rulesDirectory",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/techStack",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/viewsDirectory",
+          "comparator": "none"
+        }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3/contracts/profile.schema.json",
       "fields": [
         {
           "pointer": "/properties/formatVersion",
@@ -522,7 +721,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "schema": "docs/guards/V3/contracts/project-map.schema.json",
       "fields": [
         {
           "pointer": "/properties/areas",
@@ -575,7 +774,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
       "fields": [
         {
           "pointer": "/properties/authorizationDirectory",
@@ -592,7 +791,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
       "fields": [
         {
           "pointer": "/allOf/0/else/properties/coverage",
@@ -713,7 +912,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
       "fields": [
         {
           "pointer": "/properties/commands",
@@ -760,6 +959,22 @@
           "comparator": "none"
         },
         {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover/items/properties/coveredBy",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover/items/properties/gap",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/crossCover/items/properties/how",
+          "comparator": "none"
+        },
+        {
           "pointer": "/properties/gates/items/properties/trustContract/properties/detectors",
           "comparator": "none"
         },
@@ -773,6 +988,10 @@
         },
         {
           "pointer": "/properties/gates/items/properties/trustContract/properties/guarantee",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/importInjectionRule",
           "comparator": "none"
         },
         {
@@ -796,6 +1015,10 @@
           "comparator": "none"
         },
         {
+          "pointer": "/properties/gates/items/properties/trustContract/properties/policyBinding",
+          "comparator": "none"
+        },
+        {
           "pointer": "/properties/gates/items/properties/trustContract/properties/targetInput",
           "comparator": "none"
         },
@@ -810,7 +1033,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "schema": "docs/guards/V3/contracts/tech-stack.schema.json",
       "fields": [
         {
           "pointer": "/properties/assemblyGate",
@@ -883,7 +1106,82 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+      "fields": [
+        { "pointer": "/properties/artifacts", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/allOf/0/if/properties/kind", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/candidate", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/id", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/kind", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/marker", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/target", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/template", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/variables", "comparator": "none" },
+        { "pointer": "/properties/artifacts/items/properties/variablesSchema", "comparator": "none" },
+        { "pointer": "/properties/commandsManifest", "comparator": "none" },
+        { "pointer": "/properties/formatVersion", "comparator": "none" },
+        { "pointer": "/properties/packageId", "comparator": "none" },
+        { "pointer": "/properties/schema", "comparator": "none" },
+        { "pointer": "/properties/validators", "comparator": "none" },
+        { "pointer": "/properties/validators/items/properties/arguments", "comparator": "none" },
+        { "pointer": "/properties/validators/items/properties/commandId", "comparator": "none" },
+        { "pointer": "/properties/validators/items/properties/id", "comparator": "none" }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+      "fields": [
+        { "pointer": "/properties/automaticGuardWorkflow", "comparator": "none" },
+        { "pointer": "/properties/changeScope", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/candidateStepJobs", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/entryPoint", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/implementation", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/inheritingChecks", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/inheritScope", "comparator": "none" },
+        { "pointer": "/properties/changeScope/properties/mode", "comparator": "none" },
+        { "pointer": "/properties/costControls", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/cancelSupersededRuns", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/concurrencyGroup", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/action", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/jobs", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/keyPrefix", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/lockGlob", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/packageCache/properties/path", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/scheduleCron", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/candidateFacade", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/fullCertificationCheckpoint", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/fullCertificationEvent", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/fullCertificationInput", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/fullCertificationValue", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/fullSuiteCommands", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/ordinaryCoverage", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/requiredCheck", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/runner", "comparator": "none" },
+        { "pointer": "/properties/costControls/properties/windowsPortability/properties/smokeCommands", "comparator": "none" },
+        { "pointer": "/properties/formatVersion", "comparator": "none" },
+        { "pointer": "/properties/jobs", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/blocking", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/gate", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/id", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/mode", "comparator": "none" },
+        { "pointer": "/properties/jobs/items/properties/trigger", "comparator": "none" },
+        { "pointer": "/properties/legacyWorkflowMode", "comparator": "none" },
+        { "pointer": "/properties/mergeEnforcement", "comparator": "none" },
+        { "pointer": "/properties/ruleset", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/id", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/name", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/requiredCheckCount", "comparator": "none" },
+        { "pointer": "/properties/ruleset/properties/strict", "comparator": "none" },
+        { "pointer": "/properties/trustedBase", "comparator": "none" },
+        { "pointer": "/properties/trustedBase/properties/execution", "comparator": "none" },
+        { "pointer": "/properties/trustedBase/properties/tcbCandidateVerification", "comparator": "none" },
+        { "pointer": "/properties/workflow", "comparator": "none" }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
       "fields": [
         {
           "pointer": "/properties/components",
@@ -941,6 +1239,13 @@
           "pointer": "/properties/manifest/properties/verifier",
           "comparator": "none"
         }
+      ]
+    },
+    {
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+      "fields": [
+        { "pointer": "/properties/DOTNET_VERSION", "comparator": "none" },
+        { "pointer": "/properties/NODE_VERSION", "comparator": "none" }
       ]
     }
   ]

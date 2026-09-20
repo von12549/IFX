@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11b-v3-backup-retirement-authorization",
+  "title": "V3 stage-oriented refactor CP11b — V3_backup retirement authorization",
+  "goal": "Pre-authorize the exact 41-file V3_backup retirement candidate and its compatibility cleanup.",
+  "acceptanceCriteria": [
+    "The delete record binds the exact V3_backup base tree and all 41 deleted entries.",
+    "The trusted-base and policy records bind only the prepared compatibility and test changes.",
+    "The authorization-only commit changes no production implementation or policy.",
+    "The retirement change consumes all three records exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11b-v3-backup-delete.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11b-v3-backup-retirement-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11b-v3-backup-retirement-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11b-v3-backup-retirement-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11b-v3-backup-retirement-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

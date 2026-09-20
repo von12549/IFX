@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11n-test-layout-bridge",
+  "title": "Bridge Stage-oriented package test paths",
+  "goal": "Allow every IFX package test to resolve the package root before the flat test directory is split by Stage.",
+  "acceptanceCriteria": [
+    "All fourteen IFX package tests resolve the package root from guard-system.json at the flat or one-level grouped layout.",
+    "Resolution fails closed when neither supported layout contains the package manifest.",
+    "No test selection, fixture, assertion, verdict or production entry point changes.",
+    "The complete package test suite and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11n-test-layout-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

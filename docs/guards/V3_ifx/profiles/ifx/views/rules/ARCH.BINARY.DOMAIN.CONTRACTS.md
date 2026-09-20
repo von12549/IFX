@@ -1,8 +1,12 @@
 # ARCH.BINARY.DOMAIN.CONTRACTS: CRM Domain compiled entity types do not depend on CRM public contract types
 
-Generated view of `rules/ARCH.BINARY.DOMAIN.CONTRACTS.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-<!-- guard-config-source: rules/ARCH.BINARY.DOMAIN.CONTRACTS.json sha256: b54bc598b45645d579b7c9badc2a4bbf8a7640b26c2e973e36c1ba65a2e1f565 -->
+Composite SHA-256: `cdb5c8e55e41fc900afdb14c9b55e14a6adf7fc6f80dd9ffe979ee5424bc8415`
+
+Sources:
+
+- `docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json` — authority
 
 | Field | Value |
 | --- | --- |
@@ -10,26 +14,5 @@ Generated view of `rules/ARCH.BINARY.DOMAIN.CONTRACTS.json`. Edit the JSON block
 | Kind | forbidden-type-dependency |
 | Enforcement | blocking |
 | Detector coverage | partial |
-| Authority | profiles/ifx/rules/L2.2.json (parallel compiled-type evidence) |
+| Authority | stages/post/rules/L2.2.json (parallel compiled-type evidence) |
 | Applies to | src/Modules/CRM/IFX.Modules.CRM.Domain/** |
-| Source assembly/namespace | IFX.Modules.CRM.Domain:IFX.Modules.CRM.Domain.Entities |
-| Forbidden assembly/namespace | IFX.Modules.CRM.Contracts:IFX.Modules.CRM.Contracts.V1 |
-| Minimum matches | 1 |
-
-```json
-{
-  "formatVersion": 1,
-  "id": "ARCH.BINARY.DOMAIN.CONTRACTS",
-  "title": "CRM Domain compiled entity types do not depend on CRM public contract types",
-  "kind": "forbidden-type-dependency",
-  "enforcement": "blocking",
-  "coverage": "partial",
-  "authority": "profiles/ifx/rules/L2.2.json (parallel compiled-type evidence)",
-  "appliesTo": ["src/Modules/CRM/IFX.Modules.CRM.Domain/**"],
-  "sourceAssembly": "IFX.Modules.CRM.Domain",
-  "sourceNamespace": "IFX.Modules.CRM.Domain.Entities",
-  "forbiddenAssembly": "IFX.Modules.CRM.Contracts",
-  "forbiddenNamespace": "IFX.Modules.CRM.Contracts.V1",
-  "minimumMatches": 1
-}
-```

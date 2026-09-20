@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11l-analysis-progress-relocation",
+  "title": "Relocate the frozen refactor progress report",
+  "goal": "Move the reviewed CP02 remote-verification snapshot into the Analysis Stage reports hierarchy without changing its content.",
+  "acceptanceCriteria": [
+    "The source report is absent and the destination report has the identical Git blob.",
+    "The destination is explicitly registered as analysis-evidence trust/meta-policy.",
+    "The living Plan 06 evidence link names the Stage-owned report path.",
+    "Manifest, policy-candidate and trusted-component validation pass.",
+    "Trusted Diff consumes exact move, policy and TCB authorizations once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-progress/cp02-ci-contract-remote.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11l-analysis-progress-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11l-analysis-progress-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11l-analysis-progress-weaken.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260920-v3-stage-cp11l-analysis-progress-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11l-analysis-progress-relocation.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

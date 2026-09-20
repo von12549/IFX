@@ -146,7 +146,7 @@ try {
                     baseSha = $BaseSha; mergeBase = $authorityMergeBase; headSha = $explicitHead
                     protectionSha256 = (Read-GuardProtection $packageRoot).Sha256
                     policyRegistrySha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes((Join-Path $packageRoot 'shared/policy-config.json')))
-                    authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes((Join-Path $packageRoot 'contracts/authorization.schema.json')))
+                    authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes((Resolve-GuardContractPath $packageRoot 'authorization')))
                 }
                 foreach ($binding in $expectedBindings.GetEnumerator()) { if ([string]$covered.($binding.Key) -cne [string]$binding.Value) { $problems.Add("The coverage report is not bound to this run: $($binding.Key).") } }
                 foreach ($item in $blocking) {
@@ -180,11 +180,11 @@ try {
             Add-Check 'domain-authority-checkout' 'pass' $null
         }
 
-        $registry = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+        $registry = Get-Content -LiteralPath (Resolve-GuardAuthorityRegistryPath $packageRoot) -Raw | ConvertFrom-Json -AsHashtable -Depth 100
         $projectionTargets = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
         foreach ($projection in @(@($registry.projections) + @($registry.g04Bindings))) { [void]$projectionTargets.Add("docs/guards/V3_ifx/$($projection.target)") }
         $before = Get-GuardFileHashes $candidateRepository $packageFiles
-        $sync = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Generate', '-PackageRoot', $candidatePackage, '-TargetRoot', $head)
+        $sync = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'maintenance/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Apply', '-AcceptMaintenance', '-PackageRoot', $candidatePackage, '-TargetRoot', $head)
         Write-Host $sync.Output
         if ($sync.ExitCode -ne 0) { Add-Check 'candidate-projection' 'fail' 'The base generator could not project head authorities.'; throw 'Candidate projection failed.' }
         $after = Get-GuardFileHashes $candidateRepository $packageFiles
@@ -213,9 +213,9 @@ try {
         # The runner re-checks the hashes that bind the report to the base registry and authorization schema (D24).
         $bindingProblems = @()
         if ($null -ne $protectedResult) {
-            foreach ($binding in @(@('policyRegistrySha256', 'shared/policy-config.json'), @('authorizationSchemaSha256', 'contracts/authorization.schema.json'))) {
-                $expected = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([IO.File]::ReadAllBytes((Join-Path $packageRoot $binding[1])))).ToLowerInvariant()
-                if ([string]$protectedResult.($binding[0]) -cne $expected) { $bindingProblems += "The protected change report $($binding[0]) is not bound to the base $($binding[1])." }
+            foreach ($binding in @(@('policyRegistrySha256', (Join-Path $packageRoot 'shared/policy-config.json'), 'shared/policy-config.json'), @('authorizationSchemaSha256', (Resolve-GuardContractPath $packageRoot 'authorization'), 'authorization contract'))) {
+                $expected = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([IO.File]::ReadAllBytes($binding[1]))).ToLowerInvariant()
+                if ([string]$protectedResult.($binding[0]) -cne $expected) { $bindingProblems += "The protected change report $($binding[0]) is not bound to the base $($binding[2])." }
             }
         }
         if ($verification.ExitCode -eq 0 -and $null -ne $protectedResult -and $protectedResult.status -eq 'pass' -and $bindingProblems.Count -eq 0) {
@@ -240,7 +240,7 @@ try {
     }
 
     # ---- guard run from the candidate package, with head only as the target
-    $arguments = @('-Mode', $Mode, '-TargetRoot', $head, '-OutputDirectory', $output)
+    $arguments = @('-Mode', $Mode, '-TargetRoot', $head, '-OutputDirectory', $output, '-GenerationRoot', $generation)
     switch ($Mode) {
         'Specialized' { $arguments += @('-SpecializedGate', $SpecializedGate) }
         'Quality' { $arguments += @('-QualityTarget', $QualityTarget) }
@@ -259,7 +259,7 @@ try {
         Add-Check 'guardrails' 'skipped' "Every changed path is a formal plan document, an authorization record or a decision record, so $Mode$(if ($Mode -eq 'Specialized') { " $SpecializedGate" } elseif ($Mode -eq 'Quality') { " $QualityTarget" }) inherits the verdict of base $BaseSha (D28)." @($scopeReport)
     }
     else {
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $candidatePackage 'scripts/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $candidateRepository 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') $arguments -WorkingDirectory $head -Environment $guardEnvironment
         Write-Host $run.Output
         $summaryName = switch ($Mode) { 'HistoricalIntegrity' { 'summary-historical-integrity.json' } default { "summary-$($Mode.ToLowerInvariant()).json" } }
         if (-not $headGuardBuildExisted -and [IO.Directory]::Exists($headGuardBuild)) { Add-Check 'trusted-build-isolation' 'fail' 'Trusted guard build output was written into the head checkout.' }
@@ -303,7 +303,7 @@ $trustedSummaryName = switch ($Mode) {
 }
 $summaryPath = Join-Path $trustedOutput $trustedSummaryName
 [IO.File]::WriteAllText($summaryPath, ($summary | ConvertTo-Json -Depth 10) + "`n", [Text.UTF8Encoding]::new($false))
-if (-not (Test-Json -Path $summaryPath -SchemaFile (Join-Path $packageRoot 'contracts/trusted-base-summary.schema.json') -ErrorAction Stop)) { throw 'Trusted base summary does not match its schema.' }
+if (-not (Test-Json -Path $summaryPath -SchemaFile (Resolve-GuardContractPath $packageRoot 'trusted-base-summary') -ErrorAction Stop)) { throw 'Trusted base summary does not match its schema.' }
 foreach ($check in $checks) { if ($check.status -eq 'fail') { Write-Host "FAIL $($check.id): $($check.reason)" } }
 if ($status -ne 'pass') { Write-Host "Trusted base run failed: $summaryPath"; exit 1 }
 Write-Host "Trusted base run passed: $summaryPath"

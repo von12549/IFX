@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>LayerGuard.Ifx</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <AssemblyName>layerguard-ifx</AssemblyName>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\V3\stages\post\gates\architecture\dotnet\Guards.ArchitectureConformance\Guards.ArchitectureConformance.csproj" />
+  </ItemGroup>
+
+</Project>

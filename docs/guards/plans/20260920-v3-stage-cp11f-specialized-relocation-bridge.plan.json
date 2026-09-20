@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11f-specialized-relocation-bridge",
+  "title": "V3 stage-oriented refactor CP11f — specialized gate relocation bridge",
+  "goal": "Let base-owned tests validate exactly one legacy or Post-stage Specialized layout before the authorized physical relocation.",
+  "acceptanceCriteria": [
+    "The current complete legacy Specialized layout remains active and production entry points remain unchanged.",
+    "Contract, manifest and target-root-separation tests select exactly one complete legacy or stage-owned layout.",
+    "Missing, partial or ambiguous Specialized layouts fail closed.",
+    "The subsequent physical relocation removes the legacy directory without retaining a production fallback."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-relocation-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-relocation-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-relocation-bridge.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

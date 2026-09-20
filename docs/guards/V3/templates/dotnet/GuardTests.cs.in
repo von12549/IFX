@@ -16,7 +16,7 @@ public sealed class GuardTests
 
     private static IReadOnlyList<JsonElement> Rules()
     {
-        var directory = Path.Combine(AppContext.BaseDirectory, "rules");
+        var directory = Path.Combine(AppContext.BaseDirectory, "GeneratedInputs", "rules");
         var files = Directory.GetFiles(directory, "*.json").OrderBy(x => x, StringComparer.Ordinal).ToArray();
         Assert.NotEmpty(files);
         return files.Select(path => JsonDocument.Parse(File.ReadAllText(path)).RootElement.Clone()).ToArray();

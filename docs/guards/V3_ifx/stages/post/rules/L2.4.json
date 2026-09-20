@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "id": "L2.4",
+  "title": "Adapters use registered provider Contracts",
+  "kind": "none",
+  "appliesTo": ["src/Modules/*/IFX.Modules.*.IntegrationAdapter/**","src/Modules/*/IFX.Modules.*.Infrastructure/**"],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L2.4] (blocking in Invoke-IFX)"
+}

@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11q-verifier-ownership-relocation",
+  "title": "Relocate CI and manifest verifiers to their final owners",
+  "goal": "Move the public CI verifier into commands and the internal manifest verifier into engine while preserving public compatibility and base-owned validation.",
+  "acceptanceCriteria": [
+    "commands/Invoke-IFXCiContract.ps1 is the canonical public CI verifier and the old ci path is a forwarding deprecation wrapper.",
+    "engine/Invoke-IFXManifestCheck.ps1 is the only manifest verifier implementation and the old internal scripts path is absent.",
+    "Validate, CI contract fixtures and manifest fixtures pass through the final authorities.",
+    "Command, TCB, compatibility and documentation manifests contain no active reference to the removed internal path.",
+    "Protected-change, policy-candidate and trusted-component candidate checks pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/authored/trusted-base.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-ownership-relocation.plan.json"
+  ],
+  "areaIds": ["CI", "GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

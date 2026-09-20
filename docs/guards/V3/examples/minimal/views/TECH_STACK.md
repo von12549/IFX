@@ -1,8 +1,12 @@
 # Tech stack
 
-Generated view of `tech-stack.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-<!-- guard-config-source: tech-stack.json sha256: 5d554f898ff0c285809ceb65d42eb2968ed09f21d77d1c0364488582477bd28f -->
+Composite SHA-256: `1e7202f9724546210a3fb581a700265a0b4732b51eb06921f3bb23e8eddbeda8`
+
+Sources:
+
+- `docs/guards/V3/examples/minimal/tech-stack.json` — authority
 
 | Languages | .NET gate target | Framework |
 | --- | --- | --- |
@@ -13,14 +17,3 @@ Generated view of `tech-stack.json`. Edit the JSON block for policy changes, the
 | ID | Executable | Arguments | Working directory |
 | --- | --- | --- | --- |
 | sample-test | dotnet | test | . |
-
-```json
-{
-  "formatVersion": 1,
-  "targetLanguages": ["C#"],
-  "commands": [
-    { "id": "sample-test", "executable": "dotnet", "arguments": ["test"], "workingDirectory": "." }
-  ],
-  "testProject": { "targetFramework": "net10.0", "framework": "xunit" }
-}
-```

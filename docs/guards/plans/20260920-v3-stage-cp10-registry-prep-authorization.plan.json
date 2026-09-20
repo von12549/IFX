@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp10-registry-prep-authorization",
+  "title": "Authorize CP10 registry preparation",
+  "goal": "Add tuple-bound change-trusted-base and weaken-policy records for the reviewed CP10 registry-prep candidate, without changing guard policy or runtime behavior.",
+  "acceptanceCriteria": [
+    "Both records validate against the authorization schema and reference the registry-prep formal Plan and frozen decisions.",
+    "The records exactly bind the two changed policy/configuration files and their base/head tuples or semantic pointers.",
+    "No file outside the two records and this authorization Plan pair changes."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-registry-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-registry-prep-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp10-registry-prep-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp10-registry-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

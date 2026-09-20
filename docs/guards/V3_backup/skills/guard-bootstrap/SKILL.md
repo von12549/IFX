@@ -1,8 +1,0 @@
----
-name: guard-bootstrap
-description: Analyze a target repository and configure a Guardrails V3 profile that can generate and verify an independent .NET gate.
----
-
-Read the V3 `README.md`, `DEPLOYMENT.md`, [rule authoring guide](../../rules/README.md) and technical design. Run `Invoke-V3Setup.ps1 -Mode Analyze` against the target, excluding copied guard packages and fixtures; pass an existing profile when one exists. It creates evidence and editable target architecture/technical drafts. Compare their prose and structured blocks with actual code, commands, policy authorities and CI. Translate intended prose changes into the structured blocks, then run `Invoke-V3Architecture.ps1 -Mode Review` and present its profile differences, unmapped projects, detector gaps and observed violations. Treat drafts as candidates. If the user chooses the reviewed document as the baseline, use explicit `-Mode Adopt -AcceptDocument` to create a new profile path; do not overwrite the current profile or independent policy.
-
-Put technology/commands in `tech-stack.json`, areas/owners/risks in `project-map.json`, and one JSON per stable rule ID. For each rule, state what its detector proves and misses; use `kind: none`, `advisory`, `coverage: none` without a detector. Run `Invoke-V3Docs.ps1 -Mode Render` and `-Mode Check` for readable profile views; keep JSON authoritative and use preview/`-Apply` for structured Markdown edits. Run `Validate`, `Generate`, `Check`, and `Test` on the adopted profile in an isolated target or output directory. Verify compliant and deliberate violating fixtures before proposing CI activation. Report uncovered rules, host-specific installation, and whether required merge checks are actually configured.

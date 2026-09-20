@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11j-policy-registry-move-bridge",
+  "title": "Bridge policy registry validation across protected moves",
+  "goal": "Let the previous trusted base classify schema-valid head policy paths and reproducible projection targets during the CP11j protected relocation.",
+  "acceptanceCriteria": [
+    "Head policy and authority registries are read from the explicit head commit and validated with base schemas.",
+    "Head-registered policy additions and base-registered removals remain zero-comparator policy-weakening obligations.",
+    "Only base-regenerated derived projection targets are excluded from policy-change obligations.",
+    "Invalid registries, unregistered files and uncovered moves fail closed.",
+    "Trusted Diff and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-registry-move-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-registry-move-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-registry-move-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

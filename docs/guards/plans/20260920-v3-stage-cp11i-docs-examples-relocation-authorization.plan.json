@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11i-docs-examples-relocation-authorization",
+  "title": "Authorize CP11i documentation and example relocation",
+  "goal": "Pre-authorize the exact move, trusted-component and policy tuples for CP11i.",
+  "acceptanceCriteria": [
+    "Three move records bind the deployment guide, generated-output guide and complete Plan example set.",
+    "The TCB record binds only the four affected Stage manifests to tcb.manifest.",
+    "The policy record binds only the four Stage-manifest documentation path changes.",
+    "The authorization-only change modifies no runtime implementation or active path.",
+    "The CP11i candidate consumes all five records exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-deployment-guide-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-docs-examples-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-docs-examples-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-generated-guide-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-plan-examples-move.json",
+    "docs/guards/plans/20260920-v3-stage-cp11i-docs-examples-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11i-docs-examples-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

@@ -28,7 +28,7 @@ $baseRepository = Get-GuardFullPath (Join-Path $packageRoot '../../..')
 $target = Get-GuardFullPath $TargetRoot
 $report = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Path $target $ReportPath }))
 $manifestPath = 'docs/guards/V3_ifx/shared/trusted-components.json'
-$authorizationSchema = Join-Path $packageRoot 'contracts/authorization.schema.json'
+$authorizationSchema = Resolve-GuardContractPath $packageRoot 'authorization'
 $pathOperations = @('delete', 'move', 'case-rename')
 $failures = [Collections.Generic.List[string]]::new()
 $obligations = [Collections.Generic.List[object]]::new()
@@ -126,12 +126,17 @@ try {
     $protection = Read-GuardProtection $packageRoot
     $result.protectionSha256 = $protection.Sha256
     $registry = Read-GuardPolicyRegistry $packageRoot
-    $candidateRegistry = Read-GuardCandidatePolicyRegistry $target $headSha
-    $candidateAuthorities = Read-GuardCandidateAuthorityRegistry $target $headSha
     $result.policyRegistrySha256 = $registry.sha256
     $result.authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes($authorizationSchema))
-    $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+    $authorities = Get-Content -LiteralPath (Resolve-GuardAuthorityRegistryPath $packageRoot) -Raw | ConvertFrom-Json -AsHashtable -Depth 100
     $projectionTargets = Get-GuardProjectionTargets $authorities
+    $headRegistryText = Get-GuardBlobText $target $headSha 'docs/guards/V3_ifx/shared/policy-config.json'
+    $headAuthorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $target $headSha
+    $headAuthoritiesText = Get-GuardBlobText $target $headSha $headAuthorityRegistryPath
+    if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'policy-config') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
+    if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'authorities') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
+    $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
+    $headAuthorities = ConvertFrom-GuardJsonText $headAuthoritiesText
     $directory = $protection.AuthorizationDirectory
     if ($directory -and $directory -cne $AuthorizationDirectory) { throw "The Diff protection authorizationDirectory $directory differs from the trusted base protocol directory $AuthorizationDirectory." }
 
@@ -175,7 +180,7 @@ try {
     }
     # D24: with zero comparators every semantic policy or configuration change is a potential weakening, orthogonal to
     # any trusted component obligation of the same path.
-    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries -HeadRegistry $candidateRegistry -HeadProjectionTargets (Get-GuardProjectionTargets $candidateAuthorities.Document)
+    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries -HeadRegistry $headRegistry -HeadProjectionTargets (Get-GuardProjectionTargets $headAuthorities)
     foreach ($path in $policy.Unregistered) { $failures.Add("Unregistered policy or configuration file: $path; register it in shared/policy-config.json or keep it outside the registry roots.") }
     foreach ($change in $policy.Changes) {
         $obligations.Add([pscustomobject]@{ id = "policy-weakening:$($change.Path)"; kind = 'policy-weakening'; paths = @($change.Path); pointers = @($change.Pointers); change = $change; coveredBy = [Collections.Generic.List[string]]::new() })
@@ -278,7 +283,7 @@ if ($failures.Count -eq 0) {
 }
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
 [IO.File]::WriteAllText($report, ($result | ConvertTo-Json -Depth 10) + "`n", [Text.UTF8Encoding]::new($false))
-if (-not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/protected-change-report.schema.json') -Path $report)) { throw "Protected change report does not match its schema: $report" }
+if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'protected-change-report') -Path $report)) { throw "Protected change report does not match its schema: $report" }
 if ($failures.Count -gt 0) {
     foreach ($failure in $failures) { Write-Host "FAIL $failure" }
     Write-Host "Protected change verification failed: $report"

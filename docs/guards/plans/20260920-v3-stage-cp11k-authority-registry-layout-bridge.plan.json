@@ -1,0 +1,40 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11k-authority-registry-layout-bridge",
+  "title": "Bridge authority registry paths across the shared-layout move",
+  "goal": "Let the previous trusted base validate exactly one legacy or shared authority registry during the CP11k protected relocation.",
+  "acceptanceCriteria": [
+    "Runtime, manifest and projection paths resolve exactly one authority registry in either supported layout.",
+    "Trusted-base readers select base and explicit-head registry paths independently without trusting head code.",
+    "Missing and ambiguous registry layouts fail closed.",
+    "Existing authority candidate, manifest and projection tests pass in the legacy layout.",
+    "Trusted Diff and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-layout-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-layout-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-layout-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

@@ -8,8 +8,10 @@ $parent = [IO.Path]::GetFullPath((Join-Path $repo 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $parent "v3-archunit-$([Guid]::NewGuid().ToString('N'))"))
 if (-not $fixture.StartsWith($parent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture.' }
 $profile = Join-Path $fixture 'profile'
-$runner = Join-Path $package 'scripts/Invoke-V3.ps1'
-$output = 'generated'
+$runner = Join-Path $package 'commands/Invoke-V3.ps1'
+$generationRoot = [IO.Path]::GetFullPath((Join-Path $parent "v3-archunit-generation-$([Guid]::NewGuid().ToString('N'))"))
+$output = Join-Path $generationRoot 'v3/gates/stage'
+$generatedRoot = Join-Path $output 'Sample.Guards.StageGate.Tests'
 $utf8 = [Text.UTF8Encoding]::new($false)
 
 function Write-Text([string] $relative, [string] $content) {
@@ -19,7 +21,7 @@ function Write-Text([string] $relative, [string] $content) {
 }
 function Write-Json([string] $relative, [object] $value) { Write-Text $relative (($value | ConvertTo-Json -Depth 30) + "`n") }
 function Assert-Run([int] $expected, [string[]] $arguments, [string] $label) {
-    $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -OutputDirectory $output -LockMode Update -LockRoot (Join-Path $fixture 'locks') @arguments 2>&1)
+    $result = @(& pwsh -NoProfile -File $runner -ProfileDirectory $profile -TargetRoot $fixture -GenerationRoot $generationRoot -OutputDirectory $output -LockMode Update -LockRoot (Join-Path $fixture 'locks') @arguments 2>&1)
     if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $($result -join ' | ')" }
     Write-Host "PASS $label"
 }
@@ -27,6 +29,7 @@ function Read-Report { return Get-Content -LiteralPath (Join-Path $fixture 'arti
 
 try {
     [void] [IO.Directory]::CreateDirectory($parent)
+    [void] [IO.Directory]::CreateDirectory($generationRoot)
     # The fixture lives inside a host repository; keep host central package management from applying to its projects.
     Write-Text 'Directory.Packages.props' "<Project><PropertyGroup><ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally></PropertyGroup></Project>`n"
     Copy-Item -LiteralPath (Join-Path $package 'examples/minimal') -Destination $profile -Recurse
@@ -94,7 +97,7 @@ try {
     Write-Json 'profile/tech-stack.json' $tech
     Assert-Run 0 @('-Mode', 'Generate') 'remove optional detector cleanly'
     Assert-Run 0 @('-Mode', 'Check') 'project-only generation remains exact'
-    if ([IO.File]::Exists((Join-Path $fixture 'generated/AssemblyGuardTests.cs')) -or [IO.File]::ReadAllText((Join-Path $fixture 'generated/GuardV3.Tests.csproj')).Contains('TngTech.ArchUnitNET')) { throw 'Unselected detector left a generated dependency.' }
+    if ([IO.File]::Exists((Join-Path $generatedRoot 'Post/AssemblyGuardTests.cs')) -or [IO.File]::ReadAllText((Join-Path $generatedRoot 'Sample.Guards.StageGate.Tests.csproj')).Contains('TngTech.ArchUnitNET')) { throw 'Unselected detector left a generated dependency.' }
     Assert-Run 0 @('-Mode', 'Test') 'project-only profile still passes'
     Write-Host 'V3 ArchUnitNET synthetic integration tests passed.'
 }
@@ -103,5 +106,10 @@ finally {
         $resolved = [IO.Path]::GetFullPath($fixture)
         if (-not $resolved.StartsWith($parent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture cleanup.' }
         Remove-Item -LiteralPath $resolved -Recurse -Force
+    }
+    if ([IO.Directory]::Exists($generationRoot)) {
+        $resolvedGeneration = [IO.Path]::GetFullPath($generationRoot)
+        if (-not $resolvedGeneration.StartsWith($parent + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe generation cleanup.' }
+        Remove-Item -LiteralPath $resolvedGeneration -Recurse -Force
     }
 }

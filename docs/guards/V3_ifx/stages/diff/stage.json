@@ -12,7 +12,7 @@
   "enforcement": "blocking",
   "executionClass": "gate",
   "documentation": [
-    "docs/guards/V3_ifx/templates/plan/README.md"
+    "docs/guards/V3_ifx/examples/plan/README.md"
   ],
   "gates": [
     {
@@ -25,11 +25,7 @@
         "targetInput": "Git objects of verified merge-base and head",
         "inputs": [
           {
-            "ref": "package:profiles/ifx/",
-            "source": "base"
-          },
-          {
-            "ref": "package:generated/stages/",
+            "ref": "package:shared/profile-layout.json",
             "source": "base"
           },
           {
@@ -41,7 +37,7 @@
             "source": "base"
           },
           {
-            "ref": "package:policy/authorities.json",
+            "ref": "package:shared/authorities/authorities.json",
             "source": "base"
           },
           {
@@ -49,7 +45,7 @@
             "source": "head-target"
           },
           {
-            "ref": "target:docs/guards/V3_ifx/decisions/history/",
+            "ref": "target:docs/guards/V3_ifx/shared/decisions/history/",
             "source": "head-target"
           }
         ],

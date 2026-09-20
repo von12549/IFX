@@ -2,7 +2,7 @@
 
 > 状态：已完成（2026-09-16）。P0–P8 全部完成；清理提交 `2bab176` 的 PR #26 run `34990329905` 在 Linux/Windows 上通过全部 13 个 V3 required checks。GitHub ruleset `IFX V3 Required Checks`（ID `23459908`）已启用；故意加入越界路径的 PR #27 在 run `34985968761` 中失败，GitHub 返回 `mergeStateStatus: BLOCKED`。
 >
-> 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。旧 workflow 的同提交并行结果和已知差异保存在 `V3_ifx/analysis/ifx/specialized-parity.json`；自动执行链现只进入 `v3-ifx-guardrails.yml`。
+> 基线：`codex/guards-principles-plan` 已将 V3_ifx 与当前 Contracts/Adapter 架构对齐；V3 stage、独立 IFX LayerGuard、ArchUnitNET、Pre、Package 和 Tools 自测均已通过。旧 workflow 的同提交并行结果和已知差异保存在 `V3_ifx/stages/analysis/reports/specialized-parity.json`；自动执行链现只进入 `v3-ifx-guardrails.yml`。
 
 ## 目标与完成后的结构
 
@@ -93,8 +93,8 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。V3 workflow 负责�
 
 ## P0 — 冻结现状、重复调用与能力矩阵
 
-- [x] P0.1 记录当前分支 SHA、全部 workflow、根 guard 脚本、测试、权威输入、生成物、报告、CODEOWNERS 和外部引用。保存每个入口的触发范围、运行平台、命令、退出码、artifact 与 required-check 名称。证据：`V3_ifx/analysis/ifx/cutover-baseline.json`。
-- [x] P0.2 建立实际调用图，明确记录当前重复：LayerGuard 被 `layerguard`、G03、G04、G05 多次执行；G03 catalog 被 LayerGuard/G03/G05 重复；migration safety 被 G05/Database 重复；solution build/test 被 G04/G05/Database 部分重复。证据：`V3_ifx/analysis/ifx/CUTOVER-BASELINE.md`。
+- [x] P0.1 记录当前分支 SHA、全部 workflow、根 guard 脚本、测试、权威输入、生成物、报告、CODEOWNERS 和外部引用。保存每个入口的触发范围、运行平台、命令、退出码、artifact 与 required-check 名称。证据：`V3_ifx/stages/analysis/reports/cutover-baseline.json`。
+- [x] P0.2 建立实际调用图，明确记录当前重复：LayerGuard 被 `layerguard`、G03、G04、G05 多次执行；G03 catalog 被 LayerGuard/G03/G05 重复；migration safety 被 G05/Database 重复；solution build/test 被 G04/G05/Database 部分重复。证据：`V3_ifx/stages/analysis/reports/CUTOVER-BASELINE.md`。
 - [x] P0.3 在干净 checkout 重跑现行 LayerGuard、Coding Guardrails、G03/G04/G05、Plan 04、Database、Domain assembly、frontend 和 solution 回归。保存命令、退出码、测试数和报告 hash；G03、G04、Plan04 的既有失败已登记为 `G03-CLIENT-EVIDENCE`、`G04-CANONICAL-HASH`、`P04-FROZEN-HASH`。
 - [x] P0.4 为每项能力建立“旧入口—旧实现—权威输入—V3 目标检测器—正例—负例—报告—删除条件”矩阵。静态绑定与运行时/行为验证已在本计划职责模型和 cutover baseline 中分开记录。
 - [x] P0.5 冻结永久保留清单并加入机械断言：`mcp/LayerGuard/**`、三个 V3 目录、`docs/guards/plans/**` 和领域权威事实不得被清理脚本匹配。清单记录于 `cutover-baseline.json`，机械断言在 P2/P7 测试中实现。
@@ -127,7 +127,7 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。V3 workflow 负责�
 - [x] P3.5 迁移 Plan 04：baseline/inventory/audit、extraction、tenant query、projection、Abstractions retirement、documentation 和 fixture。`L1.2` 的项目命名结果来自 Architecture；Plan04 保留 solution membership、tenant/projection 等独有治理断言。
 - [x] P3.6 迁移 Database：pending model、inventory、migration safety、release artifact、publish、database boundary tests 和 SQL Server matrix。实际 migrations、manifest 和 safety policy 继续保留在数据库/部署目录。
 - [x] P3.7 把 G04/G05 重复的 solution restore/build/test 收敛为 `Quality.Solution`；专项 job 只运行焦点测试并引用公共 build artifact 或明确的上游结论。
-- [x] P3.8 对每个专项 detector 运行旧版与 V3 版的正常、违规、缺输入、hash 漂移和报告 schema 对照。只有结论、覆盖和失败关闭行为相同或更强，才允许退出 wrapper 阶段。对照记录：`V3_ifx/analysis/ifx/specialized-parity.json`；projection drift、缺 authority 和 schema 负例由 V3_ifx tests 执行。
+- [x] P3.8 对每个专项 detector 运行旧版与 V3 版的正常、违规、缺输入、hash 漂移和报告 schema 对照。只有结论、覆盖和失败关闭行为相同或更强，才允许退出 wrapper 阶段。对照记录：`V3_ifx/stages/analysis/reports/specialized-parity.json`；projection drift、缺 authority 和 schema 负例由 V3_ifx tests 执行。
 - **验收**：五类专项门禁全部由 V3_ifx 自有实现运行，不调用根旧 validator；与 Architecture/其他专项的重复执行已经去除；每类独有行为验证和负例均保留。
 
 ## P4 — 接管历史验收并去除失效状态断言
@@ -198,4 +198,4 @@ GitHub Actions workflow 必须位于 `.github/workflows/`。V3 workflow 负责�
 
 `.github/workflows/v3-ifx-guardrails.yml` 是唯一 IFX 门禁 workflow。它从 V3_ifx 调用 Pre、Diff、Architecture、Specialized、Quality 和 HistoricalIntegrity；完整 LayerGuard 在每次 CI 中只执行一次。13 个稳定 job 名称由 GitHub ruleset 强制。G03/G04/G05、Plan 04 和 Database 的检测器实现、fixture、报告契约及编排属于 V3_ifx，领域事实仍保持各自唯一权威。历史门禁保护冻结证据完整性，不再把旧迁移阶段状态当作当前 readiness。
 
-旧 workflow、根 guard 实现、重复配置和非 V3 文档在 required-check 切换后按 `V3_ifx/analysis/ifx/legacy-deletion-manifest.json` 删除。恢复时从清单记录的删除前提交选择性取回，不修改永久保留的 `mcp/LayerGuard`、历史 baselines、plans 或领域权威事实。
+旧 workflow、根 guard 实现、重复配置和非 V3 文档在 required-check 切换后按 `V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json` 删除。恢复时从清单记录的删除前提交选择性取回，不修改永久保留的 `mcp/LayerGuard`、历史 baselines、plans 或领域权威事实。

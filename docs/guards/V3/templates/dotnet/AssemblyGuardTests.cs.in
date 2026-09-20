@@ -86,7 +86,7 @@ public sealed class AssemblyGuardTests
     public void EveryBlockingCompiledRuleHasAWorkingPositiveAndNegativeFixture()
     {
         var architecture = new ArchLoader().LoadAssembly(typeof(Self.Good.Allowed).Assembly).Build();
-        var rules = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "rules"), "*.json")
+        var rules = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "GeneratedInputs", "rules"), "*.json")
             .Select(x => JsonDocument.Parse(File.ReadAllText(x)).RootElement.Clone())
             .Where(x => IsAssemblyRule(x) && Text(x, "enforcement") == "blocking").ToArray();
         if (rules.Length == 0) return;
@@ -114,9 +114,9 @@ public sealed class AssemblyGuardTests
     [Fact, Trait("Stage", "Post")]
     public void ExplicitTargetAssembliesSatisfyConfiguredRules()
     {
-        using var tech = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "tech-stack.json")));
+        using var tech = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "GeneratedInputs", "tech-stack.json")));
         var gate = tech.RootElement.GetProperty("assemblyGate");
-        var rules = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "rules"), "*.json")
+        var rules = Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "GeneratedInputs", "rules"), "*.json")
             .OrderBy(x => x, StringComparer.Ordinal)
             .Select(x => JsonDocument.Parse(File.ReadAllText(x)).RootElement.Clone())
             .Where(IsAssemblyRule).ToArray();
@@ -181,7 +181,7 @@ public sealed class AssemblyGuardTests
         catch (Exception exception) { failures.Add($"Assembly gate could not inspect its target: {exception}"); }
         var reportPath = Path.Combine(Root, "artifacts", "guards", "v3-assembly.json");
         Directory.CreateDirectory(Path.GetDirectoryName(reportPath)!);
-        var profile = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "tech-stack.json"));
+        var profile = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "GeneratedInputs", "tech-stack.json"));
         var report = new { formatVersion = 1, status = failures.Count == 0 ? "passed" : "failed", expectedAssemblies = expected,
             loadedAssemblies = loadedNames, profileInputSha256 = Environment.GetEnvironmentVariable("GUARD_INPUT_SHA256"),
             techStackSha256 = Convert.ToHexString(SHA256.HashData(profile)).ToLowerInvariant(),

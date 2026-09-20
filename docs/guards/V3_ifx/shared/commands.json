@@ -4,7 +4,7 @@
     {
       "id": "ifx-guardrails",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "entryPoint": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
       "stages": [
         "pre",
         "post",
@@ -16,10 +16,12 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/profiles/ifx/",
-        "docs/guards/V3_ifx/policy/",
-        "docs/guards/V3_ifx/history/manifest.json",
-        "formal Plan (Pre/Diff)"
+        "docs/guards/V3_ifx/shared/profile-layout.json",
+        "docs/guards/V3_ifx/stages/post/policy/",
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+        "formal Plan (Pre/Diff)",
+        "clean base worktree plus explicit BaseSha (-TrustedBase)",
+        "reviewed head candidate test suites (CandidateTests)"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/"
@@ -38,7 +40,7 @@
     {
       "id": "v3-runner",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "entryPoint": "docs/guards/V3/commands/Invoke-V3.ps1",
       "stages": [
         "pre",
         "post",
@@ -50,14 +52,14 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/profiles/ifx/",
-        "docs/guards/V3_ifx/templates/dotnet/",
+        "docs/guards/V3_ifx/shared/profile-layout.json",
+        "docs/guards/V3/templates/dotnet/",
         "formal Plan (Pre/Diff)",
         "docs/guards/V3/build/",
         "docs/guards/V3_ifx/build/locks/"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/generated/stages/",
+        "<generation-root>/v3-ifx/gates/stage/",
         "artifacts/guards/v3-ifx/",
         "artifacts/build/v3-ifx/stage-gate/",
         "artifacts/guards/v3-ifx/build/stage-gate/"
@@ -77,7 +79,7 @@
     {
       "id": "v3-setup",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "entryPoint": "docs/guards/V3/commands/Invoke-V3Setup.ps1",
       "stages": [
         "bootstrap",
         "analysis"
@@ -90,13 +92,13 @@
         "repository tree"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/analysis/ifx/"
+        "artifacts/guards/<package>/analysis/"
       ],
       "evidence": [
-        "docs/guards/V3_ifx/analysis/ifx/inventory.json"
+        "artifacts/guards/<package>/analysis/inventory.json"
       ],
-      "mutability": "writes-authority",
-      "requiresExplicitAcceptance": true,
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
       "platforms": [
         "linux",
         "windows"
@@ -106,7 +108,7 @@
     {
       "id": "v3-architecture-review",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
+      "entryPoint": "docs/guards/V3/scripts/Invoke-V3Architecture.ps1",
       "stages": [
         "analysis"
       ],
@@ -115,18 +117,18 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/analysis/ifx/ARCHITECTURE.md",
-        "docs/guards/V3_ifx/analysis/ifx/TECHNICAL.md",
-        "docs/guards/V3_ifx/profiles/ifx/"
+        "docs/guards/V3_ifx/stages/analysis/evidence/ARCHITECTURE.md",
+        "docs/guards/V3_ifx/stages/analysis/evidence/TECHNICAL.md",
+        "docs/guards/V3_ifx/shared/profile-layout.json"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/analysis/ifx/"
+        "artifacts/guards/v3-ifx/analysis/"
       ],
       "evidence": [
-        "docs/guards/V3_ifx/analysis/ifx/architecture-review.json"
+        "artifacts/guards/v3-ifx/analysis/architecture-review.json"
       ],
-      "mutability": "writes-authority",
-      "requiresExplicitAcceptance": true,
+      "mutability": "writes-artifacts",
+      "requiresExplicitAcceptance": false,
       "platforms": [
         "linux",
         "windows"
@@ -136,7 +138,7 @@
     {
       "id": "v3-docs",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "entryPoint": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
       "stages": [
         "pre",
         "post"
@@ -146,14 +148,51 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/profiles/ifx/"
+        "docs/guards/V3_ifx/docs/docs-map.json",
+        "docs/guards/V3_ifx/shared/profile-layout.json",
+        "declared authority and trust-contract sources"
       ],
       "outputs": [
+        "docs/guards/V3_ifx/docs/generated/",
         "docs/guards/V3_ifx/profiles/ifx/views/"
       ],
       "evidence": [],
       "mutability": "writes-generated",
       "requiresExplicitAcceptance": false,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "v3-deployment",
+      "kind": "public",
+      "entryPoint": "docs/guards/V3/commands/Invoke-V3Deployment.ps1",
+      "stages": [
+        "ci"
+      ],
+      "audiences": [
+        "ci",
+        "agent",
+        "human"
+      ],
+      "inputs": [
+        "docs/guards/V3_ifx/stages/ci/activation.json",
+        "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
+        "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
+        "docs/guards/V3_ifx/stages/ci/codeowners.template"
+      ],
+      "outputs": [
+        "artifacts/generated/v3-ifx/activation/",
+        ".github/workflows/v3-ifx-guardrails.yml (Install only)",
+        ".github/CODEOWNERS managed block (Install only)"
+      ],
+      "evidence": [
+        "optional -ReportPath JSON"
+      ],
+      "mutability": "writes-activation",
+      "requiresExplicitAcceptance": true,
       "platforms": [
         "linux",
         "windows"
@@ -173,8 +212,8 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/policy/layerguard.json",
-        "docs/guards/V3_ifx/templates/ifx-layerguard/",
+        "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+        "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/",
         "docs/guards/V3/build/",
         "docs/guards/V3_ifx/build/locks/"
       ],
@@ -197,7 +236,7 @@
     {
       "id": "ifx-ci-contract",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "entryPoint": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
       "stages": [
         "ci"
       ],
@@ -207,7 +246,7 @@
       ],
       "inputs": [
         ".github/workflows/v3-ifx-guardrails.yml",
-        "docs/guards/V3_ifx/ci/jobs.json",
+        "docs/guards/V3_ifx/stages/ci/required-checks.json",
         "GitHub ruleset (read-only, -Remote)"
       ],
       "outputs": [],
@@ -224,22 +263,24 @@
     },
     {
       "id": "ifx-manifest-check",
-      "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
       "stages": [
         "ci"
       ],
       "audiences": [
-        "ci",
-        "human"
+        "ci"
       ],
       "inputs": [
         "docs/guards/V3_ifx/guard-system.json",
         "docs/guards/V3_ifx/shared/",
         "docs/guards/V3_ifx/stages/",
-        "docs/guards/V3_ifx/contracts/",
+        "docs/guards/V3/contracts/",
+        "docs/guards/V3_ifx/shared/contracts/",
+        "docs/guards/V3_ifx/stages/ci/contracts/",
+        "docs/guards/V3_ifx/stages/diff/contracts/",
         ".github/workflows/v3-ifx-guardrails.yml",
-        "docs/guards/V3_ifx/ci/jobs.json"
+        "docs/guards/V3_ifx/stages/ci/required-checks.json"
       ],
       "outputs": [],
       "evidence": [],
@@ -249,12 +290,12 @@
         "linux",
         "windows"
       ],
-      "stability": "stable"
+      "stability": "internal"
     },
     {
       "id": "ifx-specialized",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "entryPoint": "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
       "stages": [
         "post"
       ],
@@ -262,7 +303,7 @@
         "ci"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/policy/",
+        "docs/guards/V3_ifx/stages/post/policy/",
         "repository source and documentation"
       ],
       "outputs": [
@@ -282,7 +323,7 @@
     {
       "id": "ifx-quality",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "entryPoint": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
       "stages": [
         "post"
       ],
@@ -310,7 +351,7 @@
     {
       "id": "ifx-historical-integrity",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "entryPoint": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1",
       "stages": [
         "post"
       ],
@@ -318,7 +359,7 @@
         "ci"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/history/manifest.json"
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/history/"
@@ -337,7 +378,7 @@
     {
       "id": "ifx-policy-sync",
       "kind": "maintenance",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
       "stages": [
         "post"
       ],
@@ -345,11 +386,11 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/policy/authorities.json",
+        "docs/guards/V3_ifx/shared/authorities/authorities.json",
         "domain-owned policy sources"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/policy/"
+        "docs/guards/V3_ifx/stages/post/policy/"
       ],
       "evidence": [],
       "mutability": "writes-authority",
@@ -363,7 +404,7 @@
     {
       "id": "ifx-history-manifest",
       "kind": "maintenance",
-      "entryPoint": "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1",
       "stages": [
         "post"
       ],
@@ -374,7 +415,33 @@
         "tracked historical evidence"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/history/manifest.json"
+        "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json"
+      ],
+      "evidence": [],
+      "mutability": "writes-authority",
+      "requiresExplicitAcceptance": true,
+      "platforms": [
+        "linux",
+        "windows"
+      ],
+      "stability": "stable"
+    },
+    {
+      "id": "ifx-analysis-evidence",
+      "kind": "maintenance",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/Update-IFXAnalysisEvidence.ps1",
+      "stages": [
+        "analysis"
+      ],
+      "audiences": [
+        "human"
+      ],
+      "inputs": [
+        "reviewed analysis input or frozen report snapshot"
+      ],
+      "outputs": [
+        "docs/guards/V3_ifx/stages/analysis/evidence/",
+        "docs/guards/V3_ifx/stages/analysis/reports/"
       ],
       "evidence": [],
       "mutability": "writes-authority",
@@ -388,7 +455,7 @@
     {
       "id": "ifx-refactor-baseline",
       "kind": "maintenance",
-      "entryPoint": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/refactor-baseline/New-RefactorBaseline.ps1",
       "stages": [
         "analysis"
       ],
@@ -399,7 +466,7 @@
         "baseline commit Git objects"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/"
+        "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/"
       ],
       "evidence": [],
       "mutability": "writes-authority",
@@ -423,7 +490,7 @@
       "inputs": [
         "clean base worktree at the verified base SHA",
         "head checkout as -HeadRoot",
-        "docs/guards/V3_ifx/policy/authorities.json"
+        "docs/guards/V3_ifx/shared/authorities/authorities.json"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/trusted-base/"

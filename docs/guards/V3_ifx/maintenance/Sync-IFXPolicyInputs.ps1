@@ -1,0 +1,127 @@
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)][ValidateSet('Validate', 'Preview', 'Check', 'Apply')][string] $Mode,
+    [string] $TargetRoot,
+    [string] $PackageRoot,
+    [switch] $AcceptMaintenance,
+    [string] $ReportPath
+)
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+$packageRoot = if ($PackageRoot) { [IO.Path]::GetFullPath($PackageRoot) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')) }
+$repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else { [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..')) }
+function Resolve-PolicyRoot([string] $PackageRoot) {
+    $legacy = Join-Path $PackageRoot 'policy'
+    $stage = Join-Path $PackageRoot 'stages/post/policy'
+    $available = @($legacy, $stage | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'layerguard.json') -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
+    return $available[0]
+}
+function Resolve-AuthorityRegistryPath([string] $PackageRoot) {
+    $available = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
+$policyRoot = Resolve-PolicyRoot $packageRoot
+$registryPath = Resolve-AuthorityRegistryPath $packageRoot
+$registry = Get-Content -LiteralPath $registryPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+$utf8 = [Text.UTF8Encoding]::new($false)
+if ($Mode -eq 'Apply' -and -not $AcceptMaintenance) { throw 'Apply requires -AcceptMaintenance.' }
+
+function Resolve-ContainedPath {
+    param([string] $Root, [string] $Relative, [string] $Label)
+    if ([IO.Path]::IsPathRooted($Relative) -or $Relative -match '(^|[\\/])\.\.([\\/]|$)') { throw "Unsafe $Label path: $Relative" }
+    $resolved = [IO.Path]::GetFullPath((Join-Path $Root $Relative))
+    $prefix = $Root.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    if (-not $resolved.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) { throw "$Label escapes its root: $Relative" }
+    return $resolved
+}
+
+function ConvertTo-Lf([string] $Text) { return $Text.Replace("`r`n", "`n").Replace("`r", "`n") }
+function Get-CanonicalText([string] $Path) { return ConvertTo-Lf ([IO.File]::ReadAllText($Path)) }
+function Get-Sha256([string] $Text) {
+    $bytes = $utf8.GetBytes($Text)
+    return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
+}
+function ConvertTo-CanonicalJson([object] $Value) { return (ConvertTo-Lf (($Value | ConvertTo-Json -Depth 100))) + "`n" }
+
+$expected = [ordered]@{}
+foreach ($binding in @($registry.g04Bindings)) {
+    $source = Resolve-ContainedPath $repositoryRoot $binding.source "authority source"
+    $target = Resolve-ContainedPath $packageRoot $binding.target "projection target"
+    if (-not [IO.File]::Exists($source)) { throw "Authority source is missing: $($binding.source)" }
+    $expected[$target] = Get-CanonicalText $source
+}
+
+foreach ($projection in @($registry.projections)) {
+    $source = Resolve-ContainedPath $repositoryRoot $projection.source "authority source"
+    $target = Resolve-ContainedPath $packageRoot $projection.target "projection target"
+    if (-not [IO.File]::Exists($source)) { throw "Authority source is missing: $($projection.source)" }
+    switch ($projection.transform) {
+        'copy-lf' { $expected[$target] = Get-CanonicalText $source }
+        'g03-governance' {
+            $document = Get-CanonicalText $source | ConvertFrom-Json -AsHashtable -Depth 100
+            $catalogTarget = Join-Path $policyRoot 'g03/catalog.json'
+            $catalogText = if ($expected.Contains($catalogTarget)) { $expected[$catalogTarget] } else { Get-CanonicalText $catalogTarget }
+            $document.source = 'g03/catalog.json'
+            $document.catalogSha256 = Get-Sha256 $catalogText
+            $expected[$target] = ConvertTo-CanonicalJson $document
+        }
+        'g04-runtime' {
+            $document = Get-CanonicalText $source | ConvertFrom-Json -AsHashtable -Depth 100
+            foreach ($binding in @($registry.g04Bindings)) {
+                $bindingTarget = Resolve-ContainedPath $packageRoot $binding.target "G04 binding target"
+                $relative = [IO.Path]::GetRelativePath($policyRoot, $bindingTarget).Replace('\', '/')
+                $document.bindings[$binding.key].path = $relative
+                $document.bindings[$binding.key].sha256 = Get-Sha256 $expected[$bindingTarget]
+            }
+            $expected[$target] = ConvertTo-CanonicalJson $document
+        }
+        default { throw "Unknown projection transform: $($projection.transform)" }
+    }
+}
+
+if ($Mode -eq 'Validate') {
+    Write-Host "IFX authority registry is valid: $($expected.Count) projections."
+    exit 0
+}
+
+$differences = [Collections.Generic.List[string]]::new()
+foreach ($entry in $expected.GetEnumerator()) {
+    if (-not [IO.File]::Exists($entry.Key)) {
+        $differences.Add([IO.Path]::GetRelativePath($packageRoot, $entry.Key).Replace('\', '/'))
+        continue
+    }
+    if ((Get-CanonicalText $entry.Key) -cne $entry.Value) {
+        $differences.Add([IO.Path]::GetRelativePath($packageRoot, $entry.Key).Replace('\', '/'))
+    }
+}
+
+if ($Mode -eq 'Check' -and $differences.Count -gt 0) { throw "IFX policy projections are stale: $($differences -join ', ')" }
+if ($Mode -eq 'Preview') {
+    $report = if ($ReportPath) {
+        if ([IO.Path]::IsPathRooted($ReportPath)) { [IO.Path]::GetFullPath($ReportPath) } else { [IO.Path]::GetFullPath((Join-Path $repositoryRoot $ReportPath)) }
+    } else { Join-Path $repositoryRoot 'artifacts/guards/v3-ifx/maintenance/policy-projection-preview.json' }
+    $repositoryPrefix = $repositoryRoot.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
+    if (-not $report.StartsWith($repositoryPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw 'ReportPath must stay under TargetRoot.' }
+    [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report)) | Out-Null
+    $preview = [ordered]@{
+        formatVersion = 1
+        operation = 'policy-projection-preview'
+        status = if ($differences.Count -eq 0) { 'current' } else { 'drift' }
+        packageRoot = [IO.Path]::GetRelativePath($repositoryRoot, $packageRoot).Replace('\', '/')
+        projectionCount = $expected.Count
+        changedPaths = @($differences)
+    }
+    [IO.File]::WriteAllText($report, (($preview | ConvertTo-Json -Depth 10) + "`n"), $utf8)
+    Write-Host "IFX policy projection Preview passed ($($expected.Count) files; changed: $($differences.Count)): $report"
+    exit 0
+}
+if ($Mode -eq 'Apply') {
+    foreach ($entry in $expected.GetEnumerator()) {
+        [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($entry.Key)) | Out-Null
+        [IO.File]::WriteAllText($entry.Key, $entry.Value, $utf8)
+    }
+}
+Write-Host "IFX policy projection $Mode passed ($($expected.Count) files; changed: $($differences.Count))."

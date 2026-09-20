@@ -5,7 +5,8 @@ param(
     [string] $PlanPath,
     [string[]] $PlannedPaths = @(),
     [string] $ReportPath,
-    [string] $OutputDirectory
+    [string] $OutputDirectory,
+    [string] $GenerationRoot
 )
 
 $ErrorActionPreference = 'Stop'
@@ -14,5 +15,6 @@ $preArgs = @{ Mode = 'Pre'; ProfileDirectory = $ProfileDirectory; TargetRoot = $
 if ($PlanPath) { $preArgs.PlanPath = $PlanPath } else { $preArgs.PlannedPaths = $PlannedPaths }
 if ($ReportPath) { $preArgs.ReportPath = $ReportPath }
 if ($OutputDirectory) { $preArgs.OutputDirectory = $OutputDirectory }
-& (Join-Path $PSScriptRoot '../scripts/Invoke-V3.ps1') @preArgs
+if ($GenerationRoot) { $preArgs.GenerationRoot = $GenerationRoot }
+& (Join-Path $PSScriptRoot '../commands/Invoke-V3.ps1') @preArgs
 exit $LASTEXITCODE

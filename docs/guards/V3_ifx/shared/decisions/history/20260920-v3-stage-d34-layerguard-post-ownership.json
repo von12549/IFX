@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-d34-layerguard-post-ownership",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P10 moves the 13 IFX Architecture Conformance binding, solution, bridge-test and fixture files from templates/ifx-layerguard to the Post Architecture Stage.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/**",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/**",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/docs/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "The generic Architecture Conformance engine already belongs to canonical V3. The remaining IFX host, binding, tests and fixture are Post-stage implementation and validation, not reusable generator templates. A base-owned bridge first resolves exactly one legacy or Post-owned source root; the following checkpoint moves each of the 13 protected files with unchanged blobs and updates all active authorities. This applies D12, D15, D23, D27 and D29 to Plan 06 sections 13 and P10.3."
+}

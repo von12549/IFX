@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "profile": "docs/guards/V3_ifx/shared/profile.json",
+  "projectMap": "docs/guards/V3_ifx/stages/pre/project-map.json",
+  "techStack": "docs/guards/V3_ifx/shared/toolchain.json",
+  "rulesDirectory": "docs/guards/V3_ifx/stages/post/rules",
+  "viewsDirectory": "docs/guards/V3_ifx/profiles/ifx/views"
+}

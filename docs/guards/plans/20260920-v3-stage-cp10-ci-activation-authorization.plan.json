@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp10-ci-activation-authorization",
+  "title": "Authorize CP10 CI activation lifecycle",
+  "goal": "Add exact change-trusted-base, weaken-policy and delete records for the reviewed CP10 candidate without activating generated files or writing remote settings.",
+  "acceptanceCriteria": [
+    "All three records validate and reference the CP10 formal Plan and frozen trust/policy decisions.",
+    "The records exactly bind the TCB component/path tuples, registered semantic changes and the single protected legacy authority deletion.",
+    "No workflow, policy, activation target or remote ruleset changes in this authorization checkpoint."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-ci-activation-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-ci-activation-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-ci-jobs-delete.json",
+    "docs/guards/plans/20260920-v3-stage-cp10-ci-activation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp10-ci-activation-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}

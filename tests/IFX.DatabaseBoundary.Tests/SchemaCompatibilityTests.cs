@@ -129,7 +129,7 @@ public sealed class SchemaCompatibilityTests
     {
         var root = RepositoryRoot();
         File.Exists(Path.Combine(root, "scripts", "Invoke-DatabaseMigrator.ps1")).Should().BeTrue();
-        File.Exists(Path.Combine(root, "docs", "guards", "V3_ifx", "specialized", "scripts", "New-DatabaseMigrationArtifacts.ps1")).Should().BeTrue();
+        File.Exists(Path.Combine(root, "docs", "guards", "V3_ifx", "stages", "post", "gates", "specialized", "scripts", "New-DatabaseMigrationArtifacts.ps1")).Should().BeTrue();
         File.Exists(Path.Combine(root, ".github", "workflows", "v3-ifx-guardrails.yml")).Should().BeTrue();
     }
 

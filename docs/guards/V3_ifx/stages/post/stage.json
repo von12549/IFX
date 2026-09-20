@@ -17,7 +17,8 @@
   "executionClass": "gate",
   "documentation": [
     "docs/guards/V3_ifx/README.md",
-    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/trust-contracts.json"
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/trust-contracts.json",
+    "docs/guards/V3_ifx/docs/generated/POST.md"
   ],
   "gates": [
     {
@@ -25,36 +26,36 @@
       "executionClass": "gate",
       "trustContract": {
         "type": "mixed",
-        "evaluator": "base Architecture Conformance engine",
-        "policy": "docs/guards/V3_ifx/policy/layerguard.json",
+        "evaluator": "base generic Architecture Conformance engine (docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance), run through the base IFX host that registers the IFX policy binding (docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx)",
+        "policy": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
         "targetInput": "head csproj XML and C# source text; head guard package tests",
         "inputs": [
           {
-            "ref": "package:policy/layerguard.json",
+            "ref": "package:stages/post/policy/layerguard.json",
             "source": "base"
           },
           {
-            "ref": "package:policy/baselines/",
+            "ref": "package:stages/post/policy/baselines/",
             "source": "base"
           },
           {
-            "ref": "package:profiles/ifx/",
+            "ref": "package:shared/profile-layout.json",
             "source": "base"
           },
           {
-            "ref": "package:policy/authorities.json",
+            "ref": "package:shared/authorities/authorities.json",
             "source": "base"
           },
           {
-            "ref": "package:policy/g03/",
+            "ref": "package:stages/post/policy/g03/",
             "source": "derived-candidate"
           },
           {
-            "ref": "package:policy/g04/",
+            "ref": "package:stages/post/policy/g04/",
             "source": "derived-candidate"
           },
           {
-            "ref": "package:policy/g05/",
+            "ref": "package:stages/post/policy/g05/",
             "source": "derived-candidate"
           },
           {
@@ -117,9 +118,24 @@
         "executesHead": false,
         "consumesHeadArtifacts": false,
         "knownGaps": [
-          "layerguard-msbuild-evaluation"
+          "layerguard-msbuild-evaluation",
+          "layerguard-generated-sources"
         ],
-        "guarantee": "Evaluator trusted; blind to references injected through MSBuild import/Condition, cross-covered by v3-quality-assembly."
+        "guarantee": "Evaluator, policy binding and policy all come from base; the verdict covers project references, rings, ownership, declarations, packages, imports and the G03/G04/G05 bindings as declared in csproj XML and C# source text, with the composite policy hash bound to the reviewed baseline. Blind to references and properties that only exist after MSBuild evaluation (imports, Conditions, SDK defaults, generated items), which v3-quality-assembly cross-covers by checking the compiled assemblies of the same commit; blind to runtime behaviour, which the quality and specialized gates cover.",
+        "policyBinding": "IFX G03/G04/G05 binding in the base package; the engine reads no repository policy of its own and fails closed when a configuration binds a section for which the host registered no binding",
+        "crossCover": [
+          {
+            "gap": "layerguard-msbuild-evaluation",
+            "coveredBy": "v3-quality-assembly",
+            "how": "compiled assembly references of the five Domain assemblies are checked after a real build, so a reference that only appears through an MSBuild import or Condition still fails a required check"
+          },
+          {
+            "gap": "layerguard-generated-sources",
+            "coveredBy": "v3-quality-solution",
+            "how": "the solution build and tests compile generated sources, so a violation introduced by a generator fails there"
+          }
+        ],
+        "importInjectionRule": "a detection rule for MSBuild import injection is registered as a standalone rule proposal only (Plan 06 P6.5); it is not part of this gate today"
       }
     },
     {
@@ -131,7 +147,7 @@
         "policy": "governing-policy and exception-authorization pointers of the head-candidate G03 catalog (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head contract/event source and documentation text",
         "detectors": [
-          "specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+          "stages/post/gates/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
         ],
         "inputs": [
           {
@@ -174,7 +190,7 @@
         "policy": "governing-policy authorities under deployment/g04 as head candidates (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head deployment manifests, source and documentation text",
         "detectors": [
-          "specialized/scripts/Invoke-G04Verification.ps1"
+          "stages/post/gates/specialized/scripts/Invoke-G04Verification.ps1"
         ],
         "inputs": [
           {
@@ -249,7 +265,7 @@
         "policy": "governing-policy authorities under docs/architecture/review/gates/G05 as head candidates (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head context and security source text",
         "detectors": [
-          "specialized/scripts/Invoke-G05Verification.ps1"
+          "stages/post/gates/specialized/scripts/Invoke-G05Verification.ps1"
         ],
         "inputs": [
           {
@@ -328,7 +344,7 @@
         "policy": "governing-policy authorities under docs/architecture/review/policies/plan04 as head candidates (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head module and tenant query source text",
         "detectors": [
-          "specialized/scripts/Test-Plan04Governance.ps1"
+          "stages/post/gates/specialized/scripts/Test-Plan04Governance.ps1"
         ],
         "inputs": [
           {
@@ -391,9 +407,9 @@
         "policy": "deployment/migration-safety-policy.json as a head candidate (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head DatabaseBoundary tests, DatabaseInventory tool, ApiHost and DatabaseMigrator",
         "detectors": [
-          "specialized/scripts/Test-MigrationSafetyPolicy.ps1",
-          "specialized/scripts/Test-DatabasePendingModelChanges.ps1",
-          "specialized/scripts/New-DatabaseMigrationArtifacts.ps1"
+          "stages/post/gates/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+          "stages/post/gates/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+          "stages/post/gates/specialized/scripts/New-DatabaseMigrationArtifacts.ps1"
         ],
         "inputs": [
           {
@@ -433,7 +449,7 @@
         "targetInput": "head solution",
         "inputs": [
           {
-            "ref": "package:quality/",
+            "ref": "package:stages/post/gates/quality/",
             "source": "base"
           },
           {
@@ -469,19 +485,19 @@
       "trustContract": {
         "type": "mixed",
         "evaluator": "base compiled assembly rules",
-        "policy": "docs/guards/V3_ifx/profiles/ifx/tech-stack.json assemblyGate",
+        "policy": "docs/guards/V3_ifx/shared/toolchain.json assemblyGate",
         "targetInput": "Domain assemblies built from head by v3-quality-solution",
         "inputs": [
           {
-            "ref": "package:quality/",
+            "ref": "package:stages/post/gates/quality/",
             "source": "base"
           },
           {
-            "ref": "package:profiles/ifx/tech-stack.json",
+            "ref": "package:shared/toolchain.json",
             "source": "base"
           },
           {
-            "ref": "package:policy/layerguard.json",
+            "ref": "package:stages/post/policy/layerguard.json",
             "source": "base"
           },
           {
@@ -505,7 +521,7 @@
         "targetInput": "head frontend",
         "inputs": [
           {
-            "ref": "package:quality/",
+            "ref": "package:stages/post/gates/quality/",
             "source": "base"
           },
           {
@@ -525,11 +541,11 @@
       "trustContract": {
         "type": "judging",
         "evaluator": "base history verifier",
-        "policy": "docs/guards/V3_ifx/history/manifest.json",
+        "policy": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
         "targetInput": "tracked evidence files in head",
         "inputs": [
           {
-            "ref": "package:history/manifest.json",
+            "ref": "package:stages/post/gates/historical-integrity/manifest.json",
             "source": "base"
           },
           {

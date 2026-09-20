@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11a-maintenance-bridge",
+  "title": "V3 stage-oriented refactor CP11a — maintenance relocation compatibility bridge",
+  "goal": "Let the base-owned authority projection test validate exactly one legacy or relocated maintenance entry point before the internal tool is physically moved.",
+  "acceptanceCriteria": [
+    "The current scripts/Generate entry point still passes the authority projection positive and drift-negative fixtures.",
+    "A future maintenance/Apply entry point can be validated without restoring the legacy internal path.",
+    "Both paths, neither path, and a failed maintenance invocation fail closed; no production authority or projection changes.",
+    "Protected-change and trusted-component candidate verification pass from the authorization base."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-maintenance-bridge-trusted-base.json",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

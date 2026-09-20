@@ -1,16 +1,13 @@
 # Profile
 
-Generated view of `profile.json`. Edit the JSON block for policy changes, then run Import. Keep explanations in `notes/`.
+<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-<!-- guard-config-source: profile.json sha256: d1e041b11c794d1cfb6f9630e3d7e53b6fd8501044250a647a1d5e2a16216423 -->
+Composite SHA-256: `4e59cbbfe48617344c701cca5b03c13b95752cbf5ad2c312feab1ce50811aab8`
+
+Sources:
+
+- `docs/guards/V3/examples/minimal/profile.json` — authority
 
 | Field | Value |
 | --- | --- |
 | Project ID | sample |
-
-```json
-{
-  "formatVersion": 1,
-  "projectId": "sample"
-}
-```

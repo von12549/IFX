@@ -1,8 +1,0 @@
----
-name: guard-bootstrap
-description: Analyze a target repository and configure a Guardrails V3 profile that can generate and verify an independent .NET gate.
----
-
-Read the V3_ifx `README.md`, `DEPLOYMENT.md`, [rule authoring guide](../../rules/README.md) and technical design. Run `Invoke-V3Setup.ps1 -Mode Analyze -ProfileDirectory profiles/ifx` and review target-specific `analysis/ifx/ARCHITECTURE.md` and `TECHNICAL.md` against actual code, commands, `policy/layerguard.json` and CI. Translate intended prose changes into their structured JSON blocks, then run `Invoke-V3Architecture.ps1 -Mode Review`. Present profile differences, unmapped projects, detector gaps and observed violations. Treat the draft as a proposal; if the user elects it as baseline, mark both documents reviewed and use `-Mode Adopt -AcceptDocument` to a new profile path. The current `profiles/ifx/` and independent policy are not overwritten by that command.
-
-Keep commands in `tech-stack.json`, areas/owners/risks in `project-map.json`, and stage rules in `profiles/ifx/rules/*.json`; `policy/layerguard.json` owns the full independent architecture gate. State detector scope honestly: unsupported stage rules remain advisory. `Invoke-IFX -Mode Validate` checks numbered stage/policy rule IDs but not semantic parity. Use `Invoke-V3Docs.ps1` Render/Check for readable profile views and preview/Apply for structured edits. Run Validate/Generate/Check/Test for both stage and independent projects, including deliberate violating fixtures and strict scan. Report uncovered rules and whether CI required checks are actually configured.

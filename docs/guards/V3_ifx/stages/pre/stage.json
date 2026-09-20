@@ -10,7 +10,7 @@
   "enforcement": "advisory",
   "executionClass": "authoring",
   "documentation": [
-    "docs/guards/V3_ifx/templates/plan/README.md"
+    "docs/guards/V3_ifx/examples/plan/README.md"
   ],
   "gates": []
 }

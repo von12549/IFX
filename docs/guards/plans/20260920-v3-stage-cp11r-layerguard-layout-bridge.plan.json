@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11r-layerguard-layout-bridge",
+  "title": "Bridge LayerGuard legacy and Post-owned layouts",
+  "goal": "Prepare base-owned Architecture validation for the final IFX LayerGuard source relocation.",
+  "acceptanceCriteria": [
+    "The runner and package test resolve exactly one legacy or Post-owned source root.",
+    "The complete Architecture test, Check and strict-scan behavior remains unchanged.",
+    "Missing or duplicate source roots fail closed.",
+    "D34 records final Post ownership of the 13 IFX files."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-layout-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-layout-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": ["docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"]
+}

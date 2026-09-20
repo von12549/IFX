@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj" />
+  </ItemGroup>
+</Project>

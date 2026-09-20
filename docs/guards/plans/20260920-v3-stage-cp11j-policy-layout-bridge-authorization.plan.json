@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11j-policy-layout-bridge-authorization",
+  "title": "Authorize CP11j policy layout bridge",
+  "goal": "Pre-authorize the exact trusted-component tuples for the policy layout compatibility bridge.",
+  "acceptanceCriteria": [
+    "The TCB authorization binds all nine changed trusted paths to the six affected components.",
+    "The authorization-only change modifies no runtime implementation or policy authority.",
+    "The bridge candidate consumes the authorization exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-layout-bridge-tcb.json",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-layout-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-layout-bridge-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test", "ifx-layerguard"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11c-profile-registry-prep",
+  "title": "V3 stage-oriented refactor CP11c — profile authority registry prep",
+  "goal": "Let the current trusted base recognize the exact destination directories and validate an explicit head layout before the authorized physical profile split.",
+  "acceptanceCriteria": [
+    "The registry recognizes only direct JSON children in the three frozen destination directories and creates no authority file.",
+    "The candidate verifier selects explicit layout only when the head manifest exists, otherwise legacy directory mode, with no fallback after selection.",
+    "Production callers, active authority paths, generated views, CI and required checks remain unchanged.",
+    "The subsequent physical migration removes the temporary migration entries."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-registry-prep-tcb-r2.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11c-profile-registry-prep-weaken-policy-r2.json",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11c-profile-registry-prep.md",
+    "docs/guards/plans/20260920-v3-stage-cp11c-profile-registry-prep.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

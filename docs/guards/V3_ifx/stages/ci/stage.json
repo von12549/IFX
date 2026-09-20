@@ -4,6 +4,7 @@
   "commands": [
     "ifx-guardrails",
     "ifx-ci-contract",
+    "v3-deployment",
     "ifx-manifest-check",
     "ifx-trusted-base",
     "ifx-tcb-candidate"
@@ -16,7 +17,8 @@
   "enforcement": "blocking",
   "executionClass": "orchestration",
   "documentation": [
-    "docs/guards/V3_ifx/DEPLOYMENT.md"
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md"
   ],
   "gates": [
     {
@@ -28,10 +30,6 @@
         "policy": "package validation contracts",
         "targetInput": "head guard package validation and package tests; Test-IFXTrustedBaseCandidate against the pull request diff when the base commit activates it",
         "inputs": [
-          {
-            "ref": "package:contracts/",
-            "source": "base"
-          },
           {
             "ref": "package:shared/",
             "source": "base"
@@ -60,10 +58,6 @@
         "policy": "package validation contracts",
         "targetInput": "head guard package validation and package tests",
         "inputs": [
-          {
-            "ref": "package:contracts/",
-            "source": "base"
-          },
           {
             "ref": "package:shared/",
             "source": "base"

@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11q-verifier-layout-test-bridge",
+  "title": "Bridge base-owned verifier layout tests",
+  "goal": "Let the base manifest fixtures validate either side of the verifier ownership relocation without accepting duplicate authorities.",
+  "acceptanceCriteria": [
+    "The manifest fixture resolves exactly one legacy or engine-owned verifier.",
+    "All existing positive and negative manifest cases run unchanged through the resolved verifier.",
+    "A missing or duplicate verifier layout fails before fixture execution.",
+    "D33 records the public CI wrapper and internal manifest verifier compatibility boundaries."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-layout-test-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-layout-test-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

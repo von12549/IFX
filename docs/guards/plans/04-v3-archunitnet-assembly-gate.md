@@ -54,6 +54,6 @@
 - 通用 `V3` 已增加两种受 Schema 限定的编译规则、显式 Debug 程序集清单、条件生成的 `TngTech.ArchUnitNET` 0.13.4 测试源码/依赖、构建与身份/刷新检查，以及 `artifacts/guards/v3-assembly.json` 报告。未选择编译规则的 profile 不携带该包引用或测试文件。
 - `tests/Test-V3ArchUnit.ps1` 的多项目正反例覆盖实际类型依赖、实现类落错命名空间、零匹配、缺失程序集、只声明但未使用的禁止项目引用以及退出可选检测器后的生成文件清理。通用和 IFX 拷贝均通过。`Test-V3.ps1`、`Test-V3Tools.ps1`、IFX 的 Pre/Tools/Package 测试也通过。
 - IFX `ARCH.BINARY.DOMAIN.CONTRACTS` 是现行 CRM Domain→Contracts 边界的并行编译试验：清单加载 CRM Domain/Contracts，匹配 12 个 Domain Entity 类型和 4 个公开 Contract 类型，8/8 stage 测试通过。独立 IFX LayerGuard 190/190 测试及严格扫描通过；其 policy、旧门禁和生产 CI 未改变。
-- [全 Module 目标提案](../V3_ifx/architecture/INBOUND-ADAPTER-TARGET.md)区分 CRM、Registry、IAM 的同步接口迁移、Transaction/Registry 事件、Holdings 消费端及共享 Context Contracts。它不自动收紧当前 IFX 规则。
+- [全 Module 目标提案](../V3_ifx/docs/authored/architecture/INBOUND-ADAPTER-TARGET.md)区分 CRM、Registry、IAM 的同步接口迁移、Transaction/Registry 事件、Holdings 消费端及共享 Context Contracts。它不自动收紧当前 IFX 规则。
 - 验收后把 40 个通用源码文件同步到 `V3_backup`；相对路径集合和逐文件 SHA-256 与 `V3` 完全一致，IFX 的 9 个共享实现文件也与通用源码哈希一致。IFX profile、policy 和生成产物未进入备份。
 - 尚未建立生产 CI required check；这需在干净检出和故意违规负例通过后单独部署。二进制规则不覆盖未编译源码、反射、DI 行为或未声明在清单里的项目。

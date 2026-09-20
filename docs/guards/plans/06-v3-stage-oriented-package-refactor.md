@@ -745,13 +745,13 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P0.9 按 schema 统计 policy/config 文件的历史修改频率，作为比较器实现顺序的依据。 证据：`change-frequency.json`；按 commit 计首批比较器为 `profiles/ifx/rules`、`profiles/ifx/project-map`，修正 §12.4 的 r3 参考数据。
 - [x] P0.10 核实并冻结 §11.3 每个 required check 的 trust contract 分类。 证据：`trust-contracts.json`。
 - **门槛**：每个现有文件、命令和 Gate 都有唯一分类；全部 trusted-base component 均进入待 P1.5 materialize 的冻结清单；未分类项不得进入后续阶段。
-- **结果**：门槛通过。基线记录位于 `docs/guards/V3_ifx/analysis/ifx/refactor-baseline/`，汇总见其 `README.md`。
+- **结果**：门槛通过。基线记录现位于 `docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/`，汇总见其 `README.md`；P0 当时路径仍保留在冻结记录与历史 checkpoint 中。
 
 ### P1 — 决策校验与已知漂移修复— 已完成（2026-09-16，CP02）
 
 - [x] P1.1 校验正式执行准备阶段已创建的 D1–D15 decision 记录与 P0 基线一致，补充 P0 中发现的新决定。 证据：D1–D15 记录 ID、schema 与 `affectedPaths` 全部校验通过；新增 D16（比较器按 commit 频率排序，细化 D13）与 D17（Plan04 阶段校验脚本退役）。
 - [x] P1.2 修复 P0.5 登记的漂移。 证据：DRIFT-01–09 已处理（DRIFT-09 由 D17 决定退役，删除等待 P4）；DRIFT-10 按设计留给 P3/P7；详见 CP02 pair。
-- [x] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。 证据：`ci/Invoke-IFXCiContract.ps1`（纳入 Validate）、`tests/Test-IFXCiContract.ps1`（15 个正反例，纳入 `v3-architecture`）；远端只读核对 42 项通过（`analysis/ifx/refactor-progress/cp02-ci-contract-remote.json`）。
+- [x] P1.3 建立只读 verifier：workflow job 名称 ↔ `ci/jobs.json` ↔ 远端 ruleset（含 `strict`），并有正反 fixture；`strict` 断言同时作为 §12.3 比较端点可靠性的前提。 证据：`ci/Invoke-IFXCiContract.ps1`（纳入 Validate）、`tests/Test-IFXCiContract.ps1`（15 个正反例，纳入 `v3-architecture`）；远端只读核对 42 项通过（`stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json`）。
 - [x] P1.4 为旧目录和旧命令定义兼容期、deprecation 输出和删除条件。 证据：`guard-system.json` `compatibility`（兼容期、deprecation 输出、内部路径规则、删除条件与 12 个条目）。
 - [x] P1.5 在不移动现有目录的前提下，先建立 P2 所需的最小 `guard-system.json`、`stage.json`、`commands.json` 与 `trusted-components.json` schema/skeleton；字段 owner 遵循 §6。P8 负责最终补全、迁移与文档化，不得重新定义已冻结字段。 证据：V3 与 V3_ifx `contracts/` 下 4 个 schema；V3_ifx `guard-system.json`、`shared/commands.json`、`shared/trusted-components.json`、6 个 `stages/*/stage.json`；`scripts/Invoke-IFXManifestCheck.ps1`（纳入 Validate）与 `tests/Test-IFXManifests.ps1`（16 个正反例）。
 - **门槛**：已知漂移清零并由 CI 阻止复发；required check 名称未变；P2 所需最小 manifest/TCB schema 已冻结且字段 owner 无冲突。
@@ -833,59 +833,60 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 ### P6 — LayerGuard 去重与 generic engine / IFX binding 分离
 
 - [x] P6.1 通过 §12 授权删除 `generated/dotnet/LayerGuard`，改为直接构建运行唯一源码；验证 build/test、policy binding、strict scan、正反 fixture、CI 调用路径和恢复。 证据：CP07a-prep（PR #58 → #59）先让 base-owned 绑定测试不依赖副本深度；CP07a 以 `delete`、`change-trusted-base` 与 `weaken-policy` 三条正交授权删除副本（174 个文件），`Invoke-IFX.ps1` 直接构建、测试、扫描 `templates/ifx-layerguard/`；`Test-IFXPackage.ps1` 覆盖隔离 build/test、policy binding、L2.2 strict scan 负向、只读 Generate 与源码清单、TCB 覆盖、fixture 对应的负向用例；CI 调用路径由 `v3-architecture` 与保留的 Generate/Check 调用验证；恢复需要新的授权，副本重新出现时 Check 失败（D26）。
-- [ ] P6.2 参数化 runtime role 和 IFX project/type names，移入 IFX policy/fixtures；通用测试改用 synthetic fixture。
-- [ ] P6.3 分离通用检测引擎与 IFX policy binding。
-- [ ] P6.4 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。
-- [ ] P6.5 按 §11.3 写入 Architecture Conformance 混合型 trust contract，包括 MSBuild import/Condition 盲区与 Assembly 检查的交叉兜底；针对 import 注入的检测规则仅作为独立规则提案登记。
-- [ ] P6.6 证明 policy composite hash、report 字段、失败类别和 `v3-architecture` check 名称不变。
+- [x] P6.2 参数化 runtime role 和 IFX project/type names，移入 IFX policy/fixtures；通用测试改用 synthetic fixture。 证据：`ifx-api`/`ifx-worker`/`ifx-all` 与 `Runtime:Role`、必需 host role、授权 backup owner handle、不可豁免类别、豁免上限、`BCL-only` 与 G05 禁止依赖清单全部移入受 TCB 管控的 `src/LayerGuard.Ifx/IfxGatePolicyBinding.cs`（所有权迁移，policy 文件与 composite hash 不变，D27）；通用测试与 fixture 早已是 synthetic（`Acme`/`Shop`），`Invoke-IFX.ps1 -Mode Check` 对 `src/LayerGuard/`、`tests/LayerGuard.Tests/` 与 `tests/fixtures/` 执行大小写不敏感的 IFX 标识扫描，`Test-IFXPackage.ps1` 有对应负向用例。
+- [x] P6.3 分离通用检测引擎与 IFX policy binding。 证据：engine 新增 `IPolicyBinding`、`PolicyBindings` 注册表与 `PolicyDocument` 助手，`gatePolicies` 原样交给已注册 binding；没有 binding 时失败关闭（`PolicyBindingTests` 两个用例）；IFX binding 与 host（`layerguard-ifx`）位于 `src/LayerGuard.Ifx`，Scan 运行该 host；composite hash `d25e881a…` 与 `policy/baselines/plan05.json` 一致，report 字段、12 条 policy binding、tool version `0.4.0-a1` 与 CLI/MCP 契约不变。
+- [x] P6.4 通用 engine 迁入 V3 `Guards.ArchitectureConformance*`；V3_ifx 只保留 policy、baseline、binding 和 IFX fixtures。 证据：27 个 engine 源码文件迁入 `docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/`（项目与 assembly 改名，namespace 作为内部兼容面保留，D29）；V3_ifx 只剩 policy、baseline、IFX binding/host、IFX fixture 与一个保留的空桥测试项目（base 仍拥有该路径，删除推迟到后续检查点）；184 个 engine 测试从 V3 测试项目运行通过，候选验证证明 base-owned 测试在迁移前后都能编译运行。
+- [x] P6.5 按 §11.3 写入 Architecture Conformance 混合型 trust contract，包括 MSBuild import/Condition 盲区与 Assembly 检查的交叉兜底；针对 import 注入的检测规则仅作为独立规则提案登记。 证据：`stages/post/stage.json` 的 `v3-architecture` trust contract 增加 `policyBinding`、`crossCover` 与 `importInjectionRule`，写明 evaluator/policy/binding 全部来自 base、MSBuild import/Condition 与生成源码盲区分别由 `v3-quality-assembly` 与 `v3-quality-solution` 交叉兜底，import 注入检测仅登记为独立规则提案；`contracts/stage.schema.json` 与 `shared/policy-config.json` 相应登记。
+- [x] P6.6 证明 policy composite hash、report 字段、失败类别和 `v3-architecture` check 名称不变。 证据：迁移后报告 composite hash `d25e881a…` 与 `policy/baselines/plan05.json` 一致；report 字段、12 条 policy binding、tool version `0.4.0-a1`、失败类别与 `v3-architecture` check 名称不变；policy 文件逐字节不变。
 - **门槛**：174 文件重复消除；V3 engine 大小写不敏感扫描无 IFX 标识；Architecture Conformance Gate 无需复制即可运行，trust contract 完整。
 
 ### P7 — Stage Gate 命名、生成位置与 overlay 切换
 
-- [ ] P7.1 生成 `{ProjectId}.Guards.StageGate.Tests`，实现 identifier 转换与碰撞检查，内部划分 Self/Post/Diff。
-- [ ] P7.2 通过授权从 Git 移除 `generated/stages`；Generate 输出改为仓库外生成根 `<生成根>/<package>/gates/stage/`，按 §11.2 隔离构建。
-- [ ] P7.3 同步更新 workflow、`Invoke-IFXGuardrails -Mode Diff`、`.gitignore` 和 Check 逻辑；profile snapshot 不再以 tracked generated copy 存在。
-- [ ] P7.4 clean checkout 证明没有预生成源码也能完成 Generate/Check/Test/Diff。
-- [ ] P7.5 V3_ifx 切换为直接引用 V3 engine，通过授权删除与 V3 逐字节相同的 scripts、hooks 和 tests。
+- [x] P7.1 生成 `{ProjectId}.Guards.StageGate.Tests`，实现 identifier 转换与碰撞检查，内部划分 Self/Post/Diff。 证据：canonical runner 从 profile `projectId` 生成确定性 .NET identifier 与工程名，identity 文件阻止 `sample-a`/`samplea` 一类大小写不敏感碰撞；生成树包含 `Self/`、`Post/`、`Diff/`、`GeneratedInputs/`，canonical synthetic 与 ArchUnitNET 正/负向套件通过。
+- [x] P7.2 通过授权从 Git 移除 `generated/stages`；Generate 输出改为仓库外生成根 `<生成根>/<package>/gates/stage/`，按 §11.2 隔离构建。 证据：Generate/Check/Test/Diff 对 `GenerationRoot` 执行与 `TargetRoot` 双向隔离校验，IFX 使用 package id `v3-ifx`；tracked snapshot 17 个文件删除，Stage Gate build 输出在外部 `build/v3-ifx/stage-gate/`，reviewed lock 移为 `Ifx.Guards.StageGate.Tests.packages.lock.json` 并通过 Locked restore。
+- [x] P7.3 同步更新 workflow、`Invoke-IFXGuardrails -Mode Diff`、`.gitignore` 和 Check 逻辑；profile snapshot 不再以 tracked generated copy 存在。 证据：head candidate workflow 与 dispatcher 均直接调用 canonical V3 并传递 package/generation/stage root；`.gitignore`、project map、生成视图与 architecture draft 登记旧 generated 路径；Check 对项目专属外部树逐字节验证且拒绝多余文件。
+- [x] P7.4 clean checkout 证明没有预生成源码也能完成 Generate/Check/Test/Diff。 证据：detached raw candidate `c645cecd` 从无预生成源码的 clean checkout 在仓库外 generation/build root 完成 IFX Generate、Check、8 项 Post/Self Test 与 1 项 Diff Test；`git ls-files docs/guards/V3_ifx/generated/stages` 为空，运行后 checkout 无 tracked 或未忽略改动。
+- [x] P7.5 V3_ifx 切换为直接引用 V3 engine，通过授权删除与 V3 逐字节相同的 scripts、hooks 和 tests。 证据：IFX workflow、orchestrator、manifest 与 base-owned validation 只引用 canonical V3；内部 architecture script、hooks、dotnet templates 和三个 generic tests 删除，TCB transition component 移除，仅三个声明期 public legacy path 保留 thin wrapper。
 - **门槛**：Stage Gate 可从 JSON 和模板确定性重建，且不在仓库目录内构建；V3_ifx 不含通用实现副本。
 
 ### P8 — 最小 manifests、analysis 生命周期与首批只读聚合文档
 
-- [ ] P8.1 在 P1.5 最小 skeleton 上补全并迁移 `guard-system.json`、`stage.json`、`commands.json`、`trusted-components.json`，新增并 schema 化 `docs-map.json`；按 §6 字段 owner 表校验无重复字段，`evidence` 仅由 `commands.json` 拥有，不得改变 P2 已使用的稳定字段语义。
-- [ ] P8.2 建立 `commands/` 稳定入口；旧公共路径保留薄 wrapper。
-- [ ] P8.3 确认无消费者后移除 `Invoke-V3Docs` 的 `Import` 模式。
-- [ ] P8.4 实现 renderer/checker，生成 `OVERVIEW.md`、`COMMANDS.md`、`POST.md`、`CI.md`，含来源路径、角色和 composite hash。
-- [ ] P8.5 将人工背景迁入 `docs/authored/`，确保 Render 不覆盖。
-- [ ] P8.6 按 P0.2 结论落实 analysis 生命周期：运行时输出改写到 `artifacts/guards/<package>/analysis/`；经评审的长期输入与报告快照只通过 `maintenance/` Preview/Apply 更新。
-- [ ] P8.7 决定 `profiles/ifx/views/` 保留为只读生成视图或并入首批文档。
+- [x] P8.1 在 P1.5 最小 skeleton 上补全并迁移 `guard-system.json`、`stage.json`、`commands.json`、`trusted-components.json`，新增并 schema 化 `docs-map.json`；按 §6 字段 owner 表校验无重复字段，`evidence` 仅由 `commands.json` 拥有，不得改变 P2 已使用的稳定字段语义。证据：manifest checker 验证 6 stages、18 commands、18 trusted components、13 gates，并校验 docs-map schema、字段 owner 与命令路径。
+- [x] P8.2 建立 `commands/` 稳定入口；旧公共路径保留薄 wrapper。证据：V3 runner/setup/docs 与 IFX dispatcher 已迁入 `commands/`，workflow、hooks、tests、manifest 与 trusted-base 使用 canonical 路径；原公共路径仅输出弃用提示并转发参数和退出码。
+- [x] P8.3 确认无消费者后移除 `Invoke-V3Docs` 的 `Import` 模式。证据：入口只接受 Render/Check；工具回归显式断言 Import 被拒绝且编辑生成 Markdown 不改变 JSON authority。
+- [x] P8.4 实现 renderer/checker，生成 `OVERVIEW.md`、`COMMANDS.md`、`POST.md`、`CI.md`，含来源路径、角色和 composite hash。证据：Docs Check 对 20 份 authority-derived Markdown 逐字节通过，并以正反例覆盖 authority drift、手工编辑、缺失及额外输出。
+- [x] P8.5 将人工背景迁入 `docs/authored/`，确保 Render 不覆盖。证据：五份 architecture 背景文档迁入 `docs/authored/architecture/`，不属于 docs-map 输出集合。
+- [x] P8.6 按 P0.2 结论落实 analysis 生命周期：运行时输出改写到 `artifacts/guards/<package>/analysis/`；经评审的长期输入与报告快照只通过 `maintenance/` Preview/Apply 更新。证据：Analyze/Review 的默认输出位于 artifacts；工具测试证明连续运行可复现且不改长期证据；maintenance 测试证明 Preview 只读、未接受的 Apply 失败、显式接受后才更新。
+- [x] P8.7 决定 `profiles/ifx/views/` 保留为只读生成视图或并入首批文档。证据：按 D4 保留 read-only profile views，移除内嵌 JSON 写回面，并纳入同一 Render/Check 完整输出集。
 - **门槛**：任意 authority 变化都会导致相关 Markdown Check 失败；无陈旧生成视图；Analysis 运行不再写入 `docs/guards`。
 
 ### P9 — 轻量 workflow candidate 与激活验证
 
-- [ ] P9.1 建立 V3 通用 renderer 与 V3_ifx `workflow.template.yml`、`workflow.variables.json`、`required-checks.json`、`activation.json`。
-- [ ] P9.2 实现 §10.2 的 Generate/Check，candidate 写入 `artifacts/generated/`；Check 包含"PR 判定第一个可执行入口位于 base worktree"。
-- [ ] P9.3 实现 Preview、`Install -AcceptDeployment` 和人工复制后的 Verify；激活副本带 source path/hash 头。
-- [ ] P9.4 以 `required-checks.json` 取代 `ci/jobs.json`，远端只读 verifier 比较 ruleset；远端写入保持独立授权。
-- [ ] P9.5 CODEOWNERS managed block 纳入同一生命周期。
-- [ ] P9.6 候选与现有激活 workflow 并行比较，不改变任何 check 名称，不立即切换。
+- [x] P9.1 建立 V3 通用 renderer 与 V3_ifx `workflow.template.yml`、`workflow.variables.json`、`required-checks.json`、`activation.json`。证据：`V3/commands/Invoke-V3Deployment.ps1`、`stages/ci/` 权威文件及 activation/variables/required-checks schema（CP10）。
+- [x] P9.2 实现 §10.2 的 Generate/Check，candidate 写入 `artifacts/generated/`；Check 包含"PR 判定第一个可执行入口位于 base worktree"。证据：candidate 只写 artifacts；CI contract 覆盖 canonical YAML、DAG/名称/触发、仅 public command 与 `trusted-base-first-verdict` 正反例（CP10）。
+- [x] P9.3 实现 Preview、`Install -AcceptDeployment` 和人工复制后的 Verify；激活副本带 source path/hash 头。证据：fixture 拒绝无接受开关，验证 provenance header、source SHA、managed block 保留 unmanaged 内容及 Verify 漂移失败（CP10）。
+- [x] P9.4 以 `required-checks.json` 取代 `ci/jobs.json`，远端只读 verifier 比较 ruleset；远端写入保持独立授权。证据：schema-valid authority 与 read-only verifier；ruleset `23459908`、strict、13 个名称不变；旧文件受控删除（CP10）。
+- [x] P9.5 CODEOWNERS managed block 纳入同一生命周期。证据：`codeowners.template` 与 activation mapping；真实 CODEOWNERS 本检查点不激活，fixture 覆盖 Install/Verify（CP10）。
+- [x] P9.6 候选与现有激活 workflow 并行比较，不改变任何 check 名称，不立即切换。证据：Preview 将两个现有目标标记为 `legacy-equivalent`，active workflow 未经 Install 改写，13 个 check 精确相等（CP10）。
 - **门槛**：候选与激活副本之间不存在未解释差异；workflow 只调用公共命令；模板检查器有正反例。
 
 ### P10 — 物理目录迁移、V3_backup 删除与兼容入口清理
 
-- [ ] P10.1 将 project map、risks、rules、toolchain、assembly manifest、protected paths、workflow 和 required checks 分配给明确 Stage/Shared authority；旧 profile 格式通过只读兼容加载器或一次性迁移器并行比较，不允许 silent fallback。
-- [ ] P10.2 按 §13 映射以检查点分组移动，每组使用授权 PR + 变更 PR。
-- [ ] P10.3 将内部实现迁入 `engine/`，生成逻辑迁入 `generators/`，hooks/skills/GitHub glue 迁入 `integrations/`，policy sync、history regeneration、analysis evidence 更新和迁移工具迁入 `maintenance/` 并补齐 Preview/Apply；按 Stage 重组测试，不改变覆盖。
-- [ ] P10.4 每组移动后更新 manifest、链接、脚本、tests 和 docs，并运行完整 Check。
-- [ ] P10.5 通过授权删除 V3_backup（D2）。
-- [ ] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。
-- [ ] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。
+- [x] P10.1 将 project map、risks、rules、toolchain、assembly manifest、protected paths、workflow 和 required checks 分配给明确 Stage/Shared authority；旧 profile 格式通过只读兼容加载器或一次性迁移器并行比较，不允许 silent fallback。证据：CP11c–CP11m 将权威文件依职责迁入 Analysis、Pre、Post、CI 与 Shared，全部过渡加载器要求新旧布局恰有一个，不存在 silent fallback。
+- [x] P10.2 按 §13 映射以检查点分组移动，每组使用授权 PR + 变更 PR。证据：CP11a–CP11r 按 maintenance、备份删除、Stage/Shared 权威、tests、decision history、command/verifier 与 LayerGuard 分组完成本地 auth → change 链；均未 push/建 PR，待发布时保持同一双 PR 边界。
+- [x] P10.3 将内部实现迁入 `engine/`，生成逻辑迁入 `generators/`，hooks/skills/GitHub glue 迁入 `integrations/`，policy sync、history regeneration、analysis evidence 更新和迁移工具迁入 `maintenance/` 并补齐 Preview/Apply；按 Stage 重组测试，不改变覆盖。证据：CP11a–CP11q 完成实现与工具归属，CP11n 将 14 个 package tests 重组到 `tests/ci|pre|post|support`，CP11r 将剩余 IFX Architecture binding、tests 与 fixtures 迁入 Post gate。
+- [x] P10.4 每组移动后更新 manifest、链接、脚本、tests 和 docs，并运行完整 Check。证据：每组候选均同步 authority/TCB/command/docs，运行 Validate、正式 Pre、相关专项测试与 base-owned protected/policy/TCB candidate verification；CP11r 另通过隔离包构建、正负例与 strict scan。
+- [x] P10.5 通过授权删除 V3_backup（D2）。证据：CP11b 先以 base-owned bridge 移除测试夹具对备份树的依赖，再消费目录级 `delete`、TCB 与 policy/config 授权删除 41 个重复文件；canonical V3 与 Git history 为唯一恢复边界。
+- [x] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。证据：公共 facade 保留带 `DEPRECATED` 提示的薄转发入口；内部 manifest verifier 等旧路径删除，迁移桥仅用于 base-owned auth/change 验证并要求新旧布局恰有一个。
+- [x] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。证据：CP11r 最终引用审计只保留历史计划/decision/evidence 以及明确的双布局验证桥；活动 command、stage、TCB、authored/generated docs 均指向最终 authority，Validate、Docs Check、manifest 与 package isolation 全部通过。
+- **完成**：CP11a–CP11r 已完成 P10 的全部分组迁移。最后一组将 13 个 IFX LayerGuard solution/binding/test/fixture 文件从 template 迁入 `stages/post/gates/architecture/dotnet/`；旧模板目录消失，V3 通用 engine 仍由独立 V3 Post authority 持有。全链在 2026-09-20 本地完成，未 push/未建 PR。
 - **门槛**：新结构可在 Linux/Windows clean checkout 重现，旧兼容入口只剩批准范围。
 
 ### P11 — 并行验证、切换、清理与回退证明
 
-- [ ] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。
-- [ ] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。
-- [ ] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。
+- [x] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。证据：CP12a 从 CP11 最终树完整运行 Architecture 与 CrossPlatform candidate suites；Pre、Post/Architecture、Diff、CI contract、specialized、quality、historical-integrity 以及 authority/deployment/manifest 正反例全部通过。
+- [x] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。证据：CP12a 的 generic V3、IFX trusted-base、protected-change、package isolation 与 target-root separation 矩阵逐项执行这些负例且均按预期阻断。
+- [x] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。证据：CP12a 的 `Test-V3BuildBaseline.ps1` 将源码包复制到仓库外并在 hostile parent 配置下验证 locked restore、content hash 与 import allowlist；`Test-V3.ps1` 在空白 synthetic Git fixture 上生成并运行 Validate、Pre、Test/Post 与 Diff，Architecture candidate suite 同时验证隔离 IFX Architecture package。
 - [ ] P11.4 先按 D36、D37 将仅用于旧 base 识别聚合发布与候选布局的最小兼容桥分别通过正常授权协议合入 `codex/guards-principles-plan`；随后以该 branch 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。
 - [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
 - [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
@@ -1112,6 +1113,16 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **决定**：保留 `v3-cross-platform-windows-latest` required check、13 个 required check 名称、job DAG、事件集合、ruleset contexts 与 strict 策略。普通 PR/push/schedule 在 Ubuntu leg 执行完整 head candidate suite，Windows leg 仍执行 base-owned `Validate`，其 head candidate 部分改为已声明的 portability smoke：V3/IFX Generate 与 Check、锁定构建基线、target-root/path 隔离。平台中立的 Pre、authority projection、specialized contracts、historical integrity、domain authority candidates 与 trusted-base 全量候选测试不再在每个 Windows 普通运行重复，但仍在 Ubuntu 完整执行。P11.4 最终候选必须额外以 `workflow_dispatch`、`windowsCoverage=full` 运行一次 Windows 完整 suite 并保存证据；CI contract 对 smoke/full 命令集合、OS 选择、dispatch 输入和 required check 身份失败关闭。`records-and-plans` 优化和任何 job 级条件均不改变。
 - **边界**：这是经明确授权的重复证据削减，不宣称 Windows smoke 与全量 suite 等价；若 smoke 命令、Windows required check、Ubuntu full suite 或 P11.4 全量入口被移除，CI contract 必须失败。仓库公开期间标准 runner 不计 Actions minutes，但本约束仍保留，以便仓库回到 private 后控制成本。
 - 来源：2026-09-21 对最近真实运行复核：Windows leg 15.70 分钟，其中 head candidate 14.17 分钟；本地把 trusted-base 差异消费测试加入 smoke 的试跑超过 3 分钟仍未结束，故该套件保留在 Ubuntu full/P11.4 Windows full。用户于 2026-09-21 授权 CP12-ci2，并要求更新 D28、Plan 06 与 CI 信任契约；记录 `20260921-v3-stage-d35-windows-portability-smoke.json`。
+
+### D29 — Architecture Conformance engine 迁入 V3 的路径、命名与测试桥（P6.4 补充，细化 D12、D27）
+
+- **决定**：P6.4–P6.6 以 CP07c-prep 与 CP07c 交付。通用 engine 的最终位置是 `docs/guards/V3/stages/post/gates/architecture/dotnet/`，项目与 assembly 名为 `Guards.ArchitectureConformance`；C# namespace 仍为 `LayerGuard`，作为内部兼容面而非稳定门禁身份，使 base-owned engine 测试跨迁移仍可编译。CP07c-prep 为 expand：在 engine 源码仍位于 V3_ifx 时建立 V3 项目与测试路径，V3 engine 项目本检查点内转发到 V3_ifx engine；通用测试与 fixture 迁入 V3 并只引用 V3 项目；V3_ifx 旧测试项目保留为已声明的空项目，因为本 prep 的候选验证会把上一 base 的 engine 测试恢复到该路径并必须仍能编译运行；base-owned 归属改为 V3 路径，使 CP07c 的候选验证恢复的测试可编译到迁移后的 engine。IFX policy binding 测试改用本包自有的最小 IFX fixture。CP07c 再迁移 engine 源码、删除 V3_ifx engine 与空测试项目、把 IFX binding 与 host 指向 V3 项目，并写入 §11.3 混合型 trust contract 与 P6.6 的不变性证明。
+- 来源：CP07c 设计评审，用户于 2026-09-18 批准 A1（V3 stage 路径）、B1（项目/assembly 改名、namespace 作为内部兼容面）、C1（IFX 专属 fixture），并要求先证明 expand/contract 桥；记录 `20260918-v3-stage-d29-architecture-conformance-v3-relocation.json`。
+
+### D30 — Stage Gate 仓库外生成与 V3 overlay expand/contract 切换（P7 补充，细化 D1、D3、D6、D9、D14）
+
+- **决定**：P7 以 CP08-prep0、CP08-prep 与 CP08 交付。CP08-prep0 先修正 base-owned manifest/tools 测试：workflow 未登记脚本负向控制使用真正缺失的路径，public runner 不再要求与 canonical 实现 byte parity，analysis reproducibility 改为隔离目录连续两次生成比较且不覆盖 tracked snapshot。CP08-prep 再让 IFX orchestrator、command manifest、trusted-base 调用链与 base-owned ownership 使用 canonical V3，把 workflow-facing legacy runner 收敛为薄 wrapper，并将 generation root 显式传到底层。CP08 参数化 `{ProjectId}.Guards.StageGate.Tests`，在 `<generation-root>/<package>/gates/stage/` 下生成 Self/Post/Diff，拒绝 identifier 碰撞，取消跟踪 snapshot 并删除无兼容职责的内部副本；声明期内的 public legacy path 保留薄 wrapper。三个检查点各自使用 exact-candidate authorization → change pair；required check 名称、ruleset 与 O1 保持不变。
+- 来源：P7 实施时的 base-owned overlay 失败报告与生成路径审计；旧测试会覆盖 candidate 的新版测试并拒绝预期 wrapper，tracked inventory byte 比较受 Windows checkout 换行影响，直接删除重复测试又会被 base overlay 恢复，因此必须 test-bridge → expand → contract；记录 `20260919-v3-stage-d30-stage-gate-cutover.json`。
 
 ### D36 — P11 聚合发布的最小兼容桥（P11.4 补充，细化 D10、D19、D24）
 

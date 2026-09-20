@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp09-registry-prep-authorization",
+  "title": "Authorize CP09 analysis registry preparation",
+  "goal": "Pre-authorize the exact temporary policy-registry exclusions prepared for CP09.",
+  "acceptanceCriteria": [
+    "One change-trusted-base record binds the policy-config blob tuple and tcb.manifest validation suite.",
+    "One weaken-policy record binds the same head tuple and exact changed JSON pointers.",
+    "The authorization commit changes only this plan pair and the two authorization records."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-registry-prep-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp09-registry-prep-weaken-policy.json",
+    "docs/guards/plans/20260919-v3-stage-cp09-registry-prep-authorization.md",
+    "docs/guards/plans/20260919-v3-stage-cp09-registry-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

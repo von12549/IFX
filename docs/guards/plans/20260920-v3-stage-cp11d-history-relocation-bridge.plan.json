@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11d-history-relocation-bridge",
+  "title": "V3 stage-oriented refactor CP11d — Historical Integrity relocation bridge",
+  "goal": "Let the current trusted base validate exactly one legacy or Post-stage Historical Integrity layout and recognize the frozen destination before the authorized physical relocation.",
+  "acceptanceCriteria": [
+    "The current complete legacy layout remains active and production entry points remain unchanged.",
+    "Base-owned verification selects exactly one complete legacy or stage-owned Historical Integrity layout and fails closed for missing, partial or ambiguous layouts.",
+    "Policy candidate validation selects the manifest from the explicit head Git tree and validates it with the base engine without fallback.",
+    "The policy registry recognizes only direct JSON children in the frozen destination directory and creates no authority file.",
+    "The subsequent physical relocation removes the temporary migration entry and registers the exact final manifest."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-history-relocation-bridge-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-history-relocation-bridge-weaken-policy.json",
+    "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11d-history-relocation-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11d-history-relocation-bridge.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

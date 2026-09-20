@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11n-candidate-test-arguments",
+  "title": "Stabilize candidate test execution after Stage relocations",
+  "goal": "Preserve CandidateTests argument arrays and keep its Diff-consumption policy-move fixture valid for either supported policy layout.",
+  "acceptanceCriteria": [
+    "A test command with no arguments receives none.",
+    "A test command with one switch receives the complete switch as one argument.",
+    "Multi-argument CrossPlatform commands preserve argument order and values.",
+    "The Diff-consumption fixture resolves the single active policy root and tests a move to the alternate layout.",
+    "The complete Architecture and CrossPlatform candidate suites pass.",
+    "Trusted-component authorization is consumed exactly once and candidate parity passes."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11n-candidate-test-arguments-tcb.json",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11n-candidate-test-arguments.md",
+    "docs/guards/plans/20260920-v3-stage-cp11n-candidate-test-arguments.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

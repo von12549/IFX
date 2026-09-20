@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11a-maintenance-bridge-authorization",
+  "title": "Authorize CP11a maintenance relocation compatibility bridge",
+  "goal": "Authorize the exact base-owned authority projection test bridge without changing production policy projection behavior.",
+  "acceptanceCriteria": [
+    "The record binds the single test path and exact old/new Git tuples.",
+    "The authorization references the CP11a bridge Plan and frozen migration/trusted-base decisions.",
+    "No production runner, authority, projection, workflow or required check changes in this checkpoint."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11a-maintenance-bridge-trusted-base.json",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11a-maintenance-bridge-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

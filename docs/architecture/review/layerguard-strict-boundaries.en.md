@@ -31,7 +31,7 @@ result from either side never masks failure on the other.
 | Runtime Host | `IFX.ApiHost`, `IFX.*.Worker` | Composition and approved host primitives |
 
 Ownership comes from the generated view of the authoritative G03 catalog and is bound by
-`docs/guards/V3_ifx/policy/layerguard.json`. Runtime roles come from G04 artifacts; Context/Messaging primitive admissions
+`docs/guards/V3_ifx/stages/post/policy/layerguard.json`. Runtime roles come from G04 artifacts; Context/Messaging primitive admissions
 come from G05. Module/platform `*.Abstractions` is no longer recognized as Contracts and remains an
 explicitly forbidden project name. Historical `App.Abstractions` is a G01/G04-approved BuildingBlocks
 host primitive, not an inter-module Contract compatibility layer.

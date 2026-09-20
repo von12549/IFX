@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11f-specialized-registry-prep",
+  "title": "V3 stage-oriented refactor CP11f — Specialized contract registry prep",
+  "goal": "Pre-register the future stage-owned Specialized contract directory so the physical move remains fail-closed under D24.",
+  "acceptanceCriteria": [
+    "The policy registry declares exactly the future stages/post/gates/specialized/contracts directory.",
+    "The absent future directory does not create an implicit fallback or change runtime dispatch.",
+    "Manifest and policy candidate validation pass from the current trusted base.",
+    "The later physical relocation populates the registered directory and consumes fresh exact-candidate authorizations."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-registry-prep-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-registry-prep-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-registry-prep.md",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-registry-prep.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

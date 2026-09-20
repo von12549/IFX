@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11j-policy-layout-bridge",
+  "title": "Bridge the IFX policy data layout",
+  "goal": "Allow base-owned policy consumers to validate exactly one legacy or stage-owned policy data layout before the protected move.",
+  "acceptanceCriteria": [
+    "Architecture, Quality, Specialized and package-test consumers accept the complete legacy layout.",
+    "The same consumers accept the complete stage-owned layout.",
+    "Missing or simultaneous policy layouts fail closed.",
+    "Policy bytes, authority registry, verdicts and required check names remain unchanged.",
+    "Trusted Diff and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-layout-bridge-tcb.json",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-AbstractionsRetirement.ps1",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTools.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-layout-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-layout-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test", "ifx-layerguard"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

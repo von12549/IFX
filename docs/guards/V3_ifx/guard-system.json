@@ -4,7 +4,7 @@
   "role": "overlay",
   "engine": {
     "package": "docs/guards/V3",
-    "status": "forked-until-p7"
+    "status": "referenced"
   },
   "stages": [
     "bootstrap",
@@ -17,7 +17,8 @@
   "manifests": {
     "commands": "docs/guards/V3_ifx/shared/commands.json",
     "trustedComponents": "docs/guards/V3_ifx/shared/trusted-components.json",
-    "stages": "docs/guards/V3_ifx/stages"
+    "stages": "docs/guards/V3_ifx/stages",
+    "docsMap": "docs/guards/V3_ifx/docs/docs-map.json"
   },
   "compatibility": {
     "policy": {
@@ -28,12 +29,44 @@
     },
     "entries": [
       {
+        "legacyPath": "docs/guards/V3/scripts/Invoke-V3.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after all callers use commands/",
+        "phase": "P8.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after all callers use commands/",
+        "phase": "P8.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after all callers use commands/",
+        "phase": "P8.2"
+      },
+      {
         "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
         "kind": "public-command",
         "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
         "compatibility": "deprecation-wrapper",
         "removeWhen": "P11.5 after workflow and documentation reference only commands/",
         "phase": "P8.2"
+      },
+      {
+        "legacyPath": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after documentation and callers use commands/",
+        "phase": "P10.3"
       },
       {
         "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
@@ -68,52 +101,12 @@
         "phase": "P6.4"
       },
       {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Architecture.ps1",
-        "kind": "internal-command",
-        "replacement": "docs/guards/V3/engine/stages/analysis/",
-        "compatibility": "none",
-        "removeWhen": "P7.5 duplicate deletion",
-        "phase": "P7.5"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
-        "kind": "internal-command",
-        "replacement": "docs/guards/V3_ifx/maintenance/",
-        "compatibility": "none",
-        "removeWhen": "P10.3 move",
-        "phase": "P10.3"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/generated/stages",
-        "kind": "directory",
-        "replacement": "<out-of-repository generation root>/v3-ifx/gates/stage",
-        "compatibility": "none",
-        "removeWhen": "P7.2 untrack after clean-checkout Generate/Check/Test/Diff proof",
-        "phase": "P7.2"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/ci/jobs.json",
-        "kind": "file",
-        "replacement": "docs/guards/V3_ifx/stages/ci/required-checks.json",
-        "compatibility": "none",
-        "removeWhen": "P9.4 after the CI contract verifier reads required-checks.json",
-        "phase": "P9.4"
-      },
-      {
         "legacyPath": "docs/guards/V3_ifx/profiles/ifx/views",
         "kind": "directory",
         "replacement": "docs/guards/V3_ifx/docs/generated/",
         "compatibility": "none",
         "removeWhen": "P8.7 decision",
         "phase": "P8.7"
-      },
-      {
-        "legacyPath": "docs/guards/V3_backup",
-        "kind": "directory",
-        "replacement": "docs/guards/V3 and Git history",
-        "compatibility": "none",
-        "removeWhen": "P10.5 base pre-authorized delete (D2)",
-        "phase": "P10.5"
       }
     ]
   }

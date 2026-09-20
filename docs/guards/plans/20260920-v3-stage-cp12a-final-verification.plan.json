@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp12a-final-verification",
+  "title": "Verify final parity and isolated V3 bootstrap",
+  "goal": "Record reproducible evidence for Plan 06 P11.1-P11.3 without changing runtime or trust inputs.",
+  "acceptanceCriteria": [
+    "Architecture and CrossPlatform candidate suites pass from the clean CP11 final tree.",
+    "A repository-external V3 copy passes locked restore, build and import-isolation checks.",
+    "A blank fixture repository produces runnable Pre, Post, Diff and Architecture checks.",
+    "The full protected-change and trusted-base negative matrix fails closed.",
+    "Deployment preview and the read-only remote CI contract check pass without activation."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260920-v3-stage-cp12a-final-verification.md",
+    "docs/guards/plans/20260920-v3-stage-cp12a-final-verification.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ]
+}

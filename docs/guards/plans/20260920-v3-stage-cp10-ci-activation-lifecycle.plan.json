@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp10-ci-activation-lifecycle",
+  "title": "V3 stage-oriented refactor CP10 — CI activation lifecycle",
+  "goal": "Add a lightweight schema-validated workflow and CODEOWNERS candidate lifecycle, replace ci/jobs.json with required-checks.json, and preserve all 13 live required-check semantics without activating generated copies.",
+  "acceptanceCriteria": [
+    "Generate writes only artifact candidates; Check validates schemas, candidate drift, canonical workflow structure, unchanged check names and a trusted-base first verdict entry through declared public validators.",
+    "Preview explains the current headerless workflow and unmarked CODEOWNERS lines as legacy-equivalent; Install requires explicit acceptance and Verify binds source path, SHA-256 and content.",
+    "required-checks.json replaces ci/jobs.json for local and read-only remote ruleset verification while ruleset 23459908, strict mode and all 13 required check names remain unchanged.",
+    "Positive and negative deployment/CI fixtures, manifest checks, generated-doc checks, package validation and trusted-base candidate validation pass."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3/commands/Invoke-V3Deployment.ps1",
+    "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/contracts/activation.schema.json",
+    "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+    "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+    "docs/guards/V3_ifx/docs/docs-map.json",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/ci/activation.json",
+    "docs/guards/V3_ifx/stages/ci/codeowners.template",
+    "docs/guards/V3_ifx/stages/ci/required-checks.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
+    "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-ci-activation-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-ci-activation-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp10-ci-jobs-delete.json",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260920-v3-stage-cp10-ci-activation-lifecycle.md",
+    "docs/guards/plans/20260920-v3-stage-cp10-ci-activation-lifecycle.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}

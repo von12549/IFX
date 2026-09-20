@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Plan 06 P6.4 (CP07c, D29): the generic engine tests moved to V3. This project stays declared and empty while the
+       previous base still owns this path, so candidate verification can restore those tests here and run them; a later
+       checkpoint deletes it once the base no longer owns the path. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\V3\stages\post\gates\architecture\dotnet\Guards.ArchitectureConformance\Guards.ArchitectureConformance.csproj" />
+  </ItemGroup>
+
+</Project>

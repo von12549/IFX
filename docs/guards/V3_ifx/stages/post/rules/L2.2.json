@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "id": "L2.2",
+  "title": "Domain projects must not reference Contracts projects",
+  "kind": "forbidden-project-reference",
+  "appliesTo": ["src/Modules/*/IFX.Modules.*.Domain/**"],
+  "enforcement": "blocking",
+  "coverage": "partial",
+  "authority": "stages/post/policy/layerguard.json:allowedReferences.Domain",
+  "sourcePattern": "src/Modules/*/IFX.Modules.*.Domain/*.csproj",
+  "forbiddenTargetPattern": "**/*.Contracts/*.csproj",
+  "negativeFixture": {
+    "referenceInclude": "../IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+    "sourceProject": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj"
+  }
+}

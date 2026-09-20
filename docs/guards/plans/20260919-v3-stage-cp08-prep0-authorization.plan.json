@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260919-v3-stage-cp08-prep0-authorization",
+  "title": "V3 stage-oriented refactor CP08-prep0-auth — base-owned transition test authorization",
+  "goal": "Authorize the exact two-test bridge that lets the later canonical-V3 and thin-wrapper candidate be judged by compatible base-owned assertions.",
+  "acceptanceCriteria": [
+    "The change-trusted-base record binds exactly Test-IFXManifests.ps1 and Test-IFXTools.ps1 from candidate 4ce9e5f7 and carries the base-derived validation suite.",
+    "The parity contract preserves production code, manifests, policy, workflow, required checks and report schemas while changing only the two test contracts.",
+    "D30 and the formal Plan pair record CP08-prep0 before CP08-prep and CP08; this authorization changes no trusted component or registered policy."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp08-prep0-trusted-base.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-prep0-authorization.md",
+    "docs/guards/plans/20260919-v3-stage-cp08-prep0-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json"
+  ]
+}

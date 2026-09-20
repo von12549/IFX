@@ -4,10 +4,10 @@ Set-StrictMode -Version Latest
 # canonical JSON, D18 pointer roles and isolated child processes. Nothing here reads the target
 # repository except through explicit parameters.
 
-$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_BUILD_ROOT', 'GUARD_CONSUMED_AUTHORIZATIONS', 'GUARD_PROTECTED_CHANGES', 'GUARD_PROTECTION_PATH', 'LAYERGUARD_FIXTURES_ROOT', 'LAYERGUARD_PACKAGE_ROOT')
+$script:GuardEnvironmentVariables = @('GUARD_TARGET_ROOT', 'GUARD_PLAN_PATH', 'GUARD_BASE_REF', 'GUARD_HEAD_REF', 'GUARD_GENERATED_ROOT', 'GUARD_GENERATION_ROOT', 'GUARD_BUILD_ROOT', 'GUARD_CONSUMED_AUTHORIZATIONS', 'GUARD_PROTECTED_CHANGES', 'GUARD_PROTECTION_PATH', 'LAYERGUARD_FIXTURES_ROOT', 'LAYERGUARD_PACKAGE_ROOT')
 
 # Files outside docs/guards/ that the manifest checker validates as trusted components or compatibility entries.
-$script:PackageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props', 'docs/guards/V3_backup/README.md')
+$script:PackageRepositoryFiles = @('.github/workflows/v3-ifx-guardrails.yml', '.github/CODEOWNERS', 'Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props')
 $script:PackageDirectories = @('docs/guards/V3', 'docs/guards/V3_ifx')
 $script:AuthorizationDirectory = 'docs/guards/V3_ifx/stages/diff/authorizations/'
 
@@ -113,7 +113,14 @@ function Get-GuardPackageRepositoryFiles {
     # Tracked files a package copy needs: both guard packages plus the files the manifest checker validates.
     param([Parameter(Mandatory)][string] $Repository)
     $files = @(Invoke-GuardGitNul $Repository (@('ls-files', '-z', '--') + $script:PackageDirectories + $script:PackageRepositoryFiles))
-    return @($files | Where-Object { $_ -notmatch '(^|/)(bin|obj)/' -and -not $_.StartsWith('docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/') })
+    $evidenceArchives = @(
+        'docs/guards/V3_ifx/analysis/ifx/refactor-baseline/ci-evidence/',
+        'docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/ci-evidence/'
+    )
+    return @($files | Where-Object {
+        $path = $_
+        $path -notmatch '(^|/)(bin|obj)/' -and @($evidenceArchives | Where-Object { $path.StartsWith($_, [StringComparison]::Ordinal) }).Count -eq 0
+    })
 }
 
 function Copy-GuardFiles {
@@ -249,7 +256,13 @@ function Get-GuardHeadExecutableReferences {
         }
     }
     $workflow = Get-GuardBlobText $Repository $Head '.github/workflows/v3-ifx-guardrails.yml'
-    if ($null -ne $workflow) { foreach ($match in [Regex]::Matches($workflow, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.psm?1)')) { [void]$references.Add($match.Groups[1].Value) } }
+    if ($null -ne $workflow) {
+        # P11.4 keeps one non-executable block comment whose legacy command lists are read by the pre-layout base CI
+        # verifier. Match the manifest checker's narrow exception: only the exact, syntactically closed block is
+        # excluded. A malformed block, or any executable reference outside it, remains visible and fails closed.
+        $workflowEntries = [Regex]::Replace($workflow, '(?ms)<#\s*BEGIN PRE-LAYOUT CI CONTRACT\s*\n.*?\n\s*# END PRE-LAYOUT CI CONTRACT\s*\n\s*#>', '')
+        foreach ($match in [Regex]::Matches($workflowEntries, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.psm?1)')) { [void]$references.Add($match.Groups[1].Value) }
+    }
     return [string[]]@($references)
 }
 
@@ -296,12 +309,101 @@ function Get-GuardTreeEntry {
     return $null
 }
 
+function Resolve-GuardAuthorityRegistryPath {
+    # During CP11k the registry may live in either layout, but ambiguity or absence fails closed.
+    param([Parameter(Mandatory)][string] $PackageRoot)
+    $candidates = @('policy/authorities.json', 'shared/authorities/authorities.json')
+    $available = @($candidates | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { [IO.File]::Exists($_) })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
+
+function Get-GuardAuthorityRegistryPathAtCommit {
+    # Select from Git objects rather than the checkout so an explicit head cannot redirect the base verifier.
+    param(
+        [Parameter(Mandatory)][string] $Repository,
+        [Parameter(Mandatory)][string] $Commit,
+        [string] $PackagePath = 'docs/guards/V3_ifx'
+    )
+    $candidates = @("$PackagePath/policy/authorities.json", "$PackagePath/shared/authorities/authorities.json")
+    $available = @($candidates | Where-Object { $null -ne (Get-GuardTreeEntry $Repository $Commit $_) })
+    if ($available.Count -ne 1) { throw "Commit $Commit must contain exactly one legacy or shared authority registry; found $($available.Count)." }
+    return $available[0]
+}
+
+function Resolve-GuardDecisionHistoryPath {
+    # During CP11o decision records may live in the legacy package directory or under shared ownership.
+    # Accept exactly one complete directory so a partial copy or silent fallback cannot split authority.
+    param([Parameter(Mandatory)][string] $PackageRoot)
+    $candidates = @('decisions/history', 'shared/decisions/history')
+    $available = @($candidates | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { [IO.Directory]::Exists($_) })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared decision history must exist; found $($available.Count)." }
+    return $available[0]
+}
+
+function Get-GuardContractRelativePaths {
+    # CP11p assigns IFX-only contracts to their owning Shared/Stage directory and uses canonical V3 for
+    # byte-identical portable contracts. The first item is the final authority; the second is the legacy copy.
+    param([Parameter(Mandatory)][string] $Name, [string] $PackagePath = 'docs/guards/V3_ifx')
+    $file = if ($Name.EndsWith('.schema.json', [StringComparison]::Ordinal)) { $Name } else { "$Name.schema.json" }
+    $shared = @('authorities.schema.json', 'commands.schema.json', 'docs-map.schema.json', 'guard-summary.schema.json', 'guard-system.schema.json', 'policy-config.schema.json', 'stage.schema.json', 'trusted-base-summary.schema.json', 'trusted-components.schema.json')
+    $diff = @('authorization.schema.json', 'change-scope.schema.json', 'protected-change-report.schema.json', 'protection.schema.json')
+    $ci = @('activation.schema.json', 'required-checks.schema.json', 'workflow-variables.schema.json')
+    $portable = @('decision.schema.json', 'plan.schema.json', 'pre-result.schema.json', 'profile.schema.json', 'project-map.schema.json', 'rule.schema.json', 'tech-stack.schema.json')
+    $final = if ($file -in $shared) { "$PackagePath/shared/contracts/$file" }
+        elseif ($file -in $diff) { "$PackagePath/stages/diff/contracts/$file" }
+        elseif ($file -in $ci) { "$PackagePath/stages/ci/contracts/$file" }
+        elseif ($file -in $portable) { "docs/guards/V3/contracts/$file" }
+        else { throw "Unknown IFX contract: $file" }
+    return [string[]]@($final, "$PackagePath/contracts/$file")
+}
+
+function Resolve-GuardContractPath {
+    # An IFX-owned contract must have exactly one legacy or owned copy. During portable-copy contraction,
+    # the canonical V3 contract and legacy IFX copy may coexist only while their bytes are identical.
+    param([Parameter(Mandatory)][string] $PackageRoot, [Parameter(Mandatory)][string] $Name)
+    $repository = Get-GuardFullPath (Join-Path $PackageRoot '../../..')
+    $relative = @(Get-GuardContractRelativePaths $Name)
+    $paths = @($relative | ForEach-Object { Join-Path $repository $_ })
+    $available = @($paths | Where-Object { [IO.File]::Exists($_) })
+    $portable = $relative[0].StartsWith('docs/guards/V3/contracts/', [StringComparison]::Ordinal)
+    if ($portable -and $available.Count -eq 2) {
+        $canonical = [IO.File]::ReadAllBytes($paths[0])
+        $legacy = [IO.File]::ReadAllBytes($paths[1])
+        if ((Get-GuardSha256 $canonical) -cne (Get-GuardSha256 $legacy)) { throw "Legacy IFX contract differs from canonical V3 contract: $Name" }
+        return $paths[0]
+    }
+    if ($available.Count -ne 1) { throw "Exactly one legacy or owned contract must exist for $Name; found $($available.Count)." }
+    return $available[0]
+}
+
+function Get-GuardContractPathAtCommit {
+    # Git-object counterpart of Resolve-GuardContractPath for explicit head validation.
+    param(
+        [Parameter(Mandatory)][string] $Repository,
+        [Parameter(Mandatory)][string] $Commit,
+        [Parameter(Mandatory)][string] $Name,
+        [string] $PackagePath = 'docs/guards/V3_ifx'
+    )
+    $relative = @(Get-GuardContractRelativePaths $Name $PackagePath)
+    $available = @($relative | Where-Object { $null -ne (Get-GuardTreeEntry $Repository $Commit $_) })
+    $portable = $relative[0].StartsWith('docs/guards/V3/contracts/', [StringComparison]::Ordinal)
+    if ($portable -and $available.Count -eq 2) {
+        $canonical = Get-GuardBlobBytes $Repository $Commit $relative[0]
+        $legacy = Get-GuardBlobBytes $Repository $Commit $relative[1]
+        if ((Get-GuardSha256 $canonical) -cne (Get-GuardSha256 $legacy)) { throw "Commit $Commit has a divergent legacy IFX copy of $Name." }
+        return $relative[0]
+    }
+    if ($available.Count -ne 1) { throw "Commit $Commit must contain exactly one legacy or owned contract for $Name; found $($available.Count)." }
+    return $available[0]
+}
+
 function Read-GuardProtection {
     # The Diff protection configuration of a package (Plan 06 P3.2), validated, with the SHA-256 of its exact bytes.
     param([Parameter(Mandatory)][string] $PackageRoot)
     $path = Join-Path $PackageRoot 'stages/diff/protection.json'
     if (-not [IO.File]::Exists($path)) { throw "Diff protection configuration is missing: $path" }
-    if (-not (Test-GuardJsonSchema -Schema (Join-Path $PackageRoot 'contracts/protection.schema.json') -Path $path)) { throw "Diff protection configuration does not match its schema: $path" }
+    if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $PackageRoot 'protection') -Path $path)) { throw "Diff protection configuration does not match its schema: $path" }
     $bytes = [IO.File]::ReadAllBytes($path)
     $document = ConvertFrom-Json ([Text.UTF8Encoding]::new($false).GetString($bytes)) -AsHashtable -Depth 20
     return [pscustomobject]@{
@@ -348,7 +450,7 @@ function Read-GuardPolicyRegistry {
     param([Parameter(Mandatory)][string] $PackageRoot)
     $path = Join-Path $PackageRoot 'shared/policy-config.json'
     if (-not [IO.File]::Exists($path)) { throw "Policy and configuration registry is missing: $path" }
-    if (-not (Test-GuardJsonSchema -Schema (Join-Path $PackageRoot 'contracts/policy-config.schema.json') -Path $path)) { throw "Policy and configuration registry does not match its schema: $path" }
+    if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $PackageRoot 'policy-config') -Path $path)) { throw "Policy and configuration registry does not match its schema: $path" }
     $bytes = [IO.File]::ReadAllBytes($path)
     $document = ConvertFrom-Json ([Text.UTF8Encoding]::new($false).GetString($bytes)) -AsHashtable -Depth 50
     $document['sha256'] = Get-GuardSha256 $bytes

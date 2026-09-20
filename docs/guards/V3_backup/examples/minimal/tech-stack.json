@@ -1,8 +1,0 @@
-{
-  "formatVersion": 1,
-  "targetLanguages": ["C#"],
-  "commands": [
-    { "id": "sample-test", "executable": "dotnet", "arguments": ["test"], "workingDirectory": "." }
-  ],
-  "testProject": { "targetFramework": "net10.0", "framework": "xunit" }
-}

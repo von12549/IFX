@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11b-v3-backup-bridge-authorization",
+  "title": "V3 stage-oriented refactor CP11b — V3_backup retirement bridge authorization",
+  "goal": "Pre-authorize the exact trusted-base bridge that removes V3_backup as a test-fixture prerequisite.",
+  "acceptanceCriteria": [
+    "The record binds the exact prepared candidate tuples for both affected trusted components.",
+    "The authorization-only change modifies no trusted component or production policy.",
+    "The candidate must consume the record in the same protected diff."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11b-v3-backup-bridge-trusted-base.json",
+    "docs/guards/plans/20260920-v3-stage-cp11b-v3-backup-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11b-v3-backup-bridge-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

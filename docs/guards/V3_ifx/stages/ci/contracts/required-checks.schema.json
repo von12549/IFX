@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "V3 required checks declaration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "workflow", "automaticGuardWorkflow", "mergeEnforcement", "ruleset", "legacyWorkflowMode", "trustedBase", "costControls", "changeScope", "jobs"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "workflow": { "type": "string", "minLength": 1 },
+    "automaticGuardWorkflow": { "type": "string", "pattern": "^\\.github/workflows/[A-Za-z0-9_.-]+\\.ya?ml$" },
+    "mergeEnforcement": { "const": "github-ruleset-required-checks" },
+    "legacyWorkflowMode": { "const": "deleted-after-required-check-proof" },
+    "ruleset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "strict", "requiredCheckCount"],
+      "properties": {
+        "id": { "type": "integer", "minimum": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "strict": { "const": true },
+        "requiredCheckCount": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "trustedBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution", "tcbCandidateVerification"],
+      "properties": {
+        "execution": { "const": "active" },
+        "tcbCandidateVerification": { "const": "active" }
+      }
+    },
+    "costControls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scheduleCron", "concurrencyGroup", "cancelSupersededRuns", "packageCache", "windowsPortability"],
+      "properties": {
+        "scheduleCron": { "type": "string", "minLength": 1 },
+        "concurrencyGroup": { "type": "string", "minLength": 1 },
+        "cancelSupersededRuns": { "const": true },
+        "packageCache": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action", "path", "keyPrefix", "lockGlob", "jobs"],
+          "properties": {
+            "action": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+@v[0-9]+$" },
+            "path": { "type": "string", "minLength": 1 },
+            "keyPrefix": { "type": "string", "minLength": 1 },
+            "lockGlob": { "type": "string", "minLength": 1 },
+            "jobs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" } }
+          }
+        },
+        "windowsPortability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidateFacade", "requiredCheck", "runner", "ordinaryCoverage", "fullCertificationEvent", "fullCertificationInput", "fullCertificationValue", "fullCertificationCheckpoint", "smokeCommands", "fullSuiteCommands"],
+          "properties": {
+            "candidateFacade": { "type": "string", "pattern": "^docs/guards/[A-Za-z0-9_./-]+\\.ps1$" },
+            "requiredCheck": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" },
+            "runner": { "const": "windows-latest" },
+            "ordinaryCoverage": { "const": "smoke" },
+            "fullCertificationEvent": { "const": "workflow_dispatch" },
+            "fullCertificationInput": { "const": "windowsCoverage" },
+            "fullCertificationValue": { "const": "full" },
+            "fullCertificationCheckpoint": { "const": "P11.4" },
+            "smokeCommands": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "fullSuiteCommands": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+          }
+        }
+      }
+    },
+    "changeScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entryPoint", "mode", "implementation", "inheritScope", "candidateStepJobs", "inheritingChecks"],
+      "properties": {
+        "entryPoint": { "type": "string", "minLength": 1 },
+        "mode": { "const": "Scope" },
+        "implementation": { "type": "string", "minLength": 1 },
+        "inheritScope": { "const": "records-and-plans" },
+        "candidateStepJobs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" } },
+        "inheritingChecks": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" } }
+      }
+    },
+    "jobs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "mode", "trigger", "blocking"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" },
+          "mode": { "type": "string", "minLength": 1 },
+          "gate": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "trigger": { "enum": ["pull-request", "pull-request-and-main"] },
+          "blocking": { "const": true }
+        }
+      }
+    }
+  }
+}

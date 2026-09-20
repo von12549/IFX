@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-d33-verifier-ownership-layout",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P10 moves the public CI contract verifier behind commands/ with a legacy deprecation wrapper and moves the internal manifest verifier to engine/ without a compatibility path.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/docs/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "The CI contract is a stable public read-only command, so commands/ becomes its canonical implementation while the old ci/ path remains a forwarding deprecation wrapper until P11.5. The manifest verifier is an internal package engine used by Validate and base-owned fixtures, so it moves to engine/ and receives no permanent compatibility wrapper. A base-owned test bridge first resolves exactly one legacy or engine-owned manifest verifier, preserving fail-closed candidate validation across the move. This applies Plan 06 sections 6, 13 and P10.3/P10.6 together with D15 and D23."
+}

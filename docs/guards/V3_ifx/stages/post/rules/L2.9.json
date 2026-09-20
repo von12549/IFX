@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "id": "L2.9",
+  "title": "Unknown module ownership fails closed",
+  "kind": "none",
+  "appliesTo": ["src/Modules/**","src/Platform/**"],
+  "enforcement": "advisory",
+  "coverage": "none",
+  "authority": "stages/post/policy/layerguard.json:ruleRefs[L2.9] (blocking in Invoke-IFX)"
+}

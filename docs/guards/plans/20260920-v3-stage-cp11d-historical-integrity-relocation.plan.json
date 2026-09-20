@@ -1,0 +1,55 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11d-historical-integrity-relocation",
+  "title": "V3 stage-oriented refactor CP11d — Historical Integrity relocation",
+  "goal": "Make the Post-stage historical-integrity gate directory the sole active owner of the IFX Historical Integrity engine and manifest.",
+  "acceptanceCriteria": [
+    "The Historical Integrity engine and manifest exist only under stages/post/gates/historical-integrity; the manifest bytes are preserved and the engine changes only its location-derived repository-root default.",
+    "The public dispatcher, maintenance command, command catalog, Post trust contract, policy registry and trusted-component manifest name only the stage-owned location.",
+    "The temporary migration registry entry is removed and the exact final manifest is registered for history-manifest candidate validation.",
+    "Generated documentation is deterministic and contains no active legacy history path.",
+    "Historical Integrity, package, target-root separation and trusted-base parity tests retain their fixed-corpus verdicts.",
+    "The move, trusted-base and policy/config authorizations are each consumed exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/history/manifest.json",
+    "docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-historical-integrity-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-historical-integrity-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11d-historical-integrity-relocation-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11d-historical-integrity-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11d-historical-integrity-relocation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

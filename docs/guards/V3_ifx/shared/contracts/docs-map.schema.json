@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated documentation map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["formatVersion", "documents"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "output", "renderer", "sources"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+          "title": { "type": "string", "minLength": 1 },
+          "output": { "type": "string", "pattern": "^docs/generated/[A-Z][A-Z0-9-]*\\.md$" },
+          "renderer": { "enum": ["overview", "commands", "post", "ci"] },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "role"],
+              "properties": {
+                "path": { "type": "string", "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(^|/)\\.\\.(/|$))[A-Za-z0-9_.*?/-]+\\.[A-Za-z0-9?*]+$" },
+                "role": { "enum": ["authority", "trust-contract", "command-contract", "profile-policy", "ci-contract"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -57,7 +57,8 @@ try {
     $prefixes = [string[]] @(
         'docs/guards/plans/',
         $AuthorizationDirectory,
-        'docs/guards/V3_ifx/decisions/history/'
+        'docs/guards/V3_ifx/decisions/history/',
+        'docs/guards/V3_ifx/shared/decisions/history/'
     )
     $result.recordPrefixes = $prefixes
 
@@ -82,7 +83,7 @@ catch {
 
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($report))
 [IO.File]::WriteAllText($report, ($result | ConvertTo-Json -Depth 10) + "`n", [Text.UTF8Encoding]::new($false))
-if (-not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/change-scope.schema.json') -Path $report)) {
+if (-not (Test-GuardJsonSchema -Schema (Resolve-GuardContractPath $packageRoot 'change-scope') -Path $report)) {
     throw 'The change scope report does not match its schema.'
 }
 if ($GitHubOutput) { [IO.File]::AppendAllText($GitHubOutput, "scope=$($result.scope)`n") }

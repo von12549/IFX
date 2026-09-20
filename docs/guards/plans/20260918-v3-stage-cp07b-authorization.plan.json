@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260918-v3-stage-cp07b-authorization",
+  "title": "V3 stage-oriented refactor CP07b-auth — delete and change-trusted-base authorizations for the engine and binding separation",
+  "goal": "Add the delete and change-trusted-base authorizations that the CP07b change PR will consume, without changing any trusted component or registered policy.",
+  "acceptanceCriteria": [
+    "A delete record binds the base tree entry of the engine file that holds the IFX gate rules, and a change-trusted-base record covers the package-local locks, the architecture conformance engine, the runner, the architecture conformance tests and the package tests.",
+    "The change-trusted-base parity contract states that the composite policy hash, the report fields, the twelve policy bindings, the tool version and the command line and MCP contracts stay unchanged.",
+    "No trusted component or registered policy changes, nothing is deleted, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-delete-gate-policy-bindings.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp07b-trusted-base.json",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260918-v3-stage-cp07b-authorization.md",
+    "docs/guards/plans/20260918-v3-stage-cp07b-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json"
+  ]
+}

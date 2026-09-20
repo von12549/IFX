@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11j-policy-candidate-bridge",
+  "title": "Bridge policy candidate validation across the data move",
+  "goal": "Allow the previous trusted base to validate derived projections and base-owned tests against exactly one legacy or stage-owned policy data layout.",
+  "acceptanceCriteria": [
+    "Base-owned manifest and trusted-base tests accept the complete legacy layout.",
+    "The same tests resolve the complete stage-owned layout without a silent fallback.",
+    "The base policy-candidate engine reads the explicit head authority registry and regenerates head projections with base code.",
+    "G04 binding paths are generated relative to the selected policy root in either layout.",
+    "Missing or simultaneous layouts fail closed.",
+    "Trusted Diff and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11j-policy-candidate-bridge-tcb.json",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-candidate-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11j-policy-candidate-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

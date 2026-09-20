@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11k-policy-test-layout-bridge",
+  "title": "Bridge the base-owned manifest policy fixture",
+  "goal": "Let the previous trusted base run its unregistered-policy negative control after the legacy policy directory is removed.",
+  "acceptanceCriteria": [
+    "The manifest test selects exactly the active legacy or Post-stage policy root already established by the projection layout.",
+    "The unregistered-policy negative control keeps the same failing assertion and message semantics.",
+    "Manifest tests pass in the current Post-stage policy layout.",
+    "Trusted-component candidate validation passes with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-policy-test-layout-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11k-policy-test-layout-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11k-policy-test-layout-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

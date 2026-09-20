@@ -30,7 +30,8 @@ $clone = Join-Path $work 'h'
 $utf8 = [Text.UTF8Encoding]::new($false)
 $identity = @('-c', 'user.name=guard-rehearsal', '-c', 'user.email=guard-rehearsal@example.invalid', '-c', 'commit.gpgsign=false')
 $authorizations = 'docs/guards/V3_ifx/stages/diff/authorizations'
-$decisions = 'docs/guards/V3_ifx/decisions/history'
+$decisionHistory = Resolve-GuardDecisionHistoryPath (Join-Path $repositoryRoot 'docs/guards/V3_ifx')
+$decisions = [IO.Path]::GetRelativePath($repositoryRoot, $decisionHistory).Replace('\', '/')
 $steps = [Collections.Generic.List[object]]::new()
 
 function Invoke-RehearsalGit([string[]] $Arguments) {
@@ -86,16 +87,19 @@ function Add-Step([string] $Id, [string] $Description, [string] $BaseSha, [strin
     Write-Host ("[{0}] {1}: exit {2} (expected {3})" -f $(if ($ok) { 'OK' } else { 'UNEXPECTED' }), $Id, $Run.ExitCode, $Expected)
 }
 
-$moveEdit = { [void](Invoke-RehearsalGit @('mv', 'docs/guards/V3_backup/architecture', 'docs/guards/V3_backup/design')) }
-$ruleFile = 'docs/guards/V3_ifx/profiles/ifx/rules/L1.2.json'
+$moveEdit = { [void](Invoke-RehearsalGit @('mv', 'docs/guards/V3/architecture', 'docs/guards/V3/design')) }
+$ruleFile = 'docs/guards/V3_ifx/stages/post/rules/L1.2.json'
 $ruleEdit = {
     $path = Join-Path $clone $ruleFile
     [IO.File]::WriteAllText($path, [IO.File]::ReadAllText($path).Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"'), $utf8)
     # A complete policy change also regenerates the profile views with the base renderer.
-    $render = Invoke-GuardIsolatedPwsh (Join-Path $baseTree 'docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileDirectory', (Join-Path $clone 'docs/guards/V3_ifx/profiles/ifx'), '-TargetRoot', $clone) -WorkingDirectory $clone
+    $render = Invoke-GuardIsolatedPwsh (Join-Path $baseTree 'docs/guards/V3/commands/Invoke-V3Docs.ps1') @('-Mode', 'Render', '-ProfileLayoutPath', (Join-Path $clone 'docs/guards/V3_ifx/shared/profile-layout.json'), '-TargetRoot', $clone, '-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) -WorkingDirectory $clone
     if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
 }
-$engineFile = 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+$legacyEngineFile = 'docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1'
+$stageEngineFile = 'docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
+if ([IO.File]::Exists((Join-Path $repositoryRoot $legacyEngineFile)) -eq [IO.File]::Exists((Join-Path $repositoryRoot $stageEngineFile))) { throw 'Historical Integrity engine must have exactly one active package path.' }
+$engineFile = if ([IO.File]::Exists((Join-Path $repositoryRoot $stageEngineFile))) { $stageEngineFile } else { $legacyEngineFile }
 $engineEdit = { $path = Join-Path $clone $engineFile; [IO.File]::WriteAllText($path, [IO.File]::ReadAllText($path).Replace("`$ErrorActionPreference = 'Stop'", "# rehearsal: behaviour-equivalent change`n`$ErrorActionPreference = 'Stop'"), $utf8) }
 $change = { & $moveEdit; & $ruleEdit; & $engineEdit }
 $records = @('rehearsal-move', 'rehearsal-weaken-policy', 'rehearsal-trusted-base')
@@ -115,7 +119,7 @@ try {
     $changePlan = 'docs/guards/plans/20260917-rehearsal-change.plan.json'
     $generator = @('-BaseRevision', $baseSha, '-HeadRevision', $prepared, '-PlanPath', $changePlan, '-DecisionPaths', "$decisions/20260917-v3-stage-d23-protected-change-obligations.json,$decisions/20260917-v3-stage-d24-policy-config-dual-track.json", '-Repository', $clone)
     foreach ($spec in @(
-            @('rehearsal-move', @('-Operation', 'move', '-SourcePath', 'docs/guards/V3_backup/architecture', '-DestinationPath', 'docs/guards/V3_backup/design')),
+            @('rehearsal-move', @('-Operation', 'move', '-SourcePath', 'docs/guards/V3/architecture', '-DestinationPath', 'docs/guards/V3/design')),
             @('rehearsal-weaken-policy', @('-Operation', 'weaken-policy')),
             @('rehearsal-trusted-base', @('-ParityContract', 'Rehearsal: verdicts unchanged on the fixed corpus.')))) {
         $run = Invoke-Trusted $baseTree 'New-IFXTrustedBaseAuthorization.ps1' (@('-Id', $spec[0], '-OutputPath', (Join-Path $work "$($spec[0]).json")) + $spec[1] + $generator)

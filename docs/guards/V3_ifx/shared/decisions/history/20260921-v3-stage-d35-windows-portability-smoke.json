@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-d35-windows-portability-smoke",
+  "owner": "xiaolong-feng",
+  "summary": "Ordinary CI runs retain all 13 required check names, the existing job DAG, event set, ruleset contexts and strict policy. The Ubuntu cross-platform leg continues to execute the complete head candidate suite. The required Windows leg continues to execute the base-owned Validate gate, but its head candidate work becomes a declared portability smoke consisting of V3 and IFX Generate/Check, the locked build baseline, and target-root/path separation. Platform-neutral candidate suites remain mandatory on Ubuntu. P11.4 must additionally dispatch one Windows full-suite certification with windowsCoverage=full and archive its evidence. The read-only CI contract enforces the declared smoke and full command sets, the Windows-only selection, the dispatch input, and the required-check identity. This decision partially supersedes only D28's rejection of trimming the repeated Windows head candidate suite; D28's concurrency, package cache, monthly schedule, base-owned change-scope classification and fail-closed behavior remain in force.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/stages/ci/**",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "The latest observed real run took 15.70 minutes on windows-latest, including 14.17 minutes in the duplicated head candidate step, while Ubuntu already executes the complete suite. At private-repository billing rates this Windows leg is the largest avoidable repeated cost. A local attempt to include the complete trusted-base diff-consumption suite in the smoke still ran beyond three minutes and was stopped, so that platform-neutral suite stays in Ubuntu full coverage and the one P11.4 Windows full certification. The repository may temporarily become public, where standard hosted runners are not minute-billed, but it is expected to return to private; keeping this contract avoids reintroducing the cost later. The user explicitly authorized CP12-ci2 and the updates to D28, Plan 06 and the CI trust contract on 2026-09-21. Refines D10 and D19 and partially supersedes D28 as stated above."
+}

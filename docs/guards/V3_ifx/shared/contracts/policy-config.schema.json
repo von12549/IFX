@@ -1,0 +1,170 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "V3 IFX policy and configuration registry",
+  "description": "Plan 06 §12.4 dual-track registry (CP06b1, D24): which package files are editable policy or trust/meta-policy, how their semantic changes are detected, how head candidates are validated, and the monotonicity declaration of every schema field. Derived projections are exactly the targets of the base shared/authorities/authorities.json registry and are not listed here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "roots",
+    "excluded",
+    "entries",
+    "monotonicity"
+  ],
+  "definitions": {
+    "repoPath": {
+      "type": "string",
+      "pattern": "^[^/\\\\*?]([^\\\\*?]*[^/\\\\*?])?$"
+    },
+    "repoDirectory": {
+      "type": "string",
+      "pattern": "^[^/\\\\*?][^\\\\*?]*/$"
+    }
+  },
+  "properties": {
+    "formatVersion": {
+      "const": 1
+    },
+    "roots": {
+      "description": "Directories whose JSON files must each be a registered entry, a derived projection target or excluded.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/definitions/repoDirectory"
+      }
+    },
+    "excluded": {
+      "description": "Exact files or directories inside the roots that hold protocol or staged migration data rather than active policy.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "oneOf": [
+          { "$ref": "#/definitions/repoDirectory" },
+          { "$ref": "#/definitions/repoPath" }
+        ]
+      }
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "role",
+          "format",
+          "candidateValidation"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "role": {
+            "enum": [
+              "editable-policy",
+              "trust-meta-policy"
+            ]
+          },
+          "paths": {
+            "description": "Exact repository paths.",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/definitions/repoPath"
+            }
+          },
+          "directory": {
+            "description": "Every *.json file directly in this directory.",
+            "$ref": "#/definitions/repoDirectory"
+          },
+          "format": {
+            "enum": [
+              "json",
+              "normalized-text"
+            ]
+          },
+          "schema": {
+            "description": "Package schema that validates the head candidate and whose fields carry monotonicity declarations.",
+            "$ref": "#/definitions/repoPath"
+          },
+          "candidateValidation": {
+            "enum": [
+              "json",
+              "json-schema",
+              "v3-profile",
+              "history-manifest",
+              "normalized-text"
+            ]
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "paths"
+            ],
+            "not": {
+              "required": [
+                "directory"
+              ]
+            }
+          },
+          {
+            "required": [
+              "directory"
+            ],
+            "not": {
+              "required": [
+                "paths"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "monotonicity": {
+      "description": "One declaration per property definition of each registered schema. Zero comparators (D13): every declared field uses comparator none, so every semantic change is a potential weakening.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "fields"
+        ],
+        "properties": {
+          "schema": {
+            "$ref": "#/definitions/repoPath"
+          },
+          "fields": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pointer",
+                "comparator"
+              ],
+              "properties": {
+                "pointer": {
+                  "description": "JSON Pointer of the property definition inside the schema document.",
+                  "type": "string",
+                  "pattern": "^/"
+                },
+                "comparator": {
+                  "enum": [
+                    "none"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

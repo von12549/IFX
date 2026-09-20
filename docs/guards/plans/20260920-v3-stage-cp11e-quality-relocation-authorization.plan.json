@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11e-quality-relocation-authorization",
+  "title": "Authorize CP11e Quality relocation",
+  "goal": "Pre-authorize the exact move, TCB and policy/config tuples for the Post-stage Quality relocation.",
+  "acceptanceCriteria": [
+    "The move record covers only the complete legacy and stage-owned Quality trees.",
+    "The TCB record binds every changed trusted path and validation suite.",
+    "The policy record binds all semantic manifest changes.",
+    "The relocation candidate consumes all three records exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-relocation-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

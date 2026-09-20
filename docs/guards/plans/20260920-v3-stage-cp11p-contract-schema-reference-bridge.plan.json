@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11p-contract-schema-reference-bridge",
+  "title": "Bridge head schema references during contract relocation",
+  "goal": "Allow the base policy-candidate engine to validate a changed document against its relocated schema from the explicit head commit.",
+  "acceptanceCriteria": [
+    "The base registry continues to define policy obligations and authorization coverage.",
+    "A changed head document uses the schema path from the schema-valid head registry when that registered schema relocates.",
+    "The schema bytes are read from the explicit head Git object when the schema path changed.",
+    "A bidirectional legacy/shared schema relocation fixture passes candidate validation.",
+    "Existing trusted-base negative controls and parity remain unchanged.",
+    "Trusted Diff and TCB candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-schema-reference-bridge-tcb.json",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-schema-reference-bridge.md",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-schema-reference-bridge.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

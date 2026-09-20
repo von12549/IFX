@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Plan 06 P6.4 (CP07c, D29): the generic Architecture Conformance engine. It carries no repository policy of its
+       own; a repository binds its governance artifacts through IPolicyBinding and runs its own host. The C# namespace
+       stays LayerGuard as an internal compatibility surface, not a stable gate identity. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>layerguard</AssemblyName>
+    <RootNamespace>LayerGuard</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>layerguard</ToolCommandName>
+    <Version>0.4.0-a1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageReference Include="ModelContextProtocol" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -29,7 +29,7 @@ replay 语义分别由 G03 catalog/validator 与 G05 schema/security/runtime tes
 | Composition | 模块/平台 Composition | 自有各层与必要平台运行项目 |
 | Runtime Host | `IFX.ApiHost`、`IFX.*.Worker` | Composition 与批准的 host primitives |
 
-ownership 来自 G03 权威 catalog 的生成视图，并由 `docs/guards/V3_ifx/policy/layerguard.json` 绑定。Runtime
+ownership 来自 G03 权威 catalog 的生成视图，并由 `docs/guards/V3_ifx/stages/post/policy/layerguard.json` 绑定。Runtime
 role 来自 G04 artifacts；Context/Messaging primitive 许可来自 G05。module/platform
 `*.Abstractions` 不再识别为 Contracts，且项目名仍被明确禁止。历史 `App.Abstractions`
 是 G01/G04 批准的 BuildingBlocks host primitive，不是模块间 Contract 兼容层。

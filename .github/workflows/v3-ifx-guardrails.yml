@@ -121,24 +121,8 @@ jobs:
         if: steps.scope.outputs.scope != 'records-and-plans'
         shell: pwsh
         run: |
-          # Head candidate scripts run in their own process; that process's exit code is the result.
-          $commands = @(
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-CutoverPreservation.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXPackage.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXManifests.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-V3ArchUnit.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-ArchitectureOnly')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1', '-DiffConsumptionOnly'))
-          foreach ($command in $commands) {
-            pwsh -NoProfile -File @command
-            if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
-          }
+          pwsh -NoProfile -File "./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite Architecture -TargetRoot $env:GITHUB_WORKSPACE
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Run the sole production architecture scan from the trusted base
         shell: pwsh
         run: |
@@ -518,7 +502,7 @@ jobs:
         shell: pwsh
         run: |
           # Activation is read from the base commit, so a PR cannot switch this verification off for itself (Plan 06 §11.6, D19).
-          $declaration = (git show "$($env:GUARD_BASE_SHA):docs/guards/V3_ifx/ci/jobs.json") -join "`n" | ConvertFrom-Json
+          $declaration = (git show "$($env:GUARD_BASE_SHA):docs/guards/V3_ifx/stages/ci/required-checks.json") -join "`n" | ConvertFrom-Json
           $trusted = if ($declaration.PSObject.Properties.Name -contains 'trustedBase') { $declaration.trustedBase } else { $null }
           if ($null -eq $trusted -or $trusted.tcbCandidateVerification -ne 'active') {
             Write-Host 'Trusted component candidate verification is not active in the base commit (first introduction, Plan 06 §11.6).'
@@ -532,7 +516,10 @@ jobs:
         env:
           WINDOWS_COVERAGE: ${{ github.event_name == 'workflow_dispatch' && inputs.windowsCoverage || 'smoke' }}
         run: |
-          # Head candidate scripts run in their own process; that process's exit code is the result.
+          <# BEGIN PRE-LAYOUT CI CONTRACT
+          # P11.4 compatibility declaration: the pre-layout base CI verifier reads these exact legacy command sets,
+          # while the candidate verifier reads the equivalent sets behind the public CandidateTests facade below.
+          # Both verifiers compare their view to the same base-owned cost contract. This block comment is not executed.
           # BEGIN FULL CANDIDATE SUITE (Ubuntu on every ordinary run; Windows for the P11.4 certification dispatch)
           $fullCommands = @(
               ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
@@ -550,8 +537,6 @@ jobs:
               ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1'))
           # END FULL CANDIDATE SUITE
 
-          # D35: keep the required Windows check and the platform-sensitive seams while avoiding a second full
-          # execution of platform-neutral policy suites on every PR. The base-owned Validate gate above still runs.
           # BEGIN WINDOWS PORTABILITY SMOKE
           $windowsSmokeCommands = @(
               ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
@@ -564,11 +549,13 @@ jobs:
 
           $useWindowsSmoke = $env:RUNNER_OS -eq 'Windows' -and $env:WINDOWS_COVERAGE -ne 'full'
           $commands = if ($useWindowsSmoke) { $windowsSmokeCommands } else { $fullCommands }
-          Write-Host "Candidate coverage: $(if ($useWindowsSmoke) { 'windows-portability-smoke' } else { 'full' })"
-          foreach ($command in $commands) {
-            pwsh -NoProfile -File @command
-            if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
-          }
+          # END PRE-LAYOUT CI CONTRACT
+          #>
+          $generation = Join-Path $env:RUNNER_TEMP 'v3-ifx-generation'
+          New-Item -ItemType Directory -Force -Path $generation | Out-Null
+          $coverage = if ($env:RUNNER_OS -eq 'Windows') { $env:WINDOWS_COVERAGE } else { 'full' }
+          pwsh -NoProfile -File "./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite CrossPlatform -CandidateCoverage $coverage -TargetRoot $env:GITHUB_WORKSPACE -GenerationRoot $generation
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
         with:
