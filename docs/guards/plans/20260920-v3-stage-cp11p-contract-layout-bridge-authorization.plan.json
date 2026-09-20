@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11p-contract-layout-bridge-authorization",
+  "title": "Authorize the contract ownership layout bridge",
+  "goal": "Pre-authorize the exact trusted-component tuples needed for fail-closed contract path selection.",
+  "acceptanceCriteria": [
+    "The authorization binds every changed trusted path and affected component to the frozen bridge candidate.",
+    "The policy authorization binds the exact D32 registration change.",
+    "The authorization-only checkpoint changes no implementation or policy authority.",
+    "The bridge candidate consumes the authorization exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-layout-bridge-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-layout-bridge-tcb.json",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-layout-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-layout-bridge-authorization.plan.json"
+  ],
+  "areaIds": ["CI", "GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

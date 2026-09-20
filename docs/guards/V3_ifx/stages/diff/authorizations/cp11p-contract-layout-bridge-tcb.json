@@ -1,0 +1,264 @@
+{
+  "formatVersion": 1,
+  "id": "cp11p-contract-layout-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11p-contract-layout-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.engine.trusted-base",
+    "tcb.entry.ifx-guardrails",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2b69b98b12fde72979db40c3aa328ffde6fade57"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "93a7a6fae257940489bf3ca58b30f64e69cdf41b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e322ae399e9bce7c95698e883f829d4007c1bbd4"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "46374fbea635030f45923a2a670ade4cb8e29763"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d0071af3bb2c4dbeb2102e15ac503046eef5bf2a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "564e17b69319e8b9e3b6449159d892e3fbaab6da"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ce34720262aff1de5a919f1b5c5c0b04acd73694"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b0ce495fa05e9927e1c7d58d3e0e8feb5bbd1722"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ef97ac61a2946bb3c7ef894405784df8084f21c7"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bc5e039c069a2886fdd76feb619bb27b68b56beb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bd20da6d78472e22995e8076c7e082a29fb8b0ff"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "35ac24d1c77dbb52f27e6dda781bf67bcb098504"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d7cb06a1175973eca8c0af8d0dd2c7f8bd614a59"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "50c677efb7e51ef8fc6853a18133a2863d8982c4"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "68120336af7c158dcdb0e783703e0b4a9cea50b3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f02f842d562aeffcfa8b4533fa309e96e916320"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "29de5556c861093069aaac19d14fc92f5508bcd0"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1c4b2f62931cef3d2d3185ad2d985f830d19a727"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "52817a52895f5697b6872e5368f235eef7004511"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2f7dcb91b99c721be9306aa09548fd72c92f0883"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "63065e76af15560a3b9b60b4a0fc3003fcde130f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0797302f624f33f025f9ff8d720d3a766686748a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f723b7a6cba32069e6954d7d14d38da7984160c3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c43757ed5f961584848503bbf7636fe4c474363b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "27f9f74beaf029fef86071f165dcbc2f9df30ecd"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "29dfc5d60cd5928345cb14d412e8c362defaab78"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "457c70f02140e4f0b1855a3f6acda332166bb568"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ebc01f28bed7f48c19e8542ad41952ecf54eefb1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "325ffe701b4f71ec71f0abc8753c16032a7fbee2"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "24ac6b8238bb45918a94cd48a01666ef9835f4bd"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "Contract path resolution changes layout only; existing manifests, CI contracts, guard verdicts and summary schemas remain behaviorally equivalent.",
+  "allowedBehaviorDifferences": []
+}
