@@ -1,0 +1,71 @@
+{
+  "formatVersion": 1,
+  "id": "cp11m-refactor-baseline-copy-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-copy-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.engine.trusted-base",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "75804925723af037f4ce0c46d5f7e4a710e2a8f6"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5d675a247ea5edcab71589697409a35d5dab66f7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c2a847172d2717a126cd344f24babd44ef5564c6"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "71e3d97545ca1ecb5ad6af89b53452a01858d104"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64c51271daa75a2925cbf0290ea426238cc72eef"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8f176b2c9944c7815755877a9172da67501562f9"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Base-owned copies omit the same archived CI evidence in either supported refactor-baseline layout; verdict inputs and all other package paths remain unchanged.",
+  "allowedBehaviorDifferences": []
+}
