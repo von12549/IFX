@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "id": "cp11q-verifier-layout-test-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11q-verifier-layout-test-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1"
+  ],
+  "components": [
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fbaf6882701a592b1b25157edf8baa76f790028b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c36f0a144b49160dc2874d0ae1ed8475137f911c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "50c677efb7e51ef8fc6853a18133a2863d8982c4"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1e8a880083052ee60c0639edae19aa549dc224d1"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "The same manifest positive and negative corpus runs against exactly one legacy or engine-owned verifier; assertions only grow by rejecting missing or duplicate layouts.",
+  "allowedBehaviorDifferences": []
+}

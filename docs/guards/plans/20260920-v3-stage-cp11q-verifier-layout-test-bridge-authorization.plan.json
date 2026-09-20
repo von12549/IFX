@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11q-verifier-layout-test-bridge-authorization",
+  "title": "Authorize the verifier-layout test bridge",
+  "goal": "Pre-authorize the exact trusted-test and policy tuples needed for the verifier relocation bridge.",
+  "acceptanceCriteria": [
+    "The TCB record binds the changed base-owned manifest fixture to the frozen candidate.",
+    "The policy record binds the decision-history registry and D33 candidate.",
+    "The authorization-only checkpoint changes no verifier implementation.",
+    "The bridge candidate consumes both records exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11q-verifier-layout-test-bridge-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11q-verifier-layout-test-bridge-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-layout-test-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11q-verifier-layout-test-bridge-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
