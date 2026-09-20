@@ -1,13 +1,12 @@
 {
   "formatVersion": 1,
-  "id": "p11-final-trusted-base-r3",
+  "id": "p11-final-trusted-base-r2",
   "operation": "change-trusted-base",
-  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-tcb-r3-authorization.plan.json",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
   "decisionPaths": [
-    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
-    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
-    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
-    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json"
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
   ],
   "changedPaths": [
     ".github/workflows/v3-ifx-guardrails.yml",
@@ -797,7 +796,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "d714478611fb2613a0b1d68a5f29d69eaa39951a"
+        "objectId": "de116a646add4eb9c9a2550c5504aee6a60d6138"
       }
     },
     {
@@ -895,7 +894,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "a7c73b9001543543c0dfaefaab3bf478966e81aa"
+        "objectId": "fcfce1c333e260c62b1fc9dde1a4720caed4b1bd"
       }
     },
     {
@@ -3403,7 +3402,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "9dd2c45de512474c4f1734b707db0c7048dfbb87"
+        "objectId": "d0d7a7622025e636939a26ef1afb7f54bf03ca08"
       }
     },
     {
@@ -6115,7 +6114,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "b26ef7a85d819c73ca5b71e91a5009cafc90aaa5"
+        "objectId": "7252227cc49c5b31ff3064951bbb6610e7ceffbb"
       }
     },
     {
@@ -8500,6 +8499,6 @@
     "v3-quality-*",
     "v3-specialized-*"
   ],
-  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the pre-layout base trusted runner, TCB candidate verification uses the pre-layout base candidate verifier, head candidate tests use the new commands facade, and no weaker verdict is permitted.",
+  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 the workflow calls the retained base scripts facade while head candidate tests use the new commands facade, and no weaker verdict is permitted.",
   "allowedBehaviorDifferences": []
 }
