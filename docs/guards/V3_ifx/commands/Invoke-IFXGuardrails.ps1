@@ -145,8 +145,8 @@ $specialized = Join-Path $packageRoot 'stages/post/gates/specialized/Invoke-IFXS
 $quality = Join-Path $packageRoot 'stages/post/gates/quality/Invoke-IFXQuality.ps1'
 $history = Join-Path $packageRoot 'stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
 $docs = Join-Path $packageRepository 'docs/guards/V3/commands/Invoke-V3Docs.ps1'
-$ciContract = Join-Path $packageRoot 'ci/Invoke-IFXCiContract.ps1'
-$manifestCheck = Join-Path $PSScriptRoot '../scripts/Invoke-IFXManifestCheck.ps1'
+$ciContract = Join-Path $PSScriptRoot 'Invoke-IFXCiContract.ps1'
+$manifestCheck = Join-Path $PSScriptRoot '../engine/Invoke-IFXManifestCheck.ps1'
 $modes = if ($Mode -eq 'All') { @('Validate','Architecture','Specialized','Quality','HistoricalIntegrity') } else { @($Mode) }
 
 foreach ($current in $modes) {

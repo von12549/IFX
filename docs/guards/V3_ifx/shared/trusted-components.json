@@ -3,7 +3,7 @@
   "manifest": {
     "path": "docs/guards/V3_ifx/shared/trusted-components.json",
     "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
-    "verifier": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1"
+    "verifier": "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1"
   },
   "components": [
     {
@@ -199,7 +199,7 @@
         "docs/guards/V3_ifx/shared/contracts/authorities.schema.json"
       ],
       "validationSuite": [
-        "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+        "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
         "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
         "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1"
       ],
@@ -240,7 +240,8 @@
       "paths": [
         ".github/workflows/v3-ifx-guardrails.yml",
         ".github/CODEOWNERS",
-        "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1"
+        "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+        "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
@@ -270,7 +271,7 @@
         "docs/guards/V3_ifx/stages/post/stage.json",
         "docs/guards/V3_ifx/stages/pre/",
         "docs/guards/V3_ifx/docs/docs-map.json",
-        "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+        "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
         "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
         "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
         "docs/guards/V3_ifx/shared/contracts/stage.schema.json",

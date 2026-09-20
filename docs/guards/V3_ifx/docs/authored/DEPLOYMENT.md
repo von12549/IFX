@@ -102,9 +102,9 @@ pwsh -NoProfile -File "$engine/tests/Test-V3Tools.ps1"
 pwsh -NoProfile -File "$v3/tests/support/Test-IFXTools.ps1"
 
 # Read-only CI and manifest contracts (both also run inside Invoke-IFXGuardrails.ps1 -Mode Validate).
-pwsh -NoProfile -File "$v3/ci/Invoke-IFXCiContract.ps1"
-pwsh -NoProfile -File "$v3/ci/Invoke-IFXCiContract.ps1" -Remote   # GET only; requires an authenticated GitHub CLI
-pwsh -NoProfile -File "$v3/scripts/Invoke-IFXManifestCheck.ps1"
+pwsh -NoProfile -File "$v3/commands/Invoke-IFXCiContract.ps1"
+pwsh -NoProfile -File "$v3/commands/Invoke-IFXCiContract.ps1" -Remote   # GET only; requires an authenticated GitHub CLI
+pwsh -NoProfile -File "$v3/engine/Invoke-IFXManifestCheck.ps1"          # internal diagnostic; Validate is the public surface
 ```
 
 Analysis is a runtime review artifact, not an automatic policy migration. Inventory, proposal, generated profile and review reports are written only to `artifacts/guards/v3-ifx/analysis/`. Reviewed architecture and technical inputs live under `stages/analysis/evidence/`; update those authority files only with `maintenance/Update-IFXAnalysisEvidence.ps1 -Mode Preview`, followed by `-Mode Apply -AcceptAnalysisEvidence`. Frozen snapshots live under `stages/analysis/reports/`. Review never adopts either document as policy; explicit `Adopt -AcceptDocument` writes only a new legacy-layout profile and never overwrites the active authorities bound by `shared/profile-layout.json`.

@@ -236,7 +236,7 @@
     {
       "id": "ifx-ci-contract",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "entryPoint": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
       "stages": [
         "ci"
       ],
@@ -263,14 +263,13 @@
     },
     {
       "id": "ifx-manifest-check",
-      "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "kind": "internal",
+      "entryPoint": "docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1",
       "stages": [
         "ci"
       ],
       "audiences": [
-        "ci",
-        "human"
+        "ci"
       ],
       "inputs": [
         "docs/guards/V3_ifx/guard-system.json",
@@ -291,7 +290,7 @@
         "linux",
         "windows"
       ],
-      "stability": "stable"
+      "stability": "internal"
     },
     {
       "id": "ifx-specialized",

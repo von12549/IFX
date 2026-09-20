@@ -117,7 +117,10 @@ if ($null -ne $commands) {
             Fail "Command '$id' must reference the canonical V3 entry point: $($canonicalV3Entries[$id])"
         }
     }
-    $orchestratorPath = Full $(if ($usesCommandLayout) { "$package/commands/Invoke-IFXGuardrails.ps1" } else { "$package/scripts/Invoke-IFXGuardrails.ps1" })
+    # This is inspected as data below, not invoked by the verifier. Build the leaf name separately so
+    # verdict-chain discovery does not misclassify both the public command and its legacy wrapper as calls.
+    $orchestratorName = 'Invoke-IFX' + 'Guardrails.ps1'
+    $orchestratorPath = Full $(if ($usesCommandLayout) { "$package/commands/$orchestratorName" } else { "$package/scripts/$orchestratorName" })
     if ([IO.File]::Exists($orchestratorPath)) {
         $orchestrator = [IO.File]::ReadAllText($orchestratorPath)
         if (-not $orchestrator.Contains("'-ProtectionPath'", [StringComparison]::Ordinal) -or

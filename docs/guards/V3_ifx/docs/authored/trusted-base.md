@@ -35,7 +35,7 @@ If the base engine produces a false failure, a fix PR is blocked by that same en
 1. An administrator with ruleset rights authorizes the break-glass. A second maintainer reviews it.
 2. The administrator makes the smallest possible temporary ruleset change, for example removing one required check from ruleset 23459908 for the fix PR's merge.
 3. The fix PR merges.
-4. The ruleset is restored immediately. `ci/Invoke-IFXCiContract.ps1 -Remote` must pass, proving 13 required checks and `strict`.
+4. The ruleset is restored immediately. `commands/Invoke-IFXCiContract.ps1 -Remote` must pass, proving 13 required checks and `strict`.
 5. After restoration, a follow-up PR shows the affected check passing on a normal case and failing on a negative case.
 
 Record the following for every break-glass, as an evidence file under `docs/architecture/review/evidence/` added in the follow-up PR:

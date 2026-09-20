@@ -61,6 +61,14 @@
         "phase": "P8.2"
       },
       {
+        "legacyPath": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+        "kind": "public-command",
+        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
+        "compatibility": "deprecation-wrapper",
+        "removeWhen": "P11.5 after documentation and callers use commands/",
+        "phase": "P10.3"
+      },
+      {
         "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
         "kind": "public-command",
         "replacement": "docs/guards/V3/commands/Invoke-V3.ps1",

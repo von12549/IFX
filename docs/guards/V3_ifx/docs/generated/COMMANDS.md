@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `3ccff616e514fea5d988001580a3f21f6fce0ac6399e70e31484048eaea91ea2`
+Composite SHA-256: `4b7a6b9a114dab2e01ee3cd3cf64025eac3d69b12f8adbdea04c6c1d87c7f47a`
 
 Sources:
 
@@ -17,8 +17,8 @@ Sources:
 | v3-docs | public | `docs/guards/V3/commands/Invoke-V3Docs.ps1` | pre, post | writes-generated | False |
 | v3-deployment | public | `docs/guards/V3/commands/Invoke-V3Deployment.ps1` | ci | writes-activation | True |
 | ifx-architecture | public | `docs/guards/V3_ifx/scripts/Invoke-IFX.ps1` | post | writes-artifacts | False |
-| ifx-ci-contract | public | `docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1` | ci | read-only | False |
-| ifx-manifest-check | public | `docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1` | ci | read-only | False |
+| ifx-ci-contract | public | `docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1` | ci | read-only | False |
+| ifx-manifest-check | internal | `docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1` | ci | read-only | False |
 | ifx-specialized | internal | `docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1` | post | writes-artifacts | False |
 | ifx-quality | internal | `docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1` | post | writes-artifacts | False |
 | ifx-historical-integrity | internal | `docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1` | post | writes-artifacts | False |
@@ -88,7 +88,7 @@ Sources:
 
 ## ifx-manifest-check
 
-- Audiences: ci, human
+- Audiences: ci
 - Inputs: docs/guards/V3_ifx/guard-system.json; docs/guards/V3_ifx/shared/; docs/guards/V3_ifx/stages/; docs/guards/V3/contracts/; docs/guards/V3_ifx/shared/contracts/; docs/guards/V3_ifx/stages/ci/contracts/; docs/guards/V3_ifx/stages/diff/contracts/; .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/stages/ci/required-checks.json
 - Outputs: 
 - Evidence: (none)
