@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "cp11h-rule-guide-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11h-rule-guide-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/rules/README.md",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "2340217c0c67a659557cfe02d946f638745ba006"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/docs/authored/RULES.md",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "641fd217f3f6bc6cb3e841b6607d6d5e60bd2eab"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/docs/authored/RULES.md",
+    "docs/guards/V3_ifx/rules/README.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/RULES.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "641fd217f3f6bc6cb3e841b6607d6d5e60bd2eab"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/rules/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2340217c0c67a659557cfe02d946f638745ba006"
+      },
+      "head": null
+    }
+  ]
+}
