@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-40",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "a55ca5771d32b04c653f64c13f957672b7b865ff"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-V3.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-V3.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a55ca5771d32b04c653f64c13f957672b7b865ff"
+      },
+      "head": null
+    }
+  ]
+}

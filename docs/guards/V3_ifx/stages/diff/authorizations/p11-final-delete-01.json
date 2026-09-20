@@ -1,0 +1,433 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-01",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_backup",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "026bad5af343d74031b7410180de74adebb9a981"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_backup/architecture/ARCHITECTURE.md",
+    "docs/guards/V3_backup/architecture/ARCHUNITNET.md",
+    "docs/guards/V3_backup/architecture/TECHNICAL.md",
+    "docs/guards/V3_backup/contracts/decision.schema.json",
+    "docs/guards/V3_backup/contracts/plan.schema.json",
+    "docs/guards/V3_backup/contracts/pre-result.schema.json",
+    "docs/guards/V3_backup/contracts/profile.schema.json",
+    "docs/guards/V3_backup/contracts/project-map.schema.json",
+    "docs/guards/V3_backup/contracts/rule.schema.json",
+    "docs/guards/V3_backup/contracts/tech-stack.schema.json",
+    "docs/guards/V3_backup/DEPLOYMENT.md",
+    "docs/guards/V3_backup/examples/minimal/profile.json",
+    "docs/guards/V3_backup/examples/minimal/project-map.json",
+    "docs/guards/V3_backup/examples/minimal/rules/ARCH.SAMPLE.json",
+    "docs/guards/V3_backup/examples/minimal/tech-stack.json",
+    "docs/guards/V3_backup/examples/minimal/views/COVERAGE.md",
+    "docs/guards/V3_backup/examples/minimal/views/PROFILE.md",
+    "docs/guards/V3_backup/examples/minimal/views/PROJECT_MAP.md",
+    "docs/guards/V3_backup/examples/minimal/views/README.md",
+    "docs/guards/V3_backup/examples/minimal/views/rules/ARCH.SAMPLE.md",
+    "docs/guards/V3_backup/examples/minimal/views/TECH_STACK.md",
+    "docs/guards/V3_backup/generated/README.md",
+    "docs/guards/V3_backup/hooks/Invoke-PlanHook.ps1",
+    "docs/guards/V3_backup/hooks/README.md",
+    "docs/guards/V3_backup/README.md",
+    "docs/guards/V3_backup/rules/README.md",
+    "docs/guards/V3_backup/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_backup/scripts/Invoke-V3Architecture.ps1",
+    "docs/guards/V3_backup/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3_backup/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3_backup/skills/guard-bootstrap/SKILL.md",
+    "docs/guards/V3_backup/skills/guard-plan/SKILL.md",
+    "docs/guards/V3_backup/templates/dotnet/AssemblyGuardTests.cs.in",
+    "docs/guards/V3_backup/templates/dotnet/GuardTests.cs.in",
+    "docs/guards/V3_backup/templates/dotnet/GuardV3.Tests.csproj.in",
+    "docs/guards/V3_backup/templates/plan/20260914-example.md",
+    "docs/guards/V3_backup/templates/plan/20260914-example.plan.json",
+    "docs/guards/V3_backup/templates/plan/README.md",
+    "docs/guards/V3_backup/tests/Test-V3.ps1",
+    "docs/guards/V3_backup/tests/Test-V3ArchUnit.ps1",
+    "docs/guards/V3_backup/tests/Test-V3Tools.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_backup/architecture/ARCHITECTURE.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2f0e61ff9fb5ad36e6cde05a9d391eac22734e20"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/architecture/ARCHUNITNET.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4f16de0665553a4f73e8a25a12d26df5a4207b1b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/architecture/TECHNICAL.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1d8363dafe1efa5512442c8d070a6002c9b3ca2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/decision.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ac78b3c05543a79db363f8d4dd19e94e917d121d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/plan.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dc2aa8ce49cf2a5786132bb4a6506234173bc75d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/pre-result.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f3f922f6038c23fe7601aaace2680c481bf4abf1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/profile.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b9fc5ddabd71019de91b96e47619662bfb996b00"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/project-map.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2191effc81970473dcc766c6b29a36036d216ad8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/rule.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f30e4b44a2e3beb880c36046227ffdba7f65e9d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/contracts/tech-stack.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4c1736fa2fb66fbb946d036ceec6489bed25665b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/DEPLOYMENT.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "053808d78a72676c6c96aa1ef20ad786792ad736"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/profile.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "944b0db69d78075efaa52ba65fa339e97a4602ae"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/project-map.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "253b8dfebbd8ba748bca44e7c3305bc9fe2f7ad1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/rules/ARCH.SAMPLE.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ddd5184f3ae287167d43f2e683565b06d997d781"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/tech-stack.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fe2ce8c242b6c303781b216ef54a66bbe0ef69f0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/views/COVERAGE.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "46bdc113eb2e753b5fa3b5066393ea4560aa4ed9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/views/PROFILE.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "aa96bb860147e0ee5b461d9c0a75df26a2e33daa"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/views/PROJECT_MAP.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ebc574fa83474ffe01eae641bf6c01d91c91605d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/views/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7ba570b542d04ae82190046c8c6a15298f2bf253"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/views/rules/ARCH.SAMPLE.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0ff5e0698beb039af6a33d081274280eb01263c2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/examples/minimal/views/TECH_STACK.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c62d2f4c724a7bfc7b7bfc3327540ae5b83d510f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/generated/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0d63947b9cacffc61a32690c4ec744f9cb5d4022"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/hooks/Invoke-PlanHook.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf7066b19316ba563d73d6274f6eb078fa0514d2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/hooks/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "238117a5f82645573bbeaa99ad24b003a883e8b9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9326a0b5ee395b84db70797896a24c5bcceba86c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/rules/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f5c881dd6d256db2218fdd6bbadf5b44c2b087fd"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/scripts/Invoke-V3.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8b881b4a89dc5b706bd5c3a91556c286d1a54862"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/scripts/Invoke-V3Architecture.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b2c428d5d8ebdfc08304acf6b0a9e69aed9ca368"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/scripts/Invoke-V3Docs.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "609ce96694a643d4e4948f91cbc481b369bd082f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/scripts/Invoke-V3Setup.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "726b3207f18d2dd7c025192df9250419b1346b50"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/skills/guard-bootstrap/SKILL.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ba715d41189e621a852a8ffc6b4956a2e006e961"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/skills/guard-plan/SKILL.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "846a7e4f97703ec089e94f22b67a2bb82f25aa38"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/templates/dotnet/AssemblyGuardTests.cs.in",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf1a49355e41e85ef363d14e4996a6682a9c91aa"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/templates/dotnet/GuardTests.cs.in",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94ebe6c985445cab87db4a23ceecb2d3f2abc0a7"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/templates/dotnet/GuardV3.Tests.csproj.in",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e529d14b37c302c62e996d207b448c03c079e9c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/templates/plan/20260914-example.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cdf1ce9b71b756d96ad00e24baf98550c7fd9e94"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/templates/plan/20260914-example.plan.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dc57585da3f55caded3ee44e1292207f6a0a2613"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/templates/plan/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a4f54847a4cab171fa6a16951af9956acf976224"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/tests/Test-V3.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "067e743a299b01985e501a8d79dad5edc8145ee6"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/tests/Test-V3ArchUnit.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5df8bd198bebf4818703f5cd83f3df1253179175"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_backup/tests/Test-V3Tools.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "265902e62474309f440ea50ef1bcd57bfa7af1d0"
+      },
+      "head": null
+    }
+  ]
+}

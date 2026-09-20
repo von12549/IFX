@@ -1,0 +1,383 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-25",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/specialized",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "12067e41e3095bca5b571f72eac42b9fffb5a066"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/specialized/contracts/detector-result.schema.json",
+    "docs/guards/V3_ifx/specialized/contracts/fixture.schema.json",
+    "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Export-G03LayerGuardGovernance.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G02DatabaseInventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeInventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextInventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/New-G04ReleaseManifest.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-AbstractionsRetirement.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G03Documentation.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G04Closeout.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G04Documentation.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G04FailureMatrix.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-G04ReleaseOrchestration.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan02C1InboundConformance.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ProjectionPolicy.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan04TenantQueryPolicy.ps1",
+    "docs/guards/V3_ifx/specialized/scripts/Test-Plan05SecurityBoundary.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/specialized/contracts/detector-result.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "912b24d8d32acd17abb05c55f661f6f6c557ce90"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/contracts/fixture.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "88cea22a8edd7c5df9e8f70918f971fb611d8805"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cfae519d3c4cb0edd873b13fab50c6b4c801aff8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Export-G03LayerGuardGovernance.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e2bdb4246fbed1c71fb9cfaaa018ce7bd58b14ca"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G02DatabaseInventory.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e3fa666654788a28ae381985254ccd8847bc2447"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8d2b2cdf36fb6cc2e7bf92762d7ec0d094ae4e23"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "773c8f9b1427791390e1d29c541376dce311c800"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7392d95acab32245dced86173d18ff574c6561b1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ca7600d39f114888bba9c015faa0a42838c66b11"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "623e47cd420378b9a99b807a533106adb24e3459"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04DeploymentRuntimeInventory.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e4640e5279a365d8a102aaab931502fdd5972aa3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G04Verification.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8ddc56e4ade02b52c674d2c8f37bd067831d1ae"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2a7cfeeab34d030958ec5cede468990cf7cabde3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05ContextInventory.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8b086d79a5d3bb171710d8acbdaab312eb59c26"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Invoke-G05Verification.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "52b3784d263b52e582ccd7c995899fb65853c3d8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "83111b6b070a6837eb5ed8229ac726e23a795883"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/New-G04ReleaseManifest.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b4246057d09c1d3c4c0458bf90a305fba8da2123"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2360f1446dfbba8beb974bf5cdd110b92277728d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-AbstractionsRetirement.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f7ee77dbb879566fadd7d678f6a21d45d0a763a8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e5099076302cab370e338288af2c48157147758"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2518766ed26200f14c98407b6432be69abf92a8b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b98459789c018ce3a7fc3f5e9c3dd9a8952f5e74"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03Documentation.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "192a6d5496581e5cec599c7a337b815bcea02b7b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9a3f9546765aeb95ed76eb4ba0c23e3baccb5e50"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04Closeout.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "725ea7a9a71e027ccf044616bcf7b0c682bfcb68"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04Documentation.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64f289b10b27b1fd18da7db931b87584071c4098"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04FailureMatrix.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d1a6d10095fda42288a26e8f161b10f2e46227fd"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04Manifests.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5f88e7e638edc79bb869d221fb0fd9a254b85433"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-G04ReleaseOrchestration.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d2f416f7a95e528081dc1739402c851c627b9cdb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e664ddbf727bc83fcb50f6d8df8d90bac925ed87"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan02C1InboundConformance.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bbf1f63ceb17fbcbb89fed4c83df5082e567117b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "495778600cd236eaeda2378dea2b010a6685d055"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04Governance.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "77d18fb5d8213259ffaf6ec9412fc41ca2fc4928"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04ProjectionPolicy.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2ca73e9d322791e46633363db313adc2c273dae0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan04TenantQueryPolicy.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b6f8ad63a51ba5d830400f467aa4ac8bc06f2ece"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/specialized/scripts/Test-Plan05SecurityBoundary.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c72724556ea9240b6541159e77503d982b0cb43b"
+      },
+      "head": null
+    }
+  ]
+}

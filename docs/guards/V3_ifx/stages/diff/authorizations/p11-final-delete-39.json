@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-39",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "614c25aad68fc25615a091de78c6fc948545553a"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "614c25aad68fc25615a091de78c6fc948545553a"
+      },
+      "head": null
+    }
+  ]
+}

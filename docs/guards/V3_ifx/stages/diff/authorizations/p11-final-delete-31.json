@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-31",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "3e08af508b3165977d601e4e8c2692c4183492d5"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3e08af508b3165977d601e4e8c2692c4183492d5"
+      },
+      "head": null
+    }
+  ]
+}
