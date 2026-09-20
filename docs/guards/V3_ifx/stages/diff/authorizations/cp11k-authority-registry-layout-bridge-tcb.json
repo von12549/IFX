@@ -1,0 +1,230 @@
+{
+  "formatVersion": 1,
+  "id": "cp11k-authority-registry-layout-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-layout-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.engine.architecture-runner",
+    "tcb.engine.trusted-base",
+    "tcb.entry.ifx-guardrails",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ec216dc590e0b69bf5e473afa0f3e5b2fbcc6465"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e7a379fb7e4bafd6b866b28004509a65c583f58"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fa6b652680d56b1b6321c487bdb4836037c389ee"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "afaa863408f1fc59a239a4607f0096a02acb4ec8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "7806cd1f5681f8be34813eb0bc8eea2d1ef58460"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d0071af3bb2c4dbeb2102e15ac503046eef5bf2a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4a3f3be611e2d772a716fc0afa40e48cb470584f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "14b13a2e9133339213cf18e97f17222b5b2b33d8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3e08af508b3165977d601e4e8c2692c4183492d5"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "895c789d758010fda82b897879457e06006ebcb7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ec32a7b2c6ede2dceded61e6428793eedec68207"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91c17617ca2e41f1773efc11a2dec6a5d7e01afb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "355db71504e97ef09d39f08f3dda35c2817e8fdb"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "db4f6373a4015c6d4a603b65f8d552d66d130983"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "14fd0c473c280d004e094e62adf39aba23eacf0f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "52817a52895f5697b6872e5368f235eef7004511"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e77fb2abb8933e26e338d7c18683ccdc20a6c1f9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "63065e76af15560a3b9b60b4a0fc3003fcde130f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXDomainAuthorityCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cd0d125f611d7319426809fa180d870b1158df23"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4e0bdff6aa77ddbead87fe9ebe8974b525598599"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cb91e3fa3fa1a5e6783b59575dc5bd9db85ac7cd"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f723b7a6cba32069e6954d7d14d38da7984160c3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d5bf8c6244f18bcdc4ad85cf535cc4ca1fcb8f0a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "27f9f74beaf029fef86071f165dcbc2f9df30ecd"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "71518f4471c8cda4e22feed03ae2713af6163376"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64c51271daa75a2925cbf0290ea426238cc72eef"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Authority-registry selection changes only accepted package layout: every verdict remains base-owned and fail-closed, and legacy-layout behavior remains identical while exactly one shared-layout registry becomes valid.",
+  "allowedBehaviorDifferences": []
+}
