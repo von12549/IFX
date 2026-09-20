@@ -84,7 +84,7 @@ Any other change in the same PR turns each deleted record into a consumption can
 - registered JSON parses and matches its schema; the head schema is used when this PR changes that schema;
 - the base V3 runner validates a changed head profile, and the base renderer checks its views;
 - the base historical integrity engine checks a changed head `history/manifest.json` against head evidence;
-- the base projection generator must reproduce the head projections from head authority sources, for the exact targets in the base `policy/authorities.json`;
+- the base projection generator must reproduce the head projections from head authority sources, for the exact targets in the base `shared/authorities/authorities.json`;
 - the head registry must declare monotonicity for every field of every schema it registers.
 
 ## Domain authorities in the gates (D25)

@@ -43,7 +43,7 @@
             "source": "base"
           },
           {
-            "ref": "package:policy/authorities.json",
+            "ref": "package:shared/authorities/authorities.json",
             "source": "base"
           },
           {

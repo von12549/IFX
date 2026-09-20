@@ -384,7 +384,7 @@
         "human"
       ],
       "inputs": [
-        "docs/guards/V3_ifx/policy/authorities.json",
+        "docs/guards/V3_ifx/shared/authorities/authorities.json",
         "domain-owned policy sources"
       ],
       "outputs": [
@@ -488,7 +488,7 @@
       "inputs": [
         "clean base worktree at the verified base SHA",
         "head checkout as -HeadRoot",
-        "docs/guards/V3_ifx/policy/authorities.json"
+        "docs/guards/V3_ifx/shared/authorities/authorities.json"
       ],
       "outputs": [
         "artifacts/guards/v3-ifx/trusted-base/"

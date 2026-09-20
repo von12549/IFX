@@ -201,7 +201,7 @@
       "type": "policy-registry",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/policy/authorities.json",
+        "docs/guards/V3_ifx/shared/authorities/authorities.json",
         "docs/guards/V3_ifx/contracts/authorities.schema.json"
       ],
       "validationSuite": [
@@ -262,7 +262,12 @@
       "status": "active",
       "paths": [
         "docs/guards/V3_ifx/guard-system.json",
-        "docs/guards/V3_ifx/shared/",
+        "docs/guards/V3_ifx/shared/commands.json",
+        "docs/guards/V3_ifx/shared/policy-config.json",
+        "docs/guards/V3_ifx/shared/profile-layout.json",
+        "docs/guards/V3_ifx/shared/profile.json",
+        "docs/guards/V3_ifx/shared/toolchain.json",
+        "docs/guards/V3_ifx/shared/trusted-components.json",
         "docs/guards/V3_ifx/stages/analysis/",
         "docs/guards/V3_ifx/stages/bootstrap/",
         "docs/guards/V3_ifx/stages/ci/",

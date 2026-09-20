@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "V3 IFX policy and configuration registry",
-  "description": "Plan 06 §12.4 dual-track registry (CP06b1, D24): which package files are editable policy or trust/meta-policy, how their semantic changes are detected, how head candidates are validated, and the monotonicity declaration of every schema field. Derived projections are exactly the targets of the base policy/authorities.json registry and are not listed here.",
+  "description": "Plan 06 §12.4 dual-track registry (CP06b1, D24): which package files are editable policy or trust/meta-policy, how their semantic changes are detected, how head candidates are validated, and the monotonicity declaration of every schema field. Derived projections are exactly the targets of the base shared/authorities/authorities.json registry and are not listed here.",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11k-authority-registry-relocation",
+  "title": "Relocate the authority registry into Shared",
+  "goal": "Complete CP11k by moving the legacy policy authority registry and ownership documentation into shared/authorities.",
+  "acceptanceCriteria": [
+    "The legacy policy directory is replaced by shared/authorities with byte-identical registry data.",
+    "Active manifests, trust contracts and documentation reference the Shared registry path.",
+    "Projection synchronization, manifest validation and domain-authority candidate checks pass from the Shared layout.",
+    "Generated documentation matches its authoritative sources.",
+    "Trusted Diff and trusted-component candidate validation pass with exact move, policy and TCB authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/authored/trusted-base.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/V3_ifx/policy/README.md",
+    "docs/guards/V3_ifx/policy/authorities.json",
+    "docs/guards/V3_ifx/shared/authorities/README.md",
+    "docs/guards/V3_ifx/shared/authorities/authorities.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/README.md",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-relocation-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-relocation-weaken.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-relocation.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

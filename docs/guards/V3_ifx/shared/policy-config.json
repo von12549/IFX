@@ -91,7 +91,7 @@
       "id": "authority-registry",
       "role": "trust-meta-policy",
       "paths": [
-        "docs/guards/V3_ifx/policy/authorities.json"
+        "docs/guards/V3_ifx/shared/authorities/authorities.json"
       ],
       "format": "json",
       "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",

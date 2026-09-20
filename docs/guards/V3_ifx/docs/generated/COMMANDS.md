@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `b18c2d87f9107191538eb8e28d10011b485c7272964d44256d9248cd8c404d96`
+Composite SHA-256: `19a70a07da892465c68093368f5d2a9d752fbacff128b7399a1e406adf84c546`
 
 Sources:
 
@@ -117,7 +117,7 @@ Sources:
 ## ifx-policy-sync
 
 - Audiences: human
-- Inputs: docs/guards/V3_ifx/policy/authorities.json; domain-owned policy sources
+- Inputs: docs/guards/V3_ifx/shared/authorities/authorities.json; domain-owned policy sources
 - Outputs: docs/guards/V3_ifx/stages/post/policy/
 - Evidence: (none)
 
@@ -145,7 +145,7 @@ Sources:
 ## ifx-trusted-base
 
 - Audiences: ci
-- Inputs: clean base worktree at the verified base SHA; head checkout as -HeadRoot; docs/guards/V3_ifx/policy/authorities.json
+- Inputs: clean base worktree at the verified base SHA; head checkout as -HeadRoot; docs/guards/V3_ifx/shared/authorities/authorities.json
 - Outputs: artifacts/guards/v3-ifx/trusted-base/
 - Evidence: artifacts/guards/v3-ifx/trusted-base/summary-<mode>.json
 

@@ -12,7 +12,7 @@ pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode
 pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
 ```
 
-Package code, configuration and generated projects are read from the copy the dispatcher runs from; target data is read from `-TargetRoot` (default: the repository containing the package). A trusted package copy outside the repository can therefore run against a checked-out head with `-TargetRoot <head>`. Domain authorities that detectors read are registered with their trust roles in `policy/authorities.json` and declared as trust-contract inputs in `stages/*/stage.json`; `Invoke-IFXManifestCheck.ps1` rejects an unregistered or undeclared read (Plan 06 D18).
+Package code, configuration and generated projects are read from the copy the dispatcher runs from; target data is read from `-TargetRoot` (default: the repository containing the package). A trusted package copy outside the repository can therefore run against a checked-out head with `-TargetRoot <head>`. Domain authorities that detectors read are registered with their trust roles in `shared/authorities/authorities.json` and declared as trust-contract inputs in `stages/*/stage.json`; `Invoke-IFXManifestCheck.ps1` rejects an unregistered or undeclared read (Plan 06 D18).
 
 ## Trusted base execution
 
