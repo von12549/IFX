@@ -280,7 +280,8 @@
         "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
         "docs/guards/V3_ifx/shared/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
     "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d31-shared-decision-history.json",
-    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json"
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d33-verifier-ownership-layout.json"
       ],
       "format": "json",
       "schema": "docs/guards/V3/contracts/decision.schema.json",

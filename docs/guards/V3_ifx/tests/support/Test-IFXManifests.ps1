@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param()
 
-# Positive and negative fixtures for scripts/Invoke-IFXManifestCheck.ps1 (Plan 06 P1.5).
+# Positive and negative fixtures for the package-owned manifest verifier (Plan 06 P1.5/P10.3).
 
 # Stage-oriented test group: support.
 $ErrorActionPreference = 'Stop'
@@ -14,6 +14,12 @@ $artifacts = [IO.Path]::GetFullPath((Join-Path $repository 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-manifests-$([Guid]::NewGuid().ToString('N'))"))
 if (-not $fixture.StartsWith($artifacts + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture path.' }
 $utf8 = [Text.UTF8Encoding]::new($false)
+$manifestVerifierCandidates = @(@(
+    'engine/Invoke-IFXManifestCheck.ps1',
+    'scripts/Invoke-IFXManifestCheck.ps1'
+) | Where-Object { [IO.File]::Exists((Join-Path $package $_)) })
+if ($manifestVerifierCandidates.Count -ne 1) { throw "Exactly one legacy or engine-owned manifest verifier must exist; found $($manifestVerifierCandidates.Count)." }
+$manifestVerifierRelative = $manifestVerifierCandidates[0]
 
 function Copy-Into([string] $source, [string] $relative) {
     $destination = Join-Path $fixture $relative
@@ -32,7 +38,7 @@ function Invoke-Case([string] $label, [int] $expected, [string] $relative, [scri
                 [IO.File]::WriteAllText($path, ($document | ConvertTo-Json -Depth 50) + "`n", $utf8)
             } else { & $mutate $path }
         }
-        $output = @(& pwsh -NoProfile -File (Join-Path $fixture 'docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1') -TargetRoot $fixture 2>&1) -join ' | '
+        $output = @(& pwsh -NoProfile -File (Join-Path $fixture "docs/guards/V3_ifx/$manifestVerifierRelative") -TargetRoot $fixture 2>&1) -join ' | '
         if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $output" }
         if ($expectText -and -not $output.Contains($expectText, [StringComparison]::Ordinal)) { throw "$label did not report '$expectText': $output" }
         Write-Host "PASS $label"
