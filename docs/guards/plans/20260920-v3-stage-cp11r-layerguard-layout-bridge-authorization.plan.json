@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11r-layerguard-layout-bridge-authorization",
+  "title": "Authorize the LayerGuard Post-layout bridge",
+  "goal": "Pre-authorize the exact TCB and policy tuples of the frozen layout bridge.",
+  "acceptanceCriteria": ["TCB and policy records bind the frozen candidate.", "No Architecture source changes in this checkpoint.", "The bridge consumes both records exactly once."],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-layerguard-layout-bridge-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-layerguard-layout-bridge-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-layout-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-layout-bridge-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": ["docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json", "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json", "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"]
+}

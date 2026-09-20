@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "cp11r-layerguard-layout-bridge-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-layout-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+      "baseSha256": null,
+      "headSha256": "eb35ba9f3dc7401b4fcc49ed101e74a846fba130db37b3a7a09f12d3667d1598",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c3ba1183a63d2dadf3f1dbf2a22edeb8ef617a7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "d0041f3c12fecff7f915d0a77e95b8868ee48674c3cdd8b1b4ae949fbf1ef253",
+      "headSha256": "4e0fc37ffbdf45bfd8aea749a37b796665ea07429fa5ef3286e2cbe99a766838",
+      "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/24/paths/36"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1b1c051dd20dab54a7efd7b01b0f6a1eadeaeb4f"
+      }
+    }
+  ]
+}
