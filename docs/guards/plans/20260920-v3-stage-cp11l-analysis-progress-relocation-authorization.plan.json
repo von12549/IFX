@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11l-analysis-progress-relocation-authorization",
+  "title": "Authorize the analysis progress report relocation",
+  "goal": "Pre-authorize the exact move, TCB and policy tuples of the frozen CP11l report relocation candidate.",
+  "acceptanceCriteria": [
+    "The move authorization binds the old and new report tuples with an identical blob.",
+    "The TCB authorization binds the affected manifest component paths.",
+    "The weaken-policy authorization binds the report registration and candidate content.",
+    "The authorization-only checkpoint changes no report or implementation.",
+    "The relocation candidate consumes all three authorizations exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11l-analysis-progress-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11l-analysis-progress-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11l-analysis-progress-weaken.json",
+    "docs/guards/plans/20260920-v3-stage-cp11l-analysis-progress-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11l-analysis-progress-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

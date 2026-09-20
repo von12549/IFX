@@ -1,0 +1,50 @@
+{
+  "formatVersion": 1,
+  "id": "cp11l-analysis-progress-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11l-analysis-progress-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json"
+  ],
+  "components": [
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "117e936ddd0cd6d7bfe2c13951904ded1bca2986"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "42fca096d743ceee97089fb18a8a7878d0340f90"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3c68b271ff5e70d882cf5d91bb7e66d434dd2431"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+  ],
+  "parityContract": "The frozen CP02 remote-verification snapshot keeps identical bytes and historical meaning while its ownership path moves into Analysis Stage reports.",
+  "allowedBehaviorDifferences": []
+}

@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "id": "cp11l-analysis-progress-weaken",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11l-analysis-progress-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "018fc19b48d092c4b873dc228a272d8fa99975419f5ccef900bf91321d14b7ec",
+      "headSha256": "df4ad1f0548a23158ffa06bd147fd576a5b9a2d13c9989629ebced48b755bc26",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/11/paths/3"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "42fca096d743ceee97089fb18a8a7878d0340f90"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json",
+      "baseSha256": null,
+      "headSha256": "0e3c230cf35d2ad6e0b0f69f993f7a865c1def9b3880abd7f6853cd3e7534172",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3c68b271ff5e70d882cf5d91bb7e66d434dd2431"
+      }
+    }
+  ]
+}
