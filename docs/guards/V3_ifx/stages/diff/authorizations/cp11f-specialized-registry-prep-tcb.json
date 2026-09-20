@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "cp11f-specialized-registry-prep-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11f-specialized-registry-prep.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "components": [
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d8cac24e084fffe920f7bb50659254cb24375478"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a36412e5788b03b4d2c9bcd1a7462d591222597a"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+  ],
+  "parityContract": "Manifest and policy validation retain their verdicts while the future Specialized contract directory is explicitly registered but absent.",
+  "allowedBehaviorDifferences": []
+}

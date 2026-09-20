@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11f-specialized-registry-prep-authorization",
+  "title": "Authorize CP11f Specialized contract registry prep",
+  "goal": "Pre-authorize the exact TCB and policy registry change that declares the future stage-owned Specialized contract directory.",
+  "acceptanceCriteria": [
+    "The TCB authorization binds only shared/policy-config.json and tcb.manifest.",
+    "The policy authorization binds only the semantic registry addition.",
+    "The authorization-only change modifies no trusted implementation or active runtime path.",
+    "The prep candidate consumes both authorizations exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-registry-prep-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11f-specialized-registry-prep-weaken-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-registry-prep-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11f-specialized-registry-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

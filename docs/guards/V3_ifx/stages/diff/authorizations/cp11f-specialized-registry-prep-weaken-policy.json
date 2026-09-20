@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "cp11f-specialized-registry-prep-weaken-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11f-specialized-registry-prep.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "dab0260926efa8352437dc51eb3ce939dc3cd0efa73d361077f0a2e0f4bd50e4",
+      "headSha256": "24cdfc5336b8895af4badd7e82724d6e6e86fcf1c26b7d62dacbe2d7cfb269ab",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/21/candidateValidation",
+        "/entries/21/directory",
+        "/entries/21/format",
+        "/entries/21/id",
+        "/entries/21/paths",
+        "/entries/22"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a36412e5788b03b4d2c9bcd1a7462d591222597a"
+      }
+    }
+  ]
+}
