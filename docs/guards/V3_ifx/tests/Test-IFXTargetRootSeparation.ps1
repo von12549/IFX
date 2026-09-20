@@ -13,6 +13,13 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $package = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $repository = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
+$legacySpecialized = Join-Path $package 'specialized'
+$stageSpecialized = Join-Path $package 'stages/post/gates/specialized'
+$requiredSpecializedFiles = @('Invoke-IFXSpecialized.ps1', 'contracts/detector-result.schema.json', 'contracts/fixture.schema.json', 'scripts/Test-Plan04ExtractionPolicy.ps1')
+$legacySpecializedComplete = @($requiredSpecializedFiles | Where-Object { -not [IO.File]::Exists((Join-Path $legacySpecialized $_)) }).Count -eq 0
+$stageSpecializedComplete = @($requiredSpecializedFiles | Where-Object { -not [IO.File]::Exists((Join-Path $stageSpecialized $_)) }).Count -eq 0
+if ($legacySpecializedComplete -eq $stageSpecializedComplete) { throw 'Specialized gates must have exactly one complete legacy or stage-owned layout.' }
+$specializedRelativeRoot = if ($stageSpecializedComplete) { 'docs/guards/V3_ifx/stages/post/gates/specialized' } else { 'docs/guards/V3_ifx/specialized' }
 $tempRoot = if ($env:RUNNER_TEMP) { $env:RUNNER_TEMP } else { [IO.Path]::GetTempPath() }
 $work = [IO.Path]::GetFullPath((Join-Path $tempRoot "ifxsep-$([Guid]::NewGuid().ToString('N').Substring(0, 8))"))
 if ($work.StartsWith($repository.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'The package copy must be outside the target repository.' }
@@ -72,7 +79,7 @@ try {
     foreach ($relative in @(& git -C $target ls-files)) {
         if ($relative -match $packageOwned) { [IO.File]::Delete((Join-Path $target $relative)) }
     }
-    foreach ($directory in @('docs/guards/V3_ifx/scripts', 'docs/guards/V3_ifx/specialized', 'docs/guards/V3/scripts')) {
+    foreach ($directory in @('docs/guards/V3_ifx/scripts', 'docs/guards/V3_ifx/specialized', 'docs/guards/V3_ifx/stages/post/gates/specialized', 'docs/guards/V3/scripts')) {
         if ([IO.Directory]::Exists((Join-Path $target $directory))) { [IO.Directory]::Delete((Join-Path $target $directory), $true) }
     }
 
@@ -91,7 +98,7 @@ try {
 
     if (-not $SkipNegativeControls) {
         # A detector that derives the target from its own location reads the package copy and must fail.
-        $detector = Join-Path $packageCopy 'docs/guards/V3_ifx/specialized/scripts/Test-Plan04ExtractionPolicy.ps1'
+        $detector = Join-Path $packageCopy "$specializedRelativeRoot/scripts/Test-Plan04ExtractionPolicy.ps1"
         $original = [IO.File]::ReadAllBytes($detector)
         try {
             $text = [Text.Encoding]::UTF8.GetString($original)

@@ -76,6 +76,13 @@ try {
     $stageQualityComplete = @($qualityFiles | Where-Object { -not [IO.File]::Exists((Join-Path $fixture "$stageQualityRoot/$_")) }).Count -eq 0
     if ($legacyQualityComplete -eq $stageQualityComplete) { throw 'Quality must have exactly one complete legacy or stage-owned layout.' }
     $qualityRoot = if ($stageQualityComplete) { $stageQualityRoot } else { $legacyQualityRoot }
+    $legacySpecializedRoot = 'docs/guards/V3_ifx/specialized'
+    $stageSpecializedRoot = 'docs/guards/V3_ifx/stages/post/gates/specialized'
+    $specializedFiles = @('Invoke-IFXSpecialized.ps1', 'contracts/detector-result.schema.json', 'contracts/fixture.schema.json', 'scripts/Test-Plan04ExtractionPolicy.ps1')
+    $legacySpecializedComplete = @($specializedFiles | Where-Object { -not [IO.File]::Exists((Join-Path $fixture "$legacySpecializedRoot/$_")) }).Count -eq 0
+    $stageSpecializedComplete = @($specializedFiles | Where-Object { -not [IO.File]::Exists((Join-Path $fixture "$stageSpecializedRoot/$_")) }).Count -eq 0
+    if ($legacySpecializedComplete -eq $stageSpecializedComplete) { throw 'Specialized gates must have exactly one complete legacy or stage-owned layout.' }
+    $specializedRoot = if ($stageSpecializedComplete) { $stageSpecializedRoot } else { $legacySpecializedRoot }
 
     Invoke-Case 'current manifests pass' 0
     Invoke-Case 'stage declaring a command-owned field fails' 1 $stagePost { param($d) $d['entryPoint'] = $orchestrator } "command-owned field 'entryPoint'"
@@ -97,7 +104,7 @@ try {
     Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
     $authorities = 'docs/guards/V3_ifx/policy/authorities.json'
     function Get-Gate($document, [string] $id) { return @($document.gates | Where-Object { $_.id -eq $id })[0] }
-    Invoke-Case 'engine script reading an unregistered authority fails' 1 'docs/guards/V3_ifx/specialized/scripts/Test-UnregisteredAuthorityProbe.ps1' { param($p) [IO.File]::WriteAllText($p, "Get-Content 'deployment/g04/unregistered-policy.json'`n") } 'reads an unregistered domain authority: deployment/g04/unregistered-policy.json'
+    Invoke-Case 'engine script reading an unregistered authority fails' 1 "$specializedRoot/scripts/Test-UnregisteredAuthorityProbe.ps1" { param($p) [IO.File]::WriteAllText($p, "Get-Content 'deployment/g04/unregistered-policy.json'`n") } 'reads an unregistered domain authority: deployment/g04/unregistered-policy.json'
     Invoke-Case 'detector reading an undeclared authority fails' 1 $stagePost { param($d) $g = Get-Gate $d 'v3-specialized-g04'; $g.trustContract.inputs = @($g.trustContract.inputs | Where-Object { $_.ref -ne 'authority:g04-failure-matrix' }) } "Gate 'v3-specialized-g04' detectors read domain authority 'g04-failure-matrix' without declaring it"
     Invoke-Case 'declared authority that detectors do not read fails' 1 $stagePost { param($d) (Get-Gate $d 'v3-specialized-g03').trustContract.inputs += [ordered]@{ ref = 'authority:g05-open-items'; source = 'head-candidate' } } "declares domain authority 'g05-open-items' that its detectors do not read"
     Invoke-Case 'head authority sourced from base fails' 1 $stagePost { param($d) @((Get-Gate $d 'v3-specialized-g03').trustContract.inputs | Where-Object { $_.ref -eq 'authority:g03-contract-event-catalog' })[0].source = 'base' } 'must come from head-candidate, not base'
