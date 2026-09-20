@@ -8,6 +8,7 @@
 
 - 最近真实 CI 的 `v3-cross-platform-windows-latest` 为 15.70 分钟，其中 head candidate step 为 14.17 分钟；Ubuntu leg 仍运行完整套件。
 - 本地尝试把完整 trusted-base diff-consumption 测试加入 smoke，超过 3 分钟仍未结束并中止；它保留在 Ubuntu full 与 P11.4 Windows full。
+- 候选实现完成后的本机 Windows 精确 smoke 为 243.20 秒：前四项 Generate/Check 合计约 3 秒、锁定构建基线 20.11 秒、target-root 隔离 220.19 秒；相对最近真实 Windows head candidate 的 14.17 分钟，预期该步骤缩短约 71%，最终以本 PR 的 hosted runner 数据为准。
 - 不删除、不改名 required check，不改 job DAG、事件集合、ruleset contexts 或 strict 策略；不增加 job 级条件。
 - D28 的 concurrency、cache、monthly schedule 与 base-owned `records-and-plans` 判定继续有效。
 
