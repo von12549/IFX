@@ -1,0 +1,183 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-13",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/policy",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "f4f08fda91fb88d51f27e96913cf35e5ef6c4691"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/policy/authorities.json",
+    "docs/guards/V3_ifx/policy/baselines/plan05.json",
+    "docs/guards/V3_ifx/policy/g03/catalog.json",
+    "docs/guards/V3_ifx/policy/g03/governance.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/backpressure-policy.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/deployment-unit-catalog.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/failure-matrix.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/infrastructure-compatibility-matrix.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/migration-manifest.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/module-manifest.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/release-manifest.json",
+    "docs/guards/V3_ifx/policy/g04/bindings/release-orchestration.json",
+    "docs/guards/V3_ifx/policy/g04/runtime-manifest.json",
+    "docs/guards/V3_ifx/policy/g05/context-protocol-v1.json",
+    "docs/guards/V3_ifx/policy/layerguard.json",
+    "docs/guards/V3_ifx/policy/README.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/policy/authorities.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4dbf80a6d8bfb56431753b591c3d02f91438f54a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/baselines/plan05.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dee3e45769ed8b18ad1ab550ea29f399a27f4244"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g03/catalog.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d16ad9738aa02e1cc99f2ad53e1d288809389a9f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g03/governance.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "93ed166c7a41cccc9be0f9de71f64eb35332481e"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/backpressure-policy.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "87df114e25cd234bdee23b2b18fb6ee93749bc23"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/deployment-unit-catalog.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f2e27d4bf45ab9e25f4c5e79cee6abe70e7108ae"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/failure-matrix.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c6006d10f8013706fea3e7eabc80f7e6909ab8e3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/infrastructure-compatibility-matrix.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "53a2a504c01e063ba321aab732a6a2a9bb920a3b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/migration-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4443c58848f0f8d814dcbb095a88aea1fa8d71b7"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/module-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a5ae2deec53a69f2291536e87ab0b9211741ecb8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/release-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64057d3dbfa403fb76727c2db69583785301609f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/bindings/release-orchestration.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1184b6d08edba1d2e034b4d200aabc021f7d8953"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g04/runtime-manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f62906daf24458779b23f54e92293e8a92638eef"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/g05/context-protocol-v1.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f0f3601a4fd108d13b24521596b2ac8b89c5e085"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/layerguard.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "50e5bb5187423acb7d56377de8b2816b3d063ef1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/policy/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0f4a6738cf794eba255d102fda13b760bced36eb"
+      },
+      "head": null
+    }
+  ]
+}

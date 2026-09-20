@@ -1,0 +1,43 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-12",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/hooks",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "5f99156b71c3290e7f6bc3027c392ebc8b8a101a"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+    "docs/guards/V3_ifx/hooks/README.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/hooks/Invoke-PlanHook.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bf7066b19316ba563d73d6274f6eb078fa0514d2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/hooks/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "238117a5f82645573bbeaa99ad24b003a883e8b9"
+      },
+      "head": null
+    }
+  ]
+}

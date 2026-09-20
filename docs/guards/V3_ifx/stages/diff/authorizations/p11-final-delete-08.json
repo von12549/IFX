@@ -1,0 +1,373 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-08",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/decisions",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "21dfcc3a9c1578dc78a5bd75d44cf62dc1677d8a"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260915-v3-ifx-ci-cutover.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-ciq10-central-package-security.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-ifx-quality-cleanup.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d16-comparator-order-by-commit-frequency.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260915-v3-ifx-ci-cutover.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2b5888f38f3c45a30f46161f3d2ef91650f46a0f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-ciq10-central-package-security.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b37acdbe33f39587f074731a1b6d63e8fdfecea"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-ifx-quality-cleanup.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cbddf7a25b478281e43b67aeba8d5c0776436498"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "05155894e0f8258d3de46cd45e67dc14fd14e568"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d858f0266bd8fae6480935806d5c6eff780a1bb3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "35acf8929ebaa7dc095ee547882bed7d91a652e1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f75b9a52771b6eef3fe784e32b45e2b28ded1622"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fa5aac2a6deddca02c9d3b1b7d34a50c56c903ad"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "91ae7e766739615cc8ffb0f03163094158b83031"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a1de81897e88ab2c92f60b0e19cc04f711d78d25"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f502a8d720cad548ddc45d14953242852338d5fe"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "30fed710e4d11deb13ef60c34c47cc2231040222"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dc6f9100bb2087ce0631b267adc5eace70146be0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ce53becc38c6c8107ff3c8cbeb17ba29382c3657"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b53dd2089915e6efb46fbe76a6552a431d73f0f4"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "557c15a2fa3fa0e5ef72894090239b8ad0d58fb7"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2aa49a809d2beeb1fd3034e1d969b9a38e42c5cb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "261a8b0cd8f60866665be95b474bddc115e89b19"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d16-comparator-order-by-commit-frequency.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8f58811806427b9be2eb627ffd8f907a1035c89"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ea481a5349f386a3ff69784c34c7c836ad0a2c6a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "558ca05b3d21aa42287a964f83c4464c74808627"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "10867fa75d91dd6f5dc96c4a9eca296680812544"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "076ce8201cacff3e8778d19935c13f88435c3e26"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "44563987e798d3c53a394c41a76e2cf8b5f63b9b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7fe166e2e299829631d71637328ba62ddb5c000"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "77c153d3f9f956546cf04ee73e107a497a2f7a46"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1786647323042238ae8c5e4779677290d9f79319"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1210892c67d4ea9b72107ca01828b7433ffd8ab9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c49b391589c51d52e30fe6624eda2dc3385e3dcb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1183dca58fc81dfdfdf73b03731c7f00a5816f67"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1b5714f36da5fd867cf826f6673c01172ae2985c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a32b6153413d8a3084f7c343a4a48b4aa5a9b9d8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7367c14e1563d3e1446c0e8cc866c61c06342ef"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "deff1ac2800b505e4477b593b732bb1d591d64e2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b28fa2c44e7aeea9905c0e28fa92e11b780966d5"
+      },
+      "head": null
+    }
+  ]
+}

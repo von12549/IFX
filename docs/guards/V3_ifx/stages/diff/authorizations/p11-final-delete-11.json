@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-11",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/history",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "e5199aab09bbe29f10187d5b02b6c153d8606493"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/history/manifest.json",
+    "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/history/Invoke-IFXHistoricalIntegrity.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "87d71e6ab90391360c14a54beb07a7c6f1f47d68"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/history/manifest.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c5ce3a0fd3ea1acc75c6164160bf6ae4684c8c3"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/history/New-IFXHistoryManifest.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "66e2e42de843171b85648291b82ea051818f2fd2"
+      },
+      "head": null
+    }
+  ]
+}

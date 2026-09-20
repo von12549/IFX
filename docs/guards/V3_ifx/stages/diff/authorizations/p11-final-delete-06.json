@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-06",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/ci/jobs.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "fc2e8ad2641b7b363628ac4575e04a6384dde27e"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/jobs.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fc2e8ad2641b7b363628ac4575e04a6384dde27e"
+      },
+      "head": null
+    }
+  ]
+}

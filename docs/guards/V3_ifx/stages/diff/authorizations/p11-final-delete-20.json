@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "p11-final-delete-20",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/rules",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "20441f72cad7c85089e0b9647c7ef081501e61be"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/rules/README.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/rules/README.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "23faa9ea90da5aef2b398464d0abbc9110b6b601"
+      },
+      "head": null
+    }
+  ]
+}
