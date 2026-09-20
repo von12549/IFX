@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11k-authority-registry-relocation-authorization",
+  "title": "Authorize the authority registry relocation",
+  "goal": "Pre-authorize the exact move, TCB and policy tuples needed to relocate the authority registry into Shared.",
+  "acceptanceCriteria": [
+    "The move authorization binds the complete legacy and Shared directory tuples.",
+    "The TCB authorization binds every affected trusted path and component to the frozen candidate.",
+    "The weaken-policy authorization binds every registered semantic change and JSON Pointer.",
+    "The authorization-only checkpoint changes no implementation, manifest or authority data.",
+    "The relocation candidate consumes each authorization exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-relocation-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11k-authority-registry-relocation-weaken.json",
+    "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11k-authority-registry-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
