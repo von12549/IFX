@@ -16,6 +16,38 @@
       "keyPrefix": "guard-nuget-",
       "lockGlob": "docs/guards/*/build/locks/*.packages.lock.json",
       "jobs": ["v3-architecture", "v3-quality-solution", "v3-specialized-database", "v3-cross-platform"]
+    },
+    "windowsPortability": {
+      "requiredCheck": "v3-cross-platform-windows-latest",
+      "runner": "windows-latest",
+      "ordinaryCoverage": "smoke",
+      "fullCertificationEvent": "workflow_dispatch",
+      "fullCertificationInput": "windowsCoverage",
+      "fullCertificationValue": "full",
+      "fullCertificationCheckpoint": "P11.4",
+      "smokeCommands": [
+        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
+        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
+        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
+        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
+        "./docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1"
+      ],
+      "fullSuiteCommands": [
+        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
+        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
+        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
+        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
+        "./docs/guards/V3_ifx/tests/Test-V3.ps1",
+        "./docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+        "./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1"
+      ]
     }
   },
   "changeScope": {

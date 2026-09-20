@@ -44,6 +44,16 @@ function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $wor
     Write-Host "PASS $label"
 }
 
+function Edit-MarkedBlock([string] $source, [string] $beginMarker, [string] $endMarker, [string] $oldValue, [string] $newValue) {
+    $begin = $source.IndexOf($beginMarker, [StringComparison]::Ordinal)
+    $end = if ($begin -ge 0) { $source.IndexOf($endMarker, $begin + $beginMarker.Length, [StringComparison]::Ordinal) } else { -1 }
+    if ($begin -lt 0 -or $end -lt 0) { throw "Fixture could not find marked block $beginMarker ... $endMarker." }
+    $block = $source.Substring($begin, ($end + $endMarker.Length) - $begin)
+    $edited = $block.Replace($oldValue, $newValue)
+    if ($edited -eq $block) { throw "Fixture could not edit '$oldValue' in $beginMarker." }
+    return $source.Substring(0, $begin) + $edited + $source.Substring($end + $endMarker.Length)
+}
+
 try {
     Invoke-Case 'current workflow matches jobs.json' 0
     Invoke-Case 'matching ruleset passes' 0 -ruleset (New-Ruleset $allChecks)
@@ -70,6 +80,12 @@ try {
     Invoke-Case 'undeclared schedule fails' 1 -workflow $workflowSource.Replace("    - cron: '17 3 1 * *'", "    - cron: '17 3 * * 1'") -expectText 'cost-schedule'
     Invoke-Case 'missing package cache fails' 1 -workflow ([Regex]::Replace($workflowSource, '(?m)^      - name: Cache reviewed guard packages\n(        .*\n|          .*\n)+', '', 1)) -expectText 'cost-package-cache:v3-architecture'
     Invoke-Case 'package cache not keyed by the reviewed locks fails' 1 -workflow $workflowSource.Replace("hashFiles('docs/guards/*/build/locks/*.packages.lock.json')", "github.sha") -expectText 'cost-package-cache:v3-architecture'
+    $smokeWithoutBuild = Edit-MarkedBlock $workflowSource '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE' "              ,@('./docs/guards/V3/tests/Test-V3BuildBaseline.ps1')`n" ''
+    Invoke-Case 'Windows smoke without the locked build baseline fails' 1 -workflow $smokeWithoutBuild -expectText 'cost-windows-smoke-commands'
+    $fullWithoutTrustedBase = Edit-MarkedBlock $workflowSource '# BEGIN FULL CANDIDATE SUITE' '# END FULL CANDIDATE SUITE' "              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1')" "              ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')"
+    Invoke-Case 'Ubuntu full suite without trusted-base candidates fails' 1 -workflow $fullWithoutTrustedBase -expectText 'cost-full-suite-commands'
+    Invoke-Case 'Windows smoke selected without an OS guard fails' 1 -workflow $workflowSource.Replace("`$useWindowsSmoke = `$env:RUNNER_OS -eq 'Windows' -and `$env:WINDOWS_COVERAGE -ne 'full'", "`$useWindowsSmoke = `$env:WINDOWS_COVERAGE -ne 'full'") -expectText 'cost-windows-coverage-selection'
+    Invoke-Case 'full Windows certification option removal fails' 1 -workflow $workflowSource.Replace("          - full`n", "          - complete`n") -expectText 'cost-windows-full-certification-dispatch'
     Invoke-Case 'missing change scope classification fails' 1 -workflow ([Regex]::new('(?m)^        id: scope\n').Replace($workflowSource, '', 1)) -expectText 'change-scope-step:v3-architecture'
     Invoke-Case 'head candidate work without the scope guard fails' 1 -workflow ([Regex]::new("(?m)^        if: steps\.scope\.outputs\.scope != 'records-and-plans'\n").Replace($workflowSource, '', 1)) -expectText 'change-scope-guard:v3-architecture'
     Invoke-Case 'classification outside the trusted base fails' 1 -workflow ([Regex]::new('"\$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot \$env:GITHUB_WORKSPACE -BaseSha \$env:GUARD_BASE_SHA -Mode Scope').Replace($workflowSource, './docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1 -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope', 1)) -expectText 'change-scope-step:v3-architecture'
