@@ -230,6 +230,49 @@
       "candidateValidation": "json"
     },
     {
+      "id": "decision-history",
+      "role": "trust-meta-policy",
+      "paths": [
+        "docs/guards/V3_ifx/shared/decisions/history/20260915-v3-ifx-ci-cutover.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-ciq10-central-package-security.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-ifx-quality-cleanup.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d03-untracked-stage-gate-source.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d06-stable-naming.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d08-historical-integrity-stage.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d11-lightweight-workflow-template.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d13-policy-config-monotonicity.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d14-package-local-build-baseline.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d16-comparator-order-by-commit-frequency.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d17-plan04-phase-validator-retirement.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d18-domain-authority-hybrid-trust.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d21-test-v3-nuget-source.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d25-domain-authority-coverage.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d26-architecture-conformance-split.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260919-v3-stage-d30-stage-gate-cutover.json",
+        "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d31-shared-decision-history.json"
+      ],
+      "format": "json",
+      "schema": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "candidateValidation": "json-schema"
+    },
+    {
       "id": "gitattributes",
       "role": "trust-meta-policy",
       "paths": [
@@ -240,6 +283,35 @@
     }
   ],
   "monotonicity": [
+    {
+      "schema": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "fields": [
+        {
+          "pointer": "/properties/affectedPaths",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/formatVersion",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/id",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/owner",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/rationale",
+          "comparator": "none"
+        },
+        {
+          "pointer": "/properties/summary",
+          "comparator": "none"
+        }
+      ]
+    },
     {
       "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
       "fields": [

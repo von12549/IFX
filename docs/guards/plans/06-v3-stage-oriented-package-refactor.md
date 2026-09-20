@@ -879,7 +879,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P10.5 通过授权删除 V3_backup（D2）。证据：CP11b 先以 base-owned bridge 移除测试夹具对备份树的依赖，再消费目录级 `delete`、TCB 与 policy/config 授权删除 41 个重复文件；canonical V3 与 Git history 为唯一恢复边界。
 - [ ] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。
 - [ ] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。
-- **进度**：CP11n 先使全部 14 个 IFX package tests 从 package manifest 解析根目录，再按职责迁入 `tests/ci/`、`tests/pre/`、`tests/post/` 与 `tests/support/`；dispatcher、TCB manifest、toolchain、只读视图、analysis evidence 与运维文档同步更新，测试选择与覆盖保持不变。
+- **进度**：CP11n 先使全部 14 个 IFX package tests 从 package manifest 解析根目录，再按职责迁入 `tests/ci/`、`tests/pre/`、`tests/post/` 与 `tests/support/`；dispatcher、TCB manifest、toolchain、只读视图、analysis evidence 与运维文档同步更新，测试选择与覆盖保持不变。CP11o 以 fail-closed 双布局桥接后，将 34 份 decision history 逐文件迁入 `shared/decisions/history/`，活动 Diff trust contract 同步指向 shared authority，历史 checkpoint 记录保留执行时路径。
 - **门槛**：新结构可在 Linux/Windows clean checkout 重现，旧兼容入口只剩批准范围。
 
 ### P11 — 并行验证、切换、清理与回退证明

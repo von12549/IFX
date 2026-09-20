@@ -45,7 +45,7 @@
             "source": "head-target"
           },
           {
-            "ref": "target:docs/guards/V3_ifx/decisions/history/",
+            "ref": "target:docs/guards/V3_ifx/shared/decisions/history/",
             "source": "head-target"
           }
         ],
