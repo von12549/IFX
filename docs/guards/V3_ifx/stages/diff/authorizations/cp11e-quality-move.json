@@ -1,0 +1,91 @@
+{
+  "formatVersion": 1,
+  "id": "cp11e-quality-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/quality",
+    "base": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "93e5173e10d0596e90a217dae3a201f00110cced"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/post/gates/quality",
+    "base": null,
+    "head": {
+      "mode": "040000",
+      "type": "tree",
+      "objectId": "95bced4b4df574c078c5358f64575028174d5fda"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6971d4115126cbea1211268a8e07f72112e185fb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ff875cf927fe3c3c9ac75568f14261b2559a354f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b350f94161c912445db0919dfff04515c653317d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6de7b272dd186385663ad72fd95b9a47896369ad"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "21450d9897a84f563cd825fe4f7a8d9c9f93c292"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "75204dbeae89a3df3c8b489e232b6d03c110f4c6"
+      }
+    }
+  ]
+}

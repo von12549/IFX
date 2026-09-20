@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "id": "cp11e-quality-relocation-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
+    "docs/guards/V3_ifx/stages/post/stage.json"
+  ],
+  "components": [
+    "tcb.engine.quality",
+    "tcb.entry.ifx-guardrails",
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4608d58d0812bd8f2015ebec0baa6842ac162fbb"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "61b86c535596fce3453c568dbbf3dd923339cd1d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+      "component": "tcb.engine.quality",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6971d4115126cbea1211268a8e07f72112e185fb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+      "component": "tcb.engine.quality",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ff875cf927fe3c3c9ac75568f14261b2559a354f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "component": "tcb.engine.quality",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b350f94161c912445db0919dfff04515c653317d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c4ed53858008996acfe42d8ca2efa30a1d46af4b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d68fa4c1a026646e9f19f8009b4f5d42223cd446"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "60ac2bebe4c0614784b3b8c6da4572ca269615fa"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e7b5bcc13b77be78967019a85350da7d15621082"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+      "component": "tcb.engine.quality",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6de7b272dd186385663ad72fd95b9a47896369ad"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+      "component": "tcb.engine.quality",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "21450d9897a84f563cd825fe4f7a8d9c9f93c292"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
+      "component": "tcb.engine.quality",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "75204dbeae89a3df3c8b489e232b6d03c110f4c6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9f63bf60682ece6f97a8bb4bc9dac55c79b8ab8f"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "df94e5dbe740487a231c40eeb62a3bf81770d905"
+      }
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-quality-*"
+  ],
+  "parityContract": "Quality keeps the solution, assembly and frontend command contract, report schema, fixed-corpus verdicts and blocking gates; only ownership paths and direct-invocation path derivation change.",
+  "allowedBehaviorDifferences": []
+}
