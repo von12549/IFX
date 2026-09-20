@@ -134,6 +134,11 @@ Add-Check 'workflow-aggregate-plan-selection' $aggregatePlanSelection 'multiple 
 # reachable only behind those commands, so physical moves cannot silently change the CI integration surface (P9/P10).
 $commandManifest = Get-Content -LiteralPath ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../shared/commands.json'))) -Raw | ConvertFrom-Json -AsHashtable -Depth 30
 $publicEntries = @($commandManifest.commands | Where-Object { $_.kind -eq 'public' } | ForEach-Object { [string]$_.entryPoint })
+# P11.4 is evaluated by the pre-layout base, whose trusted public facade is still the retained legacy wrapper.
+# Keep that exact path public for base execution only; head candidate work continues through commands/.
+if ($publicEntries -contains 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') {
+    $publicEntries += 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1'
+}
 $workflowEntries = @([Regex]::Matches($workflowText, '(?m)-File\s+"?(?:\$env:GUARD_BASE/|\./)(docs/guards/[A-Za-z0-9_./-]+\.ps1)"?') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
 $nonPublicEntries = @($workflowEntries | Where-Object { $_ -notin $publicEntries })
 Add-Check 'workflow-public-commands' ($nonPublicEntries.Count -eq 0) "workflow script entries not declared public [$(Format-Set $nonPublicEntries)]"
@@ -178,7 +183,7 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
         $guardExecutables = @($job.lines | Where-Object { $_ -match '^\s+(pwsh\s+.*?-File\s+|\./)"?[^" ]*docs/guards/' })
         $firstExecutable = if ($guardExecutables.Count) { $guardExecutables[0].Trim() } else { '' }
         Add-Check "trusted-base-first-verdict:$jobId" ($firstExecutable -match '\$env:GUARD_BASE/docs/guards/') "the first guard executable must come from the base worktree; found '$firstExecutable'"
-        $gateIds = @([Regex]::Matches($text, '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/commands/Invoke-IFXGuardrails\.ps1"?\s+-TrustedBase\s+.*?-GateId\s+(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
+        $gateIds = @([Regex]::Matches($text, '(?m)\$env:GUARD_BASE/docs/guards/V3_ifx/(?:commands|scripts)/Invoke-IFXGuardrails\.ps1"?\s+-TrustedBase\s+.*?-GateId\s+(.+?)\s*$') | ForEach-Object { $_.Groups[1].Value })
         # Gate IDs may use the job's inline matrix, expanded the same way as check names.
         $resolved = @(foreach ($gateId in $gateIds) {
             $values = @($gateId)
@@ -255,6 +260,9 @@ if ($null -ne $changeScope) {
     # entry point and the implementation are this package's own files.
     $packagePrefix = 'docs/guards/V3_ifx/'
     $scopeEntryPoint = [string]$changeScope.entryPoint
+    $scopeWorkflowEntryPoint = if ($scopeEntryPoint -ceq 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' -and $workflowText.Contains('$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1', [StringComparison]::Ordinal)) {
+        'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1'
+    } else { $scopeEntryPoint }
     $scopeImplementation = [string]$changeScope.implementation
     $inPackage = {
         param([string] $relative)
@@ -279,12 +287,12 @@ if ($null -ne $changeScope) {
         }
         $step = if ($null -ne $stepLines) { $stepLines -join "`n" } else { '' }
         $classifies = $step -ne '' -and
-            $step -match "\`$env:GUARD_BASE/$([Regex]::Escape($scopeEntryPoint))" -and
+            $step -match "\`$env:GUARD_BASE/$([Regex]::Escape($scopeWorkflowEntryPoint))" -and
             $step -match '-TrustedBase\b' -and
             $step -match "-Mode\s+$([Regex]::Escape([string]$changeScope.mode))\b"
         $failsOpen = $step -match '(?m)^        continue-on-error:\s*true\s*$'
         $guards = @([Regex]::Matches($text, "(?m)^\s+if:\s*steps\.scope\.outputs\.scope\s*!=\s*'$([Regex]::Escape([string]$changeScope.inheritScope))'\s*$"))
-        Add-Check "change-scope-step:$jobId" $classifies "job must classify the changed set with $scopeEntryPoint -Mode $($changeScope.mode) from `$env:GUARD_BASE in a step with id scope"
+        Add-Check "change-scope-step:$jobId" $classifies "job must classify the changed set with $scopeWorkflowEntryPoint -Mode $($changeScope.mode) from `$env:GUARD_BASE in a step with id scope"
         Add-Check "change-scope-fails-open:$jobId" $failsOpen 'the classification step must be continue-on-error, so a base that cannot classify leads to a full run'
         Add-Check "change-scope-guard:$jobId" ($guards.Count -ge 1) "job must skip its head candidate work when the base classifies the changed set as $($changeScope.inheritScope)"
     }
