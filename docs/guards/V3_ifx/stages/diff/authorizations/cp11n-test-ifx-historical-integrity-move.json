@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-test-ifx-historical-integrity-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "47630e0aa5c5de504a6b09481f1d5c394d9f4caf"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "c684262f7ba531680b31fe9d87585639560363a8"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c684262f7ba531680b31fe9d87585639560363a8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "47630e0aa5c5de504a6b09481f1d5c394d9f4caf"
+      },
+      "head": null
+    }
+  ]
+}

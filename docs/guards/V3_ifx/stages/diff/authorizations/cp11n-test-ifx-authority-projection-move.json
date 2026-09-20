@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-test-ifx-authority-projection-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "297536a8b0284d29b676ebe318df7880197de02f"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "b654be46361fcc0872fea44d859f8b47c5b627e6"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b654be46361fcc0872fea44d859f8b47c5b627e6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "297536a8b0284d29b676ebe318df7880197de02f"
+      },
+      "head": null
+    }
+  ]
+}

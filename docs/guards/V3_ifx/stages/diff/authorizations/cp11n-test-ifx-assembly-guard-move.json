@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-test-ifx-assembly-guard-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "9c1f11692d436fd9a5bed1eb2fa27d5201e45432"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "326c6a5aeeb2982ccea28a9e1bc627e2b9f6a89a"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "326c6a5aeeb2982ccea28a9e1bc627e2b9f6a89a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9c1f11692d436fd9a5bed1eb2fa27d5201e45432"
+      },
+      "head": null
+    }
+  ]
+}

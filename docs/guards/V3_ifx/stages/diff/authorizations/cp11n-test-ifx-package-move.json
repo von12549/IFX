@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-test-ifx-package-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "728d0b7a8dccb7930661fb3351a6e48f6894212a"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "239433870278352a66d291f9411720dbd743e084"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "239433870278352a66d291f9411720dbd743e084"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "728d0b7a8dccb7930661fb3351a6e48f6894212a"
+      },
+      "head": null
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-test-ifx-deployment-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "2757c5fc42182091af1209d3261fa9db82ae5370"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "bd20da6d78472e22995e8076c7e082a29fb8b0ff"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bd20da6d78472e22995e8076c7e082a29fb8b0ff"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXDeployment.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2757c5fc42182091af1209d3261fa9db82ae5370"
+      },
+      "head": null
+    }
+  ]
+}

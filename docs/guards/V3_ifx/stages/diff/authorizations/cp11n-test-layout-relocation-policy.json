@@ -1,0 +1,76 @@
+{
+  "formatVersion": 1,
+  "id": "cp11n-test-layout-relocation-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11n-test-layout-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/toolchain.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/toolchain.json",
+      "baseSha256": "3cabdfbfc52576656c3450857a8958fd59a41b50f57ac0181cfd6e443b69ecc5",
+      "headSha256": "977e93491fa68ce7d4f94beb3ebee62672ca979025cf1adbd7dbbaba62d9c05f",
+      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "pointers": [
+        "/commands/1/arguments/2"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5f8f3ed533bd50f4c79e877c4df447ce5b2d73cf"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "8de0ec31967522134e872a04a5c4f6ac33331ad4bd238c31c980604d4db0fcf4",
+      "headSha256": "61528ed010c96ab000ddfddabf80f43474636b64dc516f7bacee33ae56935781",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/0/validationSuite/1",
+        "/components/1/validationSuite/1",
+        "/components/1/validationSuite/4",
+        "/components/10/validationSuite/0",
+        "/components/10/validationSuite/1",
+        "/components/11/validationSuite/1",
+        "/components/11/validationSuite/2",
+        "/components/12/paths/0",
+        "/components/12/paths/1",
+        "/components/12/paths/10",
+        "/components/12/paths/11",
+        "/components/12/paths/12",
+        "/components/12/paths/13",
+        "/components/12/paths/2",
+        "/components/12/paths/3",
+        "/components/12/paths/4",
+        "/components/12/paths/5",
+        "/components/12/paths/6",
+        "/components/12/paths/7",
+        "/components/12/paths/8",
+        "/components/12/paths/9",
+        "/components/13/validationSuite/0",
+        "/components/14/validationSuite/0",
+        "/components/15/validationSuite/1",
+        "/components/17/validationSuite/0",
+        "/components/3/validationSuite/0",
+        "/components/3/validationSuite/1",
+        "/components/6/validationSuite/0",
+        "/components/7/validationSuite/0",
+        "/components/7/validationSuite/1",
+        "/components/8/validationSuite/0",
+        "/components/9/validationSuite/1"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "45df02313451a4fe5ea0259a79deb9697e8a018c"
+      }
+    }
+  ]
+}
