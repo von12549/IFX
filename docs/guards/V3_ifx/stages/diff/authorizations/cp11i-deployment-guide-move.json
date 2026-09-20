@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "id": "cp11i-deployment-guide-move",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11i-docs-examples-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "fa8f6f558ec395cd8ea2bf3f694a9776f30a83d5"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "6237f0361625ff6335be23197103ca51b9ecb8eb"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/DEPLOYMENT.md",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fa8f6f558ec395cd8ea2bf3f694a9776f30a83d5"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6237f0361625ff6335be23197103ca51b9ecb8eb"
+      }
+    }
+  ]
+}
