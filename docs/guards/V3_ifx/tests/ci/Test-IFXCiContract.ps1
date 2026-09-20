@@ -37,6 +37,10 @@ function New-Ruleset([string[]] $contexts, [bool] $strict = $true, [string] $enf
 }
 $allChecks = @(($requiredChecksSource | ConvertFrom-Json).jobs | ForEach-Object { $_.id })
 
+# PowerShell error records are colored and wrapped differently across runners. Compare their
+# semantic message text without ANSI escapes, console gutters or line breaks.
+function ConvertTo-PlainOutput([object[]] $Output) { return (($Output -join ' ') -replace "`e\[[0-9;?]*[A-Za-z]", '' -replace '[\s|]+', ' ') }
+
 function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $workflowSource, [string] $facade = $facadeSource, [string] $requiredChecks = $requiredChecksSource, [string] $ruleset, [string] $expectText) {
     $case = Join-Path $fixture ([Guid]::NewGuid().ToString('N'))
     [void][IO.Directory]::CreateDirectory((Join-Path $case '.github/workflows'))
@@ -58,12 +62,12 @@ function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $wor
     }
     $output = @(& pwsh @arguments 2>&1) -join ' | '
     if ($LASTEXITCODE -ne $expected) { throw "$label expected exit $expected, got ${LASTEXITCODE}: $output" }
-    if ($expectText -and -not $output.Contains($expectText, [StringComparison]::Ordinal)) { throw "$label did not report '$expectText': $output" }
+    if ($expectText -and -not (ConvertTo-PlainOutput $output).Contains($expectText, [StringComparison]::Ordinal)) { throw "$label did not report '$expectText': $output" }
     Write-Host "PASS $label"
 }
 function Assert-FacadeFailure([string] $label, [string[]] $arguments, [string] $expectText) {
     $output = @(& pwsh -NoProfile -File $publicFacade @arguments 2>&1) -join ' | '
-    if ($LASTEXITCODE -eq 0 -or -not $output.Contains($expectText, [StringComparison]::Ordinal)) { throw "$label did not fail with '$expectText': $output" }
+    if ($LASTEXITCODE -eq 0 -or -not (ConvertTo-PlainOutput $output).Contains($expectText, [StringComparison]::Ordinal)) { throw "$label did not fail with '$expectText': $output" }
     Write-Host "PASS $label"
 }
 
