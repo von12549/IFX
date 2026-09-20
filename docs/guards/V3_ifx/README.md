@@ -31,7 +31,8 @@ The G03/G04/G05 files under `stages/post/policy/` are deterministic LayerGuard p
 | `history/` | Frozen evidence manifest, validator and explicit regeneration command |
 | `templates/ifx-layerguard/` | The IFX policy binding and host (`src/LayerGuard.Ifx`) and the IFX binding tests with their own fixture; the generic engine, its tests and their synthetic fixtures live in `../V3/stages/post/gates/architecture/dotnet/` |
 | external generation root | Untracked IFX Stage Gate at `<generation-root>/v3-ifx/gates/stage/Ifx.Guards.StageGate.Tests/` |
-| `contracts/`, `examples/plan/`, `integrations/agents/` | IFX input contracts, Plan examples and optional Agent planning integration; generic hooks and templates live in `../V3/` |
+| `shared/contracts/`, `stages/{diff,ci}/contracts/` | IFX cross-stage and stage-owned contracts; portable profile, plan, rule and related schemas come from `../V3/contracts/` |
+| `examples/plan/`, `integrations/agents/` | Plan examples and optional Agent planning integration; generic hooks and templates live in `../V3/` |
 | `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `templates/ifx-layerguard/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |
 | `scripts/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
 | `commands/` | Stable public command entry points; legacy `scripts/` paths are deprecation wrappers |

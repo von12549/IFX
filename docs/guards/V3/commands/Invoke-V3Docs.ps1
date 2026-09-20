@@ -24,6 +24,16 @@ function Resolve-UnderRoot([string] $value) {
     return $full
 }
 function Relative([string] $path) { return [IO.Path]::GetRelativePath($root, $path).Replace('\', '/') }
+function Resolve-OverlayContract([string] $name) {
+    $owned = switch ($name) {
+        'docs-map.schema.json' { "shared/contracts/$name" }
+        'required-checks.schema.json' { "stages/ci/contracts/$name" }
+        default { throw "Unknown overlay contract: $name" }
+    }
+    $available = @(@("contracts/$name", $owned) | ForEach-Object { Join-Path $overlayRoot $_ } | Where-Object { [IO.File]::Exists($_) })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or owned overlay contract must exist for $name; found $($available.Count)." }
+    return $available[0]
+}
 function Normalize([string] $value) { return $value.Replace("`r`n", "`n").Replace("`r", "`n").TrimEnd("`n") + "`n" }
 function Hash([string] $value) { return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($value))).ToLowerInvariant() }
 function Cell([object] $value) {
@@ -101,7 +111,7 @@ Add-Expected $expected $viewsRoot 'COVERAGE.md' "$(Profile-Header 'V3 stage cove
 Add-Expected $expected $viewsRoot 'README.md' "$(Profile-Header "$($profile.projectId) guard configuration views" @('profile.json','project-map.json','tech-stack.json') + @($ruleFiles | ForEach-Object { "rules/$($_.Name)" }))`nJSON in the parent profile is authoritative. These Markdown files are generated, read-only views; edit authority JSON and rerun Render.`n`n- [Profile](PROFILE.md)`n- [Project map](PROJECT_MAP.md)`n- [Tech stack](TECH_STACK.md)`n- [Stage coverage](COVERAGE.md)`n- Rules: $(@($rules | ForEach-Object { "[$($_.id)](rules/$($_.id).md)" }) -join ', ')"
 
 if ([IO.File]::Exists($mapPath)) {
-    $docsSchema = Join-Path $overlayRoot 'contracts/docs-map.schema.json'
+    $docsSchema = Resolve-OverlayContract 'docs-map.schema.json'
     $docsMap = Read-Json $mapPath $docsSchema
     $allFiles = @(Get-ChildItem -LiteralPath $root -Recurse -File | Where-Object { $_.FullName -notmatch '[\\/](\.git|artifacts|bin|obj)[\\/]' })
     foreach ($document in $docsMap.documents) {
@@ -145,7 +155,7 @@ if ([IO.File]::Exists($mapPath)) {
             }
             'ci' {
                 $ci = Read-Json (Join-Path $overlayRoot 'stages/ci/stage.json') $null
-                $jobs = Read-Json (Join-Path $overlayRoot 'stages/ci/required-checks.json') (Join-Path $overlayRoot 'contracts/required-checks.schema.json')
+                $jobs = Read-Json (Join-Path $overlayRoot 'stages/ci/required-checks.json') (Resolve-OverlayContract 'required-checks.schema.json')
                 $rows = @($jobs.jobs | ForEach-Object { $gate = if ($_.ContainsKey('gate')) { $_.gate } else { '' }; "| $($_.id) | $($_.mode) | $gate | $($_.trigger) | $($_.blocking) |" })
                 $body = "$header`nWorkflow: ``$($jobs.automaticGuardWorkflow)``. Merge enforcement: $($jobs.mergeEnforcement). Ruleset strict: $($jobs.ruleset.strict). Trusted-base execution: $($jobs.trustedBase.execution).`n`n| Required check | Mode | Gate | Trigger | Blocking |`n| --- | --- | --- | --- | --- |`n$($rows -join "`n")`n`nCI Stage dependencies: $(@($ci.dependencies) -join ', ')."
             }

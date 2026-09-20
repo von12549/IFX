@@ -2,7 +2,6 @@
   "formatVersion": 1,
   "roots": [
     "docs/guards/V3_ifx/ci/",
-    "docs/guards/V3_ifx/contracts/",
     "docs/guards/V3_ifx/policy/",
     "docs/guards/V3_ifx/profiles/ifx/",
     "docs/guards/V3_ifx/shared/",
@@ -30,7 +29,7 @@
         "docs/guards/V3_ifx/shared/profile.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "schema": "docs/guards/V3/contracts/profile.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
@@ -40,7 +39,7 @@
         "docs/guards/V3_ifx/stages/pre/project-map.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "schema": "docs/guards/V3/contracts/project-map.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
@@ -50,7 +49,7 @@
         "docs/guards/V3_ifx/shared/toolchain.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "schema": "docs/guards/V3/contracts/tech-stack.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
@@ -58,7 +57,7 @@
       "role": "editable-policy",
       "directory": "docs/guards/V3_ifx/stages/post/rules/",
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
       "candidateValidation": "v3-profile"
     },
     {
@@ -95,7 +94,7 @@
         "docs/guards/V3_ifx/shared/authorities/authorities.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -110,7 +109,7 @@
         "docs/guards/V3_ifx/stages/pre/stage.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -120,7 +119,7 @@
         "docs/guards/V3_ifx/stages/diff/protection.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -142,7 +141,7 @@
         "docs/guards/V3_ifx/docs/docs-map.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -152,7 +151,7 @@
         "docs/guards/V3_ifx/shared/commands.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -162,7 +161,7 @@
         "docs/guards/V3_ifx/shared/trusted-components.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -172,7 +171,7 @@
         "docs/guards/V3_ifx/shared/policy-config.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -182,7 +181,7 @@
         "docs/guards/V3_ifx/guard-system.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -192,7 +191,7 @@
         "docs/guards/V3_ifx/stages/ci/required-checks.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -202,7 +201,7 @@
         "docs/guards/V3_ifx/stages/ci/activation.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -212,13 +211,27 @@
         "docs/guards/V3_ifx/stages/ci/workflow.variables.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
       "candidateValidation": "json-schema"
     },
     {
-      "id": "contracts",
+      "id": "shared-contracts",
       "role": "trust-meta-policy",
-      "directory": "docs/guards/V3_ifx/contracts/",
+      "directory": "docs/guards/V3_ifx/shared/contracts/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "diff-contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/diff/contracts/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
+      "id": "ci-contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/ci/contracts/",
       "format": "json",
       "candidateValidation": "json"
     },
@@ -270,7 +283,7 @@
     "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json"
       ],
       "format": "json",
-      "schema": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
       "candidateValidation": "json-schema"
     },
     {
@@ -285,7 +298,7 @@
   ],
   "monotonicity": [
     {
-      "schema": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "schema": "docs/guards/V3/contracts/decision.schema.json",
       "fields": [
         {
           "pointer": "/properties/affectedPaths",
@@ -314,7 +327,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
       "fields": [
         {
           "pointer": "/properties/architecturePolicy",
@@ -411,7 +424,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
       "fields": [
         {
           "pointer": "/properties/commands",
@@ -472,7 +485,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
       "fields": [
         { "pointer": "/properties/documents", "comparator": "none" },
         { "pointer": "/properties/documents/items/properties/id", "comparator": "none" },
@@ -486,7 +499,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
       "fields": [
         {
           "pointer": "/properties/compatibility",
@@ -591,7 +604,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
       "fields": [
         {
           "pointer": "/properties/entries",
@@ -689,7 +702,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "schema": "docs/guards/V3/contracts/profile.schema.json",
       "fields": [
         {
           "pointer": "/properties/formatVersion",
@@ -702,7 +715,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "schema": "docs/guards/V3/contracts/project-map.schema.json",
       "fields": [
         {
           "pointer": "/properties/areas",
@@ -755,7 +768,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
       "fields": [
         {
           "pointer": "/properties/authorizationDirectory",
@@ -772,7 +785,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "schema": "docs/guards/V3/contracts/rule.schema.json",
       "fields": [
         {
           "pointer": "/allOf/0/else/properties/coverage",
@@ -893,7 +906,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
       "fields": [
         {
           "pointer": "/properties/commands",
@@ -1014,7 +1027,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "schema": "docs/guards/V3/contracts/tech-stack.schema.json",
       "fields": [
         {
           "pointer": "/properties/assemblyGate",
@@ -1087,7 +1100,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
       "fields": [
         { "pointer": "/properties/artifacts", "comparator": "none" },
         { "pointer": "/properties/artifacts/items/allOf/0/if/properties/kind", "comparator": "none" },
@@ -1110,7 +1123,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
       "fields": [
         { "pointer": "/properties/automaticGuardWorkflow", "comparator": "none" },
         { "pointer": "/properties/changeScope", "comparator": "none" },
@@ -1151,7 +1164,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
       "fields": [
         {
           "pointer": "/properties/components",
@@ -1212,7 +1225,7 @@
       ]
     },
     {
-      "schema": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "schema": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
       "fields": [
         { "pointer": "/properties/DOTNET_VERSION", "comparator": "none" },
         { "pointer": "/properties/NODE_VERSION", "comparator": "none" }

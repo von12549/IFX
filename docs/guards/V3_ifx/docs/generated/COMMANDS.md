@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `95814b2288f102eddb47dd5f4adc72d72a4cc05317b2f013e08ffbedbc2dfa2c`
+Composite SHA-256: `3ccff616e514fea5d988001580a3f21f6fce0ac6399e70e31484048eaea91ea2`
 
 Sources:
 
@@ -89,7 +89,7 @@ Sources:
 ## ifx-manifest-check
 
 - Audiences: ci, human
-- Inputs: docs/guards/V3_ifx/guard-system.json; docs/guards/V3_ifx/shared/; docs/guards/V3_ifx/stages/; docs/guards/V3_ifx/contracts/; .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/stages/ci/required-checks.json
+- Inputs: docs/guards/V3_ifx/guard-system.json; docs/guards/V3_ifx/shared/; docs/guards/V3_ifx/stages/; docs/guards/V3/contracts/; docs/guards/V3_ifx/shared/contracts/; docs/guards/V3_ifx/stages/ci/contracts/; docs/guards/V3_ifx/stages/diff/contracts/; .github/workflows/v3-ifx-guardrails.yml; docs/guards/V3_ifx/stages/ci/required-checks.json
 - Outputs: 
 - Evidence: (none)
 

@@ -10,7 +10,7 @@ This directory is a **guide**, not a second active rule source. `Invoke-V3.ps1` 
 | `stages/post/policy/layerguard.json` | Independent LayerGuard .NET project | Owns complete architecture policy and maps findings to the nine numbered `ruleRefs`. |
 | `docs/authored/RULES.md` | Human or Agent author | Explains how to change and verify either path; it is never parsed as policy. |
 
-The stage's `L2.2` and `ARCH.BINARY.DOMAIN.CONTRACTS` are `blocking` with `partial` coverage. The other eight numbered rules use `kind: none`, `advisory`, `coverage: none` **in the stage runner**; their architecture checks remain in the independent gate. `ARCH.SEMANTIC` records an uncovered concern. `contracts/rule.schema.json` constrains the stage JSON shape. An `authority` string names the policy location for review; it does not make the stage runner import that policy.
+The stage's `L2.2` and `ARCH.BINARY.DOMAIN.CONTRACTS` are `blocking` with `partial` coverage. The other eight numbered rules use `kind: none`, `advisory`, `coverage: none` **in the stage runner**; their architecture checks remain in the independent gate. `ARCH.SEMANTIC` records an uncovered concern. The portable `docs/guards/V3/contracts/rule.schema.json` constrains the stage JSON shape. An `authority` string names the policy location for review; it does not make the stage runner import that policy.
 
 ## Stage rule fields and example
 

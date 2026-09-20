@@ -31,10 +31,6 @@
         "targetInput": "head guard package validation and package tests; Test-IFXTrustedBaseCandidate against the pull request diff when the base commit activates it",
         "inputs": [
           {
-            "ref": "package:contracts/",
-            "source": "base"
-          },
-          {
             "ref": "package:shared/",
             "source": "base"
           },
@@ -62,10 +58,6 @@
         "policy": "package validation contracts",
         "targetInput": "head guard package validation and package tests",
         "inputs": [
-          {
-            "ref": "package:contracts/",
-            "source": "base"
-          },
           {
             "ref": "package:shared/",
             "source": "base"

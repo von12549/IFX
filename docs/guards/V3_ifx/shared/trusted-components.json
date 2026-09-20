@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "manifest": {
     "path": "docs/guards/V3_ifx/shared/trusted-components.json",
-    "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+    "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
     "verifier": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1"
   },
   "components": [
@@ -158,22 +158,16 @@
       "status": "active",
       "paths": [
         "docs/guards/V3/contracts/profile-layout.schema.json",
-        "docs/guards/V3_ifx/contracts/authorization.schema.json",
-        "docs/guards/V3_ifx/contracts/activation.schema.json",
-        "docs/guards/V3_ifx/contracts/decision.schema.json",
-        "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
-        "docs/guards/V3_ifx/contracts/plan.schema.json",
-        "docs/guards/V3_ifx/contracts/policy-config.schema.json",
-        "docs/guards/V3_ifx/contracts/pre-result.schema.json",
-        "docs/guards/V3_ifx/contracts/profile.schema.json",
-        "docs/guards/V3_ifx/contracts/project-map.schema.json",
-        "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
-        "docs/guards/V3_ifx/contracts/protection.schema.json",
-        "docs/guards/V3_ifx/contracts/required-checks.schema.json",
-        "docs/guards/V3_ifx/contracts/rule.schema.json",
-        "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
-        "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
-        "docs/guards/V3_ifx/contracts/workflow-variables.schema.json"
+        "docs/guards/V3/contracts/decision.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+        "docs/guards/V3/contracts/plan.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+        "docs/guards/V3/contracts/pre-result.schema.json",
+        "docs/guards/V3/contracts/profile.schema.json",
+        "docs/guards/V3/contracts/project-map.schema.json",
+        "docs/guards/V3/contracts/rule.schema.json",
+        "docs/guards/V3/contracts/tech-stack.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json"
       ],
       "validationSuite": [
         "Invoke-IFXGuardrails.ps1 -Mode Validate",
@@ -202,7 +196,7 @@
       "status": "active",
       "paths": [
         "docs/guards/V3_ifx/shared/authorities/authorities.json",
-        "docs/guards/V3_ifx/contracts/authorities.schema.json"
+        "docs/guards/V3_ifx/shared/contracts/authorities.schema.json"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
@@ -277,11 +271,11 @@
         "docs/guards/V3_ifx/stages/pre/",
         "docs/guards/V3_ifx/docs/docs-map.json",
         "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
-        "docs/guards/V3_ifx/contracts/docs-map.schema.json",
-        "docs/guards/V3_ifx/contracts/guard-system.schema.json",
-        "docs/guards/V3_ifx/contracts/stage.schema.json",
-        "docs/guards/V3_ifx/contracts/commands.schema.json",
-        "docs/guards/V3_ifx/contracts/trusted-components.schema.json"
+        "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+        "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",

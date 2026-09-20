@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+  "schema": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
   "packageId": "v3-ifx",
   "commandsManifest": "docs/guards/V3_ifx/shared/commands.json",
   "artifacts": [
@@ -9,7 +9,7 @@
       "kind": "full-file",
       "template": "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
       "variables": "docs/guards/V3_ifx/stages/ci/workflow.variables.json",
-      "variablesSchema": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "variablesSchema": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
       "candidate": "artifacts/generated/v3-ifx/activation/.github/workflows/v3-ifx-guardrails.yml",
       "target": ".github/workflows/v3-ifx-guardrails.yml"
     },

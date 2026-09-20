@@ -2,7 +2,7 @@
 
 Base pre-authorizations for protected changes, following Plan 06 §12. Only records that already exist in the **base** commit count. The change PR that consumes a record must delete it in the same diff, so each record can be used only once. Records are immutable: to change one, revoke it and add a new record.
 
-The schema is `contracts/authorization.schema.json` and covers all five operations of §12.2. The base verifier currently enables these operations for consumption:
+The schema is `stages/diff/contracts/authorization.schema.json` and covers all five operations of §12.2. The base verifier currently enables these operations for consumption:
 
 | Operation | Enabled | Covers |
 | --- | --- | --- |

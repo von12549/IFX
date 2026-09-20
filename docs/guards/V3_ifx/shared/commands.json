@@ -276,7 +276,10 @@
         "docs/guards/V3_ifx/guard-system.json",
         "docs/guards/V3_ifx/shared/",
         "docs/guards/V3_ifx/stages/",
-        "docs/guards/V3_ifx/contracts/",
+        "docs/guards/V3/contracts/",
+        "docs/guards/V3_ifx/shared/contracts/",
+        "docs/guards/V3_ifx/stages/ci/contracts/",
+        "docs/guards/V3_ifx/stages/diff/contracts/",
         ".github/workflows/v3-ifx-guardrails.yml",
         "docs/guards/V3_ifx/stages/ci/required-checks.json"
       ],
