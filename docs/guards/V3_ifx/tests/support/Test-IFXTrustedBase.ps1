@@ -436,6 +436,23 @@ try {
         Assert-Result 'an unused weaken-policy authorization fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unused-weaken' $authorizedBase { & $engineComment; Remove-Record 'fixture-consumption'; Remove-Record 'fixture-rule' })) 1 'has no semantic policy change in this pull request'
 
         Assert-Result 'head candidates of an authorized policy change pass' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase $ruleHead) 0 'Policy candidate validation passed'
+        $commandSchemaSource = [string]@($policyRegistryDocument.entries | Where-Object { $_.id -eq 'command-manifest' })[0].schema
+        $commandSchemaDestination = if ($commandSchemaSource -ceq 'docs/guards/V3_ifx/contracts/commands.schema.json') { 'docs/guards/V3_ifx/shared/contracts/commands.schema.json' } else { 'docs/guards/V3_ifx/contracts/commands.schema.json' }
+        $schemaMoveHead = New-PlannedHead 'schema-reference-move' $authorizedBase {
+            [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName((Join-Path $clone $commandSchemaDestination)))
+            [void](Invoke-FixtureGit $clone @('mv', $commandSchemaSource, $commandSchemaDestination))
+            Edit-Json 'docs/guards/V3_ifx/shared/policy-config.json' {
+                param($d)
+                @($d.entries | Where-Object { $_.id -eq 'command-manifest' })[0].schema = $commandSchemaDestination
+                @($d.monotonicity | Where-Object { $_.schema -eq $commandSchemaSource })[0].schema = $commandSchemaDestination
+                $contractEntry = @($d.entries | Where-Object { $_.ContainsKey('directory') -and $_.directory -eq ([IO.Path]::GetDirectoryName($commandSchemaSource).Replace('\', '/') + '/') })
+                if ($contractEntry.Count -eq 1) { $contractEntry[0].directory = [IO.Path]::GetDirectoryName($commandSchemaDestination).Replace('\', '/') + '/' }
+                $destinationRoot = [IO.Path]::GetDirectoryName($commandSchemaDestination).Replace('\', '/') + '/'
+                if ($destinationRoot -eq 'docs/guards/V3_ifx/contracts/' -and $destinationRoot -notin @($d.roots)) { $d.roots += $destinationRoot }
+            }
+            Edit-Json 'docs/guards/V3_ifx/shared/commands.json' { param($d) $d.commands[0].inputs += 'README.md' }
+        }
+        Assert-Result 'head policy uses its relocated registered schema' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase $schemaMoveHead) 0 'Policy candidate validation passed'
         Assert-Result 'a policy change with stale profile views fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-stale-views' $authorizedBase $staleRuleTitle)) 1 'the head profile views differ from what the base renderer produces'
         Assert-Result 'an invalid head profile fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-invalid' $authorizedBase { Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "sometimes"') } })) 1 'the base V3 runner rejects the head profile'
         Assert-Result 'a valid head history manifest passes candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-valid' $authorizedBase { Edit-Json $historyManifest { param($d) $d['fixtureNote'] = 'candidate validation' } })) 0 'Policy candidate validation passed'

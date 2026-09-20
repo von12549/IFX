@@ -94,6 +94,8 @@ try {
                 try { [void](ConvertFrom-GuardJsonText $text) } catch { $problems.Add("is not valid JSON: $($_.Exception.Message)") }
                 if ($problems.Count -eq 0 -and $change.Entry.ContainsKey('schema')) {
                     $schemaPath = [string]$change.Entry.schema
+                    $headEntry = Get-GuardPolicyEntry $headRegistry $change.Path
+                    if ($null -ne $headEntry -and $headEntry.ContainsKey('schema')) { $schemaPath = [string]$headEntry.schema }
                     $schemaFile = Join-Path $baseRepository $schemaPath
                     if ($changedPaths.Contains($schemaPath)) {
                         $schemaFile = Join-Path $work "schemas/$([IO.Path]::GetFileName($schemaPath))"
