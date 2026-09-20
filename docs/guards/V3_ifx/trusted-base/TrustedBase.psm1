@@ -355,6 +355,29 @@ function Read-GuardPolicyRegistry {
     return $document
 }
 
+function Read-GuardCandidatePolicyRegistry {
+    # During a package-layout publication the candidate may relocate the registry schema before the base knows that
+    # path. The registry itself remains a base-registered trust/meta-policy change, so using a schema-valid candidate
+    # registry here cannot authorize itself; it only classifies newly laid-out JSON for the existing weaken-policy gate.
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Commit, [string] $PackagePath = 'docs/guards/V3_ifx')
+    $registryPath = "$PackagePath/shared/policy-config.json"
+    $json = Get-GuardBlobText $Repository $Commit $registryPath
+    if ($null -eq $json) { throw "Candidate policy and configuration registry is missing: $registryPath" }
+    $schemaCandidates = @(
+        "$PackagePath/contracts/policy-config.schema.json",
+        "$PackagePath/shared/contracts/policy-config.schema.json"
+    )
+    $schemas = @($schemaCandidates | Where-Object { $null -ne (Get-GuardBlobBytes $Repository $Commit $_) })
+    if ($schemas.Count -ne 1) { throw "Candidate must contain exactly one supported policy registry schema; found $($schemas.Count)." }
+    $temporarySchema = Join-Path ([IO.Path]::GetTempPath()) "ifx-policy-config-$([Guid]::NewGuid().ToString('N')).schema.json"
+    try {
+        [IO.File]::WriteAllBytes($temporarySchema, (Get-GuardBlobBytes $Repository $Commit $schemas[0]))
+        if (-not (Test-GuardJsonSchema -Schema $temporarySchema -Json $json)) { throw "Candidate policy and configuration registry does not match $($schemas[0])." }
+    }
+    finally { if ([IO.File]::Exists($temporarySchema)) { [IO.File]::Delete($temporarySchema) } }
+    return , (ConvertFrom-Json $json -AsHashtable -Depth 50)
+}
+
 function Get-GuardPolicyEntry {
     # The registered entry of a repository path: exact paths first, then *.json files directly in a registered directory.
     param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][string] $Path)
@@ -416,7 +439,7 @@ function Get-GuardPolicyChanges {
     # parsing, normalized text after line-ending normalization; an added, removed or unparsable file changes at the root
     # pointer. Unregistered JSON files that head adds or changes inside the registry roots, and unregistered .gitattributes
     # files, are reported separately. Derived projection targets are never policy changes themselves.
-    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Base, [Parameter(Mandatory)][string] $Head, [Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][Collections.Generic.HashSet[string]] $ProjectionTargets, [object[]] $Entries)
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Base, [Parameter(Mandatory)][string] $Head, [Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][Collections.Generic.HashSet[string]] $ProjectionTargets, [object[]] $Entries, [object] $CandidateRegistry)
     $changes = [Collections.Generic.List[object]]::new()
     $unregistered = [Collections.Generic.List[string]]::new()
     $utf8 = [Text.UTF8Encoding]::new($false)
@@ -426,7 +449,9 @@ function Get-GuardPolicyChanges {
         $policy = Get-GuardPolicyEntry $Registry $path
         if ($null -eq $policy) {
             $leaf = $path.Substring($path.LastIndexOf('/') + 1)
-            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ((Test-GuardPolicyScope $Registry $path) -and -not $ProjectionTargets.Contains($path)))) { $unregistered.Add($path) }
+            $candidateClassifies = $null -ne $CandidateRegistry -and
+                ($null -ne (Get-GuardPolicyEntry $CandidateRegistry $path) -or -not (Test-GuardPolicyScope $CandidateRegistry $path))
+            if ($null -ne $entry.Head -and ($leaf -ceq '.gitattributes' -or ((Test-GuardPolicyScope $Registry $path) -and -not $ProjectionTargets.Contains($path) -and -not $candidateClassifies))) { $unregistered.Add($path) }
             continue
         }
         $baseBytes = if ($null -ne $entry.Base) { Get-GuardBlobBytes $Repository $Base $path } else { $null }

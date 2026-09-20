@@ -59,8 +59,15 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           $plans = @(git diff --name-only "$env:BASE_SHA..$env:HEAD_SHA" -- '*.plan.json')
-          if ($plans.Count -ne 1) { throw "V3 Diff requires exactly one changed formal *.plan.json; found $($plans.Count)." }
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Diff -PlanPath $plans[0] -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA -GateId v3-pre-diff
+          $aggregatePlans = @($plans | Where-Object { $_ -match '(?i)-aggregate\.plan\.json$' })
+          $plan = if ($plans.Count -eq 1) {
+            $plans[0]
+          } elseif ($aggregatePlans.Count -eq 1) {
+            $aggregatePlans[0]
+          } else {
+            throw "V3 Diff requires one changed formal plan, or exactly one *-aggregate.plan.json when publishing historical plans; found $($plans.Count) plans and $($aggregatePlans.Count) aggregate plans."
+          }
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Diff -PlanPath $plan -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA -GateId v3-pre-diff
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
