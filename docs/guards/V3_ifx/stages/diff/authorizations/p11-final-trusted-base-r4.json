@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "id": "p11-final-trusted-base-r5",
+  "id": "p11-final-trusted-base-r4",
   "operation": "change-trusted-base",
   "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
   "decisionPaths": [
@@ -796,7 +796,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "39ad3f6d47eb5ab4bd093ac1748bf42ba93e212d"
+        "objectId": "d714478611fb2613a0b1d68a5f29d69eaa39951a"
       }
     },
     {
@@ -1104,7 +1104,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "9353adb8b8acb098f93d8644f1ef2c7d6c371026"
+        "objectId": "7955dd1520e9a657eccb88e07956832be94a0973"
       }
     },
     {
@@ -8499,6 +8499,6 @@
     "v3-quality-*",
     "v3-specialized-*"
   ],
-  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the pre-layout base trusted runner, the pre-layout CI verifier reads the non-executable legacy cost declaration, TCB candidate verification uses the pre-layout base candidate verifier, head candidate tests use the new commands facade, and no weaker verdict is permitted.",
+  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the pre-layout base trusted runner, TCB candidate verification uses the pre-layout base candidate verifier, head candidate tests use the new commands facade, and no weaker verdict is permitted.",
   "allowedBehaviorDifferences": []
 }
