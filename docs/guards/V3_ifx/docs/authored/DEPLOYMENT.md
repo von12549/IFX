@@ -123,14 +123,14 @@ For an ordinary low-risk edit, declare exact proposed paths and read `artifacts/
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlannedPaths 'src/Modules/CRM/IFX.Modules.CRM.Domain/Example.cs'
 ```
 
-For a substantial or risk-triggered task, create matching `YYYYMMDD-slug.md` and `YYYYMMDD-slug.plan.json` files using `templates/plan/`. Include a goal, acceptance criteria, exact paths, all affected area IDs, all applicable rule IDs, focused validation command IDs from `tech-stack.json`, and covering decisions. Then run:
+For a substantial or risk-triggered task, create matching `YYYYMMDD-slug.md` and `YYYYMMDD-slug.plan.json` files using `examples/plan/`. Include a goal, acceptance criteria, exact paths, all affected area IDs, all applicable rule IDs, focused validation command IDs from `tech-stack.json`, and covering decisions. Then run:
 
 ```powershell
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Pre -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Diff -ProfileDirectory $profile -TargetRoot . -PlanPath docs/plans/YYYYMMDD-slug.plan.json -BaseRef <base-commit> -HeadRef <head-commit> -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 ```
 
-Pre success is advisory and includes a profile-input SHA-256; it does not prove code or decision quality. For local working-tree Diff, omit `-HeadRef`; CI should supply both exact commits. The generated stage project handles Plan scope, its `L2.2` detector and the compiled CRM pilot. `Invoke-V3 -Mode Test` freshly builds the explicit CRM Domain/Contracts manifest in Debug, then writes `artifacts/guards/v3-assembly.json`. The pilot matched 12 Domain entity types and four public Contract types. The [all-module Inbound Adapter target](docs/authored/architecture/INBOUND-ADAPTER-TARGET.md) remains a separate future migration. Run `Invoke-IFX -Mode Test` as the full post-code architecture gate regardless of the Plan's selected paths.
+Pre success is advisory and includes a profile-input SHA-256; it does not prove code or decision quality. For local working-tree Diff, omit `-HeadRef`; CI should supply both exact commits. The generated stage project handles Plan scope, its `L2.2` detector and the compiled CRM pilot. `Invoke-V3 -Mode Test` freshly builds the explicit CRM Domain/Contracts manifest in Debug, then writes `artifacts/guards/v3-assembly.json`. The pilot matched 12 Domain entity types and four public Contract types. The [all-module Inbound Adapter target](architecture/INBOUND-ADAPTER-TARGET.md) remains a separate future migration. Run `Invoke-IFX -Mode Test` as the full post-code architecture gate regardless of the Plan's selected paths.
 
 `.github/workflows/v3-ifx-guardrails.yml` provides stable jobs for Diff, Architecture, five specialized gates, Solution, Assembly, Frontend and HistoricalIntegrity. It is the only guard workflow triggered by pull requests and main pushes. Diff requires exactly one changed formal `*.plan.json` and explicit PR base/head SHAs; it verifies both commits and their merge base before comparing the complete changed set with the Plan.
 

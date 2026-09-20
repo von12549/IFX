@@ -17,7 +17,7 @@
   "enforcement": "blocking",
   "executionClass": "orchestration",
   "documentation": [
-    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
     "docs/guards/V3_ifx/docs/generated/CI.md"
   ],
   "gates": [

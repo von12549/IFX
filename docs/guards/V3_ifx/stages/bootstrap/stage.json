@@ -8,7 +8,7 @@
   "enforcement": "advisory",
   "executionClass": "authoring",
   "documentation": [
-    "docs/guards/V3_ifx/DEPLOYMENT.md"
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md"
   ],
   "gates": []
 }

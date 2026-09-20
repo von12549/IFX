@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11i-docs-examples-relocation",
+  "title": "Relocate authored documentation and Plan examples",
+  "goal": "Place deployment guidance, generated-output guidance and Plan examples in their final authored-document and example ownership boundaries.",
+  "acceptanceCriteria": [
+    "DEPLOYMENT.md and GENERATED-OUTPUTS.md exist only under docs/authored.",
+    "The Plan example set exists only under examples/plan.",
+    "Stage manifests, package guidance and Agent integrations reference the new locations.",
+    "All moved-document links resolve from their new locations.",
+    "Trusted Diff and trusted-component candidate validation pass with exact authorization consumption."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/authored/GENERATED-OUTPUTS.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/examples/plan/20260914-example.md",
+    "docs/guards/V3_ifx/examples/plan/20260914-example.plan.json",
+    "docs/guards/V3_ifx/examples/plan/README.md",
+    "docs/guards/V3_ifx/generated/README.md",
+    "docs/guards/V3_ifx/integrations/agents/guard-bootstrap/SKILL.md",
+    "docs/guards/V3_ifx/integrations/agents/guard-plan/SKILL.md",
+    "docs/guards/V3_ifx/stages/bootstrap/stage.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-deployment-guide-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-docs-examples-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-docs-examples-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-generated-guide-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11i-plan-examples-move.json",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/stages/pre/stage.json",
+    "docs/guards/V3_ifx/templates/plan/20260914-example.md",
+    "docs/guards/V3_ifx/templates/plan/20260914-example.plan.json",
+    "docs/guards/V3_ifx/templates/plan/README.md",
+    "docs/guards/plans/20260920-v3-stage-cp11i-docs-examples-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11i-docs-examples-relocation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
