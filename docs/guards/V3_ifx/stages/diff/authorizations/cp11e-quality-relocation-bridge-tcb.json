@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "id": "cp11e-quality-relocation-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1"
+  ],
+  "components": [
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXAssemblyGuard.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8f90dbf4e84f565c0c02e8a72b97082e08736e53"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f8d9a3da675d67b1a08c9953d81191627d6d4e7b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "776f065dc6a0229af2ab8124fe42681f70501fdc"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "572a7ea63993c3c8e81abc0195e60addac672607"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXPackage.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2a39b134a3fee1cb6bfef3ffd60ad2d3c757c7a0"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "110c57d37c8fe34be1f138981c8ab8fe6bad5d64"
+      }
+    }
+  ],
+  "validationSuite": [
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Base-owned Assembly, Package and manifest tests keep their assertions and fail-closed behavior while accepting exactly one complete legacy or Post-stage Quality layout.",
+  "allowedBehaviorDifferences": []
+}
