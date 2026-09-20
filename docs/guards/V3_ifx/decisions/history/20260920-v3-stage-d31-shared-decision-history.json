@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-d31-shared-decision-history",
+  "owner": "xiaolong-feng",
+  "summary": "Plan 06 P10 assigns reviewed decision records to shared package ownership and relocates their history from decisions/history to shared/decisions/history through a fail-closed expand/contract bridge.",
+  "affectedPaths": [
+    "docs/guards/V3_ifx/decisions/**",
+    "docs/guards/V3_ifx/shared/decisions/**",
+    "docs/guards/V3_ifx/stages/diff/stage.json",
+    "docs/guards/V3_ifx/tests/**",
+    "docs/guards/V3_ifx/trusted-base/**",
+    "docs/guards/plans/**"
+  ],
+  "rationale": "Decision history is cross-stage governance authority, not a stage-local implementation. The migration first makes base-owned readers accept exactly one complete legacy or shared history, then performs exact per-file moves and updates living runtime references. Historical plan records continue to describe the paths that existed when those checkpoints ran; no permanent internal compatibility copy remains. This applies D7, D15 and D23 to the decisions mapping in Plan 06 section 13."
+}

@@ -93,10 +93,22 @@ if ($policyRelativeRootCandidates.Count -ne 1) { throw "Exactly one complete leg
 $policyRelativeRoot = $policyRelativeRootCandidates[0]
 $g03CatalogProjection = "docs/guards/V3_ifx/$policyRelativeRoot/g03/catalog.json"
 $g05Projection = "docs/guards/V3_ifx/$policyRelativeRoot/g05/context-protocol-v1.json"
+$decisionHistory = [IO.Path]::GetRelativePath($repository, (Resolve-GuardDecisionHistoryPath $package)).Replace('\', '/')
 
 try {
     # ---- base commit: the current package (including uncommitted work) on top of HEAD
     [void][IO.Directory]::CreateDirectory($work)
+    $decisionLayoutFixture = Join-Path $work 'decision-layout'
+    $legacyDecisionFixture = Join-Path $decisionLayoutFixture 'decisions/history'
+    $sharedDecisionFixture = Join-Path $decisionLayoutFixture 'shared/decisions/history'
+    [void][IO.Directory]::CreateDirectory($legacyDecisionFixture)
+    if ((Resolve-GuardDecisionHistoryPath $decisionLayoutFixture) -cne $legacyDecisionFixture) { throw 'Legacy decision-history resolution changed unexpectedly.' }
+    [void][IO.Directory]::CreateDirectory($sharedDecisionFixture)
+    try { [void](Resolve-GuardDecisionHistoryPath $decisionLayoutFixture); $failures.Add('Ambiguous decision-history layouts did not fail closed.') } catch { Write-Host 'PASS ambiguous decision-history layouts fail closed' }
+    [IO.Directory]::Delete((Join-Path $decisionLayoutFixture 'decisions'), $true)
+    if ((Resolve-GuardDecisionHistoryPath $decisionLayoutFixture) -cne $sharedDecisionFixture) { throw 'Shared decision-history resolution changed unexpectedly.' }
+    [IO.Directory]::Delete((Join-Path $decisionLayoutFixture 'shared'), $true)
+    try { [void](Resolve-GuardDecisionHistoryPath $decisionLayoutFixture); $failures.Add('Missing decision-history layouts did not fail closed.') } catch { Write-Host 'PASS missing decision-history layout fails closed' }
     $headCommit = (Invoke-FixtureGit $repository @('rev-parse', 'HEAD'))[0]
     [void](Invoke-FixtureGit $work @('clone', '-q', '--shared', '--no-checkout', $repository, $clone))
     [void](Invoke-FixtureGit $clone @('checkout', '-q', '--detach', $headCommit))
@@ -194,7 +206,7 @@ try {
         # obligation rules directly.
         $authorizations = 'docs/guards/V3_ifx/stages/diff/authorizations'
         $changePlan = 'docs/guards/plans/20260917-fixture-change.plan.json'
-        $decision = 'docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json'
+        $decision = "$decisionHistory/20260917-v3-stage-d19-trusted-base-first-introduction.json"
         # Use the canonical V3 package as the protected-path fixture. V3_backup is itself
         # scheduled for deletion in P10.5 and must not be a prerequisite of this suite.
         $backupFile = 'docs/guards/V3/README.md'
@@ -218,7 +230,7 @@ try {
                 formatVersion = 1; id = '20260917-fixture-change'; title = "Fixture $Name"; goal = 'Exercise protected change authorization in the trusted Diff.'
                 acceptanceCriteria = @('The trusted Diff verdict matches the expected authorization outcome.')
                 plannedPaths = @($planned | Sort-Object); areaIds = @('CI', 'GuardDocs', 'GuardPackage'); ruleIds = @(); validationCommands = @('ifx-package-test')
-                decisionPaths = @($decision, 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json', 'docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json', 'docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json')
+                decisionPaths = @($decision, "$decisionHistory/20260916-v3-stage-d10-protected-change-authorization.json", "$decisionHistory/20260916-v3-stage-d02-v3-backup-retirement.json", "$decisionHistory/20260917-v3-stage-d24-policy-config-dual-track.json")
             }
             [IO.File]::WriteAllText($planFile, ($plan | ConvertTo-Json -Depth 5), $utf8)
             [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/plans/20260917-fixture-change.md'), "# Fixture $Name`n", $utf8)

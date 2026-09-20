@@ -30,7 +30,8 @@ $clone = Join-Path $work 'h'
 $utf8 = [Text.UTF8Encoding]::new($false)
 $identity = @('-c', 'user.name=guard-rehearsal', '-c', 'user.email=guard-rehearsal@example.invalid', '-c', 'commit.gpgsign=false')
 $authorizations = 'docs/guards/V3_ifx/stages/diff/authorizations'
-$decisions = 'docs/guards/V3_ifx/decisions/history'
+$decisionHistory = Resolve-GuardDecisionHistoryPath (Join-Path $repositoryRoot 'docs/guards/V3_ifx')
+$decisions = [IO.Path]::GetRelativePath($repositoryRoot, $decisionHistory).Replace('\', '/')
 $steps = [Collections.Generic.List[object]]::new()
 
 function Invoke-RehearsalGit([string[]] $Arguments) {

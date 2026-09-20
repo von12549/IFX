@@ -57,7 +57,8 @@ try {
     $prefixes = [string[]] @(
         'docs/guards/plans/',
         $AuthorizationDirectory,
-        'docs/guards/V3_ifx/decisions/history/'
+        'docs/guards/V3_ifx/decisions/history/',
+        'docs/guards/V3_ifx/shared/decisions/history/'
     )
     $result.recordPrefixes = $prefixes
 

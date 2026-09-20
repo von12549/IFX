@@ -325,6 +325,16 @@ function Get-GuardAuthorityRegistryPathAtCommit {
     return $available[0]
 }
 
+function Resolve-GuardDecisionHistoryPath {
+    # During CP11o decision records may live in the legacy package directory or under shared ownership.
+    # Accept exactly one complete directory so a partial copy or silent fallback cannot split authority.
+    param([Parameter(Mandatory)][string] $PackageRoot)
+    $candidates = @('decisions/history', 'shared/decisions/history')
+    $available = @($candidates | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { [IO.Directory]::Exists($_) })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared decision history must exist; found $($available.Count)." }
+    return $available[0]
+}
+
 function Read-GuardProtection {
     # The Diff protection configuration of a package (Plan 06 P3.2), validated, with the SHA-256 of its exact bytes.
     param([Parameter(Mandatory)][string] $PackageRoot)
