@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-d38-cross-platform-inventory-bytes",
+  "owner": "xiaolong-feng",
+  "summary": "Files whose raw SHA-256 is recorded by the V3 repository inventory use LF checkout authority on every platform. The verifier retains byte-exact reproducibility; the repository declares canonical checkout bytes instead of ignoring cross-platform line-ending differences.",
+  "affectedPaths": [
+    ".gitattributes",
+    "docs/guards/V3_ifx/analysis/ifx/INVENTORY.md",
+    "docs/guards/V3_ifx/analysis/ifx/inventory.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-p11-candidate-layout-compatibility.md",
+    "docs/guards/plans/20260921-v3-stage-p11-candidate-layout-compatibility.plan.json"
+  ],
+  "rationale": "Real PR #73 proved that the committed Windows inventory and a Linux fresh checkout contained the same 171 projects, six manifests, one workflow, two guidance files, identical ordering and equivalent parsed content, but every raw hash differed because the relevant text types had no checkout EOL contract. Declaring LF for only the inventory-covered text classes makes the authority bytes portable while preserving the existing raw-byte detector. The .gitattributes change remains subject to a separate weaken-policy authorization before the bridge may consume it."
+}
