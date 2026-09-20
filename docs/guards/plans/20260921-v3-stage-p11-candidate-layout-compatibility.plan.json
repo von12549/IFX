@@ -36,7 +36,8 @@
   "areaIds": [
     "CI",
     "GuardDocs",
-    "GuardPackage"
+    "GuardPackage",
+    "RepositoryConfig"
   ],
   "ruleIds": [],
   "validationCommands": [
