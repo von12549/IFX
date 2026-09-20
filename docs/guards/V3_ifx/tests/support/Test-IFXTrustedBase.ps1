@@ -562,7 +562,9 @@ try {
             param($t)
             $legacy = './docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
             $facade = './docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
-            $anchor = if ($t.Contains($legacy, [StringComparison]::Ordinal)) { $legacy } elseif ($t.Contains($facade, [StringComparison]::Ordinal)) { $facade } else { throw 'Workflow has no declared public guard entry point fixture anchor.' }
+            # Prefer the executable facade outside the P11.4 non-executable compatibility comment. A legacy entry may
+            # occur only inside that exact closed block and therefore must not be used as the negative-control anchor.
+            $anchor = if ($t.Contains($facade, [StringComparison]::Ordinal)) { $facade } elseif ($t.Contains($legacy, [StringComparison]::Ordinal)) { $legacy } else { throw 'Workflow has no declared public guard entry point fixture anchor.' }
             $t.Replace($anchor, "$anchor`n          ./docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1")
         }
     })

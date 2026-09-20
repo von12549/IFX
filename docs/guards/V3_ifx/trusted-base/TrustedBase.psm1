@@ -256,7 +256,13 @@ function Get-GuardHeadExecutableReferences {
         }
     }
     $workflow = Get-GuardBlobText $Repository $Head '.github/workflows/v3-ifx-guardrails.yml'
-    if ($null -ne $workflow) { foreach ($match in [Regex]::Matches($workflow, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.psm?1)')) { [void]$references.Add($match.Groups[1].Value) } }
+    if ($null -ne $workflow) {
+        # P11.4 keeps one non-executable block comment whose legacy command lists are read by the pre-layout base CI
+        # verifier. Match the manifest checker's narrow exception: only the exact, syntactically closed block is
+        # excluded. A malformed block, or any executable reference outside it, remains visible and fails closed.
+        $workflowEntries = [Regex]::Replace($workflow, '(?ms)<#\s*BEGIN PRE-LAYOUT CI CONTRACT\s*\n.*?\n\s*# END PRE-LAYOUT CI CONTRACT\s*\n\s*#>', '')
+        foreach ($match in [Regex]::Matches($workflowEntries, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.psm?1)')) { [void]$references.Add($match.Groups[1].Value) }
+    }
     return [string[]]@($references)
 }
 
