@@ -10,7 +10,7 @@ Analysis writes inventory, proposal and review output only to `artifacts/guards/
 
 The V3 stage runner maps an ordinary path summary or validates a formal Plan before coding. CI Diff resolves explicit base/head commits, requires a real merge base and nonempty changed set, includes both sides of renames, and rejects undeclared paths and protected guard deletion. Its IFX profile maps all nine numbered LayerGuard rule IDs to applicable paths. The independent IFX LayerGuard project remains the complete architecture detector: layer and ownership boundaries, direct/transitive references, package/import/source rules, declaration and payload rules, Gate bindings, and the strict zero-entry Plan 05 baseline.
 
-The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. `policy/authorities.json` identifies their domain-owned sources, and `maintenance/Sync-IFXPolicyInputs.ps1` previews, applies or checks LF-normalized local copies and binding hashes with explicit acceptance for writes. Specialized detectors live under `specialized/`; they write reports under `artifacts/guards/v3-ifx/` and do not repeat LayerGuard or full solution tests. `quality/` owns the one-time solution regression, all five compiled Domain assembly boundaries, and frontend install/lint/test/build. `history/` protects frozen Plan00/B1/B4 and LayerGuard baselines without treating their old blocker counts or next-step text as current readiness; regeneration is an explicit Preview/Apply operation under `maintenance/`.
+The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. `policy/authorities.json` identifies their domain-owned sources, and `maintenance/Sync-IFXPolicyInputs.ps1` previews, applies or checks LF-normalized local copies and binding hashes with explicit acceptance for writes. Specialized detectors live under `specialized/`; they write reports under `artifacts/guards/v3-ifx/` and do not repeat LayerGuard or full solution tests. `stages/post/gates/quality/` owns the one-time solution regression, all five compiled Domain assembly boundaries, and frontend install/lint/test/build. `stages/post/gates/historical-integrity/` protects frozen Plan00/B1/B4 and LayerGuard baselines without treating their old blocker counts or next-step text as current readiness; regeneration is an explicit Preview/Apply operation under `maintenance/`.
 
 ## Directory and editing contract
 
@@ -27,7 +27,7 @@ The G03/G04/G05 files under `policy/` are deterministic LayerGuard projections. 
 | `policy/baselines/plan05.json` | Local strict baseline, bound to the composite policy hash; never silently update after a rule edit |
 | `policy/authorities.json` | Registry of editable domain authorities and deterministic V3 projections |
 | `specialized/` | V3-owned G03, G04, G05, Plan04 and Database runners and detectors |
-| `quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |
+| `stages/post/gates/quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |
 | `history/` | Frozen evidence manifest, validator and explicit regeneration command |
 | `templates/ifx-layerguard/` | The IFX policy binding and host (`src/LayerGuard.Ifx`) and the IFX binding tests with their own fixture; the generic engine, its tests and their synthetic fixtures live in `../V3/stages/post/gates/architecture/dotnet/` |
 | external generation root | Untracked IFX Stage Gate at `<generation-root>/v3-ifx/gates/stage/Ifx.Guards.StageGate.Tests/` |

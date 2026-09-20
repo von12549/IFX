@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11e-quality-relocation",
+  "title": "V3 stage-oriented refactor CP11e — Quality gate relocation",
+  "goal": "Make stages/post/gates/quality the sole active owner of the IFX solution, assembly and frontend Quality runners.",
+  "acceptanceCriteria": [
+    "All three Quality scripts exist only under stages/post/gates/quality.",
+    "The dispatcher, command catalog, Post trust contracts and trusted-component manifest name only the stage-owned location.",
+    "Direct invocation resolves the same repository root and package-local LayerGuard policy from the new directory.",
+    "Generated documentation is deterministic and active guidance contains no legacy Quality path.",
+    "Assembly, Package, Manifest and fixed-corpus Quality validation retain their verdicts.",
+    "The move, trusted-base and policy/config authorizations are each consumed exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/V3_ifx/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXPackageAudit.ps1",
+    "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-move.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11e-quality-relocation-weaken-policy.json",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1",
+    "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11e-quality-relocation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d04-read-only-generated-markdown.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

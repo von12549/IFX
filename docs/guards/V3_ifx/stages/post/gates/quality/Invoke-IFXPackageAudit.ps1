@@ -12,7 +12,7 @@ $root = if ($RepositoryRoot) {
 } elseif ($env:GUARD_TARGET_ROOT) {
     [IO.Path]::GetFullPath($env:GUARD_TARGET_ROOT)
 } else {
-    [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
+    [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../..'))
 }
 $resolvedOutput = if ([IO.Path]::IsPathRooted($OutputPath)) {
     [IO.Path]::GetFullPath($OutputPath)

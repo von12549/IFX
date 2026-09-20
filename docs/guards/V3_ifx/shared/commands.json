@@ -321,7 +321,7 @@
     {
       "id": "ifx-quality",
       "kind": "internal",
-      "entryPoint": "docs/guards/V3_ifx/quality/Invoke-IFXQuality.ps1",
+      "entryPoint": "docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1",
       "stages": [
         "post"
       ],

@@ -449,7 +449,7 @@
         "targetInput": "head solution",
         "inputs": [
           {
-            "ref": "package:quality/",
+            "ref": "package:stages/post/gates/quality/",
             "source": "base"
           },
           {
@@ -489,7 +489,7 @@
         "targetInput": "Domain assemblies built from head by v3-quality-solution",
         "inputs": [
           {
-            "ref": "package:quality/",
+            "ref": "package:stages/post/gates/quality/",
             "source": "base"
           },
           {
@@ -521,7 +521,7 @@
         "targetInput": "head frontend",
         "inputs": [
           {
-            "ref": "package:quality/",
+            "ref": "package:stages/post/gates/quality/",
             "source": "base"
           },
           {
