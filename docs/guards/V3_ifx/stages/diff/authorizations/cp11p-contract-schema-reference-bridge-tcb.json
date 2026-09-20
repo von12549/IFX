@@ -1,0 +1,58 @@
+{
+  "formatVersion": 1,
+  "id": "cp11p-contract-schema-reference-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11p-contract-schema-reference-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1"
+  ],
+  "components": [
+    "tcb.engine.trusted-base",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f02f842d562aeffcfa8b4533fa309e96e916320"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3d7c7a9de7ab9489020fc657765e01660565bce0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c43757ed5f961584848503bbf7636fe4c474363b"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "51504d89372b99bac1203c4dab1f42373ab4851e"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Policy obligations remain base-owned; only head-candidate schema selection follows the schema-valid head registry and explicit head Git object.",
+  "allowedBehaviorDifferences": []
+}
