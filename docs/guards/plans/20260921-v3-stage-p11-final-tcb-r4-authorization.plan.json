@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-final-tcb-r4-authorization",
+  "title": "P11.4 final TCB authorization r4",
+  "goal": "Pre-authorize the complete P11.4 TCB obligation with decision references at their final shared locations.",
+  "acceptanceCriteria": [
+    "The immutable change-trusted-base record binds the current candidate head, all 19 changed components, all 753 changed trusted paths, and the base-owned validation suites.",
+    "Every plan and decision reference exists at its final location in the authorized candidate layout.",
+    "This authorization-only pull request changes only this formal plan pair and the r4 authorization record, qualifies for records-and-plans CI scope, and passes all 13 required checks."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r4.json",
+    "docs/guards/plans/20260921-v3-stage-p11-final-tcb-r4-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-final-tcb-r4-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json"
+  ]
+}
