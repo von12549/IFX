@@ -1,10 +1,9 @@
 {
   "formatVersion": 1,
-  "id": "p11-final-trusted-base-r6",
+  "id": "p11-final-trusted-base-r5",
   "operation": "change-trusted-base",
   "planPath": "docs/guards/plans/20260921-v3-stage-p11-final-aggregate.plan.json",
   "decisionPaths": [
-    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
     "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
     "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
     "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
@@ -6115,7 +6114,7 @@
       "head": {
         "mode": "100644",
         "type": "blob",
-        "objectId": "d32d93c62171dce9d4209247451a59b38dbf82f8"
+        "objectId": "b26ef7a85d819c73ca5b71e91a5009cafc90aaa5"
       }
     },
     {
@@ -8500,6 +8499,6 @@
     "v3-quality-*",
     "v3-specialized-*"
   ],
-  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the base trusted runner, TCB candidate verification uses the base candidate verifier, and head candidate tests use the new commands facade. The CI contract test normalizes only presentation-level ANSI escape sequences, console gutters, and line breaks before matching unchanged expected error text; exit-code assertions, semantic expectations, smoke/full coverage, executable-entry discovery, and every production verdict remain unchanged.",
+  "parityContract": "All candidate suites, fixed negative controls, public command contracts, stage outputs, required-check identities, and policy/hash checks remain governed by the base-owned validation suite; during P11.4 every required-check verdict uses the pre-layout base trusted runner, the pre-layout CI verifier reads the non-executable legacy cost declaration, TCB candidate verification uses the pre-layout base candidate verifier, head candidate tests use the new commands facade, and no weaker verdict is permitted.",
   "allowedBehaviorDifferences": []
 }
