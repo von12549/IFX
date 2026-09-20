@@ -213,7 +213,7 @@
       ],
       "inputs": [
         "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
-        "docs/guards/V3_ifx/templates/ifx-layerguard/",
+        "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/",
         "docs/guards/V3/build/",
         "docs/guards/V3_ifx/build/locks/"
       ],

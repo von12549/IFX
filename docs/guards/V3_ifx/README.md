@@ -29,11 +29,11 @@ The G03/G04/G05 files under `stages/post/policy/` are deterministic LayerGuard p
 | `stages/post/gates/specialized/` | V3-owned G03, G04, G05, Plan04 and Database runners and detectors |
 | `stages/post/gates/quality/` | Solution, five-module compiled Domain assembly and frontend quality runners |
 | `history/` | Frozen evidence manifest, validator and explicit regeneration command |
-| `templates/ifx-layerguard/` | The IFX policy binding and host (`src/LayerGuard.Ifx`) and the IFX binding tests with their own fixture; the generic engine, its tests and their synthetic fixtures live in `../V3/stages/post/gates/architecture/dotnet/` |
+| `stages/post/gates/architecture/dotnet/` | The IFX policy binding and host (`src/LayerGuard.Ifx`) and the IFX binding tests with their own fixture; the generic engine, its tests and their synthetic fixtures live in `../V3/stages/post/gates/architecture/dotnet/` |
 | external generation root | Untracked IFX Stage Gate at `<generation-root>/v3-ifx/gates/stage/Ifx.Guards.StageGate.Tests/` |
 | `shared/contracts/`, `stages/{diff,ci}/contracts/` | IFX cross-stage and stage-owned contracts; portable profile, plan, rule and related schemas come from `../V3/contracts/` |
 | `examples/plan/`, `integrations/agents/` | Plan examples and optional Agent planning integration; generic hooks and templates live in `../V3/` |
-| `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `templates/ifx-layerguard/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |
+| `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `stages/post/gates/architecture/dotnet/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |
 | `scripts/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
 | `commands/` | Stable public command entry points; legacy `scripts/` paths are deprecation wrappers |
 

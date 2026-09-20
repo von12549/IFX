@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `4b7a6b9a114dab2e01ee3cd3cf64025eac3d69b12f8adbdea04c6c1d87c7f47a`
+Composite SHA-256: `c6a6f4f41d3051a18bac1523151e8a8f14b7b706ee48234128f6cfd2eb52ac94`
 
 Sources:
 
@@ -75,7 +75,7 @@ Sources:
 ## ifx-architecture
 
 - Audiences: ci, validation-command, human
-- Inputs: docs/guards/V3_ifx/stages/post/policy/layerguard.json; docs/guards/V3_ifx/templates/ifx-layerguard/; docs/guards/V3/build/; docs/guards/V3_ifx/build/locks/
+- Inputs: docs/guards/V3_ifx/stages/post/policy/layerguard.json; docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/; docs/guards/V3/build/; docs/guards/V3_ifx/build/locks/
 - Outputs: artifacts/guards/v3-ifx/architecture/; artifacts/build/v3-ifx/architecture-conformance/; artifacts/guards/v3-ifx/build/architecture-conformance/
 - Evidence: artifacts/guards/v3-ifx/architecture/layerguard.json
 

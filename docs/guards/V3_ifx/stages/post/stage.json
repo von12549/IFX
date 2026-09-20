@@ -26,7 +26,7 @@
       "executionClass": "gate",
       "trustContract": {
         "type": "mixed",
-        "evaluator": "base generic Architecture Conformance engine (docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance), run through the base IFX host that registers the IFX policy binding (docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx)",
+        "evaluator": "base generic Architecture Conformance engine (docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance), run through the base IFX host that registers the IFX policy binding (docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx)",
         "policy": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
         "targetInput": "head csproj XML and C# source text; head guard package tests",
         "inputs": [

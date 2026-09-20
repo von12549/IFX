@@ -872,14 +872,14 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P10 — 物理目录迁移、V3_backup 删除与兼容入口清理
 
-- [ ] P10.1 将 project map、risks、rules、toolchain、assembly manifest、protected paths、workflow 和 required checks 分配给明确 Stage/Shared authority；旧 profile 格式通过只读兼容加载器或一次性迁移器并行比较，不允许 silent fallback。
-- [ ] P10.2 按 §13 映射以检查点分组移动，每组使用授权 PR + 变更 PR。
-- [ ] P10.3 将内部实现迁入 `engine/`，生成逻辑迁入 `generators/`，hooks/skills/GitHub glue 迁入 `integrations/`，policy sync、history regeneration、analysis evidence 更新和迁移工具迁入 `maintenance/` 并补齐 Preview/Apply；按 Stage 重组测试，不改变覆盖。
-- [ ] P10.4 每组移动后更新 manifest、链接、脚本、tests 和 docs，并运行完整 Check。
+- [x] P10.1 将 project map、risks、rules、toolchain、assembly manifest、protected paths、workflow 和 required checks 分配给明确 Stage/Shared authority；旧 profile 格式通过只读兼容加载器或一次性迁移器并行比较，不允许 silent fallback。证据：CP11c–CP11m 将权威文件依职责迁入 Analysis、Pre、Post、CI 与 Shared，全部过渡加载器要求新旧布局恰有一个，不存在 silent fallback。
+- [x] P10.2 按 §13 映射以检查点分组移动，每组使用授权 PR + 变更 PR。证据：CP11a–CP11r 按 maintenance、备份删除、Stage/Shared 权威、tests、decision history、command/verifier 与 LayerGuard 分组完成本地 auth → change 链；均未 push/建 PR，待发布时保持同一双 PR 边界。
+- [x] P10.3 将内部实现迁入 `engine/`，生成逻辑迁入 `generators/`，hooks/skills/GitHub glue 迁入 `integrations/`，policy sync、history regeneration、analysis evidence 更新和迁移工具迁入 `maintenance/` 并补齐 Preview/Apply；按 Stage 重组测试，不改变覆盖。证据：CP11a–CP11q 完成实现与工具归属，CP11n 将 14 个 package tests 重组到 `tests/ci|pre|post|support`，CP11r 将剩余 IFX Architecture binding、tests 与 fixtures 迁入 Post gate。
+- [x] P10.4 每组移动后更新 manifest、链接、脚本、tests 和 docs，并运行完整 Check。证据：每组候选均同步 authority/TCB/command/docs，运行 Validate、正式 Pre、相关专项测试与 base-owned protected/policy/TCB candidate verification；CP11r 另通过隔离包构建、正负例与 strict scan。
 - [x] P10.5 通过授权删除 V3_backup（D2）。证据：CP11b 先以 base-owned bridge 移除测试夹具对备份树的依赖，再消费目录级 `delete`、TCB 与 policy/config 授权删除 41 个重复文件；canonical V3 与 Git history 为唯一恢复边界。
-- [ ] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。
-- [ ] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。
-- **进度**：CP11n 先使全部 14 个 IFX package tests 从 package manifest 解析根目录，再按职责迁入 `tests/ci/`、`tests/pre/`、`tests/post/` 与 `tests/support/`；dispatcher、TCB manifest、toolchain、只读视图、analysis evidence 与运维文档同步更新，测试选择与覆盖保持不变。CP11o 以 fail-closed 双布局桥接后，将 34 份 decision history 逐文件迁入 `shared/decisions/history/`，活动 Diff trust contract 同步指向 shared authority，历史 checkpoint 记录保留执行时路径。
+- [x] P10.6 旧公共路径保留明确 deprecation wrapper；内部路径不提供永久兼容。证据：公共 facade 保留带 `DEPRECATED` 提示的薄转发入口；内部 manifest verifier 等旧路径删除，迁移桥仅用于 base-owned auth/change 验证并要求新旧布局恰有一个。
+- [x] P10.7 验证仓库引用扫描无悬空路径，无隐含外部配置权威。证据：CP11r 最终引用审计只保留历史计划/decision/evidence 以及明确的双布局验证桥；活动 command、stage、TCB、authored/generated docs 均指向最终 authority，Validate、Docs Check、manifest 与 package isolation 全部通过。
+- **完成**：CP11a–CP11r 已完成 P10 的全部分组迁移。最后一组将 13 个 IFX LayerGuard solution/binding/test/fixture 文件从 template 迁入 `stages/post/gates/architecture/dotnet/`；旧模板目录消失，V3 通用 engine 仍由独立 V3 Post authority 持有。全链在 2026-09-20 本地完成，未 push/未建 PR。
 - **门槛**：新结构可在 Linux/Windows clean checkout 重现，旧兼容入口只剩批准范围。
 
 ### P11 — 并行验证、切换、清理与回退证明
