@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('Render', 'Check', 'Import')][string] $Mode,
-    [Parameter(Mandatory)][string] $ProfileDirectory,
+    [string] $ProfileDirectory,
+    [string] $ProfileLayoutPath,
     [Parameter(Mandatory)][string] $TargetRoot,
     [string] $DocsDirectory,
     [switch] $Apply
@@ -18,9 +19,39 @@ function Resolve-UnderRoot([string] $value) {
     if (-not $full.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) { throw "Path must stay under TargetRoot: $value" }
     return $full
 }
-$profileRoot = Resolve-UnderRoot $ProfileDirectory
-if (-not [IO.Directory]::Exists($profileRoot)) { throw "ProfileDirectory does not exist: $profileRoot" }
-$docsRoot = if ($DocsDirectory) { Resolve-UnderRoot $DocsDirectory } else { Join-Path $profileRoot 'views' }
+$layoutMode = -not [string]::IsNullOrWhiteSpace($ProfileLayoutPath)
+if ($layoutMode -eq (-not [string]::IsNullOrWhiteSpace($ProfileDirectory))) { throw 'Supply exactly one of ProfileDirectory or ProfileLayoutPath.' }
+function Resolve-RepositoryPath([string] $value) {
+    $normalized = $value.Replace('\', '/')
+    if ([string]::IsNullOrWhiteSpace($normalized) -or $normalized.StartsWith('/') -or $normalized -match '^[A-Za-z]:' -or
+        $normalized -match '[*?]' -or @($normalized -split '/' | Where-Object { $_ -in @('', '.', '..') }).Count -gt 0) {
+        throw "Unsafe repository-relative profile layout path: $value"
+    }
+    return Resolve-UnderRoot $normalized
+}
+if ($layoutMode) {
+    $layoutPath = Resolve-UnderRoot $ProfileLayoutPath
+    if (-not [IO.File]::Exists($layoutPath)) { throw "ProfileLayoutPath does not exist: $layoutPath" }
+    $layout = Get-Content -LiteralPath $layoutPath -Raw | ConvertFrom-Json -AsHashtable -Depth 20
+    $expectedLayoutKeys = @('formatVersion', 'profile', 'projectMap', 'rulesDirectory', 'techStack', 'viewsDirectory')
+    if ($layout.formatVersion -ne 1 -or (@($layout.Keys | Sort-Object) -join "`n") -cne (@($expectedLayoutKeys | Sort-Object) -join "`n")) { throw 'Invalid profile layout JSON.' }
+    $profilePath = Resolve-RepositoryPath ([string]$layout.profile)
+    $projectMapPath = Resolve-RepositoryPath ([string]$layout.projectMap)
+    $techStackPath = Resolve-RepositoryPath ([string]$layout.techStack)
+    $ruleRoot = Resolve-RepositoryPath ([string]$layout.rulesDirectory)
+    $layoutViewsRoot = Resolve-RepositoryPath ([string]$layout.viewsDirectory)
+    $profileRoot = [IO.Path]::GetDirectoryName($profilePath)
+    $docsRoot = if ($DocsDirectory) { Resolve-UnderRoot $DocsDirectory } else { $layoutViewsRoot }
+}
+else {
+    $profileRoot = Resolve-UnderRoot $ProfileDirectory
+    if (-not [IO.Directory]::Exists($profileRoot)) { throw "ProfileDirectory does not exist: $profileRoot" }
+    $profilePath = Join-Path $profileRoot 'profile.json'
+    $projectMapPath = Join-Path $profileRoot 'project-map.json'
+    $techStackPath = Join-Path $profileRoot 'tech-stack.json'
+    $ruleRoot = Join-Path $profileRoot 'rules'
+    $docsRoot = if ($DocsDirectory) { Resolve-UnderRoot $DocsDirectory } else { Join-Path $profileRoot 'views' }
+}
 if ($docsRoot -eq $profileRoot) { throw 'DocsDirectory must differ from ProfileDirectory.' }
 $utf8 = [Text.UTF8Encoding]::new($false)
 
@@ -45,36 +76,56 @@ function Add-Source([string] $title, [string] $sourceName, [string] $schema, [st
     $body = "$table`n`n``````json`n$raw```````n"
     return Normalize-Text ($header + $body)
 }
+function Relative([string] $path) { return [IO.Path]::GetRelativePath($root, $path).Replace('\', '/') }
+function Hash-Text([string] $value) { return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($value))).ToLowerInvariant() }
+function Add-LayoutHeader([string] $title, [string[]] $sourceNames) {
+    $sources = @($sourceNames | ForEach-Object {
+        $full = switch ($_) {
+            'profile.json' { $profilePath }
+            'project-map.json' { $projectMapPath }
+            'tech-stack.json' { $techStackPath }
+            default {
+                if (-not $_.StartsWith('rules/')) { throw "Unknown profile authority source: $_" }
+                Join-Path $ruleRoot ([IO.Path]::GetFileName($_))
+            }
+        }
+        [pscustomobject]@{ path = Relative $full; role = 'authority'; fullPath = $full }
+    } | Sort-Object path, role)
+    $material = @($sources | ForEach-Object { "$($_.path)`n$($_.role)`n$(Normalize-Text ([IO.File]::ReadAllText($_.fullPath)))" }) -join "`n"
+    $lines = @($sources | ForEach-Object { "- ``$($_.path)`` — $($_.role)" })
+    return Normalize-Text ("# $title`n`n<!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->`n`nComposite SHA-256: ``$(Hash-Text $material)```n`nSources:`n`n$($lines -join "`n")")
+}
 
-$profile = Read-JsonFile (Join-Path $profileRoot 'profile.json') 'profile'
-$map = Read-JsonFile (Join-Path $profileRoot 'project-map.json') 'project-map'
-$tech = Read-JsonFile (Join-Path $profileRoot 'tech-stack.json') 'tech-stack'
-$ruleRoot = Join-Path $profileRoot 'rules'
+$profile = Read-JsonFile $profilePath 'profile'
+$map = Read-JsonFile $projectMapPath 'project-map'
+$tech = Read-JsonFile $techStackPath 'tech-stack'
 if (-not [IO.Directory]::Exists($ruleRoot)) { throw "Missing rules directory: $ruleRoot" }
 $ruleFiles = @(Get-ChildItem -LiteralPath $ruleRoot -File -Filter '*.json' | Sort-Object Name)
 if ($ruleFiles.Count -eq 0) { throw 'At least one rule is required.' }
 $rules = @($ruleFiles | ForEach-Object { Read-JsonFile $_.FullName 'rule' })
 $expected = [ordered]@{}
-$expected['PROFILE.md'] = Add-Source 'Profile' 'profile.json' 'profile' "| Field | Value |`n| --- | --- |`n| Project ID | $(Cell $profile.projectId) |"
+$expected['PROFILE.md'] = if ($layoutMode) { Normalize-Text ("$(Add-LayoutHeader 'Profile' @('profile.json'))`n| Field | Value |`n| --- | --- |`n| Project ID | $(Cell $profile.projectId) |") } else { Add-Source 'Profile' 'profile.json' 'profile' "| Field | Value |`n| --- | --- |`n| Project ID | $(Cell $profile.projectId) |" }
 $areaLines = @($map.areas | ForEach-Object { "| $(Cell $_.id) | $(Cell $_.pathPattern) | $(Cell $_.layer) | $(Cell $_.owner) | $(Cell $_.similarImplementationRoot) | $(Cell $_.focusedCommands) |" })
 $riskLines = @($map.riskTriggers | ForEach-Object { "| $(Cell $_.id) | $(Cell $_.pathPattern) | $(Cell $_.reason) |" })
 $mapTable = "## Areas`n`n| ID | Path | Layer | Owner | Similar implementation | Focused commands |`n| --- | --- | --- | --- | --- | --- |`n$($areaLines -join "`n")`n`n## Risk triggers`n`n| ID | Path | Reason |`n| --- | --- | --- |`n$($riskLines -join "`n")"
-$expected['PROJECT_MAP.md'] = Add-Source 'Project map' 'project-map.json' 'project-map' $mapTable
+$expected['PROJECT_MAP.md'] = if ($layoutMode) { Normalize-Text ("$(Add-LayoutHeader 'Project map' @('project-map.json'))`n$mapTable") } else { Add-Source 'Project map' 'project-map.json' 'project-map' $mapTable }
 $commandLines = @($tech.commands | ForEach-Object { "| $(Cell $_.id) | $(Cell $_.executable) | $(Cell $_.arguments) | $(Cell $_.workingDirectory) |" })
 $techTable = "| Languages | .NET gate target | Framework |`n| --- | --- | --- |`n| $(Cell $tech.targetLanguages) | $(Cell $tech.testProject.targetFramework) | $(Cell $tech.testProject.framework) |`n`n## Commands`n`n| ID | Executable | Arguments | Working directory |`n| --- | --- | --- | --- |`n$($commandLines -join "`n")"
-$expected['TECH_STACK.md'] = Add-Source 'Tech stack' 'tech-stack.json' 'tech-stack' $techTable
+$expected['TECH_STACK.md'] = if ($layoutMode) { Normalize-Text ("$(Add-LayoutHeader 'Tech stack' @('tech-stack.json'))`n$techTable") } else { Add-Source 'Tech stack' 'tech-stack.json' 'tech-stack' $techTable }
 foreach ($i in 0..($ruleFiles.Count - 1)) {
     $file = $ruleFiles[$i]
     $rule = $rules[$i]
     $table = "| Field | Value |`n| --- | --- |`n| ID | $(Cell $rule.id) |`n| Kind | $(Cell $rule.kind) |`n| Enforcement | $(Cell $rule.enforcement) |`n| Detector coverage | $(Cell $rule.coverage) |`n| Authority | $(Cell $rule.authority) |`n| Applies to | $(Cell $rule.appliesTo) |"
-    if ($rule.kind -eq 'forbidden-project-reference') { $table += "`n| Source pattern | $(Cell $rule.sourcePattern) |`n| Forbidden target | $(Cell $rule.forbiddenTargetPattern) |`n| Negative source | $(Cell $rule.negativeFixture.sourceProject) |`n| Negative reference | $(Cell $rule.negativeFixture.referenceInclude) |" }
-    if ($rule.kind -eq 'forbidden-type-dependency') { $table += "`n| Source assembly/namespace | $(Cell $rule.sourceAssembly):$(Cell $rule.sourceNamespace) |`n| Forbidden assembly/namespace | $(Cell $rule.forbiddenAssembly):$(Cell $rule.forbiddenNamespace) |`n| Minimum matches | $(Cell $rule.minimumMatches) |" }
-    if ($rule.kind -eq 'interface-implementation-location') { $table += "`n| Interface | $(Cell $rule.interfaceAssembly):$(Cell $rule.interfaceType) |`n| Implementation location | $(Cell $rule.implementationAssembly):$(Cell $rule.implementationNamespace) |`n| Minimum implementations | $(Cell $rule.minimumMatches) |" }
-    $expected["rules/$($file.BaseName).md"] = Add-Source "$($rule.id): $($rule.title)" "rules/$($file.Name)" 'rule' $table
+    if (-not $layoutMode) {
+        if ($rule.kind -eq 'forbidden-project-reference') { $table += "`n| Source pattern | $(Cell $rule.sourcePattern) |`n| Forbidden target | $(Cell $rule.forbiddenTargetPattern) |`n| Negative source | $(Cell $rule.negativeFixture.sourceProject) |`n| Negative reference | $(Cell $rule.negativeFixture.referenceInclude) |" }
+        if ($rule.kind -eq 'forbidden-type-dependency') { $table += "`n| Source assembly/namespace | $(Cell $rule.sourceAssembly):$(Cell $rule.sourceNamespace) |`n| Forbidden assembly/namespace | $(Cell $rule.forbiddenAssembly):$(Cell $rule.forbiddenNamespace) |`n| Minimum matches | $(Cell $rule.minimumMatches) |" }
+        if ($rule.kind -eq 'interface-implementation-location') { $table += "`n| Interface | $(Cell $rule.interfaceAssembly):$(Cell $rule.interfaceType) |`n| Implementation location | $(Cell $rule.implementationAssembly):$(Cell $rule.implementationNamespace) |`n| Minimum implementations | $(Cell $rule.minimumMatches) |" }
+    }
+    $expected["rules/$($file.BaseName).md"] = if ($layoutMode) { Normalize-Text ("$(Add-LayoutHeader "$($rule.id): $($rule.title)" @("rules/$($file.Name)"))`n$table") } else { Add-Source "$($rule.id): $($rule.title)" "rules/$($file.Name)" 'rule' $table }
 }
 $coverageLines = @($rules | ForEach-Object { "| [$($_.id)](rules/$($_.id).md) | $(Cell $_.enforcement) | $(Cell $_.kind) | $(Cell $_.coverage) | $(Cell $_.authority) |" })
-$expected['COVERAGE.md'] = Normalize-Text ("# V3 stage coverage`n`nThis table describes only detectors configured in the V3 stage profile. External gates require separate evidence; advisory rules do not block.`n`n| Rule | Enforcement | Detector | Coverage | Authority |`n| --- | --- | --- | --- | --- |`n$($coverageLines -join "`n")")
-$expected['README.md'] = Normalize-Text ("# $($profile.projectId) guard configuration views`n`nJSON files in the parent profile are the machine authority. These views are generated from them. Edit a fenced JSON block and run Import to propose or apply a semantic change; edit ``notes/`` for human rationale. Render refreshes views; Check fails on drift.`n`n- [Profile](PROFILE.md)`n- [Project map](PROJECT_MAP.md)`n- [Tech stack](TECH_STACK.md)`n- [Stage coverage](COVERAGE.md)`n- Rules: $(@($rules | ForEach-Object { "[$($_.id)](rules/$($_.id).md)" }) -join ', ')`n")
+$expected['COVERAGE.md'] = if ($layoutMode) { Normalize-Text ("$(Add-LayoutHeader 'V3 stage coverage' @($ruleFiles | ForEach-Object { "rules/$($_.Name)" }))`nThis table describes only detectors configured in the V3 stage profile. External gates require separate evidence; advisory rules do not block.`n`n| Rule | Enforcement | Detector | Coverage | Authority |`n| --- | --- | --- | --- | --- |`n$($coverageLines -join "`n")") } else { Normalize-Text ("# V3 stage coverage`n`nThis table describes only detectors configured in the V3 stage profile. External gates require separate evidence; advisory rules do not block.`n`n| Rule | Enforcement | Detector | Coverage | Authority |`n| --- | --- | --- | --- | --- |`n$($coverageLines -join "`n")") }
+$expected['README.md'] = if ($layoutMode) { Normalize-Text ("$(Add-LayoutHeader "$($profile.projectId) guard configuration views" @('profile.json','project-map.json','tech-stack.json'))`nJSON in the parent profile is authoritative. These Markdown files are generated, read-only views; edit authority JSON and rerun Render.`n`n- [Profile](PROFILE.md)`n- [Project map](PROJECT_MAP.md)`n- [Tech stack](TECH_STACK.md)`n- [Stage coverage](COVERAGE.md)`n- Rules: $(@($rules | ForEach-Object { "[$($_.id)](rules/$($_.id).md)" }) -join ', ')") } else { Normalize-Text ("# $($profile.projectId) guard configuration views`n`nJSON files in the parent profile are the machine authority. These views are generated from them. Edit a fenced JSON block and run Import to propose or apply a semantic change; edit ``notes/`` for human rationale. Render refreshes views; Check fails on drift.`n`n- [Profile](PROFILE.md)`n- [Project map](PROJECT_MAP.md)`n- [Tech stack](TECH_STACK.md)`n- [Stage coverage](COVERAGE.md)`n- Rules: $(@($rules | ForEach-Object { "[$($_.id)](rules/$($_.id).md)" }) -join ', ')`n") }
 
 function Write-Views {
     if ([IO.Directory]::Exists($docsRoot)) {
@@ -108,6 +159,7 @@ function Check-Views {
 
 if ($Mode -eq 'Render') { Write-Views; exit 0 }
 if ($Mode -eq 'Check') { Check-Views; exit 0 }
+if ($layoutMode) { throw 'Import is not supported for a split profile layout.' }
 if (-not [IO.Directory]::Exists($docsRoot)) { throw "Missing generated views: $docsRoot" }
 $changes = [ordered]@{}
 foreach ($name in @('PROFILE.md', 'PROJECT_MAP.md', 'TECH_STACK.md') + @($ruleFiles | ForEach-Object { "rules/$($_.BaseName).md" })) {

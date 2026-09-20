@@ -118,6 +118,21 @@ try {
     [IO.File]::WriteAllText($planFile, ($planData | ConvertTo-Json -Depth 20))
     Assert-Run 0 @('-Mode', 'Pre', '-PlanPath', $plan) 'restored formal Pre'
 
+    # Aggregate cutover plans may enumerate an exact repository-wide changed set that is newer than the base profile's
+    # area taxonomy. The aggregate suffix is required on both the plan id and filename; ordinary plans stay fail-closed.
+    [void][IO.Directory]::CreateDirectory((Join-Path $fixture 'unmapped'))
+    [IO.File]::WriteAllText((Join-Path $fixture 'unmapped/exact.txt'), 'baseline')
+    $ordinaryWidePlan = 'docs/plans/20260914-sample-wide.plan.json'
+    $aggregatePlan = 'docs/plans/20260914-sample-aggregate.plan.json'
+    $aggregateData = [ordered]@{ formatVersion = 1; id = '20260914-sample-aggregate'; title = 'Sample aggregate'; goal = 'Verify an exact cross-layout cutover diff'; acceptanceCriteria = @('Only enumerated paths change'); plannedPaths = @('unmapped/exact.txt'); areaIds = @('FutureArea'); ruleIds = @('ARCH.SAMPLE'); validationCommands = @('sample-test'); decisionPaths = @() }
+    $ordinaryWideData = [ordered]@{}; foreach ($key in $aggregateData.Keys) { $ordinaryWideData[$key] = $aggregateData[$key] }; $ordinaryWideData.id = '20260914-sample-wide'
+    [IO.File]::WriteAllText((Join-Path $fixture $ordinaryWidePlan), ($ordinaryWideData | ConvertTo-Json -Depth 20))
+    [IO.File]::WriteAllText((Join-Path $fixture 'docs/plans/20260914-sample-wide.md'), '# Sample wide')
+    Assert-Run 1 @('-Mode', 'Pre', '-PlanPath', $ordinaryWidePlan) 'ordinary formal plan rejects unmapped aggregate scope'
+    [IO.File]::WriteAllText((Join-Path $fixture $aggregatePlan), ($aggregateData | ConvertTo-Json -Depth 20))
+    [IO.File]::WriteAllText((Join-Path $fixture 'docs/plans/20260914-sample-aggregate.md'), '# Sample aggregate')
+    Assert-Run 0 @('-Mode', 'Pre', '-PlanPath', $aggregatePlan) 'aggregate formal plan accepts exact unmapped scope'
+
     Push-Location $fixture
     try {
         & git init -q
@@ -134,6 +149,13 @@ try {
     [IO.File]::WriteAllText((Join-Path $fixture 'src/Unplanned.cs'), 'class Unplanned {}')
     Assert-Run 1 @('-Mode', 'Diff', '-PlanPath', $plan, '-BaseRef', 'HEAD') 'out-of-plan diff'
     [IO.File]::Delete((Join-Path $fixture 'src/Unplanned.cs'))
+    [IO.File]::WriteAllText($projectFile, $good)
+    [IO.File]::AppendAllText((Join-Path $fixture 'unmapped/exact.txt'), "`nplanned")
+    Assert-Run 0 @('-Mode', 'Diff', '-PlanPath', $aggregatePlan, '-BaseRef', 'HEAD') 'aggregate exact diff'
+    [IO.File]::WriteAllText((Join-Path $fixture 'unmapped/outside.txt'), 'outside')
+    Assert-Run 1 @('-Mode', 'Diff', '-PlanPath', $aggregatePlan, '-BaseRef', 'HEAD') 'aggregate out-of-plan diff'
+    [IO.File]::Delete((Join-Path $fixture 'unmapped/outside.txt'))
+    [IO.File]::WriteAllText((Join-Path $fixture 'unmapped/exact.txt'), 'baseline')
 
     # Plan 06 P3.1/P3.2: committed ranges use the verified merge base, an empty changed set fails closed, and protected
     # paths and consumable authorization records come from the Diff protection configuration.

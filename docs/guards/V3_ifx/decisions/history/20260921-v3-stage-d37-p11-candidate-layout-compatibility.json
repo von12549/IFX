@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-d37-p11-candidate-layout-compatibility",
+  "owner": "xiaolong-feng",
+  "summary": "Extend the old base only far enough to validate the P11 candidate's split profile, policy, authority, projection and historical-integrity layouts. Candidate registries are schema-validated by base code and classify obligations rather than authorizing them. Aggregate plans may name paths and areas newer than the base taxonomy only when both the plan id and filename carry the aggregate suffix; exact Diff coverage remains mandatory.",
+  "affectedPaths": [
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3.ps1",
+    "docs/guards/V3_ifx/tests/Test-V3Tools.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXPolicyCandidates.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-p11-candidate-layout-compatibility.md",
+    "docs/guards/plans/20260921-v3-stage-p11-candidate-layout-compatibility.plan.json"
+  ],
+  "rationale": "The first bridge made the public facade, aggregate selector and candidate policy classification visible, but a real base-owned audit still found hard-coded legacy profile, history, authority and projection paths. Those failures prevented the old base from validating otherwise schema-valid P11 candidates and also hid 84 candidate-registered policy obligations. The second bridge resolves only those representational gaps. A fixed-commit audit of c2a072d8 then passes all policy-candidate checks and reports exactly 512 protected removals, 132 policy weakenings and one trusted-component change, with no unregistered escape. These 645 obligations remain uncovered until later authorization PRs." 
+}

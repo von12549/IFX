@@ -66,9 +66,14 @@ try {
     $result.policyRegistrySha256 = $registry.sha256
     $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
     $projectionTargets = Get-GuardProjectionTargets $authorities $packagePath
+    $headRegistry = Read-GuardCandidatePolicyRegistry $target $headSha $packagePath
+    $headRegistryText = Get-GuardBlobText $target $headSha "$packagePath/shared/policy-config.json"
+    $headAuthorityRegistry = Read-GuardCandidateAuthorityRegistry $target $headSha $packagePath
+    $headAuthorities = $headAuthorityRegistry.Document
+    $headProjectionTargets = Get-GuardProjectionTargets $headAuthorities $packagePath
     $entries = @(Get-GuardChangedEntries $target $mergeBase $headSha)
     $changedPaths = [Collections.Generic.HashSet[string]]::new([string[]]@($entries | ForEach-Object { $_.Path }), [StringComparer]::Ordinal)
-    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries
+    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries -HeadRegistry $headRegistry -HeadProjectionTargets $headProjectionTargets
 
     # ---- per-file candidates
     $profileChanged = $false
@@ -84,8 +89,10 @@ try {
                 try { [void](ConvertFrom-GuardJsonText $text) } catch { $problems.Add("is not valid JSON: $($_.Exception.Message)") }
                 if ($problems.Count -eq 0 -and $change.Entry.ContainsKey('schema')) {
                     $schemaPath = [string]$change.Entry.schema
+                    $headEntry = Get-GuardPolicyEntry $headRegistry $change.Path
+                    if ($null -ne $headEntry -and $headEntry.ContainsKey('schema')) { $schemaPath = [string]$headEntry.schema }
                     $schemaFile = Join-Path $baseRepository $schemaPath
-                    if ($changedPaths.Contains($schemaPath)) {
+                    if ($changedPaths.Contains($schemaPath) -or -not [IO.File]::Exists($schemaFile)) {
                         $schemaFile = Join-Path $work "schemas/$([IO.Path]::GetFileName($schemaPath))"
                         if (-not (Write-HeadBlob $headSha $schemaPath $schemaFile)) { $problems.Add("its schema $schemaPath is removed in head") }
                     }
@@ -101,16 +108,36 @@ try {
         $headTree = Join-Path $work 'head-tree'
         [void](Invoke-GuardGit $target @('worktree', 'add', '--detach', '--quiet', $headTree, $headSha))
         $headTreeAdded = $true
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3.ps1') @('-Mode', 'Validate', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree, '-OutputDirectory', (Join-Path $headTree 'artifacts/guards/policy-candidate')) -WorkingDirectory $work
+        $legacyProfile = $null -ne (Get-GuardTreeEntry $target $headSha "$packagePath/profiles/ifx/profile.json")
+        $stageProfile = $null -ne (Get-GuardTreeEntry $target $headSha "$packagePath/shared/profile.json")
+        if ($legacyProfile -eq $stageProfile) { throw 'Head must contain exactly one complete legacy or stage-owned profile layout.' }
+        $profileRoot = if ($legacyProfile) { Join-Path $headTree "$packagePath/profiles/ifx" } else { Join-Path $headTree 'artifacts/guards/candidate-profile' }
+        if ($stageProfile) {
+            foreach ($mapping in @(
+                @("$packagePath/shared/profile.json", 'profile.json'),
+                @("$packagePath/stages/pre/project-map.json", 'project-map.json'),
+                @("$packagePath/shared/toolchain.json", 'tech-stack.json')
+            )) {
+                if (-not (Write-HeadBlob $headSha $mapping[0] (Join-Path $profileRoot $mapping[1]))) { throw "Head profile input is missing: $($mapping[0])" }
+            }
+            foreach ($rulePath in @(Invoke-GuardGitNul $target @('ls-tree', '-r', '-z', '--name-only', '--full-tree', $headSha, '--', "$packagePath/stages/post/rules"))) {
+                if ($rulePath.EndsWith('.json', [StringComparison]::Ordinal)) { [void](Write-HeadBlob $headSha $rulePath (Join-Path $profileRoot "rules/$([IO.Path]::GetFileName($rulePath))")) }
+            }
+        }
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3.ps1') @('-Mode', 'Validate', '-ProfileDirectory', $profileRoot, '-TargetRoot', $headTree, '-OutputDirectory', (Join-Path $headTree 'artifacts/guards/profile-output')) -WorkingDirectory $work
         Add-Validation 'v3-profile' "$packagePath/profiles/ifx/" $(if ($run.ExitCode -eq 0) { @() } else { @("the base V3 runner rejects the head profile: $(Get-RunTail $run)") })
         # The generated profile views are checked after merge, so a head profile with stale views would break the next base.
-        $views = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3Docs.ps1') @('-Mode', 'Check', '-ProfileDirectory', (Join-Path $headTree "$packagePath/profiles/ifx"), '-TargetRoot', $headTree) -WorkingDirectory $work
+        $viewsArgs = if ($legacyProfile) { @('-Mode', 'Check', '-ProfileDirectory', $profileRoot, '-TargetRoot', $headTree) } else { @('-Mode', 'Check', '-ProfileLayoutPath', (Join-Path $headTree "$packagePath/shared/profile-layout.json"), '-TargetRoot', $headTree) }
+        $views = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Invoke-V3Docs.ps1') $viewsArgs -WorkingDirectory $work
         Add-Validation 'v3-profile-views' "$packagePath/profiles/ifx/views/" $(if ($views.ExitCode -eq 0) { @() } else { @("the head profile views differ from what the base renderer produces: $(Get-RunTail $views)") })
     }
 
     if ($historyChanged) {
         $historyRoot = Join-Path $work 'history'
-        $manifestPath = "$packagePath/history/manifest.json"
+        $manifestCandidates = @("$packagePath/history/manifest.json", "$packagePath/stages/post/gates/historical-integrity/manifest.json")
+        $manifestPaths = @($manifestCandidates | Where-Object { $null -ne (Get-GuardTreeEntry $target $headSha $_) })
+        if ($manifestPaths.Count -ne 1) { throw "Head must contain exactly one supported Historical Integrity manifest; found $($manifestPaths.Count)." }
+        $manifestPath = $manifestPaths[0]
         [void](Write-HeadBlob $headSha $manifestPath (Join-Path $historyRoot $manifestPath))
         $manifest = ConvertFrom-GuardJsonText (Get-GuardBlobText $target $headSha $manifestPath)
         $referenced = @(@($manifest.entries) | ForEach-Object { [string]$_.path }) + @(@($manifest.references) | ForEach-Object { [string]$_.source; [string]$_.target })
@@ -118,43 +145,40 @@ try {
             if ([IO.Path]::IsPathRooted($path) -or $path -match '(^|[\\/])\.\.([\\/]|$)') { continue }
             [void](Write-HeadBlob $headSha $path.Replace('\', '/') (Join-Path $historyRoot $path))
         }
-        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1') @('-RepositoryRoot', $historyRoot, '-ManifestPath', $manifestPath, '-ReportPath', (Join-Path $work 'history-summary.json')) -WorkingDirectory $work
+        $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'history/Invoke-IFXHistoricalIntegrity.ps1') @('-RepositoryRoot', $historyRoot, '-ManifestPath', $manifestPath, '-ReportPath', (Join-Path $historyRoot 'history-summary.json')) -WorkingDirectory $work
         Add-Validation 'history-manifest' $manifestPath $(if ($run.ExitCode -eq 0) { @() } else { @("the base historical integrity engine rejects the head manifest against head evidence: $(Get-RunTail $run)") })
     }
 
-    # ---- derived projections: only the exact targets of the base authority registry, regenerated by the base generator
-    $sources = @(@($authorities.projections) + @($authorities.g04Bindings) | ForEach-Object { [string]$_.source })
-    $projectionTouched = @($entries | Where-Object { $projectionTargets.Contains($_.Path) -or $sources -ccontains $_.Path }).Count -gt 0
+    # ---- derived projections: exact candidate targets, regenerated by the base generator from schema-valid head authorities
+    $sources = @(@(@($authorities.projections) + @($authorities.g04Bindings) + @($headAuthorities.projections) + @($headAuthorities.g04Bindings) | ForEach-Object { [string]$_.source }) | Sort-Object -Unique)
+    $projectionTouched = @($entries | Where-Object { $projectionTargets.Contains($_.Path) -or $headProjectionTargets.Contains($_.Path) -or $sources -ccontains $_.Path }).Count -gt 0
     if ($projectionTouched) {
         $package = Join-Path $work "projection/package/$packagePath"
         $sourceRoot = Join-Path $work 'projection/sources'
-        [void][IO.Directory]::CreateDirectory((Join-Path $package 'policy'))
-        [IO.File]::Copy((Join-Path $packageRoot 'policy/authorities.json'), (Join-Path $package 'policy/authorities.json'), $true)
-        foreach ($projectionTarget in $projectionTargets) { [void](Write-HeadBlob $headSha $projectionTarget (Join-Path $work "projection/package/$projectionTarget")) }
+        [void][IO.Directory]::CreateDirectory($package)
+        [void](Write-HeadBlob $headSha $headAuthorityRegistry.Path (Join-Path $work "projection/package/$($headAuthorityRegistry.Path)"))
+        $policyMarkers = @("$packagePath/policy/layerguard.json", "$packagePath/stages/post/policy/layerguard.json")
+        $markers = @($policyMarkers | Where-Object { $null -ne (Get-GuardTreeEntry $target $headSha $_) })
+        if ($markers.Count -ne 1) { throw "Head must contain exactly one supported policy layout; found $($markers.Count)." }
+        [void](Write-HeadBlob $headSha $markers[0] (Join-Path $work "projection/package/$($markers[0])"))
+        foreach ($projectionTarget in $headProjectionTargets) { [void](Write-HeadBlob $headSha $projectionTarget (Join-Path $work "projection/package/$projectionTarget")) }
         foreach ($source in @($sources | Sort-Object -Unique)) { [void](Write-HeadBlob $headSha $source (Join-Path $sourceRoot $source)) }
         $run = Invoke-GuardIsolatedPwsh (Join-Path $packageRoot 'scripts/Sync-IFXPolicyInputs.ps1') @('-Mode', 'Check', '-PackageRoot', $package, '-TargetRoot', $sourceRoot) -WorkingDirectory $work
-        Add-Validation 'derived-projection' "$packagePath/policy/" $(if ($run.ExitCode -eq 0) { @() } else { @("head projections differ from the base generator output for head authorities: $(Get-RunTail $run)") })
+        Add-Validation 'derived-projection' ([IO.Path]::GetDirectoryName($markers[0]).Replace('\', '/') + '/') $(if ($run.ExitCode -eq 0) { @() } else { @("head projections differ from the base generator output for head authorities: $(Get-RunTail $run)") })
     }
 
     # ---- head registry: schema-valid, and a monotonicity declaration for every field of every registered schema
     $registryPath = "$packagePath/shared/policy-config.json"
-    $registryTouched = $changedPaths.Contains($registryPath) -or @($entries | Where-Object { $_.Path.StartsWith("$packagePath/contracts/", [StringComparison]::Ordinal) }).Count -gt 0
+    $registeredSchemas = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+    foreach ($entry in @(@($registry.entries) + @($headRegistry.entries))) { if ($entry.ContainsKey('schema')) { [void]$registeredSchemas.Add([string]$entry.schema) } }
+    $registryTouched = $changedPaths.Contains($registryPath) -or @($entries | Where-Object { $registeredSchemas.Contains($_.Path) -or $_.Path.EndsWith('.schema.json', [StringComparison]::Ordinal) }).Count -gt 0
     if ($registryTouched) {
         $headRegistryText = Get-GuardBlobText $target $headSha $registryPath
         $problems = [Collections.Generic.List[string]]::new()
         if ($null -eq $headRegistryText) { $problems.Add('head removes the policy and configuration registry') }
         else {
-            $registrySchema = Join-Path $packageRoot 'contracts/policy-config.schema.json'
-            if ($changedPaths.Contains("$packagePath/contracts/policy-config.schema.json")) {
-                $registrySchema = Join-Path $work 'schemas/policy-config.schema.json'
-                [void](Write-HeadBlob $headSha "$packagePath/contracts/policy-config.schema.json" $registrySchema)
-            }
-            if (-not (Test-GuardJsonSchema -Schema $registrySchema -Json $headRegistryText)) { $problems.Add('does not match the policy-config schema') }
-            else {
-                $headRegistry = ConvertFrom-GuardJsonText $headRegistryText
-                $read = { param($schema) Get-GuardBlobText $target $headSha $schema }
-                foreach ($problem in (Test-GuardMonotonicityDeclarations $headRegistry $read)) { $problems.Add($problem) }
-            }
+            $read = { param($schema) Get-GuardBlobText $target $headSha $schema }
+            foreach ($problem in (Test-GuardMonotonicityDeclarations $headRegistry $read)) { $problems.Add($problem) }
         }
         Add-Validation 'policy-registry' $registryPath ([string[]]@($problems))
     }
