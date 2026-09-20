@@ -296,6 +296,28 @@ function Get-GuardTreeEntry {
     return $null
 }
 
+function Resolve-GuardAuthorityRegistryPath {
+    # During CP11k the registry may live in either layout, but ambiguity or absence fails closed.
+    param([Parameter(Mandatory)][string] $PackageRoot)
+    $candidates = @('policy/authorities.json', 'shared/authorities/authorities.json')
+    $available = @($candidates | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { [IO.File]::Exists($_) })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
+
+function Get-GuardAuthorityRegistryPathAtCommit {
+    # Select from Git objects rather than the checkout so an explicit head cannot redirect the base verifier.
+    param(
+        [Parameter(Mandatory)][string] $Repository,
+        [Parameter(Mandatory)][string] $Commit,
+        [string] $PackagePath = 'docs/guards/V3_ifx'
+    )
+    $candidates = @("$PackagePath/policy/authorities.json", "$PackagePath/shared/authorities/authorities.json")
+    $available = @($candidates | Where-Object { $null -ne (Get-GuardTreeEntry $Repository $Commit $_) })
+    if ($available.Count -ne 1) { throw "Commit $Commit must contain exactly one legacy or shared authority registry; found $($available.Count)." }
+    return $available[0]
+}
+
 function Read-GuardProtection {
     # The Diff protection configuration of a package (Plan 06 P3.2), validated, with the SHA-256 of its exact bytes.
     param([Parameter(Mandatory)][string] $PackageRoot)

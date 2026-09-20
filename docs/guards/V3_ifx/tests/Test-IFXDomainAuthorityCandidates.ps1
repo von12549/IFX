@@ -12,7 +12,9 @@ $artifacts = [IO.Path]::GetFullPath((Join-Path $repository 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-authority-candidates-$([Guid]::NewGuid().ToString('N'))"))
 if (-not $fixture.StartsWith($artifacts + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture path.' }
 $checker = Join-Path $package 'trusted-base/Test-IFXDomainAuthorityCandidates.ps1'
-$registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
+$authorityRegistryCandidates = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | ForEach-Object { Join-Path $package $_ } | Where-Object { [IO.File]::Exists($_) })
+if ($authorityRegistryCandidates.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($authorityRegistryCandidates.Count)." }
+$registry = Get-Content -LiteralPath $authorityRegistryCandidates[0] -Raw | ConvertFrom-Json
 $utf8 = [Text.UTF8Encoding]::new($false)
 
 function Reset-Head {

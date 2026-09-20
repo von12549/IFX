@@ -25,7 +25,7 @@ $base = if ($BaseRepository) { Get-GuardFullPath $BaseRepository } else { Get-Gu
 $target = Get-GuardFullPath $TargetRoot
 $report = if ([IO.Path]::IsPathRooted($ReportPath)) { [IO.Path]::GetFullPath($ReportPath) } else { [IO.Path]::GetFullPath((Join-Path $target $ReportPath)) }
 if (-not (Test-GuardPathWithin $report $target)) { throw 'ReportPath must stay under TargetRoot.' }
-$registry = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+$registry = Get-Content -LiteralPath (Resolve-GuardAuthorityRegistryPath $packageRoot) -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 if ([bool]$BaseRevision -ne [bool]$HeadRevision) { throw 'BaseRevision and HeadRevision must be given together.' }
 $objectMode = [bool]$HeadRevision
 if ($objectMode) {

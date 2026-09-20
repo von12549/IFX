@@ -300,7 +300,8 @@ try {
             [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_ifx/policy/layerguard.json', 'docs/guards/V3_ifx/stages/post/policy/layerguard.json'))
             [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json', 'docs/guards/V3_ifx/stages/post/policy/g05/context-protocol-v1.json'))
             Edit-Json 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths[0] = 'docs/guards/V3_ifx/stages/post/policy/layerguard.json' }
-            Edit-Json 'docs/guards/V3_ifx/policy/authorities.json' { param($d) @($d.projections | Where-Object { $_.id -eq 'g05-context' })[0].target = 'stages/post/policy/g05/context-protocol-v1.json' }
+            $authorityRegistry = [IO.Path]::GetRelativePath($clone, (Resolve-GuardAuthorityRegistryPath (Join-Path $clone 'docs/guards/V3_ifx'))).Replace('\', '/')
+            Edit-Json $authorityRegistry { param($d) @($d.projections | Where-Object { $_.id -eq 'g05-context' })[0].target = 'stages/post/policy/g05/context-protocol-v1.json' }
         }
         $policyMoveResult = Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase $policyMoveHead
         $policyMoveText = ($policyMoveResult.Output -replace '\s+', ' ')

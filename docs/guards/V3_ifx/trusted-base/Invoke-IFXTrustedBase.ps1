@@ -180,7 +180,7 @@ try {
             Add-Check 'domain-authority-checkout' 'pass' $null
         }
 
-        $registry = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+        $registry = Get-Content -LiteralPath (Resolve-GuardAuthorityRegistryPath $packageRoot) -Raw | ConvertFrom-Json -AsHashtable -Depth 100
         $projectionTargets = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
         foreach ($projection in @(@($registry.projections) + @($registry.g04Bindings))) { [void]$projectionTargets.Add("docs/guards/V3_ifx/$($projection.target)") }
         $before = Get-GuardFileHashes $candidateRepository $packageFiles

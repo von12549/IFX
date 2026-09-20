@@ -35,7 +35,13 @@ function Resolve-PolicyRelativeRoot([string] $PackageRoot) {
     if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
     return $available[0]
 }
+function Resolve-AuthorityRegistryRelativePath([string] $PackageRoot) {
+    $available = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | Where-Object { Test-Path -LiteralPath (Join-Path $PackageRoot $_) -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
 $policyRelativeRoot = Resolve-PolicyRelativeRoot $packageRoot
+$authorityRegistryRelativePath = Resolve-AuthorityRegistryRelativePath $packageRoot
 
 function Relative([string] $path) { [IO.Path]::GetRelativePath($root, $path).Replace('\','/') }
 function Invoke-Child([string] $id, [string] $script, [string[]] $arguments, [string[]] $evidence) {
@@ -191,7 +197,7 @@ foreach ($current in $modes) {
 }
 
 $inputBuilder = [Text.StringBuilder]::new()
-foreach ($relative in @('shared/profile-layout.json','shared/profile.json','stages/pre/project-map.json','shared/toolchain.json','policy/authorities.json',"$policyRelativeRoot/layerguard.json",'stages/post/gates/historical-integrity/manifest.json')) {
+foreach ($relative in @('shared/profile-layout.json','shared/profile.json','stages/pre/project-map.json','shared/toolchain.json',$authorityRegistryRelativePath,"$policyRelativeRoot/layerguard.json",'stages/post/gates/historical-integrity/manifest.json')) {
     $path = Join-Path $packageRoot $relative
     if (Test-Path -LiteralPath $path -PathType Leaf) {
         [void]$inputBuilder.Append($relative).Append("`n").Append(([IO.File]::ReadAllText($path).Replace("`r`n", "`n").Replace("`r", "`n")))

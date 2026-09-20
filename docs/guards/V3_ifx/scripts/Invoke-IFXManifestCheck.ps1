@@ -23,6 +23,11 @@ function Exists([string] $relative) {
     if ($relative.EndsWith('/')) { return [IO.Directory]::Exists((Full $relative)) }
     return [IO.File]::Exists((Full $relative))
 }
+function Resolve-AuthorityRegistryRelativePath {
+    $available = @(@("$package/policy/authorities.json", "$package/shared/authorities/authorities.json") | Where-Object { [IO.File]::Exists((Full $_)) })
+    if ($available.Count -ne 1) { Fail "Exactly one legacy or shared authority registry must exist; found $($available.Count)."; return $null }
+    return $available[0]
+}
 function Read-Manifest([string] $relative, [string] $schema) {
     $path = Full $relative
     if (-not [IO.File]::Exists($path)) { Fail "Missing manifest: $relative"; return $null }
@@ -236,9 +241,10 @@ function Measure-PointerMatches([object] $node, [string[]] $segments, [int] $ind
     return $count
 }
 
+$authorityRegistryRelative = Resolve-AuthorityRegistryRelativePath
 $authorityById = @{}
 $authorityByPath = @{}
-$registry = Read-Manifest "$package/policy/authorities.json" 'authorities'
+$registry = if ($authorityRegistryRelative) { Read-Manifest $authorityRegistryRelative 'authorities' } else { $null }
 if ($null -ne $registry) {
     foreach ($authority in $registry.domainAuthorities) {
         if ($authorityById.ContainsKey($authority.id)) { Fail "Duplicate domain authority id: $($authority.id)" }
@@ -376,8 +382,8 @@ else {
 Import-Module (Join-Path $root "$package/trusted-base/TrustedBase.psm1") -Force
 $policyRegistry = Read-Manifest "$package/shared/policy-config.json" 'policy-config'
 if ($null -ne $policyRegistry) {
-    $authorityRegistry = Get-Content -LiteralPath (Full "$package/policy/authorities.json") -Raw | ConvertFrom-Json -AsHashtable -Depth 100
-    $projectionTargets = Get-GuardProjectionTargets $authorityRegistry $package
+    $authorityRegistry = if ($authorityRegistryRelative) { Get-Content -LiteralPath (Full $authorityRegistryRelative) -Raw | ConvertFrom-Json -AsHashtable -Depth 100 } else { $null }
+    $projectionTargets = if ($null -ne $authorityRegistry) { Get-GuardProjectionTargets $authorityRegistry $package } else { [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal) }
     $entryIds = [Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
     foreach ($entry in @($policyRegistry.entries)) {
         if (-not $entryIds.Add([string]$entry.id)) { Fail "Duplicate policy registry entry id: $($entry.id)" }

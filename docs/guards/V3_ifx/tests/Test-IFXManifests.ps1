@@ -51,7 +51,9 @@ try {
     Copy-Into (Join-Path $repository '.github/CODEOWNERS') '.github/CODEOWNERS'
     foreach ($relative in @('Directory.Build.props', 'Directory.Packages.props', 'docs/Directory.Packages.props')) { Copy-Into (Join-Path $repository $relative) $relative }
     # Domain authority files are target data read by the registry lint (Plan 06 D18).
-    $registry = Get-Content -LiteralPath (Join-Path $package 'policy/authorities.json') -Raw | ConvertFrom-Json
+    $sourceAuthorityRegistryCandidates = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | ForEach-Object { Join-Path $package $_ } | Where-Object { [IO.File]::Exists($_) })
+    if ($sourceAuthorityRegistryCandidates.Count -ne 1) { throw "Exactly one source authority registry must exist; found $($sourceAuthorityRegistryCandidates.Count)." }
+    $registry = Get-Content -LiteralPath $sourceAuthorityRegistryCandidates[0] -Raw | ConvertFrom-Json
     foreach ($authority in $registry.domainAuthorities) { Copy-Into (Join-Path $repository $authority.path) $authority.path }
     $v3Roots = @('docs/guards/V3/build', 'docs/guards/V3/contracts', 'docs/guards/V3/tests', 'docs/guards/V3/templates', 'docs/guards/V3/scripts', 'docs/guards/V3/hooks', 'docs/guards/V3/stages')
     if ([IO.Directory]::Exists((Join-Path $repository 'docs/guards/V3/commands'))) { $v3Roots += 'docs/guards/V3/commands' }
@@ -110,7 +112,9 @@ try {
     Invoke-Case 'IFX Diff without explicit overlay protection fails' 1 $orchestrator { param($p) [IO.File]::WriteAllText($p, ([IO.File]::ReadAllText($p).Replace(",'-ProtectionPath',(Join-Path `$packageRoot 'stages/diff/protection.json')", '')), $utf8) } 'IFX Diff must pass the overlay protection configuration to canonical V3.'
     Invoke-Case 'stage listed without manifest fails' 1 $system { param($d) $d.stages = @($d.stages | Where-Object { $_ -ne 'diff' }) } "Stage manifest 'diff' is not listed"
     Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
-    $authorities = 'docs/guards/V3_ifx/policy/authorities.json'
+    $authorityCandidates = @(@('docs/guards/V3_ifx/policy/authorities.json', 'docs/guards/V3_ifx/shared/authorities/authorities.json') | Where-Object { [IO.File]::Exists((Join-Path $fixture $_)) })
+    if ($authorityCandidates.Count -ne 1) { throw "Exactly one fixture authority registry must exist; found $($authorityCandidates.Count)." }
+    $authorities = $authorityCandidates[0]
     function Get-Gate($document, [string] $id) { return @($document.gates | Where-Object { $_.id -eq $id })[0] }
     Invoke-Case 'engine script reading an unregistered authority fails' 1 "$specializedRoot/scripts/Test-UnregisteredAuthorityProbe.ps1" { param($p) [IO.File]::WriteAllText($p, "Get-Content 'deployment/g04/unregistered-policy.json'`n") } 'reads an unregistered domain authority: deployment/g04/unregistered-policy.json'
     Invoke-Case 'detector reading an undeclared authority fails' 1 $stagePost { param($d) $g = Get-Gate $d 'v3-specialized-g04'; $g.trustContract.inputs = @($g.trustContract.inputs | Where-Object { $_.ref -ne 'authority:g04-failure-matrix' }) } "Gate 'v3-specialized-g04' detectors read domain authority 'g04-failure-matrix' without declaring it"
@@ -121,7 +125,7 @@ try {
     Invoke-Case 'projection consumed without its authority fails' 1 $stagePost { param($d) $g = Get-Gate $d 'v3-architecture'; $g.trustContract.inputs = @($g.trustContract.inputs | Where-Object { $_.ref -ne 'authority:g05-context-protocol' }) } "without declaring its authority 'g05-context-protocol'"
     Invoke-Case 'gate without trust inputs fails schema' 1 $stagePost { param($d) (Get-Gate $d 'v3-quality-frontend').trustContract.Remove('inputs') } 'Schema validation failed'
     Invoke-Case 'pointer role matching nothing fails' 1 $authorities { param($d) @($d.domainAuthorities | Where-Object { $_.id -eq 'g03-contract-event-catalog' })[0].pointerRoles += [ordered]@{ pointer = '/missingPolicy'; role = 'governing-policy' } } "pointer /missingPolicy matches nothing"
-    Invoke-Case 'unknown authority role fails schema' 1 $authorities { param($d) $d.domainAuthorities[0].defaultRole = 'advisory' } 'Schema validation failed: docs/guards/V3_ifx/policy/authorities.json'
+    Invoke-Case 'unknown authority role fails schema' 1 $authorities { param($d) $d.domainAuthorities[0].defaultRole = 'advisory' } "Schema validation failed: $authorities"
     Invoke-Case 'unregistered projection source fails' 1 $authorities { param($d) $d.domainAuthorities = @($d.domainAuthorities | Where-Object { $_.id -ne 'g04-failure-matrix' }) } 'Policy projection source is not a registered domain authority: deployment/g04/failure-matrix.json'
     Invoke-Case 'wildcard pointer without an array key fails' 1 $authorities { param($d) $a = @($d.domainAuthorities | Where-Object { $_.id -eq 'g04-dependency-criticality' })[0]; $a.Remove('arrayKeys') } 'needs an arrayKeys entry for /dependencies'
     Invoke-Case 'array key that is not unique fails' 1 $authorities { param($d) @($d.domainAuthorities | Where-Object { $_.id -eq 'g04-dependency-criticality' })[0].arrayKeys[0].key = 'criticality' } "arrayKeys /dependencies is not an array of objects with a unique string 'criticality'"

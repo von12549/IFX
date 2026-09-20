@@ -64,9 +64,10 @@ try {
 
     $registry = Read-GuardPolicyRegistry $packageRoot
     $result.policyRegistrySha256 = $registry.sha256
-    $authorityRegistryPath = "$packagePath/policy/authorities.json"
-    $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+    $baseAuthorityRegistryFile = Resolve-GuardAuthorityRegistryPath $packageRoot
+    $authorities = Get-Content -LiteralPath $baseAuthorityRegistryFile -Raw | ConvertFrom-Json -AsHashtable -Depth 100
     $projectionTargets = Get-GuardProjectionTargets $authorities $packagePath
+    $authorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $target $headSha $packagePath
     $headAuthoritiesText = Get-GuardBlobText $target $headSha $authorityRegistryPath
     if ($null -eq $headAuthoritiesText) { throw "Head removes the authority registry: $authorityRegistryPath" }
     $headAuthorities = ConvertFrom-GuardJsonText $headAuthoritiesText
@@ -149,7 +150,7 @@ try {
     if ($projectionTouched) {
         $package = Join-Path $work "projection/package/$packagePath"
         $sourceRoot = Join-Path $work 'projection/sources'
-        [void][IO.Directory]::CreateDirectory((Join-Path $package 'policy'))
+        [void][IO.Directory]::CreateDirectory($package)
         [void](Write-HeadBlob $headSha $authorityRegistryPath (Join-Path $work "projection/package/$authorityRegistryPath"))
         $legacyMarker = "$packagePath/policy/layerguard.json"
         $stageMarker = "$packagePath/stages/post/policy/layerguard.json"

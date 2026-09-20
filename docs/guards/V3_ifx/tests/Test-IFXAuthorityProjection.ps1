@@ -26,6 +26,18 @@ function Resolve-PolicyRelativeRoot([string] $PackageRoot) {
     return $available[0]
 }
 
+function Resolve-AuthorityRegistryRelativePath([string] $PackageRoot) {
+    $available = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | Where-Object { Test-Path -LiteralPath (Join-Path $PackageRoot $_) -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
+
+function Assert-AuthoritySelectionFailure([string] $PackageRoot, [string] $Label) {
+    $failed = $false
+    try { [void](Resolve-AuthorityRegistryRelativePath $PackageRoot) } catch { $failed = $_.Exception.Message -match 'Exactly one legacy or shared authority registry' }
+    if (-not $failed) { throw "$Label did not fail closed." }
+}
+
 New-Item -ItemType Directory -Force -Path $fixture | Out-Null
 try {
     $neither = Join-Path $fixture 'path-selection-neither'
@@ -38,13 +50,23 @@ try {
     Set-Content -LiteralPath (Join-Path $both 'maintenance/Sync-IFXPolicyInputs.ps1') -Value '# maintenance fixture'
     Assert-SelectionFailure $both 'Ambiguous policy sync entry points'
 
-    Copy-Item -LiteralPath (Join-Path $package 'policy') -Destination (Join-Path $fixture 'policy') -Recurse
+    $authorityNeither = Join-Path $fixture 'authority-selection-neither'
+    New-Item -ItemType Directory -Force -Path $authorityNeither | Out-Null
+    Assert-AuthoritySelectionFailure $authorityNeither 'Missing authority registry'
+    $authorityBoth = Join-Path $fixture 'authority-selection-both'
+    New-Item -ItemType Directory -Force -Path (Join-Path $authorityBoth 'policy'), (Join-Path $authorityBoth 'shared/authorities') | Out-Null
+    Set-Content -LiteralPath (Join-Path $authorityBoth 'policy/authorities.json') -Value '{}'
+    Set-Content -LiteralPath (Join-Path $authorityBoth 'shared/authorities/authorities.json') -Value '{}'
+    Assert-AuthoritySelectionFailure $authorityBoth 'Ambiguous authority registries'
+
     $policyRelativeRoot = Resolve-PolicyRelativeRoot $package
-    if ($policyRelativeRoot -ne 'policy') {
-        $stageDestination = Join-Path $fixture $policyRelativeRoot
-        [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($stageDestination))
-        Copy-Item -LiteralPath (Join-Path $package $policyRelativeRoot) -Destination $stageDestination -Recurse
-    }
+    $policyDestination = Join-Path $fixture $policyRelativeRoot
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($policyDestination))
+    Copy-Item -LiteralPath (Join-Path $package $policyRelativeRoot) -Destination $policyDestination -Recurse
+    $authorityRegistryRelative = Resolve-AuthorityRegistryRelativePath $package
+    $authorityDestination = Join-Path $fixture $authorityRegistryRelative
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($authorityDestination))
+    Copy-Item -LiteralPath (Join-Path $package $authorityRegistryRelative) -Destination $authorityDestination
     $selection = Resolve-SyncEntryPoint $package
     $sync = $selection.Path
     $applyArguments = if ($sync -ceq $selection.MaintenancePath) { @('-Mode', 'Apply', '-AcceptMaintenance') } else { @('-Mode', 'Generate') }

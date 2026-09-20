@@ -128,10 +128,11 @@ try {
     $registry = Read-GuardPolicyRegistry $packageRoot
     $result.policyRegistrySha256 = $registry.sha256
     $result.authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes($authorizationSchema))
-    $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
+    $authorities = Get-Content -LiteralPath (Resolve-GuardAuthorityRegistryPath $packageRoot) -Raw | ConvertFrom-Json -AsHashtable -Depth 100
     $projectionTargets = Get-GuardProjectionTargets $authorities
     $headRegistryText = Get-GuardBlobText $target $headSha 'docs/guards/V3_ifx/shared/policy-config.json'
-    $headAuthoritiesText = Get-GuardBlobText $target $headSha 'docs/guards/V3_ifx/policy/authorities.json'
+    $headAuthorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $target $headSha
+    $headAuthoritiesText = Get-GuardBlobText $target $headSha $headAuthorityRegistryPath
     if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
     if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorities.schema.json') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
     $headRegistry = ConvertFrom-GuardJsonText $headRegistryText

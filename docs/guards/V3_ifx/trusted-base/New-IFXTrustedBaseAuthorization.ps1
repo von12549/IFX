@@ -59,10 +59,12 @@ if ($Operation -eq 'change-trusted-base') {
 }
 elseif ($Operation -eq 'weaken-policy') {
     $registry = Read-GuardJsonBlob $repositoryRoot $base 'docs/guards/V3_ifx/shared/policy-config.json'
-    $authorities = Read-GuardJsonBlob $repositoryRoot $base 'docs/guards/V3_ifx/policy/authorities.json'
+    $baseAuthorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $repositoryRoot $base
+    $authorities = Read-GuardJsonBlob $repositoryRoot $base $baseAuthorityRegistryPath
     if ($null -eq $registry -or $null -eq $authorities) { throw "Base $base has no policy registry or authority registry." }
     $headRegistryText = Get-GuardBlobText $repositoryRoot $head 'docs/guards/V3_ifx/shared/policy-config.json'
-    $headAuthoritiesText = Get-GuardBlobText $repositoryRoot $head 'docs/guards/V3_ifx/policy/authorities.json'
+    $headAuthorityRegistryPath = Get-GuardAuthorityRegistryPathAtCommit $repositoryRoot $head
+    $headAuthoritiesText = Get-GuardBlobText $repositoryRoot $head $headAuthorityRegistryPath
     if ($null -eq $headRegistryText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/policy-config.schema.json') -Json $headRegistryText)) { throw 'The head policy registry is missing or invalid under the base schema.' }
     if ($null -eq $headAuthoritiesText -or -not (Test-GuardJsonSchema -Schema (Join-Path $packageRoot 'contracts/authorities.schema.json') -Json $headAuthoritiesText)) { throw 'The head authority registry is missing or invalid under the base schema.' }
     $headRegistry = ConvertFrom-GuardJsonText $headRegistryText

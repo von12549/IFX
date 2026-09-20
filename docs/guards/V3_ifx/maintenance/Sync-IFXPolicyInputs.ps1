@@ -18,8 +18,13 @@ function Resolve-PolicyRoot([string] $PackageRoot) {
     if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
     return $available[0]
 }
+function Resolve-AuthorityRegistryPath([string] $PackageRoot) {
+    $available = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
 $policyRoot = Resolve-PolicyRoot $packageRoot
-$registryPath = Join-Path $packageRoot 'policy/authorities.json'
+$registryPath = Resolve-AuthorityRegistryPath $packageRoot
 $registry = Get-Content -LiteralPath $registryPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $utf8 = [Text.UTF8Encoding]::new($false)
 if ($Mode -eq 'Apply' -and -not $AcceptMaintenance) { throw 'Apply requires -AcceptMaintenance.' }
