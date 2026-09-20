@@ -1,0 +1,141 @@
+{
+  "formatVersion": 1,
+  "id": "p11-minimal-compat-bridge",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge-authorization.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json"
+  ],
+  "changedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.engine.trusted-base",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "831ccc3ca2df879a36b964b54b2cad9026d7cd81"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a150e377cf4b14df3a325d7c35e4c3f953e986ed"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b82d95c56959e9aeaac65916ed57d5404b0a73a1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c62fcd8545962031f995ebd6a59d167e293ca9f2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6b408835b8a349cce440d10f7874eddc455ad536"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b582616b234f3b2c3b4b69345dbafcca92bc33ee"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "924148665777dddde5ad80b1e8788cf25f6d16f3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "59795c56b70e043305e46f3ae3398a41e5d5cf10"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d96f2025e9c9eee1ab69f1f67fb4eb6889ec88f9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "59058ff1c47c156fc9925b8a1932308a9d0eb026"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "23a58e9f95205a75d234fb5f88d5ba3305ce8c49"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c97b10574ab025cac1009325e3bc0d731e3b99ca"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "855ba500afa8d3c64f7c0741ddc42be5ac547705"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9614c3e9b254d1414ce1ff6f89dec6e4e7572936"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "All 13 required checks, their names, job DAG, event set, ruleset contexts, strict policy, base-owned verdicts, protected-removal obligations and policy-weakening obligations remain unchanged. The bridge adds fail-closed selection of one aggregate plan, recognizes only a candidate-TCB-declared public facade, and classifies new-layout JSON only through a schema-valid candidate registry whose change remains subject to weaken-policy authorization.",
+  "allowedBehaviorDifferences": []
+}
