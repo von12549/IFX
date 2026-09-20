@@ -1,0 +1,56 @@
+{
+  "formatVersion": 1,
+  "id": "cp11r-move-layerguard-fixture-domain",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-post-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "555ae434a707e35c0891048590fbdb775d7e6e36"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "555ae434a707e35c0891048590fbdb775d7e6e36"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "555ae434a707e35c0891048590fbdb775d7e6e36"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "555ae434a707e35c0891048590fbdb775d7e6e36"
+      },
+      "head": null
+    }
+  ]
+}

@@ -1,0 +1,363 @@
+{
+  "formatVersion": 1,
+  "id": "cp11r-layerguard-post-relocation-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-post-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/LayerGuard.slnx",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/Program.cs",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.ApiHost/IFX.ApiHost.csproj",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Application/IFX.Modules.Sample.Application.csproj",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Composition/IFX.Modules.Sample.Composition.csproj",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/README.md",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj",
+    "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/Program.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.ApiHost/IFX.ApiHost.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Application/IFX.Modules.Sample.Application.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Composition/IFX.Modules.Sample.Composition.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/README.md",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj",
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj"
+  ],
+  "components": [
+    "tcb.engine.architecture-conformance",
+    "tcb.manifest",
+    "tcb.validation.architecture-conformance"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "873e80489595121fbcd7f0a1f266d33c7f70e84d"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f56237cc7ea755c78190e4b125c4b091b4cb8ad8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dffdbe9ce3920e77b8e0f567161bb05b52ed84ce"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "876ae81f556ad2e916ed32c380a41d378906a60d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/LayerGuard.slnx",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "50e707d2cae8c80a2de755b205421fbfd3d0dc57"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b5a2f8b363dabb1653cc51fe8c062cf18567c362"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fb230be12200ea34e78a61d1ddb09f51c6d1830b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cd1a6d1a5c0291352a425492031185b7050d04f6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/src/LayerGuard.Ifx/Program.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64c0ac76bde29633c2e68472354e5a6677a68f7e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.ApiHost/IFX.ApiHost.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a6c0bce5fdf9d01ecbec5a7bd2f9ac264ddb5c4d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Application/IFX.Modules.Sample.Application.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b16a57bc88347df3a4180cb0272065347a14dbe2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Composition/IFX.Modules.Sample.Composition.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "16e8270749ed00fdb9f76992cf60003e7a27dcb2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "555ae434a707e35c0891048590fbdb775d7e6e36"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/README.md",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f69ac2b799c6d888c9e5f8028d59d83aed2e013c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1ab13f426cc62b96d8d279958b656c8ccab35848"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1088f0d13b5ee505fff2a2b66ee8beea29ca76b0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
+      "component": "tcb.engine.architecture-conformance",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "43e6572058d493814355dbc046840c1ed149e943"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3ad7dd239e4e01e4178bb65650f729881aba11a6"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d3075a263d3f0a1ba574417535a83ea66f0ee03c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0015281fd418ce3c6dd8b91e4e49fc957a4bb33f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxArchitectureConformance.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b5a2f8b363dabb1653cc51fe8c062cf18567c362"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/IfxGatePolicyBinding.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fb230be12200ea34e78a61d1ddb09f51c6d1830b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/LayerGuard.Ifx.csproj",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "270e25445a0fc9d43a9e301d5484b502f16200f5"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/src/LayerGuard.Ifx/Program.cs",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "64c0ac76bde29633c2e68472354e5a6677a68f7e"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.ApiHost/IFX.ApiHost.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a6c0bce5fdf9d01ecbec5a7bd2f9ac264ddb5c4d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Application/IFX.Modules.Sample.Application.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b16a57bc88347df3a4180cb0272065347a14dbe2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Composition/IFX.Modules.Sample.Composition.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "16e8270749ed00fdb9f76992cf60003e7a27dcb2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/IFX.Modules.Sample.Domain/IFX.Modules.Sample.Domain.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "555ae434a707e35c0891048590fbdb775d7e6e36"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/fixtures/IfxBinding/README.md",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f69ac2b799c6d888c9e5f8028d59d83aed2e013c"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/GatePolicyBindingTests.cs",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1ab13f426cc62b96d8d279958b656c8ccab35848"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/LayerGuard.Ifx.Tests.csproj",
+      "component": "tcb.validation.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1088f0d13b5ee505fff2a2b66ee8beea29ca76b0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Tests/LayerGuard.Tests.csproj",
+      "component": "tcb.engine.architecture-conformance",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "38a8ffd603f6cb2b0c848ff5a6410398ec0e018d"
+      },
+      "head": null
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/templates/ifx-layerguard/tests/LayerGuard.Ifx.Tests/",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "Invoke-IFX.ps1 -Mode Test",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+  ],
+  "parityContract": "LayerGuard solution membership, IFX G03/G04/G05 policy binding, strict-scan verdicts, fixture coverage, command behavior and every positive/negative package-test outcome remain unchanged; only final Post ownership and the relative references required by the deeper path change.",
+  "allowedBehaviorDifferences": []
+}

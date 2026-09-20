@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11r-layerguard-post-relocation-authorization",
+  "title": "Authorize the LayerGuard Post relocation",
+  "goal": "Pre-authorize the exact moves, trusted-component changes and policy tuples of the frozen LayerGuard relocation.",
+  "acceptanceCriteria": [
+    "Thirteen move records bind every legacy and Post-owned LayerGuard file tuple.",
+    "The TCB record binds every changed Architecture source, manifest and validation path.",
+    "The policy record binds command, TCB and Post-stage configuration changes.",
+    "The authorization-only checkpoint changes no Architecture implementation.",
+    "The relocation candidate consumes all fifteen records exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-solution.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-ifx-architecture.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-ifx-binding.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-ifx-project.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-ifx-program.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-binding-tests.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-binding-test-project.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-fixture-apihost.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-fixture-application.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-fixture-composition.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-fixture-domain.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-fixture-readme.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-move-layerguard-bridge-test-project.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-layerguard-post-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11r-layerguard-post-relocation-policy.json",
+    "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-post-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-post-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "formatVersion": 1,
+  "id": "cp11r-layerguard-post-relocation-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11r-layerguard-post-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d12-architecture-conformance-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d27-architecture-conformance-binding-separation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d29-architecture-conformance-v3-relocation.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/post/stage.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "baseSha256": "2709002a0c5617f3e201a57aea6a1fcdbc255d12200fee70c7090195271b4583",
+      "headSha256": "0402358358a4db9abd8f16473f88c25e1b9dd4612d2f96d27ab57754866573bf",
+      "schema": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+      "pointers": [
+        "/commands/6/inputs/1"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f56237cc7ea755c78190e4b125c4b091b4cb8ad8"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "bf9664454465e6083cf60af79e52dd7588214671926f73dfc4676de383c14e63",
+      "headSha256": "aba3206410b46816d22a2c52dbcd119dea720e27a894946471665b71af3aaedc",
+      "schema": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/4/paths/0",
+        "/components/4/paths/1",
+        "/components/4/paths/2",
+        "/components/4/validationSuite/0",
+        "/components/5/paths/0"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "876ae81f556ad2e916ed32c380a41d378906a60d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "baseSha256": "4506776df1bb799617f9f03e2dcbd0001e7592dd107f1a146d1e66812ada7e38",
+      "headSha256": "529786389749061b5e63bc4d7b3fc746ef66ed1b6492c1dfc8d154996dac80c7",
+      "schema": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+      "pointers": [
+        "/gates/0/trustContract/evaluator"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d3075a263d3f0a1ba574417535a83ea66f0ee03c"
+      }
+    }
+  ]
+}
