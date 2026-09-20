@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11m-refactor-baseline-relocation",
+  "title": "Relocate the frozen refactor baseline",
+  "goal": "Move the reviewed P0 baseline into Analysis Stage evidence and its update tools into maintenance without changing frozen generated content.",
+  "acceptanceCriteria": [
+    "The legacy refactor-baseline directory is absent and all frozen data is present under Analysis Stage evidence.",
+    "Baseline maintenance tools are present only under maintenance/refactor-baseline and the generator -Check remains byte-identical.",
+    "Commands, Stage documentation and living documentation reference the new locations while historical records retain their original paths.",
+    "Frozen baseline evidence is excluded from active policy enumeration.",
+    "Manifest, documentation, policy-candidate and trusted-component validation pass.",
+    "Trusted Diff consumes exact move, policy and TCB authorizations once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
+    "docs/guards/V3_ifx/docs/generated/COMMANDS.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/docs/generated/POST.md",
+    "docs/guards/V3_ifx/maintenance/refactor-baseline/",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/",
+    "docs/guards/V3_ifx/stages/analysis/stage.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/",
+    "docs/guards/V3_ifx/stages/post/stage.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation.md",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-relocation.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

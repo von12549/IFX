@@ -13,7 +13,7 @@
   "enforcement": "advisory",
   "executionClass": "authoring",
   "documentation": [
-    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/README.md",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/README.md",
     "docs/guards/V3_ifx/stages/analysis/evidence/ARCHITECTURE.md",
     "docs/guards/V3_ifx/stages/analysis/evidence/TECHNICAL.md"
   ],

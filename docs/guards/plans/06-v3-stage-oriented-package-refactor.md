@@ -745,7 +745,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P0.9 按 schema 统计 policy/config 文件的历史修改频率，作为比较器实现顺序的依据。 证据：`change-frequency.json`；按 commit 计首批比较器为 `profiles/ifx/rules`、`profiles/ifx/project-map`，修正 §12.4 的 r3 参考数据。
 - [x] P0.10 核实并冻结 §11.3 每个 required check 的 trust contract 分类。 证据：`trust-contracts.json`。
 - **门槛**：每个现有文件、命令和 Gate 都有唯一分类；全部 trusted-base component 均进入待 P1.5 materialize 的冻结清单；未分类项不得进入后续阶段。
-- **结果**：门槛通过。基线记录位于 `docs/guards/V3_ifx/analysis/ifx/refactor-baseline/`，汇总见其 `README.md`。
+- **结果**：门槛通过。基线记录现位于 `docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/`，汇总见其 `README.md`；P0 当时路径仍保留在冻结记录与历史 checkpoint 中。
 
 ### P1 — 决策校验与已知漂移修复— 已完成（2026-09-16，CP02）
 

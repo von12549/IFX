@@ -29,13 +29,13 @@
 生成文件只读取基线 commit 的 Git 对象，不读工作区：
 
 ```powershell
-pwsh -NoProfile -File docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1          # 重新生成
-pwsh -NoProfile -File docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1 -Check   # 逐字节校验
+pwsh -NoProfile -File docs/guards/V3_ifx/maintenance/refactor-baseline/New-RefactorBaseline.ps1          # 重新生成
+pwsh -NoProfile -File docs/guards/V3_ifx/maintenance/refactor-baseline/New-RefactorBaseline.ps1 -Check   # 逐字节校验
 ```
 
 生成器在以下情况失败关闭：存在未分类文件、存在未分类的 V3/V3_ifx 分叉、TCB 路径缺失或重叠、存在不属于任何 TCB component 的判定链可执行文件。排序使用 ordinal 比较，Windows 与 Linux 输出一致。
 
-`tools/archive-ci-evidence.py` 记录 `ci-evidence/` 的归档规则（输入为 `gh run download` 的目录）。artifact 于 2026-12-15T04:21:29Z 过期，之后以本目录归档为准。
+`maintenance/refactor-baseline/archive-ci-evidence.py` 记录 `ci-evidence/` 的归档规则（输入为 `gh run download` 的目录）。生成 JSON 中的旧 `generatedBy` 路径是 P0 时点的冻结来源标识，迁移后仍刻意保持不变。artifact 于 2026-12-15T04:21:29Z 过期，之后以本目录归档为准。
 
 ## 2. P0.1 基线记录
 

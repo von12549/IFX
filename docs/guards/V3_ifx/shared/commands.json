@@ -453,7 +453,7 @@
     {
       "id": "ifx-refactor-baseline",
       "kind": "maintenance",
-      "entryPoint": "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1",
+      "entryPoint": "docs/guards/V3_ifx/maintenance/refactor-baseline/New-RefactorBaseline.ps1",
       "stages": [
         "analysis"
       ],
@@ -464,7 +464,7 @@
         "baseline commit Git objects"
       ],
       "outputs": [
-        "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/"
+        "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/"
       ],
       "evidence": [],
       "mutability": "writes-authority",

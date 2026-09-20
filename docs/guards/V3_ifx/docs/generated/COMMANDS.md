@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `19a70a07da892465c68093368f5d2a9d752fbacff128b7399a1e406adf84c546`
+Composite SHA-256: `95814b2288f102eddb47dd5f4adc72d72a4cc05317b2f013e08ffbedbc2dfa2c`
 
 Sources:
 
@@ -25,7 +25,7 @@ Sources:
 | ifx-policy-sync | maintenance | `docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1` | post | writes-authority | True |
 | ifx-history-manifest | maintenance | `docs/guards/V3_ifx/maintenance/New-IFXHistoryManifest.ps1` | post | writes-authority | True |
 | ifx-analysis-evidence | maintenance | `docs/guards/V3_ifx/maintenance/Update-IFXAnalysisEvidence.ps1` | analysis | writes-authority | True |
-| ifx-refactor-baseline | maintenance | `docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1` | analysis | writes-authority | True |
+| ifx-refactor-baseline | maintenance | `docs/guards/V3_ifx/maintenance/refactor-baseline/New-RefactorBaseline.ps1` | analysis | writes-authority | True |
 | ifx-trusted-base | internal | `docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1` | ci | writes-artifacts | False |
 | ifx-tcb-candidate | internal | `docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1` | ci | writes-artifacts | False |
 | ifx-trusted-base-authorization | maintenance | `docs/guards/V3_ifx/trusted-base/New-IFXTrustedBaseAuthorization.ps1` | diff | writes-authority | True |
@@ -139,7 +139,7 @@ Sources:
 
 - Audiences: human
 - Inputs: baseline commit Git objects
-- Outputs: docs/guards/V3_ifx/analysis/ifx/refactor-baseline/
+- Outputs: docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/
 - Evidence: (none)
 
 ## ifx-trusted-base

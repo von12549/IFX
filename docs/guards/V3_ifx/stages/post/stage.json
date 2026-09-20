@@ -17,7 +17,7 @@
   "executionClass": "gate",
   "documentation": [
     "docs/guards/V3_ifx/README.md",
-    "docs/guards/V3_ifx/analysis/ifx/refactor-baseline/trust-contracts.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline/trust-contracts.json",
     "docs/guards/V3_ifx/docs/generated/POST.md"
   ],
   "gates": [

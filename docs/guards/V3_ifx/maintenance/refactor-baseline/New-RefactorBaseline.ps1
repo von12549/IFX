@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string] $BaselineCommit = 'd2663392db1bacd34dd866917c45b7cdf3ede7cc',
-    [string] $OutputDirectory = 'docs/guards/V3_ifx/analysis/ifx/refactor-baseline',
+    [string] $OutputDirectory = 'docs/guards/V3_ifx/stages/analysis/evidence/refactor-baseline',
     [string] $FrequencySince = '2026-06-01',
     [switch] $Check
 )
@@ -11,7 +11,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
-$root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../../..'))
+$root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../..'))
 $output = [IO.Path]::GetFullPath((Join-Path $root $OutputDirectory))
 $utf8 = [Text.UTF8Encoding]::new($false)
 
@@ -52,6 +52,7 @@ function Show-Blob([string] $path) {
 }
 
 $commit = (Invoke-Git rev-parse --verify "$BaselineCommit^{commit}").Trim()
+# Keep the original P0 provenance string stable so -Check remains byte-identical after this tool moves.
 $generatedBy = 'docs/guards/V3_ifx/analysis/ifx/refactor-baseline/tools/New-RefactorBaseline.ps1'
 
 # ---------------------------------------------------------------- scopes and tree entries
