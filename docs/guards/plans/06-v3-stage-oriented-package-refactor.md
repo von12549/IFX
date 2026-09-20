@@ -1125,6 +1125,12 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 - **边界**：不允许 silent fallback、双布局、绝对路径、遍历、glob 或 candidate executable；split-layout 禁止 Markdown Import。candidate registry 自身及其新增条目仍分别形成受保护 trust/meta-policy 与 policy-weakening 义务，`.gitattributes` 仍无条件进入 policy gate，未登记 JSON 仍失败。桥不覆盖或授权最终候选的任何义务，也不改变 required checks、runner、ruleset 或 D35 Windows 契约。
 - 来源：D36 合入后从独立 base worktree 对 P11 候选 `c2a072d8` 复审：旧硬编码 profile/history/projection 路径与 base taxonomy 仍阻止候选验证。第二桥的 base-owned 审计通过后，policy candidates 全部通过；protected verifier 收敛为 512 个 protected-removal、132 个 policy-weakening、1 个 trusted-component-change、0 个 unregistered，共 645 个必须由后续精确授权覆盖的义务。记录 `20260921-v3-stage-d37-p11-candidate-layout-compatibility.json`。
 
+### D38 — 跨平台 inventory authority bytes（P11.4 补充，细化 D35、D37）
+
+- **决定**：V3 Analyze inventory 已纳入的文本类型必须由 `.gitattributes` 明确声明 `text eol=lf`，包括 .NET project/solution/build 文件、Node/global/NuGet manifest、workflow 与 agent/owner guidance。inventory 继续记录实际 checkout bytes 的 SHA-256；通过 LF checkout authority，使 Windows 与 Linux fresh checkout 产生相同 hash，而不是在 verifier 中忽略或重写差异。既有 inventory JSON/Markdown 按 Linux fresh checkout 重算。
+- **边界**：不对二进制文件或 inventory 未覆盖类型做全仓库 renormalize，不放松逐字节可重复性测试，不改变源码语义；`.gitattributes` 的 trust/meta-policy 变化仍须独立 `weaken-policy` 授权。Windows 本地旧 worktree 可能保留既有 CRLF，验证以 fresh checkout 为准。
+- 来源：P11 candidate-layout bridge 的真实 PR #73 在 Ubuntu base-owned TCB candidate 验证中发现 `Test-IFXTools.ps1` 失败。Linux 容器复现证明项目数 171、manifest 数 6、workflow 数 1、guidance 数 2、顺序与语义均一致，差异仅为未声明文本类型的 CRLF/LF raw SHA-256。记录 `20260921-v3-stage-d38-cross-platform-inventory-bytes.json`。
+
 ## 18. 暂缓项
 
 以下事项已识别，但**明确暂不做出任何改变决定**。本计划的门禁审查目标仅限项目本身的代码与架构层面，git 端审查标准保持现状。暂缓项不阻塞本计划的 Review、批准或实施；若未来要处理，必须另行立项并取得独立授权。
