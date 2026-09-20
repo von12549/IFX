@@ -74,6 +74,28 @@ try {
     finally { [IO.File]::WriteAllText($projectPath, $goodProject, $utf8) }
     & $docs -Mode Render -TargetRoot $trial -ProfileDirectory 'guard/profile'
     & $docs -Mode Check -TargetRoot $trial -ProfileDirectory 'guard/profile'
+    $splitRoot = Join-Path $trial 'guard/split'
+    [void][IO.Directory]::CreateDirectory((Join-Path $splitRoot 'shared'))
+    [void][IO.Directory]::CreateDirectory((Join-Path $splitRoot 'pre'))
+    [void][IO.Directory]::CreateDirectory((Join-Path $splitRoot 'post'))
+    Copy-Item -LiteralPath (Join-Path $profile 'profile.json') -Destination (Join-Path $splitRoot 'shared/profile.json')
+    Copy-Item -LiteralPath (Join-Path $profile 'tech-stack.json') -Destination (Join-Path $splitRoot 'shared/toolchain.json')
+    Copy-Item -LiteralPath (Join-Path $profile 'project-map.json') -Destination (Join-Path $splitRoot 'pre/project-map.json')
+    Copy-Item -LiteralPath (Join-Path $profile 'rules') -Destination (Join-Path $splitRoot 'post/rules') -Recurse
+    $layoutPath = Join-Path $splitRoot 'profile-layout.json'
+    $layout = [ordered]@{ formatVersion = 1; profile = 'guard/split/shared/profile.json'; projectMap = 'guard/split/pre/project-map.json'; techStack = 'guard/split/shared/toolchain.json'; rulesDirectory = 'guard/split/post/rules'; viewsDirectory = 'guard/split/views' }
+    [IO.File]::WriteAllText($layoutPath, ($layout | ConvertTo-Json), $utf8)
+    & $docs -Mode Render -TargetRoot $trial -ProfileLayoutPath 'guard/split/profile-layout.json'
+    & $docs -Mode Check -TargetRoot $trial -ProfileLayoutPath 'guard/split/profile-layout.json'
+    $splitReadme = [IO.File]::ReadAllText((Join-Path $splitRoot 'views/README.md'))
+    if (-not $splitReadme.Contains('GENERATED READ-ONLY', [StringComparison]::Ordinal) -or -not $splitReadme.Contains('guard/split/shared/profile.json', [StringComparison]::Ordinal)) { throw 'Split profile views lost their authority provenance.' }
+    $layout.profile = '../outside.json'
+    [IO.File]::WriteAllText($layoutPath, ($layout | ConvertTo-Json), $utf8)
+    $unsafeLayout = $false
+    try { & $docs -Mode Check -TargetRoot $trial -ProfileLayoutPath 'guard/split/profile-layout.json' } catch { $unsafeLayout = $_.Exception.Message -match 'Unsafe repository-relative profile layout path' }
+    if (-not $unsafeLayout) { throw 'Split profile layout accepted traversal.' }
+    $layout.profile = 'guard/split/shared/profile.json'
+    [IO.File]::WriteAllText($layoutPath, ($layout | ConvertTo-Json), $utf8)
     $view = Join-Path $profile 'views/rules/ARCH.UNCONFIGURED.md'
     $edited = [IO.File]::ReadAllText($view).Replace('"title": "Replace with reviewed target rules"', '"title": "Review source boundaries"')
     [IO.File]::WriteAllText($view, $edited, $utf8)

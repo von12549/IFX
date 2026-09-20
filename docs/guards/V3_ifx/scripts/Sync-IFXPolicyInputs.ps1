@@ -9,7 +9,18 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $packageRoot = if ($PackageRoot) { [IO.Path]::GetFullPath($PackageRoot) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')) }
 $repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else { [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..')) }
-$registryPath = Join-Path $packageRoot 'policy/authorities.json'
+function Resolve-PolicyRoot([string] $PackageRoot) {
+    $available = @(@('policy', 'stages/post/policy') | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'layerguard.json') -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
+    return $available[0]
+}
+function Resolve-AuthorityRegistryPath([string] $PackageRoot) {
+    $available = @(@('policy/authorities.json', 'shared/authorities/authorities.json') | ForEach-Object { Join-Path $PackageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one legacy or shared authority registry must exist; found $($available.Count)." }
+    return $available[0]
+}
+$policyRoot = Resolve-PolicyRoot $packageRoot
+$registryPath = Resolve-AuthorityRegistryPath $packageRoot
 $registry = Get-Content -LiteralPath $registryPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $utf8 = [Text.UTF8Encoding]::new($false)
 
@@ -46,7 +57,7 @@ foreach ($projection in @($registry.projections)) {
         'copy-lf' { $expected[$target] = Get-CanonicalText $source }
         'g03-governance' {
             $document = Get-CanonicalText $source | ConvertFrom-Json -AsHashtable -Depth 100
-            $catalogTarget = Resolve-ContainedPath $packageRoot 'policy/g03/catalog.json' 'G03 catalog target'
+            $catalogTarget = Join-Path $policyRoot 'g03/catalog.json'
             $catalogText = if ($expected.Contains($catalogTarget)) { $expected[$catalogTarget] } else { Get-CanonicalText $catalogTarget }
             $document.source = 'g03/catalog.json'
             $document.catalogSha256 = Get-Sha256 $catalogText
@@ -56,7 +67,7 @@ foreach ($projection in @($registry.projections)) {
             $document = Get-CanonicalText $source | ConvertFrom-Json -AsHashtable -Depth 100
             foreach ($binding in @($registry.g04Bindings)) {
                 $bindingTarget = Resolve-ContainedPath $packageRoot $binding.target "G04 binding target"
-                $relative = [IO.Path]::GetRelativePath((Join-Path $packageRoot 'policy'), $bindingTarget).Replace('\', '/')
+                $relative = [IO.Path]::GetRelativePath($policyRoot, $bindingTarget).Replace('\', '/')
                 $document.bindings[$binding.key].path = $relative
                 $document.bindings[$binding.key].sha256 = Get-Sha256 $expected[$bindingTarget]
             }

@@ -127,6 +127,7 @@ try {
     $result.protectionSha256 = $protection.Sha256
     $registry = Read-GuardPolicyRegistry $packageRoot
     $candidateRegistry = Read-GuardCandidatePolicyRegistry $target $headSha
+    $candidateAuthorities = Read-GuardCandidateAuthorityRegistry $target $headSha
     $result.policyRegistrySha256 = $registry.sha256
     $result.authorizationSchemaSha256 = Get-GuardSha256 ([IO.File]::ReadAllBytes($authorizationSchema))
     $authorities = Get-Content -LiteralPath (Join-Path $packageRoot 'policy/authorities.json') -Raw | ConvertFrom-Json -AsHashtable -Depth 100
@@ -174,7 +175,7 @@ try {
     }
     # D24: with zero comparators every semantic policy or configuration change is a potential weakening, orthogonal to
     # any trusted component obligation of the same path.
-    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries -CandidateRegistry $candidateRegistry
+    $policy = Get-GuardPolicyChanges $target $mergeBase $headSha $registry $projectionTargets $entries -HeadRegistry $candidateRegistry -HeadProjectionTargets (Get-GuardProjectionTargets $candidateAuthorities.Document)
     foreach ($path in $policy.Unregistered) { $failures.Add("Unregistered policy or configuration file: $path; register it in shared/policy-config.json or keep it outside the registry roots.") }
     foreach ($change in $policy.Changes) {
         $obligations.Add([pscustomobject]@{ id = "policy-weakening:$($change.Path)"; kind = 'policy-weakening'; paths = @($change.Path); pointers = @($change.Pointers); change = $change; coveredBy = [Collections.Generic.List[string]]::new() })
