@@ -884,9 +884,9 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 
 ### P11 — 并行验证、切换、清理与回退证明
 
-- [ ] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。
-- [ ] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。
-- [ ] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。
+- [x] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。证据：CP12a 从 CP11 最终树完整运行 Architecture 与 CrossPlatform candidate suites；Pre、Post/Architecture、Diff、CI contract、specialized、quality、historical-integrity 以及 authority/deployment/manifest 正反例全部通过。
+- [x] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。证据：CP12a 的 generic V3、IFX trusted-base、protected-change、package isolation 与 target-root separation 矩阵逐项执行这些负例且均按预期阻断。
+- [x] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。证据：CP12a 的 `Test-V3BuildBaseline.ps1` 将源码包复制到仓库外并在 hostile parent 配置下验证 locked restore、content hash 与 import allowlist；`Test-V3.ps1` 在空白 synthetic Git fixture 上生成并运行 Validate、Pre、Test/Post 与 Diff，Architecture candidate suite 同时验证隔离 IFX Architecture package。
 - [ ] P11.4 通过以 `codex/guards-principles-plan` 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。
 - [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
 - [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
