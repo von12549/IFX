@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-final-tcb-r6-authorization",
+  "title": "P11.4 final TCB authorization r6",
+  "goal": "Pre-authorize the complete P11.4 TCB obligation after making CI contract error-text assertions presentation-independent across PowerShell runners.",
+  "acceptanceCriteria": [
+    "The immutable change-trusted-base record binds candidate 391f2d7f, all 19 changed components, all 753 changed trusted paths, and the base-owned validation suites.",
+    "Only ANSI escapes, console gutters and line wrapping are normalized before matching unchanged expected error text; exit codes, negative controls, required checks, smoke/full coverage and production verdicts remain unchanged.",
+    "This authorization-only pull request changes only this formal plan pair and the r6 authorization record, qualifies for records-and-plans CI scope, and passes all 13 required checks."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r6.json",
+    "docs/guards/plans/20260921-v3-stage-p11-final-tcb-r6-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-final-tcb-r6-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ]
+}
