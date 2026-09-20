@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "p11-inventory-lf-authority",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-inventory-lf-authorization.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d38-cross-platform-inventory-bytes.json"
+  ],
+  "changedPaths": [
+    ".gitattributes"
+  ],
+  "policies": [
+    {
+      "path": ".gitattributes",
+      "baseSha256": "d14bd5de73a481b0b47d1f55baa9687e571aa0e9394a37cea076930008bfd23e",
+      "headSha256": "f5cf3f5c8e0f2a31a21946824be5453d4bab6c006a22ca396dc4b781703483d3",
+      "schema": "normalized-text",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "630ee3b20ed27ec1320aceb42bb455f0a6ab2ed6"
+      }
+    }
+  ]
+}
+
