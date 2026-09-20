@@ -21,6 +21,7 @@
     "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
     "docs/guards/V3_ifx/scripts/Sync-IFXPolicyInputs.ps1",
     "docs/guards/V3_ifx/stages/diff/authorizations/p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-inventory-lf-authority.json",
     "docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
     "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
     "docs/guards/V3_ifx/tests/Test-V3.ps1",
