@@ -281,30 +281,43 @@ try {
             if ($render.ExitCode -ne 0) { throw "Profile view rendering failed: $($render.Output)" }
         }
         $newRule = { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/stages/post/rules/L9.9.json'), ([IO.File]::ReadAllText((Join-Path $clone $ruleFile)).Replace('"L1.2"', '"L9.9"').Replace('ruleRefs[L1.2]', 'ruleRefs[L9.9]')), $utf8) }
+        $formatRule = { Edit-Json $ruleFile { param($d) } }
+        $extraRulePointer = { & $ruleTitle; Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "blocking"') } }
         $gitattributesEdit = { [IO.File]::AppendAllText((Join-Path $clone '.gitattributes'), "*.fixture text eol=lf`n") }
         $stageEdit = { Edit-Json 'docs/guards/V3_ifx/stages/diff/stage.json' { param($d) $d.gates[0].trustContract.guarantee = $d.gates[0].trustContract.guarantee + ' Fixture.' } }
-        $ruleRecord = New-Record 'fixture-rule' (New-Head 'prepare-rule' $baseSha $ruleTitle) @('-Operation', 'weaken-policy')
-        $newRuleRecord = New-Record 'fixture-new-rule' (New-Head 'prepare-new-rule' $baseSha $newRule) @('-Operation', 'weaken-policy')
+        $rulePrepared = New-Head 'prepare-rule' $baseSha $ruleTitle
+        $ruleRecord = New-Record 'fixture-rule' $rulePrepared @('-Operation', 'weaken-policy')
+        $ruleTcbRecord = New-Record 'fixture-rule-tcb' $rulePrepared @('-ParityContract', 'Fixture: rule verdict and generated views remain valid.')
+        $ruleFormatPrepared = New-Head 'prepare-rule-format' $baseSha $formatRule
+        $ruleFormatTcbRecord = New-Record 'fixture-rule-format-tcb' $ruleFormatPrepared @('-ParityContract', 'Fixture: formatting does not change the rule verdict.')
+        $ruleExtraPrepared = New-Head 'prepare-rule-extra' $baseSha $extraRulePointer
+        $ruleExtraTcbRecord = New-Record 'fixture-rule-extra-tcb' $ruleExtraPrepared @('-ParityContract', 'Fixture: the TCB tuple is exact while policy pointers remain independently authorized.')
+        $newRulePrepared = New-Head 'prepare-new-rule' $baseSha $newRule
+        $newRuleRecord = New-Record 'fixture-new-rule' $newRulePrepared @('-Operation', 'weaken-policy')
+        $newRuleTcbRecord = New-Record 'fixture-new-rule-tcb' $newRulePrepared @('-ParityContract', 'Fixture: the declared rule set grows without weakening existing verdicts.')
         $gitattributesRecord = New-Record 'fixture-gitattributes' (New-Head 'prepare-gitattributes' $baseSha $gitattributesEdit) @('-Operation', 'weaken-policy')
         $stagePrepared = New-Head 'prepare-stage' $baseSha $stageEdit
         $stageTcbRecord = New-Record 'fixture-stage-tcb' $stagePrepared @('-ParityContract', 'Fixture: verdicts unchanged on the fixed corpus.')
         $stageWeakenRecord = New-Record 'fixture-stage-weaken' $stagePrepared @('-Operation', 'weaken-policy')
         $waiverEdit = { Edit-Json $catalog { param($d) $d.waivers += [ordered]@{ id = 'fixture-waiver' } } }
         $waiverRecord = New-Record 'fixture-waiver' (New-Head 'prepare-waiver' $baseSha $waiverEdit) @('-Operation', 'weaken-policy')
-        $authorizedBase = New-AuthorizedBase 'authorize' $baseSha @($tcbRecord, $deleteRecord, $moveRecord, $caseRecord, $weakenRecord, $ruleRecord, $newRuleRecord, $gitattributesRecord, $stageTcbRecord, $stageWeakenRecord, $waiverRecord)
+        $authorizedBase = New-AuthorizedBase 'authorize' $baseSha @($tcbRecord, $deleteRecord, $moveRecord, $caseRecord, $weakenRecord, $ruleRecord, $ruleTcbRecord, $ruleFormatTcbRecord, $ruleExtraTcbRecord, $newRuleRecord, $newRuleTcbRecord, $gitattributesRecord, $stageTcbRecord, $stageWeakenRecord, $waiverRecord)
         $authorizedWorktree = New-BaseWorktree 'b-authorized' $authorizedBase
         $recordPath = "$authorizations/fixture-consumption.json"
 
         # A protected policy move may update the head registries, but those registries never decide the verdict: the
         # base engine validates them, treats their registered additions/removals as policy changes, and excludes only
         # the derived targets that the base generator can reproduce from head authorities.
+        $policyMoveDestinationRoot = if ($policyRelativeRoot -eq 'policy') { 'stages/post/policy' } else { 'policy' }
+        $policyMoveSource = "docs/guards/V3_ifx/$policyRelativeRoot"
+        $policyMoveDestination = "docs/guards/V3_ifx/$policyMoveDestinationRoot"
         $policyMoveHead = New-PlannedHead 'policy-layout-scope' $authorizedBase {
-            [void][IO.Directory]::CreateDirectory((Join-Path $clone 'docs/guards/V3_ifx/stages/post/policy/g05'))
-            [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_ifx/policy/layerguard.json', 'docs/guards/V3_ifx/stages/post/policy/layerguard.json'))
-            [void](Invoke-FixtureGit $clone @('mv', 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json', 'docs/guards/V3_ifx/stages/post/policy/g05/context-protocol-v1.json'))
-            Edit-Json 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths[0] = 'docs/guards/V3_ifx/stages/post/policy/layerguard.json' }
+            [void][IO.Directory]::CreateDirectory((Join-Path $clone "$policyMoveDestination/g05"))
+            [void](Invoke-FixtureGit $clone @('mv', "$policyMoveSource/layerguard.json", "$policyMoveDestination/layerguard.json"))
+            [void](Invoke-FixtureGit $clone @('mv', "$policyMoveSource/g05/context-protocol-v1.json", "$policyMoveDestination/g05/context-protocol-v1.json"))
+            Edit-Json 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths[0] = "$policyMoveDestination/layerguard.json" }
             $authorityRegistry = [IO.Path]::GetRelativePath($clone, (Resolve-GuardAuthorityRegistryPath (Join-Path $clone 'docs/guards/V3_ifx'))).Replace('\', '/')
-            Edit-Json $authorityRegistry { param($d) @($d.projections | Where-Object { $_.id -eq 'g05-context' })[0].target = 'stages/post/policy/g05/context-protocol-v1.json' }
+            Edit-Json $authorityRegistry { param($d) @($d.projections | Where-Object { $_.id -eq 'g05-context' })[0].target = "$policyMoveDestinationRoot/g05/context-protocol-v1.json" }
         }
         $policyMoveResult = Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase $policyMoveHead
         $policyMoveText = ($policyMoveResult.Output -replace '\s+', ' ')
@@ -376,17 +389,18 @@ try {
         Assert-Result 'a gitlink in the protected scope fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'gitlink' $authorizedBase { Edit-Text 'README.md' { param($t) $t + "`nfixture`n" } } { [void](Invoke-FixtureGit $clone @('update-index', '--add', '--cacheinfo', "160000,$authorizedBase,docs/guards/V3_backup/module")) })) 1 'Gitlink (mode 160000) in the protected scope: docs/guards/V3_backup/module'
 
         # ---- policy and configuration obligations and head candidates (D24)
-        $ruleHead = New-PlannedHead 'consume-rule' $authorizedBase { & $ruleTitle; Remove-Record 'fixture-rule' }
+        $ruleHead = New-PlannedHead 'consume-rule' $authorizedBase { & $ruleTitle; Remove-Record 'fixture-rule'; Remove-Record 'fixture-rule-tcb' }
         Assert-Result 'trusted Diff accepts an authorized editable policy change' (Invoke-TrustedDiff $authorizedWorktree $authorizedBase $ruleHead) 0 'Trusted base run passed'
         $check = Get-DiffCheck
         $candidateCheck = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-diff.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'policy-candidates' })
         if ($check.Count -ne 1 -or -not ([string]$check[0].reason).Contains("$authorizations/fixture-rule.json (consumed)") -or $candidateCheck.Count -ne 1 -or $candidateCheck[0].status -ne 'pass') { $failures.Add("Diff summary does not report the weaken-policy consumption and candidate validation: $($check | ConvertTo-Json -Compress) $($candidateCheck | ConvertTo-Json -Compress)") }
         else { Write-Host 'PASS Diff summary reports the weaken-policy consumption and candidate validation' }
-        Assert-Result 'an editable policy change without weaken-policy fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-unauthorized' $authorizedBase $ruleTitle)) 1 "Uncovered policy-weakening needs a base authorization that this change deletes: $ruleFile"
-        Assert-Result 'a formatting-only policy change needs no authorization' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-format' $authorizedBase { Edit-Json $ruleFile { param($d) } })) 0 'no protected changes'
-        Assert-Result 'a policy change beyond the authorized pointers fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-extra-pointer' $authorizedBase { & $ruleTitle; Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "blocking"') }; Remove-Record 'fixture-rule' })) 1 "changed pointers of $ruleFile differ from the authorization"
-        Assert-Result 'an authorized added policy file passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-new-rule' $authorizedBase { & $newRule; Remove-Record 'fixture-new-rule' })) 0 'obligation(s) covered'
-        Assert-Result 'an unregistered policy file fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unregistered-policy' $authorizedBase { [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/policy/fixture-extra.json'), "{}`n", $utf8) })) 1 'Unregistered policy or configuration file: docs/guards/V3_ifx/policy/fixture-extra.json'
+        Assert-Result 'an editable policy change without weaken-policy fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-unauthorized' $authorizedBase { & $ruleTitle; Remove-Record 'fixture-rule-tcb' })) 1 "Uncovered policy-weakening needs a base authorization that this change deletes: $ruleFile"
+        Assert-Result 'a formatting-only policy change needs only TCB authorization' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-format' $authorizedBase { & $formatRule; Remove-Record 'fixture-rule-format-tcb' })) 0 'obligation(s) covered'
+        Assert-Result 'a policy change beyond the authorized pointers fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-extra-pointer' $authorizedBase { & $extraRulePointer; Remove-Record 'fixture-rule'; Remove-Record 'fixture-rule-extra-tcb' })) 1 "changed pointers of $ruleFile differ from the authorization"
+        Assert-Result 'an authorized added policy file passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-new-rule' $authorizedBase { & $newRule; Remove-Record 'fixture-new-rule'; Remove-Record 'fixture-new-rule-tcb' })) 0 'obligation(s) covered'
+        $unregisteredPolicy = "docs/guards/V3_ifx/$policyRelativeRoot/fixture-extra.json"
+        Assert-Result 'an unregistered policy file fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unregistered-policy' $authorizedBase { [IO.File]::WriteAllText((Join-Path $clone $unregisteredPolicy), "{}`n", $utf8) })) 1 "Unregistered policy or configuration file: $unregisteredPolicy"
         Assert-Result 'a .gitattributes change without weaken-policy fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'gitattributes' $authorizedBase $gitattributesEdit)) 1 'Uncovered policy-weakening needs a base authorization that this change deletes: .gitattributes'
         Assert-Result 'an authorized .gitattributes change passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-gitattributes' $authorizedBase { & $gitattributesEdit; Remove-Record 'fixture-gitattributes' })) 0 'obligation(s) covered'
         Assert-Result 'a trust/meta change with only change-trusted-base fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'stage-tcb-only' $authorizedBase { & $stageEdit; Remove-Record 'fixture-stage-tcb' })) 1 'Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/stages/diff/stage.json'

@@ -124,7 +124,8 @@ if ($Mode -eq 'CandidateTests') {
     }
     foreach ($command in $testCommands) {
         $script = [IO.Path]::GetFullPath((Join-Path $packageRepository $command[0]))
-        $arguments = if ($command.Count -gt 1) { @($command[1..($command.Count - 1)]) } else { @() }
+        [string[]] $arguments = @()
+        if ($command.Count -gt 1) { $arguments = [string[]]@($command | Select-Object -Skip 1) }
         & pwsh -NoProfile -File $script @arguments
         if ($LASTEXITCODE) { throw "$($command -join ' ') failed with exit code $LASTEXITCODE." }
     }
