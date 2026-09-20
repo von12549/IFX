@@ -67,7 +67,7 @@ foreach ($projection in @($registry.projections)) {
             $document = Get-CanonicalText $source | ConvertFrom-Json -AsHashtable -Depth 100
             foreach ($binding in @($registry.g04Bindings)) {
                 $bindingTarget = Resolve-ContainedPath $packageRoot $binding.target "G04 binding target"
-                $relative = [IO.Path]::GetRelativePath((Join-Path $packageRoot 'policy'), $bindingTarget).Replace('\', '/')
+                $relative = [IO.Path]::GetRelativePath($policyRoot, $bindingTarget).Replace('\', '/')
                 $document.bindings[$binding.key].path = $relative
                 $document.bindings[$binding.key].sha256 = Get-Sha256 $expected[$bindingTarget]
             }
