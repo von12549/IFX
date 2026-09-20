@@ -5,3 +5,5 @@ This authorization-only checkpoint binds the completed mixed-layout compatibilit
 The candidate invokes the pre-layout base trusted runner for required-check verdicts, exposes the legacy smoke/full command declaration inside a non-executable PowerShell block comment for the pre-layout CI verifier, and runs head candidate suites through the new commands facade. The candidate manifest checker excludes only that syntactically closed comment from executable-entry discovery. Both candidate contract suites and a local pre-layout base `Validate` gate pass. The record covers the complete single TCB obligation: 19 components and 753 changed paths.
 
 All earlier P11 final TCB records remain immutable and unconsumed. Only this r5 record is consumed by the final aggregate candidate.
+
+The authorization record cites D36-D38 at their final shared candidate paths; this authorization PR's formal plan cites the corresponding pre-layout decision authorities available to its base-owned validator.
