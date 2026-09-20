@@ -66,7 +66,12 @@ $sourceTreeOutput = @(Get-ChildItem -LiteralPath (Join-Path $fixture 'docs/guard
 if ($sourceTreeOutput.Count -gt 0) { throw "Guard build wrote output into the package source tree: $(($sourceTreeOutput | ForEach-Object FullName) -join ', ')" }
 # Every project the solution declares reports its imports before the build, and the build reports its own imports after
 # it; the names follow the projects, which move between packages during Plan 06 P6.4.
-$solutionProjects = @(([xml] [IO.File]::ReadAllText((Join-Path $fixture 'docs/guards/V3_ifx/templates/ifx-layerguard/LayerGuard.slnx'))).SelectNodes('//Project') |
+$architectureRoots = @(@('docs/guards/V3_ifx/templates/ifx-layerguard', 'docs/guards/V3_ifx/stages/post/gates/architecture/dotnet') |
+    ForEach-Object { Join-Path $fixture $_ } |
+    Where-Object { Test-Path -LiteralPath (Join-Path $_ 'LayerGuard.slnx') -PathType Leaf })
+if ($architectureRoots.Count -ne 1) { throw "Exactly one legacy or Post-owned IFX architecture source must exist; found $($architectureRoots.Count)." }
+$templateRoot = $architectureRoots[0]
+$solutionProjects = @(([xml] [IO.File]::ReadAllText((Join-Path $templateRoot 'LayerGuard.slnx'))).SelectNodes('//Project') |
     ForEach-Object { [IO.Path]::GetFileNameWithoutExtension(([string] $_.Path).Replace('\', '/')) })
 if ($solutionProjects.Count -lt 2) { throw "The solution declares too few projects: $($solutionProjects -join ', ')" }
 $importRoot = Join-Path $fixture 'artifacts/guards/v3-ifx/build/architecture-conformance'
@@ -80,7 +85,6 @@ if ($postBuild.Count -ne 1 -or (Get-Content -LiteralPath $postBuild[0].FullName 
 }
 
 # Plan 06 P6.1 (D26): Generate is read-only, and Check verifies the single LayerGuard source tree.
-$templateRoot = Join-Path $fixture 'docs/guards/V3_ifx/templates/ifx-layerguard'
 $retiredCopy = Join-Path $fixture 'docs/guards/V3_ifx/generated/dotnet/LayerGuard'
 $generate = @(& pwsh @arguments -Mode Generate -TargetRoot $fixture 2>&1)
 if ($LASTEXITCODE -ne 0 -or [IO.Directory]::Exists($retiredCopy)) { throw "IFX Generate is not read-only or failed: $($generate -join ' | ')" }

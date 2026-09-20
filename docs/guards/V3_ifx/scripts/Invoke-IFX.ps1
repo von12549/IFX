@@ -26,7 +26,11 @@ $policyRoot = Resolve-PolicyRoot $packageRoot
 $policyRelativeRoot = [IO.Path]::GetRelativePath($packageRoot, $policyRoot).Replace('\','/')
 # Plan 06 P6.1 (CP07a, D26): the Architecture Conformance Gate builds, tests and scans its single source tree directly;
 # the retired generated copy must not come back.
-$template = Join-Path $packageRoot 'templates/ifx-layerguard'
+$architectureRoots = @(@('templates/ifx-layerguard', 'stages/post/gates/architecture/dotnet') |
+    ForEach-Object { Join-Path $packageRoot $_ } |
+    Where-Object { Test-Path -LiteralPath (Join-Path $_ 'LayerGuard.slnx') -PathType Leaf })
+if ($architectureRoots.Count -ne 1) { throw "Exactly one legacy or Post-owned IFX architecture source must exist; found $($architectureRoots.Count)." }
+$template = $architectureRoots[0]
 $retiredCopy = Join-Path $packageRoot 'generated/dotnet/LayerGuard'
 $policy = Join-Path $policyRoot 'layerguard.json'
 $baseline = Join-Path $policyRoot 'baselines/plan05.json'
@@ -128,7 +132,7 @@ function Get-GuardRelative([string] $Path) { return [IO.Path]::GetRelativePath([
 
 function Assert-Source {
     # Check and Generate verify the single source tree instead of comparing a copy.
-    if ([IO.Directory]::Exists($retiredCopy)) { throw "The retired generated LayerGuard copy exists again: $retiredCopy. Build from templates/ifx-layerguard (Plan 06 P6.1)." }
+    if ([IO.Directory]::Exists($retiredCopy)) { throw "The retired generated LayerGuard copy exists again: $retiredCopy. Build from the package-owned architecture source (Plan 06 P6.1/P10.3)." }
     $files = @(Get-SourceFiles | Where-Object { (Get-GuardRelative $_.FullName) -notmatch '(^|/)(bin|obj)/' })
 
     # Source manifest: the solution names exactly the engine, its V3 project, the IFX facade and the test projects, each
