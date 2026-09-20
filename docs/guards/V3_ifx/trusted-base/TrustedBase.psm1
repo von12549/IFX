@@ -451,6 +451,29 @@ function Read-GuardPolicyRegistry {
     return $document
 }
 
+function Read-GuardCandidatePolicyRegistry {
+    # During a package-layout publication the candidate may relocate the registry schema before the base knows that
+    # path. The registry itself remains a base-registered trust/meta-policy change, so using a schema-valid candidate
+    # registry here cannot authorize itself; it only classifies newly laid-out JSON for the existing weaken-policy gate.
+    param([Parameter(Mandatory)][string] $Repository, [Parameter(Mandatory)][string] $Commit, [string] $PackagePath = 'docs/guards/V3_ifx')
+    $registryPath = "$PackagePath/shared/policy-config.json"
+    $json = Get-GuardBlobText $Repository $Commit $registryPath
+    if ($null -eq $json) { throw "Candidate policy and configuration registry is missing: $registryPath" }
+    $schemaCandidates = @(
+        "$PackagePath/contracts/policy-config.schema.json",
+        "$PackagePath/shared/contracts/policy-config.schema.json"
+    )
+    $schemas = @($schemaCandidates | Where-Object { $null -ne (Get-GuardBlobBytes $Repository $Commit $_) })
+    if ($schemas.Count -ne 1) { throw "Candidate must contain exactly one supported policy registry schema; found $($schemas.Count)." }
+    $temporarySchema = Join-Path ([IO.Path]::GetTempPath()) "ifx-policy-config-$([Guid]::NewGuid().ToString('N')).schema.json"
+    try {
+        [IO.File]::WriteAllBytes($temporarySchema, (Get-GuardBlobBytes $Repository $Commit $schemas[0]))
+        if (-not (Test-GuardJsonSchema -Schema $temporarySchema -Json $json)) { throw "Candidate policy and configuration registry does not match $($schemas[0])." }
+    }
+    finally { if ([IO.File]::Exists($temporarySchema)) { [IO.File]::Delete($temporarySchema) } }
+    return , (ConvertFrom-Json $json -AsHashtable -Depth 50)
+}
+
 function Get-GuardPolicyEntry {
     # The registered entry of a repository path: exact paths first, then *.json files directly in a registered directory.
     param([Parameter(Mandatory)][object] $Registry, [Parameter(Mandatory)][string] $Path)

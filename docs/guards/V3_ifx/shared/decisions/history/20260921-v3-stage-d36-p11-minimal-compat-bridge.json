@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-d36-p11-minimal-compat-bridge",
+  "owner": "xiaolong-feng",
+  "summary": "Before P11.4, publish a narrowly authorized compatibility bridge in the base. A workflow that changes multiple historical formal plans must select exactly one changed *-aggregate.plan.json; zero or multiple aggregate plans fail. The old CI verifier recognizes the candidate public guard facade while preserving base-worktree and Windows smoke/full checks. The old manifest verifier accepts a workflow entry absent from the base only when the exact candidate path exists and a schema-valid active candidate TCB claims it. Protected-change classification may use a schema-valid candidate policy registry for newly laid-out JSON, while the registry change itself remains an old-base registered trust/meta-policy weakening that requires exact authorization.",
+  "affectedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/trusted-base/Test-IFXProtectedChanges.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge.md",
+    "docs/guards/plans/20260921-v3-stage-p11-minimal-compat-bridge.plan.json"
+  ],
+  "rationale": "The aggregate P11 publication changes 112 formal plan files and replaces internal entry/layout paths, so the current base cannot select one plan or recognize the new public facade. A base audit otherwise proves the boundary precisely: architecture passes, and protected-change failures consist only of 511 protected removals, 48 policy weakenings, one TCB change and 176 JSON classification failures caused by the new layout. Exact file exclusions are not legal under the old schema and directory exclusions would create an unnecessary escape window. Candidate classification is therefore bound to schema-valid candidate trust declarations whose own changes remain protected by the old base; all substantive P11 obligations continue through the existing authorization protocol. This bridge enables the final real PR without self-authorizing or bypassing deletions."
+}

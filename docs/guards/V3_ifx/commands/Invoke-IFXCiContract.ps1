@@ -124,12 +124,17 @@ foreach ($jobId in $jobs.Keys) {
     }
 }
 Add-Check 'workflow-triggers' (@(@('pull_request', 'push') | Where-Object { $_ -notin $triggers }).Count -eq 0 -and 'main' -in $pushBranches) "pull_request and push to main are required; found triggers [$(Format-Set $triggers)] push branches [$(Format-Set $pushBranches)]"
+$workflowText = $lines -join "`n"
+$aggregatePlanSelection = $workflowText.Contains("`$aggregatePlans = @(`$plans | Where-Object { `$_ -match '(?i)-aggregate\.plan\.json$' })", [StringComparison]::Ordinal) -and
+    $workflowText.Contains('elseif ($aggregatePlans.Count -eq 1)', [StringComparison]::Ordinal) -and
+    $workflowText.Contains('-PlanPath $plan', [StringComparison]::Ordinal)
+Add-Check 'workflow-aggregate-plan-selection' $aggregatePlanSelection 'multiple changed formal plans must select exactly one *-aggregate.plan.json and pass it to the trusted Diff runner'
 
 # Every repository PowerShell entry in the workflow must be a stable public command. Internal engines and tests remain
 # reachable only behind those commands, so physical moves cannot silently change the CI integration surface (P9/P10).
 $commandManifest = Get-Content -LiteralPath ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../shared/commands.json'))) -Raw | ConvertFrom-Json -AsHashtable -Depth 30
 $publicEntries = @($commandManifest.commands | Where-Object { $_.kind -eq 'public' } | ForEach-Object { [string]$_.entryPoint })
-$workflowEntries = @([Regex]::Matches(($lines -join "`n"), '(?m)-File\s+"?(?:\$env:GUARD_BASE/|\./)(docs/guards/[A-Za-z0-9_./-]+\.ps1)"?') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
+$workflowEntries = @([Regex]::Matches($workflowText, '(?m)-File\s+"?(?:\$env:GUARD_BASE/|\./)(docs/guards/[A-Za-z0-9_./-]+\.ps1)"?') | ForEach-Object { $_.Groups[1].Value } | Sort-Object -Unique)
 $nonPublicEntries = @($workflowEntries | Where-Object { $_ -notin $publicEntries })
 Add-Check 'workflow-public-commands' ($nonPublicEntries.Count -eq 0) "workflow script entries not declared public [$(Format-Set $nonPublicEntries)]"
 

@@ -429,6 +429,14 @@ try {
         Assert-Result 'an authorized added policy file passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-new-rule' $authorizedBase { & $newRule; Remove-Record 'fixture-new-rule'; Remove-Record 'fixture-new-rule-tcb' })) 0 'obligation(s) covered'
         $unregisteredPolicy = "docs/guards/V3_ifx/$policyRelativeRoot/fixture-extra.json"
         Assert-Result 'an unregistered policy file fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'unregistered-policy' $authorizedBase { [IO.File]::WriteAllText((Join-Path $clone $unregisteredPolicy), "{}`n", $utf8) })) 1 "Unregistered policy or configuration file: $unregisteredPolicy"
+        $candidateRegistryHead = New-PlannedHead 'candidate-registers-new-layout' $authorizedBase {
+            [IO.File]::WriteAllText((Join-Path $clone $unregisteredPolicy), "{}`n", $utf8)
+            Edit-Json 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths += $unregisteredPolicy }
+        }
+        $candidateRegistryResult = Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase $candidateRegistryHead
+        Assert-Result 'candidate registry classifies new layout only through the normal weaken-policy gate' $candidateRegistryResult 1 'Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/shared/policy-config.json'
+        if (($candidateRegistryResult.Output -join "`n").Contains("Unregistered policy or configuration file: $unregisteredPolicy", [StringComparison]::Ordinal)) { $failures.Add('A schema-valid candidate registry did not classify its exact new path.') }
+        else { Write-Host 'PASS candidate registry exact path is not treated as an unregistered escape' }
         Assert-Result 'a .gitattributes change without weaken-policy fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'gitattributes' $authorizedBase $gitattributesEdit)) 1 'Uncovered policy-weakening needs a base authorization that this change deletes: .gitattributes'
         Assert-Result 'an authorized .gitattributes change passes' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'consume-gitattributes' $authorizedBase { & $gitattributesEdit; Remove-Record 'fixture-gitattributes' })) 0 'obligation(s) covered'
         Assert-Result 'a trust/meta change with only change-trusted-base fails' (Invoke-ProtectedVerifier $authorizedWorktree $authorizedBase (New-PlannedHead 'stage-tcb-only' $authorizedBase { & $stageEdit; Remove-Record 'fixture-stage-tcb' })) 1 'Uncovered policy-weakening needs a base authorization that this change deletes: docs/guards/V3_ifx/stages/diff/stage.json'
