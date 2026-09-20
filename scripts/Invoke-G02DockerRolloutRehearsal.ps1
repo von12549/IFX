@@ -220,7 +220,7 @@ GRANT CONNECT TO [$runtimeLogin];
         Configuration = "Release"
     }
     if ($NoBuild) { $artifactArguments.NoBuild = $true }
-    & (Join-Path $repositoryRoot "docs/guards/V3_ifx/specialized/scripts/New-DatabaseMigrationArtifacts.ps1") @artifactArguments
+    & (Join-Path $repositoryRoot "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/New-DatabaseMigrationArtifacts.ps1") @artifactArguments
     if ($LASTEXITCODE -ne 0) {
         throw "Migration artifact generation failed."
     }

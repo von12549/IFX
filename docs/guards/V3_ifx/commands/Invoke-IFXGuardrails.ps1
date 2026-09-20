@@ -122,7 +122,7 @@ if ($Mode -eq 'CandidateTests') {
 $profileLayout = Join-Path $packageRoot 'shared/profile-layout.json'
 $v3 = Join-Path $packageRepository 'docs/guards/V3/commands/Invoke-V3.ps1'
 $architecture = Join-Path $PSScriptRoot '../scripts/Invoke-IFX.ps1'
-$specialized = Join-Path $packageRoot 'specialized/Invoke-IFXSpecialized.ps1'
+$specialized = Join-Path $packageRoot 'stages/post/gates/specialized/Invoke-IFXSpecialized.ps1'
 $quality = Join-Path $packageRoot 'stages/post/gates/quality/Invoke-IFXQuality.ps1'
 $history = Join-Path $packageRoot 'stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'
 $docs = Join-Path $packageRepository 'docs/guards/V3/commands/Invoke-V3Docs.ps1'

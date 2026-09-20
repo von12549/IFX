@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `1f0135a7774552832452fa808e7e98c3a42cbd275d24d5050cc97b4696c09dd4`
+Composite SHA-256: `a44364266c7b4634f77de82cb5cd998d92522ac9e82acd0db7b5e14648416c6c`
 
 Sources:
 
@@ -19,7 +19,7 @@ Sources:
 | ifx-architecture | public | `docs/guards/V3_ifx/scripts/Invoke-IFX.ps1` | post | writes-artifacts | False |
 | ifx-ci-contract | public | `docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1` | ci | read-only | False |
 | ifx-manifest-check | public | `docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1` | ci | read-only | False |
-| ifx-specialized | internal | `docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1` | post | writes-artifacts | False |
+| ifx-specialized | internal | `docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1` | post | writes-artifacts | False |
 | ifx-quality | internal | `docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1` | post | writes-artifacts | False |
 | ifx-historical-integrity | internal | `docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1` | post | writes-artifacts | False |
 | ifx-policy-sync | maintenance | `docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1` | post | writes-authority | True |

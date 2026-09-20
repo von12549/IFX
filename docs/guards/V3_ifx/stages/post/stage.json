@@ -147,7 +147,7 @@
         "policy": "governing-policy and exception-authorization pointers of the head-candidate G03 catalog (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head contract/event source and documentation text",
         "detectors": [
-          "specialized/scripts/Invoke-G03ContractEventGuard.ps1"
+          "stages/post/gates/specialized/scripts/Invoke-G03ContractEventGuard.ps1"
         ],
         "inputs": [
           {
@@ -190,7 +190,7 @@
         "policy": "governing-policy authorities under deployment/g04 as head candidates (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head deployment manifests, source and documentation text",
         "detectors": [
-          "specialized/scripts/Invoke-G04Verification.ps1"
+          "stages/post/gates/specialized/scripts/Invoke-G04Verification.ps1"
         ],
         "inputs": [
           {
@@ -265,7 +265,7 @@
         "policy": "governing-policy authorities under docs/architecture/review/gates/G05 as head candidates (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head context and security source text",
         "detectors": [
-          "specialized/scripts/Invoke-G05Verification.ps1"
+          "stages/post/gates/specialized/scripts/Invoke-G05Verification.ps1"
         ],
         "inputs": [
           {
@@ -344,7 +344,7 @@
         "policy": "governing-policy authorities under docs/architecture/review/policies/plan04 as head candidates (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head module and tenant query source text",
         "detectors": [
-          "specialized/scripts/Test-Plan04Governance.ps1"
+          "stages/post/gates/specialized/scripts/Test-Plan04Governance.ps1"
         ],
         "inputs": [
           {
@@ -407,9 +407,9 @@
         "policy": "deployment/migration-safety-policy.json as a head candidate (Plan 06 D18); blocking findings pass only with a base weaken-policy authorization recomputed for the explicit head commit (D25)",
         "targetInput": "head DatabaseBoundary tests, DatabaseInventory tool, ApiHost and DatabaseMigrator",
         "detectors": [
-          "specialized/scripts/Test-MigrationSafetyPolicy.ps1",
-          "specialized/scripts/Test-DatabasePendingModelChanges.ps1",
-          "specialized/scripts/New-DatabaseMigrationArtifacts.ps1"
+          "stages/post/gates/specialized/scripts/Test-MigrationSafetyPolicy.ps1",
+          "stages/post/gates/specialized/scripts/Test-DatabasePendingModelChanges.ps1",
+          "stages/post/gates/specialized/scripts/New-DatabaseMigrationArtifacts.ps1"
         ],
         "inputs": [
           {

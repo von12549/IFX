@@ -112,9 +112,9 @@
       "type": "engine-detectors",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/specialized/Invoke-IFXSpecialized.ps1",
-        "docs/guards/V3_ifx/specialized/scripts/",
-        "docs/guards/V3_ifx/specialized/contracts/"
+        "docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1",
+        "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/",
+        "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",

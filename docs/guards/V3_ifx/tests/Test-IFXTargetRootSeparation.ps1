@@ -20,6 +20,7 @@ $legacySpecializedComplete = @($requiredSpecializedFiles | Where-Object { -not [
 $stageSpecializedComplete = @($requiredSpecializedFiles | Where-Object { -not [IO.File]::Exists((Join-Path $stageSpecialized $_)) }).Count -eq 0
 if ($legacySpecializedComplete -eq $stageSpecializedComplete) { throw 'Specialized gates must have exactly one complete legacy or stage-owned layout.' }
 $specializedRelativeRoot = if ($stageSpecializedComplete) { 'docs/guards/V3_ifx/stages/post/gates/specialized' } else { 'docs/guards/V3_ifx/specialized' }
+$specializedRepositoryTraversal = if ($stageSpecializedComplete) { '../../../../../../../..' } else { '../../../../..' }
 $tempRoot = if ($env:RUNNER_TEMP) { $env:RUNNER_TEMP } else { [IO.Path]::GetTempPath() }
 $work = [IO.Path]::GetFullPath((Join-Path $tempRoot "ifxsep-$([Guid]::NewGuid().ToString('N').Substring(0, 8))"))
 if ($work.StartsWith($repository.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'The package copy must be outside the target repository.' }
@@ -102,7 +103,9 @@ try {
         $original = [IO.File]::ReadAllBytes($detector)
         try {
             $text = [Text.Encoding]::UTF8.GetString($original)
-            $leaky = [Regex]::Replace($text, 'if \(\$env:GUARD_TARGET_ROOT\) \{ \[IO\.Path\]::GetFullPath\(\$env:GUARD_TARGET_ROOT\) \} else \{ (\[IO\.Path\]::GetFullPath\(\(Join-Path \$PSScriptRoot ''\.\./\.\./\.\./\.\./\.\.''\)\)) \}', '$1')
+            $repositoryExpression = "[IO.Path]::GetFullPath((Join-Path `$PSScriptRoot '$specializedRepositoryTraversal'))"
+            $guardedExpression = "if (`$env:GUARD_TARGET_ROOT) { [IO.Path]::GetFullPath(`$env:GUARD_TARGET_ROOT) } else { $repositoryExpression }"
+            $leaky = $text.Replace($guardedExpression, $repositoryExpression)
             if ($leaky -eq $text) { throw 'Negative control could not remove the target root from the Plan04 extraction policy detector.' }
             [IO.File]::WriteAllText($detector, $leaky, [Text.UTF8Encoding]::new($false))
             $result = Invoke-Guardrails $separatedRunner $target 'Plan04' 'negative-location'
