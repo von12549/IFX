@@ -67,7 +67,7 @@ jobs:
           } else {
             throw "V3 Diff requires one changed formal plan, or exactly one *-aggregate.plan.json when publishing historical plans; found $($plans.Count) plans and $($aggregatePlans.Count) aggregate plans."
           }
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Diff -PlanPath $plan -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA -GateId v3-pre-diff
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Diff -PlanPath $plan -BaseRef $env:BASE_SHA -HeadRef $env:HEAD_SHA -GateId v3-pre-diff
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -110,12 +110,12 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Validate package projections and contracts from the trusted base
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Run head candidate package tests
         if: steps.scope.outputs.scope != 'records-and-plans'
@@ -126,7 +126,7 @@ jobs:
       - name: Run the sole production architecture scan from the trusted base
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Architecture -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Architecture -HeadRef $env:GUARD_HEAD_SHA -GateId v3-architecture
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -165,7 +165,7 @@ jobs:
       - name: Restore, build and test the solution once
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Solution -GateId v3-quality-solution
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Solution -GateId v3-quality-solution
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -205,7 +205,7 @@ jobs:
       - name: Inspect all compiled Domain assemblies
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Assembly -GateId v3-quality-assembly
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Assembly -GateId v3-quality-assembly
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -240,7 +240,7 @@ jobs:
       - name: Run npm ci, lint, tests and build
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Frontend -GateId v3-quality-frontend
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Quality -QualityTarget Frontend -GateId v3-quality-frontend
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -273,7 +273,7 @@ jobs:
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G03 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g03
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G03 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g03
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -306,7 +306,7 @@ jobs:
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g04
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g04
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -339,7 +339,7 @@ jobs:
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G05 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g05
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate G05 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-g05
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -372,7 +372,7 @@ jobs:
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Plan04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-plan04
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Plan04 -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-plan04
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -413,7 +413,7 @@ jobs:
           "GUARD_HEAD_SHA=$env:HEAD_SHA" >> $env:GITHUB_ENV
       - shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Database -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-database
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Specialized -SpecializedGate Database -HeadRef $env:GUARD_HEAD_SHA -GateId v3-specialized-database
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -443,7 +443,7 @@ jobs:
       - name: Validate frozen evidence hashes and JSON
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity -GateId v3-historical-integrity
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity -GateId v3-historical-integrity
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         if: always()
@@ -490,12 +490,12 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Scope -HeadRef $env:GUARD_HEAD_SHA -GitHubOutput $env:GITHUB_OUTPUT
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Validate from the trusted base
         shell: pwsh
         run: |
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -TrustedBase -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-cross-platform-${{ matrix.os }}
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1" -HeadRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode Validate -HeadRef $env:GUARD_HEAD_SHA -GateId v3-cross-platform-${{ matrix.os }}
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Verify trusted component candidates
         if: github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest'
@@ -508,7 +508,7 @@ jobs:
             Write-Host 'Trusted component candidate verification is not active in the base commit (first introduction, Plan 06 §11.6).'
             exit 0
           }
-          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1" -Mode TrustedComponentCandidate -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA
+          pwsh -NoProfile -File "$env:GUARD_BASE/docs/guards/V3_ifx/trusted-base/Test-IFXTrustedBaseCandidate.ps1" -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Reproduce head generated inputs and run head candidate tests
         if: steps.scope.outputs.scope != 'records-and-plans'
