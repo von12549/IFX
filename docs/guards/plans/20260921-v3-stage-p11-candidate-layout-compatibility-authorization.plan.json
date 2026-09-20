@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-candidate-layout-compatibility-authorization",
+  "title": "P11 candidate-layout compatibility protected-change authorization",
+  "goal": "Pre-authorize the exact trusted-component tuples of the prepared second P11 compatibility bridge without including its implementation.",
+  "acceptanceCriteria": [
+    "The immutable change-trusted-base record binds all and only the ten TCB paths changed by prepared bridge commit ef0fb03d, with the affected components and validation suites.",
+    "The parity contract limits compatibility to base-owned validation of one schema-valid split candidate layout and an explicitly suffixed aggregate plan; exact Diff and authorization obligations remain unchanged and allowedBehaviorDifferences is empty.",
+    "This pull request changes only D37, Plan 06 documentation, this formal authorization plan pair and the single authorization record; all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-candidate-layout-compatibility.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-p11-candidate-layout-compatibility-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-candidate-layout-compatibility-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json"
+  ]
+}
