@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "cp11m-refactor-baseline-policy-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-policy-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json"
+  ],
+  "components": [
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "42fca096d743ceee97089fb18a8a7878d0340f90"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c23ae695724669628cc5914bc2120211d8d3b87e"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)"
+  ],
+  "parityContract": "Only the empty future refactor-baseline evidence prefix becomes policy-excluded; all current policy files, manifests, authorities and verdict behavior remain unchanged.",
+  "allowedBehaviorDifferences": []
+}

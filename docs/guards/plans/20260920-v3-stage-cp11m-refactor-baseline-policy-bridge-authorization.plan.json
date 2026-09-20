@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11m-refactor-baseline-policy-bridge-authorization",
+  "title": "Authorize the refactor baseline policy exclusion bridge",
+  "goal": "Authorize the exact TCB manifest and policy-registry changes required by the empty-destination bridge.",
+  "acceptanceCriteria": [
+    "The TCB authorization binds exactly the policy-config change in the prepared bridge commit.",
+    "The weaken-policy authorization binds exactly /excluded/1 in shared/policy-config.json.",
+    "The authorization-only Trusted Diff passes without changing runtime or policy inputs."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-policy-bridge-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11m-refactor-baseline-policy-bridge-weaken.json",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-policy-bridge-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11m-refactor-baseline-policy-bridge-authorization.plan.json"
+  ],
+  "areaIds": ["GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
