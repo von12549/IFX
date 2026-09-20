@@ -22,7 +22,10 @@ $output = Resolve-PathInRoot $ReportPath
 $report = [ordered]@{ schemaVersion = 1; mode = 'quality'; detector = 'assembly'; status = 'blocked'; checks = @(); message = $null }
 try {
     # The policy is package configuration: read it from this package unless a target-relative path is given explicitly.
-    $policyFile = if ($PolicyPath) { Resolve-PathInRoot $PolicyPath } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../policy/layerguard.json')) }
+    $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
+    $policyCandidates = @('policy/layerguard.json', 'stages/post/policy/layerguard.json' | ForEach-Object { Join-Path $packageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+    if (-not $PolicyPath -and $policyCandidates.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($policyCandidates.Count)." }
+    $policyFile = if ($PolicyPath) { Resolve-PathInRoot $PolicyPath } else { $policyCandidates[0] }
     if (-not (Test-Path -LiteralPath $policyFile -PathType Leaf)) { throw "Policy is missing: $PolicyPath" }
     $policy = Get-Content -Raw -LiteralPath $policyFile | ConvertFrom-Json -Depth 100
     $allowed = @($policy.allowedReferences.Domain)

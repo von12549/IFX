@@ -25,7 +25,9 @@ $technicalPath = Join-Path $evidenceRoot 'TECHNICAL.md'
 $v3Runner = Join-Path $v3 "$entryDirectory/Invoke-V3.ps1"
 $v3Docs = Join-Path $v3 "$entryDirectory/Invoke-V3Docs.ps1"
 $v3Setup = Join-Path $v3 "$entryDirectory/Invoke-V3Setup.ps1"
-$policyPath = Join-Path $package 'policy/layerguard.json'
+$policyCandidates = @('policy/layerguard.json', 'stages/post/policy/layerguard.json' | ForEach-Object { Join-Path $package $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+if ($policyCandidates.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($policyCandidates.Count)." }
+$policyPath = $policyCandidates[0]
 $policyBefore = [IO.File]::ReadAllBytes($policyPath)
 try {
     [void][IO.Directory]::CreateDirectory($inventoryRoot)

@@ -162,7 +162,11 @@ foreach ($requiredPackagePolicy in @(
     }
 }
 
-$policyFile = Join-Path $fixture 'docs/guards/V3_ifx/policy/layerguard.json'
+$fixturePackage = Join-Path $fixture 'docs/guards/V3_ifx'
+$policyCandidates = @('policy/layerguard.json', 'stages/post/policy/layerguard.json' | ForEach-Object { Join-Path $fixturePackage $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+if ($policyCandidates.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist in the package fixture; found $($policyCandidates.Count)." }
+$policyFile = $policyCandidates[0]
+$policyRoot = Split-Path -Parent $policyFile
 $policyBytes = [IO.File]::ReadAllBytes($policyFile)
 try {
     $policyData = [Text.Encoding]::UTF8.GetString($policyBytes) | ConvertFrom-Json -AsHashtable -Depth 100
@@ -187,7 +191,7 @@ if (@($report.violations | Where-Object { $_.ref -eq 'L2.2' }).Count -eq 0) {
     throw 'Negative scan failed without an L2.2 finding.'
 }
 
-$manifest = Join-Path $fixture 'docs/guards/V3_ifx/policy/g04/runtime-manifest.json'
+$manifest = Join-Path $policyRoot 'g04/runtime-manifest.json'
 $data = Get-Content -LiteralPath $manifest -Raw | ConvertFrom-Json -AsHashtable
 $data.bindings.moduleManifest.path = 'deployment/g04/module-manifest.json'
 [IO.File]::WriteAllText($manifest, ($data | ConvertTo-Json -Depth 100), [Text.UTF8Encoding]::new($false))

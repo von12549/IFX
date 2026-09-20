@@ -49,7 +49,10 @@ $projectReferences = @(
         }
     }
 )
-$layerGuard = Get-Content -Raw -LiteralPath ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../policy/layerguard.json'))) | ConvertFrom-Json -Depth 100
+$packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../../../'))
+$policyCandidates = @('policy/layerguard.json', 'stages/post/policy/layerguard.json' | ForEach-Object { Join-Path $packageRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf })
+if ($policyCandidates.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($policyCandidates.Count)." }
+$layerGuard = Get-Content -Raw -LiteralPath $policyCandidates[0] | ConvertFrom-Json -Depth 100
 $layerGuardEnforcesRetirement = '*.Abstractions' -in @($layerGuard.forbiddenProjectNames) -and @($layerGuard.ruleRefs | Where-Object { $_.ref -eq 'L1.2' -and 'PROJECT-NAME-FORBIDDEN' -in @($_.rules) }).Count -eq 1
 $allProjectFiles = @(Get-ChildItem -LiteralPath (Repo 'src') -File -Recurse -Filter '*.csproj')
 $allProjectReferences = @(

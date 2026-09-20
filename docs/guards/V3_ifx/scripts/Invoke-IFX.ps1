@@ -15,12 +15,20 @@ $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $target = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else {
     [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..'))
 }
+function Resolve-PolicyRoot([string] $PackageRoot) {
+    $legacy = Join-Path $PackageRoot 'policy'
+    $stage = Join-Path $PackageRoot 'stages/post/policy'
+    $available = @($legacy, $stage | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'layerguard.json') -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
+    return $available[0]
+}
+$policyRoot = Resolve-PolicyRoot $packageRoot
 # Plan 06 P6.1 (CP07a, D26): the Architecture Conformance Gate builds, tests and scans its single source tree directly;
 # the retired generated copy must not come back.
 $template = Join-Path $packageRoot 'templates/ifx-layerguard'
 $retiredCopy = Join-Path $packageRoot 'generated/dotnet/LayerGuard'
-$policy = Join-Path $packageRoot 'policy/layerguard.json'
-$baseline = Join-Path $packageRoot 'policy/baselines/plan05.json'
+$policy = Join-Path $policyRoot 'layerguard.json'
+$baseline = Join-Path $policyRoot 'baselines/plan05.json'
 $solution = Join-Path $template 'LayerGuard.slnx'
 # Plan 06 P6.3 (CP07b-prep, D27): IFX policy binding tests reach the gate only through the IFX facade project, whose path
 # and entry point stay the same when the binding is separated from the generic engine.

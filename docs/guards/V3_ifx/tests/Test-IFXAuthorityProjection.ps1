@@ -20,6 +20,12 @@ function Assert-SelectionFailure([string] $PackageRoot, [string] $Label) {
     if (-not $failed) { throw "$Label did not fail closed." }
 }
 
+function Resolve-PolicyRelativeRoot([string] $PackageRoot) {
+    $available = @('policy', 'stages/post/policy' | Where-Object { Test-Path -LiteralPath (Join-Path $PackageRoot "$_/layerguard.json") -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
+    return $available[0]
+}
+
 New-Item -ItemType Directory -Force -Path $fixture | Out-Null
 try {
     $neither = Join-Path $fixture 'path-selection-neither'
@@ -33,11 +39,17 @@ try {
     Assert-SelectionFailure $both 'Ambiguous policy sync entry points'
 
     Copy-Item -LiteralPath (Join-Path $package 'policy') -Destination (Join-Path $fixture 'policy') -Recurse
+    $policyRelativeRoot = Resolve-PolicyRelativeRoot $package
+    if ($policyRelativeRoot -ne 'policy') {
+        $stageDestination = Join-Path $fixture $policyRelativeRoot
+        [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($stageDestination))
+        Copy-Item -LiteralPath (Join-Path $package $policyRelativeRoot) -Destination $stageDestination -Recurse
+    }
     $selection = Resolve-SyncEntryPoint $package
     $sync = $selection.Path
     $applyArguments = if ($sync -ceq $selection.MaintenancePath) { @('-Mode', 'Apply', '-AcceptMaintenance') } else { @('-Mode', 'Generate') }
     & $sync -Mode Check -TargetRoot $root -PackageRoot $fixture
-    $projection = Join-Path $fixture 'policy/g03/catalog.json'
+    $projection = Join-Path $fixture "$policyRelativeRoot/g03/catalog.json"
     Add-Content -LiteralPath $projection -Value ' '
     $output = @(& pwsh -NoProfile -File $sync -Mode Check -TargetRoot $root -PackageRoot $fixture 2>&1)
     if ($LASTEXITCODE -eq 0) { throw "Projection drift unexpectedly passed: $($output -join ' | ')" }

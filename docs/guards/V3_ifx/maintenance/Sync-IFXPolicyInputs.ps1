@@ -11,6 +11,14 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $packageRoot = if ($PackageRoot) { [IO.Path]::GetFullPath($PackageRoot) } else { [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')) }
 $repositoryRoot = if ($TargetRoot) { [IO.Path]::GetFullPath($TargetRoot) } else { [IO.Path]::GetFullPath((Join-Path $packageRoot '../../..')) }
+function Resolve-PolicyRoot([string] $PackageRoot) {
+    $legacy = Join-Path $PackageRoot 'policy'
+    $stage = Join-Path $PackageRoot 'stages/post/policy'
+    $available = @($legacy, $stage | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'layerguard.json') -PathType Leaf })
+    if ($available.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($available.Count)." }
+    return $available[0]
+}
+$policyRoot = Resolve-PolicyRoot $packageRoot
 $registryPath = Join-Path $packageRoot 'policy/authorities.json'
 $registry = Get-Content -LiteralPath $registryPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $utf8 = [Text.UTF8Encoding]::new($false)
@@ -49,7 +57,7 @@ foreach ($projection in @($registry.projections)) {
         'copy-lf' { $expected[$target] = Get-CanonicalText $source }
         'g03-governance' {
             $document = Get-CanonicalText $source | ConvertFrom-Json -AsHashtable -Depth 100
-            $catalogTarget = Resolve-ContainedPath $packageRoot 'policy/g03/catalog.json' 'G03 catalog target'
+            $catalogTarget = Join-Path $policyRoot 'g03/catalog.json'
             $catalogText = if ($expected.Contains($catalogTarget)) { $expected[$catalogTarget] } else { Get-CanonicalText $catalogTarget }
             $document.source = 'g03/catalog.json'
             $document.catalogSha256 = Get-Sha256 $catalogText
