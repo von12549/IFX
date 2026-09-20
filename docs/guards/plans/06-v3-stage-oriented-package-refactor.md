@@ -886,7 +886,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [ ] P11.1 对 Analysis、Pre、Post、Diff、CI、专项、质量、历史完整性运行新旧正常与负向 parity。
 - [ ] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。
 - [ ] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。
-- [ ] P11.4 通过真实 PR 验证候选 workflow 和 required checks 后，单独取得激活授权。
+- [ ] P11.4 通过以 `codex/guards-principles-plan` 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。
 - [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
 - [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
 - **门槛**：新结构是唯一生产路径，旧路径零运行时引用，全部 blocking 能力有可审查正反证据。
@@ -1104,6 +1104,14 @@ D1–D15 已根据 Review 共识关闭；D16–D17 为 P1.1 依据 P0 基线补�
 
 - **决定**：workflow 增加只降低成本、不改变 gate 证明内容的控制项，由 `ci/jobs.json` 声明、由只读 CI contract verifier 强制：按 PR 取消被替代的运行、在重型 job 中缓存已评审 NuGet 包（key 由已评审 lock 派生）、再验证 schedule 由每周改为每月。base 另外用 `trusted-base/Get-IFXChangeScope.ps1` 判定 verified changed set：带明确 head 时，`records-and-plans` 表示 merge base 到该 head 之间每个路径都是 formal plan、authorization record 或 decision record；空变更集、无法识别路径与任何失败都是 `full`。判定为 `records-and-plans` 时，workflow 跳过 `v3-architecture` 与两条 `v3-cross-platform` leg 的 head candidate 步骤，runner 让 `v3-architecture`、三个 quality 与 `v3-specialized-database` 以 `guardrails: skipped` 继承 base 判定；`v3-pre-diff`、Validate、Pre、HistoricalIntegrity 与 G03/G04/G05/Plan04 始终运行。13 个 required check 名称、job DAG、trigger 语义、ruleset 与 strict 策略不变，也没有任何 job 变为条件执行。
 - 来源：2026-09-17 度量单次 PR 运行 73–75 计费分钟（Windows leg 30、`v3-architecture` 13、Ubuntu leg 10、`v3-quality-solution` 6、`v3-specialized-database` 5），配额 2700/3000 不足以完成剩余约 19–23 次运行；用户于 2026-09-18 要求先做 CI 优化再继续 Plan 06；记录 `20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json`。
+
+> 2026-09-21 补充：D28 关于“Windows leg 不裁剪”的结论由 D35 局部取代；D28 的 concurrency、cache、monthly schedule、base-owned change scope 与 fail-closed 约束继续有效。历史 decision JSON 保持不可变，由新的 D35 decision 记录取代范围。
+
+### D35 — Windows portability smoke 与 P11.4 全量认证（§10.3、P11.4 补充，局部取代 D28）
+
+- **决定**：保留 `v3-cross-platform-windows-latest` required check、13 个 required check 名称、job DAG、事件集合、ruleset contexts 与 strict 策略。普通 PR/push/schedule 在 Ubuntu leg 执行完整 head candidate suite，Windows leg 仍执行 base-owned `Validate`，其 head candidate 部分改为已声明的 portability smoke：V3/IFX Generate 与 Check、锁定构建基线、target-root/path 隔离。平台中立的 Pre、authority projection、specialized contracts、historical integrity、domain authority candidates 与 trusted-base 全量候选测试不再在每个 Windows 普通运行重复，但仍在 Ubuntu 完整执行。P11.4 最终候选必须额外以 `workflow_dispatch`、`windowsCoverage=full` 运行一次 Windows 完整 suite 并保存证据；CI contract 对 smoke/full 命令集合、OS 选择、dispatch 输入和 required check 身份失败关闭。`records-and-plans` 优化和任何 job 级条件均不改变。
+- **边界**：这是经明确授权的重复证据削减，不宣称 Windows smoke 与全量 suite 等价；若 smoke 命令、Windows required check、Ubuntu full suite 或 P11.4 全量入口被移除，CI contract 必须失败。仓库公开期间标准 runner 不计 Actions minutes，但本约束仍保留，以便仓库回到 private 后控制成本。
+- 来源：2026-09-21 对最近真实运行复核：Windows leg 15.70 分钟，其中 head candidate 14.17 分钟；本地把 trusted-base 差异消费测试加入 smoke 的试跑超过 3 分钟仍未结束，故该套件保留在 Ubuntu full/P11.4 Windows full。用户于 2026-09-21 授权 CP12-ci2，并要求更新 D28、Plan 06 与 CI 信任契约；记录 `20260921-v3-stage-d35-windows-portability-smoke.json`。
 
 ## 18. 暂缓项
 

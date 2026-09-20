@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-cp12-ci2-authorization",
+  "title": "V3 stage-oriented refactor CP12-ci2-auth — protected-change authorizations for Windows portability smoke",
+  "goal": "Pre-authorize the exact CP12-ci2 candidate's trusted-component and registered-policy changes without modifying the CI implementation in the authorization pull request.",
+  "acceptanceCriteria": [
+    "The change-trusted-base record binds the exact base/head tuples, affected TCB components, validation suites and the D35 parity boundary for Ubuntu full, ordinary Windows smoke and P11.4 Windows full certification.",
+    "The weaken-policy record binds every semantic change in ci/jobs.json and shared/trusted-components.json with exact hashes and JSON pointers.",
+    "This pull request changes only the D35 decision, Plan 06 documentation, this formal authorization plan pair and the two authorization records; all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp12-ci2-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp12-ci2-weaken-policy.json",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-cp12-ci2-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-cp12-ci2-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ]
+}

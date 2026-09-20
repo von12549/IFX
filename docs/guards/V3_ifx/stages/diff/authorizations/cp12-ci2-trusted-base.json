@@ -1,0 +1,107 @@
+{
+  "formatVersion": 1,
+  "id": "cp12-ci2-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260921-v3-stage-cp12-ci2-windows-portability-smoke.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ],
+  "changedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8b385cd2f9f1c68ebd0ecf53b451055a928061fa"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "831ccc3ca2df879a36b964b54b2cad9026d7cd81"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f71bc3002d1dd28177fc634555eed772c7ce8d0e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b82d95c56959e9aeaac65916ed57d5404b0a73a1"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/ci/jobs.json",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1f6d5aab819501d402a0abb92cb2b657818c207c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fc2e8ad2641b7b363628ac4575e04a6384dde27e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1a592b1ec9407151342e4e54ab2e37c4a9a2871e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3b2b7c2a756a75aa697074602006c13089d1c47e"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ecd461da24a011f6982d5ee32f6862cdafe50f8e"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "924148665777dddde5ad80b1e8788cf25f6d16f3"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/Test-IFXManifests.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "All 13 required check names, the job DAG, event set, ruleset contexts, strict policy and base-owned Validate verdict remain unchanged. Ordinary Ubuntu runs retain the full candidate suite; ordinary Windows runs execute the declared generation/check, locked-build and target-root portability smoke; P11.4 dispatches windowsCoverage=full once for Windows full-suite certification.",
+  "allowedBehaviorDifferences": []
+}
