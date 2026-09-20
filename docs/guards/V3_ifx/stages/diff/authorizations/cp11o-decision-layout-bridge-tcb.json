@@ -1,0 +1,87 @@
+{
+  "formatVersion": 1,
+  "id": "cp11o-decision-layout-bridge-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11o-decision-layout-bridge.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+    "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1"
+  ],
+  "components": [
+    "tcb.engine.trusted-base",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "94a66fcafbfe3f655695519b16f4c7caa54e337c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "68120336af7c158dcdb0e783703e0b4a9cea50b3"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Get-IFXChangeScope.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6c54dc9c20e7e912e24d7c5a15b3b85314367b88"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "29de5556c861093069aaac19d14fc92f5508bcd0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXProtectedChangeRehearsal.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "38d32264aa71c38d526562176651f22b9fd099fc"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "03331be642dbaa76042cf74e8977ac7bcc15183d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/TrustedBase.psm1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "8f176b2c9944c7815755877a9172da67501562f9"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "325ffe701b4f71ec71f0abc8753c16032a7fbee2"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "v3-architecture",
+    "v3-cross-platform-*"
+  ],
+  "parityContract": "Decision-history path resolution, change-scope classification, protected-change rehearsal and package test verdicts remain unchanged while exactly one legacy or shared layout is accepted.",
+  "allowedBehaviorDifferences": []
+}
