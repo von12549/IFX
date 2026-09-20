@@ -18,6 +18,7 @@
       "jobs": ["v3-architecture", "v3-quality-solution", "v3-specialized-database", "v3-cross-platform"]
     },
     "windowsPortability": {
+      "candidateFacade": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
       "requiredCheck": "v3-cross-platform-windows-latest",
       "runner": "windows-latest",
       "ordinaryCoverage": "smoke",
@@ -26,27 +27,28 @@
       "fullCertificationValue": "full",
       "fullCertificationCheckpoint": "P11.4",
       "smokeCommands": [
-        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
-        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
-        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
-        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
-        "./docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1"
+        "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate",
+        "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
+        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1"
       ],
       "fullSuiteCommands": [
-        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Generate -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
-        "./docs/guards/V3_ifx/scripts/Invoke-V3.ps1 -Mode Check -ProfileDirectory docs/guards/V3_ifx/profiles/ifx -TargetRoot . -OutputDirectory docs/guards/V3_ifx/generated/stages",
-        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
-        "./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
-        "./docs/guards/V3_ifx/tests/Test-V3.ps1",
-        "./docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXPre.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1",
-        "./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1"
+        "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate",
+        "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
+        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
+        "docs/guards/V3/tests/Test-V3.ps1",
+        "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
+        "docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1",
+        "docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1",
+        "docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1",
+        "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1"
       ]
     }
   },

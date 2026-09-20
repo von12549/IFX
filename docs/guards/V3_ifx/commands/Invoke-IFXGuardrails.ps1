@@ -7,6 +7,7 @@ param(
     [string] $GateId,
     [string] $GitHubOutput,
     [ValidateSet('Architecture','CrossPlatform')][string] $CandidateSuite,
+    [ValidateSet('smoke','full')][string] $CandidateCoverage = 'full',
     [ValidateSet('G03','G04','G05','Plan04','Database','All')][string] $SpecializedGate = 'All',
     [ValidateSet('Solution','Assembly','Frontend','All')][string] $QualityTarget = 'All',
     [string] $PlanPath,
@@ -91,41 +92,58 @@ if ($Mode -eq 'TrustedComponentCandidate') {
 
 if ($Mode -eq 'CandidateTests') {
     if (-not $CandidateSuite) { throw 'CandidateTests requires -CandidateSuite.' }
+    if ($CandidateSuite -ne 'CrossPlatform' -and $CandidateCoverage -ne 'full') { throw 'CandidateCoverage is only available for the CrossPlatform candidate suite.' }
     if ($CandidateSuite -eq 'CrossPlatform' -and -not $GenerationRoot) { throw 'CrossPlatform candidate tests require -GenerationRoot.' }
     $candidateStage = if ($GenerationRoot) { Join-Path ([IO.Path]::GetFullPath($GenerationRoot)) 'v3-ifx/gates/stage' } else { $null }
+    $architectureCommands = @(
+        ,@('docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1')
+        ,@('docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1')
+        ,@('docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1')
+        ,@('docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1')
+        ,@('docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1')
+        ,@('docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1')
+        ,@('docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1')
+        ,@('docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1')
+        ,@('docs/guards/V3/tests/Test-V3ArchUnit.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1', '-ArchitectureOnly')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1', '-DiffConsumptionOnly')
+    )
+    # BEGIN FULL CROSS-PLATFORM CANDIDATE SUITE
+    $fullCrossPlatformCommands = @(
+        ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+        ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
+        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
+        ,@('docs/guards/V3/tests/Test-V3.ps1')
+        ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
+        ,@('docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1')
+        ,@('docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1')
+        ,@('docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1')
+        ,@('docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1')
+    )
+    # END FULL CROSS-PLATFORM CANDIDATE SUITE
+    # BEGIN WINDOWS PORTABILITY SMOKE
+    $windowsPortabilitySmokeCommands = @(
+        ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+        ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
+        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
+        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
+        ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
+        ,@('docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1')
+    )
+    # END WINDOWS PORTABILITY SMOKE
     $testCommands = if ($CandidateSuite -eq 'Architecture') {
-        @(
-            ,@('docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1')
-            ,@('docs/guards/V3_ifx/tests/post/Test-IFXAssemblyGuard.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1')
-            ,@('docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1')
-            ,@('docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1')
-            ,@('docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1')
-            ,@('docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1')
-            ,@('docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1')
-            ,@('docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1')
-            ,@('docs/guards/V3/tests/Test-V3ArchUnit.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1', '-ArchitectureOnly')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1', '-DiffConsumptionOnly')
-        )
+        $architectureCommands
+    } elseif ($CandidateCoverage -eq 'smoke') {
+        $windowsPortabilitySmokeCommands
     } else {
-        @(
-            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
-            ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
-            ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
-            ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
-            ,@('docs/guards/V3/tests/Test-V3.ps1')
-            ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
-            ,@('docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1')
-            ,@('docs/guards/V3_ifx/tests/post/Test-IFXSpecializedContracts.ps1')
-            ,@('docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1')
-            ,@('docs/guards/V3_ifx/tests/ci/Test-IFXDeployment.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1')
-            ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1')
-        )
+        $fullCrossPlatformCommands
     }
     foreach ($command in $testCommands) {
         $script = [IO.Path]::GetFullPath((Join-Path $packageRepository $command[0]))

@@ -33,7 +33,7 @@
     "costControls": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scheduleCron", "concurrencyGroup", "cancelSupersededRuns", "packageCache"],
+      "required": ["scheduleCron", "concurrencyGroup", "cancelSupersededRuns", "packageCache", "windowsPortability"],
       "properties": {
         "scheduleCron": { "type": "string", "minLength": 1 },
         "concurrencyGroup": { "type": "string", "minLength": 1 },
@@ -48,6 +48,23 @@
             "keyPrefix": { "type": "string", "minLength": 1 },
             "lockGlob": { "type": "string", "minLength": 1 },
             "jobs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" } }
+          }
+        },
+        "windowsPortability": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidateFacade", "requiredCheck", "runner", "ordinaryCoverage", "fullCertificationEvent", "fullCertificationInput", "fullCertificationValue", "fullCertificationCheckpoint", "smokeCommands", "fullSuiteCommands"],
+          "properties": {
+            "candidateFacade": { "type": "string", "pattern": "^docs/guards/[A-Za-z0-9_./-]+\\.ps1$" },
+            "requiredCheck": { "type": "string", "pattern": "^v3-[a-z0-9-]+$" },
+            "runner": { "const": "windows-latest" },
+            "ordinaryCoverage": { "const": "smoke" },
+            "fullCertificationEvent": { "const": "workflow_dispatch" },
+            "fullCertificationInput": { "const": "windowsCoverage" },
+            "fullCertificationValue": { "const": "full" },
+            "fullCertificationCheckpoint": { "const": "P11.4" },
+            "smokeCommands": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "fullSuiteCommands": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
           }
         }
       }

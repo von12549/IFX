@@ -31,6 +31,19 @@ function Add-Check([string] $id, [bool] $passed, [string] $detail) {
     if (-not $passed) { $failures.Add("${id}: $detail") }
 }
 function Format-Set([string[]] $values) { return (@($values | Sort-Object -Unique) -join ', ') }
+function Get-MarkedCommandIds([string] $source, [string] $beginMarker, [string] $endMarker) {
+    $begin = $source.IndexOf($beginMarker, [StringComparison]::Ordinal)
+    $end = if ($begin -ge 0) { $source.IndexOf($endMarker, $begin + $beginMarker.Length, [StringComparison]::Ordinal) } else { -1 }
+    if ($begin -lt 0 -or $end -lt 0) { return @() }
+    $block = $source.Substring($begin, ($end + $endMarker.Length) - $begin)
+    return @($block -split "`n" | ForEach-Object {
+        if ($_ -notmatch ',@\(') { return }
+        $tokens = @([Regex]::Matches($_, "'([^']*)'") | ForEach-Object { $_.Groups[1].Value })
+        if ($tokens.Count -eq 0) { return }
+        if ($tokens.Count -ge 3 -and $tokens[1] -eq '-Mode') { return "$($tokens[0]) -Mode $($tokens[2])" }
+        return $tokens[0]
+    })
+}
 
 # ---------------------------------------------------------------- workflow (line-based; the workflow is hand-authored with 2-space indentation)
 $workflowFile = Resolve-InRoot $WorkflowPath
@@ -196,6 +209,40 @@ if ($null -ne $costControls) {
         $hasKey = $text -match "key:\s*$([Regex]::Escape([string]$cache.keyPrefix))" -and $text -match [Regex]::Escape([string]$cache.lockGlob)
         Add-Check "cost-package-cache:$jobId" ($hasAction -and $hasPath -and $hasKey) "job must cache $($cache.path) with $($cache.action) and a key derived from $($cache.lockGlob)"
     }
+    $windows = $costControls.windowsPortability
+    $crossJob = if ($jobs.Contains('v3-cross-platform')) { $jobs['v3-cross-platform'] } else { $null }
+    $crossText = if ($null -ne $crossJob) { $crossJob.lines -join "`n" } else { '' }
+    $declaredWindowsCheck = [string]$windows.requiredCheck
+    $declaredRunner = [string]$windows.runner
+    $hasWindowsMatrix = $null -ne $crossJob -and $crossJob.matrix.Contains('os') -and $declaredRunner -in @($crossJob.matrix.os)
+    Add-Check 'cost-windows-portability-declaration' ($declaredWindowsCheck -in $declaredIds -and $declaredRunner -eq 'windows-latest' -and $hasWindowsMatrix -and $windows.ordinaryCoverage -eq 'smoke') "Windows portability must remain a required windows-latest matrix check with ordinary smoke coverage"
+
+    $workflowText = $lines -join "`n"
+    $dispatchInput = [string]$windows.fullCertificationInput
+    $dispatchValue = [string]$windows.fullCertificationValue
+    $hasDispatchInput = $workflowText -match "(?ms)^  workflow_dispatch:\s*\n    inputs:\s*\n      $([Regex]::Escape($dispatchInput)):\s*\n.*?^        options:\s*\n(?:          - .+\n)*          - $([Regex]::Escape($dispatchValue))\s*$"
+    Add-Check 'cost-windows-full-certification-dispatch' ($windows.fullCertificationEvent -eq 'workflow_dispatch' -and $windows.fullCertificationCheckpoint -eq 'P11.4' -and $hasDispatchInput) "workflow_dispatch must expose $dispatchInput=$dispatchValue for the P11.4 full Windows certification"
+
+    $coverageSelection = "`$coverage = if (`$env:RUNNER_OS -eq 'Windows') { `$env:WINDOWS_COVERAGE } else { 'full' }"
+    $facadeInvocation = '-Mode CandidateTests -CandidateSuite CrossPlatform -CandidateCoverage $coverage'
+    Add-Check 'cost-windows-coverage-selection' ($crossText.Contains($coverageSelection, [StringComparison]::Ordinal) -and $crossText.Contains($facadeInvocation, [StringComparison]::Ordinal)) 'the public candidate facade must select smoke only on Windows and full coverage everywhere else'
+
+    $facadeRelative = [string]$windows.candidateFacade
+    $targetFacade = Resolve-InRoot $facadeRelative
+    $packagePrefix = 'docs/guards/V3_ifx/'
+    $packageRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+    $packageFacade = if ($facadeRelative.StartsWith($packagePrefix, [StringComparison]::Ordinal)) { Join-Path $packageRoot $facadeRelative.Substring($packagePrefix.Length) } else { $null }
+    # Fixture/in-place runs validate the target candidate. A separated package run has no package files in TargetRoot,
+    # so it validates the same facade from the package that owns this declaration and verifier.
+    $facadeFile = if ([IO.File]::Exists($targetFacade)) { $targetFacade } else { $packageFacade }
+    $facadeText = if ([IO.File]::Exists($facadeFile)) { [IO.File]::ReadAllText($facadeFile).Replace("`r`n", "`n") } else { '' }
+    $smokeCommands = @(Get-MarkedCommandIds $facadeText '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE')
+    $fullCommands = @(Get-MarkedCommandIds $facadeText '# BEGIN FULL CROSS-PLATFORM CANDIDATE SUITE' '# END FULL CROSS-PLATFORM CANDIDATE SUITE')
+    $declaredSmoke = @($windows.smokeCommands | ForEach-Object { [string]$_ })
+    $declaredFull = @($windows.fullSuiteCommands | ForEach-Object { [string]$_ })
+    Add-Check 'cost-candidate-facade' ([IO.File]::Exists($facadeFile) -and $facadeText.Contains("[ValidateSet('smoke','full')][string] `$CandidateCoverage = 'full'", [StringComparison]::Ordinal)) "candidate facade $facadeRelative must expose CandidateCoverage with a fail-safe full default"
+    Add-Check 'cost-windows-smoke-commands' (($smokeCommands -join "`n") -ceq ($declaredSmoke -join "`n")) "facade Windows smoke commands [$(Format-Set $smokeCommands)] must exactly match the declaration [$(Format-Set $declaredSmoke)]"
+    Add-Check 'cost-full-suite-commands' (($fullCommands -join "`n") -ceq ($declaredFull -join "`n")) "facade full commands [$(Format-Set $fullCommands)] must exactly match the declaration [$(Format-Set $declaredFull)]"
 }
 $changeScope = if ($declaration.Contains('changeScope')) { $declaration.changeScope } else { $null }
 if ($null -ne $changeScope) {

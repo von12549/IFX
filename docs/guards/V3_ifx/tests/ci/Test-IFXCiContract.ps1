@@ -18,6 +18,7 @@ $verifier = Join-Path $package 'ci/Invoke-IFXCiContract.ps1'
 $publicFacade = Join-Path $package 'commands/Invoke-IFXGuardrails.ps1'
 $utf8 = [Text.UTF8Encoding]::new($false)
 $workflowSource = [IO.File]::ReadAllText((Join-Path $repository '.github/workflows/v3-ifx-guardrails.yml')).Replace("`r`n", "`n")
+$facadeSource = [IO.File]::ReadAllText($publicFacade).Replace("`r`n", "`n")
 $requiredChecksPath = Join-Path $package 'stages/ci/required-checks.json'
 $usingRequiredChecks = [IO.File]::Exists($requiredChecksPath)
 $declarationPath = if ($usingRequiredChecks) { $requiredChecksPath } else { Join-Path $package 'ci/jobs.json' }
@@ -35,13 +36,15 @@ function New-Ruleset([string[]] $contexts, [bool] $strict = $true, [string] $enf
 }
 $allChecks = @(($requiredChecksSource | ConvertFrom-Json).jobs | ForEach-Object { $_.id })
 
-function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $workflowSource, [string] $requiredChecks = $requiredChecksSource, [string] $ruleset, [string] $expectText) {
+function Invoke-Case([string] $label, [int] $expected, [string] $workflow = $workflowSource, [string] $facade = $facadeSource, [string] $requiredChecks = $requiredChecksSource, [string] $ruleset, [string] $expectText) {
     $case = Join-Path $fixture ([Guid]::NewGuid().ToString('N'))
     [void][IO.Directory]::CreateDirectory((Join-Path $case '.github/workflows'))
     [IO.File]::WriteAllText((Join-Path $case '.github/workflows/v3-ifx-guardrails.yml'), $workflow, $utf8)
     if ($usingRequiredChecks) {
         [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/stages/ci'))
+        [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/commands'))
         [IO.File]::WriteAllText((Join-Path $case 'docs/guards/V3_ifx/stages/ci/required-checks.json'), $requiredChecks, $utf8)
+        [IO.File]::WriteAllText((Join-Path $case 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'), $facade, $utf8)
         $arguments = @('-NoProfile', '-File', $verifier, '-TargetRoot', $case, '-RequiredChecksPath', 'docs/guards/V3_ifx/stages/ci/required-checks.json')
     } else {
         [void][IO.Directory]::CreateDirectory((Join-Path $case 'docs/guards/V3_ifx/ci'))
@@ -104,11 +107,11 @@ try {
     Invoke-Case 'undeclared schedule fails' 1 -workflow $workflowSource.Replace("    - cron: '17 3 1 * *'", "    - cron: '17 3 * * 1'") -expectText 'cost-schedule'
     Invoke-Case 'missing package cache fails' 1 -workflow ([Regex]::Replace($workflowSource, '(?m)^      - name: Cache reviewed guard packages\n(        .*\n|          .*\n)+', '', 1)) -expectText 'cost-package-cache:v3-architecture'
     Invoke-Case 'package cache not keyed by the reviewed locks fails' 1 -workflow $workflowSource.Replace("hashFiles('docs/guards/*/build/locks/*.packages.lock.json')", "github.sha") -expectText 'cost-package-cache:v3-architecture'
-    $smokeWithoutBuild = Edit-MarkedBlock $workflowSource '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE' "              ,@('./docs/guards/V3/tests/Test-V3BuildBaseline.ps1')`n" ''
-    Invoke-Case 'Windows smoke without the locked build baseline fails' 1 -workflow $smokeWithoutBuild -expectText 'cost-windows-smoke-commands'
-    $fullWithoutTrustedBase = Edit-MarkedBlock $workflowSource '# BEGIN FULL CANDIDATE SUITE' '# END FULL CANDIDATE SUITE' "              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1')" "              ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')"
-    Invoke-Case 'Ubuntu full suite without trusted-base candidates fails' 1 -workflow $fullWithoutTrustedBase -expectText 'cost-full-suite-commands'
-    Invoke-Case 'Windows smoke selected without an OS guard fails' 1 -workflow $workflowSource.Replace("`$useWindowsSmoke = `$env:RUNNER_OS -eq 'Windows' -and `$env:WINDOWS_COVERAGE -ne 'full'", "`$useWindowsSmoke = `$env:WINDOWS_COVERAGE -ne 'full'") -expectText 'cost-windows-coverage-selection'
+    $smokeWithoutBuild = Edit-MarkedBlock $facadeSource '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE' "        ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')`n" ''
+    Invoke-Case 'Windows smoke without the locked build baseline fails' 1 -facade $smokeWithoutBuild -expectText 'cost-windows-smoke-commands'
+    $fullWithoutTrustedBase = Edit-MarkedBlock $facadeSource '# BEGIN FULL CROSS-PLATFORM CANDIDATE SUITE' '# END FULL CROSS-PLATFORM CANDIDATE SUITE' "        ,@('docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1')" "        ,@('docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1')"
+    Invoke-Case 'Ubuntu full suite without trusted-base candidates fails' 1 -facade $fullWithoutTrustedBase -expectText 'cost-full-suite-commands'
+    Invoke-Case 'Windows smoke selected without an OS guard fails' 1 -workflow $workflowSource.Replace("`$coverage = if (`$env:RUNNER_OS -eq 'Windows') { `$env:WINDOWS_COVERAGE } else { 'full' }", "`$coverage = `$env:WINDOWS_COVERAGE") -expectText 'cost-windows-coverage-selection'
     Invoke-Case 'full Windows certification option removal fails' 1 -workflow $workflowSource.Replace("          - full`n", "          - complete`n") -expectText 'cost-windows-full-certification-dispatch'
     Invoke-Case 'missing change scope classification fails' 1 -workflow ([Regex]::new('(?m)^        id: scope\n').Replace($workflowSource, '', 1)) -expectText 'change-scope-step:v3-architecture'
     Invoke-Case 'head candidate work without the scope guard fails' 1 -workflow ([Regex]::new("(?m)^        if: steps\.scope\.outputs\.scope != 'records-and-plans'\n").Replace($workflowSource, '', 1)) -expectText 'change-scope-guard:v3-architecture'
@@ -128,6 +131,7 @@ try {
     Invoke-Case 'trusted base activation declaration behavior' $(if ($usingRequiredChecks) { 1 } else { 0 }) -requiredChecks $inactiveChecks -workflow $workflowSource.Replace('-GateId v3-historical-integrity', '-GateId v3-other') -expectText $(if ($usingRequiredChecks) { 'JSON is not valid with the schema' } else { $null })
     if ($usingRequiredChecks) {
         Assert-FacadeFailure 'candidate suite is explicit' @('-Mode','CandidateTests','-TargetRoot',$repository) 'CandidateTests requires -CandidateSuite.'
+        Assert-FacadeFailure 'smoke coverage is CrossPlatform-only' @('-Mode','CandidateTests','-CandidateSuite','Architecture','-CandidateCoverage','smoke','-TargetRoot',$repository) 'CandidateCoverage is only available for the CrossPlatform candidate suite.'
         Assert-FacadeFailure 'TCB candidate SHA is explicit' @('-Mode','TrustedComponentCandidate','-TargetRoot',$repository) 'TrustedComponentCandidate requires -BaseSha.'
         Assert-FacadeFailure 'trusted-base SHA is explicit' @('-Mode','Validate','-TrustedBase','-TargetRoot',$repository) '-TrustedBase requires -BaseSha.'
     }
