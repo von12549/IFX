@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11p-contract-relocation-authorization",
+  "title": "Authorize the contract ownership relocation",
+  "goal": "Pre-authorize the exact contract moves, duplicate deletions, TCB tuples and policy pointers of CP11p.",
+  "acceptanceCriteria": [
+    "Sixteen move records bind exact source and destination tree entries.",
+    "Seven delete records bind exact byte-identical IFX duplicate tree entries.",
+    "The TCB record binds every changed trusted path and component to the frozen candidate.",
+    "The policy record binds every semantic registry, manifest, activation and documentation-authority change.",
+    "The authorization-only checkpoint changes no implementation or contract authority.",
+    "The relocation candidate consumes every authorization exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-relocation-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-contract-relocation-tcb.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-decision-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-plan-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-pre-result-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-profile-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-project-map-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-rule-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-delete-tech-stack-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-activation-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-authorities-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-authorization-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-change-scope-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-commands-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-docs-map-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-guard-summary-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-guard-system-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-policy-config-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-protected-change-report-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-protection-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-required-checks-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-stage-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-trusted-base-summary-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-trusted-components-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11p-move-workflow-variables-contract.json",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-relocation-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11p-contract-relocation-authorization.plan.json"
+  ],
+  "areaIds": ["CI", "GuardDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}

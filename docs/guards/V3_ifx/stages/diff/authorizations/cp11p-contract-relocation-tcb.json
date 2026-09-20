@@ -1,0 +1,546 @@
+{
+  "formatVersion": 1,
+  "id": "cp11p-contract-relocation-tcb",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11p-contract-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/contracts/activation.schema.json",
+    "docs/guards/V3_ifx/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/contracts/decision.schema.json",
+    "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/contracts/plan.schema.json",
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+    "docs/guards/V3_ifx/contracts/profile.schema.json",
+    "docs/guards/V3_ifx/contracts/project-map.schema.json",
+    "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+    "docs/guards/V3_ifx/contracts/rule.schema.json",
+    "docs/guards/V3_ifx/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+    "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/ci/activation.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+    "docs/guards/V3/commands/Invoke-V3Docs.ps1"
+  ],
+  "components": [
+    "tcb.contracts",
+    "tcb.engine.v3-runner",
+    "tcb.manifest",
+    "tcb.policy.authority-registry"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "291fdc8cbb5640f0d581e4601ff37fd83cc26787"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "component": "tcb.policy.authority-registry",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5af8b69ebc71b3de1e5e9ae00e1bc32eb65a28bb"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorization.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "47f611a82f31c21fa316e480aa3e608f712cd9e9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6962a1df9903294399064a9e9dbf081420be1f2a"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ac78b3c05543a79db363f8d4dd19e94e917d121d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c76fdd57f284bc2823827acc637170696b1ac55"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9dbef6f48b4efd41a9e07cdbddadc88bfd563f6f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/plan.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dc2aa8ce49cf2a5786132bb4a6506234173bc75d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c08c847abdcc62575276f0db08cfb196b8635ab9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f3f922f6038c23fe7601aaace2680c481bf4abf1"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b9fc5ddabd71019de91b96e47619662bfb996b00"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2191effc81970473dcc766c6b29a36036d216ad8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ad483e92182d49b2b6d2f3fddf265bac56e79f04"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9e5375954b49c6dd333006ea1edf5d136d70a8e2"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3f30e4b44a2e3beb880c36046227ffdba7f65e9d"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c976e0245177edd24f021cf9407253daba7c8d6"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4c1736fa2fb66fbb946d036ceec6489bed25665b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a9d312a77229d5ee561f18b1fca674f7243a65d0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fe40c65f94277cb692f3fe9d8be54fc7d5fcef9"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "component": "tcb.contracts",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e050c462866eca4a73f4f3314a97b260ab8508f"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "be342f66a0f74413f24237547629a297d9c5a0a1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1dadfd2aec938a1f052875b5c74001a9a59a8aad"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+      "component": "tcb.policy.authority-registry",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5af8b69ebc71b3de1e5e9ae00e1bc32eb65a28bb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6962a1df9903294399064a9e9dbf081420be1f2a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c76fdd57f284bc2823827acc637170696b1ac55"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+      "component": "tcb.contracts",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9dbef6f48b4efd41a9e07cdbddadc88bfd563f6f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+      "component": "tcb.contracts",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c08c847abdcc62575276f0db08cfb196b8635ab9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c976e0245177edd24f021cf9407253daba7c8d6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json",
+      "component": "tcb.contracts",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a9d312a77229d5ee561f18b1fca674f7243a65d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fe40c65f94277cb692f3fe9d8be54fc7d5fcef9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b0ce495fa05e9927e1c7d58d3e0e8feb5bbd1722"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fbaf6882701a592b1b25157edf8baa76f790028b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "45df02313451a4fe5ea0259a79deb9697e8a018c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "855769d20d07c1fdaac3e02638ee4feb9275fb0d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/activation.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5be67ff57894232c767c83d796023270bcffdf1a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1caf3579315eb89fd467b95f686c48bb7c8865d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "291fdc8cbb5640f0d581e4601ff37fd83cc26787"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9e5375954b49c6dd333006ea1edf5d136d70a8e2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e050c462866eca4a73f4f3314a97b260ab8508f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/stage.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "30d92ddedf6f6f32ca5c6b919e63387d719e7e6a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "23b44c91c411b11299bc49020abdd1717d0a0fe9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/authorization.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "47f611a82f31c21fa316e480aa3e608f712cd9e9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/change-scope.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9d34746e1996e9f65a6bda4391a9af4d9f4dd1d9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protected-change-report.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ad483e92182d49b2b6d2f3fddf265bac56e79f04"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      }
+    },
+    {
+      "path": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
+      "component": "tcb.engine.v3-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "242cff18b2d8998df812209cdc6f3964d8cbdac1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6d312078f8823d90033d0e6cc431cfe39841e444"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/scripts/Invoke-IFXManifestCheck.ps1",
+    "docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTools.ps1",
+    "docs/guards/V3/tests/Test-V3.ps1",
+    "docs/guards/V3/tests/Test-V3ArchUnit.ps1",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "Contract identifiers, validation behavior and protection semantics remain unchanged; only canonical schema ownership paths and their registered references move.",
+  "allowedBehaviorDifferences": []
+}

@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "id": "cp11p-move-guard-system-contract",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11p-contract-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+      }
+    }
+  ]
+}

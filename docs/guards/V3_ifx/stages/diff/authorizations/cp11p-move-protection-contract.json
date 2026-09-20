@@ -1,0 +1,54 @@
+{
+  "formatVersion": 1,
+  "id": "cp11p-move-protection-contract",
+  "operation": "move",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11p-contract-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+    }
+  },
+  "destination": {
+    "path": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+    "base": null,
+    "head": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      }
+    }
+  ]
+}

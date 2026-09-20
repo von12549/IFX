@@ -1,0 +1,673 @@
+{
+  "formatVersion": 1,
+  "id": "cp11p-contract-relocation-policy",
+  "operation": "weaken-policy",
+  "planPath": "docs/guards/plans/20260920-v3-stage-cp11p-contract-relocation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d32-contract-ownership-layout.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/contracts/activation.schema.json",
+    "docs/guards/V3_ifx/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/contracts/decision.schema.json",
+    "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/contracts/plan.schema.json",
+    "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+    "docs/guards/V3_ifx/contracts/profile.schema.json",
+    "docs/guards/V3_ifx/contracts/project-map.schema.json",
+    "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/contracts/protection.schema.json",
+    "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+    "docs/guards/V3_ifx/contracts/rule.schema.json",
+    "docs/guards/V3_ifx/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+    "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+    "docs/guards/V3_ifx/shared/commands.json",
+    "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json",
+    "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/ci/activation.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+    "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+    "docs/guards/V3_ifx/stages/ci/stage.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/authorization.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/change-scope.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protected-change-report.schema.json",
+    "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json"
+  ],
+  "policies": [
+    {
+      "path": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "baseSha256": "f69b5d94a4d35daa86ef8bd1e13c4f4974541a85b05ac11929d963b73297fbee",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorities.schema.json",
+      "baseSha256": "d5168d2115e2ae37b2ffab88dacecb815e41a4b235dbb15421799e1d34c2f1af",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/authorization.schema.json",
+      "baseSha256": "1d942a0060365c3c509939f83879cddc21a831d8ac4104710db93fad85564913",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/change-scope.schema.json",
+      "baseSha256": "430e661ed161abe4341f1aac33f8e27db4ba53e42fcd8962eb40717d7434d455",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "baseSha256": "846fe21238fa7d771b35d466366e2a3cbecfc0a220813422e193828c448356aa",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/decision.schema.json",
+      "baseSha256": "7c448e1d7ea6e99b82bfbbdfa283eba4f4cc9bb3d4057b8fc05ce29e94887848",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/docs-map.schema.json",
+      "baseSha256": "e67d9cb06a0eb2c1998f0732f198f2a33d33bd4ec9634ef6aa70f0d68478061a",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-summary.schema.json",
+      "baseSha256": "70315ed5f752eea1286294e14c79bd76079a3cae4eda0d4e33d3624480e03855",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/guard-system.schema.json",
+      "baseSha256": "a780b972866c088ebe8db1e667f4d59fc3a0613fc882ad5d34f53923bf0d11dd",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/plan.schema.json",
+      "baseSha256": "a54ff7b1630d79cfd923a2b85ec3e3aaf6f512767d03f772daa65b47f85db9ba",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "baseSha256": "162a35e5e6e157724efde063b61659c9da59eca371bd7e439898479981246f6d",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/pre-result.schema.json",
+      "baseSha256": "4cc078280edb49ac093f40c16445aed8b957e3477c8d17e25defe26edf64f836",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/profile.schema.json",
+      "baseSha256": "4f8d4bf37a9e2c376ee7a09dc0321ce51c853cb0e8b898f7776e3ac802342409",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/project-map.schema.json",
+      "baseSha256": "2d7e42a10852c38c172c9c75f33619130c4caece460bba7025a4b12916d37520",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protected-change-report.schema.json",
+      "baseSha256": "7228bd3c400ebdbf53e9d93724cd617ba297dffb5de6566643ee1f4409dac4c8",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/protection.schema.json",
+      "baseSha256": "74698ab5ab171a9a85e95628cbc5891844904f4c3a1235f8095eaf51e157beb0",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/required-checks.schema.json",
+      "baseSha256": "c5628659205b0f672391253ccaf81b1e51609d1c13025bc7101ec545318ff8e8",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/rule.schema.json",
+      "baseSha256": "1d1c34bcaeb3dde381c9580cc5beaae68294ff1f453099c03e3bb6c7376441d9",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "baseSha256": "7678c7383e165091599c880826d298936b645208a8b84c6a0436788f50c8f3d1",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/tech-stack.schema.json",
+      "baseSha256": "0bd0327253ec45d839dee5a4665c36adf7dbf1d14f73190bcab026b65ade2225",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-base-summary.schema.json",
+      "baseSha256": "e1a4f2223eceacc856131ece28a730171ba283219b91d079465a22d5fea142e2",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "baseSha256": "83d22f615de8dec45ff9080f90883021d63c2aa07bb60818248b8cf707842f87",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/contracts/workflow-variables.schema.json",
+      "baseSha256": "5c696b999f42ee35104b5769206a024ba5627c3a36850441281fa7b78f1f32fb",
+      "headSha256": null,
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/commands.json",
+      "baseSha256": "312aad29247f7cac92b607d3e473da1b2a0b8279282f1915c8cd0b192035481f",
+      "headSha256": "55d5caf099144d628aa0c873f8a93d116333250ad1bc93f34712a526dae91652",
+      "schema": "docs/guards/V3_ifx/contracts/commands.schema.json",
+      "pointers": [
+        "/commands/8/inputs/3",
+        "/commands/8/inputs/4",
+        "/commands/8/inputs/5",
+        "/commands/8/inputs/6",
+        "/commands/8/inputs/7",
+        "/commands/8/inputs/8"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1dadfd2aec938a1f052875b5c74001a9a59a8aad"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/authorities.schema.json",
+      "baseSha256": null,
+      "headSha256": "d5168d2115e2ae37b2ffab88dacecb815e41a4b235dbb15421799e1d34c2f1af",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5af8b69ebc71b3de1e5e9ae00e1bc32eb65a28bb"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/commands.schema.json",
+      "baseSha256": null,
+      "headSha256": "846fe21238fa7d771b35d466366e2a3cbecfc0a220813422e193828c448356aa",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6962a1df9903294399064a9e9dbf081420be1f2a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/docs-map.schema.json",
+      "baseSha256": null,
+      "headSha256": "e67d9cb06a0eb2c1998f0732f198f2a33d33bd4ec9634ef6aa70f0d68478061a",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c76fdd57f284bc2823827acc637170696b1ac55"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-summary.schema.json",
+      "baseSha256": null,
+      "headSha256": "70315ed5f752eea1286294e14c79bd76079a3cae4eda0d4e33d3624480e03855",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9dbef6f48b4efd41a9e07cdbddadc88bfd563f6f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/guard-system.schema.json",
+      "baseSha256": null,
+      "headSha256": "a780b972866c088ebe8db1e667f4d59fc3a0613fc882ad5d34f53923bf0d11dd",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e1cc5aae0ec33a16b9ab02403cc35479ceac115b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/policy-config.schema.json",
+      "baseSha256": null,
+      "headSha256": "162a35e5e6e157724efde063b61659c9da59eca371bd7e439898479981246f6d",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c08c847abdcc62575276f0db08cfb196b8635ab9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/stage.schema.json",
+      "baseSha256": null,
+      "headSha256": "7678c7383e165091599c880826d298936b645208a8b84c6a0436788f50c8f3d1",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5c976e0245177edd24f021cf9407253daba7c8d6"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/trusted-base-summary.schema.json",
+      "baseSha256": null,
+      "headSha256": "e1a4f2223eceacc856131ece28a730171ba283219b91d079465a22d5fea142e2",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a9d312a77229d5ee561f18b1fca674f7243a65d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/contracts/trusted-components.schema.json",
+      "baseSha256": null,
+      "headSha256": "83d22f615de8dec45ff9080f90883021d63c2aa07bb60818248b8cf707842f87",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6fe40c65f94277cb692f3fe9d8be54fc7d5fcef9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "baseSha256": "dfbbe68161a0de5394c5723a9fa6ccb64ae482b39eda23bf7b975cf087398403",
+      "headSha256": "e5e19db3ceefa928475a897f22b65f3f0d43f35d41e128f3667399883e5a23ac",
+      "schema": "docs/guards/V3_ifx/contracts/policy-config.schema.json",
+      "pointers": [
+        "/entries/1/schema",
+        "/entries/10/schema",
+        "/entries/12/schema",
+        "/entries/13/schema",
+        "/entries/14/schema",
+        "/entries/15/schema",
+        "/entries/16/schema",
+        "/entries/17/schema",
+        "/entries/18/schema",
+        "/entries/19/schema",
+        "/entries/2/schema",
+        "/entries/20/directory",
+        "/entries/20/id",
+        "/entries/21/directory",
+        "/entries/21/id",
+        "/entries/22/candidateValidation",
+        "/entries/22/directory",
+        "/entries/22/id",
+        "/entries/22/paths",
+        "/entries/22/schema",
+        "/entries/23/candidateValidation",
+        "/entries/23/directory",
+        "/entries/23/format",
+        "/entries/23/id",
+        "/entries/23/paths",
+        "/entries/24",
+        "/entries/25",
+        "/entries/3/schema",
+        "/entries/4/schema",
+        "/entries/8/schema",
+        "/entries/9/schema",
+        "/monotonicity/0/schema",
+        "/monotonicity/1/schema",
+        "/monotonicity/10/schema",
+        "/monotonicity/11/schema",
+        "/monotonicity/12/schema",
+        "/monotonicity/13/schema",
+        "/monotonicity/14/schema",
+        "/monotonicity/15/schema",
+        "/monotonicity/16/schema",
+        "/monotonicity/2/schema",
+        "/monotonicity/3/schema",
+        "/monotonicity/4/schema",
+        "/monotonicity/5/schema",
+        "/monotonicity/7/schema",
+        "/monotonicity/8/schema",
+        "/monotonicity/9/schema",
+        "/roots/1",
+        "/roots/2",
+        "/roots/3",
+        "/roots/4",
+        "/roots/5"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "fbaf6882701a592b1b25157edf8baa76f790028b"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "baseSha256": "61528ed010c96ab000ddfddabf80f43474636b64dc516f7bacee33ae56935781",
+      "headSha256": "fc3219281ba9f2115afe49b5a20c5989c203413be37fa0e83d4b419fec82f21b",
+      "schema": "docs/guards/V3_ifx/contracts/trusted-components.schema.json",
+      "pointers": [
+        "/components/11/paths/1",
+        "/components/14/paths/16",
+        "/components/14/paths/17",
+        "/components/14/paths/18",
+        "/components/14/paths/19",
+        "/components/14/paths/20",
+        "/components/9/paths/1",
+        "/components/9/paths/10",
+        "/components/9/paths/11",
+        "/components/9/paths/12",
+        "/components/9/paths/13",
+        "/components/9/paths/14",
+        "/components/9/paths/15",
+        "/components/9/paths/16",
+        "/components/9/paths/2",
+        "/components/9/paths/3",
+        "/components/9/paths/4",
+        "/components/9/paths/5",
+        "/components/9/paths/6",
+        "/components/9/paths/7",
+        "/components/9/paths/8",
+        "/components/9/paths/9",
+        "/manifest/schema"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "855769d20d07c1fdaac3e02638ee4feb9275fb0d"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/activation.json",
+      "baseSha256": "35d9bf655776c33b316b52be08586d4a204341504f2c9ba6b873c4d49a5597b6",
+      "headSha256": "5ae9cd316f146a539a6397d9eb7980444a95dcd94b32b59a32c623d1961b8507",
+      "schema": "docs/guards/V3_ifx/contracts/activation.schema.json",
+      "pointers": [
+        "/artifacts/0/variablesSchema",
+        "/schema"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1caf3579315eb89fd467b95f686c48bb7c8865d0"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/activation.schema.json",
+      "baseSha256": null,
+      "headSha256": "f69b5d94a4d35daa86ef8bd1e13c4f4974541a85b05ac11929d963b73297fbee",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "291fdc8cbb5640f0d581e4601ff37fd83cc26787"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/required-checks.schema.json",
+      "baseSha256": null,
+      "headSha256": "c5628659205b0f672391253ccaf81b1e51609d1c13025bc7101ec545318ff8e8",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9e5375954b49c6dd333006ea1edf5d136d70a8e2"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/contracts/workflow-variables.schema.json",
+      "baseSha256": null,
+      "headSha256": "5c696b999f42ee35104b5769206a024ba5627c3a36850441281fa7b78f1f32fb",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e050c462866eca4a73f4f3314a97b260ab8508f"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/stage.json",
+      "baseSha256": "3fa6e32e1b066b092b2ca32fe27089926bc16d618a6b21b2caf9ec792892071c",
+      "headSha256": "7e71a5b1d9077b83a57ef690a4f06aa854fefe4453d2ffe20fc9796c0e551c73",
+      "schema": "docs/guards/V3_ifx/contracts/stage.schema.json",
+      "pointers": [
+        "/gates/0/trustContract/inputs/0/ref",
+        "/gates/0/trustContract/inputs/1/ref",
+        "/gates/0/trustContract/inputs/2/ref",
+        "/gates/0/trustContract/inputs/2/source",
+        "/gates/0/trustContract/inputs/3",
+        "/gates/1/trustContract/inputs/0/ref",
+        "/gates/1/trustContract/inputs/1/ref",
+        "/gates/1/trustContract/inputs/2/ref",
+        "/gates/1/trustContract/inputs/2/source",
+        "/gates/1/trustContract/inputs/3"
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "23b44c91c411b11299bc49020abdd1717d0a0fe9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/authorization.schema.json",
+      "baseSha256": null,
+      "headSha256": "1d942a0060365c3c509939f83879cddc21a831d8ac4104710db93fad85564913",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "47f611a82f31c21fa316e480aa3e608f712cd9e9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/change-scope.schema.json",
+      "baseSha256": null,
+      "headSha256": "430e661ed161abe4341f1aac33f8e27db4ba53e42fcd8962eb40717d7434d455",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9d34746e1996e9f65a6bda4391a9af4d9f4dd1d9"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protected-change-report.schema.json",
+      "baseSha256": null,
+      "headSha256": "7228bd3c400ebdbf53e9d93724cd617ba297dffb5de6566643ee1f4409dac4c8",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ad483e92182d49b2b6d2f3fddf265bac56e79f04"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/diff/contracts/protection.schema.json",
+      "baseSha256": null,
+      "headSha256": "74698ab5ab171a9a85e95628cbc5891844904f4c3a1235f8095eaf51e157beb0",
+      "schema": "json",
+      "pointers": [
+        ""
+      ],
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5e0da541f17f78fff39ef5ecf97bc94b5e64c6d4"
+      }
+    }
+  ]
+}
