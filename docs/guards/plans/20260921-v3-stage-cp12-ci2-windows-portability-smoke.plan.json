@@ -12,10 +12,10 @@
     ".github/workflows/v3-ifx-guardrails.yml",
     "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
     "docs/guards/V3_ifx/ci/jobs.json",
-    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
     "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp12-ci2-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp12-ci2-weaken-policy.json",
     "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
-    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
     "docs/guards/plans/20260921-v3-stage-cp12-ci2-windows-portability-smoke.md",
     "docs/guards/plans/20260921-v3-stage-cp12-ci2-windows-portability-smoke.plan.json"
   ],

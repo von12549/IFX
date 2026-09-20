@@ -2,6 +2,8 @@
 
 本 pair 是 Plan 06 在 P11.4 真实 PR 前插入的 CI 成本检查点。它保留 13 个 required checks 及其 ruleset 身份，把普通运行中重复的 Windows head candidate 全量套件缩为受契约约束的 portability smoke；Ubuntu 继续提供每次运行的完整候选验证，P11.4 再提供一次 Windows 全量认证。
 
+本变更消费并删除 base 中的 `cp12-ci2-trusted-base.json` 与 `cp12-ci2-weaken-policy.json`；两条记录分别精确覆盖 TCB 与已登记 policy 变化。
+
 ## 1. 度量与范围
 
 - 最近真实 CI 的 `v3-cross-platform-windows-latest` 为 15.70 分钟，其中 head candidate step 为 14.17 分钟；Ubuntu leg 仍运行完整套件。
