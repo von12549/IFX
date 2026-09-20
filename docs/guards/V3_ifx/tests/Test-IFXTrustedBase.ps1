@@ -81,6 +81,15 @@ $historyManifest = "$historyRoot/manifest.json"
 $historyTest = 'docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1'
 $catalog = 'docs/architecture/review/gates/G03/contract-event-catalog.yaml'
 $breakEvidence = { Edit-Json $evidence { param($d) $d['fixtureTamper'] = $true } }
+$policyRelativeRootCandidates = @(
+    'policy',
+    'stages/post/policy' |
+        Where-Object { [IO.File]::Exists((Join-Path $package "$_/layerguard.json")) }
+)
+if ($policyRelativeRootCandidates.Count -ne 1) { throw "Exactly one complete legacy or stage-owned policy layout must exist; found $($policyRelativeRootCandidates.Count)." }
+$policyRelativeRoot = $policyRelativeRootCandidates[0]
+$g03CatalogProjection = "docs/guards/V3_ifx/$policyRelativeRoot/g03/catalog.json"
+$g05Projection = "docs/guards/V3_ifx/$policyRelativeRoot/g05/context-protocol-v1.json"
 
 try {
     # ---- base commit: the current package (including uncommitted work) on top of HEAD
@@ -369,7 +378,7 @@ try {
         Assert-Result 'an invalid head profile fails candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'rule-invalid' $authorizedBase { Edit-Text $ruleFile { param($t) $t.Replace('"enforcement": "advisory"', '"enforcement": "sometimes"') } })) 1 'the base V3 runner rejects the head profile'
         Assert-Result 'a valid head history manifest passes candidate validation' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-valid' $authorizedBase { Edit-Json $historyManifest { param($d) $d['fixtureNote'] = 'candidate validation' } })) 0 'Policy candidate validation passed'
         Assert-Result 'a head history manifest that does not match head evidence fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'history-tamper' $authorizedBase { Edit-Json $historyManifest { param($d) $d.entries[0].sha256 = ('0' * 64) } })) 1 'the base historical integrity engine rejects the head manifest'
-        Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'
+        Assert-Result 'a derived projection edited without its authority fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'projection-tamper' $authorizedBase { Edit-Json $g05Projection { param($d) $d.owner = 'fixture' } })) 1 'head projections differ from the base generator output'
         Assert-Result 'a schema field without a monotonicity declaration fails' (Invoke-PolicyCandidates $authorizedWorktree $authorizedBase (New-PlannedHead 'schema-field' $authorizedBase { Edit-Json 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } })) 1 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
 
         # ---- D18 domain authority coverage for an explicit head commit (D25)
@@ -440,7 +449,7 @@ try {
     if ($direct.ExitCode -eq 0) { $failures.Add('Base projections unexpectedly accepted a changed head catalog; the candidate projection control is not effective.') } else { Write-Host 'PASS stale base projection rejects the declaration change' }
     Assert-Result 'declaration change passes with a candidate projection' (Invoke-Runner $base $baseSha 'Validate') 0 'Trusted base run passed'
     $projection = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-validate.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'candidate-projection' })
-    if ($projection.Count -ne 1 -or $projection[0].status -ne 'pass' -or -not ([string]$projection[0].reason).Contains('docs/guards/V3_ifx/policy/g03/catalog.json')) { $failures.Add("Candidate projection was not regenerated from the head catalog: $($projection | ConvertTo-Json -Compress)") }
+    if ($projection.Count -ne 1 -or $projection[0].status -ne 'pass' -or -not ([string]$projection[0].reason).Contains($g03CatalogProjection)) { $failures.Add("Candidate projection was not regenerated from the head catalog: $($projection | ConvertTo-Json -Compress)") }
     else { Write-Host 'PASS candidate projection regenerated from the head catalog' }
 
     # ---- §11.5: trusted component candidates

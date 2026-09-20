@@ -63,6 +63,14 @@ try {
         }
     }
 
+    $g05ProjectionCandidates = @(
+        'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json',
+        'docs/guards/V3_ifx/stages/post/policy/g05/context-protocol-v1.json' |
+            Where-Object { [IO.File]::Exists((Join-Path $fixture $_)) }
+    )
+    if ($g05ProjectionCandidates.Count -ne 1) { throw "Exactly one legacy or stage-owned G05 projection must exist; found $($g05ProjectionCandidates.Count)." }
+    $g05Projection = $g05ProjectionCandidates[0]
+
     $stagePost = 'docs/guards/V3_ifx/stages/post/stage.json'
     $commands = 'docs/guards/V3_ifx/shared/commands.json'
     $tcb = 'docs/guards/V3_ifx/shared/trusted-components.json'
@@ -124,7 +132,7 @@ try {
     finally { [IO.File]::WriteAllBytes($protectionFixture, $protectionBytes) }
     Invoke-Case 'unregistered policy file fails' 1 'docs/guards/V3_ifx/policy/fixture-extra.json' { param($p) [IO.File]::WriteAllText($p, "{}`n", $utf8) } 'Policy or configuration file is not registered in shared/policy-config.json: docs/guards/V3_ifx/policy/fixture-extra.json'
     Invoke-Case 'schema field without a monotonicity declaration fails' 1 'docs/guards/V3_ifx/contracts/rule.schema.json' { param($d) $d.properties['fixtureField'] = [ordered]@{ type = 'string' } } 'Schema field without a monotonicity declaration: docs/guards/V3_ifx/contracts/rule.schema.json#/properties/fixtureField'
-    Invoke-Case 'policy registry claiming a derived projection fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths += 'docs/guards/V3_ifx/policy/g05/context-protocol-v1.json' } "Policy registry entry 'layerguard-policy' claims derived projection target docs/guards/V3_ifx/policy/g05/context-protocol-v1.json"
+    Invoke-Case 'policy registry claiming a derived projection fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'layerguard-policy' })[0].paths += $g05Projection } "Policy registry entry 'layerguard-policy' claims derived projection target $g05Projection"
     Invoke-Case 'policy registry claiming an authorization record fails' 1 'docs/guards/V3_ifx/shared/policy-config.json' { param($d) @($d.entries | Where-Object { $_.id -eq 'diff-protection' })[0].paths += 'docs/guards/V3_ifx/stages/diff/authorizations/fixture.json' } "Policy registry entry 'diff-protection' claims excluded path docs/guards/V3_ifx/stages/diff/authorizations/fixture.json"
     Write-Host 'IFX manifest tests passed.'
 }
