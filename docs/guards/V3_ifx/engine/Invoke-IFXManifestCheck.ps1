@@ -215,8 +215,12 @@ if ($null -ne $tcb) {
 
     # Verdict chain: workflow entries and the package scripts they reference, without following package tests.
     $workflow = [IO.File]::ReadAllText((Join-Path $targetRepository $WorkflowPath))
+    # P11.4 keeps a non-executable block comment whose legacy command lists are read by the pre-layout base CI
+    # verifier. Exclude only that syntactically closed comment from executable-entry discovery; paths elsewhere,
+    # including immediately outside the block, remain part of the verdict chain.
+    $workflowEntries = [Regex]::Replace($workflow, '(?ms)<#\s*BEGIN PRE-LAYOUT CI CONTRACT\s*\n.*?\n\s*# END PRE-LAYOUT CI CONTRACT\s*\n\s*#>', '')
     # Entries run from the checkout (./docs/guards/...) or from the trusted base worktree ($env:GUARD_BASE/docs/guards/...).
-    $entries = @([Regex]::Matches($workflow, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.ps1)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique)
+    $entries = @([Regex]::Matches($workflowEntries, '(?:\./|\$env:GUARD_BASE/)(docs/guards/[^\s''"]+\.ps1)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique)
     $scripts = @{}
     $scanRoots = @((Full $package), (Full 'docs/guards/V3/build'), (Full 'docs/guards/V3/tests')) | Where-Object { [IO.Directory]::Exists($_) }
     foreach ($file in @($scanRoots | ForEach-Object { Get-ChildItem -LiteralPath $_ -Recurse -File } | Where-Object { $_.Extension -in @('.ps1', '.psm1') })) {
