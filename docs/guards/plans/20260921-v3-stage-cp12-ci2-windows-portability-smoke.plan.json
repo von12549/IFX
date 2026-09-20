@@ -1,0 +1,37 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-cp12-ci2-windows-portability-smoke",
+  "title": "V3 stage-oriented refactor CP12-ci2 — Windows portability smoke and P11.4 full certification",
+  "goal": "Reduce repeated Windows Actions cost while retaining the required Windows check and its platform-sensitive evidence, full candidate coverage on Ubuntu, and one explicit Windows full-suite certification at P11.4.",
+  "acceptanceCriteria": [
+    "Ordinary Windows runs execute the base-owned Validate gate plus the declared portability smoke, while Ubuntu ordinary runs execute the declared full candidate suite.",
+    "The 13 required check names, job DAG, event set, ruleset contexts and strict policy remain unchanged, and workflow_dispatch with windowsCoverage=full provides the P11.4 Windows full-suite certification.",
+    "ci/jobs.json declares both command sets and the certification entry point; the read-only CI contract and its negative controls fail closed on command, OS-selection or dispatch drift; package validation and the real pull request checks pass."
+  ],
+  "plannedPaths": [
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/ci/jobs.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/tests/Test-IFXCiContract.ps1",
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-cp12-ci2-windows-portability-smoke.md",
+    "docs/guards/plans/20260921-v3-stage-cp12-ci2-windows-portability-smoke.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ]
+}

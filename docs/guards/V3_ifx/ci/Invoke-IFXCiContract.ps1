@@ -25,6 +25,18 @@ function Add-Check([string] $id, [bool] $passed, [string] $detail) {
     if (-not $passed) { $failures.Add("${id}: $detail") }
 }
 function Format-Set([string[]] $values) { return (@($values | Sort-Object -Unique) -join ', ') }
+function Get-MarkedCommands([string] $text, [string] $beginMarker, [string] $endMarker) {
+    $begin = $text.IndexOf($beginMarker, [StringComparison]::Ordinal)
+    $end = if ($begin -ge 0) { $text.IndexOf($endMarker, $begin + $beginMarker.Length, [StringComparison]::Ordinal) } else { -1 }
+    if ($begin -lt 0 -or $end -lt 0) { return @() }
+    $block = $text.Substring($begin + $beginMarker.Length, $end - ($begin + $beginMarker.Length))
+    return @($block -split "`n" | ForEach-Object {
+        if ($_ -match ',@\(') {
+            $arguments = @([Regex]::Matches($_, "'([^']*)'") | ForEach-Object { $_.Groups[1].Value })
+            if ($arguments.Count -gt 0) { $arguments -join ' ' }
+        }
+    })
+}
 
 # ---------------------------------------------------------------- workflow (line-based; the workflow is hand-authored with 2-space indentation)
 $workflowFile = Resolve-InRoot $WorkflowPath
@@ -163,6 +175,36 @@ if ($null -ne $costControls) {
         $hasPath = $text -match [Regex]::Escape([string]$cache.path)
         $hasKey = $text -match "key:\s*$([Regex]::Escape([string]$cache.keyPrefix))" -and $text -match [Regex]::Escape([string]$cache.lockGlob)
         Add-Check "cost-package-cache:$jobId" ($hasAction -and $hasPath -and $hasKey) "job must cache $($cache.path) with $($cache.action) and a key derived from $($cache.lockGlob)"
+    }
+    $windows = if ($costControls.Contains('windowsPortability')) { $costControls.windowsPortability } else { $null }
+    if ($null -ne $windows) {
+        $crossPlatform = if ($jobs.Contains('v3-cross-platform')) { $jobs['v3-cross-platform'] } else { $null }
+        $crossText = if ($null -ne $crossPlatform) { $crossPlatform.lines -join "`n" } else { '' }
+        $workflowText = $lines -join "`n"
+        $declaredWindows = @($declaration.jobs | Where-Object { $_.id -eq [string]$windows.requiredCheck })
+        $runnerDeclared = $null -ne $crossPlatform -and $crossPlatform.matrix.Contains('os') -and [string]$windows.runner -in @($crossPlatform.matrix.os)
+        $contractShape = [string]$windows.requiredCheck -eq "v3-cross-platform-$($windows.runner)" -and
+            [string]$windows.ordinaryCoverage -eq 'smoke' -and
+            [string]$windows.fullCertificationEvent -eq 'workflow_dispatch' -and
+            [string]$windows.fullCertificationInput -eq 'windowsCoverage' -and
+            [string]$windows.fullCertificationValue -eq 'full' -and
+            [string]$windows.fullCertificationCheckpoint -eq 'P11.4'
+        Add-Check 'cost-windows-portability-declaration' ($contractShape -and $declaredWindows.Count -eq 1 -and $runnerDeclared) 'the required Windows check must stay declared on windows-latest, ordinary runs must use smoke coverage, and P11.4 full certification must use workflow_dispatch input windowsCoverage=full'
+
+        $inputPattern = '(?ms)^  workflow_dispatch:\s*\n    inputs:\s*\n      windowsCoverage:\s*\n.*?        default:\s*smoke\s*\n.*?        type:\s*choice\s*\n.*?        options:\s*\n          - smoke\s*\n          - full\s*$'
+        $dispatchInput = $workflowText -match $inputPattern
+        $coverageEnvironment = $crossText.Contains("WINDOWS_COVERAGE: `${{ github.event_name == 'workflow_dispatch' && inputs.windowsCoverage || 'smoke' }}", [StringComparison]::Ordinal)
+        Add-Check 'cost-windows-full-certification-dispatch' ($dispatchInput -and $coverageEnvironment) 'workflow_dispatch must expose smoke/full windowsCoverage, default to smoke, and pass it only to the cross-platform candidate step'
+
+        $actualSmoke = @(Get-MarkedCommands $crossText '# BEGIN WINDOWS PORTABILITY SMOKE' '# END WINDOWS PORTABILITY SMOKE')
+        $expectedSmoke = @($windows.smokeCommands | ForEach-Object { [string]$_ })
+        $actualFull = @(Get-MarkedCommands $crossText '# BEGIN FULL CANDIDATE SUITE' '# END FULL CANDIDATE SUITE')
+        $expectedFull = @($windows.fullSuiteCommands | ForEach-Object { [string]$_ })
+        Add-Check 'cost-windows-smoke-commands' ($actualSmoke.Count -eq $expectedSmoke.Count -and (Format-Set $actualSmoke) -eq (Format-Set $expectedSmoke)) "Windows smoke commands [$(Format-Set $actualSmoke)] must exactly match jobs.json [$(Format-Set $expectedSmoke)]"
+        Add-Check 'cost-full-suite-commands' ($actualFull.Count -eq $expectedFull.Count -and (Format-Set $actualFull) -eq (Format-Set $expectedFull)) "full suite commands [$(Format-Set $actualFull)] must exactly match jobs.json [$(Format-Set $expectedFull)]"
+        $selectsSmoke = $crossText.Contains("`$useWindowsSmoke = `$env:RUNNER_OS -eq 'Windows' -and `$env:WINDOWS_COVERAGE -ne 'full'", [StringComparison]::Ordinal) -and
+            $crossText.Contains('`$commands = if (`$useWindowsSmoke) { `$windowsSmokeCommands } else { `$fullCommands }'.Replace('`$', '$'), [StringComparison]::Ordinal)
+        Add-Check 'cost-windows-coverage-selection' $selectsSmoke 'only Windows ordinary runs may select the smoke command set; Ubuntu and windowsCoverage=full must select the full suite'
     }
 }
 $changeScope = if ($declaration.Contains('changeScope')) { $declaration.changeScope } else { $null }

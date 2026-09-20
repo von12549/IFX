@@ -255,7 +255,7 @@
         "Invoke-IFXCiContract.ps1 -Remote (read-only)",
         "v3-pre-diff"
       ],
-      "parityContract": "13 required check names, job DAG and trigger semantics unchanged (Plan 06 §10.3).",
+      "parityContract": "13 required check names, job DAG, event set, ruleset contexts and strict policy remain unchanged. Ordinary runs execute the full candidate suite on Ubuntu and the declared Windows portability smoke (generation/check, locked build baseline and target-root separation) on windows-latest; P11.4 executes and archives one workflow_dispatch Windows full-suite certification with windowsCoverage=full (Plan 06 D35, partially superseding D28's rejection of Windows trimming).",
       "allowedChange": "change-trusted-base; workflow definition itself is outside the trust boundary (O1)"
     },
     {
