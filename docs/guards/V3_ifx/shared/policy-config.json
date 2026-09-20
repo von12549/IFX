@@ -221,6 +221,13 @@
       "candidateValidation": "json"
     },
     {
+      "id": "specialized-contracts",
+      "role": "trust-meta-policy",
+      "directory": "docs/guards/V3_ifx/stages/post/gates/specialized/contracts/",
+      "format": "json",
+      "candidateValidation": "json"
+    },
+    {
       "id": "gitattributes",
       "role": "trust-meta-policy",
       "paths": [
