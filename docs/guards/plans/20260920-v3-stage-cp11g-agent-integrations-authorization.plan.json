@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260920-v3-stage-cp11g-agent-integrations-authorization",
+  "title": "Authorize CP11g Agent integration relocation",
+  "goal": "Pre-authorize the exact protected move tuples for the IFX Agent integration relocation.",
+  "acceptanceCriteria": [
+    "The move authorization binds both legacy skill files and both integration destination files.",
+    "The authorization-only change modifies no runtime implementation or active policy.",
+    "The CP11g candidate consumes the authorization exactly once."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/cp11g-agent-integrations-move.json",
+    "docs/guards/plans/20260920-v3-stage-cp11g-agent-integrations-authorization.md",
+    "docs/guards/plans/20260920-v3-stage-cp11g-agent-integrations-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
