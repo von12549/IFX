@@ -14,6 +14,10 @@
 /mcp/LayerGuard/ @von12549 @jimkeecn
 /docs/architecture/review/gates/G04/ @von12549 @jimkeecn
 /docs/architecture/review/gates/G05/ @von12549 @jimkeecn
+# BEGIN V3 MANAGED: v3-ifx-guardrails
+# Generated from: docs/guards/V3_ifx/stages/ci/codeowners.template
+# Source-SHA256: af39d77226f9918b6ba00473365d88e95be33dc7c4485e3287d3c2909752196c
 /docs/guards/ @von12549 @jimkeecn
 /scripts/*Guard*.ps1 @von12549 @jimkeecn
 /.github/workflows/ @von12549 @jimkeecn
+# END V3 MANAGED: v3-ifx-guardrails

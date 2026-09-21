@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-activation",
+  "title": "Activate the P11 certified CI artifacts",
+  "goal": "Install the certified workflow and CODEOWNERS candidates through the declared activation lifecycle without changing their behavior.",
+  "acceptanceCriteria": [
+    "The workflow template renders the P11.4-certified workflow body and passes the 13-check CI contract.",
+    "Install adds deterministic provenance to the workflow and marker ownership to the existing CODEOWNERS rules without changing their behavior.",
+    "The exact trusted-component change consumes its base authorization and passes the base-owned Diff gate plus all 13 real pull-request checks.",
+    "Verify passes after merge on codex/guards-principles-plan, and rollback is constrained to the two activation targets."
+  ],
+  "plannedPaths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-activation-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-activation.md",
+    "docs/guards/plans/20260921-v3-stage-p11-activation.plan.json"
+  ],
+  "areaIds": [
+    "CI",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ]
+}
