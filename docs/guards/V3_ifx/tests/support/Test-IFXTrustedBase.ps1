@@ -557,18 +557,16 @@ try {
     [void](New-Head 'tcb-manifest' $baseSha { Edit-Json 'docs/guards/V3_ifx/shared/trusted-components.json' { param($d) $d.components = @($d.components | Where-Object { $_.id -ne 'tcb.engine.historical-integrity' }) } })
     Assert-Result 'removing a component from the head manifest fails' (Invoke-Verifier $base $baseSha) 1 'tcb.manifest'
     [void](New-Head 'tcb-unregistered' $baseSha {
-        [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1'), "exit 0`n", $utf8)
+        [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-Unregistered.ps1'), "exit 0`n", $utf8)
         Edit-Text '.github/workflows/v3-ifx-guardrails.yml' {
             param($t)
             $legacy = './docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
             $facade = './docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
-            # Prefer the executable facade outside the P11.4 non-executable compatibility comment. A legacy entry may
-            # occur only inside that exact closed block and therefore must not be used as the negative-control anchor.
             $anchor = if ($t.Contains($facade, [StringComparison]::Ordinal)) { $facade } elseif ($t.Contains($legacy, [StringComparison]::Ordinal)) { $legacy } else { throw 'Workflow has no declared public guard entry point fixture anchor.' }
-            $t.Replace($anchor, "$anchor`n          ./docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1")
+            $t.Replace($anchor, "$anchor`n          ./docs/guards/V3_ifx/commands/Invoke-Unregistered.ps1")
         }
     })
-    Assert-Result 'workflow activating an unregistered executable fails' (Invoke-Verifier $base $baseSha) 1 'no trusted component manifest registers: docs/guards/V3_ifx/scripts/Invoke-Unregistered.ps1'
+    Assert-Result 'workflow activating an unregistered executable fails' (Invoke-Verifier $base $baseSha) 1 'no trusted component manifest registers: docs/guards/V3_ifx/commands/Invoke-Unregistered.ps1'
 
     # Two-PR protocol: prepare the change, authorize it in base, then consume the authorization.
     function Test-AuthorizedChange([string] $Label, [scriptblock] $Change, [int] $Expected, [string] $ExpectText, [switch] $KeepAuthorization, [scriptblock] $AfterAuthorization) {
