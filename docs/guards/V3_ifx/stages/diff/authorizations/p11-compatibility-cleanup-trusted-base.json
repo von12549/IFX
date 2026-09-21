@@ -1,0 +1,241 @@
+{
+  "formatVersion": 1,
+  "id": "p11-compatibility-cleanup-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "changedPaths": [
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/p11-compatibility-deletion-manifest.json",
+    "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Setup.ps1"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.compatibility.v3-public-wrappers",
+    "tcb.engine.architecture-runner",
+    "tcb.engine.trusted-base",
+    "tcb.entry.ifx-guardrails",
+    "tcb.manifest",
+    "tcb.validation.package-tests"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "dba25428e6e369ce49f773e3e8cf70653cec27b0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/guard-system.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9d07250d87797c106a50b84d376205d6f1f1af0a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "329a387d4fafdd50d38fabc19be6b82d17eec16a"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "component": "tcb.engine.architecture-runner",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "333722fb794c520693f378e20a3746fbd22660d0"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "component": "tcb.entry.ifx-guardrails",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2b7c02c603cd2f73fe651c2ba99fa7643398c4aa"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6624945d93e7610e6a51a889498a2a75cbe9c797"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "379d2e4e065d8ff8b9d4d42ea3bc8be32b565362"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "df9767f8d97dcd4de8c7f5b1d953679ef0abc1df"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/policy-config.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "abb8a7ecbcc8cdba0205ef416f3295ea94bb56e1"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b4a35ff242776d749333ad43fe87962e46b09413"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/trusted-components.json",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6324f4b05442d6fc985538a92fa96d6e3e55fd54"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "a8847d2fdad6b6fa5a600226cc83e42c1291e5b7"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/analysis/evidence/p11-compatibility-deletion-manifest.json",
+      "component": "tcb.manifest",
+      "base": null,
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2c7fd986e4c5e8686152ffd3ca8c83996818947c"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4b6e2910447d292b65f0295f20a8ebc29be370c3"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "88630b1449d34eccbb01b2ea3e9725d6a3077481"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+      "component": "tcb.validation.package-tests",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "bdfebcb2a53242d1fbf990e51483b8c1e4e71d6c"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "ccfa2224bcd5c8339f0875d04d92bf0d71e55956"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+      "component": "tcb.engine.trusted-base",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "23e8bd021063a31112b25889b2eead66ac04c707"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2f7dcb91b99c721be9306aa09548fd72c92f0883"
+      }
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "f153119f5f45d7346067ab84c70b1b9b92a145f7"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1bf0a532fbe436aee278c8e646393dda4bbaa2b8"
+      },
+      "head": null
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+      "component": "tcb.compatibility.v3-public-wrappers",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "111189f24a2141233b169372ec15e621162edceb"
+      },
+      "head": null
+    }
+  ],
+  "validationSuite": [
+    "all 13 required checks",
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXAuthorityProjection.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXDomainAuthorityCandidates.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-architecture",
+    "v3-cross-platform-*",
+    "v3-pre-diff"
+  ],
+  "parityContract": "Canonical commands preserve the fixed-corpus verdicts, fail-closed categories and summary schema; the authorized change only removes retired compatibility paths, the one-time cleanup bridge, and strengthens absence tests.",
+  "allowedBehaviorDifferences": []
+}
