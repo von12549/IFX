@@ -888,9 +888,10 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P11.2 验证以下场景均失败关闭：目录移动、生成物缺失、hash drift、policy drift、protected deletion、未授权移动、授权重复消费、未声明大小写重命名、受保护范围 gitlink、未知 schema 字段、未授权削弱、head 篡改入口调用链/engine/配置、head 同时修改 TCB 与自身测试、未经授权的非等价 TCB 变化、lock/依赖/content-hash 漂移、有效 import 越界、浅克隆、空 diff 和未知 command。证据：CP12a 的 generic V3、IFX trusted-base、protected-change、package isolation 与 target-root separation 矩阵逐项执行这些负例且均按预期阻断。
 - [x] P11.3 将 V3 源码包置于不继承 IFX 配置的隔离目录，对空白 fixture 仓库执行 Bootstrap，得到可运行的 Pre/Post/Diff 与 Architecture Conformance 门禁。证据：CP12a 的 `Test-V3BuildBaseline.ps1` 将源码包复制到仓库外并在 hostile parent 配置下验证 locked restore、content hash 与 import allowlist；`Test-V3.ps1` 在空白 synthetic Git fixture 上生成并运行 Validate、Pre、Test/Post 与 Diff，Architecture candidate suite 同时验证隔离 IFX Architecture package。
 - [x] P11.4 先按 D36、D37 将仅用于旧 base 识别聚合发布与候选布局的最小兼容桥分别通过正常授权协议合入 `codex/guards-principles-plan`；随后以该 branch 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。证据：最终候选 PR #76 的 13/13 run `35544469838` 与 Windows full dispatch `35545258607`；activation authorization PR #83（13/13 run `35552248196`，merge `28ef65d7`）；activation PR #84（修复后 13/13 run `35553485690`，merge `1c5d4ddb`）；合入后 Generate/Verify 与 13-check contract 均通过。
-- [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
-- [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
-- [ ] P11.7 删除 Plan 06 执行期间创建且已合回 `codex/guards-principles-plan` 的全部本地与远端子分支。删除前必须以 Git 祖先关系或 MERGED PR 证明分支内容已被 base 吸收，并保存本地与远端删除清单；base、当前工作分支、未合并分支、仍有关联 open PR 的分支及无法证明已合并的分支不得删除。
+- [x] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。证据：PR #104（merge `d980fdf7`，run `35583657297` 13/13）删除九个兼容 wrapper、一次性 bridge 与兼容注册项，并更新 canonical 文档和 absence tests。
+- [x] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。证据：`p11-compatibility-deletion-manifest.json` 保存 restore commit `d97a2a5b` 与九个 blob；仓库外演练验证恢复后 cutover 失败、再次仅删除九个路径后全套检查恢复通过且工作树 clean。
+- [x] P11.7 删除 Plan 06 执行期间创建且已合回 `codex/guards-principles-plan` 的全部本地与远端子分支。证据：以 base `d980fdf7` 对 337 个相关 ref 逐 tip 验证，删除并复核 51 个本地与 70 个远端 ancestor ref；远端使用逐 ref force-with-lease；216 个无法证明吸收或当前分支按契约保留。完整清单见 `20260921-v3-stage-p11-merged-branch-cleanup-record.md`。
+- **完成**：P11.1–P11.7 全部完成；新结构是唯一生产路径，恢复边界与分支清理均有可审计记录。
 - **门槛**：新结构是唯一生产路径，旧路径零运行时引用，全部 blocking 能力有可审查正反证据。
 
 ## 15. 验收标准
