@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-base-test-fixture",
+  "title": "Move the base-owned unregistered-entry fixture to the canonical directory",
+  "goal": "Remove the base test's incidental dependency on the soon-empty V3_ifx/scripts directory without changing its fail-closed assertion.",
+  "acceptanceCriteria": [
+    "The synthetic unregistered executable is created under commands/, which exists before and after P11.5.",
+    "The workflow-activation negative control still fails for an executable absent from the trusted-component manifest.",
+    "The complete Test-IFXTrustedBase.ps1 suite passes.",
+    "The change is consumed under one exact change-trusted-base authorization and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-base-test-fixture-trusted-base.json",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-base-test-fixture.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-base-test-fixture.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
