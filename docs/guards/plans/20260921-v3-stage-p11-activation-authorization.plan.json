@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-activation-authorization",
+  "title": "Authorize the prepared P11 CI activation",
+  "goal": "Publish one immutable trusted-base authorization for the exact prepared activation commit.",
+  "acceptanceCriteria": [
+    "The authorization is bound to base 61de7200 and prepared head 076a2b58 through exact tree entries.",
+    "Only tcb.activation.ci and tcb.manifest changes for the workflow, CODEOWNERS, and workflow template are covered.",
+    "The activation PR must consume the record exactly once and preserve the certified CI behavior."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-activation-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-activation-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-activation-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ]
+}
