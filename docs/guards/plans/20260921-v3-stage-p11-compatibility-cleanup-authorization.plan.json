@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-compatibility-cleanup-authorization",
+  "title": "Authorize the exact P11.5/P11.6 compatibility cleanup",
+  "goal": "Publish single-use base-owned authorization records for the nine wrapper deletions, complete TCB change and exact policy closure in candidate 6f3eaafa.",
+  "acceptanceCriteria": [
+    "This pull request contains only eleven authorization records and its formal plan pair.",
+    "Each delete record binds one wrapper to its exact base entry and absent candidate entry.",
+    "One change-trusted-base record covers the entire changed TCB component set; no split TCB authorization is used.",
+    "The weaken-policy record covers only the semantic policy/config changes computed by the base generator.",
+    "All 13 required checks pass before merge."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-v3-runner.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-v3-setup.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-v3-docs.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-guardrails.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-ci-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-v3-runner.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-v3-setup.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-v3-docs.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-architecture.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compatibility-cleanup-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compatibility-cleanup-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}

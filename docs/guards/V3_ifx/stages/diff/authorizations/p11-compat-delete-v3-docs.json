@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "p11-compat-delete-v3-docs",
+  "operation": "delete",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ],
+  "source": {
+    "path": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+    "base": {
+      "mode": "100644",
+      "type": "blob",
+      "objectId": "1bf0a532fbe436aee278c8e646393dda4bbaa2b8"
+    }
+  },
+  "changedPaths": [
+    "docs/guards/V3/scripts/Invoke-V3Docs.ps1"
+  ],
+  "entries": [
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "1bf0a532fbe436aee278c8e646393dda4bbaa2b8"
+      },
+      "head": null
+    }
+  ]
+}
