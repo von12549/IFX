@@ -49,6 +49,7 @@
     "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
     "docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1",
     "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
     "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep.md",
     "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep.plan.json"
   ],
