@@ -5,7 +5,7 @@
 ## 状态与范围
 
 自 2026-09-09 起，仓库使用 B4 严格策略。Plan 07 当前扫描 51 个受管项目，保持零 finding、零 waiver；
-`mcp/LayerGuard/baselines/plan07.json` 没有 entry。`docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` 是本地和 CI
+`mcp/LayerGuard/baselines/plan07.json` 没有 entry。`docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture` 是本地和 CI
 统一入口。工具无法完成扫描、Gate 输入缺失或 hash 漂移、出现新 finding、baseline
 陈旧/过期，均以非零退出码失败。
 
@@ -78,8 +78,8 @@ B4 不包含 waiver。若未来确有临时例外，必须包含 owner、风险�
 ## 本地验证
 
 ```powershell
-pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
-pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
+pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture
+pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
 ```
 
 第一条运行 V3_ifx 自有 LayerGuard 测试与当前仓库扫描；第二条验证冻结 B4/Plan 07 证据的 hash、schema、链接和历史标签。

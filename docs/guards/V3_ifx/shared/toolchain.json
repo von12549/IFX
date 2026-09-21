@@ -6,7 +6,7 @@
     "PowerShell 7 gate scripts"
   ],
   "commands": [
-    { "id": "ifx-layerguard", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1", "-Mode", "Test"], "workingDirectory": "." },
+    { "id": "ifx-layerguard", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1", "-Mode", "Test"], "workingDirectory": "." },
     { "id": "ifx-package-test", "executable": "pwsh", "arguments": ["-NoProfile", "-File", "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1"], "workingDirectory": "." },
     { "id": "iam-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.IAM.Application.Tests"], "workingDirectory": "." },
     { "id": "crm-tests", "executable": "dotnet", "arguments": ["test", "tests/IFX.Modules.CRM.Application.Tests"], "workingDirectory": "." },

@@ -6,7 +6,7 @@
 
 The repository uses the B4 strict policy from 2026-09-09. The Plan 07 scan currently covers 51
 governed projects at zero findings and zero waivers; `mcp/LayerGuard/baselines/plan07.json` has no entries.
-`docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` is the shared local and CI entry point. An incomplete scan, missing
+`docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture` is the shared local and CI entry point. An incomplete scan, missing
 or hash-drifted Gate input, a new finding, or a stale/expired baseline fails with a non-zero exit.
 
 LayerGuard judges compile-time structure only: project references, transitive dependencies,
@@ -82,8 +82,8 @@ Start new modules from the [compliant structure template](templates/layerguard-m
 ## Local verification
 
 ```powershell
-pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture
-pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
+pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture
+pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity
 ```
 
 The first command runs the package-owned LayerGuard tests and current repository scan. The second verifies frozen B4 and Plan 07 evidence hashes, schemas, links, and historical labels.

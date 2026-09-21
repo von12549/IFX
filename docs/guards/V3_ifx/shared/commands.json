@@ -202,7 +202,7 @@
     {
       "id": "ifx-architecture",
       "kind": "public",
-      "entryPoint": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "entryPoint": "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1",
       "stages": [
         "post"
       ],

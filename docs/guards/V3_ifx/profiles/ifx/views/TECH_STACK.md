@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `aacf4ce253cd4a2e2fd25b95938d3fdde15ed1567f38843ae73b75abe4c755a9`
+Composite SHA-256: `a780ad370f74acc805898e393db9ac30582d430b4a81fcbb00f999f9155768b7`
 
 Sources:
 
@@ -16,7 +16,7 @@ Sources:
 
 | ID | Executable | Arguments | Working directory |
 | --- | --- | --- | --- |
-| ifx-layerguard | pwsh | -NoProfile, -File, docs/guards/V3_ifx/scripts/Invoke-IFX.ps1, -Mode, Test | . |
+| ifx-layerguard | pwsh | -NoProfile, -File, docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1, -Mode, Test | . |
 | ifx-package-test | pwsh | -NoProfile, -File, docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1 | . |
 | iam-tests | dotnet | test, tests/IFX.Modules.IAM.Application.Tests | . |
 | crm-tests | dotnet | test, tests/IFX.Modules.CRM.Application.Tests | . |

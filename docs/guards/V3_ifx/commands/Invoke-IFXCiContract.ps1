@@ -134,8 +134,8 @@ Add-Check 'workflow-aggregate-plan-selection' $aggregatePlanSelection 'multiple 
 # reachable only behind those commands, so physical moves cannot silently change the CI integration surface (P9/P10).
 $commandManifest = Get-Content -LiteralPath ([IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../shared/commands.json'))) -Raw | ConvertFrom-Json -AsHashtable -Depth 30
 $publicEntries = @($commandManifest.commands | Where-Object { $_.kind -eq 'public' } | ForEach-Object { [string]$_.entryPoint })
-# P11.4 is evaluated by the pre-layout base. Its verdict runner and TCB candidate verifier predate the public-command
-# manifest, so allow those exact base-owned transition entries only; head candidate work continues through commands/.
+# Trusted-base verdict and TCB candidate verification execute from the checked-out base worktree rather than the head
+# package, so allow only those two base-owned runner entries; all head candidate work continues through commands/.
 if ($publicEntries -contains 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') {
     $publicEntries += @(
         'docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1'
@@ -181,7 +181,9 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
     foreach ($jobId in $jobs.Keys) {
         $job = $jobs[$jobId]
         $text = $job.lines -join "`n"
-        $inPlace = @($job.lines | Where-Object { $_ -match '\./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails\.ps1' })
+        $inPlace = @($job.lines | Where-Object {
+            $_ -match '\./docs/guards/V3_ifx/(?:scripts/Invoke-IFXGuardrails\.ps1|commands/Invoke-IFXGuardrails\.ps1\s+-Mode\s+(?!CandidateTests|TrustedComponentCandidate))'
+        })
         Add-Check "trusted-base-no-head-dispatcher:$jobId" ($inPlace.Count -eq 0) 'jobs must not run the head dispatcher in place; use the trusted base runner'
         $guardExecutables = @($job.lines | Where-Object { $_ -match '^\s+(pwsh\s+.*?-File\s+|\./)"?[^" ]*docs/guards/' })
         $firstExecutable = if ($guardExecutables.Count) { $guardExecutables[0].Trim() } else { '' }

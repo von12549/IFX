@@ -132,7 +132,7 @@ approvals from every affected module.
 | Waiver expiry and unwaivable categories | Yes | negative self-tests | generated waiver input | blocking | owner + rule approver |
 | External consumer 90-day confirmation | Yes | usage/traffic evidence | in-repo dependency graph | stale alert/block retire | external owner + Provider |
 
-The automation entry point is `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03`. Phase 8 additionally checks
+The automation entry point is `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03`. Phase 8 additionally checks
 bilingual identity consistency, links, Mermaid/SVG/PNG triplets, and PNG signatures. Direct
 LayerGuard consumption remains Plan 03 L5.1; real provider/consumer behavior tests and Active
 promotion return from Plans 01/02. The backup owner was assigned on 2026-09-08; this Gate remains

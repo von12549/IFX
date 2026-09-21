@@ -1,10 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
-$legacy = 'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
-$replacement = 'docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1'
-[Console]::Error.WriteLine("DEPRECATED: $legacy -> $replacement")
-& (Join-Path $PSScriptRoot '../commands/Invoke-IFXArchitecture.ps1') @args
+& (Join-Path $PSScriptRoot '../engine/Invoke-IFXArchitecture.ps1') @args
 $invocationSucceeded = $?
 $nativeExitCode = Get-Variable -Name LASTEXITCODE -ValueOnly -ErrorAction SilentlyContinue
 if ($null -ne $nativeExitCode) { exit [int]$nativeExitCode }

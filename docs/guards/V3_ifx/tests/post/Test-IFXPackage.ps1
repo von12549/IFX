@@ -50,7 +50,7 @@ try {
 }
 finally { Pop-Location }
 
-$runner = Join-Path $fixture 'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
+$runner = Join-Path $fixture 'docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1'
 $arguments = @('-NoProfile', '-File', $runner)
 $arguments += '-SkipAuthorityCheck'
 if ($NuGetConfig) {

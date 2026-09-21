@@ -50,7 +50,7 @@ Diagnostic, Client, Business, Transient, Permanent, and Security each have one d
 
 ### G05-D10 — One verification entry point without premature production claims
 
-Local and CI run `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05`; Architecture, Database and Quality.Solution run as separate required V3 jobs. Passing means repository conformance only; production telemetry and approvals remain closure conditions.
+Local and CI run `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05`; Architecture, Database and Quality.Solution run as separate required V3 jobs. Passing means repository conformance only; production telemetry and approvals remain closure conditions.
 
 ## Terminology and lifecycle
 
