@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-plan06-final-doc-clarity",
+  "title": "Plan 06 final documentation clarity",
+  "goal": "Correct the remaining active retired-path reference and make the D23-deferred P4.4 boundary explicit in the Plan 06 closeout.",
+  "acceptanceCriteria": [
+    "The active V3 technical design points to commands/Invoke-V3.ps1 and no longer presents the retired scripts/Invoke-V3.ps1 path as the current runner.",
+    "The Plan 06 closeout states that implementation is complete with P4.4 explicitly deferred under D23 and describes the fail-closed zero-comparator state.",
+    "The closeout records the completed revocation of the six superseded P11 final trusted-base authorizations.",
+    "No executable, trusted component, policy, compatibility registry, generated document, historical record or CI contract changes."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3/architecture/TECHNICAL.md",
+    "docs/guards/plans/20260921-v3-stage-plan06-closeout.md",
+    "docs/guards/plans/20260921-v3-stage-plan06-final-doc-clarity.md",
+    "docs/guards/plans/20260921-v3-stage-plan06-final-doc-clarity.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d01-v3-ifx-distribution-boundary.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
