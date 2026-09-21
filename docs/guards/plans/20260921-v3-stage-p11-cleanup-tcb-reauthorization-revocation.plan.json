@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-tcb-reauthorization-revocation",
+  "title": "P11.5 cleanup trusted-base reauthorization revocation",
+  "goal": "Revoke the now-overbroad trusted-base authorization so the required ID can be reissued for the reduced candidate change set after the base fixture correction.",
+  "acceptanceCriteria": [
+    "The pull request deletes only p11-compatibility-cleanup-trusted-base.json and adds its own formal plan pair.",
+    "The nine wrapper deletion authorizations and cleanup policy authorization remain unchanged.",
+    "The trusted Diff reports one authorization revocation with no protected change obligation, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compatibility-cleanup-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-tcb-reauthorization-revocation.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-tcb-reauthorization-revocation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
