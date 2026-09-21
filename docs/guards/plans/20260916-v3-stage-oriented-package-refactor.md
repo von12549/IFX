@@ -89,7 +89,7 @@ D1–D15 在正式执行准备阶段首次创建（Plan 06 §19 第 2 项），P
 | CP09 | P8 | manifest 补全、`commands/` 入口、移除 Docs Import、首批四份只读文档、analysis 生命周期 | 有（authored/evidence/report 移动；runtime 输出删除） | registry prep → base compatibility bridge → CP09 r3 auth/change | CP08 | 已完成（本地）：registry prep 与 base compatibility 授权/消费验证通过；CP09 r3 授权 `8e7bb8c6` 绑定 raw candidate `0fa43780`；最终 41 项 protected obligations/15 条授权、8 类 TCB candidate parity、Validate、Docs Check 与 package 聚合测试均通过 |
 | CP10 | P9 | 轻量 workflow candidate、Preview/Install/Verify、`required-checks.json`、CODEOWNERS managed block | 无（`ci/jobs.json` 取代时有删除） | 删除 `ci/jobs.json` 时：auth → change；激活另行授权 | CP09 | 完成：base-compat auth `51b84054` → bridge `aeed75e2`；final auth `2553f7dd` → change `c0b32e85`（2026-09-20，本地，未 push/PR） |
 | CP11 | P10 | 按 Plan 06 §13 分组物理迁移、V3_backup 删除、兼容 wrapper | 有 | 每个迁移分组 auth → change | CP10 | 已完成：CP11a–CP11r 完成 Stage/Shared/engine/generators/integrations/maintenance/tests/decision/command/verifier/LayerGuard 分组迁移；V3_backup 的 41 个重复文件已删除，最后 13 个 IFX Architecture 文件归入 Post gate；全部变更经对应 auth → change 消费链及 base-owned 验证闭环（2026-09-20，本地，未 push/PR） |
-| CP12 | P11 | 新旧 parity、失败关闭场景、隔离 Bootstrap、真实 PR 激活、旧入口清理与回退演练 | 有 | 清理删除：auth → change；激活需单独实施授权 | CP11 | 未开始 |
+| CP12 | P11 | 新旧 parity、失败关闭场景、隔离 Bootstrap、真实 PR 激活、旧入口清理与回退演练 | 有 | 清理删除：auth → change；激活需单独实施授权 | CP11 | 进行中：P11.1–P11.4 已完成；最终候选 PR #76、Windows full dispatch、activation auth PR #83 与 activation PR #84 均通过并合入，post-merge Verify 通过；P11.5–P11.6 待旧入口清理、精确删除清单与最终恢复记录 |
 
 拆分原则：
 

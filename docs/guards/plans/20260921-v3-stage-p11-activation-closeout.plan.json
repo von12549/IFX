@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-activation-closeout",
+  "title": "Record P11.4 activation and rollback evidence",
+  "goal": "Close P11.4 with immutable PR, CI, post-merge verification, and selective activation rollback evidence while leaving P11.5 and P11.6 open.",
+  "acceptanceCriteria": [
+    "Plan 06 records the passing final candidate, Windows full certification, activation authorization, activation PR, and post-merge Verify evidence.",
+    "The execution ledger marks only P11.1 through P11.4 complete and explicitly leaves cleanup and final rollback documentation pending.",
+    "The exact two activation rollback targets, pre-activation restore commit, expected Verify failure after rollback, and successful reapplication are recorded."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-p11-activation-closeout.md",
+    "docs/guards/plans/20260921-v3-stage-p11-activation-closeout.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json"
+  ]
+}
