@@ -10,6 +10,7 @@
     "All other candidate-policy shapes remain base-owned and fail closed under the existing contract."
   ],
   "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-policy-compat-trusted-base.json",
     "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
     "docs/guards/plans/20260921-v3-stage-p11-cleanup-policy-compat.md",
     "docs/guards/plans/20260921-v3-stage-p11-cleanup-policy-compat.plan.json"
