@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-plan06-closeout",
+  "title": "Close Plan 06 P11.5 through P11.7",
+  "goal": "Record the completed compatibility cleanup, recovery rehearsal and exact merged-branch cleanup, then close CP12 and Plan 06.",
+  "acceptanceCriteria": [
+    "P11.5 records PR #104 deletion of all nine compatibility wrappers and removal of the one-time bridge after all 13 required checks pass.",
+    "P11.6 identifies the exact restore commit, nine blob identifiers and the successful repository-external selective restore rehearsal.",
+    "P11.7 preserves the exact 337-ref snapshot, deletes and verifies absent the 51 local and 70 remote refs whose current tips are base ancestors, and retains all 216 unproven refs.",
+    "Plan 06 marks P11.5, P11.6 and P11.7 complete, and the CP12 ledger is complete."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/06-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260916-v3-stage-oriented-package-refactor.md",
+    "docs/guards/plans/20260921-v3-stage-p11-merged-branch-cleanup-record.md",
+    "docs/guards/plans/20260921-v3-stage-plan06-closeout.md",
+    "docs/guards/plans/20260921-v3-stage-plan06-closeout.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
+
