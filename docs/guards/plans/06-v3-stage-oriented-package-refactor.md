@@ -890,6 +890,7 @@ base engine 自身误报时，修复 PR 会被旧 engine 阻断。break-glass �
 - [x] P11.4 先按 D36、D37 将仅用于旧 base 识别聚合发布与候选布局的最小兼容桥分别通过正常授权协议合入 `codex/guards-principles-plan`；随后以该 branch 为 base 的真实 PR 验证候选 workflow 与 13 个 required checks，并以 `workflow_dispatch`、`windowsCoverage=full` 保存一次 Windows 全量候选认证证据后，单独取得激活授权（D35）。证据：最终候选 PR #76 的 13/13 run `35544469838` 与 Windows full dispatch `35545258607`；activation authorization PR #83（13/13 run `35552248196`，merge `28ef65d7`）；activation PR #84（修复后 13/13 run `35553485690`，merge `1c5d4ddb`）；合入后 Generate/Verify 与 13-check contract 均通过。
 - [ ] P11.5 只有在激活与回退验证完成后，删除旧 wrappers、重复目录和失效文档。
 - [ ] P11.6 保存精确删除清单、恢复 commit 和 selective restore 演练记录。
+- [ ] P11.7 删除 Plan 06 执行期间创建且已合回 `codex/guards-principles-plan` 的全部本地与远端子分支。删除前必须以 Git 祖先关系或 MERGED PR 证明分支内容已被 base 吸收，并保存本地与远端删除清单；base、当前工作分支、未合并分支、仍有关联 open PR 的分支及无法证明已合并的分支不得删除。
 - **门槛**：新结构是唯一生产路径，旧路径零运行时引用，全部 blocking 能力有可审查正反证据。
 
 ## 15. 验收标准
