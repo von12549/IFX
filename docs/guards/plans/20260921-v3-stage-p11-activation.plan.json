@@ -12,6 +12,7 @@
   "plannedPaths": [
     ".github/CODEOWNERS",
     ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/docs/generated/CI.md",
     "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
     "docs/guards/V3_ifx/stages/diff/authorizations/p11-activation-trusted-base.json",
     "docs/guards/plans/20260921-v3-stage-p11-activation.md",
