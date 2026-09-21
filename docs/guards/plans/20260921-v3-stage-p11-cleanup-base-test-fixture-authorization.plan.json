@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-base-test-fixture-authorization",
+  "title": "Authorize the P11.5 base-owned fixture correction",
+  "goal": "Publish one exact change-trusted-base authorization for candidate b3f684b7 before compatibility cleanup removes the legacy scripts directory.",
+  "acceptanceCriteria": [
+    "The generated record covers exactly Test-IFXTrustedBase.ps1 and the complete affected component set.",
+    "This pull request contains only the authorization record and its formal plan pair.",
+    "All 13 required checks pass before merge."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-base-test-fixture-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-base-test-fixture-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-base-test-fixture-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json"
+  ]
+}
