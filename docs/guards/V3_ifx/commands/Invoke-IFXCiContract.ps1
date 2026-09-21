@@ -181,7 +181,9 @@ if ($null -ne $trustedBase -and $trustedBase.execution -eq 'active') {
     foreach ($jobId in $jobs.Keys) {
         $job = $jobs[$jobId]
         $text = $job.lines -join "`n"
-        $inPlace = @($job.lines | Where-Object { $_ -match '\./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails\.ps1\s+-Mode\s+(?!CandidateTests|TrustedComponentCandidate)' })
+        $inPlace = @($job.lines | Where-Object {
+            $_ -match '\./docs/guards/V3_ifx/(?:scripts/Invoke-IFXGuardrails\.ps1|commands/Invoke-IFXGuardrails\.ps1\s+-Mode\s+(?!CandidateTests|TrustedComponentCandidate))'
+        })
         Add-Check "trusted-base-no-head-dispatcher:$jobId" ($inPlace.Count -eq 0) 'jobs must not run the head dispatcher in place; use the trusted base runner'
         $guardExecutables = @($job.lines | Where-Object { $_ -match '^\s+(pwsh\s+.*?-File\s+|\./)"?[^" ]*docs/guards/' })
         $firstExecutable = if ($guardExecutables.Count) { $guardExecutables[0].Trim() } else { '' }
