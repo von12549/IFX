@@ -1,0 +1,73 @@
+{
+  "formatVersion": 1,
+  "id": "p11-activation-trusted-base",
+  "operation": "change-trusted-base",
+  "planPath": "docs/guards/plans/20260921-v3-stage-p11-activation.plan.json",
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d05-activation-install-modes.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d35-windows-portability-smoke.json"
+  ],
+  "changedPaths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/v3-ifx-guardrails.yml",
+    "docs/guards/V3_ifx/stages/ci/workflow.template.yml"
+  ],
+  "components": [
+    "tcb.activation.ci",
+    "tcb.manifest"
+  ],
+  "entries": [
+    {
+      "path": ".github/CODEOWNERS",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3b36962f22e2aeb3782cb7ff1b9788bd5430f42a"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "87f17af0973bb2a8738fc57642cd9864492dc398"
+      }
+    },
+    {
+      "path": ".github/workflows/v3-ifx-guardrails.yml",
+      "component": "tcb.activation.ci",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "39ad3f6d47eb5ab4bd093ac1748bf42ba93e212d"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2b07a3393d164e38ab3ebe99ee7cdd162296ec43"
+      }
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/ci/workflow.template.yml",
+      "component": "tcb.manifest",
+      "base": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "9dd2c45de512474c4f1734b707db0c7048dfbb87"
+      },
+      "head": {
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "36cecc22cd1a44abea3b037b5b0d44e564bf064f"
+      }
+    }
+  ],
+  "validationSuite": [
+    "docs/guards/V3_ifx/tests/ci/Test-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "Invoke-IFXCiContract.ps1 -Remote (read-only)",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate (manifest-check)",
+    "v3-pre-diff"
+  ],
+  "parityContract": "The rendered workflow body is byte-identical to the P11.4-certified active workflow; the 13 required check names, job DAG, event set, Windows smoke/full selection, and CODEOWNERS rule lines are unchanged. Only deterministic provenance headers and managed-block markers are added.",
+  "allowedBehaviorDifferences": []
+}
