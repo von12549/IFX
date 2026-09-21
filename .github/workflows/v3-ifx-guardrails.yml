@@ -1,3 +1,5 @@
+# Generated from: docs/guards/V3_ifx/stages/ci/workflow.template.yml
+# Source-SHA256: e0371b18809174ff4c8069be35d9b7e8b74e19f0fc346be249c5b920c754ed58
 name: V3 IFX Guardrails
 
 on:
