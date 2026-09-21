@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-prep-combined-reauthorization",
+  "title": "P11.5 cleanup-prep combined trusted-component authorization",
+  "goal": "Publish one exact authorization for the complete corrected P11.5 cleanup-preparation candidate after revoking the non-composable split records.",
+  "acceptanceCriteria": [
+    "The record binds all and only the 19 TCB paths changed by candidate 531d027e239a86c1c6c04aeede10bbe8c4dbc420 relative to base 3b0a2e8262cca6ab5d51cbdf16c0e1f16c244130.",
+    "The record declares the complete six-component set computed by the base authorization generator.",
+    "allowedBehaviorDifferences contains exactly the two narrow Validate transition differences for the canonical Architecture declaration and scoped one-time compatibility bridge.",
+    "This pull request adds only the immutable authorization record and its formal plan pair; all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-prep-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep-combined-reauthorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep-combined-reauthorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260915-v3-ifx-ci-cutover.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
