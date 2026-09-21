@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-prep-authorization",
+  "title": "P11.5 cleanup preparation protected-change authorization",
+  "goal": "Pre-authorize the exact trusted-component and registered-policy tuples of the prepared P11.5 cleanup bridge without including its implementation.",
+  "acceptanceCriteria": [
+    "The change-trusted-base record binds all and only the 18 TCB paths changed by prepared bridge commit 0e66fa0c, with its affected components and validation suites.",
+    "The weaken-policy record binds all and only the five semantic policy changes and their exact changed JSON pointers.",
+    "This pull request changes only this formal authorization plan pair and the two immutable authorization records; all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-prep-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-prep-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
