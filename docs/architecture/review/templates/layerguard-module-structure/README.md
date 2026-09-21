@@ -27,4 +27,4 @@ Rules:
 - Do not create an `*.Abstractions` project or namespace.
 
 Copy the `.csproj.tmpl` files, substitute `ModuleName`, and add only references permitted by the
-matrix. Run `pwsh -NoProfile -File docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` before committing the scaffold.
+matrix. Run `pwsh -NoProfile -File docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture` before committing the scaffold.

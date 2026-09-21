@@ -65,6 +65,8 @@
       "status": "active",
       "paths": [
         "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
+        "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1",
+        "docs/guards/V3_ifx/engine/Invoke-IFXArchitecture.ps1",
         "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1"
       ],
       "validationSuite": [
@@ -87,7 +89,7 @@
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/stages/post/gates/architecture/dotnet/tests/LayerGuard.Ifx.Tests/",
-        "Invoke-IFX.ps1 -Mode Test"
+        "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Test"
       ],
       "parityContract": "On the fixed corpus of existing fixtures and baseline inputs: identical command contract, fail-closed categories, summary/report schema and blocking verdict.",
       "allowedChange": "change-trusted-base"

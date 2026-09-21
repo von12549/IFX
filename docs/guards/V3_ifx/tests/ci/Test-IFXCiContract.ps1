@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param()
 
-# Positive and negative fixtures for ci/Invoke-IFXCiContract.ps1 (Plan 06 P1.3).
+# Positive and negative fixtures for commands/Invoke-IFXCiContract.ps1 (Plan 06 P1.3).
 
 # Stage-oriented test group: CI.
 
@@ -14,7 +14,7 @@ $repository = [IO.Path]::GetFullPath((Join-Path $package '../../..'))
 $artifacts = [IO.Path]::GetFullPath((Join-Path $repository 'artifacts/guards'))
 $fixture = [IO.Path]::GetFullPath((Join-Path $artifacts "v3-ifx-ci-contract-$([Guid]::NewGuid().ToString('N'))"))
 if (-not $fixture.StartsWith($artifacts + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe fixture path.' }
-$verifier = Join-Path $package 'ci/Invoke-IFXCiContract.ps1'
+$verifier = Join-Path $package 'commands/Invoke-IFXCiContract.ps1'
 $publicFacade = Join-Path $package 'commands/Invoke-IFXGuardrails.ps1'
 $utf8 = [Text.UTF8Encoding]::new($false)
 $workflowSource = [IO.File]::ReadAllText((Join-Path $repository '.github/workflows/v3-ifx-guardrails.yml')).Replace("`r`n", "`n")
@@ -104,7 +104,7 @@ try {
         Invoke-Case 'first verdict executable outside base fails' 1 -workflow $workflowSource.Replace("pwsh -NoProfile -File `"`$env:GUARD_BASE/docs/guards/V3_ifx/$trustedBaseRunner`" -HeadRoot `$env:GITHUB_WORKSPACE -BaseSha `$env:GUARD_BASE_SHA -Mode HistoricalIntegrity", 'pwsh -NoProfile -File "./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -TargetRoot $env:GITHUB_WORKSPACE -BaseSha $env:GUARD_BASE_SHA -Mode HistoricalIntegrity') -expectText 'trusted-base-first-verdict:v3-historical-integrity'
         Invoke-Case 'workflow internal script entry fails' 1 -workflow $workflowSource.Replace('"./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1" -Mode CandidateTests -CandidateSuite Architecture', '"./docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1"') -expectText 'workflow-public-commands'
     }
-    Invoke-Case 'head dispatcher run in place fails' 1 -workflow $workflowSource.Replace('-Mode HistoricalIntegrity -GateId v3-historical-integrity', "-Mode HistoricalIntegrity -GateId v3-historical-integrity`n          ./docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity") -expectText 'trusted-base-no-head-dispatcher:v3-historical-integrity'
+    Invoke-Case 'head dispatcher run in place fails' 1 -workflow $workflowSource.Replace('-Mode HistoricalIntegrity -GateId v3-historical-integrity', "-Mode HistoricalIntegrity -GateId v3-historical-integrity`n          ./docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode HistoricalIntegrity") -expectText 'trusted-base-no-head-dispatcher:v3-historical-integrity'
     Invoke-Case 'job without the base worktree fails' 1 -workflow ([Regex]::new('git worktree add --detach').Replace($workflowSource, 'git worktree list', 1)) -expectText 'trusted-base-worktree:v3-pre-diff'
     Invoke-Case 'aggregate plan selector removal fails' 1 -workflow $workflowSource.Replace("          `$aggregatePlans = @(`$plans | Where-Object { `$_ -match '(?i)-aggregate\.plan\.json$' })`n", '') -expectText 'workflow-aggregate-plan-selection'
     # Plan 06 D28: cost controls and the base-owned change scope are declared in required-checks.json and enforced in the workflow.

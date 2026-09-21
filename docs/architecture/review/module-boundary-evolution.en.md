@@ -80,7 +80,7 @@ do not prove a reporting product, rebuild, retention, or consumer acceptance.
 
 ## 5. Automation, failure, and rollback
 
-`docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04` runs the graph, GOV4, DP6, DB8, and GOV3 validators. V3 Architecture and HistoricalIntegrity independently bind current policy and frozen evidence.
+`docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04` runs the graph, GOV4, DP6, DB8, and GOV3 validators. V3 Architecture and HistoricalIntegrity independently bind current policy and frozen evidence.
 Negative fixtures prove failure for unregistered edges, cycles, unknown owners,
 hash drift, hard-gate bypass, missing tenant filters, unauthorized bypasses,
 cross-DbContext access, duplicate effects, rebuild drift, and sensitive

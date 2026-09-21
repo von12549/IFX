@@ -302,7 +302,7 @@ try {
         $staleRuleTitle = { Edit-Text $ruleFile { param($t) $t.Replace('"No legacy Abstractions project"', '"No legacy Abstractions projects"') } }
         $ruleTitle = {
             & $staleRuleTitle
-            $docsCommand = if ([IO.File]::Exists((Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1'))) { Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1' } else { Join-Path $base 'docs/guards/V3/scripts/Invoke-V3Docs.ps1' }
+            $docsCommand = Join-Path $base 'docs/guards/V3/commands/Invoke-V3Docs.ps1'
             $docsArguments = @('-Mode', 'Render', '-ProfileLayoutPath', (Join-Path $clone 'docs/guards/V3_ifx/shared/profile-layout.json'), '-TargetRoot', $clone)
             if ($docsCommand -match '[/\\]commands[/\\]') { $docsArguments += @('-PackageDirectory', (Join-Path $clone 'docs/guards/V3_ifx')) }
             $render = Invoke-GuardIsolatedPwsh $docsCommand $docsArguments -WorkingDirectory $clone
@@ -511,11 +511,11 @@ try {
     # ---- §11.1 negative controls: head tampering cannot change a judging verdict
     [void](New-Head 'tamper-dispatcher' $baseSha {
         & $breakEvidence
-        [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1'), "exit 0`n", $utf8)
+        [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'), "exit 0`n", $utf8)
         [IO.File]::WriteAllText((Join-Path $clone 'docs/guards/V3_ifx/trusted-base/TrustedBase.psm1'), "function Invoke-GuardIsolatedPwsh { [pscustomobject]@{ ExitCode = 0; Output = '' } }`n", $utf8)
         Edit-Json 'docs/guards/V3_ifx/shared/commands.json' { param($d) $d.commands = @($d.commands | Select-Object -First 1) }
     })
-    $inPlace = Invoke-GuardIsolatedPwsh (Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1') @('-Mode', 'HistoricalIntegrity') -WorkingDirectory $clone
+    $inPlace = Invoke-GuardIsolatedPwsh (Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') @('-Mode', 'HistoricalIntegrity') -WorkingDirectory $clone
     if ($inPlace.ExitCode -ne 0) { $failures.Add('The dispatcher tamper fixture is not effective in place.') } else { Write-Host 'PASS dispatcher tamper passes when run from head' }
     Assert-Result 'dispatcher, module and commands.json tamper cannot hide a violation' (Invoke-Runner $base $baseSha 'HistoricalIntegrity') 1 'FAIL guardrails'
     [void](New-Head 'tamper-engine' $baseSha { & $breakEvidence; Edit-Text $historyEngine { param($t) $t.Replace('$hashMatches = (Hash-CanonicalText $full) -eq $entry.sha256', '$hashMatches = $true') } })
@@ -526,7 +526,7 @@ try {
         $hash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($utf8.GetBytes($text))).ToLowerInvariant()
         Edit-Json $historyManifest { param($d) @($d.entries | Where-Object { $_.path -eq $evidence })[0].sha256 = $hash }
     })
-    $inPlace = Invoke-GuardIsolatedPwsh (Join-Path $clone 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1') @('-Mode', 'HistoricalIntegrity') -WorkingDirectory $clone
+    $inPlace = Invoke-GuardIsolatedPwsh (Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') @('-Mode', 'HistoricalIntegrity') -WorkingDirectory $clone
     if ($inPlace.ExitCode -ne 0) { $failures.Add('The policy tamper fixture is not effective in place.') } else { Write-Host 'PASS policy tamper passes when run from head' }
     Assert-Result 'head policy tamper cannot hide a violation' (Invoke-Runner $base $baseSha 'HistoricalIntegrity') 1 'FAIL guardrails'
     [void](New-Head 'msbuild-injection' $baseSha {
@@ -539,7 +539,7 @@ try {
     [void](New-Head 'authority-waiver' $baseSha { Edit-Json $catalog { param($d) $d.waivers += [ordered]@{ id = 'fixture-waiver' } } })
     Assert-Result 'head waiver fails closed before candidate projection' (Invoke-Runner $base $baseSha 'Validate') 1 'FAIL domain-authority-candidates'
     [void](New-Head 'authority-declaration' $baseSha { Edit-Json $catalog { param($d) $consumer = $d.consumers[0].Clone(); $consumer.id = 'fixture-consumer'; $d.consumers += $consumer } })
-    $direct = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1') @('-Mode', 'Validate', '-TargetRoot', $clone) -WorkingDirectory $clone
+    $direct = Invoke-GuardIsolatedPwsh (Join-Path $base 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1') @('-Mode', 'Validate', '-TargetRoot', $clone) -WorkingDirectory $clone
     if ($direct.ExitCode -eq 0) { $failures.Add('Base projections unexpectedly accepted a changed head catalog; the candidate projection control is not effective.') } else { Write-Host 'PASS stale base projection rejects the declaration change' }
     Assert-Result 'declaration change passes with a candidate projection' (Invoke-Runner $base $baseSha 'Validate') 0 'Trusted base run passed'
     $projection = @((Get-Content -LiteralPath (Join-Path $clone 'artifacts/guards/v3-ifx/trusted-base/summary-validate.json') -Raw | ConvertFrom-Json).checks | Where-Object { $_.id -eq 'candidate-projection' })
@@ -598,7 +598,7 @@ try {
         Edit-Text $historyEngine { param($t) $t.Replace('$hashMatches = (Hash-CanonicalText $full) -eq $entry.sha256', '$hashMatches = $true') }
         [IO.File]::Delete((Join-Path $clone $historyTest))
     } 1 'Base-owned validation failed on the candidate: docs/guards/V3_ifx/tests/post/Test-IFXHistoricalIntegrity.ps1'
-    Test-AuthorizedChange 'summary-contract-changed' { $guardrailsPath = if ([IO.File]::Exists((Join-Path $clone 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))) { 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' } else { 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }; Edit-Text $guardrailsPath { param($t) [Regex]::Replace($t, 'formatVersion = 1(\r?\n\s+mode = \$summaryMode)', 'formatVersion = 2$1').Replace("if (-not (Test-Json -LiteralPath `$summaryPath", "if (`$false -and -not (Test-Json -LiteralPath `$summaryPath") } } 1 'candidate summary schema valid: False'
+    Test-AuthorizedChange 'summary-contract-changed' { $guardrailsPath = 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'; Edit-Text $guardrailsPath { param($t) [Regex]::Replace($t, 'formatVersion = 1(\r?\n\s+mode = \$summaryMode)', 'formatVersion = 2$1').Replace("if (-not (Test-Json -LiteralPath `$summaryPath", "if (`$false -and -not (Test-Json -LiteralPath `$summaryPath") } } 1 'candidate summary schema valid: False'
     # The reviewed locks follow the guard projects, which move between packages during Plan 06 P6.4.
     $lockName = @(Get-ChildItem -LiteralPath (Join-Path $clone 'docs/guards/V3_ifx/build/locks') -File -Filter '*.packages.lock.json' | Sort-Object Name | ForEach-Object Name)[0]
     [void](New-Head 'tcb-lock-file' $baseSha { Edit-Text "docs/guards/V3_ifx/build/locks/$lockName" { param($t) $t.Replace('"version": 1', '"version": 1 ') } })

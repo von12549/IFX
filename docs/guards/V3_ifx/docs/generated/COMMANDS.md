@@ -2,7 +2,7 @@
 
 <!-- GENERATED READ-ONLY. Edit authority sources, then run Docs Render. -->
 
-Composite SHA-256: `c6a6f4f41d3051a18bac1523151e8a8f14b7b706ee48234128f6cfd2eb52ac94`
+Composite SHA-256: `ce7d85396852950ab7a85fef98788ac58bdff5b1467f4b70b2eed375d4c8d95e`
 
 Sources:
 
@@ -16,7 +16,7 @@ Sources:
 | v3-architecture-review | internal | `docs/guards/V3/scripts/Invoke-V3Architecture.ps1` | analysis | writes-artifacts | False |
 | v3-docs | public | `docs/guards/V3/commands/Invoke-V3Docs.ps1` | pre, post | writes-generated | False |
 | v3-deployment | public | `docs/guards/V3/commands/Invoke-V3Deployment.ps1` | ci | writes-activation | True |
-| ifx-architecture | public | `docs/guards/V3_ifx/scripts/Invoke-IFX.ps1` | post | writes-artifacts | False |
+| ifx-architecture | public | `docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1` | post | writes-artifacts | False |
 | ifx-ci-contract | public | `docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1` | ci | read-only | False |
 | ifx-manifest-check | internal | `docs/guards/V3_ifx/engine/Invoke-IFXManifestCheck.ps1` | ci | read-only | False |
 | ifx-specialized | internal | `docs/guards/V3_ifx/stages/post/gates/specialized/Invoke-IFXSpecialized.ps1` | post | writes-artifacts | False |

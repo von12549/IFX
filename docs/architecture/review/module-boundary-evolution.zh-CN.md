@@ -60,7 +60,7 @@ G05 的 C0–C4 分类、最小化、访问、加密、保留、删除与日志�
 
 ## 5. 自动化、失败与回退
 
-统一入口 `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04` 执行模块图、GOV4、DP6、DB8、GOV3 validator；V3 Architecture 与 HistoricalIntegrity 分别绑定当前 policy 和冻结证据。负向夹具要求未登记边、循环、未知 owner、hash drift、
+统一入口 `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate Plan04` 执行模块图、GOV4、DP6、DB8、GOV3 validator；V3 Architecture 与 HistoricalIntegrity 分别绑定当前 policy 和冻结证据。负向夹具要求未登记边、循环、未知 owner、hash drift、
 硬门槛绕过、tenant 漏过滤、未授权旁路、跨 DbContext、重复效果、重建漂移和敏感超集均准确失败。
 
 Phase 7 的完整复核为 1108/1108 solution tests、189/189 LayerGuard tests、39 个受控项目零违规。

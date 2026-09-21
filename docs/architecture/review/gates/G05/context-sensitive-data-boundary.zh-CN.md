@@ -50,7 +50,7 @@ Diagnostic、Client、Business、Transient、Permanent、Security 各有唯一�
 
 ### G05-D10 — 一个验证入口，不提前宣称生产完成
 
-本地与 CI 运行 `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05`；Architecture、Database 与 Quality.Solution 作为独立 required V3 jobs 执行。通过仅代表 repository conformance；生产 telemetry 与批准仍是关闭条件。
+本地与 CI 运行 `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G05`；Architecture、Database 与 Quality.Solution 作为独立 required V3 jobs 执行。通过仅代表 repository conformance；生产 telemetry 与批准仍是关闭条件。
 
 ## 术语与生命周期
 

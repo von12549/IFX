@@ -114,8 +114,8 @@ if ($Mode -eq 'CandidateTests') {
     $fullCrossPlatformCommands = @(
         ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
         ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
-        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
-        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
+        ,@('docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1', '-Mode', 'Generate')
+        ,@('docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1', '-Mode', 'Check')
         ,@('docs/guards/V3/tests/Test-V3.ps1')
         ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
         ,@('docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1')
@@ -132,8 +132,8 @@ if ($Mode -eq 'CandidateTests') {
     $windowsPortabilitySmokeCommands = @(
         ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
         ,@('docs/guards/V3/commands/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileLayoutPath', 'docs/guards/V3_ifx/shared/profile-layout.json', '-ProfileRepositoryRoot', $packageRepository, '-TargetRoot', $root, '-GenerationRoot', $GenerationRoot, '-PackageId', 'v3-ifx', '-OutputDirectory', $candidateStage)
-        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
-        ,@('docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
+        ,@('docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1', '-Mode', 'Generate')
+        ,@('docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1', '-Mode', 'Check')
         ,@('docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
         ,@('docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1')
     )
@@ -158,7 +158,7 @@ if ($Mode -eq 'CandidateTests') {
 
 $profileLayout = Join-Path $packageRoot 'shared/profile-layout.json'
 $v3 = Join-Path $packageRepository 'docs/guards/V3/commands/Invoke-V3.ps1'
-$architecture = Join-Path $PSScriptRoot '../scripts/Invoke-IFX.ps1'
+$architecture = Join-Path $PSScriptRoot 'Invoke-IFXArchitecture.ps1'
 $specialized = Join-Path $packageRoot 'stages/post/gates/specialized/Invoke-IFXSpecialized.ps1'
 $quality = Join-Path $packageRoot 'stages/post/gates/quality/Invoke-IFXQuality.ps1'
 $history = Join-Path $packageRoot 'stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1'

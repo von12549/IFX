@@ -69,6 +69,7 @@ $commands = Read-Manifest $system.manifests.commands 'commands'
 $tcb = Read-Manifest $system.manifests.trustedComponents 'trusted-components'
 $usesCommandLayout = $system.manifests.ContainsKey('docsMap')
 $docsMap = if ($usesCommandLayout) { Read-Manifest $system.manifests.docsMap 'docs-map' } else { $null }
+if (-not $usesCommandLayout) { Fail 'The canonical commands/docs layout is required after Plan 06 P11.5.' }
 
 # ---------------------------------------------------------------- stages and field owners
 $commandOwned = @('entryPoint', 'inputs', 'outputs', 'evidence', 'mutability', 'requiresExplicitAcceptance', 'platforms', 'stability')
@@ -110,10 +111,10 @@ if ($null -ne $commands) {
         }
     }
     $canonicalV3Entries = [ordered]@{
-        'v3-runner' = if ($usesCommandLayout) { 'docs/guards/V3/commands/Invoke-V3.ps1' } else { 'docs/guards/V3/scripts/Invoke-V3.ps1' }
-        'v3-setup' = if ($usesCommandLayout) { 'docs/guards/V3/commands/Invoke-V3Setup.ps1' } else { 'docs/guards/V3/scripts/Invoke-V3Setup.ps1' }
+        'v3-runner' = 'docs/guards/V3/commands/Invoke-V3.ps1'
+        'v3-setup' = 'docs/guards/V3/commands/Invoke-V3Setup.ps1'
         'v3-architecture-review' = 'docs/guards/V3/scripts/Invoke-V3Architecture.ps1'
-        'v3-docs' = if ($usesCommandLayout) { 'docs/guards/V3/commands/Invoke-V3Docs.ps1' } else { 'docs/guards/V3/scripts/Invoke-V3Docs.ps1' }
+        'v3-docs' = 'docs/guards/V3/commands/Invoke-V3Docs.ps1'
     }
     foreach ($id in $canonicalV3Entries.Keys) {
         $entry = @($commands.commands | Where-Object { $_.id -eq $id })
@@ -124,7 +125,7 @@ if ($null -ne $commands) {
     # This is inspected as data below, not invoked by the verifier. Build the leaf name separately so
     # verdict-chain discovery does not misclassify both the public command and its legacy wrapper as calls.
     $orchestratorName = 'Invoke-IFX' + 'Guardrails.ps1'
-    $orchestratorPath = Full $(if ($usesCommandLayout) { "$package/commands/$orchestratorName" } else { "$package/scripts/$orchestratorName" })
+    $orchestratorPath = Full "$package/commands/$orchestratorName"
     if ([IO.File]::Exists($orchestratorPath)) {
         $orchestrator = [IO.File]::ReadAllText($orchestratorPath)
         if (-not $orchestrator.Contains("'-ProtectionPath'", [StringComparison]::Ordinal) -or

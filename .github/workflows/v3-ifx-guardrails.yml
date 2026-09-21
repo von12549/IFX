@@ -1,5 +1,5 @@
 # Generated from: docs/guards/V3_ifx/stages/ci/workflow.template.yml
-# Source-SHA256: e0371b18809174ff4c8069be35d9b7e8b74e19f0fc346be249c5b920c754ed58
+# Source-SHA256: 9d817062cacf0e336e915c917711712b24b6b9f24766a16c9749df5665426e31
 name: V3 IFX Guardrails
 
 on:
@@ -518,41 +518,6 @@ jobs:
         env:
           WINDOWS_COVERAGE: ${{ github.event_name == 'workflow_dispatch' && inputs.windowsCoverage || 'smoke' }}
         run: |
-          <# BEGIN PRE-LAYOUT CI CONTRACT
-          # P11.4 compatibility declaration: the pre-layout base CI verifier reads these exact legacy command sets,
-          # while the candidate verifier reads the equivalent sets behind the public CandidateTests facade below.
-          # Both verifiers compare their view to the same base-owned cost contract. This block comment is not executed.
-          # BEGIN FULL CANDIDATE SUITE (Ubuntu on every ordinary run; Windows for the P11.4 certification dispatch)
-          $fullCommands = @(
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
-              ,@('./docs/guards/V3_ifx/tests/Test-V3.ps1')
-              ,@('./docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXPre.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXAuthorityProjection.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXSpecializedContracts.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXHistoricalIntegrity.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXDomainAuthorityCandidates.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXTrustedBase.ps1'))
-          # END FULL CANDIDATE SUITE
-
-          # BEGIN WINDOWS PORTABILITY SMOKE
-          $windowsSmokeCommands = @(
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Generate', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-V3.ps1', '-Mode', 'Check', '-ProfileDirectory', 'docs/guards/V3_ifx/profiles/ifx', '-TargetRoot', '.', '-OutputDirectory', 'docs/guards/V3_ifx/generated/stages')
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Generate')
-              ,@('./docs/guards/V3_ifx/scripts/Invoke-IFX.ps1', '-Mode', 'Check')
-              ,@('./docs/guards/V3/tests/Test-V3BuildBaseline.ps1')
-              ,@('./docs/guards/V3_ifx/tests/Test-IFXTargetRootSeparation.ps1'))
-          # END WINDOWS PORTABILITY SMOKE
-
-          $useWindowsSmoke = $env:RUNNER_OS -eq 'Windows' -and $env:WINDOWS_COVERAGE -ne 'full'
-          $commands = if ($useWindowsSmoke) { $windowsSmokeCommands } else { $fullCommands }
-          # END PRE-LAYOUT CI CONTRACT
-          #>
           $generation = Join-Path $env:RUNNER_TEMP 'v3-ifx-generation'
           New-Item -ItemType Directory -Force -Path $generation | Out-Null
           $coverage = if ($env:RUNNER_OS -eq 'Windows') { $env:WINDOWS_COVERAGE } else { 'full' }

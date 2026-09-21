@@ -90,7 +90,7 @@ try {
     $tcb = 'docs/guards/V3_ifx/shared/trusted-components.json'
     $system = 'docs/guards/V3_ifx/guard-system.json'
     $usesCommandLayout = [IO.File]::Exists((Join-Path $fixture 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))
-    $orchestrator = if ($usesCommandLayout) { 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1' } else { 'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1' }
+    $orchestrator = 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
     $legacyQualityRoot = 'docs/guards/V3_ifx/quality'
     $stageQualityRoot = 'docs/guards/V3_ifx/stages/post/gates/quality'
     $qualityFiles = @('Invoke-IFXAssemblyGuard.ps1', 'Invoke-IFXPackageAudit.ps1', 'Invoke-IFXQuality.ps1')
@@ -120,10 +120,10 @@ try {
     Invoke-Case 'overlapping components fail' 1 $tcb { param($d) ($d.components | Where-Object { $_.id -eq 'tcb.engine.quality' }).paths += $orchestrator } 'overlap'
     Invoke-Case 'planned component claiming paths fails' 1 $tcb { param($d) $d.components += [ordered]@{ id = 'tcb.future-component'; type = 'future'; status = 'planned'; paths = @('Directory.Build.props'); validationSuite = @('future'); parityContract = 'future'; allowedChange = 'change-trusted-base' } } "Planned component 'tcb.future-component'"
     Invoke-Case 'workflow script added outside TCB fails' 1 '.github/workflows/v3-ifx-guardrails.yml' { param($p) [IO.File]::AppendAllText($p, "      - run: ./docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1`n") } 'Workflow references a missing script not declared by the candidate trusted component manifest: docs/guards/V3_ifx/scripts/Invoke-Untrusted.ps1'
-    Invoke-Case 'IFX command redirecting to a forked V3 runner fails' 1 $commands { param($d) ($d.commands | Where-Object { $_.id -eq 'v3-runner' }).entryPoint = 'docs/guards/V3_ifx/scripts/Invoke-V3.ps1' } "Command 'v3-runner' must reference the canonical V3 entry point"
+    Invoke-Case 'IFX command redirecting to a forked V3 runner fails' 1 $commands { param($d) ($d.commands | Where-Object { $_.id -eq 'v3-runner' }).entryPoint = 'docs/guards/V3_ifx/engine/Forked-V3.ps1' } "Command 'v3-runner' must reference the canonical V3 entry point"
     Invoke-Case 'IFX Diff without explicit overlay protection fails' 1 $orchestrator { param($p) [IO.File]::WriteAllText($p, ([IO.File]::ReadAllText($p).Replace(",'-ProtectionPath',(Join-Path `$packageRoot 'stages/diff/protection.json')", '')), $utf8) } 'IFX Diff must pass the overlay protection configuration to canonical V3.'
     Invoke-Case 'stage listed without manifest fails' 1 $system { param($d) $d.stages = @($d.stages | Where-Object { $_ -ne 'diff' }) } "Stage manifest 'diff' is not listed"
-    Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries[0].legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1' } 'missing legacy path'
+    Invoke-Case 'compatibility entry for a missing path fails' 1 $system { param($d) $d.compatibility.entries += [ordered]@{ legacyPath = 'docs/guards/V3_ifx/scripts/Missing.ps1'; kind = 'public-command'; replacement = 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'; compatibility = 'deprecation-wrapper'; removeWhen = 'fixture'; phase = 'P11.5' } } 'missing legacy path'
     $authorityCandidates = @(@('docs/guards/V3_ifx/policy/authorities.json', 'docs/guards/V3_ifx/shared/authorities/authorities.json') | Where-Object { [IO.File]::Exists((Join-Path $fixture $_)) })
     if ($authorityCandidates.Count -ne 1) { throw "Exactly one fixture authority registry must exist; found $($authorityCandidates.Count)." }
     $authorities = $authorityCandidates[0]

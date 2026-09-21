@@ -87,7 +87,7 @@ try {
         if ([IO.Directory]::Exists((Join-Path $target $directory))) { [IO.Directory]::Delete((Join-Path $target $directory), $true) }
     }
 
-    $inPlaceRunner = Join-Path $package 'scripts/Invoke-IFXGuardrails.ps1'
+    $inPlaceRunner = Join-Path $package 'commands/Invoke-IFXGuardrails.ps1'
     $separatedRunner = Join-Path $packageCopy 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
     foreach ($mode in $Modes) {
         $inPlace = Invoke-Guardrails $inPlaceRunner $repository $mode 'in-place'

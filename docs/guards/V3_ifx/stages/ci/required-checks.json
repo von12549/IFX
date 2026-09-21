@@ -29,16 +29,16 @@
       "smokeCommands": [
         "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate",
         "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check",
-        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
-        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
+        "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Generate",
+        "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Check",
         "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
         "docs/guards/V3_ifx/tests/support/Test-IFXTargetRootSeparation.ps1"
       ],
       "fullSuiteCommands": [
         "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Generate",
         "docs/guards/V3/commands/Invoke-V3.ps1 -Mode Check",
-        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Generate",
-        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1 -Mode Check",
+        "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Generate",
+        "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1 -Mode Check",
         "docs/guards/V3/tests/Test-V3.ps1",
         "docs/guards/V3/tests/Test-V3BuildBaseline.ps1",
         "docs/guards/V3_ifx/tests/pre/Test-IFXPre.ps1",

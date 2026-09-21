@@ -81,7 +81,7 @@ Command handlers must not call `SaveChangesAsync`, Begin/Commit/Rollback, `Publi
 | Relational commit/rollback/savepoint/concurrency, Inbox/idempotency uniqueness, commit-response-lost reconciliation | `IFX.BuildingBlocks.EntityFrameworkCore.Tests` |
 | Unique behavior registration/order and actual isolation calls for five module executors | `ApplicationPipelineCompositionTests` against the real ApiHost |
 | Structured 400, 403, safe 409/500, cancellation logging | `ExceptionHandlingMiddlewareTests`, `ExceptionHandlingHttpEndToEndTests` |
-| Layer and cross-module references | `docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1 -Mode Architecture` |
+| Layer and cross-module references | `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture` |
 | Real Outbox/Inbox atomicity, uniqueness, and crash windows | Returned by Plan 02 E2/E4 at B3; final approval open |
 
 See [G01-baseline.md](../../evidence/gates/G01/G01-baseline.md), the [G01 closeout evidence](../../evidence/gates/G01/G01-closeout.md), and the latest [G01-guard-report.json](../../evidence/gates/G01/G01-guard-report.json).

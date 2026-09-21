@@ -95,7 +95,7 @@
       {
         "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
         "kind": "public-command",
-        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Architecture",
+        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1",
         "compatibility": "deprecation-wrapper",
         "removeWhen": "P11.5 after the ifx-layerguard validation command points to the replacement",
         "phase": "P6.4"
