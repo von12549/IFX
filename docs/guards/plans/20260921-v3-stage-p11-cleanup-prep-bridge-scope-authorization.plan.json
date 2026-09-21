@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-prep-bridge-scope-authorization",
+  "title": "P11.5 cleanup compatibility bridge scope authorization",
+  "goal": "Authorize the exact trusted-base runner correction that limits the one-time P11.5 compatibility bridge to heads whose own base-to-head change set includes the CI declaration.",
+  "acceptanceCriteria": [
+    "The authorization binds only docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1 from blob 3c9c6ea78235681c42f32000ced24aec2ebda78d to blob 23e8bd021063a31112b25889b2eead66ac04c707.",
+    "The existing p11-cleanup-prep-trusted-base authorization remains unchanged and non-overlapping.",
+    "The allowed Validate difference documents that unrelated synthetic and future heads cannot activate the one-time bridge when the CI declaration is absent from their changed set.",
+    "This pull request adds only the immutable authorization record and its formal plan pair; all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-prep-bridge-scope.json",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep-bridge-scope-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-prep-bridge-scope-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
