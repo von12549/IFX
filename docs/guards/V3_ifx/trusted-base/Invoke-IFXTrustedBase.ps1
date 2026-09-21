@@ -198,69 +198,6 @@ try {
         Add-Check 'candidate-projection' 'skipped' "Mode $Mode uses base projections unchanged."
     }
 
-    # P11.5 one-time compatibility bridge. The base CI declaration still names the deprecated Architecture wrapper,
-    # while the prepared cleanup candidate changes the declaration and public candidate facade to the canonical command
-    # in one authorized change. Validate may project that single declaration into the disposable candidate package only
-    # when (a) its complete semantic content is exactly the legacy-to-canonical substitution below and (b) the base-owned
-    # protected-change verifier proves that the prepared policy and TCB authorizations were consumed by this exact head.
-    # No head implementation is copied; the base verifier and renderer continue to decide the verdict and derived docs.
-    if ($Mode -eq 'Validate' -and $HeadRef) {
-        $ciDeclaration = 'docs/guards/V3_ifx/stages/ci/required-checks.json'
-        $baseDeclarationPath = Join-Path $candidateRepository $ciDeclaration
-        $headCommit = Resolve-GuardCommit $head $HeadRef
-        $headDeclarationText = Get-GuardBlobText $head $headCommit $ciDeclaration
-        $ciDeclarationChanged = @(
-            Get-GuardChangedEntries $head $BaseSha $headCommit |
-                Where-Object { $_.Path -ceq $ciDeclaration }
-        ).Count -eq 1
-        if ($ciDeclarationChanged -and $null -ne $headDeclarationText) {
-            $baseDeclarationText = [IO.File]::ReadAllText($baseDeclarationPath)
-            $expectedDeclaration = ConvertFrom-GuardJsonText $baseDeclarationText
-            $headDeclaration = ConvertFrom-GuardJsonText $headDeclarationText
-            $legacyArchitecture = 'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
-            $canonicalArchitecture = 'docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1'
-            foreach ($suite in @('smokeCommands', 'fullSuiteCommands')) {
-                $expectedDeclaration.costControls.windowsPortability[$suite] = @(
-                    $expectedDeclaration.costControls.windowsPortability[$suite] | ForEach-Object {
-                        ([string]$_).Replace($legacyArchitecture, $canonicalArchitecture, [StringComparison]::Ordinal)
-                    }
-                )
-            }
-            if ((ConvertTo-GuardCanonicalJson $expectedDeclaration) -ceq (ConvertTo-GuardCanonicalJson $headDeclaration)) {
-                $compatibilityReport = Join-Path $generation 'p11-cleanup-prep-compatibility.json'
-                $compatibility = Invoke-GuardIsolatedPwsh (Join-Path $PSScriptRoot 'Test-IFXProtectedChanges.ps1') @(
-                    '-TargetRoot', $head,
-                    '-BaseSha', $BaseSha,
-                    '-HeadRevision', $headCommit,
-                    '-ReportPath', $compatibilityReport
-                )
-                Write-Host $compatibility.Output
-                $coverage = if ([IO.File]::Exists($compatibilityReport)) { Get-Content -LiteralPath $compatibilityReport -Raw | ConvertFrom-Json } else { $null }
-                $policyAuthorization = @()
-                $tcbAuthorization = @()
-                if ($null -ne $coverage) {
-                    $policyAuthorization = @($coverage.authorizations | Where-Object { $_.id -ceq 'p11-cleanup-prep-policy' -and $_.operation -ceq 'weaken-policy' -and $_.status -ceq 'consumed' })
-                    $tcbAuthorization = @($coverage.authorizations | Where-Object { $_.id -ceq 'p11-cleanup-prep-trusted-base' -and $_.operation -ceq 'change-trusted-base' -and $_.status -ceq 'consumed' })
-                }
-                if ($compatibility.ExitCode -ne 0 -or $null -eq $coverage -or $coverage.status -ne 'pass' -or $policyAuthorization.Count -ne 1 -or $tcbAuthorization.Count -ne 1) {
-                    Add-Check 'p11-cleanup-prep-compatibility' 'fail' 'The canonical Architecture declaration matched the one-time bridge shape but its exact policy and TCB authorizations were not both consumed.' @(@($compatibilityReport) | Where-Object { [IO.File]::Exists($_) })
-                    throw 'P11.5 cleanup preparation compatibility authorization failed.'
-                }
-                [IO.File]::WriteAllText($baseDeclarationPath, $headDeclarationText.TrimStart([char]0xFEFF), [Text.UTF8Encoding]::new($false))
-                $render = Invoke-GuardIsolatedPwsh (Join-Path $candidateRepository 'docs/guards/V3/commands/Invoke-V3Docs.ps1') @(
-                    '-Mode', 'Render',
-                    '-ProfileLayoutPath', (Join-Path $candidatePackage 'shared/profile-layout.json'),
-                    '-ProfileRepositoryRoot', $candidateRepository,
-                    '-TargetRoot', $candidateRepository,
-                    '-PackageDirectory', $candidatePackage
-                )
-                Write-Host $render.Output
-                if ($render.ExitCode -ne 0) { Add-Check 'p11-cleanup-prep-compatibility' 'fail' 'The base renderer could not derive documentation from the authorized candidate declaration.'; throw 'P11.5 cleanup preparation documentation projection failed.' }
-                Add-Check 'p11-cleanup-prep-compatibility' 'pass' 'Projected the exactly authorized legacy-to-canonical Architecture command declaration into the disposable base candidate package.' @($compatibilityReport)
-            }
-        }
-    }
-
     # ---- Diff: protected changes of a committed head must be covered by base authorizations that head deletes (D23)
     $guardEnvironment = @{}
     if ($Mode -eq 'Diff' -and -not $HeadRef) { Add-Check 'protected-changes' 'skipped' 'Uncommitted Diff: no authorization is honoured, so every protected deletion stays blocked.' }

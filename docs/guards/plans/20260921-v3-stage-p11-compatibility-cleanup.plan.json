@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-compatibility-cleanup",
+  "title": "Retire Plan 06 compatibility paths and prove selective recovery",
+  "goal": "Complete P11.5 and P11.6 by deleting the nine pre-authorized wrappers, removing the one-time cleanup bridge, closing compatibility metadata and preserving an exact selective restore rehearsal.",
+  "acceptanceCriteria": [
+    "All nine declared wrappers are absent and their canonical command replacements remain active.",
+    "The compatibility registry is empty, the wrapper TCB component is absent, and package tests fail if any retired path returns.",
+    "The exact pre-delete blob IDs and restore commit are recorded and an isolated selective restore rehearsal proves restored wrappers fail closed while the cleanup tree passes.",
+    "The base-owned trusted Diff and TCB candidate suites pass with exact delete, weaken-policy and change-trusted-base authorizations, followed by all 13 required checks."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3/scripts/Invoke-V3.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3_ifx/README.md",
+    "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+    "docs/guards/V3_ifx/docs/authored/DEPLOYMENT.md",
+    "docs/guards/V3_ifx/docs/authored/GENERATED-OUTPUTS.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/IFX-MIGRATION.md",
+    "docs/guards/V3_ifx/docs/authored/architecture/TECHNICAL.md",
+    "docs/guards/V3_ifx/docs/generated/OVERVIEW.md",
+    "docs/guards/V3_ifx/guard-system.json",
+    "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+    "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/shared/trusted-components.json",
+    "docs/guards/V3_ifx/stages/analysis/evidence/p11-compatibility-deletion-manifest.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-v3-runner.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-v3-setup.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-v3-docs.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-guardrails.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-ci-contract.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-v3-runner.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-v3-setup.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-v3-docs.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compat-delete-ifx-architecture.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compatibility-cleanup-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-compatibility-cleanup-trusted-base.json",
+    "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup.md",
+    "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup.plan.json"
+  ],
+  "areaIds": [
+    "ArchitectureDocs",
+    "CI",
+    "GuardAuthorityInputs",
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d02-v3-backup-retirement.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d37-p11-candidate-layout-compatibility.json"
+  ]
+}

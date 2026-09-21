@@ -11,8 +11,7 @@
       "type": "public-entry-orchestrator",
       "status": "active",
       "paths": [
-        "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
-        "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1"
+        "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1"
       ],
       "validationSuite": [
         "all 13 required checks",
@@ -66,8 +65,7 @@
       "paths": [
         "docs/guards/V3_ifx/maintenance/Sync-IFXPolicyInputs.ps1",
         "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1",
-        "docs/guards/V3_ifx/engine/Invoke-IFXArchitecture.ps1",
-        "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1"
+        "docs/guards/V3_ifx/engine/Invoke-IFXArchitecture.ps1"
       ],
       "validationSuite": [
         "docs/guards/V3_ifx/tests/post/Test-IFXPackage.ps1",
@@ -242,7 +240,6 @@
       "paths": [
         ".github/workflows/v3-ifx-guardrails.yml",
         ".github/CODEOWNERS",
-        "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
         "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1"
       ],
       "validationSuite": [
@@ -316,24 +313,6 @@
       ],
       "parityContract": "Assertions and negative controls may only grow.",
       "allowedChange": "change-trusted-base"
-    },
-    {
-      "id": "tcb.compatibility.v3-public-wrappers",
-      "type": "compatibility-wrappers",
-      "status": "active",
-      "paths": [
-        "docs/guards/V3/scripts/Invoke-V3.ps1",
-        "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
-        "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
-        "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
-        "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
-        "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1"
-      ],
-      "validationSuite": [
-        "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1"
-      ],
-      "parityContract": "Each public legacy path is a thin forwarder to canonical V3 with unchanged arguments and exit code, emits the declared deprecation message, and is not a workflow executable.",
-      "allowedChange": "change-trusted-base; wrapper deletion requires the P11.5 compatibility-removal authorization"
     }
   ]
 }

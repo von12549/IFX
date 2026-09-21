@@ -22,92 +22,11 @@
   },
   "compatibility": {
     "policy": {
-      "period": "A legacy path stays usable from the checkpoint that replaces it until Plan 06 P11.5 has verified activation and rollback.",
-      "deprecationOutput": "Legacy public entry points become thin wrappers that write 'DEPRECATED: <legacy path> -> <replacement>' to standard error once per invocation, then forward all arguments and the exit code unchanged.",
-      "internalPaths": "Internal scripts, templates and data files receive no wrapper; every in-repository reference is updated in the same change (Plan 06 P10.6).",
-      "removal": "A wrapper or legacy path is removed only after P11.5, through a base pre-authorized delete (Plan 06 §12), when a repository reference scan finds no runtime reference."
+      "period": "Closed by Plan 06 P11.5 after activation and rollback verification.",
+      "deprecationOutput": "No deprecation wrapper remains; canonical commands are the only public entry points.",
+      "internalPaths": "Internal scripts, templates and data files have no compatibility path or silent fallback.",
+      "removal": "Compatibility is closed. A future legacy entry requires a new formal plan, explicit trust review and base pre-authorization where protected paths are affected."
     },
-    "entries": [
-      {
-        "legacyPath": "docs/guards/V3/scripts/Invoke-V3.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3/commands/Invoke-V3.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5 after all callers use commands/",
-        "phase": "P8.2"
-      },
-      {
-        "legacyPath": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5 after all callers use commands/",
-        "phase": "P8.2"
-      },
-      {
-        "legacyPath": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5 after all callers use commands/",
-        "phase": "P8.2"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5 after workflow and documentation reference only commands/",
-        "phase": "P8.2"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5 after documentation and callers use commands/",
-        "phase": "P10.3"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3/commands/Invoke-V3.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5; the V3_ifx copy is deleted as a duplicate in P7.5 and the wrapper then forwards to V3",
-        "phase": "P7.5"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5",
-        "phase": "P7.5"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5",
-        "phase": "P7.5"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
-        "kind": "public-command",
-        "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1",
-        "compatibility": "deprecation-wrapper",
-        "removeWhen": "P11.5 after the ifx-layerguard validation command points to the replacement",
-        "phase": "P6.4"
-      },
-      {
-        "legacyPath": "docs/guards/V3_ifx/profiles/ifx/views",
-        "kind": "directory",
-        "replacement": "docs/guards/V3_ifx/docs/generated/",
-        "compatibility": "none",
-        "removeWhen": "P8.7 decision",
-        "phase": "P8.7"
-      }
-    ]
+    "entries": []
   }
 }

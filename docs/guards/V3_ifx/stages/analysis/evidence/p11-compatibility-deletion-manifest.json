@@ -1,0 +1,74 @@
+{
+  "formatVersion": 1,
+  "checkpoint": "Plan 06 P11.5/P11.6",
+  "restoreFromCommit": "d97a2a5b1f015ca82efc42c9e8a6a8ced40e7b24",
+  "reason": "Activation, full Windows certification and selective activation rollback were complete; active callers, manifests and documentation use canonical commands.",
+  "deletedPaths": [
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3.ps1",
+      "blob": "f153119f5f45d7346067ab84c70b1b9b92a145f7",
+      "replacement": "docs/guards/V3/commands/Invoke-V3.ps1"
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Setup.ps1",
+      "blob": "111189f24a2141233b169372ec15e621162edceb",
+      "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1"
+    },
+    {
+      "path": "docs/guards/V3/scripts/Invoke-V3Docs.ps1",
+      "blob": "1bf0a532fbe436aee278c8e646393dda4bbaa2b8",
+      "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1",
+      "blob": "2b7c02c603cd2f73fe651c2ba99fa7643398c4aa",
+      "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1",
+      "blob": "dba25428e6e369ce49f773e3e8cf70653cec27b0",
+      "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXCiContract.ps1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3.ps1",
+      "blob": "6624945d93e7610e6a51a889498a2a75cbe9c797",
+      "replacement": "docs/guards/V3/commands/Invoke-V3.ps1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1",
+      "blob": "df9767f8d97dcd4de8c7f5b1d953679ef0abc1df",
+      "replacement": "docs/guards/V3/commands/Invoke-V3Setup.ps1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1",
+      "blob": "379d2e4e065d8ff8b9d4d42ea3bc8be32b565362",
+      "replacement": "docs/guards/V3/commands/Invoke-V3Docs.ps1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/scripts/Invoke-IFX.ps1",
+      "blob": "333722fb794c520693f378e20a3746fbd22660d0",
+      "replacement": "docs/guards/V3_ifx/commands/Invoke-IFXArchitecture.ps1"
+    }
+  ],
+  "temporaryBridge": {
+    "path": "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "removed": "P11.5 one-time cleanup-preparation compatibility block",
+    "replacement": "none; canonical CI declarations are present in the trusted base"
+  },
+  "selectiveRestoreRehearsal": {
+    "environment": "isolated Git worktree",
+    "restoreCommand": "git restore --source d97a2a5b1f015ca82efc42c9e8a6a8ced40e7b24 -- <the nine deleted paths>",
+    "expectedRestoredState": "the manifest/cutover suite rejects every restored wrapper because compatibility is closed and the paths are undeclared",
+    "expectedCleanupState": "after restoring the cleanup candidate tree, all nine paths are absent and package validation passes",
+    "status": "pending"
+  },
+  "preserved": [
+    "docs/guards/V3/commands/**",
+    "docs/guards/V3_ifx/commands/**",
+    "docs/guards/V3_ifx/profiles/ifx/views/**",
+    "docs/guards/plans/**",
+    "docs/guards/V3_ifx/shared/decisions/history/**",
+    "docs/guards/V3_ifx/stages/analysis/evidence/**",
+    "docs/guards/V3_ifx/stages/diff/authorizations/**"
+  ]
+}
