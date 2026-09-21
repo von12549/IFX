@@ -76,13 +76,13 @@ pwsh -NoProfile -File "$engine/commands/Invoke-V3Docs.ps1" -Mode Check -TargetRo
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Validate -ProfileLayoutPath $profileLayout -TargetRoot .
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Generate -ProfileLayoutPath $profileLayout -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Check -ProfileLayoutPath $profileLayout -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
-pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Validate
-pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Generate
-pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Check
+pwsh -NoProfile -File "$v3/commands/Invoke-IFXArchitecture.ps1" -Mode Validate
+pwsh -NoProfile -File "$v3/commands/Invoke-IFXArchitecture.ps1" -Mode Generate
+pwsh -NoProfile -File "$v3/commands/Invoke-IFXArchitecture.ps1" -Mode Check
 
 # Run the V3 detector self-tests/Post check and the full IFX LayerGuard tests/strict scan.
 pwsh -NoProfile -File "$engine/commands/Invoke-V3.ps1" -Mode Test -ProfileLayoutPath $profileLayout -TargetRoot . -GenerationRoot $generation -PackageId v3-ifx -OutputDirectory $stage
-pwsh -NoProfile -File "$v3/scripts/Invoke-IFX.ps1" -Mode Test -ReportPath artifacts/guards/v3-ifx-layerguard.json
+pwsh -NoProfile -File "$v3/commands/Invoke-IFXArchitecture.ps1" -Mode Test -ReportPath artifacts/guards/v3-ifx-layerguard.json
 pwsh -NoProfile -File "$engine/tests/Test-V3.ps1"
 pwsh -NoProfile -File "$engine/tests/Test-V3ArchUnit.ps1"
 pwsh -NoProfile -File "$v3/tests/pre/Test-IFXPre.ps1"

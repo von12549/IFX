@@ -32,7 +32,20 @@ $remaining = @($deletionManifest.deletedPaths | Where-Object { Test-Path -Litera
 if ($remaining.Count -gt 0) { throw "Retired guard paths remain: $($remaining -join ', ')" }
 if (Test-Path -LiteralPath (Join-Path $root 'docs/guards/V3_backup')) { throw 'V3_backup must remain retired after Plan 06 P10.5.' }
 $system = Get-Content -Raw -LiteralPath (Join-Path $root 'docs/guards/V3_ifx/guard-system.json') | ConvertFrom-Json
-if (@($system.compatibility.entries | Where-Object { $_.legacyPath -eq 'docs/guards/V3_backup' }).Count -ne 0) { throw 'The retired V3_backup compatibility entry remains.' }
+$retiredCompatibilityPaths = @(
+    'docs/guards/V3/scripts/Invoke-V3.ps1',
+    'docs/guards/V3/scripts/Invoke-V3Setup.ps1',
+    'docs/guards/V3/scripts/Invoke-V3Docs.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-IFXGuardrails.ps1',
+    'docs/guards/V3_ifx/ci/Invoke-IFXCiContract.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-V3.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-V3Setup.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-V3Docs.ps1',
+    'docs/guards/V3_ifx/scripts/Invoke-IFX.ps1'
+)
+$restoredCompatibilityPaths = @($retiredCompatibilityPaths | Where-Object { Test-Path -LiteralPath (Join-Path $root $_) })
+if ($restoredCompatibilityPaths.Count -gt 0) { throw "Retired compatibility paths remain: $($restoredCompatibilityPaths -join ', ')" }
+if (@($system.compatibility.entries).Count -ne 0) { throw 'Plan 06 P11.5 requires the compatibility registry to be empty.' }
 $topLevel = @(Get-ChildItem -LiteralPath (Join-Path $root 'docs/guards') -Force | ForEach-Object Name | Sort-Object)
 $expectedTopLevel = @('plans', 'V3', 'V3_ifx') | Sort-Object
 if (@(Compare-Object $expectedTopLevel $topLevel).Count -ne 0) {
@@ -42,4 +55,4 @@ $v3Workflow = Get-Content -Raw -LiteralPath (Join-Path $root '.github/workflows/
 foreach ($trigger in @('pull_request', 'push', 'workflow_dispatch')) {
     if ($v3Workflow -notmatch "(?m)^  ${trigger}:") { throw "V3 workflow is missing its $trigger trigger." }
 }
-Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) retired paths absent, V3_backup retired and one V3 workflow active."
+Write-Host "Cutover preservation passed: $($required.Count) required paths, $($baselines.Count) historical baselines, $($deletionManifest.deletedPaths.Count) prior retired paths absent, nine compatibility paths retired, compatibility registry closed, V3_backup retired and one V3 workflow active."

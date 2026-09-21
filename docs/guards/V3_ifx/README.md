@@ -33,9 +33,9 @@ The G03/G04/G05 files under `stages/post/policy/` are deterministic LayerGuard p
 | external generation root | Untracked IFX Stage Gate at `<generation-root>/v3-ifx/gates/stage/Ifx.Guards.StageGate.Tests/` |
 | `shared/contracts/`, `stages/{diff,ci}/contracts/` | IFX cross-stage and stage-owned contracts; portable profile, plan, rule and related schemas come from `../V3/contracts/` |
 | `examples/plan/`, `integrations/agents/` | Plan examples and optional Agent planning integration; generic hooks and templates live in `../V3/` |
-| `scripts/Invoke-IFX.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `stages/post/gates/architecture/dotnet/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only during the transition |
-| `scripts/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
-| `commands/` | Stable public command entry points; legacy `scripts/` paths are deprecation wrappers |
+| `commands/Invoke-IFXArchitecture.ps1` | Check, test, and strict-scan the IFX LayerGuard projects directly from `stages/post/gates/architecture/dotnet/`; the scan runs the IFX host, which registers the IFX policy binding; `Generate` is read-only |
+| `commands/Invoke-IFXGuardrails.ps1` | Stable Validate/Pre/Diff/Architecture/Specialized/Quality/HistoricalIntegrity/All dispatcher |
+| `commands/` | The only stable public command entry points; Plan 06 P11.5 retired all compatibility wrappers |
 
 Agent workflow: read this README and [deployment commands](docs/authored/DEPLOYMENT.md), compare the architecture drafts with evidence and current profile, then edit a reviewed profile or local policy. Review changed rules and bound hashes, regenerate both projects, run Check, run positive/negative tests and strict scan, then run Pre/Diff against the task Plan. `Invoke-IFX -Mode Validate` checks the nine numbered stage/policy rule IDs for drift. A policy hash change requires an explicit baseline review. Do not treat a refreshed hash alone as proof that a weakened rule is acceptable.
 

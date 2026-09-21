@@ -89,6 +89,8 @@ try {
     $commands = 'docs/guards/V3_ifx/shared/commands.json'
     $tcb = 'docs/guards/V3_ifx/shared/trusted-components.json'
     $system = 'docs/guards/V3_ifx/guard-system.json'
+    $currentSystem = Get-Content -LiteralPath (Join-Path $fixture $system) -Raw | ConvertFrom-Json
+    if (@($currentSystem.compatibility.entries).Count -ne 0) { throw 'Plan 06 P11.5 requires the compatibility registry to be empty.' }
     $usesCommandLayout = [IO.File]::Exists((Join-Path $fixture 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'))
     $orchestrator = 'docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1'
     $legacyQualityRoot = 'docs/guards/V3_ifx/quality'

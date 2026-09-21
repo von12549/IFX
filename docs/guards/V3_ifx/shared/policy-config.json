@@ -127,6 +127,7 @@
       "role": "trust-meta-policy",
       "paths": [
         "docs/guards/V3_ifx/stages/analysis/evidence/legacy-deletion-manifest.json",
+        "docs/guards/V3_ifx/stages/analysis/evidence/p11-compatibility-deletion-manifest.json",
         "docs/guards/V3_ifx/stages/analysis/reports/cutover-baseline.json",
         "docs/guards/V3_ifx/stages/analysis/reports/specialized-parity.json",
         "docs/guards/V3_ifx/stages/analysis/reports/refactor-progress/cp02-ci-contract-remote.json"
