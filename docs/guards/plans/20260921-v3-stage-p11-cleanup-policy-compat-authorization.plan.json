@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-policy-compat-authorization",
+  "title": "P11.5 authorized policy projection compatibility authorization",
+  "goal": "Pre-authorize the exact trusted-runner tuple of the one-time P11.5 policy projection bridge without including its implementation.",
+  "acceptanceCriteria": [
+    "The change-trusted-base record binds all and only Invoke-IFXTrustedBase.ps1 at prepared commit e1d049f3, with the affected component and validation suite.",
+    "The parity contract preserves base-owned fail-closed verification and permits only the exactly authorized four-entry Architecture command migration.",
+    "This pull request changes only this formal authorization plan pair and the immutable authorization record; all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-cleanup-policy-compat-trusted-base.json",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-policy-compat-authorization.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-policy-compat-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json"
+  ]
+}
