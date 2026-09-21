@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-plan06-final-auth-revocation",
+  "title": "Plan 06 final trusted-base authorization revocation",
+  "goal": "Revoke the six superseded P11 final trusted-base authorizations after the r7-authorized compatibility cleanup has merged.",
+  "acceptanceCriteria": [
+    "The pull request deletes only the six superseded P11 final trusted-base authorization records and adds its own formal plan pair.",
+    "No current authorization, implementation, policy, compatibility path, generated document or historical evidence changes.",
+    "The trusted Diff reports six authorization revocations with no protected-change obligation, and all 13 required checks pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r2.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r3.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r4.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r5.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/p11-final-trusted-base-r6.json",
+    "docs/guards/plans/20260921-v3-stage-plan06-final-auth-revocation.md",
+    "docs/guards/plans/20260921-v3-stage-plan06-final-auth-revocation.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d22-revocation-only-authorization-deletion.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260918-v3-stage-d28-ci-cost-controls-and-change-scope.json"
+  ]
+}
