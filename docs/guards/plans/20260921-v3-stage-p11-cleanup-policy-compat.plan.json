@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260921-v3-stage-p11-cleanup-policy-compat",
+  "title": "P11.5 authorized policy projection compatibility",
+  "goal": "Allow the base-owned Validate runner to evaluate the exact authorized legacy-to-canonical Architecture command declaration during the P11.5 two-version window without trusting head implementation.",
+  "acceptanceCriteria": [
+    "The bridge activates only for the complete four-entry legacy-to-canonical command substitution in required-checks.json.",
+    "The exact head must consume both named P11.5 preparation authorizations under the base protected-change verifier before candidate policy is projected.",
+    "Only the authorized declaration is copied into the disposable candidate package and base-owned rendering and verification continue to decide the verdict.",
+    "All other candidate-policy shapes remain base-owned and fail closed under the existing contract."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-policy-compat.md",
+    "docs/guards/plans/20260921-v3-stage-p11-cleanup-policy-compat.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d10-protected-change-authorization.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d19-trusted-base-first-introduction.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260921-v3-stage-d36-p11-minimal-compat-bridge.json"
+  ]
+}
