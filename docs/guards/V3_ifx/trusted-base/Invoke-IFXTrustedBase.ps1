@@ -209,7 +209,11 @@ try {
         $baseDeclarationPath = Join-Path $candidateRepository $ciDeclaration
         $headCommit = Resolve-GuardCommit $head $HeadRef
         $headDeclarationText = Get-GuardBlobText $head $headCommit $ciDeclaration
-        if ($null -ne $headDeclarationText) {
+        $ciDeclarationChanged = @(
+            Get-GuardChangedEntries $head $BaseSha $headCommit |
+                Where-Object { $_.Path -ceq $ciDeclaration }
+        ).Count -eq 1
+        if ($ciDeclarationChanged -and $null -ne $headDeclarationText) {
             $baseDeclarationText = [IO.File]::ReadAllText($baseDeclarationPath)
             $expectedDeclaration = ConvertFrom-GuardJsonText $baseDeclarationText
             $headDeclaration = ConvertFrom-GuardJsonText $headDeclarationText
