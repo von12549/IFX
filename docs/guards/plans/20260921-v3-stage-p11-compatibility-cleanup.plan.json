@@ -42,6 +42,7 @@
     "docs/guards/V3_ifx/stages/diff/authorizations/p11-compatibility-cleanup-trusted-base.json",
     "docs/guards/V3_ifx/tests/ci/Test-CutoverPreservation.ps1",
     "docs/guards/V3_ifx/tests/support/Test-IFXManifests.ps1",
+    "docs/guards/V3_ifx/tests/support/Test-IFXTrustedBase.ps1",
     "docs/guards/V3_ifx/trusted-base/Invoke-IFXTrustedBase.ps1",
     "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup.md",
     "docs/guards/plans/20260921-v3-stage-p11-compatibility-cleanup.plan.json"
