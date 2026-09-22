@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-profile-validation-program",
+  "title": "Plan the V4 IFX Profile validation program",
+  "goal": "Plan a fail-closed V4-TODO-001/002/003 program using immutable V4 1.1.0 as its initial baseline, versioned 1.1.x fixes, an in-repository guard installation and external mutable roots without authorizing implementation or cutover.",
+  "acceptanceCriteria": [
+    "The plan records the immutable 1.1.0 release identity, archive hash and canonical source authority.",
+    "The guard installation topology preserves a read-only D:/IFX TargetRoot and keeps StateRoot and EvidenceRoot outside it.",
+    "The absence of a package-external Profile installer in 1.1.0 is an explicit P10.0/P10.1 compatibility gate, never bypassed by editing the installed package.",
+    "V4-TODO-001, V4-TODO-002 and V4-TODO-003 have ordered checkpoints, evidence requirements and stop conditions.",
+    "Every V4 baseline correction found during testing requires a certified, published and freshly installed 1.1.x patch.",
+    "Remote workflow or ruleset mutation, IFX cutover, legacy retirement, guard directory creation and Profile implementation remain outside this planning checkpoint."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-profile-validation-program.md",
+    "docs/guards/plans/20260923-v4-ifx-profile-validation-program.plan.json",
+    "docs/guards/v4/plans/01-v4-self-contained-guard-plugin.md",
+    "docs/guards/v4/plans/02-runtime-architecture.md",
+    "docs/guards/v4/plans/06-ifx-profile-validation-program.md",
+    "docs/guards/v4/plans/README.md",
+    "docs/guards/v4/plans/TODO.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
