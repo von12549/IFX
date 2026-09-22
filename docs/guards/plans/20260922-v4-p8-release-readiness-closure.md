@@ -1,7 +1,7 @@
 # V4 P8 release-readiness closure
 
-Status: authorized local closure work on `codex/v4-development-base`; V4-P8.6 publication, tagging,
-workflow/ruleset activation, push and IFX cutover remain outside this Plan.
+Status: implemented and audited on `codex/v4-development-base`; V4-P8.6 publication, tagging,
+workflow/ruleset activation, push and IFX cutover remain outside this Plan and await separate authorization.
 
 Parent roadmap: `docs/guards/v4/plans/01-v4-self-contained-guard-plugin.md`, release-readiness closure
 before V4-P8.6.
