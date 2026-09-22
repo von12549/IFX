@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-ifx-root-layout-migration",
+  "title": "Migrate IFX into a clean workspace root",
+  "goal": "Create a fresh independent IFX clone and sibling V4 runtime roots under D:/IFX-Root while preserving the existing D:/IFX repository and its linked worktrees as rollback sources.",
+  "acceptanceCriteria": [
+    "D:/IFX-Root/IFX is an independent clean clone of the pushed codex/v4-development-base branch.",
+    "The released V4 Guards 1.1.0 assets are hash-verified and installed under D:/IFX-Root/guard-runtime/releases with an external receipt.",
+    "TargetRoot, PackageRoot, StateRoot and EvidenceRoot use the documented non-overlapping sibling topology without links or reparse points.",
+    "The new clone passes V4 package validation and the current V3 Validate baseline.",
+    "The existing D:/IFX repository and all registered linked worktrees remain untouched and available for rollback.",
+    "No old-directory deletion, worktree pruning, remote workflow or ruleset activation, IFX cutover or Profile implementation occurs."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-ifx-root-layout-migration.md",
+    "docs/guards/plans/20260923-ifx-root-layout-migration.plan.json",
+    "docs/guards/plans/20260923-v4-ifx-profile-validation-program.md",
+    "docs/guards/v4/plans/01-v4-self-contained-guard-plugin.md",
+    "docs/guards/v4/plans/02-runtime-architecture.md",
+    "docs/guards/v4/plans/06-ifx-profile-validation-program.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

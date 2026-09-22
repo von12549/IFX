@@ -28,25 +28,24 @@ the `1.1.x` line. A copied, hand-edited 1.1.0 package is not admissible test evi
 
 ## Planned topology
 
-- Canonical source authority: `D:\IFX\docs\guards\v4` in the current repository. All V4 fixes are
+- Canonical source authority: `D:\IFX-Root\IFX\docs\guards\v4` in the migrated repository. All V4 fixes are
   authored, reviewed and certified here first.
-- Read-only target under test: `D:\IFX` at an explicitly recorded Git commit.
-- Released installation root: `D:\IFX\guard\releases\v4-guards-1.1.0`, extracted from the GitHub
+- Read-only target under test: `D:\IFX-Root\IFX` at an explicitly recorded Git commit.
+- Released installation root: `D:\IFX-Root\guard-runtime\releases\v4-guards-1.1.0`, extracted from the GitHub
   Release only after verifying archive SHA-256
   `d7d3b1ef7f70bab3153c4d1253b8a1e6db2bdea13645fe6597d36c29432c9fbd` and its distribution receipt.
 - Later patch installations: sibling versioned directories such as
-  `D:\IFX\guard\releases\v4-guards-1.1.1`; never overwrite or hot-patch an earlier installation.
-- Mutable StateRoot: `D:\IFX.guard-runtime\state`.
-- Mutable EvidenceRoot: `D:\IFX.guard-runtime\evidence`.
+  `D:\IFX-Root\guard-runtime\releases\v4-guards-1.1.1`; never overwrite or hot-patch an earlier installation.
+- Mutable StateRoot: `D:\IFX-Root\guard-runtime\state`.
+- Mutable EvidenceRoot: `D:\IFX-Root\guard-runtime\evidence`.
 
-StateRoot and EvidenceRoot are deliberately outside `D:\IFX`, because V4 rejects mutable roots that
-overlap PackageRoot or TargetRoot. PackageRoot may reside below TargetRoot, but `ifx_profile` must
-explicitly exclude `guard/**` from project discovery and prove that the installed guard cannot enter
-its own target evidence.
+`D:\IFX-Root` is only a common container: TargetRoot is exactly `D:\IFX-Root\IFX`, so PackageRoot,
+StateRoot and EvidenceRoot remain outside it. The guard cannot enter IFX target discovery, and the V4
+overlap rules remain satisfied without a repository-local `guard/**` exclusion.
 
 ## Checkpoints
 
-1. **P10.0 — Baseline installation and topology proof.** Create the ignored `guard/` hierarchy,
+1. **P10.0 — Baseline installation and topology proof.** Create the sibling `guard-runtime/` hierarchy,
    download or copy only the published assets, verify tag/archive/package/receipt provenance, prove
    `version`, package check, prerequisites, read-only TargetRoot and external mutable roots, and record
    that unmodified 1.1.0 exposes only its released Profiles.
