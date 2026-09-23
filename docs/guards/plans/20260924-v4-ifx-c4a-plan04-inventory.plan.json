@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c4a-plan04-inventory",
+  "title": "Inventory Plan04 governance and exception checks on V4 1.1.3",
+  "goal": "Freeze all Plan04 validator and nested-check identities before V4 candidate implementation.",
+  "acceptanceCriteria": [
+    "Six V3 validators and 45 nested checks reconcile with fresh reports and have explicit candidate destinations.",
+    "Detector, policy and bypass-registry hashes plus repository-passed-but-not-production status are frozen.",
+    "Formal Pre/Diff, isolated IFX package regression and 1.1.3 Package identity pass; executable C4a remains pending."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c4a-plan04-inventory.md",
+    "docs/guards/plans/20260924-v4-ifx-c4a-plan04-inventory.plan.json",
+    "docs/guards/inventories/20260924-ifx-c4a-plan04-claim-matrix.json",
+    "docs/guards/inventories/20260924-ifx-c4a-plan04-claim-matrix.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

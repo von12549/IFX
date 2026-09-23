@@ -1,0 +1,396 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-ifx-c4a-plan04-claim-matrix",
+  "status": "inventory-only",
+  "v4Base": {
+    "version": "1.1.3",
+    "packageSha256": "9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494"
+  },
+  "v3": {
+    "gateId": "v3-specialized-plan04",
+    "stage": "post",
+    "result": "passed",
+    "validatorCount": 6,
+    "nestedCheckCount": 45,
+    "bypassEntries": 5,
+    "validatorResults": [
+      {
+        "id": "extraction-policy",
+        "result": "repository-passed-policy-approval-pending",
+        "checks": 9
+      },
+      {
+        "id": "tenant-query-policy",
+        "result": "repository-passed-production-rls-not-claimed",
+        "checks": 12
+      },
+      {
+        "id": "projection-policy",
+        "result": "repository-passed-no-reporting-product-claimed",
+        "checks": 13
+      },
+      {
+        "id": "abstractions-retirement",
+        "result": "repository-passed-legacy-abstractions-retired",
+        "checks": 11
+      }
+    ],
+    "otherValidators": [
+      "boundaryInventory",
+      "documentationCurrent"
+    ]
+  },
+  "detectors": [
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan04Governance.ps1",
+      "sha256": "bd050512462d8ab54985645257ef14d29a452f921d6bb125aee7b2d8ff17b6d1"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/New-Plan04BoundaryInventory.ps1",
+      "sha256": "3537a3332c3d3bdb5bc67ee91caf3d14c467a803c0fef7e9e0ad5438247d569d"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan04ExtractionPolicy.ps1",
+      "sha256": "27a412a768a68b7c68c60b990d519c947738077dafb3b834282ef9197c37f82c"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan04TenantQueryPolicy.ps1",
+      "sha256": "46b29e17d4077bb65a322aeb506c765d4e5d45377ec96add0c48f9466ff86159"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan04ProjectionPolicy.ps1",
+      "sha256": "e5ef0211b31b9feee76fefcd2f463871524e78fd796442f53d1ab4b0e29d8c0c"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-AbstractionsRetirement.ps1",
+      "sha256": "6545780dfa0d96874a21589342b9ab66f97511095fd86a695c59e98d0722812d"
+    }
+  ],
+  "targetPolicyAuthorities": [
+    {
+      "id": "plan04-projection-policy",
+      "path": "docs/architecture/review/policies/plan04/cross-module-projection-policy.json",
+      "sha256": "ef0c5877603947ba332f4073f524fff2a660cb721eacfd0385c54d300cb2c017"
+    },
+    {
+      "id": "plan04-extraction-decision-schema",
+      "path": "docs/architecture/review/policies/plan04/extraction-decision-record.schema.json",
+      "sha256": "33831b0506cae05e3bbd08c9aa65f16d59f8a86206c90fc2fcf6067fe7599ad5"
+    },
+    {
+      "id": "plan04-extraction-policy",
+      "path": "docs/architecture/review/policies/plan04/microservice-extraction-policy.json",
+      "sha256": "0c9142c7c30c3d71ce3f9ab413f41956d7e8ccd6fc1eb4b6c04a97d5eac8ba0d"
+    },
+    {
+      "id": "plan04-governance-lock",
+      "path": "docs/architecture/review/policies/plan04/plan04-governance-lock.json",
+      "sha256": "57d5e91b1545c0e4f79820497169e3af01fff3e71d4a0abe1a0e3782d63d2bc0"
+    },
+    {
+      "id": "plan04-projection-registration-schema",
+      "path": "docs/architecture/review/policies/plan04/projection-registration.schema.json",
+      "sha256": "92924851ae33f86d65441f795e7fd0998af08c777c7e61dce7afcf77219eeea7"
+    },
+    {
+      "id": "plan04-projection-registry",
+      "path": "docs/architecture/review/policies/plan04/projection-registry.json",
+      "sha256": "821d0949db9c87051030b8623420ba4a018220fd330f5ad56e39d8e9be798ad3"
+    },
+    {
+      "id": "plan04-tenant-query-bypass-registry",
+      "path": "docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+      "sha256": "7dc8dcd5523eff52833615494425cabf1a59b0dd86123254be7a018adfdad7af"
+    },
+    {
+      "id": "plan04-tenant-query-policy",
+      "path": "docs/architecture/review/policies/plan04/tenant-query-policy.json",
+      "sha256": "f59e02566fea120701855c5ebbc922dab3c0271285f35ba0fd57b9904099c998"
+    }
+  ],
+  "dynamicSourceRoots": [
+    "src/Modules",
+    "src/Platform",
+    "docs/architecture/review/policies/plan04",
+    "docs/architecture/review/diagrams/plan04"
+  ],
+  "claims": [
+    {
+      "id": "schemaDeclaresRequiredRecord",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "exactHardGates",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "exactEvidenceDimensions",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "scoreCannotOverrideHardGate",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "exactStateMachine",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "approvedStateRequiredBeforeExecution",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "completeApplicationEvidenceRequired",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "positiveAndNegativeFixturesPass",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "defaultRemainsModularMonolith",
+      "validator": "extraction-policy",
+      "destination": "C4a-extraction",
+      "required": true
+    },
+    {
+      "id": "policyDefaultsToExplicitPredicate",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "trustedNonNullableTenantRequired",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "tenantMethodsGuardedAndPredicated",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "contractsHaveNoNullableOrDefaultTenant",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "tenantOwnedContractSignaturesExplicit",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "noOrdinaryBypassFlags",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "noIgnoreQueryFilters",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "bypassRegistryComplete",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "noUnregisteredCrossTenantRepository",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "negativeFixturesPass",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "globalFilterDecisionRecorded",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "rlsExplicitlyNotClaimed",
+      "validator": "tenant-query-policy",
+      "destination": "C4a-tenant",
+      "required": true
+    },
+    {
+      "id": "noProjectionWithoutApprovedConsumer",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "allowedPathsAreClosedSet",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "crossDatabaseReadsForbidden",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "registrationSchemaRequiresLifecyclePrivacyAndApprovals",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "approvedConsumerInventoryIsExplicitlyEmpty",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "holdingsIsReferenceOnly",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "registryEntriesConformToSchema",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "referenceProtocolsAreActiveInG03",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "holdingsReferenceHasTenantInboxAndIdempotency",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "noForbiddenPhysicalModuleEdges",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "noSourceFileUsesMultipleModuleDbContexts",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "negativeFixturesPass",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "privacyAndRollbackAreFailClosed",
+      "validator": "projection-policy",
+      "destination": "C4a-projection",
+      "required": true
+    },
+    {
+      "id": "noLegacyAbstractionsDirectories",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "noLegacyAbstractionsProjects",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "noLegacyAbstractionsReferences",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "noLegacyAbstractionsSolutionEntries",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "requiredContractsAreExplicitSolutionProjects",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "compositionProjectNameIsUnambiguous",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "authorizationNamespaceNameIsUnambiguous",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "compositionProjectIsExplicitlyInSolution",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "layerGuardRetirementRuleIsBound",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "layerGuardCompositionNameIsCurrent",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    },
+    {
+      "id": "positiveAndNegativeFixturesPass",
+      "validator": "abstractions-retirement",
+      "destination": "C4a-boundary",
+      "required": true
+    }
+  ],
+  "limits": [
+    "Repository policy result is not extraction approval",
+    "Tenant query result does not claim production RLS",
+    "Projection result does not claim a reporting product",
+    "Five bypass entries require exact reviewed exception authorization",
+    "Generated inventory hashes are fresh evidence, not permanent waiver baselines"
+  ]
+}
