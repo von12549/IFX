@@ -37,4 +37,7 @@ regression passed at
 `artifacts/guards/v3-ifx-package-test-5102223d032b4b1dae6fb4929fc8b288`.
 The frozen release digest/current csproj discrepancy and vacuous V3
 `AddMessaging()` predicate remain recorded comparison limits, not parity
-claims. Exact Formal Diff is pending the candidate commit.
+claims. Exact Formal Diff from C3d verification base `ea599d30` to
+candidate `772f6601` passed at
+`artifacts/guards/p10-ifx-c3e/formal-diff/summary-diff.json`, including the
+V3 Stage Gate and exact six-path Plan scope.
