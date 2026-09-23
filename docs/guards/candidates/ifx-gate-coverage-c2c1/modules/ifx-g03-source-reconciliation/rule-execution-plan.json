@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-source-reconciliation",
+  "matrixSha256": "1384c3559f9b61909a31780f42493cc49eda4f453da8f58c97e58ea0ee15d308",
+  "rules": [
+    { "ruleId": "G03-SOURCE-INVENTORY", "claimId": "IFX.C2.G03_SOURCE_INVENTORY", "stage": "post", "detectors": ["ifx-g03-source-reconciliation"], "evidenceKinds": ["source-inventory", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-SOURCE-RECONCILIATION", "claimId": "IFX.C2.G03_SOURCE_RECONCILIATION", "stage": "post", "detectors": ["ifx-g03-source-reconciliation"], "evidenceKinds": ["source-catalog", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-FIELD-SOURCE", "claimId": "IFX.C2.G03_FIELD_SOURCE", "stage": "post", "detectors": ["ifx-g03-source-reconciliation"], "evidenceKinds": ["field-source", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

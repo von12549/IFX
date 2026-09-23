@@ -1,6 +1,6 @@
 # IFX C2 — G03 Phase 9 claim and authority matrix
 
-Status: `C2 INCOMPLETE — C2b1/C2b2 catalog candidates validated; C2c–C2e pending`
+Status: `C2 INCOMPLETE — C2b validated; C2c1 source candidate validated; C2c2–C2e pending`
 
 The active Post gate is `v3-specialized-g03`, a base-owned judging gate. Its
 dispatcher invokes `Invoke-G03ContractEventGuard.ps1 -Phase 9` over candidate
@@ -62,3 +62,16 @@ and TargetRoot byte invariance. These are candidate-level results only:
 the C2e combined Stage and production Profile have not been accepted.
 Source-field reconciliation and snapshots remain C2c; documentation and
 closeout remain C2d. C1 final closure still waits for C5.
+
+## C2c1 checkpoint
+
+The `ifx-g03-source-reconciliation` Post candidate now derives a fresh
+TargetRoot source inventory, checks the exact Phase 9 Reader/DTO/Event and
+Messaging counts, excludes `bin/obj`, reconciles pending legacy surfaces
+and protocol declarations/consumer evidence, and detects missing or drifting
+source fields for any non-retired legacy DTO/Event inventory. The current
+catalog has zero such non-retired legacy field subjects; synthetic fixtures
+activate both missing and mismatched cases. It passed 14 fixtures, real IFX,
+synthetic published-Host Post, source hash checks and TargetRoot byte
+invariance. C2c2 must still derive and validate deterministic API and
+serialization snapshots before C2c can be closed.

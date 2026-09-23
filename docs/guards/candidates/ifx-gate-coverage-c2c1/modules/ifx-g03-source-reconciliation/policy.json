@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-source-reconciliation-c2c1",
+  "catalogPath": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+  "sourceCatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+  "sourceScripts": [
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventInventory.ps1", "sha256": "9835cb1fb1ef5b6b9862d9de93190e2b8959973e1094bd6ecec2983348ab7b6d" },
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03SourceReconciliation.ps1", "sha256": "1be90d29808dce4c50e93cde205069dbae1266d557acc6d045aac41730750ec2" },
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1", "sha256": "ea9833b7e663f9b5f0fb9b11085ac736457b01256ec25b466091beed7a503528" }
+  ],
+  "expectedPhase9": {
+    "abstractionProjects": 0,
+    "readers": 4,
+    "readerMethods": 4,
+    "dtos": 0,
+    "integrationEvents": 2,
+    "messagingAbstractionTypes": 4,
+    "pendingLegacySurface": 0
+  },
+  "claims": [
+    { "claimId": "IFX.C2.G03_SOURCE_INVENTORY", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_SOURCE_RECONCILIATION", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_FIELD_SOURCE", "minimumMatches": 1 }
+  ],
+  "deferred": [
+    "deterministic sync API and serialization snapshots (C2c2)",
+    "documentation and closeout (C2d)",
+    "combined Stage parity and production acceptance (C2e)"
+  ]
+}

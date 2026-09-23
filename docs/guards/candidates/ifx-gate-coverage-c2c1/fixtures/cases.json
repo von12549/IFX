@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "generated-ignored", "mutation": "generated-ignored", "status": "pass", "category": "success" },
+    { "id": "new-abstraction", "mutation": "new-abstraction", "status": "fail", "code": "unregistered-source" },
+    { "id": "extra-reader", "mutation": "extra-reader", "status": "fail", "code": "exact-count" },
+    { "id": "missing-event", "mutation": "missing-event", "status": "fail", "code": "protocol-source-missing" },
+    { "id": "member-drift", "mutation": "member-drift", "status": "fail", "code": "protocol-member-missing" },
+    { "id": "consumer-drift", "mutation": "consumer-drift", "status": "fail", "code": "protocol-consumer-missing" },
+    { "id": "pending-legacy", "mutation": "pending-legacy", "status": "fail", "code": "missing-source" },
+    { "id": "field-source-missing", "mutation": "field-source-missing", "status": "fail", "code": "field-source-missing" },
+    { "id": "field-source-drift", "mutation": "field-source-drift", "status": "fail", "code": "field-source-drift" },
+    { "id": "zero-source", "mutation": "zero-source", "status": "fail", "code": "zero-source" },
+    { "id": "missing-src", "mutation": "missing-src", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-catalog", "mutation": "missing-catalog", "status": "error", "category": "prerequisite-missing" },
+    { "id": "malformed-catalog", "mutation": "malformed-catalog", "status": "error", "category": "invalid-input" }
+  ]
+}

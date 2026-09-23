@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2c1-g03-source-reconciliation",
+  "title": "Implement G03 fresh source inventory and reconciliation candidate",
+  "goal": "Port C2c source-derived G03 claims to a read-only V4 Post extension while deferring API/schema snapshot parity to C2c2.",
+  "acceptanceCriteria": [
+    "The Post extension freshly scans source, excludes generated directories, checks exact Phase 9 source counts, reconciles public surfaces and provider/consumer evidence, and checks active legacy field inventories against source records.",
+    "Clean, violating, missing, stale, linked-path and zero-source fixtures, source/hash checks, synthetic published-Host Post and TargetRoot byte invariance pass.",
+    "Formal Pre/Diff, isolated package regression and published Package identity pass; C2c2 deterministic snapshot and C2d/C2e claims remain explicitly missing."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c2c1-g03-source-reconciliation.md",
+    "docs/guards/plans/20260924-v4-ifx-c2c1-g03-source-reconciliation.plan.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.md",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/tests/Test-IFXG03SourceReconciliation.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
