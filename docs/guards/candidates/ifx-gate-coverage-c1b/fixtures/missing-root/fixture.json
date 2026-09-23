@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "id": "missing-root",
+  "files": [],
+  "expectedStatus": "error",
+  "expectedExitCategory": "prerequisite-missing",
+  "expectedMatches": 0,
+  "expectedFindingCount": 0
+}

@@ -23,11 +23,11 @@ are pinned in the C0 JSON's `layerguardRuleBindings`.
 | --- | --- | --- | --- |
 | `ARCH.BINARY.DOMAIN.CONTRACTS` `d5dadf455b9a4b252d3b795c6e34469c0c42d6775473dcae1dd4ea7484b07f4b` | Blocking CRM Domain-to-Contracts type dependency; compiled artifact, minimum one match | `ARCH.TYPE_DEPENDENCY` Post / subset: predicate looks relevant, exact assembly provenance and same-commit build not yet established | C5 compiled-evidence review, then C1 claim activation |
 | `ARCH.SEMANTIC` `606eaacc82bdb2ea227738d58bfef076f81d444410bc0451c0948c6c95b21e7f` | Advisory/none standalone descriptor; active semantic verdict lives in IFX policy bindings | No standalone V4 rule needed / metadata, not evidence of coverage | C1 map each bound rule below |
-| `L1.2` `584007ec88e47dcdbe92796745ce107f557cac8d033c3c71a0418f29d7cc3e06` | `PROJECT-NAME-FORBIDDEN`, blocking via policy; reject new `*.Abstractions` project | No built-in project-name predicate / missing | C1b project-topology extension |
+| `L1.2` `584007ec88e47dcdbe92796745ce107f557cac8d033c3c71a0418f29d7cc3e06` | `PROJECT-NAME-FORBIDDEN`, blocking via policy for in-scope Ring projects; Plan04 separately checks Abstractions retirement across repository artifacts | No built-in project-name predicate / missing; direct IFX Ring scope may not include an Abstractions-named project | Defer direct-rule semantics to C1 follow-up and Plan04 retirement to C4a; do not claim C1b coverage |
 | `L2.2` `3061250248352bc621763df6ed6f087e2795104ee642244081858fdd90892145` | `RING-DIRECTION`, `IMPORT-DIRECTION`; Domain reference/import scope | `ARCH.PROJECT_REFERENCE`, `ARCH.SOURCE_IMPORT` Pre / subset: global forbidden lists lack ring context | C1 scoped policy extension; C5 assembly cross-cover |
 | `L2.3` `f79c575925632d65653af3b48375160f0c9124657699b14fbe37221a1fe48473` | `OWNERSHIP-REFERENCE`; Application/Contracts provider ownership | Global project-reference list / subset, owner relation missing | C1 scoped ownership extension |
 | `L2.4` `cafdf0eb9c8186fbe3f55c22a201a0513a80420bc1f53c504e8f1a5b3fccd12d` | `PROVIDER-CONTRACT`, `PROVIDER-CYCLE`, `EMBEDDED-ADAPTER-PROVIDER` | No provider graph/cycle built-in / missing | C1 provider-graph extension; G03 binding dependencies |
-| `L2.9` `c9a324509e022949ca4f18f0857fe9063dcfdeab4d2fd4809fbdbf59bb9675e0` | `OWNERSHIP-UNKNOWN`; IFX policy requires known module for `IFX.Modules.{module}.*` and `IFX.Platform.{module}.*` | No built-in owner-recognition predicate / missing | C1b project-topology extension |
+| `L2.9` `c9a324509e022949ca4f18f0857fe9063dcfdeab4d2fd4809fbdbf59bb9675e0` | `OWNERSHIP-UNKNOWN`; V3 infers a module from policy patterns or the project folder's parent, then fails only if no module string exists for an in-scope non-Host/non-Test project | No built-in owner-inference predicate / missing; not a catalog-membership test | Defer to C1 semantic characterization; do not claim C1b coverage |
 | `L3.1` `afef5fcdcf2f09f0f3ae2c850c0807876682d694e35cd511310b23d416c31a3a` | `DECLARATION-NAMESPACE` in public Contracts/Events | `ARCH.DECLARATION_PLACEMENT` Pre / subset: global forbidden namespace, not provider placement | C1 scoped declaration extension |
 | `L3.4` `c2383c2bc47bc56ab60afa99fe9ddea46572282a9790b7d26832bf0cdf6d265e` | `RING-PACKAGE`, `RING-PACKAGE-FORBIDDEN`, `RING-PACKAGE-IMPORT`, `SYMBOL-FORBIDDEN` in Contracts | `ARCH.PACKAGE_REFERENCE`, `ARCH.SOURCE_IMPORT`, `ARCH.FORBIDDEN_SYMBOL` / subset: global policy and mixed Pre/Post evidence | C1 scoped package/import/symbol extension or proved per-claim configuration |
 | `L3.5` `166192cf788c72b3b2e87703d4350ca10e10b184fe7efcae62fec04a19135f4f` | `DECLARATION-FORBIDDEN`; implementation declarations in Contracts | `ARCH.DECLARATION_PLACEMENT` / subset: namespace placement is not declaration-kind prohibition | C1 declaration-kind extension |
@@ -76,32 +76,21 @@ runtime kinds (`pwsh`, `dotnet`, `npm`) are frozen by C0's toolchain hash.
 Executing head code requires a separately reviewed capability and freshness
 contract; C1b's static project check needs none of those head executions.
 
-## First implementation decision: C1b
+## C1b correction and first implementation decision
 
-Start with the coherent static project-topology pair `L1.2` and `L2.9`, not
-with the whole `v3-architecture` gate. Proposed module ID:
-`ifx-project-topology`, Stage Pre, reading only `TargetRoot`, no writes, no
-network, `pwsh` only, bounded timeout. Source authorities are the pinned IFX
-LayerGuard policy and project map; the latter supplies target-area boundaries,
-not a substitute for the policy's known-module rule. Proposed workbench files
-for the separately formalized C1b Plan are:
+The earlier suggestion to start with `L1.2`/`L2.9` was not an equivalence
+proof. Source inspection of V3 `OwnershipRules.For`, `Ruleset.ModuleOf` and
+`Analyzer.Analyze` establishes the scope and parent-folder fallback above.
+Plan04's `Test-AbstractionsRetirement.ps1` is an independent, broader
+obligation. A new strict catalog/name checker might be useful, but would
+change policy rather than simply port these rules; no such expansion is
+authorized here.
 
-- `docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-project-topology/module.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-project-topology/adapter.ps1`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-project-topology/config.schema.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-project-topology/result.schema.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-project-topology/dependencies.lock.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/tests/Test-IFXProjectTopology.ps1`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/clean/fixture.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/forbidden-name/fixture.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/unknown-owner/fixture.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/missing-root/fixture.json`
-- `docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/zero-match/fixture.json`
-
-C1b must first prove that the public V4 extension contract can run this
-read-only detector without a Host/schema/loader change. Required controls:
-clean, forbidden-name, unknown-owner, missing-input and zero-match fixtures;
-stable rule IDs and blocking categories; deterministic sorted subjects;
-read-only TargetRoot/PackageRoot; no V3 runtime imports. If a core change is
-needed, stop for the parent's separate compatibility Plan and patch authority.
-No candidate module or Profile is accepted by this C1a document.
+C1b instead takes one non-vacuous slice of `L2.2`: a direct raw csproj
+ProjectReference from a Domain project to a Contracts project. The proposed
+`ifx-domain-reference` Pre extension may enforce that slice with nonzero
+Domain-project coverage and negative fixtures. V3's transitive reference
+reachability and `IMPORT-DIRECTION` remain uncovered, as do `L1.2`/`L2.9`.
+The exact candidate paths, capabilities and stop conditions are in the
+separate `20260923-v4-ifx-c1b-domain-reference-slice` formal Plan. No
+candidate module or Profile is accepted by this mapping document.

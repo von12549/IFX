@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-c1b-domain-reference-slice",
+  "title": "Implement a candidate direct Domain-to-Contracts reference slice of IFX L2.2",
+  "goal": "Build and test a scoped public-extension candidate for one non-vacuous architecture rule slice, correcting the earlier L1.2/L2.9 equivalence assumption without touching V4 core or release bytes.",
+  "acceptanceCriteria": [
+    "C1a records the L1.2/L2.9 semantic correction; both remain uncovered, and the L2.2 implementation is explicitly partial.",
+    "A hashed, schema-valid candidate module and rule plan run only as a read-only V4 Pre PowerShell adapter with default-deny capabilities.",
+    "Clean, violating, missing-root, zero-Domain and unsafe-reference fixtures pass, including exact finding/category/coverage and target-byte invariance checks.",
+    "Formal Pre/Diff, isolated IFX package test and unchanged published V4 Package hash pass; no bundle review, composition, release or installed-tree change occurs."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-c1b-domain-reference-slice.md",
+    "docs/guards/plans/20260923-v4-ifx-c1b-domain-reference-slice.plan.json",
+    "docs/guards/inventories/20260923-ifx-c1a-architecture-mapping.md",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/tests/Test-IFXDomainReference.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/clean/fixture.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/forbidden-reference/fixture.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/missing-root/fixture.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/zero-domain/fixture.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/fixtures/unsafe-reference/fixture.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-domain-reference/config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["enabledClaims", "policySha256"],
+  "properties": {
+    "enabledClaims": { "type": "array", "minItems": 1, "maxItems": 1, "uniqueItems": true, "items": { "const": "IFX.L2.2.DIRECT_DOMAIN_CONTRACTS" } },
+    "policySha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

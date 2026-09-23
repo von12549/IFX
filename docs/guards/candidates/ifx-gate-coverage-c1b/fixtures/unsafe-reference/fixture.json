@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "id": "unsafe-reference",
+  "files": [
+    { "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\"><ItemGroup><ProjectReference Include=\"../../../../../../outside/IFX.Modules.CRM.Contracts.csproj\" /></ItemGroup></Project>" }
+  ],
+  "expectedStatus": "error",
+  "expectedExitCategory": "unsafe-path",
+  "expectedMatches": 1,
+  "expectedFindingCount": 0
+}

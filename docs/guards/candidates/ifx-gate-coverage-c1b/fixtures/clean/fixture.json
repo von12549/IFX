@@ -1,0 +1,15 @@
+{
+  "formatVersion": 1,
+  "id": "clean",
+  "files": [
+    { "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\"><ItemGroup><ProjectReference Include=\"../../Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj\" /></ItemGroup></Project>" },
+    { "path": "src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" },
+    { "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" },
+    { "path": "guard/IFX.Modules.Fake.Domain/IFX.Modules.Fake.Domain.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\"><ItemGroup><ProjectReference Include=\"../IFX.Modules.Fake.Contracts/IFX.Modules.Fake.Contracts.csproj\" /></ItemGroup></Project>" },
+    { "path": "guard/IFX.Modules.Fake.Contracts/IFX.Modules.Fake.Contracts.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" }
+  ],
+  "expectedStatus": "pass",
+  "expectedExitCategory": "success",
+  "expectedMatches": 2,
+  "expectedFindingCount": 0
+}
