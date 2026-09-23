@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-p10-extension-composition-compatibility",
+  "title": "Prototype a receipted local extension composition boundary for V4 P10.1",
+  "goal": "Implement and validate a canonical-source synthetic prototype for the missing package-external Profile and module composition contract while preserving immutable released 1.1.0 and deferring version promotion, publication and IFX practice.",
+  "acceptanceCriteria": [
+    "The gap in released 1.1.0 and the separate base-release versus composed-installation identities are recorded without editing the published installation.",
+    "The proposed local-only bundle, composition and external receipt contracts require deterministic output, schema/hash/capability checks and complete file inventories.",
+    "The selected H1-H4 receipt, bundle trust, capability and retirement choices and human-review authority xiaolong-feng are recorded; no real bundle approval is inferred from this planning decision.",
+    "The exact prototype source and test paths are declared and Formal Pre accepts this implementation checkpoint before source changes.",
+    "A synthetic-only bundle proves positive composition, negative refusal, determinism, receipt drift detection, root immutability and installed Host/UI consumption on Windows and network-disabled Linux.",
+    "Product version promotion, CI-approved test hash refresh, IFX Profile practice, parity, remote publication, workflow/ruleset mutation and cutover remain outside this prototype checkpoint."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-p10-extension-composition-compatibility.md",
+    "docs/guards/plans/20260923-v4-p10-extension-composition-compatibility.plan.json",
+    "docs/guards/v4/plans/06-ifx-profile-validation-program.md",
+    "docs/guards/v4/plans/08-p10-1-extension-composition-compatibility.md",
+    "docs/guards/v4/plans/README.md",
+    "docs/guards/v4/plans/TODO.md",
+    "docs/guards/v4/plans/02-runtime-architecture.md",
+    "docs/guards/v4/README.md",
+    "docs/guards/v4/core/contracts/extension-bundle.schema.json",
+    "docs/guards/v4/core/contracts/extension-review.schema.json",
+    "docs/guards/v4/core/contracts/composition-manifest.schema.json",
+    "docs/guards/v4/core/contracts/composition-receipt.schema.json",
+    "docs/guards/v4/core/contracts/contracts-manifest.json",
+    "docs/guards/v4/core/distribution/Compose-V4Extension.ps1",
+    "docs/guards/v4/core/distribution/Test-V4ComposedInstallation.ps1",
+    "docs/guards/v4/core/distribution/Invoke-V4ReceiptedWebCompanion.ps1",
+    "docs/guards/v4/tests/p0/Test-V4Contracts.ps1",
+    "docs/guards/v4/tests/p10/Test-V4ExtensionComposition.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
