@@ -44,13 +44,15 @@ or a self-consistent sidecar alone.
 | Embedded adapter source use | C1g candidate; seven foreign Contracts source uses in real IFX scan | Direct `PROVIDER-CONTRACT` project references remain unimplemented. Current `src` has 58 projects, five module Infrastructure projects, but zero projects matching either configured IntegrationAdapter ring pattern. An empty direct scan cannot count as nonvacuous coverage. |
 | Source import, declaration, forbidden symbol and payload | C1h candidate with all nine source claims nonvacuous in the real scan | Candidate still needs complete bundle/stage integration and independent parity; generated sources and compiled cross-cover depend on C5. |
 | `L1.2` `PROJECT-NAME-FORBIDDEN` | No direct V4 candidate. Current `src` project names contain zero `*.Abstractions` matches. | Add a scoped project-name predicate with a violating synthetic fixture and nonzero *eligible-project* coverage; do not mistake zero forbidden-name findings for zero inspected projects. Plan04's wider retirement rule remains C4a. |
-| `L2.9` `OWNERSHIP-UNKNOWN` | No direct V4 candidate. V3 checks in-scope non-Host/non-Test projects after module-pattern matching and the parent-folder fallback. | Add a faithful unknown-module predicate; do not replace it with stricter catalog-membership policy. Include null-owner negative, parent-fallback clean and nonzero eligible-project fixtures. |
+| `L2.9` `OWNERSHIP-UNKNOWN` | No direct V4 candidate. V3 checks in-scope non-Host/non-Test projects after module-pattern matching and the parent-folder fallback. | Under the required `src` scan root, a project's parent-folder basename is normally nonempty, so a null-owner violating fixture is not constructible without changing the V3 scope or predicate. Record this as an equivalence/coverage decision, not as a passed detector; do not substitute stricter catalog membership without review. |
 | `ARCH.BINARY.DOMAIN.CONTRACTS` and evaluated dependency evidence | Published built-in `ARCH.TYPE_DEPENDENCY` is only a candidate predicate; same-source compiled provenance not proved. | C5 must provide fresh trusted build/assembly evidence before C1 can activate or claim this compiled rule. |
 | Toolchain and Stage ownership | C1a mapped 11 commands; C1b–C1h are isolated Pre candidates. | C5 must bind seven .NET and two frontend commands plus build freshness. C6 must assemble the final reviewed Profile, stage dependencies and operator practice. |
 
-Next implementation tranche: a separate exact C1j Plan for the three
-project-identity/direct-provider predicates. Its direct-provider claim must
-remain fail-closed on the present zero-IntegrationAdapter subject set unless
-an explicit, reviewed absence policy is authorized. C1 cannot be marked done
-merely because current IFX has no violating project. The C5 compiled and
-evaluated evidence prerequisite is independent and remains open.
+Next implementation tranche: a separate exact C1j Plan for the `L1.2`
+project-name predicate. A later, separately reviewed decision must settle
+`L2.9`'s structurally non-triggering fallback before claiming equivalent
+coverage. The direct-provider claim must remain fail-closed on the present
+zero-IntegrationAdapter subject set unless an explicit, reviewed absence
+policy is authorized. C1 cannot be marked done merely because current IFX
+has no violating project. The C5 compiled and evaluated evidence prerequisite
+is independent and remains open.
