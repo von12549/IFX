@@ -1,6 +1,6 @@
 # V4 P10.1 C2b2 — G03 residual catalog semantics candidate
 
-Status: `CANDIDATE VALIDATED — C2b semantic coverage; Formal Diff pending`
+Status: `CANDIDATE VALIDATED — C2b semantic coverage`
 
 C2b1 covers owner/consumer references, provider graph, shared primitive,
 waiver and LayerGuard projection. C2b2 covers the remaining catalog
@@ -41,4 +41,6 @@ The isolated IFX package positive/negative regression passed at
 `artifacts/guards/v3-ifx-package-test-a2c925721fff4830b00646238d7dc754`.
 Published Package identity remained `pass` at Package hash
 `922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d`.
-Exact Formal Diff remains to be run against the committed tranche.
+Exact Formal Diff passed against the C2b1 base at
+`artifacts/guards/p10-ifx-c2b2/formal-diff/summary-diff.json`. No PATH-repair
+or production Profile paths were included.
