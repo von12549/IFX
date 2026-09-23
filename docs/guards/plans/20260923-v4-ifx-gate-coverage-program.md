@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — inventory and implementation tranches pending`
+Status: `AUTHORIZED PROGRAM — C0 inventory complete; implementation tranches pending`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -26,6 +26,13 @@ source hashes and the partial/missing mapping states in the 0.2.0 authority map
 are the starting inventory, not a declaration that only eight artifacts matter.
 The active V3/V3_ifx guard remains the independent reference throughout P10.1.
 
+C0's exact inventory found 13 declared V3_ifx Stage gates: ten Post gates are
+the direct P10.1 coverage target, while one Diff gate and two CI gates require
+an explicit P10.3 trusted-base/workflow transition. The machine-readable
+source and gap matrix is `docs/guards/inventories/20260923-ifx-v3-gate-inventory.json`.
+In particular, the older 0.2.0 draft's eight authority anchors did not cover
+Plan04, Database, the three Quality gates or Historical Integrity.
+
 ## Ordered workstreams and stop gates
 
 | Workstream | Required output | Fail-closed proof before closure |
@@ -35,7 +42,10 @@ The active V3/V3_ifx guard remains the independent reference throughout P10.1.
 | C2 — G03 governance | Implement a declared module for governance ownership, contracts/providers/adapters, policy hashes and waiver handling using the V3 policy as facts, not V3 runtime code. | New/stale/missing governance evidence blocks; each active subclaim has targeted negative and zero-match controls. |
 | C3 — G04 runtime manifest | Implement a declared module for release/runtime manifest, deployment inventory, required bindings and schema compatibility. | Missing, stale, contradictory and malformed manifest or deployment evidence blocks; clean fixture binds exact release inputs. |
 | C4 — G05 context protocol | Implement a declared module for context/event identifiers, envelopes and boundary/dependency policy. | Deliberate protocol/boundary violations, missing evidence and zero-match cases block. |
-| C5 — baseline and Stage integration | Translate only individually reviewed historical waivers to explicit Profile-owned baselines; assign Bootstrap, Analysis, Pre and Post ownership and dependencies; complete prerequisite reports. | No blanket suppression; stale/unused waiver blocks, direct/dependency Stage runs retain blocking categories, authority hashes and immutable roots. |
+| C4a — Plan04 governance | Map projection, extraction, tenant-query and exception-registry obligations to a reviewed module and immutable authority inputs. | Missing, stale or inconsistent governance/exception evidence blocks; no bypass is silently inherited. |
+| C4b — Database safety | Map migration/release manifests and safety policy, including exact command capabilities and fresh evidence requirements, to a reviewed module or a separately authorized compatibility change. | Missing/invalid migration evidence blocks; execution scope and external effects are bounded and tested. |
+| C5 — Quality, Historical Integrity, baseline and Stage integration | Cover solution, compiled assembly and frontend quality gates plus historical-integrity checks; translate only individually reviewed waivers to explicit Profile-owned baselines; assign Bootstrap, Analysis, Pre and Post ownership and dependencies. | Fresh toolchain/build evidence, all 15 historical entries, direct/dependency Stage runs, stale/unused waiver and zero-match controls retain blocking categories, authority hashes and immutable roots. |
+| C5g — Diff/CI governance classification | Track `v3-pre-diff` and both cross-platform CI gates as P10.3-deferred rather than claiming them as P10.1 runtime coverage. | Separate trusted-base, workflow and required-check transition Plan before activation; no silent retirement of V3 checks. |
 | C6 — final bundle and operator practice | Create a new draft version bound to the **published** 1.1.2 base (or to a separately published later patch if C1–C5 require core changes). Freeze manifest, full ordinal inventory, module locks/capability ceilings and review bytes. | Windows-full and pinned offline Linux-complete, independent clean/violation matrix, accepted human-review record by Xiaolong Feng over exact final bytes, new receipted composition, then installed Web UI practice. |
 
 Each workstream begins with an exact child formal Plan and `plannedPaths`, a

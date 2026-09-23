@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-gate-coverage-c0-inventory",
+  "title": "Inventory every declared IFX gate and source authority before V4 porting",
+  "goal": "Freeze the V3_ifx manifest graph, source hashes and per-gate V4 destination/gap matrix, and correct the parent program scope without changing executable guard bytes.",
+  "acceptanceCriteria": [
+    "The C0 inventory reconciles all declared Stage gate IDs, 36 domain authorities, 11 rule files, 19 commands, four projections, eight bindings and the core policy/manifest hashes.",
+    "Each obligation has an explicit P10.1 V4 destination or a blocking/deferred governance classification; Plan04, Database, Quality and Historical Integrity are not omitted.",
+    "Formal Pre/Diff, source-hash checks, isolated IFX package test and unchanged V4 Package hash pass; no release, bundle or installation changes occur."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-gate-coverage-c0-inventory.md",
+    "docs/guards/plans/20260923-v4-ifx-gate-coverage-c0-inventory.plan.json",
+    "docs/guards/plans/20260923-v4-ifx-gate-coverage-program.md",
+    "docs/guards/inventories/20260923-ifx-v3-gate-inventory.json",
+    "docs/guards/inventories/20260923-ifx-v3-gate-inventory.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
