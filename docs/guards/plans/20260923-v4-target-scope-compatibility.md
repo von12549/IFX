@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX TargetRoot scan-scope compatibility
 
-Status: `AUTHORIZED FOR LOCAL IMPLEMENTATION — patch publication not authorized`
+Status: `LOCAL 1.1.2 CANDIDATE CERTIFIED — patch publication not authorized`
 
 The user confirmed that the affected root is `D:\IFX-Root\IFX` as V4 `TargetRoot` and
 authorized scope-compatibility repair and subsequent local follow-up. The published
@@ -39,3 +39,32 @@ families and specialized gates are addressed.
 
 Stop on any need to edit 1.1.1 installed bytes, loosen root confinement, add an
 unreviewed module capability, or claim that scan scoping alone completes P10.1.
+
+## Clean-source checkpoint (2026-09-23)
+
+The exact local source checkpoint is
+`46d1a99fb34c92639d2a484612fab58195903a9d`. Product/Host/Companion are
+`1.1.2`, stable API is `1.0`, and the changed Architecture Conformance module is
+`1.0.1`. Formal Pre and exact Diff passed for the source and generated-documentation
+commits. The new direct/Host scope matrix passed on both platforms, including guard
+exclusion, out-of-scope project-reference refusal and unsafe-root refusal. Existing
+whole-TargetRoot Profiles and P10 synthetic composition also passed.
+
+Windows-full passed 34 tests and pinned, `--network none` Linux-complete passed 33
+tests against that same clean commit. The Linux run mounted the existing locked NuGet
+cache read-only; supply-chain checks verified its hashes. Both reports have Package hash
+`339becabfd0124aaa8bd5ef2c78dbfc76093bda2c823c7c7d7ce0a787a289bdb`.
+The deterministic local `v4-guards-1.1.2.zip` SHA-256 is
+`7a6d1582a695d9857149da185aa8b4209addce061ab4976bcc718fbbfdd5901b`.
+The candidate certification/recovery aggregation passed with restore commit
+`9a876b19427e326b4eafa5e661cfc07749258c4d`,
+`releaseAuthorized=false`, `activeIfxCutover=false` and `ifxProfileIncluded=false`.
+Evidence is under `artifacts/guards/p10-target-scope/` as `windows-full.json`,
+`linux-complete.json`, `certification/v1-certification.json`,
+`certification/recovery.json`, `formal-diff/summary-diff.json` and
+`docs-diff/summary-diff.json`.
+
+The existing `v4-guards-v1.1.1` tag, GitHub Release and sibling installation were
+not changed. This candidate is a local source/archive checkpoint only. The real IFX
+bundle still needs complete gate mapping, a published compatible base and its own
+separate human-review decision before composition or operator practice.
