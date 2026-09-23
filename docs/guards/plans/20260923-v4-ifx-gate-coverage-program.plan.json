@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-gate-coverage-program",
+  "title": "Open an independent program for remaining V4 IFX gate coverage",
+  "goal": "Define bounded, fail-closed tranches to map and implement every missing IFX claim and specialized gate before final bundle review and P10.1 operator practice.",
+  "acceptanceCriteria": [
+    "The program identifies C0–C6 outputs, independent source and negative-control evidence, exact child-Plan gates and stop conditions without claiming implementation or parity.",
+    "The published 1.1.2 archive and installation remain immutable and the historical 0.2.0 draft is not treated as a reviewed bundle for that release.",
+    "Formal Pre/Diff and existing isolated IFX/V4 package checks pass on the two documentation paths."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-gate-coverage-program.md",
+    "docs/guards/plans/20260923-v4-ifx-gate-coverage-program.plan.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
