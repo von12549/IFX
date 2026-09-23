@@ -1,6 +1,6 @@
 # IFX C3 — G04 Phase 12 authority and claim matrix
 
-Status: `INVENTORY COMPLETE — implementation pending`
+Status: `C3b CANDIDATE VALIDATED — C3c–C3e pending`
 
 The current V3_ifx Post entry point is `v3-specialized-g04`.
 `Invoke-G04Verification.ps1` runs Phase 12 of the deployment/runtime guard
@@ -40,3 +40,21 @@ against the same 1.1.3 base used by C3/C4.
 Evidence: `artifacts/guards/p10-ifx-c3/g04-baseline/guard.json`,
 `plan02-c1.json` and `verification-summary.json`. Inventory is not a
 production Profile, reviewed final bundle, IFX cutover or P10.2 parity.
+
+## C3b checkpoint
+
+The read-only `ifx-g04-manifests` Post candidate binds 19 TargetRoot
+authorities and four blocking rules/claims to the 12 C3b-mapped aggregate
+checks. Its independent logic verifies nonzero business/deployment subjects,
+module and unit identities, eight exact binding paths and hashes, module
+schema, dependency and backpressure policy, consumer-first orchestration and
+failure-safety matrix. Sixteen direct clean/negative/missing/stale/zero cases
+and a real IFX scan passed, as did synthetic-only composition and Post on
+the published 1.1.3 Host. TargetRoot and PackageRoot remained invariant.
+This is candidate coverage, not completed-release evidence.
+
+The checked-in G04 runtime manifest's `hostArtifact.digest` is a frozen
+release input, not the current `IFX.ApiHost.csproj` hash. V3's generator can
+produce a different current-source digest but its Phase 12 gate does not
+equate that output to the checked-in release. C3e must compare these semantics
+explicitly; neither digest may be silently relabeled as the other.

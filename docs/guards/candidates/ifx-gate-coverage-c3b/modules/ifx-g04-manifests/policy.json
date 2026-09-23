@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g04-manifests-c3b",
+  "claims": [
+    "IFX.C3.G04_INVENTORY",
+    "IFX.C3.G04_MANIFEST",
+    "IFX.C3.G04_ORCHESTRATION",
+    "IFX.C3.G04_FAILURE_POLICY"
+  ],
+  "authorities": [
+    { "id": "runtime-release", "path": "deployment/g04/release-runtime-manifest.json" },
+    { "id": "module-manifest", "path": "deployment/g04/module-manifest.json" },
+    { "id": "module-schema", "path": "deployment/g04/module-manifest.schema.json" },
+    { "id": "deployment-units", "path": "deployment/g04/deployment-unit-catalog.json" },
+    { "id": "infrastructure-compatibility", "path": "deployment/g04/infrastructure-compatibility-matrix.json" },
+    { "id": "schema-release", "path": "deployment/release-manifest.json" },
+    { "id": "migration-manifest", "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json" },
+    { "id": "release-orchestration", "path": "deployment/g04/release-orchestration.json" },
+    { "id": "release-evidence-template", "path": "deployment/g04/release-evidence-template.json" },
+    { "id": "backpressure-policy", "path": "deployment/g04/backpressure-policy.json" },
+    { "id": "failure-matrix", "path": "deployment/g04/failure-matrix.json" },
+    { "id": "dependency-criticality", "path": "deployment/g04/dependency-criticality-catalog.json" },
+    { "id": "host-project", "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj" },
+    { "id": "g04-adr", "path": "docs/architecture/review/gates/G04/ADR-G04-001-deployment-runtime-boundary.md" },
+    { "id": "source-program", "path": "src/ApiHost/IFX.ApiHost/Program.cs" },
+    { "id": "source-health", "path": "src/ApiHost/IFX.ApiHost/Configuration/HealthCheckConfiguration.cs" },
+    { "id": "source-background-jobs", "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/BackgroundJobsServiceCollectionExtensions.cs" },
+    { "id": "compose", "path": "docker-compose.yml" },
+    { "id": "compose-nas", "path": "docker-compose.nas.yml" }
+  ],
+  "phase0BusinessModules": ["Crm", "Holdings", "Registry", "Transaction"],
+  "moduleIds": ["auth", "crm", "holdings", "registry", "transaction"],
+  "deploymentUnitIds": ["cognito", "ifx-all", "ifx-api", "ifx-database-migrator", "ifx-frontend", "ifx-worker", "opa", "sendgrid", "sqlserver", "sqlserver-init"],
+  "phase0DeploymentUnits": 8,
+  "phase0KnownGaps": [
+    "No explicit api/worker/all runtime role",
+    "Hangfire server scales implicitly with every API replica",
+    "No dispatcher, consumer loop, lease, backlog or backpressure runtime exists yet",
+    "No explicit drain coordinator or shutdown budget",
+    "Liveness, startup, readiness and protected details are not separated",
+    "No module or release manifest validates endpoint and required-module identity"
+  ],
+  "releaseBindingKeys": ["moduleManifest", "deploymentUnitCatalog", "infrastructureCompatibility", "schemaReleaseManifest", "migrationManifest", "releaseOrchestration", "backpressurePolicy", "failureMatrix"],
+  "releaseStageIds": ["database-preflight", "restore-point", "database-migrator", "schema-validation", "worker-consumer", "api-producer", "scheduler", "observation", "contract-cleanup"],
+  "failureScenarioIds": ["database-preflight-failed", "database-migrator-failed", "worker-v2-not-ready", "api-rolling-failed", "api-v2-produced-before-rollback", "transport-or-storage-outage", "single-worker-crash", "worker-fleet-failure", "shutdown-timeout"]
+}

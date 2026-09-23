@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "stale-release", "mutation": "stale-release", "status": "error", "category": "integrity-failure" },
+    { "id": "missing-release", "mutation": "missing-release", "status": "error", "category": "prerequisite-missing" },
+    { "id": "malformed-release", "mutation": "malformed-release", "status": "error", "category": "integrity-failure" },
+    { "id": "zero-modules", "mutation": "zero-modules", "status": "fail", "category": "findings-blocking" },
+    { "id": "duplicate-module", "mutation": "duplicate-module", "status": "fail", "category": "findings-blocking" },
+    { "id": "zero-units", "mutation": "zero-units", "status": "fail", "category": "findings-blocking" },
+    { "id": "split-artifact", "mutation": "split-artifact", "status": "fail", "category": "findings-blocking" },
+    { "id": "wrong-binding-hash", "mutation": "wrong-binding-hash", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-binding", "mutation": "missing-binding", "status": "fail", "category": "findings-blocking" },
+    { "id": "schema-contract", "mutation": "schema-contract", "status": "fail", "category": "findings-blocking" },
+    { "id": "bad-stage-order", "mutation": "bad-stage-order", "status": "fail", "category": "findings-blocking" },
+    { "id": "bad-threshold", "mutation": "bad-threshold", "status": "fail", "category": "findings-blocking" },
+    { "id": "auto-down", "mutation": "auto-down", "status": "fail", "category": "findings-blocking" },
+    { "id": "zero-scenarios", "mutation": "zero-scenarios", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-business-module", "mutation": "missing-business-module", "status": "fail", "category": "findings-blocking" }
+  ]
+}
