@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-c1a-architecture-claim-mapping",
+  "title": "Map IFX architecture claims to published V4 capabilities and bounded extension work",
+  "goal": "Produce a non-vacuous claim-equivalence matrix and first implementation destination without editing executable or bundle bytes.",
+  "acceptanceCriteria": [
+    "All 11 architecture rule files and nine active policy references have explicit V4 exact/subset/missing classification with source hashes and evidence dependencies.",
+    "Thirty project areas, 21 risk triggers, 11 toolchain commands and both known architecture cross-cover gaps are classified for C1/C5 ownership.",
+    "A smallest coherent C1b implementation subset and public-extension-versus-core compatibility decision are recorded, without treating global V4 lists as ring-scoped equivalence.",
+    "Formal Pre and exact Formal Diff pass; V4 Package hash and isolated IFX package tests remain unchanged."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-c1a-architecture-claim-mapping.md",
+    "docs/guards/plans/20260923-v4-ifx-c1a-architecture-claim-mapping.plan.json",
+    "docs/guards/inventories/20260923-ifx-c1a-architecture-mapping.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
