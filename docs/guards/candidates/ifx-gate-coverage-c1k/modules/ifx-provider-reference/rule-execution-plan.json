@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-provider-reference",
+  "matrixSha256": "2de43a646cd0f4f1e67c30389fa141158d96d02c5a5cf24b4d3a29c5c3a31a74",
+  "rules": [
+    {
+      "ruleId": "PROVIDER-CONTRACT",
+      "claimId": "IFX.C1.PROVIDER_CONTRACT_RAW",
+      "stage": "pre",
+      "detectors": ["ifx-provider-reference"],
+      "evidenceKinds": ["project-reference-raw", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

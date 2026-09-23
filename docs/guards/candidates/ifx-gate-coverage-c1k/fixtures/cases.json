@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "approved",
+      "projects": [
+        { "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj", "references": ["../../IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj"] },
+        { "path": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj" }
+      ],
+      "status": "pass", "category": "success", "matched": 1, "findings": 0
+    },
+    {
+      "id": "own-module",
+      "projects": [
+        { "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj", "references": ["../IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj"] },
+        { "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj" }
+      ],
+      "status": "pass", "category": "success", "matched": 1, "findings": 0
+    },
+    {
+      "id": "unapproved",
+      "projects": [
+        { "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj", "references": ["../../Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj"] },
+        { "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj" }
+      ],
+      "status": "fail", "category": "findings-blocking", "matched": 1, "findings": 1
+    },
+    {
+      "id": "outside-ring",
+      "projects": [
+        { "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj" },
+        { "path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj", "references": ["../../Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj"] },
+        { "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj" }
+      ],
+      "status": "pass", "category": "success", "matched": 1, "findings": 0
+    },
+    { "id": "missing-root", "projects": [], "status": "error", "category": "prerequisite-missing", "matched": 0, "findings": 0 },
+    {
+      "id": "zero-adapter",
+      "projects": [{ "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj" }],
+      "status": "fail", "category": "findings-blocking", "matched": 0, "findings": 1
+    },
+    {
+      "id": "malformed-project",
+      "projects": [{ "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj", "malformed": true }],
+      "status": "error", "category": "invalid-input", "matched": 0, "findings": 0
+    },
+    {
+      "id": "missing-target",
+      "projects": [{ "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj", "references": ["../IFX.Modules.CRM.Contracts/Missing.csproj"] }],
+      "status": "error", "category": "prerequisite-missing", "matched": 1, "findings": 0
+    },
+    {
+      "id": "unsafe-reference",
+      "projects": [{ "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj", "references": ["../../../../../outside.csproj"] }],
+      "status": "error", "category": "unsafe-path", "matched": 1, "findings": 0
+    }
+  ]
+}

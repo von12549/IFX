@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1k-provider-reference-slice",
+  "title": "Implement IFX C1 direct IntegrationAdapter provider reference candidate",
+  "goal": "Port V3 PROVIDER-CONTRACT direct project-reference behavior and fail closed when no real IntegrationAdapter subject exists.",
+  "acceptanceCriteria": [
+    "V3 IFX/G03 authority facts and implementation are hash-bound; approved, own and unapproved direct provider references have exact evidence.",
+    "Missing, zero, malformed, unsafe, drift and deterministic fixtures prove fail-closed behavior without TargetRoot mutation.",
+    "The real IFX zero-adapter set is reported as blocking, while published-base synthetic Host Pre, isolated package regression and Formal Pre/Diff pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1k-provider-reference-slice.md",
+    "docs/guards/plans/20260924-v4-ifx-c1k-provider-reference-slice.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/modules/ifx-provider-reference/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/tests/Test-IFXProviderReference.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1k/fixtures/cases.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
