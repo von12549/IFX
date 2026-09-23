@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c3d-g04-closeout",
+  "title": "Implement G04 documentation and PRE-READY closeout candidate on V4 1.1.3",
+  "goal": "Preserve G04 and Plan02-C1 documentation and blocking closeout semantics without claiming CI cutover or production approval.",
+  "acceptanceCriteria": [
+    "All 23 mapped C3d checks have explicit V4 candidate or P10.3-deferred destinations, with current target authority hashes and seven named G04 blockers retained.",
+    "Clean, violating, missing, stale, zero-blocker and false-approval controls, real IFX direct scan, synthetic 1.1.3 Host Post and immutable roots pass.",
+    "Formal Pre/Diff, isolated IFX package regression and published 1.1.3 Package identity pass; C3e combined acceptance remains pending."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c3d-g04-closeout.md",
+    "docs/guards/plans/20260924-v4-ifx-c3d-g04-closeout.plan.json",
+    "docs/guards/inventories/20260924-ifx-c3-g04-claim-matrix.json",
+    "docs/guards/inventories/20260924-ifx-c3-g04-claim-matrix.md",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/modules/ifx-g04-closeout/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3d/tests/Test-IFXG04Closeout.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

@@ -836,7 +836,7 @@
       "id": "g04CiWorkflowExists",
       "source": "G04-Phase12",
       "ordinal": 60,
-      "destination": "C3d",
+      "destination": "P10.3-deferred",
       "controls": [
         "negative",
         "missing",
@@ -848,7 +848,7 @@
       "id": "ciUsesDedicatedArchitectureAndSolutionJobs",
       "source": "G04-Phase12",
       "ordinal": 61,
-      "destination": "C3d",
+      "destination": "P10.3-deferred",
       "controls": [
         "negative",
         "missing",
@@ -860,7 +860,7 @@
       "id": "specializedDoesNotRepeatArchitectureOrSolution",
       "source": "G04-Phase12",
       "ordinal": 62,
-      "destination": "C3d",
+      "destination": "P10.3-deferred",
       "controls": [
         "negative",
         "missing",

@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "missing-document", "mutation": "missing-document", "status": "error", "category": "prerequisite-missing" },
+    { "id": "stale-status", "mutation": "stale-status", "status": "error", "category": "integrity-failure" },
+    { "id": "zero-diagram", "mutation": "zero-diagram", "status": "fail", "category": "findings-blocking" },
+    { "id": "decision-drift", "mutation": "decision-drift", "status": "fail", "category": "findings-blocking" },
+    { "id": "false-ready", "mutation": "false-ready", "status": "fail", "category": "findings-blocking" },
+    { "id": "zero-blockers", "mutation": "zero-blockers", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-owner", "mutation": "missing-owner", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-plan02-slice", "mutation": "missing-plan02-slice", "status": "fail", "category": "findings-blocking" },
+    { "id": "invalid-inbound-count", "mutation": "invalid-inbound-count", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-phase5", "mutation": "missing-phase5", "status": "error", "category": "prerequisite-missing" }
+  ]
+}

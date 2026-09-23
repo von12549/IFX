@@ -1,6 +1,6 @@
 # IFX C3 — G04 Phase 12 authority and claim matrix
 
-Status: `C3b/C3c CANDIDATES VALIDATED — C3d/C3e pending`
+Status: `C3b/C3c/C3d CANDIDATES VALIDATED — C3e pending`
 
 The current V3_ifx Post entry point is `v3-specialized-g04`.
 `Invoke-G04Verification.ps1` runs Phase 12 of the deployment/runtime guard
@@ -19,10 +19,11 @@ fixtures already exist.
 | --- | ---: | --- |
 | C3b | 12 | Fresh deterministic deployment inventory; exact release/runtime manifest, schema and required binding hashes; orchestration, backpressure and failure policy. |
 | C3c | 47 | Role-gated runtime and startup composition, worker identity/lease/drain/health/backpressure source claims, plus Plan02-C1 inbound context boundary. |
-| C3d | 23 | Current evidence/documentation and workflow classification, bounded test/runbook presence, Phase 12 `PRE-READY` closeout without approval promotion. |
+| C3d | 20 | Current evidence/documentation, bounded test/runbook presence, Phase 12 `PRE-READY` closeout without approval promotion. |
+| P10.3-deferred | 3 | Current V3 workflow/source facts recorded by the inventory; required-check/workflow transition needs its own trusted-base Plan. |
 | C3e | Aggregate | Compose the C3b–C3d candidates on the published 1.1.3 Host; direct/dependency Post, nonzero coverage, authority locks, four-root invariance and current V3 comparison. |
 
-The C3b–C3d counts partition the 82 V3 checks; C3e is a separate aggregate
+The C3b–C3d plus explicit P10.3-deferred counts partition the 82 V3 checks; C3e is a separate aggregate
 acceptance, not an additional V3 predicate. Target declarations and generated
 inventory must be freshly read from the IFX TargetRoot. V3 scripts remain
 base-owned comparison authorities, never imported as V4 module runtime.
@@ -74,3 +75,17 @@ module-registration index, but the first token is absent (`-1`). V4 checks
 the actual `AddReliableMessaging(` token exists and precedes
 `AddIamModule`. This is a recorded semantic strengthening, not an inferred
 P10.2 parity result; C3e must retain the discrepancy in its comparison.
+
+## C3d checkpoint
+
+The read-only `ifx-g04-closeout` Post candidate locks 43 TargetRoot
+authorities and checks the 20 active C3d predicates through four blocking
+claim families. It validates all six diagram source/render triples,
+bilingual decisions and links, historical evidence presence, seven owned
+G04 blockers, production parameter ownership, exact `PRE-READY`/no-approval
+state and Plan02-C1 closure without promoting later slices. Eleven direct
+clean/negative/missing/stale/zero controls, real IFX, synthetic-only
+published 1.1.3 Host Post, deterministic repeats and immutable roots passed.
+The three Phase 10 CI/workflow predicates remain explicitly P10.3-deferred:
+their historical facts were recorded in C3a, but no V3 required check was
+retired by this module.
