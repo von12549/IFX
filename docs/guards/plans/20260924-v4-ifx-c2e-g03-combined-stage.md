@@ -35,5 +35,7 @@ Both real IFX Post modes passed with five modules and 16 nonzero claims;
 V3 passed all 15 aggregate checks while remaining `pre-ready` with three
 blockers. The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-7ec8e6cd32484fdb8beb6700f39c4f0d`.
-Formal Diff is pending the exact candidate commit. The published Package,
-production IFX Profile and PATH-repair files were not changed.
+Formal Diff from C2d base `b7c06771` to candidate `a4849752` passed at
+`artifacts/guards/p10-ifx-c2e/formal-diff/summary-diff.json`, including V3
+Stage Gate and exact seven-path Plan scope. The published Package, production
+IFX Profile and PATH-repair files were not changed.
