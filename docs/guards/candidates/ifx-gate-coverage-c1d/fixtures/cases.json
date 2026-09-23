@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "baseProjects": [
+    { "id": "Domain", "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj" },
+    { "id": "Contracts", "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj" },
+    { "id": "Application", "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj" },
+    { "id": "Presentation", "path": "src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj" },
+    { "id": "Composition", "path": "src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj" },
+    { "id": "Host", "path": "src/Host/IFX.ApiHost/IFX.ApiHost.csproj" },
+    { "id": "Shared", "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj" },
+    { "id": "DomainPeer", "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/IFX.Modules.IAM.Domain.csproj" }
+  ],
+  "cases": [
+    { "id": "clean", "omit": ["DomainPeer"], "edges": [ { "from": "Application", "to": "Domain" }, { "from": "Presentation", "to": "Application" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 6, "expectedFindings": 0 },
+    { "id": "direct", "omit": ["DomainPeer"], "edges": [ { "from": "Domain", "to": "Contracts" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 6, "expectedFindings": 1, "expectedKind": "direct" },
+    { "id": "multiple-violations", "omit": ["DomainPeer"], "edges": [ { "from": "Domain", "to": "Contracts" }, { "from": "Domain", "to": "Presentation" }, { "from": "Application", "to": "Presentation" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 6, "expectedFindings": 3 },
+    { "id": "transitive", "omit": ["DomainPeer"], "edges": [ { "from": "Domain", "to": "Shared" }, { "from": "Shared", "to": "Contracts" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 6, "expectedFindings": 1, "expectedKind": "transitive" },
+    { "id": "private-all", "omit": ["DomainPeer"], "edges": [ { "from": "Domain", "to": "Shared" }, { "from": "Shared", "to": "Contracts", "privateAssets": "all", "privateAssetsForm": "attribute" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 6, "expectedFindings": 0 },
+    { "id": "private-compile", "omit": ["DomainPeer"], "edges": [ { "from": "Domain", "to": "Shared" }, { "from": "Shared", "to": "Contracts", "privateAssets": "compile", "privateAssetsForm": "child" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 6, "expectedFindings": 0 },
+    { "id": "disabled-transitive", "omit": ["DomainPeer"], "disableTransitive": ["Domain"], "edges": [ { "from": "Domain", "to": "Shared" }, { "from": "Shared", "to": "Contracts" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 6, "expectedFindings": 0 },
+    { "id": "composition-boundary", "omit": ["DomainPeer"], "edges": [ { "from": "Host", "to": "Composition" }, { "from": "Composition", "to": "Domain" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 6, "expectedFindings": 0 },
+    { "id": "same-ring", "omit": [], "edges": [ { "from": "Domain", "to": "DomainPeer" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 7, "expectedFindings": 0 },
+    { "id": "missing-src", "omit": ["Domain", "Contracts", "Application", "Presentation", "Composition", "Host", "Shared", "DomainPeer"], "edges": [], "expectedStatus": "error", "expectedCategory": "prerequisite-missing", "expectedMatches": 0, "expectedFindings": 0 },
+    { "id": "zero-domain", "omit": ["Domain", "DomainPeer"], "edges": [], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 5, "expectedFindings": 1 },
+    { "id": "invalid-xml", "omit": ["DomainPeer"], "invalidXml": "Domain", "edges": [], "expectedStatus": "error", "expectedCategory": "invalid-input", "expectedMatches": 0, "expectedFindings": 0 },
+    { "id": "unsafe-escape", "omit": ["DomainPeer"], "edges": [ { "from": "Domain", "literalInclude": "../../../../../../escape.csproj" } ], "expectedStatus": "error", "expectedCategory": "unsafe-path", "expectedMatches": 0, "expectedFindings": 0 }
+  ]
+}
