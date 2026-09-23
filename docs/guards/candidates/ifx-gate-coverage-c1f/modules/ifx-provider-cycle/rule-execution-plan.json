@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-provider-cycle",
+  "matrixSha256": "6b3524c8905fd47ebfdc72bd81e22095f22eab0e6bfd4b37efc5d08fb3d5b873",
+  "rules": [
+    {
+      "ruleId": "PROVIDER-CYCLE",
+      "claimId": "IFX.C1.PROVIDER_CYCLE",
+      "stage": "pre",
+      "detectors": ["ifx-provider-cycle"],
+      "evidenceKinds": ["policy-graph", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

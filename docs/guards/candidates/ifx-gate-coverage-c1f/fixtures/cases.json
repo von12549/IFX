@@ -1,0 +1,16 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 10, "expectedSubjects": [] },
+    { "id": "two-node", "addEdges": [ { "consumer": "IAM", "provider": "CRM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedSubjects": ["CRM -> IAM -> CRM", "IAM -> CRM -> IAM"] },
+    { "id": "three-node", "graph": { "A": ["B"], "B": ["C"], "C": ["A"] }, "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 3, "expectedSubjects": ["A -> B -> C -> A", "B -> C -> A -> B", "C -> A -> B -> C"] },
+    { "id": "duplicate-path", "graph": { "A": ["B", "B"], "B": ["A"] }, "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 3, "expectedSubjects": ["A -> B -> A", "B -> A -> B"] },
+    { "id": "zero-edge", "graph": {}, "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 0, "expectedSubjects": ["providerContracts: zero provider edges"] },
+    { "id": "malformed-list", "graph": { "A": "B" }, "expectedStatus": "error", "expectedCategory": "invalid-input", "expectedMatches": 0, "expectedSubjects": [] },
+    { "id": "malformed-provider", "graph": { "A": [42] }, "expectedStatus": "error", "expectedCategory": "invalid-input", "expectedMatches": 0, "expectedSubjects": [] },
+    { "id": "missing-policy", "omitPolicy": true, "expectedStatus": "error", "expectedCategory": "prerequisite-missing", "expectedMatches": 0, "expectedSubjects": [] },
+    { "id": "invalid-json", "rawPolicy": "{", "expectedStatus": "error", "expectedCategory": "invalid-input", "expectedMatches": 0, "expectedSubjects": [] },
+    { "id": "hash-drift", "badConfigHash": true, "expectedStatus": "error", "expectedCategory": "integrity-failure", "expectedMatches": 0, "expectedSubjects": [] },
+    { "id": "unsafe-authority", "sourceG03Path": "../escape.json", "expectedStatus": "error", "expectedCategory": "integrity-failure", "expectedMatches": 0, "expectedSubjects": [] }
+  ]
+}
