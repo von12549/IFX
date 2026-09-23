@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "baseProjects": [
+    { "ring": "Domain", "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" },
+    { "ring": "Contracts", "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" },
+    { "ring": "Application", "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" },
+    { "ring": "Presentation", "path": "src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj", "content": "<Project Sdk=\"Microsoft.NET.Sdk\" />" }
+  ],
+  "cases": [
+    { "id": "clean", "omitRings": [], "overrides": [], "expectedStatus": "pass", "expectedExitCategory": "success", "expectedRules": [], "expectedCoverage": [3, 2] },
+    { "id": "explicit-deny", "omitRings": [], "overrides": [ { "ring": "Contracts", "content": "<Project><ItemGroup><PackageReference Include=\"MediatR\" Version=\"1.0\" /></ItemGroup></Project>" } ], "expectedStatus": "fail", "expectedExitCategory": "findings-blocking", "expectedRules": ["RING-PACKAGE-FORBIDDEN"], "expectedCoverage": [3, 2] },
+    { "id": "allow-list-miss", "omitRings": [], "overrides": [ { "ring": "Application", "content": "<Project><ItemGroup><PackageReference Include=\"xunit\" Version=\"1.0\" /></ItemGroup></Project>" } ], "expectedStatus": "fail", "expectedExitCategory": "findings-blocking", "expectedRules": ["RING-PACKAGE"], "expectedCoverage": [3, 2] },
+    { "id": "empty-allow", "omitRings": [], "overrides": [ { "ring": "Domain", "content": "<Project><ItemGroup><PackageReference Include=\"FluentValidation\" Version=\"1.0\" /></ItemGroup></Project>" } ], "expectedStatus": "fail", "expectedExitCategory": "findings-blocking", "expectedRules": ["RING-PACKAGE"], "expectedCoverage": [3, 2] },
+    { "id": "missing-src", "omitRings": ["Domain", "Contracts", "Application", "Presentation"], "overrides": [], "expectedStatus": "error", "expectedExitCategory": "prerequisite-missing", "expectedRules": [], "expectedCoverage": [0, 0] },
+    { "id": "zero-domain", "omitRings": ["Domain"], "overrides": [], "expectedStatus": "fail", "expectedExitCategory": "findings-blocking", "expectedRules": ["RING-PACKAGE"], "expectedCoverage": [2, 2] },
+    { "id": "invalid-xml", "omitRings": [], "overrides": [ { "ring": "Domain", "content": "<Project><ItemGroup>" } ], "expectedStatus": "error", "expectedExitCategory": "invalid-input", "expectedRules": [], "expectedCoverage": [3, 1] },
+    { "id": "unsafe-link", "omitRings": ["Domain", "Contracts", "Application", "Presentation"], "overrides": [], "linkSourceFrom": "clean", "expectedStatus": "error", "expectedExitCategory": "unsafe-path", "expectedRules": [], "expectedCoverage": [0, 0] }
+  ]
+}

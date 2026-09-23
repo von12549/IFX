@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-package-reference",
+  "matrixSha256": "48c1d9d20f746883cef1dc50ad44b602028d7509dfd95b64f843f3f358f04c45",
+  "rules": [
+    {
+      "ruleId": "RING-PACKAGE",
+      "claimId": "IFX.C1.PACKAGE_ALLOW_RAW",
+      "stage": "pre",
+      "detectors": ["ifx-package-reference"],
+      "evidenceKinds": ["project-model-raw", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    },
+    {
+      "ruleId": "RING-PACKAGE-FORBIDDEN",
+      "claimId": "IFX.C1.PACKAGE_DENY_RAW",
+      "stage": "pre",
+      "detectors": ["ifx-package-reference"],
+      "evidenceKinds": ["project-model-raw", "coverage"],
+      "severity": "blocking",
+      "baseline": null,
+      "minimumMatches": 1
+    }
+  ]
+}

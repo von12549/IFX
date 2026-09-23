@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-package-reference-c1c",
+  "sourcePolicy": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "sourceRule": {
+    "path": "docs/guards/V3_ifx/stages/post/rules/L3.4.json",
+    "sha256": "c2383c2bc47bc56ab60afa99fe9ddea46572282a9790b7d26832bf0cdf6d265e"
+  },
+  "scanRoot": "src",
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"]
+  },
+  "allowedPackages": {
+    "Domain": [],
+    "Contracts": [],
+    "Application": ["MediatR*", "FluentValidation*", "AutoMapper*", "Microsoft.Extensions.Logging*", "Microsoft.Extensions.DependencyInjection*", "IFX.BuildingBlocks.Domain*", "IFX.BuildingBlocks.Security*"]
+  },
+  "forbiddenPackages": {
+    "Contracts": ["Microsoft.EntityFrameworkCore*", "MediatR*", "Microsoft.AspNetCore*", "Newtonsoft.Json*", "System.Text.Json*", "MassTransit*", "RabbitMQ*", "Azure.Messaging*", "Microsoft.Extensions.DependencyInjection*"],
+    "Presentation": ["Microsoft.EntityFrameworkCore*", "Dapper*", "Npgsql*", "System.Data.SqlClient*", "Microsoft.Data.SqlClient*"]
+  },
+  "claimIds": ["IFX.C1.PACKAGE_ALLOW_RAW", "IFX.C1.PACKAGE_DENY_RAW"],
+  "minimumProjectsPerRing": 1,
+  "coverageScope": "raw src csproj PackageReference only; no MSBuild evaluation, imported items or source imports"
+}
