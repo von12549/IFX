@@ -1,6 +1,6 @@
 # V4 P10.1 C2b1 — G03 governance core candidate
 
-Status: `CANDIDATE VALIDATED — partial C2b only; Formal Diff pending`
+Status: `CANDIDATE VALIDATED — partial C2b only`
 
 C2a found 65 active G03 catalog error codes plus 15 Phase 9 aggregate checks.
 This child Plan ports the first bounded governance group to a read-only Post
@@ -39,4 +39,6 @@ The isolated V3 IFX package positive/negative regression passed at
 Published Package identity passed with Package hash
 `922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d`.
 The first package run was sandbox-blocked at NuGet restore; the permitted
-rerun passed. Formal Diff remains the final exact-scope check after commit.
+rerun passed. Exact Formal Diff passed against the C2a base at
+`artifacts/guards/p10-ifx-c2b1/formal-diff/summary-diff.json`. No unrelated
+PATH-repair or production Profile paths were included.
