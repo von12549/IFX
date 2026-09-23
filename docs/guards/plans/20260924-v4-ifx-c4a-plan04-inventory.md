@@ -27,4 +27,7 @@ IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-07a3d84fd8684d9c91c3540d5e05a7ba`;
 the installed 1.1.3 Package check matched hash
 `9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494`.
-Exact Formal Diff awaits the inventory commit.
+Exact Formal Diff from G05 protocol verification base `7cabd334` to
+inventory candidate `45e268cc` passed at
+`artifacts/guards/p10-ifx-c4a/formal-diff/summary-diff.json`, including the
+V3 Stage Gate and exact four-path Plan scope.
