@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-docs-closeout",
+  "matrixSha256": "699bd116503cf03fbebc7404dbd75384b5ef7e3921e86b85a770c90c085cffee",
+  "rules": [
+    { "ruleId": "G03-DOCUMENTATION", "claimId": "IFX.C2.G03_DOCUMENTATION", "stage": "post", "detectors": ["ifx-g03-docs-closeout"], "evidenceKinds": ["governance-document"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-LEGACY-DEADLINE", "claimId": "IFX.C2.G03_LEGACY_DEADLINE", "stage": "post", "detectors": ["ifx-g03-docs-closeout"], "evidenceKinds": ["legacy-deadline"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-CLOSEOUT-READINESS", "claimId": "IFX.C2.G03_CLOSEOUT_READINESS", "stage": "post", "detectors": ["ifx-g03-docs-closeout"], "evidenceKinds": ["closeout-readiness"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

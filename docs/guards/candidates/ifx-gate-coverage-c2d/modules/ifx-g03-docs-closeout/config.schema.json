@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g03-docs-closeout/config.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["enabledClaims", "policySha256", "catalogSha256", "zhSha256", "enSha256", "closeoutSha256", "g03PlanSha256", "layerPlanSha256"],
+  "properties": {
+    "enabledClaims": { "type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true,
+      "items": [
+        { "const": "IFX.C2.G03_DOCUMENTATION" },
+        { "const": "IFX.C2.G03_LEGACY_DEADLINE" },
+        { "const": "IFX.C2.G03_CLOSEOUT_READINESS" }
+      ], "additionalItems": false },
+    "policySha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "catalogSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "zhSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "enSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "closeoutSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "g03PlanSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "layerPlanSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

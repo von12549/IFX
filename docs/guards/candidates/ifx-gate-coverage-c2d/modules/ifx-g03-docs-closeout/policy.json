@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-docs-closeout-c2d",
+  "catalogPath": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+  "sourceCatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+  "zhPath": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+  "enPath": "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+  "closeoutPath": "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+  "g03PlanPath": "docs/architecture/review/plans/00-G03-contract-event-governance.md",
+  "layerPlanPath": "docs/architecture/review/plans/03-layerguard-alignment.md",
+  "diagramNames": ["provider-consumer", "lifecycle-migration", "compatibility-decision", "v1-v2-migration", "change-approval"],
+  "handoffPaths": [
+    "docs/architecture/review/gates/G03/handoffs/plan01-contracts-handoff.md",
+    "docs/architecture/review/gates/G03/handoffs/plan02-events-handoff.md",
+    "docs/architecture/review/gates/G03/handoffs/plan03-layerguard-handoff.md"
+  ],
+  "messagingProjectPaths": [
+    "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+    "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj"
+  ],
+  "sourceScripts": [
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03Documentation.ps1", "sha256": "4e395951f18e93ffec54f7e8de7ade39a4322407df6b7691be010e2d44707912" },
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03CloseoutReadiness.ps1", "sha256": "c517013a91974efa8677140a530d16d084e29d2b368d4074aa6bcc3756d4e276" }
+  ],
+  "claims": [
+    { "claimId": "IFX.C2.G03_DOCUMENTATION", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_LEGACY_DEADLINE", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_CLOSEOUT_READINESS", "minimumMatches": 1 }
+  ],
+  "deferred": ["combined G03 Stage/V3 parity and production Profile acceptance (C2e)"]
+}

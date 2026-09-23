@@ -1,6 +1,6 @@
 # IFX C2 — G03 Phase 9 claim and authority matrix
 
-Status: `C2 INCOMPLETE — C2b and C2c candidates validated; C2d–C2e pending`
+Status: `C2 INCOMPLETE — C2b/C2c/C2d candidates validated; C2e pending`
 
 The active Post gate is `v3-specialized-g03`, a base-owned judging gate. Its
 dispatcher invokes `Invoke-G03ContractEventGuard.ps1 -Phase 9` over candidate
@@ -89,3 +89,19 @@ missing/malformed, zero-subject and generated-source cases. Real IFX and
 synthetic published V4 1.1.2 Host Post passed without TargetRoot mutations.
 C2c is validated at candidate level only; C2d docs/closeout and C2e
 combined Stage, V3 parity and production Profile acceptance remain pending.
+
+## C2d checkpoint
+
+The `ifx-g03-docs-closeout` Post candidate reconciles both governance
+documents against all six current catalog identities/lifecycles, checks
+required sections, local links and five Mermaid/SVG/PNG triplets, validates
+46 legacy dispositions/deadlines, and derives current closeout blockers from
+catalog, plans and Messaging projects. The closeout document now distinguishes
+the dated 2026-09-08 Phase 9 report from the current `pre-ready` checkpoint;
+the two governance documents record four Active and two Proposed protocols.
+The latest V3 Phase 9 recomputation returned three accountable blockers:
+`protocols-not-active`, `behavior-tests-pending` and
+`closure-approvals-pending`. Eighteen fixtures plus hash/link controls,
+real IFX and synthetic published-Host Post passed without target mutation.
+No G03 final approval was inferred. C2e combined Stage, V3 parity and
+production Profile acceptance are still required before C2 closes.

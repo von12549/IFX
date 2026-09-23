@@ -1,0 +1,23 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "doc-identity-drift", "mutation": "doc-identity-drift", "status": "fail", "code": "protocol-table-drift" },
+    { "id": "missing-document", "mutation": "missing-document", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-diagram", "mutation": "missing-diagram", "status": "fail", "code": "missing-diagram" },
+    { "id": "bad-png", "mutation": "bad-png", "status": "fail", "code": "invalid-png" },
+    { "id": "broken-link", "mutation": "broken-link", "status": "fail", "code": "broken-link" },
+    { "id": "legacy-overdue", "mutation": "legacy-overdue", "status": "fail", "code": "overdue-legacy" },
+    { "id": "legacy-deadline-exceeded", "mutation": "legacy-deadline-exceeded", "status": "fail", "code": "deadline-exceeded" },
+    { "id": "missing-disposition", "mutation": "missing-disposition", "status": "fail", "code": "missing-disposition" },
+    { "id": "false-ready", "mutation": "false-ready", "status": "fail", "code": "readiness-drift" },
+    { "id": "missing-readiness", "mutation": "missing-readiness", "status": "fail", "code": "readiness-missing" },
+    { "id": "missing-blocker-owner", "mutation": "missing-blocker-owner", "status": "fail", "code": "blocker-metadata" },
+    { "id": "missing-blocker-revisit", "mutation": "missing-blocker-revisit", "status": "fail", "code": "blocker-metadata" },
+    { "id": "missing-handoff", "mutation": "missing-handoff", "status": "fail", "code": "missing-handoff" },
+    { "id": "broken-handoff-link", "mutation": "broken-handoff-link", "status": "fail", "code": "broken-link" },
+    { "id": "zero-protocol", "mutation": "zero-protocol", "status": "fail", "code": "zero-protocol" },
+    { "id": "zero-legacy", "mutation": "zero-legacy", "status": "fail", "code": "zero-legacy" },
+    { "id": "missing-closeout", "mutation": "missing-closeout", "status": "error", "category": "prerequisite-missing" }
+  ]
+}

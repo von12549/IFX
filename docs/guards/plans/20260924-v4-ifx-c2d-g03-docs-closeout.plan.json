@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2d-g03-docs-closeout",
+  "title": "Implement G03 bilingual documentation and closeout readiness candidate",
+  "goal": "Port Phase 9 documentation and live closeout readiness to a read-only V4 Post extension, while retaining historical reports as history.",
+  "acceptanceCriteria": [
+    "Both governance documents match all current catalog protocol identities and lifecycles; required sections, links and five diagram triplets validate.",
+    "Legacy dispositions and deadlines, three downstream handoffs, closeout links, accountable blockers and derived readiness agree with current target inputs without claiming final closure.",
+    "Negative/zero/linked fixtures, real IFX, synthetic published-Host Post, TargetRoot byte invariance, authority hashes, Formal Pre/Diff and isolated package regression pass; C2e remains pending."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c2d-g03-docs-closeout.md",
+    "docs/guards/plans/20260924-v4-ifx-c2d-g03-docs-closeout.plan.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.md",
+    "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md",
+    "docs/architecture/review/gates/G03/contract-event-governance.en.md",
+    "docs/architecture/review/evidence/gates/G03/G03-closeout.md",
+    "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2d/tests/Test-IFXG03DocsCloseout.ps1"
+  ],
+  "areaIds": ["GuardDocs", "GuardAuthorityInputs", "ArchitectureDocs", "GuardPackage"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+  ]
+}

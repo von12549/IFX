@@ -1,9 +1,9 @@
 # G03 Contract / Event governance baseline
 
-> Status: PRE-READY; Plan 01/B2 and Plan 02/B3 real protocols have returned, while final multi-owner approval remains open. This document explains the authoritative catalog; factual governance data lives
-> only in [`contract-event-catalog.yaml`](contract-event-catalog.yaml). All four V1 identities remain
-> `Proposed`. This document does not claim that physical Contracts, Adapters, or reliable delivery
-> have been implemented.
+> Status: PRE-READY, not closed. Four Plan 01/B2 and Plan 02/B3 protocols are
+> `Active`; two later synchronous protocols remain `Proposed`. Final multi-owner
+> approval is still open. This document explains the authoritative
+> [`contract-event-catalog.yaml`](contract-event-catalog.yaml), which owns current facts.
 
 ## Boundaries and responsibilities
 
@@ -25,17 +25,22 @@ asynchronous, and mixed workflows: [SVG](diagrams/provider-consumer.svg) ·
 
 ## Current public surface and target
 
-The source baseline has 46 legacy public items: 4 Readers, 15 Reader methods, 7 DTOs, and 20
-Integration Events. The dispositions are 20 `Internalize`, 6 `Replace`, and 20 `Remove`. Every item
-is `LegacyPendingMigration` with a 2026-12-01 deadline. `HoldingFrozenEvent` has neither producer nor
-consumer and must be removed rather than promoted.
+The 2026-09-08 migration baseline had 46 legacy public items: 4 Readers, 15 Reader methods,
+7 DTOs, and 20 Integration Events, with 20 `Internalize`, 6 `Replace`, and 20 `Remove`
+dispositions. All 46 are now `Retired` in the catalog. The 2026-12-01 date was the original
+migration deadline, not a count of work still pending. `HoldingFrozenEvent` had neither
+producer nor consumer and was not promoted.
 
+<!-- G03-CURRENT-PROTOCOLS-START -->
 | Target identity | Mode | Provider -> Consumer | Status | Downstream owner |
 | --- | --- | --- | --- | --- |
-| `crm.account-compliance.v1` | sync | CRM -> Transaction | Proposed | Plan 01 |
-| `registry.class-subscription-availability.v1` | sync | Registry -> Transaction | Proposed | Plan 01 |
+| `crm.account-compliance.v1` | sync | CRM -> Transaction | Active | Plan 01/B2 |
+| `registry.class-subscription-availability.v1` | sync | Registry -> Transaction | Active | Plan 01/B2 |
 | `ifx.transaction.transaction-processed.v1` | event | Transaction -> Holdings | Active | Plan 02/B3 |
 | `ifx.registry.class-status-changed.v1` | event | Registry -> Holdings | Active | Plan 02/B3 |
+| `auth.resource-authorization.v1` | sync | Auth -> CRM, Registry, Transaction, Holdings | Proposed | IAM/Authorization |
+| `authorization.policy-evaluation.v1` | sync | Authorization -> IAM | Proposed | IAM/Authorization |
+<!-- G03-CURRENT-PROTOCOLS-END -->
 
 An identity becomes Active only after physical `Contracts.V1` source, public API/serialization
 snapshots, provider and consumer behavior tests, catalog reconciliation, and approvals all exist.
@@ -52,9 +57,10 @@ snapshots, provider and consumer behavior tests, catalog reconciliation, and app
 | Platform Messaging | schema primitives, runtime delivery | envelope semantics, delivery attempt state |
 
 A shared process or physical database does not change ownership; a consumer cannot bypass provider
-Application to read a foreign schema. The target `IFX.Platform.Messaging.Contracts` project contains
-only BCL-only schema primitives and does not physically exist yet. Runtime bus, handler, serializer,
-dispatcher, broker, and DI concerns belong to `IFX.Platform.Messaging.Runtime`. See
+Application to read a foreign schema. `IFX.Platform.Messaging.Contracts` contains only BCL-only
+schema primitives. Runtime bus, handler, serializer, dispatcher, broker, and DI concerns belong
+to `IFX.Platform.Messaging.Runtime`. Both projects now physically exist; their admission and
+dependency boundaries remain guard-enforced. See
 [`shared-contract-primitives.md`](shared-contract-primitives.md).
 
 ## Lifecycle and migration
@@ -133,7 +139,8 @@ approvals from every affected module.
 | External consumer 90-day confirmation | Yes | usage/traffic evidence | in-repo dependency graph | stale alert/block retire | external owner + Provider |
 
 The automation entry point is `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03`. Phase 8 additionally checks
-bilingual identity consistency, links, Mermaid/SVG/PNG triplets, and PNG signatures. Direct
-LayerGuard consumption remains Plan 03 L5.1; real provider/consumer behavior tests and Active
-promotion return from Plans 01/02. The backup owner was assigned on 2026-09-08; this Gate remains
-PRE-READY until the remaining downstream conditions and closure approvals are satisfied.
+bilingual identity consistency, links, Mermaid/SVG/PNG triplets, and PNG signatures. Plan 03
+L5.1 returned direct LayerGuard consumption, and Plans 01/02 returned Active evidence for the
+original four protocols. The two later sync protocols and G03-6.5/6.6 closeout remain open.
+The backup owner was assigned on 2026-09-08; this Gate remains PRE-READY until the remaining
+technical conditions and closure approvals are satisfied.

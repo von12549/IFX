@@ -1,8 +1,8 @@
 # G03 Contract / Event 治理基线
 
-> 状态：PRE-READY；Plan 01/B2 与 Plan 02/B3 真实协议已回交，最终多人批准保持开放。本文解释权威目录；事实以
-> [`contract-event-catalog.yaml`](contract-event-catalog.yaml) 为准。四个 V1 identity 仍为
-> `Proposed`，不得据本文宣称真实 Contracts、Adapters 或可靠事件通道已经实施。
+> 状态：PRE-READY，尚未关闭；Plan 01/B2 与 Plan 02/B3 的四个协议已为 `Active`，
+> 两个后续同步协议仍为 `Proposed`，最终多人批准保持开放。本文解释权威目录；
+> 当前事实以 [`contract-event-catalog.yaml`](contract-event-catalog.yaml) 为准。
 
 ## 边界与职责
 
@@ -23,17 +23,21 @@ consumer-owned inbound Adapter/Inbox。总体图同时标出同步、异步和 m
 
 ## 当前公共表面与目标
 
-源码基线共有 46 个 legacy public items：4 个 Reader、15 个 Reader method、7 个 DTO 和
-20 个 Integration Event。处置为 20 个 `Internalize`、6 个 `Replace`、20 个 `Remove`；全部
-处于 `LegacyPendingMigration`，deadline 为 2026-12-01。`HoldingFrozenEvent` 没有 producer 或
-consumer，必须删除而非提升为协议。
+2026-09-08 的迁移基线共有 46 个 legacy public items：4 个 Reader、15 个 Reader method、
+7 个 DTO 和 20 个 Integration Event，处置为 20 个 `Internalize`、6 个 `Replace`、
+20 个 `Remove`。当前 catalog 中 46 项均为 `Retired`；2026-12-01 是原迁移期限，
+不是仍在等待的项目数。`HoldingFrozenEvent` 没有 producer 或 consumer，未提升为协议。
 
+<!-- G03-CURRENT-PROTOCOLS-START -->
 | 目标 identity | 模式 | Provider -> Consumer | 当前状态 | 下游 owner |
 | --- | --- | --- | --- | --- |
-| `crm.account-compliance.v1` | sync | CRM -> Transaction | Proposed | Plan 01 |
-| `registry.class-subscription-availability.v1` | sync | Registry -> Transaction | Proposed | Plan 01 |
+| `crm.account-compliance.v1` | sync | CRM -> Transaction | Active | Plan 01/B2 |
+| `registry.class-subscription-availability.v1` | sync | Registry -> Transaction | Active | Plan 01/B2 |
 | `ifx.transaction.transaction-processed.v1` | event | Transaction -> Holdings | Active | Plan 02/B3 |
 | `ifx.registry.class-status-changed.v1` | event | Registry -> Holdings | Active | Plan 02/B3 |
+| `auth.resource-authorization.v1` | sync | Auth -> CRM, Registry, Transaction, Holdings | Proposed | IAM/Authorization |
+| `authorization.policy-evaluation.v1` | sync | Authorization -> IAM | Proposed | IAM/Authorization |
+<!-- G03-CURRENT-PROTOCOLS-END -->
 
 任何 identity 只有在真实 `Contracts.V1` 源码、public API/serialization snapshot、provider 与
 consumer 行为测试、catalog reconciliation 和审批同时存在后才能变为 Active。
@@ -50,9 +54,9 @@ consumer 行为测试、catalog reconciliation 和审批同时存在后才能变
 | Platform Messaging | schema primitives、runtime delivery | envelope semantics、delivery attempt state |
 
 共享物理数据库或进程不改变该 ownership；consumer 不得绕过 provider Application 读取 foreign
-schema。目标项目 `IFX.Platform.Messaging.Contracts` 只承载 BCL-only schema primitive，当前尚未
-物理创建；runtime bus、handler、serializer、dispatcher、broker 和 DI 属于
-`IFX.Platform.Messaging.Runtime`。详细 allowlist 见
+schema。`IFX.Platform.Messaging.Contracts` 只承载 BCL-only schema primitive；
+runtime bus、handler、serializer、dispatcher、broker 和 DI 属于
+`IFX.Platform.Messaging.Runtime`。Contracts 与 Runtime 项目均已物理创建，准入和依赖边界仍由门禁判定。详细 allowlist 见
 [`shared-contract-primitives.md`](shared-contract-primitives.md)。
 
 ## 生命周期与迁移
@@ -127,6 +131,6 @@ identity reuse 不可豁免。C3 State Transfer 是受控准入而不是 waiver�
 | external consumer 90 天复核 | 是 | 使用/流量证据 | dependency graph（仓内） | stale alert/block retire | 外部 owner + Provider |
 
 自动化入口是 `docs/guards/V3_ifx/commands/Invoke-IFXGuardrails.ps1 -Mode Specialized -SpecializedGate G03`；Phase 8 还验证双语 identity 一致、链接、
-Mermaid/SVG/PNG triplet 和 PNG signature。最终 LayerGuard 直接消费由 Plan 03 L5.1 实施；真实
-provider/consumer behavior tests 与 Active promotion 由 Plans 01/02 回交。backup owner 已于
-2026-09-08 指定；本 Gate 在其余下游条件和最终批准满足前保持 PRE-READY。
+Mermaid/SVG/PNG triplet 和 PNG signature。Plan 03 L5.1 已回交 LayerGuard 直接消费；
+前四个协议已由 Plans 01/02 回交 Active 证据，两个后续同步协议与 G03-6.5/6.6
+结项仍待完成。backup owner 已于 2026-09-08 指定；本 Gate 在剩余技术条件和最终批准满足前保持 PRE-READY。

@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-docs-closeout",
+  "version": "0.1.0",
+  "compatibleApi": "1.x",
+  "supportedPlatforms": ["linux-x64", "win-x64"],
+  "adapter": { "kind": "powershell", "path": "modules/ifx-g03-docs-closeout/adapter.ps1", "sha256": "1b2388e98f4e8e502430683f8fa5125ee0b19f52e06dc8ad630f3d8e3132412b" },
+  "prerequisites": [{ "runtime": "pwsh", "versionRange": ">=7.4" }],
+  "stages": ["post"],
+  "capabilities": { "readRoots": ["PackageRoot", "TargetRoot"], "writeRoots": [], "processes": ["pwsh"], "network": false, "timeoutSeconds": 60 },
+  "configSchema": "modules/ifx-g03-docs-closeout/config.schema.json",
+  "resultSchema": "modules/ifx-g03-docs-closeout/result.schema.json",
+  "dependencyLock": { "path": "modules/ifx-g03-docs-closeout/dependencies.lock.json", "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6" },
+  "authorities": [
+    { "id": "ifx-policy", "path": "modules/ifx-g03-docs-closeout/policy.json", "sha256": "699bd116503cf03fbebc7404dbd75384b5ef7e3921e86b85a770c90c085cffee" },
+    { "id": "rule-execution-plan", "path": "modules/ifx-g03-docs-closeout/rule-execution-plan.json", "sha256": "1f20a220cd997ee77e4c12dd0d7af8085b25f09cd3c59f106c76b1aa050e3426" },
+    { "id": "module-result", "path": "modules/ifx-g03-docs-closeout/result.schema.json", "sha256": "0d600c3d1c6455162dd48c18327f4b93abf81ab9d95b1ecf57ade74685af93a7" }
+  ]
+}
