@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "clean",
+      "projects": ["src/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj"],
+      "expectedStatus": "pass", "expectedCategory": "success", "matched": 1, "findings": 0
+    },
+    {
+      "id": "forbidden-in-scope",
+      "projects": ["src/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj"],
+      "expectedStatus": "fail", "expectedCategory": "findings-blocking", "matched": 1, "findings": 1
+    },
+    {
+      "id": "forbidden-outside-ring",
+      "projects": ["src/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj", "src/IFX.Modules.CRM.Abstractions/IFX.Modules.CRM.Abstractions.csproj"],
+      "expectedStatus": "pass", "expectedCategory": "success", "matched": 1, "findings": 0
+    },
+    {
+      "id": "excluded-subtrees",
+      "projects": ["src/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj", "src/guard/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj", "src/generated/IFX.Platform.Foo.Infrastructure.Abstractions/IFX.Platform.Foo.Infrastructure.Abstractions.csproj"],
+      "expectedStatus": "pass", "expectedCategory": "success", "matched": 1, "findings": 0
+    },
+    {
+      "id": "missing-root",
+      "projects": [],
+      "expectedStatus": "error", "expectedCategory": "prerequisite-missing", "matched": 0, "findings": 0
+    },
+    {
+      "id": "zero-in-scope",
+      "projects": ["src/IFX.Modules.CRM.Abstractions/IFX.Modules.CRM.Abstractions.csproj"],
+      "expectedStatus": "fail", "expectedCategory": "findings-blocking", "matched": 0, "findings": 1
+    },
+    {
+      "id": "malformed-project",
+      "projects": ["src/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj"],
+      "malformed": true,
+      "expectedStatus": "error", "expectedCategory": "invalid-input", "matched": 0, "findings": 0
+    }
+  ]
+}
