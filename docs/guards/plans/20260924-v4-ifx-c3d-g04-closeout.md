@@ -35,4 +35,6 @@ were `28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e`
 and `9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-acde4a511cc44e9583766b4d78ac7035`.
-Formal Diff awaits the exact candidate commit; C3e remains pending.
+Formal Diff from C3c base `2466ae78` to candidate `f8c0818e` passed at
+`artifacts/guards/p10-ifx-c3d/formal-diff/summary-diff.json`, including the
+V3 Stage Gate and exact declared Plan scope. C3e remains pending.
