@@ -31,5 +31,7 @@ The presentation source set is hash-bound and route-group scope metadata is
 non-vacuous. The published archive, receipt and Package hash matched 1.1.3.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-ce6f1c5069d241da903f6ed24079636e`.
-Exact Formal Diff awaits the candidate commit. No production Profile or
+Exact Formal Diff from C4p2 Plan base `14e55724` to candidate `3683fa4f`
+passed at `artifacts/guards/p10-ifx-c4p2/formal-diff/summary-diff.json`,
+including the V3 Stage Gate and exact Plan scope. No production Profile or
 G05 closure is claimed.
