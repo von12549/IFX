@@ -1,0 +1,270 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g05-protocol-c4p1",
+  "families": [
+    "dependency",
+    "shape",
+    "evidence"
+  ],
+  "authorities": [
+    {
+      "id": "contextProject",
+      "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"
+    },
+    {
+      "id": "messagingProject",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj"
+    },
+    {
+      "id": "identifiers",
+      "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextIdentifiers.cs"
+    },
+    {
+      "id": "scopes",
+      "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ExecutionScope.cs"
+    },
+    {
+      "id": "references",
+      "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContextReferences.cs"
+    },
+    {
+      "id": "contractContext",
+      "path": "src/Platform/Context/IFX.Platform.Context.Contracts/ContractRequestContext.cs"
+    },
+    {
+      "id": "eventEnvelope",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventEnvelopeV1.cs"
+    },
+    {
+      "id": "eventIdentifier",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventIdentifier.cs"
+    },
+    {
+      "id": "eventSchema",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/EventSchemaIdentity.cs"
+    },
+    {
+      "id": "integrationEvent",
+      "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IIntegrationEventV1.cs"
+    },
+    {
+      "id": "protocolPolicy",
+      "path": "docs/architecture/review/gates/G05/context-protocol-v1.json"
+    },
+    {
+      "id": "g03Governance",
+      "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"
+    },
+    {
+      "id": "protocolTests",
+      "path": "tests/IFX.Platform.ProtocolContracts.Tests/EventEnvelopeV1Tests.cs"
+    },
+    {
+      "id": "phase1Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-protocol-primitives.md"
+    },
+    {
+      "id": "phase1Layerguard",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase1-layerguard-report.json"
+    }
+  ],
+  "predicates": [
+    {
+      "id": "protocolProjectsHaveNoDependencies",
+      "family": "dependency",
+      "clauses": [
+        {
+          "alias": "contextProject",
+          "none": [
+            "<PackageReference\\b",
+            "<ProjectReference\\b"
+          ]
+        },
+        {
+          "alias": "messagingProject",
+          "none": [
+            "<PackageReference\\b",
+            "<ProjectReference\\b"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contextStrongIdentifiersExist",
+      "family": "shape",
+      "clauses": [
+        {
+          "alias": "identifiers",
+          "all": [
+            "record struct CorrelationId",
+            "record struct OperationId",
+            "record struct CausationId",
+            "record struct RequestId"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explicitScopesExist",
+      "family": "shape",
+      "clauses": [
+        {
+          "alias": "scopes",
+          "all": [
+            "record struct TenantScope",
+            "record struct PlatformScope",
+            "enum ExecutionScopeKind"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "minimumReferencesExist",
+      "family": "shape",
+      "clauses": [
+        {
+          "alias": "references",
+          "all": [
+            "record ActorReference",
+            "record SourceReference",
+            "enum ContextProvenance"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contractContextIsVersionedBclShape",
+      "family": "shape",
+      "clauses": [
+        {
+          "alias": "contractContext",
+          "all": [
+            "record ContractRequestContext"
+          ]
+        },
+        {
+          "alias": "protocolPolicy",
+          "all": [
+            "\"contractRequestContext\"[\\s\\S]*?\"version\"\\s*:\\s*1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eventEnvelopeIsVersionedBclShape",
+      "family": "shape",
+      "clauses": [
+        {
+          "alias": "eventEnvelope",
+          "all": [
+            "record EventEnvelope",
+            "DateTimeOffset occurredAt"
+          ]
+        },
+        {
+          "alias": "protocolPolicy",
+          "all": [
+            "\"eventEnvelope\"[\\s\\S]*?\"version\"\\s*:\\s*1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "noFrameworkOrTransportLeak",
+      "family": "dependency",
+      "clauses": [
+        {
+          "alias": "identifiers",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "scopes",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "references",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "contractContext",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "eventEnvelope",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "eventIdentifier",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "eventSchema",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        },
+        {
+          "alias": "integrationEvent",
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|MediatR|EntityFrameworkCore|MassTransit|RabbitMQ|IServiceCollection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "g03PrimitiveProjectsAdmitted",
+      "family": "shape",
+      "clauses": [
+        {
+          "alias": "g03Governance",
+          "jsonArrayIncludes": {
+            "path": "sharedPrimitiveProjects",
+            "values": ["IFX.Platform.Context.Contracts", "IFX.Platform.Messaging.Contracts"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "protocolContractTestsExist",
+      "family": "evidence",
+      "clauses": [
+        {
+          "alias": "protocolTests",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "phase1EvidenceExists",
+      "family": "evidence",
+      "clauses": [
+        {
+          "alias": "phase1Evidence",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "phase1LayerGuardEvidenceExists",
+      "family": "evidence",
+      "clauses": [
+        {
+          "alias": "phase1Layerguard",
+          "exists": true
+        }
+      ]
+    }
+  ]
+}
