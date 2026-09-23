@@ -62,6 +62,23 @@ stop that tranche and open a separate exact V4 compatibility Plan and unique
 `1.1.x` patch with full dual-platform certification and publication authority.
 Do not patch the installed 1.1.2 tree or import V3 runtime paths into V4.
 
+## 1.1.3 base transition for C3/C4
+
+The published, receipted 1.1.3 PATH-isolation patch is now present on
+`codex/v4-development-base`; it retains stable API 1.0 and the same built-in
+Profile, component versions and contracts. C3, C4, C4a and C4b use the
+immutable 1.1.3 installation and Package hash
+`9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494`
+as their candidate Host base. Earlier C1/C2 results and locks remain valid
+historical 1.1.2-scoped evidence, not 1.1.3 acceptance. Before C5 integration
+or C6 bundle acceptance, an exact child Plan must revalidate C1/C2 candidates
+on the 1.1.3 Host (including applicable negative/zero controls, direct and
+dependency Stages, immutable roots and refreshed base/manifest locks). Any
+behavioral divergence blocks migration until explained and fixed; never relabel
+or silently rewrite the 1.1.2 records. The final C6 bundle selects one
+published base consistently. This transition does not authorize production
+Profile acceptance, IFX cutover or modification of either installed release.
+
 ## Acceptance matrix and handoff
 
 For every mapped claim and specialized gate, record the source authority hash,

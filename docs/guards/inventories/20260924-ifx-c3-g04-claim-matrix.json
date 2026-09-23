@@ -1,0 +1,1125 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-ifx-c3-g04-claim-matrix",
+  "status": "inventory-only",
+  "v4Base": {
+    "version": "1.1.3",
+    "sourceTag": "v4-guards-v1.1.3",
+    "packageSha256": "9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494"
+  },
+  "v3": {
+    "stage": "post",
+    "gateId": "v3-specialized-g04",
+    "phase": 12,
+    "phase12Result": "passed",
+    "inboundResult": "passed",
+    "phase12CheckCount": 70,
+    "inboundCheckCount": 12,
+    "closeout": "PRE-READY",
+    "gateClosed": false,
+    "approvalGranted": false
+  },
+  "detectors": [
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G04Verification.ps1",
+      "sha256": "571221ac9ea570a156ff5b371010d9d66d86c8ab00275bc0485fd9cba50e5662"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G04DeploymentRuntimeGuard.ps1",
+      "sha256": "77c0b9612dd6c5d5623bc9b95ac52cf8158d934817b89726e84f164559d085e5"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G04DeploymentRuntimeInventory.ps1",
+      "sha256": "63a1d9900b60d3d3725bf636e3be39687bdc49319504269733ded32ab076658e"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan02C1InboundConformance.ps1",
+      "sha256": "d1e4d19cc7902489f2407cbb16410f6ac6aeddc890e4a6fcd85560ed99e00b27"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G04Manifests.ps1",
+      "sha256": "80bbe9f807de6eacca45eb8ac94f0c152b7a44d73f173a59bee3267f2fad0ff6"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/New-G04ReleaseManifest.ps1",
+      "sha256": "1b3e47348b60f39bb76957fb51a89183ba0e8e0597f6e77148c1c02b3c22f700"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G04ReleaseOrchestration.ps1",
+      "sha256": "8d51c642ae7631f51f166bcd9aa9f6df15795fc9f9507a04fec5ec512e947502"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G04FailureMatrix.ps1",
+      "sha256": "4ce246e7fe112bddca4af474eecff7a780bd0da1ef1e3a36ce19df51b2244a1e"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G04Documentation.ps1",
+      "sha256": "aa6f34fff178c2e3021d665876bf2f31de4b7b5453d0dc95fb341a62bfa60ab5"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G04Closeout.ps1",
+      "sha256": "6ca2f26501f94643316cb777e97723906ef6d669f7642203272ff60388e0ced6"
+    }
+  ],
+  "authorities": [
+    {
+      "id": "g04-backpressure-policy",
+      "path": "deployment/g04/backpressure-policy.json",
+      "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
+    },
+    {
+      "id": "g04-dependency-criticality",
+      "path": "deployment/g04/dependency-criticality-catalog.json",
+      "sha256": "458b001c3f300f4eca091f90b60e7ba14652e2a916f17fbabd6e82d0d893d663"
+    },
+    {
+      "id": "g04-deployment-unit-catalog",
+      "path": "deployment/g04/deployment-unit-catalog.json",
+      "sha256": "4302bd19a3415fac2d854a108b14223110c549bf5d839c35e1dffbf4e31944e1"
+    },
+    {
+      "id": "g04-failure-matrix",
+      "path": "deployment/g04/failure-matrix.json",
+      "sha256": "5f238f5cc320af4aacfbfb4b99b7f8bc268c3cfed564f775ff2c19aee5e0a0f6"
+    },
+    {
+      "id": "g04-infrastructure-compatibility",
+      "path": "deployment/g04/infrastructure-compatibility-matrix.json",
+      "sha256": "7aa9a3ed5de7a9c0824bc40e3dbe9068883d276b4185748e89df9e6bc32c1a1b"
+    },
+    {
+      "id": "g04-module-manifest",
+      "path": "deployment/g04/module-manifest.json",
+      "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+    },
+    {
+      "id": "g04-module-manifest-schema",
+      "path": "deployment/g04/module-manifest.schema.json",
+      "sha256": "aa84065d759ac97d8241761f470b67ea1bf3c18ebe00dc95f22a86ed0c74a4da"
+    },
+    {
+      "id": "g04-release-evidence-template",
+      "path": "deployment/g04/release-evidence-template.json",
+      "sha256": "f1bef0578004533de8981b014e03a0fc1cebf9b534de7815469f959534d31bf4"
+    },
+    {
+      "id": "g04-release-orchestration",
+      "path": "deployment/g04/release-orchestration.json",
+      "sha256": "56b1cc645e879459a97a0bcc04829e8aa838bd50c0e8b9fc72c27c9fb74adcfe"
+    },
+    {
+      "id": "g04-release-runtime-manifest",
+      "path": "deployment/g04/release-runtime-manifest.json",
+      "sha256": "c8c580aa0feb5c287ca488561bb7473d345655f94678b1cce80c302c9633caeb"
+    },
+    {
+      "id": "database-release-manifest",
+      "path": "deployment/release-manifest.json",
+      "sha256": "0663fb88f6587bb00910bff97851a3fc485c576330ec596fb682700f9806117d"
+    },
+    {
+      "id": "database-migration-manifest",
+      "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/migration-manifest.json",
+      "sha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6"
+    }
+  ],
+  "claims": [
+    {
+      "id": "deterministicInventory",
+      "source": "G04-Phase12",
+      "ordinal": 1,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "requiredBusinessModulesMatchCurrentHost",
+      "source": "G04-Phase12",
+      "ordinal": 2,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "deployableInventoryComplete",
+      "source": "G04-Phase12",
+      "ordinal": 3,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "currentHangfireCouplingRecorded",
+      "source": "G04-Phase12",
+      "ordinal": 4,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "liveAndStartupProbesSeparated",
+      "source": "G04-Phase12",
+      "ordinal": 5,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "currentOrchestrationRecorded",
+      "source": "G04-Phase12",
+      "ordinal": 6,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "knownTargetGapsNotMisrepresented",
+      "source": "G04-Phase12",
+      "ordinal": 7,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phaseBaselineExists",
+      "source": "G04-Phase12",
+      "ordinal": 8,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "manifestValidation",
+      "source": "G04-Phase12",
+      "ordinal": 9,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "runtimeProfileResolverExists",
+      "source": "G04-Phase12",
+      "ordinal": 10,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "apiEndpointMappingIsRoleGated",
+      "source": "G04-Phase12",
+      "ordinal": 11,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "hangfireClientServerSplit",
+      "source": "G04-Phase12",
+      "ordinal": 12,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "hangfireServerIsRoleGated",
+      "source": "G04-Phase12",
+      "ordinal": 13,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "sameArtifactApiWorkerCompose",
+      "source": "G04-Phase12",
+      "ordinal": 14,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "workerRoleConfigured",
+      "source": "G04-Phase12",
+      "ordinal": 15,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "manifestsLoadedBeforeBuild",
+      "source": "G04-Phase12",
+      "ordinal": 16,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "platformRegisteredBeforeModules",
+      "source": "G04-Phase12",
+      "ordinal": 17,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "manifestOrdersEndpointMapping",
+      "source": "G04-Phase12",
+      "ordinal": 18,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "compositionValidatedAfterBuild",
+      "source": "G04-Phase12",
+      "ordinal": 19,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "endpointCollisionValidated",
+      "source": "G04-Phase12",
+      "ordinal": 20,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "recoverableDependenciesAsync",
+      "source": "G04-Phase12",
+      "ordinal": 21,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "readinessChecksBounded",
+      "source": "G04-Phase12",
+      "ordinal": 22,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "dependencyReviewExists",
+      "source": "G04-Phase12",
+      "ordinal": 23,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "perModuleDispatcherContractExists",
+      "source": "G04-Phase12",
+      "ordinal": 24,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "sqlLeaseReferenceSuiteExists",
+      "source": "G04-Phase12",
+      "ordinal": 25,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "uniqueRuntimeIdentityCreated",
+      "source": "G04-Phase12",
+      "ordinal": 26,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "runtimeIdentityOverridesHangfire",
+      "source": "G04-Phase12",
+      "ordinal": 27,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "fixedHangfireIdentityRemoved",
+      "source": "G04-Phase12",
+      "ordinal": 28,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "criticalLoopTerminatesNonZero",
+      "source": "G04-Phase12",
+      "ordinal": 29,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "leaseConformanceDocumented",
+      "source": "G04-Phase12",
+      "ordinal": 30,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "sharedDrainSignalRegistered",
+      "source": "G04-Phase12",
+      "ordinal": 31,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "newWorkRejectedAtomically",
+      "source": "G04-Phase12",
+      "ordinal": 32,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "inFlightDrainBounded",
+      "source": "G04-Phase12",
+      "ordinal": 33,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "strictDrainBudgetsValidated",
+      "source": "G04-Phase12",
+      "ordinal": 34,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "composeUsesBoundedSigterm",
+      "source": "G04-Phase12",
+      "ordinal": 35,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase5EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 36,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "liveProbeIsLocalOnly",
+      "source": "G04-Phase12",
+      "ordinal": 37,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "startupProbeIsSeparate",
+      "source": "G04-Phase12",
+      "ordinal": 38,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "readyProbeUsesLifecycle",
+      "source": "G04-Phase12",
+      "ordinal": 39,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "detailsProbeProtected",
+      "source": "G04-Phase12",
+      "ordinal": 40,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "detailsUsesCachedSnapshot",
+      "source": "G04-Phase12",
+      "ordinal": 41,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "readinessIsRoleFiltered",
+      "source": "G04-Phase12",
+      "ordinal": 42,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "publicAggregateHasNoDescriptions",
+      "source": "G04-Phase12",
+      "ordinal": 43,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase6EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 44,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "backlogMetricContractComplete",
+      "source": "G04-Phase12",
+      "ordinal": 45,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "countAloneCannotTripHealth",
+      "source": "G04-Phase12",
+      "ordinal": 46,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "backpressureIsScoped",
+      "source": "G04-Phase12",
+      "ordinal": 47,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "retrySemanticsStable",
+      "source": "G04-Phase12",
+      "ordinal": 48,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "syntheticBackpressureTestsExist",
+      "source": "G04-Phase12",
+      "ordinal": 49,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "recoveryRunbookExists",
+      "source": "G04-Phase12",
+      "ordinal": 50,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase7EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 51,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "releaseOrchestrationValid",
+      "source": "G04-Phase12",
+      "ordinal": 52,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "orchestrationBoundToRelease",
+      "source": "G04-Phase12",
+      "ordinal": 53,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "backpressureBoundToRelease",
+      "source": "G04-Phase12",
+      "ordinal": 54,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase8EvidenceTemplateExists",
+      "source": "G04-Phase12",
+      "ordinal": 55,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase8EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 56,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "failureMatrixValid",
+      "source": "G04-Phase12",
+      "ordinal": 57,
+      "destination": "C3b",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "failureRunbookExists",
+      "source": "G04-Phase12",
+      "ordinal": 58,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase9EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 59,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "g04CiWorkflowExists",
+      "source": "G04-Phase12",
+      "ordinal": 60,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "ciUsesDedicatedArchitectureAndSolutionJobs",
+      "source": "G04-Phase12",
+      "ordinal": 61,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "specializedDoesNotRepeatArchitectureOrSolution",
+      "source": "G04-Phase12",
+      "ordinal": 62,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "crashInjectionReferenceTestExists",
+      "source": "G04-Phase12",
+      "ordinal": 63,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase10EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 64,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "documentationValidated",
+      "source": "G04-Phase12",
+      "ordinal": 65,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase11EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 66,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "closeoutValidated",
+      "source": "G04-Phase12",
+      "ordinal": 67,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "closeoutRemainsPreReady",
+      "source": "G04-Phase12",
+      "ordinal": 68,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "closeoutApprovalNotClaimed",
+      "source": "G04-Phase12",
+      "ordinal": 69,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "phase12EvidenceExists",
+      "source": "G04-Phase12",
+      "ordinal": 70,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "rawCarrierAndReceiverExist",
+      "source": "Plan02-C1",
+      "ordinal": 1,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "currentSenderUsesRawBoundary",
+      "source": "Plan02-C1",
+      "ordinal": 2,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "receiverRegistered",
+      "source": "Plan02-C1",
+      "ordinal": 3,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "contextValidatedBeforeHandler",
+      "source": "Plan02-C1",
+      "ordinal": 4,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "invalidTraceRestartsAndSanitizes",
+      "source": "Plan02-C1",
+      "ordinal": 5,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "boundedTraceTelemetry",
+      "source": "Plan02-C1",
+      "ordinal": 6,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "testsCoverInvalidTraceParentAndState",
+      "source": "Plan02-C1",
+      "ordinal": 7,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "testsCoverContextBeforeHandler",
+      "source": "Plan02-C1",
+      "ordinal": 8,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "testsCoverValidParentAndCurrentTransport",
+      "source": "Plan02-C1",
+      "ordinal": 9,
+      "destination": "C3c",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "checklistClosed",
+      "source": "Plan02-C1",
+      "ordinal": 10,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "evidenceRecorded",
+      "source": "Plan02-C1",
+      "ordinal": 11,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    },
+    {
+      "id": "readinessAdvancedOnlyOneSlice",
+      "source": "Plan02-C1",
+      "ordinal": 12,
+      "destination": "C3d",
+      "controls": [
+        "negative",
+        "missing",
+        "stale",
+        "zero-match"
+      ]
+    }
+  ],
+  "delivery": {
+    "C3b": "inventory, schema, release/runtime manifest and binding policy",
+    "C3c": "runtime/source and inbound boundary conformance",
+    "C3d": "documentation, workflow classification and pre-ready closeout",
+    "C3e": "combined published-Host Stage, immutable roots and V3 comparison"
+  },
+  "exclusions": [
+    "production Profile acceptance",
+    "final bundle review",
+    "operational deployment",
+    "IFX cutover",
+    "P10.2 parity"
+  ]
+}
