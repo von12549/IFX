@@ -42,5 +42,7 @@ regression passed at
 `artifacts/guards/v3-ifx-package-test-29027a4fa674461abb59466c2574befa`.
 The checked-in release artifact digest and current project-file hash differ;
 the candidate preserves that V3 semantic boundary and records it for C3e.
-Formal Diff awaits the exact candidate commit. No production release or
+Formal Diff from C3a base `94cbfae5` to candidate `7c3428a1` passed at
+`artifacts/guards/p10-ifx-c3b/formal-diff/summary-diff.json`, including the
+V3 Stage Gate and exact twelve-path Plan scope. No production release or
 Profile was accepted.
