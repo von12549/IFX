@@ -38,5 +38,7 @@ The full V3 G03 Phase 9 recomputation passed at
 status has six protocols, four Active, 46 legacy items and three blockers,
 still `pre-ready`. The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-18d9666e86084d779d32af1980f89d07`.
-Formal Diff is pending the exact candidate commit. The historical Phase 9
-report, PATH-repair files and production Profile were not changed.
+Formal Diff from C2c2 base `0b187c5a` to candidate `6723d465` passed at
+`artifacts/guards/p10-ifx-c2d/formal-diff/summary-diff.json`, including
+the V3 Stage Gate regression and exact 16-path Plan scope. The historical
+Phase 9 report, PATH-repair files and production Profile were not changed.
