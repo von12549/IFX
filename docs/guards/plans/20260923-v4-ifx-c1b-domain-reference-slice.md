@@ -1,6 +1,6 @@
 # V4 P10.1 C1b — direct Domain-to-Contracts reference slice
 
-Status: `CANDIDATE SLICE TESTED — exact Formal Diff pending; no production acceptance`
+Status: `C1b CANDIDATE SLICE VALIDATED — no production acceptance`
 
 C1a proposed `L1.2`/`L2.9` as the first project-topology pair. Source-code
 inspection exposed a semantic mismatch: `OWNERSHIP-UNKNOWN` is about whether
@@ -69,3 +69,6 @@ IFX package regression passed; local V4 Package validation still returned
 No Linux-complete certification, real IFX bundle review, production Profile or
 installed IFX composition is claimed. Full L2.2 direction/import semantics
 and the other IFX gates remain open.
+Exact Formal Diff passed over the 16 declared paths; its generated .NET Stage
+test passed one of one. Evidence:
+`artifacts/guards/p10-ifx-c1b/formal-diff/summary-diff.json`.
