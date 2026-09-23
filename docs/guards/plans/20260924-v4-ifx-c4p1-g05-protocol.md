@@ -28,5 +28,8 @@ and TargetRoot/PackageRoot byte invariants passed at
 Published archive/receipt and Package hashes matched 1.1.3. The isolated
 IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-d1b9dcf0754447e39571a1f1fa0468d9`.
-Exact Formal Diff awaits the candidate commit. No G05 closure or production
+Exact Formal Diff from inventory verification base `888610ac` to candidate
+`a0ca4a9a` passed at
+`artifacts/guards/p10-ifx-c4p1/formal-diff/summary-diff.json`, including the
+V3 Stage Gate and exact eleven-path Plan scope. No G05 closure or production
 Profile is inferred.
