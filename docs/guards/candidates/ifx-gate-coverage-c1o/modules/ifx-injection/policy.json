@@ -1,0 +1,83 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-injection-c1o",
+  "scanRoot": "src",
+  "sourcePolicy": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "sourceImplementations": [
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/InjectionRules.cs",
+      "sha256": "6e21c1e064b6c4278c6ec4212a549eb6bae3aad23daa35933a622210ced13cb3"
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/DeclarationIndex.cs",
+      "sha256": "c9c4997d5de81990ef7688e006bd86ae8058f6f2f68d7498cf5fac8f9b30d512"
+    },
+    {
+      "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/SourceFiles.cs",
+      "sha256": "58e657e7340a58bde2c24efd6f41fa4605eeb09a2d1ab28a1d4847ac739081e2"
+    }
+  ],
+  "rings": {
+    "Domain": [
+      "IFX.Modules.*.Domain"
+    ],
+    "Contracts": [
+      "IFX.Modules.*.Contracts",
+      "IFX.Platform.*.Contracts"
+    ],
+    "Application": [
+      "IFX.Modules.*.Application"
+    ],
+    "Presentation": [
+      "IFX.Modules.*.Presentation"
+    ],
+    "IntegrationAdapter": [
+      "IFX.Modules.*.Integration",
+      "IFX.Modules.*.Infrastructure.Integrations"
+    ],
+    "Infrastructure": [
+      "IFX.Modules.*.Infrastructure",
+      "IFX.Platform.*.Infrastructure.*"
+    ],
+    "Client": [
+      "IFX.Modules.*.Client"
+    ],
+    "Runtime": [
+      "IFX.Platform.*.Runtime"
+    ],
+    "Composition": [
+      "IFX.Modules.*.Composition",
+      "IFX.Platform.*.Composition"
+    ],
+    "RuntimeHost": [
+      "IFX.ApiHost",
+      "IFX.*.Worker"
+    ]
+  },
+  "forbiddenDependencies": {
+    "Presentation": [
+      "I*Repository",
+      "*DbContext"
+    ]
+  },
+  "forbiddenDependencyOrigins": {
+    "Application": [
+      "Infrastructure"
+    ]
+  },
+  "claims": [
+    {
+      "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE",
+      "ruleId": "FORBIDDEN-DEPENDENCY",
+      "minimumMatches": 1
+    },
+    {
+      "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE",
+      "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN",
+      "minimumMatches": 1
+    }
+  ]
+}

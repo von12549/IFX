@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-injection",
+  "matrixSha256": "22c077b8c1719c6323772af36a5f9be9ef534498acf6506d5b2233c876ac70cc",
+  "rules": [
+    {
+      "ruleId": "FORBIDDEN-DEPENDENCY", "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE", "stage": "pre",
+      "detectors": ["ifx-injection"], "evidenceKinds": ["source-parameter", "coverage"],
+      "severity": "blocking", "baseline": null, "minimumMatches": 1
+    },
+    {
+      "ruleId": "FORBIDDEN-DEPENDENCY-ORIGIN", "claimId": "IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE", "stage": "pre",
+      "detectors": ["ifx-injection"], "evidenceKinds": ["source-parameter", "coverage"],
+      "severity": "blocking", "baseline": null, "minimumMatches": 1
+    }
+  ]
+}

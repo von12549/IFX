@@ -1,0 +1,181 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "clean",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "pass",
+      "category": "success",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 0
+    },
+    {
+      "id": "presentation-primary",
+      "presentation": "public class View(IOrderRepository repo) {}",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 1,
+      "originFindings": 0
+    },
+    {
+      "id": "presentation-generic-nullable",
+      "presentation": "public class View { public View(System.Collections.Generic.IReadOnlyList<IOrderRepository?> repositories) {} }",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 1,
+      "originFindings": 0
+    },
+    {
+      "id": "presentation-method-dbcontext",
+      "presentation": "public class View { public void Run(FooDbContext db) {} }",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 1,
+      "originFindings": 0
+    },
+    {
+      "id": "origin-primary",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service(StorageType storage) {}",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 1
+    },
+    {
+      "id": "origin-generic",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service { public void Run(System.Collections.Generic.List<StorageType> items) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 1
+    },
+    {
+      "id": "same-ring-shadow",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class StorageType {} public class Service(StorageType storage) {}",
+      "infrastructure": "public class StorageType {}",
+      "status": "pass",
+      "category": "success",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 0
+    },
+    {
+      "id": "unknown-origin",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service(UnknownType item) {}",
+      "infrastructure": "public class StorageType {}",
+      "status": "pass",
+      "category": "success",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 0
+    },
+    {
+      "id": "case-sensitive-origin",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service(storagetype item) {}",
+      "infrastructure": "public class StorageType {}",
+      "status": "pass",
+      "category": "success",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 0
+    },
+    {
+      "id": "zero-presentation",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 0,
+      "originMatched": 1,
+      "nameFindings": 1,
+      "originFindings": 0
+    },
+    {
+      "id": "zero-application",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 0,
+      "nameFindings": 0,
+      "originFindings": 1
+    },
+    {
+      "id": "zero-infrastructure",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "status": "fail",
+      "category": "findings-blocking",
+      "nameMatched": 1,
+      "originMatched": 1,
+      "nameFindings": 0,
+      "originFindings": 1
+    },
+    {
+      "id": "zero-projects",
+      "noProjects": true,
+      "status": "error",
+      "category": "prerequisite-missing",
+      "nameMatched": 0,
+      "originMatched": 0,
+      "nameFindings": 0,
+      "originFindings": 0
+    },
+    {
+      "id": "malformed-project",
+      "presentation": "public class View { public void Run(ICommand command) {} }",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "malformedProject": "Presentation",
+      "status": "error",
+      "category": "invalid-input",
+      "nameMatched": 0,
+      "originMatched": 0,
+      "nameFindings": 0,
+      "originFindings": 0
+    },
+    {
+      "id": "malformed-source",
+      "presentation": "public class View {",
+      "application": "public class Service { public void Run(ICommand command) {} }",
+      "infrastructure": "public class StorageType {}",
+      "status": "error",
+      "category": "invalid-input",
+      "nameMatched": 0,
+      "originMatched": 0,
+      "nameFindings": 0,
+      "originFindings": 0
+    }
+  ]
+}
