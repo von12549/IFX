@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2a-g03-claim-inventory",
+  "title": "Inventory exact Phase 9 G03 claims and V4 implementation destinations",
+  "goal": "Prevent a governance.json-only migration from silently omitting active G03 specialized-gate obligations.",
+  "acceptanceCriteria": [
+    "The current V3 Post entry point, Phase 9 execution path, every aggregate check and every catalog error code are enumerated with source hash and V4 destination.",
+    "The inventory distinguishes catalog/governance facts, source and snapshot reconciliation, documentation, and closeout readiness, including fresh and zero-subject evidence needs.",
+    "Formal Pre/Diff, source hash checks, isolated IFX package regression and published Package identity pass without accepting a C2 module or production Profile."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c2a-g03-claim-inventory.md",
+    "docs/guards/plans/20260924-v4-ifx-c2a-g03-claim-inventory.plan.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

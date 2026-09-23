@@ -1,0 +1,836 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-ifx-c2-g03-claim-matrix",
+  "sourceCheckpointCommit": "33b1c602",
+  "activeGate": {
+    "id": "v3-specialized-g03",
+    "stage": "post",
+    "mode": "Specialized",
+    "phase": 9,
+    "trustType": "judging",
+    "evaluator": "base G03 detectors",
+    "candidateInputs": [
+      "G03 catalog",
+      "src/",
+      "docs/architecture/review/"
+    ],
+    "derivedInputs": [
+      "LayerGuard governance input",
+      "G03 serialization golden",
+      "G03 sync API snapshot"
+    ],
+    "headExecutes": false
+  },
+  "sourceScripts": [
+    {
+      "id": "guard",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+      "sha256": "c2507d59c47a04ce2226a487e84ee49f78c79c1fb8a74ca9705d8888ea88bd29"
+    },
+    {
+      "id": "inventory",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventInventory.ps1",
+      "sha256": "9835cb1fb1ef5b6b9862d9de93190e2b8959973e1094bd6ecec2983348ab7b6d"
+    },
+    {
+      "id": "catalog",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+      "sha256": "ea9833b7e663f9b5f0fb9b11085ac736457b01256ec25b466091beed7a503528"
+    },
+    {
+      "id": "sourceReconciliation",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03SourceReconciliation.ps1",
+      "sha256": "1be90d29808dce4c50e93cde205069dbae1266d557acc6d045aac41730750ec2"
+    },
+    {
+      "id": "snapshots",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1",
+      "sha256": "40aaa10142ab586b4a5fb5094edfd8aea07d792a29c951f9c42b5c51de37b4e6"
+    },
+    {
+      "id": "handoffExport",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Export-G03LayerGuardGovernance.ps1",
+      "sha256": "d62498b5d3cddbef2069b26df2af8a04fe36307d7410ce16081e47841874a72a"
+    },
+    {
+      "id": "handoffCheck",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03LayerGuardGovernance.ps1",
+      "sha256": "0dc9031621055ee22011a1f0fe281a5ad29773b9a83a97c00e3904147858ce77"
+    },
+    {
+      "id": "documentation",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03Documentation.ps1",
+      "sha256": "4e395951f18e93ffec54f7e8de7ade39a4322407df6b7691be010e2d44707912"
+    },
+    {
+      "id": "closeout",
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03CloseoutReadiness.ps1",
+      "sha256": "c517013a91974efa8677140a530d16d084e29d2b368d4074aa6bcc3756d4e276"
+    }
+  ],
+  "authorityFiles": [
+    {
+      "path": "docs/guards/V3_ifx/stages/post/stage.json",
+      "sha256": "529786389749061b5e63bc4d7b3fc746ef66ed1b6492c1dfc8d154996dac80c7",
+      "trust": "base gate declaration"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+      "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+      "trust": "head-candidate governing catalog"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+      "sha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649",
+      "trust": "derived candidate projection"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+      "sha256": "6cfa29d0a16bc36a1f5d2bdd4ced8609a68f781c65257021f13a2d1bfe1c71f0",
+      "trust": "derived candidate projection"
+    },
+    {
+      "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+      "sha256": "0db00c3cada3795595616fc906de28d3ef6baba350d55ac79baa229b6e1de15a",
+      "trust": "derived candidate projection"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g03/catalog.json",
+      "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+      "trust": "V3 bound policy copy"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g03/governance.json",
+      "sha256": "b8f259f02179c48558bd36fd9ccc5f37ce486bbf14f92e9d4c9ada826e4f518c",
+      "trust": "V3 LayerGuard projection"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "sha256": "91367cefc30a2098f52ebd2cafa8947f20fb050cf9be449af0160836489ce0a0",
+      "trust": "head target governance route"
+    },
+    {
+      "path": "docs/architecture/review/plans/00-G03-contract-event-governance.md",
+      "sha256": "cbcfe20fc5bf4c3773381f4803f3b933aad54fec7a26aa0af24e405c3a9fe796",
+      "trust": "head target closeout plan"
+    },
+    {
+      "path": "docs/architecture/review/plans/03-layerguard-alignment.md",
+      "sha256": "51db7d9fbf4918d9b4a71af7177a13efd3731ecbd81b57dd9797f226f30426b7",
+      "trust": "head target closeout plan"
+    }
+  ],
+  "aggregateChecks": [
+    {
+      "id": "deterministicInventory",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "legacyAbstractionProjectsRetired",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "exactCurrentReaderCount",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "exactCurrentReaderMethodCount",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "exactDtoCount",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "exactIntegrationEventCount",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "messagingSurfaceInventoried",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "generatedDirectoriesExcluded",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "catalogValidation",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "checkpointResult": "passed",
+      "evidenceKind": "catalog-validation-report",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "publicSurfaceReconciliation",
+      "destination": "C2c",
+      "sourceScript": "inventory",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "sourceCatalogReconciliation",
+      "destination": "C2c",
+      "sourceScript": "sourceReconciliation",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "deterministicCompatibilitySnapshots",
+      "destination": "C2c",
+      "sourceScript": "snapshots",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "layerGuardGovernanceHandoff",
+      "destination": "C2b",
+      "sourceScript": "handoffCheck",
+      "checkpointResult": "passed",
+      "evidenceKind": "phase9-derived-evidence",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "bilingualDocumentationAndRenderedDiagrams",
+      "destination": "C2d",
+      "sourceScript": "documentation",
+      "checkpointResult": "passed",
+      "evidenceKind": "documentation-report",
+      "zeroOrMissingControl": "required before C2 closure"
+    },
+    {
+      "id": "closeoutReadinessAudit",
+      "destination": "C2d",
+      "sourceScript": "closeout",
+      "checkpointResult": "passed",
+      "evidenceKind": "closeout-status-report",
+      "zeroOrMissingControl": "required before C2 closure"
+    }
+  ],
+  "catalogErrorCodes": [
+    {
+      "code": "active-admission",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "approval-policy",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "backup-codeowners",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "backup-owner-evidence",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "backup-owner-reference",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "c4-denylist",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "change-record-consumer",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "change-record-metadata",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "classification-policy",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "consumer-evidence",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "consumer-kind",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "consumer-reference",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "contract-allowlist",
+      "family": "contract-boundary",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "duplicate-id",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-classification",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-exception",
+      "family": "field-exception",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-exception-approval",
+      "family": "field-exception",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-exception-expired",
+      "family": "field-exception",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-exception-metadata",
+      "family": "field-exception",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-exception-reference",
+      "family": "field-exception",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-metadata",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-source-drift",
+      "family": "field-governance",
+      "destination": "C2c",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-source-missing",
+      "family": "field-governance",
+      "destination": "C2c",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-surface-empty",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-surface-metadata",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "field-surface-missing",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "format-version",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "identity-format",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "infrastructure-field",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "infrastructure-owner",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "infrastructure-sensitive-boundary",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "legacy-disposition",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "legacy-expiry",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "legacy-lifecycle",
+      "family": "provider-graph",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "legacy-metadata",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "legacy-retirement-evidence",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "lifecycle",
+      "family": "provider-graph",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "minimization-evidence",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "missing-consumer",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "mixed-cycle",
+      "family": "provider-graph",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "mode",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "module-ownership",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "module-reference",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "owner-incomplete",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "owner-reference",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "policy-node",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "primitive-admission",
+      "family": "contract-boundary",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "primitive-consumers",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "primitive-metadata",
+      "family": "contract-boundary",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "protocol-evidence",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "protocol-metadata",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "protocol-reference",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "replacement-target",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "required-node",
+      "family": "catalog-schema-and-lifecycle",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "reviewer-policy",
+      "family": "ownership-and-participants",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "secret-forbidden",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "self-test",
+      "family": "detector-self-test",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "sensitive-use-metadata",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "sensitive-use-reference",
+      "family": "field-governance",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "sync-cycle",
+      "family": "provider-graph",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "waiver-duration",
+      "family": "waiver",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "waiver-expired",
+      "family": "waiver",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "waiver-metadata",
+      "family": "waiver",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "waiver-policy",
+      "family": "waiver",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    },
+    {
+      "code": "waiver-unwaivable",
+      "family": "waiver",
+      "destination": "C2b",
+      "sourceScript": "catalog",
+      "evidenceKind": "catalog-validation-error",
+      "negativeFixture": "required"
+    }
+  ],
+  "checkpoint": {
+    "phase9Report": "artifacts/guards/p10-ifx-c2a/v3-phase9/guard.json",
+    "result": "passed",
+    "aggregateChecksPassed": 15,
+    "catalogErrorCount": 0,
+    "catalogSelfTestsPassed": 18,
+    "counts": {
+      "owners": 2,
+      "modules": 8,
+      "consumers": 5,
+      "protocols": 6,
+      "publicSurface": 46,
+      "fieldSurfaces": 34,
+      "fields": 200,
+      "c3Fields": 11,
+      "fieldExceptions": 8,
+      "sharedPrimitives": 6,
+      "changeRecords": 4,
+      "graphEdges": 9,
+      "syncCycles": 0,
+      "mixedCycles": 0
+    },
+    "closeout": {
+      "result": "passed",
+      "closureStatus": "pre-ready",
+      "readyForClosure": false,
+      "blockerCodes": [
+        "protocols-not-active",
+        "behavior-tests-pending",
+        "closure-approvals-pending"
+      ]
+    }
+  },
+  "destinations": [
+    {
+      "id": "C2b",
+      "scope": "Catalog/governance, ownership, providers/consumers, field and waiver/exception policy, graph and LayerGuard handoff",
+      "stage": "post",
+      "status": "missing",
+      "minimumCoverage": "Each active error family gets clean, violation, missing and zero-subject controls."
+    },
+    {
+      "id": "C2c",
+      "scope": "Fresh source inventory/reconciliation and deterministic compatibility snapshots",
+      "stage": "post",
+      "status": "missing",
+      "minimumCoverage": "Fresh target source, generated exclusion, exact counts, source/catalog mismatch and snapshot drift controls."
+    },
+    {
+      "id": "C2d",
+      "scope": "Bilingual documentation and closeout readiness without conflating pre-ready with closed",
+      "stage": "post",
+      "status": "missing",
+      "minimumCoverage": "Missing document/asset/link, overdue legacy, blocker owner/revisit and readiness-state controls."
+    },
+    {
+      "id": "C2e",
+      "scope": "Combined direct/dependency Stage and trusted-base governance integration",
+      "stage": "post",
+      "status": "missing",
+      "minimumCoverage": "Exact module locks, immutable TargetRoot, fresh evidence, clean/negative/zero and V3 comparison."
+    }
+  ],
+  "explicitNonEquivalences": [
+    "C1 provider-cycle/direct-provider candidates do not cover the Phase 9 G03 gate.",
+    "governance.json projection alone omits catalog, source, snapshots, docs and closeout checks.",
+    "Phase 9 passed with pre-ready closeout; do not claim G03 business closure.",
+    "No V3 runtime script is imported as V4 module code."
+  ]
+}
