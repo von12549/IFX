@@ -1,0 +1,431 @@
+{
+  "formatVersion": 1,
+  "id": "ifx_g04_c3e_candidate",
+  "version": "0.1.0",
+  "projectIdentity": {
+    "id": "ifx",
+    "relativeRoots": [
+      "src",
+      "deployment",
+      "docs"
+    ]
+  },
+  "moduleSelections": [
+    {
+      "id": "ifx-g04-manifests",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": [
+          "IFX.C3.G04_INVENTORY",
+          "IFX.C3.G04_MANIFEST",
+          "IFX.C3.G04_ORCHESTRATION",
+          "IFX.C3.G04_FAILURE_POLICY"
+        ],
+        "policySha256": "7090ac64e4fcb4b529d8d8fe5404df44377b31bfc4f997db7207984b79ab2e98",
+        "authorityHashes": [
+          {
+            "id": "runtime-release",
+            "sha256": "c8c580aa0feb5c287ca488561bb7473d345655f94678b1cce80c302c9633caeb"
+          },
+          {
+            "id": "module-manifest",
+            "sha256": "4047c3209d3faa66d0398b7a5c1cdcaa855d329f471363bf430b33747e495860"
+          },
+          {
+            "id": "module-schema",
+            "sha256": "aa84065d759ac97d8241761f470b67ea1bf3c18ebe00dc95f22a86ed0c74a4da"
+          },
+          {
+            "id": "deployment-units",
+            "sha256": "4302bd19a3415fac2d854a108b14223110c549bf5d839c35e1dffbf4e31944e1"
+          },
+          {
+            "id": "infrastructure-compatibility",
+            "sha256": "7aa9a3ed5de7a9c0824bc40e3dbe9068883d276b4185748e89df9e6bc32c1a1b"
+          },
+          {
+            "id": "schema-release",
+            "sha256": "0663fb88f6587bb00910bff97851a3fc485c576330ec596fb682700f9806117d"
+          },
+          {
+            "id": "migration-manifest",
+            "sha256": "5b513cec8207c8a500be36fed88961ea9a2cbe6519c4c8dcac2314f045909ca6"
+          },
+          {
+            "id": "release-orchestration",
+            "sha256": "56b1cc645e879459a97a0bcc04829e8aa838bd50c0e8b9fc72c27c9fb74adcfe"
+          },
+          {
+            "id": "release-evidence-template",
+            "sha256": "f1bef0578004533de8981b014e03a0fc1cebf9b534de7815469f959534d31bf4"
+          },
+          {
+            "id": "backpressure-policy",
+            "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
+          },
+          {
+            "id": "failure-matrix",
+            "sha256": "5f238f5cc320af4aacfbfb4b99b7f8bc268c3cfed564f775ff2c19aee5e0a0f6"
+          },
+          {
+            "id": "dependency-criticality",
+            "sha256": "458b001c3f300f4eca091f90b60e7ba14652e2a916f17fbabd6e82d0d893d663"
+          },
+          {
+            "id": "host-project",
+            "sha256": "856503c6163622ac84b64cf665fbea99ab1d6b0581ba09b1a1616fc3592d3e3e"
+          },
+          {
+            "id": "g04-adr",
+            "sha256": "a39548eaefd5ca449984051d3b7d2c30c8ce29de87dc461c4794845a78f82b78"
+          },
+          {
+            "id": "source-program",
+            "sha256": "f280698b752a9fffa6bd56b62d8a7a967245c0fe7ecc268ee01a5519e7465096"
+          },
+          {
+            "id": "source-health",
+            "sha256": "897a274beb860b4ba308f3c45f17b29807680a3b7928a1f3a6a8ed72939f8fd8"
+          },
+          {
+            "id": "source-background-jobs",
+            "sha256": "89f8a26148c841d2807b36d05783f7543eb7f5bae9d9fbd03c6c77747ee31972"
+          },
+          {
+            "id": "compose",
+            "sha256": "b9007628838691fa3e028e3bf4060922448b620cfd9846effcaa48bedb0f5cef"
+          },
+          {
+            "id": "compose-nas",
+            "sha256": "a9343117296dad95f9d30286fec1d498daaf88138d47c7147ade80d29304046c"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-g04-runtime",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": [
+          "IFX.C3.G04_ROLE",
+          "IFX.C3.G04_STARTUP",
+          "IFX.C3.G04_WORKER",
+          "IFX.C3.G04_DRAIN",
+          "IFX.C3.G04_HEALTH",
+          "IFX.C3.G04_BACKPRESSURE",
+          "IFX.C3.G04_INBOUND"
+        ],
+        "policySha256": "003df03000fc56007574fc140fc77be405b8cb3a30ae8880106db248f7768589",
+        "authorityHashes": [
+          {
+            "id": "program",
+            "sha256": "f280698b752a9fffa6bd56b62d8a7a967245c0fe7ecc268ee01a5519e7465096"
+          },
+          {
+            "id": "runtimeResolver",
+            "sha256": "c25e760f2e83a11c80d5a2ec48e8e1119a163dbd848a6b92152cf713bb408a5b"
+          },
+          {
+            "id": "backgroundJobs",
+            "sha256": "89f8a26148c841d2807b36d05783f7543eb7f5bae9d9fbd03c6c77747ee31972"
+          },
+          {
+            "id": "compose",
+            "sha256": "b9007628838691fa3e028e3bf4060922448b620cfd9846effcaa48bedb0f5cef"
+          },
+          {
+            "id": "monitor",
+            "sha256": "0ed527befc42756406c1cb2c494f57305fb28c0a4bdfc748f44f22b6e02e80db"
+          },
+          {
+            "id": "dependencyReview",
+            "sha256": "8fb1de8f8030ac9e15fe985111e63149bd60481291f7bfe60f39b038519c38b6"
+          },
+          {
+            "id": "contracts",
+            "sha256": "4ad5d4fb5c4523e8d4a094eb00563f31750c218f6acc79b800618e2d11aebcee"
+          },
+          {
+            "id": "leaseTests",
+            "sha256": "b4d2570059695e143be93642a4fc2ef44ba5b0d3f5d244d4ee1e6263d4475b14"
+          },
+          {
+            "id": "criticalWorker",
+            "sha256": "fcd2fe40e53f6a721ad77e9aa891feec9ab682186187a49a67061f16dae1ee0b"
+          },
+          {
+            "id": "drainCoordinator",
+            "sha256": "9d582d65c8c5cd87210335b528c83da2cd85ac552bb84983b4c63bcd9132b9c9"
+          },
+          {
+            "id": "drainOptions",
+            "sha256": "7e4107d62105942cd0e7eb35530c3786fc9a09fa7ec503fcf8109d259d9fafde"
+          },
+          {
+            "id": "healthConfig",
+            "sha256": "897a274beb860b4ba308f3c45f17b29807680a3b7928a1f3a6a8ed72939f8fd8"
+          },
+          {
+            "id": "snapshotStore",
+            "sha256": "b952f643a89cfcccac223ad7869fe348abefab7bfb85f4167cf9fd9ee0876a2c"
+          },
+          {
+            "id": "backpressurePolicy",
+            "sha256": "7096978b7fc8aaaf1d832b8eca1c983803fdffc36ab70f39dda4cde0f4f5f263"
+          },
+          {
+            "id": "backpressureImpl",
+            "sha256": "a840d9db35eafb8be9e183adfe04ada9698f5e039e1f9c92cd2d5909612fd548"
+          },
+          {
+            "id": "backpressureTests",
+            "sha256": "071d2bb6b8be45aed29ad5d2a432e5fc20941987a004fc39550694cb222bdd2f"
+          },
+          {
+            "id": "receiver",
+            "sha256": "1be1a2676df704b78900eb31d62b9c5feac544286ad4e2970b44e3a17a45fae7"
+          },
+          {
+            "id": "sender",
+            "sha256": "8f51c262d58728ba1448d483ddbfe5040d9b2073f29f04deb6cfac682f92d9b5"
+          },
+          {
+            "id": "registration",
+            "sha256": "9fc18d5303e291b22bf9d8fdf935bb68e19df9a8f26318cf8ffde639dd8446eb"
+          },
+          {
+            "id": "inboundTests",
+            "sha256": "a412da37bd0e9365683993c30ca39051afcd68f7065d6e3d93047d0f8514c1dd"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ifx-g04-closeout",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": [
+          "IFX.C3.G04_EVIDENCE",
+          "IFX.C3.G04_DOCUMENTATION",
+          "IFX.C3.G04_CLOSEOUT",
+          "IFX.C3.G04_INBOUND_CLOSEOUT"
+        ],
+        "policySha256": "cc0db44bad61b3699dfcbc2582d948b697bd7122f7fd59e5e568d41ab077d93f",
+        "authorityHashes": [
+          {
+            "id": "phase0",
+            "sha256": "d0fa95fe409d595380f9876161366e0a7882ea3b339b350f2279f91bcfbb5a3b"
+          },
+          {
+            "id": "leaseEvidence",
+            "sha256": "a3255b3210af0eb681a9b3e44c0b766345ca7671f5597737541b73df5e3c811a"
+          },
+          {
+            "id": "phase5",
+            "sha256": "96a72643217bffdba2c026ac32c96b2fdf75afc77f4e1a8ca748fca09effe4f1"
+          },
+          {
+            "id": "phase6",
+            "sha256": "67a8b336213cab29adee1797cffc4bc6125b2b1e3035bdc2d37e158239e5a538"
+          },
+          {
+            "id": "recoveryRunbook",
+            "sha256": "2386471e17bc712dba08afc1169d814417cd14fc609fde7e66e743f60463aa0b"
+          },
+          {
+            "id": "phase7",
+            "sha256": "8bd3e60a2e3c8c1ec108cacf414558ec5f77dfa5f90018730eacf101fcc3633a"
+          },
+          {
+            "id": "releaseTemplate",
+            "sha256": "f1bef0578004533de8981b014e03a0fc1cebf9b534de7815469f959534d31bf4"
+          },
+          {
+            "id": "phase8",
+            "sha256": "975c938454189ba7856432435addae01d317b82ef23b08222228d84298861cef"
+          },
+          {
+            "id": "failureRunbook",
+            "sha256": "943959f985534e1c24575c7cb5a032650bc712662ee81655238a82cea231b89b"
+          },
+          {
+            "id": "phase9",
+            "sha256": "6051c02919049052e35505bf12fa3af89931c83f49b9d6ca04edd0b67aa84065"
+          },
+          {
+            "id": "phase10",
+            "sha256": "4db39cf80c9ab6de1ff208a556f00e462baafa3cab3c0dd0a3c218583d5d6474"
+          },
+          {
+            "id": "phase11",
+            "sha256": "9ca9e52ad8c7c3a546c4a71ce0c20770cc5596036ff88038b02fb219fef63e85"
+          },
+          {
+            "id": "phase12Handoff",
+            "sha256": "7ceca1e5d773dd9f582989a95d18cf94f87b1f4186cba024d87913fa1a13dc13"
+          },
+          {
+            "id": "zh",
+            "sha256": "6767ccb62b41513eca1a0d89c61ccfc1d948d7ee038e92d6cbd007915f3e4e2f"
+          },
+          {
+            "id": "en",
+            "sha256": "55ac3d4f01b4d6f95f788c7567a736a1dfc5e1d4e9d4897e30c5fbb51838ec3a"
+          },
+          {
+            "id": "architectureIndex",
+            "sha256": "07e1a50d39fa60c43ccbfd288cf5961dacd17b84df50ffcc29cd717bfdd43395"
+          },
+          {
+            "id": "prerequisites",
+            "sha256": "109d6fab85d1449d0ef8f3c4685b78f76ebbd5187f454f294f8f0d71d7985e00"
+          },
+          {
+            "id": "downstreamG02",
+            "sha256": "9ffaac653624e5121e687414c62e27463b672670d83853da9ae073f3d8b8b02e"
+          },
+          {
+            "id": "downstreamPlan01",
+            "sha256": "5189d56bcf5137ff5cb31a3099746825b9b1f2210ec294a2c477598e50bcbca4"
+          },
+          {
+            "id": "downstreamPlan02",
+            "sha256": "7e10e7c74fc3eb68e2f0878625241465786358d3f7f7c866b0bc696a5522c6eb"
+          },
+          {
+            "id": "downstreamLayerGuard",
+            "sha256": "51db7d9fbf4918d9b4a71af7177a13efd3731ecbd81b57dd9797f226f30426b7"
+          },
+          {
+            "id": "g04Status",
+            "sha256": "dc7464f7b3888bb57b313acf263e4e666bbb58f38ab3a29917bdf05eec466c81"
+          },
+          {
+            "id": "g04Plan",
+            "sha256": "bf489bbb5e5adb1d9e4768a8152342d86a78638ad89fc4a3ca9abf3254dced87"
+          },
+          {
+            "id": "inboundStatus",
+            "sha256": "b030d807cbb36efd0f1d00c9d674c0ffbf30888006442a3e4194b40f7ec20aa8"
+          },
+          {
+            "id": "readiness",
+            "sha256": "20d0705236643cc230c7f062b20b72f4ffe3ce4261e8e45404caf3cd934453b0"
+          },
+          {
+            "id": "diagram-consumer-first-release-mmd",
+            "sha256": "c85a0a8a64718f505abd3fde1247931ef81bdd50424a5aa74fb67868e1edddec"
+          },
+          {
+            "id": "diagram-consumer-first-release-svg",
+            "sha256": "f29631a7846541f2bffdbfb2e9238642be17fba71c69d83eb6570c5a94910f1b"
+          },
+          {
+            "id": "diagram-consumer-first-release-png",
+            "sha256": "b1bb60551972083d8502ee03b7fabad88d8b0dc27582eee79a6a48d53c449992"
+          },
+          {
+            "id": "diagram-deployment-boundary-mmd",
+            "sha256": "c55814b8b0c4671523f834cc45f3924d9ce83ba1b4db167b1f2bebff531c4f18"
+          },
+          {
+            "id": "diagram-deployment-boundary-svg",
+            "sha256": "72dd99c85fd94b77aeece6f0dda7b13f6146455e9e4b08e195fc5866adab175a"
+          },
+          {
+            "id": "diagram-deployment-boundary-png",
+            "sha256": "d8d0a853a2b2489cd53fc5c1463f5d2357b2fe82a45fff179500f1ef3d0973ff"
+          },
+          {
+            "id": "diagram-dispatcher-backpressure-mmd",
+            "sha256": "32d8d21843efe600c0b7b9709af6ecd484022262fb4e4d374dc3981597fa8ef0"
+          },
+          {
+            "id": "diagram-dispatcher-backpressure-svg",
+            "sha256": "c77a1a0030909cfd3fa38b1fac3f3f0211b548277745ea87fe61540a4e439e39"
+          },
+          {
+            "id": "diagram-dispatcher-backpressure-png",
+            "sha256": "8272c2c5cf4f3b1523746641efd7900d182fe7ea12a25e0a30d4e712009ae943"
+          },
+          {
+            "id": "diagram-failure-rollback-mmd",
+            "sha256": "a7b9c03167ddd886b9ea883b604a3108e70938c94e9f20775b47be0b90a4f45b"
+          },
+          {
+            "id": "diagram-failure-rollback-svg",
+            "sha256": "1d15e25c8ae0000882e0830b7e91858dccdd01aba0f2ac2aa525f87b1b7042a0"
+          },
+          {
+            "id": "diagram-failure-rollback-png",
+            "sha256": "8c0798995e9cd30a4a367ef41203098ba811fb1448ead86d917289c376a22488"
+          },
+          {
+            "id": "diagram-runtime-topology-mmd",
+            "sha256": "7f3969e03678fe49d2393b983cb6e00da62315805c21cc184ce89e74149c37c9"
+          },
+          {
+            "id": "diagram-runtime-topology-svg",
+            "sha256": "9d1c605a5375d4c3bd6eb78f1962ee473d040131d5b8ca51121575a544b24e56"
+          },
+          {
+            "id": "diagram-runtime-topology-png",
+            "sha256": "d947cf2e567f8657d247273c1553e11463936e2657336539276a0c7ea77a1aa1"
+          },
+          {
+            "id": "diagram-startup-health-drain-mmd",
+            "sha256": "2096e053be8684aaae86e9eab5b76eef6b2c6448452b3c8c4c177e1baf28a69e"
+          },
+          {
+            "id": "diagram-startup-health-drain-svg",
+            "sha256": "8c0f5a8379a36f4ee3dae83b97fed63d3c442001d356451a1ef8566317c74473"
+          },
+          {
+            "id": "diagram-startup-health-drain-png",
+            "sha256": "e82ffba8830fbfd9e51c4afc7d1ceb2c912bb05a767193c2f3212e9032608c76"
+          }
+        ]
+      }
+    }
+  ],
+  "stageConfiguration": {
+    "bootstrap": {
+      "enabled": false,
+      "modules": []
+    },
+    "analysis": {
+      "enabled": false,
+      "modules": []
+    },
+    "pre": {
+      "enabled": false,
+      "modules": []
+    },
+    "post": {
+      "enabled": true,
+      "modules": [
+        "ifx-g04-manifests",
+        "ifx-g04-runtime",
+        "ifx-g04-closeout"
+      ]
+    }
+  },
+  "rules": [
+    "G04-INVENTORY",
+    "G04-MANIFEST",
+    "G04-ORCHESTRATION",
+    "G04-FAILURE-POLICY",
+    "G04-ROLE",
+    "G04-STARTUP",
+    "G04-WORKER",
+    "G04-DRAIN",
+    "G04-HEALTH",
+    "G04-BACKPRESSURE",
+    "G04-INBOUND",
+    "G04-EVIDENCE",
+    "G04-DOCUMENTATION",
+    "G04-CLOSEOUT",
+    "G04-INBOUND-CLOSEOUT"
+  ],
+  "baselineRefs": []
+}

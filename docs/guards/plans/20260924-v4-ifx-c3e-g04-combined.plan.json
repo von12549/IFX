@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c3e-g04-combined",
+  "title": "Combine G04 candidate modules on published V4 1.1.3",
+  "goal": "Verify combined G04 candidate execution, exact claim closure and fresh V3 comparison without production approval.",
+  "acceptanceCriteria": [
+    "All 15 blocking G04 claims and three candidate modules are locked in one schema-valid Profile without baselines; 79 active mapped checks and three P10.3-deferred checks remain explicit.",
+    "Direct and dependency-enabled Post on real IFX, negative/missing/stale/zero controls, synthetic-only 1.1.3 composition, immutable roots and fresh V3 Phase 12/inbound replay pass.",
+    "Formal Pre/Diff, isolated IFX package regression and 1.1.3 package/archive/receipt identity pass; discrepancies and PRE-READY blockers remain visible."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c3e-g04-combined.md",
+    "docs/guards/plans/20260924-v4-ifx-c3e-g04-combined.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3e/profile.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3e/authority-lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3e/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c3e/tests/Test-IFXG04Combined.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
