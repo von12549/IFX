@@ -1,0 +1,75 @@
+{
+  "formatVersion": 1,
+  "id": "ifx_g03_c2e_candidate",
+  "version": "0.1.0",
+  "projectIdentity": { "id": "ifx", "relativeRoots": ["src", "docs"] },
+  "moduleSelections": [
+    {
+      "id": "ifx-g03-governance-core",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": ["IFX.C2.G03_OWNERSHIP", "IFX.C2.G03_PROVIDER_GRAPH", "IFX.C2.G03_WAIVER_POLICY", "IFX.C2.G03_PROJECTION"],
+        "policySha256": "4a26edfa3d3d24f171262c1e357cb4165adcc8329f44db2acdad2be6e4f3b374",
+        "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+        "projectionSha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649"
+      }
+    },
+    {
+      "id": "ifx-g03-catalog-semantics",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": ["IFX.C2.G03_PROTOCOL_LIFECYCLE", "IFX.C2.G03_FIELD_GOVERNANCE", "IFX.C2.G03_LEGACY_SURFACE", "IFX.C2.G03_CHANGE_CONTROL"],
+        "policySha256": "79e2f830c060348826f9a6df49db9e35c0d4af1f5e7eeeae527b08261e211c7d",
+        "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
+      }
+    },
+    {
+      "id": "ifx-g03-source-reconciliation",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": ["IFX.C2.G03_SOURCE_INVENTORY", "IFX.C2.G03_SOURCE_RECONCILIATION", "IFX.C2.G03_FIELD_SOURCE"],
+        "policySha256": "1384c3559f9b61909a31780f42493cc49eda4f453da8f58c97e58ea0ee15d308",
+        "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1"
+      }
+    },
+    {
+      "id": "ifx-g03-snapshots",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": ["IFX.C2.G03_SYNC_API_SNAPSHOT", "IFX.C2.G03_SERIALIZATION_SNAPSHOT"],
+        "policySha256": "78779e8f03531c33c39cee3825a36acc2625a2c6498c667909621c125a415191",
+        "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+        "apiSnapshotSha256": "0db00c3cada3795595616fc906de28d3ef6baba350d55ac79baa229b6e1de15a",
+        "serializationSnapshotSha256": "6cfa29d0a16bc36a1f5d2bdd4ced8609a68f781c65257021f13a2d1bfe1c71f0"
+      }
+    },
+    {
+      "id": "ifx-g03-docs-closeout",
+      "versionRange": ">=0.1.0 <1.0.0",
+      "config": {
+        "enabledClaims": ["IFX.C2.G03_DOCUMENTATION", "IFX.C2.G03_LEGACY_DEADLINE", "IFX.C2.G03_CLOSEOUT_READINESS"],
+        "policySha256": "699bd116503cf03fbebc7404dbd75384b5ef7e3921e86b85a770c90c085cffee",
+        "catalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+        "zhSha256": "7b5192d3f8e1d79a6d3b06e40335136532ccef184497504951ed605c41bb6599",
+        "enSha256": "24cf884617b4fc82827a340d923801547668bcc6c977315f7bcb8dcdbe12c087",
+        "closeoutSha256": "383dca094ec09f600f9c83ff3e3fd148905b1afe8650466a95e3d64f54df57c0",
+        "g03PlanSha256": "cbcfe20fc5bf4c3773381f4803f3b933aad54fec7a26aa0af24e405c3a9fe796",
+        "layerPlanSha256": "51db7d9fbf4918d9b4a71af7177a13efd3731ecbd81b57dd9797f226f30426b7"
+      }
+    }
+  ],
+  "stageConfiguration": {
+    "bootstrap": { "enabled": false, "modules": [] },
+    "analysis": { "enabled": false, "modules": [] },
+    "pre": { "enabled": false, "modules": [] },
+    "post": { "enabled": true, "modules": ["ifx-g03-governance-core", "ifx-g03-catalog-semantics", "ifx-g03-source-reconciliation", "ifx-g03-snapshots", "ifx-g03-docs-closeout"] }
+  },
+  "rules": [
+    "G03-OWNERSHIP", "G03-PROVIDER-GRAPH", "G03-WAIVER-POLICY", "G03-PROJECTION",
+    "G03-PROTOCOL-LIFECYCLE", "G03-FIELD-GOVERNANCE", "G03-LEGACY-SURFACE", "G03-CHANGE-CONTROL",
+    "G03-SOURCE-INVENTORY", "G03-SOURCE-RECONCILIATION", "G03-FIELD-SOURCE",
+    "G03-SYNC-API-SNAPSHOT", "G03-SERIALIZATION-SNAPSHOT",
+    "G03-DOCUMENTATION", "G03-LEGACY-DEADLINE", "G03-CLOSEOUT-READINESS"
+  ],
+  "baselineRefs": []
+}

@@ -1,6 +1,6 @@
 # IFX C2 — G03 Phase 9 claim and authority matrix
 
-Status: `C2 INCOMPLETE — C2b/C2c/C2d candidates validated; C2e pending`
+Status: `C2 CANDIDATE COVERAGE COMPLETE — C6 bundle acceptance and P10.2 parity pending`
 
 The active Post gate is `v3-specialized-g03`, a base-owned judging gate. Its
 dispatcher invokes `Invoke-G03ContractEventGuard.ps1 -Phase 9` over candidate
@@ -103,5 +103,24 @@ The latest V3 Phase 9 recomputation returned three accountable blockers:
 `protocols-not-active`, `behavior-tests-pending` and
 `closure-approvals-pending`. Eighteen fixtures plus hash/link controls,
 real IFX and synthetic published-Host Post passed without target mutation.
-No G03 final approval was inferred. C2e combined Stage, V3 parity and
-production Profile acceptance are still required before C2 closes.
+No G03 final approval was inferred. C2e combined Stage remains the next
+candidate-level check; final bundle and production Profile acceptance belong
+to C6, with independent frozen-corpus parity in P10.2.
+
+## C2e checkpoint
+
+The `ifx_g03_c2e_candidate` Profile selects exactly the five C2b–C2d
+modules, 16 distinct blocking rules/claims, current target authority hashes
+and no baselines. Its lock also binds module manifests, policies and the
+published V4 1.1.2 Package identity. Synthetic composition against the
+published base passed direct and dependency Post on the real IFX TargetRoot:
+all five modules passed, all 16 claims were nonzero, and PackageRoot and
+target authorities remained unchanged. Stale catalog/document, missing
+projection, governance violation and zero-protocol Host cases blocked;
+missing module/claim/rule and unreviewed baseline injection failed Profile
+preflight. A fresh V3 Phase 9 replay passed all 15 checks and reported
+`pre-ready`, `readyForClosure=false` with the same three named blockers.
+This is scoped current-state comparison, not the independent P10.2 parity
+campaign. C2 candidate coverage is complete, but no production Profile,
+human bundle acceptance, operational composition or G03 business closure
+has been approved.

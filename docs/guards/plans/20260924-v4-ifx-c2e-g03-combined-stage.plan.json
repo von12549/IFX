@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2e-g03-combined-stage",
+  "title": "Validate combined G03 Post candidate against published V4 and fresh V3 Phase 9",
+  "goal": "Close candidate-level C2 coverage with exact five-module, 16-claim composition and scoped V3 comparison, without accepting a production bundle.",
+  "acceptanceCriteria": [
+    "The candidate Profile selects exactly five reviewed G03 modules, 16 unique blocking rules/claims, current authority hashes and no baselines or undeclared capabilities.",
+    "Published V4 1.1.2 synthetic composition passes direct and dependency Post on real IFX; missing module/claim/rule, stale authority, violating and zero-subject controls block with immutable TargetRoot and PackageRoot.",
+    "Fresh V3 G03 Phase 9 and V4 clean results agree at the scoped pass/pre-ready checkpoint; Formal Pre/Diff and isolated package regression pass, while C6 and P10.2 remain separate."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c2e-g03-combined-stage.md",
+    "docs/guards/plans/20260924-v4-ifx-c2e-g03-combined-stage.plan.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.md",
+    "docs/guards/candidates/ifx-gate-coverage-c2e/profile.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2e/authority-lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2e/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2e/tests/Test-IFXG03Combined.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

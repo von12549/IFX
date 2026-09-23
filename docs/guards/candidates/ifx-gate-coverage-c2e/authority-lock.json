@@ -1,0 +1,42 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-c2e-candidate-lock",
+  "scope": "candidate-test-only",
+  "publishedBaseVersion": "1.1.2",
+  "publishedPackageSha256": "922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d",
+  "profilePath": "docs/guards/candidates/ifx-gate-coverage-c2e/profile.json",
+  "profileSha256": "a01eef76ca11a032508df657050472b2cf6126b85a7c5151f615b9a40a0401fa",
+  "modules": [
+    { "id": "ifx-g03-governance-core", "sourceDirectory": "docs/guards/candidates/ifx-gate-coverage-c2b1/modules/ifx-g03-governance-core", "manifestSha256": "a5e5e4805771feed560417667b15cd458eccb554d5bbf3c9d30b107dc9d78ed3", "policySha256": "4a26edfa3d3d24f171262c1e357cb4165adcc8329f44db2acdad2be6e4f3b374" },
+    { "id": "ifx-g03-catalog-semantics", "sourceDirectory": "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics", "manifestSha256": "b0f99e54c26b80a19da6bbfd763763b750753ebec65c55e2ff737bcc7a2134ed", "policySha256": "79e2f830c060348826f9a6df49db9e35c0d4af1f5e7eeeae527b08261e211c7d" },
+    { "id": "ifx-g03-source-reconciliation", "sourceDirectory": "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation", "manifestSha256": "d14dec6c8beb114440e52011104c510a483909eff7d16a3c07d34197f5d4531f", "policySha256": "1384c3559f9b61909a31780f42493cc49eda4f453da8f58c97e58ea0ee15d308" },
+    { "id": "ifx-g03-snapshots", "sourceDirectory": "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots", "manifestSha256": "d10029eb20daacc24f34611201b7db667ed6bd8017d35e6fff8d391af0c4e20a", "policySha256": "78779e8f03531c33c39cee3825a36acc2625a2c6498c667909621c125a415191" },
+    { "id": "ifx-g03-docs-closeout", "sourceDirectory": "docs/guards/candidates/ifx-gate-coverage-c2d/modules/ifx-g03-docs-closeout", "manifestSha256": "968aab82ba1a4b3b74479de8e17dd973d5fe0efac11f54b6492265e895be8ba6", "policySha256": "699bd116503cf03fbebc7404dbd75384b5ef7e3921e86b85a770c90c085cffee" }
+  ],
+  "targetAuthorities": [
+    { "path": ".github/CODEOWNERS", "sha256": "91367cefc30a2098f52ebd2cafa8947f20fb050cf9be449af0160836489ce0a0" },
+    { "path": "docs/architecture/review/gates/G03/contract-event-catalog.yaml", "sha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1" },
+    { "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json", "sha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649" },
+    { "path": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json", "sha256": "0db00c3cada3795595616fc906de28d3ef6baba350d55ac79baa229b6e1de15a" },
+    { "path": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json", "sha256": "6cfa29d0a16bc36a1f5d2bdd4ced8609a68f781c65257021f13a2d1bfe1c71f0" },
+    { "path": "docs/architecture/review/gates/G03/contract-event-governance.zh-CN.md", "sha256": "7b5192d3f8e1d79a6d3b06e40335136532ccef184497504951ed605c41bb6599" },
+    { "path": "docs/architecture/review/gates/G03/contract-event-governance.en.md", "sha256": "24cf884617b4fc82827a340d923801547668bcc6c977315f7bcb8dcdbe12c087" },
+    { "path": "docs/architecture/review/evidence/gates/G03/G03-closeout.md", "sha256": "383dca094ec09f600f9c83ff3e3fd148905b1afe8650466a95e3d64f54df57c0" },
+    { "path": "docs/architecture/review/plans/00-G03-contract-event-governance.md", "sha256": "cbcfe20fc5bf4c3773381f4803f3b933aad54fec7a26aa0af24e405c3a9fe796" },
+    { "path": "docs/architecture/review/plans/03-layerguard-alignment.md", "sha256": "51db7d9fbf4918d9b4a71af7177a13efd3731ecbd81b57dd9797f226f30426b7" }
+  ],
+  "v3": {
+    "gateScriptPath": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventGuard.ps1",
+    "gateScriptSha256": "c2507d59c47a04ce2226a487e84ee49f78c79c1fb8a74ca9705d8888ea88bd29",
+    "phase": 9,
+    "aggregateChecks": 15,
+    "protocols": 6,
+    "activeProtocols": 4,
+    "legacyItems": 46,
+    "closureStatus": "pre-ready",
+    "readyForClosure": false,
+    "blockerCodes": ["protocols-not-active", "behavior-tests-pending", "closure-approvals-pending"]
+  },
+  "v4": { "stage": "post", "moduleCount": 5, "claimCount": 16, "baselineRefs": [] },
+  "notAuthorized": ["production Profile acceptance", "final bundle review", "operational composition", "IFX cutover", "P10.2 parity"]
+}

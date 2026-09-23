@@ -1,0 +1,13 @@
+{
+  "formatVersion": 1,
+  "hostCases": [
+    { "id": "real-direct", "target": "real", "mutation": "none", "mode": "direct", "status": "pass", "category": "success" },
+    { "id": "real-dependencies", "target": "real", "mutation": "none", "mode": "dependencies", "status": "pass", "category": "success" },
+    { "id": "stale-catalog", "target": "fixture", "mutation": "stale-catalog", "mode": "direct", "status": "error", "category": "integrity-failure" },
+    { "id": "missing-projection", "target": "fixture", "mutation": "missing-projection", "mode": "direct", "status": "error", "category": "prerequisite-missing" },
+    { "id": "governance-violation", "target": "fixture", "mutation": "governance-violation", "mode": "direct", "status": "fail", "category": "findings-blocking" },
+    { "id": "zero-protocol", "target": "fixture", "mutation": "zero-protocol", "mode": "direct", "status": "fail", "category": "findings-blocking" },
+    { "id": "stale-document", "target": "fixture", "mutation": "stale-document", "mode": "direct", "status": "error", "category": "integrity-failure" }
+  ],
+  "profileRejectCases": ["missing-module", "missing-claim", "missing-rule", "baseline-injection"]
+}
