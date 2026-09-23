@@ -33,5 +33,7 @@ check passed with hash
 `9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-c5b0d4a359c44e97bdc6968e787698bb`.
-Exact Formal Diff remains pending the candidate commit. No C3 module,
-production Profile or final bundle was accepted by this inventory.
+Exact Formal Diff from base `c3e05523` to inventory commit `c00848e7`
+passed at `artifacts/guards/p10-ifx-c3a/formal-diff/summary-diff.json`,
+including the Stage Gate and five-path Plan scope. No C3 module, production
+Profile or final bundle was accepted by this inventory.
