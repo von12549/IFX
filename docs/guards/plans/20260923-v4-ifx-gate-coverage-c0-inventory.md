@@ -43,4 +43,7 @@ contracts, nine IFX policy rule bindings and 19 registered commands against
 the frozen source commit. The isolated IFX package test passed its positive
 and negative cases. Local V4 Package validation returned the published
 1.1.2 hash `922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d`.
-Exact Formal Diff over the declared five paths is the final checkpoint.
+Exact Formal Diff over the declared five paths passed at
+`artifacts/guards/p10-ifx-c0/formal-diff/summary-diff.json`; its generated
+.NET Stage test passed one of one. This establishes C0 documentation scope,
+not acceptance of a real V4 IFX gate or extension bundle.

@@ -53,6 +53,15 @@ both file contracts and the nine policy bindings; porting the standalone file
 label alone would weaken the gate. `ARCH.BINARY.DOMAIN.CONTRACTS` is separately
 blocking with `minimumMatches=1`.
 
+The published V4 architecture module exposes 12 claims, but its Pre
+`ARCH.PROJECT_REFERENCE` and `ARCH.PACKAGE_REFERENCE` configuration is a global
+forbidden-list test over raw project XML. The IFX V3 policy varies allowed
+references and packages by ring, owner and provider. Therefore switching on
+those V4 claims with one global list is not, by itself, an equivalent port of
+`L2.2`/`L2.3`/`L2.4`/`L3.4`. C1 must prove a precise subset or use a reviewed
+Profile extension; it must not declare the whole `v3-architecture` gate covered
+from claim-name resemblance.
+
 ## Authority, command and exception graph
 
 The 0.2.0 candidate map named eight anchors: profile, project map, toolchain,
