@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C0 inventory complete; implementation tranches pending`
+Status: `AUTHORIZED PROGRAM — C3 candidate complete; C4 in progress`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -80,6 +80,35 @@ published base consistently. This transition does not authorize production
 Profile acceptance, IFX cutover or modification of either installed release.
 
 ## Acceptance matrix and handoff
+
+### 2026-09-24 execution checkpoint
+
+The current development branch contains the published 1.1.3 PATH-isolation
+release and its receipted immutable installation. C3a–C3e completed G04
+candidate-level inventory, three reviewed Post modules and a combined
+synthetic-only Profile: 79 active mapped checks, 15 blocking claims and
+three CI/workflow checks explicitly deferred to P10.3. Fresh V3 replay
+passed 70 Phase 12 and 12 Plan02-C1 inbound checks, while G04 remained
+`PRE-READY` with seven blockers. This is not production Profile acceptance,
+G04 closure, final bundle review or P10.2 semantic parity.
+
+C4 G05 inventory locked 120 context and 13 Plan05 security checks. C4p1
+and C4p2 provide candidate-level coverage of 11 Phase 1 protocol and 19
+Phase 2–3 execution/HTTP checks, respectively, on published 1.1.3. The
+remaining 90 G05 context checks and all 13 Plan05 security checks remain
+unimplemented. C4a Plan04 inventory locked six validators and 45 nested
+checks, including five governed tenant-query bypass entries; its executable
+modules remain pending. C4b Database has not been run or accepted: its V3
+gate executes `dotnet` inventory, EF model checks and migration-script
+generation, so exact process/write capabilities and isolation must be
+reviewed before a V4 candidate runs. No production database operation is
+authorized by this checkpoint.
+
+The C1/C2 evidence remains historically bound to 1.1.2. Before any C5
+integration or C6 bundle acceptance, run the already-required exact child
+Plan to revalidate C1/C2 on 1.1.3, including negative/zero controls,
+direct/dependency Stage paths, fresh locks and immutable roots. Do not
+silently relabel the old evidence or infer C4 completion from inventories.
 
 For every mapped claim and specialized gate, record the source authority hash,
 V4 module/config/baseline hash, owning Stage, detector ID, evidence kind,
