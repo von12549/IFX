@@ -1,0 +1,294 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-c1m-applicability-decisions",
+  "decisionDate": "2026-09-24",
+  "authorization": "User selected L2.9=A and IntegrationAdapter=A; final bundle human review remains separate.",
+  "l29": {
+    "choice": "A",
+    "disposition": "V3-equivalent applicability exception; no V4 detector pass asserted",
+    "predicate": "RequireKnownOwnership && ring != RuntimeHost && ring != Test && module == null",
+    "reason": "Ruleset.ModuleOf falls back to CsprojReader parent-folder Module for non-Host/non-Test projects. Every currently scoped src project has a nonempty parent-folder basename.",
+    "scope": "src projects under current IFX V3 policy; re-review on scope, fallback, ring, module-pattern, requireKnown or source implementation drift",
+    "authority": [
+      {
+        "path": "docs/guards/V3_ifx/stages/post/rules/L2.9.json",
+        "sha256": "c9a324509e022949ca4f18f0857fe9063dcfdeab4d2fd4809fbdbf59bb9675e0"
+      },
+      {
+        "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+        "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+      },
+      {
+        "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/Ruleset.cs",
+        "sha256": "001ba9233658eb899c78968ce3951840c006e9c3ca513d10913ba08ce2c6fc19"
+      },
+      {
+        "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/CsprojReader.cs",
+        "sha256": "7d6b5c43b854bf50f702ce15730df453ac0273db6e80389913c7dd47eea43ae1"
+      },
+      {
+        "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/OwnershipRules.cs",
+        "sha256": "836a24c6d68368fc5f154e1e5e616cc470ec0635e5b95e2b62d4e6f400d72b8f"
+      }
+    ]
+  },
+  "integrationAdapter": {
+    "choice": "A",
+    "disposition": "Exact-inventory zero-subject applicability exception only; C1k remains fail-closed in direct runs",
+    "scanRoot": "src",
+    "excludedDirectoryNames": [
+      "guard",
+      "guards",
+      "generated",
+      "obj",
+      "bin",
+      ".git"
+    ],
+    "sourcePolicyPath": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sourcePolicySha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+    "ringPatterns": [
+      "IFX.Modules.*.Integration",
+      "IFX.Modules.*.Infrastructure.Integrations"
+    ],
+    "projectCount": 58,
+    "adapterProjectCount": 0,
+    "inventoryAlgorithm": "SHA256 of UTF-8 LF-joined sorted path|sha256 rows with trailing LF; ordinal path sort; paths use /; hashes lowercase",
+    "inventorySha256": "6662b88492c9c5c2f124e499c6255e857cfaa5953aa67ddd14db532dc8a41ce5",
+    "projects": [
+      {
+        "path": "src/ApiHost/IFX.ApiHost/IFX.ApiHost.csproj",
+        "sha256": "856503c6163622ac84b64cf665fbea99ab1d6b0581ba09b1a1616fc3592d3e3e"
+      },
+      {
+        "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/IFX.BuildingBlocks.Application.csproj",
+        "sha256": "8d9dc0833fe975b1e668bfe90b1823e935b023b34635704cc4344dabf99bb8d1"
+      },
+      {
+        "path": "src/BuildingBlocks/IFX.BuildingBlocks.Composition/IFX.BuildingBlocks.Composition.csproj",
+        "sha256": "c756bd29f4a6fb3e24cd75307f6b627bac32cb013cbb9ded457d4c84ddf4e385"
+      },
+      {
+        "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj",
+        "sha256": "2da823240e0026033d25d1c29a009e59f7e1cfd0d97c6da26aa4ecae53fc49e3"
+      },
+      {
+        "path": "src/BuildingBlocks/IFX.BuildingBlocks.EntityFrameworkCore/IFX.BuildingBlocks.EntityFrameworkCore.csproj",
+        "sha256": "e9e5b5b84a9d29b9f0f5fec626eb1f7be8909034044d76f007f0d018fd63458c"
+      },
+      {
+        "path": "src/BuildingBlocks/IFX.BuildingBlocks.Security/IFX.BuildingBlocks.Security.csproj",
+        "sha256": "5efb131f6aeeee44df75953c1a58be3a10151c93cabf219b10465a5ed24b949e"
+      },
+      {
+        "path": "src/DatabaseMigrator/IFX.DatabaseMigrator/IFX.DatabaseMigrator.csproj",
+        "sha256": "9b96a84c5024e537c77a1d6c6a28afc0bc406e7e59edbfa71a9fa4bdf2b216f3"
+      },
+      {
+        "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj",
+        "sha256": "90929191de7e8b047c8fed77f58718614293a62fd62af0de20b396477fc939e4"
+      },
+      {
+        "path": "src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj",
+        "sha256": "7e2c696427dfda79a4b0d35152ddbbebe334681577ce08a192bbc7089700b830"
+      },
+      {
+        "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj",
+        "sha256": "a47b66d3c248abf2b8f5da09898adf506d22113988a6e5368c1f91d49afff8f9"
+      },
+      {
+        "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj",
+        "sha256": "5f70dea2db97d47cd72ea7f79ce1840e5b35d8e0e3914d262f0e4ddbc64a7710"
+      },
+      {
+        "path": "src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj",
+        "sha256": "4fb413b361e5eb42d13a55e564c0399dc86e8efaaab98ba60eaeb404decb2d87"
+      },
+      {
+        "path": "src/Modules/CRM/IFX.Modules.CRM.Presentation/IFX.Modules.CRM.Presentation.csproj",
+        "sha256": "d337d79afdc2f64b514012307c0bc778a78f00b1ede2f9312613fc5a3d23362b"
+      },
+      {
+        "path": "src/Modules/Holdings/IFX.Modules.Holdings.Application/IFX.Modules.Holdings.Application.csproj",
+        "sha256": "d33f3353fa56c4c87c7bbaf8b50d63d3b8513e8c3c4fdcc37394205464275272"
+      },
+      {
+        "path": "src/Modules/Holdings/IFX.Modules.Holdings.Composition/IFX.Modules.Holdings.Composition.csproj",
+        "sha256": "93d6c120fa186b45cfd91bf8aeb0c2abe3979f8829cf7a25b254092bc621941f"
+      },
+      {
+        "path": "src/Modules/Holdings/IFX.Modules.Holdings.Domain/IFX.Modules.Holdings.Domain.csproj",
+        "sha256": "32954a9978b60974697f2d78c40cf50026285f2557f3d082957e639b0363107e"
+      },
+      {
+        "path": "src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/IFX.Modules.Holdings.Infrastructure.csproj",
+        "sha256": "0a962563e219b2af70dfe13a00b5f6a747a7d1516c0db50241b82c981de12c3e"
+      },
+      {
+        "path": "src/Modules/Holdings/IFX.Modules.Holdings.Presentation/IFX.Modules.Holdings.Presentation.csproj",
+        "sha256": "df488c0c6f2c141f947f27d90c0db7d7a362ca3df80aabc14870bf39a4f282b0"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj",
+        "sha256": "c9f61e8aeab254b19507ee8a452d70445c9c75d305ea6f5a76f0b6da25b455bd"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Client/IFX.Modules.IAM.Client.csproj",
+        "sha256": "d634a42c5034901bee243f830b58549601918ee86a32224b003ef9e4259cba3e"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Composition/IFX.Modules.IAM.Composition.csproj",
+        "sha256": "e64656bade8c0322b7b24d34bba23f22a27ba2007a5e20573b582bfdfb473326"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj",
+        "sha256": "8827183a4ed3e9054126a1036f4a11d9008fa4411f082b397d8ff12fe832fafe"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/IFX.Modules.IAM.Domain.csproj",
+        "sha256": "09eddb4bf0e7e9749d78c922985d896d114f5168eb2439b85a3b3509c3d0157a"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/IFX.Modules.IAM.Infrastructure.csproj",
+        "sha256": "442d2e50a9d0cdd7507b3f69e3244af38e3881ab764d903a805aa1082b005cb0"
+      },
+      {
+        "path": "src/Modules/IAM/IFX.Modules.IAM.Presentation/IFX.Modules.IAM.Presentation.csproj",
+        "sha256": "39268f4a71db832d142bc18738179e4badf8725a2244a2b249b2eb243f504377"
+      },
+      {
+        "path": "src/Modules/Registry/IFX.Modules.Registry.Application/IFX.Modules.Registry.Application.csproj",
+        "sha256": "8774e0561429877a0b7daddff8b2cfdd29130e12b44de3aa1e695f9fdc17c438"
+      },
+      {
+        "path": "src/Modules/Registry/IFX.Modules.Registry.Composition/IFX.Modules.Registry.Composition.csproj",
+        "sha256": "7f0a80b2caf6bde313167d869813721f154a476d58e66cb282c41e9fee7e2e5a"
+      },
+      {
+        "path": "src/Modules/Registry/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj",
+        "sha256": "b0cc8c62eca0a9a3390ab14953b5a984acc87c32074e5968ebad90ae80aca72f"
+      },
+      {
+        "path": "src/Modules/Registry/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj",
+        "sha256": "5f70dea2db97d47cd72ea7f79ce1840e5b35d8e0e3914d262f0e4ddbc64a7710"
+      },
+      {
+        "path": "src/Modules/Registry/IFX.Modules.Registry.Infrastructure/IFX.Modules.Registry.Infrastructure.csproj",
+        "sha256": "8ce92f404723fd741554deb34758f2adb7c9e964c3c3e71e2f4350c75a385c3d"
+      },
+      {
+        "path": "src/Modules/Registry/IFX.Modules.Registry.Presentation/IFX.Modules.Registry.Presentation.csproj",
+        "sha256": "fa06e38844b8c5e1a3d3a99e9a2ead82bca51a07eb16bf852478f2ea0d699e2d"
+      },
+      {
+        "path": "src/Modules/Transaction/IFX.Modules.Transaction.Application/IFX.Modules.Transaction.Application.csproj",
+        "sha256": "a8c33259a3b2437185b06ee1afb86b8b6ff6e573a93f6d9d913e522c1e0b30a3"
+      },
+      {
+        "path": "src/Modules/Transaction/IFX.Modules.Transaction.Composition/IFX.Modules.Transaction.Composition.csproj",
+        "sha256": "c83220bc9fd8b7307b74928caae2dc9c77a028c021bf1bc5a8a49290bcd712c8"
+      },
+      {
+        "path": "src/Modules/Transaction/IFX.Modules.Transaction.Contracts/IFX.Modules.Transaction.Contracts.csproj",
+        "sha256": "ef1171c9c7f4dd3aa69ae22d1df756fa90afcd40e2fc36e5292842d5d7959e4e"
+      },
+      {
+        "path": "src/Modules/Transaction/IFX.Modules.Transaction.Domain/IFX.Modules.Transaction.Domain.csproj",
+        "sha256": "32954a9978b60974697f2d78c40cf50026285f2557f3d082957e639b0363107e"
+      },
+      {
+        "path": "src/Modules/Transaction/IFX.Modules.Transaction.Infrastructure/IFX.Modules.Transaction.Infrastructure.csproj",
+        "sha256": "1f65692794ea709f4ec5651ef77b0cd567be2d0c50366514eb9e1320da66f40c"
+      },
+      {
+        "path": "src/Modules/Transaction/IFX.Modules.Transaction.Presentation/IFX.Modules.Transaction.Presentation.csproj",
+        "sha256": "01d8577125721a1d17ac3fc5dbc8709cc3cfb3bd0d24fc9de0eaac60ddd7dd55"
+      },
+      {
+        "path": "src/Platform/Authentication/IFX.Platform.Authentication.Composition/IFX.Platform.Authentication.Composition.csproj",
+        "sha256": "9ad44b2a248b18af444b25440778bca6dd3270f97804ca02d4f9c4cf4a2212c6"
+      },
+      {
+        "path": "src/Platform/Authentication/IFX.Platform.Authentication.Contracts/IFX.Platform.Authentication.Contracts.csproj",
+        "sha256": "b74e2ed65b0ed73188135dd3ff266ab11d29d0d4b990a473f6e467ec097aa497"
+      },
+      {
+        "path": "src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Auth0/IFX.Platform.Authentication.Infrastructure.Auth0.csproj",
+        "sha256": "913b7e04cb00a7998b0db4c31c79e58d6bf9375b70074cea42a563d037f50d57"
+      },
+      {
+        "path": "src/Platform/Authentication/IFX.Platform.Authentication.Infrastructure.Cognito/IFX.Platform.Authentication.Infrastructure.Cognito.csproj",
+        "sha256": "484aaf361c1669118e73d29bbc9ebeeec241873709872985300624a7704a4635"
+      },
+      {
+        "path": "src/Platform/Authentication/IFX.Platform.Authentication.Runtime/IFX.Platform.Authentication.Runtime.csproj",
+        "sha256": "5bbec633fda57d62e127b3a208d0e72d499f6ba28664bde4a5d9b37d25a75e35"
+      },
+      {
+        "path": "src/Platform/Authorization/IFX.Platform.Authorization.Composition/IFX.Platform.Authorization.Composition.csproj",
+        "sha256": "9adebb778b75e1d1c4ff52cc97951aaa2ab91e70c1db7e504d649240d1897348"
+      },
+      {
+        "path": "src/Platform/Authorization/IFX.Platform.Authorization.Contracts/IFX.Platform.Authorization.Contracts.csproj",
+        "sha256": "dd1aec33430afa1b6db95a49f061df13d29def748d9952f266d42cd9a6d43d41"
+      },
+      {
+        "path": "src/Platform/Authorization/IFX.Platform.Authorization.Infrastructure.Opa/IFX.Platform.Authorization.Infrastructure.Opa.csproj",
+        "sha256": "c43365f8b865ab3826d9557474505f9f39de90137d11dc7d9baeefe0d744117a"
+      },
+      {
+        "path": "src/Platform/Authorization/IFX.Platform.Authorization.Runtime/IFX.Platform.Authorization.Runtime.csproj",
+        "sha256": "6bf93e25c5335e631ea6d2bbfbddb77853a47e973fb78c26341e21342b434dc4"
+      },
+      {
+        "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Composition/IFX.Platform.BackgroundJobs.Composition.csproj",
+        "sha256": "18723f9972f20027751b50a5407256183dc391a4f4c94ab76357bf6c5b3a2f06"
+      },
+      {
+        "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Contracts/IFX.Platform.BackgroundJobs.Contracts.csproj",
+        "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604"
+      },
+      {
+        "path": "src/Platform/BackgroundJobs/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire/IFX.Platform.BackgroundJobs.Infrastructure.Hangfire.csproj",
+        "sha256": "99b0e5f642a3cf53d2d60e0242f4d799b3ee531da502727e3941c814d79c2b6e"
+      },
+      {
+        "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj",
+        "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604"
+      },
+      {
+        "path": "src/Platform/Context/IFX.Platform.Context.Runtime/IFX.Platform.Context.Runtime.csproj",
+        "sha256": "7fea411e6566abf24466d662c926b13ff0e73a6cf20ccd410b6c3a7fa865c492"
+      },
+      {
+        "path": "src/Platform/IFX.Platform.Shared/IFX.Platform.Shared.csproj",
+        "sha256": "b540adba501c839ec1d75143e106dfb9dd5593d9ff7cdd036af82c25c9387053"
+      },
+      {
+        "path": "src/Platform/Messaging/IFX.Platform.Messaging.Composition/IFX.Platform.Messaging.Composition.csproj",
+        "sha256": "338480dc4902d7d9db564500b9a78026c963eb0d7b863afa81e73e96891e72d2"
+      },
+      {
+        "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj",
+        "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604"
+      },
+      {
+        "path": "src/Platform/Messaging/IFX.Platform.Messaging.Runtime/IFX.Platform.Messaging.Runtime.csproj",
+        "sha256": "6da94a9675f74d9cb88602540c6dfb7b9b8bdc5583c16712e02e3783bdfffa88"
+      },
+      {
+        "path": "src/Platform/Notifications/IFX.Platform.Notifications.Composition/IFX.Platform.Notifications.Composition.csproj",
+        "sha256": "7d95a0411b8641afe69b127ed1ed7b39aa48c6957f259d5f72671883f95322f7"
+      },
+      {
+        "path": "src/Platform/Notifications/IFX.Platform.Notifications.Contracts/IFX.Platform.Notifications.Contracts.csproj",
+        "sha256": "12985a174dc55d6f519f2205bf7b35d0123d6d7dfa7fe3fe34f2f3028ba30604"
+      },
+      {
+        "path": "src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/IFX.Platform.Notifications.Infrastructure.SendGrid.csproj",
+        "sha256": "cc04bdd4e595118fbd027aa426d0a68e509e7cf61ac65be5438903ca081e28af"
+      }
+    ],
+    "invalidatesOn": "Any added, removed, changed or linked project, any authority drift, or any IntegrationAdapter project match. New adapter requires direct PROVIDER-CONTRACT enforcement and new human applicability review.",
+    "futureProfileRule": "C6 must bind this exact decision file/hash and verifier result before omitting the C1k direct module for zero subjects. No automatic substitution or general waiver."
+  }
+}

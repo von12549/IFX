@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1m-applicability-decisions",
+  "title": "Record L2.9 equivalence and exact-inventory IntegrationAdapter absence decisions",
+  "goal": "Make both user-selected A decisions explicit, source-bound and invalidatable without weakening the C1k detector.",
+  "acceptanceCriteria": [
+    "The L2.9 decision retains the exact V3 null-module predicate and identifies the structural fallback and re-review triggers.",
+    "The IntegrationAdapter zero-subject exception binds an exact src project path-and-content inventory and current V3 policy/implementation hashes; an executable verifier rejects added, removed or modified projects and any adapter match.",
+    "Positive and negative controls, Formal Pre/Diff, isolated IFX package regression and published Package identity checks pass; no production Profile is accepted."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1m-applicability-decisions.md",
+    "docs/guards/plans/20260924-v4-ifx-c1m-applicability-decisions.plan.json",
+    "docs/guards/inventories/20260924-ifx-c1-applicability-decisions.json",
+    "docs/guards/inventories/20260924-ifx-c1-executable-rule-closure.md",
+    "docs/guards/candidates/ifx-gate-coverage-c1m/Test-IFXApplicability.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1m/tests/Test-IFXApplicability.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
