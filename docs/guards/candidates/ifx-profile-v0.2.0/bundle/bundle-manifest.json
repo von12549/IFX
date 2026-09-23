@@ -1,0 +1,28 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-profile-candidate",
+  "version": "0.2.0",
+  "compatibleApi": "1.x",
+  "baseVersion": "1.1.2",
+  "profiles": [
+    {
+      "id": "ifx_profile",
+      "version": "0.2.0",
+      "path": "profiles/catalog/ifx_profile/profile.json",
+      "sha256": "3ca2a90e0b7384027d0bd59deb16de2a97ccfe0d8c7573d940ae49134acf518b"
+    }
+  ],
+  "modules": [],
+  "files": [
+    {
+      "path": "profiles/catalog/ifx_profile/authority-map.json",
+      "sha256": "3864b2533563d54306fae612b768a9485030fc758870815ced1a249cc374e830",
+      "size": 3106
+    },
+    {
+      "path": "profiles/catalog/ifx_profile/profile.json",
+      "sha256": "3ca2a90e0b7384027d0bd59deb16de2a97ccfe0d8c7573d940ae49134acf518b",
+      "size": 724
+    }
+  ]
+}

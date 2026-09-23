@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-bundle-scope-revision",
+  "title": "Revise the IFX draft bundle for the local scoped 1.1.2 base",
+  "goal": "Freeze a 0.2.0 IFX draft whose root-scope claim is bound to the certified 1.1.2 candidate, while retaining explicit unmapped gates and no human acceptance.",
+  "acceptanceCriteria": [
+    "The earlier 0.1.0 draft remains unchanged and the new draft binds exact V3_ifx source hashes plus the 1.1.2 local base identity.",
+    "The new Profile, module selection and ordinal full-file bundle manifest validate against the local 1.1.2 contracts and module registry.",
+    "Missing IFX detector families, specialized gates and human review remain explicit; no release, composition or activation occurs."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-bundle-scope-revision.md",
+    "docs/guards/plans/20260923-v4-ifx-bundle-scope-revision.plan.json",
+    "docs/guards/candidates/ifx-profile-v0.2.0/README.md",
+    "docs/guards/candidates/ifx-profile-v0.2.0/bundle/bundle-manifest.json",
+    "docs/guards/candidates/ifx-profile-v0.2.0/bundle/package/profiles/catalog/ifx_profile/authority-map.json",
+    "docs/guards/candidates/ifx-profile-v0.2.0/bundle/package/profiles/catalog/ifx_profile/profile.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

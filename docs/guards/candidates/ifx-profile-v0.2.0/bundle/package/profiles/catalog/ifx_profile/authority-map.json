@@ -1,0 +1,67 @@
+{
+  "formatVersion": 1,
+  "sourceCommit": "6da8710aec951605c8c847cafafe51c537c5db70",
+  "targetBaseVersion": "1.1.2",
+  "targetBaseSourceCommit": "46d1a99fb34c92639d2a484612fab58195903a9d",
+  "targetBaseArchiveSha256": "7a6d1582a695d9857149da185aa8b4209addce061ab4976bcc718fbbfdd5901b",
+  "sourceAuthorities": [
+    {
+      "path": "docs/guards/V3_ifx/shared/profile.json",
+      "sha256": "a2a1a7e1e6ac506133663580696d48ed1e7fd103785a1fbb163f98a29251cc9e",
+      "mapping": "partial",
+      "note": "Project ID ifx maps to the V4 Profile; V3 runtime is not imported."
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/pre/project-map.json",
+      "sha256": "18866678b214f4d3ade70fefa6274c5ee00c9f03de71a42100a36fd16ff7e80c",
+      "mapping": "partial",
+      "note": "The src and tests scan roots are enforced in V4 1.1.2; exact project-area ownership remains unmapped."
+    },
+    {
+      "path": "docs/guards/V3_ifx/shared/toolchain.json",
+      "sha256": "b0b88e75625299ef225a406349067c74d9b938a910e034fbc8d3bb0a7e38e397",
+      "mapping": "missing",
+      "note": "IFX-specific command and prerequisite declarations have not been translated to V4 modules."
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+      "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5",
+      "mapping": "partial",
+      "note": "Only scoped resolved project-reference completeness is selected; ring, ownership, namespace, forbidden-symbol and assembly claims remain unmapped."
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g03/governance.json",
+      "sha256": "b8f259f02179c48558bd36fd9ccc5f37ce486bbf14f92e9d4c9ada826e4f518c",
+      "mapping": "missing",
+      "note": "No G03 governance extension module is present."
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g04/runtime-manifest.json",
+      "sha256": "11e5eb23800cb44c8e1ee296d06be0ea12ede602db7131efcd0b9676c755867c",
+      "mapping": "missing",
+      "note": "No G04 runtime-manifest extension module is present."
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/g05/context-protocol-v1.json",
+      "sha256": "d7cb3d0cca54154a76235d96c292e2a719302d920d8a8cea4c5ec084dad7825a",
+      "mapping": "missing",
+      "note": "No G05 context-protocol extension module is present."
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/policy/baselines/plan05.json",
+      "sha256": "9aea573dd2bee6991c2d43ddfc754c998d00c8501dc28d94133dd950e778da7c",
+      "mapping": "missing",
+      "note": "Historical baseline entries are not imported or blanket-suppressed."
+    }
+  ],
+  "selectedV4Claim": "ARCH.GRAPH_COMPLETENESS",
+  "unresolvedGates": [
+    "Exact IFX project-area ownership",
+    "V3_ifx architecture claim and detector-family mapping",
+    "IFX-specific toolchain and missing-prerequisite contract",
+    "G03, G04, G05 and other specialized-gate modules",
+    "Bootstrap, Analysis and Post Stage ownership",
+    "Reviewed baseline translation and zero-match controls",
+    "Clean and deliberate-violation Stage/UI acceptance"
+  ]
+}

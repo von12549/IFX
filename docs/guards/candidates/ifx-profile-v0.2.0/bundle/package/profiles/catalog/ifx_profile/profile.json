@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "ifx_profile",
+  "version": "0.2.0",
+  "projectIdentity": {
+    "id": "ifx",
+    "relativeRoots": ["src", "tests"]
+  },
+  "moduleSelections": [
+    {
+      "id": "architecture-conformance",
+      "versionRange": ">=1.0.1 <2.0.0",
+      "config": {
+        "enabledClaims": ["ARCH.GRAPH_COMPLETENESS"],
+        "requireResolvedProjectReferences": true
+      }
+    }
+  ],
+  "stageConfiguration": {
+    "bootstrap": { "enabled": false, "modules": [] },
+    "analysis": { "enabled": false, "modules": [] },
+    "pre": { "enabled": true, "modules": ["architecture-conformance"] },
+    "post": { "enabled": false, "modules": [] }
+  },
+  "rules": ["ARCH.GRAPH_COMPLETENESS"],
+  "baselineRefs": []
+}
