@@ -33,7 +33,9 @@ passed 20 clean/negative/missing/zero fixtures plus hash drift, linked-path,
 determinism and TargetRoot byte-invariance controls. It also passed against
 the real G03 catalog and via a synthetic-only Post composition of published
 V4 1.1.2 Host; evidence is under
-`artifacts/guards/p10-ifx-c2b1/test-runs/8eeba23615b34ec38a6317f65cb1be3b`.
+`artifacts/guards/p10-ifx-c2b1/test-runs/df83b5fa3c6e4ebaa5d272d3d29bc2ed`.
+Cycle detection uses business-protocol edges, matching V3; the LayerGuard
+projection still includes infrastructure-protocol adapter edges.
 The isolated V3 IFX package positive/negative regression passed at
 `artifacts/guards/v3-ifx-package-test-ed86000ed7eb45eb8896462c80758bb6`.
 Published Package identity passed with Package hash

@@ -190,8 +190,10 @@ foreach ($protocol in $allProtocols) {
 }
 if ($edges.Count -eq 0) { Add-Finding 'zero-edge' 'protocols' 'coverage' }
 else { $matched[1] = 1 }
-if (@(Find-Cycles @($edges.ToArray() | Where-Object kind -eq 'sync')).Count -gt 0) { Add-Finding 'sync-cycle' 'protocols' }
-if (@(Find-Cycles $edges.ToArray()).Count -gt 0) { Add-Finding 'mixed-cycle' 'protocols' }
+$publicIdentities = @($protocols | ForEach-Object identity)
+$businessEdges = @($edges.ToArray() | Where-Object { $_.identity -in $publicIdentities })
+if (@(Find-Cycles @($businessEdges | Where-Object kind -eq 'sync')).Count -gt 0) { Add-Finding 'sync-cycle' 'protocols' }
+if (@(Find-Cycles $businessEdges).Count -gt 0) { Add-Finding 'mixed-cycle' 'protocols' }
 $primitives = @($catalog.sharedPrimitives | Where-Object { $null -ne $_ })
 Required-Set $primitives 'id' 'sharedPrimitives'
 foreach ($primitive in $primitives) {
