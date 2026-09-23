@@ -75,8 +75,9 @@ Two independent distribution builds produced the byte-identical archive
 V1 candidate and recovery certification passed against the same source, package and
 archive identities.
 
-The dedicated remote branch and annotated tag `v4-guards-v1.1.3` point to the
-certified source. The final GitHub Release is
+The annotated tag `v4-guards-v1.1.3` points to the certified source. The dedicated
+remote branch contains that source and is then fast-forwarded only by the
+documentation-only publication closure. The final GitHub Release is
 <https://github.com/von12549/IFX/releases/tag/v4-guards-v1.1.3>; it is neither a
 draft nor a prerelease and contains exactly the certified ZIP and its SHA-256
 sidecar. The remote asset digest and a fresh download match the certified archive.
