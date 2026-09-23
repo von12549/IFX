@@ -1,6 +1,6 @@
 # V4 P10.1 C1a — architecture claim-equivalence design
 
-Status: `C1a DESIGN COMPLETE — exact Formal Diff pending`
+Status: `C1a DESIGN COMPLETE — no runtime gate accepted`
 
 Predecessor: C0 inventory at
 `docs/guards/inventories/20260923-ifx-v3-gate-inventory.json`, source commit
@@ -41,3 +41,6 @@ its positive and negative cases; V4 Package validation still returns
 `922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d`.
 The C1b module paths in the matrix are a proposal, not approved `plannedPaths`
 or accepted executable bytes. C1b needs a separate exact formal Plan and Pre.
+Exact Formal Diff passed over the three declared paths; the generated .NET
+Stage test passed one of one. Evidence:
+`artifacts/guards/p10-ifx-c1a/formal-diff/summary-diff.json`.
