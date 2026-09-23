@@ -39,4 +39,6 @@ The isolated IFX package regression passed at
 V3's absent `AddMessaging()` token creates a vacuous ordering pass; the V4
 candidate requires the present `AddReliableMessaging(` token before module
 registration. This divergence remains explicit for C3e/P10.2.
-Formal Diff awaits the exact candidate commit.
+Formal Diff from C3b base `1679c71f` to candidate `daf6b484` passed at
+`artifacts/guards/p10-ifx-c3c/formal-diff/summary-diff.json`, including the
+V3 Stage Gate and exact twelve-path Plan scope.
