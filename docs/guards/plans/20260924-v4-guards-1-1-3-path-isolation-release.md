@@ -1,6 +1,6 @@
 # V4 Guards 1.1.3 — child-process PATH isolation release
 
-Status: `AUTHORIZED — release-safe source and publication pending`
+Status: `COMPLETE — published and installed`
 
 On 2026-09-24 the user authorized publication of a new patch release built directly
 from the immutable `v4-guards-v1.1.2` tag. The release contains only the V4
@@ -54,3 +54,36 @@ earlier installations, receipts, archives, tags and releases byte-for-byte.
 Record final publication and installation evidence in a separate documentation-only
 closure commit, pass exact Formal Diff for that closure, and push the branch without
 moving the release tag. On partial failure, preserve and report the exact state.
+
+## Publication closure
+
+The release source is commit `90aa87b5c5a8e866db3384564518377d50fe997c`,
+whose first parent is the immutable 1.1.2 tag commit
+`5bc176f61508fd01ddceb2d4e33ee34136493a35`. Exact Formal Diff confirms that the
+16 changed paths are declared by this Plan; no `docs/guards/candidates/` or
+`docs/guards/inventories/` path is present.
+
+Windows-full passed 34 approved tests on Microsoft Windows 10.0.26200. Linux-complete
+passed 33 approved tests on Ubuntu 24.04.4 LTS in the pinned .NET 10 image
+`sha256:548d93f8a18a1acbe6cc127bc4f47281430d34a9e35c18afa80a8d6741c2adc3`
+with `--network none` and the locked NuGet cache mounted read-only. Both reports bind
+package SHA-256 `9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494`.
+
+Two independent distribution builds produced the byte-identical archive
+`v4-guards-1.1.3.zip`, SHA-256
+`28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e`.
+V1 candidate and recovery certification passed against the same source, package and
+archive identities.
+
+The dedicated remote branch and annotated tag `v4-guards-v1.1.3` point to the
+certified source. The final GitHub Release is
+<https://github.com/von12549/IFX/releases/tag/v4-guards-v1.1.3>; it is neither a
+draft nor a prerelease and contains exactly the certified ZIP and its SHA-256
+sidecar. The remote asset digest and a fresh download match the certified archive.
+
+That downloaded asset is installed at
+`D:\IFX-Root\guard-runtime\releases\v4-guards-1.1.3`, with receipt
+`D:\IFX-Root\guard-runtime\receipts\v4-guards-1.1.3.install.json`. Receipt schema,
+all 137 installed files, package hash, source manifest and installed `version`
+command passed verification. Pre/post hashes confirm the 1.1.0, 1.1.1 and 1.1.2
+installations and receipts are unchanged. No User or Machine PATH value was modified.
