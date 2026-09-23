@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-reference-cycle",
+  "matrixSha256": "106cfdf32bd59ec32c7be46010b8d039e846eb5a52c5d5e9d44b901e4b450eb7",
+  "rules": [
+    {
+      "ruleId": "RING-REFERENCE", "claimId": "IFX.C1.RING_REFERENCE_RAW", "stage": "pre",
+      "detectors": ["ifx-reference-cycle"], "evidenceKinds": ["project-reference-raw", "coverage"],
+      "severity": "blocking", "baseline": null, "minimumMatches": 1
+    },
+    {
+      "ruleId": "CONTRACT-CYCLE", "claimId": "IFX.C1.CONTRACT_CYCLE_RAW", "stage": "pre",
+      "detectors": ["ifx-reference-cycle"], "evidenceKinds": ["contracts-project-cycle-raw", "coverage"],
+      "severity": "blocking", "baseline": null, "minimumMatches": 1
+    }
+  ]
+}

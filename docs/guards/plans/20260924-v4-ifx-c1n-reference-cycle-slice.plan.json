@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1n-reference-cycle-slice",
+  "title": "Implement raw RING-REFERENCE and CONTRACT-CYCLE candidate",
+  "goal": "Port two still-active unnumbered V3 architecture rules to a bounded V4 Pre extension candidate.",
+  "acceptanceCriteria": [
+    "Direct RING-REFERENCE matches V3 allow-list, empty-list, shared-primitive and already-forbidden-direction behavior without transitive substitution.",
+    "CONTRACT-CYCLE matches V3 Contracts-only direct graph behavior with deterministic deduplication and zero-subject blocking.",
+    "Authority hashes, clean/violation/missing/zero/unsafe fixtures, real IFX read-only scan, synthetic published-Host Pre, package regression, Package identity and Formal Pre/Diff pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1n-reference-cycle-slice.md",
+    "docs/guards/plans/20260924-v4-ifx-c1n-reference-cycle-slice.plan.json",
+    "docs/guards/inventories/20260924-ifx-c1-executable-rule-closure.md",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/tests/Test-IFXReferenceCycle.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

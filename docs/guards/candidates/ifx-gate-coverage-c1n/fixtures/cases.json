@@ -1,0 +1,83 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "clean", "status": "pass", "category": "success", "referenceMatches": 1, "contractMatches": 1, "ringFindings": 0, "cycleFindings": 0,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Domain/IFX.Modules.A.Domain.csproj", "references": ["src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj"] },
+        { "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj" },
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj" }
+      ]
+    },
+    {
+      "id": "off-list", "status": "fail", "category": "findings-blocking", "referenceMatches": 1, "contractMatches": 1, "ringFindings": 1, "cycleFindings": 0,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj", "references": ["src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj"] },
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj" }
+      ]
+    },
+    {
+      "id": "empty-list", "status": "fail", "category": "findings-blocking", "referenceMatches": 1, "contractMatches": 2, "ringFindings": 1, "cycleFindings": 0,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj", "references": ["src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj"] },
+        { "path": "src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj" }
+      ]
+    },
+    {
+      "id": "shared-exempt", "status": "pass", "category": "success", "referenceMatches": 1, "contractMatches": 2, "ringFindings": 0, "cycleFindings": 0,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj", "references": ["src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj"] },
+        { "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj" }
+      ]
+    },
+    {
+      "id": "direction-exempt", "status": "pass", "category": "success", "referenceMatches": 1, "contractMatches": 1, "ringFindings": 0, "cycleFindings": 0,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Domain/IFX.Modules.A.Domain.csproj", "references": ["src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj"] },
+        { "path": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj" },
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj" }
+      ]
+    },
+    {
+      "id": "cycle-two", "status": "fail", "category": "findings-blocking", "referenceMatches": 2, "contractMatches": 2, "ringFindings": 2, "cycleFindings": 1,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj", "references": ["src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj"] },
+        { "path": "src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj", "references": ["src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj"] }
+      ]
+    },
+    {
+      "id": "cycle-three", "status": "fail", "category": "findings-blocking", "referenceMatches": 3, "contractMatches": 3, "ringFindings": 3, "cycleFindings": 1,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj", "references": ["src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj"] },
+        { "path": "src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj", "references": ["src/Modules/C/IFX.Modules.C.Contracts/IFX.Modules.C.Contracts.csproj"] },
+        { "path": "src/Modules/C/IFX.Modules.C.Contracts/IFX.Modules.C.Contracts.csproj", "references": ["src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj"] }
+      ]
+    },
+    {
+      "id": "missing-target", "status": "error", "category": "prerequisite-missing", "referenceMatches": 0, "contractMatches": 0, "ringFindings": 0, "cycleFindings": 0,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Application/IFX.Modules.A.Application.csproj", "references": ["src/Modules/B/IFX.Modules.B.Contracts/IFX.Modules.B.Contracts.csproj"] }
+      ]
+    },
+    {
+      "id": "malformed", "status": "error", "category": "invalid-input", "referenceMatches": 0, "contractMatches": 0, "ringFindings": 0, "cycleFindings": 0,
+      "projects": [{ "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj", "malformed": true }]
+    },
+    {
+      "id": "unsafe-reference", "status": "error", "category": "unsafe-path", "referenceMatches": 0, "contractMatches": 0, "ringFindings": 0, "cycleFindings": 0,
+      "projects": [{ "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj", "rawInclude": "../../../../../outside.csproj" }]
+    },
+    {
+      "id": "zero-references", "status": "fail", "category": "findings-blocking", "referenceMatches": 0, "contractMatches": 1, "ringFindings": 1, "cycleFindings": 0,
+      "projects": [{ "path": "src/Modules/A/IFX.Modules.A.Contracts/IFX.Modules.A.Contracts.csproj" }]
+    },
+    {
+      "id": "zero-contracts", "status": "fail", "category": "findings-blocking", "referenceMatches": 1, "contractMatches": 0, "ringFindings": 0, "cycleFindings": 1,
+      "projects": [
+        { "path": "src/Modules/A/IFX.Modules.A.Domain/IFX.Modules.A.Domain.csproj", "references": ["src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj"] },
+        { "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj" }
+      ]
+    },
+    { "id": "zero-projects", "status": "fail", "category": "findings-blocking", "referenceMatches": 0, "contractMatches": 0, "ringFindings": 1, "cycleFindings": 1, "projects": [] }
+  ]
+}

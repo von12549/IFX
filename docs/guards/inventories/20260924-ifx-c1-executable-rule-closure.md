@@ -22,20 +22,20 @@ rule `Ref` does not make the finding non-executable.
 | `PROJECT-NAME-FORBIDDEN` | `forbiddenProjectNames=["*.Abstractions"]` | C1j candidate exists; 51 in-scope real projects, zero findings. Out-of-ring Abstractions names are outside this V3 predicate; Plan04's wider retirement check is C4a. |
 | `PROVIDER-CONTRACT` | IntegrationAdapter ring and G03 provider map populated | C1k direct-reference candidate exists and synthetic controls pass. C1m records an exact-58-project zero-subject applicability exception, with a verifier that blocks project/inventory drift or any new IntegrationAdapter project. C1k itself still blocks a direct zero-subject run; C6 must bind and review the exception before Profile use. |
 | `OWNERSHIP-UNKNOWN` | `ownership.requireKnown=true` | C1m records the user-selected V3-equivalent applicability exception: parent-folder fallback makes null ownership structurally unreachable for the frozen `src` inventory. It is not a detector pass or a strengthened ownership rule; source, policy or scope drift requires re-review. |
-| **`RING-REFERENCE`** | `allowedReferences` names ten ring lists, including an explicitly empty Contracts list | **Missing.** `ReferenceRules.Named` checks each direct `.csproj` ProjectReference against the ring's allow-list, with shared-primitive and already-forbidden-direction exceptions. C1d ring direction and C1e ownership do not replace this predicate. Next raw-project candidate needs allowed/off-list/empty-list/exception and zero-match fixtures. |
+| `RING-REFERENCE` | `allowedReferences` names ten ring lists, including an explicitly empty Contracts list | C1n raw direct-reference candidate exists. It preserves shared-primitive and already-forbidden-direction exceptions; 13 fixture cases and synthetic published-Host Pre controls passed. Real IFX scan covered 147 direct references with zero findings. MSBuild-evaluated reference cross-cover remains C5. |
 | **`FORBIDDEN-DEPENDENCY`** | Presentation forbids parameter type names `I*Repository` and `*DbContext` | **Missing.** `InjectionRules.For` inspects constructor, primary-constructor and method parameter type syntax. Next source candidate needs exact name/generic/nullable/member-kind and zero-match fixtures. |
 | **`FORBIDDEN-DEPENDENCY-ORIGIN`** | Application forbids parameter type names declared in Infrastructure, except same-ring declaration | **Missing.** Requires a cross-project declaration index, origin and same-ring exception fixtures, plus nonvacuous coverage. C1h has an index for different claims, but does not judge injection origins. |
-| **`CONTRACT-CYCLE`** | `OwnershipRules.Graph` calls Contracts-cycle detection unconditionally | **Missing.** Provider-policy cycles in C1f are a different graph. Next raw Contracts-project candidate needs clean, two-/multi-node cycle, missing and zero-project controls. |
+| `CONTRACT-CYCLE` | `OwnershipRules.Graph` calls Contracts-cycle detection unconditionally | C1n Contracts-only direct-graph candidate exists with clean, two-/multi-node cycle, missing and zero-project controls. Real IFX scan covered ten Contracts projects with zero cycles. Provider-policy cycles in C1f remain a separate claim. |
 | `FORBIDDEN-REFERENCE` | No effective `forbiddenReferences` entry in the IFX policy | Inactive in this policy checkpoint; record hash drift if it becomes configured. |
 | `RING-MISSING` | `requireRings=false` | Inactive by policy; do not claim active coverage or silently enable the stricter structure rule. |
 
-The four bold rows are new blocking implementation gaps not captured by a
-numbered-`ruleRefs`-only inventory. Suggested order: a separate C1m
-raw-reference/cycle tranche, then C1n syntax-injection/origin tranche.
-Each needs an exact child Plan, Formal Pre and source-hash/fixture/Host tests.
+The two bold rows remain blocking implementation gaps not captured by a
+numbered-`ruleRefs`-only inventory. C1o should cover syntax-injection and
+declaration-origin checks, with an exact child Plan, Formal Pre and
+source-hash/fixture/Host tests.
 No production Profile may silently treat C1k's direct zero-subject block as
 a pass. C1m's two decisions are bounded applicability records; C6 must bind
 their exact bytes and revalidate the frozen inventory before composition.
-Even after the four missing rule candidates, C1 closure still depends on C5
+Even after the two missing rule candidates, C1 closure still depends on C5
 fresh compiled/MSBuild-evaluated evidence. C2/C6 must later govern and
 compose the complete Profile; none of those steps is authorized by this audit.
