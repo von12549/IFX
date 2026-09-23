@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "zero-owners", "mutation": "zero-owners", "status": "fail", "code": "zero-owner" },
+    { "id": "zero-protocols", "mutation": "zero-protocols", "status": "fail", "code": "zero-protocol" },
+    { "id": "unknown-owner", "mutation": "unknown-owner", "status": "fail", "code": "owner-reference" },
+    { "id": "self-backup", "mutation": "self-backup", "status": "fail", "code": "backup-owner-reference" },
+    { "id": "missing-consumer", "mutation": "missing-consumer", "status": "fail", "code": "missing-consumer" },
+    { "id": "unknown-provider", "mutation": "unknown-provider", "status": "fail", "code": "module-reference" },
+    { "id": "unknown-consumer", "mutation": "unknown-consumer", "status": "fail", "code": "consumer-reference" },
+    { "id": "sync-cycle", "mutation": "sync-cycle", "status": "fail", "code": "sync-cycle" },
+    { "id": "primitive-admission", "mutation": "primitive-admission", "status": "fail", "code": "primitive-admission" },
+    { "id": "contract-allowlist", "mutation": "contract-allowlist", "status": "fail", "code": "contract-allowlist" },
+    { "id": "waiver-unwaivable", "mutation": "waiver-unwaivable", "status": "fail", "code": "waiver-unwaivable" },
+    { "id": "waiver-expired", "mutation": "waiver-expired", "status": "fail", "code": "waiver-expired" },
+    { "id": "projection-drift", "mutation": "projection-drift", "status": "fail", "code": "projection-drift" },
+    { "id": "missing-catalog", "mutation": "missing-catalog", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-projection", "mutation": "missing-projection", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-codeowners", "mutation": "missing-codeowners", "status": "error", "category": "prerequisite-missing" },
+    { "id": "malformed-catalog", "mutation": "malformed-catalog", "status": "error", "category": "invalid-input" }
+    ,{ "id": "missing-waiver-policy", "mutation": "missing-waiver-policy", "status": "fail", "code": "required-node" }
+    ,{ "id": "missing-projection-key", "mutation": "missing-projection-key", "status": "fail", "code": "projection-drift" }
+  ]
+}

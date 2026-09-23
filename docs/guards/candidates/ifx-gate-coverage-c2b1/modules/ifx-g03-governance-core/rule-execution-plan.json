@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-governance-core",
+  "matrixSha256": "4a26edfa3d3d24f171262c1e357cb4165adcc8329f44db2acdad2be6e4f3b374",
+  "rules": [
+    { "ruleId": "G03-OWNERSHIP", "claimId": "IFX.C2.G03_OWNERSHIP", "stage": "post", "detectors": ["ifx-g03-governance-core"], "evidenceKinds": ["catalog-governance", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-PROVIDER-GRAPH", "claimId": "IFX.C2.G03_PROVIDER_GRAPH", "stage": "post", "detectors": ["ifx-g03-governance-core"], "evidenceKinds": ["catalog-governance", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-WAIVER-POLICY", "claimId": "IFX.C2.G03_WAIVER_POLICY", "stage": "post", "detectors": ["ifx-g03-governance-core"], "evidenceKinds": ["catalog-governance", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-PROJECTION", "claimId": "IFX.C2.G03_PROJECTION", "stage": "post", "detectors": ["ifx-g03-governance-core"], "evidenceKinds": ["governance-projection", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

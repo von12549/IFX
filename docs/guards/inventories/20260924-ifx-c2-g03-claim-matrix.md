@@ -1,6 +1,6 @@
 # IFX C2 — G03 Phase 9 claim and authority matrix
 
-Status: `C2 INCOMPLETE — exact inventory complete; V4 modules missing`
+Status: `C2 INCOMPLETE — exact inventory and C2b1 governance-core candidate complete`
 
 The active Post gate is `v3-specialized-g03`, a base-owned judging gate. Its
 dispatcher invokes `Invoke-G03ContractEventGuard.ps1 -Phase 9` over candidate
@@ -33,3 +33,18 @@ Evidence is under `artifacts/guards/p10-ifx-c2a/v3-phase9/`. The JSON matrix
 records exact hashes and checkpoint counts. C2b–C2e remain separate bounded
 child Plans requiring Formal Pre before executable edits. The current C1
 candidate set and PATH-repair files are unchanged by this inventory.
+
+## C2b1 checkpoint
+
+The bounded `ifx-g03-governance-core` Post candidate now checks owner and
+backup/consumer references, provider and adapter graph including cycles,
+shared-primitives and BCL-only contract policy, waiver validity, and exact
+catalog-to-LayerGuard governance projection. Four distinct Host rule IDs map
+to four coverage claims. A current catalog with zero waiver entries is valid
+because the 90-day/unwaivable policy is checked independently; empty owners,
+protocols or graph edges fail. The candidate passed 20 fixtures, real IFX
+input, synthetic published-Host Post, source/authority hash checks and
+TargetRoot byte invariance. It is not a production Profile or complete G03
+gate. C2b2 must still cover the remaining catalog field, sensitive-use,
+protocol-lifecycle/admission, public-surface and change-record predicates;
+C2c–C2e remain as assigned above. C1 final closure still waits for C5.

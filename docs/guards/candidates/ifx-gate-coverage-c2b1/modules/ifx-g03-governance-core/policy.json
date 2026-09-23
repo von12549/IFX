@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-governance-core-c2b1",
+  "catalogPath": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+  "projectionPath": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+  "codeownersPath": ".github/CODEOWNERS",
+  "sourceCatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+  "sourceProjectionSha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649",
+  "sourceScripts": [
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1", "sha256": "ea9833b7e663f9b5f0fb9b11085ac736457b01256ec25b466091beed7a503528" },
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Export-G03LayerGuardGovernance.ps1", "sha256": "d62498b5d3cddbef2069b26df2af8a04fe36307d7410ce16081e47841874a72a" },
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03LayerGuardGovernance.ps1", "sha256": "0dc9031621055ee22011a1f0fe281a5ad29773b9a83a97c00e3904147858ce77" }
+  ],
+  "requiredCodeownerRoutes": [
+    "/src/Modules/IAM/", "/src/Modules/CRM/", "/src/Modules/Registry/",
+    "/src/Modules/Transaction/", "/src/Modules/Holdings/",
+    "/src/Platform/Messaging/", "/docs/architecture/review/gates/G03/", "/scripts/*G03*"
+  ],
+  "claims": [
+    { "claimId": "IFX.C2.G03_OWNERSHIP", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_PROVIDER_GRAPH", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_WAIVER_POLICY", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_PROJECTION", "minimumMatches": 1 }
+  ],
+  "deferred": [
+    "C3/C4 field classification and sensitive-use policy",
+    "full protocol lifecycle/admission and public-surface migration",
+    "change-record and field-exception governance",
+    "fresh source inventory and snapshot reconciliation",
+    "documentation and closeout readiness"
+  ]
+}
