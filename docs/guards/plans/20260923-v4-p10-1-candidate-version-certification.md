@@ -1,6 +1,6 @@
 # V4 P10.1 — 1.1.1 local composition candidate and certification Plan
 
-Status: `LOCAL 1.1.1 CANDIDATE SMOKE PASS — clean-commit/full certification pending; publication not authorized`
+Status: `HISTORICAL LOCAL CANDIDATE — superseded by published 1.1.1 release`
 
 Predecessor: `20260923-v4-p10-extension-composition-compatibility` and the synthetic evidence in
 `docs/guards/v4/plans/08-p10-1-extension-composition-compatibility.md`.
@@ -109,3 +109,15 @@ Pre is `advisory` with zero unmapped candidate paths, but exact Diff and the pla
 certification runner require a reviewed, clean candidate commit. Those gates have **not** been
 run or inferred from local smoke results; predecessor changes must be separated and reviewed
 before a certification checkpoint is recorded.
+
+## Later disposition (2026-09-23)
+
+This section preserves the earlier local-smoke checkpoint as history. The candidate was
+subsequently committed and certified, then its packaged documentation was made release-safe
+and the changed bytes were recertified. The exact published source is
+`9a876b19427e326b4eafa5e661cfc07749258c4d`, not this Plan's earlier smoke snapshot.
+Windows-full (33 tests), pinned offline Linux-complete (32 tests), exact Formal Diff,
+recovery certification and same-archive cross-platform composition passed. The separate
+authorized publication Plan `20260923-v4-guards-1-1-1-release-publication` records the final
+ZIP, tag, GitHub Release and side-by-side installation evidence. No real IFX bundle or
+cutover approval follows from this candidate Plan.

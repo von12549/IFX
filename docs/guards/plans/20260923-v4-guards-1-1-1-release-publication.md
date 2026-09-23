@@ -1,6 +1,6 @@
 # V4 Guards 1.1.1 — release publication
 
-Status: `AUTHORIZED — release-safe source and recertification pending`
+Status: `PUBLISHED AND SIDE-BY-SIDE INSTALLED — 2026-09-23; IFX bundle approval pending`
 
 On 2026-09-23 the user explicitly authorized publication of the 1.1.1 compatibility patch,
 in sequence before real P10.1 IFX Profile practice. This authorization covers the exact local
@@ -70,3 +70,46 @@ Publication creates a compatible V4 base, not an `ifx_profile` installation. Xia
 ceiling in a separate human-review record. Only then may P10.1 compose it into another
 receipted sibling and run IFX detector-family and installed Web UI practice. P10.2 parity,
 remote governance activation and cutover remain later, separately authorized gates.
+
+## Publication and installation closure (2026-09-23)
+
+The release-safe source checkpoint is commit
+`9a876b19427e326b4eafa5e661cfc07749258c4d` on
+`codex/v4-development-base`. Formal Pre passed; the Plan and source commits each passed
+exact Formal Diff. Windows-full passed 33 tests and pinned, `--network none`
+Linux-complete passed 32 tests from that same clean commit. Both reported Package hash
+`b6e5f63afa8cf7a37ad559cf2f8a8a8e2488c5bf96bd9984d91024545f5d90d2`.
+The candidate certification and recovery records were validated and identify 1.1.0 commit
+`a81a12e0d1f476c563497f961fe41fccc53edfb6` as the restore point. The same
+Windows-built archive passed installed-path synthetic composition in offline Linux.
+Local reports are under `artifacts/guards/p10-release/`: `windows-full.json`,
+`linux-complete.json`, `certification/v1-certification.json`, `certification/recovery.json`
+and `cross-archive-p10.json`.
+
+The development branch was fast-forwarded to that source commit, then annotated tag
+`v4-guards-v1.1.1` was pushed. The remote tag object is
+`6e6f5e5d05e6db1c317138805f070fdc760b5211` and peels to the certified commit.
+GitHub Release `V4 Guards 1.1.1` is final (neither draft nor prerelease), published at
+`2026-09-23T10:26:28Z`:
+`https://github.com/von12549/IFX/releases/tag/v4-guards-v1.1.1`.
+Its only assets are `v4-guards-1.1.1.zip` (1,060,427 bytes; SHA-256
+`c7055382c29f8c39e78114ecbf431e025f7909852c6f22bdf3c597a9a1a15631`)
+and `v4-guards-1.1.1.zip.sha256` (86 bytes; SHA-256
+`4420d3dca7005aa6e2f916d696b17a5c5387837a7f4914305f6e7ef884480139`).
+The remote asset digests and sizes matched local files; the sidecar named the ZIP digest.
+The distribution manifest binds version `1.1.1`, the source commit and Package hash above.
+
+That exact ZIP was installed at
+`D:\IFX-Root\guard-runtime\releases\v4-guards-1.1.1` with receipt
+`D:\IFX-Root\guard-runtime\receipts\v4-guards-1.1.1.install.json`.
+The receipt passed its schema; its 134-file list matched the complete installed file set,
+each file size and SHA-256, and distribution-manifest SHA-256
+`f22b73ba6ddd67efedce025bc38e4c8e6f9422e5ae4379ca4dab2bbf28044271`.
+The installed Package Check passed with the certified Package hash. The 1.1.0 receipt
+retained SHA-256 `6b41745f400228fcf3521f923cec544307765f0aa3a9a5e2a950291aa9789dc6`,
+and all 126 files in its receipt still matched their recorded size and SHA-256.
+
+The candidate aggregator's `releaseAuthorized=false` is a pre-publication artifact,
+not a statement about current release status. This Plan records the separate user
+authorization and publication. No real IFX bundle was reviewed or composed, and no
+workflow, ruleset, remote governance setting, IFX cutover or V3 state was changed.
