@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-c1e-ownership-graph-slice",
+  "title": "Implement a raw project-graph ownership-reference candidate for IFX C1",
+  "goal": "Preserve V3 raw direct/transitive own/foreign scope and shared primitive semantics without claiming source-import or G03 governance coverage.",
+  "acceptanceCriteria": [
+    "A hashed public-contract module applies exact V3 ring, direction, ownership-scope, transitive-boundary and G03 shared-primitive projections to bounded raw project references.",
+    "Clean, violating, shared-exception, flow-boundary, missing, zero-match, malformed and unsafe fixtures assert deterministic evidence and TargetRoot invariance.",
+    "Real IFX candidate scan, synthetic published-Host Pre, isolated IFX package test, unchanged Package hash and Formal Pre/Diff pass.",
+    "No production Profile, bundle acceptance or complete L2.3/C1 claim is made."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-c1e-ownership-graph-slice.md",
+    "docs/guards/plans/20260923-v4-ifx-c1e-ownership-graph-slice.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/tests/Test-IFXOwnershipGraph.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1e/fixtures/cases.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

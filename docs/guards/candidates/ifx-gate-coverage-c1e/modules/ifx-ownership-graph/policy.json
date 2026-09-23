@@ -1,0 +1,77 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-ownership-graph-c1e",
+  "sourcePolicy": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json",
+    "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"
+  },
+  "sourceG03": {
+    "path": "docs/guards/V3_ifx/stages/post/policy/g03/governance.json",
+    "sha256": "b8f259f02179c48558bd36fd9ccc5f37ce486bbf14f92e9d4c9ada826e4f518c"
+  },
+  "sourceRule": {
+    "path": "docs/guards/V3_ifx/stages/post/rules/L2.3.json",
+    "sha256": "f79c575925632d65653af3b48375160f0c9124657699b14fbe37221a1fe48473"
+  },
+  "scanRoot": "src",
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"],
+    "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
+    "Infrastructure": ["IFX.Modules.*.Infrastructure", "IFX.Platform.*.Infrastructure.*"],
+    "Client": ["IFX.Modules.*.Client"],
+    "Runtime": ["IFX.Platform.*.Runtime"],
+    "Composition": ["IFX.Modules.*.Composition", "IFX.Platform.*.Composition"],
+    "RuntimeHost": ["IFX.ApiHost", "IFX.*.Worker"]
+  },
+  "allowedDependencies": {
+    "Domain": [],
+    "Contracts": [],
+    "Application": ["Domain", "Contracts"],
+    "Presentation": ["Application", "Contracts", "Domain"],
+    "IntegrationAdapter": ["Application", "Contracts"],
+    "Infrastructure": ["Application", "Domain", "Contracts", "Client", "Runtime"],
+    "Client": ["Contracts", "Runtime"],
+    "Runtime": ["Contracts"],
+    "Composition": ["Domain", "Contracts", "Application", "Presentation", "IntegrationAdapter", "Infrastructure", "Client", "Runtime"],
+    "RuntimeHost": ["Composition"]
+  },
+  "ownership": {
+    "modulePatterns": ["IFX.Modules.{module}.*", "IFX.Platform.{module}.*"],
+    "requireKnown": true
+  },
+  "referenceScopes": [
+    { "from": "Domain", "to": "Domain", "ownership": "own" },
+    { "from": "Contracts", "to": "Contracts", "ownership": "own" },
+    { "from": "Application", "to": "Application", "ownership": "own" },
+    { "from": "Application", "to": "Domain", "ownership": "own" },
+    { "from": "Application", "to": "Contracts", "ownership": "none" },
+    { "from": "Presentation", "to": "Application", "ownership": "own" },
+    { "from": "Presentation", "to": "Contracts", "ownership": "own" },
+    { "from": "Presentation", "to": "Domain", "ownership": "own" },
+    { "from": "IntegrationAdapter", "to": "Application", "ownership": "own" },
+    { "from": "IntegrationAdapter", "to": "Contracts", "ownership": "foreign" },
+    { "from": "Infrastructure", "to": "Application", "ownership": "own" },
+    { "from": "Infrastructure", "to": "Domain", "ownership": "own" },
+    { "from": "Infrastructure", "to": "Contracts", "ownership": "any" },
+    { "from": "Infrastructure", "to": "Client", "ownership": "any" },
+    { "from": "Infrastructure", "to": "Runtime", "ownership": "any" },
+    { "from": "Client", "to": "Contracts", "ownership": "own" },
+    { "from": "Client", "to": "Runtime", "ownership": "any" },
+    { "from": "Runtime", "to": "Contracts", "ownership": "any" },
+    { "from": "Composition", "to": "Domain", "ownership": "own" },
+    { "from": "Composition", "to": "Application", "ownership": "own" },
+    { "from": "Composition", "to": "Presentation", "ownership": "own" },
+    { "from": "Composition", "to": "Infrastructure", "ownership": "own" },
+    { "from": "Composition", "to": "Client", "ownership": "any" },
+    { "from": "Composition", "to": "Runtime", "ownership": "any" },
+    { "from": "RuntimeHost", "to": "Composition", "ownership": "any" }
+  ],
+  "transitiveBoundaryRoles": ["Composition"],
+  "sharedPrimitiveProjects": ["IFX.Platform.Context.Contracts", "IFX.Platform.Messaging.Contracts"],
+  "claimId": "IFX.C1.OWNERSHIP_GRAPH_RAW",
+  "minimumApplicationProjects": 1,
+  "coverageScope": "raw ProjectReference ownership over src entries; no source import, evaluated references or G03 governance validation"
+}

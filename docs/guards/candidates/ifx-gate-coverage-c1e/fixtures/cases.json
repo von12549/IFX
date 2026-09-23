@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "baseProjects": [
+    { "id": "AppCRM", "path": "src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj" },
+    { "id": "DomainCRM", "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/IFX.Modules.CRM.Domain.csproj" },
+    { "id": "ContractsCRM", "path": "src/Modules/CRM/IFX.Modules.CRM.Contracts/IFX.Modules.CRM.Contracts.csproj" },
+    { "id": "AppIAM", "path": "src/Modules/IAM/IFX.Modules.IAM.Application/IFX.Modules.IAM.Application.csproj" },
+    { "id": "DomainIAM", "path": "src/Modules/IAM/IFX.Modules.IAM.Domain/IFX.Modules.IAM.Domain.csproj" },
+    { "id": "ContractsIAM", "path": "src/Modules/IAM/IFX.Modules.IAM.Contracts/IFX.Modules.IAM.Contracts.csproj" },
+    { "id": "Context", "path": "src/Platform/Context/IFX.Platform.Context.Contracts/IFX.Platform.Context.Contracts.csproj" },
+    { "id": "Messaging", "path": "src/Platform/Messaging/IFX.Platform.Messaging.Contracts/IFX.Platform.Messaging.Contracts.csproj" },
+    { "id": "IntegrationCRM", "path": "src/Modules/CRM/IFX.Modules.CRM.Integration/IFX.Modules.CRM.Integration.csproj" },
+    { "id": "CompositionCRM", "path": "src/Modules/CRM/IFX.Modules.CRM.Composition/IFX.Modules.CRM.Composition.csproj" },
+    { "id": "Host", "path": "src/Host/IFX.ApiHost/IFX.ApiHost.csproj" },
+    { "id": "Shared", "path": "src/BuildingBlocks/IFX.BuildingBlocks.Domain/IFX.BuildingBlocks.Domain.csproj" }
+  ],
+  "cases": [
+    { "id": "clean-own", "omit": [], "edges": [ { "from": "AppCRM", "to": "DomainCRM" }, { "from": "AppIAM", "to": "DomainIAM" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "own-contract-forbidden", "omit": [], "edges": [ { "from": "AppCRM", "to": "ContractsCRM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1, "expectedKind": "direct" },
+    { "id": "foreign-contract-forbidden", "omit": [], "edges": [ { "from": "AppCRM", "to": "ContractsIAM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1 },
+    { "id": "foreign-domain-forbidden", "omit": [], "edges": [ { "from": "AppCRM", "to": "DomainIAM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1 },
+    { "id": "foreign-same-ring", "omit": [], "edges": [ { "from": "ContractsCRM", "to": "ContractsIAM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1 },
+    { "id": "shared-exception", "omit": [], "edges": [ { "from": "AppCRM", "to": "Context" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "shared-source-not-exempt", "omit": [], "edges": [ { "from": "Context", "to": "Messaging" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1 },
+    { "id": "adapter-foreign-clean", "omit": [], "edges": [ { "from": "IntegrationCRM", "to": "ContractsIAM" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "adapter-own-forbidden", "omit": [], "edges": [ { "from": "IntegrationCRM", "to": "ContractsCRM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1 },
+    { "id": "direction-only-exclusion", "omit": [], "edges": [ { "from": "DomainCRM", "to": "ContractsCRM" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "transitive", "omit": [], "edges": [ { "from": "AppCRM", "to": "Shared" }, { "from": "Shared", "to": "ContractsCRM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 1, "expectedKind": "transitive" },
+    { "id": "private-all", "omit": [], "edges": [ { "from": "AppCRM", "to": "Shared" }, { "from": "Shared", "to": "ContractsCRM", "privateAssets": "all", "privateAssetsForm": "attribute" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "disabled-transitive", "omit": [], "disableTransitive": ["AppCRM"], "edges": [ { "from": "AppCRM", "to": "Shared" }, { "from": "Shared", "to": "ContractsCRM" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "composition-boundary", "omit": [], "edges": [ { "from": "Host", "to": "CompositionCRM" }, { "from": "CompositionCRM", "to": "DomainCRM" } ], "expectedStatus": "pass", "expectedCategory": "success", "expectedMatches": 11, "expectedFindings": 0 },
+    { "id": "multiple-violations", "omit": [], "edges": [ { "from": "AppCRM", "to": "ContractsCRM" }, { "from": "AppCRM", "to": "DomainIAM" } ], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 11, "expectedFindings": 2 },
+    { "id": "missing-src", "omit": ["AppCRM", "DomainCRM", "ContractsCRM", "AppIAM", "DomainIAM", "ContractsIAM", "Context", "Messaging", "IntegrationCRM", "CompositionCRM", "Host", "Shared"], "edges": [], "expectedStatus": "error", "expectedCategory": "prerequisite-missing", "expectedMatches": 0, "expectedFindings": 0 },
+    { "id": "zero-application", "omit": ["AppCRM", "AppIAM"], "edges": [], "expectedStatus": "fail", "expectedCategory": "findings-blocking", "expectedMatches": 9, "expectedFindings": 1 },
+    { "id": "invalid-xml", "omit": [], "invalidXml": "AppCRM", "edges": [], "expectedStatus": "error", "expectedCategory": "invalid-input", "expectedMatches": 0, "expectedFindings": 0 },
+    { "id": "unsafe-escape", "omit": [], "edges": [ { "from": "AppCRM", "literalInclude": "../../../../../../escape.csproj" } ], "expectedStatus": "error", "expectedCategory": "unsafe-path", "expectedMatches": 0, "expectedFindings": 0 }
+  ]
+}
