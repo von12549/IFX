@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1l-runtime-rule-audit",
+  "title": "Audit executable V3 architecture rules beyond the IFX numbered-rule bindings",
+  "goal": "Identify every still-active V3 architecture rule that can block the gate before asserting C1 closure.",
+  "acceptanceCriteria": [
+    "The V3 Analyzer and CLI execution paths are reconciled against current IFX policy and C1b-C1k candidate rule plans.",
+    "Active missing rules and inactive policy branches are distinguished with explicit next destinations and fixture requirements.",
+    "Formal Pre, source-hash checks, isolated package regression and exact Formal Diff pass without accepting a production Profile."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1l-runtime-rule-audit.md",
+    "docs/guards/plans/20260924-v4-ifx-c1l-runtime-rule-audit.plan.json",
+    "docs/guards/inventories/20260924-ifx-c1-executable-rule-closure.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
