@@ -20,4 +20,7 @@ Formal Pre passed at `artifacts/guards/p10-ifx-c4-checkpoint/formal-pre`
 before the program edit. The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-487c68738e294aef90dba966e5eb9e4d`.
 The checkpoint changes no executable or installed bytes. Exact Formal Diff
-awaits the documentation commit.
+from C4p2 verification base `cf51ea38` to documentation candidate
+`c54c4dbe` passed at
+`artifacts/guards/p10-ifx-c4-checkpoint/formal-diff/summary-diff.json`,
+including the V3 Stage Gate and three-path Plan scope.
