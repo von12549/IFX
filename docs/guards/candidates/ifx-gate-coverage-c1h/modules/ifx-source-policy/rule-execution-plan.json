@@ -1,0 +1,18 @@
+{
+  "formatVersion": 1, "moduleId": "ifx-source-policy",
+  "matrixSha256": "903944b672a1a9e912ef1aa4b900801e36c479ea8b028d0fde4b7bf201281c86",
+  "rules": [
+    { "ruleId": "IMPORT-DIRECTION", "claimId": "IFX.C1.IMPORT_DIRECTION_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-import", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "OWNERSHIP-REFERENCE", "claimId": "IFX.C1.IMPORT_OWNERSHIP_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-import", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "RING-PACKAGE-IMPORT", "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-import", "coverage"], "severity": "advisory", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "RING-PACKAGE-FORBIDDEN", "claimId": "IFX.C1.IMPORT_PACKAGE_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-import", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "DECLARATION-NAMESPACE", "claimId": "IFX.C1.DECLARATION_NAMESPACE_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-declaration", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "DECLARATION-FORBIDDEN", "claimId": "IFX.C1.DECLARATION_FORBIDDEN_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-declaration", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "DECLARATION-PLACEMENT", "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-declaration", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "DECLARATION-PLACEMENT-ADVISORY", "claimId": "IFX.C1.DECLARATION_PLACEMENT_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-declaration", "coverage"], "severity": "advisory", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "DECLARATION-IMPLEMENTS", "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-declaration", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "DECLARATION-IMPLEMENTS-ADVISORY", "claimId": "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-declaration", "coverage"], "severity": "advisory", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "SYMBOL-FORBIDDEN", "claimId": "IFX.C1.SYMBOL_FORBIDDEN_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-symbol", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "PAYLOAD-TYPE-FORBIDDEN", "claimId": "IFX.C1.PAYLOAD_TYPE_SOURCE", "stage": "pre", "detectors": ["ifx-source-policy"], "evidenceKinds": ["source-payload", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}

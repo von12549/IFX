@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-source-policy/result.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["formatVersion", "status", "exitCategory", "findings", "coverage"],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "status": { "enum": ["pass", "fail", "error"] },
+    "exitCategory": { "enum": ["success", "findings-blocking", "invalid-input", "unsafe-path", "integrity-failure", "prerequisite-missing"] },
+    "message": { "type": "string" },
+    "findings": { "type": "array", "items": { "type": "object", "additionalProperties": false,
+      "required": ["ruleId", "subject", "evidenceKind", "detectorId", "severity"],
+      "properties": {
+        "ruleId": { "pattern": "^[A-Z][A-Z0-9-]+$" },
+        "subject": { "type": "string", "minLength": 1 },
+        "evidenceKind": { "enum": ["source-import", "source-declaration", "source-symbol", "source-payload", "coverage"] },
+        "detectorId": { "const": "ifx-source-policy" },
+        "severity": { "enum": ["blocking", "advisory"] }
+      }
+    } },
+    "coverage": { "type": "array", "minItems": 9, "maxItems": 9, "items": { "type": "object", "additionalProperties": false,
+      "required": ["claimId", "matched", "minimum"],
+      "properties": {
+        "claimId": { "enum": [
+          "IFX.C1.IMPORT_DIRECTION_SOURCE", "IFX.C1.IMPORT_OWNERSHIP_SOURCE", "IFX.C1.IMPORT_PACKAGE_SOURCE",
+          "IFX.C1.DECLARATION_NAMESPACE_SOURCE", "IFX.C1.DECLARATION_FORBIDDEN_SOURCE",
+          "IFX.C1.DECLARATION_PLACEMENT_SOURCE", "IFX.C1.DECLARATION_IMPLEMENTS_SOURCE",
+          "IFX.C1.SYMBOL_FORBIDDEN_SOURCE", "IFX.C1.PAYLOAD_TYPE_SOURCE"
+        ] },
+        "matched": { "type": "integer", "minimum": 0 }, "minimum": { "const": 1 }
+      }
+    } }
+  }
+}

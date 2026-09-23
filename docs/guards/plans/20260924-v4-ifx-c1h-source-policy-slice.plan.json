@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1h-source-policy-slice",
+  "title": "Implement IFX C1 source import, declaration, forbidden-symbol and payload candidate",
+  "goal": "Reproduce bounded V3 source-policy predicates through a read-only V4 public extension without claiming compiled or production parity.",
+  "acceptanceCriteria": [
+    "Frozen V3 IFX policy, G03 and semantic source projections and hashes are asserted, with nonvacuous per-rule coverage.",
+    "Fixtures verify active/inactive import, declaration/index, symbol, payload, exceptions, missing, zero, unsafe and deterministic evidence while preserving TargetRoot bytes.",
+    "Real IFX scan, published-base synthetic Host Pre, isolated IFX package regression and unchanged Package hash are recorded.",
+    "Formal Pre precedes candidate edits and exact Formal Diff passes; no production Profile or full C1 claim is made."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1h-source-policy-slice.md",
+    "docs/guards/plans/20260924-v4-ifx-c1h-source-policy-slice.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/tests/Test-IFXSourcePolicy.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1h/fixtures/cases.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

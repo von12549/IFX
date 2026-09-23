@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "expectedRules": [] },
+    { "id": "import-direction", "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.cs", "text": "using IFX.Modules.CRM.Contracts; namespace IFX.Modules.CRM.Domain { class Fault {} }" }], "expectedRules": ["IMPORT-DIRECTION"] },
+    { "id": "import-ownership", "files": [{ "path": "src/IFX.Modules.CRM.Application/Fault.cs", "text": "using IFX.Modules.CRM.Contracts; namespace IFX.Modules.CRM.Application { class Fault {} }" }], "expectedRules": ["OWNERSHIP-REFERENCE"] },
+    { "id": "inactive-import", "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.cs", "text": "#if NEVER\nusing IFX.Modules.CRM.Contracts;\n#endif\nnamespace IFX.Modules.CRM.Domain { class Fault {} }" }], "expectedRules": ["IMPORT-DIRECTION"] },
+    { "id": "package-advisory", "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.cs", "text": "using Newtonsoft.Json; namespace IFX.Modules.CRM.Domain { class Fault {} }" }], "expectedRules": ["RING-PACKAGE-IMPORT"] },
+    { "id": "package-forbidden", "files": [{ "path": "src/IFX.Modules.CRM.Contracts/Fault.cs", "text": "using MediatR; namespace IFX.Modules.CRM.Contracts { interface IFaultContract {} }" }], "expectedRules": ["RING-PACKAGE-FORBIDDEN", "SYMBOL-FORBIDDEN"] },
+    { "id": "declaration-namespace", "files": [{ "path": "src/IFX.Modules.CRM.Application/Fault.cs", "text": "namespace IFX.Modules.CRM.Application { interface IFaultContract {} }" }], "expectedRules": ["DECLARATION-NAMESPACE"] },
+    { "id": "declaration-forbidden", "files": [{ "path": "src/IFX.Modules.CRM.Contracts/Fault.cs", "text": "namespace IFX.Modules.CRM.Contracts { class FaultService {} }" }], "expectedRules": ["DECLARATION-FORBIDDEN"] },
+    { "id": "declaration-placement", "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.cs", "text": "namespace IFX.Modules.CRM.Domain { class FaultCommandHandler {} }" }], "expectedRules": ["DECLARATION-PLACEMENT"] },
+    { "id": "declaration-implements", "files": [{ "path": "src/IFX.Modules.CRM.Infrastructure/Fault.cs", "text": "namespace IFX.Modules.CRM.Infrastructure { class MissingRepository {} }" }], "expectedRules": ["DECLARATION-IMPLEMENTS-ADVISORY"] },
+    { "id": "symbol-name", "files": [{ "path": "src/IFX.Modules.CRM.Application/Fault.cs", "text": "namespace IFX.Modules.CRM.Application { class Fault { HttpContext Context; } }" }], "expectedRules": ["SYMBOL-FORBIDDEN"] },
+    { "id": "symbol-namespace", "files": [{ "path": "src/IFX.Modules.CRM.Application/Fault.cs", "text": "using Microsoft.AspNetCore.Http; namespace IFX.Modules.CRM.Application { class Fault {} }" }], "expectedRules": ["RING-PACKAGE-IMPORT", "SYMBOL-FORBIDDEN"] },
+    { "id": "symbol-literal", "files": [{ "path": "src/IFX.Modules.CRM.Application/Fault.cs", "text": "namespace IFX.Modules.CRM.Application { class Fault { string Name = \"HttpContext\"; } }" }], "expectedRules": ["SYMBOL-FORBIDDEN"] },
+    { "id": "payload-forbidden", "files": [{ "path": "src/IFX.Modules.CRM.Contracts/Fault.cs", "text": "namespace IFX.Modules.CRM.Contracts.Events { record BadIntegrationEvent(IFX.Modules.CRM.Domain.CustomerEntity Customer); }" }], "expectedRules": ["PAYLOAD-TYPE-FORBIDDEN"] },
+    { "id": "payload-allow-list", "files": [{ "path": "src/IFX.Modules.CRM.Contracts/Fault.cs", "text": "namespace IFX.Modules.CRM.Contracts.Context { class BadRequestContext { public Stream Data { get; set; } } }" }], "expectedRules": ["PAYLOAD-TYPE-FORBIDDEN"] },
+    { "id": "longest-outside-project", "projects": ["src/IFX.Modules.CRM.Contracts.Extra/IFX.Modules.CRM.Contracts.Extra.csproj"], "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.cs", "text": "using IFX.Modules.CRM.Contracts.Extra; namespace IFX.Modules.CRM.Domain { class Fault {} }" }], "expectedRules": [] },
+    { "id": "nested-nearest-project", "projects": ["src/IFX.Modules.CRM.Infrastructure/Nested/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj", "src/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj"], "files": [{ "path": "src/IFX.Modules.CRM.Infrastructure/Nested/IFX.Modules.Registry.Domain/Fault.cs", "text": "using IFX.Modules.Registry.Contracts; namespace IFX.Modules.Registry.Domain { class Fault {} }" }], "expectedRules": ["IMPORT-DIRECTION"] },
+    { "id": "generated-excluded", "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.g.cs", "text": "using IFX.Modules.CRM.Contracts; namespace IFX.Modules.CRM.Domain { class Fault {} }" }], "expectedRules": [] },
+    { "id": "guard-excluded", "projects": ["src/guard/IFX.Modules.Registry.Domain/IFX.Modules.Registry.Domain.csproj", "src/IFX.Modules.Registry.Contracts/IFX.Modules.Registry.Contracts.csproj"], "files": [{ "path": "src/guard/IFX.Modules.Registry.Domain/Fault.cs", "text": "using IFX.Modules.Registry.Contracts; namespace IFX.Modules.Registry.Domain { class Fault {} }" }], "expectedRules": [] },
+    { "id": "malformed-project", "malformedProject": true, "expectedStatus": "error", "expectedCategory": "invalid-input" },
+    { "id": "malformed-source", "files": [{ "path": "src/IFX.Modules.CRM.Domain/Fault.cs", "text": "namespace IFX.Modules.CRM.Domain { class Fault {" }], "expectedStatus": "error", "expectedCategory": "invalid-input" },
+    { "id": "missing-src", "missingSrc": true, "expectedStatus": "error", "expectedCategory": "prerequisite-missing" },
+    { "id": "zero-source", "zeroSource": true, "expectedStatus": "error", "expectedCategory": "prerequisite-missing" },
+    { "id": "zero-claim", "zeroClaim": true, "expectedStatus": "fail", "expectedCategory": "findings-blocking" }
+  ]
+}
