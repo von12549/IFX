@@ -71,9 +71,13 @@ hashes to the receipted
 `12270a26f923a86f49be4ee0d003f5493b2562891fd1484a4fac079f02b73c95`,
 with Package hash
 `922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d`.
-The mismatch at the older artifact path remains an external-state issue to
-resolve before any final bundle review; reconstruction is test evidence, not
-new publication.
+The older artifact is now classified by the C1i reconciliation as a later
+C1g-source build (commit `86c3cc24ac15881324a54e168fca3a48338914fe`),
+not the published 1.1.2 ZIP. The C1i checker verifies the reconstructed ZIP,
+sidecar, release-source manifest, receipt, all 136 installed files and Package
+hash, and rejects the older ZIP. Use only that checked published identity for
+subsequent local C1 tests. This resolves the local selection ambiguity; the
+reconstruction remains test evidence, not new publication or remote review.
 
 The isolated IFX package positive and negative regression passed with the
 repository NuGet configuration; evidence:

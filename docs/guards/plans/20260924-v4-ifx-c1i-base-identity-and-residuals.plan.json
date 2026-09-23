@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1i-base-identity-and-residuals",
+  "title": "Reconcile the published V4 base archive and audit residual C1 claims",
+  "goal": "Prevent stale local C1 archives from being mistaken for published 1.1.2 and identify the remaining architecture-gate implementation work.",
+  "acceptanceCriteria": [
+    "The published 1.1.2 ZIP, sidecar, distribution manifest, receipt, installed inventory and Package hash agree exactly; a later-source ZIP is rejected.",
+    "The residual C1 matrix distinguishes implemented candidates, missing direct claims, absent subjects and compiled or evaluated evidence deferred to C5.",
+    "Formal Pre precedes verifier and inventory edits, the isolated IFX package regression passes, and no production Profile or bundle is accepted."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1i-base-identity-and-residuals.md",
+    "docs/guards/plans/20260924-v4-ifx-c1i-base-identity-and-residuals.plan.json",
+    "docs/guards/plans/20260924-v4-ifx-c1h-source-policy-slice.md",
+    "docs/guards/inventories/20260924-ifx-c1-residual-claim-matrix.md",
+    "docs/guards/candidates/ifx-gate-coverage-c1i/Test-PublishedV4Base.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
