@@ -1,0 +1,1066 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-ifx-c4-g05-claim-matrix",
+  "status": "inventory-only",
+  "v4Base": {
+    "version": "1.1.3",
+    "sourceTag": "v4-guards-v1.1.3",
+    "packageSha256": "9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494"
+  },
+  "v3": {
+    "gateId": "v3-specialized-g05",
+    "stage": "post",
+    "phase": 11,
+    "contextResult": "passed",
+    "securityResult": "passed",
+    "contextChecks": 120,
+    "securityChecks": 13,
+    "closureStatus": "pre-ready",
+    "readyForClosure": false,
+    "blockerCodes": [
+      "G05-B01",
+      "G05-B02",
+      "G05-B03",
+      "G05-B04",
+      "G05-B05",
+      "G05-B07",
+      "G05-B08"
+    ],
+    "c3FieldExceptions": 8
+  },
+  "detectors": [
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G05Verification.ps1",
+      "sha256": "3a25d76bb7ddc58009523997dc016d9b5728eed189e8210248181f4c23c6249b"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G05ContextBoundaryGuard.ps1",
+      "sha256": "766cd9a0f97b7318eac331e2995b1757acc6b9fc84cf6833b7575a9ca2bb0585"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G05ContextInventory.ps1",
+      "sha256": "3d3b5781a637986838315b9192b00e2a6fcf67aeda8c541dd9a008f3f8e31fc0"
+    },
+    {
+      "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-Plan05SecurityBoundary.ps1",
+      "sha256": "af5e230fc12a21f239a12a61776d432ce410862b07ee8ee0ece74eba32dae0ec"
+    }
+  ],
+  "targetPolicyAuthorities": [
+    {
+      "id": "g03-layerguard-governance-input",
+      "path": "docs/architecture/review/gates/G03/generated/layerguard-governance-input.json",
+      "sha256": "d255013fc20f5cdd17fe1548430a7cd6143bc0cf1262755368aa1fbaa0c32649"
+    },
+    {
+      "id": "g05-context-protocol",
+      "path": "docs/architecture/review/gates/G05/context-protocol-v1.json",
+      "sha256": "499c9dac90bf76366de226c7f61743ddb361acce5afe91b50da44fe0fff32495"
+    },
+    {
+      "id": "g05-contract-context-conformance",
+      "path": "docs/architecture/review/gates/G05/contract-context-conformance-v1.json",
+      "sha256": "6187fb8b5373eef8a868febb9f29b53fc71f50954a71dd3ab75f0ebe10d12935"
+    },
+    {
+      "id": "g05-event-propagation-conformance",
+      "path": "docs/architecture/review/gates/G05/event-propagation-conformance-v1.json",
+      "sha256": "c3d6297bf80d47203f9fb48a5bfc49e11296a5a0891db50c5ef912623628694a"
+    },
+    {
+      "id": "g05-execution-context-sources",
+      "path": "docs/architecture/review/gates/G05/execution-context-sources.json",
+      "sha256": "f2dbd3c867d4d2f8c5f2d5ddd396d9e409901ba8ee415608663757c90a3ff4aa"
+    },
+    {
+      "id": "g05-failure-replay-compatibility",
+      "path": "docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json",
+      "sha256": "87b49b2a1ba5976eaa13f930f8f17ba284c04a3473e1ec340b2439f3bf203e22"
+    },
+    {
+      "id": "g05-event-envelope-golden",
+      "path": "docs/architecture/review/gates/G05/fixtures/event-envelope-v1.golden.json",
+      "sha256": "bcec249dbb32447671e49a914ddb8a41ae3ae7b7a8c819a15d37377ccae752f1"
+    },
+    {
+      "id": "g05-observability-security-policy",
+      "path": "docs/architecture/review/gates/G05/observability-security-policy.json",
+      "sha256": "828abb9c8e947d6ef30ffcf4515b128ef5965342a0d01778b7bc3b36f4a32673"
+    },
+    {
+      "id": "g05-open-items",
+      "path": "docs/architecture/review/gates/G05/open-items-v1.json",
+      "sha256": "b52e75a27ac409702a1e3bd1ae4567d1e9d60de0c11758e3f4312085ef8db6a9"
+    },
+    {
+      "id": "g05-ops-evidence-map",
+      "path": "docs/architecture/review/gates/G05/ops-evidence-map-v1.json",
+      "sha256": "1cea6289b9ebe8fbd566ca77df3c7bd894707ce7d1633f070789f6505284fe69"
+    },
+    {
+      "id": "g05-event-envelope-schema",
+      "path": "docs/architecture/review/gates/G05/schemas/event-envelope-v1.schema.json",
+      "sha256": "ff3a7e9c571970f12c9620a09be919fa59d8ac661efabee137dc9a9a1508cf7c"
+    },
+    {
+      "id": "g05-verification-baseline",
+      "path": "docs/architecture/review/gates/G05/verification-baseline-v1.json",
+      "sha256": "4a534610790fb31120b59790c74e4c1347e6791e709a00c331ebfabea9cee550"
+    },
+    {
+      "id": "g05-phase11-status",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase11-status.json",
+      "sha256": "81f98e40af8b962a7f0d79ce9c5d7a51e390385153c68f770bf6c4127a4df56c"
+    }
+  ],
+  "dynamicSourceRoots": [
+    "src/Platform/Context",
+    "src/Platform/Messaging",
+    "src/Platform/Authentication",
+    "src/Platform/Authorization",
+    "src/ApiHost",
+    "src/Modules",
+    "src/BuildingBlocks",
+    "tests",
+    "docs/architecture/review/evidence/gates/G05"
+  ],
+  "claims": [
+    {
+      "id": "deterministicInventory",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "valueFreeInventoryPolicy",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "sourceInventoryNonEmpty",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "httpAndTenantSurfacesRecorded",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "protocolAndEventSurfacesRecorded",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "loggingAndErrorSurfacesRecorded",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "durableMessagingCapabilitiesRecordedTruthfully",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "legacyEventIdentityRecorded",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "fourSecurityFindingsOwned",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "externalEvidenceGapsOwned",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase0EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase0LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "implementationPlanExists",
+      "source": "G05 Phase 11",
+      "phase": 0,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "protocolProjectsHaveNoDependencies",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "contextStrongIdentifiersExist",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "explicitScopesExist",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "minimumReferencesExist",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "contractContextIsVersionedBclShape",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "eventEnvelopeIsVersionedBclShape",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "noFrameworkOrTransportLeak",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "g03PrimitiveProjectsAdmitted",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "protocolContractTestsExist",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase1EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase1LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 1,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "applicationContextPortIsTransportNeutral",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "runtimeAccessorHasBoundedAsyncLocalLifetime",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "rootCompositionOwnsUniqueImplementation",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "currentUserHttpResponsibilitiesAreSplit",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "fiveExecutionSourcesHaveFailClosedRules",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "executionContextIsolationTestsExist",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "authFactSplitTestsExist",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase2EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase2LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 2,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "httpMiddlewareOrderIsDeterministic",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "publicCorrelationAndTrustedGatewayRulesExist",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "w3cTraceRestartIsNonBlocking",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "tenantParsingFailsClosed",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "allModuleRouteGroupsDeclareScopeMetadata",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "safeStableHttpErrorsExist",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "currentUserTenantComesFromExecutionContext",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase3HttpIntegrationTestsExist",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase3EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase3LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 3,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "consumerContextConstructionIsExplicit",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "providerValidationOrderIsFixed",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "contractFailureResultsAreStable",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "fakeCarriersShareOneApplicationPort",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "contractContextCarriesNoCallerAuthorization",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "plan01ContractContextHandoffExists",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "realContractCarrierNotMisrepresented",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase4EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase4LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 4,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "eventEnvelopeSchemaAndGoldenExist",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "eventProducerUsesTrustedExecutionContext",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "outboxLogicalAndDeliveryDataAreSeparated",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "transportMappingAndConsumerOrderAreFixed",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "consumerEventExecutionSemanticsAreExplicit",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "retryReplayTraceAndTenantConformanceExist",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "plan02EventContextHandoffExists",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "realMessagingDurabilityNotMisrepresented",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase5EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase5LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 5,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "g03CatalogRemainsSoleFieldAuthority",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "allTargetLegacyAndEnvelopeFieldsAreClassified",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "noC4AndAllC3HaveGovernedExceptions",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "c4SemanticDenylistIsComplete",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "capabilitySplitAndEventMinimizationAreRecorded",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "sensitiveFinancialAndComplianceUsesAreGoverned",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "pendingSecurityApprovalIsNotMisrepresented",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "layerGuardGovernanceHashMatchesCatalog",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase6EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase6LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 6,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "centralOperationalSinkEnforcesClassifier",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "productionPseudonymKeyFailsClosedAndSupportsRotation",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "rawRequestPathAndSdkPayloadsAreNotLogged",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "externalErrorsAreStableAndSafe",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "auditSinkGovernanceIsIndependentAndComplete",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "traceMetricAndBaggagePolicyIsBounded",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "authTokenPersistenceIsRemovedInCodeAndMigration",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "destructiveMigrationApprovalIsNotMisrepresented",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "capturedSentinelCoverageExists",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase7EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase7LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 7,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "failureMatrixHasSixBoundedClasses",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "preInboxValidationOrderAndCodesAreStable",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "traceDamageIsDiagnosticAndNonRejecting",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "quarantineMetadataIsSafeAndSecurityIsAudited",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "retryAndReplayPreserveLogicalIdentity",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "forcedReprocessingIsSeparateAndApproved",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "compatibilityRegistryIsOwnedBoundedAndExpiring",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "metricsUseBoundedNamesAndLabelsOnly",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "realFailureDurabilityNotMisrepresented",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase8EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase8LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 8,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "singleLocalCiVerificationEntryPointExists",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "verificationRunsOnlyOwnedChecks",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "verificationDelegatesSolutionToQuality",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "requiredProtocolRuntimeAndSecuritySuitesAreBound",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "expiredExceptionAndCompatibilityRulesFailClosed",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "verificationBaselineIsTruthfulAndBounded",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "catalogMutationBaselineIncludesCredentialBoundaries",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase9AutomationEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 9,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "bilingualDesignDecisionsAreConsistent",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "terminologyLifecycleAndForbiddenSubstitutionAreDocumented",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "contextTrustAndFlowDiagramsAreRendered",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "failureClassificationAndAdmissionMatricesAreDocumented",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "observabilityCompatibilityAndSecurityOperationsAreDocumented",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "ruleMappingLinksOwnersCodeTestsMetricsAndApprovals",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "documentationIndexesAndBacklinksAreComplete",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "documentationPreReadyBoundaryIsTruthful",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase10EvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase10LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 10,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "fourOwnershipPreservingHandoffsExist",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "opsEvidenceMapCoversRequiredOutcomes",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "allOpenExceptionsAndFindingsAreGoverned",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "closeoutAuditPassesWithoutClaimingClosure",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "prerequisiteReleasedAndFinalApprovalOpen",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "productionAndDownstreamEvidenceNotMisrepresented",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase11HandoffEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "phase11LayerGuardEvidenceExists",
+      "source": "G05 Phase 11",
+      "phase": 11,
+      "destination": "C4-G05-context",
+      "required": true
+    },
+    {
+      "id": "positiveAndNegativeDetectors",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "AuthenticationContractsArePure",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "AuthenticationRuntimeHasNoBusinessOrHttpDependency",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "AuthorizationContractsArePure",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "AuthorizationRuntimeHasNoBusinessOrHttpDependency",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "verifiedIdentityIsTheProductionSource",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "membershipFactsAreCurrentAndTenantBound",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "workerActorRequiresTrustedUserIdentity",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "internalAuthorizationRequiresExplicitContext",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "httpUsesIamDecision",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "hostUsesIamComposition",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "retiredTransitionTypesAreAbsent",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    },
+    {
+      "id": "legacyTypeNamesHaveExactCompatibilityEntries",
+      "source": "Plan05 security boundary",
+      "phase": "P05-S6",
+      "destination": "C4-G05-security",
+      "required": true
+    }
+  ],
+  "limits": [
+    "V3 checks are reference assertions, not V4 runtime code",
+    "V3 existence of tests/evidence is not fresh test execution",
+    "G05 pre-ready is not closure or production security approval",
+    "Plan05 security checks must not be omitted from G05 composite"
+  ]
+}
