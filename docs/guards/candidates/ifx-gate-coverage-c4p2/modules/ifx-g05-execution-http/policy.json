@@ -1,0 +1,377 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g05-execution-http-c4p2",
+  "families": [
+    "execution",
+    "http"
+  ],
+  "authorities": [
+    {
+      "id": "appAccessor",
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/IExecutionContextAccessor.cs"
+    },
+    {
+      "id": "appSnapshot",
+      "path": "src/BuildingBlocks/IFX.BuildingBlocks.Application/Context/ExecutionContextSnapshot.cs"
+    },
+    {
+      "id": "runtimeAccessor",
+      "path": "src/ApiHost/IFX.ApiHost/Runtime/ExecutionContextAccessor.cs"
+    },
+    {
+      "id": "program",
+      "path": "src/ApiHost/IFX.ApiHost/Program.cs"
+    },
+    {
+      "id": "currentUser",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/CurrentUser.cs"
+    },
+    {
+      "id": "httpFacts",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/HttpIdentityFacts.cs"
+    },
+    {
+      "id": "tenantSelection",
+      "path": "src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Access/ExecutionTenantSelection.cs"
+    },
+    {
+      "id": "sourcePolicy",
+      "path": "docs/architecture/review/gates/G05/execution-context-sources.json"
+    },
+    {
+      "id": "executionTests",
+      "path": "tests/IFX.IntegrationTests/Runtime/ExecutionContextAccessorTests.cs"
+    },
+    {
+      "id": "authFactTests",
+      "path": "tests/IFX.Modules.IAM.Infrastructure.Tests/Authorization/HttpContextFactTests.cs"
+    },
+    {
+      "id": "phase2Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-execution-context.md"
+    },
+    {
+      "id": "phase2Layer",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase2-layerguard-report.json"
+    },
+    {
+      "id": "correlation",
+      "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpCorrelationMiddleware.cs"
+    },
+    {
+      "id": "trace",
+      "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpTraceContextMiddleware.cs"
+    },
+    {
+      "id": "httpContext",
+      "path": "src/ApiHost/IFX.ApiHost/Middleware/HttpExecutionContextMiddleware.cs"
+    },
+    {
+      "id": "exception",
+      "path": "src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs"
+    },
+    {
+      "id": "appSettings",
+      "path": "src/ApiHost/IFX.ApiHost/appsettings.json"
+    },
+    {
+      "id": "httpTests",
+      "path": "tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs"
+    },
+    {
+      "id": "phase3Evidence",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase3-http-boundary.md"
+    },
+    {
+      "id": "phase3Layer",
+      "path": "docs/architecture/review/evidence/gates/G05/G05-phase3-layerguard-report.json"
+    }
+  ],
+  "predicates": [
+    {
+      "id": "applicationContextPortIsTransportNeutral",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "appAccessor",
+          "all": [
+            "interface IExecutionContextAccessor"
+          ],
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|HttpContext|MediatR"
+          ]
+        },
+        {
+          "alias": "appSnapshot",
+          "all": [
+            "record ExecutionContextSnapshot"
+          ],
+          "none": [
+            "Microsoft\\.AspNetCore|ClaimsPrincipal|HttpContext|MediatR"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runtimeAccessorHasBoundedAsyncLocalLifetime",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "runtimeAccessor",
+          "all": [
+            "AsyncLocal<ScopeFrame\\?>",
+            "using var scope = Push\\(context\\)",
+            "ExecutionContext\\.SuppressFlow\\(\\)",
+            "disposed in reverse order"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rootCompositionOwnsUniqueImplementation",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "program",
+          "all": [
+            "AddSingleton<IExecutionContextAccessor>",
+            "AddSingleton<IExecutionContextScopeFactory>"
+          ],
+          "regexCount": {
+            "pattern": "AddSingleton<ExecutionContextAccessor>\\(\\)",
+            "count": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "currentUserHttpResponsibilitiesAreSplit",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "currentUser",
+          "none": [
+            "IHttpContextAccessor|ClaimsPrincipal|HttpContext"
+          ]
+        },
+        {
+          "alias": "httpFacts",
+          "exists": true
+        },
+        {
+          "alias": "tenantSelection",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "fiveExecutionSourcesHaveFailClosedRules",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "sourcePolicy",
+          "jsonArrayObjectsRequired": {
+            "path": "sources",
+            "count": 5,
+            "fields": [
+              "source",
+              "owner",
+              "actorRule",
+              "scopeRule",
+              "sourceRule",
+              "builderBoundary",
+              "missingContextBehavior"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "executionContextIsolationTestsExist",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "executionTests",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "authFactSplitTestsExist",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "authFactTests",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "phase2EvidenceExists",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "phase2Evidence",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "phase2LayerGuardEvidenceExists",
+      "family": "execution",
+      "clauses": [
+        {
+          "alias": "phase2Layer",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "httpMiddlewareOrderIsDeterministic",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "program",
+          "order": [
+            "UseMiddleware<ExceptionHandlingMiddleware>",
+            "UseMiddleware<HttpTraceContextMiddleware>",
+            "UseMiddleware<HttpCorrelationMiddleware>",
+            "UseMiddleware<RequestLoggingMiddleware>",
+            "UseAuthentication()",
+            "UseMiddleware<HttpExecutionContextMiddleware>",
+            "UseAuthorization()"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "publicCorrelationAndTrustedGatewayRulesExist",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "correlation",
+          "all": [
+            "X-Client-Request-Id",
+            "Guid\\.NewGuid\\(\\)",
+            "AllowTrustedGatewayCorrelationPropagation",
+            "IsTrustedGateway"
+          ]
+        },
+        {
+          "alias": "appSettings",
+          "jsonBooleanEquals": {
+            "path": "HttpContextBoundary.AllowTrustedGatewayCorrelationPropagation",
+            "value": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "w3cTraceRestartIsNonBlocking",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "trace",
+          "all": [
+            "ActivityContext\\.TryParse",
+            "ActivityIdFormat\\.W3C",
+            "invalidInboundTrace"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tenantParsingFailsClosed",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "httpContext",
+          "all": [
+            "GetCommaSeparatedValues\\(\"X-Tenant-Id\"\\)",
+            "tenant_context_invalid",
+            "tenant_access_denied",
+            "tenant_context_required",
+            "PrimaryTenantId",
+            "IsGlobalAdmin"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "allModuleRouteGroupsDeclareScopeMetadata",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "presentation",
+          "presentationScopeBalanced": true
+        },
+        {
+          "alias": "program",
+          "all": [
+            "WithMetadata\\(ExecutionScopeRequirement\\.Platform\\)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "safeStableHttpErrorsExist",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "exception",
+          "all": [
+            "ErrorCode",
+            "CorrelationId"
+          ],
+          "none": [
+            "response\\.Error = exception\\.Message",
+            "\\{Message\\}.*ex\\.Message"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "currentUserTenantComesFromExecutionContext",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "tenantSelection",
+          "all": [
+            "IExecutionContextAccessor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase3HttpIntegrationTestsExist",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "httpTests",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "phase3EvidenceExists",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "phase3Evidence",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "id": "phase3LayerGuardEvidenceExists",
+      "family": "http",
+      "clauses": [
+        {
+          "alias": "phase3Layer",
+          "exists": true
+        }
+      ]
+    }
+  ],
+  "presentationRoot": "src/Modules"
+}

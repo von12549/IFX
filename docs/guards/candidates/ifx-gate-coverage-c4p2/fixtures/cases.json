@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "bad-middleware-order", "mutation": "bad-middleware-order", "status": "fail", "category": "findings-blocking" },
+    { "id": "bad-source-policy", "mutation": "bad-source-policy", "status": "fail", "category": "findings-blocking" },
+    { "id": "route-zero", "mutation": "route-zero", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-runtime", "mutation": "missing-runtime", "status": "error", "category": "prerequisite-missing" },
+    { "id": "stale-runtime", "mutation": "stale-runtime", "status": "error", "category": "integrity-failure" },
+    { "id": "zero-execution", "mutation": "zero-execution", "status": "fail", "category": "findings-blocking" }
+  ]
+}
