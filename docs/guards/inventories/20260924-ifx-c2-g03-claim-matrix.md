@@ -30,9 +30,10 @@ recorded blockers: `protocols-not-active`, `behavior-tests-pending` and
 `closure-approvals-pending`. Preserve this distinction in V4 evidence.
 
 Evidence is under `artifacts/guards/p10-ifx-c2a/v3-phase9/`. The JSON matrix
-records exact hashes and checkpoint counts. C2b–C2e remain separate bounded
-child Plans requiring Formal Pre before executable edits. The current C1
-candidate set and PATH-repair files are unchanged by this inventory.
+records exact hashes and checkpoint counts. C2b–C2e were delivered through
+separate bounded child Plans, each with Formal Pre before executable edits.
+The current C1 candidate set and PATH-repair files are unchanged by this
+inventory.
 
 ## C2b1 checkpoint
 
