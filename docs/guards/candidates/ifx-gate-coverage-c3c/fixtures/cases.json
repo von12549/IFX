@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "stale-program", "mutation": "stale-program", "status": "error", "category": "integrity-failure" },
+    { "id": "missing-program", "mutation": "missing-program", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-role", "mutation": "missing-role", "status": "fail", "category": "findings-blocking" },
+    { "id": "zero-startup", "mutation": "zero-startup", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-worker", "mutation": "missing-worker", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-drain", "mutation": "missing-drain", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-health", "mutation": "missing-health", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-backpressure", "mutation": "missing-backpressure", "status": "fail", "category": "findings-blocking" },
+    { "id": "zero-metrics", "mutation": "zero-metrics", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-inbound", "mutation": "missing-inbound", "status": "fail", "category": "findings-blocking" },
+    { "id": "missing-inbound-tests", "mutation": "missing-inbound-tests", "status": "error", "category": "prerequisite-missing" }
+  ]
+}

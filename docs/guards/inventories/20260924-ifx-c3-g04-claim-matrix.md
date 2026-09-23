@@ -1,6 +1,6 @@
 # IFX C3 — G04 Phase 12 authority and claim matrix
 
-Status: `C3b CANDIDATE VALIDATED — C3c–C3e pending`
+Status: `C3b/C3c CANDIDATES VALIDATED — C3d/C3e pending`
 
 The current V3_ifx Post entry point is `v3-specialized-g04`.
 `Invoke-G04Verification.ps1` runs Phase 12 of the deployment/runtime guard
@@ -58,3 +58,19 @@ release input, not the current `IFX.ApiHost.csproj` hash. V3's generator can
 produce a different current-source digest but its Phase 12 gate does not
 equate that output to the checked-in release. C3e must compare these semantics
 explicitly; neither digest may be silently relabeled as the other.
+
+## C3c checkpoint
+
+The `ifx-g04-runtime` read-only Post candidate maps the **exact 47** C3c
+check IDs to seven blocking claim families. Twenty fresh TargetRoot
+authorities are locked. Twelve direct clean/negative/missing/stale/zero
+fixtures, real IFX scan, synthetic-only published 1.1.3 Host Post,
+determinism and immutable-root controls passed. File-presence checks prove
+only that the referenced tests/evidence exist, not that they executed now.
+
+One V3 predicate is vacuous against the current source: it tests whether
+`Program.cs.IndexOf("builder.Services.AddMessaging()")` is less than the
+module-registration index, but the first token is absent (`-1`). V4 checks
+the actual `AddReliableMessaging(` token exists and precedes
+`AddIamModule`. This is a recorded semantic strengthening, not an inferred
+P10.2 parity result; C3e must retain the discrepancy in its comparison.
