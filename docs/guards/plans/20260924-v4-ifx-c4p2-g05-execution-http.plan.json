@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c4p2-g05-execution-http",
+  "title": "Implement G05 execution-context and HTTP boundary candidate on V4 1.1.3",
+  "goal": "Translate the 19 Phase 2–3 G05 checks into a bounded V4 extension with fail-closed controls.",
+  "acceptanceCriteria": [
+    "All nineteen Phase 2–3 G05 check IDs map to blocking claims and locked source, policy, test and evidence authorities without a baseline.",
+    "Clean, violating, missing, stale and zero-subject direct fixtures, real IFX and synthetic-only 1.1.3 Host Post pass with immutable roots.",
+    "Formal Pre/Diff, isolated IFX package regression and published 1.1.3 identity pass; remaining C4 scope stays pending."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c4p2-g05-execution-http.md",
+    "docs/guards/plans/20260924-v4-ifx-c4p2-g05-execution-http.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/modules/ifx-g05-execution-http/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p2/tests/Test-IFXG05ExecutionHttp.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
