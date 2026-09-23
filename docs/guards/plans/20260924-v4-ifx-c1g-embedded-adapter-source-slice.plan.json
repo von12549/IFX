@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c1g-embedded-adapter-source-slice",
+  "title": "Implement embedded adapter source-use candidate for IFX C1",
+  "goal": "Cover V3 Roslyn NameSyntax-based Infrastructure foreign Contracts location/provider checks without claiming direct adapter or G03 governance equivalence.",
+  "acceptanceCriteria": [
+    "A hashed public-contract module uses pinned installed-SDK Roslyn and exact V3 IFX ring, embedded namespace, provider and shared-primitive projections with nonzero source-use coverage.",
+    "Clean, location, provider, both, exception, missing, zero-match, malformed and unsafe fixtures assert deterministic evidence and TargetRoot invariance.",
+    "Real IFX scan, synthetic published-Host Pre, isolated IFX package test, unchanged Package hash and Formal Pre/Diff pass.",
+    "No production Profile, bundle acceptance or complete L2.4/C1 claim is made."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c1g-embedded-adapter-source-slice.md",
+    "docs/guards/plans/20260924-v4-ifx-c1g-embedded-adapter-source-slice.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/tests/Test-IFXEmbeddedAdapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1g/fixtures/cases.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

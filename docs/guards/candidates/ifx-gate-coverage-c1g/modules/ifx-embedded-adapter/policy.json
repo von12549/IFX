@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-embedded-adapter-c1g",
+  "sourcePolicy": { "path": "docs/guards/V3_ifx/stages/post/policy/layerguard.json", "sha256": "b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5" },
+  "sourceG03": { "path": "docs/guards/V3_ifx/stages/post/policy/g03/governance.json", "sha256": "b8f259f02179c48558bd36fd9ccc5f37ce486bbf14f92e9d4c9ada826e4f518c" },
+  "sourceRule": { "path": "docs/guards/V3_ifx/stages/post/rules/L2.4.json", "sha256": "cafdf0eb9c8186fbe3f55c22a201a0513a80420bc1f53c504e8f1a5b3fccd12d" },
+  "sourceImplementation": { "path": "docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/EmbeddedAdapterRules.cs", "sha256": "5bf9a39b4f595568e0c85c7200a6d1fca1d3065ea61b1bda7f1b1b1f5b2a35d6" },
+  "scanRoot": "src",
+  "rings": {
+    "Domain": ["IFX.Modules.*.Domain"],
+    "Contracts": ["IFX.Modules.*.Contracts", "IFX.Platform.*.Contracts"],
+    "Application": ["IFX.Modules.*.Application"],
+    "Presentation": ["IFX.Modules.*.Presentation"],
+    "IntegrationAdapter": ["IFX.Modules.*.Integration", "IFX.Modules.*.Infrastructure.Integrations"],
+    "Infrastructure": ["IFX.Modules.*.Infrastructure", "IFX.Platform.*.Infrastructure.*"],
+    "Client": ["IFX.Modules.*.Client"],
+    "Runtime": ["IFX.Platform.*.Runtime"],
+    "Composition": ["IFX.Modules.*.Composition", "IFX.Platform.*.Composition"],
+    "RuntimeHost": ["IFX.ApiHost", "IFX.*.Worker"]
+  },
+  "ownership": { "modulePatterns": ["IFX.Modules.{module}.*", "IFX.Platform.{module}.*"], "requireKnown": true },
+  "embeddedAdapterNamespaces": ["IFX.Modules.*.Infrastructure.Integrations*"],
+  "providerContracts": {
+    "IAM": ["Authentication", "Authorization"],
+    "CRM": ["IAM"],
+    "Holdings": ["IAM", "Registry", "Transaction"],
+    "Registry": ["IAM"],
+    "Transaction": ["CRM", "IAM", "Registry"]
+  },
+  "sharedPrimitiveProjects": ["IFX.Platform.Context.Contracts", "IFX.Platform.Messaging.Contracts"],
+  "claims": ["IFX.C1.EMBEDDED_ADAPTER_LOCATION_SOURCE", "IFX.C1.EMBEDDED_ADAPTER_PROVIDER_SOURCE"]
+}

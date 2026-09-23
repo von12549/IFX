@@ -1,0 +1,17 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "status": "pass", "rules": [] },
+    { "id": "wrong-location", "namespace": "IFX.Modules.CRM.Infrastructure.Services", "target": "IFX.Modules.IAM.Contracts", "status": "fail", "rules": ["EMBEDDED-ADAPTER-LOCATION"] },
+    { "id": "unapproved-provider", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.Registry.Contracts", "status": "fail", "rules": ["EMBEDDED-ADAPTER-PROVIDER"] },
+    { "id": "both", "namespace": "IFX.Modules.CRM.Infrastructure.Services", "target": "IFX.Modules.Registry.Contracts", "status": "fail", "rules": ["EMBEDDED-ADAPTER-LOCATION", "EMBEDDED-ADAPTER-PROVIDER"] },
+    { "id": "own-and-shared-exceptions", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "extra": ["IFX.Modules.CRM.Contracts", "IFX.Platform.Context.Contracts"], "status": "pass", "rules": [] },
+    { "id": "nested-project-ownership", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "nestedProject": true, "status": "pass", "rules": [] },
+    { "id": "guard-subtree-excluded", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "guardSubtree": true, "status": "pass", "rules": [] },
+    { "id": "zero-foreign", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.CRM.Contracts", "extra": ["IFX.Platform.Context.Contracts"], "status": "fail", "rules": ["EMBEDDED-ADAPTER-LOCATION", "EMBEDDED-ADAPTER-PROVIDER"] },
+    { "id": "generated-only", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "generatedOnly": true, "status": "error", "category": "prerequisite-missing" },
+    { "id": "malformed-source", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "malformedSource": true, "status": "error", "category": "invalid-input" },
+    { "id": "malformed-project", "namespace": "IFX.Modules.CRM.Infrastructure.Integrations.Outbound", "target": "IFX.Modules.IAM.Contracts", "malformedProject": true, "status": "error", "category": "invalid-input" },
+    { "id": "missing-src", "missingSrc": true, "status": "error", "category": "prerequisite-missing" }
+  ]
+}
