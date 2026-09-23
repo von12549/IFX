@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-snapshots-c2c2",
+  "catalogPath": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+  "sourceCatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+  "apiSnapshotPath": "docs/architecture/review/gates/G03/snapshots/G03-sync-api-snapshot.json",
+  "sourceApiSnapshotSha256": "0db00c3cada3795595616fc906de28d3ef6baba350d55ac79baa229b6e1de15a",
+  "serializationSnapshotPath": "docs/architecture/review/gates/G03/snapshots/G03-serialization-golden.json",
+  "sourceSerializationSnapshotSha256": "6cfa29d0a16bc36a1f5d2bdd4ced8609a68f781c65257021f13a2d1bfe1c71f0",
+  "sourceScripts": [
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03CompatibilitySnapshots.ps1", "sha256": "40aaa10142ab586b4a5fb5094edfd8aea07d792a29c951f9c42b5c51de37b4e6" },
+    { "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Invoke-G03ContractEventInventory.ps1", "sha256": "9835cb1fb1ef5b6b9862d9de93190e2b8959973e1094bd6ecec2983348ab7b6d" }
+  ],
+  "claims": [
+    { "claimId": "IFX.C2.G03_SYNC_API_SNAPSHOT", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_SERIALIZATION_SNAPSHOT", "minimumMatches": 1 }
+  ],
+  "deferred": [
+    "G03 documentation and closeout (C2d)",
+    "combined Stage parity and production acceptance (C2e)"
+  ]
+}

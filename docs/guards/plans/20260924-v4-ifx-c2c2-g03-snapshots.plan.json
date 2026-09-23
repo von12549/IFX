@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2c2-g03-snapshots",
+  "title": "Implement deterministic G03 API and serialization snapshot candidate",
+  "goal": "Port C2c2 snapshot parity to a read-only V4 Post extension without changing production Profile or target snapshots.",
+  "acceptanceCriteria": [
+    "Fresh source-derived sync API and catalog-derived serialization projections match the committed authoritative snapshots, with deterministic ordering and nonzero subjects.",
+    "Clean, drift, missing, malformed, zero, generated and linked-path fixtures, real IFX source, synthetic published-Host Post and TargetRoot byte invariance pass.",
+    "Authority/hash locks, Formal Pre/Diff and isolated V3 package regression pass; C2d/C2e remain explicitly pending."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c2c2-g03-snapshots.md",
+    "docs/guards/plans/20260924-v4-ifx-c2c2-g03-snapshots.plan.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.md",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/tests/Test-IFXG03Snapshots.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

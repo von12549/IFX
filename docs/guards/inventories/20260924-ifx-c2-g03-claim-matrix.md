@@ -1,6 +1,6 @@
 # IFX C2 — G03 Phase 9 claim and authority matrix
 
-Status: `C2 INCOMPLETE — C2b validated; C2c1 source candidate validated; C2c2–C2e pending`
+Status: `C2 INCOMPLETE — C2b and C2c candidates validated; C2d–C2e pending`
 
 The active Post gate is `v3-specialized-g03`, a base-owned judging gate. Its
 dispatcher invokes `Invoke-G03ContractEventGuard.ps1 -Phase 9` over candidate
@@ -75,3 +75,17 @@ activate both missing and mismatched cases. It passed 14 fixtures, real IFX,
 synthetic published-Host Post, source hash checks and TargetRoot byte
 invariance. C2c2 must still derive and validate deterministic API and
 serialization snapshots before C2c can be closed.
+
+## C2c2 checkpoint
+
+The `ifx-g03-snapshots` Post candidate now derives the sync API projection
+from four current source method signatures and the serialization projection
+from all six current catalog protocols. It compares the complete ordered
+projections with the two committed authoritative snapshots and recomputes
+both projections twice. The two distinct rules cover sync API and
+serialization parity, with nonzero coverage required. Sixteen fixtures and
+additional hash/link controls passed, including signature, field, lifecycle,
+missing/malformed, zero-subject and generated-source cases. Real IFX and
+synthetic published V4 1.1.2 Host Post passed without TargetRoot mutations.
+C2c is validated at candidate level only; C2d docs/closeout and C2e
+combined Stage, V3 parity and production Profile acceptance remain pending.

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g03-snapshots/config.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["enabledClaims", "policySha256", "catalogSha256", "apiSnapshotSha256", "serializationSnapshotSha256"],
+  "properties": {
+    "enabledClaims": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": [{ "const": "IFX.C2.G03_SYNC_API_SNAPSHOT" }, { "const": "IFX.C2.G03_SERIALIZATION_SNAPSHOT" }],
+      "additionalItems": false },
+    "policySha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "catalogSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "apiSnapshotSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "serializationSnapshotSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

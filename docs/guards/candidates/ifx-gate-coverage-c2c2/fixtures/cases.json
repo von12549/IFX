@@ -1,0 +1,21 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    { "id": "clean", "mutation": "none", "status": "pass", "category": "success" },
+    { "id": "generated-ignored", "mutation": "generated-ignored", "status": "pass", "category": "success" },
+    { "id": "signature-drift", "mutation": "signature-drift", "status": "fail", "code": "snapshot-drift" },
+    { "id": "api-field-drift", "mutation": "api-field-drift", "status": "fail", "code": "snapshot-drift" },
+    { "id": "serialization-field-drift", "mutation": "serialization-field-drift", "status": "fail", "code": "snapshot-drift" },
+    { "id": "catalog-lifecycle-drift", "mutation": "catalog-lifecycle-drift", "status": "fail", "code": "snapshot-drift" },
+    { "id": "missing-sync-source", "mutation": "missing-sync-source", "status": "fail", "code": "source-signature-missing" },
+    { "id": "zero-source", "mutation": "zero-source", "status": "fail", "code": "zero-source" },
+    { "id": "zero-protocol", "mutation": "zero-protocol", "status": "fail", "code": "zero-subject" },
+    { "id": "zero-sync", "mutation": "zero-sync", "status": "fail", "code": "zero-subject" },
+    { "id": "missing-catalog", "mutation": "missing-catalog", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-api", "mutation": "missing-api", "status": "error", "category": "prerequisite-missing" },
+    { "id": "missing-serialization", "mutation": "missing-serialization", "status": "error", "category": "prerequisite-missing" },
+    { "id": "malformed-catalog", "mutation": "malformed-catalog", "status": "error", "category": "invalid-input" },
+    { "id": "malformed-api", "mutation": "malformed-api", "status": "error", "category": "invalid-input" },
+    { "id": "malformed-serialization", "mutation": "malformed-serialization", "status": "error", "category": "invalid-input" }
+  ]
+}
