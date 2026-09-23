@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "20260923-v4-ifx-bundle-candidate",
+  "title": "Build a source-derived IFX Profile bundle candidate",
+  "goal": "Construct and statically validate an exact, source-bound IFX Profile candidate without self-approval, composition or activation.",
+  "acceptanceCriteria": [
+    "The candidate is separate from the released V4 package and existing installations and binds exact IFX source identities and hashes.",
+    "The candidate manifest, Profile and complete sorted file inventory validate against the released 1.1.1 contracts.",
+    "All unmapped IFX gates and capability decisions are explicit; no accepted review record, composition or cutover is created."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260923-v4-ifx-bundle-candidate.md",
+    "docs/guards/plans/20260923-v4-ifx-bundle-candidate.plan.json",
+    "docs/guards/candidates/ifx-profile-v0.1.0/README.md",
+    "docs/guards/candidates/ifx-profile-v0.1.0/bundle/bundle-manifest.json",
+    "docs/guards/candidates/ifx-profile-v0.1.0/bundle/package/profiles/catalog/ifx_profile/authority-map.json",
+    "docs/guards/candidates/ifx-profile-v0.1.0/bundle/package/profiles/catalog/ifx_profile/profile.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
