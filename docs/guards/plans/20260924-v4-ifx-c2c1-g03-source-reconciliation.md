@@ -1,6 +1,6 @@
 # V4 P10.1 C2c1 — G03 fresh source reconciliation candidate
 
-Status: `CANDIDATE VALIDATED — partial C2c only; Formal Diff pending`
+Status: `CANDIDATE VALIDATED — partial C2c only`
 
 Implement a read-only Post extension that derives current G03 source facts
 from TargetRoot, not from a saved V3 report. It must count public Contracts,
@@ -37,4 +37,6 @@ The isolated IFX package positive/negative regression passed at
 `artifacts/guards/v3-ifx-package-test-228d018762514340bbc852a84e0df74b`.
 Published Package identity remained `pass` at Package hash
 `922196c12917436b087c9c09361ca3669103992694eb5aa0ca8f2873ecc11a8d`.
-Exact Formal Diff remains to be run against the committed tranche.
+Exact Formal Diff passed against the C2b2 base at
+`artifacts/guards/p10-ifx-c2c1/formal-diff/summary-diff.json`. No PATH-repair
+or production Profile paths were included.
