@@ -1,6 +1,6 @@
 # IFX C2 — G03 Phase 9 claim and authority matrix
 
-Status: `C2 INCOMPLETE — exact inventory and C2b1 governance-core candidate complete`
+Status: `C2 INCOMPLETE — C2b1/C2b2 catalog candidates validated; C2c–C2e pending`
 
 The active Post gate is `v3-specialized-g03`, a base-owned judging gate. Its
 dispatcher invokes `Invoke-G03ContractEventGuard.ps1 -Phase 9` over candidate
@@ -48,3 +48,17 @@ TargetRoot byte invariance. It is not a production Profile or complete G03
 gate. C2b2 must still cover the remaining catalog field, sensitive-use,
 protocol-lifecycle/admission, public-surface and change-record predicates;
 C2c–C2e remain as assigned above. C1 final closure still waits for C5.
+
+## C2b2 checkpoint
+
+The complementary `ifx-g03-catalog-semantics` Post candidate checks the
+remaining catalog lifecycle/admission, C3/C4 field and sensitive-use,
+historical public-surface, approval and change-record predicates. Its four
+Host rules and claims are separate from C2b1's four rules and claims. The
+two candidates represent 62 of the 63 C2b catalog error codes; V3's
+`self-test` result is covered by the V4 negative fixture suite. C2b2 passed
+46 fixtures, real IFX and synthetic published-Host Post, source hash checks
+and TargetRoot byte invariance. These are candidate-level results only:
+the C2e combined Stage and production Profile have not been accepted.
+Source-field reconciliation and snapshots remain C2c; documentation and
+closeout remain C2d. C1 final closure still waits for C5.

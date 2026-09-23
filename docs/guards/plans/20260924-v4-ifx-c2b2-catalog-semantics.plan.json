@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c2b2-catalog-semantics",
+  "title": "Implement residual G03 catalog semantic candidate",
+  "goal": "Port residual C2b catalog predicates to a read-only V4 Post extension without accepting C2 source, documentation, or combined-stage closure.",
+  "acceptanceCriteria": [
+    "The Post extension validates catalog hash and C2b protocol lifecycle/admission, field/C3/C4/sensitive-use, public-surface and change-control predicates against current G03 facts.",
+    "Clean, negative, missing, stale, zero-subject and malformed fixtures, V3 source/hash checks, synthetic published-Host Post and TargetRoot byte invariance pass.",
+    "Formal Pre/Diff, isolated package regression and published Package identity pass; C2c source/snapshot and C2d/C2e closeout remain explicitly missing."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c2b2-catalog-semantics.md",
+    "docs/guards/plans/20260924-v4-ifx-c2b2-catalog-semantics.plan.json",
+    "docs/guards/inventories/20260924-ifx-c2-g03-claim-matrix.md",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/modules/ifx-g03-catalog-semantics/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/fixtures/cases.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2b2/tests/Test-IFXG03CatalogSemantics.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

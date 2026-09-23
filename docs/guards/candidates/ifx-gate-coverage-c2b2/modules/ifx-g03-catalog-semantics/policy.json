@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g03-catalog-semantics-c2b2",
+  "catalogPath": "docs/architecture/review/gates/G03/contract-event-catalog.yaml",
+  "sourceCatalogSha256": "38cb32a9a640889275120fdfcfea3eada5431b6171cfb8e52922711bbadf1ba1",
+  "sourceScript": {
+    "path": "docs/guards/V3_ifx/stages/post/gates/specialized/scripts/Test-G03ContractEventCatalog.ps1",
+    "sha256": "ea9833b7e663f9b5f0fb9b11085ac736457b01256ec25b466091beed7a503528"
+  },
+  "claims": [
+    { "claimId": "IFX.C2.G03_PROTOCOL_LIFECYCLE", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_FIELD_GOVERNANCE", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_LEGACY_SURFACE", "minimumMatches": 1 },
+    { "claimId": "IFX.C2.G03_CHANGE_CONTROL", "minimumMatches": 1 }
+  ],
+  "deferred": [
+    "field-source-missing and field-source-drift source reconciliation (C2c)",
+    "fresh inventory and deterministic API/schema snapshots (C2c)",
+    "bilingual documentation and G03 closeout readiness (C2d)",
+    "combined stage parity and production acceptance (C2e)"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "formatVersion": 1,
+  "moduleId": "ifx-g03-catalog-semantics",
+  "matrixSha256": "79e2f830c060348826f9a6df49db9e35c0d4af1f5e7eeeae527b08261e211c7d",
+  "rules": [
+    { "ruleId": "G03-PROTOCOL-LIFECYCLE", "claimId": "IFX.C2.G03_PROTOCOL_LIFECYCLE", "stage": "post", "detectors": ["ifx-g03-catalog-semantics"], "evidenceKinds": ["catalog-semantics", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-FIELD-GOVERNANCE", "claimId": "IFX.C2.G03_FIELD_GOVERNANCE", "stage": "post", "detectors": ["ifx-g03-catalog-semantics"], "evidenceKinds": ["catalog-semantics", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-LEGACY-SURFACE", "claimId": "IFX.C2.G03_LEGACY_SURFACE", "stage": "post", "detectors": ["ifx-g03-catalog-semantics"], "evidenceKinds": ["catalog-semantics", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 },
+    { "ruleId": "G03-CHANGE-CONTROL", "claimId": "IFX.C2.G03_CHANGE_CONTROL", "stage": "post", "detectors": ["ifx-g03-catalog-semantics"], "evidenceKinds": ["catalog-semantics", "coverage"], "severity": "blocking", "baseline": null, "minimumMatches": 1 }
+  ]
+}
