@@ -34,5 +34,7 @@ passed; evidence is under
 `artifacts/guards/p10-ifx-c2c2/test-runs/6acd5761401e43c6b429eefc9edb02da`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-7363dc7b899048aca422e3ec49cff24e`.
-Formal Diff is pending the exact candidate commit. No PATH-repair or
-production Profile paths were included.
+Formal Diff from C2c1 base `f2b88bb4` to candidate `b2232b0a` passed at
+`artifacts/guards/p10-ifx-c2c2/formal-diff/summary-diff.json`, including
+the V3 Stage Gate regression and exact 12-path Plan scope. No PATH-repair
+or production Profile paths were included.
