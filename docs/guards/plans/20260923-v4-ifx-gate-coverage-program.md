@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C3 candidate complete; C4 in progress`
+Status: `AUTHORIZED PROGRAM — C4 candidate complete; C5 pending`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -140,6 +140,22 @@ C4b Database remains open pending the human choice between V4 Post read-only
 verification of separately generated locked evidence and V4 Host-owned
 isolated `dotnet`/EF execution. No Database operation, production Profile,
 G05 closure, C5 integration, final bundle or P10.2 parity is claimed.
+
+### 2026-09-24 C4 candidate completion checkpoint
+
+The owner selected C4b option A. A separate controlled V3 Database run
+produced fresh, hashed evidence with 109/109 deterministic boundary tests
+and 13/13 SQL Server matrix tests passing. The V4 1.1.3 C4b candidate
+verifies that evidence read-only, with no `dotnet`, EF, network or write
+capability. Real IFX direct Post and published Host synthetic Post pass;
+negative controls block absent, stale, altered or empty evidence.
+
+This completes the bounded C4 candidate implementation and verification
+across G05, Plan04, Plan05 and Database. The eight G05 Phase 9 checks
+remain required P10.3 deferrals. C4 candidate completion is not production
+Profile acceptance, G05 final closure, C5 integration, C6 bundle review or
+P10.2 parity. C5 must regenerate the expiring Database lock and revalidate
+the combined Profile and all blocking claims.
 
 ## This planning checkpoint
 
