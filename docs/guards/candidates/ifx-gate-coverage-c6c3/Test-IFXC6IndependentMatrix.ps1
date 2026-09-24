@@ -19,6 +19,12 @@ function WriteJson([string]$Path,$Value){[void][IO.Directory]::CreateDirectory([
 function Full([string]$Path){if([IO.Path]::IsPathFullyQualified($Path)){[IO.Path]::GetFullPath($Path)}else{[IO.Path]::GetFullPath((Join-Path $repo $Path))}}
 function Fingerprint([string]$Root){@((Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})) -join "`n"}
 function AddGap([string]$Id,[string]$Reason){$gaps.Add([ordered]@{id=$Id;reason=$Reason})}
+function Prop($Object,[string]$Name){
+    if($null -eq $Object){return}
+    $property=$Object.PSObject.Properties[$Name]
+    if($null -eq $property){return}
+    return $property.Value
+}
 
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $commit=(& git -C $repo rev-parse HEAD).Trim();Assert ($LASTEXITCODE -eq 0) 'Git commit unavailable.'
@@ -145,7 +151,7 @@ foreach($spec in $suiteSpecs){
 }
 
 $captures=[Collections.Generic.List[object]]::new()
-foreach($file in $captureFiles){foreach($line in Get-Content -LiteralPath $file){if(-not $line.Trim()){continue};$record=$line|ConvertFrom-Json -Depth 100;try{$result=$record.output|ConvertFrom-Json -Depth 100}catch{continue};$captures.Add([ordered]@{moduleId=$record.moduleId;fixtureId=[IO.Path]::GetFileName($record.targetRoot);fixtureSha256=$record.fixtureSha256;inputSha256=$record.inputSha256;processExit=[int]$record.exitCode;status=[string]$result.status;exitCategory=[string]$result.exitCategory;findings=@($result.findings);coverage=@($result.coverage);targetInvariant=($record.targetBefore -eq $null -or $record.targetBefore -ceq $record.targetAfter)})}}
+foreach($file in $captureFiles){foreach($line in Get-Content -LiteralPath $file){if(-not $line.Trim()){continue};$record=$line|ConvertFrom-Json -Depth 100;try{$result=$record.output|ConvertFrom-Json -Depth 100}catch{continue};$captures.Add([ordered]@{moduleId=$record.moduleId;fixtureId=[IO.Path]::GetFileName($record.targetRoot);fixtureSha256=$record.fixtureSha256;inputSha256=$record.inputSha256;processExit=[int]$record.exitCode;status=[string](Prop $result 'status');exitCategory=[string](Prop $result 'exitCategory');findings=@(Prop $result 'findings');coverage=@(Prop $result 'coverage');targetInvariant=($record.targetBefore -eq $null -or $record.targetBefore -ceq $record.targetAfter)})}}
 $gaps=[Collections.Generic.List[object]]::new();$matrix=[Collections.Generic.List[object]]::new()
 foreach($module in $inventory.modules){
     $id=[string]$module.id;$moduleRules=@($inventory.rules|Where-Object moduleId -CEQ $id);$blockingRules=@($moduleRules|Where-Object severity -CEQ 'blocking');$ownedClaims=@($blockingRules.claimId|Sort-Object -Unique);$rows=@($captures|Where-Object moduleId -CEQ $id)
@@ -160,7 +166,7 @@ foreach($module in $inventory.modules){
         if($violations.Count-eq0){AddGap "$id/V/$($rule.ruleId)" "No independent blocking result for claim $($rule.claimId) with exact finding identity and nonzero coverage."}else{$r=$violations[0];$f=@($r.findings|Where-Object ruleId -CEQ $rule.ruleId)[0];$matrix.Add([ordered]@{id="$id/V/$($rule.ruleId)";kind='violation';moduleId=$id;ruleId=$rule.ruleId;claimIds=@($rule.claimId);fixtureSha256=$r.fixtureSha256;expected=[ordered]@{processExit=0;status='fail';exitCategory='findings-blocking'};actual=[ordered]@{processExit=$r.processExit;status=$r.status;exitCategory=$r.exitCategory;subject=$f.subject;detectorId=$f.detectorId;evidenceKind=$f.evidenceKind};status='pass'})}
     }
 }
-foreach($rule in $advisory){$rows=@($captures|Where-Object moduleId -CEQ $rule.moduleId);if(@($rows.findings|Where-Object ruleId -CEQ $rule.ruleId).Count-eq0){AddGap "$($rule.moduleId)/A/$($rule.ruleId)" 'Advisory companion was not projected.'}}
+foreach($rule in $advisory){$rows=@($captures|Where-Object moduleId -CEQ $rule.moduleId);$advisoryFindings=@($rows|ForEach-Object{@($_.findings)}|Where-Object ruleId -CEQ $rule.ruleId);if($advisoryFindings.Count-eq0){AddGap "$($rule.moduleId)/A/$($rule.ruleId)" 'Advisory companion was not projected.'}}
 foreach($suite in $suiteResults){if($suite.exitCode-ne0){AddGap "suite/$($suite.id)" 'Fresh instrumented suite failed; see suite output.'}}
 if($matrix.Count-lt191){AddGap 'matrix/cardinality' "Only $($matrix.Count) of 191 required core results were proven."}
 Assert ((Fingerprint $package) -ceq $packageBefore) 'Composed PackageRoot changed during matrix.'
