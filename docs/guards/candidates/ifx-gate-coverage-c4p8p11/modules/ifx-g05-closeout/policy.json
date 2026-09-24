@@ -1,0 +1,30 @@
+{
+  "formatVersion":1,"id":"ifx-g05-closeout-c4p8p11","diagramRoot":"docs/architecture/review/gates/G05/diagrams",
+  "authorities":[
+    {"id":"failurePolicy","path":"docs/architecture/review/gates/G05/failure-replay-compatibility-v1.json"},
+    {"id":"failureTests","path":"tests/IFX.Platform.ProtocolContracts.Tests/FailureReplayCompatibilityConformanceTests.cs"},
+    {"id":"phase8Evidence","path":"docs/architecture/review/evidence/gates/G05/G05-phase8-failure-replay-compatibility.md"},
+    {"id":"phase8Layer","path":"docs/architecture/review/evidence/gates/G05/G05-phase8-layerguard-report.json"},
+    {"id":"zhDesign","path":"docs/architecture/review/gates/G05/context-sensitive-data-boundary.zh-CN.md"},
+    {"id":"enDesign","path":"docs/architecture/review/gates/G05/context-sensitive-data-boundary.en.md"},
+    {"id":"documentationReport","path":"docs/architecture/review/evidence/gates/G05/G05-phase10-documentation-report.json"},
+    {"id":"phase10Evidence","path":"docs/architecture/review/evidence/gates/G05/G05-phase10-documentation.md"},
+    {"id":"phase10Layer","path":"docs/architecture/review/evidence/gates/G05/G05-phase10-layerguard-report.json"},
+    {"id":"closeoutStatus","path":"docs/architecture/review/evidence/gates/G05/G05-phase11-status.json"},
+    {"id":"openItems","path":"docs/architecture/review/gates/G05/open-items-v1.json"},
+    {"id":"opsEvidence","path":"docs/architecture/review/gates/G05/ops-evidence-map-v1.json"},
+    {"id":"g05Plan","path":"docs/architecture/review/plans/00-G05-context-sensitive-data-boundary.md"},
+    {"id":"prerequisitePlan","path":"docs/architecture/review/plans/00-prerequisites.md"},
+    {"id":"handoff01","path":"docs/architecture/review/gates/G05/handoffs/plan01-contract-context-handoff.md"},
+    {"id":"handoff02","path":"docs/architecture/review/gates/G05/handoffs/plan02-event-context-handoff.md"},
+    {"id":"handoff03","path":"docs/architecture/review/gates/G05/handoffs/plan03-layerguard-handoff.md"},
+    {"id":"handoff04","path":"docs/architecture/review/gates/G05/handoffs/g04-runtime-handoff.md"},
+    {"id":"phase11Evidence","path":"docs/architecture/review/evidence/gates/G05/G05-phase11-handoff.md"},
+    {"id":"phase11Layer","path":"docs/architecture/review/evidence/gates/G05/G05-phase11-layerguard-report.json"}
+  ],
+  "checkIds":{
+    "phase8":["failureMatrixHasSixBoundedClasses","preInboxValidationOrderAndCodesAreStable","traceDamageIsDiagnosticAndNonRejecting","quarantineMetadataIsSafeAndSecurityIsAudited","retryAndReplayPreserveLogicalIdentity","forcedReprocessingIsSeparateAndApproved","compatibilityRegistryIsOwnedBoundedAndExpiring","metricsUseBoundedNamesAndLabelsOnly","realFailureDurabilityNotMisrepresented","phase8EvidenceExists","phase8LayerGuardEvidenceExists"],
+    "phase10":["bilingualDesignDecisionsAreConsistent","terminologyLifecycleAndForbiddenSubstitutionAreDocumented","contextTrustAndFlowDiagramsAreRendered","failureClassificationAndAdmissionMatricesAreDocumented","observabilityCompatibilityAndSecurityOperationsAreDocumented","ruleMappingLinksOwnersCodeTestsMetricsAndApprovals","documentationIndexesAndBacklinksAreComplete","documentationPreReadyBoundaryIsTruthful","phase10EvidenceExists","phase10LayerGuardEvidenceExists"],
+    "phase11":["fourOwnershipPreservingHandoffsExist","opsEvidenceMapCoversRequiredOutcomes","allOpenExceptionsAndFindingsAreGoverned","closeoutAuditPassesWithoutClaimingClosure","prerequisiteReleasedAndFinalApprovalOpen","productionAndDownstreamEvidenceNotMisrepresented","phase11HandoffEvidenceExists","phase11LayerGuardEvidenceExists"]
+  }
+}
