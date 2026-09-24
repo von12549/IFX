@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C5 candidate complete; C1 final closure and C6 pending`
+Status: `AUTHORIZED PROGRAM — C1 closed for reviewed snapshot; C6a entry in progress`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -46,7 +46,7 @@ Plan04, Database, the three Quality gates or Historical Integrity.
 | C4b — Database safety | Map migration/release manifests and safety policy, including exact command capabilities and fresh evidence requirements, to a reviewed module or a separately authorized compatibility change. | Missing/invalid migration evidence blocks; execution scope and external effects are bounded and tested. |
 | C5 — Quality, Historical Integrity, baseline and Stage integration | Cover solution, compiled assembly and frontend quality gates plus historical-integrity checks; translate only individually reviewed waivers to explicit Profile-owned baselines; assign Bootstrap, Analysis, Pre and Post ownership and dependencies. | Fresh toolchain/build evidence, all 15 historical entries, direct/dependency Stage runs, stale/unused waiver and zero-match controls retain blocking categories, authority hashes and immutable roots. |
 | C5g — Diff/CI governance classification | Track `v3-pre-diff` and both cross-platform CI gates as P10.3-deferred rather than claiming them as P10.1 runtime coverage. | Separate trusted-base, workflow and required-check transition Plan before activation; no silent retirement of V3 checks. |
-| C6 — final bundle and operator practice | Create a new draft version bound to the **published** 1.1.2 base (or to a separately published later patch if C1–C5 require core changes). Freeze manifest, full ordinal inventory, module locks/capability ceilings and review bytes. | Windows-full and pinned offline Linux-complete, independent clean/violation matrix, accepted human-review record by Xiaolong Feng over exact final bytes, new receipted composition, then installed Web UI practice. |
+| C6 — final bundle and operator practice | Create a new draft version bound to the **published 1.1.3 base**. Freeze manifest, full ordinal inventory, module locks/capability ceilings and review bytes. A later core change requires its own published patch and a new exact base decision. | Windows-full and pinned offline Linux-complete, independent clean/violation matrix, accepted human-review record by Xiaolong Feng over exact final bytes, new receipted composition, then installed Web UI practice. |
 
 Each workstream begins with an exact child formal Plan and `plannedPaths`, a
 source-authority/claim matrix and Formal Pre **before** editing runtime or bundle
@@ -60,7 +60,8 @@ Neither those decisions nor naming Xiaolong Feng approves an actual bundle.
 If any claim requires Host, schema, loader, installer or built-in module changes,
 stop that tranche and open a separate exact V4 compatibility Plan and unique
 `1.1.x` patch with full dual-platform certification and publication authority.
-Do not patch the installed 1.1.2 tree or import V3 runtime paths into V4.
+Do not patch any installed release tree, including 1.1.2 and 1.1.3, or import
+V3 runtime paths into V4.
 
 ## 1.1.3 base transition for C3/C4
 
@@ -75,8 +76,9 @@ or C6 bundle acceptance, an exact child Plan must revalidate C1/C2 candidates
 on the 1.1.3 Host (including applicable negative/zero controls, direct and
 dependency Stages, immutable roots and refreshed base/manifest locks). Any
 behavioral divergence blocks migration until explained and fixed; never relabel
-or silently rewrite the 1.1.2 records. The final C6 bundle selects one
-published base consistently. This transition does not authorize production
+or silently rewrite the 1.1.2 records. The final C6 bundle selects the
+published 1.1.3 base consistently, as fixed by the later C6a entry decision.
+This transition does not authorize production
 Profile acceptance, IFX cutover or modification of either installed release.
 
 ## Acceptance matrix and handoff
@@ -206,3 +208,16 @@ Formal Pre passed for the exact two-path Plan. The isolated `ifx-package-test`
 passed its positive and negative cases, and the local V4 Package check returned
 the published Package hash above. These checks validate this planning checkpoint,
 not the still-missing IFX gate implementations.
+
+## 2026-09-24 C6a entry and 1.1.3 base decision
+
+The fixed 1.1.2 entry point and earlier checkpoint above remain historical.
+After C5 candidate integration, C1 closed for its exact reviewed snapshot in
+`docs/guards/inventories/20260924-ifx-c1-r3-final-decision.md`; R3 integrated
+evidence and the exact committed Formal Diff passed. C6 is now opened through
+`20260924-v4-ifx-c6-entry-113` and its entry inventory. The final bundle must
+use the published, receipted **1.1.3** base consistently. No C6 bundle bytes,
+human acceptance, composition, installed Web UI practice or production
+readiness are implied by this entry. The G04 `PRE-READY` blockers remain open;
+P10.3 Diff/CI and G05 Phase 9 deferrals remain explicit. Any new core change
+requires a separately published patch and a revised base decision.
