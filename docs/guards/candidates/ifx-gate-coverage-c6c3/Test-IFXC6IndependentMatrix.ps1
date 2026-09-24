@@ -65,7 +65,8 @@ $package=Join-Path $composed 'package';$profilePath=Join-Path $package 'profiles
 Assert (@($profile.moduleSelections).Count -eq 37 -and @($profile.stageConfiguration.pre.modules).Count -eq 10 -and @($profile.stageConfiguration.post.modules).Count -eq 27 -and @($profile.rules).Count -eq 80 -and @($profile.baselineRefs).Count -eq 0) 'Final Profile cardinality drift.'
 $lineagePath=Join-Path $package 'profiles/catalog/ifx_profile/evidence-lineage.json';$lineage=Get-Content $lineagePath -Raw|ConvertFrom-Json -Depth 100
 Assert ($lineage.sourceCommit -ceq $commit -and $lineage.ordinalInventorySha256 -ceq (Hash $inventoryFull) -and @($lineage.locks).Count -eq 7) 'Final evidence lineage drift.'
-foreach($lock in $lineage.locks){$lockPath=Join-Path $repo $lock.path;Assert ([IO.File]::Exists($lockPath) -and (Hash $lockPath) -ceq $lock.sha256) "Final evidence lock drift: $($lock.id)"}
+$lineageLockPaths=@{}
+foreach($lock in $lineage.locks){$lockPath=Join-Path $repo $lock.path;Assert ([IO.File]::Exists($lockPath) -and (Hash $lockPath) -ceq $lock.sha256) "Final evidence lock drift: $($lock.id)";$lineageLockPaths[[string]$lock.id]=$lockPath}
 foreach($module in $inventory.modules){
     $moduleRoot=Join-Path $package "modules/$($module.id)";$moduleManifest=Join-Path $moduleRoot 'module.json'
     Assert ([IO.File]::Exists($moduleManifest) -and (Hash $moduleManifest) -ceq $module.manifestSha256) "Final module manifest drift: $($module.id)"
@@ -115,38 +116,41 @@ $suiteSpecs=@(
 Assert ($suiteSpecs.Count -eq 36 -and @($suiteSpecs|ForEach-Object{$_[0]}|Sort-Object -Unique).Count -eq 36) 'Suite catalog drift.'
 $wrapperPath=Join-Path $workRoot 'Invoke-InstrumentedSuite.ps1'
 $wrapper=@'
-param([string]$TestScript,[string]$PackageRoot,[string]$RepositoryRoot,[string]$LogPath,[string]$EvidenceRoot,[string]$BaseInstallRoot,[string]$BaseReceiptPath,[string]$BaseArchivePath)
+param([string]$TestScript,[string]$HarnessPath,[string]$ModuleId,[int]$ReviewedTimeoutSeconds,[string]$PackageRoot,[string]$RepositoryRoot,[string]$LogPath,[string]$EvidenceRoot,[string]$BaseInstallRoot,[string]$BaseReceiptPath,[string]$BaseArchivePath,[string]$RealEvidenceLockPath,[string]$SolutionLockPath,[string]$AssemblyLockPath)
 $ErrorActionPreference='Stop'
-function H([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
-function TH([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
-function FP([string]$Root){if(-not(Test-Path $Root -PathType Container)){return '<absent>'};@((Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(H $_.FullName)"}))-join "`n"}
+$global:C6MatrixFingerprintScript={param([string]$Root)if(-not(Test-Path $Root -PathType Container)){return '<absent>'};@((Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())"}))-join "`n"}
+$global:C6MatrixTextHashScript={param([string]$Text)[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
 $global:C6RealPwsh=@(Get-Command pwsh -CommandType Application)[0].Source
 $global:C6PackageRoot=[IO.Path]::GetFullPath($PackageRoot);$global:C6RepositoryRoot=[IO.Path]::GetFullPath($RepositoryRoot);$global:C6LogPath=[IO.Path]::GetFullPath($LogPath)
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($global:C6LogPath))
 function global:pwsh {
     $actual=@($args);$fileIndex=[Array]::IndexOf($actual,'-File');$capture=$false;$requested=$null;$moduleId=$null
-    if($fileIndex -ge 0 -and $fileIndex+1 -lt $actual.Count){$requested=[string]$actual[$fileIndex+1];if([IO.Path]::GetFileName($requested) -ceq 'adapter.ps1'){$moduleId=[IO.Path]::GetFileName([IO.Path]::GetDirectoryName($requested));$replacement=Join-Path $global:C6PackageRoot "modules/$moduleId/adapter.ps1";if([IO.File]::Exists($replacement)){$actual[$fileIndex+1]=$replacement;$capture=[bool]$env:V4_STAGE_INPUT_JSON}}}
+    if($fileIndex -ge 0 -and $fileIndex+1 -lt $actual.Count){$requested=[string]$actual[$fileIndex+1];$requestedName=[IO.Path]::GetFileName($requested);if($requestedName -ceq 'adapter.ps1'){$moduleId=[IO.Path]::GetFileName([IO.Path]::GetDirectoryName($requested));$replacement=Join-Path $global:C6PackageRoot "modules/$moduleId/adapter.ps1";if([IO.File]::Exists($replacement)){$actual[$fileIndex+1]=$replacement;$capture=[bool]$env:V4_STAGE_INPUT_JSON}}elseif($requestedName -ceq 'Invoke-IFXCompiledTypeEvidenceProducer.ps1'){$actual+=@('-SolutionLockPath',$SolutionLockPath,'-AssemblyLockPath',$AssemblyLockPath)}}
     $inputJson=$env:V4_STAGE_INPUT_JSON;$targetRoot=$null;$before=$null;$inputCanonical=$null
-    if($capture){$inputObject=$inputJson|ConvertFrom-Json -AsHashtable -Depth 100;$inputObject.packageRoot=$global:C6PackageRoot;$targetRoot=[IO.Path]::GetFullPath([string]$inputObject.targetRoot);$inputCanonical=$inputObject|ConvertTo-Json -Depth 100 -Compress;$env:V4_STAGE_INPUT_JSON=$inputCanonical;if($targetRoot -cne $global:C6RepositoryRoot){$before=FP $targetRoot}}
+    if($capture){$inputObject=$inputJson|ConvertFrom-Json -AsHashtable -Depth 100;$inputObject.packageRoot=$global:C6PackageRoot;$targetRoot=[IO.Path]::GetFullPath([string]$inputObject.targetRoot);$inputCanonical=$inputObject|ConvertTo-Json -Depth 100 -Compress;$env:V4_STAGE_INPUT_JSON=$inputCanonical;if($targetRoot -cne $global:C6RepositoryRoot){$before=& $global:C6MatrixFingerprintScript $targetRoot}}
     $output=@(& $global:C6RealPwsh @actual 2>&1);$code=$LASTEXITCODE
-    if($capture){$after=if($targetRoot -cne $global:C6RepositoryRoot){FP $targetRoot}else{'<repository-group>'};$record=[ordered]@{moduleId=$moduleId;requested=$requested;executed=[string]$actual[$fileIndex+1];targetRoot=$targetRoot;stage=$inputObject.stage;inputSha256=TH $inputCanonical;fixtureSha256=TH "$inputCanonical`n$before";exitCode=$code;targetBefore=$before;targetAfter=$after;output=($output-join "`n")};[IO.File]::AppendAllText($global:C6LogPath,(($record|ConvertTo-Json -Depth 100 -Compress)+"`n"),[Text.UTF8Encoding]::new($false));$env:V4_STAGE_INPUT_JSON=$inputJson}
+    if($capture){$after=if($targetRoot -cne $global:C6RepositoryRoot){& $global:C6MatrixFingerprintScript $targetRoot}else{'<repository-group>'};$record=[ordered]@{moduleId=$moduleId;requested=$requested;executed=[string]$actual[$fileIndex+1];targetRoot=$targetRoot;stage=$inputObject.stage;inputSha256=(& $global:C6MatrixTextHashScript $inputCanonical);fixtureSha256=(& $global:C6MatrixTextHashScript "$inputCanonical`n$before");exitCode=$code;targetBefore=$before;targetAfter=$after;output=($output-join "`n")};[IO.File]::AppendAllText($global:C6LogPath,(($record|ConvertTo-Json -Depth 100 -Compress)+"`n"),[Text.UTF8Encoding]::new($false));$env:V4_STAGE_INPUT_JSON=$inputJson}
     $global:LASTEXITCODE=$code;$output
 }
-$parameters=@{};$command=Get-Command $TestScript
+$scriptToRun=$TestScript;$harnessAdjusted=$false;$source=Get-Content -LiteralPath $TestScript -Raw;$timeoutMatch=[regex]::Match($source,'timeoutSeconds\s+-eq\s+(\d+)')
+if($timeoutMatch.Success -and [int]$timeoutMatch.Groups[1].Value -ne $ReviewedTimeoutSeconds){$old=[int]$timeoutMatch.Groups[1].Value;$testDirectory=[IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($TestScript)).Replace("'","''");$source=$source.Replace('$PSScriptRoot',"'$testDirectory'");$source=[regex]::Replace($source,"(timeoutSeconds\s+-eq\s+)$old\b",('${1}'+$ReviewedTimeoutSeconds));$source=[regex]::Replace($source,"(maxTimeoutSeconds\s*=\s*)$old\b",('${1}'+$ReviewedTimeoutSeconds));[IO.File]::WriteAllText($HarnessPath,$source,[Text.UTF8Encoding]::new($false));$scriptToRun=$HarnessPath;$harnessAdjusted=$true}
+$parameters=@{};$command=Get-Command $scriptToRun
 if($command.Parameters.ContainsKey('EvidenceRoot')){$parameters.EvidenceRoot=$EvidenceRoot}
-if($command.Parameters.ContainsKey('BaseInstallRoot')){$parameters.BaseInstallRoot=$BaseInstallRoot}
-if($command.Parameters.ContainsKey('BaseReceiptPath')){$parameters.BaseReceiptPath=$BaseReceiptPath}
-if($command.Parameters.ContainsKey('BaseArchivePath')){$parameters.BaseArchivePath=$BaseArchivePath}
-& $TestScript @parameters
+if(-not $harnessAdjusted -and $command.Parameters.ContainsKey('BaseInstallRoot')){$parameters.BaseInstallRoot=$BaseInstallRoot}
+if(-not $harnessAdjusted -and $command.Parameters.ContainsKey('BaseReceiptPath')){$parameters.BaseReceiptPath=$BaseReceiptPath}
+if(-not $harnessAdjusted -and $command.Parameters.ContainsKey('BaseArchivePath')){$parameters.BaseArchivePath=$BaseArchivePath}
+if($command.Parameters.ContainsKey('RealEvidenceLockPath')){$parameters.RealEvidenceLockPath=$RealEvidenceLockPath}
+& $scriptToRun @parameters
 exit $LASTEXITCODE
 '@
 [IO.File]::WriteAllText($wrapperPath,$wrapper,[Text.UTF8Encoding]::new($false))
 $packageBefore=Fingerprint $package;$suiteResults=[Collections.Generic.List[object]]::new();$captureFiles=[Collections.Generic.List[string]]::new()
 foreach($spec in $suiteSpecs){
-    $id=$spec[0];$script=Join-Path $repo $spec[1];$capture=Join-Path $runRoot "captures/$id.jsonl";$suiteEvidence=Join-Path $runRoot "suites/$id";$suiteLog=Join-Path $runRoot "suites/$id.output.txt"
-    $output=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $wrapperPath -TestScript $script -PackageRoot $package -RepositoryRoot $repo -LogPath $capture -EvidenceRoot $suiteEvidence -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull 2>&1);$code=$LASTEXITCODE
+    $id=$spec[0];$script=Join-Path $repo $spec[1];$module=@($inventory.modules|Where-Object tranche -CEQ $id);Assert ($module.Count-eq1) "Suite-to-module mapping drift: $id";$reviewCeiling=@($review.moduleCeilings|Where-Object moduleId -CEQ $module[0].id);Assert ($reviewCeiling.Count-eq1) "Reviewed capability ceiling missing: $($module[0].id)";$capture=Join-Path $runRoot "captures/$id.jsonl";$suiteEvidence=Join-Path $runRoot "suites/$id";$suiteLog=Join-Path $runRoot "suites/$id.output.txt";$harness=Join-Path $workRoot "harness/$id.ps1"
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($harness));$realLock=switch($id){'c5b'{$lineageLockPaths.solution};'c5c'{$lineageLockPaths.assembly};'c5d'{$lineageLockPaths.frontend};default{''}}
+    $output=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $wrapperPath -TestScript $script -HarnessPath $harness -ModuleId $module[0].id -ReviewedTimeoutSeconds ([int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds) -PackageRoot $package -RepositoryRoot $repo -LogPath $capture -EvidenceRoot $suiteEvidence -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -RealEvidenceLockPath $realLock -SolutionLockPath $lineageLockPaths.solution -AssemblyLockPath $lineageLockPaths.assembly 2>&1);$code=$LASTEXITCODE
     [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($suiteLog));[IO.File]::WriteAllText($suiteLog,(($output-join "`n")+"`n"),[Text.UTF8Encoding]::new($false))
-    $suiteResults.Add([ordered]@{id=$id;script=$spec[1];scriptSha256=Hash $script;exitCode=$code;status=$(if($code-eq 0){'pass'}else{'error'});capturePath=[IO.Path]::GetRelativePath($runRoot,$capture).Replace('\','/');outputPath=[IO.Path]::GetRelativePath($runRoot,$suiteLog).Replace('\','/')})
+    $suiteResults.Add([ordered]@{id=$id;script=$spec[1];scriptSha256=Hash $script;reviewedTimeoutSeconds=[int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds;harnessAdjusted=[IO.File]::Exists($harness);harnessSha256=$(if([IO.File]::Exists($harness)){Hash $harness}else{$null});exitCode=$code;status=$(if($code-eq 0){'pass'}else{'error'});capturePath=[IO.Path]::GetRelativePath($runRoot,$capture).Replace('\','/');outputPath=[IO.Path]::GetRelativePath($runRoot,$suiteLog).Replace('\','/')})
     if(Test-Path $capture){$captureFiles.Add($capture)}
 }
 
