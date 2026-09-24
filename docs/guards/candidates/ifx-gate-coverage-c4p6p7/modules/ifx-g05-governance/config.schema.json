@@ -1,0 +1,12 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id":"https://ifx.local/v4/candidates/ifx-g05-governance/config.schema.json",
+  "type":"object","additionalProperties":false,
+  "required":["enabledClaims","policySha256","authorityHashes","transactionHandlersSha256"],
+  "properties":{
+    "enabledClaims":{"const":["IFX.C4.G05_FIELD_GOVERNANCE","IFX.C4.G05_OBSERVABILITY"]},
+    "policySha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "transactionHandlersSha256":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "authorityHashes":{"type":"array","minItems":24,"maxItems":24,"items":{"type":"object","additionalProperties":false,"required":["id","sha256"],"properties":{"id":{"type":"string","minLength":1},"sha256":{"type":"string","pattern":"^[a-f0-9]{64}$"}}}}
+  }
+}

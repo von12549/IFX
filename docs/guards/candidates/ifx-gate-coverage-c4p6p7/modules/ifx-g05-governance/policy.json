@@ -1,0 +1,35 @@
+{
+  "formatVersion":1,
+  "id":"ifx-g05-governance-c4p6p7",
+  "authorities":[
+    {"id":"catalog","path":"docs/architecture/review/gates/G03/contract-event-catalog.yaml"},
+    {"id":"catalogReport","path":"docs/architecture/review/evidence/gates/G05/G05-phase6-catalog-report.json"},
+    {"id":"layerGuard","path":"docs/architecture/review/gates/G03/generated/layerguard-governance-input.json"},
+    {"id":"phase6Evidence","path":"docs/architecture/review/evidence/gates/G05/G05-phase6-field-classification.md"},
+    {"id":"phase6Layer","path":"docs/architecture/review/evidence/gates/G05/G05-phase6-layerguard-report.json"},
+    {"id":"observabilityPolicy","path":"docs/architecture/review/gates/G05/observability-security-policy.json"},
+    {"id":"redactor","path":"src/BuildingBlocks/IFX.BuildingBlocks.Application/Observability/SensitiveTelemetryRedactor.cs"},
+    {"id":"sink","path":"src/ApiHost/IFX.ApiHost/Observability/SensitiveLogEventSink.cs"},
+    {"id":"factory","path":"src/ApiHost/IFX.ApiHost/Observability/SensitiveTelemetryRedactorFactory.cs"},
+    {"id":"program","path":"src/ApiHost/IFX.ApiHost/Program.cs"},
+    {"id":"requestLogging","path":"src/ApiHost/IFX.ApiHost/Middleware/RequestLoggingMiddleware.cs"},
+    {"id":"exception","path":"src/ApiHost/IFX.ApiHost/Middleware/ExceptionHandlingMiddleware.cs"},
+    {"id":"observabilityTests","path":"tests/IFX.IntegrationTests/Observability/SensitiveObservabilityTests.cs"},
+    {"id":"httpBoundaryTests","path":"tests/IFX.IntegrationTests/Middleware/HttpContextBoundaryTests.cs"},
+    {"id":"loginEvent","path":"src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/LoginEvent.cs"},
+    {"id":"loginConfig","path":"src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Identity/Configurations/LoginEventConfiguration.cs"},
+    {"id":"authSnapshot","path":"src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/IfxDbContextModelSnapshot.cs"},
+    {"id":"tokenMigration","path":"src/Modules/IAM/IFX.Modules.IAM.Infrastructure/Persistence/Migrations/20260908015924_RemoveLoginEventSecrets.cs"},
+    {"id":"noOpEmail","path":"src/Platform/Notifications/IFX.Platform.Notifications.Composition/NoOpEmailService.cs"},
+    {"id":"sendGrid","path":"src/Platform/Notifications/IFX.Platform.Notifications.Infrastructure.SendGrid/SendGridEmailService.cs"},
+    {"id":"oidc","path":"src/Platform/Authentication/IFX.Platform.Authentication.Runtime/OidcProtocolService.cs"},
+    {"id":"endToEndTests","path":"tests/IFX.IntegrationTests/Middleware/ExceptionHandlingHttpEndToEndTests.cs"},
+    {"id":"phase7Evidence","path":"docs/architecture/review/evidence/gates/G05/G05-phase7-observability-security.md"},
+    {"id":"phase7Layer","path":"docs/architecture/review/evidence/gates/G05/G05-phase7-layerguard-report.json"}
+  ],
+  "transactionHandlersRoot":"src/Modules/Transaction/IFX.Modules.Transaction.Application/Commands",
+  "checkIds":{
+    "phase6":["g03CatalogRemainsSoleFieldAuthority","allTargetLegacyAndEnvelopeFieldsAreClassified","noC4AndAllC3HaveGovernedExceptions","c4SemanticDenylistIsComplete","capabilitySplitAndEventMinimizationAreRecorded","sensitiveFinancialAndComplianceUsesAreGoverned","pendingSecurityApprovalIsNotMisrepresented","layerGuardGovernanceHashMatchesCatalog","phase6EvidenceExists","phase6LayerGuardEvidenceExists"],
+    "phase7":["centralOperationalSinkEnforcesClassifier","productionPseudonymKeyFailsClosedAndSupportsRotation","rawRequestPathAndSdkPayloadsAreNotLogged","externalErrorsAreStableAndSafe","auditSinkGovernanceIsIndependentAndComplete","traceMetricAndBaggagePolicyIsBounded","authTokenPersistenceIsRemovedInCodeAndMigration","destructiveMigrationApprovalIsNotMisrepresented","capturedSentinelCoverageExists","phase7EvidenceExists","phase7LayerGuardEvidenceExists"]
+  }
+}
