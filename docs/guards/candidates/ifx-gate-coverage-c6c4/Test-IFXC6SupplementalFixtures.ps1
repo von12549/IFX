@@ -206,6 +206,14 @@ $sourceAdvisoryResult=Invoke-CapturedAdapter 'ifx-source-policy/A/DECLARATION-PL
 $sourceAdvisoryRules=@($sourceAdvisoryResult.findings|ForEach-Object ruleId|Sort-Object -Unique)
 Assert ($sourceAdvisoryResult.status-ceq'pass'-and$sourceAdvisoryResult.exitCategory-ceq'success'-and($sourceAdvisoryRules-join',')-ceq'DECLARATION-PLACEMENT-ADVISORY'-and@($sourceAdvisoryResult.coverage|Where-Object matched -lt 1).Count-eq0) 'Source Policy advisory placement fixture failed.'
 
+$historyModule=Join-Path $package 'modules/ifx-history-integrity'
+$historyFixture=Join-Path $runRoot 'history-missing-fixture';[void][IO.Directory]::CreateDirectory($historyFixture)
+$historyMissingTarget=Join-Path $historyFixture 'missing-target'
+$historyInput=New-Input 'post' $historyMissingTarget ([ordered]@{enabledClaims=@('IFX.C5.HISTORY_INTEGRITY');policySha256=Hash (Join-Path $historyModule 'policy.json')})
+$historyInput.relativeRoots=@('mcp','docs')
+$historyResult=Invoke-CapturedAdapter 'ifx-history-integrity/M' 'ifx-history-integrity' (Join-Path $historyModule 'adapter.ps1') $historyFixture $historyInput
+Assert ($historyResult.status-ceq'error'-and$historyResult.exitCategory-ceq'prerequisite-missing'-and@($historyResult.findings).Count-eq0-and$historyResult.coverage[0].matched-eq0) 'History missing fixture failed.'
+
 function New-ArchitectureFixture([string]$Name,[switch]$Violating) {
     $root=Join-Path $runRoot "architecture/$Name";$source=Join-Path $root 'source';$evidenceRoot=Join-Path $root 'evidence';$assemblies=Join-Path $evidenceRoot 'assemblies';$target=New-Target "architecture-$Name"
     foreach($path in @($source,$assemblies)){[void][IO.Directory]::CreateDirectory($path)}
@@ -251,5 +259,5 @@ $missingResult=Invoke-CapturedAdapter 'architecture-conformance/M' 'architecture
 Assert ($missingResult.status-ceq'error'-and$missingResult.exitCategory-ceq'prerequisite-missing'-and@($missingResult.findings).Count-eq0) 'Architecture missing fixture failed.'
 
 $lines=@(Get-Content -LiteralPath $capture)
-Assert ($lines.Count -eq 14) "Expected fourteen supplemental captures, found $($lines.Count)."
-Write-Output "IFX C6c4 supplemental fixtures passed fourteen Provider, raw-graph, Injection, Source Policy and Architecture cases: $capture"
+Assert ($lines.Count -eq 15) "Expected fifteen supplemental captures, found $($lines.Count)."
+Write-Output "IFX C6c4 supplemental fixtures passed fifteen Provider, raw-graph, Injection, Source Policy, History and Architecture cases: $capture"
