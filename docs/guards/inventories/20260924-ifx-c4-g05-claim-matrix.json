@@ -787,56 +787,56 @@
       "id": "singleLocalCiVerificationEntryPointExists",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "verificationRunsOnlyOwnedChecks",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "verificationDelegatesSolutionToQuality",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "requiredProtocolRuntimeAndSecuritySuitesAreBound",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "expiredExceptionAndCompatibilityRulesFailClosed",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "verificationBaselineIsTruthfulAndBounded",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "catalogMutationBaselineIncludesCredentialBoundaries",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
       "id": "phase9AutomationEvidenceExists",
       "source": "G05 Phase 11",
       "phase": 9,
-      "destination": "C4-G05-context",
+      "destination": "P10.3-deferred-G05-verification",
       "required": true
     },
     {
