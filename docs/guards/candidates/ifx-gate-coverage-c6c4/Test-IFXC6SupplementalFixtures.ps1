@@ -119,6 +119,93 @@ foreach ($definition in @(
     else { Assert ($result.status -ceq 'fail' -and $result.exitCategory -ceq 'findings-blocking' -and $result.coverage[0].matched -eq 3 -and @($result.findings | Where-Object ruleId -CEQ 'PROVIDER-CYCLE').Count -gt 0) 'Provider violation fixture failed.' }
 }
 
+# Raw project-graph modules can share a syntactically valid out-of-scope project. It keeps src
+# present while selecting no governed ring, so the composed adapters must emit their own zero
+# findings rather than treating the prerequisite as missing.
+$outsideTarget=New-Target 'raw-graph-zero'
+$outsideProject=Join-Path $outsideTarget 'src/Other/Synthetic.Other/Synthetic.Other.csproj'
+Write-Utf8 $outsideProject '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup></Project>'
+foreach($definition in @(
+    [ordered]@{id='ifx-package-reference/Z';module='ifx-package-reference';claims=@('IFX.C1.PACKAGE_ALLOW_RAW','IFX.C1.PACKAGE_DENY_RAW')},
+    [ordered]@{id='ifx-ring-graph/Z';module='ifx-ring-graph';claims=@('IFX.C1.RING_GRAPH_RAW')},
+    [ordered]@{id='ifx-ownership-graph/Z';module='ifx-ownership-graph';claims=@('IFX.C1.OWNERSHIP_GRAPH_RAW')}
+)){
+    $moduleRoot=Join-Path $package "modules/$($definition.module)";$adapter=Join-Path $moduleRoot 'adapter.ps1';$policyPath=Join-Path $moduleRoot 'policy.json'
+    $input=New-Input 'pre' $outsideTarget ([ordered]@{enabledClaims=$definition.claims;policySha256=Hash $policyPath})
+    $result=Invoke-CapturedAdapter $definition.id $definition.module $adapter $outsideTarget $input
+    $claimIds=@($result.coverage|Where-Object{$_.matched-eq0-and$_.minimum-gt0}|ForEach-Object claimId|Sort-Object -Unique)
+    Assert ($result.status-ceq'fail'-and$result.exitCategory-ceq'findings-blocking'-and($claimIds-join',')-ceq(@($definition.claims|Sort-Object)-join',')) "Raw graph zero fixture failed: $($definition.id)"
+}
+
+$injectionTarget=New-Target 'injection-zero'
+$applicationProject=Join-Path $injectionTarget 'src/Modules/CRM/IFX.Modules.CRM.Application/IFX.Modules.CRM.Application.csproj'
+$infrastructureProject=Join-Path $injectionTarget 'src/Modules/CRM/IFX.Modules.CRM.Infrastructure/IFX.Modules.CRM.Infrastructure.csproj'
+Write-Utf8 $applicationProject '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup></Project>'
+Write-Utf8 ([IO.Path]::ChangeExtension($applicationProject,'.cs')) 'namespace IFX.Modules.CRM.Application { public sealed class Marker { } }'
+Write-Utf8 $infrastructureProject '<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup></Project>'
+Write-Utf8 ([IO.Path]::ChangeExtension($infrastructureProject,'.cs')) 'namespace IFX.Modules.CRM.Infrastructure { public sealed class Store { } }'
+$injectionModule=Join-Path $package 'modules/ifx-injection';$injectionClaims=@('IFX.C1.FORBIDDEN_DEPENDENCY_SOURCE','IFX.C1.FORBIDDEN_DEPENDENCY_ORIGIN_SOURCE')
+$injectionInput=New-Input 'pre' $injectionTarget ([ordered]@{enabledClaims=$injectionClaims;policySha256=Hash (Join-Path $injectionModule 'policy.json')})
+$injectionResult=Invoke-CapturedAdapter 'ifx-injection/Z' 'ifx-injection' (Join-Path $injectionModule 'adapter.ps1') $injectionTarget $injectionInput
+$injectionZeroClaims=@($injectionResult.coverage|Where-Object{$_.matched-eq0-and$_.minimum-gt0}|ForEach-Object claimId|Sort-Object -Unique)
+Assert ($injectionResult.status-ceq'fail'-and$injectionResult.exitCategory-ceq'findings-blocking'-and($injectionZeroClaims-join',')-ceq(@($injectionClaims|Sort-Object)-join',')) 'Injection zero fixture failed.'
+
+function New-SourcePolicyBase([string]$Name,[switch]$Zero) {
+    $target=New-Target "source-policy-$Name"
+    foreach($projectName in @('IFX.Modules.CRM.Domain','IFX.Modules.CRM.Application','IFX.Modules.CRM.Infrastructure','IFX.Modules.CRM.Contracts')){
+        Write-Utf8 (Join-Path $target "src/$projectName/$projectName.csproj") '<Project Sdk="Microsoft.NET.Sdk" />'
+    }
+    if($Zero){
+        Write-Utf8 (Join-Path $target 'src/IFX.Modules.CRM.Domain/Empty.cs') '// Intentionally contains no governed import, declaration, symbol or payload.'
+        return $target
+    }
+    $files=[ordered]@{
+        'src/IFX.Modules.CRM.Domain/IAccountRepository.cs'='namespace IFX.Modules.CRM.Domain { public interface IAccountRepository {} }'
+        'src/IFX.Modules.CRM.Application/IAccountPort.cs'='using IFX.Modules.CRM.Domain; using MediatR; namespace IFX.Modules.CRM.Application.Ports { public interface IAccountPort {} }'
+        'src/IFX.Modules.CRM.Infrastructure/AccountRepository.cs'='using IFX.Modules.CRM.Domain; namespace IFX.Modules.CRM.Infrastructure { public class AccountRepository : IAccountRepository {} }'
+        'src/IFX.Modules.CRM.Contracts/IAccountContract.cs'='namespace IFX.Modules.CRM.Contracts { public interface IAccountContract {} }'
+        'src/IFX.Modules.CRM.Contracts/AccountIntegrationEvent.cs'='namespace IFX.Modules.CRM.Contracts.Events { public record AccountIntegrationEvent(System.Guid Id); }'
+    }
+    foreach($entry in $files.GetEnumerator()){Write-Utf8 (Join-Path $target $entry.Key) $entry.Value}
+    return $target
+}
+
+$sourceModule=Join-Path $package 'modules/ifx-source-policy'
+$sourceAdapter=Join-Path $sourceModule 'adapter.ps1'
+$sourcePolicyPath=Join-Path $sourceModule 'policy.json'
+$sourcePolicy=Get-Content -Raw -LiteralPath $sourcePolicyPath|ConvertFrom-Json -Depth 100
+$sourceClaims=@($sourcePolicy.claims)
+$sourceZeroTarget=New-SourcePolicyBase 'zero' -Zero
+$sourceZeroInput=New-Input 'pre' $sourceZeroTarget ([ordered]@{enabledClaims=$sourceClaims;policySha256=Hash $sourcePolicyPath})
+$sourceZeroResult=Invoke-CapturedAdapter 'ifx-source-policy/Z' 'ifx-source-policy' $sourceAdapter $sourceZeroTarget $sourceZeroInput
+$sourceZeroClaims=@($sourceZeroResult.coverage|Where-Object{$_.matched-eq0-and$_.minimum-gt0}|ForEach-Object claimId|Sort-Object -Unique)
+Assert ($sourceZeroResult.status-ceq'fail'-and$sourceZeroResult.exitCategory-ceq'findings-blocking'-and($sourceZeroClaims-join',')-ceq(@($sourceClaims|Sort-Object)-join',')) 'Source Policy zero fixture failed.'
+
+# The published policy currently marks its only mustImplement declaration as bends, so its
+# generic blocking branch is unreachable from that authority. Keep the frozen adapter bytes and
+# add a disposable blocking declaration to exercise the branch without changing the package.
+$sourceBlockingRoot=Join-Path $runRoot 'source-policy/blocking-implements'
+$sourceBlockingModule=Join-Path $sourceBlockingRoot 'ifx-source-policy'
+[void][IO.Directory]::CreateDirectory($sourceBlockingModule)
+Copy-Item -LiteralPath $sourceAdapter -Destination (Join-Path $sourceBlockingModule 'adapter.ps1')
+$sourceBlockingPolicy=$sourcePolicy|ConvertTo-Json -Depth 100|ConvertFrom-Json -Depth 100
+$sourceBlockingPolicy.declarations=@($sourceBlockingPolicy.declarations)+@([ordered]@{match='*Gateway';kind='class';mustLiveIn='Infrastructure';mustImplement='Application'})
+$sourceBlockingPolicyPath=Join-Path $sourceBlockingModule 'policy.json'
+Write-Json $sourceBlockingPolicyPath $sourceBlockingPolicy
+$sourceBlockingTarget=New-SourcePolicyBase 'blocking-implements'
+Write-Utf8 (Join-Path $sourceBlockingTarget 'src/IFX.Modules.CRM.Infrastructure/Integrations/BadGateway.cs') 'namespace IFX.Modules.CRM.Infrastructure.Integrations { public class BadGateway {} }'
+$sourceBlockingInput=New-Input 'pre' $sourceBlockingTarget ([ordered]@{enabledClaims=$sourceClaims;policySha256=Hash $sourceBlockingPolicyPath})
+$sourceBlockingResult=Invoke-CapturedAdapter 'ifx-source-policy/V/DECLARATION-IMPLEMENTS' 'ifx-source-policy' (Join-Path $sourceBlockingModule 'adapter.ps1') $sourceBlockingTarget $sourceBlockingInput
+$sourceBlockingRules=@($sourceBlockingResult.findings|Where-Object severity -CEQ 'blocking'|ForEach-Object ruleId|Sort-Object -Unique)
+Assert ($sourceBlockingResult.status-ceq'fail'-and$sourceBlockingResult.exitCategory-ceq'findings-blocking'-and($sourceBlockingRules-join',')-ceq'DECLARATION-IMPLEMENTS'-and@($sourceBlockingResult.coverage|Where-Object matched -lt 1).Count-eq0) 'Source Policy blocking implements fixture failed.'
+
+$sourceAdvisoryTarget=New-SourcePolicyBase 'advisory-placement'
+Write-Utf8 (Join-Path $sourceAdvisoryTarget 'src/IFX.Modules.CRM.Domain/MisplacedCommandValidator.cs') 'namespace IFX.Modules.CRM.Domain { public class MisplacedCommandValidator {} }'
+$sourceAdvisoryInput=New-Input 'pre' $sourceAdvisoryTarget ([ordered]@{enabledClaims=$sourceClaims;policySha256=Hash $sourcePolicyPath})
+$sourceAdvisoryResult=Invoke-CapturedAdapter 'ifx-source-policy/A/DECLARATION-PLACEMENT-ADVISORY' 'ifx-source-policy' $sourceAdapter $sourceAdvisoryTarget $sourceAdvisoryInput
+$sourceAdvisoryRules=@($sourceAdvisoryResult.findings|ForEach-Object ruleId|Sort-Object -Unique)
+Assert ($sourceAdvisoryResult.status-ceq'pass'-and$sourceAdvisoryResult.exitCategory-ceq'success'-and($sourceAdvisoryRules-join',')-ceq'DECLARATION-PLACEMENT-ADVISORY'-and@($sourceAdvisoryResult.coverage|Where-Object matched -lt 1).Count-eq0) 'Source Policy advisory placement fixture failed.'
+
 function New-ArchitectureFixture([string]$Name,[switch]$Violating) {
     $root=Join-Path $runRoot "architecture/$Name";$source=Join-Path $root 'source';$evidenceRoot=Join-Path $root 'evidence';$assemblies=Join-Path $evidenceRoot 'assemblies';$target=New-Target "architecture-$Name"
     foreach($path in @($source,$assemblies)){[void][IO.Directory]::CreateDirectory($path)}
@@ -164,5 +251,5 @@ $missingResult=Invoke-CapturedAdapter 'architecture-conformance/M' 'architecture
 Assert ($missingResult.status-ceq'error'-and$missingResult.exitCategory-ceq'prerequisite-missing'-and@($missingResult.findings).Count-eq0) 'Architecture missing fixture failed.'
 
 $lines=@(Get-Content -LiteralPath $capture)
-Assert ($lines.Count -eq 7) "Expected seven supplemental captures, found $($lines.Count)."
-Write-Output "IFX C6c4 supplemental fixtures passed Provider Cycle and Architecture quartets: $capture"
+Assert ($lines.Count -eq 14) "Expected fourteen supplemental captures, found $($lines.Count)."
+Write-Output "IFX C6c4 supplemental fixtures passed fourteen Provider, raw-graph, Injection, Source Policy and Architecture cases: $capture"

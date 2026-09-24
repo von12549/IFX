@@ -51,6 +51,7 @@
   ],
   "ruleOverrides": [
     { "moduleId": "ifx-c1-type-provenance", "ruleId": "C1-COMPILED-TYPE-PROVENANCE", "outcome": "integrity-failure", "allowedRuleIds": [], "coverage": "integrity-progress" },
+    { "moduleId": "ifx-source-policy", "ruleId": "RING-PACKAGE-FORBIDDEN", "outcome": "findings-blocking", "allowedRuleIds": ["RING-PACKAGE-FORBIDDEN", "SYMBOL-FORBIDDEN"], "coverage": "nonzero" },
     { "moduleId": "ifx-reference-cycle", "ruleId": "CONTRACT-CYCLE", "outcome": "findings-blocking", "allowedRuleIds": ["CONTRACT-CYCLE", "RING-REFERENCE"], "coverage": "nonzero" },
     { "moduleId": "ifx-c1-evaluated-reference", "ruleId": "C1-EVALUATED-RING-REFERENCE", "outcome": "findings-blocking", "allowedRuleIds": ["C1-EVALUATED-RING-REFERENCE", "C1-EVALUATED-OWNERSHIP"], "coverage": "nonzero" },
     { "moduleId": "ifx-c1-evaluated-reference", "ruleId": "C1-EVALUATED-OWNERSHIP", "outcome": "findings-blocking", "allowedRuleIds": ["C1-EVALUATED-RING-REFERENCE", "C1-EVALUATED-OWNERSHIP"], "coverage": "nonzero" },

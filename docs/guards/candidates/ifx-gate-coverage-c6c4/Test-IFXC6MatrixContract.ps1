@@ -86,6 +86,8 @@ Assert (@($fixtureSpec.cases).Count -eq 39 -and @($fixtureSpec.cases.id | Sort-O
 Assert (@($fixtureSpec.cases | Where-Object id -Match '/A/').Count -eq 1) 'Fixture advisory cardinality drift.'
 Assert ($fixtureSpec.implementedCoreCaseCount -eq @($fixtureSpec.implementedCaseIds).Count -and $fixtureSpec.remainingCoreCaseCount -eq ($fixtureSpec.residualCoreCaseCount - $fixtureSpec.implementedCoreCaseCount)) 'Implemented fixture cardinality drift.'
 foreach ($implemented in @($fixtureSpec.implementedCaseIds)) { Assert (@($fixtureSpec.cases | Where-Object id -CEQ $implemented).Count -eq 1 -and $implemented -cnotmatch '/A/') "Implemented fixture ID drift: $implemented" }
+Assert ($fixtureSpec.implementedAdvisoryCount -eq @($fixtureSpec.implementedAdvisoryCaseIds).Count -and $fixtureSpec.remainingAdvisoryCount -eq ($fixtureSpec.residualAdvisoryCount - $fixtureSpec.implementedAdvisoryCount)) 'Implemented advisory cardinality drift.'
+foreach ($implemented in @($fixtureSpec.implementedAdvisoryCaseIds)) { Assert (@($fixtureSpec.cases | Where-Object id -CEQ $implemented).Count -eq 1 -and $implemented -cmatch '/A/') "Implemented advisory fixture ID drift: $implemented" }
 foreach ($suiteProperty in $fixtureSpec.sourceSuites.PSObject.Properties) {
     $source = $suiteProperty.Value
     $sourcePath = Full ([string]$source.path)
