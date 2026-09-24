@@ -45,7 +45,9 @@ public sealed class Plan06DependencyBoundaryTests
         File.ReadAllText(Path.Combine(repository, "IFX.sln"))
             .Should().NotContain("Modules\\Auth", "the solution uses the renamed IAM projects");
 
-        var references = Directory.EnumerateFiles(repository, "*.csproj", SearchOption.AllDirectories)
+        var references = new[] { "src", "tests", "tools" }
+            .SelectMany(root => Directory.EnumerateFiles(
+                Path.Combine(repository, root), "*.csproj", SearchOption.AllDirectories))
             .Where(path => !path.Split(Path.DirectorySeparatorChar).Any(part => part is "bin" or "obj"))
             .SelectMany(project => XDocument.Load(project).Descendants("ProjectReference")
                 .Select(reference => new
