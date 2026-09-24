@@ -96,5 +96,8 @@ native Windows and pinned offline Linux. No lock, candidate, matrix result or
 synthetic review named in this blocked decision may be reused as passing
 evidence.
 
+Exact committed Formal Diff for the declared C6c3 runner and decision paths
+passed at `artifacts/guards/p10-ifx-c6c3/formal-diff/summary-diff.json`.
+
 C6d and C6e remain unpassed. G04 remains PRE-READY, and P10.2/P10.3 plus V3
 retirement remain out of scope.
