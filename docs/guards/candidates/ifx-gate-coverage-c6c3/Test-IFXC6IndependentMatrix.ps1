@@ -45,9 +45,13 @@ $runId=[guid]::NewGuid().ToString('N');$runRoot=Join-Path (Full $EvidenceRoot) $
 if($ReportPath){$reportFull=Full $ReportPath;$runRoot=[IO.Path]::GetDirectoryName($reportFull)}else{$reportFull=Join-Path $runRoot 'summary.json'}
 Assert (-not(Test-Path $runRoot)) 'Matrix run root must be absent.'
 [void][IO.Directory]::CreateDirectory($runRoot)
-$composeState=Join-Path $runRoot 'compose-state';$composeEvidence=Join-Path $runRoot 'compose-evidence';$composed=Join-Path $runRoot 'composed';$compositionReceipt=Join-Path $runRoot 'composition.receipt.json'
+$workRoot=Join-Path ([IO.Path]::GetTempPath()) "ifx-c6c3-$runId";Assert (-not(Test-Path $workRoot)) 'Matrix work root must be absent.'
+[void][IO.Directory]::CreateDirectory($workRoot)
+$workBundle=Join-Path $workRoot 'bundle';Copy-Item -LiteralPath $bundleFull -Destination $workBundle -Recurse
+$workReview=Join-Path $workRoot 'synthetic-review.json';Copy-Item -LiteralPath $reviewFull -Destination $workReview
+$composeState=Join-Path $workRoot 'compose-state';$composeEvidence=Join-Path $workRoot 'compose-evidence';$composed=Join-Path $workRoot 'composed';$compositionReceipt=Join-Path $workRoot 'composition.receipt.json'
 [void][IO.Directory]::CreateDirectory($composeState);[void][IO.Directory]::CreateDirectory($composeEvidence)
-$compose=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $baseInstall 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -BundleRoot $bundleFull -ReviewRecordPath $reviewFull -OutputInstallRoot $composed -CompositionReceiptPath $compositionReceipt -TargetRoot $repo -StateRoot $composeState -EvidenceRoot $composeEvidence -AllowSyntheticFixture 2>&1)
+$compose=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $baseInstall 'package/core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -BundleRoot $workBundle -ReviewRecordPath $workReview -OutputInstallRoot $composed -CompositionReceiptPath $compositionReceipt -TargetRoot $repo -StateRoot $composeState -EvidenceRoot $composeEvidence -AllowSyntheticFixture 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Final bundle composition failed: $($compose -join "`n")"
 $verify=@(& pwsh -NoLogo -NoProfile -NonInteractive -File (Join-Path $baseInstall 'package/core/distribution/Test-V4ComposedInstallation.ps1') -InstallRoot $composed -ReceiptPath $compositionReceipt -BaseReceiptPath $baseReceiptFull -AllowSyntheticFixture 2>&1)
 Assert ($LASTEXITCODE -eq 0 -and (($verify -join "`n")|ConvertFrom-Json).status -ceq 'pass') 'Final composition receipt failed.'
@@ -103,7 +107,7 @@ $suiteSpecs=@(
     @('c5h','docs/guards/candidates/ifx-gate-coverage-c5h/tests/Test-IFXHistoricalIntegrity.ps1')
 )
 Assert ($suiteSpecs.Count -eq 36 -and @($suiteSpecs|ForEach-Object{$_[0]}|Sort-Object -Unique).Count -eq 36) 'Suite catalog drift.'
-$wrapperPath=Join-Path $runRoot 'Invoke-InstrumentedSuite.ps1'
+$wrapperPath=Join-Path $workRoot 'Invoke-InstrumentedSuite.ps1'
 $wrapper=@'
 param([string]$TestScript,[string]$PackageRoot,[string]$RepositoryRoot,[string]$LogPath,[string]$EvidenceRoot,[string]$BaseInstallRoot,[string]$BaseReceiptPath,[string]$BaseArchivePath)
 $ErrorActionPreference='Stop'
