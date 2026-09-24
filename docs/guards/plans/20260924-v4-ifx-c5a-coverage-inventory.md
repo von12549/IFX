@@ -20,4 +20,5 @@ history entry paths/hashes. The V3 historical reference passed at
 `artifacts/guards/p10-ifx-c5a/v3-history-reference/summary-historical-integrity.json`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-8003f732991740f99bb81056f85ec276`.
-Exact Formal Diff follows the scoped commit.
+Exact Formal Diff passed at
+`artifacts/guards/p10-ifx-c5a/formal-diff/summary-diff.json`.

@@ -25,4 +25,5 @@ missing reference, zero-subject target and policy drift blocked; canonical
 CRLF/LF normalization remained equivalent. TargetRoot and PackageRoot were
 byte-invariant. The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-378b2da2895140d99f03df6cb0625752`.
-Exact Formal Diff follows the scoped commit.
+Exact Formal Diff passed at
+`artifacts/guards/p10-ifx-c5h/formal-diff/summary-diff.json`.

@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C4 candidate complete; C5 inventory in progress`
+Status: `AUTHORIZED PROGRAM — C5 in progress; inventory and History candidate complete`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -156,6 +156,17 @@ remain required P10.3 deferrals. C4 candidate completion is not production
 Profile acceptance, G05 final closure, C5 integration, C6 bundle review or
 P10.2 parity. C5 must regenerate the expiring Database lock and revalidate
 the combined Profile and all blocking claims.
+
+### 2026-09-24 C5 inventory and History checkpoint
+
+C5a inventoried the three Quality gates, Historical Integrity's 15 frozen
+records and three references, toolchain capabilities, C1 residuals and
+P10.3 Diff/CI deferrals. C5h provided an independent read-only V4 Post
+candidate for History, with real IFX and published 1.1.3 synthetic Host
+checks, blocking negative/zero controls and exact committed Formal Diff.
+Historical pass is not current readiness or a waiver. Solution, Assembly,
+Frontend Quality, claim-specific Profile baselines and combined Stage
+integration remain open. This is not C5 closure or C6 bundle acceptance.
 
 ## This planning checkpoint
 
