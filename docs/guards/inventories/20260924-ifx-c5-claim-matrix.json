@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-ifx-c5-claim-matrix",
+  "baseVersion": "1.1.3",
+  "scope": "P10.1-C5-inventory-only",
+  "sourceHashes": [
+    {"path":"docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXQuality.ps1","sha256":"e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd"},
+    {"path":"docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXAssemblyGuard.ps1","sha256":"0493e8018d5310d0a730895b2f7866592c07e1bdf93533adcca5cdb7e570f675"},
+    {"path":"docs/guards/V3_ifx/stages/post/gates/quality/Invoke-IFXPackageAudit.ps1","sha256":"bd4a3620ef602320ccf31c99935aa91abd6e7bb7343c8dd169f769bdc470bec8"},
+    {"path":"docs/guards/V3_ifx/stages/post/gates/historical-integrity/Invoke-IFXHistoricalIntegrity.ps1","sha256":"5e848e29486b062f977abf93a6d33db885f2fc107172c3fdb74c0c51db75808a"},
+    {"path":"docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json","sha256":"6530806bdc71f9baa4a1ed7e4d4d26020aa9ceb328c55286c07a42f83ae99b20"},
+    {"path":"docs/guards/V3_ifx/stages/post/policy/layerguard.json","sha256":"b89172e667a3e5c51b4d065cc325a99ea293aa2696a548980c8125d9c0323fb5"},
+    {"path":"src/Frontend/IFX.FrontEnd/package.json","sha256":"8c4e911c067e0e7fbd01a3926696dcb23d5d718ce3cc20c6641b89e09f737932"},
+    {"path":"src/Frontend/IFX.FrontEnd/package-lock.json","sha256":"8a41aecb9cb2541e3c0d5d2e19876068e7f580d55381a9f9df9a5737acba7ccf"},
+    {"path":"IFX.sln","sha256":"a855255f5373c03301ae40a8aae1ad82382aa5038e930de025aa95371c7a4b17"}
+  ],
+  "gates": [
+    {"id":"v3-quality-solution","stage":"post","executionClass":"executes-head","destination":"C5b-controlled-evidence-plus-readonly-V4-Post","source":"Invoke-IFXQuality.ps1/Solution","actions":["dotnet restore --force-evaluate -warnaserror:NU1603","direct-and-transitive NuGet audit","dotnet build Release --no-restore","dotnet test Release --no-build --no-restore TRX"],"evidence":["summary.json/Solution","nuget-audit.json","solution-test-results/*.trx"],"blockingControls":["missing-or-failed-command","stale-source-or-toolchain","zero-project-or-zero-test","high-or-critical-vulnerability","tampered-TRX"]},
+    {"id":"v3-quality-assembly","stage":"post","executionClass":"consumes-head-build","destination":"C5c-compiled-assembly-review","source":"Invoke-IFXAssemblyGuard.ps1","actions":["select exactly five Domain projects","load built net8.0 Domain assemblies","compare references against LayerGuard Domain policy","reject source-newer-than-DLL"],"evidence":["summary.json/Assembly","assembly.json","fresh-solution-build-provenance"],"blockingControls":["missing-or-stale-DLL","zero-assembly","forbidden-reference","policy-drift"]},
+    {"id":"v3-quality-frontend","stage":"post","executionClass":"executes-head","destination":"C5d-controlled-evidence-plus-readonly-V4-Post","source":"Invoke-IFXQuality.ps1/Frontend","actions":["npm ci with isolated cache","production and full npm audit at high threshold","lint --max-warnings=0","test:run","build"],"evidence":["summary.json/Frontend","npm-audit-production.json","npm-audit.json","locked frontend source and package-lock"],"blockingControls":["missing-or-failed-command","stale-lock-or-source","zero-test","high-or-critical-vulnerability","unexpected-network-dependency"]},
+    {"id":"v3-historical-integrity","stage":"post","executionClass":"read-only-governance-audit","destination":"C5h-independent-V4-module","source":"Invoke-IFXHistoricalIntegrity.ps1","actions":["canonical-text SHA-256 of 15 files","JSON format/result/gate/plan summary equality","three reference existence checks"],"evidence":["15-entry manifest","three references","blocking V4 Post findings"],"blockingControls":["missing-or-malformed-file","changed-canonical-hash","summary-drift","zero-entry-or-reference","history-as-current-readiness"]}
+  ],
+  "historicalManifest": {
+    "path": "docs/guards/V3_ifx/stages/post/gates/historical-integrity/manifest.json",
+    "entryCount": 15,
+    "referenceCount": 3,
+    "status": "historical-integrity-only",
+    "entries": [
+      {"path":"mcp/LayerGuard/baselines/b0.5.json","sha256":"9532a494e5a609742fa53158564af675a2f0600005ba2df15c8beda8c1b72a24"},
+      {"path":"mcp/LayerGuard/baselines/b1.json","sha256":"0a539363e34f682ead674ed4cb3972caf9a6275eb84225b97d8a594effbf6b8b"},
+      {"path":"mcp/LayerGuard/baselines/b2.json","sha256":"a59228bd804bbed97cb7103eeb296927f950682ec2ab71385e1aba5cd9954edc"},
+      {"path":"mcp/LayerGuard/baselines/b3.json","sha256":"9e469b96728dbb6e11eb004ba4595469af62123ede1f8069909e843b264124d9"},
+      {"path":"mcp/LayerGuard/baselines/b4.json","sha256":"1e4942886d1f95d6b1ebbfbc76238514ca0931b4fb8ac6962380918af81e72ff"},
+      {"path":"mcp/LayerGuard/baselines/plan05.json","sha256":"0829919257c448c65b3b05e912fed8b116ede50a4beea7657ad2d7c51126029e"},
+      {"path":"mcp/LayerGuard/baselines/plan06.json","sha256":"b1c25f7d632e667dbc247c49bf2ca6c404982104beee5c1c1146e0d49b8db4a7"},
+      {"path":"mcp/LayerGuard/baselines/plan07.json","sha256":"86d78bae23ce9aa9c1208c554ad0ced2b72725e152f23ce2ca0aebbf82a7ab31"},
+      {"path":"docs/architecture/review/evidence/plan00-prerequisite-release-status.json","sha256":"594ca8d6e6bd40e354b2c17bc26900a38fde6064c540bedaca0c48bd3b3c9b5d"},
+      {"path":"docs/architecture/review/evidence/03-a1-layerguard-policy-binding-status.json","sha256":"e839ab2ad496a2eef600f3ba31c15470c9171f060e05eef319e8273dd5b3e2bf"},
+      {"path":"docs/architecture/review/evidence/layerguard/B1-report.json","sha256":"034542bd699977338cc330c55334af3b822c6ac3dd0ff71e73ea2833379cfcd1"},
+      {"path":"docs/architecture/review/evidence/layerguard/B4-report.json","sha256":"d76b9933549973a6a3b9a044e7de8638210f19c55a00a5257cd548eeb0952f20"},
+      {"path":"docs/architecture/review/evidence/layerguard/B4-validation-status.json","sha256":"732125fc76d92bafec2c1e62281bd5720d966b23d195ab875552e929005fc3bd"},
+      {"path":"docs/architecture/review/evidence/plan04/phase0-baseline-status.json","sha256":"f26578d562440ecd295b4471c537fb468135be796d67152be7166212990f85b2"},
+      {"path":"docs/architecture/review/evidence/plan04/phase2-audit-status.json","sha256":"fe1c893cd81cb550c9515592008b80ebf0a3acd29c0edfaf81e2952607742989"}
+    ],
+    "references": [
+      {"source":"docs/architecture/review/evidence/plan00-prerequisite-release-status.json","target":"docs/architecture/review/evidence/plan00-prerequisite-release.md"},
+      {"source":"docs/architecture/review/evidence/layerguard/B4-validation-status.json","target":"docs/architecture/review/evidence/layerguard/B1-report.json"},
+      {"source":"docs/architecture/review/evidence/layerguard/B4-validation-status.json","target":"docs/architecture/review/evidence/layerguard/B4-report.json"}
+    ]
+  },
+  "stageIntegration": {
+    "bootstrap": "published 1.1.3 archive/receipt/Package identity and TargetRoot roots",
+    "analysis": "lock target authorities, source inventories, toolchain and external controlled evidence",
+    "pre": "exact Plan scope and prerequisite readiness; no historical evidence as current waiver",
+    "post": "C1-C4 and C5 blocking modules; direct and dependency Stage paths",
+    "dependencies": ["C1/C2 1.1.3 revalidation", "C4 real/Host candidate checks", "fresh Database lock", "fresh Quality build/test/audit evidence"]
+  },
+  "baselinePolicy": "No blanket import of V3 waivers. Every V4 baseline needs claim-specific owner, authority, expiry or review policy, stale and unused detection, and exact Profile ownership.",
+  "c1Residuals": ["compiled Domain assembly provenance", "MSBuild-evaluated references", "two injection-rule families", "final C1 closure after C5"],
+  "p103Deferred": ["v3-pre-diff", "v3-cross-platform-ubuntu-latest", "v3-cross-platform-windows-latest"]
+}

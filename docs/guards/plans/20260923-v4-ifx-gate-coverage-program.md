@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C4 candidate complete; C5 pending`
+Status: `AUTHORIZED PROGRAM — C4 candidate complete; C5 inventory in progress`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
