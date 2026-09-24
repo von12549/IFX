@@ -214,6 +214,67 @@ $historyInput.relativeRoots=@('mcp','docs')
 $historyResult=Invoke-CapturedAdapter 'ifx-history-integrity/M' 'ifx-history-integrity' (Join-Path $historyModule 'adapter.ps1') $historyFixture $historyInput
 Assert ($historyResult.status-ceq'error'-and$historyResult.exitCategory-ceq'prerequisite-missing'-and@($historyResult.findings).Count-eq0-and$historyResult.coverage[0].matched-eq0) 'History missing fixture failed.'
 
+function New-AuthorityTarget([string]$Name,[string]$ModuleId) {
+    $module=Join-Path $package "modules/$ModuleId"
+    $policyPath=Join-Path $module 'policy.json'
+    $policy=Get-Content -Raw -LiteralPath $policyPath|ConvertFrom-Json -Depth 100
+    $target=New-Target $Name
+    foreach($authority in @($policy.authorities)){
+        $source=Join-Path $repo ([string]$authority.path)
+        Assert ([IO.File]::Exists($source)) "Repository authority missing: $ModuleId/$($authority.id)"
+        $destination=Join-Path $target ([string]$authority.path)
+        [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination))
+        [IO.File]::WriteAllBytes($destination,[IO.File]::ReadAllBytes($source))
+    }
+    [pscustomobject]@{Module=$module;PolicyPath=$policyPath;Policy=$policy;Target=$target}
+}
+function Authority-Hashes($Fixture){
+    @($Fixture.Policy.authorities|ForEach-Object{[ordered]@{id=$_.id;sha256=Hash (Join-Path $Fixture.Target $_.path)}})
+}
+
+$g04Evidence=New-AuthorityTarget 'g04-evidence-violation' 'ifx-g04-closeout'
+$g04Phase8=@($g04Evidence.Policy.authorities|Where-Object id -CEQ 'phase8')[0]
+Write-Utf8 (Join-Path $g04Evidence.Target $g04Phase8.path) ''
+$g04Config=[ordered]@{enabledClaims=@('IFX.C3.G04_EVIDENCE','IFX.C3.G04_DOCUMENTATION','IFX.C3.G04_CLOSEOUT','IFX.C3.G04_INBOUND_CLOSEOUT');policySha256=Hash $g04Evidence.PolicyPath;authorityHashes=Authority-Hashes $g04Evidence}
+$g04Input=New-Input 'post' $g04Evidence.Target $g04Config;$g04Input.relativeRoots=@('docs','deployment')
+$g04Result=Invoke-CapturedAdapter 'ifx-g04-closeout/V/G04-EVIDENCE' 'ifx-g04-closeout' (Join-Path $g04Evidence.Module 'adapter.ps1') $g04Evidence.Target $g04Input
+$g04Rules=@($g04Result.findings|ForEach-Object ruleId|Sort-Object -Unique)
+Assert ($g04Result.status-ceq'fail'-and$g04Result.exitCategory-ceq'findings-blocking'-and($g04Rules-join',')-ceq'G04-EVIDENCE'-and@($g04Result.coverage|Where-Object{$_.claimId-ceq'IFX.C3.G04_EVIDENCE'-and$_.matched-gt0}).Count-eq1) 'G04 evidence violation fixture failed.'
+
+$g05Protocol=New-AuthorityTarget 'g05-protocol-evidence-violation' 'ifx-g05-protocol'
+$g05Phase1=@($g05Protocol.Policy.authorities|Where-Object id -CEQ 'phase1Evidence')[0]
+Write-Utf8 (Join-Path $g05Protocol.Target $g05Phase1.path) ''
+$g05ProtocolConfig=[ordered]@{enabledClaims=@('IFX.C4.G05_PROTOCOL_DEPENDENCIES','IFX.C4.G05_PROTOCOL_SHAPES','IFX.C4.G05_PROTOCOL_EVIDENCE');policySha256=Hash $g05Protocol.PolicyPath;authorityHashes=Authority-Hashes $g05Protocol}
+$g05ProtocolInput=New-Input 'post' $g05Protocol.Target $g05ProtocolConfig;$g05ProtocolInput.relativeRoots=@('src','docs','tests','deployment')
+$g05ProtocolResult=Invoke-CapturedAdapter 'ifx-g05-protocol/V/G05-PROTOCOL-EVIDENCE' 'ifx-g05-protocol' (Join-Path $g05Protocol.Module 'adapter.ps1') $g05Protocol.Target $g05ProtocolInput
+$g05ProtocolRules=@($g05ProtocolResult.findings|ForEach-Object ruleId|Sort-Object -Unique)
+Assert ($g05ProtocolResult.status-ceq'fail'-and$g05ProtocolResult.exitCategory-ceq'findings-blocking'-and($g05ProtocolRules-join',')-ceq'G05-PROTOCOL-EVIDENCE'-and@($g05ProtocolResult.coverage|Where-Object{$_.claimId-ceq'IFX.C4.G05_PROTOCOL_EVIDENCE'-and$_.matched-gt0}).Count-eq1) 'G05 protocol evidence violation fixture failed.'
+
+$g05Governance=New-AuthorityTarget 'g05-governance-zero' 'ifx-g05-governance'
+$handlerRoot=Join-Path $repo ([string]$g05Governance.Policy.transactionHandlersRoot)
+foreach($file in Get-ChildItem -LiteralPath $handlerRoot -File -Filter '*Handler.cs' -Recurse|Sort-Object FullName){
+    $destination=Join-Path $g05Governance.Target ([IO.Path]::GetRelativePath($repo,$file.FullName));[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination));[IO.File]::WriteAllBytes($destination,[IO.File]::ReadAllBytes($file.FullName))
+}
+$catalogAuthority=@($g05Governance.Policy.authorities|Where-Object id -CEQ 'catalog')[0]
+$catalogPath=Join-Path $g05Governance.Target $catalogAuthority.path
+$catalog=Get-Content -Raw -LiteralPath $catalogPath|ConvertFrom-Json -AsHashtable -Depth 100;$catalog.fieldSurfaces=@();Write-Json $catalogPath $catalog
+$handlerLines=@(Get-ChildItem -LiteralPath (Join-Path $g05Governance.Target $g05Governance.Policy.transactionHandlersRoot) -File -Filter '*Handler.cs' -Recurse|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($g05Governance.Target,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})-join"`n"
+$g05GovernanceConfig=[ordered]@{enabledClaims=@('IFX.C4.G05_FIELD_GOVERNANCE','IFX.C4.G05_OBSERVABILITY');policySha256=Hash $g05Governance.PolicyPath;authorityHashes=Authority-Hashes $g05Governance;transactionHandlersSha256=Text-Hash $handlerLines}
+$g05GovernanceInput=New-Input 'post' $g05Governance.Target $g05GovernanceConfig;$g05GovernanceInput.relativeRoots=@('src','docs','tests')
+$g05GovernanceResult=Invoke-CapturedAdapter 'ifx-g05-governance/Z' 'ifx-g05-governance' (Join-Path $g05Governance.Module 'adapter.ps1') $g05Governance.Target $g05GovernanceInput
+Assert ($g05GovernanceResult.status-ceq'fail'-and$g05GovernanceResult.exitCategory-ceq'findings-blocking'-and@($g05GovernanceResult.findings|Where-Object{$_.ruleId-ceq'G05-FIELD-GOVERNANCE'-and$_.subject-ceq'allTargetLegacyAndEnvelopeFieldsAreClassified'}).Count-eq1) 'G05 governance zero fixture failed.'
+
+$g05Closeout=New-AuthorityTarget 'g05-closeout-handoff-zero' 'ifx-g05-closeout'
+$diagramRoot=Join-Path $repo ([string]$g05Closeout.Policy.diagramRoot);$targetDiagramRoot=Join-Path $g05Closeout.Target ([string]$g05Closeout.Policy.diagramRoot);[void][IO.Directory]::CreateDirectory($targetDiagramRoot)
+foreach($file in Get-ChildItem -LiteralPath $diagramRoot -File){[IO.File]::WriteAllBytes((Join-Path $targetDiagramRoot $file.Name),[IO.File]::ReadAllBytes($file.FullName))}
+$handoff=@($g05Closeout.Policy.authorities|Where-Object id -CEQ 'handoff01')[0];Write-Utf8 (Join-Path $g05Closeout.Target $handoff.path) ''
+$diagramLines=@(Get-ChildItem -LiteralPath $targetDiagramRoot -File -Force|Where-Object Extension -in '.mmd','.svg','.png'|Sort-Object Name|ForEach-Object{"$($_.Name)|$(Hash $_.FullName)"})-join"`n"
+$g05CloseoutConfig=[ordered]@{enabledClaims=@('IFX.C4.G05_REPLAY','IFX.C4.G05_DOCUMENTATION','IFX.C4.G05_HANDOFF');policySha256=Hash $g05Closeout.PolicyPath;authorityHashes=Authority-Hashes $g05Closeout;diagramTreeSha256=Text-Hash $diagramLines}
+$g05CloseoutInput=New-Input 'post' $g05Closeout.Target $g05CloseoutConfig;$g05CloseoutInput.relativeRoots=@('docs','tests')
+$g05CloseoutResult=Invoke-CapturedAdapter 'ifx-g05-closeout/V/G05-HANDOFF' 'ifx-g05-closeout' (Join-Path $g05Closeout.Module 'adapter.ps1') $g05Closeout.Target $g05CloseoutInput
+$g05CloseoutRules=@($g05CloseoutResult.findings|ForEach-Object ruleId|Sort-Object -Unique)
+Assert ($g05CloseoutResult.status-ceq'fail'-and$g05CloseoutResult.exitCategory-ceq'findings-blocking'-and($g05CloseoutRules-join',')-ceq'G05-HANDOFF'-and@($g05CloseoutResult.findings|Where-Object subject -CEQ 'fourOwnershipPreservingHandoffsExist').Count-eq1) 'G05 closeout handoff fixture failed.'
+
 function New-ArchitectureFixture([string]$Name,[switch]$Violating) {
     $root=Join-Path $runRoot "architecture/$Name";$source=Join-Path $root 'source';$evidenceRoot=Join-Path $root 'evidence';$assemblies=Join-Path $evidenceRoot 'assemblies';$target=New-Target "architecture-$Name"
     foreach($path in @($source,$assemblies)){[void][IO.Directory]::CreateDirectory($path)}
@@ -259,5 +320,5 @@ $missingResult=Invoke-CapturedAdapter 'architecture-conformance/M' 'architecture
 Assert ($missingResult.status-ceq'error'-and$missingResult.exitCategory-ceq'prerequisite-missing'-and@($missingResult.findings).Count-eq0) 'Architecture missing fixture failed.'
 
 $lines=@(Get-Content -LiteralPath $capture)
-Assert ($lines.Count -eq 15) "Expected fifteen supplemental captures, found $($lines.Count)."
-Write-Output "IFX C6c4 supplemental fixtures passed fifteen Provider, raw-graph, Injection, Source Policy, History and Architecture cases: $capture"
+Assert ($lines.Count -eq 19) "Expected nineteen supplemental captures, found $($lines.Count)."
+Write-Output "IFX C6c4 supplemental fixtures passed nineteen Provider, raw-graph, Injection, Source Policy, History, G04/G05 and Architecture cases: $capture"
