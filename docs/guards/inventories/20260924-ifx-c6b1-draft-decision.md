@@ -44,7 +44,9 @@ certification artifacts. An initial full attempt found that later producer
 builds had rewritten a DLL after the compiled-type lock; the final passing
 run regenerated Solution, generated-input, Assembly and compiled-type locks
 in dependency order, and asserts that lineage. No baseline was added to
-mask this failure. Exact committed Formal Diff remains to be recorded.
+mask this failure. Exact committed Formal Diff passed at
+`artifacts/guards/p10-ifx-c6b1/formal-diff/summary-diff.json`; it matched the
+four declared Plan paths.
 
 C6c Windows and offline Linux certification, independent violation/zero-match
 testing, Xiaolong Feng's exact-byte review, receipted operational composition

@@ -50,4 +50,4 @@ authority byte may be edited.
 - Formal Pre: `artifacts/guards/p10-ifx-c6b1/formal-pre/summary-pre.json` — passed before source edits.
 - Same-source technical draft: `artifacts/guards/p10-ifx-c6b1/draft-runs/fc2a3a528cbd4719b375893a3c2a741c/summary.json` — passed on source commit `05558f8bc6a8a6d1483049f5ebedb3bba216004b`.
 - Isolated package regression: `artifacts/guards/v3-ifx-package-test-ad13c149288749cc9f2d2b0c15839011` — passed.
-- Exact committed Formal Diff: required after the scoped source commit; record its result in the C6b1 decision note. Evidence-lock lifetimes are bounded and must be refreshed for later certification.
+- Exact committed Formal Diff: passed at `artifacts/guards/p10-ifx-c6b1/formal-diff/summary-diff.json`; only the four declared paths changed. Evidence-lock lifetimes are bounded and must be refreshed for later certification.
