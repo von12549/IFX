@@ -1,0 +1,28 @@
+{
+  "formatVersion":1,"id":"ifx-plan04-tenant-c4a2",
+  "policyPath":"docs/architecture/review/policies/plan04/tenant-query-policy.json",
+  "registryPath":"docs/architecture/review/policies/plan04/tenant-query-bypass-registry.json",
+  "sourceRoot":"src","fixtureRoot":"tests/Architecture/Plan04/Fixtures",
+  "endpointPath":"src/Modules/IAM/IFX.Modules.IAM.Presentation/Access/Endpoints/GlobalRoleEndpointExtensions.cs",
+  "tenantOwnedContracts":[
+    {"path":"src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleRepository.cs","patterns":["GetByIdAsync\\(Guid id, Guid tenantId","GetByNameAsync\\(string name, Guid tenantId","GetByIdWithPermissionsAsync\\(Guid id, Guid tenantId"]},
+    {"path":"src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IRoleGroupRepository.cs","patterns":["GetByIdAsync\\(Guid id, Guid tenantId","GetByNameAsync\\(string name, Guid tenantId","GetByIdWithRolesAsync\\(Guid id, Guid tenantId"]},
+    {"path":"src/Modules/IAM/IFX.Modules.IAM.Domain/Tenancy/IDepartmentRepository.cs","patterns":["GetByIdAsync\\(Guid id, Guid tenantId"]},
+    {"path":"src/Modules/IAM/IFX.Modules.IAM.Domain/Access/IPolicyDefinitionRepository.cs","patterns":["GetTenantByIdAsync\\(Guid id, Guid tenantId"]},
+    {"path":"src/Modules/IAM/IFX.Modules.IAM.Domain/Identity/IIdpRepository.cs","patterns":["GetByIdAsync\\(Guid id, Guid tenantId"]},
+    {"path":"src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/IIndividualInvestorProfileRepository.cs","patterns":["GetByInvestorIdAsync\\(Guid investorId, Guid tenantId"]},
+    {"path":"src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/ICorporateInvestorProfileRepository.cs","patterns":["GetByInvestorIdAsync\\(Guid investorId, Guid tenantId"]},
+    {"path":"src/Modules/CRM/IFX.Modules.CRM.Domain/Repositories/ITrustInvestorProfileRepository.cs","patterns":["GetByInvestorIdAsync\\(Guid investorId, Guid tenantId"]},
+    {"path":"src/Modules/Holdings/IFX.Modules.Holdings.Domain/Repositories/IHoldingRepository.cs","patterns":["GetByIdAsync\\(Guid tenantId, Guid holdingId"]},
+    {"path":"src/Modules/Transaction/IFX.Modules.Transaction.Domain/Repositories/IOrderRepository.cs","patterns":["GetByIdAsync\\(Guid tenantId, Guid orderId","GetByIdWithLegsAsync\\(Guid tenantId, Guid orderId"]},
+    {"path":"src/Modules/Transaction/IFX.Modules.Transaction.Domain/Repositories/ITransactionRepository.cs","patterns":["GetByIdAsync\\(Guid tenantId, Guid transactionId"]}
+  ],
+  "fixtureExpectations":[
+    {"name":"tenant-positive-explicit.txt","errors":[]},
+    {"name":"tenant-negative-missing-predicate.txt","errors":["missing-tenant-predicate"]},
+    {"name":"tenant-negative-nullable.txt","errors":["nullable-tenant"]},
+    {"name":"tenant-negative-default.txt","errors":["default-tenant","missing-tenant-guard"]},
+    {"name":"tenant-negative-bypass.txt","errors":["ordinary-bypass"]}
+  ],
+  "checkIds":["policyDefaultsToExplicitPredicate","trustedNonNullableTenantRequired","tenantMethodsGuardedAndPredicated","contractsHaveNoNullableOrDefaultTenant","tenantOwnedContractSignaturesExplicit","noOrdinaryBypassFlags","noIgnoreQueryFilters","bypassRegistryComplete","noUnregisteredCrossTenantRepository","negativeFixturesPass","globalFilterDecisionRecorded","rlsExplicitlyNotClaimed"]
+}
