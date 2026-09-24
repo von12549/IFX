@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260924-v4-ifx-c4p0-g05-inventory",
+  "title": "Implement the 13 G05 Phase 0 inventory checks as an independent V4 candidate",
+  "goal": "Bind a fresh non-vacuous source-location inventory and separate historical G05 findings on published V4 1.1.3.",
+  "acceptanceCriteria": [
+    "All 13 Phase 0 IDs map to explicit blocking predicates and a nonzero Post rule without executing V3 runtime code.",
+    "Clean, violation, stale, missing and zero-subject controls fail closed as appropriate, and TargetRoot/PackageRoot remain invariant.",
+    "Published 1.1.3 Host Post, isolated IFX package regression and exact Formal Pre/Diff pass without production Profile acceptance."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260924-v4-ifx-c4p0-g05-inventory.md",
+    "docs/guards/plans/20260924-v4-ifx-c4p0-g05-inventory.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/tests/Test-IFXG05Inventory.ps1"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}

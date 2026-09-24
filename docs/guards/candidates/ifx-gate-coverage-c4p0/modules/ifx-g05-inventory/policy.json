@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "id": "ifx-g05-inventory-c4p0",
+  "claimId": "IFX.C4.G05_INVENTORY",
+  "ruleId": "G05-INVENTORY",
+  "authorityPaths": [
+    "docs/architecture/review/evidence/gates/G05/G05-context-inventory.json",
+    "docs/architecture/review/evidence/gates/G05/G05-phase0-baseline.md",
+    "docs/architecture/review/evidence/gates/G05/G05-phase0-layerguard-report.json",
+    ".claude/Plans/20260908-g05-context-sensitive-data-boundary.md"
+  ],
+  "checkIds": [
+    "deterministicInventory",
+    "valueFreeInventoryPolicy",
+    "sourceInventoryNonEmpty",
+    "httpAndTenantSurfacesRecorded",
+    "protocolAndEventSurfacesRecorded",
+    "loggingAndErrorSurfacesRecorded",
+    "durableMessagingCapabilitiesRecordedTruthfully",
+    "legacyEventIdentityRecorded",
+    "fourSecurityFindingsOwned",
+    "externalEvidenceGapsOwned",
+    "phase0EvidenceExists",
+    "phase0LayerGuardEvidenceExists",
+    "implementationPlanExists"
+  ]
+}
