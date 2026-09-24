@@ -1,0 +1,1 @@
+{"formatVersion":1,"id":"ifx-solution-evidence-c5b","expectedProjectCount":81,"authorityHashes":{"quality":"e46cef8dbc215f753a052371c3c7bbeb2bdcf3b0deb2e1885aaa1742a1dfd9cd","audit":"bd4a3620ef602320ccf31c99935aa91abd6e7bb7343c8dd169f769bdc470bec8"},"checkIds":["controlledSolutionPassed","nugetDirectTransitiveAudit","nonVacuousSolutionTests","freshLockedSource"]}
