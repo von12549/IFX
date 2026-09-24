@@ -44,4 +44,6 @@ explicit repository NuGet configuration at
 `artifacts/guards/v3-ifx-package-test-f613e63d8e614b3a95734e927191ac3f`.
 The network-restricted first attempts failed on inaccessible user NuGet
 configuration/network and are not counted as rule failures or successful
-regression evidence. Formal Diff: pending committed candidate.
+regression evidence. Formal Diff from `b2007582` to the committed candidate
+passed at `artifacts/guards/p10-ifx-c1c2-113/formal-diff/summary-diff.json`,
+including V3 Stage Gate and the exact four-path Plan scope.
