@@ -16,7 +16,7 @@
     "writeRoots": [],
     "processes": ["pwsh"],
     "network": false,
-    "timeoutSeconds": 30
+    "timeoutSeconds": 180
   },
   "configSchema": "modules/ifx-ownership-graph/config.schema.json",
   "resultSchema": "modules/ifx-ownership-graph/result.schema.json",

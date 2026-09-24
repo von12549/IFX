@@ -16,7 +16,7 @@
     "writeRoots": [],
     "processes": ["pwsh"],
     "network": false,
-    "timeoutSeconds": 30
+    "timeoutSeconds": 180
   },
   "configSchema": "modules/ifx-provider-cycle/config.schema.json",
   "resultSchema": "modules/ifx-provider-cycle/result.schema.json",

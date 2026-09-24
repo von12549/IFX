@@ -7,7 +7,7 @@
   "adapter": { "kind": "powershell", "path": "modules/ifx-reference-cycle/adapter.ps1", "sha256": "56bff522f730fbae5d99d5bfef2eaed9e10241b21675eaa8e13cba4981528a4d" },
   "prerequisites": [{ "runtime": "pwsh", "versionRange": ">=7.4" }],
   "stages": ["pre"],
-  "capabilities": { "readRoots": ["PackageRoot", "TargetRoot"], "writeRoots": [], "processes": ["pwsh"], "network": false, "timeoutSeconds": 30 },
+  "capabilities": { "readRoots": ["PackageRoot", "TargetRoot"], "writeRoots": [], "processes": ["pwsh"], "network": false, "timeoutSeconds": 180 },
   "configSchema": "modules/ifx-reference-cycle/config.schema.json",
   "resultSchema": "modules/ifx-reference-cycle/result.schema.json",
   "dependencyLock": { "path": "modules/ifx-reference-cycle/dependencies.lock.json", "sha256": "b0e65c30995a1c79b0bf37f7962e06c231a5a5f6de85604d91c8755e951352b6" },
