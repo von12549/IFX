@@ -1,0 +1,28 @@
+{
+  "formatVersion":1,"id":"20260924-v4-ifx-c4s-plan05-security",
+  "title":"Implement Plan05 security-boundary checks on V4 1.1.3",
+  "goal":"Cover all 13 Plan05 S6 checks without inferring production approvals.",
+  "acceptanceCriteria":[
+    "All 13 exact IDs have independent V4 predicates and a nonzero blocking Post rule.",
+    "Clean, violation, missing, stale and zero-subject controls pass with immutable roots on real IFX and published 1.1.3 synthetic Host.",
+    "Package regression and Formal Pre/Diff pass without a production security approval claim."
+  ],
+  "plannedPaths":[
+    "docs/guards/plans/20260924-v4-ifx-c4s-plan05-security.md",
+    "docs/guards/plans/20260924-v4-ifx-c4s-plan05-security.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/tests/Test-IFXPlan05Security.ps1"
+  ],
+  "areaIds":["GuardDocs"],"ruleIds":[],"validationCommands":["ifx-package-test"],
+  "decisionPaths":[
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"
+  ]
+}
