@@ -37,5 +37,7 @@ all four fresh evidence-lock files remained unchanged. The result is
 
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-a69086f9508a4f9fbef53693ae0794bf`.
-Exact Formal Diff is pending. C5f is candidate-level integration, not
+Exact Formal Diff passed at
+`artifacts/guards/p10-ifx-c5f/formal-diff/summary-diff.json`.
+C5f is candidate-level integration, not
 a reviewed C6 bundle, G04 closure, P10.2 parity or P10.3 CI transition.

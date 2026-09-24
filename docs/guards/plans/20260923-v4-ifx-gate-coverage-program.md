@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C5 in progress; inventory and History candidate complete`
+Status: `AUTHORIZED PROGRAM — C5 candidate complete; C1 final closure and C6 pending`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -167,6 +167,30 @@ checks, blocking negative/zero controls and exact committed Formal Diff.
 Historical pass is not current readiness or a waiver. Solution, Assembly,
 Frontend Quality, claim-specific Profile baselines and combined Stage
 integration remain open. This is not C5 closure or C6 bundle acceptance.
+
+### 2026-09-24 C5 candidate completion checkpoint
+
+C5b Solution, C5c compiled Domain Assembly and C5d Frontend Quality now
+use controlled fresh V3 build/toolchain reports bound to byte-locked,
+read-only V4 Post candidates. C5h covers all 15 frozen history entries and
+three reference edges without treating historical success as readiness.
+C5e combines Quality, Database and History. C5f then composes all 24
+reviewed C2–C5 Post modules on the published, receipted 1.1.3 base:
+54 unique blocking claims, zero baselines, 1,468 matches, and passing
+direct Post and dependency-enabled Bootstrap → Analysis → Pre → Post on
+the real IFX root. Missing evidence blocks at runtime; an undeclared
+baseline blocks during composition. C1/C2 1.1.3 revalidation is bound
+separately because C1 Pre rule IDs overlap the combined Post Profile.
+The protected Package and evidence-lock bytes remained unchanged.
+
+All C5 component Plans, the combined C5f test, isolated package
+regression and committed Formal Diff passed. C5 candidate coverage is
+complete, but its fresh locks expire after 24 hours and must be
+regenerated for later acceptance. The seven G04 `PRE-READY` blockers
+remain open governance facts. C1 final closure still follows C5;
+the Diff/CI gates and G05 Phase 9 eight checks remain P10.3-deferred.
+No final human-reviewed bundle, production Profile, C6 composition/Web UI
+exercise, P10.2 parity, CI transition or IFX cutover is claimed.
 
 ## This planning checkpoint
 
