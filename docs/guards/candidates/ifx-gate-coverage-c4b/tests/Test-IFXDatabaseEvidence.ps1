@@ -9,12 +9,16 @@ param(
 Set-StrictMode -Version Latest;$ErrorActionPreference='Stop'
 function Assert([bool]$Condition,[string]$Message){if(-not $Condition){throw $Message}}
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+function Hash-Normalized([string]$Path){Hash-Text ([IO.File]::ReadAllText($Path).ReplaceLineEndings("`n"))}
 function Write-Json([string]$Path,$Value){[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path));[IO.File]::WriteAllText($Path,(($Value|ConvertTo-Json -Depth 100).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))}
 function Copy-Relative([string]$From,[string]$To,[string]$Relative){$dst=Join-Path $To $Relative;[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($dst));[IO.File]::WriteAllBytes($dst,[IO.File]::ReadAllBytes((Join-Path $From $Relative)))}
 function Inventory([string]$Root){@(Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"}) -join "`n"}
-function Source-Lines([string]$Root){$files=@(foreach($relative in @('src','tests/IFX.DatabaseBoundary.Tests','tools/IFX.DatabaseInventory','docs/guards/V3_ifx/stages/post/gates/specialized')){$folder=Join-Path $Root $relative;if([IO.Directory]::Exists($folder)){Get-ChildItem -LiteralPath $folder -File -Recurse -Force|Where-Object{$_.Extension -in '.cs','.csproj','.json','.ps1' -and $_.FullName -notmatch '[\\/](bin|obj)[\\/]' }}});return @($files|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})}
+function Is-Excluded([string]$Relative,[string[]]$Names){$segments=$Relative.Replace('\','/').Split('/');foreach($segment in $segments){if($Names -ccontains $segment){return $true}};return $false}
+function Source-Entries([string]$Root,$Contract){$paths=[Collections.Generic.List[string]]::new();$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal);foreach($relativeRoot in $Contract.roots){$folder=Join-Path $Root $relativeRoot;if(-not [IO.Directory]::Exists($folder)){continue};foreach($file in Get-ChildItem -LiteralPath $folder -File -Recurse -Force){$relative=[IO.Path]::GetRelativePath($Root,$file.FullName).Replace('\','/');if($file.Extension.ToLowerInvariant() -notin @($Contract.extensions) -or (Is-Excluded $relative @($Contract.excludedDirectoryNames))){continue};if(-not $seen.Add($relative)){throw "Duplicate Database source input: $relative"};$paths.Add($relative)}};$ordered=$paths.ToArray();[Array]::Sort($ordered,[StringComparer]::Ordinal);return @($ordered|ForEach-Object{[ordered]@{path=$_;sha256=Hash-Normalized (Join-Path $Root $_)}})}
 $candidate=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'));$repo=[IO.Path]::GetFullPath((Join-Path $candidate '../../../..'))
 $module=Join-Path $candidate 'modules/ifx-database-evidence';$adapter=Join-Path $module 'adapter.ps1';$manifestPath=Join-Path $module 'module.json';$policyPath=Join-Path $module 'policy.json'
+$inventoryContractPath=Join-Path $module 'source-inventory.json';$inventoryContract=Get-Content $inventoryContractPath -Raw|ConvertFrom-Json -Depth 20
 $manifest=Get-Content $manifestPath -Raw|ConvertFrom-Json -Depth 50;$policy=Get-Content $policyPath -Raw|ConvertFrom-Json -Depth 50
 Assert (Test-Json -LiteralPath $manifestPath -SchemaFile (Join-Path $BaseInstallRoot 'package/core/contracts/module.schema.json') -ErrorAction Stop) 'Module schema failed.'
 Assert ($manifest.id -ceq 'ifx-database-evidence' -and (@($manifest.capabilities.readRoots)-join '|') -ceq 'PackageRoot|TargetRoot' -and @($manifest.capabilities.writeRoots).Count -eq 0 -and (@($manifest.capabilities.processes)-join '|') -ceq 'pwsh' -and $manifest.capabilities.network -eq $false) 'Read-only module capability drift.'
@@ -50,8 +54,8 @@ function Lock([string]$Target,[string]$RelativePrefix,[string]$Started,[string]$
     $root=Join-Path $Target $RelativePrefix
     $files=@(Get-ChildItem -LiteralPath (Join-Path $root 'specialized') -File -Recurse -Force|Sort-Object FullName|ForEach-Object{[ordered]@{path=[IO.Path]::GetRelativePath($Target,$_.FullName).Replace('\','/');sha256=Hash $_.FullName}})
     $authorities=[ordered]@{};foreach($a in $policy.authorities){$authorities[$a.id]=Hash (Join-Path $Target $a.path)}
-    $sourceLines=@(Source-Lines $Target);$treeHash=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes(($sourceLines -join "`n")))).ToLowerInvariant()
-    $path=Join-Path $root 'evidence-lock.json';Write-Json $path ([ordered]@{formatVersion=1;gate='Database';producer='ifx-c4b-controlled-v1';result='passed';targetCommit=$commit;startedAt=$Started;completedAt=$Completed;evidencePrefix=$RelativePrefix;sourceFileCount=$sourceLines.Count;sourceTreeSha256=$treeHash;authorityHashes=$authorities;files=$files});return $path
+    $sourceFiles=@(Source-Entries $Target $inventoryContract);$sourceLines=@($sourceFiles|ForEach-Object{"$($_.path)|$($_.sha256)"});$treeHash=Hash-Text ($sourceLines -join "`n")
+    $path=Join-Path $root 'evidence-lock.json';Write-Json $path ([ordered]@{formatVersion=1;gate='Database';producer='ifx-c4b-controlled-v2';result='passed';targetCommit=$commit;startedAt=$Started;completedAt=$Completed;evidencePrefix=$RelativePrefix;sourceInventoryId=$inventoryContract.id;sourceInventorySha256=Hash $inventoryContractPath;sourceFileCount=$sourceLines.Count;sourceTreeSha256=$treeHash;sourceFiles=$sourceFiles;authorityHashes=$authorities;files=$files});return $path
 }
 $now=[DateTimeOffset]::UtcNow;$lock=Lock $target $prefix $now.AddMinutes(-5).ToString('o') $now.ToString('o')
 function Config([string]$Root,[string]$LockPath){[ordered]@{enabledClaims=@('IFX.C4.DATABASE_EVIDENCE');policySha256=Hash $policyPath;authorityHashes=@($policy.authorities|ForEach-Object{[ordered]@{id=$_.id;sha256=Hash (Join-Path $Root $_.path)}});evidenceLockPath=[IO.Path]::GetRelativePath($Root,$LockPath).Replace('\','/');evidenceLockSha256=Hash $LockPath}}
@@ -63,6 +67,27 @@ Assert ($clean.status -ceq 'pass' -and $clean.coverage[0].matched -eq 9 -and (In
 Assert (Test-Json -Json ($clean|ConvertTo-Json -Depth 50 -Compress) -SchemaFile (Join-Path $module 'result.schema.json') -ErrorAction Stop) 'Result schema failed.'
 $repeat=Invoke-Adapter $target $config;Assert (($repeat|ConvertTo-Json -Depth 50 -Compress) -ceq ($clean|ConvertTo-Json -Depth 50 -Compress)) 'Nondeterministic result.'
 $cases=[Collections.Generic.List[object]]::new();$cases.Add([ordered]@{id='clean-synthetic';status=$clean.status})
+$sourceProjectionBefore=@(Source-Entries $target $inventoryContract)|ConvertTo-Json -Depth 10 -Compress
+foreach($ignored in @('src/Frontend/IFX.FrontEnd/node_modules/example/package.json','src/Frontend/IFX.FrontEnd/node_modules/.bin/example.ps1','src/Frontend/IFX.FrontEnd/node_modules/.vite/example/results.json')){Write-Json (Join-Path $target $ignored) ([ordered]@{ignored=$true})}
+$ignoredResult=Invoke-Adapter $target $config
+Assert ($ignoredResult.status -ceq 'pass' -and ((@(Source-Entries $target $inventoryContract)|ConvertTo-Json -Depth 10 -Compress) -ceq $sourceProjectionBefore)) 'Excluded dependency/cache bytes changed the Database inventory.'
+$cases.Add([ordered]@{id='ignored-dependency-cache';status=$ignoredResult.status})
+$selectedUnexpected=Join-Path $target 'src/DatabaseMigrator/IFX.DatabaseMigrator/untracked-selected.json';Write-Json $selectedUnexpected ([ordered]@{unexpected=$true})
+$unexpectedResult=Invoke-Adapter $target $config
+Assert ($unexpectedResult.status -ceq 'error' -and $unexpectedResult.exitCategory -ceq 'integrity-failure') 'Untracked selected input did not block.'
+[IO.File]::Delete($selectedUnexpected);$cases.Add([ordered]@{id='untracked-selected-input';status=$unexpectedResult.status})
+$originalLockBytes=[IO.File]::ReadAllBytes($lock)
+function Invoke-LockMutation([string]$Id,[scriptblock]$Mutate){
+    try{$value=Get-Content $lock -Raw|ConvertFrom-Json -AsHashtable -Depth 100;& $Mutate $value;Write-Json $lock $value;$result=Invoke-Adapter $target (Config $target $lock);Assert ($result.status -ceq 'error' -and $result.exitCategory -ceq 'integrity-failure') "$Id lock mutation did not block.";return $result}finally{[IO.File]::WriteAllBytes($lock,$originalLockBytes)}
+}
+$oldProducer=Invoke-LockMutation 'old-producer' {param($v)$v.producer='ifx-c4b-controlled-v1'};$cases.Add([ordered]@{id='old-producer';status=$oldProducer.status})
+$wrongContract=Invoke-LockMutation 'wrong-contract' {param($v)$v.sourceInventorySha256='0'*64};$cases.Add([ordered]@{id='wrong-inventory-contract';status=$wrongContract.status})
+$reordered=Invoke-LockMutation 'reordered-source-files' {param($v)$copy=@($v.sourceFiles);[Array]::Reverse($copy);$v.sourceFiles=$copy};$cases.Add([ordered]@{id='reordered-source-files';status=$reordered.status})
+$duplicate=Invoke-LockMutation 'duplicate-source-file' {param($v)$v.sourceFiles=@($v.sourceFiles)+@($v.sourceFiles[0])};$cases.Add([ordered]@{id='duplicate-source-file';status=$duplicate.status})
+$wrongSourceHash=Invoke-LockMutation 'wrong-source-hash' {param($v)$v.sourceFiles[0].sha256='0'*64};$cases.Add([ordered]@{id='wrong-source-hash';status=$wrongSourceHash.status})
+$selectedSource=Join-Path $target $inventory.modules[0].migrations[0].Source;$selectedSourceBytes=[IO.File]::ReadAllBytes($selectedSource)
+try{[IO.File]::Delete($selectedSource);$missingSelected=Invoke-Adapter $target $config;Assert ($missingSelected.status -ceq 'error' -and $missingSelected.exitCategory -ceq 'integrity-failure') 'Missing selected source did not block.'}finally{[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($selectedSource));[IO.File]::WriteAllBytes($selectedSource,$selectedSourceBytes)}
+$cases.Add([ordered]@{id='missing-selected-source';status=$missingSelected.status})
 $summaryPath=Join-Path $evidence 'specialized/database/verification-summary.json';$summary=Get-Content $summaryPath -Raw|ConvertFrom-Json -AsHashtable;$summary.checks.sqlServerMatrix=$false;Write-Json $summaryPath $summary
 $badLock=Lock $target $prefix $now.AddMinutes(-5).ToString('o') $now.ToString('o');$bad=Invoke-Adapter $target (Config $target $badLock)
 Assert ($bad.status -ceq 'fail' -and @($bad.findings.subject) -contains 'sqlServerMatrixPassed') 'False SQL matrix did not block.';$cases.Add([ordered]@{id='false-sql-matrix';status=$bad.status})
@@ -101,7 +126,7 @@ Write-Json $profilePath ([ordered]@{formatVersion=1;id=$profileId;version='0.1.0
 $bundleFiles=@(Get-ChildItem -LiteralPath $bundlePackage -File -Recurse|Sort-Object FullName|ForEach-Object{[ordered]@{path=[IO.Path]::GetRelativePath($bundlePackage,$_.FullName).Replace('\','/');sha256=Hash $_.FullName;size=$_.Length}})
 $ceiling=[ordered]@{readRoots=@('PackageRoot','TargetRoot');writeRoots=@();processes=@('pwsh');network=$false;maxTimeoutSeconds=60}
 $bundleManifest=Join-Path $bundle 'bundle-manifest.json'
-Write-Json $bundleManifest ([ordered]@{formatVersion=1;id='ifx-c4b-synthetic-extension';version='0.1.0';compatibleApi='1.x';baseVersion='1.1.3';profiles=@([ordered]@{id=$profileId;version='0.1.0';path="profiles/catalog/$profileId/profile.json";sha256=Hash $profilePath});modules=@([ordered]@{id='ifx-database-evidence';version='0.1.0';manifestPath='modules/ifx-database-evidence/module.json';manifestSha256=Hash (Join-Path $bundleModule 'module.json');allowedCapabilities=$ceiling});files=$bundleFiles})
+Write-Json $bundleManifest ([ordered]@{formatVersion=1;id='ifx-c4b-synthetic-extension';version='0.1.0';compatibleApi='1.x';baseVersion='1.1.3';profiles=@([ordered]@{id=$profileId;version='0.1.0';path="profiles/catalog/$profileId/profile.json";sha256=Hash $profilePath});modules=@([ordered]@{id='ifx-database-evidence';version=$manifest.version;manifestPath='modules/ifx-database-evidence/module.json';manifestSha256=Hash (Join-Path $bundleModule 'module.json');allowedCapabilities=$ceiling});files=$bundleFiles})
 $review=Join-Path $run 'synthetic-review.json'
 Write-Json $review ([ordered]@{formatVersion=1;id='20260924-ifx-c4b-synthetic-fixture';scope='synthetic-test-only';decision='accepted';acceptedBy=[ordered]@{authorityType='test-fixture';authorityId='ifx-c4b-synthetic-fixture';candidateHostVerdictAllowed=$false};bundleManifestSha256=Hash $bundleManifest;baseArchiveSha256=Hash $archive;moduleCeilings=@([ordered]@{moduleId='ifx-database-evidence';allowedCapabilities=$ceiling})})
 $composed=Join-Path $run 'composed';$receipt=Join-Path $run 'composition.receipt.json';$state=Join-Path $run 'compose-state';$hostEvidence=Join-Path $run 'compose-evidence';[void][IO.Directory]::CreateDirectory($state);[void][IO.Directory]::CreateDirectory($hostEvidence)
