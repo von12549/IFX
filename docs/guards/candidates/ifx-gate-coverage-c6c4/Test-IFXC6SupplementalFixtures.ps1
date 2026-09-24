@@ -31,12 +31,13 @@ function New-Target([string]$Name) {
     Write-Utf8 (Join-Path $target 'fixture.txt') "$Name`n"
     return $target
 }
-function Invoke-CapturedAdapter([string]$CaseId,[string]$ModuleId,[string]$AdapterPath,[string]$FixtureRoot,$Payload) {
+function Invoke-CapturedAdapter([string]$CaseId,[string]$ModuleId,[string]$AdapterPath,[string]$FixtureRoot,$Payload,[string]$InvariantRoot='') {
     $expectedAdapter = Join-Path $package "modules/$ModuleId/adapter.ps1"
     Assert ([IO.File]::Exists($expectedAdapter) -and [IO.File]::Exists($AdapterPath)) "Adapter missing: $CaseId"
     Assert ((Hash $AdapterPath) -ceq (Hash $expectedAdapter)) "Adapter bytes are not the frozen composed bytes: $CaseId"
     $target = [IO.Path]::GetFullPath([string]$Payload.targetRoot)
-    $before = Fingerprint $target
+    $invariant = if($InvariantRoot){[IO.Path]::GetFullPath($InvariantRoot)}else{$target}
+    $before = Fingerprint $invariant
     $input = ($Payload | ConvertTo-Json -Depth 100 -Compress).Replace("`r`n","`n")
     $previous = $env:V4_STAGE_INPUT_JSON
     try {
@@ -44,7 +45,7 @@ function Invoke-CapturedAdapter([string]$CaseId,[string]$ModuleId,[string]$Adapt
         $output = @(& $realPwsh -NoLogo -NoProfile -NonInteractive -File $AdapterPath 2>&1)
         $code = $LASTEXITCODE
     } finally { $env:V4_STAGE_INPUT_JSON = $previous }
-    $after = Fingerprint $target
+    $after = Fingerprint $invariant
     $raw = $output -join "`n"
     Assert ($code -eq 0) "Adapter process failed: $CaseId / $raw"
     try { $result = $raw | ConvertFrom-Json -Depth 100 } catch { throw "Adapter result is not JSON: $CaseId / $raw" }
@@ -275,6 +276,78 @@ $g05CloseoutResult=Invoke-CapturedAdapter 'ifx-g05-closeout/V/G05-HANDOFF' 'ifx-
 $g05CloseoutRules=@($g05CloseoutResult.findings|ForEach-Object ruleId|Sort-Object -Unique)
 Assert ($g05CloseoutResult.status-ceq'fail'-and$g05CloseoutResult.exitCategory-ceq'findings-blocking'-and($g05CloseoutRules-join',')-ceq'G05-HANDOFF'-and@($g05CloseoutResult.findings|Where-Object subject -CEQ 'fourOwnershipPreservingHandoffsExist').Count-eq1) 'G05 closeout handoff fixture failed.'
 
+# The final profile binds all C5/C1 evidence locks. Copy those immutable runs into one isolated
+# target, refresh only their temporal/run-path fields, and let the frozen adapters revalidate the
+# full source, file-hash and lineage chain.
+$lineagePath=Join-Path $package 'profiles/catalog/ifx_profile/evidence-lineage.json'
+Assert ([IO.File]::Exists($lineagePath)) 'Final profile evidence lineage is missing.'
+$lineage=Get-Content -Raw -LiteralPath $lineagePath|ConvertFrom-Json -Depth 100
+function Lineage-Path([string]$Id){
+    $row=@($lineage.locks|Where-Object id -CEQ $Id);Assert ($row.Count-eq1) "Lineage lock missing: $Id"
+    $path=Join-Path $repo ([string]$row[0].path);Assert ([IO.File]::Exists($path)) "Lineage file missing: $Id"
+    [string]$row[0].path
+}
+function Copy-TargetFile([string]$Source,[string]$Relative){
+    $destination=Join-Path $lineageTarget $Relative;[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination));[IO.File]::WriteAllBytes($destination,[IO.File]::ReadAllBytes($Source))
+}
+function Copy-LineageRun([string]$SourceLockRelative,[string]$DestinationLockRelative){
+    $sourceDirectory=[IO.Path]::GetDirectoryName((Join-Path $repo $SourceLockRelative));$destinationDirectory=[IO.Path]::GetDirectoryName((Join-Path $lineageTarget $DestinationLockRelative))
+    [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destinationDirectory));Copy-Item -LiteralPath $sourceDirectory -Destination $destinationDirectory -Recurse
+}
+function Rebase-LockFiles($Lock,[string]$OldPrefix,[string]$NewPrefix){
+    foreach($entry in @($Lock.files)){if(([string]$entry.path).StartsWith($OldPrefix,[StringComparison]::Ordinal)){$entry.path=$NewPrefix+([string]$entry.path).Substring($OldPrefix.Length)}}
+}
+
+$lineageTarget=New-Target 'lineage-evidence'
+foreach($relativeRoot in @('src','tests','tools')){
+    foreach($file in Get-ChildItem -LiteralPath (Join-Path $repo $relativeRoot) -File -Recurse -Force|Where-Object{$_.Extension -in '.cs','.csproj','.props','.targets' -and $_.FullName -notmatch '[\\/](bin|obj|node_modules|dist)[\\/]'}|Sort-Object FullName){Copy-TargetFile $file.FullName ([IO.Path]::GetRelativePath($repo,$file.FullName))}
+}
+foreach($file in Get-ChildItem -LiteralPath (Join-Path $repo 'src/Frontend/IFX.FrontEnd') -File -Recurse -Force|Where-Object{$_.Extension -in '.ts','.tsx','.js','.json','.html','.css','.svg','.mjs','.cjs' -and $_.FullName -notmatch '[\\/](node_modules|dist|coverage|\.vite)[\\/]'}|Sort-Object FullName){Copy-TargetFile $file.FullName ([IO.Path]::GetRelativePath($repo,$file.FullName))}
+foreach($relative in @('IFX.sln','Directory.Build.props','Directory.Packages.props','docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json','docs/guards/V3_ifx/stages/post/policy/layerguard.json','docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json','docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json')){Copy-TargetFile (Join-Path $repo $relative) $relative}
+
+$seedSolutionRelative=Lineage-Path 'solution';$seedAssemblyRelative=Lineage-Path 'assembly';$seedFrontendRelative=Lineage-Path 'frontend';$seedTypeRelative=Lineage-Path 'type';$seedGraphRelative=Lineage-Path 'graph'
+$seedAssembly=Get-Content -Raw -LiteralPath (Join-Path $repo $seedAssemblyRelative)|ConvertFrom-Json -Depth 100
+$seedType=Get-Content -Raw -LiteralPath (Join-Path $repo $seedTypeRelative)|ConvertFrom-Json -Depth 100
+foreach($relative in @($seedAssembly.assemblies.path)+@($seedType.assemblies.sourcePath)|Sort-Object -Unique){Copy-TargetFile (Join-Path $repo $relative) $relative}
+$now=[DateTimeOffset]::UtcNow
+
+$solutionId=[Guid]::NewGuid().ToString('N');$solutionRelative="artifacts/guards/p10-ifx-c5b/solution-runs/$solutionId/evidence-lock.json";Copy-LineageRun $seedSolutionRelative $solutionRelative
+$solutionLock=Get-Content -Raw -LiteralPath (Join-Path $lineageTarget $solutionRelative)|ConvertFrom-Json -Depth 100;$oldSolutionPrefix=[string]$solutionLock.evidencePrefix;$solutionPrefix="artifacts/guards/p10-ifx-c5b/solution-runs/$solutionId/";$solutionLock.evidencePrefix=$solutionPrefix;Rebase-LockFiles $solutionLock $oldSolutionPrefix $solutionPrefix;$solutionLock.startedAt=$now.AddMinutes(-10).ToString('o');$solutionLock.completedAt=$now.AddMinutes(-9).ToString('o');Write-Json (Join-Path $lineageTarget $solutionRelative) $solutionLock
+
+$assemblyId=[Guid]::NewGuid().ToString('N');$assemblyRelative="artifacts/guards/p10-ifx-c5c/assembly-runs/$assemblyId/evidence-lock.json";Copy-LineageRun $seedAssemblyRelative $assemblyRelative
+$assemblyLock=Get-Content -Raw -LiteralPath (Join-Path $lineageTarget $assemblyRelative)|ConvertFrom-Json -Depth 100;$oldAssemblyPrefix=[string]$assemblyLock.evidencePrefix;$assemblyPrefix="artifacts/guards/p10-ifx-c5c/assembly-runs/$assemblyId/";$assemblyLock.evidencePrefix=$assemblyPrefix;$assemblyLock.solutionLockPath=$solutionRelative;$assemblyLock.solutionLockSha256=Hash (Join-Path $lineageTarget $solutionRelative);$assemblyLock.startedAt=$now.AddMinutes(-8).ToString('o');$assemblyLock.completedAt=$now.AddMinutes(-7).ToString('o');Write-Json (Join-Path $lineageTarget $assemblyRelative) $assemblyLock
+
+$typeId=[Guid]::NewGuid().ToString('N');$typeRelative="artifacts/guards/p10-ifx-c1-r1b/type-runs/$typeId/evidence-lock.json";Copy-LineageRun $seedTypeRelative $typeRelative
+$typeLock=Get-Content -Raw -LiteralPath (Join-Path $lineageTarget $typeRelative)|ConvertFrom-Json -Depth 100;$oldTypePrefix=([string]$typeLock.manifestPath).Substring(0,([string]$typeLock.manifestPath).Length-'assembly-manifest.json'.Length);$typePrefix="artifacts/guards/p10-ifx-c1-r1b/type-runs/$typeId/";$typeLock.createdAt=$now.AddMinutes(-5).ToString('o');$typeLock.expiresAt=$now.AddMinutes(55).ToString('o');$typeLock.solutionLockPath=$solutionRelative;$typeLock.solutionLockSha256=Hash (Join-Path $lineageTarget $solutionRelative);$typeLock.assemblyLockPath=$assemblyRelative;$typeLock.assemblyLockSha256=Hash (Join-Path $lineageTarget $assemblyRelative);$typeLock.manifestPath=$typePrefix+'assembly-manifest.json';foreach($row in @($typeLock.assemblies)){$row.copiedPath=$typePrefix+([string]$row.copiedPath).Substring($oldTypePrefix.Length)};Write-Json (Join-Path $lineageTarget $typeRelative) $typeLock
+$typeExternal=Join-Path $runRoot 'lineage-type-external';[void][IO.Directory]::CreateDirectory($typeExternal);Copy-Item -LiteralPath (Join-Path $lineageTarget $typePrefix 'assembly-manifest.json') -Destination (Join-Path $typeExternal 'assembly-manifest.json');Copy-Item -LiteralPath (Join-Path $lineageTarget $typePrefix 'assemblies') -Destination (Join-Path $typeExternal 'assemblies') -Recurse
+$typeModule=Join-Path $package 'modules/ifx-c1-type-provenance';$typeConfig=[ordered]@{enabledClaims=@('IFX.C1.COMPILED_TYPE_PROVENANCE');policySha256=Hash (Join-Path $typeModule 'policy.json');evidenceLockPath=$typeRelative;evidenceLockSha256=Hash (Join-Path $lineageTarget $typeRelative)}
+$typeInput=New-Input 'post' $lineageTarget $typeConfig $typeExternal;$typeResult=Invoke-CapturedAdapter 'ifx-c1-type-provenance/C' 'ifx-c1-type-provenance' (Join-Path $typeModule 'adapter.ps1') $lineageTarget $typeInput
+Assert ($typeResult.status-ceq'pass'-and$typeResult.exitCategory-ceq'success'-and$typeResult.coverage[0].matched-eq7-and@($typeResult.findings).Count-eq0) 'Type provenance clean fixture failed.'
+$typeMissingConfig=$typeConfig|ConvertTo-Json -Depth 20|ConvertFrom-Json -AsHashtable -Depth 20;$typeMissingConfig.evidenceLockPath='artifacts/guards/p10-ifx-c1-r1b/type-runs/'+('0'*32)+'/evidence-lock.json';$typeMissingInput=New-Input 'post' $lineageTarget $typeMissingConfig $typeExternal
+$typeMissing=Invoke-CapturedAdapter 'ifx-c1-type-provenance/M' 'ifx-c1-type-provenance' (Join-Path $typeModule 'adapter.ps1') $lineageTarget $typeMissingInput
+Assert ($typeMissing.status-ceq'error'-and$typeMissing.exitCategory-ceq'prerequisite-missing'-and@($typeMissing.findings).Count-eq0) 'Type provenance missing fixture failed.'
+$typeIntegrityConfig=$typeConfig|ConvertTo-Json -Depth 20|ConvertFrom-Json -AsHashtable -Depth 20;$typeIntegrityConfig.evidenceLockSha256='0'*64;$typeIntegrityInput=New-Input 'post' $lineageTarget $typeIntegrityConfig $typeExternal
+$typeIntegrity=Invoke-CapturedAdapter 'ifx-c1-type-provenance/Z' 'ifx-c1-type-provenance' (Join-Path $typeModule 'adapter.ps1') $lineageTarget $typeIntegrityInput
+Assert ($typeIntegrity.status-ceq'error'-and$typeIntegrity.exitCategory-ceq'integrity-failure'-and$typeIntegrity.coverage[0].matched-eq0-and@($typeIntegrity.findings).Count-eq0) 'Type provenance integrity-zero fixture failed.'
+
+$graphId=[Guid]::NewGuid().ToString('N');$graphRelative="artifacts/guards/p10-ifx-c1-r2b/evaluation-runs/$graphId/evidence-lock.json";$graphSourceDirectory=[IO.Path]::GetDirectoryName((Join-Path $repo $seedGraphRelative));$graphDirectory=[IO.Path]::GetDirectoryName((Join-Path $repo $graphRelative));Copy-Item -LiteralPath $graphSourceDirectory -Destination $graphDirectory -Recurse
+$graphLock=Get-Content -Raw -LiteralPath (Join-Path $repo $graphRelative)|ConvertFrom-Json -Depth 100;$graphLock.targetCommit=(& git -C $repo rev-parse HEAD).Trim().ToLowerInvariant();Assert ($LASTEXITCODE-eq0-and$graphLock.targetCommit-cmatch'^[a-f0-9]{40}$') 'Graph target commit unavailable.';$graphLock.createdAt=$now.AddMinutes(-5).ToString('o');$graphLock.expiresAt=$now.AddMinutes(55).ToString('o');Write-Json (Join-Path $repo $graphRelative) $graphLock
+$graphModule=Join-Path $package 'modules/ifx-c1-evaluated-reference';$graphConfig=[ordered]@{enabledClaims=@('IFX.C1.EVALUATED_REFERENCE_GRAPH');policySha256=Hash (Join-Path $graphModule 'policy.json');evidenceLockPath=$graphRelative;evidenceLockSha256=Hash (Join-Path $repo $graphRelative)}
+$graphInvariant=Join-Path $repo ([IO.Path]::GetDirectoryName($graphRelative));$graphInput=New-Input 'post' $repo $graphConfig;$graphResult=Invoke-CapturedAdapter 'ifx-c1-evaluated-reference/C' 'ifx-c1-evaluated-reference' (Join-Path $graphModule 'adapter.ps1') $graphInvariant $graphInput $graphInvariant
+Assert ($graphResult.status-ceq'pass'-and$graphResult.exitCategory-ceq'success'-and$graphResult.coverage[0].matched-gt0-and@($graphResult.findings).Count-eq0) 'Evaluated reference clean fixture failed.'
+
+$assemblyZeroId=[Guid]::NewGuid().ToString('N');$assemblyZeroRelative="artifacts/guards/p10-ifx-c5c/assembly-runs/$assemblyZeroId/evidence-lock.json";$assemblyCleanDirectory=[IO.Path]::GetDirectoryName((Join-Path $lineageTarget $assemblyRelative));$assemblyZeroDirectory=[IO.Path]::GetDirectoryName((Join-Path $lineageTarget $assemblyZeroRelative));Copy-Item -LiteralPath $assemblyCleanDirectory -Destination $assemblyZeroDirectory -Recurse
+$assemblyZero=Get-Content -Raw -LiteralPath (Join-Path $lineageTarget $assemblyZeroRelative)|ConvertFrom-Json -Depth 100;$assemblyZeroPrefix="artifacts/guards/p10-ifx-c5c/assembly-runs/$assemblyZeroId/";$assemblyZero.evidencePrefix=$assemblyZeroPrefix;$assemblyReportPath=Join-Path $lineageTarget $assemblyZeroPrefix 'quality/assembly.json';$assemblyReport=Get-Content -Raw -LiteralPath $assemblyReportPath|ConvertFrom-Json -AsHashtable -Depth 100;$assemblyReport.status='fail';Write-Json $assemblyReportPath $assemblyReport;$assemblyZero.reportSha256=Hash $assemblyReportPath;Write-Json (Join-Path $lineageTarget $assemblyZeroRelative) $assemblyZero
+$assemblyModule=Join-Path $package 'modules/ifx-assembly-evidence';$assemblyConfig=[ordered]@{enabledClaims=@('IFX.C5.ASSEMBLY_QUALITY');policySha256=Hash (Join-Path $assemblyModule 'policy.json');evidenceLockPath=$assemblyZeroRelative;evidenceLockSha256=Hash (Join-Path $lineageTarget $assemblyZeroRelative)}
+$assemblyInput=New-Input 'post' $lineageTarget $assemblyConfig;$assemblyInput.relativeRoots=@('src','tests','tools','artifacts');$assemblyResult=Invoke-CapturedAdapter 'ifx-assembly-evidence/Z' 'ifx-assembly-evidence' (Join-Path $assemblyModule 'adapter.ps1') $lineageTarget $assemblyInput
+Assert ($assemblyResult.status-ceq'fail'-and$assemblyResult.exitCategory-ceq'findings-blocking'-and@($assemblyResult.findings|Where-Object{$_.subject-ceq'controlledAssemblyReport'-and$_.evidenceKind-ceq'assembly-report'}).Count-eq1) 'Assembly checklist zero fixture failed.'
+
+$frontendId=[Guid]::NewGuid().ToString('N');$frontendRelative="artifacts/guards/p10-ifx-c5d/frontend-runs/$frontendId/evidence-lock.json";Copy-LineageRun $seedFrontendRelative $frontendRelative
+$frontendLock=Get-Content -Raw -LiteralPath (Join-Path $lineageTarget $frontendRelative)|ConvertFrom-Json -Depth 100;$oldFrontendPrefix=[string]$frontendLock.evidencePrefix;$frontendPrefix="artifacts/guards/p10-ifx-c5d/frontend-runs/$frontendId/";$frontendLock.evidencePrefix=$frontendPrefix;Rebase-LockFiles $frontendLock $oldFrontendPrefix $frontendPrefix;$frontendLock.startedAt=$now.AddMinutes(-5).ToString('o');$frontendLock.completedAt=$now.AddMinutes(-4).ToString('o');$frontendLog=Join-Path $lineageTarget $frontendPrefix 'frontend-run.log';$frontendText=[IO.File]::ReadAllText($frontendLog).Replace('built in','compiled after');Write-Utf8 $frontendLog $frontendText;@($frontendLock.files|Where-Object path -CEQ ($frontendPrefix+'frontend-run.log'))[0].sha256=Hash $frontendLog;Write-Json (Join-Path $lineageTarget $frontendRelative) $frontendLock
+$frontendModule=Join-Path $package 'modules/ifx-frontend-evidence';$frontendConfig=[ordered]@{enabledClaims=@('IFX.C5.FRONTEND_QUALITY');policySha256=Hash (Join-Path $frontendModule 'policy.json');evidenceLockPath=$frontendRelative;evidenceLockSha256=Hash (Join-Path $lineageTarget $frontendRelative)}
+$frontendInput=New-Input 'post' $lineageTarget $frontendConfig;$frontendInput.relativeRoots=@('src','artifacts');$frontendResult=Invoke-CapturedAdapter 'ifx-frontend-evidence/Z' 'ifx-frontend-evidence' (Join-Path $frontendModule 'adapter.ps1') $lineageTarget $frontendInput
+Assert ($frontendResult.status-ceq'fail'-and$frontendResult.exitCategory-ceq'findings-blocking'-and@($frontendResult.findings|Where-Object{$_.subject-ceq'nonVacuousTestsAndBuild'-and$_.evidenceKind-ceq'frontend-run-log'}).Count-eq1) 'Frontend checklist zero fixture failed.'
+
 function New-ArchitectureFixture([string]$Name,[switch]$Violating) {
     $root=Join-Path $runRoot "architecture/$Name";$source=Join-Path $root 'source';$evidenceRoot=Join-Path $root 'evidence';$assemblies=Join-Path $evidenceRoot 'assemblies';$target=New-Target "architecture-$Name"
     foreach($path in @($source,$assemblies)){[void][IO.Directory]::CreateDirectory($path)}
@@ -320,5 +393,5 @@ $missingResult=Invoke-CapturedAdapter 'architecture-conformance/M' 'architecture
 Assert ($missingResult.status-ceq'error'-and$missingResult.exitCategory-ceq'prerequisite-missing'-and@($missingResult.findings).Count-eq0) 'Architecture missing fixture failed.'
 
 $lines=@(Get-Content -LiteralPath $capture)
-Assert ($lines.Count -eq 19) "Expected nineteen supplemental captures, found $($lines.Count)."
-Write-Output "IFX C6c4 supplemental fixtures passed nineteen Provider, raw-graph, Injection, Source Policy, History, G04/G05 and Architecture cases: $capture"
+Assert ($lines.Count -eq 25) "Expected twenty-five supplemental captures, found $($lines.Count)."
+Write-Output "IFX C6c4 supplemental fixtures passed twenty-five Provider, raw-graph, Injection, Source Policy, History, G04/G05, locked-lineage and Architecture cases: $capture"
