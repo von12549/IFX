@@ -24,5 +24,5 @@ stale-authority, deterministic-repeat and immutable-root controls at
 `artifacts/guards/p10-ifx-c4a3/test-runs/1e918e8f9b7f4a52b3363086d88b447e/summary.json`.
 The isolated package regression passed at
 `artifacts/guards/v3-ifx-package-test-0fc3328cc3b64215b2a39076bcc12504`.
-Formal Diff is pending a committed candidate. No reporting
+Exact Formal Diff passed at `artifacts/guards/p10-ifx-c4a3/formal-diff/summary-diff.json`. No reporting
 product or production projection is approved by this candidate.

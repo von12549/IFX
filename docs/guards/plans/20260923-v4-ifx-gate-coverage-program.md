@@ -125,6 +125,22 @@ corpus for independent V3/V4 parity; this program cannot self-declare parity.
 Workflow/ruleset activation, V3 retirement, IFX cutover and any destructive
 uninstall remain outside this authorization.
 
+### 2026-09-24 C4 pre-Database checkpoint (supersedes the earlier C4 status above)
+
+On the published V4 1.1.3 base, C4 G05 now has candidate-level coverage
+for all 112 active context IDs. The eight Phase 9 IDs remain required but
+are explicitly deferred to P10.3; V4 runtime does not import V3 validation
+scripts or workflows. Plan05 security has 13 of 13 candidate checks, and
+Plan04 has 45 of 45 across extraction, tenant-query, projection and legacy
+Abstractions retirement. Each tranche has a direct real IFX check, published
+Host synthetic Post controls, isolated package regression, Formal Pre and
+exact committed Formal Diff. See the child Plans for evidence and limitations.
+
+C4b Database remains open pending the human choice between V4 Post read-only
+verification of separately generated locked evidence and V4 Host-owned
+isolated `dotnet`/EF execution. No Database operation, production Profile,
+G05 closure, C5 integration, final bundle or P10.2 parity is claimed.
+
 ## This planning checkpoint
 
 Only this Plan pair is changed. Formal Pre and exact Diff must accept the two

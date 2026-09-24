@@ -35,5 +35,5 @@ zero-diagram, missing, stale, deterministic-repeat and immutable-root
 controls at `artifacts/guards/p10-ifx-c4p8p11/test-runs/1ce869bca09e42778941b146c3ef4a8a/summary.json`.
 The isolated package regression passed at
 `artifacts/guards/v3-ifx-package-test-c3b6b03cd8ca40859e43f90d3bd64a15`.
-Candidate Formal Diff is pending a committed candidate.
+Candidate exact Formal Diff passed at `artifacts/guards/p10-ifx-c4p8p11/formal-diff-candidate/summary-diff.json`.
 Neither G05 closure nor fresh solution tests are inferred.

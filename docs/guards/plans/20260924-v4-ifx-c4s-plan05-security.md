@@ -25,5 +25,5 @@ deterministic-repeat and immutable-root controls passed at
 `artifacts/guards/p10-ifx-c4s/test-runs/25eca4d3a27a463cb646a1677e6c85c2/summary.json`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-fa1a2f038ac54345a4dc56e777c09302`.
-Formal Diff is pending a committed candidate. This result
+Exact Formal Diff passed at `artifacts/guards/p10-ifx-c4s/formal-diff/summary-diff.json`. This result
 does not constitute production security approval or fresh solution tests.

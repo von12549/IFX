@@ -31,5 +31,5 @@ repeat and immutable roots passed at
 `artifacts/guards/p10-ifx-c4p6p7/test-runs/120150d69e6641d4a403def5d8d8d2cb/summary.json`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-d079a137de2a4246a04e7ed31dc2ebee`.
-Formal Diff is pending a committed candidate. Production security and
+Exact Formal Diff passed at `artifacts/guards/p10-ifx-c4p6p7/formal-diff/summary-diff.json`. Production security and
 destructive migration approval remain outside this candidate result.

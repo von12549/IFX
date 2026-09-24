@@ -31,5 +31,5 @@ stale-authority controls and TargetRoot/PackageRoot invariance passed at
 `artifacts/guards/p10-ifx-c4p0/test-runs/f99f37ab2ed54c66aeb4cb5fe49112f6/summary.json`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-fdbb3928b78b4fe99919462cc23e2e2d`.
-Formal Diff is pending a committed candidate. This verifies Phase 0 candidate
+Exact Formal Diff passed at `artifacts/guards/p10-ifx-c4p0/formal-diff/summary-diff.json`. This verifies Phase 0 candidate
 coverage only, not G05 security, Plan04, Database or overall C4 closure.

@@ -25,6 +25,6 @@ deterministic-repeat and immutable-root controls at
 `artifacts/guards/p10-ifx-c4a4/test-runs/d2acd9ffb2bb49289716f677680b5d72/summary.json`.
 The isolated package regression passed at
 `artifacts/guards/v3-ifx-package-test-04379d532258465e86f5902f2c034d55`.
-Formal Diff is pending a committed candidate. The two
+Exact Formal Diff passed at `artifacts/guards/p10-ifx-c4a4/formal-diff/summary-diff.json`. The two
 LayerGuard-related claims bind V4 C1j/C1n candidate policy, not V3 runtime
 files; production bundle acceptance is not inferred.

@@ -30,5 +30,5 @@ immutable TargetRoot/PackageRoot passed at
 `artifacts/guards/p10-ifx-c4p4p5/test-runs/55d0615491714d348d560f810b21b566/summary.json`.
 The isolated IFX package regression passed at
 `artifacts/guards/v3-ifx-package-test-d99fba2697744b22bfad1a3e24272ff9`.
-Formal Diff is pending a committed candidate. Real Plan01/Plan02 carrier
+Exact Formal Diff passed at `artifacts/guards/p10-ifx-c4p4p5/formal-diff/summary-diff.json`. Real Plan01/Plan02 carrier
 acceptance and durable messaging are not claimed by these fake-carrier tests.
