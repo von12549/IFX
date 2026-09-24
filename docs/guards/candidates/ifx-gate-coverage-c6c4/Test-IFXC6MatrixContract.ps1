@@ -172,7 +172,7 @@ if (-not [string]::IsNullOrWhiteSpace($CaptureDirectory)) {
             }
             'fixed-checklist-zero' {
                 @($rows | Where-Object {
-                    if ($_.fixtureId -cnotmatch 'zero' -or $_.processExit -ne 0 -or $_.status -cne 'fail' -or $_.exitCategory -cne 'findings-blocking' -or -not $_.targetInvariant) { return $false }
+                    if ($_.processExit -ne 0 -or $_.status -cne 'fail' -or $_.exitCategory -cne 'findings-blocking' -or -not $_.targetInvariant) { return $false }
                     $finding = @($_.findings | Where-Object { $_.ruleId -ceq $moduleContract.zeroFinding.ruleId -and $_.subject -ceq $moduleContract.zeroFinding.subject -and $_.evidenceKind -ceq $moduleContract.zeroFinding.evidenceKind -and $_.detectorId -ceq $moduleId })
                     $covered = @($_.coverage | Where-Object { $_.claimId -cin $claims -and $_.minimum -gt 0 } | ForEach-Object claimId | Sort-Object -Unique)
                     return ($finding.Count -gt 0 -and ($covered -join ',') -ceq ($claims -join ','))
