@@ -1,0 +1,55 @@
+Set-StrictMode -Version Latest
+$ErrorActionPreference='Stop'
+$claim='IFX.C5.FRONTEND_QUALITY';$rule='FRONTEND-LOCKED-QUALITY';$detector='ifx-frontend-evidence'
+$findings=[Collections.Generic.List[object]]::new();$matched=0
+function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Text-Hash([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
+function Parse-Time($Value){if($Value -is [DateTime]){return [DateTimeOffset]$Value};return [DateTimeOffset]::Parse([string]$Value,[Globalization.CultureInfo]::InvariantCulture)}
+function Source-Lines([string]$Root){
+    $folder=Join-Path $Root 'src/Frontend/IFX.FrontEnd';if(-not [IO.Directory]::Exists($folder)){return @()}
+    $files=@(Get-ChildItem -LiteralPath $folder -File -Recurse -Force|Where-Object{$_.Extension -in '.ts','.tsx','.js','.json','.html','.css','.svg','.mjs','.cjs' -and $_.FullName -notmatch '[\\/](node_modules|dist|coverage|\.vite)[\\/]' })
+    return @($files|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})
+}
+function Emit([string]$Status,[string]$Category,[string]$Message=''){$r=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=5})};if($Message){$r.message=$Message};[Console]::Out.WriteLine(($r|ConvertTo-Json -Depth 50 -Compress))}
+function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Record([string]$Subject,[string]$Kind,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Subject;evidenceKind=$Kind;detectorId=$detector;severity='blocking'})}}
+function Is-Under([string]$Path,[string]$Root){$relative=[IO.Path]::GetRelativePath($Root,$Path);$relative -ne '..' -and -not [IO.Path]::IsPathRooted($relative) -and -not $relative.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
+function Resolve-Locked([string]$Relative,[string]$Expected){
+    if([string]::IsNullOrWhiteSpace($Relative) -or [IO.Path]::IsPathRooted($Relative) -or $Relative -match '(^|[\\/])\.\.([\\/]|$)' -or $Expected -cnotmatch '^[a-f0-9]{64}$'){Stop-Adapter 'invalid-input' 'Invalid Frontend evidence path or hash.'}
+    $full=[IO.Path]::GetFullPath((Join-Path $target $Relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' 'Evidence escapes TargetRoot.'}
+    $cursor=$full;while(Is-Under $cursor $target){if([IO.File]::Exists($cursor) -or [IO.Directory]::Exists($cursor)){$item=Get-Item -LiteralPath $cursor -Force;if(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget){Stop-Adapter 'unsafe-path' "Linked evidence: $Relative"}};if($cursor -ceq $target){break};$cursor=[IO.Path]::GetDirectoryName($cursor)}
+    if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing evidence: $Relative"}
+    if((Hash $full) -cne $Expected){Stop-Adapter 'integrity-failure' "Altered evidence: $Relative"}
+    return $full
+}
+if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'Stage input required.'}
+try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'invalid-input' 'Malformed stage input.'}
+if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'src'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
+if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'invalid-input' 'TargetRoot must be absolute.'};$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot)
+if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'}
+$policyFile=Join-Path $PSScriptRoot 'policy.json';if(-not [IO.File]::Exists($policyFile) -or (Hash $policyFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Frontend policy drift.'}
+try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Frontend policy.'}
+if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-frontend-evidence-c5d' -or @($policy.checkIds).Count -ne 5){Stop-Adapter 'integrity-failure' 'Frontend policy shape drift.'}
+$lockFile=Resolve-Locked ([string]$inputObject.config.evidenceLockPath) ([string]$inputObject.config.evidenceLockSha256)
+try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Frontend lock.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Frontend' -or $lock.producer -cne 'ifx-c5d-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.testCount -lt 1 -or $lock.testFileCount -lt 1 -or @($lock.files).Count -ne 4){Stop-Adapter 'integrity-failure' 'Incomplete Frontend lock.'}
+if($lock.authorityHashes.quality -cne $policy.authorityHashes.quality -or $lock.authorityHashes.packageJson -cne $policy.authorityHashes.packageJson -or $lock.authorityHashes.packageLock -cne $policy.authorityHashes.packageLock){Stop-Adapter 'integrity-failure' 'Frontend authority drift.'}
+try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid Frontend time.'}
+$now=[DateTimeOffset]::UtcNow;if($completed -lt $started -or $completed -gt $now.AddMinutes(5) -or $completed -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'Frontend evidence stale or future-dated.'}
+$source=@(Source-Lines $target);if($source.Count -lt 20 -or $source.Count -ne $lock.sourceFileCount -or (Text-Hash ($source -join "`n")) -cne $lock.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Frontend source tree drift.'}
+if((Hash (Join-Path $target 'src/Frontend/IFX.FrontEnd/package.json')) -cne $policy.authorityHashes.packageJson -or (Hash (Join-Path $target 'src/Frontend/IFX.FrontEnd/package-lock.json')) -cne $policy.authorityHashes.packageLock){Stop-Adapter 'integrity-failure' 'Frontend package authority changed.'}
+$prefix=[string]$lock.evidencePrefix;if($prefix -cnotmatch '^artifacts/guards/p10-ifx-c5d/frontend-runs/[a-f0-9]{32}/$'){Stop-Adapter 'unsafe-path' 'Uncontrolled Frontend evidence prefix.'}
+$expected=@(($prefix+'quality/summary.json'),($prefix+'quality/npm-audit-production.json'),($prefix+'quality/npm-audit.json'),($prefix+'frontend-run.log'))
+if((@($lock.files|ForEach-Object path|Sort-Object)-join '|') -cne (@($expected|Sort-Object)-join '|')){Stop-Adapter 'integrity-failure' 'Frontend evidence file set drift.'}
+$files=@{};foreach($entry in $lock.files){$files[[string]$entry.path]=Resolve-Locked ([string]$entry.path) ([string]$entry.sha256)}
+try{$summary=Get-Content $files[$prefix+'quality/summary.json'] -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$prod=Get-Content $files[$prefix+'quality/npm-audit-production.json'] -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$full=Get-Content $files[$prefix+'quality/npm-audit.json'] -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$log=[IO.File]::ReadAllText($files[$prefix+'frontend-run.log'])}catch{Stop-Adapter 'integrity-failure' 'Malformed Frontend evidence.'}
+$testMatch=[regex]::Match($log,'(?m)\bTests\s+(\d+)\s+passed\b');$fileMatch=[regex]::Match($log,'(?m)\bTest Files\s+(\d+)\s+passed\b')
+$testsOkay=$testMatch.Success -and $fileMatch.Success -and [int]$testMatch.Groups[1].Value -eq $lock.testCount -and [int]$fileMatch.Groups[1].Value -eq $lock.testFileCount -and $lock.testCount -gt 0 -and $lock.testFileCount -gt 0
+$buildOkay=$log -match 'ifx-frontend@[^\r\n]+ lint' -and $log -match 'ifx-frontend@[^\r\n]+ test:run' -and $log -match 'ifx-frontend@[^\r\n]+ build' -and $log -match 'built in' -and $log -match 'found 0 vulnerabilities'
+Record 'controlledFrontendPassed' 'quality-summary' ($summary.status -ceq 'pass' -and @($summary.checks|Where-Object{$_.id -ceq 'Frontend' -and $_.status -ceq 'pass'}).Count -eq 1)
+Record 'productionAuditHighCriticalZero' 'npm-production-audit' ($prod.auditReportVersion -eq 2 -and $prod.metadata.vulnerabilities.high -eq 0 -and $prod.metadata.vulnerabilities.critical -eq 0 -and $prod.metadata.dependencies.prod -gt 0)
+Record 'fullAuditHighCriticalZero' 'npm-full-audit' ($full.auditReportVersion -eq 2 -and $full.metadata.vulnerabilities.high -eq 0 -and $full.metadata.vulnerabilities.critical -eq 0 -and $full.metadata.dependencies.total -gt 0)
+Record 'nonVacuousTestsAndBuild' 'frontend-run-log' ($testsOkay -and $buildOkay)
+Record 'freshLockedSource' 'source-inventory' $true
+if((@($policy.checkIds)-join '|') -cne (@('controlledFrontendPassed','productionAuditHighCriticalZero','fullAuditHighCriticalZero','nonVacuousTestsAndBuild','freshLockedSource')-join '|')){Stop-Adapter 'integrity-failure' 'Frontend check mapping drift.'}
+if($findings.Count -gt 0){Emit 'fail' 'findings-blocking'}else{Emit 'pass' 'success'}
