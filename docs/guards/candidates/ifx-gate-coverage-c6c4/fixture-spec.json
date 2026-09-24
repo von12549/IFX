@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "ifx-c6c4-supplemental-fixtures",
-  "status": "planned",
+  "status": "partial",
   "matrixContractSha256": "bdcc486ce30e4749ab58394c513d1b7e4f076dc40e47d23d731a1b2009dd2891",
   "blockedMatrixSummarySha256": "54d5b871bbba4a0c652e4a82b75519ed44aa651dee5ea33472904c25250e3f0c",
   "diagnosticReclassificationSha256": "6687c189ae0a28bb1ab5f02672c502cbd11b78535f44316b569f563fc787dbf6",
@@ -9,6 +9,17 @@
   "provenCoreCasesBeforeSupplement": 153,
   "residualCoreCaseCount": 38,
   "residualAdvisoryCount": 1,
+  "implementedCoreCaseCount": 7,
+  "remainingCoreCaseCount": 31,
+  "implementedCaseIds": [
+    "ifx-provider-cycle/M",
+    "ifx-provider-cycle/Z",
+    "ifx-provider-cycle/V/PROVIDER-CYCLE",
+    "architecture-conformance/C",
+    "architecture-conformance/M",
+    "architecture-conformance/Z",
+    "architecture-conformance/V/ARCH.TYPE_DEPENDENCY"
+  ],
   "platforms": ["windows", "linux"],
   "sourceSuites": {
     "v4-architecture": { "path": "docs/guards/V4/tests/p4/Test-V4ArchUnitNetAdapter.ps1", "sha256": "69be54c3e6968f82217d7fb904a788fb177dc28568b875150ebec37304b8431e" },

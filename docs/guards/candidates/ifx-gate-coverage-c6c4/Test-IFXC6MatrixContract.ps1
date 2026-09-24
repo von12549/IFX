@@ -6,6 +6,7 @@ param(
     [string]$FixtureSpecPath = 'docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json',
     [string]$ReportPath = 'artifacts/guards/p10-ifx-c6c4/matrix-contract/summary.json',
     [string]$CaptureDirectory,
+    [string[]]$AdditionalCapturePath = @(),
     [string]$DiagnosticReportPath = 'artifacts/guards/p10-ifx-c6c4/matrix-contract/reclassification.json'
 )
 
@@ -78,11 +79,13 @@ foreach ($override in @($contract.ruleOverrides)) {
 $expectedAdvisory = @($advisory | ForEach-Object { "$($_.moduleId)/$($_.ruleId)/$($_.claimId)" } | Sort-Object)
 $actualAdvisory = @($contract.advisoryRules | ForEach-Object { "$($_.moduleId)/$($_.ruleId)/$($_.claimId)" } | Sort-Object)
 Assert (($expectedAdvisory -join "`n") -ceq ($actualAdvisory -join "`n")) 'Advisory-rule contract drift.'
-Assert ($fixtureSpec.formatVersion -eq 1 -and $fixtureSpec.id -ceq 'ifx-c6c4-supplemental-fixtures' -and $fixtureSpec.status -ceq 'planned') 'Fixture specification identity drift.'
+Assert ($fixtureSpec.formatVersion -eq 1 -and $fixtureSpec.id -ceq 'ifx-c6c4-supplemental-fixtures' -and $fixtureSpec.status -cin @('planned','partial','complete')) 'Fixture specification identity drift.'
 Assert ($fixtureSpec.matrixContractSha256 -ceq (Hash $contractFull)) 'Fixture specification contract binding drift.'
 Assert ($fixtureSpec.requiredCoreCasesBeforeSupplement -eq 191 -and $fixtureSpec.provenCoreCasesBeforeSupplement -eq 153 -and $fixtureSpec.residualCoreCaseCount -eq 38 -and $fixtureSpec.residualAdvisoryCount -eq 1) 'Fixture specification cardinality drift.'
 Assert (@($fixtureSpec.cases).Count -eq 39 -and @($fixtureSpec.cases.id | Sort-Object -Unique).Count -eq 39) 'Fixture case cardinality or uniqueness drift.'
 Assert (@($fixtureSpec.cases | Where-Object id -Match '/A/').Count -eq 1) 'Fixture advisory cardinality drift.'
+Assert ($fixtureSpec.implementedCoreCaseCount -eq @($fixtureSpec.implementedCaseIds).Count -and $fixtureSpec.remainingCoreCaseCount -eq ($fixtureSpec.residualCoreCaseCount - $fixtureSpec.implementedCoreCaseCount)) 'Implemented fixture cardinality drift.'
+foreach ($implemented in @($fixtureSpec.implementedCaseIds)) { Assert (@($fixtureSpec.cases | Where-Object id -CEQ $implemented).Count -eq 1 -and $implemented -cnotmatch '/A/') "Implemented fixture ID drift: $implemented" }
 foreach ($suiteProperty in $fixtureSpec.sourceSuites.PSObject.Properties) {
     $source = $suiteProperty.Value
     $sourcePath = Full ([string]$source.path)
@@ -118,7 +121,10 @@ if (-not [string]::IsNullOrWhiteSpace($CaptureDirectory)) {
     $captureFull = Full $CaptureDirectory
     Assert ([IO.Directory]::Exists($captureFull)) 'Capture directory is missing.'
     $captures = [Collections.Generic.List[object]]::new()
-    foreach ($file in Get-ChildItem -LiteralPath $captureFull -File -Filter '*.jsonl' | Sort-Object Name) {
+    $captureFiles = [Collections.Generic.List[IO.FileInfo]]::new()
+    foreach ($file in Get-ChildItem -LiteralPath $captureFull -File -Filter '*.jsonl' | Sort-Object Name) { $captureFiles.Add($file) }
+    foreach ($additional in $AdditionalCapturePath) { $path = Full $additional; Assert ([IO.File]::Exists($path)) "Additional capture is missing: $additional"; $captureFiles.Add((Get-Item -LiteralPath $path)) }
+    foreach ($file in $captureFiles) {
         foreach ($line in Get-Content -LiteralPath $file.FullName) {
             if ([string]::IsNullOrWhiteSpace($line)) { continue }
             $record = $line | ConvertFrom-Json -Depth 100
