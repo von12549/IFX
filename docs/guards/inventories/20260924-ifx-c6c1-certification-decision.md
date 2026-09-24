@@ -66,9 +66,11 @@ C6c remains blocked on:
    180 seconds; its failure cannot count as a candidate violation result.
 3. Add and verify stale/changed-lock, capability-overreach and cross-root
    write controls. Baseline selection must remain empty.
-4. Pass the exact committed Formal Diff for this partial decision. The isolated
-   IFX Package positive/negative regression passed at
-   `artifacts/guards/v3-ifx-package-test-e629e998faa046f8b78878c79387c790`.
+
+The isolated IFX Package positive/negative regression passed at
+`artifacts/guards/v3-ifx-package-test-e629e998faa046f8b78878c79387c790`.
+Exact committed Formal Diff passed for the four declared paths at
+`artifacts/guards/p10-ifx-c6c1/formal-diff/summary-diff.json`.
 
 G04 remains `PRE-READY` with seven blockers. G05 Phase 9 and Diff/CI remain
 P10.3-deferred. C6d human review and C6e installed Web UI have not begun.
