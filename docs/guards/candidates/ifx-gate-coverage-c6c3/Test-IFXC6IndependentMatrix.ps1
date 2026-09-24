@@ -66,7 +66,7 @@ Assert (@($profile.moduleSelections).Count -eq 37 -and @($profile.stageConfigura
 $lineagePath=Join-Path $package 'profiles/catalog/ifx_profile/evidence-lineage.json';$lineage=Get-Content $lineagePath -Raw|ConvertFrom-Json -Depth 100
 Assert ($lineage.sourceCommit -ceq $commit -and $lineage.ordinalInventorySha256 -ceq (Hash $inventoryFull) -and @($lineage.locks).Count -eq 7) 'Final evidence lineage drift.'
 $lineageLockPaths=@{}
-foreach($lock in $lineage.locks){$lockPath=Join-Path $repo $lock.path;Assert ([IO.File]::Exists($lockPath) -and (Hash $lockPath) -ceq $lock.sha256) "Final evidence lock drift: $($lock.id)";$lineageLockPaths[[string]$lock.id]=$lockPath}
+foreach($lock in $lineage.locks){$lockPath=Join-Path $repo $lock.path;Assert ([IO.File]::Exists($lockPath) -and (Hash $lockPath) -ceq $lock.sha256) "Final evidence lock drift: $($lock.id)";$lineageLockPaths[[string]$lock.id]=[string]$lock.path}
 foreach($module in $inventory.modules){
     $moduleRoot=Join-Path $package "modules/$($module.id)";$moduleManifest=Join-Path $moduleRoot 'module.json'
     Assert ([IO.File]::Exists($moduleManifest) -and (Hash $moduleManifest) -ceq $module.manifestSha256) "Final module manifest drift: $($module.id)"
@@ -134,11 +134,12 @@ function global:pwsh {
 }
 $scriptToRun=$TestScript;$harnessAdjusted=$false;$source=Get-Content -LiteralPath $TestScript -Raw;$timeoutMatch=[regex]::Match($source,'timeoutSeconds\s+-eq\s+(\d+)')
 if($timeoutMatch.Success -and [int]$timeoutMatch.Groups[1].Value -ne $ReviewedTimeoutSeconds){$old=[int]$timeoutMatch.Groups[1].Value;$testDirectory=[IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($TestScript)).Replace("'","''");$source=$source.Replace('$PSScriptRoot',"'$testDirectory'");$source=[regex]::Replace($source,"(timeoutSeconds\s+-eq\s+)$old\b",('${1}'+$ReviewedTimeoutSeconds));$source=[regex]::Replace($source,"(maxTimeoutSeconds\s*=\s*)$old\b",('${1}'+$ReviewedTimeoutSeconds));[IO.File]::WriteAllText($HarnessPath,$source,[Text.UTF8Encoding]::new($false));$scriptToRun=$HarnessPath;$harnessAdjusted=$true}
+$fixtureOnly=$harnessAdjusted -or $source -match "BaseInstallRoot\s*=\s*''"
 $parameters=@{};$command=Get-Command $scriptToRun
 if($command.Parameters.ContainsKey('EvidenceRoot')){$parameters.EvidenceRoot=$EvidenceRoot}
-if(-not $harnessAdjusted -and $command.Parameters.ContainsKey('BaseInstallRoot')){$parameters.BaseInstallRoot=$BaseInstallRoot}
-if(-not $harnessAdjusted -and $command.Parameters.ContainsKey('BaseReceiptPath')){$parameters.BaseReceiptPath=$BaseReceiptPath}
-if(-not $harnessAdjusted -and $command.Parameters.ContainsKey('BaseArchivePath')){$parameters.BaseArchivePath=$BaseArchivePath}
+if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseInstallRoot')){$parameters.BaseInstallRoot=$BaseInstallRoot}
+if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseReceiptPath')){$parameters.BaseReceiptPath=$BaseReceiptPath}
+if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseArchivePath')){$parameters.BaseArchivePath=$BaseArchivePath}
 if($command.Parameters.ContainsKey('RealEvidenceLockPath')){$parameters.RealEvidenceLockPath=$RealEvidenceLockPath}
 & $scriptToRun @parameters
 exit $LASTEXITCODE
