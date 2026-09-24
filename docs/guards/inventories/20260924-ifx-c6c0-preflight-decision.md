@@ -61,6 +61,8 @@ Required C6c continuation decisions:
 Formal Pre passed at `artifacts/guards/p10-ifx-c6c0/formal-pre/summary-pre.json`.
 Isolated IFX Package regression passed at
 `artifacts/guards/v3-ifx-package-test-4113bebd2fe049aa8d941c54731b536b`.
-Exact committed Formal Diff is required after this decision note is committed.
+Exact committed Formal Diff passed at
+`artifacts/guards/p10-ifx-c6c0/formal-diff/summary-diff.json`, with only the
+three declared documentation paths changed.
 No Xiaolong Feng exact-byte review, receipted operational composition,
 installed Web UI practice, G04 closure, P10.2 parity or IFX cutover is claimed.
