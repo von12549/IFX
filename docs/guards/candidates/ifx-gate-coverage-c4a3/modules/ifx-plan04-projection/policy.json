@@ -1,0 +1,23 @@
+{
+  "formatVersion":1,"id":"ifx-plan04-projection-c4a3","sourceRoot":"src/Modules","fixtureRoot":"tests/Architecture/Plan04/Fixtures",
+  "authorities":[
+    {"id":"projectionPolicy","path":"docs/architecture/review/policies/plan04/cross-module-projection-policy.json"},
+    {"id":"schema","path":"docs/architecture/review/policies/plan04/projection-registration.schema.json"},
+    {"id":"registry","path":"docs/architecture/review/policies/plan04/projection-registry.json"},
+    {"id":"catalog","path":"docs/architecture/review/gates/G03/contract-event-catalog.yaml"},
+    {"id":"graph","path":"docs/architecture/review/evidence/plan04/module-boundary-dependency-graph.json"},
+    {"id":"holdingHandler","path":"src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Integrations/Inbound/HoldingsInboundIntegrationEventHandler.cs"},
+    {"id":"holdingInbox","path":"src/Modules/Holdings/IFX.Modules.Holdings.Infrastructure/Messaging/HoldingsInboxConfiguration.cs"},
+    {"id":"transactionHandler","path":"src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyTransactionProcessedCommand.cs"},
+    {"id":"classHandler","path":"src/Modules/Holdings/IFX.Modules.Holdings.Application/Integrations/ApplyClassStatusChangedCommand.cs"}
+  ],
+  "fixtureExpectations":[
+    {"name":"projection-positive-approved.json","errors":[]},
+    {"name":"projection-negative-cross-dbcontext.json","errors":["cross-dbcontext-or-table-join","duplicate-business-effect-risk","rebuild-drift-risk"]},
+    {"name":"projection-negative-unregistered.json","errors":["duplicate-business-effect-risk","rebuild-drift-risk","unregistered-projection"]},
+    {"name":"projection-negative-duplicate-effect.json","errors":["duplicate-business-effect-risk","rebuild-drift-risk"]},
+    {"name":"projection-negative-rebuild-drift.json","errors":["duplicate-business-effect-risk","rebuild-drift-risk"]},
+    {"name":"projection-negative-sensitive-superset.json","errors":["duplicate-business-effect-risk","rebuild-drift-risk","sensitive-field-superset"]}
+  ],
+  "checkIds":["noProjectionWithoutApprovedConsumer","allowedPathsAreClosedSet","crossDatabaseReadsForbidden","registrationSchemaRequiresLifecyclePrivacyAndApprovals","approvedConsumerInventoryIsExplicitlyEmpty","holdingsIsReferenceOnly","registryEntriesConformToSchema","referenceProtocolsAreActiveInG03","holdingsReferenceHasTenantInboxAndIdempotency","noForbiddenPhysicalModuleEdges","noSourceFileUsesMultipleModuleDbContexts","negativeFixturesPass","privacyAndRollbackAreFailClosed"]
+}
