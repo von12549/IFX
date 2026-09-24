@@ -1,0 +1,20 @@
+{
+  "formatVersion":1,"id":"20260924-v4-ifx-c4a1-plan04-extraction",
+  "title":"Implement nine Plan04 extraction checks on V4 1.1.3",
+  "goal":"Independent bounded extraction-governance candidate without policy approval claim.",
+  "acceptanceCriteria":["Nine exact extraction IDs map to non-vacuous predicates and a nonzero blocking Post rule.","Real IFX and published Host synthetic clean, violating, missing, stale and zero-subject controls pass with immutable roots.","Isolated regression and Formal Pre/Diff pass; approval remains pending."],
+  "plannedPaths":[
+    "docs/guards/plans/20260924-v4-ifx-c4a1-plan04-extraction.md",
+    "docs/guards/plans/20260924-v4-ifx-c4a1-plan04-extraction.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/policy.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/config.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/result.schema.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/dependencies.lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/modules/ifx-plan04-extraction/rule-execution-plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a1/tests/Test-IFXPlan04Extraction.ps1"
+  ],
+  "areaIds":["GuardDocs"],"ruleIds":[],"validationCommands":["ifx-package-test"],
+  "decisionPaths":["docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json","docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json","docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d34-layerguard-post-ownership.json"]
+}
