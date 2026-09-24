@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ifx.local/v4/candidates/ifx-g05-carriers/result.schema.json",
+  "type":"object","additionalProperties":false,
+  "required":["formatVersion","status","exitCategory","findings","coverage"],
+  "properties": {
+    "formatVersion":{"const":1},
+    "status":{"enum":["pass","fail","error"]},
+    "exitCategory":{"enum":["success","findings-blocking","invalid-input","unsafe-path","integrity-failure","prerequisite-missing"]},
+    "message":{"type":"string"},
+    "findings":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["ruleId","subject","evidenceKind","detectorId","severity"],"properties":{"ruleId":{"enum":["G05-CONTRACT-CARRIER","G05-EVENT-CARRIER"]},"subject":{"type":"string","minLength":1},"evidenceKind":{"enum":["carrier-conformance","coverage"]},"detectorId":{"const":"ifx-g05-carriers"},"severity":{"const":"blocking"}}}},
+    "coverage":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"object","additionalProperties":false,"required":["claimId","matched","minimum"],"properties":{"claimId":{"enum":["IFX.C4.G05_CONTRACT_CARRIER","IFX.C4.G05_EVENT_CARRIER"]},"matched":{"type":"integer","minimum":0},"minimum":{"const":1}}}}
+  }
+}
