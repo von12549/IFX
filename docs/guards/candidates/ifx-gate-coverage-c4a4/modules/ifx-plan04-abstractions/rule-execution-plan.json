@@ -1,0 +1,1 @@
+{"formatVersion":1,"moduleId":"ifx-plan04-abstractions","rules":[{"ruleId":"PLAN04-ABSTRACTIONS","claimId":"IFX.C4A.PLAN04_ABSTRACTIONS","stage":"post","detectors":["ifx-plan04-abstractions"],"evidenceKinds":["abstractions-source","coverage"],"severity":"blocking","baseline":null,"minimumMatches":1}]}
