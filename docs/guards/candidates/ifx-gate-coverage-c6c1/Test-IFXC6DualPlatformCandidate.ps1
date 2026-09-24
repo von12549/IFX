@@ -14,6 +14,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 function Assert([bool]$Condition,[string]$Message){if(-not $Condition){throw $Message}}
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function TextHash([string]$Value){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Value))).ToLowerInvariant()}
 function WriteJson([string]$Path,$Value){[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path));[IO.File]::WriteAllText($Path,(($Value|ConvertTo-Json -Depth 100).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))}
 function Fingerprint([string]$Root){@(Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"}) -join "`n"}
 Assert ($IsLinux -and ((& dotnet --version).Trim() -ceq '10.0.303')) 'Pinned Linux SDK 10.0.303 required.'
@@ -47,6 +48,26 @@ foreach($entry in $windows.locks){
     [void][IO.Directory]::CreateDirectory((Split-Path -Parent $targetDir))
     Copy-Item -LiteralPath $sourceDir -Destination $targetDir -Recurse
 }
+# The Database producer hashes every selected source file beneath src,
+# including ignored npm package metadata. A native Git checkout cannot
+# reproduce that lock unless those exact non-tracked bytes are transported.
+$databaseEntry=@($windows.locks|Where-Object id -CEQ 'database');Assert ($databaseEntry.Count -eq 1) 'One Database evidence lock required.'
+$databaseLock=Get-Content (Join-Path $SourceRoot $databaseEntry[0].path) -Raw|ConvertFrom-Json -Depth 100
+$databaseRoots=@('src','tests/IFX.DatabaseBoundary.Tests','tools/IFX.DatabaseInventory','docs/guards/V3_ifx/stages/post/gates/specialized')
+$databaseSourceFiles=@(foreach($relativeRoot in $databaseRoots){
+    Get-ChildItem -LiteralPath (Join-Path $SourceRoot $relativeRoot) -File -Recurse -Force|Where-Object{$_.Extension -in '.cs','.csproj','.json','.ps1' -and $_.FullName -notmatch '[\\/](bin|obj)[\\/]'}
+})
+foreach($sourceFile in $databaseSourceFiles){
+    $relative=[IO.Path]::GetRelativePath($SourceRoot,$sourceFile.FullName)
+    $targetFile=Join-Path $TargetRoot $relative
+    [void][IO.Directory]::CreateDirectory((Split-Path -Parent $targetFile))
+    Copy-Item -LiteralPath $sourceFile.FullName -Destination $targetFile -Force
+}
+$databaseTargetFiles=@(foreach($relativeRoot in $databaseRoots){
+    Get-ChildItem -LiteralPath (Join-Path $TargetRoot $relativeRoot) -File -Recurse -Force|Where-Object{$_.Extension -in '.cs','.csproj','.json','.ps1' -and $_.FullName -notmatch '[\\/](bin|obj)[\\/]'}
+})
+$databaseLines=@($databaseTargetFiles|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($TargetRoot,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"})
+Assert ($databaseTargetFiles.Count -eq $databaseLock.sourceFileCount -and (TextHash ($databaseLines -join [char]10)) -ceq $databaseLock.sourceTreeSha256) 'Native Linux Database source inventory differs from Windows evidence lock.'
 $typeEntry=@($windows.locks|Where-Object id -CEQ 'type');Assert ($typeEntry.Count -eq 1) 'One compiled-type evidence lock required.'
 $TypeLockPath=Join-Path $TargetRoot $typeEntry[0].path
 $commit=(& git -C $TargetRoot rev-parse HEAD).Trim();Assert ($LASTEXITCODE -eq 0 -and $commit -ceq $windows.sourceCommit) 'Linux TargetRoot source commit drift.'
