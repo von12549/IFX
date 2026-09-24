@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c4-matrix-contract-remediation",
+  "title": "Repair the C6c independent matrix contract without changing product bytes",
+  "goal": "Replace structurally impossible universal zero-match and single-rule assumptions with hash-bound detector-specific non-vacuity and rule-coupling contracts, then supply only genuinely missing independent fixtures and resume C6c on a fresh candidate.",
+  "acceptanceCriteria": [
+    "A machine-readable contract covers all 37 modules, 80 blocking rules and three advisories, binds every adapter hash, and permits fixed-checklist non-vacuity or coupled rules only with exact reviewed source facts.",
+    "A verifier rejects missing or stale classifications, unknown ownership, invalid non-vacuity identities, asymmetric or overbroad coupling and any unrecognized field.",
+    "The matrix runner keeps strict C/M semantics and 191-row cardinality, validates exact finding identities and immutable roots, and records the verified Z strategy and V coupling for every applicable row.",
+    "Supplemental fixtures execute the frozen composed adapters and supply every residual missing row from hash-bound disposable inputs without changing module, detector, producer, policy, baseline or published 1.1.3 bytes.",
+    "A fresh implementation-bound candidate, seven locks and synthetic review complete the Windows matrix and remaining confinement controls before identical fixture bytes and semantic projections pass on pinned offline Linux; otherwise the decision remains blocked.",
+    "Formal Pre, isolated IFX Package regression and exact committed Formal Diff pass; no C6d/C6e, P10.2/P10.3 or V3-retirement claim is made."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c4-matrix-contract-remediation.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c4-matrix-contract-remediation.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6MatrixContract.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6SupplementalFixtures.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c3/Test-IFXC6IndependentMatrix.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c4-matrix-contract-decision.md"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
