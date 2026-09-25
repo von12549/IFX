@@ -121,10 +121,14 @@ $lockFingerprints=@($lineage.locks | ForEach-Object { $path=Join-Path $repo $_.p
 
 # Compose the exact candidate once for root-confinement controls.
 $composeScript=Join-Path $baseInstall 'package/core/distribution/Compose-V4Extension.ps1'
-$positiveRoot=Join-Path $workRoot 'positive-composition'; $positiveState=Join-Path $positiveRoot 'state'; $positiveEvidence=Join-Path $positiveRoot 'evidence'
+$positiveRoot=Join-Path $workRoot 'positive-composition'; $positiveBundle=Join-Path $positiveRoot 'bundle'; $positiveReview=Join-Path $positiveRoot 'review.json'
+$positiveState=Join-Path $positiveRoot 'state'; $positiveEvidence=Join-Path $positiveRoot 'evidence'
+[void][IO.Directory]::CreateDirectory($positiveRoot)
+Copy-Item -LiteralPath $bundle -Destination $positiveBundle -Recurse
+Copy-Item -LiteralPath $reviewFull -Destination $positiveReview
 [void][IO.Directory]::CreateDirectory($positiveState); [void][IO.Directory]::CreateDirectory($positiveEvidence)
 $composed=Join-Path $positiveRoot 'install'; $compositionReceipt=Join-Path $positiveRoot 'receipt.json'
-$composeOutput=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $composeScript -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceipt -BaseArchivePath $archive -BundleRoot $bundle -ReviewRecordPath $reviewFull -OutputInstallRoot $composed -CompositionReceiptPath $compositionReceipt -TargetRoot $repo -StateRoot $positiveState -EvidenceRoot $positiveEvidence -AllowSyntheticFixture 2>&1)
+$composeOutput=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $composeScript -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceipt -BaseArchivePath $archive -BundleRoot $positiveBundle -ReviewRecordPath $positiveReview -OutputInstallRoot $composed -CompositionReceiptPath $compositionReceipt -TargetRoot $repo -StateRoot $positiveState -EvidenceRoot $positiveEvidence -AllowSyntheticFixture 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Exact candidate composition failed: $($composeOutput -join "`n")"
 $packageBefore=Fingerprint (Join-Path $composed 'package')
 

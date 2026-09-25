@@ -42,7 +42,7 @@ Assert (-not (Test-Path -LiteralPath ([IO.Path]::GetDirectoryName($matrixReport)
 
 $sourceCommit = (& git -C $source rev-parse HEAD).Trim()
 Assert ($LASTEXITCODE -eq 0 -and $sourceCommit.Length -eq 40) 'Source commit is unavailable.'
-$tracked = @(& git -C $source status --porcelain --untracked-files=no)
+$tracked = @(& git -c core.autocrlf=true -c core.filemode=false -C $source status --porcelain --untracked-files=no)
 Assert ($LASTEXITCODE -eq 0 -and ($tracked -join '').Trim().Length -eq 0) 'Linux source mount has tracked changes.'
 
 $positiveRunner = Join-Path $source 'docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1'
