@@ -166,9 +166,9 @@ foreach ($moduleEntry in @($bundleManifest.modules | Sort-Object id)) {
 Assert ($capabilityCases.Count -eq 180) 'Capability control cardinality drift.'
 
 # Root overlap, normalized traversal and link controls use the exact composed candidate.
-$rootCases=[Collections.Generic.List[object]]::new(); $host=Join-Path $composed 'host/v4-guards.dll'; $package=Join-Path $composed 'package'
+$rootCases=[Collections.Generic.List[object]]::new(); $hostPath=Join-Path $composed 'host/v4-guards.dll'; $package=Join-Path $composed 'package'
 function Invoke-RootReject([string]$Id,[string]$State,[string]$Evidence) {
-    $lines=@(& dotnet $host stage run --stage pre --package-root $package --target-root $repo --state-root $State --evidence-root $Evidence --profile ifx_profile 2>&1); $raw=$lines-join"`n"
+    $lines=@(& dotnet $hostPath stage run --stage pre --package-root $package --target-root $repo --state-root $State --evidence-root $Evidence --profile ifx_profile 2>&1); $raw=$lines-join"`n"
     Assert ($LASTEXITCODE -eq 11 -and $raw -match 'unsafe-path') "Root control did not fail closed ($Id): $raw"
     $rootCases.Add([ordered]@{id=$Id;status='blocked';exitCode=11;exitCategory='unsafe-path';outputSha256=Text-Hash $raw})
 }
