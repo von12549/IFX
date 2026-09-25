@@ -1,0 +1,26 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c12-generated-binding-refresh",
+  "title": "Refresh the generated-source scanner integrity binding",
+  "goal": "Bind the controlled generated-input producer to the semantics-preserving C6c11 C1h adapter bytes.",
+  "acceptanceCriteria": [
+    "The frozen C1h scanner hash equals the module-manifest adapter hash.",
+    "The generated-source exclusion structural assertion remains unchanged and passes.",
+    "A fresh generated-input lock is issued for the final same-commit solution evidence.",
+    "All final C6 platform, control, capability, parity, and gap assertions pass.",
+    "Policies, rules, claims, timeouts, generated classifications, baselines, waivers, published 1.1.3 bytes, and governance remain unchanged."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c12-generated-binding-refresh.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c12-generated-binding-refresh.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1r2c/Test-IFXGeneratedInputDisposition.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c12-generated-binding-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
