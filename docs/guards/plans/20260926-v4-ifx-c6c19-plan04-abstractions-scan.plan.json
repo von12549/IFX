@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260926-v4-ifx-c6c19-plan04-abstractions-scan",
+  "title": "Bound the Linux Plan04 abstractions scan",
+  "goal": "Remove the Linux abstractions timeout without changing its inventory lock, semantics, or 60-second ceiling.",
+  "acceptanceCriteria": [
+    "The adapter enumerates only governed directories and .cs/.csproj semantic inputs while rejecting links.",
+    "Each accepted source or project file is read once and reused without changing the inventory hash contract.",
+    "All 11 checks, six fixtures, findings, and coverage remain unchanged.",
+    "The existing 60-second capability ceiling remains unchanged.",
+    "The owning suite, matrix contract, focused Linux run, and final certification pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260926-v4-ifx-c6c19-plan04-abstractions-scan.md",
+    "docs/guards/plans/20260926-v4-ifx-c6c19-plan04-abstractions-scan.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a4/modules/ifx-plan04-abstractions/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4a4/modules/ifx-plan04-abstractions/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/inventories/20260926-ifx-c6c19-plan04-abstractions-scan-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
