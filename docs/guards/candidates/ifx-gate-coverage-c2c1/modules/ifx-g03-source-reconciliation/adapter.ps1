@@ -29,14 +29,19 @@ function Assert-NoLink([string] $Path) {
 function Relative([string] $Path) { [IO.Path]::GetRelativePath($targetRoot, $Path).Replace('\','/') }
 function Source-Files([string] $Directory) {
     $result = [Collections.Generic.List[object]]::new()
-    $pending = [Collections.Generic.Stack[string]]::new(); $pending.Push($Directory)
+    $pending = [Collections.Generic.Queue[string]]::new(); $pending.Enqueue($Directory)
     while ($pending.Count -gt 0) {
-        $current = $pending.Pop()
-        foreach ($item in @(Get-ChildItem -LiteralPath $current -Force | Sort-Object FullName)) {
-            if ($item.PSIsContainer -and $item.Name -in @('bin','obj')) { continue }
-            if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget) { Stop-Adapter 'unsafe-path' 'Source tree contains a link.' }
-            if ($item.PSIsContainer) { $pending.Push($item.FullName) }
-            elseif ($item.Extension -in @('.cs','.csproj')) { $result.Add([ordered]@{ path = Relative $item.FullName; full = $item.FullName; text = [IO.File]::ReadAllText($item.FullName) }) }
+        $current = $pending.Dequeue()
+        foreach ($directoryPath in [IO.Directory]::EnumerateDirectories($current)) {
+            if (([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'Source tree contains a link.' }
+            if ([IO.Path]::GetFileName($directoryPath) -in @('bin','obj')) { continue }
+            $pending.Enqueue($directoryPath)
+        }
+        foreach ($pattern in @('*.cs','*.csproj')) {
+            foreach ($filePath in [IO.Directory]::EnumerateFiles($current, $pattern, [IO.SearchOption]::TopDirectoryOnly)) {
+                if (([IO.File]::GetAttributes($filePath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'Source tree contains a link.' }
+                $result.Add([ordered]@{ path = Relative $filePath; full = $filePath; text = [IO.File]::ReadAllText($filePath) })
+            }
         }
     }
     return @($result.ToArray() | Sort-Object path)
