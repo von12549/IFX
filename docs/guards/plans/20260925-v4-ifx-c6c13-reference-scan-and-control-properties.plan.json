@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c13-reference-scan-and-control-properties",
+  "title": "Bound the reference-cycle scan and make control lock selection property-safe",
+  "goal": "Remove the next Linux pre-stage timeout and the strict-mode lock-shape failure without changing semantics or budgets.",
+  "acceptanceCriteria": [
+    "The reference-cycle adapter enumerates only semantic project inputs and rejects linked directories and files.",
+    "The existing 180-second capability ceiling remains unchanged.",
+    "Controls select only properties that exist and support all four governed lock collection shapes.",
+    "The owning suite, matrix contract, focused Linux scan, and lock-shape checks pass.",
+    "Final Windows/Linux 191/191, 42 controls, 180 variants, semantic parity, zero gaps, and formal Diff pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c13-reference-scan-and-control-properties.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c13-reference-scan-and-control-properties.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1n/tests/Test-IFXReferenceCycle.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationControls.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c13-reference-scan-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
