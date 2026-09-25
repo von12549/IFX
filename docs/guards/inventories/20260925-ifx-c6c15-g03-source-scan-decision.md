@@ -27,7 +27,9 @@ to the new adapter bytes.
 ## Verification
 
 - Formal Pre passed at
-  `artifacts/guards/p10-ifx-c6c15/formal-pre/summary-pre.json`.
+  `artifacts/guards/p10-ifx-c6c15/formal-pre/summary-pre.json`; the amended
+  derived-binding scope passed at
+  `artifacts/guards/p10-ifx-c6c15/formal-pre-amended/summary-pre.json`.
 - C2c1 passed 14 fixtures, integrity and link controls, repeat determinism, and
   the real IFX scan at
   `artifacts/guards/p10-ifx-c6c15/owning-c2c1/cf786c5755bc449599042813399401cd`.
@@ -36,6 +38,8 @@ to the new adapter bytes.
 - Combined C2e passed seven Host cases, four Profile rejection controls, and a
   fresh V3 Phase 9 run at
   `artifacts/guards/p10-ifx-c6c15/combined-c2e/21157622c7b64a45907ba06236c413dc`.
+- The refreshed 191-case matrix contract passed at
+  `artifacts/guards/p10-ifx-c6c15/matrix-contract/summary.json`.
 
 ## Certification consequence
 
@@ -43,4 +47,3 @@ C6c remains open until the committed C6c15 HEAD receives fresh inventory,
 same-commit locks and candidate evidence, followed by Windows/Linux 191/191,
 42 lock controls, 180 capability variants, semantic parity, zero gaps, and
 formal Diff.
-
