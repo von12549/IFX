@@ -16,6 +16,7 @@
     "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/module.json",
     "docs/guards/candidates/ifx-gate-coverage-c2e/authority-lock.json",
     "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
     "docs/guards/inventories/20260925-ifx-c6c15-g03-source-scan-decision.md"
   ],
   "areaIds": ["GuardDocs"],
