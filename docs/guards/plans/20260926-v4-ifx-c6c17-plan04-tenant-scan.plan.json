@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260926-v4-ifx-c6c17-plan04-tenant-scan",
+  "title": "Bound the Linux Plan04 tenant scan",
+  "goal": "Remove the Linux tenant timeout without changing its source-tree lock, semantics, or 60-second ceiling.",
+  "acceptanceCriteria": [
+    "The adapter enumerates only .cs semantic inputs and rejects linked directories and files.",
+    "Each accepted source file is read once and reused without changing the source-tree hash contract.",
+    "All 12 checks, five negative fixtures, findings, and coverage remain unchanged.",
+    "The existing 60-second capability ceiling remains unchanged.",
+    "The owning suite, matrix contract, focused Linux run, and final certification pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260926-v4-ifx-c6c17-plan04-tenant-scan.md",
+    "docs/guards/plans/20260926-v4-ifx-c6c17-plan04-tenant-scan.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4a2/modules/ifx-plan04-tenant/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4a2/modules/ifx-plan04-tenant/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/inventories/20260926-ifx-c6c17-plan04-tenant-scan-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
