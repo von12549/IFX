@@ -57,7 +57,7 @@ $tree=@(TreeLines $repo);$treeHash=TextHash ($tree -join "`n")
 Assert ($tree.Count -eq $solution.sourceFileCount -and $treeHash -ceq $solution.sourceTreeSha256) 'Source differs from C5b lock.'
 $v3Scanner=Join-Path $repo 'docs/guards/V3/stages/post/gates/architecture/dotnet/Guards.ArchitectureConformance/SourceFiles.cs'
 $c1hScanner=Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/adapter.ps1'
-Assert ((Hash $v3Scanner) -ceq '58e657e7340a58bde2c24efd6f41fa4605eeb09a2d1ab28a1d4847ac739081e2' -and (Hash $c1hScanner) -ceq 'a7123eb5a98e0865f7513fa631e066f7a14d6567b41de9b5c80a08454d07a253') 'Frozen generated-source exclusion implementation drift.'
+Assert ((Hash $v3Scanner) -ceq '58e657e7340a58bde2c24efd6f41fa4605eeb09a2d1ab28a1d4847ac739081e2' -and (Hash $c1hScanner) -ceq 'e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16') 'Frozen generated-source exclusion implementation drift.'
 Assert (([IO.File]::ReadAllText($v3Scanner) -match 'part is "obj" or "bin"') -and ([IO.File]::ReadAllText($c1hScanner) -match '\(guard\|guards\|bin\|obj\)')) 'Source exclusion semantics drift.'
 $expectedGenerators=@{
     'src/BuildingBlocks/IFX.BuildingBlocks.Application/obj/Release/net8.0/generated/System.Text.RegularExpressions.Generator/System.Text.RegularExpressions.Generator.RegexGenerator/RegexGenerator.g.cs'='eb8ea2d24859e7e532e26553a294ca64f9865fdcb291328d9775e9d4399055f3'
