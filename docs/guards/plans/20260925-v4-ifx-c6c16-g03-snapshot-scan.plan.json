@@ -1,0 +1,29 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c16-g03-snapshot-scan",
+  "title": "Bound the Linux G03 snapshot scan",
+  "goal": "Remove the Linux snapshot timeout without changing G03 semantics or its 60-second ceiling.",
+  "acceptanceCriteria": [
+    "The adapter enumerates only .cs and .csproj semantic inputs and rejects linked directories and files.",
+    "The two deterministic projections and all existing snapshot counts and findings remain unchanged.",
+    "The existing 60-second capability ceiling remains unchanged.",
+    "The owning suite, combined G03 suite, matrix contract, focused Linux run, and final certification pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c16-g03-snapshot-scan.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c16-g03-snapshot-scan.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2e/authority-lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/inventories/20260925-ifx-c6c16-g03-snapshot-scan-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
