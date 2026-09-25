@@ -37,14 +37,18 @@ function Read-Target([string] $Relative, [string] $ExpectedHash) {
 }
 function Source-Files([string] $Root) {
     $files = [Collections.Generic.List[object]]::new()
-    $pending = [Collections.Generic.Stack[string]]::new(); $pending.Push($Root)
+    $pending = [Collections.Generic.Queue[string]]::new(); $pending.Enqueue($Root)
     while ($pending.Count -gt 0) {
-        foreach ($item in @(Get-ChildItem -LiteralPath $pending.Pop() -Force | Sort-Object FullName)) {
-            if ($item.PSIsContainer -and $item.Name -in @('bin','obj')) { continue }
-            if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget) { Stop-Adapter 'unsafe-path' 'G03 source tree contains a link.' }
-            if ($item.PSIsContainer) { $pending.Push($item.FullName) }
-            elseif ($item.Extension -in @('.cs','.csproj')) {
-                $files.Add([ordered]@{ path = [IO.Path]::GetRelativePath($targetRoot, $item.FullName).Replace('\','/'); full = $item.FullName })
+        $current = $pending.Dequeue()
+        foreach ($directoryPath in [IO.Directory]::EnumerateDirectories($current)) {
+            if (([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'G03 source tree contains a link.' }
+            if ([IO.Path]::GetFileName($directoryPath) -in @('bin','obj')) { continue }
+            $pending.Enqueue($directoryPath)
+        }
+        foreach ($pattern in @('*.cs','*.csproj')) {
+            foreach ($filePath in [IO.Directory]::EnumerateFiles($current, $pattern, [IO.SearchOption]::TopDirectoryOnly)) {
+                if (([IO.File]::GetAttributes($filePath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'G03 source tree contains a link.' }
+                $files.Add([ordered]@{ path = [IO.Path]::GetRelativePath($targetRoot, $filePath).Replace('\','/'); full = $filePath })
             }
         }
     }
