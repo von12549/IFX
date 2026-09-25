@@ -74,6 +74,14 @@ attempted immutable-root write controls, native pinned-offline Linux semantic
 parity, direct Pre `10/22`, direct Post `27/57`, dependency Post `37/79`, the
 isolated Package regression, Formal Pre and exact committed Formal Diff.
 
+The C6c4 isolated Package regression passed its positive case and all six
+negative classes at
+`artifacts/guards/v3-ifx-package-test-773930eb85894f678976154a4cd6b7bd`.
+Exact committed Formal Diff for the eight declared C6c4 paths passed at
+`artifacts/guards/p10-ifx-c6c4/formal-diff/summary-diff.json`. These checks
+close the remediation plan's validation obligations; they do not substitute
+for the fresh candidate and certification continuation listed above.
+
 No C6c3 lock, candidate, review, matrix summary or case manifest is promoted by
 this decision. G04 remains `PRE-READY`; P10.2/P10.3 and V3 retirement remain
 out of scope.
