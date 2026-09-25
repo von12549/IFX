@@ -34,6 +34,14 @@ baseline changed.
 - A direct real-repository run in locked image `ifx-c6c-sdk:10.0.303` returned
   `pass`, matched all 13 checks, and completed in 10.718 seconds, below the
   unchanged 60-second ceiling.
+- The refreshed 37-module/83-rule development inventory is:
+  `artifacts/guards/p10-ifx-c6c18/development-inventory/af980c07bb3c43b1931693fe47317a1d/ordinal-inventory.json`.
+- The refreshed inventory projection is
+  `b68ef1a866a456d53b2ef9d28580e62fb912321152f59231b85f0e5a4788ed69`.
+- The rebound matrix contract is
+  `929834ec8f0f5925a3b2f3e5fb5863919b5a3657c41cbfa52e4797d8fee7e350`.
+- The matrix contract and supplemental fixture binding passed at
+  `artifacts/guards/p10-ifx-c6c18/matrix-contract/summary.json`.
 
 Final acceptance remains contingent on refreshed inventory bindings, matrix
 validation, Formal Diff, and a fresh same-commit C6c parallel certification.
