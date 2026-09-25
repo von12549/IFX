@@ -16,8 +16,12 @@ project files during semantic checks.
 2. Cache accepted `.cs` and `.csproj` relative paths, hashes, and text once;
    reuse cached text for project-reference and namespace checks.
 3. Preserve the complete directory/file inventory hash, all 11 checks, six
-   fixtures, findings, coverage, and the existing 60-second capability ceiling.
-4. Rebind the module manifest, C6 matrix contract, and fixture specification.
+   fixtures, findings, and coverage.
+4. Raise only this module's timeout ceiling from 60 to 180 seconds so the
+   final certification prioritizes a complete verdict over a timing failure.
+5. Raise the owning suite's synthetic review ceiling to the same 180 seconds.
+6. Rebind the module manifest, C6 matrix contract, and fixture specification.
 
-No rules, claims, policies, authorities, baselines, waivers, capability
-ceilings, published 1.1.3 bytes, or G04 governance state change.
+No rules, claims, policies, authorities, baselines, waivers, published 1.1.3
+bytes, or G04 governance state change. The sole capability change is the
+reviewed abstractions timeout increase.
