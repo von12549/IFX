@@ -1,0 +1,39 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c6-target-commit-binding",
+  "title": "Bind five evidence-lock adapters to the current TargetRoot commit",
+  "goal": "Reject correctly rehashed evidence locks whose targetCommit differs from TargetRoot HEAD without broadening capabilities.",
+  "acceptanceCriteria": [
+    "Solution, Assembly, Frontend, Database and compiled-Type adapters resolve ordinary checkout and worktree HEAD identities without launching Git or broadening reviewed capabilities.",
+    "Each adapter rejects a correctly rehashed wrong-targetCommit lock as error/integrity-failure; Assembly also binds Solution lineage and compiled-Type binds Solution and Assembly lineage to the same commit.",
+    "All five focused suites retain their existing positive and negative coverage, adapter hashes are rebound in module manifests, and immutable inputs remain unchanged.",
+    "Isolated IFX Package regression, Formal Pre and exact committed Formal Diff pass before fresh C6c5 parallel certification is attempted."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c6-target-commit-binding.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c6-target-commit-binding.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c5b/modules/ifx-solution-evidence/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c5b/modules/ifx-solution-evidence/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c5b/tests/Test-IFXSolutionEvidence.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c5c/modules/ifx-assembly-evidence/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c5c/modules/ifx-assembly-evidence/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c5c/tests/Test-IFXAssemblyEvidence.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c5d/modules/ifx-frontend-evidence/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c5d/modules/ifx-frontend-evidence/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c5d/tests/Test-IFXFrontendEvidence.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4b/modules/ifx-database-evidence/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4b/modules/ifx-database-evidence/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c4b/tests/Test-IFXDatabaseEvidence.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1r1b/modules/ifx-c1-type-provenance/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1r1b/modules/ifx-c1-type-provenance/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1r1b/tests/Test-IFXCompiledTypeEvidence.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c6-target-commit-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
