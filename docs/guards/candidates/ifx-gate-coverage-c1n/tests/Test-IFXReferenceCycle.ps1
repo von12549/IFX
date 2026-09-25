@@ -35,7 +35,7 @@ Assert (Test-Json -LiteralPath $manifestPath -SchemaFile (Join-Path $repoRoot 'd
 Assert ($manifest.id -ceq 'ifx-reference-cycle' -and ($manifest.stages -join ',') -ceq 'pre' -and
     ($manifest.capabilities.readRoots -join ',') -ceq 'PackageRoot,TargetRoot' -and
     @($manifest.capabilities.writeRoots).Count -eq 0 -and ($manifest.capabilities.processes -join ',') -ceq 'pwsh' -and
-    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 30) 'Module identity or capabilities drift.'
+    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 180) 'Module identity or capabilities drift.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256 -and
     (Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Adapter or dependency lock hash drift.'
 foreach ($authority in $manifest.authorities) {
@@ -156,7 +156,7 @@ if ($provided.Count -eq 3) {
     $bundleFiles = @(Get-ChildItem -LiteralPath $bundlePackage -File -Recurse | Sort-Object FullName | ForEach-Object {
         [ordered]@{ path = [IO.Path]::GetRelativePath($bundlePackage, $_.FullName).Replace('\','/'); sha256 = Hash $_.FullName; size = $_.Length }
     })
-    $ceiling = [ordered]@{ readRoots = @('PackageRoot','TargetRoot'); writeRoots = @(); processes = @('pwsh'); network = $false; maxTimeoutSeconds = 30 }
+    $ceiling = [ordered]@{ readRoots = @('PackageRoot','TargetRoot'); writeRoots = @(); processes = @('pwsh'); network = $false; maxTimeoutSeconds = 180 }
     $manifestPath = Join-Path $bundleRoot 'bundle-manifest.json'
     Write-Json $manifestPath ([ordered]@{
         formatVersion = 1; id = 'ifx-c1n-synthetic-extension'; version = '0.1.0'; compatibleApi = '1.x'; baseVersion = '1.1.2'

@@ -124,20 +124,22 @@ if ($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-reference-cycle-c1n' -o
 $sourceRoot = [IO.Path]::GetFullPath((Join-Path $targetRoot 'src'))
 if (-not [IO.Directory]::Exists($sourceRoot)) { Stop-Adapter 'prerequisite-missing' 'TargetRoot/src is missing.' }
 Assert-NoLink $sourceRoot
-$stack = [Collections.Generic.Stack[string]]::new(); $stack.Push($sourceRoot)
+$directories = [Collections.Generic.Queue[string]]::new(); $directories.Enqueue($sourceRoot)
 $entries = [Collections.Generic.List[string]]::new()
-while ($stack.Count -gt 0) {
-    $dir = $stack.Pop()
-    foreach ($item in @(Get-ChildItem -LiteralPath $dir -Force | Sort-Object Name)) {
-        if ($item.PSIsContainer) {
-            if ($item.Name -in @('guard','guards','generated','obj','bin','.git')) { continue }
-            Assert-NoLink $item.FullName
-            $stack.Push($item.FullName)
+while ($directories.Count -gt 0) {
+    $current = $directories.Dequeue()
+    foreach ($directoryPath in [IO.Directory]::EnumerateDirectories($current)) {
+        if (([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Stop-Adapter 'unsafe-path' 'Source path crosses a link.'
         }
-        elseif ($item.Name.EndsWith('.csproj', [StringComparison]::OrdinalIgnoreCase)) {
-            Assert-NoLink $item.FullName
-            $entries.Add($item.FullName)
+        if ([IO.Path]::GetFileName($directoryPath) -in @('guard','guards','generated','obj','bin','.git')) { continue }
+        $directories.Enqueue($directoryPath)
+    }
+    foreach ($projectPath in [IO.Directory]::EnumerateFiles($current, '*.csproj', [IO.SearchOption]::TopDirectoryOnly)) {
+        if (([IO.File]::GetAttributes($projectPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Stop-Adapter 'unsafe-path' 'Source path crosses a link.'
         }
+        $entries.Add([IO.Path]::GetFullPath($projectPath))
     }
 }
 $nodes = [Collections.Generic.Dictionary[string,object]]::new([StringComparer]::OrdinalIgnoreCase)

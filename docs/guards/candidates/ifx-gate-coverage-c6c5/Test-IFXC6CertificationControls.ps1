@@ -74,10 +74,10 @@ function Select-AssemblySourcePath($Assembly) {
 }
 function Select-PostProductionPath($Lock,[string]$Target) {
     $relative = $null
-    if (@($Lock.files).Count -gt 0) { $relative = [string]$Lock.files[0].path }
-    elseif (@($Lock.sourceFiles).Count -gt 0) { $relative = [string]$Lock.sourceFiles[0].path }
-    elseif (@($Lock.assemblies).Count -gt 0) { $relative = Select-AssemblySourcePath $Lock.assemblies[0] }
-    elseif (@($Lock.inputs).Count -gt 0) { $relative = [string]$Lock.inputs[0].path }
+    if ($Lock.PSObject.Properties.Name -contains 'files' -and @($Lock.files).Count -gt 0) { $relative = [string]$Lock.files[0].path }
+    elseif ($Lock.PSObject.Properties.Name -contains 'sourceFiles' -and @($Lock.sourceFiles).Count -gt 0) { $relative = [string]$Lock.sourceFiles[0].path }
+    elseif ($Lock.PSObject.Properties.Name -contains 'assemblies' -and @($Lock.assemblies).Count -gt 0) { $relative = Select-AssemblySourcePath $Lock.assemblies[0] }
+    elseif ($Lock.PSObject.Properties.Name -contains 'inputs' -and @($Lock.inputs).Count -gt 0) { $relative = [string]$Lock.inputs[0].path }
     Assert (-not [string]::IsNullOrWhiteSpace($relative)) 'No post-production mutation subject is available.'
     $full = if ([IO.Path]::IsPathFullyQualified($relative)) { $relative } else { Join-Path $Target $relative }
     Assert ([IO.File]::Exists($full)) "Post-production mutation subject missing: $relative"

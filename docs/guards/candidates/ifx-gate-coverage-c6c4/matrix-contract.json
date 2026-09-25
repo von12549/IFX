@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "ifx-c6c4-independent-matrix-contract",
-  "inventoryProjectionSha256": "737713d2edb63065dc0a4e4abdbf8686d3e6198b5505658c02ca6a63ac3571c3",
+  "inventoryProjectionSha256": "b09f37241a05a09d4f271af6ef7bebc3cd91de444b570b95c3e3e271f067fdc0",
   "moduleCount": 37,
   "blockingRuleCount": 80,
   "advisoryRuleCount": 3,
@@ -19,7 +19,7 @@
     { "ordinal": 6, "id": "ifx-embedded-adapter", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1g/modules/ifx-embedded-adapter/adapter.ps1", "adapterSha256": "4dbaf18500b55881dfbf106993fe6af467dca4a1d5906795ef3492a8539708c9", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage counts foreign Contracts source uses and emits explicit zero findings" },
     { "ordinal": 7, "id": "ifx-source-policy", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1h/modules/ifx-source-policy/adapter.ps1", "adapterSha256": "e93e591b361c3cd6e88dce753cb819f123e9d0d42de760565b5b7af8b7bfca16", "zeroStrategy": "enumerated-zero", "sourceFact": "each claim has an independent counter and explicit zero-matches finding" },
     { "ordinal": 8, "id": "ifx-project-name", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/adapter.ps1", "adapterSha256": "1547028823fabc9c445d675c4b391e31c54ea28c7aea0674706d763ad8116657", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage counts in-scope projects and emits zero in-scope projects" },
-    { "ordinal": 9, "id": "ifx-reference-cycle", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/adapter.ps1", "adapterSha256": "56bff522f730fbae5d99d5bfef2eaed9e10241b21675eaa8e13cba4981528a4d", "zeroStrategy": "enumerated-zero", "sourceFact": "reference and Contracts populations have independent zero findings" },
+    { "ordinal": 9, "id": "ifx-reference-cycle", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/adapter.ps1", "adapterSha256": "e81d25834e9f9fa4e14108a0dc43a39e40618a1fd31cad57ac2380ccb6975375", "zeroStrategy": "enumerated-zero", "sourceFact": "reference and Contracts populations have independent zero findings" },
     { "ordinal": 10, "id": "ifx-injection", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1o/modules/ifx-injection/adapter.ps1", "adapterSha256": "c646aa0d3c3cd12a3a547eeab7531dcbff20f53f8ab08be620d12645025b3d09", "zeroStrategy": "enumerated-zero", "sourceFact": "parameter-name and origin populations have independent zero findings" },
     { "ordinal": 11, "id": "architecture-conformance", "adapterPath": "docs/guards/V4/modules/architecture-conformance/adapter.ps1", "adapterSha256": "227512c6e44cdaf6e391282b05d164abb60e6c89584d414adec72f5cdf07ffe9", "zeroStrategy": "enumerated-zero", "sourceFact": "TYPE_DEPENDENCY emits zero-match when no governed dependency matches" },
     { "ordinal": 12, "id": "ifx-c1-type-provenance", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1r1b/modules/ifx-c1-type-provenance/adapter.ps1", "adapterSha256": "9b85e628659aa3132311f74ca1fdf3cbc6aa8e766aa21335eae042d286a7530b", "zeroStrategy": "integrity-zero", "sourceFact": "the attestation has exactly seven integrity checks and never emits semantic findings", "zeroExitCategory": "integrity-failure" },

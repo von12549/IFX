@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "id": "ifx-c6c4-supplemental-fixtures",
   "status": "complete",
-  "matrixContractSha256": "d1b41a761c38c3226aa890a90eacaa5a3ab4d2de8c2c86b31c04fa800f2e0353",
+  "matrixContractSha256": "25b8a6bc203e871a5c83156be97c37e235ecccd6fc040ee7d86b37ee7c700191",
   "blockedMatrixSummarySha256": "54d5b871bbba4a0c652e4a82b75519ed44aa651dee5ea33472904c25250e3f0c",
   "diagnosticReclassificationSha256": "82e2dfa8eaba3070b2b4dd4fe602b4fa4fe79f7defd4205863dd249ce328ff85",
   "requiredCoreCasesBeforeSupplement": 191,
