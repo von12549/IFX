@@ -18,6 +18,9 @@ the compiled-Type lock uses `sourcePath`.
    `path` property in both Controls mutation selection and shadow copying.
 3. Rebind every changed module manifest plus the matrix-contract and fixture
    specification hashes.
+4. Correct four stale owning-suite assertions from 30 seconds to the already
+   shipped 180-second module ceilings; this records the existing budget and
+   does not broaden it.
 
 ## Validation and boundary
 
@@ -29,4 +32,3 @@ Timeouts, claims, rules, findings, policies, capabilities, cases, baselines,
 waivers, published 1.1.3 bytes and G04 governance remain unchanged. Final C6c
 still requires Windows/Linux 191/191 equality, 42 lock controls, 180 capability
 variants and zero gaps.
-
