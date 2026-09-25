@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c5-certification-controls",
+  "title": "Complete C6c confinement controls and bounded dual-platform execution",
+  "goal": "Prove all remaining lock, capability and root-confinement controls and run the identical 191-row matrix on Windows and pinned offline Linux within the original short-lock validity window.",
+  "acceptanceCriteria": [
+    "A fail-closed control matrix proves current, missing, altered, stale or expired, wrong-commit and post-production-change behavior for all seven lock families without mutating original evidence.",
+    "All 36 external modules reject independent read-root, write-root, process, network and timeout capability broadening, for 180 schema-valid disposable variants.",
+    "Root overlap, nested state or evidence, traversal, supported link escape and attempted PackageRoot or TargetRoot writes fail closed while immutable-root fingerprints remain equal.",
+    "One orchestrated run starts Windows, pinned network-disabled Linux and control certification concurrently; both platforms prove 191 of 191 rows from identical fixture bytes and have equal normalized semantic projections.",
+    "A fresh C6b0 inventory, seven locks, 0.3.0 bundle and synthetic review are bound to the implementation commit; isolated IFX Package regression, Formal Pre and exact committed Formal Diff pass without claiming C6d or C6e."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c5-certification-controls.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c5-certification-controls.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationControls.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Invoke-IFXC6LinuxCertification.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Invoke-IFXC6ParallelCertification.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c5-certification-decision.md"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
