@@ -23,6 +23,12 @@ Certification controls now use one field-presence helper. It calls
 inspection for ordinary PowerShell objects. The helper governs both lock
 collection selection and the `path`/`sourcePath` assembly distinction.
 
+The full Controls run also proved that the former generic missing-lock fixture
+could violate a module's lock-path grammar before exercising file absence.
+Missing-lock cases now replace only the governed 32-hex run identifier in the
+module's already-valid configured path, preserving each adapter's path grammar
+and isolating the expected `prerequisite-missing` classification.
+
 No evidence schema, lock lineage, rule, claim, case, finding, policy,
 capability ceiling, timeout, waiver, published package byte, or governance
 state changes.
@@ -42,4 +48,3 @@ C6c remains open until the committed C6c14 HEAD receives fresh same-commit
 inventory, seven evidence locks, candidate evidence, Windows/Linux 191/191,
 42 controls, 180 capability variants, semantic parity, zero gaps, and formal
 Diff.
-
