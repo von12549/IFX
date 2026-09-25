@@ -24,10 +24,14 @@ function Fingerprint([string]$Root) {
     if (-not [IO.Directory]::Exists($Root)) { return '<absent>' }
     @((Get-ChildItem -LiteralPath $Root -File -Recurse -Force | Sort-Object FullName | ForEach-Object { "$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)" })) -join "`n"
 }
+$sourceCommit = (& git -C $repo rev-parse HEAD).Trim().ToLowerInvariant()
+Assert ($LASTEXITCODE -eq 0 -and $sourceCommit -cmatch '^[a-f0-9]{40}$') 'Supplemental source commit unavailable.'
 function New-Target([string]$Name) {
     $target = Join-Path $runRoot "targets/$Name"
     [void][IO.Directory]::CreateDirectory($target)
     [void][IO.Directory]::CreateDirectory((Join-Path $target 'src'))
+    [void][IO.Directory]::CreateDirectory((Join-Path $target '.git'))
+    Write-Utf8 (Join-Path $target '.git/HEAD') "$sourceCommit`n"
     Write-Utf8 (Join-Path $target 'fixture.txt') "$Name`n"
     return $target
 }
@@ -306,8 +310,13 @@ foreach($file in Get-ChildItem -LiteralPath (Join-Path $repo 'src/Frontend/IFX.F
 foreach($relative in @('IFX.sln','Directory.Build.props','Directory.Packages.props','docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json','docs/guards/V3_ifx/stages/post/policy/layerguard.json','docs/guards/candidates/ifx-gate-coverage-c1n/modules/ifx-reference-cycle/policy.json','docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/policy.json')){Copy-TargetFile (Join-Path $repo $relative) $relative}
 
 $seedSolutionRelative=Lineage-Path 'solution';$seedAssemblyRelative=Lineage-Path 'assembly';$seedFrontendRelative=Lineage-Path 'frontend';$seedTypeRelative=Lineage-Path 'type';$seedGraphRelative=Lineage-Path 'graph'
+$seedSolution=Get-Content -Raw -LiteralPath (Join-Path $repo $seedSolutionRelative)|ConvertFrom-Json -Depth 100
 $seedAssembly=Get-Content -Raw -LiteralPath (Join-Path $repo $seedAssemblyRelative)|ConvertFrom-Json -Depth 100
+$seedFrontend=Get-Content -Raw -LiteralPath (Join-Path $repo $seedFrontendRelative)|ConvertFrom-Json -Depth 100
 $seedType=Get-Content -Raw -LiteralPath (Join-Path $repo $seedTypeRelative)|ConvertFrom-Json -Depth 100
+$lineageCommit=[string]$seedType.targetCommit
+Assert ($lineageCommit -cmatch '^[a-f0-9]{40}$' -and $seedSolution.targetCommit -ceq $lineageCommit -and $seedAssembly.targetCommit -ceq $lineageCommit -and $seedFrontend.targetCommit -ceq $lineageCommit) 'Supplemental lineage commit mismatch.'
+Write-Utf8 (Join-Path $lineageTarget '.git/HEAD') "$lineageCommit`n"
 foreach($relative in @($seedAssembly.assemblies.path)+@($seedType.assemblies.sourcePath)|Sort-Object -Unique){Copy-TargetFile (Join-Path $repo $relative) $relative}
 $now=[DateTimeOffset]::UtcNow
 

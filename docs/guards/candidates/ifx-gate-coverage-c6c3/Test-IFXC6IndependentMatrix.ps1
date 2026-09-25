@@ -148,6 +148,8 @@ if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseInstallRoot')){$p
 if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseReceiptPath')){$parameters.BaseReceiptPath=$BaseReceiptPath}
 if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseArchivePath')){$parameters.BaseArchivePath=$BaseArchivePath}
 if($command.Parameters.ContainsKey('RealEvidenceLockPath')){$parameters.RealEvidenceLockPath=$RealEvidenceLockPath}
+if($command.Parameters.ContainsKey('SolutionLockPath')){$parameters.SolutionLockPath=$SolutionLockPath}
+if($command.Parameters.ContainsKey('AssemblyLockPath')){$parameters.AssemblyLockPath=$AssemblyLockPath}
 & $scriptToRun @parameters
 exit $LASTEXITCODE
 '@

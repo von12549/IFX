@@ -161,6 +161,7 @@ foreach ($moduleEntry in @($bundleManifest.modules | Sort-Object id)) {
         $variantReviewDocument.bundleManifestSha256=Hash (Join-Path $variantBundle 'bundle-manifest.json'); Write-Json $variantReview $variantReviewDocument
         $capabilityCases.Add((Invoke-ComposeReject "$id-$dimension" $variantBundle $variantReview 'Module capabilities exceed or differ from reviewed ceiling'))
     }
+    Copy-Item -LiteralPath $originalModule -Destination $variantModule -Force
 }
 Assert ($capabilityCases.Count -eq 180) 'Capability control cardinality drift.'
 
