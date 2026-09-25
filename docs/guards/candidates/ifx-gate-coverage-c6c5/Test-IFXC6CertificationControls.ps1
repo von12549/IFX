@@ -193,7 +193,7 @@ foreach ($writeRoot in @('PackageRoot','TargetRoot')) {
 
 # One exact-byte shadow checkout hosts all disposable lock/evidence mutations.
 $shadow=Join-Path $workRoot 'lock-shadow'
-$clone=@(& git clone --no-local --quiet -c core.autocrlf=true $repo $shadow 2>&1); Assert ($LASTEXITCODE -eq 0) "Lock shadow clone failed: $($clone -join ' ')"
+$clone=@(& git clone --no-local --quiet -c core.autocrlf=true -c core.longpaths=true $repo $shadow 2>&1); Assert ($LASTEXITCODE -eq 0) "Lock shadow clone failed: $($clone -join ' ')"
 $trackedPaths=@(& git -C $repo -c core.quotePath=false ls-files); Assert ($LASTEXITCODE -eq 0 -and $trackedPaths.Count -gt 4000) 'Tracked source inventory unavailable.'
 foreach ($relative in $trackedPaths) { $sourceFile=Join-Path $repo $relative; $targetFile=Join-Path $shadow $relative; [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($targetFile)); Copy-Item -LiteralPath $sourceFile -Destination $targetFile -Force }
 foreach ($lock in $lineage.locks) { $sourceDir=Split-Path -Parent (Join-Path $repo $lock.path); $targetDir=Split-Path -Parent (Join-Path $shadow $lock.path); [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($targetDir)); Copy-Item -LiteralPath $sourceDir -Destination $targetDir -Recurse }

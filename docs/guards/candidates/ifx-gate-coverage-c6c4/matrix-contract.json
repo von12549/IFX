@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "id": "ifx-c6c4-independent-matrix-contract",
-  "inventoryProjectionSha256": "859f006fc77eb856598f9f8d0ab69aa8453b0c16065bd47bb3edf0de66dd97e8",
+  "inventoryProjectionSha256": "c16e13f884dc129819d63113ea5ae2f736138e4cb7271f82fe90e7fb70b8dbbb",
   "moduleCount": 37,
   "blockingRuleCount": 80,
   "advisoryRuleCount": 3,
@@ -12,7 +12,7 @@
   },
   "modules": [
     { "ordinal": 1, "id": "ifx-domain-reference", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/adapter.ps1", "adapterSha256": "94230e9ee3654404ce677029e88c11b89f94c0ef2b3dd46d15ecfa598dceef90", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage counts selected Domain projects and emits a zero-Domain-project finding" },
-    { "ordinal": 2, "id": "ifx-package-reference", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1c/modules/ifx-package-reference/adapter.ps1", "adapterSha256": "aa366a97a2d3ca3def13895ee774b12bbadceeaff7087f25074f5a3af9f20067", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage is split by governed ring and emits a zero-ring-project finding" },
+    { "ordinal": 2, "id": "ifx-package-reference", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1c/modules/ifx-package-reference/adapter.ps1", "adapterSha256": "ce39c24b2553ec11ebdebf32aca6fb9b67aa460d7c3e6057197d297302e0dd2c", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage is split by governed ring and emits a zero-ring-project finding" },
     { "ordinal": 3, "id": "ifx-ring-graph", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1d/modules/ifx-ring-graph/adapter.ps1", "adapterSha256": "03409c041a03b85ebcc38db6b18e13a9a46b9911115be28888d08170be731b9b", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage counts graph projects and emits a zero-Domain-project finding" },
     { "ordinal": 4, "id": "ifx-ownership-graph", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1e/modules/ifx-ownership-graph/adapter.ps1", "adapterSha256": "3e30dbc2cc02d7b21a5e05a6afa7364189b9dc8819ee1afa236bcbd282557fc9", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage counts graph projects and emits a zero-Application-project finding" },
     { "ordinal": 5, "id": "ifx-provider-cycle", "adapterPath": "docs/guards/candidates/ifx-gate-coverage-c1f/modules/ifx-provider-cycle/adapter.ps1", "adapterSha256": "a90def8e9b60a96dbd33e369c937c6584b2ae648432984395565c003133b457d", "zeroStrategy": "enumerated-zero", "sourceFact": "coverage counts provider edges and emits zero provider edges" },

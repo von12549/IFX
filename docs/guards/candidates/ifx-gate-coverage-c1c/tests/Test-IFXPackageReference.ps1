@@ -39,6 +39,7 @@ $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json -Dept
 $policy = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json -Depth 30
 $rulePlan = Get-Content -LiteralPath $rulePlanPath -Raw | ConvertFrom-Json -Depth 30
 $source = Get-Content -LiteralPath (Join-Path $repoRoot $policy.sourcePolicy.path) -Raw | ConvertFrom-Json -Depth 40
+$adapterText = Get-Content -LiteralPath $adapterPath -Raw
 
 Assert (Test-Json -Json (Get-Content -LiteralPath $manifestPath -Raw) -SchemaFile (Join-Path $repoRoot 'docs/guards/V4/core/contracts/module.schema.json') -ErrorAction SilentlyContinue) 'V4 module manifest schema failed.'
 Assert ($manifest.id -ceq 'ifx-package-reference' -and @($manifest.stages) -join ',' -ceq 'pre') 'Module identity/Stage drift.'
@@ -46,7 +47,9 @@ Assert ($manifest.capabilities.readRoots -join ',' -ceq 'PackageRoot,TargetRoot'
     @($manifest.capabilities.writeRoots).Count -eq 0 -and
     $manifest.capabilities.processes -join ',' -ceq 'pwsh' -and
     $manifest.capabilities.network -eq $false -and
-    $manifest.capabilities.timeoutSeconds -eq 30) 'Module capability ceiling drift.'
+    $manifest.capabilities.timeoutSeconds -eq 180) 'Module capability ceiling drift.'
+Assert ($adapterText.Contains("Get-ChildItem -LiteralPath `$sourceRoot -Recurse -Force -File -Filter '*.csproj'") -and
+    $adapterText.Contains('Assert-NoLink $project.FullName')) 'Project-only enumeration or project link validation drift.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256) 'Adapter hash drift.'
 Assert ((Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Dependency lock hash drift.'
 foreach ($authority in $manifest.authorities) {

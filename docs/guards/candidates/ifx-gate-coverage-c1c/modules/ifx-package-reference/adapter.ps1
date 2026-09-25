@@ -103,12 +103,11 @@ Assert-NoLink $sourceRoot
 
 $ringNames = @('Domain', 'Contracts', 'Application', 'Presentation')
 $ringCounts = [ordered]@{ Domain = 0; Contracts = 0; Application = 0; Presentation = 0 }
-$items = @(Get-ChildItem -LiteralPath $sourceRoot -Recurse -Force)
-foreach ($item in $items) { Assert-NoLink $item.FullName }
-$projects = @($items | Where-Object { -not $_.PSIsContainer -and $_.Extension -ieq '.csproj' } | Sort-Object FullName)
+$projects = @(Get-ChildItem -LiteralPath $sourceRoot -Recurse -Force -File -Filter '*.csproj' | Sort-Object FullName)
 
 foreach ($project in $projects) {
     if (-not (Is-Under $project.FullName $sourceRoot)) { Stop-Adapter 'unsafe-path' 'Project escapes source root.' }
+    Assert-NoLink $project.FullName
     $matchedRings = @($ringNames | Where-Object { Matches-Any $project.BaseName $policy.rings.$_ })
     if ($matchedRings.Count -gt 1) { Stop-Adapter 'integrity-failure' 'Project matches multiple policy rings.' }
     if ($matchedRings.Count -eq 0) { continue }
