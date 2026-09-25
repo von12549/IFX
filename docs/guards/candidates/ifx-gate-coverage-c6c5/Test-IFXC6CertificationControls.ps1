@@ -16,6 +16,10 @@ $ErrorActionPreference = 'Stop'
 function Assert([bool]$Condition,[string]$Message) { if (-not $Condition) { throw $Message } }
 function Hash([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 function Text-Hash([string]$Value) { [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Value))).ToLowerInvariant() }
+function Test-Field($Value,[string]$Name) {
+    if ($Value -is [Collections.IDictionary]) { return $Value.Contains($Name) }
+    $Value.PSObject.Properties.Name -contains $Name
+}
 function Write-Json([string]$Path,$Value) {
     [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($Path)))
     [IO.File]::WriteAllText($Path,(($Value | ConvertTo-Json -Depth 100).Replace("`r`n","`n") + "`n"),[Text.UTF8Encoding]::new($false))
@@ -68,16 +72,16 @@ function Assert-AdapterCase([string]$LockId,[string]$ModuleId,[string]$CaseId,$C
     $lockCases.Add([ordered]@{id="$LockId/$CaseId";lockId=$LockId;detectorId=$ModuleId;status=[string]$result.status;exitCategory=[string]$result.exitCategory;findingCount=@($result.findings).Count;resultSha256=Text-Hash ($result | ConvertTo-Json -Depth 100 -Compress)})
 }
 function Select-AssemblySourcePath($Assembly) {
-    if ($Assembly.PSObject.Properties.Name -contains 'sourcePath') { return [string]$Assembly.sourcePath }
-    if ($Assembly.PSObject.Properties.Name -contains 'path') { return [string]$Assembly.path }
+    if (Test-Field $Assembly 'sourcePath') { return [string]$Assembly.sourcePath }
+    if (Test-Field $Assembly 'path') { return [string]$Assembly.path }
     throw 'Assembly entry has no source path.'
 }
 function Select-PostProductionPath($Lock,[string]$Target) {
     $relative = $null
-    if ($Lock.PSObject.Properties.Name -contains 'files' -and @($Lock.files).Count -gt 0) { $relative = [string]$Lock.files[0].path }
-    elseif ($Lock.PSObject.Properties.Name -contains 'sourceFiles' -and @($Lock.sourceFiles).Count -gt 0) { $relative = [string]$Lock.sourceFiles[0].path }
-    elseif ($Lock.PSObject.Properties.Name -contains 'assemblies' -and @($Lock.assemblies).Count -gt 0) { $relative = Select-AssemblySourcePath $Lock.assemblies[0] }
-    elseif ($Lock.PSObject.Properties.Name -contains 'inputs' -and @($Lock.inputs).Count -gt 0) { $relative = [string]$Lock.inputs[0].path }
+    if ((Test-Field $Lock 'files') -and @($Lock.files).Count -gt 0) { $relative = [string]$Lock.files[0].path }
+    elseif ((Test-Field $Lock 'sourceFiles') -and @($Lock.sourceFiles).Count -gt 0) { $relative = [string]$Lock.sourceFiles[0].path }
+    elseif ((Test-Field $Lock 'assemblies') -and @($Lock.assemblies).Count -gt 0) { $relative = Select-AssemblySourcePath $Lock.assemblies[0] }
+    elseif ((Test-Field $Lock 'inputs') -and @($Lock.inputs).Count -gt 0) { $relative = [string]$Lock.inputs[0].path }
     Assert (-not [string]::IsNullOrWhiteSpace($relative)) 'No post-production mutation subject is available.'
     $full = if ([IO.Path]::IsPathFullyQualified($relative)) { $relative } else { Join-Path $Target $relative }
     Assert ([IO.File]::Exists($full)) "Post-production mutation subject missing: $relative"
