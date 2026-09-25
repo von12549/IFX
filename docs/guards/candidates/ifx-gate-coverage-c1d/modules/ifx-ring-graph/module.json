@@ -7,7 +7,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-ring-graph/adapter.ps1",
-    "sha256": "03409c041a03b85ebcc38db6b18e13a9a46b9911115be28888d08170be731b9b"
+    "sha256": "b07b1eb7b34c1601d9710a867d68c20a3a0f253c919fb2a7f1aa5b6e6721f456"
   },
   "prerequisites": [{ "runtime": "pwsh", "versionRange": ">=7.4" }],
   "stages": ["pre"],

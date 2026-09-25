@@ -67,11 +67,16 @@ function Assert-AdapterCase([string]$LockId,[string]$ModuleId,[string]$CaseId,$C
     Assert ($result.status -ceq $Status -and $result.exitCategory -ceq $Category) "Lock control mismatch: $LockId/$CaseId => $($result.status)/$($result.exitCategory)"
     $lockCases.Add([ordered]@{id="$LockId/$CaseId";lockId=$LockId;detectorId=$ModuleId;status=[string]$result.status;exitCategory=[string]$result.exitCategory;findingCount=@($result.findings).Count;resultSha256=Text-Hash ($result | ConvertTo-Json -Depth 100 -Compress)})
 }
+function Select-AssemblySourcePath($Assembly) {
+    if ($Assembly.PSObject.Properties.Name -contains 'sourcePath') { return [string]$Assembly.sourcePath }
+    if ($Assembly.PSObject.Properties.Name -contains 'path') { return [string]$Assembly.path }
+    throw 'Assembly entry has no source path.'
+}
 function Select-PostProductionPath($Lock,[string]$Target) {
     $relative = $null
     if (@($Lock.files).Count -gt 0) { $relative = [string]$Lock.files[0].path }
     elseif (@($Lock.sourceFiles).Count -gt 0) { $relative = [string]$Lock.sourceFiles[0].path }
-    elseif (@($Lock.assemblies).Count -gt 0) { $relative = [string]$Lock.assemblies[0].sourcePath }
+    elseif (@($Lock.assemblies).Count -gt 0) { $relative = Select-AssemblySourcePath $Lock.assemblies[0] }
     elseif (@($Lock.inputs).Count -gt 0) { $relative = [string]$Lock.inputs[0].path }
     Assert (-not [string]::IsNullOrWhiteSpace($relative)) 'No post-production mutation subject is available.'
     $full = if ([IO.Path]::IsPathFullyQualified($relative)) { $relative } else { Join-Path $Target $relative }
@@ -202,8 +207,9 @@ $binaryLocks=@($lineage.locks|Where-Object id -In @('assembly','type'))
 foreach($binaryLock in $binaryLocks){
     $document=Get-Content (Join-Path $repo $binaryLock.path) -Raw|ConvertFrom-Json -Depth 100
     foreach($assembly in @($document.assemblies)){
-        $source=Join-Path $repo ([string]$assembly.sourcePath);$destination=Join-Path $shadow ([string]$assembly.sourcePath)
-        Assert ([IO.File]::Exists($source)) "Locked source assembly missing: $($assembly.sourcePath)"
+        $relative=Select-AssemblySourcePath $assembly
+        $source=Join-Path $repo $relative;$destination=Join-Path $shadow $relative
+        Assert ([IO.File]::Exists($source)) "Locked source assembly missing: $relative"
         [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination));Copy-Item -LiteralPath $source -Destination $destination -Force
     }
 }

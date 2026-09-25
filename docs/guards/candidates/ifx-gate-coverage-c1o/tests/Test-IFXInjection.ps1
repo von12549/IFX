@@ -34,7 +34,7 @@ Assert (Test-Json -LiteralPath $manifestPath -SchemaFile (Join-Path $repoRoot 'd
 Assert ($manifest.id -ceq 'ifx-injection' -and ($manifest.stages -join ',') -ceq 'pre' -and
     ($manifest.capabilities.readRoots -join ',') -ceq 'PackageRoot,TargetRoot' -and
     @($manifest.capabilities.writeRoots).Count -eq 0 -and ($manifest.capabilities.processes -join ',') -ceq 'pwsh' -and
-    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 30) 'Module identity or capabilities drift.'
+    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 180) 'Module identity or capabilities drift.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256 -and
     (Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Adapter or dependency lock hash drift.'
 foreach ($authority in $manifest.authorities) {

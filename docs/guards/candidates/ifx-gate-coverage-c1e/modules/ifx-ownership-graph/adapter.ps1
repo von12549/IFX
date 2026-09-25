@@ -183,9 +183,26 @@ $sourceRoot = [IO.Path]::GetFullPath((Join-Path $targetRoot 'src'))
 if (-not (Is-Under $sourceRoot $targetRoot)) { Stop-Adapter 'unsafe-path' 'Source root escapes TargetRoot.' }
 if (-not [IO.Directory]::Exists($sourceRoot)) { Stop-Adapter 'prerequisite-missing' 'TargetRoot/src is missing.' }
 Assert-NoLink $sourceRoot
-$items = @(Get-ChildItem -LiteralPath $sourceRoot -Recurse -Force)
-foreach ($item in $items) { Assert-NoLink $item.FullName }
-$entries = @($items | Where-Object { -not $_.PSIsContainer -and $_.Extension -ieq '.csproj' } | Sort-Object FullName | ForEach-Object FullName)
+$entryList = [Collections.Generic.List[string]]::new()
+$directories = [Collections.Generic.Queue[string]]::new()
+$directories.Enqueue($sourceRoot)
+while ($directories.Count -gt 0) {
+    $current = $directories.Dequeue()
+    foreach ($directoryPath in [IO.Directory]::EnumerateDirectories($current)) {
+        if (([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Stop-Adapter 'unsafe-path' 'Source path crosses a link.'
+        }
+        if ([IO.Path]::GetFileName($directoryPath) -in @('bin','obj','.git')) { continue }
+        $directories.Enqueue($directoryPath)
+    }
+    foreach ($projectPath in [IO.Directory]::EnumerateFiles($current, '*.csproj', [IO.SearchOption]::TopDirectoryOnly)) {
+        if (([IO.File]::GetAttributes($projectPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Stop-Adapter 'unsafe-path' 'Source path crosses a link.'
+        }
+        $entryList.Add([IO.Path]::GetFullPath($projectPath))
+    }
+}
+$entries = @($entryList | Sort-Object)
 
 $nodes = [Collections.Generic.Dictionary[string,object]]::new([StringComparer]::OrdinalIgnoreCase)
 $pending = [Collections.Generic.Queue[string]]::new()

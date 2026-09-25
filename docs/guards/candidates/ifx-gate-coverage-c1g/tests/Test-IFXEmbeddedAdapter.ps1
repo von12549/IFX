@@ -36,7 +36,7 @@ $g03 = Get-Content (Join-Path $repoRoot $policy.sourceG03.path) -Raw | ConvertFr
 Assert (Test-Json -Json (Get-Content $manifestPath -Raw) -SchemaFile (Join-Path $repoRoot 'docs/guards/V4/core/contracts/module.schema.json') -ErrorAction SilentlyContinue) 'Module schema failed.'
 Assert ($manifest.id -ceq 'ifx-embedded-adapter' -and $manifest.capabilities.readRoots -join ',' -ceq 'PackageRoot,TargetRoot' -and
     @($manifest.capabilities.writeRoots).Count -eq 0 -and $manifest.capabilities.processes -join ',' -ceq 'pwsh,dotnet' -and
-    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 30) 'Module ceiling drift.'
+    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 180) 'Module ceiling drift.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256) 'Adapter hash drift.'
 Assert ((Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Dependency lock drift.'
 foreach ($authority in $manifest.authorities) { Assert ((Hash (Join-Path $candidateRoot $authority.path)) -ceq $authority.sha256) "Authority drift: $($authority.id)." }

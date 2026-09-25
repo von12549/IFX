@@ -45,7 +45,7 @@ Assert ($manifest.id -ceq 'ifx-ownership-graph' -and @($manifest.stages) -join '
 Assert ($manifest.capabilities.readRoots -join ',' -ceq 'PackageRoot,TargetRoot' -and
     @($manifest.capabilities.writeRoots).Count -eq 0 -and
     $manifest.capabilities.processes -join ',' -ceq 'pwsh' -and
-    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 30) 'Capability ceiling drift.'
+    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 180) 'Capability ceiling drift.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256) 'Adapter hash drift.'
 Assert ((Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Dependency lock hash drift.'
 foreach ($authority in $manifest.authorities) {

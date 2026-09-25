@@ -177,10 +177,32 @@ $sourceRoot = [IO.Path]::GetFullPath((Join-Path $targetRoot 'src'))
 if (-not (Is-Under $sourceRoot $targetRoot)) { Stop-Adapter 'unsafe-path' 'Source root escapes TargetRoot.' }
 if (-not [IO.Directory]::Exists($sourceRoot)) { Stop-Adapter 'prerequisite-missing' 'TargetRoot/src is missing.' }
 Assert-NoLink $sourceRoot
-$items = @(Get-ChildItem -LiteralPath $sourceRoot -Recurse -Force)
-foreach ($item in $items) { Assert-NoLink $item.FullName }
+$projectList = [Collections.Generic.List[object]]::new()
+$sourceList = [Collections.Generic.List[object]]::new()
+$directories = [Collections.Generic.Queue[string]]::new()
+$directories.Enqueue($sourceRoot)
+while ($directories.Count -gt 0) {
+    $current = $directories.Dequeue()
+    foreach ($directoryPath in [IO.Directory]::EnumerateDirectories($current)) {
+        if (([IO.File]::GetAttributes($directoryPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Stop-Adapter 'unsafe-path' 'Source path crosses a link.'
+        }
+        if (Is-Excluded $directoryPath) { continue }
+        $directories.Enqueue($directoryPath)
+    }
+    foreach ($projectPath in [IO.Directory]::EnumerateFiles($current, '*.csproj', [IO.SearchOption]::TopDirectoryOnly)) {
+        if (([IO.File]::GetAttributes($projectPath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'Source path crosses a link.' }
+        if (-not (Is-Excluded $projectPath)) { $projectList.Add([IO.FileInfo]::new($projectPath)) }
+    }
+    foreach ($sourcePath in [IO.Directory]::EnumerateFiles($current, '*.cs', [IO.SearchOption]::TopDirectoryOnly)) {
+        if (([IO.File]::GetAttributes($sourcePath) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'Source path crosses a link.' }
+        if (-not (Is-Excluded $sourcePath)) { $sourceList.Add([IO.FileInfo]::new($sourcePath)) }
+    }
+}
+$projectItems = @($projectList | Sort-Object FullName)
+$sourceItems = @($sourceList | Sort-Object FullName)
 $projects = [Collections.Generic.List[object]]::new()
-foreach ($item in @($items | Where-Object { -not $_.PSIsContainer -and $_.Extension -ieq '.csproj' -and -not (Is-Excluded $_.FullName) } | Sort-Object FullName)) {
+foreach ($item in $projectItems) {
     try {
         $settings = [Xml.XmlReaderSettings]::new(); $settings.DtdProcessing = [Xml.DtdProcessing]::Prohibit; $settings.XmlResolver = $null
         $reader = [Xml.XmlReader]::Create($item.FullName, $settings)
@@ -197,7 +219,7 @@ $script:byLongestName = @($projects | Sort-Object @{ Expression = { $_.name.Leng
 if (-not (Load-Roslyn)) { Stop-Adapter 'prerequisite-missing' 'Compatible Roslyn and installed .NET 10 SDK are required.' }
 $units = [Collections.Generic.List[object]]::new()
 $script:declarationIndex = [Collections.Generic.Dictionary[string,object]]::new([StringComparer]::Ordinal)
-foreach ($source in @($items | Where-Object { -not $_.PSIsContainer -and $_.Extension -ieq '.cs' -and -not (Is-Excluded $_.FullName) } | Sort-Object FullName)) {
+foreach ($source in $sourceItems) {
     $owners = @($projects | Where-Object { Is-Under $source.FullName $_.directory } | Sort-Object @{ Expression = { $_.directory.Length }; Descending = $true })
     if ($owners.Count -eq 0) { continue }
     $owner = $owners[0]
