@@ -53,6 +53,7 @@ Get-ChildItem -LiteralPath $frontend -File -Recurse -Force|
     Where-Object{$_.Extension -in '.ts','.tsx','.js','.json','.html','.css','.svg','.mjs','.cjs' -and $_.FullName -notmatch '[\\/](node_modules|dist|coverage|\.vite)[\\/]'}|
     ForEach-Object{$relative=[IO.Path]::GetRelativePath($repo,$_.FullName);$destination=Join-Path $target $relative;[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination));[IO.File]::Copy($_.FullName,$destination)}
 $original=Get-Content $realLock -Raw|ConvertFrom-Json -AsHashtable -Depth 100
+[void][IO.Directory]::CreateDirectory((Join-Path $target '.git'));[IO.File]::WriteAllText((Join-Path $target '.git/HEAD'),([string]$original.targetCommit+"`n"),[Text.UTF8Encoding]::new($false))
 $targetLock=Join-Path $target $realConfig.evidenceLockPath;[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($targetLock));[IO.File]::Copy($realLock,$targetLock)
 foreach($entry in $original.files){$destination=Join-Path $target $entry.path;[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination));[IO.File]::Copy((Join-Path $repo $entry.path),$destination)}
 $hostConfig=Config $target $targetLock;$synthetic=Invoke-Adapter $target $hostConfig
@@ -64,6 +65,7 @@ function Fixture([string]$Mutation){
     $lock.files=$files
     if($Mutation -eq 'zero-tests'){$lock.testCount=0}
     if($Mutation -eq 'stale'){$lock.startedAt=([DateTimeOffset]::UtcNow.AddHours(-26)).ToString('o');$lock.completedAt=([DateTimeOffset]::UtcNow.AddHours(-25)).ToString('o')}
+    if($Mutation -eq 'wrong-commit'){$lock.targetCommit='0'*40}
     if($Mutation -eq 'high-vulnerability'){
         $entry=@($files|Where-Object{$_.path -like '*/quality/npm-audit.json'})[0];$path=Join-Path $target $entry.path;$audit=Get-Content $path -Raw|ConvertFrom-Json -AsHashtable;$audit.metadata.vulnerabilities.high=1;Write-Json $path $audit;$entry.sha256=Hash $path
     }
@@ -72,7 +74,7 @@ function Fixture([string]$Mutation){
     }
     $path=Join-Path $target ($prefix+'evidence-lock.json');Write-Json $path $lock;return $path
 }
-foreach($mutation in @('zero-tests','stale','high-vulnerability','failed-summary')){$fixture=Fixture $mutation;$result=Invoke-Adapter $target (Config $target $fixture);Assert ($result.status -ne 'pass') "$mutation did not block.";$cases.Add([ordered]@{id=$mutation;status=$result.status;category=$result.exitCategory})}
+foreach($mutation in @('zero-tests','stale','high-vulnerability','failed-summary','wrong-commit')){$fixture=Fixture $mutation;$result=Invoke-Adapter $target (Config $target $fixture);Assert ($result.status -ne 'pass') "$mutation did not block.";$cases.Add([ordered]@{id=$mutation;status=$result.status;category=$result.exitCategory})}
 $bundle=Join-Path $run 'bundle';$bundlePackage=Join-Path $bundle 'package';$bundleModule=Join-Path $bundlePackage 'modules/ifx-frontend-evidence'
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($bundleModule));Copy-Item -LiteralPath $module -Destination $bundleModule -Recurse
 $profileId='ifx_c5d_fixture';$profilePath=Join-Path $bundlePackage "profiles/catalog/$profileId/profile.json"

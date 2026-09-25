@@ -1,5 +1,7 @@
 [CmdletBinding()]
 param(
+    [Parameter(Mandatory)][string]$SolutionLockPath,
+    [Parameter(Mandatory)][string]$AssemblyLockPath,
     [string]$BaseInstallRoot='D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.3',
     [string]$BaseReceiptPath='D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.3.install.json',
     [string]$BaseArchivePath='artifacts/guards/p10-ifx-c3b/base-archive/v4-guards-1.1.3.zip',
@@ -25,7 +27,7 @@ Assert ((Hash (Join-Path $source 'adapter.ps1')) -ceq $moduleManifest.adapter.sh
 foreach($authority in $moduleManifest.authorities){Assert ((Hash (Join-Path $candidate $authority.path)) -ceq $authority.sha256) "Module authority drift: $($authority.id)"}
 $runId=[guid]::NewGuid().ToString('N')
 $producer=Join-Path $candidate 'Invoke-IFXCompiledTypeEvidenceProducer.ps1'
-$lines=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $producer -TargetRoot $repo -RunId $runId 2>&1)
+$lines=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $producer -TargetRoot $repo -SolutionLockPath $SolutionLockPath -AssemblyLockPath $AssemblyLockPath -RunId $runId 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Controlled evidence producer failed: $($lines -join "`n")"
 $typeEvidence=Join-Path $repo "artifacts/guards/p10-ifx-c1-r1b/type-runs/$runId"
 $lockPath=Join-Path $typeEvidence 'evidence-lock.json';$manifestPath=Join-Path $typeEvidence 'assembly-manifest.json'
@@ -104,6 +106,13 @@ try{
     Assert ($staleResult.status -ceq 'error' -and $staleResult.exitCategory -ceq 'integrity-failure') 'Stale evidence did not block.'
 }finally{[IO.File]::WriteAllBytes($lockPath,$originalLock)}
 try{
+    $wrongCommit=Get-Content $lockPath -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$wrongCommit.targetCommit='0'*40
+    Write-Json $lockPath $wrongCommit
+    $wrongCommitConfig=$provenanceConfig|ConvertTo-Json -Depth 50|ConvertFrom-Json -AsHashtable -Depth 50;$wrongCommitConfig.evidenceLockSha256=Hash $lockPath
+    $wrongCommitResult=Invoke-ProvenanceNegative 'wrong-commit' $wrongCommitConfig
+    Assert ($wrongCommitResult.status -ceq 'error' -and $wrongCommitResult.exitCategory -ceq 'integrity-failure') 'Wrong target commit did not block.'
+}finally{[IO.File]::WriteAllBytes($lockPath,$originalLock)}
+try{
     $wrong=Get-Content $lockPath -Raw|ConvertFrom-Json -AsHashtable -Depth 100;$wrong.targetFramework='net9.0'
     Write-Json $lockPath $wrong
     $wrongConfig=$provenanceConfig|ConvertTo-Json -Depth 50|ConvertFrom-Json -AsHashtable -Depth 50;$wrongConfig.evidenceLockSha256=Hash $lockPath
@@ -146,6 +155,7 @@ $violation=($violationLines -join "`n")|ConvertFrom-Json -Depth 50
 Assert ($violation.status -ceq 'fail' -and $violation.exitCategory -ceq 'findings-blocking' -and @($violation.findings|Where-Object ruleId -CEQ 'ARCH.TYPE_DEPENDENCY').Count -eq 1) "Forbidden compiled type edge was not blocked: $($violation|ConvertTo-Json -Depth 30 -Compress)"
 $cases.Add([ordered]@{id='missing-lock';status=$missing.status;exitCategory=$missing.exitCategory})
 $cases.Add([ordered]@{id='stale-lock';status=$staleResult.status;exitCategory=$staleResult.exitCategory})
+$cases.Add([ordered]@{id='wrong-commit';status=$wrongCommitResult.status;exitCategory=$wrongCommitResult.exitCategory})
 $cases.Add([ordered]@{id='wrong-tfm';status=$wrongResult.status;exitCategory=$wrongResult.exitCategory})
 $cases.Add([ordered]@{id='tampered-external-manifest';status=$tampered.status;exitCategory=$tampered.exitCategory})
 $cases.Add([ordered]@{id='zero-type-subject';status=$zeroDoc.status;exitCategory=$zeroDoc.exitCategory})

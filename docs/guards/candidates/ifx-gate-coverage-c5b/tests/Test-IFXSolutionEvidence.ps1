@@ -70,14 +70,15 @@ function Fixture([string]$Mutation){
         $path=Join-Path $repo $summary.path;$data=Get-Content $path -Raw|ConvertFrom-Json -AsHashtable;$data.status='fail';Write-Json $path $data;$summary.sha256=Hash $path
     }
     if($Mutation -eq 'stale'){$lock.completedAt=([DateTimeOffset]::UtcNow.AddHours(-25)).ToString('o');$lock.startedAt=([DateTimeOffset]::UtcNow.AddHours(-26)).ToString('o')}
+    if($Mutation -eq 'wrong-commit'){$lock.targetCommit='0'*40}
     $path=Join-Path $repo ($prefix+'evidence-lock.json');Write-Json $path $lock;return $path
 }
-foreach($mutation in @('zero-tests','failed-summary','stale')){
+foreach($mutation in @('zero-tests','failed-summary','stale','wrong-commit')){
     $fixture=Fixture $mutation;$result=Invoke-Adapter $repo (Config $repo $fixture)
     Assert ($result.status -ne 'pass') "$mutation fixture did not block."
     $cases.Add([ordered]@{id=$mutation;status=$result.status;category=$result.exitCategory})
 }
-$target=Join-Path $run 'target';[void][IO.Directory]::CreateDirectory($target)
+$target=Join-Path $run 'target';[void][IO.Directory]::CreateDirectory($target);[void][IO.Directory]::CreateDirectory((Join-Path $target '.git'));[IO.File]::WriteAllText((Join-Path $target '.git/HEAD'),([string]$original.targetCommit+"`n"),[Text.UTF8Encoding]::new($false))
 foreach($relativeRoot in @('src','tests','tools')){
     Get-ChildItem -LiteralPath (Join-Path $repo $relativeRoot) -File -Recurse -Force |
         Where-Object { $_.Extension -in '.cs','.csproj','.props','.targets' -and $_.FullName -notmatch '[\\/](bin|obj|node_modules|dist)[\\/]' } |

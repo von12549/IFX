@@ -10,6 +10,33 @@ function Emit([string]$Status,[string]$Category,[string]$Message=''){
     [Console]::Out.WriteLine(($document|ConvertTo-Json -Depth 30 -Compress))
 }
 function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Resolve-TargetCommit([string]$Root){
+    $marker=Join-Path $Root '.git';$gitDir=$null
+    if([IO.Directory]::Exists($marker)){$gitDir=$marker}
+    elseif([IO.File]::Exists($marker)){
+        $pointer=[IO.File]::ReadAllText($marker).Trim()
+        if($pointer -cnotmatch '^gitdir:\s*(.+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git pointer.'}
+        $gitDirValue=$Matches[1].Trim();$gitDir=if([IO.Path]::IsPathFullyQualified($gitDirValue)){[IO.Path]::GetFullPath($gitDirValue)}else{[IO.Path]::GetFullPath((Join-Path $Root $gitDirValue))}
+    }else{Stop-Adapter 'prerequisite-missing' 'TargetRoot Git metadata missing.'}
+    if(-not [IO.Directory]::Exists($gitDir)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git directory missing.'}
+    $headPath=Join-Path $gitDir 'HEAD';if(-not [IO.File]::Exists($headPath)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git HEAD missing.'}
+    $head=[IO.File]::ReadAllText($headPath).Trim()
+    if($head -cmatch '^[a-f0-9]{40}$'){return $head}
+    if($head -cnotmatch '^ref:\s*(refs/[A-Za-z0-9._/-]+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git HEAD.'}
+    $reference=$Matches[1]
+    if($reference -match '(^|/)\.\.(/|$)'){Stop-Adapter 'integrity-failure' 'Unsafe TargetRoot Git reference.'}
+    $roots=[Collections.Generic.List[string]]::new();$roots.Add($gitDir)
+    $commonMarker=Join-Path $gitDir 'commondir'
+    if([IO.File]::Exists($commonMarker)){
+        $commonValue=[IO.File]::ReadAllText($commonMarker).Trim();$commonDir=if([IO.Path]::IsPathFullyQualified($commonValue)){[IO.Path]::GetFullPath($commonValue)}else{[IO.Path]::GetFullPath((Join-Path $gitDir $commonValue))}
+        if([IO.Directory]::Exists($commonDir) -and -not $roots.Contains($commonDir)){$roots.Add($commonDir)}
+    }
+    foreach($rootPath in $roots){
+        $loose=Join-Path $rootPath ($reference.Replace('/',[IO.Path]::DirectorySeparatorChar));if([IO.File]::Exists($loose)){$value=[IO.File]::ReadAllText($loose).Trim();if($value -cmatch '^[a-f0-9]{40}$'){return $value}}
+        $packed=Join-Path $rootPath 'packed-refs';if([IO.File]::Exists($packed)){foreach($line in [IO.File]::ReadLines($packed)){if($line.StartsWith('#') -or $line.StartsWith('^')){continue};$parts=$line.Split(' ',[StringSplitOptions]::RemoveEmptyEntries);if($parts.Count -ge 2 -and $parts[1] -ceq $reference -and $parts[0] -cmatch '^[a-f0-9]{40}$'){return $parts[0]}}}
+    }
+    Stop-Adapter 'integrity-failure' 'TargetRoot Git reference cannot be resolved.'
+}
 function Is-Under([string]$Path,[string]$Root){
     $relative=[IO.Path]::GetRelativePath($Root,$Path)
     return $relative -ne '..' -and -not [IO.Path]::IsPathRooted($relative) -and -not $relative.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)
@@ -62,6 +89,7 @@ if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($i
 if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'invalid-input' 'TargetRoot must be absolute.'}
 $target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot)
 if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'}
+$targetCommit=Resolve-TargetCommit $target
 if(-not ($inputObject.PSObject.Properties.Name -contains 'evidenceRoot') -or -not [IO.Path]::IsPathFullyQualified([string]$inputObject.evidenceRoot)){Stop-Adapter 'invalid-input' 'External EvidenceRoot is required.'}
 $externalEvidence=[IO.Path]::GetFullPath([string]$inputObject.evidenceRoot)
 if(-not [IO.Directory]::Exists($externalEvidence) -or (Is-Under $externalEvidence $target) -or (Is-Under $target $externalEvidence)){Stop-Adapter 'unsafe-path' 'EvidenceRoot must be separate from TargetRoot.'}
@@ -74,7 +102,8 @@ if($lockRelative -cnotmatch '^artifacts/guards/p10-ifx-c1-r1b/type-runs/[a-f0-9]
 $lockPath=Resolve-Input $lockRelative ([string]$inputObject.config.evidenceLockSha256)
 try{$lock=Get-Content $lockPath -Raw|ConvertFrom-Json -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed type evidence lock.'}
 $prefix=$lockRelative.Substring(0,$lockRelative.Length-'evidence-lock.json'.Length)
-if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1CompiledTypeProvenance' -or $lock.producer -cne 'ifx-c1-r1b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or @($lock.assemblies).Count -ne 4 -or $lock.policySha256 -cne (Hash $policyPath) -or $lock.v3TypeRuleSha256 -cne $policy.v3TypeRuleSha256 -or $lock.v3LayerPolicySha256 -cne $policy.v3LayerPolicySha256){Stop-Adapter 'integrity-failure' 'Type evidence lock shape or authority drift.'}
+if($lock.formatVersion -ne 1 -or $lock.gate -cne 'C1CompiledTypeProvenance' -or $lock.producer -cne 'ifx-c1-r1b-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.configuration -cne $policy.configuration -or $lock.targetFramework -cne $policy.targetFramework -or @($lock.assemblies).Count -ne 4 -or $lock.policySha256 -cne (Hash $policyPath) -or $lock.v3TypeRuleSha256 -cne $policy.v3TypeRuleSha256 -or $lock.v3LayerPolicySha256 -cne $policy.v3LayerPolicySha256){Stop-Adapter 'integrity-failure' 'Type evidence lock shape or authority drift.'}
+if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Type lock target commit differs from TargetRoot HEAD.'}
 $now=[DateTimeOffset]::UtcNow;$created=Parse-Time $lock.createdAt;$expires=Parse-Time $lock.expiresAt
 if($created -gt $now.AddMinutes(5) -or $created -lt $now.AddSeconds(-[int]$policy.maximumAgeSeconds) -or $expires -le $now -or $expires -gt $created.AddSeconds([int]$policy.maximumAgeSeconds)){Stop-Adapter 'integrity-failure' 'Type evidence stale or future-dated.'}
 $v3Rule=Resolve-Input 'docs/guards/V3_ifx/stages/post/rules/ARCH.BINARY.DOMAIN.CONTRACTS.json' ([string]$policy.v3TypeRuleSha256)
@@ -85,9 +114,9 @@ if($lock.solutionLockPath -cnotmatch '^artifacts/guards/p10-ifx-c5b/solution-run
 $solutionPath=Resolve-Input ([string]$lock.solutionLockPath) ([string]$lock.solutionLockSha256)
 $assemblyPath=Resolve-Input ([string]$lock.assemblyLockPath) ([string]$lock.assemblyLockSha256)
 try{$solution=Get-Content $solutionPath -Raw|ConvertFrom-Json -Depth 100;$assembly=Get-Content $assemblyPath -Raw|ConvertFrom-Json -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed C5 lineage lock.'}
-if($solution.gate -cne 'Solution' -or $solution.result -cne 'passed' -or $solution.producer -cne 'ifx-c5b-controlled-v1' -or $solution.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $solution.sourceFileCount -ne $lock.sourceFileCount -or $solution.projectCount -ne 81 -or $solution.totalTests -lt 1 -or (Parse-Time $solution.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5b lineage is invalid or stale.'}
+if($solution.gate -cne 'Solution' -or $solution.result -cne 'passed' -or $solution.producer -cne 'ifx-c5b-controlled-v1' -or $solution.targetCommit -cne $targetCommit -or $solution.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $solution.sourceFileCount -ne $lock.sourceFileCount -or $solution.projectCount -ne 81 -or $solution.totalTests -lt 1 -or (Parse-Time $solution.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5b lineage is invalid or stale.'}
 $script:matched++
-if($assembly.gate -cne 'Assembly' -or $assembly.result -cne 'passed' -or $assembly.producer -cne 'ifx-c5c-controlled-v1' -or $assembly.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $assembly.solutionLockPath -cne $lock.solutionLockPath -or $assembly.solutionLockSha256 -cne $lock.solutionLockSha256 -or (Parse-Time $assembly.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5c lineage is invalid or stale.'}
+if($assembly.gate -cne 'Assembly' -or $assembly.result -cne 'passed' -or $assembly.producer -cne 'ifx-c5c-controlled-v1' -or $assembly.targetCommit -cne $targetCommit -or $assembly.sourceTreeSha256 -cne $lock.sourceTreeSha256 -or $assembly.solutionLockPath -cne $lock.solutionLockPath -or $assembly.solutionLockSha256 -cne $lock.solutionLockSha256 -or (Parse-Time $assembly.completedAt) -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'C5c lineage is invalid or stale.'}
 $script:matched++
 if($lock.manifestPath -cne ($prefix+'assembly-manifest.json')){Stop-Adapter 'integrity-failure' 'Manifest path drift.'}
 $manifestPath=Resolve-Input ([string]$lock.manifestPath) ([string]$lock.manifestSha256)

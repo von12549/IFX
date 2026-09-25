@@ -55,6 +55,7 @@ foreach($relativeRoot in @('src','tests','tools')){
 }
 [IO.File]::Copy((Join-Path $repo 'IFX.sln'),(Join-Path $target 'IFX.sln'))
 $original=Get-Content $realLock -Raw|ConvertFrom-Json -AsHashtable -Depth 100
+[void][IO.Directory]::CreateDirectory((Join-Path $target '.git'));[IO.File]::WriteAllText((Join-Path $target '.git/HEAD'),([string]$original.targetCommit+"`n"),[Text.UTF8Encoding]::new($false))
 foreach($relative in @([string]$realConfig.evidenceLockPath,[string]$original.solutionLockPath,([string]$original.evidencePrefix+'quality/assembly.json'),([string]$original.evidencePrefix+'quality/summary.json'))){
     $destination=Join-Path $target $relative;[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination));[IO.File]::Copy((Join-Path $repo $relative),$destination)
 }
@@ -68,6 +69,9 @@ $result=Invoke-Adapter $target (Config $target $stalePath);Assert ($result.statu
 $zero=[ordered]@{};foreach($key in $original.Keys){$zero[$key]=$original[$key]};$zero.assemblies=@()
 $zeroPath=Join-Path $target 'artifacts/guards/p10-ifx-c5c/assembly-runs/00000000000000000000000000000002/evidence-lock.json';Write-Json $zeroPath $zero
 $result=Invoke-Adapter $target (Config $target $zeroPath);Assert ($result.status -ceq 'error' -and $result.exitCategory -ceq 'integrity-failure') 'Zero assemblies did not block.';$cases.Add([ordered]@{id='zero-assemblies';status=$result.status})
+$wrongCommit=[ordered]@{};foreach($key in $original.Keys){$wrongCommit[$key]=$original[$key]};$wrongCommit.targetCommit='0'*40
+$wrongCommitPath=Join-Path $target 'artifacts/guards/p10-ifx-c5c/assembly-runs/00000000000000000000000000000004/evidence-lock.json';Write-Json $wrongCommitPath $wrongCommit
+$result=Invoke-Adapter $target (Config $target $wrongCommitPath);Assert ($result.status -ceq 'error' -and $result.exitCategory -ceq 'integrity-failure') 'Wrong target commit did not block.';$cases.Add([ordered]@{id='wrong-commit';status=$result.status})
 $forbidden=[ordered]@{};foreach($key in $original.Keys){$forbidden[$key]=$original[$key]};$forbidden.evidencePrefix='artifacts/guards/p10-ifx-c5c/assembly-runs/00000000000000000000000000000003/'
 $forbiddenReport=Join-Path $target ($forbidden.evidencePrefix+'quality/assembly.json');$forbiddenSummary=Join-Path $target ($forbidden.evidencePrefix+'quality/summary.json')
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($forbiddenReport))

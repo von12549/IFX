@@ -12,6 +12,33 @@ function Field($Object,[string]$Name){foreach($key in $Object.Keys){if($key.Equa
 function Parse-Time($Value){if($Value -is [DateTime]){return [DateTimeOffset]$Value};return [DateTimeOffset]::Parse([string]$Value,[Globalization.CultureInfo]::InvariantCulture)}
 function Emit([string]$Status,[string]$Category,[string]$Message=''){$r=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=1})};if($Message){$r.message=$Message};[Console]::Out.WriteLine(($r|ConvertTo-Json -Depth 50 -Compress))}
 function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Resolve-TargetCommit([string]$Root){
+    $marker=Join-Path $Root '.git';$gitDir=$null
+    if([IO.Directory]::Exists($marker)){$gitDir=$marker}
+    elseif([IO.File]::Exists($marker)){
+        $pointer=[IO.File]::ReadAllText($marker).Trim()
+        if($pointer -cnotmatch '^gitdir:\s*(.+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git pointer.'}
+        $gitDirValue=$Matches[1].Trim();$gitDir=if([IO.Path]::IsPathFullyQualified($gitDirValue)){[IO.Path]::GetFullPath($gitDirValue)}else{[IO.Path]::GetFullPath((Join-Path $Root $gitDirValue))}
+    }else{Stop-Adapter 'prerequisite-missing' 'TargetRoot Git metadata missing.'}
+    if(-not [IO.Directory]::Exists($gitDir)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git directory missing.'}
+    $headPath=Join-Path $gitDir 'HEAD';if(-not [IO.File]::Exists($headPath)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git HEAD missing.'}
+    $head=[IO.File]::ReadAllText($headPath).Trim()
+    if($head -cmatch '^[a-f0-9]{40}$'){return $head}
+    if($head -cnotmatch '^ref:\s*(refs/[A-Za-z0-9._/-]+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git HEAD.'}
+    $reference=$Matches[1]
+    if($reference -match '(^|/)\.\.(/|$)'){Stop-Adapter 'integrity-failure' 'Unsafe TargetRoot Git reference.'}
+    $roots=[Collections.Generic.List[string]]::new();$roots.Add($gitDir)
+    $commonMarker=Join-Path $gitDir 'commondir'
+    if([IO.File]::Exists($commonMarker)){
+        $commonValue=[IO.File]::ReadAllText($commonMarker).Trim();$commonDir=if([IO.Path]::IsPathFullyQualified($commonValue)){[IO.Path]::GetFullPath($commonValue)}else{[IO.Path]::GetFullPath((Join-Path $gitDir $commonValue))}
+        if([IO.Directory]::Exists($commonDir) -and -not $roots.Contains($commonDir)){$roots.Add($commonDir)}
+    }
+    foreach($rootPath in $roots){
+        $loose=Join-Path $rootPath ($reference.Replace('/',[IO.Path]::DirectorySeparatorChar));if([IO.File]::Exists($loose)){$value=[IO.File]::ReadAllText($loose).Trim();if($value -cmatch '^[a-f0-9]{40}$'){return $value}}
+        $packed=Join-Path $rootPath 'packed-refs';if([IO.File]::Exists($packed)){foreach($line in [IO.File]::ReadLines($packed)){if($line.StartsWith('#') -or $line.StartsWith('^')){continue};$parts=$line.Split(' ',[StringSplitOptions]::RemoveEmptyEntries);if($parts.Count -ge 2 -and $parts[1] -ceq $reference -and $parts[0] -cmatch '^[a-f0-9]{40}$'){return $parts[0]}}}
+    }
+    Stop-Adapter 'integrity-failure' 'TargetRoot Git reference cannot be resolved.'
+}
 function Is-Under([string]$Path,[string]$Root){$r=[IO.Path]::GetRelativePath($Root,$Path);$r -ne '..' -and -not [IO.Path]::IsPathRooted($r) -and -not $r.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
 function Resolve-File([string]$Relative,[string]$Expected){if([IO.Path]::IsPathRooted($Relative) -or $Relative -match '(^|[\/])\.\.([\/]|$)' -or $Expected -cnotmatch '^[a-f0-9]{64}$'){Stop-Adapter 'invalid-input' 'Invalid evidence path or hash.'};$full=[IO.Path]::GetFullPath((Join-Path $target $Relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' 'Evidence escapes TargetRoot.'};$cursor=$full;while(Is-Under $cursor $target){if([IO.File]::Exists($cursor) -or [IO.Directory]::Exists($cursor)){$item=Get-Item -LiteralPath $cursor -Force;if(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget){Stop-Adapter 'unsafe-path' "Linked evidence path: $Relative"}};if($cursor -ceq $target){break};$cursor=[IO.Path]::GetDirectoryName($cursor)};if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing evidence: $Relative"};if((Hash $full) -cne $Expected){Stop-Adapter 'integrity-failure' "Stale evidence: $Relative"};return $full}
 function Record([string]$Id,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Id;evidenceKind='database-evidence';detectorId=$detector;severity='blocking'})}}
@@ -20,6 +47,7 @@ try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 1
 if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'deployment'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
 if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'invalid-input' 'TargetRoot must be absolute.'};$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot)
 if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'}
+$targetCommit=Resolve-TargetCommit $target
 $policyFile=Join-Path $PSScriptRoot 'policy.json';if((Hash $policyFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Module policy drift.'}
 $inventoryContractPath=Join-Path $PSScriptRoot 'source-inventory.json';$inventoryContract=Read-InventoryContract $inventoryContractPath
 try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed module policy.'}
@@ -30,6 +58,7 @@ if($sourceManifest.formatVersion -ne 1 -or $release.formatVersion -ne 1 -or $saf
 $lockFile=Resolve-File ([string]$inputObject.config.evidenceLockPath) ([string]$inputObject.config.evidenceLockSha256)
 try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed evidence lock.'}
 if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Database' -or $lock.producer -cne 'ifx-c4b-controlled-v2' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or @($lock.files).Count -lt 10 -or $lock.sourceInventoryId -cne $inventoryContract.id -or $lock.sourceInventorySha256 -cne (Hash $inventoryContractPath)){Stop-Adapter 'integrity-failure' 'Incomplete Database evidence lock.'}
+if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Database lock target commit differs from TargetRoot HEAD.'}
 $sourceEntries=@(Source-Entries $target $inventoryContract);$sourceLines=@($sourceEntries|ForEach-Object{"$($_.path)|$($_.sha256)"});$lockedLines=@($lock.sourceFiles|ForEach-Object{"$($_.path)|$($_.sha256)"});if($sourceLines.Count -lt 19 -or $lock.sourceFileCount -ne $sourceLines.Count -or @($lock.sourceFiles).Count -ne $sourceLines.Count -or ($lockedLines -join "`n") -cne ($sourceLines -join "`n") -or [string]$lock.sourceTreeSha256 -cne (Hash-Text ($sourceLines -join "`n"))){Stop-Adapter 'integrity-failure' 'Database source tree changed after evidence generation.'}
 try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid evidence time.'}
 $now=[DateTimeOffset]::UtcNow;if($completed -lt $started -or $completed -gt $now.AddMinutes(5) -or $completed -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'Database evidence is stale or future-dated.'}

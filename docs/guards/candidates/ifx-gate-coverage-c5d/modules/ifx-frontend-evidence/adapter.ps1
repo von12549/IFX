@@ -12,6 +12,33 @@ function Source-Lines([string]$Root){
 }
 function Emit([string]$Status,[string]$Category,[string]$Message=''){$r=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=5})};if($Message){$r.message=$Message};[Console]::Out.WriteLine(($r|ConvertTo-Json -Depth 50 -Compress))}
 function Stop-Adapter([string]$Category,[string]$Message){Emit 'error' $Category $Message;exit 0}
+function Resolve-TargetCommit([string]$Root){
+    $marker=Join-Path $Root '.git';$gitDir=$null
+    if([IO.Directory]::Exists($marker)){$gitDir=$marker}
+    elseif([IO.File]::Exists($marker)){
+        $pointer=[IO.File]::ReadAllText($marker).Trim()
+        if($pointer -cnotmatch '^gitdir:\s*(.+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git pointer.'}
+        $gitDirValue=$Matches[1].Trim();$gitDir=if([IO.Path]::IsPathFullyQualified($gitDirValue)){[IO.Path]::GetFullPath($gitDirValue)}else{[IO.Path]::GetFullPath((Join-Path $Root $gitDirValue))}
+    }else{Stop-Adapter 'prerequisite-missing' 'TargetRoot Git metadata missing.'}
+    if(-not [IO.Directory]::Exists($gitDir)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git directory missing.'}
+    $headPath=Join-Path $gitDir 'HEAD';if(-not [IO.File]::Exists($headPath)){Stop-Adapter 'prerequisite-missing' 'TargetRoot Git HEAD missing.'}
+    $head=[IO.File]::ReadAllText($headPath).Trim()
+    if($head -cmatch '^[a-f0-9]{40}$'){return $head}
+    if($head -cnotmatch '^ref:\s*(refs/[A-Za-z0-9._/-]+)$'){Stop-Adapter 'integrity-failure' 'Malformed TargetRoot Git HEAD.'}
+    $reference=$Matches[1]
+    if($reference -match '(^|/)\.\.(/|$)'){Stop-Adapter 'integrity-failure' 'Unsafe TargetRoot Git reference.'}
+    $roots=[Collections.Generic.List[string]]::new();$roots.Add($gitDir)
+    $commonMarker=Join-Path $gitDir 'commondir'
+    if([IO.File]::Exists($commonMarker)){
+        $commonValue=[IO.File]::ReadAllText($commonMarker).Trim();$commonDir=if([IO.Path]::IsPathFullyQualified($commonValue)){[IO.Path]::GetFullPath($commonValue)}else{[IO.Path]::GetFullPath((Join-Path $gitDir $commonValue))}
+        if([IO.Directory]::Exists($commonDir) -and -not $roots.Contains($commonDir)){$roots.Add($commonDir)}
+    }
+    foreach($rootPath in $roots){
+        $loose=Join-Path $rootPath ($reference.Replace('/',[IO.Path]::DirectorySeparatorChar));if([IO.File]::Exists($loose)){$value=[IO.File]::ReadAllText($loose).Trim();if($value -cmatch '^[a-f0-9]{40}$'){return $value}}
+        $packed=Join-Path $rootPath 'packed-refs';if([IO.File]::Exists($packed)){foreach($line in [IO.File]::ReadLines($packed)){if($line.StartsWith('#') -or $line.StartsWith('^')){continue};$parts=$line.Split(' ',[StringSplitOptions]::RemoveEmptyEntries);if($parts.Count -ge 2 -and $parts[1] -ceq $reference -and $parts[0] -cmatch '^[a-f0-9]{40}$'){return $parts[0]}}}
+    }
+    Stop-Adapter 'integrity-failure' 'TargetRoot Git reference cannot be resolved.'
+}
 function Record([string]$Subject,[string]$Kind,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Subject;evidenceKind=$Kind;detectorId=$detector;severity='blocking'})}}
 function Is-Under([string]$Path,[string]$Root){$relative=[IO.Path]::GetRelativePath($Root,$Path);$relative -ne '..' -and -not [IO.Path]::IsPathRooted($relative) -and -not $relative.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
 function Resolve-Locked([string]$Relative,[string]$Expected){
@@ -27,12 +54,14 @@ try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 1
 if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'src'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
 if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'invalid-input' 'TargetRoot must be absolute.'};$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot)
 if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'}
+$targetCommit=Resolve-TargetCommit $target
 $policyFile=Join-Path $PSScriptRoot 'policy.json';if(-not [IO.File]::Exists($policyFile) -or (Hash $policyFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Frontend policy drift.'}
 try{$policy=Get-Content $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Frontend policy.'}
 if($policy.formatVersion -ne 1 -or $policy.id -cne 'ifx-frontend-evidence-c5d' -or @($policy.checkIds).Count -ne 5){Stop-Adapter 'integrity-failure' 'Frontend policy shape drift.'}
 $lockFile=Resolve-Locked ([string]$inputObject.config.evidenceLockPath) ([string]$inputObject.config.evidenceLockSha256)
 try{$lock=Get-Content $lockFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Malformed Frontend lock.'}
 if($lock.formatVersion -ne 1 -or $lock.gate -cne 'Frontend' -or $lock.producer -cne 'ifx-c5d-controlled-v1' -or $lock.result -cne 'passed' -or $lock.targetCommit -cnotmatch '^[a-f0-9]{40}$' -or $lock.testCount -lt 1 -or $lock.testFileCount -lt 1 -or @($lock.files).Count -ne 4){Stop-Adapter 'integrity-failure' 'Incomplete Frontend lock.'}
+if($lock.targetCommit -cne $targetCommit){Stop-Adapter 'integrity-failure' 'Frontend lock target commit differs from TargetRoot HEAD.'}
 if($lock.authorityHashes.quality -cne $policy.authorityHashes.quality -or $lock.authorityHashes.packageJson -cne $policy.authorityHashes.packageJson -or $lock.authorityHashes.packageLock -cne $policy.authorityHashes.packageLock){Stop-Adapter 'integrity-failure' 'Frontend authority drift.'}
 try{$started=Parse-Time $lock.startedAt;$completed=Parse-Time $lock.completedAt}catch{Stop-Adapter 'integrity-failure' 'Invalid Frontend time.'}
 $now=[DateTimeOffset]::UtcNow;if($completed -lt $started -or $completed -gt $now.AddMinutes(5) -or $completed -lt $now.AddHours(-24)){Stop-Adapter 'integrity-failure' 'Frontend evidence stale or future-dated.'}

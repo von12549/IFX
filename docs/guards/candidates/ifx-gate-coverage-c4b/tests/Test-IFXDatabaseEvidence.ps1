@@ -50,6 +50,7 @@ $scripts=@(foreach($moduleName in @('Auth','CRM','Registry','Holdings','Transact
 Write-Json (Join-Path $releaseDir 'artifact-manifest.json') ([ordered]@{releaseVersion=$release.releaseVersion;migrationCatalogSha256=$release.migrationCatalogSha256;scripts=$scripts})
 $publish=Join-Path $evidence 'specialized/database/publish/IFX.DatabaseMigrator.dll';[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($publish));[IO.File]::WriteAllText($publish,'synthetic-fixture',[Text.UTF8Encoding]::new($false))
 $commit=(& git -C $repo rev-parse HEAD).Trim().ToLowerInvariant()
+[void][IO.Directory]::CreateDirectory((Join-Path $target '.git'));[IO.File]::WriteAllText((Join-Path $target '.git/HEAD'),($commit+"`n"),[Text.UTF8Encoding]::new($false))
 function Lock([string]$Target,[string]$RelativePrefix,[string]$Started,[string]$Completed){
     $root=Join-Path $Target $RelativePrefix
     $files=@(Get-ChildItem -LiteralPath (Join-Path $root 'specialized') -File -Recurse -Force|Sort-Object FullName|ForEach-Object{[ordered]@{path=[IO.Path]::GetRelativePath($Target,$_.FullName).Replace('\','/');sha256=Hash $_.FullName}})
@@ -81,6 +82,7 @@ function Invoke-LockMutation([string]$Id,[scriptblock]$Mutate){
     try{$value=Get-Content $lock -Raw|ConvertFrom-Json -AsHashtable -Depth 100;& $Mutate $value;Write-Json $lock $value;$result=Invoke-Adapter $target (Config $target $lock);Assert ($result.status -ceq 'error' -and $result.exitCategory -ceq 'integrity-failure') "$Id lock mutation did not block.";return $result}finally{[IO.File]::WriteAllBytes($lock,$originalLockBytes)}
 }
 $oldProducer=Invoke-LockMutation 'old-producer' {param($v)$v.producer='ifx-c4b-controlled-v1'};$cases.Add([ordered]@{id='old-producer';status=$oldProducer.status})
+$wrongCommit=Invoke-LockMutation 'wrong-commit' {param($v)$v.targetCommit='0'*40};$cases.Add([ordered]@{id='wrong-commit';status=$wrongCommit.status})
 $wrongContract=Invoke-LockMutation 'wrong-contract' {param($v)$v.sourceInventorySha256='0'*64};$cases.Add([ordered]@{id='wrong-inventory-contract';status=$wrongContract.status})
 $reordered=Invoke-LockMutation 'reordered-source-files' {param($v)$copy=@($v.sourceFiles);[Array]::Reverse($copy);$v.sourceFiles=$copy};$cases.Add([ordered]@{id='reordered-source-files';status=$reordered.status})
 $duplicate=Invoke-LockMutation 'duplicate-source-file' {param($v)$v.sourceFiles=@($v.sourceFiles)+@($v.sourceFiles[0])};$cases.Add([ordered]@{id='duplicate-source-file';status=$duplicate.status})
