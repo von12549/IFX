@@ -62,5 +62,13 @@ requires stopping without C6c certification when a detector change is needed;
 repairing the frozen adapters is therefore outside this Plan and requires a new
 exact remediation Plan.
 
+The isolated `ifx-package-test` passed its positive path and all protected
+negative classes at
+`artifacts/guards/v3-ifx-package-test-292011538c1742179d1625ee71a16c35`.
+Exact committed Formal Diff for the six declared C6c5 paths passed at
+`artifacts/guards/p10-ifx-c6c5/formal-diff/summary-diff.json`. These validation
+results close the control-plan implementation obligations; they do not override
+the wrong-commit false acceptance or certify C6c.
+
 C6d human acceptance, C6e installed composition, P10.2/P10.3 and V3 retirement
 remain out of scope. G04 remains `PRE-READY`.
