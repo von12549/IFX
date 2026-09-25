@@ -1,0 +1,25 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c14-control-hashtable-selection",
+  "title": "Make certification control lock selection work for hashtables and objects",
+  "goal": "Close the Controls failure without changing certification semantics, cardinalities, or budgets.",
+  "acceptanceCriteria": [
+    "Lock collection and assembly path selection support IDictionary and PSObject inputs.",
+    "All six governed non-generated lock shapes select an existing mutation subject in both representations.",
+    "The matrix contract and fresh ordinal inventory pass.",
+    "Final Windows/Linux 191/191, 42 controls, 180 variants, semantic parity, zero gaps, and formal Diff pass."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c14-control-hashtable-selection.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c14-control-hashtable-selection.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationControls.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c14-control-hashtable-selection-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
