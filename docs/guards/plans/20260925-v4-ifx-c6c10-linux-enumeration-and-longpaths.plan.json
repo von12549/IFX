@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "id": "20260925-v4-ifx-c6c10-linux-enumeration-and-longpaths",
+  "title": "Repair Linux project enumeration and Windows long-path controls",
+  "goal": "Remove the remaining platform harness failures without changing detector semantics, capabilities, cases or timeout budgets.",
+  "acceptanceCriteria": [
+    "The controls shadow clone succeeds for repository paths longer than the legacy Windows checkout limit.",
+    "The package-reference adapter enumerates only project files while retaining source-root, project-path and ancestor link checks.",
+    "The package-reference timeout remains 180 seconds and its claims, rules, policy and reviewed capabilities remain unchanged.",
+    "Fresh Windows and Linux matrices prove 191/191 equal semantics and controls prove 42 lock plus 180 capability cases.",
+    "Published 1.1.3 bytes, baselines, waivers and governance remain unchanged."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260925-v4-ifx-c6c10-linux-enumeration-and-longpaths.md",
+    "docs/guards/plans/20260925-v4-ifx-c6c10-linux-enumeration-and-longpaths.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1c/modules/ifx-package-reference/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1c/modules/ifx-package-reference/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1c/tests/Test-IFXPackageReference.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationControls.ps1",
+    "docs/guards/inventories/20260925-ifx-c6c10-platform-harness-decision.md"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
