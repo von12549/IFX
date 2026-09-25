@@ -39,6 +39,12 @@ No timeout, rule, claim, policy, snapshot, waiver, or baseline changed.
 - A direct real-repository adapter run in that image returned `pass`, matched 4
   sync API subjects and 6 serialization subjects, and completed in 43.703
   seconds, below the unchanged 60-second ceiling.
+- The refreshed 37-module/83-rule development inventory is:
+  `artifacts/guards/p10-ifx-c6c16/development-inventory/47c2ce11cd48422689b5fd25c63cb984/ordinal-inventory.json`.
+- The refreshed inventory projection is
+  `4e33f74f50b6e4e63ea670e87ba28e44676f12b12083e2a602d01279d8aacbe4`;
+  the matrix contract and supplemental fixture binding passed at
+  `artifacts/guards/p10-ifx-c6c16/matrix-contract/summary.json`.
 
 Final acceptance remains contingent on the refreshed inventory bindings and a
 fresh same-commit C6c parallel certification.
