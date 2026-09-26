@@ -1,7 +1,7 @@
 {
   "formatVersion":1,"id":"ifx-plan05-security","version":"0.1.0","compatibleApi":"1.x",
   "supportedPlatforms":["linux-x64","win-x64"],
-  "adapter":{"kind":"powershell","path":"modules/ifx-plan05-security/adapter.ps1","sha256":"700c80b92cd1842c0bc11c516397faf8ee3ba78fe94cd6f8e3706f9ce7464bf3"},
+  "adapter":{"kind":"powershell","path":"modules/ifx-plan05-security/adapter.ps1","sha256":"dec90efc0b3a12489646690c0310a707eb39a7b8f4f36bdd786e5ac9bb050367"},
   "prerequisites":[{"runtime":"pwsh","versionRange":">=7.4"}],
   "stages":["post"],
   "capabilities":{"readRoots":["PackageRoot","TargetRoot","EvidenceRoot"],"writeRoots":[],"processes":["pwsh"],"network":false,"timeoutSeconds":60},

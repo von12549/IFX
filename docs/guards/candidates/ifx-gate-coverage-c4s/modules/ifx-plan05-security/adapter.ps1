@@ -20,7 +20,7 @@ function Assert-NoLink([string]$Path,[string]$Root){
 function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot){
     if(-not$InputObject.ContainsKey('workspaceEvidencePath') -or -not$InputObject.ContainsKey('workspaceEvidenceSha256')){return $null}
     if(-not$InputObject.ContainsKey('workspaceEvidenceTargetCommit')){Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.'}
-    $path=[IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath);$expected=[string]$InputObject.workspaceEvidenceSha256;$expectedCommit=[string]$InputObject.workspaceEvidenceTargetCommit
+    $path=[IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath);Assert-NoLink $path ([IO.Path]::GetPathRoot($path));$expected=[string]$InputObject.workspaceEvidenceSha256;$expectedCommit=[string]$InputObject.workspaceEvidenceTargetCommit
     if($expected-cnotmatch'^[a-f0-9]{64}$' -or -not[IO.File]::Exists($path) -or (Is-Under $path $TargetRoot) -or (Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))){Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.'}
     if((Hash $path)-cne$expected){Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.'}
     try{$value=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json -AsHashtable -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.'}

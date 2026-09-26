@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "compatibleApi": "1.x",
   "supportedPlatforms": ["linux-x64", "win-x64"],
-  "adapter": { "kind": "powershell", "path": "modules/ifx-project-name/adapter.ps1", "sha256": "82bedeea9aa5de594d487e901f62097aa2224ccccba214645be80d7d3ac51d78" },
+  "adapter": { "kind": "powershell", "path": "modules/ifx-project-name/adapter.ps1", "sha256": "dcda77a8bbe3cb0435fd014c35df439a2db6bdc15e44f92f36cf3a4cd31cbb1d" },
   "prerequisites": [{ "runtime": "pwsh", "versionRange": ">=7.4" }],
   "stages": ["pre"],
   "capabilities": { "readRoots": ["PackageRoot", "TargetRoot", "EvidenceRoot"], "writeRoots": [], "processes": ["pwsh"], "network": false, "timeoutSeconds": 180 },

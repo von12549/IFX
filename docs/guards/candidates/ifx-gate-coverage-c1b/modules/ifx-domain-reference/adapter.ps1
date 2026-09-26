@@ -53,6 +53,7 @@ function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot) {
         -not ($InputObject.PSObject.Properties.Name -contains 'workspaceEvidenceSha256')) { return $null }
     if (-not ($InputObject.PSObject.Properties.Name -contains 'workspaceEvidenceTargetCommit')) { Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.' }
     $path = [IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath)
+    Assert-NoLink $path 'Workspace evidence'
     $expected = [string]$InputObject.workspaceEvidenceSha256
     $expectedCommit = [string]$InputObject.workspaceEvidenceTargetCommit
     if ($expected -cnotmatch '^[a-f0-9]{64}$' -or -not [IO.File]::Exists($path) -or
