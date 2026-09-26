@@ -1,6 +1,6 @@
 # V4 P10.1 C6c20 — Shared workspace evidence and Linux timing closure
 
-Status: `IMPLEMENTED — DEVELOPMENT DIAGNOSTIC PASS; C6c NOT YET CERTIFIED`
+Status: `IMPLEMENTED — DECLARED-TIMEOUT QUALIFIED; C6c NOT YET CERTIFIED`
 
 The initial C6c Linux 300-second diagnostic completed all 37 module invocations
 but identified three hard timeouts, two passing modules above their declared
@@ -25,12 +25,12 @@ still required before certification.
    immutable in-process projection.
 5. Preserve all rule, finding, coverage, authority, zero-subject, and source
    inventory contracts.
-6. Keep the diagnostic watchdog at 300 seconds for every module. Do not tighten
-   formal timeout budgets until one complete Linux run passes and records all
-   real module durations.
+6. Keep the timing diagnostic watchdog at 300 seconds, then restore formal
+   module-declared timeout budgets after the complete timing result is known.
 7. Run focused equivalence tests before exactly one complete Linux timing run.
+8. Optimize the database and Plan05 direct-scan fallbacks until both pass their
+   declared 60-second Linux timeout without shared evidence.
 
-The shared evidence path is initially exercised by the development diagnostic
-runner. Promotion into the reviewed extension Profile and certification matrix
-requires a separate binding decision after semantic and timing equivalence are
-demonstrated.
+The shared evidence path remains an optional, hash- and commit-bound development
+fast path. Formal certification keeps the reviewed Host input contract and uses
+the optimized direct-scan fallbacks with each module's declared timeout.

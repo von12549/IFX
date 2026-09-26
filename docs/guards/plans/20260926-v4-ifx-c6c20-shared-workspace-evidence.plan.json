@@ -2,14 +2,16 @@
   "formatVersion": 1,
   "id": "20260926-v4-ifx-c6c20-shared-workspace-evidence",
   "title": "Share workspace evidence across Linux IFX checks",
-  "goal": "Run one immutable workspace scan, reuse its locked facts in expensive modules, and complete one 300-second Linux timing run without changing rule semantics.",
+  "goal": "Reuse one immutable workspace scan in diagnostics, optimize every formal direct-scan fallback, and certify the full matrix with module-declared timeouts without changing rule semantics.",
   "acceptanceCriteria": [
     "The evidence producer performs one bounded link-safe enumeration and records canonical paths, raw and normalized hashes, and cached text.",
     "Consumers verify the evidence file hash and target commit before using it.",
     "The five highest-risk traversal/hash modules retain findings, coverage, and zero-subject behavior with a direct-scan fallback.",
     "G03 reconciliation and snapshot checks do not repeat an immutable source projection.",
     "Focused clean and negative fixtures pass before a single complete Linux timing run.",
-    "All Linux diagnostic module watchdogs remain 300 seconds and every module duration is recorded."
+    "All Linux diagnostic module watchdogs remain 300 seconds and every module duration is recorded.",
+    "Database and Plan05 direct-scan fallbacks pass their declared 60-second Linux timeout before formal certification.",
+    "One immutable full certification passes Windows, Linux, semantic parity, capability controls, and lock controls with module-declared timeouts."
   ],
   "plannedPaths": [
     "docs/guards/plans/20260926-v4-ifx-c6c20-shared-workspace-evidence.md",
@@ -18,16 +20,28 @@
     "docs/guards/candidates/ifx-workspace-evidence/IFX.Guard.Common.psm1",
     "docs/guards/candidates/ifx-workspace-evidence/New-IFXWorkspaceEvidence.ps1",
     "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/modules/ifx-domain-reference/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1b/tests/Test-IFXDomainReference.ps1",
     "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c1j/modules/ifx-project-name/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c1j/tests/Test-IFXProjectName.ps1",
     "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4p0/modules/ifx-g05-inventory/module.json",
     "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4s/modules/ifx-plan05-security/module.json",
     "docs/guards/candidates/ifx-gate-coverage-c4b/modules/ifx-database-evidence/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c4b/modules/ifx-database-evidence/module.json",
     "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/adapter.ps1",
-    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/adapter.ps1"
+    "docs/guards/candidates/ifx-gate-coverage-c2c1/modules/ifx-g03-source-reconciliation/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/adapter.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c2c2/modules/ifx-g03-snapshots/module.json",
+    "docs/guards/candidates/ifx-gate-coverage-c2e/authority-lock.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json"
   ],
   "areaIds": ["GuardDocs"],
   "ruleIds": [],
-  "validationCommands": ["focused-adapter-tests", "linux-300s-module-timing"],
+  "validationCommands": ["ifx-package-test"],
   "decisionPaths": [
     "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
     "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
