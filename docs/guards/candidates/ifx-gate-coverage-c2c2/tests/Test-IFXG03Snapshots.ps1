@@ -29,7 +29,7 @@ $policy = Get-Content $policyPath -Raw | ConvertFrom-Json -Depth 50
 $rulePlan = Get-Content (Join-Path $moduleRoot 'rule-execution-plan.json') -Raw | ConvertFrom-Json -Depth 50
 Assert (Test-Json -LiteralPath $manifestPath -SchemaFile (Join-Path $repoRoot 'docs/guards/V4/core/contracts/module.schema.json') -ErrorAction SilentlyContinue) 'Module manifest schema failed.'
 Assert ($manifest.id -ceq 'ifx-g03-snapshots' -and ($manifest.stages -join ',') -ceq 'post' -and
-    ($manifest.capabilities.readRoots -join ',') -ceq 'PackageRoot,TargetRoot' -and @($manifest.capabilities.writeRoots).Count -eq 0 -and
+    ($manifest.capabilities.readRoots -join ',') -ceq 'PackageRoot,TargetRoot,EvidenceRoot' -and @($manifest.capabilities.writeRoots).Count -eq 0 -and
     ($manifest.capabilities.processes -join ',') -ceq 'pwsh' -and $manifest.capabilities.network -eq $false -and
     $manifest.capabilities.timeoutSeconds -eq 60) 'Module identity or capabilities drift.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256 -and
@@ -193,7 +193,7 @@ if ($provided.Count -eq 3) {
     $bundleFiles = @(Get-ChildItem -LiteralPath $bundlePackage -File -Recurse | Sort-Object FullName | ForEach-Object {
         [ordered]@{ path = [IO.Path]::GetRelativePath($bundlePackage, $_.FullName).Replace('\','/'); sha256 = Hash $_.FullName; size = $_.Length }
     })
-    $ceiling = [ordered]@{ readRoots = @('PackageRoot','TargetRoot'); writeRoots = @(); processes = @('pwsh'); network = $false; maxTimeoutSeconds = 60 }
+    $ceiling = [ordered]@{ readRoots = @('PackageRoot','TargetRoot','EvidenceRoot'); writeRoots = @(); processes = @('pwsh'); network = $false; maxTimeoutSeconds = 60 }
     $bundleManifestPath = Join-Path $bundleRoot 'bundle-manifest.json'
     Write-Json $bundleManifestPath ([ordered]@{
         formatVersion = 1; id = 'ifx-c2c2-synthetic-extension'; version = '0.1.0'; compatibleApi = '1.x'; baseVersion = '1.1.2'

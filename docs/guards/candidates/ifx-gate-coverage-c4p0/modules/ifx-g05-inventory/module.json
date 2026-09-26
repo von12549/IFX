@@ -7,12 +7,12 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-g05-inventory/adapter.ps1",
-    "sha256": "855f29de929a2c14b764bd1c23e1934f7fa0a0d72766da212e2100741c06830f"
+    "sha256": "b1c2ac6115388d75d9101379e1016cc0e80410bcb339cac54b32d9e2e74ed07a"
   },
   "prerequisites": [{"runtime": "pwsh", "versionRange": ">=7.4"}],
   "stages": ["post"],
   "capabilities": {
-    "readRoots": ["PackageRoot", "TargetRoot"],
+    "readRoots": ["PackageRoot", "TargetRoot", "EvidenceRoot"],
     "writeRoots": [],
     "processes": ["pwsh"],
     "network": false,

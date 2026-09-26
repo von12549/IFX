@@ -15,7 +15,8 @@ if (Test-IFXUnderRoot $output $target) { throw 'Workspace evidence must be outsi
 $started = [DateTimeOffset]::UtcNow
 $watch = [Diagnostics.Stopwatch]::StartNew()
 $roots = @('src','tests/IFX.DatabaseBoundary.Tests','tools/IFX.DatabaseInventory','docs/guards/V3_ifx/stages/post/gates/specialized')
-$paths = @(Get-IFXWorkspaceFiles -TargetRoot $target -RelativeRoots $roots -Extensions @('.cs','.csproj','.json','.ps1'))
+$extensions = @('.cs','.csproj','.json','.ps1')
+$paths = @(Get-IFXWorkspaceFiles -TargetRoot $target -RelativeRoots $roots -Extensions $extensions)
 $entries = [Collections.Generic.List[object]]::new()
 foreach ($relative in $paths) {
     $full = Join-Path $target $relative
@@ -38,9 +39,10 @@ if ($LASTEXITCODE -ne 0 -or $commit -cnotmatch '^[a-f0-9]{40}$') { throw 'Target
 $watch.Stop()
 $document = [ordered]@{
     formatVersion = 1
-    scope = 'ifx-workspace-evidence-v1'
+    scope = 'v4-workspace-evidence-v1'
     targetCommit = $commit
-    roots = $roots
+    relativeRoots = $roots
+    extensions = $extensions
     excludedDirectoryNames = @('bin','obj','node_modules','dist','coverage','.vite','.git','artifacts')
     pathOrder = 'ordinal'
     fileCount = $entries.Count

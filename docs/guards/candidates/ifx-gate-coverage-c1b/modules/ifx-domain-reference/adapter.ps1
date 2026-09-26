@@ -65,7 +65,7 @@ function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot) {
     try { $value = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json -Depth 30 }
     catch { Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.' }
     if ($expectedCommit -cnotmatch '^[a-f0-9]{40}$' -or $value.targetCommit -cne $expectedCommit -or
-        $value.formatVersion -ne 1 -or $value.scope -cne 'ifx-workspace-evidence-v1' -or
+        $value.formatVersion -ne 1 -or $value.scope -cne 'v4-workspace-evidence-v1' -or
         $value.pathOrder -cne 'ordinal' -or @($value.files).Count -ne $value.fileCount) {
         Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.'
     }

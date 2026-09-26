@@ -52,7 +52,7 @@ function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot) {
         (Is-Under $path $TargetRoot) -or (Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))) { Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.' }
     if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expected) { Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.' }
     try { $value = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json -Depth 30 } catch { Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.' }
-    if ($expectedCommit -cnotmatch '^[a-f0-9]{40}$' -or $value.targetCommit -cne $expectedCommit -or $value.formatVersion -ne 1 -or $value.scope -cne 'ifx-workspace-evidence-v1' -or $value.pathOrder -cne 'ordinal' -or @($value.files).Count -ne $value.fileCount) { Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.' }
+    if ($expectedCommit -cnotmatch '^[a-f0-9]{40}$' -or $value.targetCommit -cne $expectedCommit -or $value.formatVersion -ne 1 -or $value.scope -cne 'v4-workspace-evidence-v1' -or $value.pathOrder -cne 'ordinal' -or @($value.files).Count -ne $value.fileCount) { Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.' }
     return $value
 }
 

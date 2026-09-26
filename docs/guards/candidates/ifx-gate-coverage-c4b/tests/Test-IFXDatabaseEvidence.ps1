@@ -21,7 +21,7 @@ $module=Join-Path $candidate 'modules/ifx-database-evidence';$adapter=Join-Path 
 $inventoryContractPath=Join-Path $module 'source-inventory.json';$inventoryContract=Get-Content $inventoryContractPath -Raw|ConvertFrom-Json -Depth 20
 $manifest=Get-Content $manifestPath -Raw|ConvertFrom-Json -Depth 50;$policy=Get-Content $policyPath -Raw|ConvertFrom-Json -Depth 50
 Assert (Test-Json -LiteralPath $manifestPath -SchemaFile (Join-Path $BaseInstallRoot 'package/core/contracts/module.schema.json') -ErrorAction Stop) 'Module schema failed.'
-Assert ($manifest.id -ceq 'ifx-database-evidence' -and (@($manifest.capabilities.readRoots)-join '|') -ceq 'PackageRoot|TargetRoot' -and @($manifest.capabilities.writeRoots).Count -eq 0 -and (@($manifest.capabilities.processes)-join '|') -ceq 'pwsh' -and $manifest.capabilities.network -eq $false) 'Read-only module capability drift.'
+Assert ($manifest.id -ceq 'ifx-database-evidence' -and (@($manifest.capabilities.readRoots)-join '|') -ceq 'PackageRoot|TargetRoot|EvidenceRoot' -and @($manifest.capabilities.writeRoots).Count -eq 0 -and (@($manifest.capabilities.processes)-join '|') -ceq 'pwsh' -and $manifest.capabilities.network -eq $false) 'Read-only module capability drift.'
 Assert ((Hash $adapter) -ceq $manifest.adapter.sha256 -and (Hash (Join-Path $module 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Module byte lock drift.'
 foreach($a in $manifest.authorities){Assert ((Hash (Join-Path $candidate $a.path)) -ceq $a.sha256) "Module authority drift: $($a.id)"}
 $rulePlan=Get-Content (Join-Path $module 'rule-execution-plan.json') -Raw|ConvertFrom-Json
@@ -126,7 +126,7 @@ $bundle=Join-Path $run 'bundle';$bundlePackage=Join-Path $bundle 'package';$bund
 $profileId='ifx_c4b_fixture';$profilePath=Join-Path $bundlePackage "profiles/catalog/$profileId/profile.json"
 Write-Json $profilePath ([ordered]@{formatVersion=1;id=$profileId;version='0.1.0';projectIdentity=[ordered]@{id='ifx-c4b-fixture';relativeRoots=@('src','deployment','artifacts')};moduleSelections=@([ordered]@{id='ifx-database-evidence';versionRange='>=0.1.0 <1.0.0';config=$config});stageConfiguration=[ordered]@{bootstrap=[ordered]@{enabled=$false;modules=@()};analysis=[ordered]@{enabled=$false;modules=@()};pre=[ordered]@{enabled=$false;modules=@()};post=[ordered]@{enabled=$true;modules=@('ifx-database-evidence')}};rules=@('DATABASE-LOCKED-EVIDENCE');baselineRefs=@()})
 $bundleFiles=@(Get-ChildItem -LiteralPath $bundlePackage -File -Recurse|Sort-Object FullName|ForEach-Object{[ordered]@{path=[IO.Path]::GetRelativePath($bundlePackage,$_.FullName).Replace('\','/');sha256=Hash $_.FullName;size=$_.Length}})
-$ceiling=[ordered]@{readRoots=@('PackageRoot','TargetRoot');writeRoots=@();processes=@('pwsh');network=$false;maxTimeoutSeconds=60}
+$ceiling=[ordered]@{readRoots=@('PackageRoot','TargetRoot','EvidenceRoot');writeRoots=@();processes=@('pwsh');network=$false;maxTimeoutSeconds=60}
 $bundleManifest=Join-Path $bundle 'bundle-manifest.json'
 Write-Json $bundleManifest ([ordered]@{formatVersion=1;id='ifx-c4b-synthetic-extension';version='0.1.0';compatibleApi='1.x';baseVersion='1.1.3';profiles=@([ordered]@{id=$profileId;version='0.1.0';path="profiles/catalog/$profileId/profile.json";sha256=Hash $profilePath});modules=@([ordered]@{id='ifx-database-evidence';version=$manifest.version;manifestPath='modules/ifx-database-evidence/module.json';manifestSha256=Hash (Join-Path $bundleModule 'module.json');allowedCapabilities=$ceiling});files=$bundleFiles})
 $review=Join-Path $run 'synthetic-review.json'

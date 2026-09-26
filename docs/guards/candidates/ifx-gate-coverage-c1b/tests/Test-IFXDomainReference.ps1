@@ -41,7 +41,7 @@ $rulePlan = Get-Content -LiteralPath $rulePlanPath -Raw | ConvertFrom-Json -Dept
 $manifestSchema = Join-Path $repoRoot 'docs/guards/V4/core/contracts/module.schema.json'
 Assert (Test-Json -Json (Get-Content -LiteralPath $manifestPath -Raw) -SchemaFile $manifestSchema -ErrorAction SilentlyContinue) 'Module manifest fails published V4 schema.'
 Assert ($manifest.id -ceq 'ifx-domain-reference' -and @($manifest.stages) -join ',' -ceq 'pre') 'Module identity/Stage drift.'
-Assert ($manifest.capabilities.readRoots -join ',' -ceq 'PackageRoot,TargetRoot' -and
+Assert ($manifest.capabilities.readRoots -join ',' -ceq 'PackageRoot,TargetRoot,EvidenceRoot' -and
     @($manifest.capabilities.writeRoots).Count -eq 0 -and
     $manifest.capabilities.processes -join ',' -ceq 'pwsh' -and
     $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 180) 'Module exceeds read-only capability ceiling.'
@@ -167,7 +167,7 @@ if ($providedBasePaths.Count -eq 3) {
             size = $_.Length
         }
     })
-    $capabilities = [ordered]@{ readRoots = @('PackageRoot', 'TargetRoot'); writeRoots = @(); processes = @('pwsh'); network = $false; maxTimeoutSeconds = 30 }
+    $capabilities = [ordered]@{ readRoots = @('PackageRoot', 'TargetRoot', 'EvidenceRoot'); writeRoots = @(); processes = @('pwsh'); network = $false; maxTimeoutSeconds = 30 }
     $bundleManifest = [ordered]@{
         formatVersion = 1
         id = 'ifx-c1b-synthetic-extension'
