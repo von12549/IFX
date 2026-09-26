@@ -48,6 +48,30 @@ function Matches([string] $Name, [string] $Pattern) {
     return $matcher.IsMatch($Name)
 }
 
+function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot) {
+    if (-not ($InputObject.PSObject.Properties.Name -contains 'workspaceEvidencePath') -or
+        -not ($InputObject.PSObject.Properties.Name -contains 'workspaceEvidenceSha256')) { return $null }
+    if (-not ($InputObject.PSObject.Properties.Name -contains 'workspaceEvidenceTargetCommit')) { Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.' }
+    $path = [IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath)
+    $expected = [string]$InputObject.workspaceEvidenceSha256
+    $expectedCommit = [string]$InputObject.workspaceEvidenceTargetCommit
+    if ($expected -cnotmatch '^[a-f0-9]{64}$' -or -not [IO.File]::Exists($path) -or
+        (Is-Under $path $TargetRoot) -or (Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))) {
+        Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.'
+    }
+    if ((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant() -cne $expected) {
+        Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.'
+    }
+    try { $value = Get-Content -LiteralPath $path -Raw | ConvertFrom-Json -Depth 30 }
+    catch { Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.' }
+    if ($expectedCommit -cnotmatch '^[a-f0-9]{40}$' -or $value.targetCommit -cne $expectedCommit -or
+        $value.formatVersion -ne 1 -or $value.scope -cne 'ifx-workspace-evidence-v1' -or
+        $value.pathOrder -cne 'ordinal' -or @($value.files).Count -ne $value.fileCount) {
+        Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.'
+    }
+    return $value
+}
+
 if ([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)) {
     Stop-Adapter 'invalid-input' 'V4_STAGE_INPUT_JSON is required.'
 }
@@ -83,12 +107,31 @@ $sourceRoot = [IO.Path]::GetFullPath((Join-Path $targetRoot $policy.scanRoot))
 if (-not (Is-Under $sourceRoot $targetRoot)) { Stop-Adapter 'unsafe-path' 'Source root escapes TargetRoot.' }
 if (-not [IO.Directory]::Exists($sourceRoot)) { Stop-Adapter 'prerequisite-missing' 'TargetRoot/src is missing.' }
 Assert-NoLink $sourceRoot 'Source root'
-foreach ($directory in @(Get-ChildItem -LiteralPath $sourceRoot -Recurse -Directory -Force)) {
-    Assert-NoLink $directory.FullName 'Source directory'
+$workspace = Load-WorkspaceEvidence $payload $targetRoot
+if ($null -ne $workspace) {
+    $projects = @($workspace.files | Where-Object {
+        $_.extension -ceq '.csproj' -and $_.path.StartsWith('src/',[StringComparison]::Ordinal)
+    } | ForEach-Object {
+        $full = [IO.Path]::GetFullPath((Join-Path $targetRoot ([string]$_.path)))
+        [pscustomobject]@{FullName=$full;BaseName=[IO.Path]::GetFileNameWithoutExtension($full);DirectoryName=[IO.Path]::GetDirectoryName($full);Name=[IO.Path]::GetFileName($full);CachedText=[string]$_.text}
+    })
+} else {
+    $found = [Collections.Generic.List[object]]::new()
+    $pending = [Collections.Generic.Queue[string]]::new(); $pending.Enqueue($sourceRoot)
+    while ($pending.Count -gt 0) {
+        $directory = $pending.Dequeue()
+        foreach ($child in [IO.Directory]::EnumerateDirectories($directory)) {
+            if (([IO.File]::GetAttributes($child) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'Source tree contains a linked directory.' }
+            if ([IO.Path]::GetFileName($child) -in @('bin','obj','node_modules','dist','coverage','.vite','guard','guards','generated')) { continue }
+            $pending.Enqueue($child)
+        }
+        foreach ($file in [IO.Directory]::EnumerateFiles($directory,'*.csproj',[IO.SearchOption]::TopDirectoryOnly)) {
+            if (([IO.File]::GetAttributes($file) -band [IO.FileAttributes]::ReparsePoint) -ne 0) { Stop-Adapter 'unsafe-path' 'Source tree contains a linked project.' }
+            $found.Add([pscustomobject]@{FullName=$file;BaseName=[IO.Path]::GetFileNameWithoutExtension($file);DirectoryName=[IO.Path]::GetDirectoryName($file);Name=[IO.Path]::GetFileName($file);CachedText=$null})
+        }
+    }
+    $projects = @($found.ToArray() | Sort-Object FullName)
 }
-
-$projects = @(Get-ChildItem -LiteralPath $sourceRoot -Recurse -File -Filter '*.csproj' -Force |
-    Sort-Object -Property FullName)
 foreach ($project in $projects) {
     if (-not (Is-Under $project.FullName $targetRoot)) { Stop-Adapter 'unsafe-path' 'Project escapes TargetRoot.' }
     Assert-NoLink $project.FullName 'Project'
@@ -98,11 +141,12 @@ foreach ($project in $projects) {
         $settings = [Xml.XmlReaderSettings]::new()
         $settings.DtdProcessing = [Xml.DtdProcessing]::Prohibit
         $settings.XmlResolver = $null
-        $reader = [Xml.XmlReader]::Create($project.FullName, $settings)
+        $textReader = if ($null -ne $project.CachedText) { [IO.StringReader]::new([string]$project.CachedText) } else { $null }
+        $reader = if ($null -ne $textReader) { [Xml.XmlReader]::Create($textReader, $settings) } else { [Xml.XmlReader]::Create($project.FullName, $settings) }
         try {
             $document = [xml]::new()
             $document.Load($reader)
-        } finally { $reader.Dispose() }
+        } finally { $reader.Dispose(); if ($null -ne $textReader) { $textReader.Dispose() } }
     } catch { Stop-Adapter 'invalid-input' "Domain project XML is invalid: $($project.Name)." }
     $references = @($document.SelectNodes("//*[local-name()='ProjectReference']"))
     foreach ($reference in $references) {

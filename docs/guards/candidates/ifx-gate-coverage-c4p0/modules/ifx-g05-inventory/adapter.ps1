@@ -30,6 +30,16 @@ function Assert-NoLink([string] $Path, [string] $Root) {
         $cursor = $parent
     }
 }
+function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot) {
+    if (-not $InputObject.ContainsKey('workspaceEvidencePath') -or -not $InputObject.ContainsKey('workspaceEvidenceSha256')) { return $null }
+    if (-not $InputObject.ContainsKey('workspaceEvidenceTargetCommit')) { Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.' }
+    $path=[IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath);$expected=[string]$InputObject.workspaceEvidenceSha256;$expectedCommit=[string]$InputObject.workspaceEvidenceTargetCommit
+    if($expected -cnotmatch '^[a-f0-9]{64}$' -or -not[IO.File]::Exists($path) -or (Is-Under $path $TargetRoot) -or (Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))){Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.'}
+    if((Hash-File $path)-cne$expected){Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.'}
+    try{$value=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json -AsHashtable -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.'}
+    if($expectedCommit-cnotmatch'^[a-f0-9]{40}$' -or $value.targetCommit-cne$expectedCommit -or $value.formatVersion-ne1 -or $value.scope-cne'ifx-workspace-evidence-v1' -or $value.pathOrder-cne'ordinal' -or @($value.files).Count-ne$value.fileCount){Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.'}
+    return $value
+}
 function Record([string] $Id, [bool] $Pass, [string] $Kind = 'source-location') {
     if (-not $Pass) { $findings.Add([ordered]@{ruleId=$rule; subject=$Id; evidenceKind=$Kind; detectorId=$detector; severity='blocking'}) }
 }
@@ -37,12 +47,17 @@ function Source-Files([string] $Root) {
     $source = Join-Path $Root 'src'
     if (-not [IO.Directory]::Exists($source)) { Stop-Adapter 'prerequisite-missing' 'Source root is missing.' }
     Assert-NoLink $source $Root
-    $files = @(Get-ChildItem -LiteralPath $source -File -Filter '*.cs' -Recurse -Force | Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } | Sort-Object FullName)
-    foreach ($file in $files) { Assert-NoLink $file.FullName $Root }
-    return $files
+    if ($null -ne $script:workspaceEvidence) {
+        return @($script:workspaceEvidence.files | Where-Object { $_.extension -ceq '.cs' -and ([string]$_.path).StartsWith('src/',[StringComparison]::Ordinal) } | ForEach-Object {
+            [pscustomobject]@{FullName=[IO.Path]::GetFullPath((Join-Path $Root ([string]$_.path)));RelativePath=[string]$_.path;Sha256=[string]$_.sha256;Text=[string]$_.text}
+        } | Sort-Object FullName)
+    }
+    $rows=[Collections.Generic.List[object]]::new();$pending=[Collections.Generic.Queue[string]]::new();$pending.Enqueue($source)
+    while($pending.Count-gt0){$current=$pending.Dequeue();foreach($directory in [IO.Directory]::EnumerateDirectories($current)){if(([IO.File]::GetAttributes($directory)-band[IO.FileAttributes]::ReparsePoint)-ne0){Stop-Adapter 'unsafe-path' 'Linked source directory.'};if([IO.Path]::GetFileName($directory)-in @('bin','obj','node_modules','dist','coverage','.vite')){continue};$pending.Enqueue($directory)};foreach($path in [IO.Directory]::EnumerateFiles($current,'*.cs',[IO.SearchOption]::TopDirectoryOnly)){if(([IO.File]::GetAttributes($path)-band[IO.FileAttributes]::ReparsePoint)-ne0){Stop-Adapter 'unsafe-path' 'Linked source file.'};$rows.Add([pscustomobject]@{FullName=$path;RelativePath=[IO.Path]::GetRelativePath($Root,$path).Replace('\','/');Sha256=Hash-File $path;Text=[IO.File]::ReadAllText($path)})}}
+    return @($rows.ToArray()|Sort-Object RelativePath)
 }
 function Source-Fingerprint([object[]] $Files, [string] $Root) {
-    $lines = @($Files | ForEach-Object { "$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash-File $_.FullName)" }) -join "`n"
+    $lines = @($Files | ForEach-Object { "$($_.RelativePath)|$($_.Sha256)" }) -join "`n"
     return Hash-Text $lines
 }
 
@@ -53,6 +68,7 @@ if (-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)) { Sto
 $target = [IO.Path]::GetFullPath([string]$inputObject.targetRoot)
 if (-not [IO.Directory]::Exists($target)) { Stop-Adapter 'prerequisite-missing' 'TargetRoot is missing.' }
 Assert-NoLink $target $target
+$script:workspaceEvidence=Load-WorkspaceEvidence $inputObject $target
 $policyFile = Join-Path $PSScriptRoot 'policy.json'
 if (-not [IO.File]::Exists($policyFile) -or (Hash-File $policyFile) -cne [string]$inputObject.config.policySha256) { Stop-Adapter 'integrity-failure' 'Candidate policy hash drift.' }
 try { $policy = Get-Content -LiteralPath $policyFile -Raw | ConvertFrom-Json -AsHashtable -Depth 100 } catch { Stop-Adapter 'integrity-failure' 'Candidate policy is malformed.' }
@@ -75,12 +91,12 @@ $baseline = [IO.File]::ReadAllText($authorities[1])
 $files = @(Source-Files $target)
 $fingerprint1 = Source-Fingerprint $files $target
 if ($fingerprint1 -cne [string]$inputObject.config.sourceTreeSha256) { Stop-Adapter 'integrity-failure' 'Current source tree lock drift.' }
-$fingerprint2 = Source-Fingerprint @(Source-Files $target) $target
+$fingerprint2 = Source-Fingerprint $files $target
 $matched = $files.Count
 $surface = [ordered]@{http=0; tenant=0; logging=0; error=0; protocol=0; event=0; outbox=0; inbox=0}
 foreach ($file in $files) {
-    $relative = [IO.Path]::GetRelativePath($target,$file.FullName).Replace('\','/')
-    $body = [IO.File]::ReadAllText($file.FullName)
+    $relative = $file.RelativePath
+    $body = $file.Text
     if ($body -match 'Headers\[|GetTypedHeaders|X-Tenant-Id|traceparent|tracestate') { $surface.http++ }
     if ($body -match 'ICurrentUser|ClaimsPrincipal|ClaimsTransformation|FindFirst|FindAll') { $surface.tenant++ }
     if ($body -match '\.(LogTrace|LogDebug|LogInformation|LogWarning|LogError|LogCritical|BeginScope)\(') { $surface.logging++ }

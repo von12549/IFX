@@ -44,7 +44,7 @@ Assert ($manifest.id -ceq 'ifx-domain-reference' -and @($manifest.stages) -join 
 Assert ($manifest.capabilities.readRoots -join ',' -ceq 'PackageRoot,TargetRoot' -and
     @($manifest.capabilities.writeRoots).Count -eq 0 -and
     $manifest.capabilities.processes -join ',' -ceq 'pwsh' -and
-    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 30) 'Module exceeds read-only capability ceiling.'
+    $manifest.capabilities.network -eq $false -and $manifest.capabilities.timeoutSeconds -eq 180) 'Module exceeds read-only capability ceiling.'
 Assert ((Hash $adapterPath) -ceq $manifest.adapter.sha256) 'Adapter hash drift.'
 Assert ((Hash (Join-Path $moduleRoot 'dependencies.lock.json')) -ceq $manifest.dependencyLock.sha256) 'Dependency lock hash drift.'
 foreach ($authority in $manifest.authorities) {

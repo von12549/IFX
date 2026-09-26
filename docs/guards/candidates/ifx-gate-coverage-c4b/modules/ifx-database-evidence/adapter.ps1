@@ -7,7 +7,32 @@ function Hash-Text([string]$Text){[Convert]::ToHexString([Security.Cryptography.
 function Hash-Normalized([string]$Path){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes([IO.File]::ReadAllText($Path).ReplaceLineEndings("`n")))).ToLowerInvariant()}
 function Is-Excluded([string]$Relative,[string[]]$Names){$segments=$Relative.Replace('\','/').Split('/');foreach($segment in $segments){if($Names -ccontains $segment){return $true}};return $false}
 function Read-InventoryContract([string]$Path){$value=Get-Content $Path -Raw|ConvertFrom-Json -Depth 20;if($value.formatVersion -ne 1 -or $value.id -cne 'ifx-database-source-inventory-v2' -or (@($value.extensions)-join '|') -cne '.cs|.csproj|.json|.ps1' -or $value.pathOrder -cne 'ordinal' -or $value.contentHash -cne 'utf8-lf-sha256' -or $value.trackedAtProduction -ne $true){Stop-Adapter 'integrity-failure' 'Database source inventory contract drift.'};return $value}
-function Source-Entries([string]$Root,$Contract){$paths=[Collections.Generic.List[string]]::new();$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal);foreach($relativeRoot in $Contract.roots){$folder=Join-Path $Root $relativeRoot;if(-not [IO.Directory]::Exists($folder)){continue};foreach($file in Get-ChildItem -LiteralPath $folder -File -Recurse -Force){$relative=[IO.Path]::GetRelativePath($Root,$file.FullName).Replace('\','/');if($file.Extension.ToLowerInvariant() -notin @($Contract.extensions) -or (Is-Excluded $relative @($Contract.excludedDirectoryNames))){continue};if(($file.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $file.LinkTarget){Stop-Adapter 'unsafe-path' "Linked Database source input: $relative"};if(-not $seen.Add($relative)){Stop-Adapter 'integrity-failure' "Duplicate Database source input: $relative"};$paths.Add($relative)}};$ordered=$paths.ToArray();[Array]::Sort($ordered,[StringComparer]::Ordinal);return @($ordered|ForEach-Object{[ordered]@{path=$_;sha256=Hash-Normalized (Join-Path $Root $_)}})}
+function Source-Entries([string]$Root,$Contract){
+    if($null-ne$script:workspaceEvidence){
+        $rows=[Collections.Generic.List[object]]::new();$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal)
+        foreach($entry in $script:workspaceEvidence.files){$relative=[string]$entry.path;$inRoot=@($Contract.roots|Where-Object{$relative-ceq$_ -or $relative.StartsWith("$_/",[StringComparison]::Ordinal)}).Count-gt0;if(-not$inRoot -or [string]$entry.extension -notin @($Contract.extensions) -or (Is-Excluded $relative @($Contract.excludedDirectoryNames))){continue};if(-not$seen.Add($relative)){Stop-Adapter 'integrity-failure' "Duplicate Database source input: $relative"};$rows.Add([ordered]@{path=$relative;sha256=[string]$entry.normalizedSha256})}
+        $ordered=$rows.ToArray();[Array]::Sort($ordered,[Comparison[object]]{param($a,$b);[StringComparer]::Ordinal.Compare([string]$a.path,[string]$b.path)});return @($ordered)
+    }
+    $paths=[Collections.Generic.List[string]]::new();$seen=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal);$excluded=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase);foreach($name in @($Contract.excludedDirectoryNames)){[void]$excluded.Add([string]$name)}
+    foreach($relativeRoot in $Contract.roots){
+        $folder=[IO.Path]::GetFullPath((Join-Path $Root ([string]$relativeRoot)));if(-not[IO.Directory]::Exists($folder)){continue}
+        $pending=[Collections.Generic.Queue[string]]::new();$pending.Enqueue($folder)
+        while($pending.Count-gt0){
+            $current=$pending.Dequeue()
+            foreach($directory in [IO.Directory]::EnumerateDirectories($current)){
+                if($excluded.Contains([IO.Path]::GetFileName($directory))){continue}
+                if(([IO.File]::GetAttributes($directory)-band[IO.FileAttributes]::ReparsePoint)-ne0){Stop-Adapter 'unsafe-path' "Linked Database source directory: $directory"}
+                $pending.Enqueue($directory)
+            }
+            foreach($file in [IO.Directory]::EnumerateFiles($current)){
+                $relative=[IO.Path]::GetRelativePath($Root,$file).Replace('\','/');if([IO.Path]::GetExtension($file).ToLowerInvariant()-notin@($Contract.extensions)-or(Is-Excluded $relative @($Contract.excludedDirectoryNames))){continue}
+                if(([IO.File]::GetAttributes($file)-band[IO.FileAttributes]::ReparsePoint)-ne0){Stop-Adapter 'unsafe-path' "Linked Database source input: $relative"}
+                if(-not$seen.Add($relative)){Stop-Adapter 'integrity-failure' "Duplicate Database source input: $relative"};$paths.Add($relative)
+            }
+        }
+    }
+    $ordered=$paths.ToArray();[Array]::Sort($ordered,[StringComparer]::Ordinal);return @($ordered|ForEach-Object{[ordered]@{path=$_;sha256=Hash-Normalized (Join-Path $Root $_)}})
+}
 function Field($Object,[string]$Name){foreach($key in $Object.Keys){if($key.Equals($Name,[StringComparison]::OrdinalIgnoreCase)){return $Object[$key]}};return $null}
 function Parse-Time($Value){if($Value -is [DateTime]){return [DateTimeOffset]$Value};return [DateTimeOffset]::Parse([string]$Value,[Globalization.CultureInfo]::InvariantCulture)}
 function Emit([string]$Status,[string]$Category,[string]$Message=''){$r=[ordered]@{formatVersion=1;status=$Status;exitCategory=$Category;findings=@($findings.ToArray());coverage=@([ordered]@{claimId=$claim;matched=[int]$matched;minimum=1})};if($Message){$r.message=$Message};[Console]::Out.WriteLine(($r|ConvertTo-Json -Depth 50 -Compress))}
@@ -40,6 +65,7 @@ function Resolve-TargetCommit([string]$Root){
     Stop-Adapter 'integrity-failure' 'TargetRoot Git reference cannot be resolved.'
 }
 function Is-Under([string]$Path,[string]$Root){$r=[IO.Path]::GetRelativePath($Root,$Path);$r -ne '..' -and -not [IO.Path]::IsPathRooted($r) -and -not $r.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
+function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot){if(-not$InputObject.ContainsKey('workspaceEvidencePath') -or -not$InputObject.ContainsKey('workspaceEvidenceSha256')){return $null};if(-not$InputObject.ContainsKey('workspaceEvidenceTargetCommit')){Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.'};$path=[IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath);$expected=[string]$InputObject.workspaceEvidenceSha256;$expectedCommit=[string]$InputObject.workspaceEvidenceTargetCommit;if($expected-cnotmatch'^[a-f0-9]{64}$' -or -not[IO.File]::Exists($path) -or (Is-Under $path $TargetRoot) -or (Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))){Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.'};if((Hash $path)-cne$expected){Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.'};try{$value=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json -AsHashtable -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.'};if($expectedCommit-cnotmatch'^[a-f0-9]{40}$' -or $value.targetCommit-cne$expectedCommit -or $value.formatVersion-ne1 -or $value.scope-cne'ifx-workspace-evidence-v1' -or $value.pathOrder-cne'ordinal' -or @($value.files).Count-ne$value.fileCount){Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.'};$value}
 function Resolve-File([string]$Relative,[string]$Expected){if([IO.Path]::IsPathRooted($Relative) -or $Relative -match '(^|[\/])\.\.([\/]|$)' -or $Expected -cnotmatch '^[a-f0-9]{64}$'){Stop-Adapter 'invalid-input' 'Invalid evidence path or hash.'};$full=[IO.Path]::GetFullPath((Join-Path $target $Relative));if(-not(Is-Under $full $target)){Stop-Adapter 'unsafe-path' 'Evidence escapes TargetRoot.'};$cursor=$full;while(Is-Under $cursor $target){if([IO.File]::Exists($cursor) -or [IO.Directory]::Exists($cursor)){$item=Get-Item -LiteralPath $cursor -Force;if(($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0 -or $null -ne $item.LinkTarget){Stop-Adapter 'unsafe-path' "Linked evidence path: $Relative"}};if($cursor -ceq $target){break};$cursor=[IO.Path]::GetDirectoryName($cursor)};if(-not [IO.File]::Exists($full)){Stop-Adapter 'prerequisite-missing' "Missing evidence: $Relative"};if((Hash $full) -cne $Expected){Stop-Adapter 'integrity-failure' "Stale evidence: $Relative"};return $full}
 function Record([string]$Id,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Id;evidenceKind='database-evidence';detectorId=$detector;severity='blocking'})}}
 if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'Stage input required.'}
@@ -47,6 +73,7 @@ try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 1
 if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'deployment'){Stop-Adapter 'invalid-input' 'Stage or claim selection invalid.'}
 if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'invalid-input' 'TargetRoot must be absolute.'};$target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot)
 if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot missing.'}
+$script:workspaceEvidence=Load-WorkspaceEvidence $inputObject $target
 $targetCommit=Resolve-TargetCommit $target
 $policyFile=Join-Path $PSScriptRoot 'policy.json';if((Hash $policyFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Module policy drift.'}
 $inventoryContractPath=Join-Path $PSScriptRoot 'source-inventory.json';$inventoryContract=Read-InventoryContract $inventoryContractPath

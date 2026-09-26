@@ -7,7 +7,7 @@
   "adapter": {
     "kind": "powershell",
     "path": "modules/ifx-domain-reference/adapter.ps1",
-    "sha256": "94230e9ee3654404ce677029e88c11b89f94c0ef2b3dd46d15ecfa598dceef90"
+    "sha256": "d6f67bf06fd12f31e4975aa96af14d0f2366db752f337a7e34f4869f9dc6c894"
   },
   "prerequisites": [{ "runtime": "pwsh", "versionRange": ">=7.4" }],
   "stages": ["pre"],

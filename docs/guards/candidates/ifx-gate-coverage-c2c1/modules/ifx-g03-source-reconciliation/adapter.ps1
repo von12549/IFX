@@ -26,8 +26,12 @@ function Assert-NoLink([string] $Path) {
         $current = $parent
     }
 }
+function Is-Under([string]$Path,[string]$Root){$r=[IO.Path]::GetRelativePath($Root,$Path);$r-ne'..'-and-not[IO.Path]::IsPathRooted($r)-and-not$r.StartsWith("..$([IO.Path]::DirectorySeparatorChar)",[StringComparison]::Ordinal)}
+function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot){if(-not($InputObject.PSObject.Properties.Name-contains'workspaceEvidencePath')-or-not($InputObject.PSObject.Properties.Name-contains'workspaceEvidenceSha256')){return $null};if(-not($InputObject.PSObject.Properties.Name-contains'workspaceEvidenceTargetCommit')){Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.'};$path=[IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath);$expected=[string]$InputObject.workspaceEvidenceSha256;$expectedCommit=[string]$InputObject.workspaceEvidenceTargetCommit;if($expected-cnotmatch'^[a-f0-9]{64}$'-or-not[IO.File]::Exists($path)-or(Is-Under $path $TargetRoot)-or(Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))){Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.'};if((Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()-cne$expected){Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.'};try{$value=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.'};if($expectedCommit-cnotmatch'^[a-f0-9]{40}$'-or$value.targetCommit-cne$expectedCommit-or$value.formatVersion-ne1-or$value.scope-cne'ifx-workspace-evidence-v1'-or$value.pathOrder-cne'ordinal'-or@($value.files).Count-ne$value.fileCount){Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.'};$value}
 function Relative([string] $Path) { [IO.Path]::GetRelativePath($targetRoot, $Path).Replace('\','/') }
 function Source-Files([string] $Directory) {
+    if($null-ne$script:sourceFileCache){return $script:sourceFileCache}
+    if($null-ne$script:workspaceEvidence){$script:sourceFileCache=@($script:workspaceEvidence.files|Where-Object{$_.extension-in '.cs','.csproj'-and([string]$_.path).StartsWith('src/',[StringComparison]::Ordinal)}|ForEach-Object{[pscustomobject]@{path=[string]$_.path;full=[IO.Path]::GetFullPath((Join-Path $targetRoot ([string]$_.path)));text=[string]$_.text}});return $script:sourceFileCache}
     $result = [Collections.Generic.List[object]]::new()
     $pending = [Collections.Generic.Queue[string]]::new(); $pending.Enqueue($Directory)
     while ($pending.Count -gt 0) {
@@ -44,7 +48,8 @@ function Source-Files([string] $Directory) {
             }
         }
     }
-    return @($result.ToArray() | Sort-Object path)
+    $script:sourceFileCache=@($result.ToArray() | Sort-Object path)
+    return $script:sourceFileCache
 }
 function Build-Snapshot {
     $files = @(Source-Files $sourceRoot)
@@ -106,6 +111,8 @@ if (-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)) { Sto
 $targetRoot = [IO.Path]::GetFullPath([string]$inputObject.targetRoot)
 if (-not [IO.Directory]::Exists($targetRoot)) { Stop-Adapter 'prerequisite-missing' 'TargetRoot is missing.' }
 Assert-NoLink $targetRoot
+$script:workspaceEvidence=Load-WorkspaceEvidence $inputObject $targetRoot
+$script:sourceFileCache=$null
 $policyPath = Join-Path $PSScriptRoot 'policy.json'
 if (-not [IO.File]::Exists($policyPath)) { Stop-Adapter 'integrity-failure' 'Candidate policy is missing.' }
 if ((Get-FileHash -LiteralPath $policyPath -Algorithm SHA256).Hash.ToLowerInvariant() -cne [string]$inputObject.config.policySha256) { Stop-Adapter 'integrity-failure' 'Candidate policy hash drift.' }

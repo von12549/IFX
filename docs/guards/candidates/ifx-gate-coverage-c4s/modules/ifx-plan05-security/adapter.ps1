@@ -17,15 +17,49 @@ function Assert-NoLink([string]$Path,[string]$Root){
         if($cursor -ceq $Root){break};$parent=[IO.Path]::GetDirectoryName($cursor);if(-not $parent -or $parent -ceq $cursor){break};$cursor=$parent
     }
 }
+function Load-WorkspaceEvidence($InputObject,[string]$TargetRoot){
+    if(-not$InputObject.ContainsKey('workspaceEvidencePath') -or -not$InputObject.ContainsKey('workspaceEvidenceSha256')){return $null}
+    if(-not$InputObject.ContainsKey('workspaceEvidenceTargetCommit')){Stop-Adapter 'invalid-input' 'Workspace evidence target commit is required.'}
+    $path=[IO.Path]::GetFullPath([string]$InputObject.workspaceEvidencePath);$expected=[string]$InputObject.workspaceEvidenceSha256;$expectedCommit=[string]$InputObject.workspaceEvidenceTargetCommit
+    if($expected-cnotmatch'^[a-f0-9]{64}$' -or -not[IO.File]::Exists($path) -or (Is-Under $path $TargetRoot) -or (Is-Under $TargetRoot ([IO.Path]::GetDirectoryName($path)))){Stop-Adapter 'unsafe-path' 'Workspace evidence is missing, invalid, or overlaps TargetRoot.'}
+    if((Hash $path)-cne$expected){Stop-Adapter 'integrity-failure' 'Workspace evidence hash drift.'}
+    try{$value=Get-Content -LiteralPath $path -Raw|ConvertFrom-Json -AsHashtable -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Workspace evidence is malformed.'}
+    if($expectedCommit-cnotmatch'^[a-f0-9]{40}$' -or $value.targetCommit-cne$expectedCommit -or $value.formatVersion-ne1 -or $value.scope-cne'ifx-workspace-evidence-v1' -or $value.pathOrder-cne'ordinal' -or @($value.files).Count-ne$value.fileCount){Stop-Adapter 'integrity-failure' 'Workspace evidence identity drift.'}
+    $value
+}
 function Record([string]$Id,[bool]$Pass){$script:matched++;if(-not $Pass){$findings.Add([ordered]@{ruleId=$rule;subject=$Id;evidenceKind='security-source';detectorId=$detector;severity='blocking'})}}
 function Match([string]$Text,[string]$Pattern){[Regex]::IsMatch($Text,$Pattern,[Text.RegularExpressions.RegexOptions]::None,[TimeSpan]::FromSeconds(1))}
 function Pure-Contract([string]$Text){-not (Match ($Text.Replace('Sdk="Microsoft.NET.Sdk"','')) 'Microsoft\.|Amazon\.|Auth0\.|System\.Text\.Json|ClaimsPrincipal|HttpContext|IQueryable|DbContext|IServiceCollection|PackageReference|ProjectReference|\.Infrastructure\.')}
 function Neutral-Runtime([string]$Text){-not (Match $Text 'IFX\.Modules\.|IHttpContextAccessor|HttpContext\.Current|EntityFrameworkCore|DbContext')}
+function Source-Files([string]$Root,[string]$SourceRoot){
+    $rows=[Collections.Generic.List[object]]::new()
+    $pending=[Collections.Generic.Queue[string]]::new();$pending.Enqueue($SourceRoot)
+    $excluded=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+    foreach($name in @('bin','obj','node_modules','dist','coverage','.vite')){[void]$excluded.Add($name)}
+    while($pending.Count-gt 0){
+        $current=$pending.Dequeue()
+        foreach($directory in [IO.Directory]::EnumerateDirectories($current)){
+            if($excluded.Contains([IO.Path]::GetFileName($directory))){continue}
+            if(([IO.File]::GetAttributes($directory)-band[IO.FileAttributes]::ReparsePoint)-ne0){Stop-Adapter 'unsafe-path' "Linked source directory: $directory"}
+            $pending.Enqueue($directory)
+        }
+        foreach($file in [IO.Directory]::EnumerateFiles($current)){
+            $extension=[IO.Path]::GetExtension($file)
+            if($extension -notin @('.cs','.csproj')){continue}
+            if(([IO.File]::GetAttributes($file)-band[IO.FileAttributes]::ReparsePoint)-ne0){Stop-Adapter 'unsafe-path' "Linked source file: $file"}
+            $bytes=[IO.File]::ReadAllBytes($file)
+            $text=[Text.Encoding]::UTF8.GetString($bytes);if($text.Length-gt0-and$text[0]-eq[char]0xFEFF){$text=$text.Substring(1)}
+            $rows.Add([pscustomobject]@{FullName=$file;RelativePath=[IO.Path]::GetRelativePath($Root,$file).Replace('\','/');Sha256=[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant();Text=$text})
+        }
+    }
+    @($rows.ToArray()|Sort-Object FullName)
+}
 if([string]::IsNullOrWhiteSpace($env:V4_STAGE_INPUT_JSON)){Stop-Adapter 'invalid-input' 'Stage input is required.'}
 try{$inputObject=$env:V4_STAGE_INPUT_JSON|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'invalid-input' 'Stage input is malformed.'}
 if($inputObject.formatVersion -ne 1 -or $inputObject.stage -cne 'post' -or (@($inputObject.config.enabledClaims)-join '|') -cne $claim -or @($inputObject.relativeRoots) -notcontains 'src'){Stop-Adapter 'invalid-input' 'Stage or claim selection is invalid.'}
 if(-not [IO.Path]::IsPathFullyQualified([string]$inputObject.targetRoot)){Stop-Adapter 'prerequisite-missing' 'TargetRoot must be absolute.'}
 $target=[IO.Path]::GetFullPath([string]$inputObject.targetRoot);if(-not [IO.Directory]::Exists($target)){Stop-Adapter 'prerequisite-missing' 'TargetRoot is missing.'};Assert-NoLink $target $target
+$workspace=Load-WorkspaceEvidence $inputObject $target
 $policyFile=Join-Path $PSScriptRoot 'policy.json'
 if(-not [IO.File]::Exists($policyFile) -or (Hash $policyFile) -cne [string]$inputObject.config.policySha256){Stop-Adapter 'integrity-failure' 'Plan05 policy hash drift.'}
 try{$policy=Get-Content -LiteralPath $policyFile -Raw|ConvertFrom-Json -AsHashtable -Depth 100}catch{Stop-Adapter 'integrity-failure' 'Plan05 policy is malformed.'}
@@ -42,10 +76,9 @@ for($i=0;$i -lt 8;$i++){
 }
 $sourceRoot=[IO.Path]::GetFullPath((Join-Path $target ([string]$policy.sourceRoot)))
 if(-not(Is-Under $sourceRoot $target) -or -not [IO.Directory]::Exists($sourceRoot)){Stop-Adapter 'prerequisite-missing' 'Source root is missing.'};Assert-NoLink $sourceRoot $target
-$sources=@(Get-ChildItem -LiteralPath $sourceRoot -File -Recurse -Force|Where-Object{$_.Extension -in '.cs','.csproj' -and $_.FullName -notmatch '[\\/](bin|obj)[\\/]'}|Sort-Object FullName)
+$sources=if($null-ne$workspace){@($workspace.files|Where-Object{$_.extension-in '.cs','.csproj' -and ([string]$_.path).StartsWith('src/',[StringComparison]::Ordinal)}|ForEach-Object{[pscustomobject]@{FullName=[IO.Path]::GetFullPath((Join-Path $target ([string]$_.path)));RelativePath=[string]$_.path;Sha256=[string]$_.sha256;Text=[string]$_.text}}|Sort-Object FullName)}else{@(Source-Files $target $sourceRoot)}
 if($sources.Count -eq 0){$findings.Add([ordered]@{ruleId=$rule;subject='zero-subject';evidenceKind='coverage';detectorId=$detector;severity='blocking'});Emit 'fail' 'findings-blocking';exit 0}
-foreach($source in $sources){Assert-NoLink $source.FullName $target}
-$lines=@($sources|ForEach-Object{"$([IO.Path]::GetRelativePath($target,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"}) -join "`n"
+$lines=@($sources|ForEach-Object{"$($_.RelativePath)|$($_.Sha256)"}) -join "`n"
 if((Hash-Text $lines) -cne [string]$inputObject.config.sourceTreeSha256){Stop-Adapter 'integrity-failure' 'Source tree lock drift.'}
 $selfTests=@(
     @{kind='contract';source='public record Request(string Id);';expected=$true},@{kind='contract';source='public record Request(Microsoft.AspNetCore.Http.HttpContext Context);';expected=$false},
@@ -58,10 +91,10 @@ $selfOk=@($selfTests|Where-Object{$actual=$(if($_.kind -eq 'contract'){Pure-Cont
 $checks=[ordered]@{positiveAndNegativeDetectors=$selfOk}
 foreach($capability in @('Authentication','Authorization')){
     $contractPrefix="src/Platform/$capability/IFX.Platform.$capability.Contracts/";$runtimePrefix="src/Platform/$capability/IFX.Platform.$capability.Runtime/"
-    $contracts=@($sources|Where-Object{[IO.Path]::GetRelativePath($target,$_.FullName).Replace('\','/').StartsWith($contractPrefix,[StringComparison]::Ordinal)})
-    $runtimes=@($sources|Where-Object{[IO.Path]::GetRelativePath($target,$_.FullName).Replace('\','/').StartsWith($runtimePrefix,[StringComparison]::Ordinal)})
-    $checks["${capability}ContractsArePure"]=$contracts.Count -gt 0 -and @($contracts|Where-Object{-not(Pure-Contract ([IO.File]::ReadAllText($_.FullName)))}).Count -eq 0
-    $checks["${capability}RuntimeHasNoBusinessOrHttpDependency"]=$runtimes.Count -gt 0 -and @($runtimes|Where-Object{-not(Neutral-Runtime ([IO.File]::ReadAllText($_.FullName)))}).Count -eq 0
+    $contracts=@($sources|Where-Object{$_.RelativePath.StartsWith($contractPrefix,[StringComparison]::Ordinal)})
+    $runtimes=@($sources|Where-Object{$_.RelativePath.StartsWith($runtimePrefix,[StringComparison]::Ordinal)})
+    $checks["${capability}ContractsArePure"]=$contracts.Count -gt 0 -and @($contracts|Where-Object{-not(Pure-Contract $_.Text)}).Count -eq 0
+    $checks["${capability}RuntimeHasNoBusinessOrHttpDependency"]=$runtimes.Count -gt 0 -and @($runtimes|Where-Object{-not(Neutral-Runtime $_.Text)}).Count -eq 0
 }
 $registration=$texts.identityRegistration;$facts=$texts.verifiedFacts;$actor=$texts.httpIdentity;$permission=$texts.permission;$resource=$texts.resourceAdapter;$program=$texts.program;$handler=$texts.handler
 $checks.verifiedIdentityIsTheProductionSource=(Match $registration 'AddScoped<IExecutionIdentityFacts>.*GetRequiredService<VerifiedIdentityFacts>') -and -not(Match $registration 'AddScoped<IExecutionIdentityFacts>.*GetRequiredService<HttpIdentityFacts>')
@@ -74,7 +107,7 @@ $retiredPresent=@($policy.retiredPaths|Where-Object{[IO.File]::Exists((Join-Path
 $checks.retiredTransitionTypesAreAbsent=$retiredPresent.Count -eq 0
 try{$compat=$texts.compatibility|ConvertFrom-Json -AsHashtable -Depth 30}catch{Stop-Adapter 'integrity-failure' 'Compatibility registry malformed.'}
 $legacyFindings=[Collections.Generic.List[string]]::new()
-foreach($file in $sources){$relative=[IO.Path]::GetRelativePath($target,$file.FullName).Replace('\','/');foreach($line in [IO.File]::ReadAllLines($file.FullName)){if(Match $line 'IFX\.Modules\.Auth\b'){if(@($compat.legacyTypeReferences|Where-Object{$_.path -ceq $relative -and $line.Contains([string]$_.value)}).Count -ne 1){$legacyFindings.Add($relative)}}}}
+foreach($file in $sources){$relative=$file.RelativePath;foreach($line in ([string]$file.Text -split "`r?`n")){if(Match $line 'IFX\.Modules\.Auth\b'){if(@($compat.legacyTypeReferences|Where-Object{$_.path -ceq $relative -and $line.Contains([string]$_.value)}).Count -ne 1){$legacyFindings.Add($relative)}}}}
 $checks.legacyTypeNamesHaveExactCompatibilityEntries=$legacyFindings.Count -eq 0 -and @($compat.legacyTypeReferences).Count -eq 1
 if((@($checks.Keys)-join '|') -cne (@($policy.checkIds)-join '|')){Stop-Adapter 'integrity-failure' 'Plan05 check-ID mapping drift.'}
 foreach($id in $policy.checkIds){Record $id ([bool]$checks[$id])}
