@@ -73,7 +73,7 @@ foreach($id in $moduleMap.Keys){
 }
 $oldBuiltin=@($previous.modules|Where-Object id -CEQ 'architecture-conformance');Assert ($oldBuiltin.Count-eq1) 'Historical built-in row missing.'
 $inheritance.Insert(10,[ordered]@{moduleId='architecture-conformance';tranche='published-base';disposition='base-rebind';old=[ordered]@{baseVersion='1.1.3';manifest=$oldBuiltin[0].manifestSha256};current=[ordered]@{baseVersion='1.1.4';manifest=Hash (Join-Path $package 'modules/architecture-conformance/module.json')}})
-Assert (@($inheritance|Where-Object disposition -CEQ'inherit').Count-eq29-and@($inheritance|Where-Object disposition -CEQ'focused-requalification').Count-eq7-and@($inheritance).Count-eq37) 'Inheritance matrix disposition count drift.'
+Assert (@($inheritance|Where-Object disposition -CEQ 'inherit').Count-eq29-and@($inheritance|Where-Object disposition -CEQ 'focused-requalification').Count-eq7-and@($inheritance).Count-eq37) 'Inheritance matrix disposition count drift.'
 
 $runId=[guid]::NewGuid().ToString('N');$root=Join-Path (Full $EvidenceRoot) $runId;[void][IO.Directory]::CreateDirectory($root)
 $matrixPath=Join-Path $root 'c1-c5-inheritance-matrix.json';WriteJson $matrixPath ([ordered]@{formatVersion=1;status='pass';targetCommit=$commit;historicalBaseVersion='1.1.3';currentBaseVersion='1.1.4';rows=@($inheritance.ToArray())})
