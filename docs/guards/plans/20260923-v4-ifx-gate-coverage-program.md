@@ -1,6 +1,6 @@
 # V4 P10.1 — IFX remaining-gate coverage program
 
-Status: `AUTHORIZED PROGRAM — C1 closed for reviewed snapshot; C6a entry in progress`
+Status: `AUTHORIZED PROGRAM — C6c Windows product evidence accepted; C6d pending`
 
 On 2026-09-23 the user authorized a separate project to complete the IFX gates
 left out of the source-bound `ifx-profile-candidate` 0.2.0 draft. This Plan opens
@@ -46,7 +46,7 @@ Plan04, Database, the three Quality gates or Historical Integrity.
 | C4b — Database safety | Map migration/release manifests and safety policy, including exact command capabilities and fresh evidence requirements, to a reviewed module or a separately authorized compatibility change. | Missing/invalid migration evidence blocks; execution scope and external effects are bounded and tested. |
 | C5 — Quality, Historical Integrity, baseline and Stage integration | Cover solution, compiled assembly and frontend quality gates plus historical-integrity checks; translate only individually reviewed waivers to explicit Profile-owned baselines; assign Bootstrap, Analysis, Pre and Post ownership and dependencies. | Fresh toolchain/build evidence, all 15 historical entries, direct/dependency Stage runs, stale/unused waiver and zero-match controls retain blocking categories, authority hashes and immutable roots. |
 | C5g — Diff/CI governance classification | Track `v3-pre-diff` and both cross-platform CI gates as P10.3-deferred rather than claiming them as P10.1 runtime coverage. | Separate trusted-base, workflow and required-check transition Plan before activation; no silent retirement of V3 checks. |
-| C6 — final bundle and operator practice | Create a new draft version bound to the **published 1.1.3 base**. Freeze manifest, full ordinal inventory, module locks/capability ceilings and review bytes. A later core change requires its own published patch and a new exact base decision. | Windows-full and pinned offline Linux-complete, independent clean/violation matrix, accepted human-review record by Xiaolong Feng over exact final bytes, new receipted composition, then installed Web UI practice. |
+| C6 — final bundle and operator practice | Create a new draft version bound to the **published 1.1.3 base**. Freeze manifest, full ordinal inventory, module locks/capability ceilings and review bytes. A later core change requires its own published patch and a new exact base decision. | For the Windows Server-only IFX product, Windows-full and certification controls are blocking. Run pinned offline Linux-complete concurrently and retain it as non-blocking V4/rule portability evidence; it does not assert an IFX Linux deployment target or adjudicate V4 package-release certification. Then require the independent clean/violation matrix, accepted human-review record by Xiaolong Feng over exact final bytes, new receipted composition and installed Web UI practice. |
 
 Each workstream begins with an exact child formal Plan and `plannedPaths`, a
 source-authority/claim matrix and Formal Pre **before** editing runtime or bundle

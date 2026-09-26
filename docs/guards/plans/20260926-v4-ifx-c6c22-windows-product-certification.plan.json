@@ -1,0 +1,34 @@
+{
+  "formatVersion": 1,
+  "id": "20260926-v4-ifx-c6c22-windows-product-certification",
+  "title": "Separate IFX Windows product certification from V4 portability evidence",
+  "goal": "Make Windows-full and certification controls the blocking requirements for the Windows Server-only IFX product while retaining Linux-complete as explicit non-blocking V4/rule portability evidence.",
+  "acceptanceCriteria": [
+    "The IFX certification report emits separate productCertification and portabilityAssessment decisions.",
+    "Windows-full and certification controls remain blocking; a Linux failure or semantic mismatch is recorded as advisory-fail without rejecting an otherwise passing IFX Windows product result.",
+    "The pinned network-disabled Linux assessment is still executed and all available process, report and failure evidence is retained.",
+    "Focused policy tests cover every blocking and advisory outcome without requiring another full certification run.",
+    "Generic V4 dual-platform release contracts, Host inputs, module semantics, bundle bytes, locks and published packages remain unchanged.",
+    "The decision record classifies shared workspace evidence as an IFX candidate optimization, not a published V4 Host capability."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260926-v4-ifx-c6c22-windows-product-certification.md",
+    "docs/guards/plans/20260926-v4-ifx-c6c22-windows-product-certification.plan.json",
+    "docs/guards/plans/20260923-v4-ifx-gate-coverage-program.md",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/IFX.C6.CertificationPolicy.psm1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Invoke-IFXC6ParallelCertification.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationPolicy.ps1",
+    "docs/guards/inventories/20260926-ifx-c6c22-windows-product-certification-decision.md"
+  ],
+  "areaIds": [
+    "GuardDocs"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ]
+}
