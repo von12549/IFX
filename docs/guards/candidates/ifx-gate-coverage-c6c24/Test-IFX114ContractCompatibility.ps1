@@ -51,7 +51,7 @@ Assert ($producerExit-eq0-and[IO.File]::Exists($workspacePath)) "Workspace produ
 Assert (Test-Json -LiteralPath $workspacePath -SchemaFile $workspaceSchema -ErrorAction Stop) 'Produced workspace evidence is not valid against installed 1.1.4 schema.'
 $workspace=Get-Content $workspacePath -Raw|ConvertFrom-Json -Depth 30
 Assert ($workspace.targetCommit-ceq$commit-and$workspace.pathOrder-ceq'ordinal'-and@($workspace.files).Count-eq$workspace.fileCount-and$workspace.fileCount-gt1000) 'Produced workspace evidence identity/cardinality drift.'
-$paths=@($workspace.files|ForEach-Object path);$sorted=@($paths);[Array]::Sort($sorted,[StringComparer]::Ordinal);$unique=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal);foreach($path in $paths){Assert ($unique.Add([string]$path)) "Workspace evidence path is duplicated: $path"};Assert (($paths-join"`n")-ceq($sorted-join"`n")) 'Workspace evidence is not ordinal.'
+$paths=[string[]]@($workspace.files|ForEach-Object{[string]$_.path});$sorted=[string[]]$paths.Clone();[Array]::Sort($sorted,[StringComparer]::Ordinal);$unique=[Collections.Generic.HashSet[string]]::new([StringComparer]::Ordinal);foreach($path in $paths){Assert ($unique.Add([string]$path)) "Workspace evidence path is duplicated: $path"};Assert (($paths-join"`n")-ceq($sorted-join"`n")) 'Workspace evidence is not ordinal.'
 
 $previous=Get-Content (Full $PreviousInventoryPath) -Raw|ConvertFrom-Json -Depth 100
 Assert ($previous.baseVersion-ceq'1.1.3'-and@($previous.modules).Count-eq37) 'Historical 1.1.3 comparison inventory drift.'
