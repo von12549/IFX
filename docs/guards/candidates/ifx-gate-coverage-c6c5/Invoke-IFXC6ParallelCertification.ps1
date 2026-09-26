@@ -11,6 +11,10 @@ param(
     [string]$LinuxImage = 'ifx-c6c-sdk:10.0.303',
     [string]$LinuxImageDigest = 'sha256:7d373379cf99594538947415d2770f0823a39e3c957cf7e81488370561168773',
     [string]$NuGetPackagesRoot = (Join-Path $env:USERPROFILE '.nuget/packages'),
+    [string]$ExpectedBaseVersion = '1.1.3',
+    [string]$ExpectedArchiveSha256 = '28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',
+    [string]$ExpectedPackageHash = '9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494',
+    [string]$CandidateVersion = '0.3.0',
     [string]$ReportPath
 )
 
@@ -43,16 +47,18 @@ function Start-Captured([string]$Name,[string]$File,[string[]]$Arguments,[string
     $info.RedirectStandardError = $true
     foreach ($argument in $Arguments) { [void]$info.ArgumentList.Add($argument) }
     $process = [Diagnostics.Process]::new(); $process.StartInfo = $info
+    $started = [DateTimeOffset]::UtcNow; $watch = [Diagnostics.Stopwatch]::StartNew()
     Assert $process.Start() "Failed to start $Name."
-    [ordered]@{name=$Name;process=$process;stdout=$process.StandardOutput.ReadToEndAsync();stderr=$process.StandardError.ReadToEndAsync();logRoot=$LogRoot}
+    [ordered]@{name=$Name;process=$process;stdout=$process.StandardOutput.ReadToEndAsync();stderr=$process.StandardError.ReadToEndAsync();logRoot=$LogRoot;started=$started;watch=$watch}
 }
 function Complete-Captured($Entry) {
     $Entry.process.WaitForExit()
+    $Entry.watch.Stop(); $completed = [DateTimeOffset]::UtcNow
     $stdout = $Entry.stdout.GetAwaiter().GetResult(); $stderr = $Entry.stderr.GetAwaiter().GetResult()
     [void][IO.Directory]::CreateDirectory($Entry.logRoot)
     [IO.File]::WriteAllText((Join-Path $Entry.logRoot 'stdout.txt'),$stdout,[Text.UTF8Encoding]::new($false))
     [IO.File]::WriteAllText((Join-Path $Entry.logRoot 'stderr.txt'),$stderr,[Text.UTF8Encoding]::new($false))
-    $result = [ordered]@{name=$Entry.name;exitCode=$Entry.process.ExitCode;stdoutSha256=Hash (Join-Path $Entry.logRoot 'stdout.txt');stderrSha256=Hash (Join-Path $Entry.logRoot 'stderr.txt')}
+    $result = [ordered]@{name=$Entry.name;startedAt=$Entry.started.ToString('o');completedAt=$completed.ToString('o');elapsedSeconds=[math]::Round($Entry.watch.Elapsed.TotalSeconds,3);exitCode=$Entry.process.ExitCode;stdoutSha256=Hash (Join-Path $Entry.logRoot 'stdout.txt');stderrSha256=Hash (Join-Path $Entry.logRoot 'stderr.txt')}
     $Entry.process.Dispose(); $result
 }
 function Semantic-Cases([string]$Path) {
@@ -107,11 +113,12 @@ $linuxRunner = '/source/docs/guards/candidates/ifx-gate-coverage-c6c5/Invoke-IFX
 $windowsArgs = @('-NoLogo','-NoProfile','-NonInteractive','-File',$windowsRunner,
     '-InventoryPath',$InventoryPath,'-BundleRoot',$BundleRoot,'-ReviewRecordPath',$ReviewRecordPath,
     '-Platform','windows','-BaseInstallRoot',$BaseInstallRoot,'-BaseReceiptPath',$WindowsBaseReceiptPath,
-    '-BaseArchivePath',$BaseArchivePath,'-EvidenceRoot',(Join-Path $root 'windows'),'-ReportPath',$windowsMatrix)
+    '-BaseArchivePath',$BaseArchivePath,'-EvidenceRoot',(Join-Path $root 'windows'),'-ReportPath',$windowsMatrix,
+    '-ExpectedBaseVersion',$ExpectedBaseVersion,'-ExpectedArchiveSha256',$ExpectedArchiveSha256,'-ExpectedPackageHash',$ExpectedPackageHash,'-CandidateVersion',$CandidateVersion)
 $controlArgs = @('-NoLogo','-NoProfile','-NonInteractive','-File',$controlRunner,
     '-InventoryPath',$InventoryPath,'-BundleRoot',$BundleRoot,'-ReviewRecordPath',$ReviewRecordPath,
     '-BaseInstallRoot',$BaseInstallRoot,'-BaseReceiptPath',$WindowsBaseReceiptPath,'-BaseArchivePath',$BaseArchivePath,
-    '-EvidenceRoot',(Join-Path $root 'controls'),'-ReportPath',$controls)
+    '-EvidenceRoot',(Join-Path $root 'controls'),'-ReportPath',$controls,'-CandidateVersion',$CandidateVersion)
 $dockerArgs = @('run','--rm','--network','none',
     '--mount',"type=bind,source=$repo,target=/source,readonly",
     '--mount',"type=bind,source=$root,target=/out",
@@ -122,7 +129,8 @@ $dockerArgs = @('run','--rm','--network','none',
     '-BundleRoot',"/source/$bundleRelative",'-ReviewRecordPath',"/source/$reviewRelative",'-TargetRoot','/out/linux/native-checkout',
     '-WindowsBaseReceiptPath','/inputs/windows-base-receipt.json','-BaseArchivePath',"/source/$archiveRelative",
     '-WorkRoot','/out/linux/work','-PositiveReportPath','/out/linux/positive.json','-MatrixReportPath','/out/linux/matrix/summary.json',
-    '-ReportPath','/out/linux/summary.json')
+    '-ReportPath','/out/linux/summary.json','-ExpectedBaseVersion',$ExpectedBaseVersion,'-ExpectedArchiveSha256',$ExpectedArchiveSha256,
+    '-ExpectedPackageHash',$ExpectedPackageHash,'-CandidateVersion',$CandidateVersion)
 
 $running = [Collections.Generic.List[object]]::new()
 $running.Add((Start-Captured 'windows-matrix' 'pwsh' $windowsArgs $repo (Join-Path $root 'logs/windows')))
@@ -135,7 +143,7 @@ if (-not $linuxRunnable) {
     [void][IO.Directory]::CreateDirectory($linuxLogRoot)
     [IO.File]::WriteAllText((Join-Path $linuxLogRoot 'stdout.txt'),'',[Text.UTF8Encoding]::new($false))
     [IO.File]::WriteAllText((Join-Path $linuxLogRoot 'stderr.txt'),$linuxPreflightDiagnostic,[Text.UTF8Encoding]::new($false))
-    $processList.Add([ordered]@{name='linux';exitCode=125;stdoutSha256=Hash (Join-Path $linuxLogRoot 'stdout.txt');stderrSha256=Hash (Join-Path $linuxLogRoot 'stderr.txt')})
+    $notRunAt=[DateTimeOffset]::UtcNow;$processList.Add([ordered]@{name='linux';startedAt=$notRunAt.ToString('o');completedAt=$notRunAt.ToString('o');elapsedSeconds=0;exitCode=125;stdoutSha256=Hash (Join-Path $linuxLogRoot 'stdout.txt');stderrSha256=Hash (Join-Path $linuxLogRoot 'stderr.txt')})
 }
 $processes = @($processList.ToArray())
 $processByName = @{}

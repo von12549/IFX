@@ -1,7 +1,11 @@
 [CmdletBinding()]
 param(
     [string]$EvidenceRoot = 'artifacts/guards/p10-ifx-c6b0/inventory-runs',
-    [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.3'
+    [string]$BaseInstallRoot = 'D:/IFX-Root/guard-runtime/releases/v4-guards-1.1.3',
+    [string]$BaseReceiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.3.install.json',
+    [string]$ExpectedBaseVersion = '1.1.3',
+    [string]$ExpectedArchiveSha256 = '28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',
+    [string]$ExpectedPackageHash = '9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -13,12 +17,12 @@ function Write-Json([string]$Path, $Value) {
 }
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $package = Join-Path $BaseInstallRoot 'package'
-$receiptPath = 'D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.3.install.json'
+$receiptPath = $BaseReceiptPath
 $receipt = Get-Content $receiptPath -Raw | ConvertFrom-Json -Depth 100
-Assert ($receipt.status -ceq 'installed' -and $receipt.version -ceq '1.1.3' -and @($receipt.files).Count -eq 137) 'Published 1.1.3 receipt drift.'
-Assert ($receipt.archiveSha256 -ceq '28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e') 'Published archive drift.'
+Assert ($receipt.status -ceq 'installed' -and $receipt.version -ceq $ExpectedBaseVersion -and @($receipt.files).Count -gt 0) "Published $ExpectedBaseVersion receipt drift."
+Assert ($receipt.archiveSha256 -ceq $ExpectedArchiveSha256) 'Published archive drift.'
 $baseCheck = & pwsh -NoProfile -File (Join-Path $package 'core/runtime/Test-V4Package.ps1') -PackageRoot $package | ConvertFrom-Json
-Assert ($LASTEXITCODE -eq 0 -and $baseCheck.status -ceq 'pass' -and $baseCheck.packageHash -ceq '9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494') 'Published Package drift.'
+Assert ($LASTEXITCODE -eq 0 -and $baseCheck.status -ceq 'pass' -and $baseCheck.packageHash -ceq $ExpectedPackageHash) 'Published Package drift.'
 $r3Path = Join-Path $repo 'artifacts/guards/p10-ifx-c1-r3/test-runs/e5dec30036424e0e89d1f5278b3b70c9/summary.json'
 $c5Path = Join-Path $repo 'artifacts/guards/p10-ifx-c5f/test-runs/2ed76a91a7c9432fa35f0d59dd5a5f78/summary.json'
 $decisionPath = Join-Path $repo 'docs/guards/inventories/20260924-ifx-c1-applicability-decisions.json'
@@ -80,7 +84,7 @@ foreach ($id in $map.Keys) {
 $builtinPath = Join-Path $package 'modules/architecture-conformance/module.json'
 $builtin = Get-Content $builtinPath -Raw | ConvertFrom-Json -Depth 100
 Assert ($builtin.id -ceq 'architecture-conformance' -and 'post' -in @($builtin.stages)) 'Built-in module drift.'
-$modules.Insert(10, [ordered]@{ordinal=11;id='architecture-conformance';tranche='published-1.1.3';stage='post';sourcePath='modules/architecture-conformance';version=$builtin.version;manifestSha256=Hash $builtinPath;adapterSha256=$null;dependencyLockSha256=$null;rulePlanSha256=Hash (Join-Path $package 'modules/architecture-conformance/rule-execution-plan.json');authorities=@();prerequisites=@($builtin.prerequisites);capabilities=$builtin.capabilities})
+$modules.Insert(10, [ordered]@{ordinal=11;id='architecture-conformance';tranche="published-$ExpectedBaseVersion";stage='post';sourcePath='modules/architecture-conformance';version=$builtin.version;manifestSha256=Hash $builtinPath;adapterSha256=$null;dependencyLockSha256=$null;rulePlanSha256=Hash (Join-Path $package 'modules/architecture-conformance/rule-execution-plan.json');authorities=@();prerequisites=@($builtin.prerequisites);capabilities=$builtin.capabilities})
 for ($i=11; $i -lt $modules.Count; $i++) { $modules[$i].ordinal = $i + 1 }
 $rules.Add([ordered]@{ordinal=$rules.Count + 1;moduleOrdinal=11;moduleId='architecture-conformance';stage='post';ruleId='ARCH.TYPE_DEPENDENCY';claimId='ARCH.TYPE_DEPENDENCY';severity='blocking';minimumMatches=1})
 foreach ($rule in $rules) { if ($rule.moduleId -cne 'architecture-conformance' -and $rule.moduleOrdinal -gt 10) { $rule.moduleOrdinal++ } }
@@ -109,6 +113,6 @@ $report = Join-Path $root $runId
 $inventoryPath = Join-Path $report 'ordinal-inventory.json'
 $sourceCommit = (& git -C $repo rev-parse HEAD).Trim()
 Assert ($LASTEXITCODE -eq 0) 'Source commit unavailable.'
-Write-Json $inventoryPath ([ordered]@{formatVersion=1;status='pass';scope='c6b0-source-module-claim-inventory';sourceCommit=$sourceCommit;baseVersion='1.1.3';baseArchiveSha256=$receipt.archiveSha256;basePackageHash=$baseCheck.packageHash;receiptSha256=Hash $receiptPath;c1R3SummarySha256=Hash $r3Path;c5fSummarySha256=Hash $c5Path;c1mDecisionSha256=Hash $decisionPath;g04Status='PRE-READY';g04BlockerCount=7;modules=@($modules.ToArray());rules=@($rules.ToArray());claimCount=$claimIds.Count;boundedDecisionCount=2;overlappingCanonicalRuleIds=@($overlap | ForEach-Object Name);deferred=@('G05-Phase9-eight','v3-pre-diff','v3-cross-platform-ubuntu-latest','v3-cross-platform-windows-latest')})
-Write-Json (Join-Path $report 'summary.json') ([ordered]@{formatVersion=1;status='pass';baseVersion='1.1.3';moduleCount=$modules.Count;externalModuleCount=$map.Count;ruleCount=$rules.Count;claimCount=$claimIds.Count;blockingRuleCount=@($rules | Where-Object severity -CEQ 'blocking').Count;advisoryRuleCount=$advisory.Count;boundedDecisionCount=2;inventoryPath=[IO.Path]::GetRelativePath($repo,$inventoryPath).Replace('\','/');inventorySha256=Hash $inventoryPath;sourceCommit=$sourceCommit;limitations=@('No final bundle, combined Host result or human review is claimed.','Expiring evidence locks must be refreshed for C6b1/C6c.')})
+Write-Json $inventoryPath ([ordered]@{formatVersion=1;status='pass';scope='c6b0-source-module-claim-inventory';sourceCommit=$sourceCommit;baseVersion=$ExpectedBaseVersion;baseArchiveSha256=$receipt.archiveSha256;basePackageHash=$baseCheck.packageHash;receiptSha256=Hash $receiptPath;c1R3SummarySha256=Hash $r3Path;c5fSummarySha256=Hash $c5Path;c1mDecisionSha256=Hash $decisionPath;g04Status='PRE-READY';g04BlockerCount=7;modules=@($modules.ToArray());rules=@($rules.ToArray());claimCount=$claimIds.Count;boundedDecisionCount=2;overlappingCanonicalRuleIds=@($overlap | ForEach-Object Name);deferred=@('G05-Phase9-eight','v3-pre-diff','v3-cross-platform-ubuntu-latest','v3-cross-platform-windows-latest')})
+Write-Json (Join-Path $report 'summary.json') ([ordered]@{formatVersion=1;status='pass';baseVersion=$ExpectedBaseVersion;moduleCount=$modules.Count;externalModuleCount=$map.Count;ruleCount=$rules.Count;claimCount=$claimIds.Count;blockingRuleCount=@($rules | Where-Object severity -CEQ 'blocking').Count;advisoryRuleCount=$advisory.Count;boundedDecisionCount=2;inventoryPath=[IO.Path]::GetRelativePath($repo,$inventoryPath).Replace('\','/');inventorySha256=Hash $inventoryPath;sourceCommit=$sourceCommit;limitations=@('No final bundle, combined Host result or human review is claimed.','Expiring evidence locks must be refreshed for C6b1/C6c.')})
 Write-Output "IFX C6b0 module/claim inventory passed: $report"

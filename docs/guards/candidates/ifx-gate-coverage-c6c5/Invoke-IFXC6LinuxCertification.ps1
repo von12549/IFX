@@ -11,7 +11,11 @@ param(
     [Parameter(Mandatory)][string]$WorkRoot,
     [Parameter(Mandatory)][string]$PositiveReportPath,
     [Parameter(Mandatory)][string]$MatrixReportPath,
-    [Parameter(Mandatory)][string]$ReportPath
+    [Parameter(Mandatory)][string]$ReportPath,
+    [string]$ExpectedBaseVersion='1.1.3',
+    [string]$ExpectedArchiveSha256='28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',
+    [string]$ExpectedPackageHash='9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494',
+    [string]$CandidateVersion='0.3.0'
 )
 
 Set-StrictMode -Version Latest
@@ -49,7 +53,8 @@ $positiveRunner = Join-Path $source 'docs/guards/candidates/ifx-gate-coverage-c6
 $positiveOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $positiveRunner `
     -WindowsSummaryPath $WindowsSummaryPath -SourceRoot $source -BundleRoot $BundleRoot `
     -ReviewRecordPath $ReviewRecordPath -TargetRoot $target -WindowsBaseReceiptPath $WindowsBaseReceiptPath `
-    -BaseArchivePath $BaseArchivePath -WorkRoot $work -ReportPath $positiveReport 2>&1)
+    -BaseArchivePath $BaseArchivePath -WorkRoot $work -ReportPath $positiveReport `
+    -ExpectedBaseVersion $ExpectedBaseVersion -ExpectedArchiveSha256 $ExpectedArchiveSha256 -CandidateVersion $CandidateVersion 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Linux same-candidate validation failed: $($positiveOutput -join "`n")"
 $positive = Get-Content -LiteralPath $positiveReport -Raw | ConvertFrom-Json -Depth 100
 Assert ($positive.status -ceq 'pass' -and $positive.sourceCommit -ceq $sourceCommit -and @($positive.cases).Count -eq 3) 'Linux positive report is invalid.'
@@ -61,7 +66,9 @@ $matrixRoot = [IO.Path]::GetDirectoryName($matrixReport)
 $matrixOutput = @(& pwsh -NoLogo -NoProfile -NonInteractive -File $matrixRunner `
     -InventoryPath $InventoryPath -BundleRoot $BundleRoot -ReviewRecordPath $ReviewRecordPath `
     -Platform linux -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceipt `
-    -BaseArchivePath $BaseArchivePath -EvidenceRoot $matrixRoot -ReportPath $matrixReport 2>&1)
+    -BaseArchivePath $BaseArchivePath -EvidenceRoot $matrixRoot -ReportPath $matrixReport `
+    -ExpectedBaseVersion $ExpectedBaseVersion -ExpectedArchiveSha256 $ExpectedArchiveSha256 `
+    -ExpectedPackageHash $ExpectedPackageHash -CandidateVersion $CandidateVersion 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Linux independent matrix failed: $($matrixOutput -join "`n")"
 $matrix = Get-Content -LiteralPath $matrixReport -Raw | ConvertFrom-Json -Depth 100
 Assert ($matrix.status -ceq 'pass' -and $matrix.platform -ceq 'linux' -and $matrix.sourceCommit -ceq $sourceCommit -and

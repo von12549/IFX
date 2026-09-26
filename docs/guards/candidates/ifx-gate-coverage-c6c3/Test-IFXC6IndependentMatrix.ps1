@@ -10,6 +10,10 @@ param(
     [string]$EvidenceRoot='artifacts/guards/p10-ifx-c6c3/matrix-runs',
     [string]$MatrixContractPath='docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json',
     [string]$MatrixContractVerifierPath='docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6MatrixContract.ps1',
+    [string]$ExpectedBaseVersion='1.1.3',
+    [string]$ExpectedArchiveSha256='28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',
+    [string]$ExpectedPackageHash='9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494',
+    [string]$CandidateVersion='0.3.0',
     [string]$ReportPath
 )
 Set-StrictMode -Version Latest
@@ -40,14 +44,14 @@ $blocking=@($inventory.rules|Where-Object severity -CEQ 'blocking');$advisory=@(
 Assert ($blocking.Count -eq 80 -and $advisory.Count -eq 3) 'Expected 80 blocking and three advisory rules.'
 $manifestPath=Join-Path $bundleFull 'bundle-manifest.json';$packageInBundle=Join-Path $bundleFull 'package'
 $manifest=Get-Content $manifestPath -Raw|ConvertFrom-Json -Depth 100
-Assert ($manifest.id -ceq 'ifx-profile-candidate' -and $manifest.version -ceq '0.3.0' -and $manifest.baseVersion -ceq '1.1.3' -and @($manifest.modules).Count -eq 36) 'Final bundle identity drift.'
+Assert ($manifest.id -ceq 'ifx-profile-candidate' -and $manifest.version -ceq $CandidateVersion -and $manifest.baseVersion -ceq $ExpectedBaseVersion -and @($manifest.modules).Count -eq 36) 'Final bundle identity drift.'
 foreach($entry in $manifest.files){$path=Join-Path $packageInBundle $entry.path;Assert ([IO.File]::Exists($path) -and (Hash $path) -ceq $entry.sha256 -and (Get-Item $path).Length -eq $entry.size) "Bundle file drift: $($entry.path)"}
 Assert (@(Get-ChildItem $packageInBundle -File -Recurse).Count -eq @($manifest.files).Count) 'Bundle contains an unmanifested file.'
 $review=Get-Content $reviewFull -Raw|ConvertFrom-Json -Depth 100
 Assert ($review.scope -ceq 'synthetic-test-only' -and -not $review.acceptedBy.candidateHostVerdictAllowed -and $review.bundleManifestSha256 -ceq (Hash $manifestPath)) 'Synthetic review identity drift.'
-Assert ((Hash $archiveFull) -ceq '28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e') 'Published archive drift.'
+Assert ((Hash $archiveFull) -ceq $ExpectedArchiveSha256) 'Published archive drift.'
 $receipt=Get-Content $baseReceiptFull -Raw|ConvertFrom-Json -Depth 100
-Assert ($receipt.version -ceq '1.1.3' -and $receipt.archiveSha256 -ceq (Hash $archiveFull)) 'Published receipt drift.'
+Assert ($receipt.version -ceq $ExpectedBaseVersion -and $receipt.archiveSha256 -ceq (Hash $archiveFull)) 'Published receipt drift.'
 
 $runId=[guid]::NewGuid().ToString('N');$runRoot=Join-Path (Full $EvidenceRoot) $runId
 if($ReportPath){$reportFull=Full $ReportPath;$runRoot=[IO.Path]::GetDirectoryName($reportFull)}else{$reportFull=Join-Path $runRoot 'summary.json'}
@@ -123,7 +127,7 @@ $suiteSpecs=@(
 Assert ($suiteSpecs.Count -eq 36 -and @($suiteSpecs|ForEach-Object{$_[0]}|Sort-Object -Unique).Count -eq 36) 'Suite catalog drift.'
 $wrapperPath=Join-Path $workRoot 'Invoke-InstrumentedSuite.ps1'
 $wrapper=@'
-param([string]$TestScript,[string]$HarnessPath,[string]$ModuleId,[int]$ReviewedTimeoutSeconds,[string]$PackageRoot,[string]$RepositoryRoot,[string]$LogPath,[string]$EvidenceRoot,[string]$BaseInstallRoot,[string]$BaseReceiptPath,[string]$BaseArchivePath,[string]$RealEvidenceLockPath,[string]$SolutionLockPath,[string]$AssemblyLockPath)
+param([string]$TestScript,[string]$HarnessPath,[string]$ModuleId,[int]$ReviewedTimeoutSeconds,[string]$PackageRoot,[string]$RepositoryRoot,[string]$LogPath,[string]$EvidenceRoot,[string]$BaseInstallRoot,[string]$BaseReceiptPath,[string]$BaseArchivePath,[string]$RealEvidenceLockPath,[string]$SolutionLockPath,[string]$AssemblyLockPath,[string]$BaseVersion,[string]$BundleVersion,[string]$ArchiveSha256,[string]$PackageHash)
 $ErrorActionPreference='Stop'
 $global:C6MatrixFingerprintScript={param([string]$Root)if(-not(Test-Path $Root -PathType Container)){return '<absent>'};@((Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$((Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant())"}))-join "`n"}
 $global:C6MatrixTextHashScript={param([string]$Text)[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
@@ -139,9 +143,11 @@ function global:pwsh {
     if($capture){$after=if($targetRoot -cne $global:C6RepositoryRoot){& $global:C6MatrixFingerprintScript $targetRoot}else{'<repository-group>'};$record=[ordered]@{moduleId=$moduleId;requested=$requested;executed=[string]$actual[$fileIndex+1];targetRoot=$targetRoot;stage=$inputObject.stage;inputSha256=(& $global:C6MatrixTextHashScript $inputCanonical);fixtureSha256=(& $global:C6MatrixTextHashScript "$inputCanonical`n$before");exitCode=$code;targetBefore=$before;targetAfter=$after;output=($output-join "`n")};[IO.File]::AppendAllText($global:C6LogPath,(($record|ConvertTo-Json -Depth 100 -Compress)+"`n"),[Text.UTF8Encoding]::new($false));$env:V4_STAGE_INPUT_JSON=$inputJson}
     $global:LASTEXITCODE=$code;$output
 }
-$scriptToRun=$TestScript;$harnessAdjusted=$false;$source=Get-Content -LiteralPath $TestScript -Raw;$timeoutMatch=[regex]::Match($source,'timeoutSeconds\s+-eq\s+(\d+)')
-if($timeoutMatch.Success -and [int]$timeoutMatch.Groups[1].Value -ne $ReviewedTimeoutSeconds){$old=[int]$timeoutMatch.Groups[1].Value;$testDirectory=[IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($TestScript)).Replace("'","''");$source=$source.Replace('$PSScriptRoot',"'$testDirectory'");$source=[regex]::Replace($source,"(timeoutSeconds\s+-eq\s+)$old\b",('${1}'+$ReviewedTimeoutSeconds));$source=[regex]::Replace($source,"(maxTimeoutSeconds\s*=\s*)$old\b",('${1}'+$ReviewedTimeoutSeconds));[IO.File]::WriteAllText($HarnessPath,$source,[Text.UTF8Encoding]::new($false));$scriptToRun=$HarnessPath;$harnessAdjusted=$true}
-$fixtureOnly=$harnessAdjusted -or $source -match "BaseInstallRoot\s*=\s*''"
+$scriptToRun=$TestScript;$harnessAdjusted=$false;$source=Get-Content -LiteralPath $TestScript -Raw;$originalSource=$source;$timeoutMatch=[regex]::Match($source,'timeoutSeconds\s+-eq\s+(\d+)')
+if($timeoutMatch.Success -and [int]$timeoutMatch.Groups[1].Value -ne $ReviewedTimeoutSeconds){$old=[int]$timeoutMatch.Groups[1].Value;$source=[regex]::Replace($source,"(timeoutSeconds\s+-eq\s+)$old\b",('${1}'+$ReviewedTimeoutSeconds));$source=[regex]::Replace($source,"(maxTimeoutSeconds\s*=\s*)$old\b",('${1}'+$ReviewedTimeoutSeconds))}
+$source=$source.Replace('1.1.3',$BaseVersion).Replace('0.3.0',$BundleVersion).Replace('28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',$ArchiveSha256).Replace('9dd609291c80f2e66aa44302e31bdc9bfc114b4f52f00e631f7c256c96766494',$PackageHash)
+if($source -cne $originalSource){$testDirectory=[IO.Path]::GetDirectoryName([IO.Path]::GetFullPath($TestScript)).Replace("'","''");$source=$source.Replace('$PSScriptRoot',"'$testDirectory'");[IO.File]::WriteAllText($HarnessPath,$source,[Text.UTF8Encoding]::new($false));$scriptToRun=$HarnessPath;$harnessAdjusted=$true}
+$fixtureOnly=$originalSource -match "BaseInstallRoot\s*=\s*''"
 $parameters=@{};$command=Get-Command $scriptToRun
 if($command.Parameters.ContainsKey('EvidenceRoot')){$parameters.EvidenceRoot=$EvidenceRoot}
 if(-not $fixtureOnly -and $command.Parameters.ContainsKey('BaseInstallRoot')){$parameters.BaseInstallRoot=$BaseInstallRoot}
@@ -158,15 +164,16 @@ $packageBefore=Fingerprint $package;$suiteResults=[Collections.Generic.List[obje
 foreach($spec in $suiteSpecs){
     $id=$spec[0];$script=Join-Path $repo $spec[1];$module=@($inventory.modules|Where-Object tranche -CEQ $id);Assert ($module.Count-eq1) "Suite-to-module mapping drift: $id";$reviewCeiling=@($review.moduleCeilings|Where-Object moduleId -CEQ $module[0].id);Assert ($reviewCeiling.Count-eq1) "Reviewed capability ceiling missing: $($module[0].id)";$capture=Join-Path $runRoot "captures/$id.jsonl";$suiteEvidence=Join-Path $runRoot "suites/$id";$suiteLog=Join-Path $runRoot "suites/$id.output.txt";$harness=Join-Path $workRoot "harness/$id.ps1"
     [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($harness));$realLock=switch($id){'c5b'{$lineageLockPaths.solution};'c5c'{$lineageLockPaths.assembly};'c5d'{$lineageLockPaths.frontend};default{''}}
-    $output=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $wrapperPath -TestScript $script -HarnessPath $harness -ModuleId $module[0].id -ReviewedTimeoutSeconds ([int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds) -PackageRoot $package -RepositoryRoot $repo -LogPath $capture -EvidenceRoot $suiteEvidence -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -RealEvidenceLockPath $realLock -SolutionLockPath $lineageLockPaths.solution -AssemblyLockPath $lineageLockPaths.assembly 2>&1);$code=$LASTEXITCODE
+    $suiteStarted=[DateTimeOffset]::UtcNow;$suiteWatch=[Diagnostics.Stopwatch]::StartNew()
+    $output=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $wrapperPath -TestScript $script -HarnessPath $harness -ModuleId $module[0].id -ReviewedTimeoutSeconds ([int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds) -PackageRoot $package -RepositoryRoot $repo -LogPath $capture -EvidenceRoot $suiteEvidence -BaseInstallRoot $baseInstall -BaseReceiptPath $baseReceiptFull -BaseArchivePath $archiveFull -RealEvidenceLockPath $realLock -SolutionLockPath $lineageLockPaths.solution -AssemblyLockPath $lineageLockPaths.assembly -BaseVersion $ExpectedBaseVersion -BundleVersion $CandidateVersion -ArchiveSha256 $ExpectedArchiveSha256 -PackageHash $ExpectedPackageHash 2>&1);$code=$LASTEXITCODE;$suiteWatch.Stop();$suiteCompleted=[DateTimeOffset]::UtcNow
     [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($suiteLog));[IO.File]::WriteAllText($suiteLog,(($output-join "`n")+"`n"),[Text.UTF8Encoding]::new($false))
-    $suiteResults.Add([ordered]@{id=$id;script=$spec[1];scriptSha256=Hash $script;reviewedTimeoutSeconds=[int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds;harnessAdjusted=[IO.File]::Exists($harness);harnessSha256=$(if([IO.File]::Exists($harness)){Hash $harness}else{$null});exitCode=$code;status=$(if($code-eq 0){'pass'}else{'error'});capturePath=[IO.Path]::GetRelativePath($runRoot,$capture).Replace('\','/');outputPath=[IO.Path]::GetRelativePath($runRoot,$suiteLog).Replace('\','/')})
+    $suiteResults.Add([ordered]@{id=$id;moduleId=$module[0].id;script=$spec[1];scriptSha256=Hash $script;startedAt=$suiteStarted.ToString('o');completedAt=$suiteCompleted.ToString('o');elapsedSeconds=[math]::Round($suiteWatch.Elapsed.TotalSeconds,3);reviewedTimeoutSeconds=[int]$reviewCeiling[0].allowedCapabilities.maxTimeoutSeconds;workspaceEvidenceMode=$(if($module[0].id-in@('ifx-domain-reference','ifx-project-name','ifx-g03-source-reconciliation','ifx-g03-snapshots','ifx-database-evidence','ifx-g05-inventory','ifx-plan05-security')){'focused-qualified-host-and-fallback; matrix=fallback-harness'}else{'not-consumer'});harnessAdjusted=[IO.File]::Exists($harness);harnessSha256=$(if([IO.File]::Exists($harness)){Hash $harness}else{$null});exitCode=$code;status=$(if($code-eq 0){'pass'}else{'error'});capturePath=[IO.Path]::GetRelativePath($runRoot,$capture).Replace('\','/');outputPath=[IO.Path]::GetRelativePath($runRoot,$suiteLog).Replace('\','/')})
     if(Test-Path $capture){$captureFiles.Add($capture)}
 }
 $supplementalScript=Join-Path $repo 'docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6SupplementalFixtures.ps1';$supplementalCapture=Join-Path $runRoot 'captures/c6c4.jsonl';$supplementalEvidence=Join-Path $runRoot 'suites/c6c4';$supplementalLog=Join-Path $runRoot 'suites/c6c4.output.txt'
-$supplementalOutput=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $supplementalScript -PackageRoot $package -RepositoryRoot $repo -EvidenceRoot $supplementalEvidence -CapturePath $supplementalCapture 2>&1);$supplementalCode=$LASTEXITCODE
+$supplementalStarted=[DateTimeOffset]::UtcNow;$supplementalWatch=[Diagnostics.Stopwatch]::StartNew();$supplementalOutput=@(& pwsh -NoLogo -NoProfile -NonInteractive -File $supplementalScript -PackageRoot $package -RepositoryRoot $repo -EvidenceRoot $supplementalEvidence -CapturePath $supplementalCapture 2>&1);$supplementalCode=$LASTEXITCODE;$supplementalWatch.Stop();$supplementalCompleted=[DateTimeOffset]::UtcNow
 [void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($supplementalLog));[IO.File]::WriteAllText($supplementalLog,(($supplementalOutput-join "`n")+"`n"),[Text.UTF8Encoding]::new($false))
-$suiteResults.Add([ordered]@{id='c6c4';script='docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6SupplementalFixtures.ps1';scriptSha256=Hash $supplementalScript;reviewedTimeoutSeconds=180;harnessAdjusted=$false;harnessSha256=$null;exitCode=$supplementalCode;status=$(if($supplementalCode-eq0){'pass'}else{'error'});capturePath='captures/c6c4.jsonl';outputPath='suites/c6c4.output.txt'})
+$suiteResults.Add([ordered]@{id='c6c4';moduleId='architecture-conformance';script='docs/guards/candidates/ifx-gate-coverage-c6c4/Test-IFXC6SupplementalFixtures.ps1';scriptSha256=Hash $supplementalScript;startedAt=$supplementalStarted.ToString('o');completedAt=$supplementalCompleted.ToString('o');elapsedSeconds=[math]::Round($supplementalWatch.Elapsed.TotalSeconds,3);reviewedTimeoutSeconds=180;workspaceEvidenceMode='not-consumer';harnessAdjusted=$false;harnessSha256=$null;exitCode=$supplementalCode;status=$(if($supplementalCode-eq0){'pass'}else{'error'});capturePath='captures/c6c4.jsonl';outputPath='suites/c6c4.output.txt'})
 if(Test-Path $supplementalCapture){$captureFiles.Add($supplementalCapture)}
 
 $captures=[Collections.Generic.List[object]]::new()
@@ -199,7 +206,7 @@ Assert ((Fingerprint $package) -ceq $packageBefore) 'Composed PackageRoot change
 $trackedAfter=@(& git -C $repo status --porcelain --untracked-files=no);Assert ($LASTEXITCODE-eq0-and($trackedAfter-join"`n")-ceq($trackedBefore-join"`n")) 'Tracked TargetRoot changed during matrix.'
 $matrixArray=@($matrix.ToArray()|Sort-Object id);$caseManifestPath=Join-Path $runRoot 'case-manifest.json';WriteJson $caseManifestPath ([ordered]@{formatVersion=1;sourceCommit=$commit;platform=$Platform;bundleManifestSha256=Hash $manifestPath;cases=$matrixArray})
 $status=if($gaps.Count-eq0-and$matrix.Count-ge191){'pass'}else{'blocked'}
-$report=[ordered]@{formatVersion=1;status=$status;scope='c6c4-independent-matrix';platform=$Platform;sourceCommit=$commit;baseVersion='1.1.3';matrixContractSha256=Hash $contractFull;matrixContractReportSha256=Hash $contractReport;bundleManifestSha256=Hash $manifestPath;profileSha256=Hash $profilePath;inventorySha256=Hash $inventoryFull;compositionReceiptSha256=Hash $compositionReceipt;suiteCount=$suiteResults.Count;captureCount=$captures.Count;requiredCoreCases=191;provenCoreCases=$matrix.Count;blockingRules=$blocking.Count;advisoryRules=$advisory.Count;caseManifestPath=[IO.Path]::GetRelativePath($repo,$caseManifestPath).Replace('\','/');caseManifestSha256=Hash $caseManifestPath;suites=@($suiteResults.ToArray());gaps=@($gaps.ToArray())}
+$report=[ordered]@{formatVersion=1;status=$status;scope='c6c4-independent-matrix';platform=$Platform;sourceCommit=$commit;baseVersion=$ExpectedBaseVersion;bundleVersion=$CandidateVersion;matrixContractSha256=Hash $contractFull;matrixContractReportSha256=Hash $contractReport;bundleManifestSha256=Hash $manifestPath;profileSha256=Hash $profilePath;inventorySha256=Hash $inventoryFull;compositionReceiptSha256=Hash $compositionReceipt;suiteCount=$suiteResults.Count;captureCount=$captures.Count;requiredCoreCases=191;provenCoreCases=$matrix.Count;blockingRules=$blocking.Count;advisoryRules=$advisory.Count;caseManifestPath=[IO.Path]::GetRelativePath($repo,$caseManifestPath).Replace('\','/');caseManifestSha256=Hash $caseManifestPath;suites=@($suiteResults.ToArray());gaps=@($gaps.ToArray())}
 WriteJson $reportFull $report
 if($status-ceq'pass'){Write-Output "IFX C6c4 independent matrix passed: $reportFull";exit 0}
 Write-Error "IFX C6c4 independent matrix blocked with $($gaps.Count) gaps and $($matrix.Count)/191 proven cases. Report: $reportFull" -ErrorAction Continue

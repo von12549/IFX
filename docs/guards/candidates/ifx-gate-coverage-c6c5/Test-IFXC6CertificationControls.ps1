@@ -7,7 +7,8 @@ param(
     [Parameter(Mandatory)][string]$BaseReceiptPath,
     [Parameter(Mandatory)][string]$BaseArchivePath,
     [Parameter(Mandatory)][string]$EvidenceRoot,
-    [Parameter(Mandatory)][string]$ReportPath
+    [Parameter(Mandatory)][string]$ReportPath,
+    [string]$CandidateVersion='0.3.0'
 )
 
 Set-StrictMode -Version Latest
@@ -119,7 +120,7 @@ Assert ($inventory.status -ceq 'pass' -and $inventory.sourceCommit -ceq $commit 
 $bundleManifestPath=Join-Path $bundle 'bundle-manifest.json'; $bundlePackage=Join-Path $bundle 'package'
 $bundleManifest=Get-Content $bundleManifestPath -Raw | ConvertFrom-Json -AsHashtable -Depth 100
 $review=Get-Content $reviewFull -Raw | ConvertFrom-Json -AsHashtable -Depth 100
-Assert ($bundleManifest.version -ceq '0.3.0' -and @($bundleManifest.modules).Count -eq 36 -and $review.bundleManifestSha256 -ceq (Hash $bundleManifestPath)) 'Candidate bundle/review invalid.'
+Assert ($bundleManifest.version -ceq $CandidateVersion -and @($bundleManifest.modules).Count -eq 36 -and $review.bundleManifestSha256 -ceq (Hash $bundleManifestPath)) 'Candidate bundle/review invalid.'
 $bundleBefore=Fingerprint $bundle
 $lineagePath=Join-Path $bundlePackage 'profiles/catalog/ifx_profile/evidence-lineage.json'
 $profilePath=Join-Path $bundlePackage 'profiles/catalog/ifx_profile/profile.json'

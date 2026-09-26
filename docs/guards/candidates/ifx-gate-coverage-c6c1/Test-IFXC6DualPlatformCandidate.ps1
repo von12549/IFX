@@ -8,7 +8,10 @@ param(
     [Parameter(Mandatory)][string]$WindowsBaseReceiptPath,
     [Parameter(Mandatory)][string]$BaseArchivePath,
     [Parameter(Mandatory)][string]$WorkRoot,
-    [Parameter(Mandatory)][string]$ReportPath
+    [Parameter(Mandatory)][string]$ReportPath,
+    [string]$ExpectedBaseVersion='1.1.3',
+    [string]$ExpectedArchiveSha256='28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',
+    [string]$CandidateVersion='0.3.0'
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
@@ -22,7 +25,7 @@ function WriteJson([string]$Path,$Value){[void][IO.Directory]::CreateDirectory([
 function Fingerprint([string]$Root){@(Get-ChildItem -LiteralPath $Root -File -Recurse -Force|Sort-Object FullName|ForEach-Object{"$([IO.Path]::GetRelativePath($Root,$_.FullName).Replace('\','/'))|$(Hash $_.FullName)"}) -join "`n"}
 Assert ($IsLinux -and ((& dotnet --version).Trim() -ceq '10.0.303')) 'Pinned Linux SDK 10.0.303 required.'
 $windows=Get-Content $WindowsSummaryPath -Raw|ConvertFrom-Json -Depth 100
-Assert ($windows.status -ceq 'pass' -and $windows.hostValidated -and $windows.baseVersion -ceq '1.1.3' -and $windows.bundleVersion -ceq '0.3.0' -and @($windows.cases).Count -eq 3) 'Windows same-candidate report invalid.'
+Assert ($windows.status -ceq 'pass' -and $windows.hostValidated -and $windows.baseVersion -ceq $ExpectedBaseVersion -and $windows.bundleVersion -ceq $CandidateVersion -and @($windows.cases).Count -eq 3) 'Windows same-candidate report invalid.'
 Assert (-not(Test-Path $TargetRoot)) 'Native Linux TargetRoot must be absent.'
 $clone=@(& git clone --no-local --quiet -c core.autocrlf=true $SourceRoot $TargetRoot 2>&1)
 Assert ($LASTEXITCODE -eq 0) "Native Linux checkout failed: $($clone -join ' ')"
@@ -62,9 +65,9 @@ $TypeLockPath=Join-Path $TargetRoot $typeEntry[0].path
 $commit=(& git -C $TargetRoot rev-parse HEAD).Trim();Assert ($LASTEXITCODE -eq 0 -and $commit -ceq $windows.sourceCommit) 'Linux TargetRoot source commit drift.'
 $manifest=Join-Path $BundleRoot 'bundle-manifest.json';$profile=Join-Path $BundleRoot 'package/profiles/catalog/ifx_profile/profile.json'
 Assert ((Hash $manifest) -ceq $windows.bundleManifestSha256 -and (Hash $profile) -ceq $windows.profileSha256) 'Bundle manifest or Profile differs from Windows candidate.'
-Assert ((Hash $BaseArchivePath) -ceq '28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e') 'Published base archive drift.'
+Assert ((Hash $BaseArchivePath) -ceq $ExpectedArchiveSha256) 'Published base archive drift.'
 $windowsReceipt=Get-Content $WindowsBaseReceiptPath -Raw|ConvertFrom-Json -Depth 100
-Assert ($windowsReceipt.version -ceq '1.1.3' -and $windowsReceipt.archiveSha256 -ceq (Hash $BaseArchivePath)) 'Published Windows base receipt drift.'
+Assert ($windowsReceipt.version -ceq $ExpectedBaseVersion -and $windowsReceipt.archiveSha256 -ceq (Hash $BaseArchivePath)) 'Published Windows base receipt drift.'
 $review=Get-Content $ReviewRecordPath -Raw|ConvertFrom-Json -Depth 100
 Assert ($review.scope -ceq 'synthetic-test-only' -and $review.bundleManifestSha256 -ceq (Hash $manifest) -and $review.baseArchiveSha256 -ceq (Hash $BaseArchivePath) -and -not $review.acceptedBy.candidateHostVerdictAllowed) 'Synthetic review record mismatch.'
 foreach($entry in $windows.locks){Assert ((Hash (Join-Path $TargetRoot $entry.path)) -ceq $entry.sha256) "Evidence lock drift: $($entry.id)"}
@@ -121,5 +124,5 @@ foreach($spec in @([ordered]@{id='direct-pre';stage='pre';count=10;claims=22;dep
 $trackedAfter=@(& git -C $TargetRoot status --porcelain --untracked-files=no) -join "`n"
 Assert ((Fingerprint (Join-Path $composed 'package')) -ceq $packageBefore -and $trackedAfter -ceq $trackedBefore) 'Linux Package or tracked TargetRoot changed.'
 foreach($entry in $windows.locks){Assert ((Hash (Join-Path $TargetRoot $entry.path)) -ceq $entry.sha256) "Evidence lock changed: $($entry.id)"}
-WriteJson $ReportPath ([ordered]@{formatVersion=1;status='pass';scope='c6c1-linux-synthetic-candidate';sourceCommit=$commit;baseVersion='1.1.3';bundleManifestSha256=Hash $manifest;profileSha256=Hash $profile;linuxSdk='10.0.303';windowsBaseReceiptSha256=Hash $WindowsBaseReceiptPath;linuxBaseReceiptSha256=Hash $BaseReceiptPath;basePayloadIdentity='equal';cases=@($cases.ToArray());compositionReceiptSha256=Hash $compositionReceipt;windowsSummarySha256=Hash $WindowsSummaryPath;limitations=@('Synthetic review is not Xiaolong Feng approval.','Independent detector-family violation/zero-match matrix remains required.')})
+WriteJson $ReportPath ([ordered]@{formatVersion=1;status='pass';scope='c6c1-linux-synthetic-candidate';sourceCommit=$commit;baseVersion=$ExpectedBaseVersion;bundleVersion=$CandidateVersion;bundleManifestSha256=Hash $manifest;profileSha256=Hash $profile;linuxSdk='10.0.303';windowsBaseReceiptSha256=Hash $WindowsBaseReceiptPath;linuxBaseReceiptSha256=Hash $BaseReceiptPath;basePayloadIdentity='equal';cases=@($cases.ToArray());compositionReceiptSha256=Hash $compositionReceipt;windowsSummarySha256=Hash $WindowsSummaryPath;limitations=@('Synthetic review is not Xiaolong Feng approval.','Independent detector-family violation/zero-match matrix remains required.')})
 Write-Output "IFX C6c1 Linux candidate passed: $ReportPath"

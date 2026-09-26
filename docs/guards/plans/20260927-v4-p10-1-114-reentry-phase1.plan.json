@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-1-114-reentry-phase1",
+  "title": "Rebind IFX P10.1 to published V4 Guards 1.1.4 and run one C6c",
+  "goal": "Create and qualify a new deterministic 0.4.0 IFX candidate bound to immutable V4 Guards 1.1.4, then attempt exactly one complete C6c and stop.",
+  "acceptanceCriteria": [
+    "The published 1.1.4 tag, source, archive, receipt, manifest and Package identities match the frozen values without modifying the installation.",
+    "A clean exact IFX Target commit is frozen and used by all refreshed locks, inventory, bundle lineage, workspace evidence and reports.",
+    "A module/authority/adapter/dependency-lock inheritance matrix preserves unchanged C1-C5 evidence and routes only the seven changed consumers through focused qualification.",
+    "The installed 1.1.4 Host workspace-evidence schema and input contract are exactly compatible with all seven consumers.",
+    "A new 0.4.0 candidate declares workspaceEvidence, binds all 1.1.4 identities, refreshes inventories and locks, and is deterministic across two independent builds/compositions.",
+    "The seven consumers prove Host-evidence/direct-scan semantic equivalence and fail closed for the required tamper, commit, missing/stale, path/link, capability and configuration negatives using declared timeouts.",
+    "Exactly one full C6c is attempted after low-cost gates pass; Windows, controls and Linux portability evidence are preserved and phase 1 stops without repair or rerun."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-1-114-reentry-phase1.md",
+    "docs/guards/plans/20260927-v4-p10-1-114-reentry-phase1.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c24/Test-IFX114ContractCompatibility.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c24/Test-IFX114FocusedQualification.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c24/Invoke-IFX114SingleC6c.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6b0/Test-IFXC6ModuleInventory.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6b1/Test-IFXC6DraftBundle.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c1/Test-IFXC6DualPlatformCandidate.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c3/Test-IFXC6IndependentMatrix.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Test-IFXC6CertificationControls.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c5/Invoke-IFXC6ParallelCertification.ps1",
+    "artifacts/guards/p10-ifx-114/phase1-decision.json"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ],
+  "frozenBase": {
+    "version": "1.1.4",
+    "tag": "v4-guards-v1.1.4",
+    "sourceCommit": "2185477ba89d7a3cef95c99bfe737bf98a70f39d",
+    "archiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "packageSha256": "30b2571cee40996f659d24aa3edcb0ab206fc80f0ad50a7aef73ff09281c404a",
+    "manifestSha256": "32dc0bddddba2af1dc46c5450d6d29a239c2a2398e017282dffb049551cb851c",
+    "receiptSha256": "5e7a5d2c604b6f78a463be40158f871b1fb9823dee17975841d64f09f93d2126"
+  },
+  "candidateVersion": "0.4.0",
+  "prePlanHead": "87a12b1f053d7b9e3c13a5bf2a4709913de9c100",
+  "phaseBoundary": "stop-after-first-c6c-attempt"
+}

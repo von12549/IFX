@@ -12,12 +12,17 @@ param(
     [string]$BaseReceiptPath='D:/IFX-Root/guard-runtime/receipts/v4-guards-1.1.3.install.json',
     [string]$BaseArchivePath='artifacts/guards/p10-ifx-c3b/base-archive/v4-guards-1.1.3.zip',
     [string]$EvidenceRoot='artifacts/guards/p10-ifx-c6b1/draft-runs',
+    [string]$ExpectedBaseVersion='1.1.3',
+    [string]$ExpectedArchiveSha256='28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e',
+    [string]$CandidateVersion='0.3.0',
+    [switch]$EnableWorkspaceEvidence,
     [switch]$SkipHost
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 function Assert([bool]$Condition,[string]$Message){if(-not $Condition){throw $Message}}
 function Hash([string]$Path){(Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()}
+function TextHash([string]$Text){[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($Text))).ToLowerInvariant()}
 function WriteJson([string]$Path,$Value){[void][IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path));[IO.File]::WriteAllText($Path,(($Value|ConvertTo-Json -Depth 100).Replace("`r`n","`n")+"`n"),[Text.UTF8Encoding]::new($false))}
 function Rel([string]$Path){[IO.Path]::GetRelativePath($repo,$Path).Replace('\','/')}
 function Full([string]$Path){if([IO.Path]::IsPathFullyQualified($Path)){[IO.Path]::GetFullPath($Path)}else{[IO.Path]::GetFullPath((Join-Path $repo $Path))}}
@@ -36,9 +41,9 @@ $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../../..'))
 $commit=(& git -C $repo rev-parse HEAD).Trim();Assert ($LASTEXITCODE -eq 0) 'Git commit unavailable.'
 $inventoryFull=Full $InventoryPath;$inventory=Get-Content $inventoryFull -Raw|ConvertFrom-Json -Depth 100
 Assert ($inventory.status -ceq 'pass' -and $inventory.sourceCommit -ceq $commit -and @($inventory.modules).Count -eq 37 -and @($inventory.rules).Count -eq 83 -and $inventory.claimCount -eq 79) 'C6b0 inventory drift.'
-$archive=Full $BaseArchivePath;Assert ((Hash $archive) -ceq '28307116aca1361e9eed5fdcd284a58cdfdb8fd3728869f09dd13f4c9a49b02e') 'Published archive drift.'
+$archive=Full $BaseArchivePath;Assert ((Hash $archive) -ceq $ExpectedArchiveSha256) 'Published archive drift.'
 $receipt=Get-Content $BaseReceiptPath -Raw|ConvertFrom-Json -Depth 100
-Assert ($receipt.version -ceq '1.1.3' -and $receipt.archiveSha256 -ceq (Hash $archive)) 'Published receipt drift.'
+Assert ($receipt.version -ceq $ExpectedBaseVersion -and $receipt.archiveSha256 -ceq (Hash $archive)) 'Published receipt drift.'
 $basePackage=Join-Path $BaseInstallRoot 'package'
 $baseCheck=& pwsh -NoProfile -File (Join-Path $basePackage 'core/runtime/Test-V4Package.ps1') -PackageRoot $basePackage|ConvertFrom-Json
 Assert ($LASTEXITCODE -eq 0 -and $baseCheck.status -ceq 'pass' -and $baseCheck.packageHash -ceq $inventory.basePackageHash) 'Published Package drift.'
@@ -93,7 +98,10 @@ foreach($entry in $inventory.modules){
 }
 Assert ($external.Count -eq 36) 'External manifest module count drift.'
 $profilePath=Join-Path $package 'profiles/catalog/ifx_profile/profile.json'
-$profile=[ordered]@{formatVersion=1;id='ifx_profile';version='0.3.0';projectIdentity=[ordered]@{id='ifx';relativeRoots=@('src','tests','tools','deployment','docs','mcp','artifacts')};moduleSelections=$selections;stageConfiguration=[ordered]@{bootstrap=[ordered]@{enabled=$false;modules=@()};analysis=[ordered]@{enabled=$false;modules=@()};pre=[ordered]@{enabled=$true;modules=@($c1Profile.stageConfiguration.pre.modules)};post=[ordered]@{enabled=$true;modules=@($c1Profile.stageConfiguration.post.modules)+@($c5Profile.stageConfiguration.post.modules)}};rules=@(@($c1Profile.rules)+@($c5Profile.rules)|Sort-Object -Unique);baselineRefs=@()}
+$profile=[ordered]@{formatVersion=1;id='ifx_profile';version=$CandidateVersion;projectIdentity=[ordered]@{id='ifx';relativeRoots=@('src','tests','tools','deployment','docs','mcp','artifacts')};moduleSelections=$selections;stageConfiguration=[ordered]@{bootstrap=[ordered]@{enabled=$false;modules=@()};analysis=[ordered]@{enabled=$false;modules=@()};pre=[ordered]@{enabled=$true;modules=@($c1Profile.stageConfiguration.pre.modules)};post=[ordered]@{enabled=$true;modules=@($c1Profile.stageConfiguration.post.modules)+@($c5Profile.stageConfiguration.post.modules)}};rules=@(@($c1Profile.rules)+@($c5Profile.rules)|Sort-Object -Unique);baselineRefs=@()}
+if($EnableWorkspaceEvidence){
+    $profile.workspaceEvidence=[ordered]@{relativeRoots=@('src','tests/IFX.DatabaseBoundary.Tests','tools/IFX.DatabaseInventory','docs/guards/V3_ifx/stages/post/gates/specialized');extensions=@('.cs','.csproj','.json','.ps1');excludedDirectoryNames=@('bin','obj','node_modules','dist','coverage','.vite','.git','artifacts');maximumFiles=10000;maximumFileBytes=4194304}
+}
 WriteJson $profilePath $profile
 Assert (Test-Json -LiteralPath $profilePath -SchemaFile (Join-Path $basePackage 'core/contracts/profile.schema.json') -ErrorAction Stop) 'Combined Profile schema drift.'
 Assert ($profile.moduleSelections.Count -eq 37 -and $profile.stageConfiguration.pre.modules.Count -eq 10 -and $profile.stageConfiguration.post.modules.Count -eq 27 -and @($profile.rules).Count -eq 80 -and @($profile.baselineRefs).Count -eq 0) 'Combined Profile cardinality drift.'
@@ -102,9 +110,9 @@ $lineagePath=Join-Path $package 'profiles/catalog/ifx_profile/evidence-lineage.j
 WriteJson $lineagePath ([ordered]@{formatVersion=1;sourceCommit=$commit;ordinalInventorySha256=Hash $inventoryFull;c1mDecisionSha256=Hash (Join-Path $repo 'docs/guards/inventories/20260924-ifx-c1-applicability-decisions.json');locks=@($locks.Values|ForEach-Object{[ordered]@{id=$_.id;gate=$_.gate;path=$_.path;sha256=$_.sha256}});g04Status='PRE-READY';g04BlockerCount=7;p103Deferred=@('G05-Phase9-eight','v3-pre-diff','v3-cross-platform-ubuntu-latest','v3-cross-platform-windows-latest')})
 $files=@(Get-ChildItem -LiteralPath $package -File -Recurse|Sort-Object FullName|ForEach-Object{[ordered]@{path=[IO.Path]::GetRelativePath($package,$_.FullName).Replace('\','/');sha256=Hash $_.FullName;size=$_.Length}})
 $manifestPath=Join-Path $bundle 'bundle-manifest.json'
-WriteJson $manifestPath ([ordered]@{formatVersion=1;id='ifx-profile-candidate';version='0.3.0';compatibleApi='1.x';baseVersion='1.1.3';profiles=@([ordered]@{id='ifx_profile';version='0.3.0';path='profiles/catalog/ifx_profile/profile.json';sha256=Hash $profilePath});modules=@($external.ToArray());files=$files})
+WriteJson $manifestPath ([ordered]@{formatVersion=1;id='ifx-profile-candidate';version=$CandidateVersion;compatibleApi='1.x';baseVersion=$ExpectedBaseVersion;profiles=@([ordered]@{id='ifx_profile';version=$CandidateVersion;path='profiles/catalog/ifx_profile/profile.json';sha256=Hash $profilePath});modules=@($external.ToArray());files=$files})
 $reviewPath=Join-Path $runRoot 'synthetic-review.json'
-WriteJson $reviewPath ([ordered]@{formatVersion=1;id='20260924-ifx-c6b1-synthetic-fixture';scope='synthetic-test-only';decision='accepted';acceptedBy=[ordered]@{authorityType='test-fixture';authorityId='ifx-c6b1-synthetic-fixture';candidateHostVerdictAllowed=$false};bundleManifestSha256=Hash $manifestPath;baseArchiveSha256=Hash $archive;moduleCeilings=@($ceilingRows.ToArray())})
+WriteJson $reviewPath ([ordered]@{formatVersion=1;id="20260927-ifx-$CandidateVersion-synthetic-fixture";scope='synthetic-test-only';decision='accepted';acceptedBy=[ordered]@{authorityType='test-fixture';authorityId='ifx-c6b1-synthetic-fixture';candidateHostVerdictAllowed=$false};bundleManifestSha256=Hash $manifestPath;baseArchiveSha256=Hash $archive;moduleCeilings=@($ceilingRows.ToArray())})
 $state=Join-Path $runRoot 'compose-state';$composeEvidence=Join-Path $runRoot 'compose-evidence';[void][IO.Directory]::CreateDirectory($state);[void][IO.Directory]::CreateDirectory($composeEvidence)
 $composed=Join-Path $runRoot 'composed';$compositionReceipt=Join-Path $runRoot 'composition.receipt.json'
 $compose=@(& pwsh -NoProfile -File (Join-Path $basePackage 'core/distribution/Compose-V4Extension.ps1') -BaseInstallRoot $BaseInstallRoot -BaseReceiptPath $BaseReceiptPath -BaseArchivePath $archive -BundleRoot $bundle -ReviewRecordPath $reviewPath -OutputInstallRoot $composed -CompositionReceiptPath $compositionReceipt -TargetRoot $repo -StateRoot $state -EvidenceRoot $composeEvidence -AllowSyntheticFixture 2>&1)
@@ -183,5 +191,9 @@ $targetTrackedAfter=@(& git -C $repo status --porcelain --untracked-files=no) -j
 Assert ((Fingerprint (Join-Path $composed 'package')) -ceq $packageBefore -and (@($locks.Values|ForEach-Object{"$($_.path)|$(Hash $_.full)"}) -join "`n") -ceq $lockBefore -and $targetTrackedAfter -ceq $targetTrackedBefore) 'Package, evidence-lock or tracked TargetRoot bytes changed.'
 $report=Join-Path (Full $EvidenceRoot) $runId;[void][IO.Directory]::CreateDirectory($report)
 Copy-Item -LiteralPath $bundle -Destination (Join-Path $report 'bundle') -Recurse
-WriteJson (Join-Path $report 'summary.json') ([ordered]@{formatVersion=1;status=$(if($SkipHost){'partial'}else{'pass'});scope='c6b1-synthetic-draft';hostValidated=[bool](-not $SkipHost);baseVersion='1.1.3';bundleVersion='0.3.0';sourceCommit=$commit;moduleSelections=37;externalModules=36;distinctClaims=79;baselineRefs=@();cases=@($cases.ToArray());negativeCases=@($negativeCases.ToArray());bundleManifestSha256=Hash $manifestPath;profileSha256=Hash $profilePath;ordinalInventorySha256=Hash $inventoryFull;compositionReceiptSha256=Hash $compositionReceipt;locks=@($locks.Values|ForEach-Object{[ordered]@{id=$_.id;path=$_.path;sha256=$_.sha256}});limitations=@('Synthetic composition is not Xiaolong Feng approval.','C6c dual-platform and independent negative certification remain required.','G04 PRE-READY and P10.3 deferrals remain open.')})
+Copy-Item -LiteralPath $reviewPath -Destination (Join-Path $report 'synthetic-review.json')
+$receiptObject=Get-Content $compositionReceipt -Raw|ConvertFrom-Json -Depth 100
+$receiptProjection=[ordered]@{formatVersion=$receiptObject.formatVersion;kind=$receiptObject.kind;status=$receiptObject.status;productVersion=$receiptObject.productVersion;packageHash=$receiptObject.packageHash;baseArchiveSha256=$receiptObject.baseArchiveSha256;baseReceiptSha256=$receiptObject.baseReceiptSha256;bundleManifestSha256=$receiptObject.bundleManifestSha256;reviewRecordSha256=$receiptObject.reviewRecordSha256;files=@($receiptObject.files)}
+Copy-Item -LiteralPath $compositionReceipt -Destination (Join-Path $report 'composition.receipt.json')
+WriteJson (Join-Path $report 'summary.json') ([ordered]@{formatVersion=1;status=$(if($SkipHost){'partial'}else{'pass'});scope='c6b1-synthetic-draft';hostValidated=[bool](-not $SkipHost);baseVersion=$ExpectedBaseVersion;bundleVersion=$CandidateVersion;workspaceEvidenceDeclared=[bool]$EnableWorkspaceEvidence;sourceCommit=$commit;moduleSelections=37;externalModules=36;distinctClaims=79;baselineRefs=@();cases=@($cases.ToArray());negativeCases=@($negativeCases.ToArray());bundleManifestSha256=Hash $manifestPath;profileSha256=Hash $profilePath;ordinalInventorySha256=Hash $inventoryFull;compositionReceiptSha256=Hash $compositionReceipt;compositionReceiptProjectionSha256=TextHash (($receiptProjection|ConvertTo-Json -Depth 100 -Compress));composedPackageFingerprintSha256=TextHash $packageBefore;locks=@($locks.Values|ForEach-Object{[ordered]@{id=$_.id;path=$_.path;sha256=$_.sha256}});limitations=@('Synthetic composition is not Xiaolong Feng approval.','C6c dual-platform and independent negative certification remain required.','G04 PRE-READY and P10.3 deferrals remain open.')})
 Write-Output "IFX C6b1 draft bundle test passed: $report"
