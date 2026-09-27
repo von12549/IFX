@@ -1,0 +1,59 @@
+{
+  "formatVersion": 1,
+  "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+  "clean": {
+    "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-clean-042",
+    "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "insideWorkTree": true,
+    "detached": true,
+    "status": []
+  },
+  "violating": {
+    "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-violating-042",
+    "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "insideWorkTree": true,
+    "detached": true,
+    "status": [
+      "?? src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs"
+    ]
+  },
+  "worktreeList": [
+    "worktree D:/IFX-Root/IFX",
+    "HEAD 4cc07cd24a07f1a2ff650ec5979d4347ddc6a9b8",
+    "branch refs/heads/codex/v4-development-base",
+    "",
+    "worktree C:/Users/von12/.codex/worktrees/ifx-c6c0-cert/IFX",
+    "HEAD 1755aea0789d1fbeef94cc49439e32f206c426b9",
+    "detached",
+    "",
+    "worktree C:/Users/von12/.codex/worktrees/ifx-c6c0-linux/IFX",
+    "HEAD 1755aea0789d1fbeef94cc49439e32f206c426b9",
+    "detached",
+    "",
+    "worktree C:/Users/von12/.codex/worktrees/ifx-c6c0-win-short/IFX",
+    "HEAD 1755aea0789d1fbeef94cc49439e32f206c426b9",
+    "detached",
+    "",
+    "worktree C:/Users/von12/.codex/worktrees/ifx-c6c1-windows/IFX",
+    "HEAD 18566ef051dbd41c2672b8b1e5b8a14a4986f9a9",
+    "detached",
+    "",
+    "worktree C:/Users/von12/.codex/worktrees/v114/IFX",
+    "HEAD 2185477ba89d7a3cef95c99bfe737bf98a70f39d",
+    "detached",
+    "",
+    "worktree C:/Users/von12/.codex/worktrees/v4-guards-1-1-4-release/IFX",
+    "HEAD 3641d81eecea59b00234e804a1c19ccf7ec04982",
+    "branch refs/heads/codex/v4-guards-1.1.4-release",
+    "",
+    "worktree D:/IFX-Root/guard-runtime/fixtures/ifx-c6e-r1-clean-042",
+    "HEAD 40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "detached",
+    "",
+    "worktree D:/IFX-Root/guard-runtime/fixtures/ifx-c6e-r1-violating-042",
+    "HEAD 40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "detached",
+    ""
+  ],
+  "expectedViolation": "?? src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs"
+}

@@ -1,0 +1,19 @@
+{
+  "formatVersion": 1,
+  "clean": {
+    "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-clean-042",
+    "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "insideWorkTree": true,
+    "detached": true,
+    "status": []
+  },
+  "violating": {
+    "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-violating-042",
+    "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "insideWorkTree": true,
+    "detached": null,
+    "status": [
+      "?? src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs"
+    ]
+  }
+}

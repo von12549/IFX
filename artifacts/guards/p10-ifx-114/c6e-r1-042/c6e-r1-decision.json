@@ -1,0 +1,160 @@
+{
+  "formatVersion": 1,
+  "recordedAt": "2026-09-27T16:07:40+10:00",
+  "status": "pass",
+  "decision": "c6e-r1-git-backed-repair-accepted",
+  "result": "c6e-acceptance-repaired-and-achieved",
+  "repair": {
+    "originalDecision": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-042/c6e-decision.json",
+      "sha256": "f6e1802660b656c6d3468ed72b761bb3d6e49a36d27dec9afdc04707773f595b",
+      "status": "fail",
+      "decision": "c6e-stopped-on-clean-target-prerequisite-missing",
+      "retainedUnchanged": true
+    },
+    "diagnosis": "The stopped execution used archive-export Targets without Git metadata, so Host workspace evidence could not resolve HEAD.",
+    "correction": "Use new detached Git worktrees at the certified Target commit, plus new sibling install, receipt, StateRoot, EvidenceRoot and evidence paths.",
+    "plan": {
+      "markdown": {
+        "path": "docs/guards/plans/20260927-v4-p10-1-114-c6e-r1-git-backed-target-repair.md",
+        "sha256": "c3572c979e7c7be7e178c912925f14361fd570f06fd58e0e75381569d8696e23"
+      },
+      "machineReadable": {
+        "path": "docs/guards/plans/20260927-v4-p10-1-114-c6e-r1-git-backed-target-repair.plan.json",
+        "sha256": "9c8eaac89f7f9c649a472d7a0e81a06b2e4ffbc887850cb79718d4c77f0e85bb"
+      }
+    },
+    "preparationScript": {
+      "path": "docs/guards/candidates/ifx-gate-coverage-c6e2/Invoke-IFX114C6eR1Preparation.ps1",
+      "sha256": "ac3dd118fcf1345b57bb460b493dc5d748f24875f6b55f092d742ebd1e9d08a4"
+    }
+  },
+  "frozenAuthority": {
+    "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "bundleManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
+    "reviewPacketSha256": "25a865b584ea332a54e5f30632f4c3a0b7ccebc3095a83ef4d5fc06433d4fc9f",
+    "productionReviewSha256": "871173d4fc27236c06ff0a0c940c6f2d8a8983771b897878261de092826d8ced",
+    "c6dDecisionSha256": "e68eccd421e45d4671911d973ec9af9d847563aae00e6ebb4061b8375d6b4173",
+    "humanReviewAuthority": "xiaolong-feng",
+    "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "baseReceiptSha256": "5e7a5d2c604b6f78a463be40158f871b1fb9823dee17975841d64f09f93d2126"
+  },
+  "composition": {
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.4-ifx-0.4.2-c6e-r1",
+    "receiptPath": "D:\\IFX-Root\\guard-runtime\\receipts\\v4-guards-1.1.4-ifx-0.4.2-c6e-r1.compose.json",
+    "receiptSha256": "51f5fc11b7fa36e14d83eade699979e31de2d06d3134af9caad9a329fd043345",
+    "packageHash": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
+    "scope": "production",
+    "publicVerifierStatus": "pass"
+  },
+  "targets": {
+    "clean": {
+      "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-clean-042",
+      "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+      "detached": true,
+      "status": []
+    },
+    "violating": {
+      "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-violating-042",
+      "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+      "detached": true,
+      "status": [
+        "?? src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs"
+      ]
+    }
+  },
+  "installedWebUi": {
+    "status": "pass",
+    "clean": {
+      "projectId": "26e3ea4a5f6fd7959bbd68ef601437fa",
+      "runId": "a7b7ff13b3ee4bae93143fe59d8e9984",
+      "verdict": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "stageResultSha256": "33fe8609f32e22297a90282a69af8562684534500d9ec99bfbe4f8da70c5c128"
+    },
+    "violating": {
+      "projectId": "0bc8866d67415052e76f5efd010628f1",
+      "runId": "58c3a7906b694173885f2986881c91af",
+      "verdict": "fail",
+      "exitCategory": "findings-blocking",
+      "findingCount": 1,
+      "onlyFailedModule": "ifx-source-policy",
+      "onlyFindingRule": "IMPORT-DIRECTION",
+      "onlyFindingSeverity": "blocking",
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "stageResultSha256": "f2c4cd1e4f1c6a0a4370c2f78b0647506181fd5e071fe55355435b8c5fa730e5"
+    },
+    "hostQueriesMatchUi": true
+  },
+  "invariants": {
+    "baseInstallation": {
+      "pre": "bdca883f5d015698b0b58304676a791b0bbc719382811e1359870544e5b4d098",
+      "post": "bdca883f5d015698b0b58304676a791b0bbc719382811e1359870544e5b4d098",
+      "unchanged": true
+    },
+    "bundle": {
+      "pre": "6000673632ecb923704b2f48192773c8cd83a47e28e58ccafe25c6923433b89c",
+      "post": "6000673632ecb923704b2f48192773c8cd83a47e28e58ccafe25c6923433b89c",
+      "unchanged": true
+    },
+    "cleanTarget": {
+      "pre": "f7b85d3a633eee1aec0d072487ac24f5335907503fe4bde342a974beec737bf7",
+      "post": "f7b85d3a633eee1aec0d072487ac24f5335907503fe4bde342a974beec737bf7",
+      "unchanged": true
+    },
+    "violatingTarget": {
+      "pre": "efa72ebf2c06735618302e63563bab103c55b7b2adec9d8218dfa7b73d3d466b",
+      "post": "efa72ebf2c06735618302e63563bab103c55b7b2adec9d8218dfa7b73d3d466b",
+      "unchanged": true
+    }
+  },
+  "evidence": {
+    "preparationSummary": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-r1-042/preparation-summary.json",
+      "sha256": "d1264e11dbe2e307f666c5fd0244ccdd13a67217d217865973e70c47612bcad9"
+    },
+    "preInventories": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-r1-042/pre-inventories.json",
+      "sha256": "abf3880f70ad80967c899eaef584704c44c6c94698748e76b2cdc90f4e9befd6"
+    },
+    "preGitFacts": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-r1-042/pre-git-facts.json",
+      "sha256": "d7947753b9e25d48880da2ce3721fee91b500aa771fc912d17dce759e5fb9baf"
+    },
+    "postInventories": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-r1-042/post-inventories.json",
+      "sha256": "abf3880f70ad80967c899eaef584704c44c6c94698748e76b2cdc90f4e9befd6"
+    },
+    "postGitFacts": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-r1-042/post-git-facts.json",
+      "sha256": "3b5fe234603bbfe59a20a7ea674042706b8d45a1c2cde40c237325b3435e03eb"
+    },
+    "hostVerification": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-r1-042/host-verification.json",
+      "sha256": "1d514a163995b99908c2b5ef8f30b3eeec6b00f13677a273339bf90a96c15d14"
+    },
+    "composeLogSha256": "e99d5ea0be462cccca30efe13991af9817f39b490b70b762ff8e65398ab8a245",
+    "compositionVerificationLogSha256": "9e6fa8655dddec3cafc5cb12f2f888aa99375d3218c7a6367590e02697c7a363"
+  },
+  "evidenceDisclosure": {
+    "preparationProjectionIssue": "After the deliberate fault was injected, the preparation script recomputed violating Git facts and replaced the previously checked detached flag with null in pre-git-facts.json and preparation-summary.json.",
+    "effectOnExecution": "none",
+    "reason": "Both worktrees were required and verified detached before fault injection; independent post verification and git worktree list record detached=true at the exact certified commit.",
+    "authoritativePostEvidence": "artifacts/guards/p10-ifx-114/c6e-r1-042/post-git-facts.json"
+  },
+  "boundary": {
+    "c6eR1Complete": true,
+    "c6eAcceptanceRepaired": true,
+    "c6eExecutionClosed": true,
+    "p10_2Started": false,
+    "p10_3Started": false,
+    "activated": false,
+    "published": false,
+    "v3Retired": false,
+    "ifxCutover": false
+  }
+}

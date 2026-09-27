@@ -1,0 +1,97 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "verification": "installed-web-ui-and-host-query-match",
+  "installedRuntime": {
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.4-ifx-0.4.2-c6e-r1",
+    "packageHash": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
+    "profileId": "ifx_profile",
+    "profileVersion": "0.4.2",
+    "profileSha256": "b7aac25f5cefbaf4d99023a71e29130da283debbe7446e160b42d7f1cb385023"
+  },
+  "ui": {
+    "surface": "installed-web-companion",
+    "browser": "Chrome",
+    "stage": "pre",
+    "interaction": "real-ui",
+    "clean": {
+      "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-clean-042",
+      "projectId": "26e3ea4a5f6fd7959bbd68ef601437fa",
+      "runId": "a7b7ff13b3ee4bae93143fe59d8e9984",
+      "status": "pass",
+      "exitCategory": "success",
+      "hostExitCode": 0,
+      "moduleCount": 10,
+      "passedModuleCount": 10,
+      "findingCount": 0,
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "importDirectionMatched": 641,
+      "stageResultSha256": "33fe8609f32e22297a90282a69af8562684534500d9ec99bfbe4f8da70c5c128",
+      "workspaceEvidenceSha256": "3891ce1ccc3467d2dab84a21ce4ff4381624cd588d8f75090c6de6c920547516"
+    },
+    "violating": {
+      "targetRoot": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-violating-042",
+      "projectId": "0bc8866d67415052e76f5efd010628f1",
+      "runId": "58c3a7906b694173885f2986881c91af",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "hostExitCode": 16,
+      "moduleCount": 10,
+      "passedModuleCount": 9,
+      "failedModules": [
+        "ifx-source-policy"
+      ],
+      "findingCount": 1,
+      "findings": [
+        {
+          "ruleId": "IMPORT-DIRECTION",
+          "subject": "src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs:1: IFX.Modules.CRM.Domain -> IFX.Modules.CRM.Contracts",
+          "evidenceKind": "source-import",
+          "detectorId": "ifx-source-policy",
+          "severity": "blocking"
+        }
+      ],
+      "coverageClaimCount": 22,
+      "allCoverageNonVacuous": true,
+      "importDirectionMatched": 642,
+      "stageResultSha256": "f2c4cd1e4f1c6a0a4370c2f78b0647506181fd5e071fe55355435b8c5fa730e5",
+      "workspaceEvidenceSha256": "166c6ae22f34261d05aaf76d5f718949398bf5798000d05b80724dd2bac363cd"
+    }
+  },
+  "hostQueries": {
+    "authority": "v4-host",
+    "commands": [
+      "query runs",
+      "query evidence"
+    ],
+    "clean": {
+      "projectId": "26e3ea4a5f6fd7959bbd68ef601437fa",
+      "runId": "a7b7ff13b3ee4bae93143fe59d8e9984",
+      "status": "pass",
+      "exitCategory": "success",
+      "findingCount": 0,
+      "coverageCount": 22,
+      "resultSha256": "33fe8609f32e22297a90282a69af8562684534500d9ec99bfbe4f8da70c5c128",
+      "matchesUi": true
+    },
+    "violating": {
+      "projectId": "0bc8866d67415052e76f5efd010628f1",
+      "runId": "58c3a7906b694173885f2986881c91af",
+      "status": "fail",
+      "exitCategory": "findings-blocking",
+      "findingCount": 1,
+      "coverageCount": 22,
+      "resultSha256": "f2c4cd1e4f1c6a0a4370c2f78b0647506181fd5e071fe55355435b8c5fa730e5",
+      "matchesUi": true
+    },
+    "authorityHashesMatchUi": true,
+    "findingsMatchUi": true,
+    "coverageMatchesUi": true
+  },
+  "serviceShutdown": {
+    "port": 14653,
+    "listenerCount": 0,
+    "stopped": true
+  }
+}

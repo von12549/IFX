@@ -1,0 +1,91 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "result": "git-backed-targets-and-receipted-sibling-ready",
+  "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+  "identities": {
+    "bundleManifest": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
+    "reviewPacket": "25a865b584ea332a54e5f30632f4c3a0b7ccebc3095a83ef4d5fc06433d4fc9f",
+    "reviewRecord": "871173d4fc27236c06ff0a0c940c6f2d8a8983771b897878261de092826d8ced",
+    "c6dDecision": "e68eccd421e45d4671911d973ec9af9d847563aae00e6ebb4061b8375d6b4173",
+    "stoppedC6eDecision": "f6e1802660b656c6d3468ed72b761bb3d6e49a36d27dec9afdc04707773f595b",
+    "baseArchive": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "baseReceipt": "5e7a5d2c604b6f78a463be40158f871b1fb9823dee17975841d64f09f93d2126"
+  },
+  "baseProof": {
+    "formatVersion": 1,
+    "status": "pass",
+    "kind": "base-release",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.4",
+    "productVersion": "1.1.4",
+    "packageHash": "30b2571cee40996f659d24aa3edcb0ab206fc80f0ad50a7aef73ff09281c404a",
+    "receiptSha256": "5e7a5d2c604b6f78a463be40158f871b1fb9823dee17975841d64f09f93d2126",
+    "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "sourceCommit": "2185477ba89d7a3cef95c99bfe737bf98a70f39d",
+    "manifestSha256": "32dc0bddddba2af1dc46c5450d6d29a239c2a2398e017282dffb049551cb851c"
+  },
+  "compositionProof": {
+    "formatVersion": 1,
+    "status": "pass",
+    "kind": "local-extension-composition",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.4-ifx-0.4.2-c6e-r1",
+    "productVersion": "1.1.4",
+    "packageHash": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
+    "receiptSha256": "51f5fc11b7fa36e14d83eade699979e31de2d06d3134af9caad9a329fd043345",
+    "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "bundleManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
+    "scope": "production"
+  },
+  "compositionReceipt": {
+    "path": "D:\\IFX-Root\\guard-runtime\\receipts\\v4-guards-1.1.4-ifx-0.4.2-c6e-r1.compose.json",
+    "sha256": "51f5fc11b7fa36e14d83eade699979e31de2d06d3134af9caad9a329fd043345"
+  },
+  "roots": {
+    "state": "D:\\IFX-Root\\guard-runtime\\state\\ifx-c6e-r1-042",
+    "evidence": "D:\\IFX-Root\\guard-runtime\\evidence\\ifx-c6e-r1-042",
+    "cleanTarget": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-clean-042",
+    "violatingTarget": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-violating-042",
+    "install": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.4-ifx-0.4.2-c6e-r1"
+  },
+  "gitFacts": {
+    "clean": {
+      "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-clean-042",
+      "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+      "insideWorkTree": true,
+      "detached": true,
+      "status": []
+    },
+    "violating": {
+      "root": "D:\\IFX-Root\\guard-runtime\\fixtures\\ifx-c6e-r1-violating-042",
+      "head": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+      "insideWorkTree": true,
+      "detached": null,
+      "status": [
+        "?? src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs"
+      ]
+    }
+  },
+  "preInventoryDigests": {
+    "baseInstallation": "bdca883f5d015698b0b58304676a791b0bbc719382811e1359870544e5b4d098",
+    "bundle": "6000673632ecb923704b2f48192773c8cd83a47e28e58ccafe25c6923433b89c",
+    "cleanTarget": "f7b85d3a633eee1aec0d072487ac24f5335907503fe4bde342a974beec737bf7",
+    "violatingTarget": "efa72ebf2c06735618302e63563bab103c55b7b2adec9d8218dfa7b73d3d466b"
+  },
+  "deliberateViolation": {
+    "path": "src/Modules/CRM/IFX.Modules.CRM.Domain/C6eR1Fault.cs",
+    "expectedRule": "IMPORT-DIRECTION",
+    "expectedModule": "ifx-source-policy",
+    "expectedBlocking": true
+  },
+  "installedWebUi": {
+    "status": "pending",
+    "cleanRun": null,
+    "violatingRun": null
+  },
+  "boundary": {
+    "c6eR1PreparationComplete": true,
+    "p10_2Started": false,
+    "p10_3Started": false,
+    "activated": false
+  }
+}
