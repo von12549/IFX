@@ -36,7 +36,7 @@
   ],
   "decisions": [
     "Use the existing public von12549/Guard repository and preserve its initial main lineage.",
-    "Extract docs/guards/v4 history from exact IFX commit ba0816321bcb04dba93136beea80f41f237517de in a disposable no-hardlink clone.",
+    "Extract docs/guards/v4 history from exact IFX commit 640c57566688ca1aee683923d53ad6e57fd5f16c (V4 tree 418a1933e985aa17c59307c0a25434e19de4aeba) in a disposable no-hardlink clone; Amendment A1 of 2026-09-27 supersedes the original ba0816321bcb04dba93136beea80f41f237517de binding so the in-subtree V4-AD-019 acceptance commit is preserved.",
     "Use git subtree split rather than requiring unavailable git filter-repo, and preserve the original-to-extracted commit map.",
     "Move generic product plans and TODOs to Guard docs/plans while retaining IFX/P10 adoption authority and evidence in IFX.",
     "Retain IFX-only bytes in extracted Git history for provenance, delete them from the active Guard tree in T4, and create their current IFX successors under docs/guards/v4-adoption only in T7.",

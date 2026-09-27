@@ -15,14 +15,18 @@ Do not activate V4, change IFX required checks/rulesets, pass P10.GATE, or retir
 
 ## Fixed starting identities
 
+Amendment A1 (2026-09-27, master Plan section 2) rebinds the export source. The original values were
+`IFX_SOURCE_COMMIT=ba0816321bcb04dba93136beea80f41f237517de`,
+`IFX_V4_TREE=e3c359491709ee49b73979276a0143ed52221999` and `IFX_V4_TOUCHING_COMMITS=47`.
+
 ```text
 IFX_WORKTREE=D:\IFX-Root\IFX
 IFX_BRANCH=codex/v4-development-base
-IFX_SOURCE_COMMIT=ba0816321bcb04dba93136beea80f41f237517de
+IFX_SOURCE_COMMIT=640c57566688ca1aee683923d53ad6e57fd5f16c
 IFX_V4_PATH=docs/guards/v4
-IFX_V4_TREE=e3c359491709ee49b73979276a0143ed52221999
+IFX_V4_TREE=418a1933e985aa17c59307c0a25434e19de4aeba
 IFX_V4_TRACKED_FILES=174
-IFX_V4_TOUCHING_COMMITS=47
+IFX_V4_TOUCHING_COMMITS=48
 
 GUARD_WORKTREE=C:\Users\von12\OneDrive\Desktop\Guard
 GUARD_REMOTE=https://github.com/von12549/Guard.git
@@ -165,7 +169,7 @@ $migrationRoot = Join-Path ([IO.Path]::GetTempPath()) ('v4-todo-008-' + [Guid]::
 New-Item -ItemType Directory -Path $migrationRoot | Out-Null
 $exportClone = Join-Path $migrationRoot 'ifx-export'
 git clone --no-hardlinks D:/IFX-Root/IFX $exportClone
-git -C $exportClone checkout --detach ba0816321bcb04dba93136beea80f41f237517de
+git -C $exportClone checkout --detach 640c57566688ca1aee683923d53ad6e57fd5f16c
 git -C $exportClone status --porcelain=v2 --untracked-files=all
 ```
 
@@ -174,7 +178,7 @@ not populate the helper environment correctly. Quote the converted Git-Bash path
 untrusted input. The conceptual command is:
 
 ```text
-git subtree split --prefix=docs/guards/v4 --branch export/v4-standalone ba0816321bcb04dba93136beea80f41f237517de
+git subtree split --prefix=docs/guards/v4 --branch export/v4-standalone 640c57566688ca1aee683923d53ad6e57fd5f16c
 ```
 
 Before deleting the clone:
@@ -183,7 +187,7 @@ Before deleting the clone:
 - convert `.git/subtree-cache` mappings into stable sorted JSON;
 - record the mapping JSON SHA-256;
 - prove the export-tip root tree has the same path/blob inventory as
-  `ba081632...:docs/guards/v4`;
+  `640c5756...:docs/guards/v4` (Amendment A1);
 - prove 174 tracked files and no path outside the subtree;
 - scan for credentials/secrets and IFX/V3 application content; and
 - run `git fsck --full --strict`.

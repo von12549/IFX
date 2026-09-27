@@ -1,6 +1,6 @@
 # V4-TODO-008 standalone repository extraction program
 
-Status: `PROJECT STARTED — MASTER PLAN AND CLAUDE CODE HANDOFF APPROVED; EXECUTION NOT YET AUTHORIZED`
+Status: `IN PROGRESS — AMENDMENT A1 APPLIED; T0–T5 LOCAL EXECUTION AUTHORIZED; REMOTE GUARD, RELEASE AND IFX PROTECTED TRANCHES NOT AUTHORIZED`
 
 Executor requested by the user: **Claude Code**.
 
@@ -40,6 +40,37 @@ The following snapshot was captured read-only on 2026-09-27 before this Plan was
 
 The source worktree was clean when inspected. Existing V4 Guards 1.1.0–1.1.4 releases and their IFX
 repository URLs remain immutable historical authorities. They are not re-tagged or silently moved.
+
+### Amendment A1 — export source rebinding (2026-09-27)
+
+The table above is the original feasibility snapshot and remains unedited. After that snapshot, commit
+`6b80fc04` changed three files inside the V4 subtree (`plans/00-architecture-decision-set.md`,
+`plans/README.md`, `plans/TODO.md`) to accept V4-AD-019 and start V4-TODO-008. An export from
+`ba081632` would omit that decision from the extracted Guard history. In the pre-T0 review, the
+operator therefore rebound the export source to the development tip that contains it:
+
+| Property | Original bound value | A1 bound value |
+| --- | --- | --- |
+| Source commit | `ba0816321bcb04dba93136beea80f41f237517de` | `640c57566688ca1aee683923d53ad6e57fd5f16c` |
+| V4 source tree object | `e3c359491709ee49b73979276a0143ed52221999` | `418a1933e985aa17c59307c0a25434e19de4aeba` |
+| Tracked V4 files | 174 | 174 |
+| Commits touching the V4 subtree | 47 | 48 |
+| First V4 commit | `20c93d521728746e1c227654b32219d94fcdf6bb` | unchanged |
+
+From A1 onward, every export, tree-equivalence and old-versus-new comparison identity in this Plan and
+in the Claude Code handoff uses the A1 values. `ba081632` remains the historical P10.3 acceptance
+checkpoint. This amendment commit changes only `docs/guards/plans`, so the bound export tree
+`418a1933…` is unaffected by it. The operator also authorized, on the same date:
+
+- T0–T5 local execution by Claude Code;
+- this local IFX amendment commit; and
+- pushing `codex/v4-development-base` to `origin`, so the bound source commit is publicly reachable
+  provenance (a fast-forward only; no other IFX remote write).
+
+Remote Guard writes (T6), standalone release publication, IFX consumer rebinding (T7) and protected IFX
+cleanup (T8) still require separate authorization. The working execution record is the Guard checklist
+`docs/plans/migration/20260927-v4-todo-008-execution-checklist.md`, and durable evidence lives below
+`D:\IFX-Root\v4-todo-008-evidence`.
 
 ### Destination repository
 
@@ -223,7 +254,8 @@ not weaken the four-root contract.
 
 ### Source IFX
 
-- Bind export to exact source commit `ba0816321bcb04dba93136beea80f41f237517de`.
+- Bind export to exact source commit `640c57566688ca1aee683923d53ad6e57fd5f16c` (Amendment A1;
+  originally `ba0816321bcb04dba93136beea80f41f237517de`).
 - Do not export from a dirty worktree or a moving branch name.
 - Do not delete or move source files during the export phase.
 - Later IFX cleanup uses its own branch/commit after Guard acceptance.
