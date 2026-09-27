@@ -1,0 +1,41 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-1-114-c6c-failure-recovery",
+  "title": "Recover IFX 1.1.4 C6c matrix and expiring-lock readiness",
+  "goal": "Correct the two proven preflight gaps from the failed 0.4.1 C6c, produce a fresh deterministic 0.4.2 candidate, and stop before any new full C6c attempt.",
+  "acceptanceCriteria": [
+    "The historical failed C6c attempt and its evidence remain unchanged.",
+    "The C6c4 matrix contract projection and seven changed adapter hashes match the current ordinal inventory, and the fixture specification binds the corrected contract.",
+    "A readiness gate validates the clean Target commit, inventory and candidate identities, all seven lock hashes and commits, and at least 2700 seconds of remaining life for every expiring lock.",
+    "A recovered single-C6c wrapper uses distinct evidence paths, refuses path reuse, and requires an explicit authorization switch before writing an attempt marker.",
+    "Fresh locks and two independent 0.4.2 compositions bind the exact recovery Target commit and are deterministic.",
+    "Contract, focused qualification and readiness checks pass without running a full C6c."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-1-114-c6c-failure-recovery.md",
+    "docs/guards/plans/20260927-v4-p10-1-114-c6c-failure-recovery.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/matrix-contract.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c4/fixture-spec.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6c25/IFX.C6c25.Readiness.psm1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c25/Test-IFX114C6cReadiness.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c25/Invoke-IFX114RecoveredSingleC6c.ps1",
+    "docs/guards/candidates/ifx-gate-coverage-c6c25/tests/Test-IFX114C6cReadiness.ps1",
+    "artifacts/guards/p10-ifx-114/recovery-042"
+  ],
+  "areaIds": ["GuardDocs"],
+  "ruleIds": [],
+  "validationCommands": ["ifx-package-test"],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d07-migration-unit-and-order.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d09-trusted-base-guard-execution.json"
+  ],
+  "frozenFailure": {
+    "targetCommit": "a1d13627913883f69b1818e93e24598b008b3d24",
+    "candidateVersion": "0.4.1",
+    "attemptPath": "artifacts/guards/p10-ifx-114/c6c-attempt.json",
+    "resultRecordPath": "artifacts/guards/p10-ifx-114/recovery-041-final2/c6c-result-record.json"
+  },
+  "candidateVersion": "0.4.2",
+  "minimumExpiringLockRemainingSeconds": 2700,
+  "phaseBoundary": "stop-after-readiness-pass-before-recovered-c6c"
+}
