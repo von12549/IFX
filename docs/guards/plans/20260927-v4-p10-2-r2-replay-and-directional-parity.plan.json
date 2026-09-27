@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-2-r2-replay-and-directional-parity",
+  "title": "Repair complete V4 replay and directional P10.2 parity",
+  "goal": "Bind complete supplemental providers, compare module-owned V3 to V4 semantics without hiding weakening, fix exit-16 result parsing and rerun P10.2 once on new paths.",
+  "acceptanceCriteria": [
+    "All frozen identities, 52 Target fingerprints and receipted provider adapter hashes match before execution.",
+    "Supplemental provider policies and module-root fingerprints are bound and every current V4 replay equals its certified semantics.",
+    "The independent comparator scopes clean rows to module-owned rules and records every V4 fail-closed strengthening separately from exact equivalence.",
+    "No V4 acceptance, severity weakening, missing expected rule, empty finding semantics, stale input or unclassified difference remains.",
+    "Real clean and violation runs provide structured results with expected exits 0 and 16 respectively.",
+    "Protected roots remain byte-invariant and P10.3 plus all activation and cutover boundaries remain false."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-2-r2-replay-and-directional-parity.md",
+    "docs/guards/plans/20260927-v4-p10-2-r2-replay-and-directional-parity.plan.json",
+    "docs/guards/candidates/ifx-parity-p10-2",
+    "artifacts/guards/p10-ifx-114/p10-2-r2-repair-042",
+    "artifacts/guards/p10-ifx-114/p10-2-r2-parity-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "Treating all differences as strengthening could conceal a V4 weakening.",
+    "Replaying TargetRoot without its suite-local provider could produce false certified drift.",
+    "Parsing only one process stream could misclassify an expected blocking exit as engine failure.",
+    "Editing frozen engines or prior evidence would invalidate the version ledger."
+  ],
+  "decisions": [
+    "Bind provider adapters and policy fixtures in addition to TargetRoot for supplemental cases.",
+    "Require local provider adapter bytes to equal the receipted installation adapter.",
+    "Use directional non-weakening semantics and preserve explicit strengthening records.",
+    "Derive module-owned rules from certified violation rows and keep unrelated V3 findings visible.",
+    "Parse structured host results from stdout then stderr while retaining exact expected exits.",
+    "Keep frozen engines, fixtures, prior evidence and P10.3 outside mutation scope."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "p10-2-comparator-self-test",
+    "complete-provider-binding-verify",
+    "p10-2-r2-parity-run",
+    "protected-root-inventory-compare"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-2-r1-corpus-repair-and-rerun"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
