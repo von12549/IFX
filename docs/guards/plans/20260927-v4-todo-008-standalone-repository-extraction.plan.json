@@ -36,7 +36,7 @@
   ],
   "decisions": [
     "Use the existing public von12549/Guard repository and preserve its initial main lineage.",
-    "Extract docs/guards/v4 history from exact IFX commit 640c57566688ca1aee683923d53ad6e57fd5f16c (V4 tree 418a1933e985aa17c59307c0a25434e19de4aeba) in a disposable no-hardlink clone; Amendment A1 of 2026-09-27 supersedes the original ba0816321bcb04dba93136beea80f41f237517de binding so the in-subtree V4-AD-019 acceptance commit is preserved.",
+    "Extract docs/guards/v4 history from exact IFX commit 80f7b6b65fb06897444a6a36c604c42c93c834e4 (V4 tree af913836d83c071b9c0a769c6c84da4fb727b971) in a disposable no-hardlink clone; Amendment A1 (640c5756) preserved the in-subtree V4-AD-019 acceptance commit and Amendment A2 of 2026-09-27 adds the reconciled published 1.1.4 release lineage (20260927-v4-guards-1-1-4-release-reconciliation).",
     "Use git subtree split rather than requiring unavailable git filter-repo, and preserve the original-to-extracted commit map.",
     "Move generic product plans and TODOs to Guard docs/plans while retaining IFX/P10 adoption authority and evidence in IFX.",
     "Retain IFX-only bytes in extracted Git history for provenance, delete them from the active Guard tree in T4, and create their current IFX successors under docs/guards/v4-adoption only in T7.",
@@ -63,7 +63,8 @@
     "ifx-post-cleanup-live-reference-and-v3-regression-check"
   ],
   "dependencies": [
-    "20260927-v4-p10-3-cutover-and-rollback-design"
+    "20260927-v4-p10-3-cutover-and-rollback-design",
+    "20260927-v4-guards-1-1-4-release-reconciliation"
   ],
   "boundaries": [
     "trust-change"

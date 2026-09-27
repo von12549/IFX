@@ -1,6 +1,6 @@
 # V4-TODO-008 standalone repository extraction program
 
-Status: `IN PROGRESS — AMENDMENT A1 APPLIED; T0–T5 LOCAL EXECUTION AUTHORIZED; REMOTE GUARD, RELEASE AND IFX PROTECTED TRANCHES NOT AUTHORIZED`
+Status: `IN PROGRESS — AMENDMENTS A1 AND A2 APPLIED; T0–T5 LOCAL EXECUTION AUTHORIZED; REMOTE GUARD, RELEASE AND IFX PROTECTED TRANCHES NOT AUTHORIZED`
 
 Executor requested by the user: **Claude Code**.
 
@@ -71,6 +71,30 @@ Remote Guard writes (T6), standalone release publication, IFX consumer rebinding
 cleanup (T8) still require separate authorization. The working execution record is the Guard checklist
 `docs/plans/migration/20260927-v4-todo-008-execution-checklist.md`, and durable evidence lives below
 `D:\IFX-Root\v4-todo-008-evidence`.
+
+### Amendment A2 — reconcile the 1.1.4 release lineage (2026-09-27)
+
+T1 found that the published `v4-guards-v1.1.4` commit `2185477ba89d7a3cef95c99bfe737bf98a70f39d` is not
+an ancestor of the A1 source. Release branch `codex/v4-guards-1.1.4-release` (tip
+`3641d81eecea59b00234e804a1c19ccf7ec04982`) had never been merged back. The operator chose to
+reconcile in IFX before export, under
+`20260927-v4-guards-1-1-4-release-reconciliation` (Plan commit `17a1d56c2e244717f64576059b711e2e5f79480a`).
+The merge resolves every conflicting V4 product file to the published 1.1.4 content. Its V4 tree
+equals the release tree except for development-only V4 plans and the two IFX cutover files.
+
+| Property | A1 bound value (superseded) | A2 bound value |
+| --- | --- | --- |
+| Source commit | `640c57566688ca1aee683923d53ad6e57fd5f16c` | `80f7b6b65fb06897444a6a36c604c42c93c834e4` |
+| V4 source tree object | `418a1933e985aa17c59307c0a25434e19de4aeba` | `af913836d83c071b9c0a769c6c84da4fb727b971` |
+| Tracked V4 files | 174 | 175 (`+docs/1.1.4-release-notes.md`) |
+| Commits touching the V4 subtree | 48 | 50 (`+2185477b`, `+80f7b6b6` merge) |
+| First V4 commit | `20c93d521728746e1c227654b32219d94fcdf6bb` | unchanged |
+
+From A2 onward, every export, tree-equivalence and old-versus-new comparison identity uses the A2
+values. T5 additionally compares the Guard package against the published 1.1.4 release source
+`2185477b`. Before the merge commit was created, Windows-full certification passed on a tree-identical
+trial merge (tree `97abd4b6405612e5d3bd03f760bda29a6a846f70`), and the live merge reproduces that tree.
+Pushing the merge requires separate authorization.
 
 ### Destination repository
 
@@ -254,8 +278,8 @@ not weaken the four-root contract.
 
 ### Source IFX
 
-- Bind export to exact source commit `640c57566688ca1aee683923d53ad6e57fd5f16c` (Amendment A1;
-  originally `ba0816321bcb04dba93136beea80f41f237517de`).
+- Bind export to exact source commit `80f7b6b65fb06897444a6a36c604c42c93c834e4` (Amendment A2;
+  A1 bound `640c57566688ca1aee683923d53ad6e57fd5f16c`, originally `ba0816321bcb04dba93136beea80f41f237517de`).
 - Do not export from a dirty worktree or a moving branch name.
 - Do not delete or move source files during the export phase.
 - Later IFX cleanup uses its own branch/commit after Guard acceptance.
