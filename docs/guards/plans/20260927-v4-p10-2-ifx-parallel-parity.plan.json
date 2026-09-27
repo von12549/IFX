@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-2-ifx-parallel-parity",
+  "title": "Run V3/V3_ifx and V4 ifx_profile parallel parity",
+  "goal": "Execute an independent fail-closed parity comparison on the certified IFX commit and frozen 52-case production corpus without entering P10.3.",
+  "acceptanceCriteria": [
+    "The accepted C6e-R1 decision, certified commit, V3/V3_ifx inventory, V4 receipt, package, Profile, Bundle and corpus hashes match the frozen identities.",
+    "The corpus contains ten clean, ten missing-input, ten zero-match and twenty-two blocking-claim violation cases with immutable fixture and input bindings.",
+    "V3/V3_ifx and V4 execute independently and the comparison records verdict, exit category, finding identity, subject semantics, evidence kind, detector, coverage, prerequisites, authority hashes and provenance.",
+    "The independent matrix contains no unresolved weakening, missing claim, accepted missing evidence, V4 zero-match success, stale evidence or unexplained verdict difference.",
+    "Protected authorities, installations, corpus inputs and Target roots remain byte-invariant.",
+    "P10.3, activation, publication, V3 retirement and IFX cutover remain outside scope."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-2-ifx-parallel-parity.md",
+    "docs/guards/plans/20260927-v4-p10-2-ifx-parallel-parity.plan.json",
+    "docs/guards/candidates/ifx-parity-p10-2",
+    "artifacts/guards/p10-ifx-114/p10-2-parity-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A corpus or authority identity drift would merge evidence from different version-ledger tuples.",
+    "A candidate-owned comparison could allow V4 to judge itself.",
+    "A semantic mapping could hide a weaker severity, accepted missing evidence or zero-match success.",
+    "P10.2 completion could be misrepresented as P10.3 activation or V3 retirement authority."
+  ],
+  "decisions": [
+    "Use the exact certified C6c production-module case projection rather than inventing a second unbound corpus.",
+    "Run engines in separate mutable roots and run comparison only after both result sets close.",
+    "Treat unexplained differences as blocking and retain stopped evidence without in-place repair or rerun."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "public-composition-verifier",
+    "v3-ifx-package-test",
+    "v4-production-corpus",
+    "independent-parity-compare",
+    "protected-root-inventory-compare"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-1-114-c6e-r1-git-backed-target-repair"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
