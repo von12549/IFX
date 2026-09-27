@@ -1,0 +1,32 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v3-ifx-g03-decision-registration-authorization",
+  "title": "Authorize the exact G03 documentation decision registration",
+  "goal": "Publish single-use base-owned weaken-policy and change-trusted-base records for the one-path policy-config.json registration in candidate c3a5c81f.",
+  "acceptanceCriteria": [
+    "This change contains only two authorization records and its formal plan pair.",
+    "The weaken-policy record binds only shared/policy-config.json at pointer /entries/24/paths/41 with the exact base and head hashes and head blob tuple.",
+    "The change-trusted-base record covers only tcb.manifest path shared/policy-config.json with the exact base and head tuples.",
+    "Invoke-IFXGuardrails.ps1 -Mode Pre passes for this Plan."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/stages/diff/authorizations/g03-decision-registration-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/g03-decision-registration-trusted-base.json",
+    "docs/guards/plans/20260927-v3-ifx-g03-decision-registration-authorization.md",
+    "docs/guards/plans/20260927-v3-ifx-g03-decision-registration-authorization.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json"
+  ]
+}
