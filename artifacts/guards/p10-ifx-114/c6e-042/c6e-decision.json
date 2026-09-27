@@ -1,0 +1,105 @@
+{
+  "formatVersion": 1,
+  "status": "fail",
+  "decision": "c6e-stopped-on-clean-target-prerequisite-missing",
+  "decidedAt": "2026-09-27T05:27:07.4610889Z",
+  "authorization": {
+    "authorizedBy": "xiaolong-feng",
+    "statement": "授权进行C6e",
+    "scope": "C6e receipted sibling composition and installed Web UI clean/violation practice"
+  },
+  "frozenInputs": {
+    "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "bundleManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
+    "reviewPacketSha256": "25a865b584ea332a54e5f30632f4c3a0b7ccebc3095a83ef4d5fc06433d4fc9f",
+    "productionReviewSha256": "871173d4fc27236c06ff0a0c940c6f2d8a8983771b897878261de092826d8ced",
+    "c6dDecisionSha256": "e68eccd421e45d4671911d973ec9af9d847563aae00e6ebb4061b8375d6b4173",
+    "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "baseReceiptSha256": "5e7a5d2c604b6f78a463be40158f871b1fb9823dee17975841d64f09f93d2126"
+  },
+  "composition": {
+    "status": "pass",
+    "kind": "local-extension-composition",
+    "scope": "production",
+    "installRoot": "D:\\IFX-Root\\guard-runtime\\releases\\v4-guards-1.1.4-ifx-0.4.2",
+    "packageSha256": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
+    "receiptPath": "D:\\IFX-Root\\guard-runtime\\receipts\\v4-guards-1.1.4-ifx-0.4.2.compose.json",
+    "receiptSha256": "194b1130a8dea762394bd702c3c6c6b0bccc2974ff98daa24d9386e22112a977",
+    "verifiedAfterPractice": true
+  },
+  "installedWebUi": {
+    "launcher": "Invoke-V4ReceiptedWebCompanion.ps1",
+    "receiptGatePassed": true,
+    "address": "http://127.0.0.1:14652",
+    "cleanTarget": {
+      "projectId": "54de88e039940cac97761d342fb72c9e",
+      "runId": "9829161755534af18d393900bbf5926e",
+      "stage": "pre",
+      "status": "error",
+      "hostExitCode": 15,
+      "exitCategory": "prerequisite-missing",
+      "findingCount": 1,
+      "coverageCount": 0,
+      "finding": {
+        "ruleId": "V4.RUNTIME",
+        "subject": "Workspace evidence target commit is unavailable.",
+        "evidenceKind": "runtime",
+        "detectorId": "v4-host",
+        "severity": "blocking"
+      },
+      "stageResultSha256": "334db115c5d5be58ed141c79c2248ecc2e5609ecc42fdea0e4ea3e36104b279c"
+    },
+    "violatingTarget": {
+      "status": "not-run",
+      "reason": "The C6e Plan requires an immediate stop without repair or rerun after the clean Target prerequisite failure."
+    },
+    "uiHostAgreement": true
+  },
+  "diagnosis": {
+    "category": "fixture-construction-prerequisite-gap",
+    "fact": "The frozen Target was exported with git archive and therefore has no Git repository metadata.",
+    "hostRequirement": "Workspace evidence calls git -C <TargetRoot> rev-parse HEAD before module execution and requires a 40-character commit.",
+    "source": "installed package core/host/V4.Guards.Host/StageRuntime.cs:581",
+    "impact": "No IFX module executed; the planned clean/violation policy practice and non-vacuous coverage proof were not obtained."
+  },
+  "evidence": {
+    "preparationSummary": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-042/preparation-summary.json",
+      "sha256": "17340e7e3ca4230310e9f12cea458c0672a73fa1a89f577b9d3f3e94ea167bd0"
+    },
+    "preInventories": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-042/pre-inventories.json",
+      "sha256": "7aac2c843fed959b8f2bd222f0f01c43ac70e5ffad37661704c38e464652d667"
+    },
+    "postInventories": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-042/post-inventories.json",
+      "sha256": "423a59ff7ed9c66a1b42ec0e495f0c66e9405e9c02a8b8139a67868af3add67d"
+    },
+    "hostVerification": {
+      "path": "artifacts/guards/p10-ifx-114/c6e-042/host-verification.json",
+      "sha256": "9fc759e032940c70236d64b882158b75b21a006667d049029242361862416861"
+    }
+  },
+  "rootInvariance": {
+    "status": "pass",
+    "baseInstallationUnchanged": true,
+    "bundleUnchanged": true,
+    "cleanTargetUnchanged": true,
+    "violatingTargetUnchanged": true
+  },
+  "boundary": {
+    "c6eAuthorized": true,
+    "c6eStarted": true,
+    "c6ePreparationComplete": true,
+    "installedSiblingCreated": true,
+    "compositionReceiptCreated": true,
+    "c6eAcceptanceMet": false,
+    "c6eExecutionClosed": true,
+    "p10_2Started": false,
+    "p10_3Started": false,
+    "remotePublicationPerformed": false,
+    "v3Retired": false,
+    "ifxCutoverPerformed": false
+  },
+  "recommendation": "Do not reuse or repair this C6e execution. Create a separately authorized repair Plan with new absent output paths and Git-backed frozen Target worktrees whose HEAD is exactly the certified commit."
+}

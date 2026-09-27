@@ -1,0 +1,38 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "comparison": "installed-web-ui-versus-v4-host-read-only-queries",
+  "projectId": "54de88e039940cac97761d342fb72c9e",
+  "runId": "9829161755534af18d393900bbf5926e",
+  "ui": {
+    "stage": "pre",
+    "status": "error",
+    "hostExitCode": 15,
+    "exitCategory": "prerequisite-missing",
+    "findingCount": 1,
+    "coverageCount": 0,
+    "packageSha256": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
+    "profileSha256": "b7aac25f5cefbaf4d99023a71e29130da283debbe7446e160b42d7f1cb385023"
+  },
+  "hostQueries": {
+    "runsStatus": "pass",
+    "evidenceStatus": "pass",
+    "stageResultSha256": "334db115c5d5be58ed141c79c2248ecc2e5609ecc42fdea0e4ea3e36104b279c",
+    "finding": {
+      "ruleId": "V4.RUNTIME",
+      "subject": "Workspace evidence target commit is unavailable.",
+      "evidenceKind": "runtime",
+      "detectorId": "v4-host",
+      "severity": "blocking"
+    }
+  },
+  "agreement": {
+    "runId": true,
+    "stage": true,
+    "status": true,
+    "exitCategory": true,
+    "findings": true,
+    "coverage": true,
+    "authorityHashes": true
+  }
+}

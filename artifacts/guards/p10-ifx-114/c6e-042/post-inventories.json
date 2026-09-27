@@ -1,0 +1,31 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "comparison": "pre-and-post-root-inventory-sha256",
+  "roots": {
+    "baseInstallation": {
+      "fileCount": 139,
+      "preSha256": "bdca883f5d015698b0b58304676a791b0bbc719382811e1359870544e5b4d098",
+      "postSha256": "bdca883f5d015698b0b58304676a791b0bbc719382811e1359870544e5b4d098",
+      "unchanged": true
+    },
+    "bundle": {
+      "fileCount": 257,
+      "preSha256": "6000673632ecb923704b2f48192773c8cd83a47e28e58ccafe25c6923433b89c",
+      "postSha256": "6000673632ecb923704b2f48192773c8cd83a47e28e58ccafe25c6923433b89c",
+      "unchanged": true
+    },
+    "cleanTarget": {
+      "fileCount": 4247,
+      "preSha256": "f2db856c2a0c0d1e76db28d2778b91882feada5b2001eb285c0786648c86831c",
+      "postSha256": "f2db856c2a0c0d1e76db28d2778b91882feada5b2001eb285c0786648c86831c",
+      "unchanged": true
+    },
+    "violatingTarget": {
+      "fileCount": 4248,
+      "preSha256": "fb9e9424c6f0ea0144fbc6ffc9f8938ebe5a59a1635bdbecf4615062a867b9fe",
+      "postSha256": "fb9e9424c6f0ea0144fbc6ffc9f8938ebe5a59a1635bdbecf4615062a867b9fe",
+      "unchanged": true
+    }
+  }
+}
