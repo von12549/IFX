@@ -45,7 +45,7 @@
   ],
   "validationCommands": [
     "plan-validate",
-    "formal-pre",
+    "v4-native-formal-pre",
     "p10-3-entry-identity-verify",
     "github-read-only-inventory",
     "p10-3-cutover-contract-verify",

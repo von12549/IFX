@@ -70,7 +70,10 @@ GitHub or an authority root.
 ## Execution sequence
 
 1. Validate and commit this Plan pair before implementation.
-2. Pass Formal Pre and verify all four entry records and their shared identity.
+2. Pass V4-native Formal Pre using the published 1.1.4 Host's `plan validate`
+   contract, then verify all four entry records and their shared identity. V3
+   Pre is not a second Plan authority for autonomous V4 work: its legacy Plan
+   schema requires fields forbidden by the V4 Plan schema.
 3. Capture the checked-in and live GitHub state read-only; stop on an
    unclassified identity or permission discrepancy.
 4. Create the machine-readable transition proposal and inactive workflow
@@ -107,4 +110,3 @@ permission broadening, secret dependency, missing aggregate verdict, rollback
 that removes V3 before restoration proof, authority-root writes or any need for
 a remote mutation. A stopped result is evidence; it is not permission to repair
 or activate in place.
-
