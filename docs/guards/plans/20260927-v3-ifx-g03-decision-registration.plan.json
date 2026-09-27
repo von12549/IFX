@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v3-ifx-g03-decision-registration",
+  "title": "Register the C2d G03 documentation decision in the V3_ifx policy registry",
+  "goal": "Close V4-TODO-008 open item O5 by registering the C2d G03 current-documentation decision record in the decision-history entry of shared/policy-config.json, consuming exact base weaken-policy and change-trusted-base authorizations.",
+  "acceptanceCriteria": [
+    "The decision-history entry lists 20260924-v4-ifx-c2d-g03-current-documentation.json in date order; no other registry entry, root, exclusion or monotonicity field changes.",
+    "The decision record, G03 documents, C2d candidate module and docs/guards/v4 are unchanged.",
+    "The change deletes exactly the two base authorization records it consumes; the trusted Diff covers the weaken-policy and change-trusted-base obligations each by exactly one record.",
+    "Invoke-IFXGuardrails.ps1 -Mode Validate passes with zero manifest problems and Formal Pre passes for this Plan."
+  ],
+  "plannedPaths": [
+    "docs/guards/V3_ifx/shared/policy-config.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/g03-decision-registration-policy.json",
+    "docs/guards/V3_ifx/stages/diff/authorizations/g03-decision-registration-trusted-base.json",
+    "docs/guards/plans/20260927-v3-ifx-g03-decision-registration.md",
+    "docs/guards/plans/20260927-v3-ifx-g03-decision-registration.plan.json"
+  ],
+  "areaIds": [
+    "GuardDocs",
+    "GuardPackage"
+  ],
+  "ruleIds": [],
+  "validationCommands": [
+    "ifx-package-test"
+  ],
+  "decisionPaths": [
+    "docs/guards/V3_ifx/shared/decisions/history/20260916-v3-stage-d15-trusted-base-component-upgrade.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d20-authorization-consumption-and-break-glass.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d23-protected-change-obligations.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260917-v3-stage-d24-policy-config-dual-track.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260920-v3-stage-d31-shared-decision-history.json",
+    "docs/guards/V3_ifx/shared/decisions/history/20260924-v4-ifx-c2d-g03-current-documentation.json"
+  ]
+}
