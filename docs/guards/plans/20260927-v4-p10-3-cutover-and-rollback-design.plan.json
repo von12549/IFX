@@ -1,0 +1,61 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-3-cutover-and-rollback-design",
+  "title": "Design and locally rehearse the P10.3 IFX cutover and rollback",
+  "goal": "Produce an evidence-bound inactive V4 IFX cutover proposal, prove coexistence and rollback transitions locally, and stop before any remote mutation or production cutover.",
+  "acceptanceCriteria": [
+    "P10.1, P10.2 and Windows-full records bind the same V4 Guards 1.1.4, IFX 0.4.2 and target commit without drift.",
+    "Checked-in and live GitHub workflow, default-branch and ruleset state are captured read-only and discrepancies stop the design.",
+    "Every V3 required context and Architecture Conformance detector family has an explicit coexistence and final owner with no silent deletion.",
+    "The inactive workflow specimen uses trusted-base execution, immutable inputs, least privilege, no secrets and an always-present aggregate verdict.",
+    "Local forward, coexistence, primary and rollback rehearsals pass with trigger negative controls and exact restoration order.",
+    "No live workflow, ruleset, required check, branch setting, release, activation, cutover or V3 retirement is changed."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-3-cutover-and-rollback-design.md",
+    "docs/guards/plans/20260927-v4-p10-3-cutover-and-rollback-design.plan.json",
+    "docs/guards/v4/plans/09-p10-3-cutover-and-rollback-proposal.md",
+    "docs/guards/v4/integrations/github/proposed-v4-ifx-guardrails.yml",
+    "docs/guards/v4/integrations/github/ifx-cutover-proposal.json",
+    "docs/guards/candidates/ifx-cutover-p10-3/Test-IFXP10CutoverRollback.ps1",
+    "docs/guards/v4/plans/01-v4-self-contained-guard-plugin.md",
+    "docs/guards/v4/plans/02-runtime-architecture.md",
+    "docs/guards/v4/plans/06-ifx-profile-validation-program.md",
+    "docs/guards/v4/plans/README.md",
+    "docs/guards/v4/plans/TODO.md",
+    "artifacts/guards/p10-ifx-114/p10-3-design-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A candidate-controlled workflow could judge its own guard changes.",
+    "Replacing V3 contexts before V4 aggregate proof could create a protection gap.",
+    "The accepted IFX bundle is not yet a tracked remote-consumable immutable asset.",
+    "A rollback ordered incorrectly could remove the new guard before restoring the old required protection.",
+    "A documentation-only authorization could be misrepresented as remote activation authority."
+  ],
+  "decisions": [
+    "Keep all 13 V3 contexts required throughout the proposed coexistence window.",
+    "Add at most one future V4 aggregate required context after a separate negative-control proof.",
+    "Use GET-only remote inventory in P10.3 and defer every GitHub write to a later exact Plan and authorization.",
+    "Require immutable publication of the accepted IFX bundle before any remote runner may consume it.",
+    "Rehearse transitions as a local state machine and preserve V3/V3_ifx for rollback.",
+    "Leave P10.GATE, activation, cutover and V3 retirement false at P10.3 design completion."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "formal-pre",
+    "p10-3-entry-identity-verify",
+    "github-read-only-inventory",
+    "p10-3-cutover-contract-verify",
+    "p10-3-local-rollback-rehearsal",
+    "protected-root-inventory-compare"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-2-r2-replay-and-directional-parity"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
