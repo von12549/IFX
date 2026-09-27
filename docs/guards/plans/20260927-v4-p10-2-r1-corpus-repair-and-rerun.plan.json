@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-2-r1-corpus-repair-and-rerun",
+  "title": "Repair one frozen P10.2 Target and rerun parity",
+  "goal": "Remove exactly six verified generated V3 import manifests, restore all 52 certified corpus fingerprints and continue P10.2 on new absent paths without entering P10.3.",
+  "acceptanceCriteria": [
+    "The stopped predecessor decision and all six allowlisted file hashes match before repair.",
+    "Exactly six generated files are removed and all 52 frozen Target fingerprints match their certified C6c captures afterward.",
+    "Repair evidence records the pre/post inventories and no certified source mutation.",
+    "P10.2 reruns through the frozen V3, receipted V4 and independent comparer using new absent repository, build and runtime evidence paths.",
+    "An accepted run has no unresolved parity gap; otherwise a new stopped decision preserves all gaps without in-place rerun.",
+    "P10.3, activation, publication, V3 retirement and IFX cutover remain outside scope."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-2-r1-corpus-repair-and-rerun.md",
+    "docs/guards/plans/20260927-v4-p10-2-r1-corpus-repair-and-rerun.plan.json",
+    "artifacts/guards/p10-ifx-114/p10-2-r1-repair-042",
+    "artifacts/guards/p10-ifx-114/p10-2-r1-parity-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A broad cleanup could remove certified corpus bytes beyond the six generated files.",
+    "A hash mismatch could conceal a different mutation under an expected filename.",
+    "Reusing the stopped output paths could merge evidence from separate executions.",
+    "A successful repair could be misrepresented as P10.3 authority."
+  ],
+  "decisions": [
+    "Use a six-file exact path and SHA-256 allowlist with no wildcard or recursive deletion.",
+    "Revalidate every one of the 52 frozen Target fingerprints before continuing P10.2.",
+    "Use new absent repair, parity, build and runtime evidence paths.",
+    "Keep the stopped predecessor evidence immutable and keep P10.3 false."
+  ],
+  "validationCommands": [
+    "plan-validate",
+    "exact-repair-allowlist-verify",
+    "frozen-52-target-inventory-compare",
+    "p10-2-r1-parity-run",
+    "protected-root-inventory-compare"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-2-ifx-parallel-parity"
+  ],
+  "boundaries": [
+    "authorization"
+  ]
+}
