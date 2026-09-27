@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "id": "20260927-v4-p10-1-114-c6e-receipted-installation",
+  "title": "Compose and operate the accepted IFX 0.4.2 bundle",
+  "goal": "Create and verify a new receipted sibling installation from the C6d-accepted IFX 0.4.2 bundle, complete installed Web UI clean and deliberate-violation practice, prove root invariance, and stop before P10.2 or P10.3.",
+  "acceptanceCriteria": [
+    "The exact 1.1.4 base, C6d production review, 0.4.2 manifest and C6c target identities are validated before any external output is created.",
+    "A new production sibling installation and external composition receipt pass the public composition verifier without modifying an existing release.",
+    "Installed Web UI direct Pre passes on the frozen clean target and visibly blocks the frozen IMPORT-DIRECTION violation with non-vacuous coverage.",
+    "UI verdicts, runs, findings, coverage and package identity match installed Host queries and retained evidence.",
+    "All authority and target inventories are unchanged after practice, and writes are confined to the new StateRoot and EvidenceRoot.",
+    "The final decision stops before P10.2 parity, P10.3 activation, remote publication, V3 retirement or IFX cutover."
+  ],
+  "plannedPaths": [
+    "docs/guards/plans/20260927-v4-p10-1-114-c6e-receipted-installation.md",
+    "docs/guards/plans/20260927-v4-p10-1-114-c6e-receipted-installation.plan.json",
+    "docs/guards/candidates/ifx-gate-coverage-c6e1/Invoke-IFX114C6ePreparation.ps1",
+    "artifacts/guards/p10-ifx-114/c6e-042"
+  ],
+  "areas": [
+    "GuardDocs"
+  ],
+  "risks": [
+    "A reused external path could overwrite or confuse earlier installation evidence.",
+    "A browser verdict could diverge from the installed Host result or conceal a blocking failure.",
+    "Post-C6c governance commits must not be mistaken for the frozen certified Target commit.",
+    "C6e completion could be misrepresented as P10.2 parity or P10.3 activation."
+  ],
+  "decisions": [
+    "Use a new sibling installation and external receipt; never modify the 1.1.4 base in place.",
+    "Export the exact C6c target commit into independent clean and deliberate-violation fixtures for installed UI practice.",
+    "Use direct Pre for bounded installed operator practice and stop before P10.2 or P10.3."
+  ],
+  "validationCommands": [
+    "ifx-package-test",
+    "Test-V4ComposedInstallation",
+    "installed-web-companion"
+  ],
+  "dependencies": [
+    "20260927-v4-p10-1-114-c6d-human-review"
+  ],
+  "boundaries": [
+    "authorization",
+    "activation"
+  ]
+}
