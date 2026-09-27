@@ -1,6 +1,10 @@
 # V4 P10.3 trusted-base cutover and rollback design
 
-Status: authorized planning and local rehearsal
+Status: completed — design and local rehearsal accepted; remote activation not authorized
+
+Completion decision: `artifacts/guards/p10-ifx-114/p10-3-design-042/rehearsal/p10-3-decision.json`,
+SHA-256 `529e19b567c05619ec054117e2514c579a908a4e614355411fc28b6d52964964`, decision
+`p10-3-design-and-local-rehearsal-accepted`.
 
 ## Authorization and boundary
 

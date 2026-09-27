@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "decision": "p10-3-design-and-local-rehearsal-accepted",
+  "planId": "20260927-v4-p10-3-cutover-and-rollback-design",
+  "identity": {
+    "targetCommit": "40b4c0f85e5d8a63ac5af5c1da80d4d46ba32b82",
+    "v4ProductVersion": "1.1.4",
+    "ifxProfileVersion": "0.4.2",
+    "baseArchiveSha256": "dce037149d0fa38995e244ad417888a15d90809467e8ecc83708faef2b995c4d",
+    "bundleManifestSha256": "82eb0c5db8ec3779bc10a43b89f0a9235e38d02819745e8f42bffa7fd9635ee5",
+    "profileSha256": "b7aac25f5cefbaf4d99023a71e29130da283debbe7446e160b42d7f1cb385023",
+    "productionReviewSha256": "871173d4fc27236c06ff0a0c940c6f2d8a8983771b897878261de092826d8ced",
+    "packageSha256": "739e2035b24f42a0d09719bd78d010de9320452086109fbdd95c064f67e5a6c1",
+    "compositionReceiptSha256": "51f5fc11b7fa36e14d83eade699979e31de2d06d3134af9caad9a329fd043345",
+    "c6eDecisionSha256": "94a7c01bd991a7b4371f6d3406b43f58830bdb29740c477db7abdaf2bb0ece22",
+    "p10_2DecisionSha256": "7c5ff243ec452958ffbb08ced46ae6e1a8320f586b9fb71ef0d98f2931934516",
+    "windowsFullSummarySha256": "858b69949c0febc386557f8bb70287d2abe3a7c2af56e6f5aa20b2fbc7de9ff8"
+  },
+  "remote": {
+    "defaultBranch": {
+      "name": "main",
+      "commit": "ecb03726a6c67208d25e7988695c53f6326d77c0",
+      "workflowFiles": []
+    },
+    "rulesetId": 23459908,
+    "requiredContextCount": 13,
+    "remoteMutationPerformed": false
+  },
+  "proof": {
+    "contextOwnershipRows": 13,
+    "detectorOwnershipRows": 9,
+    "negativeControlCount": 5,
+    "protectedRootsUnchanged": true
+  },
+  "activationBlockers": [
+    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
+    "publish-exact-ifx-0.4.2-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context"
+  ],
+  "boundary": {
+    "p10_3DesignComplete": true,
+    "p10GatePassed": false,
+    "workflowInstalled": false,
+    "rulesetChanged": false,
+    "activated": false,
+    "ifxCutover": false,
+    "v3Retired": false
+  },
+  "recommendation": "P10.3 design is complete. Remote activation requires new exact Plans and explicit authorization for every listed prerequisite."
+}

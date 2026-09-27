@@ -1,0 +1,53 @@
+{
+  "formatVersion": 1,
+  "status": "pass",
+  "entryIdentities": "pass",
+  "remoteSnapshot": "pass",
+  "contextOwnershipRows": 13,
+  "detectorOwnershipRows": 9,
+  "states": [
+    "v3-active",
+    "coexistence",
+    "v4-primary-with-linux-bridge",
+    "rollback-restored"
+  ],
+  "transitions": [
+    "enter-coexistence",
+    "promote-v4-primary",
+    "rollback"
+  ],
+  "negativeControls": [
+    {
+      "id": "remove-v3-before-v4-proof",
+      "actual": "rejected"
+    },
+    {
+      "id": "remove-v4-before-v3-restore",
+      "actual": "rejected"
+    },
+    {
+      "id": "candidate-supplies-bundle",
+      "actual": "rejected"
+    },
+    {
+      "id": "aggregate-job-skipped",
+      "actual": "rejected"
+    },
+    {
+      "id": "unpublished-bundle-activation",
+      "actual": "rejected"
+    }
+  ],
+  "coexistence": {
+    "minimumCalendarDays": 7,
+    "minimumDistinctPullRequestHeads": 3,
+    "allV3ContextsRemainRequired": true
+  },
+  "activationBlockers": [
+    "promote-reviewed-v3-workflow-and-p10-evidence-to-default-branch",
+    "publish-exact-ifx-0.4.2-bundle-by-separate-plan",
+    "install-and-negative-test-v4-ifx-workflow-by-separate-plan",
+    "add-v4-ifx-required-to-ruleset-by-separate-plan",
+    "complete-coexistence-window-before-removing-any-v3-context"
+  ]
+}
